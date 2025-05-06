@@ -16,7 +16,7 @@ import { Search, MapPin, Sliders } from 'lucide-react';
 
 const DirectoryPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
   
   // Mock businesses data
@@ -110,7 +110,7 @@ const DirectoryPage = () => {
     const matchesSearch = business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          business.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          business.address.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = category === '' || business.category === category;
+    const matchesCategory = category === 'all' || business.category === category;
     return matchesSearch && matchesCategory;
   });
   
@@ -148,7 +148,7 @@ const DirectoryPage = () => {
                     <SelectValue placeholder="Category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Categories</SelectItem>
+                    <SelectItem value="all">All Categories</SelectItem>
                     {categories.map((cat) => (
                       <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                     ))}
@@ -171,11 +171,12 @@ const DirectoryPage = () => {
             <div className="bg-gray-50 rounded-lg p-4 mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="text-sm font-medium block mb-1">Distance</label>
-                <Select>
+                <Select defaultValue="any">
                   <SelectTrigger>
                     <SelectValue placeholder="Any Distance" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="any">Any Distance</SelectItem>
                     <SelectItem value="0.5">Within 0.5 miles</SelectItem>
                     <SelectItem value="1">Within 1 mile</SelectItem>
                     <SelectItem value="5">Within 5 miles</SelectItem>
@@ -185,11 +186,12 @@ const DirectoryPage = () => {
               </div>
               <div>
                 <label className="text-sm font-medium block mb-1">Rating</label>
-                <Select>
+                <Select defaultValue="any">
                   <SelectTrigger>
                     <SelectValue placeholder="Any Rating" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="any">Any Rating</SelectItem>
                     <SelectItem value="4.5">4.5+ Stars</SelectItem>
                     <SelectItem value="4">4+ Stars</SelectItem>
                     <SelectItem value="3.5">3.5+ Stars</SelectItem>
@@ -198,11 +200,12 @@ const DirectoryPage = () => {
               </div>
               <div>
                 <label className="text-sm font-medium block mb-1">Discount</label>
-                <Select>
+                <Select defaultValue="any">
                   <SelectTrigger>
                     <SelectValue placeholder="Any Discount" />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="any">Any Discount</SelectItem>
                     <SelectItem value="10">10%+ Off</SelectItem>
                     <SelectItem value="15">15%+ Off</SelectItem>
                     <SelectItem value="20">20%+ Off</SelectItem>
