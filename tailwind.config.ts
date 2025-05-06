@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -52,6 +53,16 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				mansablue: {
+					DEFAULT: '#1E40AF',
+					dark: '#0F172A',
+					light: '#3B82F6'
+				},
+				mansagold: {
+					DEFAULT: '#F59E0B',
+					dark: '#D97706',
+					light: '#FBBF24'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -84,11 +95,30 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-gold': {
+					'0%, 100%': { 
+						backgroundColor: 'rgba(245, 158, 11, 0.1)'
+					},
+					'50%': { 
+						backgroundColor: 'rgba(245, 158, 11, 0.2)'
+					},
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-gold': 'pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'float': 'float 3s ease-in-out infinite'
+			},
+			fontFamily: {
+				sans: ['Montserrat', 'sans-serif'],
+				montserrat: ['Montserrat', 'sans-serif'],
+				spartan: ['"League Spartan"', 'sans-serif']
 			}
 		}
 	},
