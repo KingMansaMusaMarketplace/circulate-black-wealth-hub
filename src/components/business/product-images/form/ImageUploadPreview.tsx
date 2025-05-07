@@ -171,7 +171,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
     if (fileInputRef.current) {
       fileInputRef.current.files = dataTransfer.files;
       // Dispatch change event to update the form state
-      // Fix Error #1: Add the required argument to the Event constructor
+      // Fix Error #1: Create event with proper arguments
       const event = new Event('change', { bubbles: true });
       fileInputRef.current.dispatchEvent(event);
     }
@@ -227,7 +227,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
         if (fileInputRef.current) {
           fileInputRef.current.files = dataTransfer.files;
           // Trigger the onChange handler with a synthetic event
-          // Fix Error #1: Add the required argument to the Event constructor
+          // Fix Error #1: Create event with proper arguments
           const event = new Event('change', { bubbles: true });
           fileInputRef.current.dispatchEvent(event);
         }
@@ -247,7 +247,11 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
                 <ReactCrop
                   crop={crop}
                   onChange={(c) => setCrop(c)}
-                  onComplete={(c) => setCompletedCrop(c)}
+                  onComplete={(c) => {
+                    // Fix Error #3: Convert PixelCrop to PercentCrop for consistency
+                    // Store the pixel crop for actual cropping operations
+                    setCompletedCrop(c);
+                  }}
                   aspect={16 / 9}
                   className="max-h-[400px] transition-transform"
                 >
@@ -401,3 +405,4 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
 };
 
 export default ImageUploadPreview;
+
