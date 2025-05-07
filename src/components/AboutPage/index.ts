@@ -12,3 +12,6 @@ export { default as ImpactMetricsSection } from './ImpactMetricsSection';
 export { default as FAQSection } from './FAQSection';
 export { default as MediaGallerySection } from './MediaGallerySection';
 export { default as ContactSection } from './ContactSection';
+export { default as ContactForm } from './ContactForm';
+export { default as ContactInfo } from './ContactInfo';
+export { default as TeamMemberCard } from './TeamMemberCard';

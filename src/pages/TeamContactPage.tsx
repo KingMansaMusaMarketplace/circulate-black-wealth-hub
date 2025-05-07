@@ -1,15 +1,16 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TeamSection from '@/components/AboutPage/TeamSection';
 import ContactSection from '@/components/AboutPage/ContactSection';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
+import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp } from 'lucide-react';
 
 const TeamContactPage = () => {
-  const [showScrollTop, setShowScrollTop] = React.useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   const sections = [
     { id: 'team', label: 'Our Team' },
@@ -41,6 +42,21 @@ const TeamContactPage = () => {
             <p className="text-gray-600 max-w-2xl mx-auto">
               Meet the dedicated team behind Mansa Musa Marketplace, working to empower Black communities and businesses.
             </p>
+            <div className="flex justify-center mt-8">
+              <Button 
+                className="bg-mansablue hover:bg-mansablue-dark text-white mr-4"
+                onClick={() => document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Meet the Team
+              </Button>
+              <Button 
+                variant="outline"
+                className="border-mansablue text-mansablue hover:bg-mansablue hover:text-white"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Contact Us
+              </Button>
+            </div>
           </div>
         </section>
         
