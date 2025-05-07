@@ -16,7 +16,7 @@ const MansaMusaHistory = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Updated image array with corrected images
+  // Updated image array with verified working images
   const images = [
     {
       src: "https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151",
@@ -29,14 +29,14 @@ const MansaMusaHistory = () => {
       caption: "Caravan travel during Mansa Musa's era"
     },
     {
-      src: "https://images.unsplash.com/photo-1610375461249-b6f5255f1638",
-      alt: "Gold bars representing Mansa Musa's wealth",
-      caption: "Gold bars symbolizing the vast wealth of Mali"
+      src: "https://images.unsplash.com/photo-1589656966895-2f33e7653819",
+      alt: "Gold coins representing Mansa Musa's wealth",
+      caption: "Gold coins symbolizing the vast wealth of Mali"
     },
     {
-      src: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375",
+      src: "https://images.unsplash.com/photo-1614028674026-a65e31bfd27c",
       alt: "Gold nuggets and dust",
-      caption: "Raw gold from Mali's legendary mines"
+      caption: "Gold from Mali's legendary mines"
     },
     {
       src: "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
