@@ -13,6 +13,14 @@ export interface ProductImage {
   is_active: boolean;
   created_at?: string;
   updated_at?: string;
+  // New fields
+  alt_text?: string;
+  meta_description?: string;
+  category?: string;
+  tags?: string;
+  original_size?: number;
+  compressed_size?: number;
+  compression_savings?: number;
 }
 
 // Fetch product images for a business

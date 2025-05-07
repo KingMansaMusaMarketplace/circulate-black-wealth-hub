@@ -8,10 +8,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 import { 
   Pencil, 
   Trash2, 
-  Eye
+  Eye,
+  Tag
 } from "lucide-react";
 import { ProductImage } from '@/lib/api/product-api';
 import { cn } from "@/lib/utils";
@@ -27,6 +29,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
+import ShareProduct from './ShareProduct';
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductCardProps {
   product: ProductImage;
@@ -61,6 +65,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   selectionMode,
   layoutType = 'grid'
 }) => {
+  const [imageLoaded, setImageLoaded] = React.useState(false);
+
   const cardClasses = cn(
     "transition-all duration-300 hover:shadow-md", 
     product.is_active ? '' : 'opacity-70',
@@ -86,6 +92,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
     } else {
       onView(product);
     }
+  };
+
+  // Show category badge if present
+  const renderCategoryBadge = () => {
+    if (product.category) {
+      return (
+        <div className="absolute top-2 right-2 z-10">
+          <Badge variant="secondary" className="bg-opacity-80 flex items-center gap-1">
+            <Tag className="h-3 w-3" />
+            {product.category}
+          </Badge>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -114,12 +135,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
           layoutType === 'grid' ? "aspect-video" : "w-24 h-24"
         )}
       >
+        {!imageLoaded && (
+          <Skeleton className="absolute inset-0" />
+        )}
         <img 
           src={product.image_url} 
-          alt={product.title}
-          className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
+          alt={product.altText || product.title}
+          className={cn(
+            "object-cover w-full h-full transition-transform duration-500 hover:scale-110",
+            !imageLoaded && "opacity-0"
+          )}
           loading="lazy"
+          onLoad={() => setImageLoaded(true)}
         />
+        {renderCategoryBadge()}
         {!product.is_active && (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
             <span className="bg-black text-white text-xs px-2 py-1 rounded">Inactive</span>
@@ -147,6 +176,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <p className="text-sm text-gray-600 mt-2 line-clamp-3">
             {product.description}
           </p>
+          {product.tags && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {product.tags.split(',').map((tag, i) => (
+                <Badge key={i} variant="outline" className="text-xs">
+                  {tag.trim()}
+                </Badge>
+              ))}
+            </div>
+          )}
         </CardContent>
         
         <CardFooter className="flex justify-end gap-2 pt-0">
@@ -162,6 +200,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
           >
             <Eye className="h-4 w-4" />
           </Button>
+          
+          <ShareProduct product={product} />
           
           {onEdit && (
             <Button 

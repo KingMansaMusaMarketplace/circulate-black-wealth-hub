@@ -1,4 +1,3 @@
-
 import * as z from "zod";
 
 // Form validation schema
@@ -53,14 +52,14 @@ export const defaultFormValues: BusinessFormValues = {
 
 // Product image form schema
 export const productImageSchema = z.object({
-  title: z.string().min(2, {
-    message: "Title must be at least 2 characters.",
-  }),
-  description: z.string().min(5, {
-    message: "Description must be at least 5 characters.",
-  }),
-  price: z.string().optional().or(z.literal('')),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  price: z.string().optional(),
   isActive: z.boolean().default(true),
+  altText: z.string().optional(),
+  metaDescription: z.string().optional(),
+  category: z.string().optional(),
+  tags: z.string().optional(),
 });
 
 export type ProductImageFormValues = z.infer<typeof productImageSchema>;
@@ -69,5 +68,9 @@ export const defaultProductImageValues: ProductImageFormValues = {
   title: "",
   description: "",
   price: "",
-  isActive: true
+  isActive: true,
+  altText: "",
+  metaDescription: "",
+  category: "",
+  tags: "",
 };

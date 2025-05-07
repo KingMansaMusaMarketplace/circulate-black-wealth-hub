@@ -9,6 +9,7 @@ import { useProductImages } from '@/hooks/use-product-images';
 import { ProductImageFormValues } from '../business-form/models';
 import { ProductImage } from '@/lib/api/product-api';
 import { toast } from 'sonner';
+import { Progress } from "@/components/ui/progress";
 
 interface ProductImageManagerProps {
   businessId: string;
@@ -23,8 +24,12 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
     products,
     loading,
     uploading,
+    batchUploading,
+    batchProgress,
     loadProducts,
     addProduct,
+    batchAddProducts,
+    updateProduct,
     deleteProduct,
     toggleProductActive,
     bulkDeleteProducts,
@@ -38,11 +43,34 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
   }, [businessId]);
 
   const handleAddProduct = async (values: ProductImageFormValues, file: File) => {
+    if (selectedProduct) {
+      // If editing an existing product
+      await updateProduct({
+        id: selectedProduct.id,
+        title: values.title,
+        description: values.description,
+        price: values.price,
+        is_active: values.isActive,
+        alt_text: values.altText,
+        meta_description: values.metaDescription,
+        category: values.category,
+        tags: values.tags
+      });
+      setActiveTab('gallery');
+      setSelectedProduct(null);
+      return;
+    }
+    
     const result = await addProduct(file, values);
     if (result) {
       setActiveTab('gallery');
       setSelectedProduct(null);
     }
+  };
+
+  const handleBatchAddProducts = async (files: File[], defaultValues: Partial<ProductImageFormValues>) => {
+    await batchAddProducts(files, defaultValues);
+    setActiveTab('gallery');
   };
 
   const handleDeleteProduct = async (id: string, imageUrl: string) => {
@@ -84,6 +112,16 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Products & Services</h2>
       
+      {batchUploading && (
+        <div className="space-y-2 animate-fade-in">
+          <div className="flex justify-between">
+            <span>Uploading {batchProgress}%</span>
+            <span>{batchProgress}%</span>
+          </div>
+          <Progress value={batchProgress} className="h-2" />
+        </div>
+      )}
+      
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="gallery" className="flex items-center gap-2">
@@ -117,8 +155,11 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
             <CardContent className="pt-6">
               <ProductImageForm 
                 onSubmit={handleAddProduct}
+                onBatchSubmit={handleBatchAddProducts}
                 isUploading={uploading}
+                isBatchUploading={batchUploading}
                 initialData={selectedProduct}
+                businessId={businessId}
                 onCancel={() => {
                   setSelectedProduct(null);
                   setActiveTab('gallery');

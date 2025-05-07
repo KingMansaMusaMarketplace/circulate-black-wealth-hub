@@ -1,57 +1,27 @@
 
-import React from "react";
-import { useFormContext } from "react-hook-form";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import React from 'react';
+import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { ProductImageFormValues } from "../../business-form/models";
+import { useFormContext } from 'react-hook-form';
+import { cn } from "@/lib/utils";
 
-const FormFields: React.FC = () => {
-  const form = useFormContext<ProductImageFormValues>();
-  
+const FormFields = () => {
+  const { control } = useFormContext();
+
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Product name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price (optional)</FormLabel>
-              <FormControl>
-                <Input placeholder="$0.00" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-      
+    <div className="space-y-4">
       <FormField
-        control={form.control}
-        name="description"
+        control={control}
+        name="title"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Description</FormLabel>
+            <FormLabel htmlFor="title">Product Name</FormLabel>
             <FormControl>
-              <Textarea 
-                placeholder="Describe your product or service..." 
-                className="min-h-[100px]"
+              <Input 
+                id="title" 
+                placeholder="Enter product name" 
                 {...field} 
               />
             </FormControl>
@@ -61,13 +31,52 @@ const FormFields: React.FC = () => {
       />
       
       <FormField
-        control={form.control}
+        control={control}
+        name="description"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel htmlFor="description">Description</FormLabel>
+            <FormControl>
+              <Textarea 
+                id="description" 
+                placeholder="Describe your product or service" 
+                className="resize-none"
+                {...field} 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      
+      <FormField
+        control={control}
+        name="price"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel htmlFor="price">Price (optional)</FormLabel>
+            <FormControl>
+              <Input 
+                id="price" 
+                placeholder="e.g. $19.99, Starting at $50..." 
+                {...field} 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
         name="isActive"
         render={({ field }) => (
-          <FormItem className="flex items-center justify-between space-y-0 rounded-lg border p-4">
-            <div>
-              <FormLabel>Active</FormLabel>
-              <p className="text-sm text-gray-500">Make this product visible to customers</p>
+          <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+            <div className="space-y-0.5">
+              <FormLabel>Visibility</FormLabel>
+              <FormDescription>
+                Make this product visible on your store
+              </FormDescription>
             </div>
             <FormControl>
               <Switch
@@ -78,7 +87,7 @@ const FormFields: React.FC = () => {
           </FormItem>
         )}
       />
-    </>
+    </div>
   );
 };
 
