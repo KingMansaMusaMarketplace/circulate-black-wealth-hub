@@ -4,19 +4,19 @@ import { Landmark } from 'lucide-react';
 
 const MansaMusaHistory = () => {
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-[#121212]">
       <div className="container-custom">
         <div className="text-center mb-12">
-          <h2 className="heading-lg text-mansablue mb-4">The Legacy Behind Our Name</h2>
-          <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+          <h2 className="heading-lg text-[#FFD700] mb-4">The Legacy Behind Our Name</h2>
+          <p className="text-gray-300 max-w-3xl mx-auto text-lg">
             Mansa Musa Marketplace is inspired by the legendary African ruler who exemplifies wealth circulation and community empowerment.
           </p>
         </div>
         
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="bg-white rounded-xl shadow-md overflow-hidden">
-            <div className="bg-mansablue p-6 text-white flex items-center">
-              <Landmark className="h-8 w-8 mr-3 text-mansagold" />
+          <div className="bg-[#1E1E1E] rounded-xl shadow-md overflow-hidden">
+            <div className="bg-[#262626] p-6 text-white flex items-center">
+              <Landmark className="h-8 w-8 mr-3 text-[#FFD700]" />
               <h3 className="text-2xl font-bold">Mansa Musa of Mali (c. 1280-1337)</h3>
             </div>
             <div className="p-6">
@@ -24,32 +24,32 @@ const MansaMusaHistory = () => {
                 <div className="flex flex-col md:flex-row gap-6 mb-6 items-center">
                   <div className="md:w-1/3">
                     <img 
-                      src="https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
-                      alt="Historical representation of Mansa Musa era architecture" 
+                      src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Mansa_Musa.jpg" 
+                      alt="Historical depiction of Mansa Musa" 
                       className="rounded-lg shadow-md w-full h-auto"
                     />
-                    <p className="text-xs text-gray-500 mt-2 italic text-center">Historical architecture from Mansa Musa's era</p>
+                    <p className="text-xs text-gray-400 mt-2 italic text-center">Historical depiction of Mansa Musa</p>
                   </div>
                   <div className="md:w-2/3">
-                    <p className="mb-4">
-                      <span className="font-bold text-mansablue">The Richest Person in History:</span> Mansa Musa was the Emperor of the Mali Empire in West Africa 
+                    <p className="mb-4 text-gray-200">
+                      <span className="font-bold text-[#FFD700]">The Richest Person in History:</span> Mansa Musa was the Emperor of the Mali Empire in West Africa 
                       and is widely considered to be the wealthiest individual to have ever lived. His wealth was so vast that historians 
                       have difficulty calculating it in modern terms, but estimates place his fortune at an equivalent of $400 billion.
                     </p>
-                    <p>
-                      <span className="font-bold text-mansablue">Economic Impact:</span> During his famous pilgrimage to Mecca in 1324, Mansa Musa's generosity 
+                    <p className="text-gray-200">
+                      <span className="font-bold text-[#FFD700]">Economic Impact:</span> During his famous pilgrimage to Mecca in 1324, Mansa Musa's generosity 
                       and spending were so significant that they caused inflation in the economies of Cairo, Medina, and Mecca due to the 
                       amount of gold he distributed.
                     </p>
                   </div>
                 </div>
-                <p>
-                  <span className="font-bold text-mansablue">Community Investment:</span> He built mosques, universities, and other institutions throughout 
+                <p className="text-gray-200">
+                  <span className="font-bold text-[#FFD700]">Community Investment:</span> He built mosques, universities, and other institutions throughout 
                   his empire, including the famous Djinguereber Mosque in Timbuktu. Under his rule, Timbuktu became a center of education, 
                   commerce, and Islamic scholarship.
                 </p>
-                <p>
-                  <span className="font-bold text-mansablue">Legacy of Circulation:</span> Mansa Musa's approach to wealth was not merely about accumulation but 
+                <p className="text-gray-200">
+                  <span className="font-bold text-[#FFD700]">Legacy of Circulation:</span> Mansa Musa's approach to wealth was not merely about accumulation but 
                   circulation. He invested in his community, sponsored arts and education, and helped establish Mali as a cultural and economic 
                   powerhouse.
                 </p>
@@ -58,27 +58,27 @@ const MansaMusaHistory = () => {
           </div>
           
           <div className="space-y-6">
-            <div className="bg-white p-6 rounded-xl border-l-4 border-mansagold shadow-sm">
-              <h3 className="text-xl font-bold mb-3 text-mansablue-dark">Our Inspiration</h3>
-              <p className="text-gray-700">
+            <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-[#FFD700] shadow-sm">
+              <h3 className="text-xl font-bold mb-3 text-white">Our Inspiration</h3>
+              <p className="text-gray-300">
                 Mansa Musa Marketplace draws inspiration from this legacy of economic power coupled with community reinvestment. 
                 Just as Mansa Musa's wealth strengthened his empire, we believe the collective economic power of Black communities 
                 can be harnessed to build generational wealth and opportunity.
               </p>
             </div>
             
-            <div className="bg-white p-6 rounded-xl border-l-4 border-mansablue shadow-sm">
-              <h3 className="text-xl font-bold mb-3 text-mansablue-dark">Our Mission</h3>
-              <p className="text-gray-700">
+            <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-[#7D5AF0] shadow-sm">
+              <h3 className="text-xl font-bold mb-3 text-white">Our Mission</h3>
+              <p className="text-gray-300">
                 We're creating modern infrastructure for wealth circulation within Black communities. By connecting consumers 
                 with Black-owned businesses and providing tools for sustained engagement, we're enabling the "Mansa Musa Effect" — 
                 where dollars circulate longer, creating prosperity that benefits everyone.
               </p>
             </div>
             
-            <div className="bg-white p-6 rounded-xl border-l-4 border-mansagold shadow-sm">
-              <h3 className="text-xl font-bold mb-3 text-mansablue-dark">The Circulation Principle</h3>
-              <p className="text-gray-700">
+            <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-[#FFD700] shadow-sm">
+              <h3 className="text-xl font-bold mb-3 text-white">The Circulation Principle</h3>
+              <p className="text-gray-300">
                 While the Black dollar currently circulates for just 6 hours in Black communities (compared to 28+ days in other 
                 communities), our platform is designed to extend this circulation time. Every additional hour represents new opportunities 
                 for growth, employment, and community development.
