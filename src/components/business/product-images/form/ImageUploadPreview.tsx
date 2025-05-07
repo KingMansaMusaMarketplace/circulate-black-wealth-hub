@@ -17,7 +17,7 @@ interface ImageUploadPreviewProps {
   setQuality?: (quality: number) => void;
   aspectRatio?: number;
   setAspectRatio?: (ratio: number) => void;
-  onApplyCrop?: () => void;
+  onApplyCrop?: (originalSize: number, compressedSize: number) => void;
 }
 
 const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
@@ -49,7 +49,8 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
     // In a real implementation, you would process the cropped image here
     setIsEditing(false);
     if (onApplyCrop) {
-      onApplyCrop();
+      // Pass some default values if we don't have real processed data
+      onApplyCrop(1000, 800);
     }
   };
 
