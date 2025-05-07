@@ -1,8 +1,25 @@
 
 import { supabase } from './supabase';
 
+// Define the return type for the initialization functions
+interface InitDbSuccessResult {
+  success: true;
+}
+
+interface InitDbErrorResult {
+  success: false;
+  error: any;
+}
+
+interface InitDbDemoResult {
+  success: false;
+  isDemo: true;
+}
+
+type InitDbResult = InitDbSuccessResult | InitDbErrorResult | InitDbDemoResult;
+
 // Create tables in Supabase
-export const createTables = async () => {
+export const createTables = async (): Promise<InitDbResult> => {
   try {
     console.log('Setting up Supabase database tables...');
     
@@ -168,7 +185,7 @@ export const createTables = async () => {
 };
 
 // Helper function to initialize the database on application startup
-export const initializeDatabase = async () => {
+export const initializeDatabase = async (): Promise<InitDbResult> => {
   try {
     // Check if we're connected to a real Supabase instance
     const { data, error } = await supabase.from('profiles').select('id').limit(1);

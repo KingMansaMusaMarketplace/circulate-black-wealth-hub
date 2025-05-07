@@ -31,12 +31,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setInitializingDatabase(true);
     try {
       const result = await initializeDatabase();
+      
       if (result.success) {
         setDatabaseInitialized(true);
         console.log('Database initialized successfully');
-      } else if (result.isDemo) {
+      } else if ('isDemo' in result && result.isDemo) {
         console.log('Running in demo mode with mock Supabase client');
-      } else {
+      } else if ('error' in result) {
         console.error('Failed to initialize database:', result.error);
       }
     } catch (error) {
