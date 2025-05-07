@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User } from '@supabase/supabase-js';
+import { User, Provider } from '@supabase/supabase-js';
 import { supabase, getCurrentUser } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { setupDatabase } from '@/lib/database-init';
@@ -8,6 +8,7 @@ import {
   handleSignUp, 
   handleSignIn, 
   handleSignOut,
+  handleSocialSignIn,
   requestPasswordReset,
   updatePassword 
 } from '@/lib/auth-operations';
@@ -17,6 +18,7 @@ type AuthContextType = {
   loading: boolean;
   signUp: (email: string, password: string, metadata?: any) => Promise<any>;
   signIn: (email: string, password: string) => Promise<any>;
+  signInWithSocial: (provider: Provider) => Promise<any>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<any>;
   updateUserPassword: (newPassword: string) => Promise<any>;
@@ -79,6 +81,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       handleSignUp(email, password, metadata, props => toast(props)),
     signIn: (email: string, password: string) => 
       handleSignIn(email, password, props => toast(props)),
+    signInWithSocial: (provider: Provider) =>
+      handleSocialSignIn(provider, props => toast(props)),
     signOut: async () => {
       const result = await handleSignOut(props => toast(props));
       if (result.success) {
