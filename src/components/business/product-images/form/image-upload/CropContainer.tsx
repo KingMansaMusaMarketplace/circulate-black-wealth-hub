@@ -8,7 +8,7 @@ interface CropContainerProps {
   imageUrl: string;
   crop: PercentCrop | undefined;
   setCrop: (crop: PercentCrop) => void;
-  setCompletedCrop: (crop: PixelCrop) => void; // This is correct - we expect PixelCrop here
+  setCompletedCrop: (crop: PixelCrop) => void;
   scale: number;
   setScale: (scale: number) => void;
   onCancel: () => void;
@@ -51,9 +51,7 @@ const CropContainer: React.FC<CropContainerProps> = ({
       <ReactCrop
         crop={crop}
         onChange={(c) => setCrop(c)}
-        onComplete={(c: PixelCrop) => {
-          // ReactCrop's onComplete callback returns a PixelCrop, not a PercentCrop
-          // We need to pass it directly to setCompletedCrop without type conversion
+        onComplete={(c) => {
           setCompletedCrop(c);
         }}
         aspect={16 / 9}
