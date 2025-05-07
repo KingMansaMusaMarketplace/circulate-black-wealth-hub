@@ -1,8 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { User, Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Quote } from 'lucide-react';
+import { 
+  AnimatedTestimonial, 
+  TestimonialNavigation, 
+  TestimonialDots, 
+  testimonials 
+} from './Testimonials';
 
 const TestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -37,30 +42,6 @@ const TestimonialsSection = () => {
     
     return () => clearInterval(interval);
   }, []);
-
-  const testimonials = [
-    {
-      quote: "I discovered 10 new Black-owned businesses in my city within a week! Mansa Musa Marketplace makes it so easy to support and save.",
-      author: "Jasmine Williams",
-      title: "Early Beta Tester",
-      image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
-      rating: 5
-    },
-    {
-      quote: "As a business owner, I gained 25 new customers the first month. Best $100/month I've ever spent.",
-      author: "Marcus Johnson",
-      title: "Business Beta Partner",
-      image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
-      rating: 5
-    },
-    {
-      quote: "The loyalty points system keeps me coming back. I'm supporting my community AND saving money.",
-      author: "Tasha Robinson",
-      title: "Marketplace Member",
-      image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YmxhY2slMjB3b21hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-      rating: 5
-    }
-  ];
 
   const handlePrevious = () => {
     setActiveIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
@@ -107,32 +88,14 @@ const TestimonialsSection = () => {
             >
               {/* Quote icon */}
               <div className="absolute top-6 left-8 text-mansagold opacity-30">
-                <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9.33333 16H4L8 8H12L9.33333 16ZM21.3333 16H16L20 8H24L21.3333 16Z" fill="currentColor"/>
-                  <path d="M9.33333 16V24H16V16H9.33333ZM21.3333 16V24H28V16H21.3333Z" fill="currentColor"/>
-                </svg>
+                <Quote size={40} />
               </div>
               
               {/* Navigation buttons */}
-              <div className="absolute top-1/2 -left-5 transform -translate-y-1/2 hidden md:block">
-                <button 
-                  onClick={handlePrevious}
-                  className="bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all"
-                  aria-label="Previous testimonial"
-                >
-                  <ChevronLeft className="h-5 w-5 text-mansablue" />
-                </button>
-              </div>
-              
-              <div className="absolute top-1/2 -right-5 transform -translate-y-1/2 hidden md:block">
-                <button 
-                  onClick={handleNext}
-                  className="bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all"
-                  aria-label="Next testimonial"
-                >
-                  <ChevronRight className="h-5 w-5 text-mansablue" />
-                </button>
-              </div>
+              <TestimonialNavigation 
+                handlePrevious={handlePrevious} 
+                handleNext={handleNext} 
+              />
               
               {/* Testimonial content */}
               <div className="pt-8">
@@ -144,21 +107,11 @@ const TestimonialsSection = () => {
                 </div>
                 
                 {/* Dots indicator */}
-                <div className="flex justify-center mt-8 space-x-2">
-                  {testimonials.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setActiveIndex(index)}
-                      className={cn(
-                        "w-3 h-3 rounded-full transition-all duration-300",
-                        activeIndex === index 
-                          ? "bg-mansablue" 
-                          : "bg-gray-300 hover:bg-gray-400"
-                      )}
-                      aria-label={`View testimonial ${index + 1}`}
-                    />
-                  ))}
-                </div>
+                <TestimonialDots 
+                  count={testimonials.length} 
+                  activeIndex={activeIndex} 
+                  onDotClick={setActiveIndex}
+                />
               </div>
             </motion.div>
           </motion.div>
@@ -176,48 +129,6 @@ const TestimonialsSection = () => {
         </motion.div>
       </div>
     </section>
-  );
-};
-
-// Component to handle the animated testimonial transitions
-const AnimatedTestimonial = ({ testimonials, activeIndex }) => {
-  return (
-    <div className="relative h-64 md:h-48">
-      {testimonials.map((testimonial, index) => (
-        <motion.div
-          key={index}
-          className="absolute w-full"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ 
-            opacity: activeIndex === index ? 1 : 0,
-            x: activeIndex === index ? 0 : 20,
-            zIndex: activeIndex === index ? 10 : 0 
-          }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="text-xl text-gray-700 mb-6">{testimonial.quote}</p>
-          <div className="flex items-center">
-            <Avatar className="h-12 w-12 border-2 border-mansagold/20">
-              <AvatarImage src={testimonial.image} alt={testimonial.author} />
-              <AvatarFallback className="bg-mansablue/10 text-mansablue">
-                {testimonial.author.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-            <div className="ml-4">
-              <p className="font-semibold text-gray-900">{testimonial.author}</p>
-              <div className="flex items-center">
-                <p className="text-sm text-gray-500 mr-2">{testimonial.title}</p>
-                <div className="flex">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} size={12} className="text-mansagold fill-mansagold" />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      ))}
-    </div>
   );
 };
 
