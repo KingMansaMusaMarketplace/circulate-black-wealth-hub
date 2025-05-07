@@ -20,3 +20,8 @@ export { default as CardButtons } from './gallery/card/CardButtons';
 export { default as CardHeader } from './gallery/card/CardHeader';
 export { default as DeleteProductDialog } from './gallery/card/DeleteProductDialog';
 export { default as ProductCardImage } from './gallery/card/ProductCardImage';
+export { default as ProductFormTabs } from './form/tabs/ProductFormTabs';
+export { default as SingleUploadTab } from './form/tabs/SingleUploadTab';
+export { default as BatchUploadTab } from './form/tabs/BatchUploadTab';
+export { default as SeoTab } from './form/tabs/SeoTab';
+export { default as AdvancedTab } from './form/tabs/AdvancedTab';
