@@ -158,7 +158,12 @@ const TestimonialsSection = () => {
               loop: true,
             }}
             className="w-full"
-            onSelect={(_, selectedIndex) => handleCarouselChange(selectedIndex)}
+            onSelect={(api) => {
+              const selectedIndex = api?.selectedScrollSnap();
+              if (selectedIndex !== undefined) {
+                handleCarouselChange(selectedIndex);
+              }
+            }}
           >
             <CarouselContent>
               {filteredTestimonials.map((testimonial, index) => (
