@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { supabase, getCurrentUser } from '@/lib/supabase';
+import { initializeDatabase } from '@/lib/supabase-schema';
 import { useToast } from '@/hooks/use-toast';
 
 type AuthContextType = {
@@ -11,6 +12,8 @@ type AuthContextType = {
   signIn: (email: string, password: string) => Promise<any>;
   signOut: () => Promise<void>;
   userType: 'customer' | 'business' | null;
+  initializingDatabase: boolean;
+  databaseInitialized: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -19,7 +22,51 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [userType, setUserType] = useState<'customer' | 'business' | null>(null);
   const [loading, setLoading] = useState(true);
+  const [initializingDatabase, setInitializingDatabase] = useState(false);
+  const [databaseInitialized, setDatabaseInitialized] = useState(false);
   const { toast } = useToast();
+
+  // Function to initialize database tables
+  const setupDatabase = async () => {
+    setInitializingDatabase(true);
+    try {
+      const result = await initializeDatabase();
+      if (result.success) {
+        setDatabaseInitialized(true);
+        console.log('Database initialized successfully');
+      } else if (result.isDemo) {
+        console.log('Running in demo mode with mock Supabase client');
+      } else {
+        console.error('Failed to initialize database:', result.error);
+      }
+    } catch (error) {
+      console.error('Error initializing database:', error);
+    } finally {
+      setInitializingDatabase(false);
+    }
+  };
+
+  // Create a profile in the profiles table
+  const createUserProfile = async (userId: string, userMetadata: any) => {
+    try {
+      const { error } = await supabase.from('profiles').insert({
+        id: userId,
+        user_type: userMetadata.userType || 'customer',
+        full_name: userMetadata.fullName || '',
+        email: userMetadata.email || '',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      });
+
+      if (error) throw error;
+      
+      console.log('User profile created successfully');
+      return { success: true };
+    } catch (error: any) {
+      console.error('Error creating user profile:', error);
+      return { success: false, error };
+    }
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -38,6 +85,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     fetchUser();
+    setupDatabase();
 
     // Set up auth state change listener
     const { data: authListener } = supabase.auth.onAuthStateChange(
@@ -68,6 +116,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
       
       if (error) throw error;
+      
+      // Create user profile in the database
+      if (data.user) {
+        await createUserProfile(data.user.id, { ...metadata, email });
+      }
       
       toast({
         title: "Sign Up Successful!",
@@ -137,7 +190,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signUp: handleSignUp,
     signIn: handleSignIn,
     signOut: handleSignOut,
-    userType
+    userType,
+    initializingDatabase,
+    databaseInitialized
   };
 
   return (

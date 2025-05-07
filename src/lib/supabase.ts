@@ -20,7 +20,23 @@ if (!supabaseUrl || !supabaseAnonKey) {
       getUser: () => Promise.resolve({ data: { user: null }, error: null }),
       getSession: () => Promise.resolve({ data: { session: null }, error: null }),
       onAuthStateChange: () => ({ subscription: { unsubscribe: () => {} }, data: { subscription: { unsubscribe: () => {} }} })
-    }
+    },
+    from: (table: string) => ({
+      select: (columns: string) => ({
+        eq: (column: string, value: any) => ({
+          limit: (limit: number) => Promise.resolve({ data: [], error: new Error('Supabase not configured') })
+        }),
+        limit: (limit: number) => Promise.resolve({ data: [], error: new Error('Supabase not configured') })
+      }),
+      insert: (data: any) => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+      update: (data: any) => ({
+        eq: (column: string, value: any) => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
+      }),
+      delete: () => ({
+        eq: (column: string, value: any) => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
+      })
+    }),
+    rpc: (func: string, params: any) => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
   };
 } else {
   // Create the real Supabase client
