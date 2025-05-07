@@ -28,7 +28,7 @@ const BenefitsSection = () => {
     {
       title: 'Early Access',
       description: 'Be the first to know about new businesses, promotions, and deals.',
-      details: 'Members receive notifications about new businesses joining the platform and get early access to limited-time offers before they're available to the general public.'
+      details: 'Members receive notifications about new businesses joining the platform and get early access to limited-time offers before they\'re available to the general public.'
     },
   ];
 
@@ -46,12 +46,12 @@ const BenefitsSection = () => {
     {
       title: 'Valuable Analytics',
       description: 'Access data on customer engagement and purchasing patterns.',
-      details: 'Gain insights into who your customers are, what they're buying, and when they're most likely to shop, helping you make informed business decisions.'
+      details: 'Gain insights into who your customers are, what they\'re buying, and when they\'re most likely to shop, helping you make informed business decisions.'
     },
     {
       title: 'Community Support',
       description: 'Join a network of Black entrepreneurs and business owners.',
-      details: 'Connect with other business owners, share experiences, collaborate on projects, and support each other's growth through our business community.'
+      details: 'Connect with other business owners, share experiences, collaborate on projects, and support each other\'s growth through our business community.'
     },
   ];
 
