@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/dashboard';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { QRCodeGenerator } from '@/components/business/qr-code';
-import { QrCode, BarChart3, Clock } from 'lucide-react';
+import { QrCode, BarChart3, Clock, Award, BadgePercent } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
