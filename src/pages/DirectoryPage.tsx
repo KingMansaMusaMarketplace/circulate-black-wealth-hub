@@ -1,23 +1,43 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import BusinessCard from '@/components/BusinessCard';
+import DirectoryFilter, { FilterOptions } from '@/components/DirectoryFilter';
+import MapView from '@/components/MapView';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from '@/components/ui/select';
-import { Search, MapPin, Sliders } from 'lucide-react';
+  Search, 
+  MapPin, 
+  Sliders,
+  LayoutGrid, 
+  List
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { useLocation } from 'react-router-dom';
 
 const DirectoryPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [category, setCategory] = useState('all');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    category: 'all',
+    distance: 0, // 0 means any distance
+    rating: 0,   // 0 means any rating
+    discount: 0  // 0 means any discount
+  });
+  
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Check if there's a search parameter in the URL
+    const params = new URLSearchParams(location.search);
+    const search = params.get('search');
+    if (search) {
+      setSearchTerm(search);
+    }
+  }, [location]);
   
   // Mock businesses data
   const businesses = [
@@ -26,10 +46,14 @@ const DirectoryPage = () => {
       name: "Soul Food Kitchen",
       category: "Restaurant",
       discount: "15% off",
+      discountValue: 15,
       rating: 4.8,
       reviewCount: 124,
       distance: "0.5",
+      distanceValue: 0.5,
       address: "123 Main St, Atlanta, GA",
+      lat: 33.748997,
+      lng: -84.387985,
       isFeatured: true
     },
     {
@@ -37,30 +61,42 @@ const DirectoryPage = () => {
       name: "Prestigious Cuts",
       category: "Barber Shop",
       discount: "10% off",
+      discountValue: 10,
       rating: 4.9,
       reviewCount: 207,
       distance: "0.7",
-      address: "456 Oak Ave, Atlanta, GA"
+      distanceValue: 0.7,
+      address: "456 Oak Ave, Atlanta, GA",
+      lat: 33.749568,
+      lng: -84.391256
     },
     {
       id: 3,
       name: "Heritage Bookstore",
       category: "Retail",
       discount: "20% off",
+      discountValue: 20,
       rating: 4.7,
       reviewCount: 89,
       distance: "1.2",
-      address: "789 Elm St, Atlanta, GA"
+      distanceValue: 1.2,
+      address: "789 Elm St, Atlanta, GA",
+      lat: 33.751234,
+      lng: -84.384562
     },
     {
       id: 4,
       name: "Prosperity Financial",
       category: "Services",
       discount: "Free Consultation",
+      discountValue: 0,
       rating: 4.9,
       reviewCount: 56,
       distance: "1.5",
+      distanceValue: 1.5,
       address: "321 Pine Rd, Atlanta, GA",
+      lat: 33.753421,
+      lng: -84.389754,
       isFeatured: true
     },
     {
@@ -68,54 +104,112 @@ const DirectoryPage = () => {
       name: "Ebony Crafts",
       category: "Retail",
       discount: "15% off",
+      discountValue: 15,
       rating: 4.6,
       reviewCount: 42,
       distance: "1.8",
-      address: "567 Maple Dr, Atlanta, GA"
+      distanceValue: 1.8,
+      address: "567 Maple Dr, Atlanta, GA",
+      lat: 33.746125,
+      lng: -84.382369
     },
     {
       id: 6,
       name: "Glorious Hair Salon",
       category: "Beauty",
       discount: "20% off first visit",
+      discountValue: 20,
       rating: 4.8,
       reviewCount: 112,
       distance: "2.0",
-      address: "890 Cedar Ln, Atlanta, GA"
+      distanceValue: 2.0,
+      address: "890 Cedar Ln, Atlanta, GA",
+      lat: 33.742587,
+      lng: -84.386541
     },
     {
       id: 7,
       name: "Royal Apparel",
       category: "Fashion",
       discount: "10% off",
+      discountValue: 10,
       rating: 4.5,
       reviewCount: 78,
       distance: "2.2",
-      address: "432 Birch St, Atlanta, GA"
+      distanceValue: 2.2,
+      address: "432 Birch St, Atlanta, GA",
+      lat: 33.759123,
+      lng: -84.392587
     },
     {
       id: 8,
       name: "Ancestral Art Gallery",
       category: "Arts",
       discount: "15% off",
+      discountValue: 15,
       rating: 4.9,
       reviewCount: 35,
       distance: "2.5",
-      address: "654 Walnut Ave, Atlanta, GA"
+      distanceValue: 2.5,
+      address: "654 Walnut Ave, Atlanta, GA",
+      lat: 33.747851,
+      lng: -84.397456
     }
   ];
   
-  // Filter businesses based on search term and category
-  const filteredBusinesses = businesses.filter(business => {
-    const matchesSearch = business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         business.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         business.address.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = category === 'all' || business.category === category;
-    return matchesSearch && matchesCategory;
-  });
+  // Create map data for MapView
+  const mapData = businesses.map(b => ({
+    id: b.id,
+    name: b.name,
+    lat: b.lat,
+    lng: b.lng,
+    category: b.category
+  }));
+  
+  const handleSelectBusiness = (id: number) => {
+    const business = businesses.find(b => b.id === id);
+    if (business) {
+      // Scroll to the business card
+      const element = document.getElementById(`business-${id}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Highlight the card
+        element.classList.add('ring-2', 'ring-mansablue');
+        setTimeout(() => {
+          element.classList.remove('ring-2', 'ring-mansablue');
+        }, 2000);
+      }
+    }
+  };
+  
+  const handleFilterChange = (newFilters: Partial<FilterOptions>) => {
+    setFilterOptions(prev => ({ ...prev, ...newFilters }));
+  };
   
   // Get unique categories
   const categories = [...new Set(businesses.map(b => b.category))];
+  
+  // Filter businesses based on search term and filters
+  const filteredBusinesses = businesses.filter(business => {
+    // Search term filter
+    const matchesSearch = business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         business.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         business.address.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    // Category filter
+    const matchesCategory = filterOptions.category === 'all' || business.category === filterOptions.category;
+    
+    // Distance filter
+    const matchesDistance = filterOptions.distance === 0 || business.distanceValue <= filterOptions.distance;
+    
+    // Rating filter
+    const matchesRating = business.rating >= filterOptions.rating;
+    
+    // Discount filter
+    const matchesDiscount = business.discountValue >= filterOptions.discount;
+    
+    return matchesSearch && matchesCategory && matchesDistance && matchesRating && matchesDiscount;
+  });
 
   return (
     <div className="min-h-screen">
@@ -142,19 +236,6 @@ const DirectoryPage = () => {
               />
             </div>
             <div className="flex space-x-2">
-              <div className="w-40">
-                <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
               <Button 
                 variant="outline" 
                 onClick={() => setShowFilters(!showFilters)}
@@ -162,60 +243,46 @@ const DirectoryPage = () => {
               >
                 <Sliders size={16} />
                 Filters
+                {showFilters && <Badge variant="outline" className="ml-1">On</Badge>}
               </Button>
+              
+              <div className="border rounded-md flex">
+                <Button 
+                  variant={viewMode === 'grid' ? 'default' : 'ghost'} 
+                  size="icon"
+                  onClick={() => setViewMode('grid')} 
+                  className="rounded-r-none border-r"
+                >
+                  <LayoutGrid size={16} />
+                </Button>
+                <Button 
+                  variant={viewMode === 'list' ? 'default' : 'ghost'} 
+                  size="icon"
+                  onClick={() => setViewMode('list')} 
+                  className="rounded-l-none"
+                >
+                  <List size={16} />
+                </Button>
+              </div>
             </div>
           </div>
           
-          {/* Additional filters (hidden by default) */}
+          {/* Map View */}
+          <MapView 
+            businesses={mapData}
+            onSelectBusiness={handleSelectBusiness}
+          />
+          
+          {/* Additional filters */}
           {showFilters && (
-            <div className="bg-gray-50 rounded-lg p-4 mb-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="text-sm font-medium block mb-1">Distance</label>
-                <Select defaultValue="any">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Any Distance" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="any">Any Distance</SelectItem>
-                    <SelectItem value="0.5">Within 0.5 miles</SelectItem>
-                    <SelectItem value="1">Within 1 mile</SelectItem>
-                    <SelectItem value="5">Within 5 miles</SelectItem>
-                    <SelectItem value="10">Within 10 miles</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="text-sm font-medium block mb-1">Rating</label>
-                <Select defaultValue="any">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Any Rating" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="any">Any Rating</SelectItem>
-                    <SelectItem value="4.5">4.5+ Stars</SelectItem>
-                    <SelectItem value="4">4+ Stars</SelectItem>
-                    <SelectItem value="3.5">3.5+ Stars</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="text-sm font-medium block mb-1">Discount</label>
-                <Select defaultValue="any">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Any Discount" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="any">Any Discount</SelectItem>
-                    <SelectItem value="10">10%+ Off</SelectItem>
-                    <SelectItem value="15">15%+ Off</SelectItem>
-                    <SelectItem value="20">20%+ Off</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
+            <DirectoryFilter
+              categories={categories}
+              filterOptions={filterOptions}
+              onFilterChange={handleFilterChange}
+            />
           )}
           
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mt-4">
             <div className="text-sm text-gray-500">
               Showing {filteredBusinesses.length} businesses
             </div>
@@ -227,12 +294,51 @@ const DirectoryPage = () => {
           </div>
         </div>
         
-        {/* Businesses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredBusinesses.map((business) => (
-            <BusinessCard key={business.id} {...business} />
-          ))}
-        </div>
+        {/* Businesses Display */}
+        {viewMode === 'grid' ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredBusinesses.map((business) => (
+              <div key={business.id} id={`business-${business.id}`} className="transition-all duration-300">
+                <BusinessCard {...business} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredBusinesses.map((business) => (
+              <div key={business.id} id={`business-${business.id}`} className="transition-all duration-300">
+                <div className="flex flex-col md:flex-row gap-4 border rounded-xl overflow-hidden bg-white">
+                  <div className="md:w-1/4 h-40 md:h-auto bg-gray-100 flex items-center justify-center">
+                    <span className="text-gray-400 text-3xl font-bold">{business.name.charAt(0)}</span>
+                  </div>
+                  <div className="flex-1 p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <h3 className="font-bold text-lg">{business.name}</h3>
+                        <p className="text-gray-500 text-sm">{business.category}</p>
+                      </div>
+                      <div className="bg-mansagold/10 text-mansagold text-xs font-medium px-2.5 py-1 rounded">
+                        {business.discount}
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center text-gray-500 text-xs mb-3">
+                      <MapPin size={14} className="mr-1" />
+                      <span>{business.address}</span>
+                      <span className="ml-auto text-xs bg-gray-100 px-2 py-0.5 rounded-full">
+                        {business.distance} miles
+                      </span>
+                    </div>
+                    
+                    <Button variant="outline" size="sm" className="w-full border-mansablue text-mansablue hover:bg-mansablue hover:text-white">
+                      View Business
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
         
         {filteredBusinesses.length === 0 && (
           <div className="text-center py-12 border border-dashed border-gray-200 rounded-lg">
