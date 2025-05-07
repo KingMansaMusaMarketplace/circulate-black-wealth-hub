@@ -52,14 +52,7 @@ const CropContainer: React.FC<CropContainerProps> = ({
         crop={crop}
         onChange={(c) => setCrop(c)}
         onComplete={(c) => {
-          // Convert PixelCrop to PercentCrop before passing it
-          const percentCrop: PercentCrop = {
-            unit: '%',
-            x: c.x,
-            y: c.y,
-            width: c.width,
-            height: c.height
-          };
+          // Fixed: Pass the pixel crop directly without trying to convert it
           setCompletedCrop(c);
         }}
         aspect={16 / 9}
