@@ -1,8 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Landmark } from 'lucide-react';
 
 const MansaMusaHistory = () => {
+  const [imageError, setImageError] = useState(false);
+  
   return (
     <section className="py-20 bg-[#121212]">
       <div className="container-custom">
@@ -23,11 +25,18 @@ const MansaMusaHistory = () => {
               <div className="space-y-4">
                 <div className="flex flex-col md:flex-row gap-6 mb-6 items-center">
                   <div className="md:w-1/3">
-                    <img 
-                      src="https://cdn.britannica.com/55/190955-050-E617F64E/Mansa-Musa-Catalan-Atlas-detail-1375.jpg" 
-                      alt="Historical depiction of Mansa Musa" 
-                      className="rounded-lg shadow-md w-full h-auto"
-                    />
+                    {!imageError ? (
+                      <img 
+                        src="https://cdn.britannica.com/55/190955-050-E617F64E/Mansa-Musa-Catalan-Atlas-detail-1375.jpg" 
+                        alt="Historical depiction of Mansa Musa" 
+                        className="rounded-lg shadow-md w-full h-auto"
+                        onError={() => setImageError(true)}
+                      />
+                    ) : (
+                      <div className="rounded-lg shadow-md w-full bg-[#262626] p-4 text-center h-[200px] flex items-center justify-center">
+                        <p className="text-[#FFD700]">Image of Mansa Musa from the Catalan Atlas (1375)</p>
+                      </div>
+                    )}
                     <p className="text-xs text-gray-400 mt-2 italic text-center">Historical depiction of Mansa Musa</p>
                   </div>
                   <div className="md:w-2/3">
