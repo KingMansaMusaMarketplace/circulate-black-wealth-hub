@@ -1,16 +1,16 @@
 
 import React, { useEffect } from 'react';
-import { 
-  HeroSection, 
-  HowItWorksSteps, 
-  BenefitsSection, 
-  MansaMusaHistory, 
-  FAQSection, 
-  CTASection,
-  TestimonialsSection,
-  CirculationVisualization,
-  PageNavigation
-} from '@/components/HowItWorks';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import HeroSection from '@/components/HowItWorks/HeroSection';
+import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
+import BenefitsSection from '@/components/HowItWorks/BenefitsSection';
+import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
+import FAQSection from '@/components/HowItWorks/FAQSection';
+import CTASection from '@/components/HowItWorks/CTASection';
+import TestimonialsSection from '@/components/HowItWorks/TestimonialsSection';
+import CirculationVisualization from '@/components/HowItWorks/CirculationVisualization/CirculationVisualization';
+import PageNavigation from '@/components/HowItWorks/PageNavigation';
 
 const HowItWorksPage = () => {
   useEffect(() => {
@@ -23,6 +23,7 @@ const HowItWorksPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <Navbar />
       <HeroSection />
       <PageNavigation 
         sections={[
@@ -41,6 +42,7 @@ const HowItWorksPage = () => {
       <MansaMusaHistory />
       <FAQSection />
       <CTASection />
+      <Footer />
     </div>
   );
 };
