@@ -3,7 +3,6 @@ import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Users } from 'lucide-react';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const AuthorSection = () => {
   return (
@@ -14,16 +13,11 @@ const AuthorSection = () => {
             <div className="md:col-span-1 bg-mansablue p-8 text-white">
               <h3 className="heading-md mb-6">About the Author</h3>
               <div className="relative mx-auto md:mx-0 mb-6">
-                <Avatar className="w-40 h-40 border-4 border-mansagold">
-                  <AvatarImage 
-                    src="/lovable-uploads/1dd9f7bc-bb83-4c92-b250-e11f63790f8c.png" 
-                    alt="Thomas D. Bowling" 
-                    className="object-contain"
-                  />
-                  <AvatarFallback className="text-mansablue font-spartan font-bold text-4xl bg-white">
-                    TB
-                  </AvatarFallback>
-                </Avatar>
+                <img 
+                  src="/lovable-uploads/1dd9f7bc-bb83-4c92-b250-e11f63790f8c.png" 
+                  alt="Thomas D. Bowling"
+                  className="w-full max-w-[280px] border-4 border-mansagold"
+                />
               </div>
               <h4 className="text-xl font-bold mb-2">Thomas D. Bowling</h4>
               <p className="text-white/80 mb-4 flex items-center">
