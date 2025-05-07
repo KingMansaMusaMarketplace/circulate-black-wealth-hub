@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -69,7 +70,7 @@ const BusinessProfileManager = () => {
             Logo & Banner
           </TabsTrigger>
           <TabsTrigger value="products" className="flex items-center gap-2">
-            <Gallery size={16} />
+            <ImageIcon size={16} />
             Products & Services
           </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
