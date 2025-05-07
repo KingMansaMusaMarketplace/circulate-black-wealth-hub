@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Provider } from '@supabase/supabase-js';
 import { supabase, getCurrentUser } from '@/lib/supabase';
@@ -11,7 +10,7 @@ import {
   handleSocialSignIn,
   requestPasswordReset,
   updatePassword 
-} from '@/lib/auth-operations';
+} from '@/lib/auth';
 
 type AuthContextType = {
   user: User | null;
