@@ -2,8 +2,11 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const TestimonialsSection = () => {
+  const isMobile = useIsMobile();
+  
   const testimonials = [
     {
       name: "James Wilson",
@@ -26,33 +29,44 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="container-custom">
-        <div className="text-center mb-12">
-          <h2 className="heading-lg text-mansablue mb-4">What Our Community Says</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+    <section className="py-12 md:py-20 bg-gray-50">
+      <div className="container-custom px-4 sm:px-6">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="heading-lg text-mansablue mb-3 md:mb-4">What Our Community Says</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
             Real experiences from customers and business owners in our marketplace.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {testimonials.map((testimonial, index) => (
-            <Card key={index} className="border-mansagold/20 hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
+            <Card 
+              key={index} 
+              className="border-mansagold/20 hover:shadow-lg transition-all duration-300"
+            >
+              <CardContent className={`${isMobile ? 'p-4' : 'p-6'}`}>
+                <div className="flex items-center mb-3 md:mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-mansagold text-mansagold" />
+                    <Star key={i} className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} fill-mansagold text-mansagold`} />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-6 italic">"{testimonial.content}"</p>
-                <div className="border-t pt-4">
+                <p className={`text-gray-700 mb-4 md:mb-6 italic ${isMobile ? 'text-sm' : 'text-base'}`}>
+                  "{testimonial.content}"
+                </p>
+                <div className="border-t pt-3 md:pt-4">
                   <p className="font-bold">{testimonial.name}</p>
-                  <p className="text-gray-500 text-sm">{testimonial.role}</p>
+                  <p className="text-gray-500 text-xs md:text-sm">{testimonial.role}</p>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
+        
+        {isMobile && (
+          <div className="flex justify-center mt-8">
+            <span className="text-mansablue text-sm font-medium">Swipe for more testimonials →</span>
+          </div>
+        )}
       </div>
     </section>
   );
