@@ -24,7 +24,7 @@ const MansaMusaHistory = () => {
                 <div className="flex flex-col md:flex-row gap-6 mb-6 items-center">
                   <div className="md:w-1/3">
                     <img 
-                      src="/placeholder.svg"
+                      src="/lovable-uploads/4a17f10b-e405-454e-bb76-c891478f42f6.png"
                       alt="Historical depiction of Mansa Musa"
                       className="rounded-lg shadow-md w-full h-auto"
                     />
