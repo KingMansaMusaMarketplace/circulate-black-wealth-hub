@@ -26,17 +26,19 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
   const imgRef = useRef<HTMLImageElement>(null);
   const [croppedPreviewUrl, setCroppedPreviewUrl] = useState<string | null>(null);
   const [scale, setScale] = useState(1);
+  const [rotation, setRotation] = useState(0);
   
   // Handle crop completion
   const applyCrop = () => {
     if (imgRef.current && completedCrop && previewUrl) {
       // Apply crop and get data URL
-      const croppedImageUrl = applyCropToImage(imgRef.current, completedCrop, scale);
+      const croppedImageUrl = applyCropToImage(imgRef.current, completedCrop, scale, rotation);
       
       if (croppedImageUrl) {
         setCroppedPreviewUrl(croppedImageUrl);
         setIsCropping(false);
         setScale(1); // Reset scale after cropping
+        setRotation(0); // Reset rotation after cropping
       }
     }
   };
@@ -82,6 +84,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
     setIsCropping(true);
     setCroppedPreviewUrl(null);
     setScale(1); // Reset scale when starting to crop
+    setRotation(0); // Reset rotation when starting to crop
   };
   
   // Cancel cropping
@@ -90,6 +93,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
     setCrop(undefined);
     setCompletedCrop(undefined);
     setScale(1); // Reset scale after canceling
+    setRotation(0); // Reset rotation after canceling
   };
 
   // Handle drag and drop
@@ -120,6 +124,8 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
             setCompletedCrop={setCompletedCrop}
             scale={scale}
             setScale={setScale}
+            rotation={rotation}
+            setRotation={setRotation}
             onCancel={cancelCropping}
             onApply={applyCrop}
             imgRef={imgRef}

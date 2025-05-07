@@ -3,6 +3,8 @@ import React from "react";
 import ReactCrop, { type PercentCrop, centerCrop, makeAspectCrop, type PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import CroppingControls from "./CroppingControls";
+import { RotateCw, RotateCcw } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface CropContainerProps {
   imageUrl: string;
@@ -11,6 +13,8 @@ interface CropContainerProps {
   setCompletedCrop: (crop: PixelCrop) => void;
   scale: number;
   setScale: (scale: number) => void;
+  rotation: number;
+  setRotation: (rotation: number) => void;
   onCancel: () => void;
   onApply: () => void;
   imgRef: React.RefObject<HTMLImageElement>;
@@ -23,6 +27,8 @@ const CropContainer: React.FC<CropContainerProps> = ({
   setCompletedCrop,
   scale,
   setScale,
+  rotation,
+  setRotation,
   onCancel,
   onApply,
   imgRef
@@ -46,8 +52,42 @@ const CropContainer: React.FC<CropContainerProps> = ({
     setCrop(initialCrop);
   };
 
+  // Handle rotation
+  const rotateLeft = () => {
+    setRotation((prev) => Math.max(prev - 90, -360));
+  };
+
+  const rotateRight = () => {
+    setRotation((prev) => Math.min(prev + 90, 360));
+  };
+
   return (
     <div className="flex flex-col w-full">
+      <div className="flex justify-center mb-2">
+        <div className="flex space-x-2">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={rotateLeft}
+            aria-label="Rotate left"
+          >
+            <RotateCcw className="h-4 w-4 mr-1" />
+            Rotate Left
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            onClick={rotateRight}
+            aria-label="Rotate right"
+          >
+            <RotateCw className="h-4 w-4 mr-1" />
+            Rotate Right
+          </Button>
+        </div>
+      </div>
+
       <ReactCrop
         crop={crop}
         onChange={(c) => {
@@ -78,13 +118,19 @@ const CropContainer: React.FC<CropContainerProps> = ({
           alt="Preview for cropping" 
           onLoad={onImageLoad}
           className="max-h-[400px] object-contain transition-transform duration-300"
-          style={{ transform: `scale(${scale})` }}
+          style={{ 
+            transform: `scale(${scale}) rotate(${rotation}deg)`,
+            transformOrigin: 'center' 
+          }}
         />
       </ReactCrop>
       
       <CroppingControls 
         scale={scale}
         setScale={setScale}
+        rotation={rotation}
+        onRotateLeft={rotateLeft}
+        onRotateRight={rotateRight}
         onCancel={onCancel}
         onApply={onApply}
       />
