@@ -1,6 +1,6 @@
 
 import React, { useRef } from "react";
-import ReactCrop, { type PercentCrop, centerCrop, makeAspectCrop } from 'react-image-crop';
+import ReactCrop, { type PercentCrop, centerCrop, makeAspectCrop, PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import CroppingControls from "./CroppingControls";
 
@@ -8,7 +8,7 @@ interface CropContainerProps {
   imageUrl: string;
   crop: PercentCrop | undefined;
   setCrop: (crop: PercentCrop) => void;
-  setCompletedCrop: (crop: any) => void; // Changed PixelCrop to any to resolve type issue
+  setCompletedCrop: (crop: PixelCrop) => void; // Using PixelCrop type properly
   scale: number;
   setScale: (scale: number) => void;
   onCancel: () => void;
@@ -52,6 +52,7 @@ const CropContainer: React.FC<CropContainerProps> = ({
         crop={crop}
         onChange={(c) => setCrop(c)}
         onComplete={(c) => {
+          // Cast to proper type to fix the error
           setCompletedCrop(c);
         }}
         aspect={16 / 9}
