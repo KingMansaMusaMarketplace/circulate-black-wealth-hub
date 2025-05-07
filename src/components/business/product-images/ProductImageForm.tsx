@@ -2,13 +2,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { Image, Loader2, Upload } from "lucide-react";
+import { Form } from "@/components/ui/form";
 import { productImageSchema, ProductImageFormValues, defaultProductImageValues } from "../business-form/models";
+import { ImageUploadPreview, FormFields, SubmitButton } from "./form";
 
 interface ProductImageFormProps {
   onSubmit: (values: ProductImageFormValues, file: File) => Promise<void>;
@@ -59,144 +55,34 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ onSubmit, isUploadi
     fileInputRef.current?.click();
   };
 
+  // Set up the onChange handler for the hidden file input
+  React.useEffect(() => {
+    if (fileInputRef.current) {
+      fileInputRef.current.onchange = handleFileChange;
+    }
+    
+    return () => {
+      if (fileInputRef.current) {
+        fileInputRef.current.onchange = null;
+      }
+    };
+  }, []);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <h3 className="text-lg font-medium">Add New Product or Service</h3>
         
-        <div className="border rounded-lg p-4">
-          {previewUrl ? (
-            <div className="flex flex-col space-y-4">
-              <div className="relative aspect-video w-full overflow-hidden rounded-md bg-gray-100 flex items-center justify-center">
-                <img 
-                  src={previewUrl} 
-                  alt="Preview" 
-                  className="max-h-[200px] object-contain"
-                />
-              </div>
-              <Button 
-                type="button" 
-                variant="outline" 
-                onClick={handleUploadClick}
-              >
-                <Upload className="mr-2 h-4 w-4" /> Change Image
-              </Button>
-            </div>
-          ) : (
-            <div 
-              className="border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50"
-              onClick={handleUploadClick}
-            >
-              <Image className="h-12 w-12 text-gray-300 mb-3" />
-              <p className="text-gray-500 mb-2">Click to upload a product image</p>
-              <p className="text-xs text-gray-400 mb-4">PNG, JPG, WEBP up to 5MB</p>
-              <Button 
-                type="button" 
-                variant="outline"
-              >
-                <Upload className="mr-2 h-4 w-4" /> Select Image
-              </Button>
-            </div>
-          )}
-          
-          <input 
-            type="file" 
-            ref={fileInputRef}
-            onChange={handleFileChange} 
-            className="hidden" 
-            accept="image/*" 
-          />
-          
-          {form.formState.errors.root && (
-            <p className="text-sm font-medium text-destructive mt-2">
-              {form.formState.errors.root.message}
-            </p>
-          )}
-        </div>
+        <ImageUploadPreview 
+          previewUrl={previewUrl} 
+          onUploadClick={handleUploadClick}
+          fileInputRef={fileInputRef}
+          formError={form.formState.errors.root?.message}
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="Product name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Price (optional)</FormLabel>
-                <FormControl>
-                  <Input placeholder="$0.00" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormFields />
         
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea 
-                  placeholder="Describe your product or service..." 
-                  className="min-h-[100px]"
-                  {...field} 
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        
-        <FormField
-          control={form.control}
-          name="isActive"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between space-y-0 rounded-lg border p-4">
-              <div>
-                <FormLabel>Active</FormLabel>
-                <p className="text-sm text-gray-500">Make this product visible to customers</p>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        
-        <div className="flex justify-end">
-          <Button 
-            type="submit" 
-            disabled={isUploading}
-            className="bg-mansablue hover:bg-mansablue-dark"
-          >
-            {isUploading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Uploading...
-              </>
-            ) : (
-              'Add Product'
-            )}
-          </Button>
-        </div>
+        <SubmitButton isUploading={isUploading} />
       </form>
     </Form>
   );
