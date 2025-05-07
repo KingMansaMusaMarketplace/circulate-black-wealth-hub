@@ -11,3 +11,4 @@ export { default as PartnersSection } from './PartnersSection';
 export { default as ImpactMetricsSection } from './ImpactMetricsSection';
 export { default as FAQSection } from './FAQSection';
 export { default as MediaGallerySection } from './MediaGallerySection';
+export { default as ContactSection } from './ContactSection';

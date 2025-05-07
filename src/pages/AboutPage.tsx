@@ -15,7 +15,8 @@ import {
   PartnersSection,
   ImpactMetricsSection,
   FAQSection,
-  MediaGallerySection
+  MediaGallerySection,
+  ContactSection
 } from '@/components/AboutPage';
 
 const AboutPage = () => {
@@ -33,6 +34,7 @@ const AboutPage = () => {
         <TestimonialsSection />
         <ImpactMetricsSection />
         <MediaGallerySection />
+        <ContactSection />
         <FAQSection />
         <QuoteSection />
         <CTASection />
