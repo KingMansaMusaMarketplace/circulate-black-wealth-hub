@@ -14,10 +14,25 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="bg-gradient-to-b from-mansablue to-mansablue-dark py-16 md:py-24 relative">
+    <section className="bg-gradient-to-b from-mansablue to-mansablue-dark py-16 md:py-20 relative">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-40 h-40 rounded-full bg-white/5 blur-3xl"></div>
+        <div className="absolute top-40 right-20 w-72 h-72 rounded-full bg-mansagold/10 blur-3xl"></div>
+        <div className="absolute bottom-10 left-1/4 w-56 h-56 rounded-full bg-white/5 blur-3xl"></div>
+        
+        {/* Small decorative circles */}
+        <div className="absolute top-32 right-1/4 w-6 h-6 rounded-full bg-mansagold/30"></div>
+        <div className="absolute bottom-40 left-32 w-4 h-4 rounded-full bg-white/20"></div>
+        <div className="absolute top-1/2 right-16 w-3 h-3 rounded-full bg-mansagold/20"></div>
+      </div>
+      
       <div className="container-custom px-4">
         <div className="flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2 text-white mb-8 md:mb-0">
+          <div className="md:w-1/2 text-white mb-8 md:mb-0 relative">
+            {/* Small decorative element */}
+            <div className="absolute -top-6 -left-6 w-12 h-12 rounded-full border border-mansagold/30 hidden md:block"></div>
+            
             <h1 className="heading-lg mb-5">How Mansa Musa Marketplace Works</h1>
             <p className="text-white/80 text-lg mb-6 max-w-xl">
               We're building more than an app — we're creating infrastructure for Black wealth circulation.
@@ -34,7 +49,11 @@ const HeroSection = () => {
           </div>
           <div className="md:w-1/2 flex justify-center md:justify-end">
             <div className="relative">
-              <div className="bg-white rounded-xl shadow-xl p-4 rotate-3 transform hover:rotate-0 transition-transform duration-300">
+              {/* Decorative elements behind the app image */}
+              <div className="absolute -top-4 -left-4 w-full h-full bg-mansagold/20 rounded-xl"></div>
+              <div className="absolute -bottom-4 -right-4 w-full h-full bg-mansablue-light/30 rounded-xl"></div>
+              
+              <div className="bg-white rounded-xl shadow-xl p-4 rotate-3 transform hover:rotate-0 transition-transform duration-300 relative z-10">
                 <div className="bg-gray-50 rounded-lg p-2">
                   <img 
                     src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 

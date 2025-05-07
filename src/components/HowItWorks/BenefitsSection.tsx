@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
@@ -104,7 +105,23 @@ const BenefitsSection = () => {
   };
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section id="benefits" className="py-16 bg-gray-50 relative">
+      {/* Add decorative background elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute right-0 top-10 w-32 h-32 bg-mansablue/5 rounded-full"></div>
+        <div className="absolute left-10 bottom-20 w-24 h-24 bg-mansagold/5 rounded-full"></div>
+        
+        {/* Decorative circles */}
+        <div className="absolute top-20 left-1/4 w-3 h-3 rounded-full bg-mansablue/30"></div>
+        <div className="absolute bottom-40 right-1/3 w-2 h-2 rounded-full bg-mansagold/40"></div>
+        <div className="absolute top-1/2 left-16 w-2 h-2 rounded-full bg-mansablue/20"></div>
+        
+        {/* Decorative lines */}
+        <div className="absolute top-1/4 right-10 w-20 h-0.5 bg-gradient-to-r from-mansablue/0 to-mansablue/20"></div>
+        <div className="absolute bottom-1/4 left-10 w-16 h-0.5 bg-gradient-to-r from-mansagold/20 to-mansagold/0"></div>
+      </div>
+
       <div className="container-custom px-4">
         <motion.div 
           className="text-center mb-12"
