@@ -1,6 +1,6 @@
 
-import React, { useRef } from "react";
-import ReactCrop, { type PercentCrop, centerCrop, makeAspectCrop, PixelCrop } from 'react-image-crop';
+import React from "react";
+import ReactCrop, { type PercentCrop, centerCrop, makeAspectCrop, type PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import CroppingControls from "./CroppingControls";
 
@@ -52,7 +52,14 @@ const CropContainer: React.FC<CropContainerProps> = ({
         crop={crop}
         onChange={(c) => setCrop(c)}
         onComplete={(c) => {
-          // ReactCrop's onComplete returns PixelCrop, so we can directly pass it
+          // Convert PixelCrop to PercentCrop before passing it
+          const percentCrop: PercentCrop = {
+            unit: '%',
+            x: c.x,
+            y: c.y,
+            width: c.width,
+            height: c.height
+          };
           setCompletedCrop(c);
         }}
         aspect={16 / 9}
