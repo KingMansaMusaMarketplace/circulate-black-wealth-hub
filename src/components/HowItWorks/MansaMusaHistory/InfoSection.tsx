@@ -13,7 +13,7 @@ const InfoSection = () => {
       
       <InfoCard 
         title="Our Mission"
-        content="We're creating modern infrastructure for wealth circulation within Black communities. By connecting consumers with Black-owned businesses and providing tools for sustained engagement, we're enabling the "Mansa Musa Effect" — where dollars circulate longer, creating prosperity that benefits everyone."
+        content="We're creating modern infrastructure for wealth circulation within Black communities. By connecting consumers with Black-owned businesses and providing tools for sustained engagement, we're enabling the &quot;Mansa Musa Effect&quot; — where dollars circulate longer, creating prosperity that benefits everyone."
         borderColor="[#7D5AF0]"
       />
       
