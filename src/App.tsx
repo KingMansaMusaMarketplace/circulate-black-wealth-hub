@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -24,6 +23,7 @@ import TestimonialsPage from "./pages/TestimonialsPage";
 import TeamContactPage from "./pages/TeamContactPage";
 import QRCodeManagementPage from "./pages/QRCodeManagementPage";
 import NotFound from "./pages/NotFound";
+import AdminPage from './pages/AdminPage';
 
 const queryClient = new QueryClient();
 
@@ -51,6 +51,7 @@ const App = () => (
             <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/team-contact" element={<TeamContactPage />} />
             <Route path="/qr-code-management" element={<QRCodeManagementPage />} />
+            <Route path="/admin" element={<AdminPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
