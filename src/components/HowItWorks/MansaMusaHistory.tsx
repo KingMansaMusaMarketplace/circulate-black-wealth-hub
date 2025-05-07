@@ -16,7 +16,7 @@ const MansaMusaHistory = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Updated image array with both landscape and gold-themed images
+  // Updated image array with corrected images
   const images = [
     {
       src: "https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151",
@@ -24,18 +24,18 @@ const MansaMusaHistory = () => {
       caption: "The Sahara desert routes traveled by Mansa Musa"
     },
     {
-      src: "https://images.unsplash.com/photo-1610375461249-b6f5255f1638",
-      alt: "Gold bars representing Mansa Musa's wealth",
-      caption: "Gold bars symbolizing the vast wealth of Mali"
-    },
-    {
       src: "https://images.unsplash.com/photo-1469041797191-50ace28483c3",
       alt: "Camels crossing desert landscape",
       caption: "Caravan travel during Mansa Musa's era"
     },
     {
-      src: "https://images.unsplash.com/photo-1574362848149-11496d93a7c7",
-      alt: "Raw gold nuggets and dust",
+      src: "https://images.unsplash.com/photo-1610375461249-b6f5255f1638",
+      alt: "Gold bars representing Mansa Musa's wealth",
+      caption: "Gold bars symbolizing the vast wealth of Mali"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375",
+      alt: "Gold nuggets and dust",
       caption: "Raw gold from Mali's legendary mines"
     },
     {
