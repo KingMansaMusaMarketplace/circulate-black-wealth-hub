@@ -1,8 +1,9 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Upload, Image, Crop, Check, X } from "lucide-react";
-import ReactCrop, { type Crop, PercentCrop, centerCrop, makeAspectCrop } from 'react-image-crop';
+import { Upload, Image, Check, X } from "lucide-react";
+import { CropIcon } from "lucide-react";
+import ReactCrop, { type Crop as ReactCropType, centerCrop, makeAspectCrop, PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
 interface ImageUploadPreviewProps {
@@ -20,8 +21,8 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
   formError,
   onFileChange
 }) => {
-  const [crop, setCrop] = useState<Crop>();
-  const [completedCrop, setCompletedCrop] = useState<PercentCrop>();
+  const [crop, setCrop] = useState<ReactCropType>();
+  const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const [isCropping, setIsCropping] = useState(false);
   const imgRef = React.useRef<HTMLImageElement>(null);
   const [croppedPreviewUrl, setCroppedPreviewUrl] = useState<string | null>(null);
@@ -185,7 +186,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
                 variant="outline" 
                 onClick={startCropping}
               >
-                <Crop className="mr-2 h-4 w-4" /> Crop
+                <CropIcon className="mr-2 h-4 w-4" /> Crop
               </Button>
             </div>
           )}

@@ -12,7 +12,7 @@ import {
   Trash2, 
   Loader2, 
   ImageIcon,
-  SortAscending,
+  ArrowUpDown,
   Filter,
   Search,
   Eye
@@ -196,7 +196,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
               <SelectTrigger className="w-36">
                 <div className="flex items-center">
-                  <SortAscending className="mr-2 h-4 w-4" />
+                  <ArrowUpDown className="mr-2 h-4 w-4" />
                   <SelectValue placeholder="Sort by" />
                 </div>
               </SelectTrigger>
