@@ -94,7 +94,7 @@ const HowItWorksSteps = () => {
                         <div className="border border-gray-200 rounded-lg p-4">
                           <div className="flex justify-between items-center">
                             <h4 className="font-bold">Business</h4>
-                            <span className="font-bold text-mansablue">$50/month</span>
+                            <span className="font-bold text-mansablue">$100/month</span>
                           </div>
                           <ul className="mt-2 space-y-1">
                             <li className="text-sm text-gray-600">• Business listing</li>

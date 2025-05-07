@@ -239,7 +239,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
               <h4 className="text-sm font-medium text-gray-900 mb-2">Business Owner Benefits:</h4>
               <ul className="text-xs text-gray-600 space-y-1">
                 <li>• First month completely free</li>
-                <li>• $50/month after trial period</li>
+                <li>• $100/month after trial period</li>
                 <li>• Enhanced visibility to subscribers</li>
                 <li>• QR code for in-store discounts</li>
                 <li>• Customer loyalty analytics</li>
