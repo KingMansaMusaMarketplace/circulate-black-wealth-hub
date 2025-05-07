@@ -1,33 +1,39 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/contexts/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  const navigate = useNavigate();
+  const { signIn } = useAuth();
 
-  const handleLogin = (e: React.FormEvent, userType: 'customer' | 'business') => {
+  const handleLogin = async (e: React.FormEvent, userType: 'customer' | 'business') => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate login process
-    setTimeout(() => {
+    try {
+      const { data, error } = await signIn(email, password);
+      
+      if (error) throw error;
+      
+      // If login was successful, redirect to dashboard
+      if (data) {
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
       setLoading(false);
-      toast({
-        title: "Login Successful",
-        description: `Welcome back, ${userType === 'customer' ? 'valued customer' : 'business partner'}!`,
-      });
-      // In a real app, would redirect to dashboard or home page after login
-    }, 1500);
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useAuth } from '@/contexts/AuthContext';
 
 const SignupPage = () => {
   const [name, setName] = useState('');
@@ -18,9 +19,11 @@ const SignupPage = () => {
   const [businessAddress, setBusinessAddress] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { toast } = useToast();
+  const { signUp } = useAuth();
 
-  const handleSignup = (e: React.FormEvent, userType: 'customer' | 'business') => {
+  const handleSignup = async (e: React.FormEvent, userType: 'customer' | 'business') => {
     e.preventDefault();
     
     if (!agreeTerms) {
@@ -34,15 +37,33 @@ const SignupPage = () => {
     
     setLoading(true);
     
-    // Simulate signup process
-    setTimeout(() => {
+    try {
+      // Create metadata based on user type
+      const metadata = userType === 'customer' 
+        ? { 
+            userType: 'customer',
+            fullName: name,
+          }
+        : {
+            userType: 'business',
+            businessName,
+            businessType,
+            businessAddress,
+          };
+      
+      const { data, error } = await signUp(email, password, metadata);
+      
+      if (error) throw error;
+      
+      // If signup was successful, redirect to dashboard or confirmation page
+      if (data) {
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+    } finally {
       setLoading(false);
-      toast({
-        title: "Sign Up Successful!",
-        description: `Welcome to Mansa Musa Marketplace! ${userType === 'business' ? 'Your business account is now active.' : ''}`,
-      });
-      // In a real app, would redirect to dashboard or home page after signup
-    }, 1500);
+    }
   };
 
   return (
