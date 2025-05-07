@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { User } from 'lucide-react';
 
 const TestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -59,7 +60,7 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-mansablue relative overflow-hidden">
+    <section id="testimonials" className="py-20 bg-mansablue relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-20 left-10 w-40 h-40 rounded-full bg-white/5 blur-3xl"></div>
@@ -149,7 +150,7 @@ const TestimonialsSection = () => {
 // Component to handle the animated testimonial transitions
 const AnimatedTestimonial = ({ testimonials, activeIndex }) => {
   return (
-    <div className="relative h-48">
+    <div className="relative h-48 md:h-40">
       {testimonials.map((testimonial, index) => (
         <motion.div
           key={index}
@@ -165,7 +166,7 @@ const AnimatedTestimonial = ({ testimonials, activeIndex }) => {
           <p className="text-xl text-gray-700 mb-6">{testimonial.quote}</p>
           <div className="flex items-center">
             <div className="w-12 h-12 rounded-full bg-mansablue/10 text-mansablue flex items-center justify-center text-lg font-bold">
-              {testimonial.author.charAt(0)}
+              <User size={20} className="text-mansablue" />
             </div>
             <div className="ml-4">
               <p className="font-semibold text-gray-900">{testimonial.author}</p>
