@@ -8,9 +8,9 @@ import {
   FAQSection, 
   CTASection,
   TestimonialsSection,
-  CirculationVisualization
+  CirculationVisualization,
+  PageNavigation
 } from '@/components/HowItWorks';
-import { PageNavigation } from '@/components/HowItWorks';
 
 const HowItWorksPage = () => {
   useEffect(() => {
@@ -24,7 +24,16 @@ const HowItWorksPage = () => {
   return (
     <div className="min-h-screen bg-white">
       <HeroSection />
-      <PageNavigation />
+      <PageNavigation 
+        sections={[
+          { id: 'how-it-works', label: 'How It Works' },
+          { id: 'circulation-visualization', label: 'Money Flow' },
+          { id: 'benefits', label: 'Benefits' },
+          { id: 'testimonials', label: 'Testimonials' },
+          { id: 'history', label: 'Our Story' },
+          { id: 'faq', label: 'FAQ' }
+        ]}
+      />
       <HowItWorksSteps />
       <CirculationVisualization />
       <BenefitsSection />
