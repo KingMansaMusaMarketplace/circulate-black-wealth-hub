@@ -1,8 +1,10 @@
 
-import React from 'react';
-import { Landmark } from 'lucide-react';
+import React, { useState } from 'react';
+import { Landmark, ImageOff } from 'lucide-react';
 
 const MansaMusaHistory = () => {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <section className="py-20 bg-[#121212]">
       <div className="container-custom">
@@ -23,16 +25,21 @@ const MansaMusaHistory = () => {
               <div className="space-y-4">
                 <div className="flex flex-col md:flex-row gap-6 mb-6 items-center">
                   <div className="md:w-1/3">
-                    <img 
-                      src="/lovable-uploads/4a17f10b-e405-454e-bb76-c891478f42f6.png"
-                      alt="Historical depiction of Mansa Musa"
-                      className="rounded-lg shadow-md w-full h-auto object-cover"
-                      onError={(e) => {
-                        // Fallback to placeholder if image fails to load
-                        e.currentTarget.src = "https://via.placeholder.com/300x400?text=Mansa+Musa";
-                        console.error("Image failed to load, using fallback");
-                      }}
-                    />
+                    {imageError ? (
+                      <div className="rounded-lg bg-gray-800 h-64 w-full flex items-center justify-center">
+                        <div className="text-center p-4">
+                          <ImageOff className="h-12 w-12 mx-auto text-gray-400 mb-2" />
+                          <p className="text-sm text-gray-400">Image of Mansa Musa unavailable</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <img 
+                        src="https://images.unsplash.com/photo-1466442929976-97f336a657be"
+                        alt="Historical depiction of Mansa Musa"
+                        className="rounded-lg shadow-md w-full h-64 object-cover"
+                        onError={() => setImageError(true)}
+                      />
+                    )}
                     <p className="text-xs text-gray-400 mt-2 italic text-center">Historical depiction of Mansa Musa</p>
                   </div>
                   <div className="md:w-2/3">
