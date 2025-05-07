@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -48,7 +47,7 @@ const TestimonialsSection = () => {
       rating: 5
     },
     {
-      quote: "As a business owner, I gained 25 new customers the first month. Best $50/month I've ever spent.",
+      quote: "As a business owner, I gained 25 new customers the first month. Best $100/month I've ever spent.",
       author: "Marcus Johnson",
       title: "Business Beta Partner",
       image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",

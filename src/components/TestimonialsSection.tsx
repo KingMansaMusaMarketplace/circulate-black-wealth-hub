@@ -51,7 +51,7 @@ const TestimonialsSection = () => {
       rating: 5
     },
     {
-      quote: "As a business owner, I gained 25 new customers the first month. Best $50/month I've ever spent.",
+      quote: "As a business owner, I gained 25 new customers the first month. Best $100/month I've ever spent.",
       author: "Marcus Johnson",
       title: "Business Beta Partner",
       image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
