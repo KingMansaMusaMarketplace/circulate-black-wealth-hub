@@ -1,166 +1,121 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [businessName, setBusinessName] = useState('');
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  
   const { signIn } = useAuth();
+  const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent, userType: 'customer' | 'business') => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setError('');
+    setIsLoading(true);
     
     try {
       const { data, error } = await signIn(email, password);
       
-      if (error) throw error;
-      
-      // If login was successful, redirect to dashboard
-      if (data) {
+      if (error) {
+        setError(error.message);
+      } else {
         navigate('/dashboard');
       }
-    } catch (error) {
-      console.error('Login error:', error);
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-1 flex items-center justify-center py-12">
-        <div className="w-full max-w-md p-8 bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="text-center mb-6">
-            <div className="w-12 h-12 rounded-full bg-mansablue flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-spartan font-bold text-xl">M</span>
-            </div>
-            <h1 className="text-2xl font-bold text-mansablue-dark">Welcome Back</h1>
-            <p className="text-gray-600 mt-1">Log in to continue your journey</p>
-          </div>
-
-          <Tabs defaultValue="customer" className="w-full">
-            <TabsList className="grid grid-cols-2 mb-6">
-              <TabsTrigger value="customer">Customer</TabsTrigger>
-              <TabsTrigger value="business">Business</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="customer">
-              <form onSubmit={(e) => handleLogin(e, 'customer')}>
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="customer-email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Email
-                    </label>
-                    <Input
-                      id="customer-email"
-                      type="email"
-                      placeholder="you@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="customer-password" className="block text-sm font-medium text-gray-700">
-                        Password
-                      </label>
-                      <Link to="/forgot-password" className="text-xs text-mansablue hover:underline">
-                        Forgot password?
-                      </Link>
-                    </div>
-                    <Input
-                      id="customer-password"
-                      type="password"
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <Button type="submit" className="w-full bg-mansablue" disabled={loading}>
-                    {loading ? 'Logging in...' : 'Log In'}
-                  </Button>
+      <div className="flex-grow flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold text-mansablue">Sign in to your account</CardTitle>
+            <CardDescription>
+              Enter your details to access your Mansa Musa profile
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                  {error}
                 </div>
-              </form>
-            </TabsContent>
-
-            <TabsContent value="business">
-              <form onSubmit={(e) => handleLogin(e, 'business')}>
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="business-name" className="block text-sm font-medium text-gray-700 mb-1">
-                      Business Name
-                    </label>
-                    <Input
-                      id="business-name"
-                      type="text"
-                      placeholder="Your Business Name"
-                      value={businessName}
-                      onChange={(e) => setBusinessName(e.target.value)}
-                      required
-                    />
+              )}
+              
+              <div className="space-y-1">
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email address
+                </label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="block w-full"
+                />
+              </div>
+              
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                    Password
+                  </label>
+                  <div className="text-sm">
+                    <Link to="/reset-password" className="font-medium text-mansablue hover:text-mansablue-dark">
+                      Forgot your password?
+                    </Link>
                   </div>
-                  <div>
-                    <label htmlFor="business-email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Email
-                    </label>
-                    <Input
-                      id="business-email"
-                      type="email"
-                      placeholder="business@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div>
-                    <div className="flex justify-between items-center mb-1">
-                      <label htmlFor="business-password" className="block text-sm font-medium text-gray-700">
-                        Password
-                      </label>
-                      <Link to="/forgot-password" className="text-xs text-mansablue hover:underline">
-                        Forgot password?
-                      </Link>
-                    </div>
-                    <Input
-                      id="business-password"
-                      type="password"
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <Button type="submit" className="w-full bg-mansablue" disabled={loading}>
-                    {loading ? 'Logging in...' : 'Log In'}
-                  </Button>
                 </div>
-              </form>
-            </TabsContent>
-          </Tabs>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full"
+                />
+              </div>
+              
+              <div>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-mansablue hover:bg-mansablue-dark"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Signing in..." : "Sign in"}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+          <CardFooter className="text-center">
+            <p className="text-sm text-gray-600 w-full">
               Don't have an account?{' '}
-              <Link to="/signup" className="text-mansablue hover:underline font-medium">
-                Sign up
+              <Link to="/signup" className="font-medium text-mansablue hover:text-mansablue-dark">
+                Sign up now
               </Link>
             </p>
-          </div>
-        </div>
-      </main>
+          </CardFooter>
+        </Card>
+      </div>
       <Footer />
     </div>
   );

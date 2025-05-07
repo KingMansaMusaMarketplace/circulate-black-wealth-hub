@@ -4,7 +4,13 @@ import { User } from '@supabase/supabase-js';
 import { supabase, getCurrentUser } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { setupDatabase } from '@/lib/database-init';
-import { handleSignUp, handleSignIn, handleSignOut } from '@/lib/auth-operations';
+import { 
+  handleSignUp, 
+  handleSignIn, 
+  handleSignOut,
+  requestPasswordReset,
+  updatePassword 
+} from '@/lib/auth-operations';
 
 type AuthContextType = {
   user: User | null;
@@ -12,6 +18,8 @@ type AuthContextType = {
   signUp: (email: string, password: string, metadata?: any) => Promise<any>;
   signIn: (email: string, password: string) => Promise<any>;
   signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<any>;
+  updateUserPassword: (newPassword: string) => Promise<any>;
   userType: 'customer' | 'business' | null;
   initializingDatabase: boolean;
   databaseInitialized: boolean;
@@ -78,6 +86,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUserType(null);
       }
     },
+    resetPassword: (email: string) =>
+      requestPasswordReset(email, props => toast(props)),
+    updateUserPassword: (newPassword: string) =>
+      updatePassword(newPassword, props => toast(props)),
     userType,
     initializingDatabase,
     databaseInitialized
