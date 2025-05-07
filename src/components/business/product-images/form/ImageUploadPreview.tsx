@@ -56,6 +56,28 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
     setRotation(0);
   };
 
+  // Handle drop functionality for DropZone
+  const handleDrop = (file: File) => {
+    // Create a synthetic event object to pass to onFileChange
+    const dummyInput = document.createElement('input');
+    dummyInput.type = 'file';
+    
+    // Use the DataTransfer API to create a files list
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    dummyInput.files = dataTransfer.files;
+    
+    // Create a synthetic change event
+    const event = {
+      target: dummyInput,
+      currentTarget: dummyInput,
+      preventDefault: () => {},
+      stopPropagation: () => {}
+    } as unknown as React.ChangeEvent<HTMLInputElement>;
+    
+    onFileChange(event);
+  };
+
   return (
     <div className="space-y-4">
       {formError && (
@@ -87,12 +109,16 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
           ) : (
             <ImagePreview 
               imageUrl={previewUrl} 
-              onEdit={handleEditImage} 
-              onReplace={onUploadClick}
+              onCropClick={handleEditImage} 
+              onUploadClick={onUploadClick}
+              isEdited={completedCrop !== null}
             />
           )
         ) : (
-          <DropZone onUploadClick={onUploadClick} />
+          <DropZone 
+            onUploadClick={onUploadClick}
+            onDrop={handleDrop}
+          />
         )}
       </div>
 
