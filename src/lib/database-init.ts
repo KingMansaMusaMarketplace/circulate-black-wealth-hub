@@ -1,6 +1,6 @@
 
 import { supabase } from './supabase';
-import { initializeDatabase } from './supabase-schema';
+import { initializeDatabase } from './supabase/init-database';
 
 // Interface for DB initialization state
 export interface DbInitState {

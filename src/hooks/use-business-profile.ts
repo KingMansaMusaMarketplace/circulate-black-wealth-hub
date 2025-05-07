@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +26,7 @@ export const useBusinessProfile = () => {
         
         // Generate QR code if business exists but doesn't have one
         if (businessProfile && !businessProfile.qr_code_id) {
-          generateQrCodeForBusiness(businessProfile.id);
+          generateQrCodeForBusiness(businessProfile.id || '');
         }
       } catch (error) {
         console.error('Error loading business profile:', error);
