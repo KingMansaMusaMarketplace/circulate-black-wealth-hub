@@ -12,7 +12,7 @@ import {
   SelectTrigger, 
   SelectValue 
 } from '@/components/ui/select';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 
@@ -80,7 +80,7 @@ const ContactSection = () => {
       title: 'Office',
       icon: MapPin,
       value: '1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628',
-      description: 'Visit us in Chicago's historic Pullman district.'
+      description: "Visit us in Chicago's historic Pullman district."
     }
   ];
 
