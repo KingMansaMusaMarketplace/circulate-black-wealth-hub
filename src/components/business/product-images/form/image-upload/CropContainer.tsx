@@ -51,8 +51,8 @@ const CropContainer: React.FC<CropContainerProps> = ({
       <ReactCrop
         crop={crop}
         onChange={(c) => setCrop(c)}
-        onComplete={(c: PixelCrop) => {
-          // Store the pixel crop without conversion
+        onComplete={(c) => {
+          // Store the pixel crop without type conversion - this was causing the error
           setCompletedCrop(c);
         }}
         aspect={16 / 9}
