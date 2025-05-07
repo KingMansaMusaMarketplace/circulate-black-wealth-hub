@@ -118,6 +118,36 @@ export const createTables = async (): Promise<InitDbResult> => {
         USING (auth.uid() = owner_id);
     `);
 
+    // Create product_images table
+    await setupTable('product_images', `
+      CREATE TABLE product_images (
+        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+        business_id UUID NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
+        title VARCHAR NOT NULL,
+        description TEXT,
+        price VARCHAR,
+        image_url VARCHAR NOT NULL,
+        is_active BOOLEAN DEFAULT TRUE,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+      );
+
+      -- Setup RLS policies
+      ALTER TABLE product_images ENABLE ROW LEVEL SECURITY;
+      
+      -- Policy for public to view product images
+      CREATE POLICY "Product images are viewable by everyone"
+        ON product_images FOR SELECT
+        USING (true);
+      
+      -- Policy for business owners to manage their product images
+      CREATE POLICY "Business owners can manage their product images"
+        ON product_images FOR ALL
+        USING (auth.uid() IN (
+          SELECT owner_id FROM businesses WHERE id = product_images.business_id
+        ));
+    `);
+
     // Create loyalty_points table
     await setupTable('loyalty_points', `
       CREATE TABLE loyalty_points (

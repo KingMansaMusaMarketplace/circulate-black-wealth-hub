@@ -1,11 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, FileText, Image, Settings } from 'lucide-react';
+import { Loader2, FileText, Image, Settings, Gallery } from 'lucide-react';
 import BusinessForm from './BusinessForm';
 import BusinessImageUpload from './BusinessImageUpload';
+import { ProductImageManager } from './product-images';
 import { fetchBusinessProfile, BusinessProfile } from '@/lib/api/business-api';
 import { toast } from 'sonner';
 
@@ -58,18 +60,22 @@ const BusinessProfileManager = () => {
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="details" className="flex items-center gap-2">
             <FileText size={16} />
             Business Details
           </TabsTrigger>
           <TabsTrigger value="images" className="flex items-center gap-2">
             <Image size={16} />
-            Images
+            Logo & Banner
+          </TabsTrigger>
+          <TabsTrigger value="products" className="flex items-center gap-2">
+            <Gallery size={16} />
+            Products & Services
           </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings size={16} />
-            Business Settings
+            Settings
           </TabsTrigger>
         </TabsList>
 
@@ -100,6 +106,20 @@ const BusinessProfileManager = () => {
               )}
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="products" className="mt-6">
+          {profile?.id ? (
+            <ProductImageManager businessId={profile.id} />
+          ) : (
+            <Card>
+              <CardContent className="pt-6">
+                <div className="p-4 bg-amber-50 border border-amber-200 rounded-md text-amber-800">
+                  <p>Please save your business details first before adding products.</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">

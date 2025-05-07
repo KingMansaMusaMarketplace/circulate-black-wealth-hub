@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { BusinessFormContent } from './business-form';
+import BusinessFormContent from './business-form/BusinessFormContent';
 
 const BusinessForm = () => {
   return (
