@@ -44,12 +44,18 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
         ? { 
             userType: 'customer',
             fullName: name,
+            subscription_status: 'active',
+            subscription_start_date: new Date().toISOString(),
+            subscription_end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days
           }
         : {
             userType: 'business',
             businessName,
             businessType,
             businessAddress,
+            subscription_status: 'trial',
+            subscription_start_date: new Date().toISOString(),
+            subscription_end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 day trial
           };
       
       const { data, error } = await onSubmit(email, password, metadata);

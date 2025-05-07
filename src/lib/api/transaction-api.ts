@@ -1,0 +1,111 @@
+
+import { supabase } from '@/lib/supabase';
+
+export interface Transaction {
+  id: string;
+  customer_id: string;
+  business_id: string;
+  points_earned: number;
+  points_redeemed: number;
+  amount?: number;
+  discount_applied?: number;
+  discount_percentage?: number;
+  description: string;
+  transaction_type: 'purchase' | 'scan' | 'review' | 'referral' | 'redemption';
+  qr_scan_id?: string;
+  transaction_date: string;
+  created_at: string;
+  business?: {
+    business_name: string;
+    logo_url?: string;
+  };
+}
+
+// Get customer transactions
+export const getCustomerTransactions = async (
+  customerId: string,
+  limit?: number
+): Promise<Transaction[]> => {
+  try {
+    let query = supabase
+      .from('transactions')
+      .select('*, businesses(business_name, logo_url)')
+      .eq('customer_id', customerId)
+      .order('transaction_date', { ascending: false });
+    
+    if (limit) {
+      query = query.limit(limit);
+    }
+    
+    const { data, error } = await query;
+    
+    if (error) throw error;
+    return data || [];
+  } catch (error: any) {
+    console.error('Error fetching customer transactions:', error.message);
+    return [];
+  }
+};
+
+// Get business transactions
+export const getBusinessTransactions = async (
+  businessId: string,
+  limit?: number
+): Promise<Transaction[]> => {
+  try {
+    let query = supabase
+      .from('transactions')
+      .select('*, profiles(full_name)')
+      .eq('business_id', businessId)
+      .order('transaction_date', { ascending: false });
+    
+    if (limit) {
+      query = query.limit(limit);
+    }
+    
+    const { data, error } = await query;
+    
+    if (error) throw error;
+    return data || [];
+  } catch (error: any) {
+    console.error('Error fetching business transactions:', error.message);
+    return [];
+  }
+};
+
+// Create a new transaction
+export const createTransaction = async (
+  transaction: Omit<Transaction, 'id' | 'created_at' | 'transaction_date'>
+): Promise<{ success: boolean; transaction?: Transaction; error?: any }> => {
+  try {
+    const { data, error } = await supabase
+      .from('transactions')
+      .insert({
+        ...transaction,
+        transaction_date: new Date().toISOString()
+      })
+      .select()
+      .single();
+    
+    if (error) throw error;
+    
+    // Update loyalty points if this transaction earns points
+    if (transaction.points_earned > 0) {
+      await supabase
+        .from('loyalty_points')
+        .insert({
+          customer_id: transaction.customer_id,
+          business_id: transaction.business_id,
+          points: transaction.points_earned
+        })
+        .onConflict(['customer_id', 'business_id'])
+        .merge('points', '+')
+        .select();
+    }
+    
+    return { success: true, transaction: data };
+  } catch (error: any) {
+    console.error('Error creating transaction:', error.message);
+    return { success: false, error };
+  }
+};
