@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star, ChevronRight, PauseCircle, PlayCircle } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
@@ -23,6 +22,7 @@ const TestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [filter, setFilter] = useState<TestimonialType>('all');
+  const [api, setApi] = useState<CarouselApi>();
   
   const testimonials: Testimonial[] = [
     {
@@ -96,22 +96,39 @@ const TestimonialsSection = () => {
         setActiveIndex((prevIndex) => 
           prevIndex === filteredTestimonials.length - 1 ? 0 : prevIndex + 1
         );
+        api?.scrollNext();
       }, 5000);
     }
     
     return () => clearInterval(interval);
-  }, [isPlaying, filteredTestimonials.length]);
+  }, [isPlaying, filteredTestimonials.length, api]);
 
   // Handle testimonial filter change
   const handleFilterChange = (type: TestimonialType) => {
     setFilter(type);
     setActiveIndex(0); // Reset to first testimonial when filter changes
+    api?.scrollTo(0);
   };
 
   // Handle carousel change
   const handleCarouselChange = useCallback((index: number) => {
     setActiveIndex(index);
   }, []);
+  
+  useEffect(() => {
+    if (!api) return;
+    
+    const handleSelect = () => {
+      const currentSlide = api.selectedScrollSnap();
+      handleCarouselChange(currentSlide);
+    };
+    
+    api.on("select", handleSelect);
+    
+    return () => {
+      api.off("select", handleSelect);
+    };
+  }, [api, handleCarouselChange]);
   
   return (
     <section className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
@@ -158,12 +175,7 @@ const TestimonialsSection = () => {
               loop: true,
             }}
             className="w-full"
-            onSelect={(api) => {
-              const selectedIndex = api?.selectedScrollSnap();
-              if (selectedIndex !== undefined) {
-                handleCarouselChange(selectedIndex);
-              }
-            }}
+            setApi={setApi}
           >
             <CarouselContent>
               {filteredTestimonials.map((testimonial, index) => (
@@ -244,7 +256,10 @@ const TestimonialsSection = () => {
                         : "bg-mansagold opacity-30"
                     }`}
                     aria-label={`Go to testimonial ${index + 1}`}
-                    onClick={() => handleCarouselChange(index)}
+                    onClick={() => {
+                      handleCarouselChange(index);
+                      api?.scrollTo(index);
+                    }}
                   />
                 ))}
               </div>
