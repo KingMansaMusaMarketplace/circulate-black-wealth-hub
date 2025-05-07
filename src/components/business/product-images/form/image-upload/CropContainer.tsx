@@ -54,11 +54,15 @@ const CropContainer: React.FC<CropContainerProps> = ({
 
   // Handle rotation
   const rotateLeft = () => {
-    setRotation((prev) => Math.max(prev - 90, -360));
+    // Fix: We need to pass a direct number, not a function
+    const newRotation = Math.max(rotation - 90, -360);
+    setRotation(newRotation);
   };
 
   const rotateRight = () => {
-    setRotation((prev) => Math.min(prev + 90, 360));
+    // Fix: We need to pass a direct number, not a function
+    const newRotation = Math.min(rotation + 90, 360);
+    setRotation(newRotation);
   };
 
   return (
