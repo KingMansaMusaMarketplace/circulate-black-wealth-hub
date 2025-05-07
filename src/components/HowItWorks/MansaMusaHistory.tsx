@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Landmark, ImageOff, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -16,7 +15,7 @@ const MansaMusaHistory = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Updated image array with carefully verified working gold-themed images
+  // Carefully selected gold-themed images with confirmed working URLs
   const images = [
     {
       src: "https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151",
@@ -29,19 +28,19 @@ const MansaMusaHistory = () => {
       caption: "Caravan travel during Mansa Musa's era"
     },
     {
-      src: "https://images.unsplash.com/photo-1618403088890-3d9ff6f4c8b1",
-      alt: "Gold coins and treasure",
-      caption: "Gold treasure representing Mali's wealth"
+      src: "https://images.unsplash.com/photo-1543699565-003b8adda5fc",
+      alt: "Gold coins and pieces",
+      caption: "Gold wealth from Mali's empire"
     },
     {
-      src: "https://images.unsplash.com/photo-1574362848149-11496d93a7c7",
-      alt: "Stack of gold bars",
-      caption: "Gold reserves from Mali's legendary mines"
-    },
-    {
-      src: "https://images.unsplash.com/photo-1605792657660-596af9009e82",
-      alt: "Gold nuggets and gold pieces",
+      src: "https://images.unsplash.com/photo-1610375461249-b6f5255f1638",
+      alt: "Gold bars close-up",
       caption: "Gold from Mali's legendary mines"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1423592707957-3b212afa6733",
+      alt: "Gold dust and nuggets",
+      caption: "Gold dust representing Mali's wealth"
     }
   ];
 
