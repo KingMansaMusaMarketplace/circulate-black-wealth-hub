@@ -50,10 +50,9 @@ const CropContainer: React.FC<CropContainerProps> = ({
     <div className="flex flex-col w-full">
       <ReactCrop
         crop={crop}
-        onChange={(c) => setCrop(c)}
+        onChange={(c) => setCrop(c as PercentCrop)}
         onComplete={(c) => {
-          // TypeScript expects a PixelCrop here but the library might return
-          // a crop with unit 'px'. We need to handle this explicitly.
+          // Convert the completed crop to a PixelCrop with explicit typing
           const pixelCrop: PixelCrop = {
             x: c.x,
             y: c.y,
