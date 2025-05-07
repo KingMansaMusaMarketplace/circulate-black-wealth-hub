@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Upload, Image, Check, X, ZoomIn, ZoomOut } from "lucide-react";
@@ -171,8 +170,8 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
     if (fileInputRef.current) {
       fileInputRef.current.files = dataTransfer.files;
       // Dispatch change event to update the form state
-      // Fix Error #1: Create event with proper arguments
-      const event = new Event('change', { bubbles: true });
+      // Fix Error #1: Create event with proper type and arguments
+      const event = new CustomEvent('change', { bubbles: true });
       fileInputRef.current.dispatchEvent(event);
     }
   };
@@ -227,8 +226,8 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
         if (fileInputRef.current) {
           fileInputRef.current.files = dataTransfer.files;
           // Trigger the onChange handler with a synthetic event
-          // Fix Error #1: Create event with proper arguments
-          const event = new Event('change', { bubbles: true });
+          // Fix Error #1: Create event with proper type and arguments
+          const event = new CustomEvent('change', { bubbles: true });
           fileInputRef.current.dispatchEvent(event);
         }
       }
@@ -248,8 +247,8 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
                   crop={crop}
                   onChange={(c) => setCrop(c)}
                   onComplete={(c) => {
-                    // Fix Error #3: Convert PixelCrop to PercentCrop for consistency
-                    // Store the pixel crop for actual cropping operations
+                    // Fix Error #3: Store the pixel crop for actual cropping operations
+                    // without type conversion - keep it as PixelCrop
                     setCompletedCrop(c);
                   }}
                   aspect={16 / 9}
@@ -405,4 +404,3 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
 };
 
 export default ImageUploadPreview;
-
