@@ -1,81 +1,112 @@
+
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { fetchBusinessProfile, BusinessProfile } from '@/lib/api/business-api';
-import { generateBusinessQRCode } from '@/lib/api/qr-code-api';
+import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
+interface BusinessProfile {
+  id: string;
+  owner_id: string;
+  business_name: string;
+  description?: string;
+  category?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zip_code?: string;
+  phone?: string;
+  email?: string;
+  website?: string;
+  logo_url?: string;
+  banner_url?: string;
+  is_verified: boolean;
+  average_rating: number;
+  review_count: number;
+  created_at: string;
+  updated_at: string;
+  subscription_status: string;
+  subscription_start_date: string;
+  subscription_end_date: string;
+}
+
 export const useBusinessProfile = () => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<BusinessProfile | null>(null);
-  const [qrCodeLoading, setQrCodeLoading] = useState(false);
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const loadProfile = async () => {
-      if (!user?.id) {
-        navigate('/login');
-        return;
-      }
-
-      setLoading(true);
-      try {
-        const businessProfile = await fetchBusinessProfile(user.id);
-        setProfile(businessProfile);
-        
-        // Generate QR code if business exists but doesn't have one
-        if (businessProfile && !businessProfile.qr_code_id) {
-          generateQrCodeForBusiness(businessProfile.id || '');
-        }
-      } catch (error) {
-        console.error('Error loading business profile:', error);
-        toast.error('Failed to load business profile');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProfile();
-  }, [user, navigate]);
-
-  const generateQrCodeForBusiness = async (businessId: string) => {
-    setQrCodeLoading(true);
+  // Load business profile
+  const loadBusinessProfile = async () => {
+    if (!user?.id) return;
+    
+    setLoading(true);
+    setError(null);
+    
     try {
-      // Generate a default loyalty QR code
-      const result = await generateBusinessQRCode(businessId, 'loyalty', {
-        pointsValue: 10 // Default 10 points per scan
-      });
+      const { data, error } = await supabase
+        .from('businesses')
+        .select('*')
+        .eq('owner_id', user.id)
+        .single();
       
-      if (result.success && result.qrCode) {
-        // Update local state with QR code info
-        setProfile(prev => prev ? {
-          ...prev,
-          qr_code_id: result.qrCode!.id,
-          qr_code_url: result.qrCode!.qr_image_url
-        } : null);
-      }
-    } catch (error) {
-      console.error('Error generating QR code:', error);
+      if (error) throw error;
+      
+      setProfile(data);
+    } catch (err: any) {
+      console.error('Error loading business profile:', err);
+      setError(err.message);
     } finally {
-      setQrCodeLoading(false);
+      setLoading(false);
     }
   };
 
-  const handleProfileUpdate = (updates: BusinessProfile) => {
-    setProfile(prev => prev ? { ...prev, ...updates } : updates);
+  // Update business profile
+  const updateBusinessProfile = async (updates: Partial<BusinessProfile>) => {
+    if (!profile?.id) {
+      toast.error('No business profile to update');
+      return false;
+    }
+    
+    setLoading(true);
+    
+    try {
+      const { error } = await supabase
+        .from('businesses')
+        .update({
+          ...updates,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', profile.id);
+      
+      if (error) throw error;
+      
+      // Refresh profile
+      await loadBusinessProfile();
+      toast.success('Business profile updated successfully');
+      return true;
+    } catch (err: any) {
+      console.error('Error updating business profile:', err);
+      toast.error(err.message);
+      return false;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleImageUpdate = (updates: { logo_url?: string, banner_url?: string }) => {
-    setProfile(prev => prev ? { ...prev, ...updates } : null);
-  };
+  // Load profile when user changes
+  useEffect(() => {
+    if (user?.id) {
+      loadBusinessProfile();
+    } else {
+      setProfile(null);
+    }
+  }, [user?.id]);
 
   return {
     profile,
     loading,
-    qrCodeLoading,
-    handleProfileUpdate,
-    handleImageUpdate,
-    generateQrCode: generateQrCodeForBusiness
+    error,
+    loadBusinessProfile,
+    updateBusinessProfile
   };
 };
