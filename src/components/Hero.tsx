@@ -31,7 +31,7 @@ const Hero = () => {
                 </Button>
               </Link>
               <Link to="/how-it-works">
-                <Button variant="outline" className="border-white text-white hover:bg-white/10 font-medium text-lg px-8 py-6">
+                <Button variant="outline" className="border-mansagold text-mansagold hover:bg-mansagold/10 hover:text-white font-medium text-lg px-8 py-6">
                   Learn More
                 </Button>
               </Link>
