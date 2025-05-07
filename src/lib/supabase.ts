@@ -1,15 +1,33 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// These environment variables are automatically injected by Lovable
+// Get environment variables from Lovable's environment
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+// Create a mock client for development if environment variables are missing
+let supabaseClient;
+
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
+  console.warn('Supabase environment variables are missing. Using mock client for development.');
+  
+  // Create a mock client that doesn't throw errors but won't connect to Supabase
+  supabaseClient = {
+    auth: {
+      signUp: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+      signInWithPassword: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+      signOut: () => Promise.resolve({ error: null }),
+      getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+      getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+      onAuthStateChange: () => ({ subscription: { unsubscribe: () => {} }, data: { subscription: { unsubscribe: () => {} }} })
+    }
+  };
+} else {
+  // Create the real Supabase client
+  supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = supabaseClient;
 
 // Authentication helpers
 export const signUp = async (email: string, password: string, metadata?: object) => {
