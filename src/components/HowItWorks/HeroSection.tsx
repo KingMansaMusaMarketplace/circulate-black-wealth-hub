@@ -27,7 +27,7 @@ const HeroSection = () => {
               <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-white">
                 Join Now
               </Button>
-              <Button variant="outline" size="lg" className="bg-mansagold hover:bg-mansagold-dark text-white border-mansagold">
+              <Button variant="outline" size="lg" className="border-mansagold bg-mansagold/20 text-mansagold hover:bg-mansagold/30">
                 Learn More
               </Button>
             </div>
