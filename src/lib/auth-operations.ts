@@ -1,6 +1,6 @@
 
 import { supabase } from './supabase';
-import { type Toast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 // Create a profile in the profiles table
 export const createUserProfile = async (userId: string, userMetadata: any) => {
