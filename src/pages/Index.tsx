@@ -11,9 +11,9 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col w-full">
+    <div className="flex flex-col w-full min-h-screen">
       <Navbar />
-      <main className="flex-1 w-full">
+      <main className="flex-grow w-full">
         <Hero />
         <WhySection />
         <HowItWorks />
