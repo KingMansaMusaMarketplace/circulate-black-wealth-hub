@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ImageIcon, Search, Settings } from "lucide-react";
 import { productImageSchema, ProductImageFormValues, defaultProductImageValues } from "../business-form/models";
@@ -155,6 +157,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     fileInputRef.current?.click();
   };
   
+  // Fixed the type mismatch here - properly type the function
   const handleImageCropped = (originalSize: number, compressedSize: number) => {
     setOriginalSize(originalSize);
     setCompressedSize(compressedSize);
