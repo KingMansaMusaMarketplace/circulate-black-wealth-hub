@@ -46,21 +46,21 @@ const ContactInfo = () => {
 
   return (
     <Card className="h-full border-mansagold/20">
-      <CardContent className="p-8">
+      <CardContent className="p-6 sm:p-8">
         <h3 className="text-xl font-bold text-mansablue mb-6">Get In Touch</h3>
         
-        <div className="space-y-6">
+        <div className="space-y-4">
           {contactInfo.map((item) => (
             <Popover key={item.id}>
               <PopoverTrigger asChild>
                 <motion.div 
-                  className={`flex items-center p-4 rounded-lg cursor-pointer transition-all ${
+                  className={`flex items-center p-3 sm:p-4 rounded-lg cursor-pointer transition-all ${
                     activeContact === item.id ? 'bg-mansablue text-white' : 'hover:bg-gray-100'
                   }`}
                   whileHover={{ scale: 1.02 }}
                   onClick={() => setActiveContact(item.id === activeContact ? null : item.id)}
                 >
-                  <div className={`min-w-10 h-10 rounded-full flex items-center justify-center mr-4 ${
+                  <div className={`min-w-10 h-10 rounded-full flex items-center justify-center mr-3 sm:mr-4 ${
                     activeContact === item.id ? 'bg-white text-mansablue' : 'bg-mansablue text-white'
                   }`}>
                     <item.icon className="h-5 w-5" />
@@ -72,7 +72,7 @@ const ContactInfo = () => {
                         href={item.link} 
                         className={`${activeContact === item.id ? "text-white/80" : "text-mansablue hover:text-mansagold transition-colors"} block truncate`}
                       >
-                        {item.value}
+                        <span className="truncate block">{item.value}</span>
                       </a>
                     ) : (
                       <address className="not-italic text-sm text-gray-600 truncate">
@@ -82,7 +82,7 @@ const ContactInfo = () => {
                   </div>
                 </motion.div>
               </PopoverTrigger>
-              <PopoverContent className="w-80 p-4">
+              <PopoverContent className="w-72 sm:w-80 p-4">
                 <p className="text-sm text-gray-600">{item.description}</p>
                 {item.link && (
                   <a 

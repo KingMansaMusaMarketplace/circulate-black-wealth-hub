@@ -12,7 +12,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-16 lg:py-20 bg-gray-50">
       <div className="container-custom">
         <motion.div 
           initial="hidden"
@@ -24,12 +24,12 @@ const ContactSection = () => {
         >
           <h2 className="heading-md text-mansablue mb-4">Contact Us</h2>
           <div className="w-24 h-1 bg-mansagold mx-auto mb-6"></div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 max-w-2xl mx-auto px-4">
             Have questions or want to learn more? Reach out to us and we'll respond as soon as possible.
           </p>
         </motion.div>
         
-        <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto px-4">
           <div className="lg:col-span-1">
             <ContactInfo />
           </div>
@@ -39,10 +39,17 @@ const ContactSection = () => {
           </div>
         </div>
 
-        <div className="text-center mt-16">
-          <p className="text-gray-600">
-            Need immediate assistance? <Button variant="link" className="p-0 h-auto text-mansablue">Schedule a call with our team</Button>
-          </p>
+        <div className="text-center mt-12 lg:mt-16">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            <p className="text-gray-600">
+              Need immediate assistance? <Button variant="link" className="p-0 h-auto text-mansablue">Schedule a call with our team</Button>
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -42,15 +42,15 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
             />
           </div>
-          <div className="p-6">
-            <h3 className="text-xl font-bold text-mansablue">{member.name}</h3>
-            <p className="text-mansagold font-medium mb-3">{member.role}</p>
+          <div className="p-4 sm:p-6">
+            <h3 className="text-lg sm:text-xl font-bold text-mansablue">{member.name}</h3>
+            <p className="text-mansagold font-medium mb-2 sm:mb-3">{member.role}</p>
             <p className="text-gray-600 text-sm line-clamp-3 mb-4">
               {member.bio}
             </p>
             
             {member.socialLinks && (
-              <div className="flex space-x-2 mt-auto">
+              <div className="flex flex-wrap items-center gap-2 mt-auto">
                 {member.socialLinks.email && (
                   <Popover>
                     <PopoverTrigger asChild>
@@ -61,7 +61,7 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
                     <PopoverContent className="w-auto p-2">
                       <a 
                         href={`mailto:${member.socialLinks.email}`}
-                        className="text-sm text-mansablue hover:text-mansagold transition-colors"
+                        className="text-sm text-mansablue hover:text-mansagold transition-colors break-all"
                       >
                         {member.socialLinks.email}
                       </a>
@@ -111,7 +111,7 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
                       Read More
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-80 p-4">
+                  <PopoverContent className="w-72 sm:w-80 p-4 max-h-80 overflow-y-auto">
                     <h4 className="font-bold mb-2">{member.name}</h4>
                     <p className="text-gray-600 text-sm">
                       {member.bio}
