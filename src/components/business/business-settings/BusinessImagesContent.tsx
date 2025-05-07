@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import BusinessImageUpload from '../BusinessImageUpload';
-import { BusinessProfile } from '@/lib/api/business-api';
+import { BusinessProfile } from '@/hooks/use-business-profile';
 
 interface BusinessImagesContentProps {
   profile: BusinessProfile | null;

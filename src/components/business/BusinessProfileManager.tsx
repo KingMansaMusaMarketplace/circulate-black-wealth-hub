@@ -13,11 +13,18 @@ import BusinessProfileLoading from './business-settings/BusinessProfileLoading';
 
 const BusinessProfileManager = () => {
   const [activeTab, setActiveTab] = useState('details');
-  const { profile, loading, handleProfileUpdate, handleImageUpdate } = useBusinessProfile();
+  const { profile, loading, updateBusinessProfile } = useBusinessProfile();
 
   if (loading) {
     return <BusinessProfileLoading />;
   }
+
+  // Handle image updates via the main profile update function
+  const handleImageUpdate = (updates: { logo_url?: string, banner_url?: string }) => {
+    if (profile) {
+      updateBusinessProfile(updates);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -46,7 +53,10 @@ const BusinessProfileManager = () => {
         </TabsContent>
 
         <TabsContent value="images" className="mt-6">
-          <BusinessImagesContent profile={profile} onImageUpdate={handleImageUpdate} />
+          <BusinessImagesContent 
+            profile={profile} 
+            onImageUpdate={handleImageUpdate} 
+          />
         </TabsContent>
 
         <TabsContent value="products" className="mt-6">

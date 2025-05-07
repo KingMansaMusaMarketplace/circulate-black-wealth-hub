@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { uploadBusinessImage, deleteBusinessImage } from '@/lib/api/storage-api';
-import { saveBusinessProfile, BusinessProfile } from '@/lib/api/business-api';
+import { saveBusinessProfile } from '@/lib/api/business-api';
+import { BusinessProfile } from '@/hooks/use-business-profile';
 
 type ImageType = 'logo' | 'banner';
 type ImageUpdates = { logo_url?: string, banner_url?: string };
@@ -46,6 +47,15 @@ export const useBusinessImage = ({ businessId, ownerId, onUpdate }: UseBusinessI
         await saveBusinessProfile({
           id: businessId,
           owner_id: ownerId,
+          business_name: 'Temporary Name', // Required fields that will be overwritten
+          description: 'Temporary Description', // on the backend since we're only updating specific fields
+          category: 'Temporary Category',
+          address: 'Temporary Address',
+          city: 'Temporary City',
+          state: 'Temporary State',
+          zip_code: 'Temporary Zip',
+          phone: 'Temporary Phone',
+          email: 'temporary@email.com',
           ...updates
         } as BusinessProfile);
         
@@ -79,6 +89,15 @@ export const useBusinessImage = ({ businessId, ownerId, onUpdate }: UseBusinessI
       await saveBusinessProfile({
         id: businessId,
         owner_id: ownerId,
+        business_name: 'Temporary Name', // Required fields that will be overwritten
+        description: 'Temporary Description', // on the backend since we're only updating specific fields
+        category: 'Temporary Category',
+        address: 'Temporary Address',
+        city: 'Temporary City',
+        state: 'Temporary State',
+        zip_code: 'Temporary Zip',
+        phone: 'Temporary Phone',
+        email: 'temporary@email.com',
         ...updates
       } as BusinessProfile);
       

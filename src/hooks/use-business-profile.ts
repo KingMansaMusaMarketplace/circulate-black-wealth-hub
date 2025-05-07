@@ -3,30 +3,32 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
+import { BusinessProfile as ApiBusinessProfile } from '@/lib/api/business-api';
 
-interface BusinessProfile {
-  id: string;
+// Modify the interface to match the requirements in business-api.ts
+export interface BusinessProfile {
+  id?: string;
   owner_id: string;
   business_name: string;
-  description?: string;
-  category?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zip_code?: string;
-  phone?: string;
-  email?: string;
+  description: string;
+  category: string;
+  address: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  phone: string;
+  email: string;
   website?: string;
   logo_url?: string;
   banner_url?: string;
-  is_verified: boolean;
-  average_rating: number;
-  review_count: number;
-  created_at: string;
-  updated_at: string;
-  subscription_status: string;
-  subscription_start_date: string;
-  subscription_end_date: string;
+  is_verified?: boolean;
+  average_rating?: number;
+  review_count?: number;
+  created_at?: string;
+  updated_at?: string;
+  subscription_status?: string;
+  subscription_start_date?: string;
+  subscription_end_date?: string;
 }
 
 export const useBusinessProfile = () => {
