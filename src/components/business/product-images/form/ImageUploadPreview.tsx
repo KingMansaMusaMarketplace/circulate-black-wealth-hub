@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Upload, Image, Check, X, ZoomIn, ZoomOut } from "lucide-react";
 import { CropIcon } from "lucide-react";
-import ReactCrop, { type Crop as ReactCropType, centerCrop, makeAspectCrop, PixelCrop } from 'react-image-crop';
+import ReactCrop, { type PercentCrop, centerCrop, makeAspectCrop, PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
@@ -23,7 +23,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
   formError,
   onFileChange
 }) => {
-  const [crop, setCrop] = useState<ReactCropType>();
+  const [crop, setCrop] = useState<PercentCrop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const [isCropping, setIsCropping] = useState(false);
   const imgRef = React.useRef<HTMLImageElement>(null);
