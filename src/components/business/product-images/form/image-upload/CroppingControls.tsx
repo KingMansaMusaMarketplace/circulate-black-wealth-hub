@@ -1,8 +1,7 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Label } from "@/components/ui/label";
 import { 
   Select,
   SelectContent,
@@ -10,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 interface CroppingControlsProps {
   scale: number;
@@ -25,18 +25,21 @@ interface CroppingControlsProps {
   setAspectRatio?: (ratio: number) => void;
 }
 
-const ASPECT_RATIOS = [
-  { label: "Free form", value: 0 },
+const aspectRatioOptions = [
+  { label: "Free", value: 0 },
   { label: "Square (1:1)", value: 1 },
+  { label: "Portrait (4:5)", value: 0.8 },
   { label: "Landscape (16:9)", value: 16/9 },
-  { label: "Portrait (9:16)", value: 9/16 },
-  { label: "Standard (4:3)", value: 4/3 },
-  { label: "Product (3:2)", value: 3/2 }
+  { label: "Classic (4:3)", value: 4/3 },
+  { label: "Cinematic (21:9)", value: 21/9 },
 ];
 
 const CroppingControls: React.FC<CroppingControlsProps> = ({
   scale,
   setScale,
+  rotation,
+  onRotateLeft,
+  onRotateRight,
   onCancel,
   onApply,
   quality = 92,
@@ -44,75 +47,107 @@ const CroppingControls: React.FC<CroppingControlsProps> = ({
   aspectRatio = 16/9,
   setAspectRatio
 }) => {
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
+  // Handle quality slider change
+  const handleQualityChange = (value: number[]) => {
+    if (setQuality) {
+      setQuality(value[0]);
+    }
+  };
+
+  // Handle aspect ratio change
+  const handleAspectRatioChange = (value: string) => {
+    if (setAspectRatio) {
+      setAspectRatio(parseFloat(value));
+    }
+  };
+
   return (
-    <div className="space-y-5 mt-4">
-      <div className="space-y-2">
-        <div className="flex justify-between">
-          <Label htmlFor="scale">Zoom: {Math.round(scale * 100)}%</Label>
-        </div>
-        <Slider
-          id="scale"
-          min={0.5}
-          max={3}
-          step={0.01}
-          value={[scale]}
-          onValueChange={(values) => setScale(values[0])}
-        />
-      </div>
-      
-      {setQuality && (
+    <div className="space-y-4 mt-4 border-t pt-4">
+      <div className="space-y-4">
+        {/* Scale Slider */}
         <div className="space-y-2">
-          <div className="flex justify-between">
-            <Label htmlFor="quality">Quality: {quality}%</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="scale">Zoom: {Math.round(scale * 100)}%</Label>
           </div>
           <Slider
-            id="quality"
-            min={10}
-            max={100}
-            step={1}
-            value={[quality]}
-            onValueChange={(values) => setQuality(values[0])}
+            id="scale"
+            value={[scale]}
+            min={0.5}
+            max={3}
+            step={0.01}
+            onValueChange={(value) => setScale(value[0])}
+            className="w-full"
           />
-          <p className="text-xs text-muted-foreground">
-            Higher quality means larger file size. 80-90% is recommended for most images.
-          </p>
         </div>
-      )}
-      
-      {setAspectRatio && (
-        <div className="space-y-2">
-          <Label htmlFor="aspect-ratio">Aspect Ratio</Label>
-          <Select
-            value={aspectRatio.toString()}
-            onValueChange={(value) => setAspectRatio(parseFloat(value))}
-          >
-            <SelectTrigger id="aspect-ratio" className="w-full">
-              <SelectValue placeholder="Select aspect ratio" />
-            </SelectTrigger>
-            <SelectContent>
-              {ASPECT_RATIOS.map((ratio) => (
-                <SelectItem key={ratio.value} value={ratio.value.toString()}>
-                  {ratio.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      )}
-
-      <div className="flex justify-end space-x-2 pt-4">
+        
+        {/* Advanced Options Toggle */}
         <Button 
-          type="button" 
-          variant="outline" 
-          onClick={onCancel}
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          className="text-xs"
         >
+          {showAdvanced ? "Hide" : "Show"} Advanced Options
+        </Button>
+        
+        {/* Advanced Options */}
+        {showAdvanced && (
+          <div className="space-y-4 border rounded-md p-3 bg-gray-50">
+            {/* Aspect Ratio Selection */}
+            {setAspectRatio && (
+              <div className="space-y-2">
+                <Label htmlFor="aspect-ratio">Aspect Ratio</Label>
+                <Select 
+                  value={aspectRatio.toString()} 
+                  onValueChange={handleAspectRatioChange}
+                >
+                  <SelectTrigger id="aspect-ratio" className="w-full">
+                    <SelectValue placeholder="Select aspect ratio" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {aspectRatioOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value.toString()}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+            
+            {/* Image Quality */}
+            {setQuality && (
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="quality">Quality: {quality}%</Label>
+                </div>
+                <Slider
+                  id="quality"
+                  value={[quality]}
+                  min={10}
+                  max={100}
+                  step={1}
+                  onValueChange={handleQualityChange}
+                  className="w-full"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Lower quality = smaller file size
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      
+      <div className="flex justify-end space-x-2 pt-2">
+        <Button type="button" variant="outline" onClick={onCancel}>
           Cancel
         </Button>
-        <Button 
-          type="button" 
-          onClick={onApply}
-        >
-          Apply
+        <Button type="button" onClick={onApply}>
+          Apply Changes
         </Button>
       </div>
     </div>

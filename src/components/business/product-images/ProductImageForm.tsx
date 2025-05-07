@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
@@ -21,11 +21,12 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   initialData,
   onCancel
 }) => {
-  const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [quality, setQuality] = React.useState(92);
-  const [aspectRatio, setAspectRatio] = React.useState(16/9);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [quality, setQuality] = useState(92);
+  const [aspectRatio, setAspectRatio] = useState(16/9);
+  const [imageOptimized, setImageOptimized] = useState(false);
 
   const form = useForm<ProductImageFormValues>({
     resolver: zodResolver(productImageSchema),
@@ -70,6 +71,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
       }
 
       setSelectedFile(file);
+      setImageOptimized(false);
       const reader = new FileReader();
       reader.onload = () => {
         setPreviewUrl(reader.result as string);
@@ -89,6 +91,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
 
     if (selectedFile) {
       await onSubmit(values, selectedFile);
+      setImageOptimized(false);
     }
     
     // Reset form after successful submission
@@ -102,6 +105,11 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
+  };
+  
+  const handleImageCropped = () => {
+    setImageOptimized(true);
+    toast.success("Image optimized! Don't forget to save the product.");
   };
 
   return (
@@ -119,6 +127,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
           setQuality={setQuality}
           aspectRatio={aspectRatio}
           setAspectRatio={setAspectRatio}
+          onApplyCrop={handleImageCropped}
         />
 
         <FormFields />
@@ -128,6 +137,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
           isEditing={!!initialData} 
           onCancel={onCancel}
           isValid={form.formState.isValid && (!!selectedFile || !!initialData)}
+          isOptimized={imageOptimized}
         />
       </form>
     </Form>
