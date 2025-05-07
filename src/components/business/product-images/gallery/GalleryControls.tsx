@@ -2,6 +2,7 @@
 import React from 'react';
 import ProductFilters, { SortOption, FilterOption } from './ProductFilters';
 import ViewControls from './ViewControls';
+import AdvancedFilters, { AdvancedFiltersState } from './AdvancedFilters';
 
 interface GalleryControlsProps {
   searchTerm: string;
@@ -14,6 +15,8 @@ interface GalleryControlsProps {
   setLayoutType: (type: 'grid' | 'list') => void;
   selectionMode: boolean;
   toggleSelectionMode: () => void;
+  onApplyAdvancedFilters?: (filters: AdvancedFiltersState) => void;
+  categories: string[];
 }
 
 const GalleryControls: React.FC<GalleryControlsProps> = ({
@@ -26,25 +29,40 @@ const GalleryControls: React.FC<GalleryControlsProps> = ({
   layoutType,
   setLayoutType,
   selectionMode,
-  toggleSelectionMode
+  toggleSelectionMode,
+  onApplyAdvancedFilters,
+  categories = []
 }) => {
   return (
-    <div className="flex flex-col sm:flex-row justify-between gap-4">
-      <ProductFilters
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        filterBy={filterBy}
-        setFilterBy={setFilterBy}
-      />
+    <div className="flex flex-col gap-4">
+      <div className="flex flex-col sm:flex-row justify-between gap-4">
+        <ProductFilters
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          filterBy={filterBy}
+          setFilterBy={setFilterBy}
+        />
+        
+        <ViewControls
+          layoutType={layoutType}
+          setLayoutType={setLayoutType}
+          selectionMode={selectionMode}
+          toggleSelectionMode={toggleSelectionMode}
+        />
+      </div>
       
-      <ViewControls
-        layoutType={layoutType}
-        setLayoutType={setLayoutType}
-        selectionMode={selectionMode}
-        toggleSelectionMode={toggleSelectionMode}
-      />
+      {onApplyAdvancedFilters && (
+        <div className="flex justify-end">
+          <AdvancedFilters 
+            onApplyFilters={onApplyAdvancedFilters}
+            categories={categories}
+            filterBy={filterBy}
+            setFilterBy={setFilterBy}
+          />
+        </div>
+      )}
     </div>
   );
 };

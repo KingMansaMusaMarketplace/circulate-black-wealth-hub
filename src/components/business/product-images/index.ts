@@ -2,10 +2,12 @@
 export { default as ProductImageManager } from './ProductImageManager';
 export { default as ProductImageForm } from './ProductImageForm';
 export { default as ProductGallery } from './ProductGallery';
+export { default as ProductAnalyticsTab } from './ProductAnalyticsTab';
 export { default as ProductCard } from './gallery/ProductCard';
 export { default as ProductDetailDialog } from './gallery/ProductDetailDialog';
 export { default as GalleryPagination } from './gallery/GalleryPagination';
 export { default as ProductFilters } from './gallery/ProductFilters';
+export { default as AdvancedFilters } from './gallery/AdvancedFilters';
 export { default as EmptyState } from './gallery/EmptyState';
 export { default as LoadingState } from './gallery/LoadingState';
 export { default as GalleryLayout } from './gallery/GalleryLayout';
@@ -25,3 +27,8 @@ export { default as SingleUploadTab } from './form/tabs/SingleUploadTab';
 export { default as BatchUploadTab } from './form/tabs/BatchUploadTab';
 export { default as SeoTab } from './form/tabs/SeoTab';
 export { default as AdvancedTab } from './form/tabs/AdvancedTab';
+export { default as ProductAnalytics } from './analytics/ProductAnalytics';
+
+// Export hooks related to product images
+export * from './gallery/useGalleryProducts';
+export * from './gallery/useProductSelection';

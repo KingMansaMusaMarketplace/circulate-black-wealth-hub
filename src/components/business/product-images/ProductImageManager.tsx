@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ImageIcon, ImagePlus } from "lucide-react";
+import { ImageIcon, ImagePlus, BarChart } from "lucide-react";
 import ProductImageForm from './ProductImageForm';
 import ProductGallery from './ProductGallery';
+import ProductAnalyticsTab from './ProductAnalyticsTab';
 import { useProductImages } from '@/hooks/use-product-images';
 import { ProductImageFormValues } from '../business-form/models';
 import { ProductImage } from '@/lib/api/product-api';
@@ -123,7 +124,7 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
       )}
       
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="gallery" className="flex items-center gap-2">
             <ImageIcon size={16} />
             Gallery
@@ -131,6 +132,10 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
           <TabsTrigger value="add" className="flex items-center gap-2">
             <ImagePlus size={16} />
             {selectedProduct ? 'Edit Product' : 'Add New'}
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="flex items-center gap-2">
+            <BarChart size={16} />
+            Analytics
           </TabsTrigger>
         </TabsList>
         
@@ -167,6 +172,13 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
               />
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="analytics" className="mt-6 animate-fade-in">
+          <ProductAnalyticsTab 
+            products={products}
+            loading={loading}
+          />
         </TabsContent>
       </Tabs>
     </div>

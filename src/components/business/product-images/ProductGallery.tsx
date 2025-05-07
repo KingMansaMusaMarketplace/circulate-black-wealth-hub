@@ -11,6 +11,7 @@ import LoadingState from './gallery/LoadingState';
 import EmptyState from './gallery/EmptyState';
 import { useGalleryProducts } from './gallery/useGalleryProducts';
 import { useProductSelection } from './gallery/useProductSelection';
+import { AdvancedFiltersState } from './gallery/AdvancedFilters';
 
 interface ProductGalleryProps {
   products: ProductImage[];
@@ -45,13 +46,16 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
     paginatedProducts,
     totalPages,
     currentPage,
+    safeCurrentPage,
     setCurrentPage,
     searchTerm,
     setSearchTerm,
     sortBy,
     setSortBy,
     filterBy,
-    setFilterBy
+    setFilterBy,
+    categories,
+    handleApplyAdvancedFilters
   } = useGalleryProducts(products, itemsPerPage);
   
   const {
@@ -115,6 +119,11 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
     }
   };
   
+  const handleApplyAdvancedFilters = (filters: AdvancedFiltersState) => {
+    // This function passes the filters up to the useGalleryProducts hook
+    handleApplyAdvancedFilters(filters);
+  };
+  
   if (loading) {
     return <LoadingState />;
   }
@@ -137,6 +146,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
         setLayoutType={setLayoutType}
         selectionMode={selectionMode}
         toggleSelectionMode={toggleSelectionMode}
+        onApplyAdvancedFilters={handleApplyAdvancedFilters}
+        categories={categories}
       />
       
       {/* Bulk Actions */}
@@ -174,7 +185,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           
           {/* Pagination */}
           <GalleryPagination 
-            currentPage={currentPage}
+            currentPage={safeCurrentPage}
             totalPages={totalPages}
             setCurrentPage={setCurrentPage}
           />
