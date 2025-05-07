@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -26,8 +27,8 @@ const HowItWorksPage = () => {
       <Navbar />
       <HeroSection />
       
-      {/* Simple decorative pattern instead of large space */}
-      <div className="bg-gray-50 py-1">
+      {/* Minimal decorative divider */}
+      <div className="bg-gray-50 py-0.5">
         <div className="container-custom">
           <div className="flex justify-center">
             <div className="flex items-center space-x-3">
@@ -54,7 +55,7 @@ const HowItWorksPage = () => {
         <HowItWorksSteps />
         
         {/* Minimal separator */}
-        <div className="py-2 bg-gray-50">
+        <div className="py-0.5 bg-gray-50">
           <div className="container-custom">
             <div className="flex justify-center">
               <div className="h-0.5 w-24 bg-gradient-to-r from-mansagold/20 via-mansagold to-mansagold/20"></div>
@@ -65,7 +66,7 @@ const HowItWorksPage = () => {
         <CirculationVisualization />
         
         {/* Minimal separator */}
-        <div className="py-2 bg-white">
+        <div className="py-0.5 bg-white">
           <div className="container-custom">
             <div className="flex justify-center space-x-2">
               <div className="w-1.5 h-1.5 rounded-full bg-mansablue"></div>
@@ -78,8 +79,8 @@ const HowItWorksPage = () => {
         <BenefitsSection />
         <TestimonialsSection />
         
-        {/* Simple separator instead of large decorative element */}
-        <div className="relative py-2">
+        {/* Minimal separator */}
+        <div className="relative py-0.5">
           <div className="flex justify-center">
             <div className="h-0.5 w-24 bg-gradient-to-r from-mansablue/20 via-mansablue to-mansablue/20"></div>
           </div>
