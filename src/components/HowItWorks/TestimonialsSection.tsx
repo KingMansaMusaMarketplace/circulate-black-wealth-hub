@@ -1,279 +1,180 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Star, ChevronRight, PauseCircle, PlayCircle } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-
-type TestimonialType = 'all' | 'customer' | 'business';
-
-interface Testimonial {
-  name: string;
-  role: string;
-  content: string;
-  rating: number;
-  image: string;
-  type: TestimonialType;
-}
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 const TestimonialsSection = () => {
-  const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [filter, setFilter] = useState<TestimonialType>('all');
-  const [api, setApi] = useState<CarouselApi>();
-  
-  const testimonials: Testimonial[] = [
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, 
+      { threshold: 0.1 }
+    );
+    
+    const section = document.getElementById('testimonials');
+    if (section) observer.observe(section);
+    
+    return () => {
+      if (section) observer.unobserve(section);
+    };
+  }, []);
+
+  // Auto rotate testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  const testimonials = [
     {
-      name: "James Wilson",
-      role: "Customer",
-      content: "I've saved over $200 in my first month using Mansa Musa Marketplace. The app makes it easy to find quality Black-owned businesses in my neighborhood.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
-      type: "customer"
+      quote: "I discovered 10 new Black-owned businesses in my city within a week! Mansa Musa Marketplace makes it so easy to support and save.",
+      author: "Jasmine Williams",
+      title: "Early Beta Tester",
+      image: "/placeholder.svg"
     },
     {
-      name: "Michelle Johnson",
-      role: "Business Owner",
-      content: "Since joining Mansa Musa Marketplace, my customer base has grown by 40%. The platform brings in customers who are genuinely committed to supporting Black businesses.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
-      type: "business"
+      quote: "As a business owner, I gained 25 new customers the first month. Best $50/month I've ever spent.",
+      author: "Marcus Johnson",
+      title: "Business Beta Partner",
+      image: "/placeholder.svg"
     },
     {
-      name: "David Thompson",
-      role: "Customer",
-      content: "The loyalty program is a game-changer. I've earned enough points to get significant discounts at my favorite restaurants and stores.",
-      rating: 4,
-      image: "https://randomuser.me/api/portraits/men/22.jpg",
-      type: "customer"
-    },
-    {
-      name: "Alisha Brown",
-      role: "Business Owner",
-      content: "As a small business owner, visibility is everything. Mansa Musa Marketplace has connected me with customers I wouldn't have reached otherwise.",
-      rating: 5,
-      image: "https://randomuser.me/api/portraits/women/28.jpg",
-      type: "business"
-    },
-    {
-      name: "Marcus Lee",
-      role: "Customer",
-      content: "I appreciate how easy the app makes it to discover Black-owned businesses. It's become my go-to resource when I'm looking for new places to support.",
-      rating: 4,
-      image: "https://randomuser.me/api/portraits/men/53.jpg",
-      type: "customer"
-    },
-    {
-      name: "Keisha Davis",
-      role: "Business Owner",
-      content: "The analytics tools have helped me understand my customers better. I've been able to adjust my offerings based on real data and it's made a huge difference.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YmxhY2slMjB3b21hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-      type: "business"
-    },
-    {
-      name: "Terrell Washington",
-      role: "Customer",
-      content: "The community events organized through the app have been amazing. I've made connections with like-minded individuals all focused on supporting our community.",
-      rating: 5,
-      image: "https://randomuser.me/api/portraits/men/42.jpg",
-      type: "customer"
+      quote: "The loyalty points system keeps me coming back. I'm supporting my community AND saving money.",
+      author: "Tasha Robinson",
+      title: "Marketplace Member",
+      image: "/placeholder.svg"
     }
   ];
 
-  const filteredTestimonials = testimonials.filter(
-    t => filter === 'all' || t.type === filter
-  );
-
-  // Auto-advance carousel
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
-    if (isPlaying && filteredTestimonials.length > 0) {
-      interval = setInterval(() => {
-        setActiveIndex((prevIndex) => 
-          prevIndex === filteredTestimonials.length - 1 ? 0 : prevIndex + 1
-        );
-        api?.scrollNext();
-      }, 5000);
-    }
-    
-    return () => clearInterval(interval);
-  }, [isPlaying, filteredTestimonials.length, api]);
-
-  // Handle testimonial filter change
-  const handleFilterChange = (type: TestimonialType) => {
-    setFilter(type);
-    setActiveIndex(0); // Reset to first testimonial when filter changes
-    api?.scrollTo(0);
-  };
-
-  // Handle carousel change
-  const handleCarouselChange = useCallback((index: number) => {
-    setActiveIndex(index);
-  }, []);
-  
-  useEffect(() => {
-    if (!api) return;
-    
-    const handleSelect = () => {
-      const currentSlide = api.selectedScrollSnap();
-      handleCarouselChange(currentSlide);
-    };
-    
-    api.on("select", handleSelect);
-    
-    return () => {
-      api.off("select", handleSelect);
-    };
-  }, [api, handleCarouselChange]);
-  
   return (
-    <section className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
-      <div className="container-custom px-4 sm:px-6">
-        <div className="text-center mb-8 md:mb-12">
-          <h2 className="heading-lg text-mansablue mb-3 md:mb-4">What Our Community Says</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-sm md:text-base">
-            Real experiences from customers and business owners in our marketplace.
+    <section className="py-20 bg-mansablue relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-20 left-10 w-40 h-40 rounded-full bg-white/5 blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-60 h-60 rounded-full bg-mansagold/10 blur-3xl"></div>
+      </div>
+      
+      <div className="container-custom relative z-10">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="heading-lg text-white mb-4">From Our Community</h2>
+          <p className="text-white/80 max-w-2xl mx-auto">
+            Discover why members and businesses are joining the movement.
           </p>
-          
-          {/* Filter controls */}
-          <div className="flex justify-center gap-3 mt-6">
-            <Button 
-              variant={filter === 'all' ? "default" : "outline"} 
-              size="sm"
-              onClick={() => handleFilterChange('all')}
-              className="transition-all duration-300"
-            >
-              All
-            </Button>
-            <Button 
-              variant={filter === 'customer' ? "default" : "outline"} 
-              size="sm"
-              onClick={() => handleFilterChange('customer')}
-              className="transition-all duration-300"
-            >
-              Customers
-            </Button>
-            <Button 
-              variant={filter === 'business' ? "default" : "outline"} 
-              size="sm"
-              onClick={() => handleFilterChange('business')}
-              className="transition-all duration-300"
-            >
-              Business Owners
-            </Button>
-          </div>
-        </div>
-
-        <div className="relative px-4">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-            setApi={setApi}
+        </motion.div>
+        
+        <div className="max-w-4xl mx-auto">
+          <motion.div 
+            className="grid grid-cols-1"
+            initial={{ opacity: 0 }}
+            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <CarouselContent>
-              {filteredTestimonials.map((testimonial, index) => (
-                <CarouselItem key={index} className={`${isMobile ? 'basis-full' : 'basis-1/3'} pl-4 transition-opacity duration-500 ${activeIndex === index ? 'opacity-100' : 'opacity-60'}`}>
-                  <div className="p-1">
-                    <Card 
-                      className={`border-mansagold/20 hover:shadow-lg transition-all duration-300 h-full ${activeIndex === index ? 'scale-[1.02]' : 'scale-100'}`}
-                    >
-                      <CardContent className={`${isMobile ? 'p-4' : 'p-6'} flex flex-col h-full`}>
-                        <div className="flex items-center mb-3 md:mb-4">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <Star key={i} className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} fill-mansagold text-mansagold`} />
-                          ))}
-                          <span className="ml-2 text-xs text-gray-500">
-                            {testimonial.type === 'customer' ? 'Customer' : 'Business'}
-                          </span>
-                        </div>
-                        <p className={`text-gray-700 mb-4 md:mb-6 italic ${isMobile ? 'text-sm' : 'text-base'} flex-grow`}>
-                          "{testimonial.content}"
-                        </p>
-                        <div className="border-t pt-3 md:pt-4 flex items-center">
-                          <div className="w-10 h-10 rounded-full overflow-hidden mr-3">
-                            <img 
-                              src={testimonial.image} 
-                              alt={`${testimonial.name}'s profile`}
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                            />
-                          </div>
-                          <div>
-                            <p className="font-bold">{testimonial.name}</p>
-                            <p className="text-gray-500 text-xs md:text-sm">{testimonial.role}</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            {!isMobile && (
-              <>
-                <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
-                <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
-              </>
-            )}
-          </Carousel>
-          
-          {isMobile && (
-            <div className="flex justify-center mt-8" aria-hidden="true">
-              <span className="text-mansablue text-sm font-medium">Swipe for more testimonials →</span>
-            </div>
-          )}
-          
-          {/* Autoplay controls and pagination dots */}
-          <div className="flex flex-col items-center mt-6 gap-3">
-            <div className="flex items-center gap-2">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 rounded-full"
-                onClick={() => setIsPlaying(!isPlaying)}
-                aria-label={isPlaying ? "Pause autoplay" : "Play autoplay"}
-              >
-                {isPlaying ? (
-                  <PauseCircle className="h-5 w-5 text-mansablue" />
-                ) : (
-                  <PlayCircle className="h-5 w-5 text-mansablue" />
-                )}
-              </Button>
-              <div className="flex gap-1">
-                {filteredTestimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    className={`block h-2 w-2 rounded-full transition-all duration-300 ${
-                      activeIndex === index 
-                        ? "bg-mansagold w-4" 
-                        : "bg-mansagold opacity-30"
-                    }`}
-                    aria-label={`Go to testimonial ${index + 1}`}
-                    onClick={() => {
-                      handleCarouselChange(index);
-                      api?.scrollTo(index);
-                    }}
-                  />
-                ))}
+            {/* Main testimonial */}
+            <motion.div 
+              className="bg-white rounded-2xl shadow-xl p-8 relative"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+            >
+              {/* Quote icon */}
+              <div className="absolute top-6 left-8 text-mansagold opacity-30">
+                <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.33333 16H4L8 8H12L9.33333 16ZM21.3333 16H16L20 8H24L21.3333 16Z" fill="currentColor"/>
+                  <path d="M9.33333 16V24H16V16H9.33333ZM21.3333 16V24H28V16H21.3333Z" fill="currentColor"/>
+                </svg>
               </div>
-            </div>
-            
-            <Link to="/testimonials" className="inline-flex items-center text-mansablue hover:text-mansablue-dark mt-2 transition-colors">
-              <span className="text-sm font-medium">View all testimonials</span>
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </Link>
-          </div>
+              
+              {/* Testimonial content */}
+              <div className="pt-8">
+                <div className="testimonial-content">
+                  <AnimatedTestimonial 
+                    testimonials={testimonials} 
+                    activeIndex={activeIndex} 
+                  />
+                </div>
+                
+                {/* Dots indicator */}
+                <div className="flex justify-center mt-8 space-x-2">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveIndex(index)}
+                      className={cn(
+                        "w-3 h-3 rounded-full transition-all duration-300",
+                        activeIndex === index 
+                          ? "bg-mansablue" 
+                          : "bg-gray-300 hover:bg-gray-400"
+                      )}
+                      aria-label={`View testimonial ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
+        
+        <motion.div 
+          className="text-center mt-12"
+          initial={{ opacity: 0 }}
+          animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <p className="text-white">
+            Join our community of <span className="font-bold">10,000+ subscribers</span> and discover the benefits yourself.
+          </p>
+        </motion.div>
       </div>
     </section>
+  );
+};
+
+// Component to handle the animated testimonial transitions
+const AnimatedTestimonial = ({ testimonials, activeIndex }) => {
+  return (
+    <div className="relative h-48">
+      {testimonials.map((testimonial, index) => (
+        <motion.div
+          key={index}
+          className="absolute w-full"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ 
+            opacity: activeIndex === index ? 1 : 0,
+            x: activeIndex === index ? 0 : 20,
+            zIndex: activeIndex === index ? 10 : 0 
+          }}
+          transition={{ duration: 0.5 }}
+        >
+          <p className="text-xl text-gray-700 mb-6">{testimonial.quote}</p>
+          <div className="flex items-center">
+            <div className="w-12 h-12 rounded-full bg-mansablue/10 text-mansablue flex items-center justify-center text-lg font-bold">
+              {testimonial.author.charAt(0)}
+            </div>
+            <div className="ml-4">
+              <p className="font-semibold text-gray-900">{testimonial.author}</p>
+              <p className="text-sm text-gray-500">{testimonial.title}</p>
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </div>
   );
 };
 
