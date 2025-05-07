@@ -8,7 +8,7 @@ import { uploadBusinessImage, deleteBusinessImage } from '@/lib/api/storage-api'
 import { saveBusinessProfile, BusinessProfile } from '@/lib/api/business-api';
 
 interface BusinessImageUploadProps {
-  businessId?: string;
+  businessId: string;  // Made this required since it's needed for upload
   ownerId: string;
   logoUrl?: string | null;
   bannerUrl?: string | null;
@@ -30,7 +30,7 @@ const BusinessImageUpload: React.FC<BusinessImageUploadProps> = ({
     type: 'logo' | 'banner'
   ) => {
     const file = event.target.files?.[0];
-    if (!file || !businessId) return;
+    if (!file) return;
 
     const setLoading = type === 'logo' ? setUploadingLogo : setUploadingBanner;
     setLoading(true);
@@ -68,7 +68,7 @@ const BusinessImageUpload: React.FC<BusinessImageUploadProps> = ({
   };
 
   const handleDelete = async (url?: string | null, type: 'logo' | 'banner') => {
-    if (!url || !businessId) return;
+    if (!url) return;
 
     const setLoading = type === 'logo' ? setUploadingLogo : setUploadingBanner;
     setLoading(true);
