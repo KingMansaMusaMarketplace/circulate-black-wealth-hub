@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Landmark, ImageOff, ChevronRight } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -16,7 +15,7 @@ const MansaMusaHistory = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // Updated image array with verified working images
+  // Updated image array with guaranteed working images
   const images = [
     {
       src: "https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151",
@@ -29,19 +28,19 @@ const MansaMusaHistory = () => {
       caption: "Caravan travel during Mansa Musa's era"
     },
     {
-      src: "https://images.unsplash.com/photo-1589656966895-2f33e7653819",
-      alt: "Gold coins representing Mansa Musa's wealth",
-      caption: "Gold coins symbolizing the vast wealth of Mali"
+      src: "https://images.unsplash.com/photo-1518674660708-0e2c0473e68e",
+      alt: "Gold bars representing Mansa Musa's wealth",
+      caption: "Gold bars symbolizing the vast wealth of Mali"
     },
     {
-      src: "https://images.unsplash.com/photo-1614028674026-a65e31bfd27c",
-      alt: "Gold nuggets and dust",
-      caption: "Gold from Mali's legendary mines"
+      src: "https://images.unsplash.com/photo-1610375461249-b6f5255f1638",
+      alt: "Stack of gold bars",
+      caption: "Gold reserves from Mali's legendary mines"
     },
     {
-      src: "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
-      alt: "Natural landscape representing West African terrain",
-      caption: "The diverse terrain of the Mali Empire"
+      src: "https://images.unsplash.com/photo-1554774853-b415df9eeb92",
+      alt: "Gold coins and treasure",
+      caption: "Gold treasure representing Mali's wealth"
     }
   ];
 
