@@ -1,120 +1,178 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { motion } from 'framer-motion';
+import { useAuth } from '@/contexts/AuthContext';
+import { Loader2 } from 'lucide-react';
+
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
+
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const { signIn } = useAuth();
   const navigate = useNavigate();
+  const { signIn } = useAuth();
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-    
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (values: LoginFormValues) => {
+    setIsSubmitting(true);
     try {
-      const { data, error } = await signIn(email, password);
-      
-      if (error) {
-        setError(error.message);
-      } else {
-        navigate('/dashboard');
+      const result = await signIn(values.email, values.password);
+      if (result.error) {
+        throw new Error(result.error.message);
       }
-    } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred');
+      navigate('/dashboard');
+    } catch (error: any) {
+      toast({
+        title: 'Login Failed',
+        description: error.message || 'Please check your credentials and try again',
+        variant: 'destructive',
+      });
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+      },
+    },
   };
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex-grow flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-mansablue">Sign in to your account</CardTitle>
-            <CardDescription>
-              Enter your details to access your Mansa Musa profile
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                  {error}
-                </div>
-              )}
-              
-              <div className="space-y-1">
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email address
-                </label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full"
-                />
-              </div>
-              
-              <div className="space-y-1">
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                    Password
-                  </label>
-                  <div className="text-sm">
-                    <Link to="/reset-password" className="font-medium text-mansablue hover:text-mansablue-dark">
-                      Forgot your password?
-                    </Link>
-                  </div>
-                </div>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full"
-                />
-              </div>
-              
-              <div>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-mansablue hover:bg-mansablue-dark"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Signing in..." : "Sign in"}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-          <CardFooter className="text-center">
-            <p className="text-sm text-gray-600 w-full">
-              Don't have an account?{' '}
-              <Link to="/signup" className="font-medium text-mansablue hover:text-mansablue-dark">
-                Sign up now
-              </Link>
+      <div className="flex-1 flex items-center justify-center px-4 py-12">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="w-full max-w-md"
+        >
+          <motion.div variants={itemVariants} className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-mansablue">Welcome Back</h1>
+            <p className="text-gray-600 mt-2">
+              Sign in to your Mansa Musa Marketplace account
             </p>
-          </CardFooter>
-        </Card>
+          </motion.div>
+
+          <motion.div
+            variants={itemVariants}
+            className="bg-white p-8 rounded-lg shadow-lg border border-gray-100"
+          >
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="••••••••" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex justify-between items-center text-sm">
+                  <Link 
+                    to="/reset-password"
+                    className="text-mansablue hover:text-mansagold transition-colors"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-mansablue hover:bg-mansablue/90"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    'Sign In'
+                  )}
+                </Button>
+
+                <div className="text-center mt-4">
+                  <p className="text-gray-600">
+                    Don't have an account?{' '}
+                    <Link
+                      to="/signup"
+                      className="text-mansablue hover:text-mansagold transition-colors font-medium"
+                    >
+                      Sign up
+                    </Link>
+                  </p>
+                </div>
+              </form>
+            </Form>
+          </motion.div>
+        </motion.div>
       </div>
       <Footer />
     </div>
