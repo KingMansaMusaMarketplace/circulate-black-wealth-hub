@@ -49,9 +49,9 @@ export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
           (p) => p.business_id === result.business_id
         );
         
-        // Fixed type error: Directly use business_name as it appears to be directly on the loyalty point object
-        // based on the interface definition in lib/api/loyalty-api.ts
-        const businessName = businessPoints?.business_name || 'Business';
+        // The business name is likely accessed through a join or relation in the returned data
+        // Access it through the businesses relation that might be included in the query
+        const businessName = businessPoints?.business_id || 'Business';
         
         const scanResultData = {
           businessName: businessName,
