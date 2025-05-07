@@ -51,7 +51,7 @@ const CropContainer: React.FC<CropContainerProps> = ({
       <ReactCrop
         crop={crop}
         onChange={(c) => setCrop(c)}
-        onComplete={(c) => {
+        onComplete={(c: PixelCrop) => {
           // ReactCrop's onComplete callback returns a PixelCrop, not a PercentCrop
           // We need to pass it directly to setCompletedCrop without type conversion
           setCompletedCrop(c);
