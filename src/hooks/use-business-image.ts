@@ -1,114 +1,80 @@
 
 import { useState } from 'react';
-import { toast } from 'sonner';
 import { uploadBusinessImage, deleteBusinessImage } from '@/lib/api/storage-api';
-import { saveBusinessProfile } from '@/lib/api/business-api';
-import { BusinessProfile } from '@/hooks/use-business-profile';
+import { toast } from 'sonner';
 
-type ImageType = 'logo' | 'banner';
-type ImageUpdates = { logo_url?: string, banner_url?: string };
-
-interface UseBusinessImageProps {
+interface BusinessImageHookProps {
   businessId: string;
   ownerId: string;
-  onUpdate: (updates: ImageUpdates) => void;
+  onUpdate: (updates: { logo_url?: string, banner_url?: string }) => void;
 }
 
-export const useBusinessImage = ({ businessId, ownerId, onUpdate }: UseBusinessImageProps) => {
+export const useBusinessImage = ({ businessId, ownerId, onUpdate }: BusinessImageHookProps) => {
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [uploadingBanner, setUploadingBanner] = useState(false);
 
-  const getLoadingState = (type: ImageType) => {
-    return type === 'logo' ? uploadingLogo : uploadingBanner;
-  };
+  // Handle file upload (logo or banner)
+  const handleFileUpload = async (file: File, type: 'logo' | 'banner') => {
+    if (!businessId) {
+      toast.error("Please save business details first");
+      return;
+    }
 
-  const setLoadingState = (type: ImageType, state: boolean) => {
-    type === 'logo' ? setUploadingLogo(state) : setUploadingBanner(state);
-  };
-
-  const handleFileUpload = async (
-    file: File | undefined,
-    type: ImageType
-  ) => {
-    if (!file) return;
-
-    setLoadingState(type, true);
+    // Set the appropriate loading state
+    if (type === 'logo') {
+      setUploadingLogo(true);
+    } else {
+      setUploadingBanner(true);
+    }
 
     try {
       const result = await uploadBusinessImage(file, businessId, type);
-      
-      if ('url' in result) {
-        // Save the URL to the business profile
-        const updates = type === 'logo' 
-          ? { logo_url: result.url } 
-          : { banner_url: result.url };
-        
-        // Update business profile with new image URL
-        await saveBusinessProfile({
-          id: businessId,
-          owner_id: ownerId,
-          business_name: 'Temporary Name', // Required fields that will be overwritten
-          description: 'Temporary Description', // on the backend since we're only updating specific fields
-          category: 'Temporary Category',
-          address: 'Temporary Address',
-          city: 'Temporary City',
-          state: 'Temporary State',
-          zip_code: 'Temporary Zip',
-          phone: 'Temporary Phone',
-          email: 'temporary@email.com',
-          ...updates
-        } as BusinessProfile);
-        
-        // Notify parent component of the update
-        onUpdate(updates);
-        
-        toast.success(`Business ${type} uploaded successfully!`);
-      } else {
-        toast.error(result.error);
+
+      if ('error' in result) {
+        throw new Error(result.error);
       }
+
+      // Update the business record with the new image URL
+      const updates = type === 'logo'
+        ? { logo_url: result.url }
+        : { banner_url: result.url };
+
+      onUpdate(updates);
+      toast.success(`${type === 'logo' ? 'Logo' : 'Banner'} uploaded successfully`);
     } catch (error: any) {
+      console.error(`Error uploading ${type}:`, error);
       toast.error(`Failed to upload ${type}: ${error.message}`);
     } finally {
-      setLoadingState(type, false);
+      // Clear the loading state
+      if (type === 'logo') {
+        setUploadingLogo(false);
+      } else {
+        setUploadingBanner(false);
+      }
     }
   };
 
-  const handleDelete = async (type: ImageType, url?: string | null) => {
+  // Handle image deletion
+  const handleDelete = async (type: 'logo' | 'banner', url?: string | null) => {
     if (!url) return;
 
-    setLoadingState(type, true);
-
     try {
-      await deleteBusinessImage(url);
+      const result = await deleteBusinessImage(url);
       
-      // Update business profile to remove the image URL
-      const updates = type === 'logo' 
-        ? { logo_url: null } 
+      if (!result.success) {
+        throw new Error(result.error);
+      }
+
+      // Update the business record to clear the image URL
+      const updates = type === 'logo'
+        ? { logo_url: null }
         : { banner_url: null };
-      
-      await saveBusinessProfile({
-        id: businessId,
-        owner_id: ownerId,
-        business_name: 'Temporary Name', // Required fields that will be overwritten
-        description: 'Temporary Description', // on the backend since we're only updating specific fields
-        category: 'Temporary Category',
-        address: 'Temporary Address',
-        city: 'Temporary City',
-        state: 'Temporary State',
-        zip_code: 'Temporary Zip',
-        phone: 'Temporary Phone',
-        email: 'temporary@email.com',
-        ...updates
-      } as BusinessProfile);
-      
-      // Notify parent component of the update
+
       onUpdate(updates);
-      
-      toast.success(`Business ${type} removed successfully!`);
+      toast.success(`${type === 'logo' ? 'Logo' : 'Banner'} removed successfully`);
     } catch (error: any) {
-      toast.error(`Failed to delete ${type}: ${error.message}`);
-    } finally {
-      setLoadingState(type, false);
+      console.error(`Error removing ${type}:`, error);
+      toast.error(`Failed to remove ${type}: ${error.message}`);
     }
   };
 
@@ -116,7 +82,6 @@ export const useBusinessImage = ({ businessId, ownerId, onUpdate }: UseBusinessI
     uploadingLogo,
     uploadingBanner,
     handleFileUpload,
-    handleDelete,
-    getLoadingState
+    handleDelete
   };
 };

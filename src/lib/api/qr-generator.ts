@@ -2,91 +2,87 @@
 import QRCode from 'qrcode';
 import { v4 as uuidv4 } from 'uuid';
 
-interface QRCodeData {
-  businessId: string;
-  type: 'discount' | 'loyalty' | 'info';
-  discount?: number;
-  points?: number;
-  id?: string;
-}
-
-// Creates a URL for the QR code image
+// Create a business QR code URL that can be stored in the database
 export const createBusinessQrCodeUrl = async (
   businessId: string,
-  type: 'discount' | 'loyalty' | 'info',
-  data: {
-    discount?: number;
-    points?: number;
-  }
+  codeType: 'discount' | 'loyalty' | 'info',
+  data: { discount?: number; points?: number }
 ): Promise<string> => {
   try {
-    // Create unique ID for this QR code if not provided
+    // Create a unique ID for this QR code
     const qrId = uuidv4();
     
-    // Build data object for QR code
-    const qrData: QRCodeData = {
+    // Create a data object that will be encoded in the QR
+    const qrData = {
       id: qrId,
       businessId,
-      type,
-      ...data
+      type: codeType,
+      data,
+      timestamp: Date.now()
     };
     
-    // Convert to string for encoding in QR
-    const dataString = JSON.stringify(qrData);
+    // Convert to JSON string
+    const jsonData = JSON.stringify(qrData);
     
     // Generate QR code as data URL
-    const qrCodeDataUrl = await QRCode.toDataURL(dataString, {
+    const qrImageUrl = await QRCode.toDataURL(jsonData, {
       errorCorrectionLevel: 'H',
       margin: 1,
-      width: 300,
       color: {
         dark: '#000000',
         light: '#ffffff'
       }
     });
     
-    return qrCodeDataUrl;
+    return qrImageUrl;
   } catch (error) {
     console.error('Error generating QR code:', error);
-    throw error;
+    throw new Error('Failed to generate QR code');
   }
 };
 
-// Parse QR code data from scan
-export const parseQrCodeData = (qrData: string): QRCodeData | null => {
-  try {
-    return JSON.parse(qrData) as QRCodeData;
-  } catch (error) {
-    console.error('Error parsing QR code data:', error);
-    return null;
-  }
-};
-
-// Generate a demo QR code for testing without backend
-export const generateDemoQRCode = async (
-  type: 'loyalty' | 'discount' | 'info' = 'loyalty',
-  businessName: string = 'Demo Business'
+// Generate a custom QR code with specific settings
+export const generateCustomQrCode = async (
+  data: string,
+  options: {
+    color?: string;
+    backgroundColor?: string;
+    logo?: string;
+    size?: number;
+  } = {}
 ): Promise<string> => {
-  const demoData = {
-    businessId: uuidv4(),
-    type,
-    businessName,
-    discount: type === 'discount' ? 10 : undefined,
-    points: type === 'loyalty' ? 15 : undefined,
-    id: uuidv4()
-  };
-  
   try {
-    const dataString = JSON.stringify(demoData);
-    const qrCodeDataUrl = await QRCode.toDataURL(dataString, {
+    // Set default options
+    const qrOptions = {
       errorCorrectionLevel: 'H',
       margin: 1,
-      width: 300
-    });
+      width: options.size || 300,
+      color: {
+        dark: options.color || '#000000',
+        light: options.backgroundColor || '#ffffff'
+      }
+    };
     
-    return qrCodeDataUrl;
+    // Generate QR code as data URL
+    const qrImageUrl = await QRCode.toDataURL(data, qrOptions);
+    
+    // If a logo is provided, we would add it on top of the QR code
+    // This would require canvas manipulation which is more complex
+    // For now, just return the basic QR code
+    
+    return qrImageUrl;
   } catch (error) {
-    console.error('Error generating demo QR code:', error);
-    throw error;
+    console.error('Error generating custom QR code:', error);
+    throw new Error('Failed to generate custom QR code');
+  }
+};
+
+// Parse a QR code data string
+export const parseQrCodeData = (qrCodeData: string): any => {
+  try {
+    return JSON.parse(qrCodeData);
+  } catch (error) {
+    console.error('Error parsing QR code data:', error);
+    throw new Error('Invalid QR code format');
   }
 };
