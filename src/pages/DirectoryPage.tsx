@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -212,9 +211,9 @@ const DirectoryPage = () => {
   });
 
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <main className="container-custom py-8">
+      <main className="flex-grow container-custom py-8">
         <div className="mb-10">
           <h1 className="heading-lg text-mansablue mb-4">Business Directory</h1>
           <p className="text-gray-600 max-w-2xl">
