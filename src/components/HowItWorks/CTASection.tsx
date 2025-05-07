@@ -160,7 +160,7 @@ const CTASection = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Link to="/directory">
-                <Button variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg">
+                <Button variant="outline" className="border-mansagold bg-mansagold/20 text-mansagold hover:bg-mansagold/30 px-8 py-6 text-lg">
                   Browse Directory
                 </Button>
               </Link>
