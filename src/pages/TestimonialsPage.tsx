@@ -63,13 +63,14 @@ const TestimonialsPage = () => {
           <div className="container-custom">
             <div className="relative max-w-3xl mx-auto">
               <AnimatedTestimonial 
-                testimonial={testimonials[activeIndex]} 
+                testimonials={testimonials} 
+                activeIndex={activeIndex}
                 key={`testimonial-${activeIndex}`} 
               />
               
               <TestimonialNavigation 
-                onPrevious={handlePrevious} 
-                onNext={handleNext} 
+                handlePrevious={handlePrevious} 
+                handleNext={handleNext} 
               />
             </div>
             
@@ -92,11 +93,11 @@ const TestimonialsPage = () => {
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 rounded-full bg-mansablue/20 flex items-center justify-center mr-4">
-                        <span className="text-mansablue font-bold">{testimonial.name.charAt(0)}</span>
+                        <span className="text-mansablue font-bold">{testimonial.author.charAt(0)}</span>
                       </div>
                       <div>
-                        <h3 className="font-bold text-lg">{testimonial.name}</h3>
-                        <p className="text-sm text-gray-500">{testimonial.role}</p>
+                        <h3 className="font-bold text-lg">{testimonial.author}</h3>
+                        <p className="text-sm text-gray-500">{testimonial.title}</p>
                       </div>
                     </div>
                     <p className="text-gray-700">"{testimonial.quote.substring(0, 120)}..."</p>
