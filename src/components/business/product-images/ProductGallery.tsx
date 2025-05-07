@@ -119,10 +119,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
     }
   };
   
-  const handleApplyAdvancedFilters = (filters: AdvancedFiltersState) => {
-    // This function passes the filters up to the useGalleryProducts hook
-    handleApplyAdvancedFilters(filters);
-  };
+  // Removed the duplicate handleApplyAdvancedFilters function
+  // Now using the one from useGalleryProducts hook directly
   
   if (loading) {
     return <LoadingState />;
