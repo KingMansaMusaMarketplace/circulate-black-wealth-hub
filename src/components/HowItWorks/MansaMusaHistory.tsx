@@ -16,23 +16,34 @@ const MansaMusaHistory = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // Updated image array with more reliable image sources
   const images = [
     {
-      src: "https://images.unsplash.com/photo-1576019097357-3091482c58dc",
-      alt: "Historical artifact representing Mali's trading history",
-      caption: "Artifacts from Mali's golden age"
+      src: "https://images.unsplash.com/photo-1482881497185-d4a9ddbe4151",
+      alt: "Desert landscape representing the Sahara routes of Mali",
+      caption: "The Sahara desert routes traveled by Mansa Musa"
     },
     {
-      src: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21",
-      alt: "Historical representation - Mali Empire era",
-      caption: "Representation of Mali's rich history"
+      src: "https://images.unsplash.com/photo-1469041797191-50ace28483c3",
+      alt: "Camels crossing desert landscape",
+      caption: "Caravan travel during Mansa Musa's era"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1426604966848-d7adac402bff",
+      alt: "Natural landscape representing West African terrain",
+      caption: "The diverse terrain of the Mali Empire"
     }
   ];
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(1);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [hasImageLoadError, setHasImageLoadError] = useState(false);
 
   const changeImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    if (images.length > 0) {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+      // Reset the error state when changing images
+      setHasImageLoadError(false);
+    }
   };
 
   useEffect(() => {
@@ -41,6 +52,16 @@ const MansaMusaHistory = () => {
   }, []);
 
   const currentImage = images[currentImageIndex];
+
+  const handleImageError = () => {
+    setHasImageLoadError(true);
+    // Try the next image after a short delay
+    setTimeout(() => {
+      if (currentImageIndex < images.length - 1) {
+        setCurrentImageIndex(currentImageIndex + 1);
+      }
+    }, 500);
+  };
 
   return (
     <section className="py-20 bg-[#121212] relative overflow-hidden">
@@ -72,11 +93,11 @@ const MansaMusaHistory = () => {
               <div className="space-y-4">
                 <div className="flex flex-col md:flex-row gap-6 mb-6 items-center">
                   <div className="md:w-1/3 relative group">
-                    {imageError ? (
+                    {hasImageLoadError ? (
                       <div className="rounded-lg bg-gray-800 h-64 w-full flex items-center justify-center">
                         <div className="text-center p-4">
                           <ImageOff className="h-12 w-12 mx-auto text-gray-400 mb-2" />
-                          <p className="text-sm text-gray-400">Image of Mansa Musa unavailable</p>
+                          <p className="text-sm text-gray-400">Image temporarily unavailable</p>
                         </div>
                       </div>
                     ) : (
@@ -85,14 +106,16 @@ const MansaMusaHistory = () => {
                           src={currentImage.src}
                           alt={currentImage.alt}
                           className="rounded-lg w-full h-64 object-cover transform hover:scale-105 transition-transform duration-500"
-                          onError={() => setImageError(true)}
+                          onError={handleImageError}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                           <p className="text-white p-3 text-sm">{currentImage.caption}</p>
                         </div>
                       </div>
                     )}
-                    <p className="text-xs text-gray-400 mt-2 italic text-center">{currentImage.caption}</p>
+                    {!hasImageLoadError && (
+                      <p className="text-xs text-gray-400 mt-2 italic text-center">{currentImage.caption}</p>
+                    )}
                   </div>
                   <div className="md:w-2/3">
                     <p className="mb-4 text-gray-200">
