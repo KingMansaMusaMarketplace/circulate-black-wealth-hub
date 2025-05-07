@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Eye, EyeOff } from 'lucide-react';
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -21,10 +21,12 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
+  rememberMe: z.boolean().optional(),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -34,18 +36,27 @@ const LoginPage = () => {
   const { signIn } = useAuth();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: '',
       password: '',
+      rememberMe: false,
     },
   });
 
   const onSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
     try {
+      // Save email to localStorage if rememberMe is checked
+      if (values.rememberMe) {
+        localStorage.setItem('rememberedEmail', values.email);
+      } else {
+        localStorage.removeItem('rememberedEmail');
+      }
+      
       const result = await signIn(values.email, values.password);
       if (result.error) {
         throw new Error(result.error.message);
@@ -61,6 +72,15 @@ const LoginPage = () => {
       setIsSubmitting(false);
     }
   };
+
+  // Load remembered email on component mount
+  React.useEffect(() => {
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    if (rememberedEmail) {
+      form.setValue('email', rememberedEmail);
+      form.setValue('rememberMe', true);
+    }
+  }, [form]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -81,6 +101,10 @@ const LoginPage = () => {
         duration: 0.5,
       },
     },
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -126,18 +150,54 @@ const LoginPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} />
-                      </FormControl>
+                      <div className="relative">
+                        <FormControl>
+                          <Input 
+                            type={showPassword ? "text" : "password"} 
+                            placeholder="••••••••" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <button
+                          type="button"
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                          onClick={togglePasswordVisibility}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
 
-                <div className="flex justify-between items-center text-sm">
+                <div className="flex items-center justify-between">
+                  <FormField
+                    control={form.control}
+                    name="rememberMe"
+                    render={({ field }) => (
+                      <div className="flex items-center space-x-2">
+                        <Checkbox 
+                          id="rememberMe" 
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                        <label 
+                          htmlFor="rememberMe" 
+                          className="text-sm text-gray-600 cursor-pointer"
+                        >
+                          Remember me
+                        </label>
+                      </div>
+                    )}
+                  />
                   <Link 
                     to="/reset-password"
-                    className="text-mansablue hover:text-mansagold transition-colors"
+                    className="text-sm text-mansablue hover:text-mansagold transition-colors"
                   >
                     Forgot password?
                   </Link>
