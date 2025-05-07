@@ -55,19 +55,8 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ onSubmit, isUploadi
     fileInputRef.current?.click();
   };
 
-  // Set up the onChange handler for the hidden file input
-  React.useEffect(() => {
-    if (fileInputRef.current) {
-      fileInputRef.current.onchange = handleFileChange;
-    }
-    
-    return () => {
-      if (fileInputRef.current) {
-        fileInputRef.current.onchange = null;
-      }
-    };
-  }, []);
-
+  // Instead of directly assigning the onchange handler in useEffect,
+  // we'll handle it through the ImageUploadPreview component prop
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -78,6 +67,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({ onSubmit, isUploadi
           onUploadClick={handleUploadClick}
           fileInputRef={fileInputRef}
           formError={form.formState.errors.root?.message}
+          onFileChange={handleFileChange}
         />
 
         <FormFields />

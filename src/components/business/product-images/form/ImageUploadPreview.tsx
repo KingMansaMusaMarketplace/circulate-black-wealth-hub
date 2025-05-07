@@ -8,13 +8,15 @@ interface ImageUploadPreviewProps {
   onUploadClick: () => void;
   fileInputRef: React.RefObject<HTMLInputElement>;
   formError?: string;
+  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
   previewUrl,
   onUploadClick,
   fileInputRef,
-  formError
+  formError,
+  onFileChange
 }) => {
   return (
     <div className="border rounded-lg p-4">
@@ -55,9 +57,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
       <input 
         type="file" 
         ref={fileInputRef}
-        onChange={(e) => {
-          // This is handled in the parent component
-        }} 
+        onChange={onFileChange}
         className="hidden" 
         accept="image/*" 
       />
