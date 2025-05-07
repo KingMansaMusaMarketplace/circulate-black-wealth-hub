@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Landmark } from 'lucide-react';
 
@@ -23,14 +24,9 @@ const MansaMusaHistory = () => {
                 <div className="flex flex-col md:flex-row gap-6 mb-6 items-center">
                   <div className="md:w-1/3">
                     <img 
-                      src="/mansa-musa-catalan-atlas.jpg" 
+                      src="https://cdn.britannica.com/55/190955-050-E617F64E/Mansa-Musa-Catalan-Atlas-detail-1375.jpg" 
                       alt="Historical depiction of Mansa Musa" 
                       className="rounded-lg shadow-md w-full h-auto"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = "https://cdn.britannica.com/55/190955-050-E617F64E/Mansa-Musa-Catalan-Atlas-detail-1375.jpg";
-                        target.onerror = null; // Prevent infinite fallback loop
-                      }}
                     />
                     <p className="text-xs text-gray-400 mt-2 italic text-center">Historical depiction of Mansa Musa</p>
                   </div>
