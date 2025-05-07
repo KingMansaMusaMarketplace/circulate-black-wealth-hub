@@ -20,6 +20,8 @@ export interface BusinessProfile {
   is_verified?: boolean;
   created_at?: string;
   updated_at?: string;
+  qr_code_id?: string;
+  qr_code_url?: string;
 }
 
 // Fetch business profile for a specific owner
