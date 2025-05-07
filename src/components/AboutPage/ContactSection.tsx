@@ -129,12 +129,12 @@ const ContactSection = () => {
                           }`}>
                             <item.icon className="h-5 w-5" />
                           </div>
-                          <div className="flex-1 min-w-0">
+                          <div className="flex-1 min-w-0 overflow-hidden">
                             <h4 className="font-medium">{item.title}</h4>
                             {item.link ? (
                               <a 
                                 href={item.link} 
-                                className={`${activeContact === item.id ? "text-white/80" : "text-mansablue hover:text-mansagold transition-colors"} break-words truncate`}
+                                className={`${activeContact === item.id ? "text-white/80" : "text-mansablue hover:text-mansagold transition-colors"} block truncate`}
                               >
                                 {item.value}
                               </a>
@@ -151,7 +151,7 @@ const ContactSection = () => {
                         {item.link && (
                           <a 
                             href={item.link} 
-                            className="text-mansablue hover:text-mansagold transition-colors text-sm block mt-2"
+                            className="text-mansablue hover:text-mansagold transition-colors text-sm block mt-2 break-all"
                           >
                             {item.value}
                           </a>
