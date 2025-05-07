@@ -1,0 +1,52 @@
+
+import * as z from "zod";
+
+// Form validation schema
+export const businessFormSchema = z.object({
+  businessName: z.string().min(2, {
+    message: "Business name must be at least 2 characters.",
+  }),
+  description: z.string().min(10, {
+    message: "Description must be at least 10 characters.",
+  }),
+  category: z.string().min(2, {
+    message: "Category must be at least 2 characters.",
+  }),
+  address: z.string().min(5, {
+    message: "Address must be at least 5 characters.",
+  }),
+  city: z.string().min(2, {
+    message: "City must be at least 2 characters.",
+  }),
+  state: z.string().min(2, {
+    message: "State must be at least 2 characters.",
+  }),
+  zipCode: z.string().min(5, {
+    message: "Zip code must be at least 5 characters.",
+  }),
+  phone: z.string().min(10, {
+    message: "Phone number must be at least 10 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  website: z.string().url({
+    message: "Please enter a valid URL.",
+  }).optional().or(z.literal('')),
+});
+
+export type BusinessFormValues = z.infer<typeof businessFormSchema>;
+
+// Default form values
+export const defaultFormValues: BusinessFormValues = {
+  businessName: "",
+  description: "",
+  category: "",
+  address: "",
+  city: "",
+  state: "",
+  zipCode: "",
+  phone: "",
+  email: "",
+  website: "",
+};
