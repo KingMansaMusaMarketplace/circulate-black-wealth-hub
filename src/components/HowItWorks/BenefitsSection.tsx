@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 const BenefitsSection = () => {
   const [activeTab, setActiveTab] = useState<'customers' | 'businesses'>('customers');
@@ -221,15 +221,17 @@ const BenefitsSection = () => {
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <motion.div 
-            className="inline-block rounded-lg bg-gradient-to-r from-mansablue to-mansablue-light p-1"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <button className="bg-white text-mansablue font-medium py-2 px-8 rounded-md hover:bg-transparent hover:text-white transition-all">
-              Join Now
-            </button>
-          </motion.div>
+          <Link to="/signup">
+            <motion.div 
+              className="inline-block rounded-lg bg-gradient-to-r from-mansablue to-mansablue-light p-1"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <button className="bg-white text-mansablue font-medium py-2 px-8 rounded-md hover:bg-transparent hover:text-white transition-all">
+                Join Now
+              </button>
+            </motion.div>
+          </Link>
         </motion.div>
       </div>
     </section>
