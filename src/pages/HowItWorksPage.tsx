@@ -7,6 +7,7 @@ import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
 import BenefitsSection from '@/components/HowItWorks/BenefitsSection';
 import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
+import TestimonialsSection from '@/components/HowItWorks/TestimonialsSection';
 import CTASection from '@/components/HowItWorks/CTASection';
 
 const HowItWorksPage = () => {
@@ -18,6 +19,7 @@ const HowItWorksPage = () => {
         <HowItWorksSteps />
         <BenefitsSection />
         <MansaMusaHistory />
+        <TestimonialsSection />
         <FAQSection />
         <CTASection />
       </main>
