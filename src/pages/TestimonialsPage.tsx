@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -26,7 +25,7 @@ const TestimonialsPage = () => {
       role: "Customer",
       content: "I've saved over $200 in my first month using Mansa Musa Marketplace. The app makes it easy to find quality Black-owned businesses in my neighborhood.",
       rating: 5,
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
       type: "customer"
     },
     {
@@ -34,7 +33,7 @@ const TestimonialsPage = () => {
       role: "Business Owner",
       content: "Since joining Mansa Musa Marketplace, my customer base has grown by 40%. The platform brings in customers who are genuinely committed to supporting Black businesses.",
       rating: 5,
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
       type: "business"
     },
     {
@@ -66,7 +65,7 @@ const TestimonialsPage = () => {
       role: "Business Owner",
       content: "The analytics tools have helped me understand my customers better. I've been able to adjust my offerings based on real data and it's made a huge difference.",
       rating: 5,
-      image: "https://randomuser.me/api/portraits/women/65.jpg",
+      image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YmxhY2slMjB3b21hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
       type: "business"
     },
     {
