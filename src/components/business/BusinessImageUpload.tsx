@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -67,7 +66,7 @@ const BusinessImageUpload: React.FC<BusinessImageUploadProps> = ({
     }
   };
 
-  const handleDelete = async (url?: string | null, type: 'logo' | 'banner') => {
+  const handleDelete = async (type: 'logo' | 'banner', url?: string | null) => {
     if (!url) return;
 
     const setLoading = type === 'logo' ? setUploadingLogo : setUploadingBanner;
@@ -143,7 +142,7 @@ const BusinessImageUpload: React.FC<BusinessImageUploadProps> = ({
                   
                   <Button
                     variant="destructive"
-                    onClick={() => handleDelete(logoUrl, 'logo')}
+                    onClick={() => handleDelete('logo', logoUrl)}
                     disabled={uploadingLogo}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -228,7 +227,7 @@ const BusinessImageUpload: React.FC<BusinessImageUploadProps> = ({
                   
                   <Button
                     variant="destructive"
-                    onClick={() => handleDelete(bannerUrl, 'banner')}
+                    onClick={() => handleDelete('banner', bannerUrl)}
                     disabled={uploadingBanner}
                   >
                     <Trash2 className="h-4 w-4" />
