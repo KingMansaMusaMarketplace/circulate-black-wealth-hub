@@ -26,7 +26,12 @@ const MansaMusaHistory = () => {
                     <img 
                       src="/lovable-uploads/4a17f10b-e405-454e-bb76-c891478f42f6.png"
                       alt="Historical depiction of Mansa Musa"
-                      className="rounded-lg shadow-md w-full h-auto"
+                      className="rounded-lg shadow-md w-full h-auto object-cover"
+                      onError={(e) => {
+                        // Fallback to placeholder if image fails to load
+                        e.currentTarget.src = "https://via.placeholder.com/300x400?text=Mansa+Musa";
+                        console.error("Image failed to load, using fallback");
+                      }}
                     />
                     <p className="text-xs text-gray-400 mt-2 italic text-center">Historical depiction of Mansa Musa</p>
                   </div>
