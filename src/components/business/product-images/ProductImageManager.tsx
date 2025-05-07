@@ -8,6 +8,7 @@ import ProductGallery from './ProductGallery';
 import { useProductImages } from '@/hooks/use-product-images';
 import { ProductImageFormValues } from '../business-form/models';
 import { ProductImage } from '@/lib/api/product-api';
+import { toast } from 'sonner';
 
 interface ProductImageManagerProps {
   businessId: string;
@@ -16,6 +17,7 @@ interface ProductImageManagerProps {
 const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId }) => {
   const [activeTab, setActiveTab] = useState('gallery');
   const [selectedProduct, setSelectedProduct] = useState<ProductImage | null>(null);
+  const [bulkProcessing, setBulkProcessing] = useState(false);
   
   const { 
     products,
@@ -24,7 +26,9 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
     loadProducts,
     addProduct,
     deleteProduct,
-    toggleProductActive 
+    toggleProductActive,
+    bulkDeleteProducts,
+    bulkToggleActive
   } = useProductImages(businessId);
 
   useEffect(() => {
@@ -37,6 +41,7 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
     const result = await addProduct(file, values);
     if (result) {
       setActiveTab('gallery');
+      setSelectedProduct(null);
     }
   };
 
@@ -51,7 +56,28 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
   const handleEditProduct = (product: ProductImage) => {
     setSelectedProduct(product);
     setActiveTab('add');
-    // Logic for editing would go here
+  };
+  
+  const handleBulkDelete = async (ids: string[]) => {
+    setBulkProcessing(true);
+    try {
+      await bulkDeleteProducts(ids);
+    } catch (error) {
+      toast.error("Failed to delete products");
+    } finally {
+      setBulkProcessing(false);
+    }
+  };
+  
+  const handleBulkToggleActive = async (ids: string[], isActive: boolean) => {
+    setBulkProcessing(true);
+    try {
+      await bulkToggleActive(ids, isActive);
+    } catch (error) {
+      toast.error("Failed to update products");
+    } finally {
+      setBulkProcessing(false);
+    }
   };
 
   return (
@@ -79,6 +105,8 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
                 onDelete={handleDeleteProduct}
                 onToggleActive={handleToggleActive}
                 onEdit={handleEditProduct}
+                onBulkDelete={handleBulkDelete}
+                onBulkToggleActive={handleBulkToggleActive}
               />
             </CardContent>
           </Card>
@@ -91,6 +119,10 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
                 onSubmit={handleAddProduct}
                 isUploading={uploading}
                 initialData={selectedProduct}
+                onCancel={() => {
+                  setSelectedProduct(null);
+                  setActiveTab('gallery');
+                }}
               />
             </CardContent>
           </Card>

@@ -18,6 +18,10 @@ interface CropContainerProps {
   onCancel: () => void;
   onApply: () => void;
   imgRef: React.RefObject<HTMLImageElement>;
+  quality?: number;
+  setQuality?: (quality: number) => void;
+  aspectRatio?: number;
+  setAspectRatio?: (ratio: number) => void;
 }
 
 const CropContainer: React.FC<CropContainerProps> = ({
@@ -31,7 +35,11 @@ const CropContainer: React.FC<CropContainerProps> = ({
   setRotation,
   onCancel,
   onApply,
-  imgRef
+  imgRef,
+  quality = 92,
+  setQuality,
+  aspectRatio = 16/9,
+  setAspectRatio
 }) => {
   // For setting initial crop size on image load
   const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -42,7 +50,7 @@ const CropContainer: React.FC<CropContainerProps> = ({
           unit: '%',
           width: 90,
         },
-        16 / 9,
+        aspectRatio,
         width,
         height
       ),
@@ -113,7 +121,7 @@ const CropContainer: React.FC<CropContainerProps> = ({
           };
           setCompletedCrop(pixelCrop);
         }}
-        aspect={16 / 9}
+        aspect={aspectRatio}
         className="max-h-[400px] transition-transform"
       >
         <img 
@@ -137,6 +145,10 @@ const CropContainer: React.FC<CropContainerProps> = ({
         onRotateRight={rotateRight}
         onCancel={onCancel}
         onApply={onApply}
+        quality={quality}
+        setQuality={setQuality}
+        aspectRatio={aspectRatio}
+        setAspectRatio={setAspectRatio}
       />
     </div>
   );

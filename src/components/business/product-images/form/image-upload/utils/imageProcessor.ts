@@ -1,97 +1,128 @@
 
-// Apply the crop and return a data URL
-export const applyCropToImage = (
+interface ImageOptions {
+  maxWidth?: number;
+  maxHeight?: number;
+  quality?: number;
+  mimeType?: string;
+}
+
+export function canvasPreview(
   image: HTMLImageElement,
+  canvas: HTMLCanvasElement,
   crop: { x: number; y: number; width: number; height: number },
   scale = 1,
-  rotation = 0
-): string | null => {
-  if (!image || !crop) return null;
-
-  const canvas = document.createElement('canvas');
+  rotate = 0,
+  options: ImageOptions = {}
+): Promise<void> {
   const ctx = canvas.getContext('2d');
 
   if (!ctx) {
-    return null;
+    throw new Error('No 2d context');
   }
 
-  // Set proper canvas dimensions for the cropped image
-  canvas.width = crop.width;
-  canvas.height = crop.height;
+  const scaleX = image.naturalWidth / image.width;
+  const scaleY = image.naturalHeight / image.height;
 
-  // Save the current context state
+  // devicePixelRatio slightly increases sharpness on retina displays
+  // at the expense of slightly more memory usage.
+  const pixelRatio = window.devicePixelRatio || 1;
+
+  // Base canvas width/height (before rotation)
+  canvas.width = Math.floor(crop.width * scaleX * pixelRatio);
+  canvas.height = Math.floor(crop.height * scaleY * pixelRatio);
+
+  // Apply maximum dimensions if provided
+  if (options.maxWidth && canvas.width > options.maxWidth) {
+    const ratio = options.maxWidth / canvas.width;
+    canvas.width = options.maxWidth;
+    canvas.height *= ratio;
+  }
+  if (options.maxHeight && canvas.height > options.maxHeight) {
+    const ratio = options.maxHeight / canvas.height;
+    canvas.height = options.maxHeight;
+    canvas.width *= ratio;
+  }
+
+  // Set canvas CSS width/height to the original dimensions
+  canvas.style.width = `${crop.width}px`;
+  canvas.style.height = `${crop.height}px`;
+
+  // Set render context to use desired quality and pixel density
+  ctx.scale(pixelRatio, pixelRatio);
+  ctx.imageSmoothingQuality = 'high';
+  ctx.imageSmoothingEnabled = true;
+
+  // Translate canvas context to center point, scale, rotate, and translate back
+  const centerX = canvas.width / 2 / pixelRatio;
+  const centerY = canvas.height / 2 / pixelRatio;
+
   ctx.save();
-  
-  // Clear the canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  // Draw the image with crop, scale, and rotation
-  // When we have rotation, we need to handle it differently
-  if (rotation !== 0) {
-    // For rotation, we need to adjust the canvas size to fit the rotated image
-    const radians = (Math.PI / 180) * rotation;
-    
-    // Translate to center of canvas
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    
-    // Rotate canvas
-    ctx.rotate(radians);
-    
-    // Scale the image
-    ctx.scale(scale, scale);
-    
-    // Draw the image at the center with crop offset
-    ctx.drawImage(
-      image,
-      crop.x / scale,
-      crop.y / scale,
-      crop.width / scale,
-      crop.height / scale,
-      -crop.width / (2 * scale),
-      -crop.height / (2 * scale),
-      crop.width / scale,
-      crop.height / scale
-    );
-  } else {
-    // No rotation, simpler drawing
-    ctx.scale(scale, scale);
-    ctx.drawImage(
-      image,
-      crop.x / scale,
-      crop.y / scale,
-      crop.width / scale,
-      crop.height / scale,
-      0,
-      0,
-      crop.width / scale,
-      crop.height / scale
-    );
-  }
-  
-  // Restore the context state
+  ctx.translate(centerX, centerY);
+  ctx.rotate((rotate * Math.PI) / 180);
+  ctx.scale(scale, scale);
+  ctx.translate(-centerX, -centerY);
+
+  // Draw the cropped image on the canvas
+  ctx.drawImage(
+    image,
+    crop.x * scaleX,
+    crop.y * scaleY,
+    crop.width * scaleX,
+    crop.height * scaleY,
+    0,
+    0,
+    crop.width,
+    crop.height
+  );
+
   ctx.restore();
 
-  // Convert the canvas to a data URL
-  return canvas.toDataURL('image/jpeg');
-};
+  return Promise.resolve();
+}
 
-// Convert a data URL to a File object
-export const dataUrlToFile = async (
-  dataUrl: string, 
-  fileName: string
-): Promise<File> => {
-  const res = await fetch(dataUrl);
-  const blob = await res.blob();
+export async function blobToFile(blob: Blob, fileName: string): Promise<File> {
   return new File([blob], fileName, { type: blob.type });
-};
+}
 
-// Compress an image file
-export const compressImage = async (
-  file: File,
-  fileName: string,
-  quality = 0.8
-): Promise<File> => {
-  return new Promise((resolve, reject) => {
+export async function getCroppedImage(
+  image: HTMLImageElement,
+  crop: { x: number; y: number; width: number; height: number },
+  scale = 1,
+  rotate = 0,
+  fileName = 'cropped-image.jpg',
+  options: ImageOptions = {}
+): Promise<File | null> {
+  if (!crop || !image) return null;
+
+  const canvas = document.createElement('canvas');
+  await canvasPreview(image, canvas, crop, scale, rotate, options);
+
+  // Convert the canvas to a blob
+  return new Promise<File>((resolve, reject) => {
+    const quality = options.quality ? options.quality / 100 : 0.92; // Default to 92% quality
+    const mimeType = options.mimeType || 'image/jpeg';
+    
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          reject(new Error('Canvas is empty'));
+          return;
+        }
+        blobToFile(blob, fileName).then(resolve).catch(reject);
+      },
+      mimeType,
+      quality
+    );
+  });
+}
+
+export async function generateImageThumbnail(
+  file: File, 
+  maxWidth = 200, 
+  maxHeight = 200, 
+  quality = 80
+): Promise<File | null> {
+  return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (event) => {
@@ -99,44 +130,43 @@ export const compressImage = async (
       img.src = event.target?.result as string;
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        if (!ctx) {
-          reject(new Error('Failed to get canvas context'));
-          return;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
         }
-        
-        // Use the original dimensions
-        canvas.width = img.width;
-        canvas.height = img.height;
-        
-        // Draw the image on the canvas
-        ctx.drawImage(img, 0, 0);
-        
-        // Get the compressed data URL
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+
         canvas.toBlob(
           (blob) => {
             if (!blob) {
-              reject(new Error('Failed to compress image'));
+              resolve(null);
               return;
             }
-            
-            const compressedFile = new File([blob], fileName, {
-              type: blob.type,
+            const newFile = new File([blob], `thumbnail-${file.name}`, {
+              type: 'image/jpeg',
+              lastModified: Date.now(),
             });
-            
-            resolve(compressedFile);
+            resolve(newFile);
           },
           'image/jpeg',
-          quality
+          quality / 100
         );
       };
-      img.onerror = (error) => {
-        reject(error);
-      };
     };
-    reader.onerror = (error) => {
-      reject(error);
-    };
+    reader.onerror = () => resolve(null);
   });
-};
+}

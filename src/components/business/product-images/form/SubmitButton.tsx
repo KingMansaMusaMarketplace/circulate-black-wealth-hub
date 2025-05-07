@@ -1,36 +1,46 @@
 
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Loader2, Save, Plus } from "lucide-react";
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { Loader2 } from 'lucide-react';
 
 interface SubmitButtonProps {
   isUploading: boolean;
-  isEditing?: boolean;
+  isEditing: boolean;
+  onCancel?: () => void;
+  isValid?: boolean;
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ isUploading, isEditing }) => {
+const SubmitButton: React.FC<SubmitButtonProps> = ({
+  isUploading,
+  isEditing,
+  onCancel,
+  isValid = true
+}) => {
   return (
-    <div className="flex justify-end">
-      <Button type="submit" disabled={isUploading} className="min-w-[120px] transition-all duration-300 hover:scale-105">
+    <div className="flex justify-end gap-2">
+      {onCancel && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onCancel}
+          disabled={isUploading}
+        >
+          Cancel
+        </Button>
+      )}
+      
+      <Button
+        type="submit"
+        disabled={isUploading || !isValid}
+        className="bg-mansablue hover:bg-mansablue-dark"
+      >
         {isUploading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            {isEditing ? 'Updating...' : 'Uploading...'}
+            {isEditing ? 'Updating...' : 'Adding...'}
           </>
         ) : (
-          <>
-            {isEditing ? (
-              <>
-                <Save className="mr-2 h-4 w-4" />
-                Update Product
-              </>
-            ) : (
-              <>
-                <Plus className="mr-2 h-4 w-4" />
-                Add Product
-              </>
-            )}
-          </>
+          isEditing ? 'Update Product' : 'Add Product'
         )}
       </Button>
     </div>

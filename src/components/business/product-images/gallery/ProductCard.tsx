@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
+import { Checkbox } from "@/components/ui/checkbox";
 import { 
   Pencil, 
   Trash2, 
@@ -38,6 +39,10 @@ interface ProductCardProps {
   onView: (product: ProductImage) => void;
   onAnimate: (id: string) => void;
   index: number;
+  isSelected: boolean;
+  onToggleSelect: (id: string, selected: boolean) => void;
+  selectionMode: boolean;
+  layoutType?: 'grid' | 'list';
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -50,34 +55,64 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onEdit,
   onView,
   onAnimate,
-  index
+  index,
+  isSelected,
+  onToggleSelect,
+  selectionMode,
+  layoutType = 'grid'
 }) => {
+  const cardClasses = cn(
+    "transition-all duration-300 hover:shadow-md", 
+    product.is_active ? '' : 'opacity-70',
+    animatingCardId === product.id ? 'ring-2 ring-primary scale-[1.02]' : '',
+    isSelected ? 'ring-2 ring-primary' : '',
+    "animate-fade-in",
+    layoutType === 'list' ? 'flex flex-row' : ''
+  );
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Don't trigger select when clicking buttons or other controls
+    if (
+      e.target instanceof HTMLButtonElement ||
+      e.target instanceof HTMLInputElement ||
+      (e.target as HTMLElement).closest('button') ||
+      (e.target as HTMLElement).closest('.card-actions')
+    ) {
+      return;
+    }
+    
+    if (selectionMode) {
+      onToggleSelect(product.id, !isSelected);
+    } else {
+      onView(product);
+    }
+  };
+
   return (
     <Card 
       key={product.id} 
-      className={cn(
-        "transition-all duration-300 hover:shadow-md", 
-        product.is_active ? '' : 'opacity-70',
-        animatingCardId === product.id ? 'ring-2 ring-primary scale-[1.02]' : '',
-        "animate-fade-in"
-      )}
+      className={cardClasses}
       style={{ 
         animationDelay: `${index * 100}ms`,
       }}
       tabIndex={0}
+      onClick={handleCardClick}
     >
+      {/* Selection Checkbox */}
+      {selectionMode && (
+        <div className="absolute top-2 left-2 z-10 bg-white bg-opacity-80 rounded-full p-0.5">
+          <Checkbox 
+            checked={isSelected}
+            onCheckedChange={(checked) => onToggleSelect(product.id, checked as boolean)}
+          />
+        </div>
+      )}
+      
       <div 
-        className="relative aspect-video overflow-hidden cursor-pointer"
-        onClick={() => onView(product)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onView(product);
-          }
-        }}
-        tabIndex={0}
-        role="button"
-        aria-label={`View details of ${product.title}`}
+        className={cn(
+          "relative overflow-hidden cursor-pointer",
+          layoutType === 'grid' ? "aspect-video" : "w-24 h-24"
+        )}
       >
         <img 
           src={product.image_url} 
@@ -92,87 +127,94 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
       </div>
       
-      <CardContent className="pt-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <h3 className="font-medium line-clamp-1">{product.title}</h3>
-            {product.price && (
-              <p className="text-sm text-mansablue font-medium">{product.price}</p>
-            )}
+      <div className={cn("flex flex-col", layoutType === 'list' && "flex-1")}>
+        <CardContent className="pt-4">
+          <div className="flex items-start justify-between">
+            <div>
+              <h3 className="font-medium line-clamp-1">{product.title}</h3>
+              {product.price && (
+                <p className="text-sm text-mansablue font-medium">{product.price}</p>
+              )}
+            </div>
+            <Switch 
+              checked={product.is_active} 
+              disabled={togglingId === product.id}
+              onCheckedChange={() => onToggleActive(product.id, product.is_active)}
+              aria-label={product.is_active ? "Set product as inactive" : "Set product as active"}
+              className="card-actions"
+            />
           </div>
-          <Switch 
-            checked={product.is_active} 
-            disabled={togglingId === product.id}
-            onCheckedChange={() => onToggleActive(product.id, product.is_active)}
-            aria-label={product.is_active ? "Set product as inactive" : "Set product as active"}
-          />
-        </div>
-        <p className="text-sm text-gray-600 mt-2 line-clamp-3">
-          {product.description}
-        </p>
-      </CardContent>
-      
-      <CardFooter className="flex justify-end gap-2 pt-0">
-        <Button 
-          size="sm" 
-          variant="outline"
-          className="h-8 px-2 transition-colors hover:bg-gray-100"
-          onClick={() => onView(product)}
-          aria-label="View product details"
-        >
-          <Eye className="h-4 w-4" />
-        </Button>
+          <p className="text-sm text-gray-600 mt-2 line-clamp-3">
+            {product.description}
+          </p>
+        </CardContent>
         
-        {onEdit && (
+        <CardFooter className="flex justify-end gap-2 pt-0">
           <Button 
             size="sm" 
             variant="outline"
-            className="h-8 px-2 transition-colors hover:bg-gray-100"
-            onClick={() => {
-              onAnimate(product.id);
-              onEdit(product);
+            className="h-8 px-2 transition-colors hover:bg-gray-100 card-actions"
+            onClick={(e) => {
+              e.stopPropagation();
+              onView(product);
             }}
-            aria-label="Edit product"
+            aria-label="View product details"
           >
-            <Pencil className="h-4 w-4" />
+            <Eye className="h-4 w-4" />
           </Button>
-        )}
-        
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
+          
+          {onEdit && (
             <Button 
               size="sm" 
-              variant="destructive"
-              className="h-8 px-2 transition-opacity hover:opacity-90"
-              aria-label="Delete product"
+              variant="outline"
+              className="h-8 px-2 transition-colors hover:bg-gray-100 card-actions"
+              onClick={(e) => {
+                e.stopPropagation();
+                onAnimate(product.id);
+                onEdit(product);
+              }}
+              aria-label="Edit product"
             >
-              <Trash2 className="h-4 w-4" />
+              <Pencil className="h-4 w-4" />
             </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className="animate-scale-in">
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete Product</AlertDialogTitle>
-              <AlertDialogDescription>
-                Are you sure you want to delete "{product.title}"? This action cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={() => onDelete(product.id, product.image_url)}
-                disabled={deletingId === product.id}
-                className="transition-transform hover:scale-105"
+          )}
+          
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button 
+                size="sm" 
+                variant="destructive"
+                className="h-8 px-2 transition-opacity hover:opacity-90 card-actions"
+                aria-label="Delete product"
               >
-                {deletingId === product.id ? (
-                  <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Deleting</>
-                ) : (
-                  'Delete'
-                )}
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </CardFooter>
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="animate-scale-in">
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete Product</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete "{product.title}"? This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => onDelete(product.id, product.image_url)}
+                  disabled={deletingId === product.id}
+                  className="transition-transform hover:scale-105"
+                >
+                  {deletingId === product.id ? (
+                    <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Deleting</>
+                  ) : (
+                    'Delete'
+                  )}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </CardFooter>
+      </div>
     </Card>
   );
 };

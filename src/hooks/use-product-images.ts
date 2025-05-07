@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { 
@@ -98,6 +99,7 @@ export const useProductImages = (businessId: string) => {
       // Update local state
       setProducts(prev => prev.filter(p => p.id !== productId));
       
+      toast.success('Product deleted successfully');
       return true;
     } catch (error: any) {
       toast.error(`Failed to delete product: ${error.message}`);
@@ -116,11 +118,50 @@ export const useProductImages = (businessId: string) => {
         setProducts(prev => 
           prev.map(p => p.id === productId ? { ...p, is_active: isActive } : p)
         );
+        toast.success(`Product ${isActive ? 'activated' : 'deactivated'} successfully`);
       }
       
       return result.success;
     } catch (error: any) {
       toast.error(`Failed to update product status: ${error.message}`);
+      return false;
+    }
+  };
+
+  // Bulk operations
+  const bulkDeleteProducts = async (productIds: string[]) => {
+    try {
+      // Delete products one by one
+      const promises = productIds.map(id => deleteProductImage(id));
+      await Promise.all(promises);
+      
+      // Update local state
+      setProducts(prev => prev.filter(p => !productIds.includes(p.id)));
+      
+      toast.success(`${productIds.length} products deleted successfully`);
+      return true;
+    } catch (error: any) {
+      toast.error(`Failed to delete products: ${error.message}`);
+      return false;
+    }
+  };
+  
+  const bulkToggleActive = async (productIds: string[], isActive: boolean) => {
+    try {
+      const updatePromises = productIds.map(id => 
+        updateProductImage({ id, is_active: isActive })
+      );
+      await Promise.all(updatePromises);
+      
+      // Update local state
+      setProducts(prev => 
+        prev.map(p => productIds.includes(p.id) ? { ...p, is_active: isActive } : p)
+      );
+      
+      toast.success(`${productIds.length} products ${isActive ? 'activated' : 'deactivated'} successfully`);
+      return true;
+    } catch (error: any) {
+      toast.error(`Failed to update products: ${error.message}`);
       return false;
     }
   };
@@ -133,6 +174,8 @@ export const useProductImages = (businessId: string) => {
     addProduct,
     updateProduct,
     deleteProduct,
-    toggleProductActive
+    toggleProductActive,
+    bulkDeleteProducts,
+    bulkToggleActive
   };
 };

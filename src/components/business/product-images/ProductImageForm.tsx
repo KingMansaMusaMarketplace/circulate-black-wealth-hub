@@ -6,21 +6,26 @@ import { Form } from "@/components/ui/form";
 import { productImageSchema, ProductImageFormValues, defaultProductImageValues } from "../business-form/models";
 import { ImageUploadPreview, FormFields, SubmitButton } from "./form";
 import { ProductImage } from "@/lib/api/product-api";
+import { toast } from "sonner";
 
 interface ProductImageFormProps {
   onSubmit: (values: ProductImageFormValues, file: File) => Promise<void>;
   isUploading: boolean;
   initialData?: ProductImage | null;
+  onCancel?: () => void;
 }
 
 const ProductImageForm: React.FC<ProductImageFormProps> = ({ 
   onSubmit, 
   isUploading,
-  initialData 
+  initialData,
+  onCancel
 }) => {
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [quality, setQuality] = React.useState(92);
+  const [aspectRatio, setAspectRatio] = React.useState(16/9);
 
   const form = useForm<ProductImageFormValues>({
     resolver: zodResolver(productImageSchema),
@@ -30,6 +35,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
       price: initialData.price || '',
       isActive: initialData.is_active
     } : defaultProductImageValues,
+    mode: "onChange"
   });
   
   // Set preview URL if editing an existing product
@@ -45,6 +51,24 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("File is too large. Maximum size is 5MB.");
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        toast.error("Please select an image file.");
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        return;
+      }
+
       setSelectedFile(file);
       const reader = new FileReader();
       reader.onload = () => {
@@ -91,11 +115,20 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
           fileInputRef={fileInputRef}
           formError={form.formState.errors.root?.message}
           onFileChange={handleFileChange}
+          quality={quality}
+          setQuality={setQuality}
+          aspectRatio={aspectRatio}
+          setAspectRatio={setAspectRatio}
         />
 
         <FormFields />
         
-        <SubmitButton isUploading={isUploading} isEditing={!!initialData} />
+        <SubmitButton 
+          isUploading={isUploading} 
+          isEditing={!!initialData} 
+          onCancel={onCancel}
+          isValid={form.formState.isValid && (!!selectedFile || !!initialData)}
+        />
       </form>
     </Form>
   );

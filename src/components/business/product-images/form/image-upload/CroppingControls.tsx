@@ -1,8 +1,15 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Check, X, ZoomIn, ZoomOut, RotateCw, RotateCcw } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface CroppingControlsProps {
   scale: number;
@@ -12,81 +19,103 @@ interface CroppingControlsProps {
   onRotateRight: () => void;
   onCancel: () => void;
   onApply: () => void;
+  quality?: number;
+  setQuality?: (quality: number) => void;
+  aspectRatio?: number;
+  setAspectRatio?: (ratio: number) => void;
 }
+
+const ASPECT_RATIOS = [
+  { label: "Free form", value: 0 },
+  { label: "Square (1:1)", value: 1 },
+  { label: "Landscape (16:9)", value: 16/9 },
+  { label: "Portrait (9:16)", value: 9/16 },
+  { label: "Standard (4:3)", value: 4/3 },
+  { label: "Product (3:2)", value: 3/2 }
+];
 
 const CroppingControls: React.FC<CroppingControlsProps> = ({
   scale,
   setScale,
-  rotation,
-  onRotateLeft,
-  onRotateRight,
   onCancel,
-  onApply
+  onApply,
+  quality = 92,
+  setQuality,
+  aspectRatio = 16/9,
+  setAspectRatio
 }) => {
   return (
-    <>
-      <div className="mt-4 space-y-4">
-        {/* Zoom controls */}
-        <div className="flex items-center justify-between px-4">
-          <div className="flex items-center space-x-2">
-            <Button 
-              type="button" 
-              size="icon" 
-              variant="outline" 
-              onClick={() => setScale(Math.max(scale - 0.1, 0.5))}
-              disabled={scale <= 0.5}
-              aria-label="Zoom out"
-            >
-              <ZoomOut className="h-4 w-4" />
-            </Button>
-            
-            <Slider 
-              className="w-40 mx-4"
-              value={[scale * 10]} 
-              min={5} 
-              max={30} 
-              step={1}
-              onValueChange={(value) => setScale(value[0] / 10)}
-              aria-label="Zoom level"
-            />
-            
-            <Button 
-              type="button" 
-              size="icon"
-              variant="outline" 
-              onClick={() => setScale(Math.min(scale + 0.1, 3))}
-              disabled={scale >= 3}
-              aria-label="Zoom in"
-            >
-              <ZoomIn className="h-4 w-4" />
-            </Button>
-          </div>
-          
-          <div className="flex items-center space-x-1 text-sm">
-            <span>Rotation: {rotation}°</span>
-          </div>
+    <div className="space-y-5 mt-4">
+      <div className="space-y-2">
+        <div className="flex justify-between">
+          <Label htmlFor="scale">Zoom: {Math.round(scale * 100)}%</Label>
         </div>
+        <Slider
+          id="scale"
+          min={0.5}
+          max={3}
+          step={0.01}
+          value={[scale]}
+          onValueChange={(values) => setScale(values[0])}
+        />
       </div>
+      
+      {setQuality && (
+        <div className="space-y-2">
+          <div className="flex justify-between">
+            <Label htmlFor="quality">Quality: {quality}%</Label>
+          </div>
+          <Slider
+            id="quality"
+            min={10}
+            max={100}
+            step={1}
+            value={[quality]}
+            onValueChange={(values) => setQuality(values[0])}
+          />
+          <p className="text-xs text-muted-foreground">
+            Higher quality means larger file size. 80-90% is recommended for most images.
+          </p>
+        </div>
+      )}
+      
+      {setAspectRatio && (
+        <div className="space-y-2">
+          <Label htmlFor="aspect-ratio">Aspect Ratio</Label>
+          <Select
+            value={aspectRatio.toString()}
+            onValueChange={(value) => setAspectRatio(parseFloat(value))}
+          >
+            <SelectTrigger id="aspect-ratio" className="w-full">
+              <SelectValue placeholder="Select aspect ratio" />
+            </SelectTrigger>
+            <SelectContent>
+              {ASPECT_RATIOS.map((ratio) => (
+                <SelectItem key={ratio.value} value={ratio.value.toString()}>
+                  {ratio.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
 
-      <div className="flex justify-end space-x-2 animate-fade-in mt-4">
+      <div className="flex justify-end space-x-2 pt-4">
         <Button 
           type="button" 
-          variant="outline"
+          variant="outline" 
           onClick={onCancel}
-          aria-label="Cancel cropping"
         >
-          <X className="mr-2 h-4 w-4" /> Cancel
+          Cancel
         </Button>
         <Button 
           type="button" 
           onClick={onApply}
-          aria-label="Apply crop"
-          className="transition-all duration-200 hover:bg-primary/90"
         >
-          <Check className="mr-2 h-4 w-4" /> Apply Crop
+          Apply
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 
