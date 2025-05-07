@@ -3,7 +3,7 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/HowItWorks/HeroSection';
-import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
+import HowItWorks from '@/components/HowItWorks';
 import BenefitsSection from '@/components/HowItWorks/BenefitsSection';
 import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
@@ -21,7 +21,7 @@ const HowItWorksPage = () => {
           <HeroSection />
         </section>
         <section id="how-it-works">
-          <HowItWorksSteps />
+          <HowItWorks />
         </section>
         <section id="benefits">
           <BenefitsSection />
