@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { User } from 'lucide-react';
+import { User, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const TestimonialsSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -43,21 +44,32 @@ const TestimonialsSection = () => {
       quote: "I discovered 10 new Black-owned businesses in my city within a week! Mansa Musa Marketplace makes it so easy to support and save.",
       author: "Jasmine Williams",
       title: "Early Beta Tester",
-      image: "/placeholder.svg"
+      image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
+      rating: 5
     },
     {
       quote: "As a business owner, I gained 25 new customers the first month. Best $50/month I've ever spent.",
       author: "Marcus Johnson",
       title: "Business Beta Partner",
-      image: "/placeholder.svg"
+      image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
+      rating: 5
     },
     {
       quote: "The loyalty points system keeps me coming back. I'm supporting my community AND saving money.",
       author: "Tasha Robinson",
       title: "Marketplace Member",
-      image: "/placeholder.svg"
+      image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YmxhY2slMjB3b21hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
+      rating: 5
     }
   ];
+
+  const handlePrevious = () => {
+    setActiveIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+  };
 
   return (
     <section id="testimonials" className="py-20 bg-mansablue relative overflow-hidden">
@@ -100,6 +112,27 @@ const TestimonialsSection = () => {
                   <path d="M9.33333 16H4L8 8H12L9.33333 16ZM21.3333 16H16L20 8H24L21.3333 16Z" fill="currentColor"/>
                   <path d="M9.33333 16V24H16V16H9.33333ZM21.3333 16V24H28V16H21.3333Z" fill="currentColor"/>
                 </svg>
+              </div>
+              
+              {/* Navigation buttons */}
+              <div className="absolute top-1/2 -left-5 transform -translate-y-1/2 hidden md:block">
+                <button 
+                  onClick={handlePrevious}
+                  className="bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft className="h-5 w-5 text-mansablue" />
+                </button>
+              </div>
+              
+              <div className="absolute top-1/2 -right-5 transform -translate-y-1/2 hidden md:block">
+                <button 
+                  onClick={handleNext}
+                  className="bg-white/90 hover:bg-white rounded-full p-2 shadow-lg transition-all"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight className="h-5 w-5 text-mansablue" />
+                </button>
               </div>
               
               {/* Testimonial content */}
@@ -150,7 +183,7 @@ const TestimonialsSection = () => {
 // Component to handle the animated testimonial transitions
 const AnimatedTestimonial = ({ testimonials, activeIndex }) => {
   return (
-    <div className="relative h-48 md:h-40">
+    <div className="relative h-64 md:h-48">
       {testimonials.map((testimonial, index) => (
         <motion.div
           key={index}
@@ -165,12 +198,22 @@ const AnimatedTestimonial = ({ testimonials, activeIndex }) => {
         >
           <p className="text-xl text-gray-700 mb-6">{testimonial.quote}</p>
           <div className="flex items-center">
-            <div className="w-12 h-12 rounded-full bg-mansablue/10 text-mansablue flex items-center justify-center text-lg font-bold">
-              <User size={20} className="text-mansablue" />
-            </div>
+            <Avatar className="h-12 w-12 border-2 border-mansagold/20">
+              <AvatarImage src={testimonial.image} alt={testimonial.author} />
+              <AvatarFallback className="bg-mansablue/10 text-mansablue">
+                {testimonial.author.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
             <div className="ml-4">
               <p className="font-semibold text-gray-900">{testimonial.author}</p>
-              <p className="text-sm text-gray-500">{testimonial.title}</p>
+              <div className="flex items-center">
+                <p className="text-sm text-gray-500 mr-2">{testimonial.title}</p>
+                <div className="flex">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} size={12} className="text-mansagold fill-mansagold" />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>

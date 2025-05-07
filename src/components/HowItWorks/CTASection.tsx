@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Users, Star, CircleDollarSign } from 'lucide-react';
 
 const CTASection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,6 +25,21 @@ const CTASection = () => {
       if (section) observer.unobserve(section);
     };
   }, []);
+
+  const benefits = [
+    {
+      icon: <Users className="h-5 w-5" />,
+      text: "Join 10,000+ members"
+    },
+    {
+      icon: <Star className="h-5 w-5" />,
+      text: "Access exclusive deals"
+    },
+    {
+      icon: <CircleDollarSign className="h-5 w-5" />,
+      text: "Earn loyalty points"
+    }
+  ];
 
   return (
     <section className="py-16 bg-gradient-to-r from-mansablue to-mansablue-dark text-white text-center relative overflow-hidden">
@@ -57,6 +72,27 @@ const CTASection = () => {
           >
             Join Mansa Musa Marketplace today and become part of the movement to strengthen Black economic power.
           </motion.p>
+          
+          {/* Benefits */}
+          <motion.div
+            className="flex justify-center flex-wrap gap-6 mb-8"
+            initial={{ opacity: 0 }}
+            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+          >
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={index}
+                className="flex items-center bg-white/10 px-4 py-2 rounded-full"
+                initial={{ opacity: 0, x: -10 }}
+                animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+                transition={{ duration: 0.5, delay: 0.6 + (index * 0.1) }}
+              >
+                <span className="mr-2 text-mansagold">{benefit.icon}</span>
+                <span className="text-sm md:text-base">{benefit.text}</span>
+              </motion.div>
+            ))}
+          </motion.div>
           
           <motion.div 
             className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
