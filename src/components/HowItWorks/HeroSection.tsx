@@ -37,7 +37,7 @@ const HeroSection = () => {
               <div className="bg-white rounded-xl shadow-xl p-4 rotate-3 transform hover:rotate-0 transition-transform duration-300">
                 <div className="bg-gray-50 rounded-lg p-2">
                   <img 
-                    src="/placeholder.svg" 
+                    src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
                     alt="Mansa Musa App Interface" 
                     className="w-full h-auto rounded" 
                     width="400"
