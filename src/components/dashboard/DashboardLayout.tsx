@@ -17,11 +17,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   icon
 }) => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
-      <main className="container-custom py-8">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-mansablue-dark flex items-center">
+      <main className="container-custom py-6 flex-grow">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold text-mansablue-dark flex items-center gap-2">
             {icon}
             {title}
           </h1>

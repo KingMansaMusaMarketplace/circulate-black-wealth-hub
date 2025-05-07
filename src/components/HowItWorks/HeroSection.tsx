@@ -14,12 +14,12 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="bg-gradient-to-b from-mansablue to-mansablue-dark py-20 md:py-32 relative">
+    <section className="bg-gradient-to-b from-mansablue to-mansablue-dark py-16 md:py-24 relative">
       <div className="container-custom px-4">
         <div className="flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2 text-white mb-10 md:mb-0">
-            <h1 className="heading-lg mb-6">How Mansa Musa Marketplace Works</h1>
-            <p className="text-white/80 text-lg mb-8 max-w-xl">
+          <div className="md:w-1/2 text-white mb-8 md:mb-0">
+            <h1 className="heading-lg mb-5">How Mansa Musa Marketplace Works</h1>
+            <p className="text-white/80 text-lg mb-6 max-w-xl">
               We're building more than an app — we're creating infrastructure for Black wealth circulation.
               Here's how you can be part of this economic movement.
             </p>
@@ -60,10 +60,10 @@ const HeroSection = () => {
 
       <button 
         onClick={scrollToNextSection}
-        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white/80 hover:text-white flex flex-col items-center transition-colors"
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/80 hover:text-white flex flex-col items-center transition-colors"
         aria-label="Scroll to next section"
       >
-        <span className="text-sm mb-2">Scroll to learn more</span>
+        <span className="text-sm mb-1">Scroll to learn more</span>
         <ChevronDown className="animate-bounce" />
       </button>
 

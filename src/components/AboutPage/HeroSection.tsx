@@ -6,11 +6,11 @@ import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="bg-mansablue-dark py-20">
-      <div className="container-custom">
+    <section className="bg-mansablue-dark py-16 md:py-20">
+      <div className="container-custom px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="heading-lg text-white mb-6">Building the Future of Black Wealth Circulation</h1>
-          <p className="text-white/80 text-lg mb-8">
+          <h1 className="heading-lg text-white mb-5">Building the Future of Black Wealth Circulation</h1>
+          <p className="text-white/80 text-lg mb-6">
             Mansa Musa Marketplace was never designed as just an app. It's the infrastructure blueprint for circulating 
             Black dollars intentionally, systemically, and sustainably across generations.
           </p>

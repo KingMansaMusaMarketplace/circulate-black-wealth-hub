@@ -12,7 +12,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="py-16 lg:py-20 bg-gray-50">
+    <section className="py-12 lg:py-16 bg-gray-50">
       <div className="container-custom">
         <motion.div 
           initial="hidden"
@@ -20,10 +20,10 @@ const ContactSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
           variants={variants}
-          className="text-center mb-12"
+          className="text-center mb-10"
         >
-          <h2 className="heading-md text-mansablue mb-4">Contact Us</h2>
-          <div className="w-24 h-1 bg-mansagold mx-auto mb-6"></div>
+          <h2 className="heading-md text-mansablue mb-3">Contact Us</h2>
+          <div className="w-24 h-1 bg-mansagold mx-auto mb-5"></div>
           <p className="text-gray-600 max-w-2xl mx-auto px-4">
             Have questions or want to learn more? Reach out to us and we'll respond as soon as possible.
           </p>
@@ -39,7 +39,7 @@ const ContactSection = () => {
           </div>
         </div>
 
-        <div className="text-center mt-12 lg:mt-16">
+        <div className="text-center mt-10">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}

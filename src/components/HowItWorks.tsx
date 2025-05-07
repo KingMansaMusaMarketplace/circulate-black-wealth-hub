@@ -69,10 +69,10 @@ const HowItWorks = () => {
   };
 
   return (
-    <section className="py-20 bg-white">
+    <section id="how-it-works" className="py-16 bg-white">
       <div className="container-custom">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
@@ -84,7 +84,7 @@ const HowItWorks = () => {
         </motion.div>
 
         <motion.div 
-          className="grid md:grid-cols-3 gap-8"
+          className="grid md:grid-cols-3 gap-6"
           variants={containerVariants}
           initial="hidden"
           animate={isVisible ? "visible" : "hidden"}
@@ -98,7 +98,7 @@ const HowItWorks = () => {
             >
               <div 
                 className={cn(
-                  "bg-white rounded-xl border border-gray-100 shadow-sm p-6 transition-all duration-300",
+                  "bg-white rounded-xl border border-gray-100 shadow-sm p-6 transition-all duration-300 h-full",
                   hoveredStep === index ? "shadow-md transform translate-y-[-5px]" : ""
                 )}
               >
@@ -135,15 +135,15 @@ const HowItWorks = () => {
         </motion.div>
 
         <motion.div 
-          className="mt-16 bg-mansablue-dark rounded-xl p-8 md:p-12 text-white"
+          className="mt-12 bg-mansablue-dark rounded-xl p-6 md:p-10 text-white"
           initial={{ opacity: 0, y: 40 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="grid md:grid-cols-2 gap-6 items-center">
             <div>
-              <h3 className="heading-md mb-6">Member Benefits</h3>
-              <ul className="space-y-4">
+              <h3 className="heading-md mb-4">Member Benefits</h3>
+              <ul className="space-y-3">
                 {[
                   'Save 10-20% every time you shop',
                   'Earn Loyalty Points redeemable for real rewards',
@@ -165,8 +165,8 @@ const HowItWorks = () => {
               </ul>
             </div>
             <div>
-              <h3 className="heading-md mb-6">Business Owner Benefits</h3>
-              <ul className="space-y-4">
+              <h3 className="heading-md mb-4">Business Owner Benefits</h3>
+              <ul className="space-y-3">
                 {[
                   'Free first month to try the platform risk-free',
                   'Visibility to a growing base of loyal customers',

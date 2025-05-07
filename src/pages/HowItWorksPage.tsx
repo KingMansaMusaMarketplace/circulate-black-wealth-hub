@@ -22,7 +22,7 @@ const HowItWorksPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
       <HeroSection />
       <PageNavigation 
@@ -35,13 +35,15 @@ const HowItWorksPage = () => {
           { id: 'faq', label: 'FAQ' }
         ]}
       />
-      <HowItWorksSteps />
-      <CirculationVisualization />
-      <BenefitsSection />
-      <TestimonialsSection />
-      <MansaMusaHistory />
-      <FAQSection />
-      <CTASection />
+      <div className="flex-grow">
+        <HowItWorksSteps />
+        <CirculationVisualization />
+        <BenefitsSection />
+        <TestimonialsSection />
+        <MansaMusaHistory />
+        <FAQSection />
+        <CTASection />
+      </div>
       <Footer />
     </div>
   );

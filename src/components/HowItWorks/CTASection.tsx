@@ -76,7 +76,7 @@ const CTASection = () => {
   };
 
   return (
-    <section id="cta-section" className="py-16 bg-gradient-to-r from-mansablue to-mansablue-dark text-white text-center relative overflow-hidden">
+    <section id="cta-section" className="py-14 bg-gradient-to-r from-mansablue to-mansablue-dark text-white text-center relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-white/5 blur-3xl"></div>
@@ -90,7 +90,7 @@ const CTASection = () => {
           transition={{ duration: 0.7 }}
         >
           <motion.h2 
-            className="heading-lg mb-6"
+            className="heading-lg mb-5"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.7, delay: 0.2 }}
@@ -99,7 +99,7 @@ const CTASection = () => {
           </motion.h2>
           
           <motion.p 
-            className="max-w-2xl mx-auto mb-8 text-white/80 text-lg"
+            className="max-w-2xl mx-auto mb-6 text-white/80 text-lg"
             initial={{ opacity: 0 }}
             animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
@@ -112,7 +112,7 @@ const CTASection = () => {
             variants={containerVariants}
             initial="hidden"
             animate={controls}
-            className="flex justify-center flex-wrap gap-6 mb-8"
+            className="flex justify-center flex-wrap gap-4 mb-8"
           >
             <TooltipProvider>
               {benefits.map((benefit, index) => (
@@ -168,7 +168,7 @@ const CTASection = () => {
           </motion.div>
           
           <motion.div 
-            className="mt-10 text-white/70 text-sm flex items-center justify-center"
+            className="mt-8 text-white/70 text-sm flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.7, delay: 0.8 }}
