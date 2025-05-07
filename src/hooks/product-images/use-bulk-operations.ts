@@ -32,7 +32,7 @@ export const useBulkOperations = (setProducts: React.Dispatch<React.SetStateActi
     setIsProcessing(true);
     try {
       const updatePromises = productIds.map(id => 
-        updateProductImage({ id, is_active: isActive })
+        updateProductImage(id, { is_active: isActive })
       );
       await Promise.all(updatePromises);
       

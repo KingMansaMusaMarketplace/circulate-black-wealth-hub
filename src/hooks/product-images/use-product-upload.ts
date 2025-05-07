@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadProductImage } from '@/lib/api/storage-api';
-import { saveProductImage } from '@/lib/api/product-api';
-import { ProductImage } from '@/lib/api/product-api';
+import { addProductImage, ProductImage } from '@/lib/api/product-api';
 import { ProductImageFormValues } from '@/components/business/business-form/models';
 
 export const useProductUpload = (businessId: string, updateProducts: (newProduct: ProductImage) => void) => {
@@ -29,33 +28,34 @@ export const useProductUpload = (businessId: string, updateProducts: (newProduct
       }
 
       // Save product data with image URL and compression info
-      const result = await saveProductImage({
-        business_id: businessId,
-        title: productData.title,
-        description: productData.description,
-        price: productData.price,
-        image_url: imageUpload.url,
-        is_active: productData.isActive,
-        alt_text: productData.altText,
-        meta_description: productData.metaDescription,
-        category: productData.category,
-        tags: productData.tags,
-        original_size: file.size,
-        compressed_size: file.size, // Ideally would be the compressed size
-        compression_savings: 0
-      });
+      const result = await addProductImage(
+        file,
+        businessId,
+        {
+          title: productData.title,
+          description: productData.description,
+          price: productData.price,
+          is_active: productData.isActive,
+          alt_text: productData.altText,
+          meta_description: productData.metaDescription,
+          category: productData.category,
+          tags: productData.tags,
+          compressed_size: file.size, // Ideally would be the compressed size
+          compression_savings: 0
+        }
+      );
 
       if (!result.success) {
         throw new Error('Failed to save product data');
       }
 
       // Update local state through callback
-      if (result.data) {
-        updateProducts(result.data);
+      if (result.product) {
+        updateProducts(result.product);
       }
       
       toast.success('Product image added successfully!');
-      return result.data;
+      return result.product;
     } catch (error: any) {
       toast.error(`Failed to add product: ${error.message}`);
       return null;
@@ -94,26 +94,23 @@ export const useProductUpload = (businessId: string, updateProducts: (newProduct
           }
           
           // Basic product data
-          const productData = {
-            business_id: businessId,
+          const productMetadata = {
             title: title,
             description: defaultData.description || `${title} product image`,
             price: defaultData.price || '',
-            image_url: imageUpload.url,
             is_active: defaultData.isActive !== undefined ? defaultData.isActive : true,
             alt_text: defaultData.altText || title,
             tags: defaultData.tags || '',
             category: defaultData.category || '',
-            original_size: file.size,
             compressed_size: file.size
           };
           
           // Save product
-          const result = await saveProductImage(productData);
+          const result = await addProductImage(file, businessId, productMetadata);
           
-          if (result.success && result.data) {
-            results.push(result.data);
-            updateProducts(result.data);
+          if (result.success && result.product) {
+            results.push(result.product);
+            updateProducts(result.product);
           }
         } catch (error: any) {
           console.error(`Error processing file ${file.name}:`, error);

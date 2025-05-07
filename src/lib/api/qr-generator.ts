@@ -52,9 +52,9 @@ export const generateCustomQrCode = async (
   } = {}
 ): Promise<string> => {
   try {
-    // Set default options
+    // Set default options with proper type for errorCorrectionLevel
     const qrOptions = {
-      errorCorrectionLevel: 'H',
+      errorCorrectionLevel: 'H' as const, // TypeScript literal type
       margin: 1,
       width: options.size || 300,
       color: {
@@ -63,7 +63,7 @@ export const generateCustomQrCode = async (
       }
     };
     
-    // Generate QR code as data URL
+    // Generate QR code as data URL with proper typing
     const qrImageUrl = await QRCode.toDataURL(data, qrOptions);
     
     // If a logo is provided, we would add it on top of the QR code

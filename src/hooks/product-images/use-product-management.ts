@@ -10,11 +10,11 @@ export const useProductManagement = (setProducts: React.Dispatch<React.SetStateA
   
   const updateProduct = async (product: Partial<ProductImage> & { id: string }) => {
     try {
-      const result = await updateProductImage(product);
+      const result = await updateProductImage(product.id, product);
       
-      if (result.success && result.data) {
+      if (result.success && result.product) {
         setProducts(prev => 
-          prev.map(p => p.id === product.id ? result.data! : p)
+          prev.map(p => p.id === product.id ? result.product! : p)
         );
       }
       
@@ -47,8 +47,7 @@ export const useProductManagement = (setProducts: React.Dispatch<React.SetStateA
   const toggleProductActive = async (productId: string, isActive: boolean) => {
     setTogglingId(productId);
     try {
-      const result = await updateProductImage({ 
-        id: productId,
+      const result = await updateProductImage(productId, { 
         is_active: isActive
       });
       
