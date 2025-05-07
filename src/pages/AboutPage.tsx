@@ -24,6 +24,7 @@ const AboutPage = () => {
       <Navbar />
       <main>
         <HeroSection />
+        <AuthorSection />
         <MissionSection />
         <VisionSection />
         <TeamSection />
@@ -31,7 +32,6 @@ const AboutPage = () => {
         <PartnersSection />
         <TestimonialsSection />
         <ImpactMetricsSection />
-        <AuthorSection />
         <MediaGallerySection />
         <FAQSection />
         <QuoteSection />
