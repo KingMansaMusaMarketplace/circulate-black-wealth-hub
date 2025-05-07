@@ -1,17 +1,16 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { productImageSchema, ProductImageFormValues, defaultProductImageValues } from "../business-form/models";
 import { ProductImage } from "@/lib/api/product-api";
-import { toast } from "sonner";
-import { optimizeImage } from "./form/image-upload/utils/imageProcessor";
+import { TabsContent } from "@/components/ui/tabs";
 import ProductFormTabs from "./form/tabs/ProductFormTabs";
 import SingleUploadTab from "./form/tabs/SingleUploadTab";
 import BatchUploadTab from "./form/tabs/BatchUploadTab";
 import SeoTab from "./form/tabs/SeoTab";
 import AdvancedTab from "./form/tabs/AdvancedTab";
-import { TabsContent } from "@/components/ui/tabs";
+import { useImageFormState } from "./form/hooks/useImageFormState";
 
 interface ProductImageFormProps {
   onSubmit: (values: ProductImageFormValues, file: File) => Promise<void>;
@@ -33,17 +32,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
   onCancel
 }) => {
   const [activeTab, setActiveTab] = useState("single");
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [quality, setQuality] = useState(92);
-  const [aspectRatio, setAspectRatio] = useState(16/9);
-  const [imageOptimized, setImageOptimized] = useState(false);
   
-  // Track original and compressed sizes for analytics
-  const [originalSize, setOriginalSize] = useState(0);
-  const [compressedSize, setCompressedSize] = useState(0);
-
   const form = useForm<ProductImageFormValues>({
     resolver: zodResolver(productImageSchema),
     defaultValues: initialData ? {
@@ -59,107 +48,26 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
     mode: "onChange"
   });
   
-  // Set preview URL if editing an existing product
-  useEffect(() => {
-    if (initialData) {
-      setPreviewUrl(initialData.image_url);
-      setActiveTab("single");
-      if (initialData.original_size && initialData.compressed_size) {
-        setOriginalSize(initialData.original_size);
-        setCompressedSize(initialData.compressed_size);
-      }
-    } else {
-      setPreviewUrl(null);
-      form.reset(defaultProductImageValues);
-      setOriginalSize(0);
-      setCompressedSize(0);
-    }
-  }, [initialData, form]);
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error("File is too large. Maximum size is 5MB.");
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
-        return;
-      }
-
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        toast.error("Please select an image file.");
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
-        return;
-      }
-
-      setSelectedFile(file);
-      setImageOptimized(false);
-      setOriginalSize(file.size);
-      
-      try {
-        // Automatically optimize the image
-        const optimizedImage = await optimizeImage(file, quality);
-        setPreviewUrl(optimizedImage.url);
-        setSelectedFile(optimizedImage.file);
-        setCompressedSize(optimizedImage.compressedSize);
-        setImageOptimized(true);
-        
-        if (optimizedImage.compressedSize < file.size) {
-          const savings = Math.round((1 - optimizedImage.compressedSize / file.size) * 100);
-          toast.success(`Image optimized! Reduced size by ${savings}%`);
-        }
-      } catch (error) {
-        // Fallback to standard preview if optimization fails
-        const reader = new FileReader();
-        reader.onload = () => {
-          setPreviewUrl(reader.result as string);
-        };
-        reader.readAsDataURL(file);
-        toast.error("Could not optimize image, using original");
-      }
-    }
-  };
-
-  const handleSubmit = async (values: ProductImageFormValues) => {
-    // When editing, if no new file is selected, we should show an error
-    if (!selectedFile && !initialData) {
-      form.setError("root", { 
-        message: "Please select an image to upload" 
-      });
-      return;
-    }
-
-    if (selectedFile) {
-      await onSubmit(values, selectedFile);
-      setImageOptimized(false);
-    }
-    
-    // Reset form after successful submission
-    form.reset(defaultProductImageValues);
-    setPreviewUrl(null);
-    setSelectedFile(null);
-    setOriginalSize(0);
-    setCompressedSize(0);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
-  const handleUploadClick = () => {
-    fileInputRef.current?.click();
-  };
-  
-  const handleImageCropped = (originalSize: number, compressedSize: number) => {
-    setOriginalSize(originalSize);
-    setCompressedSize(compressedSize);
-    setImageOptimized(true);
-    toast.success("Image optimized! Don't forget to save the product.");
-  };
+  const {
+    fileInputRef,
+    previewUrl,
+    selectedFile,
+    quality,
+    aspectRatio,
+    originalSize,
+    compressedSize,
+    imageOptimized,
+    setQuality,
+    setAspectRatio,
+    handleFileChange,
+    handleUploadClick,
+    handleImageCropped,
+    handleFormSubmit
+  } = useImageFormState({
+    form,
+    initialData,
+    onSubmit
+  });
 
   return (
     <FormProvider {...form}>
@@ -175,7 +83,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
             onUploadClick={handleUploadClick}
             fileInputRef={fileInputRef}
             onFileChange={handleFileChange}
-            onSubmit={handleSubmit}
+            onSubmit={handleFormSubmit}
             isUploading={isUploading}
             isEditing={!!initialData}
             onCancel={onCancel}

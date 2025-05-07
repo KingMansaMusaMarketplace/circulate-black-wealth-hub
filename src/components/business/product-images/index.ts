@@ -32,3 +32,5 @@ export { default as ProductAnalytics } from './analytics/ProductAnalytics';
 // Export hooks related to product images
 export * from './gallery/useGalleryProducts';
 export * from './gallery/useProductSelection';
+export * from './gallery/useGalleryActions';
+export * from './form/hooks/useImageFormState';
