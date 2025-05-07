@@ -9,7 +9,13 @@ import {
   VisionSection,
   AuthorSection,
   QuoteSection,
-  CTASection
+  CTASection,
+  TeamSection,
+  TimelineSection,
+  PartnersSection,
+  ImpactMetricsSection,
+  FAQSection,
+  MediaGallerySection
 } from '@/components/AboutPage';
 
 const AboutPage = () => {
@@ -20,8 +26,14 @@ const AboutPage = () => {
         <HeroSection />
         <MissionSection />
         <VisionSection />
+        <TeamSection />
+        <TimelineSection />
+        <PartnersSection />
         <TestimonialsSection />
+        <ImpactMetricsSection />
         <AuthorSection />
+        <MediaGallerySection />
+        <FAQSection />
         <QuoteSection />
         <CTASection />
       </main>
