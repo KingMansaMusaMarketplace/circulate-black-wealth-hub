@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/HowItWorks/HeroSection';
@@ -10,8 +10,25 @@ import FAQSection from '@/components/HowItWorks/FAQSection';
 import TestimonialsSection from '@/components/HowItWorks/TestimonialsSection';
 import CTASection from '@/components/HowItWorks/CTASection';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
+import { ChevronUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const HowItWorksPage = () => {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 500);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -37,6 +54,21 @@ const HowItWorksPage = () => {
         </section>
         <CTASection />
       </main>
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            transition={{ duration: 0.3 }}
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 bg-mansablue hover:bg-mansablue-dark text-white rounded-full p-3 shadow-lg z-50"
+            aria-label="Scroll to top"
+          >
+            <ChevronUp size={24} />
+          </motion.button>
+        )}
+      </AnimatePresence>
       <Footer />
     </div>
   );

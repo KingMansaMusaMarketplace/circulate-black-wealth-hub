@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -8,6 +8,48 @@ import { cn } from '@/lib/utils';
 const BenefitsSection = () => {
   const [activeTab, setActiveTab] = useState<'customers' | 'businesses'>('customers');
   const [expandedBenefit, setExpandedBenefit] = useState<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  // Intersection Observer to detect when section enters viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    const section = document.getElementById('benefits');
+    if (section) observer.observe(section);
+    
+    return () => {
+      if (section) observer.unobserve(section);
+    };
+  }, []);
 
   const customerBenefits = [
     {
@@ -64,16 +106,26 @@ const BenefitsSection = () => {
   return (
     <section className="py-16 bg-gray-50">
       <div className="container-custom px-4">
-        <div className="text-center mb-12">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="heading-lg text-mansablue mb-4">Member Benefits</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Mansa Musa Marketplace offers unique advantages for both customers and business owners.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="flex justify-center mb-8">
+        <motion.div 
+          className="flex justify-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <div className="inline-flex rounded-lg p-1 bg-gray-200">
-            <button
+            <motion.button
               onClick={() => setActiveTab('customers')}
               className={cn(
                 "px-4 py-2 text-sm font-medium rounded-md transition-all",
@@ -81,10 +133,12 @@ const BenefitsSection = () => {
                   ? "bg-white text-mansablue shadow-sm" 
                   : "text-gray-600 hover:text-mansablue"
               )}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               For Customers
-            </button>
-            <button
+            </motion.button>
+            <motion.button
               onClick={() => setActiveTab('businesses')}
               className={cn(
                 "px-4 py-2 text-sm font-medium rounded-md transition-all",
@@ -92,68 +146,91 @@ const BenefitsSection = () => {
                   ? "bg-white text-mansablue shadow-sm" 
                   : "text-gray-600 hover:text-mansablue"
               )}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               For Business Owners
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <motion.div 
+          className="grid md:grid-cols-2 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+        >
           {currentBenefits.map((benefit, index) => (
-            <Card 
-              key={index} 
-              className={cn(
-                "transition-all duration-300 hover:shadow-md border-l-4",
-                activeTab === 'customers' ? "border-l-mansablue" : "border-l-mansagold",
-                expandedBenefit === index ? "shadow-md" : ""
-              )}
-            >
-              <CardContent className="p-6">
-                <div 
-                  className="flex justify-between items-center cursor-pointer"
-                  onClick={() => toggleExpand(index)}
-                >
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 
-                      className={cn(
-                        "h-5 w-5 mt-1",
-                        activeTab === 'customers' ? "text-mansablue" : "text-mansagold"
-                      )} 
-                    />
-                    <div>
-                      <h3 className="font-bold text-lg">{benefit.title}</h3>
-                      <p className="text-gray-600">{benefit.description}</p>
-                    </div>
-                  </div>
-                  {expandedBenefit === index ? (
-                    <ChevronUp className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <ChevronDown className="h-5 w-5 text-gray-400" />
-                  )}
-                </div>
-                
-                {expandedBenefit === index && (
-                  <motion.div 
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="mt-4 pt-4 border-t text-gray-600"
-                  >
-                    {benefit.details}
-                  </motion.div>
+            <motion.div key={index} variants={itemVariants}>
+              <Card 
+                className={cn(
+                  "transition-all duration-300 hover:shadow-md border-l-4",
+                  activeTab === 'customers' ? "border-l-mansablue" : "border-l-mansagold",
+                  expandedBenefit === index ? "shadow-md" : ""
                 )}
-              </CardContent>
-            </Card>
+              >
+                <CardContent className="p-6">
+                  <div 
+                    className="flex justify-between items-center cursor-pointer"
+                    onClick={() => toggleExpand(index)}
+                  >
+                    <div className="flex items-start gap-3">
+                      <CheckCircle2 
+                        className={cn(
+                          "h-5 w-5 mt-1",
+                          activeTab === 'customers' ? "text-mansablue" : "text-mansagold"
+                        )} 
+                      />
+                      <div>
+                        <h3 className="font-bold text-lg">{benefit.title}</h3>
+                        <p className="text-gray-600">{benefit.description}</p>
+                      </div>
+                    </div>
+                    <motion.div 
+                      whileHover={{ scale: 1.2 }} 
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      {expandedBenefit === index ? (
+                        <ChevronUp className="h-5 w-5 text-gray-400" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-gray-400" />
+                      )}
+                    </motion.div>
+                  </div>
+                  
+                  {expandedBenefit === index && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="mt-4 pt-4 border-t text-gray-600"
+                    >
+                      {benefit.details}
+                    </motion.div>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        <div className="mt-12 text-center">
-          <div className="inline-block rounded-lg bg-gradient-to-r from-mansablue to-mansablue-light p-1">
+        <motion.div 
+          className="mt-12 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <motion.div 
+            className="inline-block rounded-lg bg-gradient-to-r from-mansablue to-mansablue-light p-1"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             <button className="bg-white text-mansablue font-medium py-2 px-8 rounded-md hover:bg-transparent hover:text-white transition-all">
               Join Now
             </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

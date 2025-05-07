@@ -1,8 +1,31 @@
 
-import React from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CheckCircle2, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 const HowItWorks = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    
+    const section = document.getElementById('how-it-works');
+    if (section) observer.observe(section);
+    
+    return () => {
+      if (section) observer.unobserve(section);
+    };
+  }, []);
+
   const steps = [
     {
       number: '01',
@@ -24,30 +47,99 @@ const HowItWorks = () => {
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
   return (
     <section className="py-20 bg-white">
       <div className="container-custom">
-        <div className="text-center mb-16">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="heading-lg text-mansablue mb-4">How It Works</h2>
           <p className="text-gray-600 max-w-2xl mx-auto text-lg">
             Mansa Musa Marketplace makes it easy to discover, support, and save at Black-owned businesses.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {steps.map((step) => (
-            <div key={step.number} className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 card-hover">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-5xl">{step.icon}</span>
-                <span className="text-mansagold font-bold text-xl">{step.number}</span>
+        <motion.div 
+          className="grid md:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+        >
+          {steps.map((step, index) => (
+            <motion.div 
+              key={step.number} 
+              variants={itemVariants}
+              onMouseEnter={() => setHoveredStep(index)}
+              onMouseLeave={() => setHoveredStep(null)}
+            >
+              <div 
+                className={cn(
+                  "bg-white rounded-xl border border-gray-100 shadow-sm p-6 transition-all duration-300",
+                  hoveredStep === index ? "shadow-md transform translate-y-[-5px]" : ""
+                )}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <motion.span 
+                    className="text-5xl"
+                    animate={hoveredStep === index ? { scale: 1.2 } : { scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {step.icon}
+                  </motion.span>
+                  <motion.span 
+                    className="text-mansagold font-bold text-xl"
+                    animate={hoveredStep === index ? { scale: 1.1 } : { scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {step.number}
+                  </motion.span>
+                </div>
+                <h3 className="font-bold text-xl mb-3 text-mansablue-dark">{step.title}</h3>
+                <p className="text-gray-600">{step.description}</p>
+                
+                <motion.div 
+                  className="mt-4 pt-4 flex items-center text-mansablue font-medium"
+                  initial={{ opacity: 0 }}
+                  animate={hoveredStep === index ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Learn more <ChevronRight size={16} className="ml-1" />
+                </motion.div>
               </div>
-              <h3 className="font-bold text-xl mb-3 text-mansablue-dark">{step.title}</h3>
-              <p className="text-gray-600">{step.description}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        <div className="mt-16 bg-mansablue-dark rounded-xl p-8 md:p-12 text-white">
+        <motion.div 
+          className="mt-16 bg-mansablue-dark rounded-xl p-8 md:p-12 text-white"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <h3 className="heading-md mb-6">Member Benefits</h3>
@@ -59,10 +151,16 @@ const HowItWorks = () => {
                   'Early access to business promotions and limited deals',
                   'Be part of a growing movement — not just a transaction'
                 ].map((benefit, index) => (
-                  <li key={index} className="flex items-start">
+                  <motion.li 
+                    key={index} 
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                    transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
+                  >
                     <CheckCircle2 className="h-6 w-6 text-mansagold mr-3 flex-shrink-0 mt-0.5" />
                     <span>{benefit}</span>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </div>
@@ -76,15 +174,21 @@ const HowItWorks = () => {
                   'Tools to track customer engagement and QR scans',
                   'Increased brand awareness via Featured Business promotions'
                 ].map((benefit, index) => (
-                  <li key={index} className="flex items-start">
+                  <motion.li 
+                    key={index} 
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                    transition={{ duration: 0.5, delay: 0.5 + (index * 0.1) }}
+                  >
                     <CheckCircle2 className="h-6 w-6 text-mansagold mr-3 flex-shrink-0 mt-0.5" />
                     <span>{benefit}</span>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
