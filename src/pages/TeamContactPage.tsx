@@ -4,11 +4,17 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import TeamSection from '@/components/AboutPage/TeamSection';
 import ContactSection from '@/components/AboutPage/ContactSection';
-import { motion } from 'framer-motion';
+import PageNavigation from '@/components/HowItWorks/PageNavigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp } from 'lucide-react';
 
 const TeamContactPage = () => {
   const [showScrollTop, setShowScrollTop] = React.useState(false);
+
+  const sections = [
+    { id: 'team', label: 'Our Team' },
+    { id: 'contact', label: 'Contact Us' }
+  ];
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +32,7 @@ const TeamContactPage = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
+      <PageNavigation sections={sections} />
       <main>
         <section className="py-16 bg-gradient-to-b from-mansablue/10 to-white">
           <div className="container-custom text-center">
@@ -37,24 +44,30 @@ const TeamContactPage = () => {
           </div>
         </section>
         
-        <TeamSection />
+        <section id="team">
+          <TeamSection />
+        </section>
         
-        <ContactSection />
+        <section id="contact">
+          <ContactSection />
+        </section>
       </main>
       
-      {showScrollTop && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          transition={{ duration: 0.3 }}
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-mansablue hover:bg-mansablue-dark text-white rounded-full p-3 shadow-lg z-50"
-          aria-label="Scroll to top"
-        >
-          <ChevronUp size={24} />
-        </motion.button>
-      )}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            transition={{ duration: 0.3 }}
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 bg-mansablue hover:bg-mansablue-dark text-white rounded-full p-3 shadow-lg z-50"
+            aria-label="Scroll to top"
+          >
+            <ChevronUp size={24} />
+          </motion.button>
+        )}
+      </AnimatePresence>
       
       <Footer />
     </div>
