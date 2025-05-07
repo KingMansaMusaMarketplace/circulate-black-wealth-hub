@@ -50,20 +50,24 @@ const CropContainer: React.FC<CropContainerProps> = ({
     <div className="flex flex-col w-full">
       <ReactCrop
         crop={crop}
-        onChange={(pixelCrop) => {
-          // The type from onChange is actually a PercentCrop when unit is '%'
-          if (pixelCrop && 'unit' in pixelCrop && pixelCrop.unit === '%') {
-            setCrop(pixelCrop as PercentCrop);
+        onChange={(c) => {
+          // The onChange handler needs to work with PercentCrop
+          // Use type checking to ensure it's a PercentCrop
+          const percentCrop = c as any;
+          if (percentCrop && percentCrop.unit === '%') {
+            setCrop(percentCrop as PercentCrop);
           }
         }}
         onComplete={(c) => {
-          setCompletedCrop({
+          // For onComplete, we need a PixelCrop
+          const pixelCrop: PixelCrop = {
             unit: 'px',
             x: c.x,
             y: c.y,
             width: c.width,
             height: c.height
-          });
+          };
+          setCompletedCrop(pixelCrop);
         }}
         aspect={16 / 9}
         className="max-h-[400px] transition-transform"
