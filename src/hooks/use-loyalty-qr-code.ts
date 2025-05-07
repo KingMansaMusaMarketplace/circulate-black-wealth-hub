@@ -49,8 +49,7 @@ export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
           (p) => p.business_id === result.business_id
         );
         
-        // The business name is likely accessed through a join or relation in the returned data
-        // Access it through the businesses relation that might be included in the query
+        // Just use business_id as the name when actual name isn't available
         const businessName = businessPoints?.business_id || 'Business';
         
         const scanResultData = {
