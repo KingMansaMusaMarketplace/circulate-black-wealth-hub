@@ -76,6 +76,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProduct, setSelectedProduct] = useState<ProductImage | null>(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [animatingCardId, setAnimatingCardId] = useState<string | null>(null);
   
   const itemsPerPage = 6;
   
@@ -138,6 +139,11 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
     setIsDetailModalOpen(true);
   };
   
+  const animateCard = (id: string) => {
+    setAnimatingCardId(id);
+    setTimeout(() => setAnimatingCardId(null), 1000);
+  };
+  
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -149,7 +155,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   
   if (products.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
+      <div className="flex flex-col items-center justify-center py-20 text-center animate-fade-in">
         <div className="bg-gray-100 p-6 rounded-full mb-4">
           <ImageIcon size={48} className="text-gray-400" />
         </div>
@@ -164,7 +170,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
   return (
     <div className="space-y-6">
       {/* Filter and Sort Controls */}
-      <div className="flex flex-col md:flex-row gap-3 items-center">
+      <div className="flex flex-col md:flex-row gap-3 items-center animate-fade-in">
         <div className="relative w-full md:w-auto flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <Input 
@@ -172,12 +178,17 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-9"
+            aria-label="Search products"
           />
         </div>
         
         <div className="flex gap-2 w-full md:w-auto">
           <div className="w-1/2 md:w-auto">
-            <Select value={filterBy} onValueChange={(value: FilterOption) => setFilterBy(value)}>
+            <Select 
+              value={filterBy} 
+              onValueChange={(value: FilterOption) => setFilterBy(value)}
+              aria-label="Filter products"
+            >
               <SelectTrigger className="w-36">
                 <div className="flex items-center">
                   <Filter className="mr-2 h-4 w-4" />
@@ -193,7 +204,11 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
           </div>
           
           <div className="w-1/2 md:w-auto">
-            <Select value={sortBy} onValueChange={(value: SortOption) => setSortBy(value)}>
+            <Select 
+              value={sortBy} 
+              onValueChange={(value: SortOption) => setSortBy(value)}
+              aria-label="Sort products"
+            >
               <SelectTrigger className="w-36">
                 <div className="flex items-center">
                   <ArrowUpDown className="mr-2 h-4 w-4" />
@@ -212,23 +227,45 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
       </div>
       
       {filteredProducts.length === 0 ? (
-        <div className="text-center py-10">
+        <div className="text-center py-10 animate-fade-in">
           <p className="text-gray-500">No products match your search criteria.</p>
         </div>
       ) : (
         <>
           {/* Product Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-            {paginatedProducts.map(product => (
-              <Card key={product.id} className={cn(
-                "transition-all duration-300 hover:shadow-md", 
-                product.is_active ? '' : 'opacity-70'
-              )}>
-                <div className="relative aspect-video overflow-hidden">
+            {paginatedProducts.map((product, index) => (
+              <Card 
+                key={product.id} 
+                className={cn(
+                  "transition-all duration-300 hover:shadow-md", 
+                  product.is_active ? '' : 'opacity-70',
+                  animatingCardId === product.id ? 'ring-2 ring-primary scale-[1.02]' : '',
+                  "animate-fade-in"
+                )}
+                style={{ 
+                  animationDelay: `${index * 100}ms`,
+                }}
+                tabIndex={0}
+              >
+                <div 
+                  className="relative aspect-video overflow-hidden cursor-pointer"
+                  onClick={() => viewProductDetails(product)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      viewProductDetails(product);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`View details of ${product.title}`}
+                >
                   <img 
                     src={product.image_url} 
                     alt={product.title}
-                    className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+                    className="object-cover w-full h-full transition-transform duration-500 hover:scale-110"
+                    loading="lazy"
                   />
                   {!product.is_active && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
@@ -249,6 +286,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                       checked={product.is_active} 
                       disabled={togglingId === product.id}
                       onCheckedChange={() => handleToggleActive(product.id, product.is_active)}
+                      aria-label={product.is_active ? "Set product as inactive" : "Set product as active"}
                     />
                   </div>
                   <p className="text-sm text-gray-600 mt-2 line-clamp-3">
@@ -260,7 +298,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                   <Button 
                     size="sm" 
                     variant="outline"
-                    className="h-8 px-2"
+                    className="h-8 px-2 transition-colors hover:bg-gray-100"
                     onClick={() => viewProductDetails(product)}
                     aria-label="View product details"
                   >
@@ -271,8 +309,11 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                     <Button 
                       size="sm" 
                       variant="outline"
-                      className="h-8 px-2"
-                      onClick={() => onEdit(product)}
+                      className="h-8 px-2 transition-colors hover:bg-gray-100"
+                      onClick={() => {
+                        animateCard(product.id);
+                        onEdit(product);
+                      }}
                       aria-label="Edit product"
                     >
                       <Pencil className="h-4 w-4" />
@@ -284,13 +325,13 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                       <Button 
                         size="sm" 
                         variant="destructive"
-                        className="h-8 px-2"
+                        className="h-8 px-2 transition-opacity hover:opacity-90"
                         aria-label="Delete product"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </AlertDialogTrigger>
-                    <AlertDialogContent>
+                    <AlertDialogContent className="animate-scale-in">
                       <AlertDialogHeader>
                         <AlertDialogTitle>Delete Product</AlertDialogTitle>
                         <AlertDialogDescription>
@@ -302,6 +343,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                         <AlertDialogAction
                           onClick={() => handleDelete(product.id, product.image_url)}
                           disabled={deletingId === product.id}
+                          className="transition-transform hover:scale-105"
                         >
                           {deletingId === product.id ? (
                             <><Loader2 className="h-4 w-4 animate-spin mr-2" /> Deleting</>
@@ -324,8 +366,12 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 <PaginationItem>
                   <PaginationPrevious 
                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : ''}
+                    className={cn(
+                      currentPage === 1 ? 'pointer-events-none opacity-50' : '',
+                      'transition-transform hover:scale-105 focus:scale-105'
+                    )}
                     aria-disabled={currentPage === 1}
+                    aria-label="Go to previous page"
                   />
                 </PaginationItem>
                 
@@ -367,6 +413,11 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                       <PaginationLink
                         onClick={() => setCurrentPage(pageNum)}
                         isActive={currentPage === pageNum}
+                        className={cn(
+                          'transition-transform hover:scale-105 focus:scale-105',
+                          currentPage === pageNum ? 'animate-pulse-gold' : ''
+                        )}
+                        aria-label={`Go to page ${pageNum}`}
                       >
                         {pageNum}
                       </PaginationLink>
@@ -377,8 +428,12 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 <PaginationItem>
                   <PaginationNext 
                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                    className={currentPage === totalPages ? 'pointer-events-none opacity-50' : ''}
+                    className={cn(
+                      currentPage === totalPages ? 'pointer-events-none opacity-50' : '',
+                      'transition-transform hover:scale-105 focus:scale-105'
+                    )}
                     aria-disabled={currentPage === totalPages}
+                    aria-label="Go to next page"
                   />
                 </PaginationItem>
               </PaginationContent>
@@ -389,7 +444,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
       
       {/* Product Details Dialog */}
       <Dialog open={isDetailModalOpen} onOpenChange={setIsDetailModalOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl animate-enter">
           <DialogHeader>
             <DialogTitle>{selectedProduct?.title}</DialogTitle>
           </DialogHeader>
@@ -400,7 +455,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                 <img 
                   src={selectedProduct.image_url} 
                   alt={selectedProduct.title}
-                  className="object-contain w-full h-full"
+                  className="object-contain w-full h-full transition-all duration-500 hover:scale-105"
                 />
               </div>
               
@@ -414,7 +469,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({
                   </div>
                   <div className="flex items-center">
                     <span className="text-sm mr-2">Status:</span>
-                    <span className={`text-sm font-medium px-2 py-1 rounded ${
+                    <span className={`text-sm font-medium px-2 py-1 rounded transition-colors duration-300 ${
                       selectedProduct.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'
                     }`}>
                       {selectedProduct.is_active ? 'Active' : 'Inactive'}
