@@ -34,13 +34,13 @@ const MansaMusaHistory = () => {
                       </div>
                     ) : (
                       <img 
-                        src="https://images.unsplash.com/photo-1466442929976-97f336a657be"
-                        alt="Historical depiction of Mansa Musa"
+                        src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21"
+                        alt="Historical representation - Mali Empire era"
                         className="rounded-lg shadow-md w-full h-64 object-cover"
                         onError={() => setImageError(true)}
                       />
                     )}
-                    <p className="text-xs text-gray-400 mt-2 italic text-center">Historical depiction of Mansa Musa</p>
+                    <p className="text-xs text-gray-400 mt-2 italic text-center">Representation of Mali's rich history</p>
                   </div>
                   <div className="md:w-2/3">
                     <p className="mb-4 text-gray-200">
