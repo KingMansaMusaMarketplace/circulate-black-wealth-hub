@@ -52,8 +52,16 @@ const CropContainer: React.FC<CropContainerProps> = ({
         crop={crop}
         onChange={(c) => setCrop(c)}
         onComplete={(c) => {
-          // Fixed: Pass the pixel crop directly without trying to convert it
-          setCompletedCrop(c);
+          // TypeScript expects a PixelCrop here but the library might return
+          // a crop with unit 'px'. We need to handle this explicitly.
+          const pixelCrop: PixelCrop = {
+            x: c.x,
+            y: c.y,
+            width: c.width,
+            height: c.height,
+            unit: 'px'
+          };
+          setCompletedCrop(pixelCrop);
         }}
         aspect={16 / 9}
         className="max-h-[400px] transition-transform"
