@@ -1,12 +1,31 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
+import { QrCode } from 'lucide-react';
 
 const QRCodeScanner = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [scanned, setScanned] = useState(false);
   const [points, setPoints] = useState(0);
+  const [businessName, setBusinessName] = useState('');
+  const [hasCamera, setHasCamera] = useState(true);
+
+  // Check if camera permission is available (dummy implementation)
+  useEffect(() => {
+    // In a real implementation, we would check camera permissions here
+    const checkCameraPermission = async () => {
+      try {
+        // This is a simplified version - in a real app we'd use the MediaDevices API
+        setHasCamera(true);
+      } catch (error) {
+        console.error("Error checking camera:", error);
+        setHasCamera(false);
+      }
+    };
+
+    checkCameraPermission();
+  }, []);
 
   // Simulate QR scanning
   const handleScan = () => {
@@ -17,12 +36,21 @@ const QRCodeScanner = () => {
       setIsScanning(false);
       setScanned(true);
       
-      const earnedPoints = 10;
-      setPoints(earnedPoints);
+      // Simulate different businesses and points values
+      const businesses = [
+        { name: "Soul Food Kitchen", points: 10 },
+        { name: "Prestigious Cuts", points: 15 },
+        { name: "Heritage Bookstore", points: 8 },
+        { name: "Prosperity Financial", points: 20 }
+      ];
+      
+      const randomBusiness = businesses[Math.floor(Math.random() * businesses.length)];
+      setBusinessName(randomBusiness.name);
+      setPoints(randomBusiness.points);
       
       toast({
         title: "Scan Successful!",
-        description: `You earned ${earnedPoints} loyalty points.`,
+        description: `You earned ${randomBusiness.points} loyalty points at ${randomBusiness.name}.`,
       });
       
       // Reset after showing success
@@ -32,9 +60,21 @@ const QRCodeScanner = () => {
     }, 2000);
   };
 
+  const requestCameraPermission = () => {
+    // In a real implementation, this would request camera permission
+    toast({
+      title: "Camera Access Required",
+      description: "This app needs permission to access your camera for scanning QR codes."
+    });
+    setHasCamera(true);
+  };
+
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-      <h3 className="text-lg font-bold text-gray-900 mb-3">QR Code Scanner</h3>
+      <div className="flex items-center gap-2 mb-3">
+        <QrCode size={20} className="text-mansablue" />
+        <h3 className="text-lg font-bold text-gray-900">QR Code Scanner</h3>
+      </div>
       <p className="text-sm text-gray-500 mb-6">Scan a business QR code to earn discounts and loyalty points</p>
       
       <div className="aspect-square relative overflow-hidden rounded-lg border-2 border-dashed border-gray-200 mb-6">
@@ -57,6 +97,21 @@ const QRCodeScanner = () => {
             </svg>
             <p className="text-white font-bold text-xl">Success!</p>
             <p className="text-white text-lg">+{points} Points</p>
+            <p className="text-white mt-1">{businessName}</p>
+          </div>
+        ) : !hasCamera ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+            <div className="text-center p-4">
+              <QrCode size={48} className="mx-auto mb-3 text-gray-400" />
+              <p className="text-gray-500 mb-4">Camera access required to scan QR codes</p>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={requestCameraPermission}
+              >
+                Enable Camera Access
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
@@ -75,10 +130,11 @@ const QRCodeScanner = () => {
       </div>
       
       <Button 
-        className="w-full bg-mansablue hover:bg-mansablue-dark"
+        className="w-full bg-mansablue hover:bg-mansablue-dark flex items-center justify-center gap-2"
         disabled={isScanning || scanned}
         onClick={handleScan}
       >
+        <QrCode size={16} />
         {isScanning ? 'Scanning...' : scanned ? 'Scanned!' : 'Scan QR Code'}
       </Button>
       

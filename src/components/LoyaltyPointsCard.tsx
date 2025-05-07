@@ -1,6 +1,9 @@
 
 import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { Button } from '@/components/ui/button';
+import { Award } from 'lucide-react';
 
 interface LoyaltyPointsCardProps {
   points: number;
@@ -9,40 +12,73 @@ interface LoyaltyPointsCardProps {
 }
 
 const LoyaltyPointsCard = ({ points, target, saved }: LoyaltyPointsCardProps) => {
-  const progress = Math.min(100, (points / target) * 100);
-  const remaining = target - points;
-  
+  const percentage = Math.min((points / target) * 100, 100);
+
   return (
-    <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-      <div className="flex justify-between items-start mb-5">
-        <div>
-          <h3 className="text-lg font-bold text-gray-900">Loyalty Points</h3>
-          <p className="text-sm text-gray-500">Track your rewards progress</p>
-        </div>
-        <div className="bg-mansagold text-white text-sm font-bold rounded-full px-3 py-1">
-          {points} pts
-        </div>
-      </div>
-      
-      <div className="mb-2 flex justify-between items-center">
-        <span className="text-sm font-medium text-gray-700">Progress to next reward</span>
-        <span className="text-sm font-medium text-gray-700">{Math.round(progress)}%</span>
-      </div>
-      <Progress value={progress} className="h-2 mb-1" />
-      <p className="text-xs text-gray-500">{remaining > 0 ? `${remaining} more points until your next reward` : 'You can redeem a reward now!'}</p>
-      
-      <div className="mt-6 bg-gray-50 rounded-lg p-4">
+    <Card>
+      <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <div>
-            <span className="text-sm text-gray-500">Total Savings</span>
-            <p className="text-xl font-bold text-mansablue">${saved.toFixed(2)}</p>
-          </div>
-          <button className="text-sm bg-mansablue text-white px-3 py-2 rounded-md font-medium">
-            Redeem Points
-          </button>
+          <CardTitle className="text-lg font-semibold">Loyalty Points</CardTitle>
+          <Award className="h-5 w-5 text-mansagold" />
         </div>
-      </div>
-    </div>
+      </CardHeader>
+      <CardContent>
+        <div className="flex items-end justify-between mb-1">
+          <div>
+            <span className="text-3xl font-bold">{points}</span>
+            <span className="text-sm text-gray-500"> / {target}</span>
+          </div>
+          <div className="text-sm text-mansagold font-medium">
+            ${saved} saved
+          </div>
+        </div>
+        
+        <Progress value={percentage} className="h-2 mb-4" />
+        
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div className="bg-gray-50 rounded-lg px-3 py-2 text-center">
+            <div className="text-lg font-semibold">{points}</div>
+            <div className="text-xs text-gray-500">Available Points</div>
+          </div>
+          <div className="bg-gray-50 rounded-lg px-3 py-2 text-center">
+            <div className="text-lg font-semibold">{Math.round(points / 10)}</div>
+            <div className="text-xs text-gray-500">Businesses Visited</div>
+          </div>
+        </div>
+        
+        <div className="flex justify-between items-center">
+          <Button variant="outline" size="sm" className="text-sm">
+            Transfer Points
+          </Button>
+          <Button variant="outline" size="sm" className="text-sm">
+            Redeem Points
+          </Button>
+        </div>
+        
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <h4 className="text-sm font-medium mb-2">Rewards Progress</h4>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="text-sm">Free Coffee</div>
+              <div className="text-xs text-gray-500">50 points</div>
+            </div>
+            <Progress value={Math.min((points / 50) * 100, 100)} className="h-1" />
+            
+            <div className="flex items-center justify-between mt-1">
+              <div className="text-sm">$10 Discount</div>
+              <div className="text-xs text-gray-500">100 points</div>
+            </div>
+            <Progress value={Math.min((points / 100) * 100, 100)} className="h-1" />
+            
+            <div className="flex items-center justify-between mt-1">
+              <div className="text-sm">VIP Status</div>
+              <div className="text-xs text-gray-500">500 points</div>
+            </div>
+            <Progress value={Math.min((points / 500) * 100, 100)} className="h-1" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

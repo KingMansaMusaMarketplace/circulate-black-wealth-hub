@@ -15,6 +15,8 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProfilePage from "./pages/ProfilePage";
+import BusinessProfilePage from "./pages/BusinessProfilePage";
+import LoyaltyHistoryPage from "./pages/LoyaltyHistoryPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import TestimonialsPage from "./pages/TestimonialsPage";
@@ -41,6 +43,8 @@ const App = () => (
             <Route path="/new-password" element={<NewPasswordPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/business-profile" element={<BusinessProfilePage />} />
+            <Route path="/loyalty-history" element={<LoyaltyHistoryPage />} />
             <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/team-contact" element={<TeamContactPage />} />
             <Route path="*" element={<NotFound />} />
