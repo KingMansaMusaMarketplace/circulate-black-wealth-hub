@@ -1,30 +1,77 @@
 
-import React, { useState } from 'react';
-import { Landmark, ImageOff } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Landmark, ImageOff, ChevronRight } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const MansaMusaHistory = () => {
   const [imageError, setImageError] = useState(false);
+  const [activeTab, setActiveTab] = useState('legacy');
+  const isMobile = useIsMobile();
+  
+  // Add a subtle animation effect when component mounts
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const images = [
+    {
+      src: "https://images.unsplash.com/photo-1576019097357-3091482c58dc",
+      alt: "Historical artifact representing Mali's trading history",
+      caption: "Artifacts from Mali's golden age"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21",
+      alt: "Historical representation - Mali Empire era",
+      caption: "Representation of Mali's rich history"
+    }
+  ];
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(1);
+
+  const changeImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(changeImage, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentImage = images[currentImageIndex];
 
   return (
-    <section className="py-20 bg-[#121212]">
-      <div className="container-custom">
+    <section className="py-20 bg-[#121212] relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-5">
+        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#FFD700]/10 to-transparent"></div>
+      </div>
+      
+      <div className={`container-custom transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="text-center mb-12">
-          <h2 className="heading-lg text-[#FFD700] mb-4">The Legacy Behind Our Name</h2>
+          <h2 className="heading-lg text-[#FFD700] mb-4 relative">
+            <span className="relative inline-block">
+              The Legacy Behind Our Name
+              <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-[#FFD700]/0 via-[#FFD700] to-[#FFD700]/0"></span>
+            </span>
+          </h2>
           <p className="text-gray-300 max-w-3xl mx-auto text-lg">
             Mansa Musa Marketplace is inspired by the legendary African ruler who exemplifies wealth circulation and community empowerment.
           </p>
         </div>
         
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="bg-[#1E1E1E] rounded-xl shadow-md overflow-hidden">
-            <div className="bg-[#262626] p-6 text-white flex items-center">
+          <div className="bg-[#1E1E1E] rounded-xl shadow-lg overflow-hidden transform hover:translate-y-[-5px] transition-all duration-300">
+            <div className="bg-[#262626] p-6 text-white flex items-center border-b border-[#333333]">
               <Landmark className="h-8 w-8 mr-3 text-[#FFD700]" />
               <h3 className="text-2xl font-bold">Mansa Musa of Mali (c. 1280-1337)</h3>
             </div>
             <div className="p-6">
               <div className="space-y-4">
                 <div className="flex flex-col md:flex-row gap-6 mb-6 items-center">
-                  <div className="md:w-1/3">
+                  <div className="md:w-1/3 relative group">
                     {imageError ? (
                       <div className="rounded-lg bg-gray-800 h-64 w-full flex items-center justify-center">
                         <div className="text-center p-4">
@@ -33,14 +80,19 @@ const MansaMusaHistory = () => {
                         </div>
                       </div>
                     ) : (
-                      <img 
-                        src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21"
-                        alt="Historical representation - Mali Empire era"
-                        className="rounded-lg shadow-md w-full h-64 object-cover"
-                        onError={() => setImageError(true)}
-                      />
+                      <div className="overflow-hidden rounded-lg shadow-md relative">
+                        <img 
+                          src={currentImage.src}
+                          alt={currentImage.alt}
+                          className="rounded-lg w-full h-64 object-cover transform hover:scale-105 transition-transform duration-500"
+                          onError={() => setImageError(true)}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                          <p className="text-white p-3 text-sm">{currentImage.caption}</p>
+                        </div>
+                      </div>
                     )}
-                    <p className="text-xs text-gray-400 mt-2 italic text-center">Representation of Mali's rich history</p>
+                    <p className="text-xs text-gray-400 mt-2 italic text-center">{currentImage.caption}</p>
                   </div>
                   <div className="md:w-2/3">
                     <p className="mb-4 text-gray-200">
@@ -55,22 +107,51 @@ const MansaMusaHistory = () => {
                     </p>
                   </div>
                 </div>
-                <p className="text-gray-200">
-                  <span className="font-bold text-[#FFD700]">Community Investment:</span> He built mosques, universities, and other institutions throughout 
-                  his empire, including the famous Djinguereber Mosque in Timbuktu. Under his rule, Timbuktu became a center of education, 
-                  commerce, and Islamic scholarship.
-                </p>
-                <p className="text-gray-200">
-                  <span className="font-bold text-[#FFD700]">Legacy of Circulation:</span> Mansa Musa's approach to wealth was not merely about accumulation but 
-                  circulation. He invested in his community, sponsored arts and education, and helped establish Mali as a cultural and economic 
-                  powerhouse.
-                </p>
+                
+                <div className="border-t border-[#333333] pt-4">
+                  <div className="flex space-x-4 mb-4">
+                    <button 
+                      className={`px-4 py-2 rounded-md transition-colors ${activeTab === 'legacy' ? 'bg-[#FFD700]/20 text-[#FFD700]' : 'text-gray-400 hover:bg-[#333333]'}`}
+                      onClick={() => setActiveTab('legacy')}
+                    >
+                      Legacy
+                    </button>
+                    <button 
+                      className={`px-4 py-2 rounded-md transition-colors ${activeTab === 'community' ? 'bg-[#FFD700]/20 text-[#FFD700]' : 'text-gray-400 hover:bg-[#333333]'}`}
+                      onClick={() => setActiveTab('community')}
+                    >
+                      Community
+                    </button>
+                  </div>
+                  
+                  <div className="min-h-[120px]">
+                    {activeTab === 'legacy' && (
+                      <div className="animate-fade-in">
+                        <p className="text-gray-200">
+                          <span className="font-bold text-[#FFD700]">Community Investment:</span> He built mosques, universities, and other institutions throughout 
+                          his empire, including the famous Djinguereber Mosque in Timbuktu. Under his rule, Timbuktu became a center of education, 
+                          commerce, and Islamic scholarship.
+                        </p>
+                      </div>
+                    )}
+                    
+                    {activeTab === 'community' && (
+                      <div className="animate-fade-in">
+                        <p className="text-gray-200">
+                          <span className="font-bold text-[#FFD700]">Legacy of Circulation:</span> Mansa Musa's approach to wealth was not merely about accumulation but 
+                          circulation. He invested in his community, sponsored arts and education, and helped establish Mali as a cultural and economic 
+                          powerhouse.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           
           <div className="space-y-6">
-            <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-[#FFD700] shadow-sm">
+            <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-[#FFD700] shadow-md hover:shadow-lg transition-all duration-300 transform hover:translate-y-[-5px]">
               <h3 className="text-xl font-bold mb-3 text-white">Our Inspiration</h3>
               <p className="text-gray-300">
                 Mansa Musa Marketplace draws inspiration from this legacy of economic power coupled with community reinvestment. 
@@ -79,7 +160,7 @@ const MansaMusaHistory = () => {
               </p>
             </div>
             
-            <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-[#7D5AF0] shadow-sm">
+            <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-[#7D5AF0] shadow-md hover:shadow-lg transition-all duration-300 transform hover:translate-y-[-5px]">
               <h3 className="text-xl font-bold mb-3 text-white">Our Mission</h3>
               <p className="text-gray-300">
                 We're creating modern infrastructure for wealth circulation within Black communities. By connecting consumers 
@@ -88,8 +169,11 @@ const MansaMusaHistory = () => {
               </p>
             </div>
             
-            <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-[#FFD700] shadow-sm">
-              <h3 className="text-xl font-bold mb-3 text-white">The Circulation Principle</h3>
+            <div className="bg-[#1E1E1E] p-6 rounded-xl border-l-4 border-[#FFD700] shadow-md hover:shadow-lg transition-all duration-300 transform hover:translate-y-[-5px]">
+              <h3 className="text-xl font-bold mb-3 text-white flex items-center">
+                The Circulation Principle
+                <ChevronRight className="h-5 w-5 text-[#FFD700] ml-2" />
+              </h3>
               <p className="text-gray-300">
                 While the Black dollar currently circulates for just 6 hours in Black communities (compared to 28+ days in other 
                 communities), our platform is designed to extend this circulation time. Every additional hour represents new opportunities 
