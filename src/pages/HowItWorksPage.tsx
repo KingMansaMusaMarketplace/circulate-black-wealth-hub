@@ -1,14 +1,16 @@
 
 import React, { useEffect } from 'react';
-import HeroSection from '@/components/HowItWorks/HeroSection';
-import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
-import BenefitsSection from '@/components/HowItWorks/BenefitsSection';
-import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
-import FAQSection from '@/components/HowItWorks/FAQSection';
-import CTASection from '@/components/HowItWorks/CTASection';
-import TestimonialsSection from '@/components/HowItWorks/TestimonialsSection';
-import CirculationVisualization from '@/components/HowItWorks/CirculationVisualization';
-import PageNavigation from '@/components/HowItWorks/PageNavigation';
+import { 
+  HeroSection, 
+  HowItWorksSteps, 
+  BenefitsSection, 
+  MansaMusaHistory, 
+  FAQSection, 
+  CTASection,
+  TestimonialsSection,
+  CirculationVisualization,
+  PageNavigation
+} from '@/components/HowItWorks';
 
 const HowItWorksPage = () => {
   useEffect(() => {
