@@ -3,30 +3,11 @@ import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/dashboard';
-import { Award, Calendar, QrCode, Star } from 'lucide-react';
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardHeader, 
-  CardTitle 
-} from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Award } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from 'sonner';
-import RewardsCatalog from '@/components/RewardsCatalog';
+import LoyaltyHistory from '@/components/loyalty/LoyaltyHistory';
+import RewardsTab from '@/components/loyalty/RewardsTab';
 
 const LoyaltyHistoryPage = () => {
   const { user, loading } = useAuth();
@@ -99,8 +80,63 @@ const LoyaltyHistoryPage = () => {
     },
   ]);
   
+  const [rewards, setRewards] = useState([
+    {
+      id: 1,
+      title: "$10 off at Soul Food Kitchen",
+      description: "Get $10 off your next purchase of $30 or more at Soul Food Kitchen.",
+      pointsCost: 100,
+      category: "Restaurant Deals",
+      expiresAt: "2023-06-30"
+    },
+    {
+      id: 2,
+      title: "Free Haircut at Prestigious Cuts",
+      description: "Redeem a free haircut at Prestigious Cuts barber shop.",
+      pointsCost: 200,
+      category: "Beauty & Wellness",
+      expiresAt: "2023-07-15"
+    },
+    {
+      id: 3,
+      title: "20% off any book at Heritage Bookstore",
+      description: "Get 20% off any book purchase at Heritage Bookstore.",
+      pointsCost: 75,
+      category: "Retail Rewards",
+    },
+    {
+      id: 4,
+      title: "Free Financial Consultation",
+      description: "Redeem a 30-minute financial consultation at Prosperity Financial.",
+      pointsCost: 150,
+      category: "Services",
+      expiresAt: "2023-08-01"
+    },
+    {
+      id: 5,
+      title: "$25 Mansa Musa Gift Card",
+      description: "Get a $25 gift card to use at any participating business.",
+      pointsCost: 250,
+      category: "Gift Cards",
+    },
+    {
+      id: 6,
+      title: "Buy One Get One Free at Royal Apparel",
+      description: "Buy any item and get one of equal or lesser value for free.",
+      pointsCost: 175,
+      category: "Retail Rewards",
+      expiresAt: "2023-07-31"
+    }
+  ]);
+  
   // Handle reward redemption
   const handleRedeemReward = (rewardId: number, pointsCost: number) => {
+    // Check if user has enough points
+    if (loyaltyStats.totalPoints < pointsCost) {
+      toast.error("Not enough points to redeem this reward");
+      return;
+    }
+    
     // Update points balance
     setLoyaltyStats(prev => ({
       ...prev,
@@ -120,8 +156,11 @@ const LoyaltyHistoryPage = () => {
     
     setTransactions([newTransaction, ...transactions]);
     
-    toast("Points Redeemed", {
-      description: `${pointsCost} points have been deducted from your balance.`
+    // Find the reward to show in the toast
+    const redeemedReward = rewards.find(r => r.id === rewardId);
+    
+    toast.success("Reward Redeemed", {
+      description: `You've redeemed "${redeemedReward?.title}". ${pointsCost} points have been deducted.`
     });
   };
   
@@ -153,93 +192,13 @@ const LoyaltyHistoryPage = () => {
         </TabsList>
         
         <TabsContent value="history" className="space-y-6">
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Total Points Balance</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-2xl font-bold">{loyaltyStats.totalPoints}</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Total Points Earned</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-2xl font-bold text-green-600">{loyaltyStats.pointsEarned}</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Total Points Redeemed</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-2xl font-bold text-red-600">{loyaltyStats.pointsRedeemed}</p>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription>Visits This Month</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-2xl font-bold">{loyaltyStats.visitsThisMonth}</p>
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Transaction History */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Transaction History</CardTitle>
-              <CardDescription>
-                Your complete history of points earned and redeemed
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Business</TableHead>
-                    <TableHead>Action</TableHead>
-                    <TableHead>Points</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Time</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {transactions.map((transaction) => (
-                    <TableRow key={transaction.id}>
-                      <TableCell className="font-medium">{transaction.businessName}</TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-1">
-                          {transaction.action === 'Scan' && <QrCode size={14} />}
-                          {transaction.action === 'Review' && <Star size={14} />}
-                          {transaction.action === 'Referral' && <Award size={14} />}
-                          {transaction.action === 'Redemption' && <Calendar size={14} />}
-                          {transaction.action}
-                        </div>
-                      </TableCell>
-                      <TableCell className={transaction.points > 0 ? "text-green-600" : "text-red-600"}>
-                        {transaction.points > 0 ? `+${transaction.points}` : transaction.points}
-                      </TableCell>
-                      <TableCell>{transaction.date}</TableCell>
-                      <TableCell>{transaction.time}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+          <LoyaltyHistory stats={loyaltyStats} transactions={transactions} />
         </TabsContent>
         
         <TabsContent value="rewards">
-          <RewardsCatalog 
+          <RewardsTab 
             availablePoints={loyaltyStats.totalPoints}
+            rewards={rewards}
             onRedeem={handleRedeemReward}
           />
         </TabsContent>

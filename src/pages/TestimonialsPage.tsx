@@ -1,194 +1,133 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Card, CardContent } from '@/components/ui/card';
-import { Star } from 'lucide-react';
+import { AnimatedTestimonial, TestimonialNavigation, TestimonialDots } from '@/components/HowItWorks/Testimonials';
+import { testimonials } from '@/components/HowItWorks/Testimonials/testimonialData';
 import { Button } from '@/components/ui/button';
-
-type TestimonialType = 'all' | 'customer' | 'business';
-
-interface Testimonial {
-  name: string;
-  role: string;
-  content: string;
-  rating: number;
-  image: string;
-  type: TestimonialType;
-}
+import { Card, CardContent } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
 
 const TestimonialsPage = () => {
-  const [filter, setFilter] = useState<TestimonialType>('all');
-  
-  const testimonials: Testimonial[] = [
-    {
-      name: "James Wilson",
-      role: "Customer",
-      content: "I've saved over $200 in my first month using Mansa Musa Marketplace. The app makes it easy to find quality Black-owned businesses in my neighborhood.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60",
-      type: "customer"
-    },
-    {
-      name: "Michelle Johnson",
-      role: "Business Owner",
-      content: "Since joining Mansa Musa Marketplace, my customer base has grown by 40%. The platform brings in customers who are genuinely committed to supporting Black businesses.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
-      type: "business"
-    },
-    {
-      name: "David Thompson",
-      role: "Customer",
-      content: "The loyalty program is a game-changer. I've earned enough points to get significant discounts at my favorite restaurants and stores.",
-      rating: 4,
-      image: "https://randomuser.me/api/portraits/men/22.jpg",
-      type: "customer"
-    },
-    {
-      name: "Alisha Brown",
-      role: "Business Owner",
-      content: "As a small business owner, visibility is everything. Mansa Musa Marketplace has connected me with customers I wouldn't have reached otherwise.",
-      rating: 5,
-      image: "https://randomuser.me/api/portraits/women/28.jpg",
-      type: "business"
-    },
-    {
-      name: "Marcus Lee",
-      role: "Customer",
-      content: "I appreciate how easy the app makes it to discover Black-owned businesses. It's become my go-to resource when I'm looking for new places to support.",
-      rating: 4,
-      image: "https://randomuser.me/api/portraits/men/53.jpg",
-      type: "customer"
-    },
-    {
-      name: "Keisha Davis",
-      role: "Business Owner",
-      content: "The analytics tools have helped me understand my customers better. I've been able to adjust my offerings based on real data and it's made a huge difference.",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YmxhY2slMjB3b21hbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-      type: "business"
-    },
-    {
-      name: "Terrell Washington",
-      role: "Customer",
-      content: "The community events organized through the app have been amazing. I've made connections with like-minded individuals all focused on supporting our community.",
-      rating: 5,
-      image: "https://randomuser.me/api/portraits/men/42.jpg",
-      type: "customer"
-    },
-    {
-      name: "Jasmine King",
-      role: "Customer",
-      content: "I love how the app highlights businesses I'd never have discovered otherwise. It's opened up a whole new world of shopping options for me and my family.",
-      rating: 5,
-      image: "https://randomuser.me/api/portraits/women/33.jpg",
-      type: "customer"
-    },
-    {
-      name: "Omar Richardson",
-      role: "Business Owner",
-      content: "The loyalty program has significantly increased customer retention for my business. People keep coming back because they know they're getting value.",
-      rating: 5,
-      image: "https://randomuser.me/api/portraits/men/91.jpg",
-      type: "business"
-    },
-    {
-      name: "Tanya Williams",
-      role: "Business Owner",
-      content: "As a new business owner, Mansa Musa Marketplace gave me the visibility I needed to get started. I couldn't have grown as quickly without this platform.",
-      rating: 4,
-      image: "https://randomuser.me/api/portraits/women/90.jpg",
-      type: "business"
-    }
-  ];
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [animating, setAnimating] = useState(false);
 
-  const filteredTestimonials = testimonials.filter(
-    t => filter === 'all' || t.type === filter
-  );
+  const handlePrevious = () => {
+    if (animating) return;
+    setAnimating(true);
+    setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setTimeout(() => setAnimating(false), 500);
+  };
+
+  const handleNext = () => {
+    if (animating) return;
+    setAnimating(true);
+    setActiveIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setTimeout(() => setAnimating(false), 500);
+  };
+
+  const handleDotClick = (index: number) => {
+    if (animating || index === activeIndex) return;
+    setAnimating(true);
+    setActiveIndex(index);
+    setTimeout(() => setAnimating(false), 500);
+  };
+
+  useEffect(() => {
+    // Auto-advance testimonials every 8 seconds
+    const interval = setInterval(() => {
+      handleNext();
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, [activeIndex]);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-grow">
-        <section className="py-16 bg-gradient-to-b from-mansablue to-mansablue-dark text-white">
-          <div className="container-custom text-center px-4">
-            <h1 className="heading-lg mb-4">Community Testimonials</h1>
-            <p className="max-w-2xl mx-auto text-white/80">
-              Hear from customers and business owners who are part of our growing economic movement.
+        {/* Hero Section */}
+        <div className="bg-gradient-to-br from-mansablue to-mansablue-dark text-white py-16">
+          <div className="container-custom">
+            <h1 className="heading-xl mb-4 text-center">
+              Hear From Our Community
+            </h1>
+            <p className="text-lg text-center mx-auto max-w-2xl mb-8">
+              Real stories from real people who are circulating wealth within the Black community
             </p>
           </div>
-        </section>
+        </div>
 
-        <section className="py-12 md:py-16">
-          <div className="container-custom px-4">
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              <Button 
-                variant={filter === 'all' ? "default" : "outline"} 
-                onClick={() => setFilter('all')}
-                className="transition-all duration-300"
-              >
-                All Testimonials
-              </Button>
-              <Button 
-                variant={filter === 'customer' ? "default" : "outline"} 
-                onClick={() => setFilter('customer')}
-                className="transition-all duration-300"
-              >
-                Customer Experiences
-              </Button>
-              <Button 
-                variant={filter === 'business' ? "default" : "outline"} 
-                onClick={() => setFilter('business')}
-                className="transition-all duration-300"
-              >
-                Business Owner Stories
-              </Button>
+        {/* Testimonials Showcase */}
+        <div className="py-16 bg-gray-50">
+          <div className="container-custom">
+            <div className="relative max-w-3xl mx-auto">
+              <AnimatedTestimonial 
+                testimonial={testimonials[activeIndex]} 
+                key={`testimonial-${activeIndex}`} 
+              />
+              
+              <TestimonialNavigation 
+                onPrevious={handlePrevious} 
+                onNext={handleNext} 
+              />
             </div>
+            
+            <TestimonialDots 
+              count={testimonials.length} 
+              activeIndex={activeIndex} 
+              onDotClick={handleDotClick} 
+            />
+          </div>
+        </div>
 
+        {/* Featured Testimonials Grid */}
+        <div className="py-16 bg-white">
+          <div className="container-custom">
+            <h2 className="heading-lg mb-8 text-center">More Stories</h2>
+            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredTestimonials.map((testimonial, index) => (
-                <Card 
-                  key={index} 
-                  className="border-mansagold/20 hover:shadow-lg transition-all duration-300 h-full transform hover:-translate-y-1"
-                >
-                  <CardContent className="p-6 flex flex-col h-full">
+              {testimonials.map((testimonial, idx) => (
+                <Card key={idx} className="overflow-hidden transition-all hover:shadow-lg">
+                  <CardContent className="p-6">
                     <div className="flex items-center mb-4">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="h-5 w-5 fill-mansagold text-mansagold" />
-                      ))}
-                      <span className="ml-auto text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
-                        {testimonial.type === 'customer' ? 'Customer' : 'Business Owner'}
-                      </span>
-                    </div>
-                    <p className="text-gray-700 mb-6 italic flex-grow">
-                      "{testimonial.content}"
-                    </p>
-                    <div className="border-t pt-4 flex items-center">
-                      <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-                        <img 
-                          src={testimonial.image} 
-                          alt={`${testimonial.name}'s profile`}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
+                      <div className="w-12 h-12 rounded-full bg-mansablue/20 flex items-center justify-center mr-4">
+                        <span className="text-mansablue font-bold">{testimonial.name.charAt(0)}</span>
                       </div>
                       <div>
-                        <p className="font-bold text-lg">{testimonial.name}</p>
-                        <p className="text-gray-500">{testimonial.role}</p>
+                        <h3 className="font-bold text-lg">{testimonial.name}</h3>
+                        <p className="text-sm text-gray-500">{testimonial.role}</p>
                       </div>
                     </div>
+                    <p className="text-gray-700">"{testimonial.quote.substring(0, 120)}..."</p>
                   </CardContent>
                 </Card>
               ))}
             </div>
-
-            {filteredTestimonials.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-gray-500">No testimonials found matching your filter.</p>
-              </div>
-            )}
           </div>
-        </section>
+        </div>
+
+        {/* CTA Section */}
+        <div className="bg-mansagold py-16">
+          <div className="container-custom text-center">
+            <h2 className="heading-lg text-white mb-4">Join Our Community Today</h2>
+            <p className="text-white text-lg mb-8 max-w-2xl mx-auto">
+              Be part of the movement to circulate Black wealth and create lasting economic change in our communities.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/signup">
+                <Button size="lg" className="bg-white text-mansagold hover:bg-gray-100">
+                  Sign Up Now
+                </Button>
+              </Link>
+              <Link to="/how-it-works">
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10">
+                  Learn More
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
       </main>
       <Footer />
     </div>

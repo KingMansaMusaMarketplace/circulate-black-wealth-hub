@@ -22,6 +22,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import TestimonialsPage from "./pages/TestimonialsPage";
 import TeamContactPage from "./pages/TeamContactPage";
+import QRCodeManagementPage from "./pages/QRCodeManagementPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="/loyalty-history" element={<LoyaltyHistoryPage />} />
             <Route path="/testimonials" element={<TestimonialsPage />} />
             <Route path="/team-contact" element={<TeamContactPage />} />
+            <Route path="/qr-code-management" element={<QRCodeManagementPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

@@ -3,18 +3,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from "sonner";
 import { QrCode, Camera, CameraOff } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { useLoyaltyQRCode } from '@/hooks/use-loyalty-qr-code';
 
 const QRCodeScanner = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [scanned, setScanned] = useState(false);
-  const [points, setPoints] = useState(0);
-  const [businessName, setBusinessName] = useState('');
   const [hasCamera, setHasCamera] = useState(true);
   const [permissionStatus, setPermissionStatus] = useState<'granted' | 'denied' | 'prompt'>('prompt');
   const [recentScans, setRecentScans] = useState<Array<{name: string, points: number, date: string}>>([]);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const scannerIntervalRef = useRef<number | null>(null);
+  const isMobile = useIsMobile();
+  const { scanQRAndProcessPoints, scanResult } = useLoyaltyQRCode({ autoRefresh: true });
 
   // Check if camera permission is available
   useEffect(() => {
@@ -60,6 +62,25 @@ const QRCodeScanner = () => {
     };
   }, []);
 
+  // Update recent scans when a new scan is processed
+  useEffect(() => {
+    if (scanResult) {
+      const newScan = {
+        name: scanResult.businessName || 'Business',
+        points: scanResult.pointsEarned || 0,
+        date: new Date().toLocaleDateString()
+      };
+      
+      setRecentScans(prev => [newScan, ...prev].slice(0, 5));
+      setScanned(true);
+      
+      // Reset after showing success
+      setTimeout(() => {
+        setScanned(false);
+      }, 3000);
+    }
+  }, [scanResult]);
+
   // Simulate QR scanning with real camera stream
   const handleScan = async () => {
     setIsScanning(true);
@@ -70,7 +91,7 @@ const QRCodeScanner = () => {
       if (permissionStatus === 'granted') {
         // Attempt to get camera stream
         const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { facingMode: 'environment' } 
+          video: { facingMode: isMobile ? 'environment' : 'user' } 
         });
         
         if (videoRef.current) {
@@ -104,39 +125,17 @@ const QRCodeScanner = () => {
   };
   
   // Process a successful scan
-  const processScannedResult = () => {
+  const processScannedResult = async () => {
     setIsScanning(false);
-    setScanned(true);
     
-    // Simulate different businesses and points values
-    const businesses = [
-      { name: "Soul Food Kitchen", points: 10 },
-      { name: "Prestigious Cuts", points: 15 },
-      { name: "Heritage Bookstore", points: 8 },
-      { name: "Prosperity Financial", points: 20 }
-    ];
+    // Use the QR code scanning hook to process the scan
+    // For simulation, we're using a random QR code ID
+    const qrCodeId = `qr-${Math.random().toString(36).substring(2, 10)}`;
     
-    const randomBusiness = businesses[Math.floor(Math.random() * businesses.length)];
-    setBusinessName(randomBusiness.name);
-    setPoints(randomBusiness.points);
-    
-    toast("Scan Successful!", {
-      description: `You earned ${randomBusiness.points} loyalty points at ${randomBusiness.name}.`,
+    await scanQRAndProcessPoints(qrCodeId, {
+      lat: 33.748997,
+      lng: -84.387985
     });
-    
-    // Add to recent scans
-    const newScan = {
-      name: randomBusiness.name,
-      points: randomBusiness.points,
-      date: new Date().toLocaleDateString()
-    };
-    
-    setRecentScans(prev => [newScan, ...prev].slice(0, 5));
-    
-    // Reset after showing success
-    setTimeout(() => {
-      setScanned(false);
-    }, 3000);
   };
 
   const requestCameraPermission = async () => {
@@ -181,14 +180,14 @@ const QRCodeScanner = () => {
               </div>
             </div>
           </div>
-        ) : scanned ? (
+        ) : scanned && scanResult ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-mansagold bg-opacity-90">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <p className="text-white font-bold text-xl">Success!</p>
-            <p className="text-white text-lg">+{points} Points</p>
-            <p className="text-white mt-1">{businessName}</p>
+            <p className="text-white text-lg">+{scanResult.pointsEarned} Points</p>
+            <p className="text-white mt-1">{scanResult.businessName}</p>
           </div>
         ) : !hasCamera ? (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
