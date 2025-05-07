@@ -18,7 +18,7 @@ const AuthorSection = () => {
                   <AvatarImage 
                     src="/lovable-uploads/1dd9f7bc-bb83-4c92-b250-e11f63790f8c.png" 
                     alt="Thomas D. Bowling" 
-                    className="object-cover"
+                    className="object-contain"
                   />
                   <AvatarFallback className="text-mansablue font-spartan font-bold text-4xl bg-white">
                     TB
