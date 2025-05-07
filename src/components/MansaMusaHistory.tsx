@@ -21,16 +21,28 @@ const MansaMusaHistory = () => {
             </div>
             <div className="p-6">
               <div className="space-y-4">
-                <p>
-                  <span className="font-bold text-mansablue">The Richest Person in History:</span> Mansa Musa was the Emperor of the Mali Empire in West Africa 
-                  and is widely considered to be the wealthiest individual to have ever lived. His wealth was so vast that historians 
-                  have difficulty calculating it in modern terms, but estimates place his fortune at an equivalent of $400 billion.
-                </p>
-                <p>
-                  <span className="font-bold text-mansablue">Economic Impact:</span> During his famous pilgrimage to Mecca in 1324, Mansa Musa's generosity 
-                  and spending were so significant that they caused inflation in the economies of Cairo, Medina, and Mecca due to the 
-                  amount of gold he distributed.
-                </p>
+                <div className="flex flex-col md:flex-row gap-6 mb-6 items-center">
+                  <div className="md:w-1/3">
+                    <img 
+                      src="https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                      alt="Historical representation of Mansa Musa era architecture" 
+                      className="rounded-lg shadow-md w-full h-auto"
+                    />
+                    <p className="text-xs text-gray-500 mt-2 italic text-center">Historical architecture from Mansa Musa's era</p>
+                  </div>
+                  <div className="md:w-2/3">
+                    <p className="mb-4">
+                      <span className="font-bold text-mansablue">The Richest Person in History:</span> Mansa Musa was the Emperor of the Mali Empire in West Africa 
+                      and is widely considered to be the wealthiest individual to have ever lived. His wealth was so vast that historians 
+                      have difficulty calculating it in modern terms, but estimates place his fortune at an equivalent of $400 billion.
+                    </p>
+                    <p>
+                      <span className="font-bold text-mansablue">Economic Impact:</span> During his famous pilgrimage to Mecca in 1324, Mansa Musa's generosity 
+                      and spending were so significant that they caused inflation in the economies of Cairo, Medina, and Mecca due to the 
+                      amount of gold he distributed.
+                    </p>
+                  </div>
+                </div>
                 <p>
                   <span className="font-bold text-mansablue">Community Investment:</span> He built mosques, universities, and other institutions throughout 
                   his empire, including the famous Djinguereber Mosque in Timbuktu. Under his rule, Timbuktu became a center of education, 
