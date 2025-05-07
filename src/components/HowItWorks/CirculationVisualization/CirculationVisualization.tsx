@@ -50,10 +50,10 @@ const CirculationVisualization = () => {
   };
 
   return (
-    <section id="circulation-visualization" className="py-12 bg-white">
+    <section id="circulation-visualization" className="py-6 bg-white">
       <div className="container-custom">
-        <div className="text-center mb-8">
-          <h2 className="heading-lg text-mansablue mb-2">See The Money Flow</h2>
+        <div className="text-center mb-6">
+          <h2 className="heading-lg text-mansablue mb-1">See The Money Flow</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             When you spend at Black-owned businesses, your money circulates in the community multiple times, creating a stronger economic foundation.
           </p>
@@ -68,7 +68,7 @@ const CirculationVisualization = () => {
           />
           
           {/* Information Cards */}
-          <div className="grid md:grid-cols-3 gap-4 mt-8">
+          <div className="grid md:grid-cols-3 gap-3 mt-4">
             <InfoCard 
               number="1"
               title="Members Spend"

@@ -43,23 +43,23 @@ const HowItWorksSteps = () => {
   ];
   
   return (
-    <section className="py-20">
+    <section id="how-it-works" className="py-8">
       <div className="container-custom">
-        <div className="space-y-20">
+        <div className="space-y-10">
           {steps.map((step, index) => (
-            <div key={step.number} className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-12 items-center`}>
+            <div key={step.number} className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center`}>
               <div className="md:w-1/2">
-                <div className="mb-4 flex items-center">
+                <div className="mb-2 flex items-center">
                   <span className="text-5xl mr-4">{step.icon}</span>
                   <span className="text-mansagold font-bold text-xl">{step.number}</span>
                 </div>
-                <h2 className="heading-md text-mansablue-dark mb-4">{step.title}</h2>
-                <p className="text-gray-600 text-lg mb-6">{step.description}</p>
+                <h2 className="heading-md text-mansablue-dark mb-3">{step.title}</h2>
+                <p className="text-gray-600 text-lg mb-4">{step.description}</p>
                 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {step.details.map((detail, i) => (
                     <div key={i} className="flex items-start">
-                      <CheckCircle2 className="h-6 w-6 text-mansagold mr-3 flex-shrink-0 mt-0.5" />
+                      <CheckCircle2 className="h-5 w-5 text-mansagold mr-2 flex-shrink-0 mt-0.5" />
                       <span className="text-gray-700">{detail}</span>
                     </div>
                   ))}
@@ -67,7 +67,8 @@ const HowItWorksSteps = () => {
               </div>
               
               <div className="md:w-1/2">
-                <div className={`bg-gray-50 rounded-xl p-8 border ${index % 2 === 1 ? 'border-mansagold' : 'border-mansablue'}`}>
+                <div className={`bg-gray-50 rounded-xl p-4 border ${index % 2 === 1 ? 'border-mansagold' : 'border-mansablue'}`}>
+                  {/* Content kept the same but with reduced padding */}
                   {index === 0 && (
                     <div className="bg-white rounded-lg shadow-sm p-6">
                       <div className="flex justify-between items-center mb-6">

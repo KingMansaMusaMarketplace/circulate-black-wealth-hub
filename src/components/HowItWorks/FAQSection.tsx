@@ -75,15 +75,15 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="py-20">
+    <section id="faq" className="py-8">
       <div className="container-custom">
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="heading-lg text-mansablue mb-4">Frequently Asked Questions</h2>
+          <h2 className="heading-lg text-mansablue mb-2">Frequently Asked Questions</h2>
           <p className="text-gray-600 max-w-3xl mx-auto">
             Find answers to common questions about Mansa Musa Marketplace.
           </p>
@@ -99,7 +99,7 @@ const FAQSection = () => {
             <motion.div 
               key={i} 
               className={cn(
-                "border-b border-gray-200 py-6 transition-all duration-300",
+                "border-b border-gray-200 py-3 transition-all duration-300",
                 expandedFaq === i ? "bg-gray-50 rounded-lg px-4 -mx-4" : ""
               )}
               variants={itemVariants}
@@ -138,7 +138,7 @@ const FAQSection = () => {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <p className="text-gray-600 mt-4">{faq.answer}</p>
+                    <p className="text-gray-600 mt-2">{faq.answer}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -147,7 +147,7 @@ const FAQSection = () => {
         </motion.div>
         
         <motion.div 
-          className="text-center mt-12"
+          className="text-center mt-6"
           initial={{ opacity: 0 }}
           animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}

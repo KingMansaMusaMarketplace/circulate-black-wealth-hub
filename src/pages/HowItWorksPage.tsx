@@ -27,8 +27,8 @@ const HowItWorksPage = () => {
       <Navbar />
       <HeroSection />
       
-      {/* Minimal decorative divider */}
-      <div className="bg-gray-50 py-0.5">
+      {/* Minimal decorative divider with no extra space */}
+      <div className="bg-gray-50">
         <div className="container-custom">
           <div className="flex justify-center">
             <div className="flex items-center space-x-3">
@@ -54,8 +54,8 @@ const HowItWorksPage = () => {
       <div className="flex-grow">
         <HowItWorksSteps />
         
-        {/* Minimal separator */}
-        <div className="py-0.5 bg-gray-50">
+        {/* Minimal visual separator with no padding */}
+        <div className="bg-gray-50">
           <div className="container-custom">
             <div className="flex justify-center">
               <div className="h-0.5 w-24 bg-gradient-to-r from-mansagold/20 via-mansagold to-mansagold/20"></div>
@@ -65,8 +65,8 @@ const HowItWorksPage = () => {
         
         <CirculationVisualization />
         
-        {/* Minimal separator */}
-        <div className="py-0.5 bg-white">
+        {/* Minimal separator with no padding */}
+        <div className="bg-white">
           <div className="container-custom">
             <div className="flex justify-center space-x-2">
               <div className="w-1.5 h-1.5 rounded-full bg-mansablue"></div>
@@ -80,7 +80,7 @@ const HowItWorksPage = () => {
         <TestimonialsSection />
         
         {/* Minimal separator */}
-        <div className="relative py-0.5">
+        <div className="relative">
           <div className="flex justify-center">
             <div className="h-0.5 w-24 bg-gradient-to-r from-mansablue/20 via-mansablue to-mansablue/20"></div>
           </div>
@@ -89,7 +89,7 @@ const HowItWorksPage = () => {
         <MansaMusaHistory />
         <FAQSection />
         
-        {/* Keep the visual divider but ensure it doesn't create excess space */}
+        {/* Very compact VisualDivider */}
         <VisualDivider />
         
         <CTASection />
