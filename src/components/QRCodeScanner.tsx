@@ -48,8 +48,7 @@ const QRCodeScanner = () => {
       setBusinessName(randomBusiness.name);
       setPoints(randomBusiness.points);
       
-      toast({
-        title: "Scan Successful!",
+      toast("Scan Successful!", {
         description: `You earned ${randomBusiness.points} loyalty points at ${randomBusiness.name}.`,
       });
       
@@ -62,8 +61,7 @@ const QRCodeScanner = () => {
 
   const requestCameraPermission = () => {
     // In a real implementation, this would request camera permission
-    toast({
-      title: "Camera Access Required",
+    toast("Camera Access Required", {
       description: "This app needs permission to access your camera for scanning QR codes."
     });
     setHasCamera(true);
