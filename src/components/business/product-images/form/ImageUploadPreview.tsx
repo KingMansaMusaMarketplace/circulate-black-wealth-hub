@@ -65,7 +65,6 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
             fileInputRef.current.files = dataTransfer.files;
             
             // Dispatch change event to update the form state
-            // Fix Error #1: Create event with proper type and arguments
             const event = new Event('change', { bubbles: true });
             fileInputRef.current.dispatchEvent(event);
           }
@@ -103,7 +102,6 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
       fileInputRef.current.files = dataTransfer.files;
       
       // Dispatch change event to update form state
-      // Fix Error #1: Create event with proper type and arguments
       const event = new Event('change', { bubbles: true });
       fileInputRef.current.dispatchEvent(event);
     }
