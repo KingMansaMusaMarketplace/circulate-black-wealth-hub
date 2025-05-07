@@ -124,22 +124,22 @@ const ContactSection = () => {
                           whileHover={{ scale: 1.02 }}
                           onClick={() => setActiveContact(item.id === activeContact ? null : item.id)}
                         >
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center mr-4 ${
+                          <div className={`min-w-10 h-10 rounded-full flex items-center justify-center mr-4 ${
                             activeContact === item.id ? 'bg-white text-mansablue' : 'bg-mansablue text-white'
                           }`}>
                             <item.icon className="h-5 w-5" />
                           </div>
-                          <div>
+                          <div className="flex-1 min-w-0">
                             <h4 className="font-medium">{item.title}</h4>
                             {item.link ? (
                               <a 
                                 href={item.link} 
-                                className={activeContact === item.id ? "text-white/80" : "text-mansablue hover:text-mansagold transition-colors"}
+                                className={`${activeContact === item.id ? "text-white/80" : "text-mansablue hover:text-mansagold transition-colors"} break-words truncate`}
                               >
                                 {item.value}
                               </a>
                             ) : (
-                              <address className="not-italic text-sm text-gray-600">
+                              <address className="not-italic text-sm text-gray-600 truncate">
                                 {item.value}
                               </address>
                             )}
@@ -148,6 +148,14 @@ const ContactSection = () => {
                       </PopoverTrigger>
                       <PopoverContent className="w-80 p-4">
                         <p className="text-sm text-gray-600">{item.description}</p>
+                        {item.link && (
+                          <a 
+                            href={item.link} 
+                            className="text-mansablue hover:text-mansagold transition-colors text-sm block mt-2"
+                          >
+                            {item.value}
+                          </a>
+                        )}
                       </PopoverContent>
                     </Popover>
                   ))}
