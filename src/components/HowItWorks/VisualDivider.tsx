@@ -5,11 +5,11 @@ import { CircleDollarSign, ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from 'luc
 
 const VisualDivider: React.FC = () => {
   return (
-    <div className="bg-gradient-to-b from-white via-gray-50 to-white py-20 relative overflow-hidden">
+    <div className="bg-gradient-to-b from-white via-gray-50 to-white py-8 relative overflow-hidden">
       {/* Background patterns */}
       <div className="absolute inset-0 pattern-dots opacity-5 pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-mansablue/5 to-transparent"></div>
-      <div className="absolute top-0 right-0 w-full h-40 bg-gradient-to-b from-mansagold/5 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-mansablue/5 to-transparent"></div>
+      <div className="absolute top-0 right-0 w-full h-20 bg-gradient-to-b from-mansagold/5 to-transparent"></div>
       
       <div className="container-custom">
         <div className="max-w-4xl mx-auto">
@@ -19,16 +19,16 @@ const VisualDivider: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="text-center mb-12"
+            className="text-center mb-6"
           >
-            <h3 className="text-2xl font-semibold text-mansablue mb-4">Community Wealth Circulation</h3>
-            <p className="text-gray-600">
+            <h3 className="text-xl font-semibold text-mansablue mb-2">Community Wealth Circulation</h3>
+            <p className="text-gray-600 text-sm">
               The path to economic empowerment begins with intentional spending within our community
             </p>
           </motion.div>
           
-          {/* Visual circulation pattern */}
-          <div className="relative h-60 md:h-80">
+          {/* Visual circulation pattern - made more compact */}
+          <div className="relative h-40 md:h-60">
             {/* Central element */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
@@ -37,8 +37,8 @@ const VisualDivider: React.FC = () => {
               transition={{ duration: 0.5 }}
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
             >
-              <div className="w-28 h-28 rounded-full bg-mansablue flex items-center justify-center relative">
-                <CircleDollarSign className="text-white w-10 h-10" />
+              <div className="w-20 h-20 rounded-full bg-mansablue flex items-center justify-center relative">
+                <CircleDollarSign className="text-white w-8 h-8" />
                 {/* Animated pulse effect */}
                 <div className="absolute inset-0 rounded-full border-4 border-mansablue animate-ping opacity-20"></div>
               </div>
@@ -50,11 +50,11 @@ const VisualDivider: React.FC = () => {
               whileInView={{ opacity: 1, rotate: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              className="absolute top-1/2 left-1/2 w-64 h-64 md:w-96 md:h-96 transform -translate-x-1/2 -translate-y-1/2 border-4 border-dashed border-mansagold/40 rounded-full"
+              className="absolute top-1/2 left-1/2 w-48 h-48 md:w-72 md:h-72 transform -translate-x-1/2 -translate-y-1/2 border-4 border-dashed border-mansagold/40 rounded-full"
             ></motion.div>
             
-            {/* Path nodes - represent businesses and community members */}
-            {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+            {/* Path nodes - represent businesses and community members - reduced in number */}
+            {[0, 120, 240].map((angle, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0 }}
@@ -63,17 +63,17 @@ const VisualDivider: React.FC = () => {
                 transition={{ delay: 0.5 + (i * 0.1) }}
                 className="absolute top-1/2 left-1/2"
                 style={{
-                  transform: `rotate(${angle}deg) translateX(10rem) rotate(-${angle}deg)`,
+                  transform: `rotate(${angle}deg) translateX(8rem) rotate(-${angle}deg)`,
                 }}
               >
-                <div className={`w-12 h-12 rounded-full ${i % 2 === 0 ? 'bg-mansagold/30' : 'bg-mansablue/30'} 
+                <div className={`w-10 h-10 rounded-full ${i % 2 === 0 ? 'bg-mansagold/30' : 'bg-mansablue/30'} 
                   flex items-center justify-center shadow-lg`}>
                   {i % 3 === 0 ? (
-                    <ArrowRight className="text-white w-5 h-5" />
+                    <ArrowRight className="text-white w-4 h-4" />
                   ) : i % 3 === 1 ? (
-                    <ArrowDown className="text-white w-5 h-5" />
+                    <ArrowDown className="text-white w-4 h-4" />
                   ) : (
-                    <ArrowUp className="text-white w-5 h-5" />
+                    <ArrowUp className="text-white w-4 h-4" />
                   )}
                 </div>
               </motion.div>
@@ -104,13 +104,13 @@ const VisualDivider: React.FC = () => {
             </svg>
           </div>
           
-          {/* Stats cards to show impact */}
+          {/* Stats cards to show impact - more compact */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="grid md:grid-cols-3 gap-6 mt-8"
+            className="grid md:grid-cols-3 gap-4 mt-4"
           >
             {[
               { value: "6-9X", label: "Wealth Multiplier", color: "bg-mansagold/10 border-mansagold/30" },
@@ -119,42 +119,18 @@ const VisualDivider: React.FC = () => {
             ].map((stat, index) => (
               <div 
                 key={index} 
-                className={`${stat.color} border rounded-xl p-4 text-center shadow-sm hover:shadow-md transition-shadow`}
+                className={`${stat.color} border rounded-xl p-3 text-center shadow-sm hover:shadow-md transition-shadow`}
               >
-                <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
-                <p className="text-sm text-gray-600">{stat.label}</p>
+                <p className="text-xl font-bold text-gray-800">{stat.value}</p>
+                <p className="text-xs text-gray-600">{stat.label}</p>
               </div>
             ))}
           </motion.div>
           
-          {/* Bottom decorative elements */}
-          <div className="flex justify-center mt-12">
-            <div className="h-0.5 w-32 bg-gradient-to-r from-transparent via-mansablue/40 to-transparent"></div>
+          {/* Bottom decorative elements - simplified */}
+          <div className="flex justify-center mt-4">
+            <div className="h-0.5 w-16 bg-gradient-to-r from-transparent via-mansablue/40 to-transparent"></div>
           </div>
-          
-          {/* Animated dots row */}
-          <motion.div 
-            className="flex justify-center mt-6 space-x-2"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ staggerChildren: 0.1 }}
-          >
-            {[...Array(5)].map((_, i) => (
-              <motion.div
-                key={i}
-                className={`w-2 h-2 rounded-full ${i % 2 === 0 ? 'bg-mansablue' : 'bg-mansagold'}`}
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ 
-                  delay: i * 0.1,
-                  type: "spring",
-                  stiffness: 300
-                }}
-              />
-            ))}
-          </motion.div>
         </div>
       </div>
     </div>
