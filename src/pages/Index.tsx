@@ -11,9 +11,9 @@ import Footer from '@/components/Footer';
 
 const Index = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <>
       <Navbar />
-      <main className="flex-1 flex flex-col">
+      <main className="flex-grow">
         <Hero />
         <WhySection />
         <HowItWorks />
@@ -22,7 +22,7 @@ const Index = () => {
         <CTASection />
       </main>
       <Footer />
-    </div>
+    </>
   );
 };
 
