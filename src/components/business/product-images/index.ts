@@ -16,3 +16,7 @@ export { default as ShareProduct } from './gallery/ShareProduct';
 export { default as BatchUploader } from './form/image-upload/BatchUploader';
 export { default as CompressionStats } from './form/image-upload/CompressionStats';
 export { default as SeoFields } from './form/SeoFields';
+export { default as CardButtons } from './gallery/card/CardButtons';
+export { default as CardHeader } from './gallery/card/CardHeader';
+export { default as DeleteProductDialog } from './gallery/card/DeleteProductDialog';
+export { default as ProductCardImage } from './gallery/card/ProductCardImage';
