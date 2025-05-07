@@ -171,6 +171,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
     if (fileInputRef.current) {
       fileInputRef.current.files = dataTransfer.files;
       // Dispatch change event to update the form state
+      // Fix Error #1: Add the required argument to the Event constructor
       const event = new Event('change', { bubbles: true });
       fileInputRef.current.dispatchEvent(event);
     }
@@ -226,6 +227,7 @@ const ImageUploadPreview: React.FC<ImageUploadPreviewProps> = ({
         if (fileInputRef.current) {
           fileInputRef.current.files = dataTransfer.files;
           // Trigger the onChange handler with a synthetic event
+          // Fix Error #1: Add the required argument to the Event constructor
           const event = new Event('change', { bubbles: true });
           fileInputRef.current.dispatchEvent(event);
         }
