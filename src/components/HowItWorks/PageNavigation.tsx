@@ -8,24 +8,19 @@ interface Section {
   label: string;
 }
 
-const PageNavigation = () => {
-  const [activeSection, setActiveSection] = useState<string>('hero');
+interface PageNavigationProps {
+  sections: Section[];
+  offset?: number;
+}
+
+const PageNavigation = ({ sections, offset = -80 }: PageNavigationProps) => {
+  const [activeSection, setActiveSection] = useState<string>(sections[0]?.id || '');
   const [scrolled, setScrolled] = useState<boolean>(false);
   
-  const sections: Section[] = [
-    { id: 'hero', label: 'Overview' },
-    { id: 'how-it-works', label: 'How It Works' },
-    { id: 'benefits', label: 'Benefits' },
-    { id: 'history', label: 'Our Story' },
-    { id: 'testimonials', label: 'Testimonials' },
-    { id: 'faq', label: 'FAQ' }
-  ];
-
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const yOffset = -80; // Adjust for fixed header if needed
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + offset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
@@ -43,7 +38,7 @@ const PageNavigation = () => {
         document.getElementById(section.id)
       ).filter(Boolean) as HTMLElement[];
       
-      let currentActive = sections[0].id;
+      let currentActive = sections[0]?.id || '';
       
       for (const section of sectionElements) {
         const rect = section.getBoundingClientRect();
@@ -63,7 +58,7 @@ const PageNavigation = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [sections]);
+  }, [sections, offset]);
 
   return (
     <nav className={cn(

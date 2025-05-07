@@ -39,13 +39,14 @@ const Footer = () => {
               <li><Link to="/about" className="text-gray-300 hover:text-mansagold transition-colors">About</Link></li>
               <li><Link to="/directory" className="text-gray-300 hover:text-mansagold transition-colors">Directory</Link></li>
               <li><Link to="/how-it-works" className="text-gray-300 hover:text-mansagold transition-colors">How It Works</Link></li>
+              <li><Link to="/team-contact" className="text-gray-300 hover:text-mansagold transition-colors">Our Team</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-spartan font-bold text-lg mb-4">Resources</h3>
             <ul className="space-y-2">
               <li><Link to="/faq" className="text-gray-300 hover:text-mansagold transition-colors">FAQ</Link></li>
-              <li><Link to="/contact" className="text-gray-300 hover:text-mansagold transition-colors">Contact Us</Link></li>
+              <li><Link to="/team-contact" className="text-gray-300 hover:text-mansagold transition-colors">Contact Us</Link></li>
               <li><Link to="/privacy" className="text-gray-300 hover:text-mansagold transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="text-gray-300 hover:text-mansagold transition-colors">Terms of Service</Link></li>
             </ul>

@@ -16,6 +16,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 const HowItWorksPage = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  const sections = [
+    { id: 'hero', label: 'Overview' },
+    { id: 'how-it-works', label: 'How It Works' },
+    { id: 'benefits', label: 'Benefits' },
+    { id: 'history', label: 'Our Story' },
+    { id: 'testimonials', label: 'Testimonials' },
+    { id: 'faq', label: 'FAQ' }
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);
@@ -32,7 +41,7 @@ const HowItWorksPage = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <PageNavigation />
+      <PageNavigation sections={sections} />
       <main>
         <section id="hero">
           <HeroSection />

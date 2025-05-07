@@ -32,6 +32,9 @@ const Navbar = () => {
             <Link to="/how-it-works" className="text-gray-600 hover:text-mansablue font-medium transition-colors duration-200">
               How It Works
             </Link>
+            <Link to="/team-contact" className="text-gray-600 hover:text-mansablue font-medium transition-colors duration-200">
+              Our Team
+            </Link>
           </div>
           <div className="flex items-center space-x-4">
             <Link to="/login">
@@ -76,6 +79,13 @@ const Navbar = () => {
               onClick={() => setIsMenuOpen(false)}
             >
               How It Works
+            </Link>
+            <Link 
+              to="/team-contact" 
+              className="text-gray-600 hover:text-mansablue font-medium py-2 transition-colors duration-200"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Our Team
             </Link>
             <div className="flex flex-col space-y-3 pt-3 border-t border-gray-100">
               <Link to="/login">
