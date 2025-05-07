@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { 
@@ -10,6 +9,7 @@ import {
 } from '@/lib/api/product-api';
 import { uploadProductImage } from '@/lib/api/storage-api';
 import { v4 as uuidv4 } from 'uuid';
+import { ProductImageFormValues } from '@/components/business/business-form/models';
 
 export const useProductImages = (businessId: string) => {
   const [products, setProducts] = useState<ProductImage[]>([]);
@@ -28,15 +28,7 @@ export const useProductImages = (businessId: string) => {
     }
   };
 
-  const addProduct = async (
-    file: File, 
-    productData: { 
-      title: string; 
-      description: string; 
-      price?: string;
-      isActive: boolean;
-    }
-  ) => {
+  const addProduct = async (file: File, productData: ProductImageFormValues) => {
     if (!file || !businessId) {
       toast.error('Missing required information');
       return null;

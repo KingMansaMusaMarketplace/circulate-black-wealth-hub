@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Gallery, ImagePlus } from "lucide-react";
+import { ImageIcon, ImagePlus } from "lucide-react";
 import ProductImageForm from './ProductImageForm';
 import ProductGallery from './ProductGallery';
 import { useProductImages } from '@/hooks/use-product-images';
@@ -52,7 +52,7 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="gallery" className="flex items-center gap-2">
-            <Gallery size={16} />
+            <ImageIcon size={16} />
             Gallery
           </TabsTrigger>
           <TabsTrigger value="add" className="flex items-center gap-2">

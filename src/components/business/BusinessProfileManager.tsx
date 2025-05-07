@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, FileText, Image, Settings, Gallery } from 'lucide-react';
+import { Loader2, FileText, Image, Settings, ImageIcon } from 'lucide-react';
 import BusinessForm from './BusinessForm';
 import BusinessImageUpload from './BusinessImageUpload';
 import { ProductImageManager } from './product-images';
