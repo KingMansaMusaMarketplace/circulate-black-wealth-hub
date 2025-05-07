@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import HeroSection from '@/components/HowItWorks/HeroSection';
-import HowItWorks from '@/components/HowItWorks';
+import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
 import BenefitsSection from '@/components/HowItWorks/BenefitsSection';
 import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
@@ -39,15 +39,15 @@ const HowItWorksPage = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <Navbar />
       <PageNavigation sections={sections} />
-      <main>
+      <main className="flex-grow">
         <section id="hero">
           <HeroSection />
         </section>
         <section id="how-it-works">
-          <HowItWorks />
+          <HowItWorksSteps />
         </section>
         <section id="benefits">
           <BenefitsSection />
