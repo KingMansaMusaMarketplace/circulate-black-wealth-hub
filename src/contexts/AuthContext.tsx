@@ -68,11 +68,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user,
     loading,
     signUp: (email: string, password: string, metadata?: any) => 
-      handleSignUp(email, password, metadata, toast),
+      handleSignUp(email, password, metadata, props => toast(props)),
     signIn: (email: string, password: string) => 
-      handleSignIn(email, password, toast),
+      handleSignIn(email, password, props => toast(props)),
     signOut: async () => {
-      const result = await handleSignOut(toast);
+      const result = await handleSignOut(props => toast(props));
       if (result.success) {
         setUser(null);
         setUserType(null);

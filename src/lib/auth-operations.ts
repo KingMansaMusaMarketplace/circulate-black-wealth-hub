@@ -1,6 +1,6 @@
 
 import { supabase } from './supabase';
-import { type ToastProps as Toast } from "@/components/ui/toast";
+import { type Toast } from '@/hooks/use-toast';
 
 // Create a profile in the profiles table
 export const createUserProfile = async (userId: string, userMetadata: any) => {
@@ -29,7 +29,7 @@ export const handleSignUp = async (
   email: string, 
   password: string, 
   metadata?: any,
-  toast?: (props: Toast) => void
+  toast?: (props: { title: string; description: string; variant?: "default" | "destructive" }) => void
 ) => {
   try {
     const { data, error } = await supabase.auth.signUp({
@@ -68,7 +68,7 @@ export const handleSignUp = async (
 export const handleSignIn = async (
   email: string, 
   password: string,
-  toast?: (props: Toast) => void
+  toast?: (props: { title: string; description: string; variant?: "default" | "destructive" }) => void
 ) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -96,7 +96,9 @@ export const handleSignIn = async (
 };
 
 // Handle user sign out
-export const handleSignOut = async (toast?: (props: Toast) => void) => {
+export const handleSignOut = async (
+  toast?: (props: { title: string; description: string; variant?: "default" | "destructive" }) => void
+) => {
   try {
     await supabase.auth.signOut();
     
