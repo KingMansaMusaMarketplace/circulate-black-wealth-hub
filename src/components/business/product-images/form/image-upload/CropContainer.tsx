@@ -8,7 +8,7 @@ interface CropContainerProps {
   imageUrl: string;
   crop: PercentCrop | undefined;
   setCrop: (crop: PercentCrop) => void;
-  setCompletedCrop: (crop: PixelCrop) => void; // Using PixelCrop type properly
+  setCompletedCrop: (crop: PixelCrop) => void;
   scale: number;
   setScale: (scale: number) => void;
   onCancel: () => void;
@@ -52,7 +52,7 @@ const CropContainer: React.FC<CropContainerProps> = ({
         crop={crop}
         onChange={(c) => setCrop(c)}
         onComplete={(c) => {
-          // Cast to proper type to fix the error
+          // ReactCrop's onComplete returns PixelCrop, so we can directly pass it
           setCompletedCrop(c);
         }}
         aspect={16 / 9}

@@ -85,6 +85,7 @@ export const applyCropToImage = (
     y: number;
     width: number;
     height: number;
+    unit?: string;
   },
   scale = 1
 ): string | null => {
