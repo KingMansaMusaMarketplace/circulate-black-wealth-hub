@@ -42,7 +42,12 @@ const HeroSection = () => {
                     className="w-full h-auto rounded" 
                     width="400"
                     height="300"
+                    style={{ minHeight: "220px", objectFit: "cover" }}
                   />
+                  <div className="mt-2 p-2 border-t border-gray-100">
+                    <div className="h-4 bg-gray-200 rounded-full w-3/4 mb-2"></div>
+                    <div className="h-3 bg-gray-200 rounded-full w-1/2"></div>
+                  </div>
                 </div>
               </div>
               <div className="absolute -bottom-4 -left-4 bg-mansagold text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold">
