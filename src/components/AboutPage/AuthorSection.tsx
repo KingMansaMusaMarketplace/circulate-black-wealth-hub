@@ -11,7 +11,7 @@ const AuthorSection = () => {
         <Card className="overflow-hidden border-mansagold/20">
           <div className="grid md:grid-cols-3">
             <div className="md:col-span-1 bg-mansablue p-8 text-white">
-              <h3 className="heading-md mb-6">About the Author</h3>
+              <h3 className="heading-md mb-6">About the Inventor</h3>
               <div className="relative mx-auto md:mx-0 mb-6">
                 <img 
                   src="/lovable-uploads/1dd9f7bc-bb83-4c92-b250-e11f63790f8c.png" 
@@ -22,7 +22,7 @@ const AuthorSection = () => {
               <h4 className="text-xl font-bold mb-2">Thomas D. Bowling</h4>
               <p className="text-white/80 mb-4 flex items-center">
                 <Users className="mr-2 h-4 w-4" />
-                Founder & Chief Architect
+                Founder & Chief Architect of Economic Infrastructure
               </p>
             </div>
             
