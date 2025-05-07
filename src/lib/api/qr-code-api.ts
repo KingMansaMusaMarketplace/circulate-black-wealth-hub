@@ -2,6 +2,7 @@
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
+import { createBusinessQrCodeUrl } from './qr-generator';
 
 export interface QRCode {
   id: string;
@@ -41,6 +42,15 @@ export const generateBusinessQRCode = async (
   } = {}
 ): Promise<{ success: boolean; qrCode?: QRCode; error?: any }> => {
   try {
+    // Generate QR code image URL
+    const qrData = {
+      discount: options.discountPercentage,
+      points: options.pointsValue
+    };
+    
+    const qrImageUrl = await createBusinessQrCodeUrl(businessId, codeType, qrData);
+    
+    // Create QR code in database
     const { data, error } = await supabase.rpc('create_business_qr_code', {
       p_business_id: businessId,
       p_code_type: codeType,
@@ -59,11 +69,33 @@ export const generateBusinessQRCode = async (
       
     if (fetchError) throw fetchError;
     
-    // Generate QR code image URL if needed
-    // This could be done using a third-party API or an edge function
+    // Update QR code with image URL
+    const { error: updateError } = await supabase
+      .from('qr_codes')
+      .update({ qr_image_url: qrImageUrl })
+      .eq('id', data);
+      
+    if (updateError) throw updateError;
+    
+    // Also update the business record with QR code info
+    const { error: businessUpdateError } = await supabase
+      .from('businesses')
+      .update({ 
+        qr_code_id: data,
+        qr_code_url: qrImageUrl
+      })
+      .eq('id', businessId);
+    
+    if (businessUpdateError) throw businessUpdateError;
+    
+    // Return with the image URL added
+    const completeQrCode = {
+      ...qrCode,
+      qr_image_url: qrImageUrl
+    };
     
     toast.success('QR code generated successfully!');
-    return { success: true, qrCode };
+    return { success: true, qrCode: completeQrCode };
   } catch (error: any) {
     console.error('Error generating QR code:', error.message);
     toast.error('Failed to generate QR code: ' + error.message);
@@ -135,5 +167,46 @@ export const getBusinessQRScans = async (businessId: string): Promise<QRScan[]> 
   } catch (error: any) {
     console.error('Error fetching business QR scans:', error.message);
     return [];
+  }
+};
+
+// Get a single QR code by ID
+export const getQRCodeById = async (qrCodeId: string): Promise<QRCode | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('qr_codes')
+      .select('*')
+      .eq('id', qrCodeId)
+      .single();
+    
+    if (error) throw error;
+    return data;
+  } catch (error: any) {
+    console.error('Error fetching QR code:', error.message);
+    return null;
+  }
+};
+
+// Update a QR code
+export const updateQRCode = async (
+  qrCodeId: string, 
+  updates: Partial<QRCode>
+): Promise<{ success: boolean; qrCode?: QRCode; error?: any }> => {
+  try {
+    const { data, error } = await supabase
+      .from('qr_codes')
+      .update(updates)
+      .eq('id', qrCodeId)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    
+    toast.success('QR code updated successfully!');
+    return { success: true, qrCode: data };
+  } catch (error: any) {
+    console.error('Error updating QR code:', error.message);
+    toast.error('Failed to update QR code: ' + error.message);
+    return { success: false, error };
   }
 };

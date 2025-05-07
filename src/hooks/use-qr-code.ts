@@ -1,34 +1,66 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { generateBusinessQRCode, processQRScan } from '@/lib/api/qr-code-api';
+import { 
+  generateBusinessQRCode, 
+  processQRScan,
+  getQRCodeById,
+  updateQRCode,
+  QRCode
+} from '@/lib/api/qr-code-api';
 import { toast } from 'sonner';
 
-export const useQRCode = () => {
-  const [loading, setLoading] = useState(false);
-  const [qrCodeId, setQrCodeId] = useState<string | null>(null);
-  const [qrImageUrl, setQrImageUrl] = useState<string | null>(null);
+interface UseQRCodeOptions {
+  qrCodeId?: string;
+  businessId?: string;
+  autoLoad?: boolean;
+}
+
+export const useQRCode = (options: UseQRCodeOptions = {}) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [qrCode, setQrCode] = useState<QRCode | null>(null);
+  const [generating, setGenerating] = useState<boolean>(false);
+  const [scanning, setScanning] = useState<boolean>(false);
   const { user } = useAuth();
 
+  // Load QR code if ID is provided
+  useEffect(() => {
+    const loadQRCode = async () => {
+      if (!options.qrCodeId || !options.autoLoad) return;
+      
+      setLoading(true);
+      try {
+        const loadedQrCode = await getQRCodeById(options.qrCodeId);
+        setQrCode(loadedQrCode);
+      } catch (error) {
+        console.error('Error loading QR code:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadQRCode();
+  }, [options.qrCodeId, options.autoLoad]);
+
+  // Generate QR code
   const generateQRCode = async (
     businessId: string,
     type: 'discount' | 'loyalty' | 'info',
-    options?: {
+    opts: {
       discountPercentage?: number;
       pointsValue?: number;
-    }
+    } = {}
   ) => {
     if (!user) {
       toast.error('You must be logged in to generate a QR code');
       return null;
     }
 
-    setLoading(true);
+    setGenerating(true);
     try {
-      const result = await generateBusinessQRCode(businessId, type, options);
+      const result = await generateBusinessQRCode(businessId, type, opts);
       if (result.success && result.qrCode) {
-        setQrCodeId(result.qrCode.id);
-        setQrImageUrl(result.qrCode.qr_image_url || null);
+        setQrCode(result.qrCode);
         return result.qrCode;
       }
       return null;
@@ -37,10 +69,11 @@ export const useQRCode = () => {
       toast.error('Failed to generate QR code');
       return null;
     } finally {
-      setLoading(false);
+      setGenerating(false);
     }
   };
 
+  // Scan QR code
   const scanQRCode = async (
     qrCodeId: string,
     location?: {
@@ -53,7 +86,7 @@ export const useQRCode = () => {
       return null;
     }
 
-    setLoading(true);
+    setScanning(true);
     try {
       const result = await processQRScan(qrCodeId, user.id, location);
       if (result.success) {
@@ -65,15 +98,41 @@ export const useQRCode = () => {
       toast.error('Failed to process QR code scan');
       return null;
     } finally {
+      setScanning(false);
+    }
+  };
+
+  // Update QR code
+  const updateQrCode = async (updates: Partial<QRCode>) => {
+    if (!qrCode?.id) {
+      toast.error('No QR code to update');
+      return false;
+    }
+
+    setLoading(true);
+    try {
+      const result = await updateQRCode(qrCode.id, updates);
+      if (result.success && result.qrCode) {
+        setQrCode(result.qrCode);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error updating QR code:', error);
+      toast.error('Failed to update QR code');
+      return false;
+    } finally {
       setLoading(false);
     }
   };
 
   return {
+    qrCode,
     loading,
-    qrCodeId,
-    qrImageUrl,
+    generating,
+    scanning,
     generateQRCode,
     scanQRCode,
+    updateQrCode,
   };
 };
