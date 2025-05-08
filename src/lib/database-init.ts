@@ -1,33 +1,46 @@
 
-import { supabase } from './supabase';
-import { initializeDatabase } from './supabase/init-database';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { createDatabaseFunctions } from './supabase/functions';
 
-// Interface for DB initialization state
-export interface DbInitState {
-  initializingDatabase: boolean;
-  databaseInitialized: boolean;
-}
-
-// Initialize database and update state
+// Initialize all database tables and functions
 export const setupDatabase = async (
-  setInitializingDatabase: (state: boolean) => void,
-  setDatabaseInitialized: (state: boolean) => void
-): Promise<void> => {
-  setInitializingDatabase(true);
+  setInitializing?: (initializing: boolean) => void,
+  setInitialized?: (initialized: boolean) => void
+) => {
+  if (setInitializing) setInitializing(true);
+  
   try {
-    const result = await initializeDatabase();
+    console.log('Setting up database functions...');
     
-    if (result.success) {
-      setDatabaseInitialized(true);
-      console.log('Database initialized successfully');
-    } else if ('isDemo' in result && result.isDemo) {
-      console.log('Running in demo mode with mock Supabase client');
-    } else if ('error' in result) {
-      console.error('Failed to initialize database:', result.error);
-    }
+    // Create QR code functions
+    await createDatabaseFunctions();
+    
+    console.log('Database setup complete!');
+    if (setInitialized) setInitialized(true);
+    toast.success('Database initialized successfully');
   } catch (error) {
-    console.error('Error initializing database:', error);
+    console.error('Error setting up database:', error);
+    toast.error('Failed to initialize database');
   } finally {
-    setInitializingDatabase(false);
+    if (setInitializing) setInitializing(false);
+  }
+};
+
+// Check if the database is initialized by checking if the QR code functions exist
+export const checkDatabaseInitialized = async (): Promise<boolean> => {
+  try {
+    // Try to call a function that should exist if the database is initialized
+    const { data, error } = await supabase.rpc('check_database_initialized');
+    
+    if (error) {
+      console.error('Error checking database initialization:', error);
+      return false;
+    }
+    
+    return !!data;
+  } catch (error) {
+    console.error('Error checking database initialization:', error);
+    return false;
   }
 };

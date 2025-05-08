@@ -1,6 +1,7 @@
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Provider } from '@supabase/supabase-js';
-import { supabase, getCurrentUser } from '@/lib/supabase';
+import { User, Provider, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { setupDatabase } from '@/lib/database-init';
 import { 
@@ -14,6 +15,7 @@ import {
 
 type AuthContextType = {
   user: User | null;
+  session: Session | null;
   loading: boolean;
   signUp: (email: string, password: string, metadata?: any) => Promise<any>;
   signIn: (email: string, password: string) => Promise<any>;
@@ -30,6 +32,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [userType, setUserType] = useState<'customer' | 'business' | null>(null);
   const [loading, setLoading] = useState(true);
   const [initializingDatabase, setInitializingDatabase] = useState(false);
@@ -37,36 +40,35 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const { data } = await getCurrentUser();
-        setUser(data.user);
-        
-        if (data.user?.user_metadata?.userType) {
-          setUserType(data.user.user_metadata.userType);
-        }
-      } catch (error) {
-        console.error('Error fetching user:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-    setupDatabase(setInitializingDatabase, setDatabaseInitialized);
-
-    // Set up auth state change listener
+    // Set up auth state listener first
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
+        setSession(session);
         setUser(session?.user || null);
+        
         if (session?.user?.user_metadata?.userType) {
           setUserType(session.user.user_metadata.userType);
         } else {
           setUserType(null);
         }
+        
         setLoading(false);
       }
     );
+
+    // Then check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user || null);
+      
+      if (session?.user?.user_metadata?.userType) {
+        setUserType(session.user.user_metadata.userType);
+      }
+      
+      setLoading(false);
+    });
+
+    setupDatabase(setInitializingDatabase, setDatabaseInitialized);
 
     return () => {
       authListener.subscription.unsubscribe();
@@ -75,6 +77,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = {
     user,
+    session,
     loading,
     signUp: (email: string, password: string, metadata?: any) => 
       handleSignUp(email, password, metadata, props => toast(props)),
@@ -86,6 +89,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const result = await handleSignOut(props => toast(props));
       if (result.success) {
         setUser(null);
+        setSession(null);
         setUserType(null);
       }
     },

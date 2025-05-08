@@ -16,3 +16,35 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     storage: localStorage
   }
 });
+
+// Get the current user
+export const getCurrentUser = async () => {
+  return supabase.auth.getUser();
+};
+
+// Get the current session
+export const getSession = async () => {
+  return supabase.auth.getSession();
+};
+
+// Sign up a new user
+export const signUp = async (email: string, password: string, metadata?: object) => {
+  return supabase.auth.signUp({
+    email,
+    password,
+    options: { data: metadata }
+  });
+};
+
+// Sign in a user
+export const signIn = async (email: string, password: string) => {
+  return supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+};
+
+// Sign out the current user
+export const signOut = async () => {
+  return supabase.auth.signOut();
+};
