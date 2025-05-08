@@ -15,14 +15,14 @@ const Index = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Helmet>
-        <title>Mansa Musa Marketplace - Building Economic Legacy</title>
+        <title>Mansa Musa Marketplace</title>
         <meta name="description" content="Discover and support Black-owned businesses, earn rewards, and help circulate Black wealth. Join our community dedicated to building economic legacy together." />
         <meta name="keywords" content="black-owned businesses, wealth circulation, economic empowerment, black business directory, loyalty rewards" />
-        <meta property="og:title" content="Mansa Musa Marketplace - Building Economic Legacy" />
+        <meta property="og:title" content="Mansa Musa Marketplace" />
         <meta property="og:description" content="Discover and support Black-owned businesses, earn rewards, and help circulate Black wealth. Join our community dedicated to building economic legacy together." />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Mansa Musa Marketplace - Building Economic Legacy" />
+        <meta name="twitter:title" content="Mansa Musa Marketplace" />
         <meta name="twitter:description" content="Discover and support Black-owned businesses, earn rewards, and help circulate Black wealth. Join our community dedicated to building economic legacy together." />
         <link rel="canonical" href="https://mansamusamarketplace.com/" />
       </Helmet>
