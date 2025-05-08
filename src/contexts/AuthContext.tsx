@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Provider, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -164,7 +163,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setCurrentMFAChallenge({
             id: data.id,
             factorId: factors[0].id,
-            expiresAt: data.expires_at
+            expiresAt: data.expires_at // This should be a string
           });
           
           // Return a special result indicating MFA is required
