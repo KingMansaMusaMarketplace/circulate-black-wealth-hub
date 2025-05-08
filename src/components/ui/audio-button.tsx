@@ -39,6 +39,12 @@ export const AudioButton = ({
   const toggleAudio = () => {
     if (!audioRef.current) return;
 
+    // If it's an external URL like Google Notebook, open it in a new tab
+    if (audioSrc.includes('notebooklm.google.com')) {
+      window.open(audioSrc, '_blank');
+      return;
+    }
+
     if (isPlaying) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
