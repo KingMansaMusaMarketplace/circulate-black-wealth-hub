@@ -1,3 +1,4 @@
-
-// This is a placeholder - you'll need to replace it with a real .wav file
-// We're just creating the file structure here
+// This is a placeholder file. To use audio:
+// 1. Replace this file with your actual .wav file
+// 2. Make sure it keeps the same name: welcome-audio.wav
+// 3. Or update the audioSrc path in the components that use this file

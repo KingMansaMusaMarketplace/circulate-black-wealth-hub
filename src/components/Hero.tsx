@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import WelcomeBanner from './WelcomeBanner';
 import { AudioButton } from '@/components/ui/audio-button';
+import { AUDIO_PATHS } from '@/utils/audio';
 
 const Hero = () => {
   return (
@@ -32,7 +33,7 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/signup">
                 <AudioButton 
-                  audioSrc="/audio/welcome-audio.wav"
+                  audioSrc={AUDIO_PATHS.welcome}
                   className="bg-mansagold hover:bg-mansagold-dark text-white font-medium text-lg px-8 py-6"
                 >
                   Get Early Access

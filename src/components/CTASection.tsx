@@ -6,6 +6,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { AudioButton } from '@/components/ui/audio-button';
+import { AUDIO_PATHS } from '@/utils/audio';
 
 const CTASection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -111,7 +112,7 @@ const CTASection = () => {
                 <AudioButton 
                   onClick={handleSignupClick} 
                   className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg font-medium group"
-                  audioSrc="/audio/welcome-audio.wav"
+                  audioSrc={AUDIO_PATHS.welcome}
                 >
                   Get Early Access
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
