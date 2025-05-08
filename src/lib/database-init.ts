@@ -40,9 +40,15 @@ export const checkDatabaseInitialized = async (): Promise<boolean> => {
       return false;
     }
     
-    // Properly type and check the response data
-    if (data && Array.isArray(data) && data.length > 0 && 'exists' in data[0]) {
-      return data[0].exists as boolean;
+    // Type the response properly to handle the Supabase response structure
+    type ExistsResponse = { exists: boolean }[];
+    
+    // Check if data exists, is an array, has at least one item, and that item has an 'exists' property
+    if (data && Array.isArray(data) && data.length > 0) {
+      const typedData = data as ExistsResponse;
+      if (typedData[0] && 'exists' in typedData[0]) {
+        return typedData[0].exists;
+      }
     }
     
     return false;
