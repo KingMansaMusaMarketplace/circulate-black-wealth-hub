@@ -7,7 +7,7 @@ import {
   CirculationImpact 
 } from '@/components/dashboard';
 import LoyaltyPointsCard from '@/components/LoyaltyPointsCard';
-import QRCodeScanner from '@/components/QRCodeScanner';
+import { QRCodeScanner } from '@/components/QRCodeScanner';
 
 const DashboardPage = () => {
   // Mock user data
