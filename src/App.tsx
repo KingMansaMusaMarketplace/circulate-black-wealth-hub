@@ -1,6 +1,6 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "sonner"; // Changed to import directly from sonner
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import Index from "@/pages/Index";
 import LoginPage from "@/pages/LoginPage";
