@@ -81,7 +81,12 @@ export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
   // Generate loyalty QR code for a business
   const generateLoyaltyQRCode = async (
     businessId: string, 
-    pointsValue: number = 10
+    pointsValue: number = 10,
+    options?: {
+      scanLimit?: number;
+      expirationDate?: string;
+      isActive?: boolean;
+    }
   ) => {
     if (!user) {
       toast.error('You must be logged in to generate a QR code');
@@ -92,7 +97,12 @@ export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
       const newQrCode = await generateQRCode(
         businessId,
         'loyalty',
-        { pointsValue }
+        { 
+          pointsValue,
+          scanLimit: options?.scanLimit,
+          expirationDate: options?.expirationDate,
+          isActive: options?.isActive
+        }
       );
       
       return newQrCode;
@@ -106,7 +116,12 @@ export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
   // Generate discount QR code for a business
   const generateDiscountQRCode = async (
     businessId: string,
-    discountPercentage: number = 10
+    discountPercentage: number = 10,
+    options?: {
+      scanLimit?: number;
+      expirationDate?: string;
+      isActive?: boolean;
+    }
   ) => {
     if (!user) {
       toast.error('You must be logged in to generate a QR code');
@@ -117,7 +132,12 @@ export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
       const newQrCode = await generateQRCode(
         businessId,
         'discount',
-        { discountPercentage }
+        { 
+          discountPercentage,
+          scanLimit: options?.scanLimit,
+          expirationDate: options?.expirationDate,
+          isActive: options?.isActive
+        }
       );
       
       return newQrCode;

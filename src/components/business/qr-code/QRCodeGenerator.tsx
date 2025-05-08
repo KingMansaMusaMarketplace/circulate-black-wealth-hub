@@ -6,15 +6,7 @@ import { useQRCode } from '@/hooks/qr-code';
 import { QRCodeForm } from './QRCodeGenerator/QRCodeForm';
 import { QRCodePreview } from './QRCodeGenerator/QRCodePreview';
 import { toast } from 'sonner';
-
-interface FormValues {
-  codeType: string;
-  discountPercentage?: number;
-  pointsValue?: number;
-  scanLimit?: number;
-  expirationDate?: string;
-  isActive: boolean;
-}
+import { FormValues } from './QRCodeGenerator/form/types';
 
 const QRCodeGenerator: React.FC = () => {
   const { generateQRCode, loading, qrCode } = useQRCode();

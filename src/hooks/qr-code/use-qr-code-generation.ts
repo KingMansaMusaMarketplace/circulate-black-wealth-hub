@@ -16,6 +16,9 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
     options?: {
       discountPercentage?: number;
       pointsValue?: number;
+      scanLimit?: number;
+      expirationDate?: string;
+      isActive?: boolean;
     }
   ): Promise<QRCode | null> => {
     setLoading(true);
@@ -32,7 +35,10 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
           business_id: businessId,
           code_type: codeType,
           discount_percentage: options?.discountPercentage || null,
-          points_value: options?.pointsValue || null
+          points_value: options?.pointsValue || null,
+          scan_limit: options?.scanLimit || null,
+          expiration_date: options?.expirationDate || null,
+          is_active: options?.isActive !== undefined ? options.isActive : true
         })
         .select()
         .single();
