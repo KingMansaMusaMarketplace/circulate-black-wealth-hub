@@ -21,6 +21,11 @@ import AdminPage from "@/pages/AdminPage";
 import QRCodeManagementPage from "@/pages/QRCodeManagementPage";
 import QRScannerPage from "@/pages/QRScannerPage";
 import RegistrationTestPage from "@/pages/RegistrationTestPage";
+import FAQPage from "@/pages/FAQPage";
+import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
+import TermsOfServicePage from "@/pages/TermsOfServicePage";
+import ContactPage from "@/pages/ContactPage";
+import TeamContactPage from "@/pages/TeamContactPage";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import './App.css';
@@ -41,6 +46,11 @@ function App() {
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/new-password" element={<NewPasswordPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsOfServicePage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/team-contact" element={<TeamContactPage />} />
             
             {/* Protected routes - require authentication */}
             <Route path="/dashboard" element={
