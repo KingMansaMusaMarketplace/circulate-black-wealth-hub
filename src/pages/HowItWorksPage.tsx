@@ -5,7 +5,9 @@ import { Button } from '@/components/ui/button';
 import { AudioButton } from '@/components/ui/audio-button';
 import { AUDIO_PATHS } from '@/utils/audio';
 import { ArrowLeft } from 'lucide-react';
-import { HeroSection, BenefitsSection, CTASection } from '@/components/HowItWorks';
+import HeroSection from '@/components/HowItWorks/HeroSection';
+import BenefitsSection from '@/components/HowItWorks/BenefitsSection';
+import CTASection from '@/components/HowItWorks/CTASection';
 
 const HowItWorksPage = () => {
   useEffect(() => {
