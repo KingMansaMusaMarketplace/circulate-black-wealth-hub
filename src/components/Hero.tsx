@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -32,18 +31,25 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/signup">
-                <AudioButton 
-                  audioSrc={AUDIO_PATHS.welcome}
-                  className="bg-mansagold hover:bg-mansagold-dark text-white font-medium text-lg px-8 py-6"
-                >
+                <Button className="bg-mansagold hover:bg-mansagold-dark text-white font-medium text-lg px-8 py-6">
                   Get Early Access
-                </AudioButton>
+                </Button>
               </Link>
               <Link to="/how-it-works">
                 <Button variant="outline" className="border-mansagold text-mansagold hover:bg-mansagold/10 hover:text-white font-medium text-lg px-8 py-6">
                   Learn More
                 </Button>
               </Link>
+            </div>
+            
+            {/* New Audio Button */}
+            <div className="mt-4">
+              <AudioButton
+                audioSrc={AUDIO_PATHS.welcome}
+                className="bg-mansablue-light hover:bg-mansablue text-white border border-white/20 font-medium text-lg px-8 py-6"
+              >
+                Hear Our Story
+              </AudioButton>
             </div>
           </div>
           

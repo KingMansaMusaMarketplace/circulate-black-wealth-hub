@@ -2,8 +2,6 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { AudioButton } from '@/components/ui/audio-button';
-import { AUDIO_PATHS } from '@/utils/audio';
 
 const HeroSection = () => {
   const scrollToNextSection = () => {
@@ -47,17 +45,6 @@ const HeroSection = () => {
               <Button variant="outline" size="lg" className="border-mansagold bg-mansagold/20 text-mansagold hover:bg-mansagold/30 relative z-10">
                 Learn More
               </Button>
-            </div>
-            
-            {/* New Audio Button */}
-            <div className="mt-4">
-              <AudioButton
-                audioSrc={AUDIO_PATHS.welcome}
-                className="bg-mansablue-light hover:bg-mansablue text-white border border-white/20 relative z-10"
-                size="lg"
-              >
-                Hear Our Story
-              </AudioButton>
             </div>
           </div>
           <div className="md:w-1/2 flex justify-center md:justify-end">
