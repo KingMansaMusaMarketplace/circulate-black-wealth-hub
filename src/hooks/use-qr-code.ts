@@ -28,13 +28,11 @@ export const useQRCode = () => {
       }
 
       // We need to create the QR code with SQL since the function isn't available via RPC yet
-      const { data, error } = await supabase.rpc('exec_sql', {
-        query: `SELECT * FROM create_business_qr_code(
-          '${businessId}', 
-          '${codeType}', 
-          ${options?.discountPercentage || 'NULL'}, 
-          ${options?.pointsValue || 'NULL'}
-        )`
+      const { data, error } = await supabase.rpc('create_business_qr_code', {
+        p_business_id: businessId,
+        p_code_type: codeType,
+        p_discount_percentage: options?.discountPercentage || null,
+        p_points_value: options?.pointsValue || null
       });
 
       if (error) {
@@ -44,7 +42,7 @@ export const useQRCode = () => {
       }
 
       // Fetch the newly created QR code - assuming the function returns the id
-      const qrCodeId = Array.isArray(data) && data.length > 0 ? data[0].create_business_qr_code : null;
+      const qrCodeId = data && Array.isArray(data) && data.length > 0 ? data[0].create_business_qr_code : null;
       
       if (!qrCodeId) {
         toast.error('Failed to retrieve QR code ID');

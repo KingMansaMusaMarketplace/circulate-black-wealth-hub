@@ -19,33 +19,26 @@ export const handleSignUp = async (
     });
     
     if (error) {
-      toast({
-        title: "Sign up failed",
-        description: error.message,
-        variant: "destructive"
+      toast.error("Sign up failed", {
+        description: error.message
       });
       return { success: false, error };
     }
     
     if (data.user) {
-      toast({
-        title: "Sign up successful",
+      toast.success("Sign up successful", {
         description: "Please check your email for verification."
       });
       return { success: true, data };
     } else {
-      toast({
-        title: "Unknown error",
-        description: "Please try again later",
-        variant: "destructive"
+      toast.error("Unknown error", {
+        description: "Please try again later"
       });
       return { success: false };
     }
   } catch (error: any) {
-    toast({
-      title: "Sign up failed",
-      description: error.message || "An unexpected error occurred",
-      variant: "destructive"
+    toast.error("Sign up failed", {
+      description: error.message || "An unexpected error occurred"
     });
     return { success: false, error };
   }
@@ -63,24 +56,19 @@ export const handleSignIn = async (
     });
     
     if (error) {
-      toast({
-        title: "Login failed",
-        description: error.message,
-        variant: "destructive"
+      toast.error("Login failed", {
+        description: error.message
       });
       return { success: false, error };
     }
     
-    toast({
-      title: "Login successful",
+    toast.success("Login successful", {
       description: `Welcome back, ${data.user?.email}!`
     });
     return { success: true, data };
   } catch (error: any) {
-    toast({
-      title: "Login failed",
-      description: error.message || "An unexpected error occurred",
-      variant: "destructive"
+    toast.error("Login failed", {
+      description: error.message || "An unexpected error occurred"
     });
     return { success: false, error };
   }
@@ -92,24 +80,19 @@ export const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
     
     if (error) {
-      toast({
-        title: "Sign out failed",
-        description: error.message,
-        variant: "destructive"
+      toast.error("Sign out failed", {
+        description: error.message
       });
       return { success: false, error };
     }
     
-    toast({
-      title: "Signed out",
+    toast.success("Signed out", {
       description: "You have been successfully signed out."
     });
     return { success: true };
   } catch (error: any) {
-    toast({
-      title: "Sign out failed",
-      description: error.message || "An unexpected error occurred",
-      variant: "destructive"
+    toast.error("Sign out failed", {
+      description: error.message || "An unexpected error occurred"
     });
     return { success: false, error };
   }
@@ -123,20 +106,16 @@ export const handleSocialSignIn = async (provider: Provider) => {
     });
     
     if (error) {
-      toast({
-        title: "Social login failed",
-        description: error.message,
-        variant: "destructive"
+      toast.error("Social login failed", {
+        description: error.message
       });
       return { success: false, error };
     }
     
     return { success: true, data };
   } catch (error: any) {
-    toast({
-      title: "Social login failed",
-      description: error.message || "An unexpected error occurred",
-      variant: "destructive"
+    toast.error("Social login failed", {
+      description: error.message || "An unexpected error occurred"
     });
     return { success: false, error };
   }
@@ -150,24 +129,19 @@ export const requestPasswordReset = async (email: string) => {
     });
     
     if (error) {
-      toast({
-        title: "Password reset request failed",
-        description: error.message,
-        variant: "destructive"
+      toast.error("Password reset request failed", {
+        description: error.message
       });
       return { success: false, error };
     }
     
-    toast({
-      title: "Password reset email sent",
+    toast.success("Password reset email sent", {
       description: "Check your email for the reset link."
     });
     return { success: true };
   } catch (error: any) {
-    toast({
-      title: "Password reset request failed",
-      description: error.message || "An unexpected error occurred",
-      variant: "destructive"
+    toast.error("Password reset request failed", {
+      description: error.message || "An unexpected error occurred"
     });
     return { success: false, error };
   }
@@ -179,24 +153,19 @@ export const updatePassword = async (newPassword: string) => {
     const { error } = await supabase.auth.updateUser({ password: newPassword });
     
     if (error) {
-      toast({
-        title: "Password update failed",
-        description: error.message,
-        variant: "destructive"
+      toast.error("Password update failed", {
+        description: error.message
       });
       return { success: false, error };
     }
     
-    toast({
-      title: "Password updated",
+    toast.success("Password updated", {
       description: "Your password has been updated successfully."
     });
     return { success: true };
   } catch (error: any) {
-    toast({
-      title: "Password update failed",
-      description: error.message || "An unexpected error occurred",
-      variant: "destructive"
+    toast.error("Password update failed", {
+      description: error.message || "An unexpected error occurred"
     });
     return { success: false, error };
   }
