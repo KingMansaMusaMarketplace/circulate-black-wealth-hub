@@ -7,10 +7,11 @@ import LoyaltyHistory from '@/components/loyalty/LoyaltyHistory';
 import LoyaltyRewardsCard from '@/components/loyalty/LoyaltyRewardsCard';
 import { useLoyaltyHistory } from '@/hooks/use-loyalty-history';
 import { Card, CardContent } from '@/components/ui/card';
-import { Award, Gift, BarChart2, QrCode } from 'lucide-react';
+import { Award, Gift, BarChart2, QrCode, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
+import LeaderboardCard from '@/components/loyalty/LeaderboardCard';
 
 // Define the LoyaltyTransaction type expected by LoyaltyHistory component
 interface LoyaltyTransaction {
@@ -104,10 +105,14 @@ const LoyaltyPage = () => {
       </div>
       
       <Tabs defaultValue="rewards" className="w-full">
-        <TabsList className="grid grid-cols-2">
+        <TabsList className="grid grid-cols-3">
           <TabsTrigger value="rewards" className="flex items-center gap-2">
             <Gift size={16} />
             Available Rewards
+          </TabsTrigger>
+          <TabsTrigger value="leaderboard" className="flex items-center gap-2">
+            <Users size={16} />
+            Leaderboard
           </TabsTrigger>
           <TabsTrigger value="history" className="flex items-center gap-2">
             <BarChart2 size={16} />
@@ -120,6 +125,9 @@ const LoyaltyPage = () => {
             availableRewards={availableRewards}
             onRedeemReward={redeemReward}
           />
+        </TabsContent>
+        <TabsContent value="leaderboard" className="mt-6">
+          <LeaderboardCard limit={10} />
         </TabsContent>
         <TabsContent value="history" className="mt-6">
           <LoyaltyHistory 
