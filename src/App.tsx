@@ -15,6 +15,7 @@ import ProfilePage from "@/pages/ProfilePage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import NewPasswordPage from "@/pages/NewPasswordPage";
 import LoyaltyHistoryPage from "@/pages/LoyaltyHistoryPage";
+import LoyaltyPage from "@/pages/LoyaltyPage";
 import BusinessProfilePage from "@/pages/BusinessProfilePage";
 import AdminPage from "@/pages/AdminPage";
 import QRCodeManagementPage from "@/pages/QRCodeManagementPage";
@@ -49,6 +50,11 @@ function App() {
             <Route path="/profile" element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/loyalty" element={
+              <ProtectedRoute>
+                <LoyaltyPage />
               </ProtectedRoute>
             } />
             <Route path="/loyalty-history" element={
