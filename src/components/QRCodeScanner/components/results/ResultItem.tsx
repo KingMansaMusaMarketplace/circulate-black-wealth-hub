@@ -13,13 +13,13 @@ const ResultItem: React.FC<ResultItemProps> = ({
   description
 }) => {
   return (
-    <div className="flex items-start space-x-3 p-3 bg-white rounded-md border border-gray-100 shadow-sm">
-      <div className="flex-shrink-0">
+    <div className="flex items-start space-x-3 p-3 bg-white rounded-md border border-gray-100 shadow-sm transition-all hover:shadow-md">
+      <div className="flex-shrink-0 text-mansablue">
         {icon}
       </div>
-      <div>
+      <div className="flex-grow">
         <h4 className="text-sm font-medium text-gray-800">{title}</h4>
-        <p className="text-xs text-gray-500">{description}</p>
+        <p className="text-xs text-gray-500 break-words">{description}</p>
       </div>
     </div>
   );
