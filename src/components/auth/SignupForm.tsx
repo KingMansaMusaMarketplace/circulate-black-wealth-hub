@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Clock } from 'lucide-react';
 
 interface SignupFormProps {
   onSubmit: (email: string, password: string, metadata: any) => Promise<any>;
@@ -79,6 +79,14 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
         <TabsTrigger value="customer">Customer</TabsTrigger>
         <TabsTrigger value="business">Business Owner</TabsTrigger>
       </TabsList>
+
+      {/* Payment Coming Soon Notice */}
+      <div className="mb-6 bg-mansablue/10 rounded-md p-3 border border-mansablue/30 flex items-center">
+        <Clock size={18} className="text-mansablue mr-2 flex-shrink-0" />
+        <p className="text-sm text-mansablue-dark">
+          <span className="font-medium">Payment Processing Coming Soon!</span> You can create your account now and we'll notify you when payment processing is ready.
+        </p>
+      </div>
 
       <TabsContent value="customer">
         <form onSubmit={(e) => handleSignup(e, 'customer')}>
@@ -154,7 +162,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
                   Creating Account...
                 </>
               ) : (
-                'Sign Up - $10/month'
+                'Sign Up - $10/month (Register Now, Pay Later)'
               )}
             </Button>
             
@@ -280,7 +288,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
                   Creating Account...
                 </>
               ) : (
-                'Sign Up - First Month Free'
+                'Sign Up - First Month Free (Register Now, Pay Later)'
               )}
             </Button>
           </div>
