@@ -4,6 +4,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 
+// Define the available time periods for filtering
+export type TimePeriod = '7days' | '30days' | '90days' | 'all';
+
 interface QRCodeMetrics {
   totalScans: number;
   uniqueCustomers: number;
@@ -140,10 +143,138 @@ export const useQRCodeAnalytics = () => {
     }
   };
 
+  // New function to fetch scans by time period
+  const fetchScansByTimePeriod = async (
+    businessId?: string, 
+    period: TimePeriod = '7days'
+  ): Promise<any[]> => {
+    const actualBusinessId = businessId || profile?.id;
+    
+    if (!actualBusinessId) {
+      return [];
+    }
+
+    // Determine number of days based on period
+    let days = 7;
+    let groupByFormat = 'day';
+    
+    switch (period) {
+      case '30days':
+        days = 30;
+        groupByFormat = 'day';
+        break;
+      case '90days':
+        days = 90;
+        groupByFormat = 'week';
+        break;
+      case 'all':
+        days = 365; // Use a large number to get all data
+        groupByFormat = 'month';
+        break;
+      default: // 7days
+        days = 7;
+        groupByFormat = 'day';
+    }
+
+    setLoading(true);
+
+    try {
+      // Calculate date range
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - days);
+      
+      // Format dates for Postgres query
+      const start = startDate.toISOString();
+      const end = endDate.toISOString();
+      
+      // Query scan counts
+      const { data, error } = await supabase
+        .from('qr_scans')
+        .select('scan_date')
+        .eq('business_id', actualBusinessId)
+        .gte('scan_date', start)
+        .lte('scan_date', end);
+      
+      if (error) {
+        throw error;
+      }
+      
+      if (!data || data.length === 0) {
+        return [];
+      }
+
+      // Process data to count scans based on the selected period
+      const counts: Record<string, number> = {};
+      
+      // Format function for different group by periods
+      const getFormattedDate = (date: Date): string => {
+        if (groupByFormat === 'day') {
+          return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        } else if (groupByFormat === 'week') {
+          // Get week number
+          const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+          const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+          const weekNum = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+          return `Week ${weekNum}, ${date.getFullYear()}`;
+        } else { // month
+          return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        }
+      };
+      
+      // Initialize all periods in the range with 0 counts
+      if (groupByFormat === 'day') {
+        for (let i = 0; i < days; i++) {
+          const date = new Date();
+          date.setDate(date.getDate() - i);
+          const formattedDate = getFormattedDate(date);
+          counts[formattedDate] = 0;
+        }
+      } else if (groupByFormat === 'week') {
+        // Initialize weeks
+        const weeksToShow = Math.ceil(days / 7);
+        for (let i = 0; i < weeksToShow; i++) {
+          const date = new Date();
+          date.setDate(date.getDate() - (i * 7));
+          const formattedDate = getFormattedDate(date);
+          counts[formattedDate] = 0;
+        }
+      } else { // month
+        // Initialize months
+        const monthsToShow = Math.ceil(days / 30);
+        for (let i = 0; i < monthsToShow; i++) {
+          const date = new Date();
+          date.setMonth(date.getMonth() - i);
+          const formattedDate = getFormattedDate(date);
+          counts[formattedDate] = 0;
+        }
+      }
+      
+      // Count scans
+      data.forEach((scan) => {
+        const scanDate = new Date(scan.scan_date);
+        const formattedDate = getFormattedDate(scanDate);
+        counts[formattedDate] = (counts[formattedDate] || 0) + 1;
+      });
+      
+      // Convert to array format for chart
+      return Object.entries(counts)
+        .map(([name, scans]) => ({ name, scans }))
+        .reverse(); // Reverse to get chronological order
+      
+    } catch (error) {
+      console.error(`Error fetching scans by ${period}:`, error);
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     metrics,
     fetchQRCodeMetrics,
-    fetchDailyScanCounts
+    fetchDailyScanCounts,
+    fetchScansByTimePeriod
   };
 };
