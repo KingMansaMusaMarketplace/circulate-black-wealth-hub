@@ -38,17 +38,17 @@ const HeroSection = () => {
               We're building more than an app — we're creating infrastructure for Black wealth circulation.
               Here's how you can be part of this economic movement.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-white">
+            <div className="flex flex-wrap gap-4 relative z-20">
+              <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-white relative z-10">
                 Join Now
               </Button>
-              <Button variant="outline" size="lg" className="border-mansagold bg-mansagold/20 text-mansagold hover:bg-mansagold/30">
+              <Button variant="outline" size="lg" className="border-mansagold bg-mansagold/20 text-mansagold hover:bg-mansagold/30 relative z-10">
                 Learn More
               </Button>
             </div>
           </div>
           <div className="md:w-1/2 flex justify-center md:justify-end">
-            <div className="relative">
+            <div className="relative z-10">
               {/* Decorative elements behind the app image */}
               <div className="absolute -top-4 -left-4 w-full h-full bg-mansagold/20 rounded-xl"></div>
               <div className="absolute -bottom-4 -right-4 w-full h-full bg-mansablue-light/30 rounded-xl"></div>
@@ -69,7 +69,7 @@ const HeroSection = () => {
                   </div>
                 </div>
               </div>
-              <div className="absolute -bottom-4 -left-4 bg-mansagold text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold">
+              <div className="absolute -bottom-4 -left-4 bg-mansagold text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold z-20">
                 Join 10,000+ users today!
               </div>
             </div>
@@ -79,7 +79,7 @@ const HeroSection = () => {
 
       <button 
         onClick={scrollToNextSection}
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/80 hover:text-white flex flex-col items-center transition-colors"
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/80 hover:text-white flex flex-col items-center transition-colors z-20"
         aria-label="Scroll to next section"
       >
         <span className="text-sm mb-1">Scroll to learn more</span>
