@@ -13,6 +13,7 @@ interface UseLoyaltyQRCodeOptions {
 export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
   const [scanning, setScanning] = useState(false);
   const [scanResult, setScanResult] = useState<{
+    success: boolean;
     businessName?: string;
     pointsEarned?: number;
     discountApplied?: number;
@@ -53,6 +54,7 @@ export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
         const businessName = businessPoints?.business_id || 'Business';
         
         const scanResultData = {
+          success: true,
           businessName: businessName,
           pointsEarned: result.points_awarded || 0,
           discountApplied: result.discount_applied || 0
@@ -66,12 +68,15 @@ export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
         }
         
         return scanResultData;
+      } else {
+        setScanResult({ success: false });
       }
       
       return null;
     } catch (error) {
       console.error('Error scanning QR code and processing points:', error);
       toast.error('Failed to process QR code scan');
+      setScanResult({ success: false });
       return null;
     } finally {
       setScanning(false);

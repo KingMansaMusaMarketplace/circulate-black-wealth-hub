@@ -1,12 +1,5 @@
 
-import QRCodeScanner from '../QRCodeScanner';
-import QRCodeScannerV2 from '../QRCodeScannerV2';
+import QRScannerComponent from './QRScannerComponent';
 
-// Export both versions
-export { 
-  QRCodeScanner,
-  QRCodeScannerV2 
-};
-
-// Default export for backward compatibility
-export default QRCodeScanner;
+export { QRScannerComponent };
+export default QRScannerComponent;
