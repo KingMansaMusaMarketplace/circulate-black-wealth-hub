@@ -1,4 +1,3 @@
-
 export interface Business {
   id: number;
   name: string;
@@ -48,8 +47,8 @@ export const businesses: Business[] = [
     address: "456 Oak Ave, Atlanta, GA",
     lat: 33.749568,
     lng: -84.391256,
-    imageUrl: "https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?q=80&w=2070&auto=format&fit=crop",
-    imageAlt: "Professional Black barber shop with stylish interior and barbers working"
+    imageUrl: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=2070&auto=format&fit=crop",
+    imageAlt: "Interior of a modern Black barber shop with barber chairs and stylish decor"
   },
   {
     id: 3,
