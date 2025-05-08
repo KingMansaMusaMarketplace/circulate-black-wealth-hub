@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Loader2, Camera, Zap } from 'lucide-react';
+import { Loader2, Camera, Zap, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface ScannerStatusProps {
@@ -21,7 +21,12 @@ const ScannerStatus: React.FC<ScannerStatusProps> = ({
   toggleScanning,
 }) => {
   if (!hasCamera) {
-    return <Button disabled>No Camera Available</Button>;
+    return (
+      <Button disabled className="w-full opacity-70 flex items-center gap-2">
+        <Camera className="h-4 w-4" />
+        No Camera Available
+      </Button>
+    );
   }
 
   return (
@@ -29,15 +34,28 @@ const ScannerStatus: React.FC<ScannerStatusProps> = ({
       onClick={toggleScanning} 
       disabled={loading || !scannerReady}
       size="lg"
-      className={`${scanning ? 'bg-red-500 hover:bg-red-600' : ''}`}
+      className={`w-full relative ${scanning ? 'bg-red-500 hover:bg-red-600' : ''}`}
     >
-      {scanning ? (
-        <>Stop Scanner</>
+      {loading ? (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Processing...
+        </>
+      ) : scanning ? (
+        <>
+          <X className="mr-2 h-4 w-4" />
+          Stop Scanner
+        </>
       ) : (
         <>
           <Zap className="mr-2 h-4 w-4" />
           Start Scanner
         </>
+      )}
+      
+      {/* Pulsing effect for active scanner */}
+      {scanning && (
+        <span className="absolute inset-0 rounded-md border-2 border-white animate-pulse opacity-70"></span>
       )}
     </Button>
   );

@@ -1,31 +1,26 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface ResultCardProps {
+  children: React.ReactNode;
   title: string;
   titleColor?: string;
-  children: React.ReactNode;
-  icon?: React.ReactNode;
 }
 
 const ResultCard: React.FC<ResultCardProps> = ({ 
-  title, 
-  titleColor = "text-gray-900", 
   children, 
-  icon 
+  title,
+  titleColor = 'text-gray-900' 
 }) => {
   return (
-    <Card className="w-full">
-      <CardHeader className="text-center">
-        {icon && (
-          <div className="flex justify-center mb-4">
-            {icon}
-          </div>
-        )}
-        <CardTitle className={titleColor}>{title}</CardTitle>
+    <Card className="w-full max-w-md mx-auto animate-fade-in-up">
+      <CardHeader className="pb-2 pt-6">
+        <CardTitle className={`text-center text-xl ${titleColor}`}>
+          {title}
+        </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-6 py-4">
         {children}
       </CardContent>
     </Card>

@@ -1,29 +1,26 @@
 
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
 
 interface ResultItemProps {
-  label: string;
-  value: string | number;
-  icon: LucideIcon;
-  bgColor?: string;
-  textColor?: string;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
 }
 
-const ResultItem: React.FC<ResultItemProps> = ({ 
-  label, 
-  value, 
-  icon: Icon,
-  bgColor = "bg-gray-50",
-  textColor = "text-gray-600" 
+const ResultItem: React.FC<ResultItemProps> = ({
+  icon,
+  title,
+  description
 }) => {
   return (
-    <div className={`flex items-center justify-between p-3 ${bgColor} rounded-lg`}>
-      <div className="flex items-center">
-        <Icon className={`h-5 w-5 mr-2 ${textColor}`} />
-        <span className="text-sm font-medium">{label}</span>
+    <div className="flex items-start space-x-3 p-3 bg-white rounded-md border border-gray-100 shadow-sm">
+      <div className="flex-shrink-0">
+        {icon}
       </div>
-      <span className={`font-medium ${textColor}`}>{value}</span>
+      <div>
+        <h4 className="text-sm font-medium text-gray-800">{title}</h4>
+        <p className="text-xs text-gray-500">{description}</p>
+      </div>
     </div>
   );
 };

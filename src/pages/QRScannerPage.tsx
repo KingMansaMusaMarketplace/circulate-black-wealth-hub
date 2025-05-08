@@ -9,6 +9,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import WelcomeTooltip from '@/components/QRCodeScanner/components/WelcomeTooltip';
 
 const QRScannerPage: React.FC = () => {
   const { user, loading: authLoading } = useAuth();
@@ -96,7 +97,7 @@ const QRScannerPage: React.FC = () => {
         <h1 className="text-3xl font-bold mb-8 text-center">Scan QR Code</h1>
         
         {showLogin ? (
-          <Card className="max-w-md mx-auto">
+          <Card className="max-w-md mx-auto animate-fade-in">
             <CardContent className="pt-6">
               <div className="text-center space-y-4">
                 <p className="text-lg">Please login to scan QR codes</p>
@@ -119,6 +120,7 @@ const QRScannerPage: React.FC = () => {
           />
         )}
       </div>
+      <WelcomeTooltip />
       <Footer />
     </div>
   );
