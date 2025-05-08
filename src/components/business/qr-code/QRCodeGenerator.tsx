@@ -27,7 +27,8 @@ const QRCodeGenerator: React.FC = () => {
         ? new Date(values.expirationDate).toISOString()
         : undefined;
 
-      // Generate QR code
+      // Generate QR code - passing businessId as undefined to use the current business profile
+      // and adding proper params structure
       await generateQRCode({
         code_type: values.codeType,
         discount_percentage: values.discountPercentage,
