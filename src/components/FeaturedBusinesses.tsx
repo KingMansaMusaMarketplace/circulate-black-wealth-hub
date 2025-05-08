@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Utensils, Scissors, Book, DollarSign } from 'lucide-react';
 
 const FeaturedBusinesses = () => {
   const businesses = [
@@ -12,7 +13,10 @@ const FeaturedBusinesses = () => {
       discount: "15% off",
       rating: 4.8,
       reviewCount: 124,
-      description: "Authentic soul food with family recipes passed down generations."
+      description: "Authentic soul food with family recipes passed down generations.",
+      icon: <Utensils className="w-6 h-6 text-mansablue" />,
+      imageUrl: "https://images.unsplash.com/photo-1493770348161-369560ae357d?q=80&w=2070&auto=format&fit=crop",
+      imageAlt: "Delicious soul food with chicken, cornbread, and vegetables"
     },
     {
       id: 2,
@@ -21,7 +25,10 @@ const FeaturedBusinesses = () => {
       discount: "10% off",
       rating: 4.9,
       reviewCount: 207,
-      description: "Premium barbershop experience with skilled professionals."
+      description: "Premium barbershop experience with skilled professionals.",
+      icon: <Scissors className="w-6 h-6 text-mansablue" />,
+      imageUrl: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=2008&auto=format&fit=crop",
+      imageAlt: "Modern barbershop interior with styling stations"
     },
     {
       id: 3,
@@ -30,7 +37,10 @@ const FeaturedBusinesses = () => {
       discount: "20% off",
       rating: 4.7,
       reviewCount: 89,
-      description: "Curated selection of books celebrating Black culture and history."
+      description: "Curated selection of books celebrating Black culture and history.",
+      icon: <Book className="w-6 h-6 text-mansablue" />,
+      imageUrl: "https://images.unsplash.com/photo-1521056787327-965a34d83af7?q=80&w=2070&auto=format&fit=crop",
+      imageAlt: "Bookstore with shelves full of diverse books"
     },
     {
       id: 4,
@@ -39,7 +49,10 @@ const FeaturedBusinesses = () => {
       discount: "Free Consultation",
       rating: 4.9,
       reviewCount: 56,
-      description: "Financial planning services focused on building generational wealth."
+      description: "Financial planning services focused on building generational wealth.",
+      icon: <DollarSign className="w-6 h-6 text-mansablue" />,
+      imageUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop",
+      imageAlt: "Professional meeting in a financial office setting"
     }
   ];
 
@@ -56,10 +69,15 @@ const FeaturedBusinesses = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {businesses.map((business) => (
             <div key={business.id} className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden card-hover">
-              <div className="h-40 bg-gray-100 flex items-center justify-center">
-                <span className="text-gray-400 text-2xl">
-                  {business.name.charAt(0)}
-                </span>
+              <div className="h-48 bg-gray-100 relative overflow-hidden">
+                <img 
+                  src={business.imageUrl} 
+                  alt={business.imageAlt}
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
+                <div className="absolute top-3 left-3 bg-white/90 p-2 rounded-full shadow">
+                  {business.icon}
+                </div>
               </div>
               <div className="p-5">
                 <div className="flex justify-between items-start mb-3">
