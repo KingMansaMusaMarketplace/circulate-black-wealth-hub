@@ -11,8 +11,8 @@ interface LoyaltyStats {
   visitsThisMonth: number;
 }
 
-interface Transaction {
-  id: number;
+interface LoyaltyTransaction {
+  id: number | string;
   businessName: string;
   action: string;
   points: number;
@@ -22,7 +22,7 @@ interface Transaction {
 
 interface LoyaltyHistoryProps {
   stats: LoyaltyStats;
-  transactions: Transaction[];
+  transactions: LoyaltyTransaction[];
 }
 
 const LoyaltyHistory: React.FC<LoyaltyHistoryProps> = ({ stats, transactions }) => {

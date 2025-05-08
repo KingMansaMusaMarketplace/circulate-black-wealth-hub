@@ -12,8 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 
-// Define the Transaction type expected by LoyaltyHistory component
-interface Transaction {
+// Define the LoyaltyTransaction type expected by LoyaltyHistory component
+interface LoyaltyTransaction {
   id: number | string;
   businessName: string;
   action: string;
@@ -38,7 +38,7 @@ const LoyaltyPage = () => {
   };
 
   // Transform transactions to match expected format
-  const formattedTransactions: Transaction[] = transactions.map(transaction => ({
+  const formattedTransactions: LoyaltyTransaction[] = transactions.map(transaction => ({
     id: transaction.id,
     businessName: transaction.business?.business_name || 'Business',
     action: transaction.transaction_type || 'Scan',
