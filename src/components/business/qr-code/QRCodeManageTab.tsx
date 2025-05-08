@@ -1,180 +1,204 @@
-
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { QrCode, BadgePercent, Award, Trash2, Calendar, Edit } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { QRCodeList } from './QRCodeManage';
+import { QRCode } from '@/lib/api/qr-code-api';
+import { Plus } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useQRCode } from '@/hooks/qr-code';
 import { toast } from 'sonner';
-import { format } from 'date-fns';
+import { QRCodeForm } from './QRCodeGenerator';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 interface QRCodeManageTabProps {
-  qrCodes: Array<{
-    id: string;
-    code_type: 'discount' | 'loyalty' | 'info';
-    discount_percentage?: number;
-    points_value?: number;
-    is_active: boolean;
-    expiration_date?: string;
-    scan_limit?: number;
-    current_scans: number;
-    created_at: string;
-    qr_image_url?: string;
-  }>;
+  qrCodes: QRCode[];
 }
 
 export const QRCodeManageTab: React.FC<QRCodeManageTabProps> = ({ qrCodes }) => {
-  const [activeQRCodes, setActiveQRCodes] = useState<Record<string, boolean>>(
-    qrCodes.reduce((acc, qr) => ({ ...acc, [qr.id]: qr.is_active }), {})
-  );
+  const [openEditor, setOpenEditor] = useState(false);
+  const [editingQRCode, setEditingQRCode] = useState<QRCode | null>(null);
+  const [viewingQRCode, setViewingQRCode] = useState<QRCode | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [qrCodeToDelete, setQrCodeToDelete] = useState<string | null>(null);
+  
+  const { updateQRCode, deleteQRCode, loading } = useQRCode();
 
-  const handleToggleActive = (qrCodeId: string) => {
-    setActiveQRCodes(prev => {
-      const newState = { ...prev, [qrCodeId]: !prev[qrCodeId] };
-      
-      // In a real app, this would update the database
-      toast.success(`QR code ${newState[qrCodeId] ? 'activated' : 'deactivated'}`);
-      
-      return newState;
-    });
+  const handleDelete = async (id: string) => {
+    setQrCodeToDelete(id);
+    setDeleteDialogOpen(true);
   };
 
-  const handleDownloadQR = (qrCode: any) => {
-    if (!qrCode.qr_image_url) {
-      toast.error('QR code image not available');
-      return;
+  const confirmDelete = async () => {
+    if (!qrCodeToDelete) return;
+    
+    try {
+      const success = await deleteQRCode(qrCodeToDelete);
+      if (success) {
+        toast.success("QR code deleted successfully");
+      }
+    } catch (error) {
+      console.error("Error deleting QR code:", error);
+      toast.error("Failed to delete QR code");
+    } finally {
+      setDeleteDialogOpen(false);
+      setQrCodeToDelete(null);
     }
-
-    // Create a temporary link element and trigger download
-    const link = document.createElement('a');
-    link.href = qrCode.qr_image_url;
-    link.download = `qr-code-${qrCode.code_type}-${qrCode.id.substring(0, 8)}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-
-    toast.success('QR code downloaded');
   };
 
-  const handleDeleteQR = (qrCodeId: string) => {
-    // In a real app, this would delete from the database
-    toast.success('QR code deleted successfully');
+  const handleEdit = (qrCode: QRCode) => {
+    setEditingQRCode(qrCode);
+    setOpenEditor(true);
   };
 
-  if (qrCodes.length === 0) {
-    return (
-      <Card>
-        <CardContent className="py-12 flex flex-col items-center justify-center">
-          <QrCode size={48} className="text-gray-300 mb-4" />
-          <h3 className="text-lg font-medium text-gray-700 mb-2">No QR Codes Created</h3>
-          <p className="text-gray-500 mb-6 text-center">Generate QR codes to share with your customers</p>
-          <Button>Generate Your First QR Code</Button>
-        </CardContent>
-      </Card>
-    );
-  }
+  const handleView = (qrCode: QRCode) => {
+    setViewingQRCode(qrCode);
+  };
+
+  const handleSubmitEdit = async (values: any) => {
+    if (!editingQRCode) return;
+    
+    try {
+      // Process date value
+      const expirationDate = values.expirationDate 
+        ? new Date(values.expirationDate).toISOString()
+        : undefined;
+
+      const updatedQRCode = await updateQRCode(editingQRCode.id, {
+        code_type: values.codeType,
+        discount_percentage: values.discountPercentage,
+        points_value: values.pointsValue,
+        scan_limit: values.scanLimit,
+        expiration_date: expirationDate,
+        is_active: values.isActive,
+      });
+      
+      if (updatedQRCode) {
+        toast.success("QR code updated successfully");
+        setOpenEditor(false);
+        setEditingQRCode(null);
+      }
+    } catch (error) {
+      console.error("Error updating QR code:", error);
+      toast.error("Failed to update QR code");
+    }
+  };
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {qrCodes.map((qrCode) => (
-          <Card key={qrCode.id} className={!activeQRCodes[qrCode.id] ? 'opacity-70' : ''}>
-            <CardHeader className="pb-2">
-              <div className="flex justify-between items-start">
-                <div className="flex items-center">
-                  {qrCode.code_type === 'loyalty' && <Award className="mr-2 h-5 w-5 text-mansagold" />}
-                  {qrCode.code_type === 'discount' && <BadgePercent className="mr-2 h-5 w-5 text-green-500" />}
-                  {qrCode.code_type === 'info' && <QrCode className="mr-2 h-5 w-5 text-blue-500" />}
-                  <CardTitle className="capitalize text-lg">
-                    {qrCode.code_type} QR Code
-                  </CardTitle>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    checked={activeQRCodes[qrCode.id]}
-                    onCheckedChange={() => handleToggleActive(qrCode.id)}
-                  />
-                  <Label>{activeQRCodes[qrCode.id] ? 'Active' : 'Inactive'}</Label>
-                </div>
-              </div>
-              <CardDescription>
-                Created {format(new Date(qrCode.created_at), 'MMM d, yyyy')}
-              </CardDescription>
-            </CardHeader>
-            
-            <CardContent className="grid grid-cols-2 gap-4">
-              <div className="border border-gray-200 rounded-md p-4 flex justify-center items-center">
-                {qrCode.qr_image_url ? (
-                  <img 
-                    src={qrCode.qr_image_url} 
-                    alt="QR Code" 
-                    className="w-full max-w-[120px] h-auto"
-                  />
-                ) : (
-                  <div className="w-[120px] h-[120px] bg-gray-100 flex items-center justify-center">
-                    <QrCode size={40} className="text-gray-400" />
-                  </div>
-                )}
-              </div>
-              
-              <div className="space-y-3 text-sm">
-                {qrCode.points_value && (
-                  <div className="flex items-center">
-                    <Award className="mr-2 h-4 w-4 text-mansagold" />
-                    <span>{qrCode.points_value} points per scan</span>
-                  </div>
-                )}
-                
-                {qrCode.discount_percentage && (
-                  <div className="flex items-center">
-                    <BadgePercent className="mr-2 h-4 w-4 text-green-500" />
-                    <span>{qrCode.discount_percentage}% discount</span>
-                  </div>
-                )}
-                
-                <div className="flex items-center">
-                  <QrCode className="mr-2 h-4 w-4" />
-                  <span>
-                    {qrCode.current_scans} scans
-                    {qrCode.scan_limit && ` / ${qrCode.scan_limit} limit`}
-                  </span>
-                </div>
-                
-                {qrCode.expiration_date && (
-                  <div className="flex items-center">
-                    <Calendar className="mr-2 h-4 w-4 text-amber-500" />
-                    <span>
-                      Expires: {format(new Date(qrCode.expiration_date), 'MMM d, yyyy')}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-            
-            <CardFooter className="flex justify-between">
-              <Button variant="outline" size="sm" onClick={() => handleDownloadQR(qrCode)}>
-                Download
-              </Button>
-              
-              <div className="space-x-2">
-                <Button variant="ghost" size="sm" className="text-gray-500">
-                  <Edit className="h-4 w-4 mr-1" />
-                  Edit
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                  onClick={() => handleDeleteQR(qrCode.id)}
-                >
-                  <Trash2 className="h-4 w-4 mr-1" />
-                  Delete
-                </Button>
-              </div>
-            </CardFooter>
-          </Card>
-        ))}
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-medium">Your QR Codes</h2>
+        <Button onClick={() => setOpenEditor(true)}>
+          <Plus className="h-4 w-4 mr-2" /> Create New
+        </Button>
       </div>
+
+      <QRCodeList 
+        qrCodes={qrCodes} 
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+        onView={handleView}
+      />
+
+      {/* QR code editor dialog */}
+      <Dialog open={openEditor} onOpenChange={setOpenEditor}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>{editingQRCode ? "Edit QR Code" : "Create New QR Code"}</DialogTitle>
+          </DialogHeader>
+          <QRCodeForm 
+            onSubmit={handleSubmitEdit}
+            isLoading={loading}
+            initialValues={editingQRCode ? {
+              codeType: editingQRCode.code_type,
+              discountPercentage: editingQRCode.discount_percentage || undefined,
+              pointsValue: editingQRCode.points_value || undefined,
+              scanLimit: editingQRCode.scan_limit || undefined,
+              expirationDate: editingQRCode.expiration_date ? new Date(editingQRCode.expiration_date).toISOString().split('T')[0] : undefined,
+              isActive: editingQRCode.is_active
+            } : undefined}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* QR code view dialog */}
+      <Dialog open={!!viewingQRCode} onOpenChange={() => setViewingQRCode(null)}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>QR Code Details</DialogTitle>
+          </DialogHeader>
+          {viewingQRCode && (
+            <div className="space-y-4">
+              {viewingQRCode.qr_image_url && (
+                <div className="flex justify-center">
+                  <div className="p-4 bg-white rounded-lg">
+                    <img 
+                      src={viewingQRCode.qr_image_url} 
+                      alt="QR Code" 
+                      className="w-48 h-48"
+                    />
+                  </div>
+                </div>
+              )}
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div className="font-medium">Type:</div>
+                <div>{viewingQRCode.code_type}</div>
+                
+                {viewingQRCode.points_value && (
+                  <>
+                    <div className="font-medium">Points Value:</div>
+                    <div>{viewingQRCode.points_value}</div>
+                  </>
+                )}
+                
+                {viewingQRCode.discount_percentage && (
+                  <>
+                    <div className="font-medium">Discount:</div>
+                    <div>{viewingQRCode.discount_percentage}%</div>
+                  </>
+                )}
+                
+                <div className="font-medium">Status:</div>
+                <div>{viewingQRCode.is_active ? 'Active' : 'Inactive'}</div>
+                
+                {viewingQRCode.scan_limit && (
+                  <>
+                    <div className="font-medium">Scan Limit:</div>
+                    <div>{viewingQRCode.scan_limit}</div>
+                  </>
+                )}
+                
+                {viewingQRCode.expiration_date && (
+                  <>
+                    <div className="font-medium">Expires:</div>
+                    <div>{new Date(viewingQRCode.expiration_date).toLocaleDateString()}</div>
+                  </>
+                )}
+                
+                <div className="font-medium">Created:</div>
+                <div>{new Date(viewingQRCode.created_at).toLocaleDateString()}</div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete confirmation dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the QR code
+              and remove it from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
