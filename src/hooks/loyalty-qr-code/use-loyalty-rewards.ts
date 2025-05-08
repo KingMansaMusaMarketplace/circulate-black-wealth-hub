@@ -38,20 +38,26 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
     id: reward.id,
     title: reward.title,
     description: reward.description || '',
-    pointsCost: reward.points_cost,
+    pointsCost: reward.pointsCost,
     category: reward.category || 'General',
-    businessName: reward.business_name,
-    expiresAt: reward.expiration_date
+    businessName: reward.businessName,
+    expiresAt: reward.expiresAt
   }));
 
   // Update the loyaltyPoints whenever there's a change in the summary
   useEffect(() => {
-    if (summary && summary.businessPoints) {
-      const formattedPoints = summary.businessPoints.map(bp => ({
-        businessId: bp.business_id,
-        businessName: bp.business_name || 'Business',
-        points: bp.points
-      }));
+    if (summary) {
+      // Check if the businessesVisited data exists
+      const businesses = summary.businessesVisited || 0;
+      
+      // Create a default array if we don't have specific business points
+      const formattedPoints = [
+        {
+          businessId: 'all',
+          businessName: 'All Businesses',
+          points: summary.totalPoints || 0
+        }
+      ];
 
       setLoyaltyPoints(formattedPoints);
     }
@@ -67,12 +73,12 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
     try {
       const result = await redeemReward(rewardId, pointsCost);
       
-      if (result.success) {
+      if (result) {
         toast.success('Reward redeemed successfully!');
         refreshData();
         return true;
       } else {
-        toast.error(result.message || 'Failed to redeem reward');
+        toast.error('Failed to redeem reward');
         return false;
       }
     } catch (error: any) {

@@ -9,6 +9,7 @@ import { useLoyaltyHistory } from '@/hooks/use-loyalty-history';
 import { Card, CardContent } from '@/components/ui/card';
 import { Award, Gift, BarChart2, QrCode } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 
 const LoyaltyPage = () => {
@@ -17,6 +18,24 @@ const LoyaltyPage = () => {
   
   // Calculate total amount saved based on reward value
   const savedAmount = Math.round(totalPoints / 100) * 5; // Simplified calculation for demo
+
+  // Transform the data to match the expected types
+  const formattedStats = {
+    totalPoints: stats.totalPoints || 0,
+    pointsEarned: stats.totalPointsEarned || 0,
+    pointsRedeemed: stats.totalPointsRedeemed || 0,
+    visitsThisMonth: stats.visitsThisMonth || 0
+  };
+
+  // Transform transactions to match expected format
+  const formattedTransactions = transactions.map(transaction => ({
+    id: transaction.id,
+    businessName: transaction.business?.business_name || 'Business',
+    action: transaction.transaction_type || 'Scan',
+    points: transaction.points_earned || -transaction.points_redeemed,
+    date: new Date(transaction.transaction_date).toLocaleDateString(),
+    time: new Date(transaction.transaction_date).toLocaleTimeString()
+  }));
 
   return (
     <div className="container py-8 max-w-5xl">
@@ -94,8 +113,8 @@ const LoyaltyPage = () => {
         </TabsContent>
         <TabsContent value="history" className="mt-6">
           <LoyaltyHistory 
-            stats={stats}
-            transactions={transactions}
+            stats={formattedStats}
+            transactions={formattedTransactions}
           />
         </TabsContent>
       </Tabs>
