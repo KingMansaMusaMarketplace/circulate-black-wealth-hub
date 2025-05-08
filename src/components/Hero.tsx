@@ -1,11 +1,14 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import WelcomeBanner from './WelcomeBanner';
 
 const Hero = () => {
   return (
     <div className="relative bg-gradient-to-br from-mansablue to-mansablue-dark text-white py-24 md:py-32">
+      {/* Welcome Banner */}
+      <WelcomeBanner siteUrl="Circulate Black Wealth Hub" />
+      
       {/* Abstract shapes */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-1/4 w-64 h-64 rounded-full bg-mansablue-light opacity-10"></div>
@@ -18,11 +21,11 @@ const Hero = () => {
           <div className="md:w-1/2 md:pr-8 mb-10 md:mb-0">
             <h1 className="heading-xl mb-6">
               Circulate Black Wealth <span className="text-mansagold">—</span> <br className="hidden md:block" />
-              Build the Future.
+              Build Our Future.
             </h1>
             <p className="text-lg md:text-xl mb-8 text-gray-100 max-w-xl">
               Discover and support Black-owned businesses near you.
-              Save money. Earn rewards. Build legacy.
+              Save money. Earn rewards. Build generational legacy together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/signup">
@@ -37,6 +40,8 @@ const Hero = () => {
               </Link>
             </div>
           </div>
+          
+          {/* Keep the existing right side of the hero */}
           <div className="md:w-1/2 relative">
             <div className="relative bg-white rounded-2xl shadow-xl p-4 max-w-sm mx-auto animate-float">
               <div className="bg-mansablue/10 rounded-xl p-3">

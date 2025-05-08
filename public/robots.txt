@@ -1,3 +1,7 @@
+
+User-agent: *
+Allow: /
+
 User-agent: Googlebot
 Allow: /
 
@@ -10,5 +14,5 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
+# Sitemaps
+Sitemap: https://circulate-black-wealth-hub.lovable.app/sitemap.xml
