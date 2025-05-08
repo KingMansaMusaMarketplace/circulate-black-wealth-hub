@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import WelcomeBanner from './WelcomeBanner';
+import { AudioButton } from '@/components/ui/audio-button';
 
 const Hero = () => {
   return (
@@ -29,9 +31,12 @@ const Hero = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/signup">
-                <Button className="bg-mansagold hover:bg-mansagold-dark text-white font-medium text-lg px-8 py-6">
-                  Get Early Access →
-                </Button>
+                <AudioButton 
+                  audioSrc="/audio/welcome-audio.wav"
+                  className="bg-mansagold hover:bg-mansagold-dark text-white font-medium text-lg px-8 py-6"
+                >
+                  Get Early Access
+                </AudioButton>
               </Link>
               <Link to="/how-it-works">
                 <Button variant="outline" className="border-mansagold text-mansagold hover:bg-mansagold/10 hover:text-white font-medium text-lg px-8 py-6">

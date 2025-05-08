@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { AudioButton } from '@/components/ui/audio-button';
 
 const CTASection = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -107,10 +108,14 @@ const CTASection = () => {
             
             <motion.div variants={itemVariants}>
               <Link to="/signup">
-                <Button onClick={handleSignupClick} className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg font-medium group">
+                <AudioButton 
+                  onClick={handleSignupClick} 
+                  className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg font-medium group"
+                  audioSrc="/audio/welcome-audio.wav"
+                >
                   Get Early Access
                   <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                </AudioButton>
               </Link>
             </motion.div>
           </div>
