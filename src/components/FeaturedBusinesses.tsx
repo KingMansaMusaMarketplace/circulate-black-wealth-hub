@@ -51,8 +51,8 @@ const FeaturedBusinesses = () => {
       reviewCount: 56,
       description: "Financial planning services focused on building generational wealth.",
       icon: <DollarSign className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2011&auto=format&fit=crop",
-      imageAlt: "Professional meeting in a financial office setting"
+      imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=5304&auto=format&fit=crop",
+      imageAlt: "Black financial advisor in professional meeting setting"
     }
   ];
 
