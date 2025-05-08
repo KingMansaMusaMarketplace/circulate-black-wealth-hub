@@ -27,37 +27,21 @@ export const useQRCode = () => {
         throw new Error('Business ID is required to generate QR code');
       }
 
-      // We need to create the QR code with SQL since the function isn't available via RPC yet
-      const { data, error } = await supabase.rpc('create_business_qr_code', {
-        p_business_id: businessId,
-        p_code_type: codeType,
-        p_discount_percentage: options?.discountPercentage || null,
-        p_points_value: options?.pointsValue || null
-      });
-
-      if (error) {
-        console.error('Error generating QR code:', error);
-        toast.error('Failed to generate QR code');
-        return null;
-      }
-
-      // Fetch the newly created QR code - assuming the function returns the id
-      const qrCodeId = data && Array.isArray(data) && data.length > 0 ? data[0].create_business_qr_code : null;
-      
-      if (!qrCodeId) {
-        toast.error('Failed to retrieve QR code ID');
-        return null;
-      }
-      
-      const { data: qrCodeData, error: fetchError } = await supabase
+      // Instead of using RPC, we'll directly insert into the qr_codes table
+      const { data: qrCodeData, error: insertError } = await supabase
         .from('qr_codes')
-        .select('*')
-        .eq('id', qrCodeId)
+        .insert({
+          business_id: businessId,
+          code_type: codeType,
+          discount_percentage: options?.discountPercentage || null,
+          points_value: options?.pointsValue || null
+        })
+        .select()
         .single();
 
-      if (fetchError) {
-        console.error('Error fetching QR code:', fetchError);
-        toast.error('QR code generated but failed to retrieve details');
+      if (insertError) {
+        console.error('Error generating QR code:', insertError);
+        toast.error('Failed to generate QR code');
         return null;
       }
 
@@ -65,7 +49,7 @@ export const useQRCode = () => {
       if (!qrCodeData.qr_image_url) {
         // In a real app, you would generate the QR code image here
         // For demo purposes, we'll use a placeholder
-        const updatedQRCode = await updateQRCodeImage(qrCodeId, businessId);
+        const updatedQRCode = await updateQRCodeImage(qrCodeData.id, businessId);
         setQrCode(updatedQRCode);
         return updatedQRCode;
       }
