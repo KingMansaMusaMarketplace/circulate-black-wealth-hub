@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -68,8 +67,7 @@ const CTASection = () => {
   };
 
   const handleEarlyAccess = () => {
-    toast({
-      title: "Early Access",
+    toast("Early Access", {
       description: "You've been added to our early access waitlist!",
       duration: 3000,
     });

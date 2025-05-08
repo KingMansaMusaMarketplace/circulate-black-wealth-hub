@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -52,8 +53,7 @@ const CTASection = () => {
   };
 
   const handleSignupClick = () => {
-    toast({
-      title: "Welcome!",
+    toast("Welcome!", {
       description: "Thank you for your interest in joining our movement.",
       duration: 3000,
     });

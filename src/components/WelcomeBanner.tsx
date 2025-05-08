@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from '@/components/ui/sonner';
 
 interface WelcomeBannerProps {
   siteUrl?: string;
@@ -10,7 +10,6 @@ interface WelcomeBannerProps {
 
 const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ siteUrl = "Mansa Musa Marketplace" }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const { toast } = useToast();
 
   useEffect(() => {
     // Check if the user has seen the banner before
@@ -33,8 +32,7 @@ const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ siteUrl = "Mansa Musa Mar
 
   const handleJoinCommunity = () => {
     handleDismiss();
-    toast({
-      title: "Welcome to our community!",
+    toast("Welcome to our community!", {
       description: "Thank you for joining our mission to build Black economic wealth!",
     });
   };
