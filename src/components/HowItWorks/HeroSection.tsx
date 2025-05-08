@@ -66,7 +66,7 @@ const HeroSection = () => {
               <div className="bg-white rounded-xl shadow-xl p-4 rotate-3 transform hover:rotate-0 transition-transform duration-300 relative z-10">
                 <div className="bg-gray-50 rounded-lg p-2">
                   <img 
-                    src="https://images.unsplash.com/photo-1632168844625-42ab53706c86?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" 
+                    src="https://images.unsplash.com/photo-1551836022-4c4c9d1c8c83?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" 
                     alt="Group of Black professionals in business meeting" 
                     className="w-full h-auto rounded" 
                     width="400"
