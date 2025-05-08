@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Gift } from 'lucide-react';
-import RewardCard from './RewardCard';
 
 interface LoyaltyReward {
   id: string | number;

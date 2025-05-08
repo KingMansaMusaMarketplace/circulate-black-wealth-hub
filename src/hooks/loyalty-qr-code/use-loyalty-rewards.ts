@@ -12,6 +12,7 @@ export interface LoyaltyReward {
   category: string;
   businessName?: string;
   expiresAt?: string;
+  imageUrl?: string;
 }
 
 interface UseLoyaltyRewardsOptions {
@@ -41,7 +42,8 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
     pointsCost: reward.pointsCost,
     category: reward.category || 'General',
     businessName: reward.businessName,
-    expiresAt: reward.expiresAt
+    expiresAt: reward.expiresAt,
+    imageUrl: reward.imageUrl // Add imageUrl property
   }));
 
   // Update the loyaltyPoints whenever there's a change in the summary
@@ -82,6 +84,7 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
         return false;
       }
     } catch (error: any) {
+      console.error('Error redeeming reward:', error);
       toast.error(error.message || 'An error occurred while redeeming the reward');
       return false;
     }
