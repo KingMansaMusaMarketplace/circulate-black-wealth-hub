@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -70,8 +71,8 @@ const DirectoryPage = () => {
       address: "456 Oak Ave, Atlanta, GA",
       lat: 33.749568,
       lng: -84.391256,
-      imageUrl: "https://images.unsplash.com/photo-1599981526814-61649765e2f8?q=80&w=1887&auto=format&fit=crop",
-      imageAlt: "Young Black boy getting a haircut at a barber shop"
+      imageUrl: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2074&auto=format&fit=crop",
+      imageAlt: "Black barber cutting a client's hair in a professional barber shop"
     },
     {
       id: 3,
