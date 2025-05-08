@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { motion, useAnimation } from 'framer-motion';
 import { ArrowUp, Users, Star, CircleDollarSign, Check } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/components/ui/sonner'; // Updated import path
 
 const CTASection = () => {
   const [isVisible, setIsVisible] = useState(false);

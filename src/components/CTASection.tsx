@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { motion, useAnimation } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/components/ui/sonner';
 import { AudioButton } from '@/components/ui/audio-button';
 import { AUDIO_PATHS } from '@/utils/audio';
 

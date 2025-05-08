@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { toast } from 'sonner';
+import { toast } from '@/components/ui/sonner'; // Updated import path
 import { ProductImage } from '@/lib/api/product-api';
 
 interface GalleryActionsProps {
