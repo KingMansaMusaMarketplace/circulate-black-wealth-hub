@@ -3,6 +3,7 @@
 
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { useTheme as useNextTheme } from "next-themes"
 import type { ThemeProviderProps } from "next-themes"
 
 type Theme = "dark" | "light" | "system"
@@ -26,16 +27,11 @@ export function ThemeProvider({
 }
 
 // Export hook for theme usage
-export const useTheme = () => {
-  const { theme, setTheme } = React.useContext(
-    React.createContext<{ theme: string | undefined; setTheme: (theme: string) => void}>({
-      theme: undefined,
-      setTheme: () => {},
-    })
-  );
+export const useTheme = (): ThemeProviderState => {
+  const { theme, setTheme } = useNextTheme()
   
   return {
-    theme: theme as Theme,
+    theme: (theme as Theme) || "system",
     setTheme: setTheme as (theme: Theme) => void,
-  };
+  }
 }
