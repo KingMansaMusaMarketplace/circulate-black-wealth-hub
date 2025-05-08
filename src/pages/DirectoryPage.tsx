@@ -70,8 +70,8 @@ const DirectoryPage = () => {
       address: "456 Oak Ave, Atlanta, GA",
       lat: 33.749568,
       lng: -84.391256,
-      imageUrl: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2074&auto=format&fit=crop",
-      imageAlt: "Black barber cutting a client's hair in a professional barber shop"
+      imageUrl: "https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?q=80&w=2070&auto=format&fit=crop",
+      imageAlt: "Professional Black barber shop with stylish interior and barbers working"
     },
     {
       id: 3,
