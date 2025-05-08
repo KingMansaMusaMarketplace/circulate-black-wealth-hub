@@ -103,8 +103,8 @@ const DirectoryPage = () => {
       lat: 33.753421,
       lng: -84.389754,
       isFeatured: true,
-      imageUrl: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2070&auto=format&fit=crop",
-      imageAlt: "Professional Black financial advisor consulting with clients in an office setting"
+      imageUrl: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=2070&auto=format&fit=crop",
+      imageAlt: "Two Black financial advisors in professional suits discussing business plans in an office"
     },
     {
       id: 5,
