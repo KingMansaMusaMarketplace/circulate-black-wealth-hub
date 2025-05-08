@@ -20,6 +20,7 @@ import BusinessProfilePage from "@/pages/BusinessProfilePage";
 import AdminPage from "@/pages/AdminPage";
 import QRCodeManagementPage from "@/pages/QRCodeManagementPage";
 import QRScannerPage from "@/pages/QRScannerPage";
+import RegistrationTestPage from "@/pages/RegistrationTestPage";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import './App.css';
@@ -40,6 +41,7 @@ function App() {
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/new-password" element={<NewPasswordPage />} />
+            <Route path="/registration-test" element={<RegistrationTestPage />} />
             
             {/* Protected routes - require authentication */}
             <Route path="/dashboard" element={
