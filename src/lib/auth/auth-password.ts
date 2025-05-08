@@ -1,5 +1,5 @@
 
-import { supabase } from '../supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 type ToastProps = {
   title: string;

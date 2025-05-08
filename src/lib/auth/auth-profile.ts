@@ -1,5 +1,5 @@
 
-import { supabase } from '../supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 // Create a profile in the profiles table
 export const createUserProfile = async (userId: string, userMetadata: any) => {
