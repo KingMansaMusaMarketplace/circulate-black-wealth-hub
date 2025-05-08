@@ -31,14 +31,16 @@ export const setupDatabase = async (
 export const checkDatabaseInitialized = async (): Promise<boolean> => {
   try {
     // Try to call a function that should exist if the database is initialized
-    const { data, error } = await supabase.rpc('check_database_initialized');
+    const { data, error } = await supabase.rpc('exec_sql', {
+      query: "SELECT EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'create_business_qr_code')"
+    });
     
     if (error) {
       console.error('Error checking database initialization:', error);
       return false;
     }
     
-    return !!data;
+    return data && data.length > 0 && data[0].exists;
   } catch (error) {
     console.error('Error checking database initialization:', error);
     return false;
