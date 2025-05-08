@@ -59,15 +59,15 @@ const HeroSection = () => {
           </div>
           <div className="md:w-1/2 flex justify-center md:justify-end">
             <div className="relative z-10">
-              {/* Image with Black people looking at laptop */}
+              {/* Image with multiple Black people looking at laptop */}
               <div className="absolute -top-4 -left-4 w-full h-full bg-mansagold/20 rounded-xl"></div>
               <div className="absolute -bottom-4 -right-4 w-full h-full bg-mansablue-light/30 rounded-xl"></div>
               
               <div className="bg-white rounded-xl shadow-xl p-4 rotate-3 transform hover:rotate-0 transition-transform duration-300 relative z-10">
                 <div className="bg-gray-50 rounded-lg p-2">
                   <img 
-                    src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                    alt="Black entrepreneur working on laptop" 
+                    src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                    alt="Black people collaborating on laptop" 
                     className="w-full h-auto rounded" 
                     width="400"
                     height="300"
