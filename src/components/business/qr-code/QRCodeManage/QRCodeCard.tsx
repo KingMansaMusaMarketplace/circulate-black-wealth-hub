@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { QRCode } from '@/lib/api/qr-code-api';
 import { formatDistanceToNow } from 'date-fns';
-import { Edit, Trash, Eye, QrCode } from 'lucide-react';
+import { Edit, Trash, Eye } from 'lucide-react';
 
 interface QRCodeCardProps {
   qrCode: QRCode;
@@ -22,11 +22,23 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
 }) => {
   const isExpired = qrCode.expiration_date && new Date(qrCode.expiration_date) < new Date();
   
+  // Get QR code image or placeholder
+  const getQRCodeImage = () => {
+    if (qrCode.qr_image_url) {
+      return qrCode.qr_image_url;
+    }
+    
+    // Generate a QR code URL using an online service
+    return `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(
+      `https://mansa-musa.vercel.app/scan?qr=${qrCode.id}&business=${qrCode.business_id}`
+    )}`;
+  };
+  
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-md">{qrCode.code_type} QR Code</CardTitle>
+          <CardTitle className="text-md capitalize">{qrCode.code_type} QR Code</CardTitle>
           <Badge variant={qrCode.is_active ? "default" : "secondary"}>
             {qrCode.is_active ? 'Active' : 'Inactive'}
           </Badge>
@@ -34,8 +46,12 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-4">
-          <div className="bg-gray-100 p-4 rounded-lg">
-            <QrCode size={48} />
+          <div className="bg-white p-2 rounded-lg border border-gray-100 shadow-sm">
+            <img 
+              src={getQRCodeImage()}
+              alt={`${qrCode.code_type} QR Code`}
+              className="w-16 h-16 object-contain"
+            />
           </div>
           <div>
             {qrCode.points_value && (
@@ -43,6 +59,9 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
             )}
             {qrCode.discount_percentage && (
               <p className="text-sm"><strong>Discount:</strong> {qrCode.discount_percentage}%</p>
+            )}
+            {qrCode.scan_limit && (
+              <p className="text-sm"><strong>Scans:</strong> {qrCode.current_scans} / {qrCode.scan_limit}</p>
             )}
             <p className="text-xs text-muted-foreground mt-1">
               Created {qrCode.created_at && formatDistanceToNow(new Date(qrCode.created_at), { addSuffix: true })}

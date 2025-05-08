@@ -45,7 +45,7 @@ export const useQRCodeScanning = ({ setLoading }: UseQRCodeScanningOptions) => {
         return { success: false };
       }
       
-      // Record the scan
+      // Record the scan in the database
       const scanData = {
         qr_code_id: qrCodeId,
         customer_id: user?.id || 'anonymous',
@@ -82,7 +82,7 @@ export const useQRCodeScanning = ({ setLoading }: UseQRCodeScanningOptions) => {
           .select('*')
           .eq('customer_id', user.id)
           .eq('business_id', qrCode.business_id)
-          .single();
+          .maybeSingle();
           
         if (existingPoints) {
           // Update existing points
@@ -107,6 +107,21 @@ export const useQRCodeScanning = ({ setLoading }: UseQRCodeScanningOptions) => {
       // For discount QR codes, show the discount amount
       if (qrCode.code_type === 'discount' && qrCode.discount_percentage) {
         toast.success(`You received a ${qrCode.discount_percentage}% discount!`);
+      }
+      
+      // Record the transaction in the transactions table
+      if (user) {
+        await supabase
+          .from('transactions')
+          .insert({
+            customer_id: user.id,
+            business_id: qrCode.business_id,
+            points_earned: qrCode.points_value || 0,
+            discount_percentage: qrCode.discount_percentage || 0,
+            description: `QR code scan - ${qrCode.code_type}`,
+            transaction_type: 'scan',
+            qr_scan_id: scanResult.id
+          });
       }
       
       return { 

@@ -19,14 +19,6 @@ const QRCodeManagementPage: React.FC = () => {
   const { fetchBusinessQRCodes } = useQRCode();
   const navigate = useNavigate();
 
-  // Default metrics for demo purposes
-  const scanMetrics = {
-    totalScans: 123,
-    uniqueCustomers: 45,
-    totalPointsAwarded: 1230,
-    averagePointsPerScan: 10
-  };
-
   useEffect(() => {
     if (!user) {
       navigate('/login');
@@ -57,7 +49,6 @@ const QRCodeManagementPage: React.FC = () => {
     if (!profile?.id) return;
     
     try {
-      // Remove the argument here, as fetchBusinessQRCodes now uses the profile.id from the hook
       const codes = await fetchBusinessQRCodes();
       setQrCodes(codes);
     } catch (error) {
@@ -118,7 +109,7 @@ const QRCodeManagementPage: React.FC = () => {
           activeTab={activeTab} 
           setActiveTab={setActiveTab} 
           qrCodes={qrCodes}
-          scanMetrics={scanMetrics}
+          businessId={profile?.id}
         />
       </div>
       <Footer />

@@ -11,13 +11,15 @@ interface QRCodeAnalyticsContentProps {
     totalPointsAwarded: number;
     averagePointsPerScan: number;
   };
+  scanData?: Array<{name: string; scans: number}>;
 }
 
 export const QRCodeAnalyticsContent: React.FC<QRCodeAnalyticsContentProps> = ({
-  metrics
+  metrics,
+  scanData = []
 }) => {
-  // Sample data for the chart
-  const scanData = [
+  // Use the provided scan data or fallback to demo data if empty
+  const chartData = scanData.length > 0 ? scanData : [
     { name: 'Mon', scans: 12 },
     { name: 'Tue', scans: 19 },
     { name: 'Wed', scans: 15 },
@@ -47,12 +49,12 @@ export const QRCodeAnalyticsContent: React.FC<QRCodeAnalyticsContentProps> = ({
         />
         <QRCodeMetricCard 
           title="Avg Points/Scan" 
-          value={metrics.averagePointsPerScan} 
+          value={metrics.averagePointsPerScan.toFixed(1)} 
           icon={<TrendingUp className="h-4 w-4" />}
         />
       </div>
       
-      <QRCodeScansChart data={scanData} />
+      <QRCodeScansChart data={chartData} />
       
       <div className="text-sm text-muted-foreground">
         <p>Note: Analytics data is updated daily. Last updated: {new Date().toLocaleDateString()}</p>

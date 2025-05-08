@@ -549,6 +549,10 @@ export type Database = {
         Args: { query: string }
         Returns: undefined
       }
+      get_qr_scan_metrics: {
+        Args: { p_business_id: string }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never

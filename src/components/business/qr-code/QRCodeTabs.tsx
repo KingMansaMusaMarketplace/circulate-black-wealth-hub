@@ -4,24 +4,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { QRCodeGenerator } from '@/components/business/qr-code';
 import { QRCodeManageTab } from './QRCodeManage/QRCodeManageTab';
 import { QRCodeAnalyticsTab } from './QRCodeAnalyticsTab';
+import { QRCode } from '@/lib/api/qr-code-api';
 
 interface QRCodeTabsProps {
   activeTab: string;
   setActiveTab: (value: string) => void;
-  qrCodes: any[];
-  scanMetrics: {
-    totalScans: number;
-    uniqueCustomers: number;
-    totalPointsAwarded: number;
-    averagePointsPerScan: number;
-  };
+  qrCodes: QRCode[];
+  businessId?: string;
 }
 
 export const QRCodeTabs: React.FC<QRCodeTabsProps> = ({ 
   activeTab, 
   setActiveTab, 
   qrCodes,
-  scanMetrics
+  businessId
 }) => {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -40,7 +36,7 @@ export const QRCodeTabs: React.FC<QRCodeTabsProps> = ({
       </TabsContent>
       
       <TabsContent value="analytics">
-        <QRCodeAnalyticsTab metrics={scanMetrics} />
+        <QRCodeAnalyticsTab businessId={businessId} />
       </TabsContent>
     </Tabs>
   );
