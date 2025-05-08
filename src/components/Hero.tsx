@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -42,7 +43,7 @@ const Hero = () => {
               </Link>
             </div>
             
-            {/* New Audio Button */}
+            {/* Audio Button */}
             <div className="mt-4">
               <AudioButton
                 audioSrc={AUDIO_PATHS.welcome}
@@ -97,7 +98,7 @@ const Hero = () => {
               </div>
             </div>
             
-            {/* QR code floating element - repositioned higher to avoid overlapping with the $120 saved text */}
+            {/* QR code floating element */}
             <div className="absolute -top-16 -right-8 w-24 h-24 bg-white rounded-lg shadow-lg p-2 rotate-12 hidden md:block">
               <div className="w-full h-full bg-gray-800 rounded grid grid-cols-4 grid-rows-4 gap-0.5 p-1">
                 {Array(16).fill(0).map((_, i) => (
