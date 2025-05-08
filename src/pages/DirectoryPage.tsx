@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -87,8 +86,8 @@ const DirectoryPage = () => {
       address: "789 Elm St, Atlanta, GA",
       lat: 33.751234,
       lng: -84.384562,
-      imageUrl: "https://images.unsplash.com/photo-1521056787327-965a34d83af7?q=80&w=2070&auto=format&fit=crop",
-      imageAlt: "Bookstore with shelves full of diverse books"
+      imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
+      imageAlt: "Interior of a cozy bookstore with wooden shelves full of books"
     },
     {
       id: 4,
