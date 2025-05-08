@@ -41,7 +41,6 @@ function App() {
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/new-password" element={<NewPasswordPage />} />
-            <Route path="/registration-test" element={<RegistrationTestPage />} />
             
             {/* Protected routes - require authentication */}
             <Route path="/dashboard" element={
@@ -82,8 +81,19 @@ function App() {
               </ProtectedRoute>
             } />
             
-            {/* Admin routes - would typically have admin-only access */}
-            <Route path="/admin" element={<AdminPage />} />
+            {/* Admin routes - protected with business user type requirement */}
+            <Route path="/admin" element={
+              <ProtectedRoute requiredUserType="business">
+                <AdminPage />
+              </ProtectedRoute>
+            } />
+            
+            {/* Testing routes - protected with business user type requirement */}
+            <Route path="/registration-test" element={
+              <ProtectedRoute requiredUserType="business">
+                <RegistrationTestPage />
+              </ProtectedRoute>
+            } />
             
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />

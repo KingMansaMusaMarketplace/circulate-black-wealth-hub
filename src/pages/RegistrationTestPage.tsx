@@ -1,14 +1,55 @@
 
 import React from 'react';
 import { RegistrationVerifier } from '@/components/auth/RegistrationVerifier';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 
 const RegistrationTestPage = () => {
+  const { user, userType } = useAuth();
+  
+  // Only allow access to authenticated administrative users
+  // In a real production app, you should implement proper admin role checking
+  const isAdmin = user && userType === 'business'; // Simplified check - in production use proper role-based auth
+  
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  if (!isAdmin) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive" className="mb-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            Access denied. You need administrative privileges to access this page.
+          </AlertDescription>
+        </Alert>
+        <div className="text-center mt-8">
+          <button
+            onClick={() => window.history.back()}
+            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6">Registration Flow Testing</h1>
       <p className="mb-4 text-gray-600">
         This page provides tools to test and verify that the frontend registration process correctly syncs with the backend database.
       </p>
+      <Alert variant="warning" className="mb-4">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>
+          This is a protected administrative tool. Access should be restricted in production.
+        </AlertDescription>
+      </Alert>
       <RegistrationVerifier />
       <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
         <h3 className="font-medium text-yellow-800">Important Note</h3>
