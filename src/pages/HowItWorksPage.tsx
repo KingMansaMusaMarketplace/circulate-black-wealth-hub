@@ -1,13 +1,9 @@
 
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { AudioButton } from '@/components/ui/audio-button';
-import { AUDIO_PATHS } from '@/utils/audio';
-import { ArrowLeft } from 'lucide-react';
 import HeroSection from '@/components/HowItWorks/HeroSection';
-import BenefitsSection from '@/components/HowItWorks/BenefitsSection';
+import HowItWorks from '@/components/HowItWorks';
 import CTASection from '@/components/HowItWorks/CTASection';
+import PageNavigation from '@/components/HowItWorks/PageNavigation';
 
 const HowItWorksPage = () => {
   useEffect(() => {
@@ -18,10 +14,17 @@ const HowItWorksPage = () => {
     document.title = 'How It Works | Mansa Musa Marketplace';
   }, []);
 
+  const navSections = [
+    { id: 'hero', label: 'Overview' },
+    { id: 'how-it-works', label: 'How It Works' },
+    { id: 'cta-section', label: 'Join Us' }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
       <HeroSection />
-      <BenefitsSection />
+      <PageNavigation sections={navSections} />
+      <HowItWorks />
       <CTASection />
     </div>
   );
