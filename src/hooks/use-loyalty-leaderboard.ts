@@ -59,7 +59,8 @@ export const useLoyaltyLeaderboard = (limit: number = 10) => {
             return {
               id: userId,
               username: profile.full_name || 'Anonymous User',
-              avatarUrl: profile.avatar_url,
+              // Fix the TypeScript error by using optional chaining for avatar_url
+              avatarUrl: 'avatar_url' in profile ? profile.avatar_url : undefined,
               totalPoints: points as number,
               rank: 0, // Will set this after sorting
               isCurrentUser: user && userId === user.id
