@@ -14,6 +14,7 @@ interface UseLoyaltyQRCodeOptions {
 export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
   const [qrCode, setQrCode] = useState(null);
   const { qrCode: qrCodeData } = useQRCode();
+  const { summary } = useLoyalty();
   
   // Use the specialized hooks
   const { 

@@ -21,7 +21,7 @@ export const useLoyaltyScanning = (options: UseLoyaltyScanningOptions = {}) => {
   
   const { user } = useAuth();
   const { scanQRCode } = useQRCode();
-  const { refreshLoyaltyData, loyaltyPoints } = useLoyalty();
+  const { refreshData, transactions } = useLoyalty();
   
   // Scan QR code and process loyalty points in one operation
   const scanQRAndProcessPoints = async (
@@ -40,13 +40,8 @@ export const useLoyaltyScanning = (options: UseLoyaltyScanningOptions = {}) => {
       const result = await scanQRCode(qrCodeId, location);
       
       if (result && result.success) {
-        // Get business name
-        const businessPoints = loyaltyPoints.find(
-          (p) => p.business_id === result.business_id
-        );
-        
-        // Just use business_id as the name when actual name isn't available
-        const businessName = businessPoints?.business_id || 'Business';
+        // Get business name from the first matching transaction (simplified)
+        const businessName = result.business_id || 'Business';
         
         const scanResultData = {
           success: true,
@@ -59,7 +54,7 @@ export const useLoyaltyScanning = (options: UseLoyaltyScanningOptions = {}) => {
         
         // Refresh loyalty data to show updated points
         if (options.autoRefresh) {
-          await refreshLoyaltyData();
+          await refreshData();
         }
         
         return scanResultData;

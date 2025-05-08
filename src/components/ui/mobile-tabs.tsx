@@ -1,10 +1,8 @@
-
 import React, { useState } from 'react';
 import { cn } from "@/lib/utils";
 import { useIsMobile } from '@/hooks/use-mobile';
-import { TabsProps } from '@radix-ui/react-tabs';
 
-interface MobileTabsProps extends TabsProps {
+interface MobileTabsProps {
   tabItems: {
     value: string;
     label: React.ReactNode;
@@ -22,7 +20,6 @@ export const MobileTabs: React.FC<MobileTabsProps> = ({
   onChange,
   variant = 'default',
   fullWidth = false,
-  ...props
 }) => {
   const [activeTab, setActiveTab] = useState<string>(
     defaultValue || (tabItems.length > 0 ? tabItems[0].value : '')

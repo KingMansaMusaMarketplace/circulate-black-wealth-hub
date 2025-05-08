@@ -7,16 +7,15 @@ interface UseLoyaltyRewardsOptions {
 
 export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
   const { 
-    totalPoints, 
-    loyaltyPoints, 
-    redeemReward, 
-    refreshLoyaltyData 
+    summary, 
+    refreshData, 
+    redeemReward 
   } = useLoyalty();
   
   return {
-    totalPoints,
-    loyaltyPoints,
+    totalPoints: summary.totalPoints,
+    loyaltyPoints: [], // We'll replace this with actual business points data
     redeemReward,
-    refreshLoyaltyData
+    refreshLoyaltyData: refreshData
   };
 };

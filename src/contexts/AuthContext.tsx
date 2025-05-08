@@ -13,6 +13,13 @@ import {
   updatePassword 
 } from '@/lib/auth';
 
+// Fixed ToastProps type to match what's expected in auth functions
+type ToastProps = {
+  title: string;
+  description: string;
+  variant?: "default" | "destructive";
+};
+
 type AuthContextType = {
   user: User | null;
   session: Session | null;
@@ -30,6 +37,15 @@ type AuthContextType = {
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Helper function to wrap toast in the expected format
+const toastWrapper = (props: ToastProps) => {
+  if (props.variant === "destructive") {
+    return toast.error(props.title, { description: props.description });
+  } else {
+    return toast.success(props.title, { description: props.description });
+  }
+};
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -100,13 +116,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     session,
     loading,
     signUp: (email: string, password: string, metadata?: any) => 
-      handleSignUp(email, password, metadata, toast),
+      handleSignUp(email, password, metadata, toastWrapper),
     signIn: (email: string, password: string) => 
-      handleSignIn(email, password, toast),
+      handleSignIn(email, password, toastWrapper),
     signInWithSocial: (provider: Provider) =>
-      handleSocialSignIn(provider, toast),
+      handleSocialSignIn(provider, toastWrapper),
     signOut: async () => {
-      const result = await handleSignOut(toast);
+      const result = await handleSignOut(toastWrapper);
       if (result.success) {
         setUser(null);
         setSession(null);
@@ -114,9 +130,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     },
     resetPassword: (email: string) =>
-      requestPasswordReset(email, toast),
+      requestPasswordReset(email, toastWrapper),
     updateUserPassword: (newPassword: string) =>
-      updatePassword(newPassword, toast),
+      updatePassword(newPassword, toastWrapper),
     userType,
     initializingDatabase,
     databaseInitialized,
