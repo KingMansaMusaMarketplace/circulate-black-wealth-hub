@@ -51,8 +51,8 @@ export const useQRCodeAnalytics = () => {
       }
 
       if (data) {
-        // Type assertion to ensure TypeScript knows what properties are available
-        const metricsData = data as QRCodeMetricsResponse;
+        // First cast to unknown, then to our specific type to avoid TypeScript errors
+        const metricsData = data as unknown as QRCodeMetricsResponse;
         
         const updatedMetrics = {
           totalScans: metricsData.total_scans || 0,
