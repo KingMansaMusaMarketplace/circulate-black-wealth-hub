@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Bell, BellDot, MarkRead, Trash2, RefreshCw } from 'lucide-react';
+import { Bell, BellDot, Check, Trash2, RefreshCw } from 'lucide-react';
 import { 
   Popover, 
   PopoverContent, 
@@ -88,7 +88,7 @@ export const NotificationsPopover = () => {
                 onClick={handleMarkAllAsRead}
                 title="Mark all as read"
               >
-                <MarkRead className="h-4 w-4" />
+                <Check className="h-4 w-4" />
               </Button>
             )}
             <Button 

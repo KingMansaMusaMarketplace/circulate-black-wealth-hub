@@ -10,29 +10,38 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Gift } from 'lucide-react';
-import { LoyaltyReward } from '@/hooks/loyalty-qr-code/use-loyalty-rewards';
+
+interface Reward {
+  id: string | number;
+  title: string;
+  description: string;
+  pointsCost: number;
+  businessId?: string;
+  businessName?: string;
+  category?: string;
+  expiresAt?: string;
+  imageUrl?: string;
+}
 
 interface RedemptionConfirmDialogProps {
-  reward: LoyaltyReward | null;
+  reward: Reward;
   open: boolean;
-  onClose: () => void;
+  onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
-  isRedeeming: boolean;
   totalPoints: number;
+  isRedeeming?: boolean;
 }
 
 const RedemptionConfirmDialog: React.FC<RedemptionConfirmDialogProps> = ({
   reward,
   open,
-  onClose,
+  onOpenChange,
   onConfirm,
-  isRedeeming,
-  totalPoints
+  totalPoints,
+  isRedeeming = false
 }) => {
-  if (!reward) return null;
-  
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Confirm Redemption</DialogTitle>
@@ -79,7 +88,7 @@ const RedemptionConfirmDialog: React.FC<RedemptionConfirmDialogProps> = ({
         <DialogFooter className="sm:justify-between">
           <Button
             variant="outline"
-            onClick={onClose}
+            onClick={() => onOpenChange(false)}
             disabled={isRedeeming}
           >
             Cancel
@@ -87,7 +96,7 @@ const RedemptionConfirmDialog: React.FC<RedemptionConfirmDialogProps> = ({
           <Button
             onClick={onConfirm}
             className="bg-mansablue hover:bg-mansablue/80"
-            disabled={isRedeeming || !reward}
+            disabled={isRedeeming}
           >
             {isRedeeming ? (
               <>
