@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -27,15 +26,14 @@ const QRCodeGenerator: React.FC = () => {
         ? new Date(values.expirationDate).toISOString()
         : undefined;
 
-      // Generate QR code - passing businessId as undefined to use the current business profile
-      // and adding proper params structure
-      await generateQRCode({
-        code_type: values.codeType,
-        discount_percentage: values.discountPercentage,
-        points_value: values.pointsValue,
-        scan_limit: values.scanLimit,
-        expiration_date: expirationDate,
-        is_active: values.isActive,
+      // Generate QR code - passing undefined as the first parameter to use the current business profile
+      // and adding proper params structure as the second parameter
+      await generateQRCode(undefined, values.codeType, {
+        discountPercentage: values.discountPercentage,
+        pointsValue: values.pointsValue,
+        scanLimit: values.scanLimit,
+        expirationDate: expirationDate,
+        isActive: values.isActive,
       });
       
       setActiveTab("preview");
