@@ -28,6 +28,7 @@ const Index = () => {
       </Helmet>
 
       <Navbar />
+      <WelcomeBanner />
       <main className="flex-grow">
         <Hero />
         <WhySection />
