@@ -10,6 +10,7 @@ import DirectorySearchBar from '@/components/directory/DirectorySearchBar';
 import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
 import DirectoryResultsSummary from '@/components/directory/DirectoryResultsSummary';
+import DirectoryPagination from '@/components/directory/DirectoryPagination';
 
 const DirectoryPage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -22,7 +23,9 @@ const DirectoryPage = () => {
     handleFilterChange,
     categories,
     filteredBusinesses,
-    mapData
+    paginatedBusinesses,
+    mapData,
+    pagination
   } = useDirectorySearch(businesses);
   
   const handleSelectBusiness = (id: number) => {
@@ -85,13 +88,22 @@ const DirectoryPage = () => {
         {/* Businesses Display */}
         {viewMode === 'grid' ? (
           <BusinessGridView 
-            businesses={filteredBusinesses} 
+            businesses={paginatedBusinesses} 
             onSelectBusiness={handleSelectBusiness} 
           />
         ) : (
           <BusinessListView 
-            businesses={filteredBusinesses} 
+            businesses={paginatedBusinesses} 
             onSelectBusiness={handleSelectBusiness} 
+          />
+        )}
+        
+        {/* Pagination */}
+        {filteredBusinesses.length > 0 && (
+          <DirectoryPagination
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            onPageChange={pagination.handlePageChange}
           />
         )}
       </main>

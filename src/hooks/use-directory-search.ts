@@ -13,6 +13,10 @@ export function useDirectorySearch(businesses: Business[]) {
     discount: 0  // 0 means any discount
   });
   
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
+  
   const location = useLocation();
   
   useEffect(() => {
@@ -22,10 +26,15 @@ export function useDirectorySearch(businesses: Business[]) {
     if (search) {
       setSearchTerm(search);
     }
+    
+    // Reset to page 1 when search params change
+    setCurrentPage(1);
   }, [location]);
 
   const handleFilterChange = (newFilters: Partial<FilterOptions>) => {
     setFilterOptions(prev => ({ ...prev, ...newFilters }));
+    // Reset to page 1 when filters change
+    setCurrentPage(1);
   };
 
   // Get unique categories
@@ -53,6 +62,19 @@ export function useDirectorySearch(businesses: Business[]) {
     return matchesSearch && matchesCategory && matchesDistance && matchesRating && matchesDiscount;
   });
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredBusinesses.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const paginatedBusinesses = filteredBusinesses.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Handle page change
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    // Scroll to top of results
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Create map data for MapView
   const mapData = businesses.map(b => ({
     id: b.id,
@@ -69,6 +91,14 @@ export function useDirectorySearch(businesses: Business[]) {
     handleFilterChange,
     categories,
     filteredBusinesses,
-    mapData
+    paginatedBusinesses,
+    mapData,
+    pagination: {
+      currentPage,
+      totalPages,
+      itemsPerPage,
+      setItemsPerPage,
+      handlePageChange
+    }
   };
 }
