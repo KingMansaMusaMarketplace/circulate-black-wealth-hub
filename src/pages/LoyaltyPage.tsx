@@ -12,6 +12,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 
+// Define the Transaction type expected by LoyaltyHistory component
+interface Transaction {
+  id: number | string;
+  businessName: string;
+  action: string;
+  points: number;
+  date: string;
+  time: string;
+}
+
 const LoyaltyPage = () => {
   const { totalPoints, loyaltyPoints, availableRewards, redeemReward } = useLoyaltyRewards({ autoRefresh: true });
   const { stats, transactions } = useLoyaltyHistory();
@@ -21,14 +31,14 @@ const LoyaltyPage = () => {
 
   // Transform the data to match the expected types
   const formattedStats = {
-    totalPoints: stats.totalPoints || 0,
+    totalPoints: stats.totalPointsEarned || 0, // Use totalPointsEarned as totalPoints
     pointsEarned: stats.totalPointsEarned || 0,
     pointsRedeemed: stats.totalPointsRedeemed || 0,
     visitsThisMonth: stats.visitsThisMonth || 0
   };
 
   // Transform transactions to match expected format
-  const formattedTransactions = transactions.map(transaction => ({
+  const formattedTransactions: Transaction[] = transactions.map(transaction => ({
     id: transaction.id,
     businessName: transaction.business?.business_name || 'Business',
     action: transaction.transaction_type || 'Scan',
