@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from '@/components/ui/theme-provider';
@@ -32,6 +31,7 @@ import './App.css';
 
 function App() {
   return (
+    // Use the custom ThemeProvider for theme support
     <ThemeProvider defaultTheme="light" storageKey="mansa-theme">
       <AuthProvider>
         <BrowserRouter>
