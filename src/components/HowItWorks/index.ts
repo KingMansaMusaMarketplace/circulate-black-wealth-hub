@@ -1,5 +1,4 @@
 
-export { default } from './HowItWorks';
 export { default as HeroSection } from './HeroSection';
 export { default as HowItWorksSteps } from './HowItWorksSteps';
 export { default as BenefitsSection } from './BenefitsSection';
