@@ -13,7 +13,6 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void
 }
 
-// Export the ThemeProvider correctly
 export function ThemeProvider({ 
   children, 
   defaultTheme = "system", 
@@ -26,8 +25,9 @@ export function ThemeProvider({
   )
 }
 
-// Export hook for theme usage
 export const useTheme = (): ThemeProviderState => {
+  // The error is happening here - we need to make sure we're in a client component
+  // and the context is available when this hook is called
   const { theme, setTheme } = useNextTheme()
   
   return {

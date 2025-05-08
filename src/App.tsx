@@ -32,7 +32,8 @@ import './App.css';
 
 function App() {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+    // Make sure the ThemeProvider is the outermost wrapper
+    <ThemeProvider defaultTheme="light" enableSystem={false}>
       <AuthProvider>
         <BrowserRouter>
           <Routes>
