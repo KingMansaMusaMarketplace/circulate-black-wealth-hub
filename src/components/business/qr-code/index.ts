@@ -1,5 +1,5 @@
 
 export { default as QRCodeGenerator } from './QRCodeGenerator';
 export { QRCodeTabs } from './QRCodeTabs';
-export { QRCodeManageTab } from './QRCodeManageTab';
+export { QRCodeManageTab } from './QRCodeManage/QRCodeManageTab';
 export { QRCodeAnalyticsTab } from './QRCodeAnalyticsTab';

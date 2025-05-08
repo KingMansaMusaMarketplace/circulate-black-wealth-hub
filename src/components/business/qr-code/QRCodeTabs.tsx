@@ -2,7 +2,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { QRCodeGenerator } from '@/components/business/qr-code';
-import { QRCodeManageTab } from './QRCodeManageTab';
+import { QRCodeManageTab } from './QRCodeManage/QRCodeManageTab';
 import { QRCodeAnalyticsTab } from './QRCodeAnalyticsTab';
 
 interface QRCodeTabsProps {

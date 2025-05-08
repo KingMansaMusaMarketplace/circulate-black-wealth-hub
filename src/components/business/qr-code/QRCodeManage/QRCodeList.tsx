@@ -11,7 +11,7 @@ interface QRCodeListProps {
   onView: (qrCode: QRCode) => void;
 }
 
-const QRCodeList: React.FC<QRCodeListProps> = ({
+export const QRCodeList: React.FC<QRCodeListProps> = ({
   qrCodes,
   onDelete,
   onEdit,
