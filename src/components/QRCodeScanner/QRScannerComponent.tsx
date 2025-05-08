@@ -1,211 +1,182 @@
 
-import React, { useRef, useState, useEffect } from 'react';
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Loader2, Camera, Check, X } from "lucide-react";
-import { toast } from "sonner";
+import React, { useState, useEffect } from 'react';
+import { Html5Qrcode } from 'html5-qrcode';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from "@/components/ui/card";
+import { Loader2, Camera, Zap } from 'lucide-react';
+import ScanResult from './ScanResult';
 
-interface QRScannerProps {
+interface QRScannerComponentProps {
   onScan: (data: string) => void;
   loading?: boolean;
-  scanResult?: { 
-    success: boolean;
-    businessName?: string;
-    pointsEarned?: number;
-    discountApplied?: number;
-  } | null;
+  scanResult?: any;
 }
 
-const QRScannerComponent: React.FC<QRScannerProps> = ({ 
-  onScan,
+const QRScannerComponent: React.FC<QRScannerComponentProps> = ({ 
+  onScan, 
   loading = false,
-  scanResult = null 
+  scanResult = null
 }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [scanning, setScanning] = useState(false);
-  const [permission, setPermission] = useState<boolean | null>(null);
-  const [showResult, setShowResult] = useState(false);
+  const [scannerReady, setScannerReady] = useState<boolean>(false);
+  const [scanning, setScanning] = useState<boolean>(false);
+  const [html5QrCode, setHtml5QrCode] = useState<Html5Qrcode | null>(null);
+  const [hasCamera, setHasCamera] = useState<boolean>(true);
+  const [cameraError, setCameraError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  // Request camera permission and start video stream
-  const startScanner = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' }
-      });
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        setScanning(true);
-        setPermission(true);
-      }
-    } catch (error) {
-      console.error('Error accessing camera:', error);
-      toast.error('Camera access denied. Please enable camera permissions.');
-      setPermission(false);
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Initialize the scanner
+    if (!html5QrCode && typeof window !== 'undefined') {
+      const qrCode = new Html5Qrcode('qr-reader');
+      setHtml5QrCode(qrCode);
+      setScannerReady(true);
     }
-  };
 
-  // Stop video stream
-  const stopScanner = () => {
-    if (videoRef.current && videoRef.current.srcObject) {
-      const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
-      tracks.forEach(track => track.stop());
-      videoRef.current.srcObject = null;
+    // Clean up on unmount
+    return () => {
+      if (html5QrCode && html5QrCode.isScanning) {
+        html5QrCode.stop().catch(error => {
+          console.error('Error stopping scanner:', error);
+        });
+      }
+    };
+  }, [html5QrCode]);
+
+  // Start scanning
+  const startScanning = async () => {
+    if (!html5QrCode) return;
+
+    setScanning(true);
+    setCameraError(null);
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+    try {
+      // Check if camera is available
+      const devices = await Html5Qrcode.getCameras();
+      if (devices && devices.length === 0) {
+        setHasCamera(false);
+        setCameraError("No camera found on this device.");
+        setScanning(false);
+        return;
+      }
+
+      // Start scanning - use back camera by default on mobile devices
+      const cameraId = devices.length > 1 && isMobile ? devices[1].id : devices[0].id;
+      
+      await html5QrCode.start(
+        cameraId,
+        config,
+        (decodedText) => {
+          // On successful scan
+          onScan(decodedText);
+          // Don't stop scanning - let user scan multiple codes
+        },
+        (errorMessage) => {
+          // Ignored - this happens constantly during scanning
+        }
+      ).catch((err) => {
+        setCameraError(`Error accessing camera: ${err.message || 'Permission denied'}`);
+        setScanning(false);
+      });
+    } catch (err: any) {
+      console.error('Error starting scanner:', err);
+      setCameraError(`Error initializing scanner: ${err.message}`);
       setScanning(false);
     }
   };
 
-  // Clean up on unmount
-  useEffect(() => {
-    return () => {
-      stopScanner();
-    };
-  }, []);
-
-  // Show scan result for a few seconds
-  useEffect(() => {
-    if (scanResult) {
-      setShowResult(true);
-      const timer = setTimeout(() => {
-        setShowResult(false);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [scanResult]);
-
-  // Get user's geolocation
-  const getLocation = (): Promise<{ lat: number; lng: number } | null> => {
-    return new Promise((resolve) => {
-      if (!navigator.geolocation) {
-        resolve(null);
-        return;
+  // Stop scanning
+  const stopScanning = async () => {
+    if (html5QrCode && html5QrCode.isScanning) {
+      try {
+        await html5QrCode.stop();
+        setScanning(false);
+      } catch (error) {
+        console.error('Error stopping scanner:', error);
       }
-      
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          resolve({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
-        },
-        () => {
-          resolve(null);
-        }
-      );
-    });
+    }
   };
 
-  // Handle manual QR code input
-  const handleManualInput = () => {
-    const code = prompt('Enter QR code:');
-    if (code) {
-      onScan(code);
+  // Toggle scanning
+  const toggleScanning = () => {
+    if (scanning) {
+      stopScanning();
+    } else {
+      startScanning();
     }
   };
 
   return (
-    <Card className="p-6 max-w-md mx-auto">
-      <div className="space-y-6">
-        {!scanning && !loading && !showResult && (
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <div className="bg-gray-100 p-10 rounded-lg mb-4">
-              <Camera size={80} className="text-gray-400" />
-            </div>
-            <Button onClick={startScanner} className="w-full">
-              Scan QR Code with Camera
-            </Button>
-            <Button variant="outline" onClick={handleManualInput} className="w-full">
-              Enter Code Manually
-            </Button>
-          </div>
-        )}
-        
-        {permission === false && (
-          <div className="text-center text-red-500 p-4">
-            Camera access denied. Please enable camera permissions.
-          </div>
-        )}
-        
-        {scanning && (
-          <div className="space-y-4">
-            <div className="relative overflow-hidden rounded-lg aspect-video">
-              <video 
-                ref={videoRef} 
-                autoPlay 
-                playsInline
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 border-2 border-mansablue opacity-70 z-10">
-                <div className="absolute top-0 left-0 w-20 h-20 border-t-4 border-l-4 border-mansablue"></div>
-                <div className="absolute top-0 right-0 w-20 h-20 border-t-4 border-r-4 border-mansablue"></div>
-                <div className="absolute bottom-0 left-0 w-20 h-20 border-b-4 border-l-4 border-mansablue"></div>
-                <div className="absolute bottom-0 right-0 w-20 h-20 border-b-4 border-r-4 border-mansablue"></div>
-              </div>
-            </div>
-            <Button onClick={stopScanner} variant="destructive" className="w-full">
-              Cancel Scanning
-            </Button>
-          </div>
-        )}
-        
-        {loading && (
-          <div className="flex flex-col items-center justify-center p-8">
-            <Loader2 className="h-10 w-10 animate-spin text-mansablue mb-4" />
-            <p className="text-gray-500">Processing QR code...</p>
-          </div>
-        )}
-        
-        {showResult && scanResult && (
-          <div className="border rounded-lg p-6">
-            <div className="flex items-center mb-4">
-              {scanResult.success ? (
-                <Check className="h-8 w-8 text-green-500 mr-2" />
+    <div className="flex flex-col items-center max-w-md mx-auto space-y-6">
+      {scanResult ? (
+        <ScanResult result={scanResult} onScanAgain={() => window.location.reload()} />
+      ) : (
+        <>
+          <Card className="w-full">
+            <CardContent className="p-6 flex flex-col items-center">
+              {scanning || loading ? (
+                <div className="relative w-full aspect-square max-w-xs mb-4 bg-gray-100 rounded-lg overflow-hidden">
+                  <div id="qr-reader" className="w-full h-full"></div>
+                  {loading && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                      <Loader2 className="h-8 w-8 animate-spin text-white" />
+                    </div>
+                  )}
+                </div>
               ) : (
-                <X className="h-8 w-8 text-red-500 mr-2" />
+                <div className="flex flex-col items-center justify-center w-full aspect-square max-w-xs mb-4 bg-gray-100 rounded-lg">
+                  <Camera className="h-16 w-16 text-gray-400 mb-4" />
+                  <p className="text-gray-500 text-center">
+                    {cameraError || "Click the button below to start scanning"}
+                  </p>
+                </div>
               )}
-              <h3 className="text-lg font-medium">
-                {scanResult.success ? 'Success!' : 'Scan Failed'}
-              </h3>
-            </div>
-            
-            {scanResult.success && (
-              <div className="space-y-2">
-                {scanResult.businessName && (
-                  <p className="text-gray-700">
-                    <span className="font-medium">Business:</span> {scanResult.businessName}
-                  </p>
+
+              <div className="w-full flex justify-center mt-4">
+                {!hasCamera ? (
+                  <Button disabled>No Camera Available</Button>
+                ) : (
+                  <Button 
+                    onClick={toggleScanning} 
+                    disabled={loading || !scannerReady}
+                    size="lg"
+                    className={`${scanning ? 'bg-red-500 hover:bg-red-600' : ''}`}
+                  >
+                    {scanning ? (
+                      <>Stop Scanner</>
+                    ) : (
+                      <>
+                        <Zap className="mr-2 h-4 w-4" />
+                        Start Scanner
+                      </>
+                    )}
+                  </Button>
                 )}
-                
-                {scanResult.pointsEarned ? (
-                  <p className="text-green-600 font-medium">
-                    You earned {scanResult.pointsEarned} points!
-                  </p>
-                ) : scanResult.discountApplied ? (
-                  <p className="text-green-600 font-medium">
-                    You received a {scanResult.discountApplied}% discount!
-                  </p>
-                ) : null}
-                
-                <Button onClick={() => setShowResult(false)} className="w-full mt-4">
-                  Done
-                </Button>
               </div>
-            )}
-            
-            {!scanResult.success && (
-              <div className="space-y-4">
-                <p className="text-gray-700">
-                  Unable to process the QR code. Please try again.
-                </p>
-                <Button onClick={() => setShowResult(false)} className="w-full">
-                  Try Again
-                </Button>
-              </div>
-            )}
+            </CardContent>
+          </Card>
+
+          <div className="text-center text-sm text-gray-500">
+            <p>Position the QR code in the camera view to scan automatically.</p>
+            <p className="mt-1">Make sure your camera is enabled and the QR code is well-lit.</p>
           </div>
-        )}
-      </div>
-    </Card>
+        </>
+      )}
+    </div>
   );
 };
 

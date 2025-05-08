@@ -4,6 +4,7 @@ import { QRCodeAnalyticsContent } from './QRCodeAnalytics';
 import { useQRCodeAnalytics, TimePeriod } from '@/hooks/qr-code/use-qr-code-analytics';
 import { Loader2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useBusinessProfile } from '@/hooks/use-business-profile';
 
 interface QRCodeAnalyticsTabProps {
   businessId?: string;
@@ -13,6 +14,7 @@ export const QRCodeAnalyticsTab: React.FC<QRCodeAnalyticsTabProps> = ({ business
   const { loading, metrics, fetchQRCodeMetrics, fetchScansByTimePeriod } = useQRCodeAnalytics();
   const [chartData, setChartData] = useState<any[]>([]);
   const [timePeriod, setTimePeriod] = useState<TimePeriod>('7days');
+  const { profile } = useBusinessProfile();
   
   useEffect(() => {
     const loadData = async () => {
@@ -60,7 +62,10 @@ export const QRCodeAnalyticsTab: React.FC<QRCodeAnalyticsTabProps> = ({ business
         metrics={metrics} 
         scanData={chartData} 
         timePeriod={timePeriod}
+        businessName={profile?.business_name}
       />
     </div>
   );
 };
+
+export default QRCodeAnalyticsTab;

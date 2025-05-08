@@ -1,10 +1,9 @@
 
 import React from 'react';
-import QRCodeMetricCard from './QRCodeMetricsCard';
-import QRCodeScansChart from './QRCodeScansChart';
-import { Users, QrCode, CreditCard, TrendingUp } from 'lucide-react';
 import { TimePeriod } from '@/hooks/qr-code/use-qr-code-analytics';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import QRCodeAnalyticsDashboard from './QRCodeAnalyticsDashboard';
+import ExportButton from './ExportButton';
 
 interface QRCodeAnalyticsContentProps {
   metrics: {
@@ -15,12 +14,14 @@ interface QRCodeAnalyticsContentProps {
   };
   scanData?: Array<{name: string; scans: number}>;
   timePeriod?: TimePeriod;
+  businessName?: string;
 }
 
 export const QRCodeAnalyticsContent: React.FC<QRCodeAnalyticsContentProps> = ({
   metrics,
   scanData = [],
-  timePeriod = '7days'
+  timePeriod = '7days',
+  businessName
 }) => {
   // Use the provided scan data or fallback to demo data if empty
   const chartData = scanData.length > 0 ? scanData : [
@@ -46,37 +47,21 @@ export const QRCodeAnalyticsContent: React.FC<QRCodeAnalyticsContentProps> = ({
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <QRCodeMetricCard 
-          title="Total Scans" 
-          value={metrics.totalScans} 
-          icon={<QrCode className="h-4 w-4" />}
-        />
-        <QRCodeMetricCard 
-          title="Unique Customers" 
-          value={metrics.uniqueCustomers} 
-          icon={<Users className="h-4 w-4" />}
-        />
-        <QRCodeMetricCard 
-          title="Points Awarded" 
-          value={metrics.totalPointsAwarded} 
-          icon={<CreditCard className="h-4 w-4" />}
-        />
-        <QRCodeMetricCard 
-          title="Avg Points/Scan" 
-          value={metrics.averagePointsPerScan.toFixed(1)} 
-          icon={<TrendingUp className="h-4 w-4" />}
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold">QR Code Analytics ({getTimePeriodLabel()})</h2>
+        <ExportButton 
+          data={chartData} 
+          metrics={metrics} 
+          timePeriod={timePeriod}
+          businessName={businessName}
         />
       </div>
       
-      <Card>
-        <CardHeader>
-          <CardTitle>QR Code Scan Activity ({getTimePeriodLabel()})</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <QRCodeScansChart data={chartData} />
-        </CardContent>
-      </Card>
+      <QRCodeAnalyticsDashboard 
+        metrics={metrics}
+        scanData={chartData}
+        timePeriod={timePeriod}
+      />
       
       <div className="text-sm text-muted-foreground">
         <p>Note: Analytics data is updated daily. Last updated: {new Date().toLocaleDateString()}</p>

@@ -5,6 +5,7 @@ import { QRCodeGenerator } from '@/components/business/qr-code';
 import { QRCodeManageTab } from './QRCodeManage/QRCodeManageTab';
 import { QRCodeAnalyticsTab } from './QRCodeAnalyticsTab';
 import { QRCode } from '@/lib/api/qr-code-api';
+import { QRCodeNotifications } from './notifications/QRCodeNotifications';
 
 interface QRCodeTabsProps {
   activeTab: string;
@@ -21,14 +22,18 @@ export const QRCodeTabs: React.FC<QRCodeTabsProps> = ({
 }) => {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <TabsList className="grid grid-cols-3 mb-8">
-        <TabsTrigger value="generate">Generate QR Codes</TabsTrigger>
-        <TabsTrigger value="manage">Manage QR Codes</TabsTrigger>
-        <TabsTrigger value="analytics">Analytics</TabsTrigger>
-      </TabsList>
+      <div className="flex justify-between items-center mb-4">
+        <TabsList className="grid grid-cols-3">
+          <TabsTrigger value="generate">Generate QR Codes</TabsTrigger>
+          <TabsTrigger value="manage">Manage QR Codes</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        </TabsList>
+        
+        <QRCodeNotifications />
+      </div>
       
       <TabsContent value="generate" className="space-y-6">
-        <QRCodeGenerator />
+        <QRCodeGenerator businessId={businessId} />
       </TabsContent>
       
       <TabsContent value="manage">
@@ -41,3 +46,5 @@ export const QRCodeTabs: React.FC<QRCodeTabsProps> = ({
     </Tabs>
   );
 };
+
+export default QRCodeTabs;

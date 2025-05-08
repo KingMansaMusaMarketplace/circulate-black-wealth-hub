@@ -1,5 +1,3 @@
 
-import QRScannerComponent from './QRScannerComponent';
-
-export { QRScannerComponent };
-export default QRScannerComponent;
+export { default as QRScannerComponent } from './QRScannerComponent';
+export { default as ScanResult } from './ScanResult';
