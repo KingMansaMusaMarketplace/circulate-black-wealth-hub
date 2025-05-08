@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Provider, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { setupDatabase } from '@/lib/database-init';
+import { setupDatabase, checkDatabaseInitialized } from '@/lib/database-init';
 import { 
   handleSignUp, 
   handleSignIn, 
@@ -68,7 +68,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(false);
     });
 
-    setupDatabase(setInitializingDatabase, setDatabaseInitialized);
+    // Check if database is initialized
+    checkDatabaseInitialized().then((initialized) => {
+      setDatabaseInitialized(initialized);
+    });
 
     return () => {
       authListener.subscription.unsubscribe();
@@ -80,13 +83,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     session,
     loading,
     signUp: (email: string, password: string, metadata?: any) => 
-      handleSignUp(email, password, metadata, props => toast(props)),
+      handleSignUp(email, password, metadata),
     signIn: (email: string, password: string) => 
-      handleSignIn(email, password, props => toast(props)),
+      handleSignIn(email, password),
     signInWithSocial: (provider: Provider) =>
-      handleSocialSignIn(provider, props => toast(props)),
+      handleSocialSignIn(provider),
     signOut: async () => {
-      const result = await handleSignOut(props => toast(props));
+      const result = await handleSignOut();
       if (result.success) {
         setUser(null);
         setSession(null);
@@ -94,9 +97,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     },
     resetPassword: (email: string) =>
-      requestPasswordReset(email, props => toast(props)),
+      requestPasswordReset(email),
     updateUserPassword: (newPassword: string) =>
-      updatePassword(newPassword, props => toast(props)),
+      updatePassword(newPassword),
     userType,
     initializingDatabase,
     databaseInitialized

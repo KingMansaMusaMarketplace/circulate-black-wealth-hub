@@ -5,9 +5,26 @@ import {
   getCustomerRedeemedRewards,
   RedeemedReward
 } from '@/lib/api/loyalty-api';
-import { getCustomerQRScans, QRScan } from '@/lib/api/qr-code-api';
+import { QRScan } from '@/lib/api/qr-code-api';
 import { getCustomerTransactions, Transaction } from '@/lib/api/transaction-api';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
+
+// Helper function to get customer QR scans
+const getCustomerQRScans = async (customerId: string): Promise<QRScan[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('qr_scans')
+      .select('*')
+      .eq('customer_id', customerId);
+    
+    if (error) throw error;
+    return data as QRScan[];
+  } catch (error) {
+    console.error('Error fetching customer QR scans:', error);
+    return [];
+  }
+};
 
 export const useLoyaltyHistory = () => {
   const { user } = useAuth();

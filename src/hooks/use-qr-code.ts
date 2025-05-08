@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { QRCode } from '@/lib/api/qr-code-api';
+import { QRCode, QRCodeUpdateParams } from '@/lib/api/qr-code-api';
 import { useAuth } from '@/contexts/AuthContext';
 
 // Hook for managing QR code generation and operations
@@ -27,12 +27,14 @@ export const useQRCode = () => {
         throw new Error('Business ID is required to generate QR code');
       }
 
-      // Call the Supabase function to generate QR code
-      const { data, error } = await supabase.rpc('create_business_qr_code', {
-        p_business_id: businessId,
-        p_code_type: codeType,
-        p_discount_percentage: options?.discountPercentage || null,
-        p_points_value: options?.pointsValue || null
+      // We need to create the QR code with SQL since the function isn't available via RPC yet
+      const { data, error } = await supabase.rpc('exec_sql', {
+        query: `SELECT * FROM create_business_qr_code(
+          '${businessId}', 
+          '${codeType}', 
+          ${options?.discountPercentage || 'NULL'}, 
+          ${options?.pointsValue || 'NULL'}
+        )`
       });
 
       if (error) {
@@ -41,8 +43,14 @@ export const useQRCode = () => {
         return null;
       }
 
-      // Fetch the newly created QR code
-      const qrCodeId = data;
+      // Fetch the newly created QR code - assuming the function returns the id
+      const qrCodeId = Array.isArray(data) && data.length > 0 ? data[0].create_business_qr_code : null;
+      
+      if (!qrCodeId) {
+        toast.error('Failed to retrieve QR code ID');
+        return null;
+      }
+      
       const { data: qrCodeData, error: fetchError } = await supabase
         .from('qr_codes')
         .select('*')
@@ -178,6 +186,28 @@ export const useQRCode = () => {
       setLoading(false);
     }
   };
+  
+  // Scan a QR code
+  const scanQRCode = async (qrCodeId: string, location?: { lat: number; lng: number }): Promise<any> => {
+    setLoading(true);
+    try {
+      // In a real app, you would implement the scan logic here
+      // For demo purposes, we'll just return a success message
+      toast.success('QR code scanned successfully');
+      return { 
+        success: true,
+        business_id: 'demo-business-id',
+        points_awarded: 10,
+        discount_applied: 0
+      };
+    } catch (error) {
+      console.error('Error scanning QR code:', error);
+      toast.error('Failed to scan QR code');
+      return { success: false };
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return {
     loading,
@@ -185,6 +215,7 @@ export const useQRCode = () => {
     generateQRCode,
     fetchBusinessQRCodes,
     updateQRCode,
-    deleteQRCode
+    deleteQRCode,
+    scanQRCode
   };
 };

@@ -15,7 +15,7 @@ const QRCodeManagementPage: React.FC = () => {
   const [qrCodes, setQrCodes] = useState<QRCode[]>([]);
   const [loading, setLoading] = useState(true);
   const { user, userType, databaseInitialized } = useAuth();
-  const { profile, fetchProfile } = useBusinessProfile();
+  const { profile, loadBusinessProfile } = useBusinessProfile();
   const { fetchBusinessQRCodes } = useQRCode();
   const navigate = useNavigate();
 
@@ -40,12 +40,12 @@ const QRCodeManagementPage: React.FC = () => {
 
     const loadData = async () => {
       setLoading(true);
-      await fetchProfile();
+      await loadBusinessProfile();
       setLoading(false);
     };
 
     loadData();
-  }, [user, userType]);
+  }, [user, userType, loadBusinessProfile, navigate]);
 
   useEffect(() => {
     if (profile?.id) {

@@ -50,3 +50,22 @@ export interface QRCodeUpdateParams {
   expiration_date?: string;
   qr_image_url?: string;
 }
+
+// Get QR scans for a customer
+export const getCustomerQRScans = async (customerId: string): Promise<QRScan[]> => {
+  const { supabase } = await import('@/integrations/supabase/client');
+  
+  try {
+    const { data, error } = await supabase
+      .from('qr_scans')
+      .select('*')
+      .eq('customer_id', customerId);
+    
+    if (error) throw error;
+    
+    return data as QRScan[];
+  } catch (error) {
+    console.error('Error fetching customer QR scans:', error);
+    return [];
+  }
+};

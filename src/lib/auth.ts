@@ -7,8 +7,7 @@ import { toast } from 'sonner';
 export const handleSignUp = async (
   email: string, 
   password: string,
-  metadata?: any,
-  toastFn = toast
+  metadata?: any
 ) => {
   try {
     const { data, error } = await supabase.auth.signUp({
@@ -20,7 +19,7 @@ export const handleSignUp = async (
     });
     
     if (error) {
-      toastFn({
+      toast({
         title: "Sign up failed",
         description: error.message,
         variant: "destructive"
@@ -29,13 +28,13 @@ export const handleSignUp = async (
     }
     
     if (data.user) {
-      toastFn({
+      toast({
         title: "Sign up successful",
         description: "Please check your email for verification."
       });
       return { success: true, data };
     } else {
-      toastFn({
+      toast({
         title: "Unknown error",
         description: "Please try again later",
         variant: "destructive"
@@ -43,7 +42,7 @@ export const handleSignUp = async (
       return { success: false };
     }
   } catch (error: any) {
-    toastFn({
+    toast({
       title: "Sign up failed",
       description: error.message || "An unexpected error occurred",
       variant: "destructive"
@@ -55,8 +54,7 @@ export const handleSignUp = async (
 // Sign in a user
 export const handleSignIn = async (
   email: string, 
-  password: string,
-  toastFn = toast
+  password: string
 ) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -65,7 +63,7 @@ export const handleSignIn = async (
     });
     
     if (error) {
-      toastFn({
+      toast({
         title: "Login failed",
         description: error.message,
         variant: "destructive"
@@ -73,13 +71,13 @@ export const handleSignIn = async (
       return { success: false, error };
     }
     
-    toastFn({
+    toast({
       title: "Login successful",
       description: `Welcome back, ${data.user?.email}!`
     });
     return { success: true, data };
   } catch (error: any) {
-    toastFn({
+    toast({
       title: "Login failed",
       description: error.message || "An unexpected error occurred",
       variant: "destructive"
@@ -89,12 +87,12 @@ export const handleSignIn = async (
 };
 
 // Sign out the current user
-export const handleSignOut = async (toastFn = toast) => {
+export const handleSignOut = async () => {
   try {
     const { error } = await supabase.auth.signOut();
     
     if (error) {
-      toastFn({
+      toast({
         title: "Sign out failed",
         description: error.message,
         variant: "destructive"
@@ -102,13 +100,13 @@ export const handleSignOut = async (toastFn = toast) => {
       return { success: false, error };
     }
     
-    toastFn({
+    toast({
       title: "Signed out",
       description: "You have been successfully signed out."
     });
     return { success: true };
   } catch (error: any) {
-    toastFn({
+    toast({
       title: "Sign out failed",
       description: error.message || "An unexpected error occurred",
       variant: "destructive"
@@ -118,14 +116,14 @@ export const handleSignOut = async (toastFn = toast) => {
 };
 
 // Handle social sign-in
-export const handleSocialSignIn = async (provider: Provider, toastFn = toast) => {
+export const handleSocialSignIn = async (provider: Provider) => {
   try {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider
     });
     
     if (error) {
-      toastFn({
+      toast({
         title: "Social login failed",
         description: error.message,
         variant: "destructive"
@@ -135,7 +133,7 @@ export const handleSocialSignIn = async (provider: Provider, toastFn = toast) =>
     
     return { success: true, data };
   } catch (error: any) {
-    toastFn({
+    toast({
       title: "Social login failed",
       description: error.message || "An unexpected error occurred",
       variant: "destructive"
@@ -145,14 +143,14 @@ export const handleSocialSignIn = async (provider: Provider, toastFn = toast) =>
 };
 
 // Request password reset
-export const requestPasswordReset = async (email: string, toastFn = toast) => {
+export const requestPasswordReset = async (email: string) => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/new-password`,
     });
     
     if (error) {
-      toastFn({
+      toast({
         title: "Password reset request failed",
         description: error.message,
         variant: "destructive"
@@ -160,13 +158,13 @@ export const requestPasswordReset = async (email: string, toastFn = toast) => {
       return { success: false, error };
     }
     
-    toastFn({
+    toast({
       title: "Password reset email sent",
       description: "Check your email for the reset link."
     });
     return { success: true };
   } catch (error: any) {
-    toastFn({
+    toast({
       title: "Password reset request failed",
       description: error.message || "An unexpected error occurred",
       variant: "destructive"
@@ -176,12 +174,12 @@ export const requestPasswordReset = async (email: string, toastFn = toast) => {
 };
 
 // Update password
-export const updatePassword = async (newPassword: string, toastFn = toast) => {
+export const updatePassword = async (newPassword: string) => {
   try {
     const { error } = await supabase.auth.updateUser({ password: newPassword });
     
     if (error) {
-      toastFn({
+      toast({
         title: "Password update failed",
         description: error.message,
         variant: "destructive"
@@ -189,13 +187,13 @@ export const updatePassword = async (newPassword: string, toastFn = toast) => {
       return { success: false, error };
     }
     
-    toastFn({
+    toast({
       title: "Password updated",
       description: "Your password has been updated successfully."
     });
     return { success: true };
   } catch (error: any) {
-    toastFn({
+    toast({
       title: "Password update failed",
       description: error.message || "An unexpected error occurred",
       variant: "destructive"
