@@ -11,6 +11,14 @@ interface QRCodeMetrics {
   averagePointsPerScan: number;
 }
 
+// Define the type for the response from the get_qr_scan_metrics function
+interface QRCodeMetricsResponse {
+  total_scans: number;
+  unique_customers: number;
+  total_points_awarded: number;
+  average_points_per_scan: number;
+}
+
 export const useQRCodeAnalytics = () => {
   const [loading, setLoading] = useState(false);
   const [metrics, setMetrics] = useState<QRCodeMetrics>({
@@ -43,11 +51,14 @@ export const useQRCodeAnalytics = () => {
       }
 
       if (data) {
+        // Type assertion to ensure TypeScript knows what properties are available
+        const metricsData = data as QRCodeMetricsResponse;
+        
         const updatedMetrics = {
-          totalScans: data.total_scans || 0,
-          uniqueCustomers: data.unique_customers || 0,
-          totalPointsAwarded: data.total_points_awarded || 0,
-          averagePointsPerScan: data.average_points_per_scan || 0
+          totalScans: metricsData.total_scans || 0,
+          uniqueCustomers: metricsData.unique_customers || 0,
+          totalPointsAwarded: metricsData.total_points_awarded || 0,
+          averagePointsPerScan: metricsData.average_points_per_scan || 0
         };
         
         setMetrics(updatedMetrics);
