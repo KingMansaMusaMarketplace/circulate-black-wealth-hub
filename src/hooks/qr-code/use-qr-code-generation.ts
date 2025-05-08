@@ -2,6 +2,8 @@
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { QRCode } from '@/lib/api/qr-code-api';
+import { useBusinessProfile } from '@/hooks/use-business-profile';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface UseQRCodeGenerationOptions {
   setLoading: (loading: boolean) => void;
@@ -9,10 +11,13 @@ interface UseQRCodeGenerationOptions {
 }
 
 export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerationOptions) => {
+  const { user } = useAuth();
+  const { profile } = useBusinessProfile();
+
   // Generate a new QR code for the business
   const generateQRCode = async (
-    businessId: string, 
-    codeType: 'loyalty' | 'discount' | 'info',
+    businessId?: string, 
+    codeType?: 'loyalty' | 'discount' | 'info',
     options?: {
       discountPercentage?: number;
       pointsValue?: number;
@@ -24,15 +29,22 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
     setLoading(true);
     
     try {
-      if (!businessId) {
+      // Use profile.id if businessId is not provided
+      const actualBusinessId = businessId || profile?.id;
+      
+      if (!actualBusinessId) {
         throw new Error('Business ID is required to generate QR code');
       }
 
-      // Instead of using RPC, we'll directly insert into the qr_codes table
+      if (!codeType) {
+        codeType = 'loyalty'; // Default to loyalty if not specified
+      }
+
+      // Insert into the qr_codes table
       const { data: qrCodeData, error: insertError } = await supabase
         .from('qr_codes')
         .insert({
-          business_id: businessId,
+          business_id: actualBusinessId,
           code_type: codeType,
           discount_percentage: options?.discountPercentage || null,
           points_value: options?.pointsValue || null,
@@ -52,14 +64,14 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
       // Generate QR image URL if not already set
       if (qrCodeData && !qrCodeData.qr_image_url) {
         // In a real app, you would generate the QR code image here
-        // For demo purposes, we'll use a placeholder
-        const updatedQRCode = await updateQRCodeImage(qrCodeData.id, businessId);
+        const updatedQRCode = await updateQRCodeImage(qrCodeData.id, actualBusinessId);
         setQrCode(updatedQRCode);
         return updatedQRCode;
       }
 
       if (qrCodeData) {
         setQrCode(qrCodeData as QRCode);
+        toast.success('QR code generated successfully');
         return qrCodeData as QRCode;
       }
       
@@ -76,8 +88,7 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
   // Update the QR code image URL
   const updateQRCodeImage = async (qrCodeId: string, businessId: string): Promise<QRCode | null> => {
     try {
-      // In a real app, you would generate a QR code image and upload it to storage
-      // For demo purposes, we'll use a placeholder URL
+      // Generate a QR code image URL
       const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
         `https://mansa-musa.vercel.app/scan?qr=${qrCodeId}&business=${businessId}`
       )}`;

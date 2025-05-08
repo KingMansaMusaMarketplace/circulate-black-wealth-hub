@@ -7,22 +7,28 @@ import { QRCodeForm } from './QRCodeGenerator/QRCodeForm';
 import { QRCodePreview } from './QRCodeGenerator/QRCodePreview';
 import { toast } from 'sonner';
 import { FormValues } from './QRCodeGenerator/form/types';
+import { useBusinessProfile } from '@/hooks/use-business-profile';
 
 const QRCodeGenerator: React.FC = () => {
   const { generateQRCode, loading, qrCode } = useQRCode();
+  const { profile } = useBusinessProfile();
   const [activeTab, setActiveTab] = useState<string>("create");
 
   const handleSubmit = async (values: FormValues) => {
     try {
+      if (!profile?.id) {
+        toast.error("You need a business profile to generate QR codes");
+        return;
+      }
+
       // Process date value
       const expirationDate = values.expirationDate 
         ? new Date(values.expirationDate).toISOString()
         : undefined;
 
-      // Generate QR code - passing undefined as the first parameter to use the current business profile
-      // and adding proper params structure as the second parameter
+      // Generate QR code using the current business profile
       await generateQRCode(
-        undefined, 
+        profile.id, 
         values.codeType as 'loyalty' | 'discount' | 'info',
         {
           discountPercentage: values.discountPercentage,
@@ -55,8 +61,25 @@ const QRCodeGenerator: React.FC = () => {
   };
 
   const handleShare = () => {
-    // Share functionality would be implemented here
-    toast.info("Share functionality coming soon!");
+    if (!qrCode?.qr_image_url) return;
+    
+    // Use Web Share API if available
+    if (navigator.share) {
+      navigator.share({
+        title: `QR Code for ${profile?.business_name || 'Business'}`,
+        text: `Scan this QR code for ${qrCode.code_type === 'loyalty' ? 'loyalty points' : 
+               qrCode.code_type === 'discount' ? 'a discount' : 'information'}`,
+        url: qrCode.qr_image_url
+      })
+      .then(() => toast.success("QR code shared successfully"))
+      .catch((error) => {
+        console.error("Error sharing QR code:", error);
+        toast.error("Failed to share QR code");
+      });
+    } else {
+      // Fallback for browsers that don't support Web Share API
+      toast.info("Share functionality not supported by your browser. You can download the QR code instead.");
+    }
   };
 
   return (
