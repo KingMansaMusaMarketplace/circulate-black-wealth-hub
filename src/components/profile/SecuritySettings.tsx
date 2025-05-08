@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { MFASetup } from '@/components/auth/MFASetup';
+import MFASetup from '@/components/auth/MFASetup';
 
 const passwordFormSchema = z.object({
   currentPassword: z.string().min(6, {

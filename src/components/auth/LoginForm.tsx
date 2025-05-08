@@ -19,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { MFAVerification } from './MFAVerification';
+import MFAVerification from './MFAVerification';
 import { useAuth } from '@/contexts/AuthContext';
 
 const loginSchema = z.object({
