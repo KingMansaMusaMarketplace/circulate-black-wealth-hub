@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -53,7 +54,9 @@ const DirectoryPage = () => {
       address: "123 Main St, Atlanta, GA",
       lat: 33.748997,
       lng: -84.387985,
-      isFeatured: true
+      isFeatured: true,
+      imageUrl: "https://images.unsplash.com/photo-1493770348161-369560ae357d?q=80&w=2070&auto=format&fit=crop",
+      imageAlt: "Delicious soul food with chicken, cornbread, and vegetables"
     },
     {
       id: 2,
@@ -67,7 +70,9 @@ const DirectoryPage = () => {
       distanceValue: 0.7,
       address: "456 Oak Ave, Atlanta, GA",
       lat: 33.749568,
-      lng: -84.391256
+      lng: -84.391256,
+      imageUrl: "https://images.unsplash.com/photo-1599981526814-61649765e2f8?q=80&w=1887&auto=format&fit=crop",
+      imageAlt: "Young Black boy getting a haircut at a barber shop"
     },
     {
       id: 3,
@@ -81,7 +86,9 @@ const DirectoryPage = () => {
       distanceValue: 1.2,
       address: "789 Elm St, Atlanta, GA",
       lat: 33.751234,
-      lng: -84.384562
+      lng: -84.384562,
+      imageUrl: "https://images.unsplash.com/photo-1521056787327-965a34d83af7?q=80&w=2070&auto=format&fit=crop",
+      imageAlt: "Bookstore with shelves full of diverse books"
     },
     {
       id: 4,
@@ -96,7 +103,9 @@ const DirectoryPage = () => {
       address: "321 Pine Rd, Atlanta, GA",
       lat: 33.753421,
       lng: -84.389754,
-      isFeatured: true
+      isFeatured: true,
+      imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=5304&auto=format&fit=crop",
+      imageAlt: "Black financial advisor in professional meeting setting"
     },
     {
       id: 5,
@@ -110,7 +119,9 @@ const DirectoryPage = () => {
       distanceValue: 1.8,
       address: "567 Maple Dr, Atlanta, GA",
       lat: 33.746125,
-      lng: -84.382369
+      lng: -84.382369,
+      imageUrl: "https://images.unsplash.com/photo-1459908676235-d5f02a50184b?q=80&w=2070&auto=format&fit=crop",
+      imageAlt: "Handcrafted African-inspired art and crafts"
     },
     {
       id: 6,
@@ -124,7 +135,9 @@ const DirectoryPage = () => {
       distanceValue: 2.0,
       address: "890 Cedar Ln, Atlanta, GA",
       lat: 33.742587,
-      lng: -84.386541
+      lng: -84.386541,
+      imageUrl: "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=2069&auto=format&fit=crop",
+      imageAlt: "Hair stylist working on a client's natural hair"
     },
     {
       id: 7,
@@ -138,7 +151,9 @@ const DirectoryPage = () => {
       distanceValue: 2.2,
       address: "432 Birch St, Atlanta, GA",
       lat: 33.759123,
-      lng: -84.392587
+      lng: -84.392587,
+      imageUrl: "https://images.unsplash.com/photo-1503174971373-b1f69850bded?q=80&w=2013&auto=format&fit=crop",
+      imageAlt: "African-inspired clothing and fashion accessories"
     },
     {
       id: 8,
@@ -152,7 +167,9 @@ const DirectoryPage = () => {
       distanceValue: 2.5,
       address: "654 Walnut Ave, Atlanta, GA",
       lat: 33.747851,
-      lng: -84.397456
+      lng: -84.397456,
+      imageUrl: "https://images.unsplash.com/photo-1594125674956-61a9b49c8ecc?q=80&w=2070&auto=format&fit=crop",
+      imageAlt: "Gallery displaying African and African-American artwork"
     }
   ];
   
@@ -307,8 +324,20 @@ const DirectoryPage = () => {
             {filteredBusinesses.map((business) => (
               <div key={business.id} id={`business-${business.id}`} className="transition-all duration-300">
                 <div className="flex flex-col md:flex-row gap-4 border rounded-xl overflow-hidden bg-white">
-                  <div className="md:w-1/4 h-40 md:h-auto bg-gray-100 flex items-center justify-center">
-                    <span className="text-gray-400 text-3xl font-bold">{business.name.charAt(0)}</span>
+                  <div className="md:w-1/4 h-40 md:h-auto bg-gray-100 flex items-center justify-center relative overflow-hidden">
+                    {business.imageUrl ? (
+                      <img 
+                        src={business.imageUrl} 
+                        alt={business.imageAlt || `${business.name} image`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          console.error(`Failed to load image: ${business.imageUrl}`);
+                          e.currentTarget.src = "https://placehold.co/400x300/e0e0e0/808080?text=" + business.name.charAt(0);
+                        }}
+                      />
+                    ) : (
+                      <span className="text-gray-400 text-3xl font-bold">{business.name.charAt(0)}</span>
+                    )}
                   </div>
                   <div className="flex-1 p-4">
                     <div className="flex justify-between items-start mb-2">

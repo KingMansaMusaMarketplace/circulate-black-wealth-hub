@@ -13,6 +13,8 @@ interface BusinessCardProps {
   discount: string;
   distance?: string;
   address?: string;
+  imageUrl?: string;
+  imageAlt?: string;
   isFeatured?: boolean;
 }
 
@@ -25,6 +27,8 @@ const BusinessCard = ({
   discount, 
   distance, 
   address,
+  imageUrl,
+  imageAlt,
   isFeatured = false 
 }: BusinessCardProps) => {
   return (
@@ -34,8 +38,22 @@ const BusinessCard = ({
           Featured Business
         </div>
       )}
-      <div className="h-36 bg-gray-100 relative flex items-center justify-center">
-        <span className="text-gray-400 text-3xl font-bold">{name.charAt(0)}</span>
+      <div className="h-36 bg-gray-100 relative overflow-hidden">
+        {imageUrl ? (
+          <img 
+            src={imageUrl} 
+            alt={imageAlt || `${name} image`}
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            onError={(e) => {
+              console.error(`Failed to load image: ${imageUrl}`);
+              e.currentTarget.src = "https://placehold.co/400x300/e0e0e0/808080?text=" + name.charAt(0);
+            }}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-gray-400 text-3xl font-bold">{name.charAt(0)}</span>
+          </div>
+        )}
         <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-mansablue">
           {discount}
         </div>

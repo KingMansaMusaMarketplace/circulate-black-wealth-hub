@@ -70,7 +70,6 @@ const FeaturedBusinesses = () => {
           {businesses.map((business) => (
             <div key={business.id} className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden card-hover">
               <div className="h-48 bg-gray-100 relative overflow-hidden">
-                {/* Adding explicit width and height, and ensuring the image loads with proper onError handling */}
                 <img 
                   src={business.imageUrl} 
                   alt={business.imageAlt}
@@ -79,7 +78,7 @@ const FeaturedBusinesses = () => {
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   onError={(e) => {
                     console.error(`Failed to load image: ${business.imageUrl}`);
-                    e.currentTarget.src = "https://placehold.co/400x300/e0e0e0/808080?text=Image+unavailable";
+                    e.currentTarget.src = `https://placehold.co/400x300/e0e0e0/808080?text=${business.name.charAt(0)}`;
                   }}
                 />
                 <div className="absolute top-3 left-3 bg-white/90 p-2 rounded-full shadow">
