@@ -135,8 +135,8 @@ const DirectoryPage = () => {
       address: "890 Cedar Ln, Atlanta, GA",
       lat: 33.742587,
       lng: -84.386541,
-      imageUrl: "https://images.unsplash.com/photo-1607748862156-7c548e7e98f4?q=80&w=1974&auto=format&fit=crop",
-      imageAlt: "Black woman with beautiful styled hair in a salon"
+      imageUrl: "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=2069&auto=format&fit=crop",
+      imageAlt: "Black woman with beautiful styled hair in a professional salon setting"
     },
     {
       id: 7,
