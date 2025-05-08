@@ -1,45 +1,46 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
-import { BusinessProfile as ApiBusinessProfile } from '@/lib/api/business-api';
 
-// Modify the interface to match the requirements in business-api.ts
+// Define the business profile type
 export interface BusinessProfile {
   id?: string;
   owner_id: string;
   business_name: string;
-  description: string;
-  category: string;
-  address: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  phone: string;
-  email: string;
+  description?: string;
+  category?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zip_code?: string;
+  phone?: string;
+  email?: string;
   website?: string;
   logo_url?: string;
   banner_url?: string;
-  is_verified?: boolean;
-  average_rating?: number;
-  review_count?: number;
   created_at?: string;
   updated_at?: string;
+  review_count?: number;
+  average_rating?: number;
+  is_verified?: boolean;
+  qr_code_url?: string;
+  qr_code_id?: string;
   subscription_status?: string;
   subscription_start_date?: string;
   subscription_end_date?: string;
 }
 
 export const useBusinessProfile = () => {
-  const { user } = useAuth();
-  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<BusinessProfile | null>(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
   // Load business profile
-  const loadBusinessProfile = async () => {
-    if (!user?.id) return;
+  const loadBusinessProfile = useCallback(async () => {
+    if (!user) return;
     
     setLoading(true);
     setError(null);
@@ -49,47 +50,79 @@ export const useBusinessProfile = () => {
         .from('businesses')
         .select('*')
         .eq('owner_id', user.id)
-        .single();
+        .maybeSingle();
       
       if (error) throw error;
       
       setProfile(data);
     } catch (err: any) {
       console.error('Error loading business profile:', err);
-      setError(err.message);
+      setError(err.message || 'Error loading business profile');
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
+  // Update business profile
+  const updateBusinessProfile = async (updates: Partial<BusinessProfile>) => {
+    if (!profile?.id || !user) {
+      toast.error('You must be logged in and have a business profile to update');
+      return null;
+    }
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const { data, error } = await supabase
+        .from('businesses')
+        .update(updates)
+        .eq('id', profile.id)
+        .select()
+        .single();
+      
+      if (error) throw error;
+      
+      setProfile(data);
+      toast.success('Business profile updated successfully');
+      return data;
+    } catch (err: any) {
+      console.error('Error updating business profile:', err);
+      setError(err.message || 'Error updating business profile');
+      toast.error('Failed to update business profile');
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
-  // Update business profile
-  const updateBusinessProfile = async (updates: Partial<BusinessProfile>) => {
-    if (!profile?.id) {
-      toast.error('No business profile to update');
-      return false;
+  // Create business profile
+  const createBusinessProfile = async (profileData: BusinessProfile) => {
+    if (!user) {
+      toast.error('You must be logged in to create a business profile');
+      return null;
     }
     
     setLoading(true);
+    setError(null);
     
     try {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('businesses')
-        .update({
-          ...updates,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', profile.id);
+        .insert({ ...profileData, owner_id: user.id })
+        .select()
+        .single();
       
       if (error) throw error;
       
-      // Refresh profile
-      await loadBusinessProfile();
-      toast.success('Business profile updated successfully');
-      return true;
+      setProfile(data);
+      toast.success('Business profile created successfully');
+      return data;
     } catch (err: any) {
-      console.error('Error updating business profile:', err);
-      toast.error(err.message);
-      return false;
+      console.error('Error creating business profile:', err);
+      setError(err.message || 'Error creating business profile');
+      toast.error('Failed to create business profile');
+      return null;
     } finally {
       setLoading(false);
     }
@@ -97,18 +130,19 @@ export const useBusinessProfile = () => {
 
   // Load profile when user changes
   useEffect(() => {
-    if (user?.id) {
+    if (user) {
       loadBusinessProfile();
     } else {
       setProfile(null);
     }
-  }, [user?.id]);
+  }, [user, loadBusinessProfile]);
 
   return {
     profile,
     loading,
     error,
-    loadBusinessProfile,
-    updateBusinessProfile
+    updateBusinessProfile,
+    createBusinessProfile,
+    loadBusinessProfile
   };
 };

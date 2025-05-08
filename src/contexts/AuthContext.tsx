@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Provider, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { setupDatabase, checkDatabaseInitialized } from '@/lib/database-init';
 import { 
   handleSignUp, 
@@ -26,6 +26,7 @@ type AuthContextType = {
   userType: 'customer' | 'business' | null;
   initializingDatabase: boolean;
   databaseInitialized: boolean;
+  checkSession: () => Promise<boolean>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,7 +38,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [initializingDatabase, setInitializingDatabase] = useState(false);
   const [databaseInitialized, setDatabaseInitialized] = useState(false);
-  const { toast } = useToast();
+
+  // Check if the session is valid
+  const checkSession = async (): Promise<boolean> => {
+    try {
+      const { data: { session: currentSession } } = await supabase.auth.getSession();
+      return !!currentSession;
+    } catch (error) {
+      console.error('Error checking session:', error);
+      return false;
+    }
+  };
 
   useEffect(() => {
     // Set up auth state listener first
@@ -53,6 +64,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
         
         setLoading(false);
+        
+        if (event === 'SIGNED_IN') {
+          toast.success('You have successfully signed in!');
+        } else if (event === 'SIGNED_OUT') {
+          toast.info('You have been signed out');
+        }
       }
     );
 
@@ -83,13 +100,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     session,
     loading,
     signUp: (email: string, password: string, metadata?: any) => 
-      handleSignUp(email, password, metadata),
+      handleSignUp(email, password, metadata, toast),
     signIn: (email: string, password: string) => 
-      handleSignIn(email, password),
+      handleSignIn(email, password, toast),
     signInWithSocial: (provider: Provider) =>
-      handleSocialSignIn(provider),
+      handleSocialSignIn(provider, toast),
     signOut: async () => {
-      const result = await handleSignOut();
+      const result = await handleSignOut(toast);
       if (result.success) {
         setUser(null);
         setSession(null);
@@ -97,12 +114,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     },
     resetPassword: (email: string) =>
-      requestPasswordReset(email),
+      requestPasswordReset(email, toast),
     updateUserPassword: (newPassword: string) =>
-      updatePassword(newPassword),
+      updatePassword(newPassword, toast),
     userType,
     initializingDatabase,
-    databaseInitialized
+    databaseInitialized,
+    checkSession
   };
 
   return (

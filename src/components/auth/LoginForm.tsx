@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -34,9 +34,13 @@ interface LoginFormProps {
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Get the redirect path from location state or default to dashboard
+  const from = (location.state as any)?.from || '/dashboard';
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -61,7 +65,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       if (result.error) {
         throw new Error(result.error.message);
       }
-      navigate('/dashboard');
+      
+      // Navigate to the page they were trying to access or dashboard
+      navigate(from, { replace: true });
     } catch (error: any) {
       toast({
         title: 'Login Failed',

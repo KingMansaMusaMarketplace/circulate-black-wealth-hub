@@ -20,6 +20,7 @@ import AdminPage from "@/pages/AdminPage";
 import QRCodeManagementPage from "@/pages/QRCodeManagementPage";
 import QRScannerPage from "@/pages/QRScannerPage";
 import { AuthProvider } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import './App.css';
 
 function App() {
@@ -28,22 +29,55 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
+            {/* Public routes */}
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/business/:id" element={<BusinessDetailPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/directory" element={<DirectoryPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/new-password" element={<NewPasswordPage />} />
-            <Route path="/loyalty-history" element={<LoyaltyHistoryPage />} />
-            <Route path="/business-profile" element={<BusinessProfilePage />} />
+            
+            {/* Protected routes - require authentication */}
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/loyalty-history" element={
+              <ProtectedRoute>
+                <LoyaltyHistoryPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/scan" element={
+              <ProtectedRoute>
+                <QRScannerPage />
+              </ProtectedRoute>
+            } />
+            
+            {/* Business-only routes */}
+            <Route path="/business-profile" element={
+              <ProtectedRoute requiredUserType="business">
+                <BusinessProfilePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/qr-management" element={
+              <ProtectedRoute requiredUserType="business">
+                <QRCodeManagementPage />
+              </ProtectedRoute>
+            } />
+            
+            {/* Admin routes - would typically have admin-only access */}
             <Route path="/admin" element={<AdminPage />} />
-            <Route path="/qr-management" element={<QRCodeManagementPage />} />
-            <Route path="/scan" element={<QRScannerPage />} />
+            
+            {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Toaster position="top-right" richColors />
