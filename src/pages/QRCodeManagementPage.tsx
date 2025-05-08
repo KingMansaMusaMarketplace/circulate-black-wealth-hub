@@ -57,7 +57,8 @@ const QRCodeManagementPage: React.FC = () => {
     if (!profile?.id) return;
     
     try {
-      const codes = await fetchBusinessQRCodes(profile.id);
+      // Remove the argument here, as fetchBusinessQRCodes now uses the profile.id from the hook
+      const codes = await fetchBusinessQRCodes();
       setQrCodes(codes);
     } catch (error) {
       console.error('Error loading QR codes:', error);
