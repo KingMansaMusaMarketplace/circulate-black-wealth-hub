@@ -1,99 +1,127 @@
 
 import React, { useState, useEffect } from 'react';
-import { DashboardLayout } from '@/components/dashboard';
-import { QrCode } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { QRCodeTabs } from '@/components/business/qr-code';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
-import { Card, CardContent } from '@/components/ui/card';
+import { useQRCode } from '@/hooks/use-qr-code';
+import { useAuth } from '@/contexts/AuthContext';
+import { QRCode } from '@/lib/api/qr-code-api';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { Loader2 } from 'lucide-react';
 
-const QRCodeManagementPage = () => {
-  const { user, loading: authLoading } = useAuth();
-  const { profile: business, loading: businessLoading } = useBusinessProfile();
+const QRCodeManagementPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('generate');
-  
-  // Mock QR codes for demo purposes
-  const [qrCodes, setQrCodes] = useState([
-    {
-      id: '1',
-      business_id: '123',
-      code_type: 'loyalty' as const,
-      points_value: 10,
-      is_active: true,
-      current_scans: 45,
-      qr_image_url: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=MansaLoyalty10',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: '2',
-      business_id: '123',
-      code_type: 'discount' as const,
-      discount_percentage: 15,
-      is_active: true,
-      current_scans: 23,
-      expiration_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-      qr_image_url: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=MansaDiscount15',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: '3',
-      business_id: '123',
-      code_type: 'info' as const,
-      is_active: false,
-      current_scans: 12,
-      qr_image_url: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=MansaInfo',
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    }
-  ]);
-  
-  // Mock scan metrics for demo purposes
+  const [qrCodes, setQrCodes] = useState<QRCode[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { user, userType, databaseInitialized } = useAuth();
+  const { profile, fetchProfile } = useBusinessProfile();
+  const { fetchBusinessQRCodes } = useQRCode();
+  const navigate = useNavigate();
+
+  // Default metrics for demo purposes
   const scanMetrics = {
-    totalScans: 80,
-    uniqueCustomers: 42,
-    totalPointsAwarded: 650,
-    averagePointsPerScan: 8.1
+    totalScans: 123,
+    uniqueCustomers: 45,
+    totalPointsAwarded: 1230,
+    averagePointsPerScan: 10
   };
 
-  // Loading state
-  if (authLoading || businessLoading) {
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    if (userType !== 'business') {
+      navigate('/dashboard');
+      return;
+    }
+
+    const loadData = async () => {
+      setLoading(true);
+      await fetchProfile();
+      setLoading(false);
+    };
+
+    loadData();
+  }, [user, userType]);
+
+  useEffect(() => {
+    if (profile?.id) {
+      loadQRCodes();
+    }
+  }, [profile]);
+
+  const loadQRCodes = async () => {
+    if (!profile?.id) return;
+    
+    try {
+      const codes = await fetchBusinessQRCodes(profile.id);
+      setQrCodes(codes);
+    } catch (error) {
+      console.error('Error loading QR codes:', error);
+    }
+  };
+
+  if (loading) {
     return (
-      <DashboardLayout title="QR Code Management" location="">
-        <Card>
-          <CardContent className="py-10">
-            <div className="flex justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansablue"></div>
-            </div>
-          </CardContent>
-        </Card>
-      </DashboardLayout>
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <div className="flex-grow flex items-center justify-center">
+          <div className="text-center">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-mansablue" />
+            <p className="text-gray-500">Loading QR Code Management...</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
     );
   }
-  
-  // Redirect if not logged in
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
-  
-  // Redirect if not a business user
-  if (!business) {
-    return <Navigate to="/dashboard" />;
+
+  if (!databaseInitialized) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <div className="flex-grow flex items-center justify-center">
+          <div className="text-center max-w-md mx-auto p-6">
+            <h1 className="text-2xl font-bold text-red-600 mb-4">Database Not Initialized</h1>
+            <p className="mb-6 text-gray-700">
+              The database functions for QR code functionality have not been initialized. Please visit the Admin page to set up the database.
+            </p>
+            <button 
+              onClick={() => navigate('/admin')}
+              className="px-4 py-2 bg-mansablue text-white rounded hover:bg-opacity-90 transition-colors"
+            >
+              Go to Admin Page
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
   return (
-    <DashboardLayout title="QR Code Management" icon={<QrCode className="mr-2 h-5 w-5" />}>
-      <div className="space-y-6">
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <div className="flex-grow container mx-auto px-4 py-8">
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold">QR Code Management</h1>
+          <p className="text-gray-600 mt-2">
+            Create and manage QR codes for your business to boost customer loyalty and engagement
+          </p>
+        </div>
+
         <QRCodeTabs 
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
           qrCodes={qrCodes}
           scanMetrics={scanMetrics}
         />
       </div>
-    </DashboardLayout>
+      <Footer />
+    </div>
   );
 };
 

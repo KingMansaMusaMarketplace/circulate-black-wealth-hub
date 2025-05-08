@@ -1,125 +1,178 @@
 
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { 
-  generateBusinessQRCode, 
-  processQRScan,
-  getQRCodeById,
-  updateQRCode,
-  QRCode
-} from '@/lib/api/qr-code-api';
+import { useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { QRCode } from '@/lib/api/qr-code-api';
+import { useAuth } from '@/contexts/AuthContext';
 
-interface UseQRCodeOptions {
-  qrCodeId?: string;
-  businessId?: string;
-  autoLoad?: boolean;
-}
-
-export const useQRCode = (options: UseQRCodeOptions = {}) => {
-  const [loading, setLoading] = useState<boolean>(false);
+// Hook for managing QR code generation and operations
+export const useQRCode = () => {
+  const [loading, setLoading] = useState(false);
   const [qrCode, setQrCode] = useState<QRCode | null>(null);
-  const [generating, setGenerating] = useState<boolean>(false);
-  const [scanning, setScanning] = useState<boolean>(false);
   const { user } = useAuth();
 
-  // Load QR code if ID is provided
-  useEffect(() => {
-    const loadQRCode = async () => {
-      if (!options.qrCodeId || !options.autoLoad) return;
-      
-      setLoading(true);
-      try {
-        const loadedQrCode = await getQRCodeById(options.qrCodeId);
-        setQrCode(loadedQrCode);
-      } catch (error) {
-        console.error('Error loading QR code:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadQRCode();
-  }, [options.qrCodeId, options.autoLoad]);
-
-  // Generate QR code
+  // Generate a new QR code for the business
   const generateQRCode = async (
-    businessId: string,
-    type: 'discount' | 'loyalty' | 'info',
-    opts: {
+    businessId: string, 
+    codeType: 'loyalty' | 'discount' | 'info',
+    options?: {
       discountPercentage?: number;
       pointsValue?: number;
-    } = {}
-  ) => {
-    if (!user) {
-      toast.error('You must be logged in to generate a QR code');
-      return null;
     }
-
-    setGenerating(true);
+  ): Promise<QRCode | null> => {
+    setLoading(true);
+    
     try {
-      const result = await generateBusinessQRCode(businessId, type, opts);
-      if (result.success && result.qrCode) {
-        setQrCode(result.qrCode);
-        return result.qrCode;
+      if (!businessId) {
+        throw new Error('Business ID is required to generate QR code');
       }
-      return null;
-    } catch (error) {
-      console.error('Error generating QR code:', error);
-      toast.error('Failed to generate QR code');
+
+      // Call the Supabase function to generate QR code
+      const { data, error } = await supabase.rpc('create_business_qr_code', {
+        p_business_id: businessId,
+        p_code_type: codeType,
+        p_discount_percentage: options?.discountPercentage || null,
+        p_points_value: options?.pointsValue || null
+      });
+
+      if (error) {
+        console.error('Error generating QR code:', error);
+        toast.error('Failed to generate QR code');
+        return null;
+      }
+
+      // Fetch the newly created QR code
+      const qrCodeId = data;
+      const { data: qrCodeData, error: fetchError } = await supabase
+        .from('qr_codes')
+        .select('*')
+        .eq('id', qrCodeId)
+        .single();
+
+      if (fetchError) {
+        console.error('Error fetching QR code:', fetchError);
+        toast.error('QR code generated but failed to retrieve details');
+        return null;
+      }
+
+      // Generate QR image URL if not already set
+      if (!qrCodeData.qr_image_url) {
+        // In a real app, you would generate the QR code image here
+        // For demo purposes, we'll use a placeholder
+        const updatedQRCode = await updateQRCodeImage(qrCodeId, businessId);
+        setQrCode(updatedQRCode);
+        return updatedQRCode;
+      }
+
+      setQrCode(qrCodeData as QRCode);
+      return qrCodeData as QRCode;
+    } catch (error: any) {
+      console.error('Error in QR code generation:', error);
+      toast.error(error.message || 'Failed to generate QR code');
       return null;
     } finally {
-      setGenerating(false);
+      setLoading(false);
     }
   };
 
-  // Scan QR code
-  const scanQRCode = async (
-    qrCodeId: string,
-    location?: {
-      lat: number;
-      lng: number;
-    }
-  ) => {
-    if (!user) {
-      toast.error('You must be logged in to scan a QR code');
-      return null;
-    }
-
-    setScanning(true);
+  // Update the QR code image URL
+  const updateQRCodeImage = async (qrCodeId: string, businessId: string): Promise<QRCode | null> => {
     try {
-      const result = await processQRScan(qrCodeId, user.id, location);
-      if (result.success) {
-        return result.result;
+      // In a real app, you would generate a QR code image and upload it to storage
+      // For demo purposes, we'll use a placeholder URL
+      const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+        `https://mansa-musa.vercel.app/scan?qr=${qrCodeId}&business=${businessId}`
+      )}`;
+
+      const { data, error } = await supabase
+        .from('qr_codes')
+        .update({ qr_image_url: qrImageUrl })
+        .eq('id', qrCodeId)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error updating QR code image:', error);
+        return null;
       }
-      return null;
+
+      return data as QRCode;
     } catch (error) {
-      console.error('Error scanning QR code:', error);
-      toast.error('Failed to process QR code scan');
+      console.error('Error updating QR code image:', error);
       return null;
-    } finally {
-      setScanning(false);
     }
   };
 
-  // Update QR code
-  const updateQrCode = async (updates: Partial<QRCode>) => {
-    if (!qrCode?.id) {
-      toast.error('No QR code to update');
-      return false;
-    }
-
+  // Fetch QR codes for a business
+  const fetchBusinessQRCodes = async (businessId: string): Promise<QRCode[]> => {
     setLoading(true);
     try {
-      const result = await updateQRCode(qrCode.id, updates);
-      if (result.success && result.qrCode) {
-        setQrCode(result.qrCode);
-        return true;
+      const { data, error } = await supabase
+        .from('qr_codes')
+        .select('*')
+        .eq('business_id', businessId);
+
+      if (error) {
+        console.error('Error fetching QR codes:', error);
+        toast.error('Failed to fetch QR codes');
+        return [];
       }
-      return false;
+
+      return data as QRCode[];
+    } catch (error) {
+      console.error('Error fetching QR codes:', error);
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Update QR code properties
+  const updateQRCode = async (qrCodeId: string, updates: Partial<QRCode>): Promise<QRCode | null> => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('qr_codes')
+        .update(updates)
+        .eq('id', qrCodeId)
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Error updating QR code:', error);
+        toast.error('Failed to update QR code');
+        return null;
+      }
+
+      toast.success('QR code updated successfully');
+      return data as QRCode;
     } catch (error) {
       console.error('Error updating QR code:', error);
-      toast.error('Failed to update QR code');
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete a QR code
+  const deleteQRCode = async (qrCodeId: string): Promise<boolean> => {
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from('qr_codes')
+        .delete()
+        .eq('id', qrCodeId);
+
+      if (error) {
+        console.error('Error deleting QR code:', error);
+        toast.error('Failed to delete QR code');
+        return false;
+      }
+
+      toast.success('QR code deleted successfully');
+      return true;
+    } catch (error) {
+      console.error('Error deleting QR code:', error);
       return false;
     } finally {
       setLoading(false);
@@ -127,12 +180,11 @@ export const useQRCode = (options: UseQRCodeOptions = {}) => {
   };
 
   return {
-    qrCode,
     loading,
-    generating,
-    scanning,
+    qrCode,
     generateQRCode,
-    scanQRCode,
-    updateQrCode,
+    fetchBusinessQRCodes,
+    updateQRCode,
+    deleteQRCode
   };
 };
