@@ -2,6 +2,8 @@
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { AudioButton } from '@/components/ui/audio-button';
+import { AUDIO_PATHS } from '@/utils/audio';
 
 const HeroSection = () => {
   const scrollToNextSection = () => {
@@ -38,6 +40,14 @@ const HeroSection = () => {
               We're building more than an app — we're creating infrastructure for Black wealth circulation.
               Here's how you can be part of this economic movement.
             </p>
+            
+            <AudioButton 
+              audioSrc={AUDIO_PATHS.welcome}
+              className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg mb-4 w-full md:w-auto"
+            >
+              Hear Our Story
+            </AudioButton>
+            
             <div className="flex flex-wrap gap-4 relative z-20">
               <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-white relative z-10">
                 Join Now
@@ -49,15 +59,15 @@ const HeroSection = () => {
           </div>
           <div className="md:w-1/2 flex justify-center md:justify-end">
             <div className="relative z-10">
-              {/* Decorative elements behind the app image */}
+              {/* Two women looking at laptop image */}
               <div className="absolute -top-4 -left-4 w-full h-full bg-mansagold/20 rounded-xl"></div>
               <div className="absolute -bottom-4 -right-4 w-full h-full bg-mansablue-light/30 rounded-xl"></div>
               
               <div className="bg-white rounded-xl shadow-xl p-4 rotate-3 transform hover:rotate-0 transition-transform duration-300 relative z-10">
                 <div className="bg-gray-50 rounded-lg p-2">
                   <img 
-                    src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-                    alt="Mansa Musa App Interface" 
+                    src="https://images.unsplash.com/photo-1543269865-cbf427effbad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                    alt="Two women looking at laptop" 
                     className="w-full h-auto rounded" 
                     width="400"
                     height="300"
