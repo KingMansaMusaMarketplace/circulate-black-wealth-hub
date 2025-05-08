@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, ButtonProps } from '@/components/ui/button';
 import { Volume2, VolumeX } from 'lucide-react';
-import { AUDIO_PATHS } from '@/utils/audio';
 
 interface AudioButtonProps extends ButtonProps {
   audioSrc: string;
@@ -38,12 +37,6 @@ export const AudioButton = ({
 
   const toggleAudio = () => {
     if (!audioRef.current) return;
-
-    // If it's an external URL like Google Notebook, open it in a new tab
-    if (audioSrc.includes('notebooklm.google.com')) {
-      window.open(audioSrc, '_blank');
-      return;
-    }
 
     if (isPlaying) {
       audioRef.current.pause();
