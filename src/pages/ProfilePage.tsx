@@ -1,48 +1,54 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
-import { DashboardLayout } from '@/components/dashboard';
-import { ProfileHeader, ProfileForm, SecuritySettings } from '@/components/profile';
-import { User } from 'lucide-react';
+import ProfileHeader from '@/components/profile/ProfileHeader';
+import ProfileForm from '@/components/profile/ProfileForm';
+import SecuritySettings from '@/components/profile/SecuritySettings';
+import DashboardLayout from '@/components/dashboard/DashboardLayout';
 
 const ProfilePage = () => {
-  const { user, loading } = useAuth();
-  
-  // Show loading state while checking auth status
-  if (loading) {
-    return (
-      <DashboardLayout title="Profile" location="">
-        <div className="flex justify-center items-center h-64">
-          <p>Loading...</p>
-        </div>
-      </DashboardLayout>
-    );
-  }
-  
-  // Redirect to login if not authenticated
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
-  
+  const { user } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const tab = searchParams.get('tab') || 'profile';
+
+  // Handle tab changes
+  const handleTabChange = (value: string) => {
+    const newSearchParams = new URLSearchParams(location.search);
+    newSearchParams.set('tab', value);
+    navigate({ search: newSearchParams.toString() });
+  };
+
   return (
-    <DashboardLayout 
-      title="My Profile" 
-      icon={<User className="mr-2 h-5 w-5" />}
-    >
-      <div className="grid gap-6">
+    <DashboardLayout>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold mb-6">Account Settings</h1>
+        
         <ProfileHeader />
         
-        <div className="grid md:grid-cols-2 gap-6">
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Profile Information</h2>
-            <ProfileForm />
-          </div>
-          
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Account Security</h2>
-            <SecuritySettings />
-          </div>
+        <div className="mt-8">
+          <Tabs 
+            defaultValue={tab} 
+            value={tab} 
+            onValueChange={handleTabChange}
+            className="space-y-4"
+          >
+            <TabsList className="grid grid-cols-2 w-full max-w-md">
+              <TabsTrigger value="profile">Profile</TabsTrigger>
+              <TabsTrigger value="security">Security</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="profile" className="space-y-6">
+              <ProfileForm />
+            </TabsContent>
+            
+            <TabsContent value="security" className="space-y-6">
+              <SecuritySettings />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </DashboardLayout>

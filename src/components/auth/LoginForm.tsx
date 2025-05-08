@@ -19,6 +19,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
+import { MFAVerification } from './MFAVerification';
+import { useAuth } from '@/contexts/AuthContext';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -36,8 +38,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
+  const { verifyMFA } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [showMFAVerification, setShowMFAVerification] = useState(false);
+  const [mfaData, setMfaData] = useState<{factorId: string, challengeId: string} | null>(null);
+  const [email, setEmailCache] = useState('');
 
   // Get the redirect path from location state or default to dashboard
   const from = (location.state as any)?.from || '/dashboard';
@@ -61,9 +67,22 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         localStorage.removeItem('rememberedEmail');
       }
       
+      // Cache the email in case we need it for MFA
+      setEmailCache(values.email);
+      
       const result = await onSubmit(values.email, values.password);
       if (result.error) {
         throw new Error(result.error.message);
+      }
+      
+      // Check if MFA is required
+      if (result.mfaRequired && result.factorId && result.challengeId) {
+        setMfaData({
+          factorId: result.factorId,
+          challengeId: result.challengeId
+        });
+        setShowMFAVerification(true);
+        return; // Stop here until MFA is verified
       }
       
       // Navigate to the page they were trying to access or dashboard
@@ -79,6 +98,41 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     }
   };
 
+  const handleMFAVerify = async (factorId: string, code: string, challengeId: string) => {
+    setIsSubmitting(true);
+    try {
+      const result = await verifyMFA(factorId, code, challengeId);
+      
+      if (!result.success) {
+        throw new Error(result.error?.message || 'MFA verification failed');
+      }
+      
+      toast({
+        title: 'Verification Successful',
+        description: 'You have been successfully logged in',
+      });
+      
+      // Navigate to the page they were trying to access or dashboard
+      navigate(from, { replace: true });
+      
+      return result;
+    } catch (error: any) {
+      toast({
+        title: 'Verification Failed',
+        description: error.message || 'Invalid verification code',
+        variant: 'destructive',
+      });
+      return { success: false, error };
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleMFACancel = () => {
+    setShowMFAVerification(false);
+    setMfaData(null);
+  };
+
   // Load remembered email on component mount
   useEffect(() => {
     const rememberedEmail = localStorage.getItem('rememberedEmail');
@@ -91,6 +145,17 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  if (showMFAVerification && mfaData) {
+    return (
+      <MFAVerification 
+        factorId={mfaData.factorId}
+        challengeId={mfaData.challengeId}
+        onVerify={handleMFAVerify}
+        onCancel={handleMFACancel}
+      />
+    );
+  }
 
   return (
     <Form {...form}>

@@ -20,6 +20,23 @@ type ToastProps = {
   variant?: "default" | "destructive";
 };
 
+// MFA Factor type
+type Factor = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  factor_type: string;
+  status: string;
+  friendly_name?: string;
+};
+
+// MFA Challenge type
+type MFAChallenge = {
+  id: string;
+  factorId: string;
+  expiresAt: string;
+};
+
 type AuthContextType = {
   user: User | null;
   session: Session | null;
@@ -34,6 +51,11 @@ type AuthContextType = {
   initializingDatabase: boolean;
   databaseInitialized: boolean;
   checkSession: () => Promise<boolean>;
+  mfaEnrolled: boolean;
+  mfaFactors: Factor[];
+  verifyMFA: (factorId: string, code: string, challengeId: string) => Promise<any>;
+  getMFAFactors: () => Promise<Factor[]>;
+  getCurrentMFAChallenge: () => MFAChallenge | null;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -54,6 +76,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const [initializingDatabase, setInitializingDatabase] = useState(false);
   const [databaseInitialized, setDatabaseInitialized] = useState(false);
+  const [mfaFactors, setMfaFactors] = useState<Factor[]>([]);
+  const [mfaEnrolled, setMfaEnrolled] = useState(false);
+  const [currentMFAChallenge, setCurrentMFAChallenge] = useState<MFAChallenge | null>(null);
 
   // Check if the session is valid
   const checkSession = async (): Promise<boolean> => {
@@ -63,6 +88,99 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error('Error checking session:', error);
       return false;
+    }
+  };
+
+  // Get MFA factors for the current user
+  const getMFAFactors = async (): Promise<Factor[]> => {
+    if (!user) return [];
+    
+    try {
+      const { data, error } = await supabase.auth.mfa.listFactors();
+      
+      if (error) throw error;
+      
+      const factors = data?.all || [];
+      setMfaFactors(factors);
+      setMfaEnrolled(factors.length > 0);
+      
+      return factors;
+    } catch (error) {
+      console.error('Error fetching MFA factors:', error);
+      return [];
+    }
+  };
+
+  // Verify an MFA challenge
+  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+    try {
+      const { data, error } = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId,
+        code
+      });
+      
+      if (error) throw error;
+      
+      // Clear the MFA challenge after successful verification
+      setCurrentMFAChallenge(null);
+      
+      return { success: true, data };
+    } catch (error: any) {
+      console.error('MFA verification error:', error);
+      return { success: false, error };
+    }
+  };
+
+  // Get the current MFA challenge
+  const getCurrentMFAChallenge = () => {
+    return currentMFAChallenge;
+  };
+
+  // Enhanced sign-in function that handles MFA challenges
+  const enhancedSignIn = async (email: string, password: string) => {
+    try {
+      const result = await handleSignIn(email, password, toastWrapper);
+      
+      // Check if MFA challenge is required
+      if (result.data?.session === null && result.data?.user !== null) {
+        // User exists but session is null - likely needs MFA
+        // Store user for later reference
+        setUser(result.data.user);
+        
+        // Fetch available MFA factors
+        await getMFAFactors();
+        
+        // If user has MFA factors, initiate a challenge
+        const factors = await getMFAFactors();
+        if (factors.length > 0) {
+          const { data, error } = await supabase.auth.mfa.challenge({
+            factorId: factors[0].id
+          });
+          
+          if (error) throw error;
+          
+          // Store the challenge for verification
+          setCurrentMFAChallenge({
+            id: data.id,
+            factorId: factors[0].id,
+            expiresAt: data.expires_at
+          });
+          
+          // Return a special result indicating MFA is required
+          return { 
+            ...result, 
+            mfaRequired: true,
+            factorId: factors[0].id,
+            challengeId: data.id
+          };
+        }
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('Enhanced sign in error:', error);
+      return { data: null, error };
     }
   };
 
@@ -83,8 +201,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         
         if (event === 'SIGNED_IN') {
           toast.success('You have successfully signed in!');
+          // Fetch MFA factors when user signs in
+          getMFAFactors();
         } else if (event === 'SIGNED_OUT') {
           toast.info('You have been signed out');
+          setMfaFactors([]);
+          setMfaEnrolled(false);
         }
       }
     );
@@ -99,6 +221,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       
       setLoading(false);
+      
+      // Fetch MFA factors if user is already signed in
+      if (session?.user) {
+        getMFAFactors();
+      }
     });
 
     // Check if database is initialized
@@ -117,8 +244,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loading,
     signUp: (email: string, password: string, metadata?: any) => 
       handleSignUp(email, password, metadata, toastWrapper),
-    signIn: (email: string, password: string) => 
-      handleSignIn(email, password, toastWrapper),
+    signIn: enhancedSignIn,
     signInWithSocial: (provider: Provider) =>
       handleSocialSignIn(provider, toastWrapper),
     signOut: async () => {
@@ -127,6 +253,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null);
         setSession(null);
         setUserType(null);
+        setMfaFactors([]);
+        setMfaEnrolled(false);
+        setCurrentMFAChallenge(null);
       }
     },
     resetPassword: (email: string) =>
@@ -136,7 +265,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     userType,
     initializingDatabase,
     databaseInitialized,
-    checkSession
+    checkSession,
+    mfaEnrolled,
+    mfaFactors,
+    verifyMFA,
+    getMFAFactors,
+    getCurrentMFAChallenge
   };
 
   return (

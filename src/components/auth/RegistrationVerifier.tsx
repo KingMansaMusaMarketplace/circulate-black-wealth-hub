@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, CheckCircle, AlertCircle, UserPlus, Building } from 'lucide-react';
+import { Loader2, CheckCircle, AlertCircle, UserPlus, Building, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
 
@@ -104,6 +104,13 @@ export const RegistrationVerifier: React.FC = () => {
         if (businessError) throw businessError;
         businessData = business;
       }
+
+      // Check for MFA factors
+      const { data: mfaData, error: mfaError } = await supabase.rpc('exec_sql', {
+        query: `SELECT * FROM auth.mfa_factors WHERE user_id = '${userId}'`
+      });
+      
+      if (mfaError) throw mfaError;
       
       // Set the complete verification result
       setVerificationResult({
@@ -111,6 +118,8 @@ export const RegistrationVerifier: React.FC = () => {
         authUser: authUser[0],
         profile: profileData && profileData.length > 0 ? profileData[0] : null,
         business: businessData && businessData.length > 0 ? businessData[0] : null,
+        mfaFactors: mfaData || [],
+        hasMFA: mfaData && mfaData.length > 0
       });
       
       setVerificationStatus('success');
@@ -238,6 +247,22 @@ export const RegistrationVerifier: React.FC = () => {
                     {verificationStatus === 'success' ? 'User Found' : 'User Not Found'}
                   </h3>
                 </div>
+                
+                {verificationResult && verificationStatus === 'success' && (
+                  <div className="mt-2 mb-2">
+                    <div className="flex items-center">
+                      <Shield className="h-5 w-5 text-blue-500 mr-2" />
+                      <h3 className="font-medium">
+                        MFA Status: {verificationResult.hasMFA ? 'Enabled' : 'Not Enabled'}
+                      </h3>
+                    </div>
+                    {verificationResult.hasMFA && (
+                      <p className="text-sm text-gray-600 ml-7">
+                        User has {verificationResult.mfaFactors.length} MFA factor(s) configured
+                      </p>
+                    )}
+                  </div>
+                )}
                 
                 {verificationResult && (
                   <div className="mt-2 text-sm">
