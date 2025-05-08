@@ -40,7 +40,12 @@ export const checkDatabaseInitialized = async (): Promise<boolean> => {
       return false;
     }
     
-    return data && data.length > 0 && data[0].exists;
+    // Properly type and check the response data
+    if (data && Array.isArray(data) && data.length > 0 && 'exists' in data[0]) {
+      return data[0].exists as boolean;
+    }
+    
+    return false;
   } catch (error) {
     console.error('Error checking database initialization:', error);
     return false;
