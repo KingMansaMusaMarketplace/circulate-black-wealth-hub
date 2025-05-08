@@ -160,10 +160,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           if (error) throw error;
           
           // Store the challenge for verification
+          // Convert expires_at to string if it's not already
           setCurrentMFAChallenge({
             id: data.id,
             factorId: factors[0].id,
-            expiresAt: data.expires_at // This should be a string
+            expiresAt: String(data.expires_at)
           });
           
           // Return a special result indicating MFA is required
