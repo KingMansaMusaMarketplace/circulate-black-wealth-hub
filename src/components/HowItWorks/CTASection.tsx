@@ -1,10 +1,11 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion, useAnimation } from 'framer-motion';
 import { ArrowUp, Users, Star, CircleDollarSign, Check } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { toast } from 'sonner'; // Changed import to use sonner directly
+import { toast } from 'sonner';
 
 const CTASection = () => {
   const [isVisible, setIsVisible] = useState(false);
