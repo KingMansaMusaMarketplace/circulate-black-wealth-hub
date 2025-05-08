@@ -27,8 +27,8 @@ const FeaturedBusinesses = () => {
       reviewCount: 207,
       description: "Premium barbershop experience with skilled professionals.",
       icon: <Scissors className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1599351431202-1e0f0137899a?q=80&w=2008&auto=format&fit=crop",
-      imageAlt: "Modern barbershop interior with styling stations"
+      imageUrl: "https://images.unsplash.com/photo-1599981526814-61649765e2f8?q=80&w=1887&auto=format&fit=crop",
+      imageAlt: "Young Black boy getting a haircut at a barber shop"
     },
     {
       id: 3,
