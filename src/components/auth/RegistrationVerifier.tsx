@@ -1,274 +1,267 @@
 
 import React, { useState } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-
-type VerificationResult = {
-  success: boolean;
-  message: string;
-  details?: Record<string, any>;
-};
-
-type VerificationStep = {
-  name: string;
-  status: 'idle' | 'loading' | 'success' | 'error';
-  result?: VerificationResult;
-};
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Loader2, CheckCircle, AlertCircle, UserPlus, Building } from 'lucide-react';
+import { toast } from 'sonner';
+import { supabase } from '@/lib/supabase';
 
 export const RegistrationVerifier: React.FC = () => {
-  const [email, setEmail] = useState<string>(`test${Date.now().toString().slice(-6)}@example.com`);
-  const [password, setPassword] = useState<string>('Password123!');
-  const [isCustomer, setIsCustomer] = useState<boolean>(true);
-  const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [steps, setSteps] = useState<VerificationStep[]>([
-    { name: 'User Registration', status: 'idle' },
-    { name: 'Profile Creation', status: 'idle' },
-    { name: 'Metadata Verification', status: 'idle' },
-    { name: 'Subscription Status', status: 'idle' }
-  ]);
+  const [loading, setLoading] = useState(false);
+  const [testEmail, setTestEmail] = useState('');
+  const [testPassword, setTestPassword] = useState('Test123!');
+  const [verifyEmail, setVerifyEmail] = useState('');
+  const [testBusinessName, setTestBusinessName] = useState('');
+  const [verificationResult, setVerificationResult] = useState<any>(null);
+  const [verificationStatus, setVerificationStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const updateStepStatus = (index: number, status: VerificationStep['status'], result?: VerificationResult) => {
-    setSteps(prev => prev.map((step, i) => 
-      i === index ? { ...step, status, result } : step
-    ));
-  };
+  // Create a test user account
+  const handleCreateTestUser = async (userType: 'customer' | 'business') => {
+    if (!testEmail.trim()) {
+      toast.error('Please enter a test email address');
+      return;
+    }
 
-  const runVerification = async () => {
-    // Reset all steps
-    setSteps(prev => prev.map(step => ({ ...step, status: 'idle', result: undefined })));
-    setIsRunning(true);
-    
+    // Add a test indicator to the email to ensure it's clearly marked as a test account
+    const formattedEmail = testEmail.includes('test') ? testEmail : `test_${testEmail}`;
+
     try {
-      // Step 1: Register test user
-      updateStepStatus(0, 'loading');
+      setLoading(true);
       
-      const userMetadata = isCustomer 
-        ? { 
-            userType: 'customer',
-            fullName: 'Test Customer',
-            subscription_status: 'active',
-            subscription_start_date: new Date().toISOString()
-          }
-        : { 
-            userType: 'business',
-            businessName: 'Test Business',
-            businessType: 'retail',
-            businessAddress: '123 Test St',
-            subscription_status: 'trial',
-            subscription_start_date: new Date().toISOString()
-          };
+      const metadata = {
+        user_type: userType,
+        full_name: userType === 'business' ? testBusinessName || 'Test Business' : 'Test Customer',
+      };
 
       const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
+        email: formattedEmail,
+        password: testPassword,
         options: {
-          data: userMetadata
+          data: metadata,
         }
       });
-      
+
       if (error) throw error;
-      
-      if (!data.user) {
-        throw new Error('User registration failed - no user returned');
-      }
-      
-      const userId = data.user.id;
-      
-      updateStepStatus(0, 'success', { 
-        success: true, 
-        message: 'User registered successfully',
-        details: { userId, email }
-      });
-      
-      // Step 2: Check if profile was created
-      updateStepStatus(1, 'loading');
-      
-      // Wait a bit for potential triggers to complete
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-        
-      if (profileError) {
-        updateStepStatus(1, 'error', { 
-          success: false, 
-          message: `Profile creation error: ${profileError.message}`
-        });
-      } else {
-        updateStepStatus(1, 'success', { 
-          success: true, 
-          message: 'Profile created successfully',
-          details: profileData
-        });
-      }
-      
-      // Step 3: Verify metadata is saved correctly
-      updateStepStatus(2, 'loading');
-      
-      const expectedType = isCustomer ? 'customer' : 'business';
-      const actualType = profileData?.user_type;
-      
-      const metadataMatches = actualType === expectedType;
-      
-      if (metadataMatches) {
-        updateStepStatus(2, 'success', { 
-          success: true, 
-          message: `User type is correctly set to "${actualType}"`,
-          details: { expected: expectedType, actual: actualType }
-        });
-      } else {
-        updateStepStatus(2, 'error', { 
-          success: false, 
-          message: `User type mismatch: expected "${expectedType}", got "${actualType}"`,
-          details: { expected: expectedType, actual: actualType }
-        });
-      }
-      
-      // Step 4: Check subscription status
-      updateStepStatus(3, 'loading');
-      
-      const expectedStatus = isCustomer ? 'active' : 'trial';
-      const actualStatus = profileData?.subscription_status;
-      
-      if (actualStatus === expectedStatus) {
-        updateStepStatus(3, 'success', { 
-          success: true, 
-          message: `Subscription status is correctly set to "${actualStatus}"`,
-          details: { expected: expectedStatus, actual: actualStatus }
-        });
-      } else {
-        updateStepStatus(3, 'error', { 
-          success: false, 
-          message: `Subscription status mismatch: expected "${expectedStatus}", got "${actualStatus}"`,
-          details: { expected: expectedStatus, actual: actualStatus } 
-        });
-      }
-      
-      // Clean up by signing out
-      await supabase.auth.signOut();
+
+      // Success!
+      toast.success(`Test ${userType} account created successfully`);
+      console.log('Test account created:', data);
       
     } catch (error: any) {
-      // Handle any errors that weren't caught in the steps
-      console.error('Verification error:', error);
-      const failedStepIndex = steps.findIndex(step => step.status === 'loading');
-      
-      if (failedStepIndex >= 0) {
-        updateStepStatus(failedStepIndex, 'error', {
-          success: false,
-          message: `Error: ${error.message || 'Unknown error occurred'}`
-        });
-      }
+      console.error('Error creating test account:', error);
+      toast.error(`Failed to create test account: ${error.message}`);
     } finally {
-      setIsRunning(false);
+      setLoading(false);
+    }
+  };
+
+  // Verify if a user exists in the database
+  const verifyUserInDatabase = async () => {
+    if (!verifyEmail.trim()) {
+      toast.error('Please enter an email to verify');
+      return;
+    }
+
+    try {
+      setVerificationStatus('loading');
+      
+      // First check auth.users
+      const { data: authUser, error: authError } = await supabase.rpc('exec_sql', {
+        query: `SELECT id, email, raw_user_meta_data FROM auth.users WHERE email = '${verifyEmail}' LIMIT 1`
+      });
+      
+      if (authError) throw authError;
+      
+      if (!authUser || authUser.length === 0) {
+        setVerificationResult({
+          exists: false,
+          message: 'User not found in auth.users table',
+        });
+        setVerificationStatus('error');
+        return;
+      }
+
+      // If auth user exists, check for profile record
+      const userId = authUser[0].id;
+      const { data: profileData, error: profileError } = await supabase.rpc('exec_sql', {
+        query: `SELECT * FROM profiles WHERE id = '${userId}' LIMIT 1`
+      });
+      
+      if (profileError) throw profileError;
+      
+      // Check for business record if user is a business
+      let businessData = null;
+      const userMetadata = authUser[0].raw_user_meta_data;
+      
+      if (userMetadata && userMetadata.user_type === 'business') {
+        const { data: business, error: businessError } = await supabase.rpc('exec_sql', {
+          query: `SELECT * FROM businesses WHERE owner_id = '${userId}' LIMIT 1`
+        });
+        
+        if (businessError) throw businessError;
+        businessData = business;
+      }
+      
+      // Set the complete verification result
+      setVerificationResult({
+        exists: true,
+        authUser: authUser[0],
+        profile: profileData && profileData.length > 0 ? profileData[0] : null,
+        business: businessData && businessData.length > 0 ? businessData[0] : null,
+      });
+      
+      setVerificationStatus('success');
+      toast.success('User verification complete');
+      
+    } catch (error: any) {
+      console.error('Verification error:', error);
+      setVerificationResult({
+        exists: false,
+        error: error.message,
+      });
+      setVerificationStatus('error');
+      toast.error(`Verification failed: ${error.message}`);
     }
   };
 
   return (
-    <div className="border rounded-lg p-5 max-w-xl mx-auto my-8">
-      <h2 className="text-xl font-bold mb-4">Registration Verification Tool</h2>
-      <p className="text-sm text-gray-600 mb-4">
-        This tool tests the registration flow by creating a temporary test user and verifying that all backend processes work correctly.
-        The test data will persist in your database but uses clearly marked test emails.
-      </p>
+    <Card>
+      <CardHeader>
+        <CardTitle>Registration Verification Tool</CardTitle>
+        <CardDescription>
+          Test user registration and verify database records are correctly created
+        </CardDescription>
+      </CardHeader>
       
-      <div className="space-y-4 mb-6">
-        <div>
-          <label className="block text-sm font-medium mb-1">Test Email</label>
-          <input 
-            type="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-2 border rounded"
-            disabled={isRunning}
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium mb-1">Test Password</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-2 border rounded"
-            disabled={isRunning}
-          />
-        </div>
-        
-        <div className="flex items-center space-x-2">
-          <input 
-            type="radio" 
-            id="customer" 
-            checked={isCustomer} 
-            onChange={() => setIsCustomer(true)}
-            disabled={isRunning}
-          />
-          <label htmlFor="customer">Test Customer Registration</label>
+      <CardContent>
+        <Tabs defaultValue="create">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="create">Create Test Account</TabsTrigger>
+            <TabsTrigger value="verify">Verify Registration</TabsTrigger>
+          </TabsList>
           
-          <input 
-            type="radio" 
-            id="business" 
-            checked={!isCustomer} 
-            onChange={() => setIsCustomer(false)}
-            className="ml-4"
-            disabled={isRunning}
-          />
-          <label htmlFor="business">Test Business Registration</label>
-        </div>
-      </div>
-      
-      <Button 
-        onClick={runVerification} 
-        disabled={isRunning}
-        className="mb-6 w-full"
-      >
-        {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        {isRunning ? "Running Tests..." : "Start Verification"}
-      </Button>
-      
-      <div className="space-y-3">
-        {steps.map((step, index) => (
-          <div key={index} className="border rounded p-3">
-            <div className="flex justify-between items-center">
-              <span className="font-medium">{step.name}</span>
-              {step.status === 'idle' && <span className="text-gray-400">Waiting</span>}
-              {step.status === 'loading' && <Loader2 className="animate-spin h-5 w-5 text-blue-500" />}
-              {step.status === 'success' && <CheckCircle className="h-5 w-5 text-green-500" />}
-              {step.status === 'error' && <AlertCircle className="h-5 w-5 text-red-500" />}
+          <TabsContent value="create" className="space-y-4 mt-4">
+            <div className="space-y-4">
+              <div className="grid gap-2">
+                <Label htmlFor="testEmail">Test Email</Label>
+                <Input 
+                  id="testEmail" 
+                  type="email"
+                  placeholder="test_user@example.com"
+                  value={testEmail}
+                  onChange={(e) => setTestEmail(e.target.value)}
+                />
+                <p className="text-xs text-gray-500">
+                  Will be prefixed with "test_" if not already containing "test"
+                </p>
+              </div>
+              
+              <div className="grid gap-2">
+                <Label htmlFor="testPassword">Test Password</Label>
+                <Input 
+                  id="testPassword" 
+                  type="password"
+                  value={testPassword}
+                  onChange={(e) => setTestPassword(e.target.value)}
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="testBusinessName">Business Name (for business accounts)</Label>
+                <Input 
+                  id="testBusinessName" 
+                  placeholder="Test Business Name"
+                  value={testBusinessName}
+                  onChange={(e) => setTestBusinessName(e.target.value)}
+                />
+              </div>
+              
+              <div className="flex space-x-2">
+                <Button 
+                  onClick={() => handleCreateTestUser('customer')}
+                  disabled={loading}
+                  className="flex-1"
+                >
+                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Create Test Customer
+                </Button>
+                
+                <Button 
+                  onClick={() => handleCreateTestUser('business')}
+                  disabled={loading}
+                  className="flex-1"
+                >
+                  {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  <Building className="mr-2 h-4 w-4" />
+                  Create Test Business
+                </Button>
+              </div>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="verify" className="space-y-4 mt-4">
+            <div className="grid gap-2">
+              <Label htmlFor="verifyEmail">Email to Verify</Label>
+              <Input 
+                id="verifyEmail" 
+                type="email"
+                placeholder="user@example.com"
+                value={verifyEmail}
+                onChange={(e) => setVerifyEmail(e.target.value)}
+              />
             </div>
             
-            {step.result && (
-              <div className="mt-2">
-                <Alert variant={step.result.success ? "default" : "destructive"}>
-                  <AlertTitle>{step.result.success ? "Success" : "Error"}</AlertTitle>
-                  <AlertDescription>{step.result.message}</AlertDescription>
-                </Alert>
+            <Button 
+              onClick={verifyUserInDatabase}
+              disabled={verificationStatus === 'loading'}
+            >
+              {verificationStatus === 'loading' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Verify Registration
+            </Button>
+            
+            {verificationStatus !== 'idle' && (
+              <div className={`mt-4 p-4 rounded-md ${
+                verificationStatus === 'success' ? 'bg-green-50 border border-green-100' : 
+                verificationStatus === 'error' ? 'bg-red-50 border border-red-100' : 
+                'bg-gray-50 border border-gray-100'
+              }`}>
+                <div className="flex items-center mb-2">
+                  {verificationStatus === 'success' ? 
+                    <CheckCircle className="h-5 w-5 text-green-500 mr-2" /> : 
+                    <AlertCircle className="h-5 w-5 text-red-500 mr-2" />
+                  }
+                  <h3 className="font-medium">
+                    {verificationStatus === 'success' ? 'User Found' : 'User Not Found'}
+                  </h3>
+                </div>
                 
-                {step.result.details && (
-                  <div className="mt-2 text-xs bg-gray-50 p-2 rounded overflow-auto max-h-32">
-                    <pre>{JSON.stringify(step.result.details, null, 2)}</pre>
+                {verificationResult && (
+                  <div className="mt-2 text-sm">
+                    {verificationStatus === 'success' ? (
+                      <pre className="overflow-auto max-h-64 p-2 bg-gray-50 border rounded-sm text-xs">
+                        {JSON.stringify(verificationResult, null, 2)}
+                      </pre>
+                    ) : (
+                      <p className="text-red-700">{verificationResult.message || verificationResult.error}</p>
+                    )}
                   </div>
                 )}
               </div>
             )}
-          </div>
-        ))}
-      </div>
+          </TabsContent>
+        </Tabs>
+      </CardContent>
       
-      {steps.some(step => step.status === 'success') && (
-        <Alert className="mt-6">
-          <AlertTitle>Testing Complete</AlertTitle>
-          <AlertDescription>
-            {steps.every(step => step.status === 'success') 
-              ? "All tests passed! Your registration flow appears to be working correctly."
-              : "Some tests failed. Please check the errors above."}
-          </AlertDescription>
-        </Alert>
-      )}
-    </div>
+      <CardFooter className="border-t p-4 bg-gray-50">
+        <p className="text-xs text-gray-500">
+          These test accounts are created with real database entries for testing purposes.
+          Use only for authorized testing.
+        </p>
+      </CardFooter>
+    </Card>
   );
 };
