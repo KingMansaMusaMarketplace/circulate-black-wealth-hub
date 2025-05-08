@@ -44,9 +44,9 @@ const RegistrationTestPage = () => {
       <p className="mb-4 text-gray-600">
         This page provides tools to test and verify that the frontend registration process correctly syncs with the backend database.
       </p>
-      <Alert variant="warning" className="mb-4">
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription>
+      <Alert variant="default" className="mb-4 border border-yellow-200 bg-yellow-50">
+        <AlertCircle className="h-4 w-4 text-yellow-600" />
+        <AlertDescription className="text-yellow-700">
           This is a protected administrative tool. Access should be restricted in production.
         </AlertDescription>
       </Alert>
