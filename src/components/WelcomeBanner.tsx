@@ -8,7 +8,7 @@ interface WelcomeBannerProps {
   siteUrl?: string;
 }
 
-const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ siteUrl = "Circulate Black Wealth Hub" }) => {
+const WelcomeBanner: React.FC<WelcomeBannerProps> = ({ siteUrl = "Mansa Musa Marketplace" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const { toast } = useToast();
 

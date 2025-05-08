@@ -15,4 +15,4 @@ User-agent: facebookexternalhit
 Allow: /
 
 # Sitemaps
-Sitemap: https://circulate-black-wealth-hub.lovable.app/sitemap.xml
+Sitemap: https://mansamusamarketplace.com/sitemap.xml
