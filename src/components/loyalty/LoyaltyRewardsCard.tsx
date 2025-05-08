@@ -33,6 +33,7 @@ export function LoyaltyRewardsCard({
 }: LoyaltyRewardsCardProps) {
   const [selectedReward, setSelectedReward] = useState<Reward | null>(null);
   const [redemptionDialogOpen, setRedemptionDialogOpen] = useState(false);
+  const [isRedeeming, setIsRedeeming] = useState(false);
   
   // Group rewards by category
   const rewardsByCategory = availableRewards.reduce((acc, reward) => {
@@ -59,9 +60,14 @@ export function LoyaltyRewardsCard({
   
   const handleRedeemConfirm = async () => {
     if (selectedReward) {
-      await onRedeemReward(selectedReward.id, selectedReward.pointsCost);
-      setRedemptionDialogOpen(false);
-      setSelectedReward(null);
+      setIsRedeeming(true);
+      try {
+        await onRedeemReward(selectedReward.id, selectedReward.pointsCost);
+      } finally {
+        setIsRedeeming(false);
+        setRedemptionDialogOpen(false);
+        setSelectedReward(null);
+      }
     }
   };
 
@@ -134,6 +140,7 @@ export function LoyaltyRewardsCard({
             reward={selectedReward}
             onConfirm={handleRedeemConfirm}
             totalPoints={totalPoints}
+            isRedeeming={isRedeeming}
           />
         )}
       </CardContent>
