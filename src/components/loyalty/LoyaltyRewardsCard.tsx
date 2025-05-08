@@ -1,131 +1,144 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Gift, GiftIcon } from 'lucide-react';
-import { LoyaltyReward } from '@/hooks/loyalty-qr-code/use-loyalty-rewards';
-import { useAuth } from '@/contexts/AuthContext';
-import RewardDetailsView from './RewardDetailsView';
-import RedemptionConfirmDialog from './RedemptionConfirmDialog';
+import { RewardCard } from './RewardCard';
+import { RewardDetailsView } from './RewardDetailsView';
+import { RewardCategoryGroup } from './RewardCategoryGroup';
 import EmptyRewardsState from './EmptyRewardsState';
-import RewardCategoryGroup from './RewardCategoryGroup';
+import { RedemptionConfirmDialog } from './RedemptionConfirmDialog';
+import { SocialShareDialog } from './SocialShareDialog';
+
+interface Reward {
+  id: string | number;
+  title: string;
+  description: string;
+  pointsCost: number;
+  businessId?: string;
+  businessName?: string;
+  category: string;
+  expiresAt?: string;
+  imageUrl?: string;
+}
 
 interface LoyaltyRewardsCardProps {
   totalPoints: number;
-  availableRewards: LoyaltyReward[];
-  onRedeemReward: (rewardId: string, pointsCost: number) => Promise<boolean>;
+  availableRewards: Reward[];
+  onRedeemReward: (rewardId: string | number, pointsCost: number) => Promise<boolean> | void;
 }
 
-const LoyaltyRewardsCard: React.FC<LoyaltyRewardsCardProps> = ({
-  totalPoints,
-  availableRewards,
-  onRedeemReward
-}) => {
-  const { user } = useAuth();
-  const [selectedReward, setSelectedReward] = useState<LoyaltyReward | null>(null);
-  const [isRedeeming, setIsRedeeming] = useState(false);
-  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
-  const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
-
+export function LoyaltyRewardsCard({ 
+  totalPoints, 
+  availableRewards, 
+  onRedeemReward 
+}: LoyaltyRewardsCardProps) {
+  const [selectedReward, setSelectedReward] = useState<Reward | null>(null);
+  const [redemptionDialogOpen, setRedemptionDialogOpen] = useState(false);
+  
   // Group rewards by category
-  const groupedRewards = availableRewards.reduce((acc, reward) => {
-    const category = reward.category || 'General';
-    if (!acc[category]) {
-      acc[category] = [];
+  const rewardsByCategory = availableRewards.reduce((acc, reward) => {
+    if (!acc[reward.category]) {
+      acc[reward.category] = [];
     }
-    acc[category].push(reward);
+    acc[reward.category].push(reward);
     return acc;
-  }, {} as Record<string, LoyaltyReward[]>);
-
-  // Sort rewards by points cost (lowest first)
-  const sortedCategories = Object.keys(groupedRewards).sort();
+  }, {} as Record<string, Reward[]>);
   
-  const handleShowConfirmation = (reward: LoyaltyReward) => {
+  const handleRewardSelect = (reward: Reward) => {
     setSelectedReward(reward);
-    setConfirmDialogOpen(true);
   };
   
-  const handleShowDetails = (reward: LoyaltyReward) => {
-    setSelectedReward(reward);
-    setDetailsDialogOpen(true);
+  const handleRewardClose = () => {
+    setSelectedReward(null);
   };
   
-  const handleConfirmRedeem = async () => {
-    if (!selectedReward || !user) return;
-    
-    setIsRedeeming(true);
-    
-    try {
-      const success = await onRedeemReward(selectedReward.id, selectedReward.pointsCost);
-      
-      if (success) {
-        // Dialog will close automatically on success
-        setConfirmDialogOpen(false);
-      }
-    } finally {
-      setIsRedeeming(false);
+  const handleRedeemClick = () => {
+    if (selectedReward) {
+      setRedemptionDialogOpen(true);
     }
   };
+  
+  const handleRedeemConfirm = async () => {
+    if (selectedReward) {
+      await onRedeemReward(selectedReward.id, selectedReward.pointsCost);
+      setRedemptionDialogOpen(false);
+      setSelectedReward(null);
+    }
+  };
+
+  const canRedeem = selectedReward && totalPoints >= selectedReward.pointsCost;
+  
+  // Prepare sharing content
+  const getShareContent = (reward: Reward) => ({
+    title: `Check out this reward from Mansa Musa!`,
+    text: `I found "${reward.title}" for ${reward.pointsCost} points on Mansa Musa. Join me in supporting Black-owned businesses!`,
+    customPath: `/loyalty`
+  });
 
   return (
-    <>
-      <Card>
-        <CardHeader className="pb-3">
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center text-lg font-semibold">
-              <GiftIcon className="h-5 w-5 mr-2 text-mansagold" />
-              Available Rewards
-            </CardTitle>
-            <Badge variant="outline" className="bg-mansablue/10 text-mansablue">
-              {totalPoints} Points Available
-            </Badge>
+    <Card className="h-full overflow-hidden">
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <CardTitle className="text-xl">Available Rewards</CardTitle>
+          <div className="bg-mansablue/10 text-mansablue text-sm font-medium rounded-full px-3 py-1">
+            {totalPoints.toLocaleString()} Points Available
           </div>
-        </CardHeader>
-        <CardContent>
-          {sortedCategories.length > 0 ? (
-            <div className="space-y-6">
-              {sortedCategories.map(category => (
-                <RewardCategoryGroup
-                  key={category}
-                  category={category}
-                  rewards={groupedRewards[category]}
-                  totalPoints={totalPoints}
-                  onShowDetails={handleShowDetails}
-                  onShowConfirmation={handleShowConfirmation}
-                  user={user}
-                />
-              ))}
-            </div>
-          ) : (
-            <EmptyRewardsState />
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Redemption Confirmation Dialog */}
-      <RedemptionConfirmDialog
-        reward={selectedReward}
-        open={confirmDialogOpen}
-        onClose={() => setConfirmDialogOpen(false)}
-        onConfirm={handleConfirmRedeem}
-        isRedeeming={isRedeeming}
-        totalPoints={totalPoints}
-      />
-
-      {/* Reward Details Dialog */}
-      <RewardDetailsView
-        reward={selectedReward}
-        open={detailsDialogOpen}
-        onClose={() => setDetailsDialogOpen(false)}
-        totalPoints={totalPoints}
-        onRedeem={() => {
-          setDetailsDialogOpen(false);
-          setConfirmDialogOpen(true);
-        }}
-        isRedeeming={isRedeeming}
-      />
-    </>
+        </div>
+      </CardHeader>
+      <CardContent>
+        {availableRewards.length === 0 ? (
+          <EmptyRewardsState />
+        ) : selectedReward ? (
+          <RewardDetailsView 
+            reward={selectedReward} 
+            onBackClick={handleRewardClose}
+            onRedeemClick={handleRedeemClick}
+            canRedeem={canRedeem}
+            pointsNeeded={selectedReward.pointsCost - totalPoints}
+            actionButton={
+              <SocialShareDialog 
+                {...getShareContent(selectedReward)}
+                triggerContent={<span className="text-sm text-mansablue cursor-pointer hover:underline">Share Reward</span>}
+              />
+            }
+          />
+        ) : (
+          <div className="space-y-6">
+            {Object.entries(rewardsByCategory).map(([category, rewards]) => (
+              <RewardCategoryGroup key={category} title={category} rewards={rewards}>
+                {rewards.map((reward) => (
+                  <RewardCard
+                    key={reward.id}
+                    title={reward.title}
+                    pointsCost={reward.pointsCost}
+                    businessName={reward.businessName}
+                    imageUrl={reward.imageUrl}
+                    expiresAt={reward.expiresAt}
+                    onClick={() => handleRewardSelect(reward)}
+                    actionButton={
+                      <SocialShareDialog 
+                        {...getShareContent(reward)}
+                        triggerContent={<span className="text-sm text-mansablue cursor-pointer hover:underline">Share</span>}
+                      />
+                    }
+                  />
+                ))}
+              </RewardCategoryGroup>
+            ))}
+          </div>
+        )}
+        
+        {selectedReward && (
+          <RedemptionConfirmDialog 
+            open={redemptionDialogOpen}
+            onOpenChange={setRedemptionDialogOpen}
+            reward={selectedReward}
+            onConfirm={handleRedeemConfirm}
+            totalPoints={totalPoints}
+          />
+        )}
+      </CardContent>
+    </Card>
   );
-};
+}
 
 export default LoyaltyRewardsCard;

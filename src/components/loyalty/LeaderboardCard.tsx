@@ -4,9 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Award, Trophy, Medal, UserRound } from 'lucide-react';
+import { Award, Trophy, Medal, UserRound, Share2 } from 'lucide-react';
 import { useLoyaltyLeaderboard, LeaderboardUser } from '@/hooks/use-loyalty-leaderboard';
 import { Skeleton } from '@/components/ui/skeleton';
+import { SocialShareDialog } from './SocialShareDialog';
+import { Button } from '@/components/ui/button';
 
 interface LeaderboardCardProps {
   limit?: number;
@@ -36,6 +38,11 @@ const LeaderboardCard: React.FC<LeaderboardCardProps> = ({ limit = 10 }) => {
       .toUpperCase()
       .slice(0, 2);
   };
+  
+  const shareTitle = "Check out my rank on the Mansa Musa Loyalty Leaderboard!";
+  const shareText = userRank 
+    ? `I'm ranked #${userRank} on the Mansa Musa Loyalty Leaderboard with ${leaderboard.find(u => u.isCurrentUser)?.totalPoints || 0} points. Join me in supporting Black-owned businesses!` 
+    : "Join me on Mansa Musa, the app that rewards you for supporting Black-owned businesses!";
 
   return (
     <Card>
@@ -45,11 +52,28 @@ const LeaderboardCard: React.FC<LeaderboardCardProps> = ({ limit = 10 }) => {
             <Award className="h-5 w-5 mr-2 text-mansagold" />
             Loyalty Leaderboard
           </CardTitle>
-          {userRank && (
-            <Badge variant="outline" className="bg-mansablue/10 text-mansablue">
-              Your Rank: #{userRank}
-            </Badge>
-          )}
+          <div className="flex items-center gap-2">
+            {userRank && (
+              <Badge variant="outline" className="bg-mansablue/10 text-mansablue">
+                Your Rank: #{userRank}
+              </Badge>
+            )}
+            <SocialShareDialog
+              title={shareTitle}
+              text={shareText}
+              customPath="/loyalty"
+              triggerContent={
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  title="Share leaderboard"
+                >
+                  <Share2 className="h-4 w-4" />
+                </Button>
+              }
+            />
+          </div>
         </div>
       </CardHeader>
       <CardContent>

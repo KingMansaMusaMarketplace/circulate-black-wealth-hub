@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import LeaderboardCard from '@/components/loyalty/LeaderboardCard';
+import NotificationsPopover from '@/components/loyalty/NotificationsPopover';
 
 // Define the LoyaltyTransaction type expected by LoyaltyHistory component
 interface LoyaltyTransaction {
@@ -50,7 +51,10 @@ const LoyaltyPage = () => {
 
   return (
     <div className="container py-8 max-w-5xl">
-      <h1 className="text-3xl font-semibold mb-6">My Loyalty Rewards</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-semibold">My Loyalty Rewards</h1>
+        <NotificationsPopover />
+      </div>
       
       <div className="flex flex-col md:flex-row gap-6 mb-6">
         <div className="w-full md:w-1/3">
