@@ -1,299 +1,283 @@
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, Shield, ShieldCheck, ShieldAlert, Key } from 'lucide-react';
+import { Loader2, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
-import { supabase } from '@/lib/supabase';
 
-interface MFASetupProps {
-  onComplete?: () => void;
-}
-
-export const MFASetup: React.FC<MFASetupProps> = ({ onComplete }) => {
-  const [loading, setLoading] = useState(false);
-  const [factorId, setFactorId] = useState<string | null>(null);
-  const [qrCode, setQrCode] = useState<string | null>(null);
+export const MFASetup = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [secret, setSecret] = useState<string | null>(null);
-  const [verifyCode, setVerifyCode] = useState('');
-  const [enrolledFactors, setEnrolledFactors] = useState<any[]>([]);
-  const [challengeId, setChallengeId] = useState<string | null>(null);
-  const [setupStep, setSetupStep] = useState<'enroll' | 'verify'>('enroll');
+  const [factorId, setFactorId] = useState<string | null>(null);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { user, getMFAFactors } = useAuth();
 
-  // Load enrolled factors on mount
   useEffect(() => {
-    fetchEnrolledFactors();
-  }, []);
-
-  const fetchEnrolledFactors = async () => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase.auth.mfa.listFactors();
-      
-      if (error) throw error;
-      
-      if (data?.all && data.all.length > 0) {
-        setEnrolledFactors(data.all);
+    const checkMFAStatus = async () => {
+      if (user) {
+        const factors = await getMFAFactors();
+        setIsEnrolled(factors.length > 0);
       }
-    } catch (error: any) {
-      console.error('Error fetching MFA factors:', error);
-      toast.error('Failed to load MFA settings');
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
 
-  // Start enrollment process for TOTP
-  const enrollTotp = async () => {
+    checkMFAStatus();
+  }, [user, getMFAFactors]);
+
+  const startMFAEnrollment = async () => {
+    setIsLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      
       const { data, error } = await supabase.auth.mfa.enroll({
-        factorType: 'totp'
+        factorType: 'totp',
+        issuer: 'Mansa Musa Marketplace'
       });
-      
+
       if (error) throw error;
-      
+
       if (data) {
-        setFactorId(data.id);
-        setQrCode(data.totp.qr_code);
+        setQrCodeUrl(data.totp.qr_code);
         setSecret(data.totp.secret);
-        setSetupStep('verify');
+        setFactorId(data.id);
       }
     } catch (error: any) {
-      console.error('Error enrolling in MFA:', error);
-      toast.error('Failed to start MFA enrollment');
+      console.error('Error starting MFA enrollment:', error);
+      setError(error.message || 'Failed to start MFA enrollment');
+      toast({
+        title: 'MFA Setup Failed',
+        description: error.message || 'An error occurred while setting up MFA',
+        variant: 'destructive'
+      });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  // Verify the TOTP code to complete enrollment
-  const verifyTotp = async () => {
-    if (!factorId || !verifyCode.trim()) {
-      toast.error('Please enter the verification code');
-      return;
-    }
+  const verifyAndEnableMFA = async () => {
+    if (!factorId || !verificationCode) return;
     
+    setIsLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      
       const { data, error } = await supabase.auth.mfa.challenge({
-        factorId
+        factorId,
+        code: verificationCode
+      });
+
+      if (error) throw error;
+
+      const { data: verifyData, error: verifyError } = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId: data.id,
+        code: verificationCode
+      });
+
+      if (verifyError) throw verifyError;
+
+      // Update enrolled status
+      setIsEnrolled(true);
+      setQrCodeUrl(null);
+      setSecret(null);
+      setFactorId(null);
+      setVerificationCode('');
+      
+      toast({
+        title: 'MFA Enabled',
+        description: 'Two-factor authentication has been successfully enabled',
       });
       
-      if (error) throw error;
+      // Refresh MFA factors
+      await getMFAFactors();
+    } catch (error: any) {
+      console.error('Error verifying MFA:', error);
+      setError(error.message || 'Failed to verify code');
+      toast({
+        title: 'Verification Failed',
+        description: error.message || 'Invalid verification code',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const disableMFA = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const factors = await getMFAFactors();
       
-      if (data) {
-        setChallengeId(data.id);
-        
-        const { data: verifyData, error: verifyError } = await supabase.auth.mfa.verify({
-          factorId,
-          challengeId: data.id,
-          code: verifyCode
+      if (factors.length > 0) {
+        const { error } = await supabase.auth.mfa.unenroll({
+          factorId: factors[0].id
+        });
+
+        if (error) throw error;
+
+        // Update enrolled status
+        setIsEnrolled(false);
+        toast({
+          title: 'MFA Disabled',
+          description: 'Two-factor authentication has been disabled',
         });
         
-        if (verifyError) throw verifyError;
-        
-        if (verifyData) {
-          toast.success('MFA successfully set up!');
-          fetchEnrolledFactors();
-          setSetupStep('enroll');
-          setVerifyCode('');
-          setFactorId(null);
-          setQrCode(null);
-          setSecret(null);
-          setChallengeId(null);
-          if (onComplete) onComplete();
-        }
+        // Refresh MFA factors
+        await getMFAFactors();
       }
     } catch (error: any) {
-      console.error('Error verifying MFA code:', error);
-      toast.error('Invalid verification code. Please try again.');
+      console.error('Error disabling MFA:', error);
+      setError(error.message || 'Failed to disable MFA');
+      toast({
+        title: 'Error Disabling MFA',
+        description: error.message || 'An error occurred while disabling MFA',
+        variant: 'destructive'
+      });
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
-  // Remove an MFA factor
-  const removeFactor = async (id: string) => {
-    try {
-      setLoading(true);
-      
-      const { error } = await supabase.auth.mfa.unenroll({
-        factorId: id
-      });
-      
-      if (error) throw error;
-      
-      toast.success('MFA factor removed successfully');
-      fetchEnrolledFactors();
-    } catch (error: any) {
-      console.error('Error removing MFA factor:', error);
-      toast.error('Failed to remove MFA factor');
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (isEnrolled) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Two-Factor Authentication</CardTitle>
+          <CardDescription>
+            Your account is protected with two-factor authentication
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center space-x-2 bg-green-50 p-3 rounded-md">
+            <CheckCircle2 className="h-5 w-5 text-green-500" />
+            <p className="text-sm text-green-700">MFA is currently enabled on your account</p>
+          </div>
+          
+          <p className="text-sm text-gray-600">
+            With 2FA enabled, you'll need to enter a verification code from your authenticator app
+            when you sign in, even if you know your password. This adds an extra layer of security
+            to your account.
+          </p>
+          
+          <Button 
+            onClick={disableMFA}
+            variant="destructive"
+            disabled={isLoading}
+            className="w-full mt-4"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Disabling...
+              </>
+            ) : (
+              'Disable Two-Factor Authentication'
+            )}
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Multi-Factor Authentication</CardTitle>
+        <CardTitle>Set Up Two-Factor Authentication</CardTitle>
         <CardDescription>
-          Secure your account with an additional layer of protection
+          Add an extra layer of security to your account
         </CardDescription>
       </CardHeader>
-      
-      <CardContent>
-        <Tabs defaultValue="setup" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="setup">Setup MFA</TabsTrigger>
-            <TabsTrigger value="manage">Manage Factors</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="setup" className="space-y-4 mt-4">
-            {setupStep === 'enroll' ? (
-              <div className="space-y-4">
-                <div className="flex items-start space-x-4 border p-4 rounded-md bg-gray-50">
-                  <Shield className="h-8 w-8 text-mansablue" />
-                  <div>
-                    <h3 className="font-medium">Authenticator App</h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      Use an authenticator app like Google Authenticator, Authy, or 1Password to
-                      scan a QR code and generate verification codes.
-                    </p>
-                    <Button 
-                      onClick={enrollTotp} 
-                      className="mt-3"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      ) : (
-                        <Key className="mr-2 h-4 w-4" />
-                      )}
-                      Set Up Authenticator
-                    </Button>
-                  </div>
+      <CardContent className="space-y-4">
+        {error && (
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              {error}
+            </AlertDescription>
+          </Alert>
+        )}
+
+        {!qrCodeUrl && (
+          <>
+            <p className="text-sm text-gray-600">
+              Two-factor authentication adds an extra layer of security to your account. 
+              In addition to your password, you'll need a verification code from an authenticator app.
+            </p>
+            <Button 
+              onClick={startMFAEnrollment}
+              className="w-full mt-4"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Setting up...
+                </>
+              ) : (
+                'Set Up Two-Factor Authentication'
+              )}
+            </Button>
+          </>
+        )}
+
+        {qrCodeUrl && (
+          <div className="space-y-4">
+            <div>
+              <h3 className="text-md font-semibold mb-2">Step 1: Scan this QR code</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Scan this QR code with your preferred authenticator app 
+                (Google Authenticator, Authy, Microsoft Authenticator, etc.)
+              </p>
+              <div className="flex justify-center my-4">
+                <img src={qrCodeUrl} alt="QR Code" className="max-w-full h-auto" />
+              </div>
+              {secret && (
+                <div className="mt-3">
+                  <p className="text-sm text-gray-500 mb-1">Or enter this code manually:</p>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-sm break-all">{secret}</code>
                 </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="border rounded-md p-4">
-                  <h3 className="font-medium text-center mb-2">Scan QR Code</h3>
-                  {qrCode && (
-                    <div className="flex justify-center mb-4">
-                      <img src={qrCode} alt="QR Code" className="h-48 w-48" />
-                    </div>
-                  )}
-                  
-                  {secret && (
-                    <div className="mb-4">
-                      <p className="text-sm text-center text-gray-600 mb-1">
-                        If you can't scan the QR code, enter this code manually:
-                      </p>
-                      <p className="text-center font-mono bg-gray-100 p-2 rounded">
-                        {secret}
-                      </p>
-                    </div>
-                  )}
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="verifyCode">Enter verification code</Label>
-                    <Input 
-                      id="verifyCode"
-                      value={verifyCode}
-                      onChange={(e) => setVerifyCode(e.target.value)}
-                      placeholder="000000"
-                      maxLength={6}
-                    />
-                  </div>
-                  
-                  <div className="flex justify-between mt-4">
-                    <Button 
-                      variant="outline"
-                      onClick={() => {
-                        setSetupStep('enroll');
-                        setVerifyCode('');
-                        setFactorId(null);
-                        setQrCode(null);
-                        setSecret(null);
-                      }}
-                      disabled={loading}
-                    >
-                      Cancel
-                    </Button>
-                    <Button 
-                      onClick={verifyTotp}
-                      disabled={loading || verifyCode.length !== 6}
-                    >
-                      {loading ? (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      ) : (
-                        <ShieldCheck className="mr-2 h-4 w-4" />
-                      )}
-                      Verify
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </TabsContent>
-          
-          <TabsContent value="manage" className="space-y-4 mt-4">
-            {loading ? (
-              <div className="flex justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin text-mansablue" />
-              </div>
-            ) : enrolledFactors.length > 0 ? (
-              <div className="space-y-3">
-                {enrolledFactors.map((factor) => (
-                  <div key={factor.id} className="flex justify-between items-center border p-3 rounded-md">
-                    <div className="flex items-center space-x-3">
-                      <ShieldCheck className="h-5 w-5 text-green-600" />
-                      <div>
-                        <p className="font-medium">
-                          {factor.friendly_name || (factor.factor_type === 'totp' ? 'Authenticator App' : factor.factor_type)}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          Added on {new Date(factor.created_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => removeFactor(factor.id)}
-                      disabled={loading}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-6 border rounded-md bg-gray-50">
-                <ShieldAlert className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-                <h3 className="font-medium">No MFA Factors Enrolled</h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  You haven't set up any multi-factor authentication methods yet.
-                </p>
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
+              )}
+            </div>
+
+            <div>
+              <h3 className="text-md font-semibold mb-2">Step 2: Enter the verification code</h3>
+              <p className="text-sm text-gray-600 mb-3">
+                Enter the 6-digit code from your authenticator app to verify setup
+              </p>
+              <Input
+                type="text"
+                placeholder="Enter 6-digit code"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                className="mb-4"
+                maxLength={6}
+              />
+              <Button 
+                onClick={verifyAndEnableMFA}
+                className="w-full"
+                disabled={isLoading || verificationCode.length !== 6}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Verifying...
+                  </>
+                ) : (
+                  'Verify and Enable'
+                )}
+              </Button>
+            </div>
+          </div>
+        )}
       </CardContent>
-      
-      <CardFooter className="border-t p-4 bg-gray-50">
-        <p className="text-xs text-gray-500">
-          Multi-factor authentication adds an extra layer of security to your account 
-          by requiring a second verification step when you sign in.
-        </p>
-      </CardFooter>
     </Card>
   );
 };
+
+export default MFASetup;

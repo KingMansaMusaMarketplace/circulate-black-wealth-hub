@@ -1,105 +1,182 @@
 
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Shield, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Loader2, Shield, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface MFAVerificationProps {
   factorId: string;
   challengeId: string;
   onVerify: (factorId: string, code: string, challengeId: string) => Promise<any>;
-  onCancel?: () => void;
+  onCancel: () => void;
 }
 
-export const MFAVerification: React.FC<MFAVerificationProps> = ({
-  factorId,
+export const MFAVerification: React.FC<MFAVerificationProps> = ({ 
+  factorId, 
   challengeId,
   onVerify,
   onCancel
 }) => {
-  const [verifyCode, setVerifyCode] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [isExpired, setIsExpired] = useState(false);
+
+  useEffect(() => {
+    // Get the current MFA challenge to check expiry time
+    const getMFAChallenge = async () => {
+      try {
+        // Calculate time remaining based on challenge expiry
+        // This is just an estimation since we don't have direct access to when it was created
+        // Setting default to 5 minutes (300 seconds)
+        setTimeLeft(300);
+        
+        // Start the countdown
+        const countdownInterval = setInterval(() => {
+          setTimeLeft((prevTime) => {
+            if (prevTime <= 1) {
+              clearInterval(countdownInterval);
+              setIsExpired(true);
+              return 0;
+            }
+            return prevTime - 1;
+          });
+        }, 1000);
+
+        return () => clearInterval(countdownInterval);
+      } catch (error) {
+        console.error('Error getting MFA challenge details:', error);
+      }
+    };
+
+    getMFAChallenge();
+  }, [challengeId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!verifyCode || verifyCode.length !== 6) {
-      toast.error('Please enter a valid 6-digit code');
+    if (verificationCode.length !== 6) {
+      toast({
+        title: "Invalid Code",
+        description: "Please enter a 6-digit verification code",
+        variant: "destructive"
+      });
       return;
     }
+
+    setIsSubmitting(true);
     
-    setLoading(true);
     try {
-      const result = await onVerify(factorId, verifyCode, challengeId);
+      const result = await onVerify(factorId, verificationCode, challengeId);
       
       if (!result.success) {
         throw new Error(result.error?.message || 'Verification failed');
       }
       
-      // Success is handled by the parent component
+      // The parent component will handle the successful verification
     } catch (error: any) {
-      toast.error('Invalid verification code');
-      console.error('MFA verification error:', error);
+      toast({
+        title: "Verification Failed",
+        description: error.message || "Invalid verification code. Please try again.",
+        variant: "destructive"
+      });
+      setVerificationCode('');
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
+
+  if (isExpired) {
+    return (
+      <Card className="w-full max-w-md mx-auto">
+        <CardHeader className="text-center">
+          <CardTitle className="text-xl">Verification Expired</CardTitle>
+          <CardDescription>
+            The verification challenge has expired. Please try logging in again.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button 
+            onClick={onCancel}
+            className="w-full"
+          >
+            Back to Login
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full max-w-md mx-auto">
-      <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-2xl">Security Verification</CardTitle>
-        <div className="flex justify-center my-4">
-          <div className="bg-primary/10 p-3 rounded-full">
-            <Shield className="h-8 w-8 text-primary" />
-          </div>
+      <CardHeader className="text-center">
+        <div className="mx-auto w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
+          <Shield className="h-6 w-6 text-blue-600" />
         </div>
-        <p className="text-sm text-muted-foreground">
-          Please enter the verification code from your authenticator app
-        </p>
+        <CardTitle className="text-xl">Two-Factor Authentication</CardTitle>
+        <CardDescription>
+          Enter the verification code from your authenticator app
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="code">Verification Code</Label>
             <Input
-              id="code"
-              placeholder="000000"
-              value={verifyCode}
-              onChange={(e) => setVerifyCode(e.target.value)}
-              maxLength={6}
-              className="text-center text-lg tracking-widest"
-              autoComplete="one-time-code"
+              type="text"
               inputMode="numeric"
+              autoComplete="one-time-code"
+              placeholder="6-digit code"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+              className="text-center text-lg tracking-widest"
+              maxLength={6}
+              autoFocus
               required
             />
+            
+            {timeLeft > 0 && (
+              <p className="text-xs text-gray-500 text-center">
+                Code expires in {formatTime(timeLeft)}
+              </p>
+            )}
           </div>
           
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full"
-            disabled={loading || verifyCode.length !== 6}
+            disabled={isSubmitting || verificationCode.length !== 6}
           >
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Verify
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Verifying...
+              </>
+            ) : (
+              'Verify'
+            )}
+          </Button>
+          
+          <Button
+            type="button"
+            variant="ghost"
+            className="w-full flex items-center justify-center"
+            onClick={onCancel}
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Login
           </Button>
         </form>
       </CardContent>
-      <CardFooter>
-        {onCancel && (
-          <Button 
-            variant="ghost" 
-            className="w-full" 
-            onClick={onCancel}
-            disabled={loading}
-          >
-            Cancel
-          </Button>
-        )}
-      </CardFooter>
     </Card>
   );
 };
+
+export default MFAVerification;
