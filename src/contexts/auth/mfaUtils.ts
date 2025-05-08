@@ -1,0 +1,53 @@
+
+import { supabase } from '@/integrations/supabase/client';
+import { Factor, MFAChallenge } from './types';
+
+// Get MFA factors for the current user
+export const getMFAFactors = async (userId: string | undefined): Promise<Factor[]> => {
+  if (!userId) return [];
+  
+  try {
+    const { data, error } = await supabase.auth.mfa.listFactors();
+    
+    if (error) throw error;
+    
+    return data?.all || [];
+  } catch (error: any) {
+    console.error('Error fetching MFA factors:', error);
+    return [];
+  }
+};
+
+// Verify an MFA challenge
+export const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+  try {
+    const { data, error } = await supabase.auth.mfa.verify({
+      factorId,
+      challengeId,
+      code
+    });
+    
+    if (error) throw error;
+    
+    return { success: true, data };
+  } catch (error: any) {
+    console.error('MFA verification error:', error);
+    return { success: false, error };
+  }
+};
+
+// Create an MFA challenge
+export const createMFAChallenge = async (factorId: string): Promise<{id: string, expires_at: string | number} | null> => {
+  try {
+    const { data, error } = await supabase.auth.mfa.challenge({
+      factorId: factorId
+    });
+    
+    if (error) throw error;
+    
+    return data;
+  } catch (error) {
+    console.error('Error creating MFA challenge:', error);
+    return null;
+  }
+};
