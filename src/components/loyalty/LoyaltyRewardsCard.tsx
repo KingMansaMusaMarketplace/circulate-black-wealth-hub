@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Award, Gift, GiftIcon, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
+import { Award, Gift, GiftIcon, CheckCircle, Clock, AlertTriangle, Info } from 'lucide-react';
 import { LoyaltyReward } from '@/hooks/loyalty-qr-code/use-loyalty-rewards';
 import { useAuth } from '@/contexts/AuthContext';
 import {
@@ -15,6 +15,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
+import RewardDetailsView from './RewardDetailsView';
 
 interface LoyaltyRewardsCardProps {
   totalPoints: number;
@@ -31,6 +32,7 @@ const LoyaltyRewardsCard: React.FC<LoyaltyRewardsCardProps> = ({
   const [selectedReward, setSelectedReward] = useState<LoyaltyReward | null>(null);
   const [isRedeeming, setIsRedeeming] = useState(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
 
   // Group rewards by category
   const groupedRewards = availableRewards.reduce((acc, reward) => {
@@ -48,6 +50,11 @@ const LoyaltyRewardsCard: React.FC<LoyaltyRewardsCardProps> = ({
   const handleShowConfirmation = (reward: LoyaltyReward) => {
     setSelectedReward(reward);
     setConfirmDialogOpen(true);
+  };
+  
+  const handleShowDetails = (reward: LoyaltyReward) => {
+    setSelectedReward(reward);
+    setDetailsDialogOpen(true);
   };
   
   const handleConfirmRedeem = async () => {
@@ -150,15 +157,26 @@ const LoyaltyRewardsCard: React.FC<LoyaltyRewardsCardProps> = ({
                             </div>
                           )}
                           
-                          <Button 
-                            size="sm"
-                            className="w-full mt-2"
-                            variant={totalPoints >= reward.pointsCost ? "default" : "outline"}
-                            disabled={totalPoints < reward.pointsCost || !user}
-                            onClick={() => handleShowConfirmation(reward)}
-                          >
-                            {totalPoints >= reward.pointsCost ? 'Redeem' : `Need ${reward.pointsCost - totalPoints} more points`}
-                          </Button>
+                          <div className="flex gap-2 mt-3">
+                            <Button 
+                              size="sm"
+                              variant="outline"
+                              className="flex-1"
+                              onClick={() => handleShowDetails(reward)}
+                            >
+                              <Info className="h-4 w-4 mr-1" />
+                              Details
+                            </Button>
+                            <Button 
+                              size="sm"
+                              className="flex-1"
+                              variant={totalPoints >= reward.pointsCost ? "default" : "outline"}
+                              disabled={totalPoints < reward.pointsCost || !user}
+                              onClick={() => handleShowConfirmation(reward)}
+                            >
+                              {totalPoints >= reward.pointsCost ? 'Redeem' : `Need ${reward.pointsCost - totalPoints} more`}
+                            </Button>
+                          </div>
                         </div>
                       );
                     })}
@@ -253,6 +271,19 @@ const LoyaltyRewardsCard: React.FC<LoyaltyRewardsCardProps> = ({
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Reward Details Dialog */}
+      <RewardDetailsView
+        reward={selectedReward}
+        open={detailsDialogOpen}
+        onClose={() => setDetailsDialogOpen(false)}
+        totalPoints={totalPoints}
+        onRedeem={() => {
+          setDetailsDialogOpen(false);
+          setConfirmDialogOpen(true);
+        }}
+        isRedeeming={isRedeeming}
+      />
     </>
   );
 };
