@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { QRCodeList } from './QRCodeManage';
@@ -6,7 +7,7 @@ import { Plus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useQRCode } from '@/hooks/qr-code';
 import { toast } from 'sonner';
-import { QRCodeForm } from './QRCodeGenerator';
+import { QRCodeForm } from './QRCodeGenerator/QRCodeForm';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 
 interface QRCodeManageTabProps {

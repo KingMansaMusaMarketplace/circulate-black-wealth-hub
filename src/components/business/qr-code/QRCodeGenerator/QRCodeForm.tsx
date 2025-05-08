@@ -34,7 +34,7 @@ interface QRCodeFormProps {
   isLoading?: boolean;
 }
 
-const QRCodeForm: React.FC<QRCodeFormProps> = ({
+export const QRCodeForm: React.FC<QRCodeFormProps> = ({
   onSubmit,
   initialValues,
   isLoading = false,

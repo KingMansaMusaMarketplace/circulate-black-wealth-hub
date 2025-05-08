@@ -1,6 +1,6 @@
 
 import React from 'react';
-import QRCodeMetricCard from './QRCodeMetricCard';
+import QRCodeMetricCard from './QRCodeMetricsCard';
 import QRCodeScansChart from './QRCodeScansChart';
 import { Users, QrCode, CreditCard, TrendingUp } from 'lucide-react';
 

@@ -14,7 +14,7 @@ interface QRCodePreviewProps {
   onShare: () => void;
 }
 
-const QRCodePreview: React.FC<QRCodePreviewProps> = ({
+export const QRCodePreview: React.FC<QRCodePreviewProps> = ({
   imageUrl,
   codeType,
   pointsValue,

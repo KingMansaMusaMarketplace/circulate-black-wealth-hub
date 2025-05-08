@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQRCode } from '@/hooks/qr-code';
-import { QRCodeForm, QRCodePreview } from './QRCodeGenerator';
+import { QRCodeForm } from './QRCodeGenerator/QRCodeForm';
+import { QRCodePreview } from './QRCodeGenerator/QRCodePreview';
 import { toast } from 'sonner';
 
 interface FormValues {
@@ -15,7 +16,7 @@ interface FormValues {
   isActive: boolean;
 }
 
-export const QRCodeGenerator: React.FC = () => {
+const QRCodeGenerator: React.FC = () => {
   const { generateQRCode, loading, qrCode } = useQRCode();
   const [activeTab, setActiveTab] = useState<string>("create");
 
@@ -93,3 +94,5 @@ export const QRCodeGenerator: React.FC = () => {
     </Card>
   );
 };
+
+export default QRCodeGenerator;
