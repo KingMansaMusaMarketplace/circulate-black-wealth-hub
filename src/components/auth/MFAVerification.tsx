@@ -58,10 +58,8 @@ export const MFAVerification: React.FC<MFAVerificationProps> = ({
     e.preventDefault();
     
     if (verificationCode.length !== 6) {
-      toast({
-        title: "Invalid Code",
-        description: "Please enter a 6-digit verification code",
-        variant: "destructive"
+      toast.error("Invalid Code", {
+        description: "Please enter a 6-digit verification code"
       });
       return;
     }
@@ -77,10 +75,8 @@ export const MFAVerification: React.FC<MFAVerificationProps> = ({
       
       // The parent component will handle the successful verification
     } catch (error: any) {
-      toast({
-        title: "Verification Failed",
-        description: error.message || "Invalid verification code. Please try again.",
-        variant: "destructive"
+      toast.error("Verification Failed", {
+        description: error.message || "Invalid verification code. Please try again."
       });
       setVerificationCode('');
     } finally {

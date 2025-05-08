@@ -49,10 +49,8 @@ export const MFASetup = () => {
     } catch (error: any) {
       console.error('Error starting MFA enrollment:', error);
       setError(error.message || 'Failed to start MFA enrollment');
-      toast({
-        title: 'MFA Setup Failed',
-        description: error.message || 'An error occurred while setting up MFA',
-        variant: 'destructive'
+      toast.error("MFA Setup Failed", {
+        description: error.message || 'An error occurred while setting up MFA'
       });
     } finally {
       setIsLoading(false);
@@ -66,8 +64,7 @@ export const MFASetup = () => {
     setError(null);
     try {
       const { data, error } = await supabase.auth.mfa.challenge({
-        factorId,
-        code: verificationCode
+        factorId
       });
 
       if (error) throw error;
@@ -87,9 +84,8 @@ export const MFASetup = () => {
       setFactorId(null);
       setVerificationCode('');
       
-      toast({
-        title: 'MFA Enabled',
-        description: 'Two-factor authentication has been successfully enabled',
+      toast.success("MFA Enabled", {
+        description: 'Two-factor authentication has been successfully enabled'
       });
       
       // Refresh MFA factors
@@ -97,10 +93,8 @@ export const MFASetup = () => {
     } catch (error: any) {
       console.error('Error verifying MFA:', error);
       setError(error.message || 'Failed to verify code');
-      toast({
-        title: 'Verification Failed',
-        description: error.message || 'Invalid verification code',
-        variant: 'destructive'
+      toast.error("Verification Failed", {
+        description: error.message || 'Invalid verification code'
       });
     } finally {
       setIsLoading(false);
@@ -122,9 +116,8 @@ export const MFASetup = () => {
 
         // Update enrolled status
         setIsEnrolled(false);
-        toast({
-          title: 'MFA Disabled',
-          description: 'Two-factor authentication has been disabled',
+        toast.success("MFA Disabled", {
+          description: 'Two-factor authentication has been disabled'
         });
         
         // Refresh MFA factors
@@ -133,10 +126,8 @@ export const MFASetup = () => {
     } catch (error: any) {
       console.error('Error disabling MFA:', error);
       setError(error.message || 'Failed to disable MFA');
-      toast({
-        title: 'Error Disabling MFA',
-        description: error.message || 'An error occurred while disabling MFA',
-        variant: 'destructive'
+      toast.error("Error Disabling MFA", {
+        description: error.message || 'An error occurred while disabling MFA'
       });
     } finally {
       setIsLoading(false);
