@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Select, 
@@ -11,10 +10,10 @@ import { Slider } from '@/components/ui/slider';
 import { 
   MapPin, 
   Star,
-  Clock,
   Tag
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { businessCategories } from '@/data/businessData';
 
 export interface FilterOptions {
   category: string;
@@ -49,7 +48,7 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
             <SelectTrigger className="w-full">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-h-80">
               <SelectItem value="all">All Categories</SelectItem>
               {categories.map((cat) => (
                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>

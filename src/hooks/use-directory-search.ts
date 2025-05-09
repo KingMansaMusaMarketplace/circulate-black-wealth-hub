@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Business } from '@/data/businessData';
+import { Business, businessCategories } from '@/data/businessData';
 import { FilterOptions } from '@/components/DirectoryFilter';
 
 export function useDirectorySearch(businesses: Business[]) {
@@ -37,8 +37,8 @@ export function useDirectorySearch(businesses: Business[]) {
     setCurrentPage(1);
   };
 
-  // Get unique categories
-  const categories = [...new Set(businesses.map(b => b.category))];
+  // Get unique categories from our predefined list and any that appear in the data but aren't in our list
+  const categories = [...businessCategories];
   
   // Filter businesses based on search term and filters
   const filteredBusinesses = businesses.filter(business => {
