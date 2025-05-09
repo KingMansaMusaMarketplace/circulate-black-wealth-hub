@@ -1,63 +1,31 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import CirculationGraphic from './CirculationGraphic';
-import CirculationNode from './CirculationNode';
 import InfoCard from './InfoCard';
 import CirculationStats from './CirculationStats';
+import useIntersectionObserver from './hooks/useIntersectionObserver';
+import useAnimationStep from './hooks/useAnimationStep';
+import getHighlightColor from './helpers/colorHelpers';
 
 const CirculationVisualization = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [animationStep, setAnimationStep] = useState(0);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    
-    const section = document.getElementById('circulation-visualization');
-    if (section) observer.observe(section);
-    
-    return () => {
-      if (section) observer.unobserve(section);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isVisible) {
-      // Start the animation sequence when component becomes visible
-      const timer = setInterval(() => {
-        setAnimationStep((prev) => (prev + 1) % 4);
-      }, 2000);
-      
-      return () => clearInterval(timer);
-    }
-  }, [isVisible]);
-
-  const getHighlightColor = (step: number) => {
-    switch (step) {
-      case 0: return 'text-mansagold';
-      case 1: return 'text-mansablue';
-      case 2: return 'text-mansagold';
-      case 3: return 'text-mansablue';
-      default: return '';
-    }
-  };
+  const isVisible = useIntersectionObserver({ elementId: 'circulation-visualization' });
+  const animationStep = useAnimationStep({ isVisible });
 
   return (
     <section id="circulation-visualization" className="py-6 bg-white">
       <div className="container-custom">
-        <div className="text-center mb-6">
+        <motion.div 
+          className="text-center mb-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="heading-lg text-mansablue mb-1">See The Money Flow</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             When you spend at Black-owned businesses, your money circulates in the community multiple times, creating a stronger economic foundation.
           </p>
-        </div>
+        </motion.div>
         
         <div className="max-w-4xl mx-auto">
           {/* Visualization graphic */}
