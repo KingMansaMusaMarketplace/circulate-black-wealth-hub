@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, Facebook, Github } from 'lucide-react';
 import { Provider } from '@supabase/supabase-js';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 
 type SocialLoginProps = {
   onSocialLogin: (provider: Provider) => Promise<void>;
@@ -11,7 +11,6 @@ type SocialLoginProps = {
 
 const SocialLogin: React.FC<SocialLoginProps> = ({ onSocialLogin }) => {
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
-  const { toast } = useToast();
 
   const handleSocialLogin = async (provider: Provider) => {
     setSocialLoading(provider);
@@ -19,10 +18,8 @@ const SocialLogin: React.FC<SocialLoginProps> = ({ onSocialLogin }) => {
       await onSocialLogin(provider);
       // Note: The redirect will be handled by Supabase
     } catch (error: any) {
-      toast({
-        title: 'Social Login Failed',
+      toast.error('Social Login Failed', {
         description: error.message || `Failed to sign in with ${provider}`,
-        variant: 'destructive',
       });
       setSocialLoading(null);
     }
