@@ -15,7 +15,7 @@ const FeaturedBusinesses = () => {
       reviewCount: 124,
       description: "Authentic soul food with family recipes passed down generations.",
       icon: <Utensils className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1493770348161-369560ae357d?q=80&w=2070&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1493770348161-369560ae357d?q=80&w=1000&auto=format&fit=crop",
       imageAlt: "Delicious soul food with chicken, cornbread, and vegetables"
     },
     {
@@ -27,7 +27,7 @@ const FeaturedBusinesses = () => {
       reviewCount: 207,
       description: "Premium barbershop experience with skilled professionals.",
       icon: <Scissors className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1599981526814-61649765e2f8?q=80&w=1887&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1599981526814-61649765e2f8?q=80&w=1000&auto=format&fit=crop",
       imageAlt: "Young Black boy getting a haircut at a barber shop"
     },
     {
@@ -39,7 +39,7 @@ const FeaturedBusinesses = () => {
       reviewCount: 89,
       description: "Curated selection of books celebrating Black culture and history.",
       icon: <Book className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1521056787327-965a34d83af7?q=80&w=2070&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1521056787327-965a34d83af7?q=80&w=1000&auto=format&fit=crop",
       imageAlt: "Bookstore with shelves full of diverse books"
     },
     {
@@ -51,7 +51,7 @@ const FeaturedBusinesses = () => {
       reviewCount: 56,
       description: "Financial planning services focused on building generational wealth.",
       icon: <DollarSign className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=5304&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=1000&auto=format&fit=crop",
       imageAlt: "Black financial advisor in professional meeting setting"
     }
   ];
@@ -75,6 +75,7 @@ const FeaturedBusinesses = () => {
                   alt={business.imageAlt}
                   width="400"
                   height="300"
+                  loading="eager"
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   onError={(e) => {
                     console.error(`Failed to load image: ${business.imageUrl}`);

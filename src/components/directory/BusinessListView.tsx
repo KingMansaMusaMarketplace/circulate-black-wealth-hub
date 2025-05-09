@@ -35,10 +35,13 @@ const BusinessListView: React.FC<BusinessListViewProps> = ({ businesses, onSelec
                 <img 
                   src={business.imageUrl} 
                   alt={business.imageAlt || `${business.name} image`}
+                  width="300" 
+                  height="200"
+                  loading="eager"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     console.error(`Failed to load image: ${business.imageUrl}`);
-                    e.currentTarget.src = "https://placehold.co/400x300/e0e0e0/808080?text=" + business.name.charAt(0);
+                    e.currentTarget.src = "https://placehold.co/300x200/e0e0e0/808080?text=" + business.name.charAt(0);
                   }}
                 />
               ) : (

@@ -43,10 +43,13 @@ const BusinessCard = ({
           <img 
             src={imageUrl} 
             alt={imageAlt || `${name} image`}
+            width="300"
+            height="200"
+            loading="eager"
             className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
             onError={(e) => {
               console.error(`Failed to load image: ${imageUrl}`);
-              e.currentTarget.src = "https://placehold.co/400x300/e0e0e0/808080?text=" + name.charAt(0);
+              e.currentTarget.src = `https://placehold.co/300x200/e0e0e0/808080?text=${name.charAt(0)}`;
             }}
           />
         ) : (
