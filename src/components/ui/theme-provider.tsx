@@ -25,13 +25,5 @@ export function ThemeProvider({
   )
 }
 
-export const useTheme = (): ThemeProviderState => {
-  // The error is happening here - we need to make sure we're in a client component
-  // and the context is available when this hook is called
-  const { theme, setTheme } = useNextTheme()
-  
-  return {
-    theme: (theme as Theme) || "system",
-    setTheme: setTheme as (theme: Theme) => void,
-  }
-}
+// We're not exporting our own useTheme hook anymore
+// Instead, we'll directly use the one from next-themes

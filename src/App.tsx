@@ -1,7 +1,7 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "sonner"; 
-import { ThemeProvider } from '@/components/ui/theme-provider';
+import { Toaster } from "@/components/ui/sonner"; 
+import { ThemeProvider } from "next-themes";
 import Index from "@/pages/Index";
 import LoginPage from "@/pages/LoginPage";
 import SignupPage from "@/pages/SignupPage";
@@ -32,8 +32,7 @@ import './App.css';
 
 function App() {
   return (
-    // Make sure the ThemeProvider is the outermost wrapper
-    <ThemeProvider defaultTheme="light" enableSystem={false}>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <AuthProvider>
         <BrowserRouter>
           <Routes>
