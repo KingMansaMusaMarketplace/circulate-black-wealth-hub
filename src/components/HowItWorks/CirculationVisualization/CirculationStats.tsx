@@ -17,7 +17,7 @@ const CirculationStats = ({ isVisible }: CirculationStatsProps) => (
       <strong className="text-mansablue">The Dollar Multiplier Effect:</strong> A dollar spent at a Black-owned business stays in the community for...
     </p>
     <p className="text-4xl font-bold text-mansagold mb-2">6 Hours</p>
-    <p className="text-gray-500">Compared to 6 minutes in other communities</p>
+    <p className="text-gray-500">Compared to 28+ days in other communities</p>
     <div className="flex justify-center mt-3">
       <div className="bg-mansablue px-4 py-1 rounded-full text-sm text-white">
         <span className="font-bold">Our Goal:</span> Increase to 6+ Days
