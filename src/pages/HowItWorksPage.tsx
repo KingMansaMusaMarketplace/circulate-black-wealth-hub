@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import HeroSection from '@/components/HowItWorks/HeroSection';
 import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
-import BenefitsSection from '@/components/HowItWorks/BenefitsSection';
+import { BenefitsSection } from '@/components/HowItWorks/Benefits';
 import CTASection from '@/components/HowItWorks/CTASection';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
 import CirculationVisualization from '@/components/HowItWorks/CirculationVisualization/CirculationVisualization';
