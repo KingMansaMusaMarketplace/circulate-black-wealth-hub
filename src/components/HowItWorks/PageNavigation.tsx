@@ -13,7 +13,7 @@ interface PageNavigationProps {
   offset?: number;
 }
 
-const PageNavigation = ({ sections, offset = -80 }: PageNavigationProps) => {
+const PageNavigation = ({ sections, offset = -100 }: PageNavigationProps) => {
   const [activeSection, setActiveSection] = useState<string>(sections[0]?.id || '');
   const [scrolled, setScrolled] = useState<boolean>(false);
   
@@ -34,65 +34,70 @@ const PageNavigation = ({ sections, offset = -80 }: PageNavigationProps) => {
         setScrolled(false);
       }
       
+      // Find the current section by checking their positions
       const sectionElements = sections.map(section => 
         document.getElementById(section.id)
       ).filter(Boolean) as HTMLElement[];
       
-      let currentActive = sections[0]?.id || '';
+      // Set a threshold for when a section is considered active
+      const offset = window.innerHeight * 0.3;
       
-      for (const section of sectionElements) {
+      for (let i = sectionElements.length - 1; i >= 0; i--) {
+        const section = sectionElements[i];
         const rect = section.getBoundingClientRect();
-        if (rect.top <= 200) {
-          currentActive = section.id;
-        } else {
+        
+        // If the section is visible in the viewport (allowing for some offset)
+        if (rect.top < offset) {
+          setActiveSection(section.id);
           break;
         }
       }
-      
-      setActiveSection(currentActive);
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initialize on mount
+    // Initialize active section on mount
+    setTimeout(handleScroll, 100);
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [sections, offset]);
+  }, [sections]);
 
   return (
     <nav className={cn(
       "sticky top-[72px] z-40 transition-all duration-300",
-      scrolled ? "bg-white shadow-md" : "bg-white/80 backdrop-blur-md"
+      scrolled ? "bg-white shadow-md" : "bg-white/90 backdrop-blur-md"
     )}>
       <div className="container-custom px-4">
-        <div className="overflow-x-auto scrollbar-none">
+        <div className="overflow-x-auto scrollbar-none py-1">
           <motion.div 
-            className="flex space-x-2 py-2 min-w-max"
+            className="flex space-x-1 md:space-x-2 py-2 min-w-max"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
             {sections.map((section) => (
-              <button
+              <motion.button
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
                 className={cn(
-                  "px-4 py-2 text-sm font-medium rounded-md whitespace-nowrap transition-all duration-300",
+                  "px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap transition-all duration-200 relative",
                   activeSection === section.id
-                    ? "bg-mansablue text-white"
-                    : "text-gray-600 hover:bg-gray-100"
+                    ? "text-mansablue"
+                    : "text-gray-600 hover:text-mansablue hover:bg-gray-50"
                 )}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {section.label}
                 {activeSection === section.id && (
                   <motion.div 
-                    className="h-1 bg-mansagold rounded-full mt-1"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-mansagold"
                     layoutId="activeSection"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
-              </button>
+              </motion.button>
             ))}
           </motion.div>
         </div>

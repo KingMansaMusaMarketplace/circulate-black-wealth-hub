@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import HeroSection from '@/components/HowItWorks/HeroSection';
 import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
 import BenefitsSection from '@/components/HowItWorks/BenefitsSection';
@@ -18,8 +19,19 @@ const HowItWorksPage = () => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
     
-    // Update page title
+    // Update page title and add meta description
     document.title = 'How It Works | Mansa Musa Marketplace';
+    
+    // Add meta description if it doesn't exist
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', 
+      'Learn how Mansa Musa Marketplace works to help you discover, support, and save at Black-owned businesses in your community.'
+    );
   }, []);
 
   const navSections = [
@@ -33,8 +45,27 @@ const HowItWorksPage = () => {
     { id: 'cta-section', label: 'Join Us' }
   ];
 
+  const pageVariants = {
+    initial: { opacity: 0 },
+    animate: { 
+      opacity: 1,
+      transition: { 
+        duration: 0.5,
+        when: "beforeChildren",
+        staggerChildren: 0.1
+      } 
+    },
+    exit: { opacity: 0 }
+  };
+
   return (
-    <div className="min-h-screen bg-white">
+    <motion.div 
+      className="min-h-screen bg-white"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
       <Navbar />
       <HeroSection />
       <PageNavigation sections={navSections} />
@@ -47,7 +78,7 @@ const HowItWorksPage = () => {
       <FAQSection />
       <CTASection />
       <Footer />
-    </div>
+    </motion.div>
   );
 };
 

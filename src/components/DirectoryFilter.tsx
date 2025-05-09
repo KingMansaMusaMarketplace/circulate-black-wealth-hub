@@ -30,12 +30,11 @@ interface DirectoryFilterProps {
 }
 
 const DirectoryFilter: React.FC<DirectoryFilterProps> = ({ 
-  categories, 
   filterOptions, 
   onFilterChange 
 }) => {
   return (
-    <div className="bg-gray-50 rounded-lg p-4 mb-4 space-y-6">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
@@ -46,12 +45,12 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
             value={filterOptions.category} 
             onValueChange={(value) => onFilterChange({ category: value })}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full bg-white border-gray-200">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent className="max-h-80">
               <SelectItem value="all">All Categories</SelectItem>
-              {categories.map((cat) => (
+              {businessCategories.map((cat) => (
                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
               ))}
             </SelectContent>
@@ -62,7 +61,7 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
           <div className="flex items-center gap-2">
             <MapPin size={16} className="text-mansablue" />
             <label className="text-sm font-medium">Distance (miles)</label>
-            <Badge variant="outline" className="ml-auto">
+            <Badge variant="outline" className="ml-auto text-mansablue">
               {filterOptions.distance === 0 ? 'Any' : `< ${filterOptions.distance}`}
             </Badge>
           </div>
@@ -80,7 +79,7 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
           <div className="flex items-center gap-2">
             <Star size={16} className="text-mansablue" />
             <label className="text-sm font-medium">Min Rating</label>
-            <Badge variant="outline" className="ml-auto">
+            <Badge variant="outline" className="ml-auto text-mansablue">
               {filterOptions.rating} stars+
             </Badge>
           </div>
@@ -98,7 +97,7 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
           <div className="flex items-center gap-2">
             <Tag size={16} className="text-mansablue" />
             <label className="text-sm font-medium">Min Discount (%)</label>
-            <Badge variant="outline" className="ml-auto">
+            <Badge variant="outline" className="ml-auto text-mansablue">
               {filterOptions.discount}%+
             </Badge>
           </div>

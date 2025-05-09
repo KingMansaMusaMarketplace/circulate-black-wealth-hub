@@ -1,8 +1,30 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { CheckCircle2, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const HowItWorksSteps = () => {
+  const [activeStep, setActiveStep] = useState<number | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+    
+    const section = document.getElementById('how-it-works');
+    if (section) observer.observe(section);
+    
+    return () => {
+      if (section) observer.unobserve(section);
+    };
+  }, []);
+
   const steps = [
     {
       number: '01',
@@ -42,15 +64,49 @@ const HowItWorksSteps = () => {
     }
   ];
   
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+  
   return (
-    <section id="how-it-works" className="py-8">
+    <section id="how-it-works" className="py-16 bg-white">
       <div className="container-custom">
-        <div className="space-y-10">
+        <motion.div 
+          className="space-y-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+        >
           {steps.map((step, index) => (
-            <div key={step.number} className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center`}>
+            <motion.div 
+              key={step.number}
+              variants={itemVariants}
+              onMouseEnter={() => setActiveStep(index)}
+              onMouseLeave={() => setActiveStep(null)}
+              className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center`}
+            >
               <div className="md:w-1/2">
                 <div className="mb-2 flex items-center">
-                  <span className="text-5xl mr-4">{step.icon}</span>
+                  <motion.span 
+                    className="text-5xl mr-4"
+                    animate={activeStep === index ? { scale: 1.2 } : { scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {step.icon}
+                  </motion.span>
                   <span className="text-mansagold font-bold text-xl">{step.number}</span>
                 </div>
                 <h2 className="heading-md text-mansablue-dark mb-3">{step.title}</h2>
@@ -67,8 +123,10 @@ const HowItWorksSteps = () => {
               </div>
               
               <div className="md:w-1/2">
-                <div className={`bg-gray-50 rounded-xl p-4 border ${index % 2 === 1 ? 'border-mansagold' : 'border-mansablue'}`}>
-                  {/* Content kept the same but with reduced padding */}
+                <motion.div 
+                  className={`bg-gray-50 rounded-xl p-4 border transition-all duration-300 ${index % 2 === 1 ? 'border-mansagold' : 'border-mansablue'}`}
+                  whileHover={{ y: -5, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
+                >
                   {index === 0 && (
                     <div className="bg-white rounded-lg shadow-sm p-6">
                       <div className="flex justify-between items-center mb-6">
@@ -192,11 +250,11 @@ const HowItWorksSteps = () => {
                       </div>
                     </div>
                   )}
-                </div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
