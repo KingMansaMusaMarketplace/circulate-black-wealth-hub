@@ -7,7 +7,7 @@ export const getProviderSetupUrl = (provider: string): string => {
 export const getProviderSetupInstructions = (provider: string): string => {
   switch (provider) {
     case 'google':
-      return 'To enable Google authentication, you need to create OAuth credentials in the Google Cloud Console and add them to Supabase.';
+      return 'To enable Google authentication, you need to create OAuth credentials in the Google Cloud Console and add them to Supabase. Make sure your Client IDs do not contain spaces.';
     case 'facebook':
       return 'To enable Facebook authentication, you need to create an app in the Facebook Developer Portal and add the credentials to Supabase.';
     case 'github':

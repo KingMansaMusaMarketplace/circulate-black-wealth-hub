@@ -1,9 +1,17 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2, Facebook, Github } from 'lucide-react';
+import { Loader2, Facebook, Github, AlertCircle } from 'lucide-react';
 import { Provider } from '@supabase/supabase-js';
 import { toast } from 'sonner';
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle
+} from '@/components/ui/dialog';
+import { getProviderSetupUrl, getProviderSetupInstructions } from '@/utils/auth-provider-help';
 
 type SocialLoginProps = {
   onSocialLogin: (provider: Provider) => Promise<void>;
@@ -11,6 +19,7 @@ type SocialLoginProps = {
 
 const SocialLogin: React.FC<SocialLoginProps> = ({ onSocialLogin }) => {
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
+  const [errorProvider, setErrorProvider] = useState<string | null>(null);
 
   const handleSocialLogin = async (provider: Provider) => {
     setSocialLoading(provider);
@@ -18,11 +27,30 @@ const SocialLogin: React.FC<SocialLoginProps> = ({ onSocialLogin }) => {
       await onSocialLogin(provider);
       // Note: The redirect will be handled by Supabase
     } catch (error: any) {
-      toast.error('Social Login Failed', {
-        description: error.message || `Failed to sign in with ${provider}`,
-      });
+      if (error.message?.includes('provider is not enabled')) {
+        setErrorProvider(provider);
+      } else {
+        toast.error('Social Login Failed', {
+          description: error.message || `Failed to sign in with ${provider}`,
+        });
+      }
       setSocialLoading(null);
     }
+  };
+
+  const closeErrorDialog = () => {
+    setErrorProvider(null);
+  };
+
+  const getProviderName = (provider: string): string => {
+    return provider.charAt(0).toUpperCase() + provider.slice(1);
+  };
+
+  const openProviderSettings = () => {
+    if (errorProvider) {
+      window.open(getProviderSetupUrl(errorProvider), '_blank');
+    }
+    closeErrorDialog();
   };
 
   return (
@@ -90,6 +118,37 @@ const SocialLogin: React.FC<SocialLoginProps> = ({ onSocialLogin }) => {
         )}
         Continue with GitHub
       </Button>
+
+      <Dialog open={!!errorProvider} onOpenChange={closeErrorDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-amber-500" />
+              {errorProvider && `${getProviderName(errorProvider)} Login Not Available`}
+            </DialogTitle>
+            <DialogDescription>
+              {errorProvider && (
+                <div className="py-3">
+                  <p className="mb-4">
+                    The {getProviderName(errorProvider)} login provider is not enabled in your Supabase project.
+                  </p>
+                  <p className="text-sm text-gray-600 mb-4">
+                    {errorProvider && getProviderSetupInstructions(errorProvider)}
+                  </p>
+                  <div className="flex justify-between">
+                    <Button variant="outline" onClick={closeErrorDialog}>
+                      Close
+                    </Button>
+                    <Button onClick={openProviderSettings}>
+                      Configure Provider
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
