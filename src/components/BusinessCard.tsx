@@ -31,6 +31,12 @@ const BusinessCard = ({
   imageAlt,
   isFeatured = false 
 }: BusinessCardProps) => {
+  // Generate a placeholder image with the business initial
+  const generatePlaceholderUrl = (businessName: string) => {
+    const initial = businessName.charAt(0).toUpperCase();
+    return `https://placehold.co/300x200/e0e0e0/808080?text=${initial}`;
+  };
+
   return (
     <div className={`border rounded-xl overflow-hidden ${isFeatured ? 'border-mansagold shadow-md' : 'border-gray-200'}`}>
       {isFeatured && (
@@ -48,13 +54,12 @@ const BusinessCard = ({
             loading="eager"
             className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
             onError={(e) => {
-              console.error(`Failed to load image: ${imageUrl}`);
-              e.currentTarget.src = `https://placehold.co/300x200/e0e0e0/808080?text=${name.charAt(0)}`;
+              e.currentTarget.src = generatePlaceholderUrl(name);
             }}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="text-gray-400 text-3xl font-bold">{name.charAt(0)}</span>
+          <div className="w-full h-full flex items-center justify-center bg-gray-200">
+            <span className="text-gray-400 text-3xl font-bold">{name.charAt(0).toUpperCase()}</span>
           </div>
         )}
         <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-mansablue">

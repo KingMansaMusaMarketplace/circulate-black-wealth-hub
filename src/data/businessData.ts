@@ -1,4 +1,3 @@
-
 export interface Business {
   id: number;
   name: string;
@@ -58,7 +57,8 @@ export const businesses: Business[] = [
     address: "123 Auburn Ave NE, Atlanta, GA 30303",
     lat: 33.755,
     lng: -84.373,
-    imageUrl: "https://placehold.co/300x200/e0e0e0/808080?text=Soul+Food",
+    imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop",
+    imageAlt: "Soul Food Kitchen restaurant interior",
     isFeatured: true
   },
   {
@@ -74,7 +74,8 @@ export const businesses: Business[] = [
     address: "456 Edgewood Ave SE, Atlanta, GA 30312",
     lat: 33.754,
     lng: -84.371,
-    imageUrl: "https://placehold.co/300x200/e0e0e0/808080?text=Beauty"
+    imageUrl: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&auto=format&fit=crop",
+    imageAlt: "Beauty supply store display"
   },
   {
     id: 3,
@@ -89,7 +90,8 @@ export const businesses: Business[] = [
     address: "789 Marietta St NW, Atlanta, GA 30318",
     lat: 33.775,
     lng: -84.410,
-    imageUrl: "https://placehold.co/300x200/e0e0e0/808080?text=Fashion"
+    imageUrl: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=600&auto=format&fit=crop",
+    imageAlt: "Urban clothing store display"
   },
   {
     id: 4,
@@ -104,7 +106,8 @@ export const businesses: Business[] = [
     address: "101 Peachtree St NE, Atlanta, GA 30303",
     lat: 33.759,
     lng: -84.387,
-    imageUrl: "https://placehold.co/300x200/e0e0e0/808080?text=Tech"
+    imageUrl: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?w=600&auto=format&fit=crop",
+    imageAlt: "Tech innovation workspace"
   },
   {
     id: 5,
@@ -119,7 +122,8 @@ export const businesses: Business[] = [
     address: "234 Decatur St SE, Atlanta, GA 30312",
     lat: 33.751,
     lng: -84.376,
-    imageUrl: "https://placehold.co/300x200/e0e0e0/808080?text=Books",
+    imageUrl: "https://images.unsplash.com/photo-1521056787327-165eb18a5439?w=600&auto=format&fit=crop",
+    imageAlt: "Cozy bookstore interior",
     isFeatured: true
   },
   {

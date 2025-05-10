@@ -11,6 +11,12 @@ interface BusinessListViewProps {
 }
 
 const BusinessListView: React.FC<BusinessListViewProps> = ({ businesses, onSelectBusiness }) => {
+  // Generate a placeholder image with the business initial
+  const generatePlaceholderUrl = (businessName: string) => {
+    const initial = businessName.charAt(0).toUpperCase();
+    return `https://placehold.co/300x200/e0e0e0/808080?text=${initial}`;
+  };
+
   if (businesses.length === 0) {
     return (
       <div className="text-center py-12 border border-dashed border-gray-200 rounded-lg">
@@ -40,12 +46,13 @@ const BusinessListView: React.FC<BusinessListViewProps> = ({ businesses, onSelec
                   loading="eager"
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    console.error(`Failed to load image: ${business.imageUrl}`);
-                    e.currentTarget.src = "https://placehold.co/300x200/e0e0e0/808080?text=" + business.name.charAt(0);
+                    e.currentTarget.src = generatePlaceholderUrl(business.name);
                   }}
                 />
               ) : (
-                <span className="text-gray-400 text-3xl font-bold">{business.name.charAt(0)}</span>
+                <div className="w-full h-full flex items-center justify-center bg-gray-200">
+                  <span className="text-gray-400 text-3xl font-bold">{business.name.charAt(0).toUpperCase()}</span>
+                </div>
               )}
             </div>
             <div className="flex-1 p-4">
