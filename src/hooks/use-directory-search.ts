@@ -13,9 +13,9 @@ export function useDirectorySearch(businesses: Business[]) {
     discount: 0  // 0 means any discount
   });
   
-  // Pagination state
+  // Pagination state - updated to show more items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [itemsPerPage, setItemsPerPage] = useState(16);
   
   const location = useLocation();
   

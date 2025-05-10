@@ -11,7 +11,7 @@ interface DirectoryResultsSummaryProps {
 const DirectoryResultsSummary: React.FC<DirectoryResultsSummaryProps> = ({ 
   totalResults,
   currentPage = 1,
-  itemsPerPage = 8
+  itemsPerPage = 16
 }) => {
   const startItem = totalResults === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalResults);
