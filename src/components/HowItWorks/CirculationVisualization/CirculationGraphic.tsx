@@ -29,7 +29,7 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
     pulse: { 
       scale: [1, 1.05, 1],
       boxShadow: ['0px 0px 0px rgba(0,0,0,0)', '0px 0px 20px rgba(255,215,0,0.3)', '0px 0px 0px rgba(0,0,0,0)'],
-      transition: { duration: 3, repeat: Infinity, repeatType: "reverse" }
+      transition: { duration: 3, repeat: Infinity, repeatType: "reverse" as const }
     }
   };
 
@@ -45,7 +45,7 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
     init: { scale: 1 },
     pulse: { 
       scale: [1, 1.2, 1],
-      transition: { duration: 1, repeat: Infinity, repeatType: "reverse" }
+      transition: { duration: 1, repeat: Infinity, repeatType: "reverse" as const }
     }
   };
 
