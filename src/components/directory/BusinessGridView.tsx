@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Business } from '@/data/businessData';
+import { Business } from '@/types/business';
 import BusinessCard from '@/components/BusinessCard';
 
 interface BusinessGridViewProps {

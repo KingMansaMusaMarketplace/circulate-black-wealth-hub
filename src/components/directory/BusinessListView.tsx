@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { MapPin } from 'lucide-react';
-import { Business } from '@/data/businessData';
+import { Business } from '@/types/business';
 import { Link } from 'react-router-dom';
 
 interface BusinessListViewProps {
