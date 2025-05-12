@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AudioButton } from '@/components/ui/audio-button';
 import { AUDIO_PATHS } from '@/utils/audio';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   const scrollToNextSection = () => {
@@ -49,12 +50,16 @@ const HeroSection = () => {
             </AudioButton>
             
             <div className="flex flex-wrap gap-4 relative z-20">
-              <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-white relative z-10">
-                Join Now
-              </Button>
-              <Button variant="outline" size="lg" className="border-mansagold bg-mansagold/20 text-mansagold hover:bg-mansagold/30 relative z-10">
-                Learn More
-              </Button>
+              <Link to="/signup">
+                <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-white relative z-10">
+                  Join Now
+                </Button>
+              </Link>
+              <Link to="#how-it-works" onClick={scrollToNextSection}>
+                <Button variant="outline" size="lg" className="border-mansagold bg-mansagold/20 text-mansagold hover:bg-mansagold/30 relative z-10">
+                  Learn More
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="md:w-1/2 flex justify-center md:justify-end">
