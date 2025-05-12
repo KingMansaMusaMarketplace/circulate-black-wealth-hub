@@ -17,6 +17,12 @@ const BusinessListView: React.FC<BusinessListViewProps> = ({ businesses, onSelec
     return `https://placehold.co/300x200/e0e0e0/808080?text=${initial}`;
   };
 
+  // Add logging to debug image loading issues
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>, businessName: string) => {
+    console.log(`List view image failed to load: ${e.currentTarget.src}`);
+    e.currentTarget.src = generatePlaceholderUrl(businessName);
+  };
+
   if (businesses.length === 0) {
     return (
       <div className="text-center py-12 border border-dashed border-gray-200 rounded-lg">
@@ -45,9 +51,7 @@ const BusinessListView: React.FC<BusinessListViewProps> = ({ businesses, onSelec
                   height="200"
                   loading="eager"
                   className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = generatePlaceholderUrl(business.name);
-                  }}
+                  onError={(e) => handleImageError(e, business.name)}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gray-200">

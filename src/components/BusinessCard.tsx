@@ -37,6 +37,12 @@ const BusinessCard = ({
     return `https://placehold.co/300x200/e0e0e0/808080?text=${initial}`;
   };
 
+  // Add logging to debug image loading issues
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    console.log(`Image failed to load: ${imageUrl}`);
+    e.currentTarget.src = generatePlaceholderUrl(name);
+  };
+
   return (
     <div className={`border rounded-xl overflow-hidden ${isFeatured ? 'border-mansagold shadow-md' : 'border-gray-200'}`}>
       {isFeatured && (
@@ -53,9 +59,7 @@ const BusinessCard = ({
             height="200"
             loading="eager"
             className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-            onError={(e) => {
-              e.currentTarget.src = generatePlaceholderUrl(name);
-            }}
+            onError={handleImageError}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">
