@@ -15,7 +15,7 @@ export const healthServicesBusinesses: Business[] = [
     address: "321 Courtland St NE, Atlanta, GA 30303",
     lat: 33.757,
     lng: -84.385,
-    imageUrl: "https://images.unsplash.com/photo-1631815589736-dc3aff63a17f?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&auto=format&fit=crop",
     imageAlt: "Community health clinic reception area",
   }
 ];
