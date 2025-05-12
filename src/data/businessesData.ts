@@ -1,4 +1,3 @@
-
 import { Business } from '@/types/business';
 
 export const businesses: Business[] = [
@@ -81,7 +80,7 @@ export const businesses: Business[] = [
     lat: 33.751,
     lng: -84.376,
     imageUrl: "https://images.unsplash.com/photo-1521056787327-165eb18a5439?w=600&auto=format&fit=crop",
-    imageAlt: "Cozy bookstore interior",
+    imageAlt: "Cozy bookstore interior with bookshelves",
     isFeatured: true
   },
   {
@@ -130,7 +129,7 @@ export const businesses: Business[] = [
     lat: 33.757,
     lng: -84.385,
     imageUrl: "https://images.unsplash.com/photo-1631815589736-dc3aff63a17f?w=600&auto=format&fit=crop",
-    imageAlt: "Community health clinic reception"
+    imageAlt: "Community health clinic reception area",
   },
   {
     id: 9,
