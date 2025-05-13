@@ -39,7 +39,7 @@ const FeaturedBusinesses = () => {
       reviewCount: 89,
       description: "Curated selection of books celebrating Black culture and history.",
       icon: <Book className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1521056787327-965a34d83af7?q=80&w=1000&auto=format&fit=crop",
+      imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1000&auto=format&fit=crop",
       imageAlt: "Bookstore with shelves full of diverse books"
     },
     {
