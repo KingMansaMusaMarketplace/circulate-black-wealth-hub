@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -26,8 +27,8 @@ const FeaturedBusinesses = () => {
       reviewCount: 207,
       description: "Premium barbershop experience with skilled professionals.",
       icon: <Scissors className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=1000&auto=format&fit=crop",
-      imageAlt: "Black financial advisor in professional meeting setting"
+      imageUrl: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=1000&auto=format&fit=crop",
+      imageAlt: "Black barber cutting client's hair in modern barbershop"
     },
     {
       id: 3,
