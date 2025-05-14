@@ -25,5 +25,5 @@ export function ThemeProvider({
   )
 }
 
-// We're not exporting our own useTheme hook anymore
-// Instead, we'll directly use the one from next-themes
+// Re-export useTheme from next-themes
+export const useTheme = useNextTheme;
