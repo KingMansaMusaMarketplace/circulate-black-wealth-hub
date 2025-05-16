@@ -1,15 +1,10 @@
 
 import React from 'react';
 import { QrCode } from 'lucide-react';
-
-interface ScanHistoryItem {
-  name: string;
-  points: number;
-  date: string;
-}
+import { ScanResult } from '../hooks/useScannerState';
 
 interface ScanHistoryListProps {
-  scans: ScanHistoryItem[];
+  scans: ScanResult[];
 }
 
 const ScanHistoryList: React.FC<ScanHistoryListProps> = ({ scans }) => {
@@ -25,12 +20,14 @@ const ScanHistoryList: React.FC<ScanHistoryListProps> = ({ scans }) => {
           <div key={index} className="flex justify-between items-center text-sm">
             <div className="flex items-center gap-2">
               <QrCode size={14} className="text-mansablue" />
-              <span>{scan.name}</span>
+              <span>{scan.businessName}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500">{scan.date}</span>
+              <span className="text-xs text-gray-500">
+                {new Date(scan.timestamp).toLocaleDateString()}
+              </span>
               <span className="bg-mansagold/10 text-mansagold text-xs rounded px-1.5 py-0.5">
-                +{scan.points}
+                +{scan.pointsEarned}
               </span>
             </div>
           </div>

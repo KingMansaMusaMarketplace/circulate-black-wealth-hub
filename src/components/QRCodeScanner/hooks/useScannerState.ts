@@ -82,7 +82,7 @@ export function useScannerState() {
 
     if (permissionStatus !== 'granted' && !isNative) {
       await requestCameraPermission();
-      if (permissionStatus !== 'granted') return;
+      if (permissionStatus === 'denied') return; // Fixed comparison here
     }
 
     setIsScanning(true);
