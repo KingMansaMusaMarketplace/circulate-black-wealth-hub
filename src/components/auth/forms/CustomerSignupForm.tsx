@@ -81,14 +81,20 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
           onCheckedChange={setAgreeTerms}
         />
         
+        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <h4 className="text-sm font-medium text-gray-900 mb-2">Customer Subscription:</h4>
+          <ul className="text-xs text-gray-600 space-y-1">
+            <li>• $10/month subscription fee</li>
+            <li>• Access to all businesses in the network</li>
+            <li>• Unlimited QR code scans</li>
+            <li>• Loyalty rewards program access</li>
+          </ul>
+        </div>
+        
         <SubmitButton 
           loading={loading}
-          text="Sign Up - $10/month (Register Now, Pay Later)"
+          text="Continue to Payment"
         />
-        
-        <p className="text-xs text-gray-500 text-center">
-          Your subscription gives you access to all discounts, QR scanning, and loyalty rewards.
-        </p>
       </div>
     </form>
   );

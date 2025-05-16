@@ -114,7 +114,7 @@ export const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         </div>
         
         <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-          <h4 className="text-sm font-medium text-gray-900 mb-2">Business Owner Benefits:</h4>
+          <h4 className="text-sm font-medium text-gray-900 mb-2">Business Subscription:</h4>
           <ul className="text-xs text-gray-600 space-y-1">
             <li>• First month completely free</li>
             <li>• $100/month after trial period</li>
@@ -132,7 +132,7 @@ export const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         
         <SubmitButton 
           loading={loading}
-          text="Sign Up - First Month Free (Register Now, Pay Later)"
+          text="Continue to Payment"
         />
       </div>
     </form>

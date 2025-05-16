@@ -6,6 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { CustomerSignupForm } from './forms/CustomerSignupForm';
 import { BusinessSignupForm } from './forms/BusinessSignupForm';
 import { PaymentNotice } from './forms/PaymentNotice';
+import { subscriptionService } from '@/lib/services/subscription-service';
 
 interface SignupFormProps {
   onSubmit: (email: string, password: string, metadata: any) => Promise<any>;
@@ -43,9 +44,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
         ? { 
             userType: 'customer',
             fullName: name,
-            subscription_status: 'active',
-            subscription_start_date: new Date().toISOString(),
-            subscription_end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days
+            subscription_status: 'pending',
           }
         : {
             userType: 'business',
@@ -53,20 +52,46 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
             businessType,
             businessAddress,
             subscription_status: 'trial',
-            subscription_start_date: new Date().toISOString(),
-            subscription_end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 day trial
           };
       
+      // Register the user first
       const { data, error } = await onSubmit(email, password, metadata);
       
       if (error) throw error;
       
-      // If signup was successful, redirect to dashboard
+      // If signup was successful, redirect to Stripe checkout
       if (data) {
-        navigate('/dashboard');
+        try {
+          // Create checkout session
+          const checkoutOptions = {
+            userType,
+            email,
+            name: name,
+            businessName: businessName
+          };
+          
+          const { url } = await subscriptionService.createCheckoutSession(checkoutOptions);
+          
+          // Redirect to Stripe checkout
+          window.location.href = url;
+        } catch (checkoutError) {
+          console.error('Checkout error:', checkoutError);
+          // If checkout fails, still allow access but show warning
+          toast({
+            title: "Subscription Setup Pending",
+            description: "Your account was created, but we couldn't set up your subscription. Please try again from your dashboard.",
+            variant: "warning"
+          });
+          navigate('/dashboard');
+        }
       }
     } catch (error) {
       console.error('Signup error:', error);
+      toast({
+        title: "Signup Failed",
+        description: error instanceof Error ? error.message : "An unexpected error occurred",
+        variant: "destructive"
+      });
     } finally {
       setLoading(false);
     }
@@ -78,8 +103,6 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
         <TabsTrigger value="customer">Customer</TabsTrigger>
         <TabsTrigger value="business">Business Owner</TabsTrigger>
       </TabsList>
-
-      <PaymentNotice />
 
       <TabsContent value="customer">
         <CustomerSignupForm 
