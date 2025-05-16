@@ -80,7 +80,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
           toast({
             title: "Subscription Setup Pending",
             description: "Your account was created, but we couldn't set up your subscription. Please try again from your dashboard.",
-            variant: "warning"
+            variant: "destructive" // Changed from "warning" to "destructive" to fix the type error
           });
           navigate('/dashboard');
         }
