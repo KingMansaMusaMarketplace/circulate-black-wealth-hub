@@ -2,6 +2,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner"; 
 import { ThemeProvider } from "next-themes";
+import { useEffect } from "react";
+import { useCapacitor } from "@/hooks/use-capacitor";
+import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
 import Index from "@/pages/Index";
 import LoginPage from "@/pages/LoginPage";
 import SignupPage from "@/pages/SignupPage";
@@ -31,6 +34,16 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import './App.css';
 
 function App() {
+  const { isCapacitor, isNative } = useCapacitor();
+  
+  useEffect(() => {
+    if (isNative) {
+      // Initialize Capacitor plugins when running on a native platform
+      initializeCapacitorPlugins();
+      console.log(`Running on ${isCapacitor ? 'Capacitor' : 'Web'}`);
+    }
+  }, [isNative, isCapacitor]);
+
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <AuthProvider>

@@ -1,154 +1,118 @@
 
 import { useState, useRef, useEffect } from 'react';
-import { toast } from "sonner";
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useLoyaltyQRCode } from '@/hooks/use-loyalty-qr-code';
+import { useCapacitor } from '@/hooks/use-capacitor';
+import { toast } from 'sonner';
 
-export const useScannerState = () => {
+export interface ScanResult {
+  businessName: string;
+  pointsEarned: number;
+  timestamp: string;
+}
+
+export function useScannerState() {
   const [isScanning, setIsScanning] = useState(false);
   const [scanned, setScanned] = useState(false);
-  const [hasCamera, setHasCamera] = useState(true);
+  const [hasCamera, setHasCamera] = useState(false);
   const [permissionStatus, setPermissionStatus] = useState<'granted' | 'denied' | 'prompt'>('prompt');
-  const [recentScans, setRecentScans] = useState<Array<{name: string, points: number, date: string}>>([]);
-  
+  const [recentScans, setRecentScans] = useState<ScanResult[]>([]);
+  const [scanResult, setScanResult] = useState<any>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const scannerIntervalRef = useRef<number | null>(null);
-  const isMobile = useIsMobile();
-  const { scanQRAndProcessPoints, scanResult } = useLoyaltyQRCode({ autoRefresh: true });
+  const { isNative, platform } = useCapacitor();
 
-  // Check if camera permission is available
+  // Load scan history from local storage on component mount
   useEffect(() => {
-    checkCameraPermission();
-  }, []);
-
-  // Stop scanning when component unmounts
-  useEffect(() => {
-    return () => {
-      stopScannerAndStream();
-    };
-  }, []);
-
-  // Update recent scans when a new scan is processed
-  useEffect(() => {
-    if (scanResult) {
-      updateRecentScans();
-    }
-  }, [scanResult]);
-
-  const checkCameraPermission = async () => {
     try {
-      // Check if the browser supports the Permissions API
-      if (navigator.permissions && navigator.permissions.query) {
-        const result = await navigator.permissions.query({ name: 'camera' as PermissionName });
-        setPermissionStatus(result.state as 'granted' | 'denied' | 'prompt');
-        setHasCamera(result.state === 'granted');
-        
-        // Listen for permission changes
-        result.addEventListener('change', () => {
-          setPermissionStatus(result.state as 'granted' | 'denied' | 'prompt');
-          setHasCamera(result.state === 'granted');
-        });
-      } else {
-        // Fallback for browsers not supporting the Permission API
+      const storedHistory = localStorage.getItem('qrScanHistory');
+      if (storedHistory) {
+        setRecentScans(JSON.parse(storedHistory));
+      }
+    } catch (e) {
+      console.error('Failed to load scan history from local storage:', e);
+    }
+    
+    // Check camera availability
+    checkCameraAvailability();
+  }, []);
+
+  const checkCameraAvailability = async () => {
+    try {
+      // For native platforms, we assume camera is available and will request permissions when needed
+      if (isNative) {
         setHasCamera(true);
-        setPermissionStatus('prompt');
+        return;
       }
-    } catch (error) {
-      console.error("Error checking camera:", error);
-      setHasCamera(false);
-      setPermissionStatus('prompt');
-    }
-  };
 
-  const stopScannerAndStream = () => {
-    if (scannerIntervalRef.current) {
-      window.clearInterval(scannerIntervalRef.current);
-    }
-    if (videoRef.current && videoRef.current.srcObject) {
-      const stream = videoRef.current.srcObject as MediaStream;
-      const tracks = stream.getTracks();
-      tracks.forEach(track => track.stop());
-    }
-  };
-
-  const updateRecentScans = () => {
-    if (scanResult) {
-      const newScan = {
-        name: scanResult.businessName || 'Business',
-        points: scanResult.pointsEarned || 0,
-        date: new Date().toLocaleDateString()
-      };
-      
-      setRecentScans(prev => [newScan, ...prev].slice(0, 5));
-      setScanned(true);
-      
-      // Reset after showing success
-      setTimeout(() => {
-        setScanned(false);
-      }, 3000);
-    }
-  };
-
-  // Simulate QR scanning with real camera stream
-  const handleScan = async () => {
-    setIsScanning(true);
-    
-    try {
-      if (permissionStatus === 'granted') {
-        // Attempt to get camera stream
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { facingMode: isMobile ? 'environment' : 'user' } 
-        });
-        
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.play();
-        }
-        
-        // Simulate scanning for a QR code
-        scannerIntervalRef.current = window.setTimeout(() => {
-          processScannedResult();
-          
-          // Stop the camera stream
-          stopScannerAndStream();
-        }, 2000);
-      } else {
-        // If we don't have permission, just simulate the scan
-        setTimeout(processScannedResult, 2000);
+      // For web platforms, check if the media devices API is available
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setHasCamera(false);
+        return;
       }
-    } catch (error) {
-      console.error("Error accessing camera:", error);
-      setHasCamera(false);
+
+      // Check if camera permission is already granted
+      const permission = await navigator.permissions.query({ name: 'camera' as PermissionName });
+      setPermissionStatus(permission.state as 'granted' | 'denied' | 'prompt');
       
-      // Fall back to simulation
-      setTimeout(processScannedResult, 2000);
+      // Set hasCamera to true if permission is granted or can be requested
+      setHasCamera(permission.state === 'granted' || permission.state === 'prompt');
+    } catch (error) {
+      console.error('Error checking camera:', error);
+      setHasCamera(false);
     }
-  };
-  
-  // Process a successful scan
-  const processScannedResult = async () => {
-    setIsScanning(false);
-    
-    // Use the QR code scanning hook to process the scan
-    // For simulation, we're using a random QR code ID
-    const qrCodeId = `qr-${Math.random().toString(36).substring(2, 10)}`;
-    
-    await scanQRAndProcessPoints(qrCodeId, {
-      lat: 33.748997,
-      lng: -84.387985
-    });
   };
 
   const requestCameraPermission = async () => {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true });
-      setHasCamera(true);
       setPermissionStatus('granted');
+      setHasCamera(true);
     } catch (error) {
-      console.error("Error requesting camera permission:", error);
-      toast("Camera Access Required", {
-        description: "This app needs permission to access your camera for scanning QR codes."
-      });
+      console.error('Camera permission denied:', error);
+      setPermissionStatus('denied');
+      toast.error('Camera access is required to scan QR codes');
+    }
+  };
+
+  const handleScan = async () => {
+    // If we've already scanned something, reset the state
+    if (scanned) {
+      setScanned(false);
+      setScanResult(null);
+      return;
+    }
+
+    if (permissionStatus !== 'granted' && !isNative) {
+      await requestCameraPermission();
+      if (permissionStatus !== 'granted') return;
+    }
+
+    setIsScanning(true);
+
+    try {
+      // On native platforms, we would use the Capacitor Camera plugin
+      // But for now, we'll simulate a successful scan after 3 seconds
+      setTimeout(() => {
+        // Simulate a successful scan
+        const mockResult = {
+          businessName: 'Sample Business',
+          pointsEarned: 25,
+          timestamp: new Date().toISOString()
+        };
+        
+        // Update recent scans history
+        const newScans = [mockResult, ...recentScans].slice(0, 10);
+        setRecentScans(newScans);
+        localStorage.setItem('qrScanHistory', JSON.stringify(newScans));
+        
+        setScanResult(mockResult);
+        setScanned(true);
+        setIsScanning(false);
+        
+        toast.success(`Earned ${mockResult.pointsEarned} points at ${mockResult.businessName}!`);
+      }, 3000);
+    } catch (error) {
+      console.error('Error scanning QR code:', error);
+      setIsScanning(false);
+      toast.error('Failed to scan QR code');
     }
   };
 
@@ -163,4 +127,4 @@ export const useScannerState = () => {
     handleScan,
     requestCameraPermission
   };
-};
+}
