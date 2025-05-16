@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Mansa Musa Marketplace</title>
     <meta name="description" content="Discover and support Black-owned businesses, earn rewards, and help circulate Black wealth for generational legacy." />
     <meta name="author" content="Mansa Musa Marketplace" />
@@ -25,6 +25,11 @@
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    
+    <!-- iOS specific meta tags for Capacitor -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Mansa Musa" />
     
     <!-- Favicon -->
     <link rel="icon" href="/icons/icon-72x72.png" type="image/png">
@@ -48,6 +53,16 @@
         flex: 1;
         min-height: 100vh;
         width: 100%;
+      }
+      
+      /* Safe area insets for iOS notches and home indicator */
+      @supports (padding: max(0px)) {
+        body {
+          padding-top: env(safe-area-inset-top);
+          padding-bottom: env(safe-area-inset-bottom);
+          padding-left: env(safe-area-inset-left);
+          padding-right: env(safe-area-inset-right);
+        }
       }
     </style>
   </head>

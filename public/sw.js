@@ -8,6 +8,11 @@ const urlsToCache = [
   '/favicon.ico'
 ];
 
+// Check if the app is running in Capacitor
+const isCapacitor = () => {
+  return window.location.protocol === 'capacitor:';
+};
+
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -18,6 +23,11 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // Skip caching for Capacitor requests
+  if (isCapacitor()) {
+    return fetch(event.request);
+  }
+  
   event.respondWith(
     caches.match(event.request)
       .then(response => {
