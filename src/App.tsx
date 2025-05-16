@@ -1,7 +1,6 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner"; 
-import { ThemeProvider } from "next-themes";
 import { useEffect } from "react";
 import { useCapacitor } from "@/hooks/use-capacitor";
 import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
@@ -45,86 +44,84 @@ function App() {
   }, [isNative, isCapacitor]);
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* Public routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/business/:id" element={<BusinessDetailPage />} />
-            <Route path="/directory" element={<DirectoryPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/how-it-works" element={<HowItWorksPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/new-password" element={<NewPasswordPage />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/privacy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms" element={<TermsOfServicePage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/team-contact" element={<TeamContactPage />} />
-            
-            {/* Protected routes - require authentication */}
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            } />
-            <Route path="/loyalty" element={
-              <ProtectedRoute>
-                <LoyaltyPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/loyalty-history" element={
-              <ProtectedRoute>
-                <LoyaltyHistoryPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/scan" element={
-              <ProtectedRoute>
-                <QRScannerPage />
-              </ProtectedRoute>
-            } />
-            
-            {/* Business-only routes */}
-            <Route path="/business-profile" element={
-              <ProtectedRoute requiredUserType="business">
-                <BusinessProfilePage />
-              </ProtectedRoute>
-            } />
-            <Route path="/qr-management" element={
-              <ProtectedRoute requiredUserType="business">
-                <QRCodeManagementPage />
-              </ProtectedRoute>
-            } />
-            
-            {/* Admin routes - protected with business user type requirement */}
-            <Route path="/admin" element={
-              <ProtectedRoute requiredUserType="business">
-                <AdminPage />
-              </ProtectedRoute>
-            } />
-            
-            {/* Testing routes - protected with business user type requirement */}
-            <Route path="/registration-test" element={
-              <ProtectedRoute requiredUserType="business">
-                <RegistrationTestPage />
-              </ProtectedRoute>
-            } />
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Toaster position="top-right" richColors />
-        </BrowserRouter>
-      </AuthProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<Index />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/business/:id" element={<BusinessDetailPage />} />
+          <Route path="/directory" element={<DirectoryPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/how-it-works" element={<HowItWorksPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/new-password" element={<NewPasswordPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/team-contact" element={<TeamContactPage />} />
+          
+          {/* Protected routes - require authentication */}
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } />
+          <Route path="/loyalty" element={
+            <ProtectedRoute>
+              <LoyaltyPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/loyalty-history" element={
+            <ProtectedRoute>
+              <LoyaltyHistoryPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/scan" element={
+            <ProtectedRoute>
+              <QRScannerPage />
+            </ProtectedRoute>
+          } />
+          
+          {/* Business-only routes */}
+          <Route path="/business-profile" element={
+            <ProtectedRoute requiredUserType="business">
+              <BusinessProfilePage />
+            </ProtectedRoute>
+          } />
+          <Route path="/qr-management" element={
+            <ProtectedRoute requiredUserType="business">
+              <QRCodeManagementPage />
+            </ProtectedRoute>
+          } />
+          
+          {/* Admin routes - protected with business user type requirement */}
+          <Route path="/admin" element={
+            <ProtectedRoute requiredUserType="business">
+              <AdminPage />
+            </ProtectedRoute>
+          } />
+          
+          {/* Testing routes - protected with business user type requirement */}
+          <Route path="/registration-test" element={
+            <ProtectedRoute requiredUserType="business">
+              <RegistrationTestPage />
+            </ProtectedRoute>
+          } />
+          
+          {/* Catch-all route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Toaster position="top-right" richColors />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

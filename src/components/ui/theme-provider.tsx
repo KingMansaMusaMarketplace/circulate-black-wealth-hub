@@ -6,9 +6,9 @@ import { ThemeProvider as NextThemesProvider } from "next-themes"
 import { useTheme as useNextTheme } from "next-themes"
 import type { ThemeProviderProps } from "next-themes"
 
-type Theme = "dark" | "light" | "system"
+export type Theme = "dark" | "light" | "system"
 
-type ThemeProviderState = {
+export type ThemeProviderState = {
   theme: Theme
   setTheme: (theme: Theme) => void
 }
