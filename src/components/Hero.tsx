@@ -36,9 +36,9 @@ const Hero = () => {
                   Get Early Access
                 </Button>
               </Link>
-              <Link to="/how-it-works">
+              <Link to="/directory">
                 <Button variant="outline" className="border-mansagold text-mansagold hover:bg-mansagold/10 hover:text-white font-medium text-lg px-8 py-6">
-                  Learn More
+                  Explore Directory
                 </Button>
               </Link>
             </div>

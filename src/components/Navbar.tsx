@@ -1,11 +1,17 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, MapPin } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  
+  // Check if the link matches the current route
+  const isActive = (path: string) => {
+    return location.pathname === path ? "text-mansablue font-bold" : "text-gray-600 hover:text-mansablue";
+  };
 
   return (
     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
@@ -23,16 +29,17 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-8">
           <div className="flex space-x-6">
-            <Link to="/about" className="text-gray-600 hover:text-mansablue font-medium transition-colors duration-200">
+            <Link to="/about" className={`font-medium transition-colors duration-200 ${isActive('/about')}`}>
               About
             </Link>
-            <Link to="/directory" className="text-gray-600 hover:text-mansablue font-medium transition-colors duration-200">
+            <Link to="/directory" className={`font-medium transition-colors duration-200 flex items-center ${isActive('/directory')}`}>
+              <MapPin size={16} className="mr-1 text-mansablue" />
               Directory
             </Link>
-            <Link to="/how-it-works" className="text-gray-600 hover:text-mansablue font-medium transition-colors duration-200">
+            <Link to="/how-it-works" className={`font-medium transition-colors duration-200 ${isActive('/how-it-works')}`}>
               How It Works
             </Link>
-            <Link to="/team-contact" className="text-gray-600 hover:text-mansablue font-medium transition-colors duration-200">
+            <Link to="/team-contact" className={`font-medium transition-colors duration-200 ${isActive('/team-contact')}`}>
               Our Team
             </Link>
           </div>
@@ -61,28 +68,29 @@ const Navbar = () => {
           <div className="container-custom flex flex-col space-y-4">
             <Link 
               to="/about" 
-              className="text-gray-600 hover:text-mansablue font-medium py-2 transition-colors duration-200"
+              className={`font-medium py-2 transition-colors duration-200 ${isActive('/about')}`}
               onClick={() => setIsMenuOpen(false)}
             >
               About
             </Link>
             <Link 
               to="/directory" 
-              className="text-gray-600 hover:text-mansablue font-medium py-2 transition-colors duration-200"
+              className={`font-medium py-2 transition-colors duration-200 flex items-center ${isActive('/directory')}`}
               onClick={() => setIsMenuOpen(false)}
             >
+              <MapPin size={16} className="mr-1 text-mansablue" />
               Directory
             </Link>
             <Link 
               to="/how-it-works" 
-              className="text-gray-600 hover:text-mansablue font-medium py-2 transition-colors duration-200"
+              className={`font-medium py-2 transition-colors duration-200 ${isActive('/how-it-works')}`}
               onClick={() => setIsMenuOpen(false)}
             >
               How It Works
             </Link>
             <Link 
               to="/team-contact" 
-              className="text-gray-600 hover:text-mansablue font-medium py-2 transition-colors duration-200"
+              className={`font-medium py-2 transition-colors duration-200 ${isActive('/team-contact')}`}
               onClick={() => setIsMenuOpen(false)}
             >
               Our Team
