@@ -1,9 +1,9 @@
 
 import React from 'react';
+import { Search, SlidersHorizontal, Grid, List, Map, Navigation } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, Sliders, LayoutGrid, List } from 'lucide-react';
 
 interface DirectorySearchBarProps {
   searchTerm: string;
@@ -12,6 +12,8 @@ interface DirectorySearchBarProps {
   toggleFilters: () => void;
   viewMode: 'grid' | 'list';
   setViewMode: (mode: 'grid' | 'list') => void;
+  userLocation?: { lat: number; lng: number } | null;
+  onGetLocation?: () => void;
 }
 
 const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
@@ -20,46 +22,72 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
   showFilters,
   toggleFilters,
   viewMode,
-  setViewMode
+  setViewMode,
+  userLocation,
+  onGetLocation
 }) => {
   return (
-    <div className="flex flex-col md:flex-row gap-4 mb-4">
-      <div className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-        <Input 
-          placeholder="Search businesses by name, category, or location" 
-          className="pl-10"
-          value={searchTerm}
-          onChange={(e) => onSearchChange(e.target.value)}
-        />
-      </div>
-      <div className="flex space-x-2">
-        <Button 
-          variant="outline" 
-          onClick={toggleFilters}
-          className="flex items-center gap-2"
-        >
-          <Sliders size={16} />
-          Filters
-          {showFilters && <Badge variant="outline" className="ml-1">On</Badge>}
-        </Button>
-        
-        <div className="border rounded-md flex">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-100 mb-4">
+      <div className="p-3">
+        <div className="flex items-center gap-2">
+          <div className="relative flex-grow">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Input
+              type="text"
+              placeholder="Search by business name, category, or location"
+              value={searchTerm}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="pl-10 bg-gray-50"
+            />
+          </div>
+          
           <Button 
-            variant={viewMode === 'grid' ? 'default' : 'ghost'} 
+            variant="outline" 
             size="icon"
-            onClick={() => setViewMode('grid')} 
-            className="rounded-r-none border-r"
+            onClick={toggleFilters}
+            className={showFilters ? "border-mansablue text-mansablue" : ""}
           >
-            <LayoutGrid size={16} />
+            <SlidersHorizontal className="h-4 w-4" />
+          </Button>
+          
+          {onGetLocation && (
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={onGetLocation}
+              className="hidden sm:flex items-center gap-1"
+            >
+              <Navigation className="h-4 w-4" />
+              <span className="mr-1">Near Me</span>
+              {userLocation && (
+                <Badge variant="secondary" className="text-xs">Active</Badge>
+              )}
+            </Button>
+          )}
+        </div>
+      </div>
+      
+      <div className="border-t border-gray-100 px-3 py-2 flex justify-between items-center">
+        <div className="text-sm text-gray-500">
+          View as:
+        </div>
+        
+        <div className="flex gap-1">
+          <Button 
+            variant={viewMode === 'grid' ? "secondary" : "ghost"} 
+            size="sm"
+            onClick={() => setViewMode('grid')}
+            className="h-8"
+          >
+            <Grid className="h-4 w-4 mr-1" /> Grid
           </Button>
           <Button 
-            variant={viewMode === 'list' ? 'default' : 'ghost'} 
-            size="icon"
-            onClick={() => setViewMode('list')} 
-            className="rounded-l-none"
+            variant={viewMode === 'list' ? "secondary" : "ghost"} 
+            size="sm"
+            onClick={() => setViewMode('list')}
+            className="h-8"
           >
-            <List size={16} />
+            <List className="h-4 w-4 mr-1" /> List
           </Button>
         </div>
       </div>

@@ -1,37 +1,30 @@
 
 import React from 'react';
 import { MapPin } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface DirectoryResultsSummaryProps {
   totalResults: number;
-  currentPage?: number;
-  itemsPerPage?: number;
+  nearMeActive?: boolean;
 }
 
-const DirectoryResultsSummary: React.FC<DirectoryResultsSummaryProps> = ({ 
-  totalResults,
-  currentPage = 1,
-  itemsPerPage = 16
-}) => {
-  const startItem = totalResults === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
-  const endItem = Math.min(currentPage * itemsPerPage, totalResults);
-  
+const DirectoryResultsSummary: React.FC<DirectoryResultsSummaryProps> = ({ totalResults, nearMeActive }) => {
   return (
-    <div className="flex items-center justify-between mt-4">
-      <div className="text-sm text-gray-500">
-        {totalResults === 0 ? (
-          <span>No businesses found</span>
-        ) : (
-          <span>
-            Showing {startItem}-{endItem} of {totalResults} businesses
-          </span>
-        )}
+    <div className="flex justify-between items-center py-3 px-4 bg-slate-50 rounded-md mb-4">
+      <div>
+        <p className="text-sm font-medium text-gray-700">
+          {totalResults === 0 
+            ? 'No businesses found' 
+            : `${totalResults} ${totalResults === 1 ? 'business' : 'businesses'} found`}
+        </p>
       </div>
-      <div className="flex items-center gap-2 text-sm text-mansablue">
-        <MapPin size={16} />
-        <span>Atlanta, GA</span>
-        <button className="text-xs underline">Change</button>
-      </div>
+      
+      {nearMeActive && (
+        <Badge variant="outline" className="flex items-center gap-1 bg-white">
+          <MapPin size={12} />
+          <span>Near Me</span>
+        </Badge>
+      )}
     </div>
   );
 };

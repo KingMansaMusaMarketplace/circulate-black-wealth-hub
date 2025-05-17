@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import DirectoryFilter from '@/components/DirectoryFilter';
@@ -11,10 +11,12 @@ import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
 import DirectoryResultsSummary from '@/components/directory/DirectoryResultsSummary';
 import DirectoryPagination from '@/components/directory/DirectoryPagination';
+import { toast } from 'sonner';
 
 const DirectoryPage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   
   const {
     searchTerm,
@@ -25,7 +27,8 @@ const DirectoryPage = () => {
     filteredBusinesses,
     paginatedBusinesses,
     mapData,
-    pagination
+    pagination,
+    updateUserLocation
   } = useDirectorySearch(businesses);
   
   const handleSelectBusiness = (id: number) => {
@@ -43,6 +46,36 @@ const DirectoryPage = () => {
       }
     }
   };
+
+  const handleGetLocation = useCallback(() => {
+    if (!navigator.geolocation) {
+      toast.error("Geolocation not supported", {
+        description: "Your browser doesn't support geolocation services."
+      });
+      return;
+    }
+
+    toast.loading("Getting your location...");
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ lat: latitude, lng: longitude });
+        updateUserLocation(latitude, longitude);
+        toast.dismiss();
+        toast.success("Location found", {
+          description: "Showing businesses near your location."
+        });
+      },
+      (error) => {
+        toast.dismiss();
+        toast.error("Location error", {
+          description: "Couldn't access your location. Please check your browser permissions."
+        });
+        console.error("Geolocation error:", error);
+      }
+    );
+  }, [updateUserLocation]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -65,6 +98,8 @@ const DirectoryPage = () => {
             toggleFilters={() => setShowFilters(!showFilters)}
             viewMode={viewMode}
             setViewMode={setViewMode}
+            userLocation={userLocation}
+            onGetLocation={handleGetLocation}
           />
           
           {/* Map View */}
@@ -82,7 +117,10 @@ const DirectoryPage = () => {
             />
           )}
           
-          <DirectoryResultsSummary totalResults={filteredBusinesses.length} />
+          <DirectoryResultsSummary 
+            totalResults={filteredBusinesses.length}
+            nearMeActive={!!userLocation}
+          />
         </div>
         
         {/* Businesses Display */}
