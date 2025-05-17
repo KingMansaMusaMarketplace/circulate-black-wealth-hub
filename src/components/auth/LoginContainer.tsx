@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Separator } from '@/components/ui/separator';
+import { BadgeDollarSign, TrendingUp, MapPin } from 'lucide-react';
 
 interface LoginContainerProps {
   children: React.ReactNode;
@@ -38,16 +39,36 @@ const LoginContainer: React.FC<LoginContainerProps> = ({ children, header }) => 
       className="w-full max-w-md"
     >
       {header && (
-        <motion.div variants={itemVariants} className="text-center mb-8">
+        <motion.div variants={itemVariants} className="text-center mb-6">
           {header}
         </motion.div>
       )}
 
       <motion.div
         variants={itemVariants}
-        className="bg-white p-8 rounded-lg shadow-lg border border-gray-100"
+        className="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-100"
       >
         {children}
+      </motion.div>
+      
+      <motion.div variants={itemVariants} className="mt-6 p-4 bg-white/80 rounded-lg border border-gray-100 text-sm">
+        <div className="flex items-center mb-2">
+          <span className="text-mansablue font-semibold">Why Join Mansa Musa?</span>
+        </div>
+        <ul className="space-y-2 text-gray-600">
+          <li className="flex items-start">
+            <BadgeDollarSign className="h-4 w-4 text-mansagold mr-2 mt-0.5 flex-shrink-0" />
+            <span>Support economic empowerment with every transaction</span>
+          </li>
+          <li className="flex items-start">
+            <TrendingUp className="h-4 w-4 text-mansagold mr-2 mt-0.5 flex-shrink-0" />
+            <span>Track your contribution to circulating Black wealth</span>
+          </li>
+          <li className="flex items-start">
+            <MapPin className="h-4 w-4 text-mansagold mr-2 mt-0.5 flex-shrink-0" />
+            <span>Discover and support Black-owned businesses nearby</span>
+          </li>
+        </ul>
       </motion.div>
     </motion.div>
   );
