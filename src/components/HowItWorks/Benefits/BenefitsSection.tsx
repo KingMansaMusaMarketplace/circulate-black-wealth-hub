@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import BenefitsHeader from './BenefitsHeader';
 import BenefitsTabSwitcher from './BenefitsTabSwitcher';
 import BenefitsList from './BenefitsList';
+import NearbyBusinessesFeature from './NearbyBusinessesFeature';
 import { Benefit } from './BenefitCard';
 
 const BenefitsSection = () => {
@@ -111,6 +112,13 @@ const BenefitsSection = () => {
             setActiveTab={setActiveTab}
           />
         </motion.div>
+
+        {/* Highlight Feature - Show only for customers tab */}
+        {activeTab === 'customers' && (
+          <div className="mb-8">
+            <NearbyBusinessesFeature isVisible={isVisible} />
+          </div>
+        )}
 
         <BenefitsList 
           benefits={currentBenefits}
