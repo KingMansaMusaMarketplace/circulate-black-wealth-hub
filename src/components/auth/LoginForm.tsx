@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'react-router-dom';
-import { Loader2, Eye, EyeOff, MapPin, BadgeDollarSign, Users, TrendingUp } from 'lucide-react';
+import { Loader2, Eye, EyeOff, MapPin, BadgeDollarSign, Users, TrendingUp, LogIn } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -23,6 +23,8 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import MFAVerification from './MFAVerification';
 import { useAuth } from '@/contexts/AuthContext';
+import { SubmitButton } from './forms/SubmitButton';
+import { motion } from 'framer-motion';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -261,24 +263,22 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             </Link>
           </div>
 
-          <Button
-            type="submit"
-            className="w-full bg-mansablue hover:bg-mansablue/90"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Signing in...
-              </>
-            ) : (
-              'Sign In'
-            )}
-          </Button>
+          <SubmitButton 
+            loading={isSubmitting}
+            text="Sign In"
+            loadingText="Signing in..."
+            className="w-full bg-mansablue hover:bg-mansablue/90 mt-2"
+            icon={<LogIn className="h-4 w-4" />}
+          />
           
           <Separator className="my-4" />
           
-          <div className="text-center space-y-3">
+          <motion.div 
+            className="text-center space-y-3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
             <p className="text-gray-600">
               Don't have an account?{' '}
               <Link
@@ -292,7 +292,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             <p className="text-xs text-gray-500">
               By signing in, you're joining a movement to circulate wealth in the Black community.
             </p>
-          </div>
+          </motion.div>
         </form>
       </Form>
     </div>

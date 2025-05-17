@@ -8,13 +8,15 @@ interface SubmitButtonProps {
   text: string;
   loadingText?: string;
   className?: string;
+  icon?: React.ReactNode;
 }
 
 export const SubmitButton: React.FC<SubmitButtonProps> = ({ 
   loading, 
   text, 
   loadingText = "Creating Account...",
-  className = "w-full bg-mansablue"
+  className = "w-full bg-mansablue",
+  icon
 }) => {
   return (
     <Button type="submit" className={className} disabled={loading}>
@@ -24,8 +26,13 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
           {loadingText}
         </>
       ) : (
-        text
+        <>
+          {icon && <span className="mr-2">{icon}</span>}
+          {text}
+        </>
       )}
     </Button>
   );
 };
+
+export default SubmitButton;
