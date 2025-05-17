@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -17,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { handleSignOut } from '@/lib/auth-operations';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { MiniLoyaltyWidget } from '@/components/loyalty/MiniLoyaltyWidget';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -205,3 +205,24 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 };
 
 export { DashboardLayout };
+
+const Dashboard = () => {
+  return (
+    <DashboardLayout>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="md:col-span-2 space-y-6">
+          <WelcomeGuide />
+          <CirculationImpact />
+          <RecentActivity />
+        </div>
+        
+        <div className="space-y-6">
+          <MiniLoyaltyWidget />
+          <NearbyBusinesses />
+        </div>
+      </div>
+    </DashboardLayout>
+  );
+};
+
+export default Dashboard;

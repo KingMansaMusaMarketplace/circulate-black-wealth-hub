@@ -1,137 +1,92 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { Button } from '@/components/ui/button';
-import { Award, Sparkles, TrendingUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowUp, Award, Sparkles } from 'lucide-react';
+import { useLoyalty } from '@/hooks/use-loyalty';
+import { motion } from 'framer-motion';
 
-interface LoyaltyPointsCardProps {
-  points: number;
-  target: number;
-  saved: number;
-}
-
-const LoyaltyPointsCard = ({ points, target, saved }: LoyaltyPointsCardProps) => {
-  const percentage = Math.min((points / target) * 100, 100);
+const LoyaltyPointsCard: React.FC = () => {
+  const { loyaltyPoints, pointsHistory, isLoading, nextRewardThreshold, currentTier } = useLoyalty();
   
-  // Animate the points count with a simple effect
-  const [displayPoints, setDisplayPoints] = React.useState(0);
+  // Calculate the points earned this month
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  const pointsThisMonth = pointsHistory
+    ? pointsHistory
+        .filter(entry => {
+          const entryDate = new Date(entry.date);
+          return entryDate.getMonth() === currentMonth && 
+                 entryDate.getFullYear() === currentYear &&
+                 entry.type === 'earned';
+        })
+        .reduce((total, entry) => total + entry.points, 0)
+    : 0;
   
-  React.useEffect(() => {
-    // Animate points counting up
-    const duration = 1000; // 1 second animation
-    const interval = 20; // Update every 20ms
-    const steps = duration / interval;
-    const increment = points / steps;
-    let current = 0;
-    
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= points) {
-        setDisplayPoints(points);
-        clearInterval(timer);
-      } else {
-        setDisplayPoints(Math.floor(current));
-      }
-    }, interval);
-    
-    return () => clearInterval(timer);
-  }, [points]);
+  // Calculate progress percentage toward next tier/reward
+  const progress = nextRewardThreshold > 0 
+    ? Math.min(Math.floor((loyaltyPoints / nextRewardThreshold) * 100), 100) 
+    : 0;
 
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="pb-3 bg-gradient-to-r from-mansablue to-blue-600 text-white">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg font-semibold">Loyalty Points</CardTitle>
-          <Award className="h-6 w-6 text-mansagold" />
+      <CardHeader className="bg-gradient-to-r from-mansablue to-mansablue-dark text-white pb-8">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <Sparkles className="h-5 w-5" />
+            <h3 className="font-semibold text-lg">Loyalty Points</h3>
+          </div>
+          {currentTier && (
+            <div className="bg-white/20 px-3 py-1 rounded-full text-xs font-medium">
+              {currentTier} Tier
+            </div>
+          )}
         </div>
       </CardHeader>
-      <CardContent className="pt-6">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-baseline gap-1">
-            <span className="text-3xl font-bold transition-all duration-500">{displayPoints}</span>
-            <span className="text-sm text-gray-500"> / {target}</span>
-          </div>
-          <div className="text-sm text-green-600 font-medium flex items-center">
-            <TrendingUp size={14} className="mr-1" />${saved} saved
-          </div>
-        </div>
-        
-        <Progress value={percentage} className="h-2.5 mb-4 bg-gray-100">
-          <div className="absolute inset-0 flex items-center justify-end px-2">
-            {percentage >= 30 && (
-              <div 
-                className="h-5 w-5 rounded-full bg-white shadow flex items-center justify-center -mr-2.5 transform translate-y-[-50%] z-10" 
-                style={{ right: `${100-percentage}%` }}
+      
+      <CardContent className="pt-0 -mt-6">
+        <div className="bg-white rounded-lg shadow-lg p-4">
+          <div className="flex items-end justify-between mb-4">
+            <div>
+              <motion.div 
+                className="text-3xl font-bold text-mansablue"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
               >
-                <Sparkles size={10} className="text-amber-500" />
+                {isLoading ? '---' : loyaltyPoints?.toLocaleString() || 0}
+              </motion.div>
+              <span className="text-gray-500 text-sm">Total Points</span>
+            </div>
+            
+            {pointsThisMonth > 0 && (
+              <div className="flex items-center text-green-600">
+                <ArrowUp className="h-4 w-4 mr-1" />
+                <span className="font-medium">{pointsThisMonth}</span>
+                <span className="text-xs ml-1">this month</span>
               </div>
             )}
           </div>
-        </Progress>
-        
-        <div className="grid grid-cols-2 gap-3 mb-5">
-          <div className="bg-gray-50 rounded-lg px-3 py-2 text-center">
-            <div className="text-lg font-semibold">{points}</div>
-            <div className="text-xs text-gray-500">Available Points</div>
-          </div>
-          <div className="bg-gray-50 rounded-lg px-3 py-2 text-center">
-            <div className="text-lg font-semibold">{Math.round(points / 10)}</div>
-            <div className="text-xs text-gray-500">Businesses Visited</div>
-          </div>
-        </div>
-        
-        <div className="flex justify-between items-center mb-5">
-          <Button variant="outline" size="sm" className="text-sm" asChild>
-            <Link to="/scan">Scan for Points</Link>
-          </Button>
-          <Button variant="outline" size="sm" className="text-sm">
-            Redeem Points
-          </Button>
-        </div>
-        
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          <h4 className="text-sm font-medium mb-2">Rewards Progress</h4>
-          <div className="space-y-3">
-            <RewardProgressItem name="Free Coffee" points={50} currentPoints={points} />
-            <RewardProgressItem name="$10 Discount" points={100} currentPoints={points} />
-            <RewardProgressItem name="VIP Status" points={500} currentPoints={points} />
-          </div>
+          
+          {nextRewardThreshold > 0 && (
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Progress to next reward</span>
+                <span className="font-medium">{progress}%</span>
+              </div>
+              <Progress value={progress} className="h-2" />
+              <div className="flex justify-between items-center text-xs text-gray-500">
+                <span>Current</span>
+                <div className="flex items-center text-mansablue">
+                  <Award className="h-3 w-3 mr-1" />
+                  <span>{nextRewardThreshold - loyaltyPoints} points to go</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
-  );
-};
-
-interface RewardProgressItemProps {
-  name: string;
-  points: number;
-  currentPoints: number;
-}
-
-const RewardProgressItem = ({ name, points, currentPoints }: RewardProgressItemProps) => {
-  const progress = Math.min((currentPoints / points) * 100, 100);
-  const isComplete = currentPoints >= points;
-  
-  return (
-    <div className="space-y-1">
-      <div className="flex items-center justify-between">
-        <div className="text-sm flex items-center">
-          {isComplete && <Award size={14} className="text-green-500 mr-1" />}
-          {name}
-        </div>
-        <div className="text-xs text-gray-500">{points} points</div>
-      </div>
-      <div className="relative">
-        <Progress value={progress} className="h-1.5" />
-        {isComplete && (
-          <div className="absolute right-0 top-1/2 transform -translate-y-1/2 -translate-x-1 h-3 w-3 bg-green-500 rounded-full flex items-center justify-center">
-            <div className="h-1.5 w-1.5 bg-white rounded-full"></div>
-          </div>
-        )}
-      </div>
-    </div>
   );
 };
 
