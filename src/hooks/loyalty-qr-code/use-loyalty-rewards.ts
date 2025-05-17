@@ -28,10 +28,10 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
   }>>([]);
   const { user } = useAuth();
   const { 
+    availableRewards,
     summary, 
     refreshData, 
-    redeemReward,
-    availableRewards
+    redeemReward 
   } = useLoyalty();
   
   // Format the available rewards into a more useful structure
@@ -39,11 +39,11 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
     id: reward.id,
     title: reward.title,
     description: reward.description || '',
-    pointsCost: reward.pointsCost,
+    pointsCost: reward.points_cost,
     category: reward.category || 'General',
     businessName: reward.businessName,
     expiresAt: reward.expiresAt,
-    imageUrl: reward.imageUrl // Add imageUrl property
+    imageUrl: reward.image_url // Add imageUrl property
   }));
 
   // Update the loyaltyPoints whenever there's a change in the summary
@@ -91,7 +91,7 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
   };
 
   return {
-    totalPoints: summary.totalPoints || 0,
+    totalPoints: summary?.totalPoints || 0,
     loyaltyPoints,
     availableRewards: formattedRewards,
     redeemReward: handleRedeemReward,

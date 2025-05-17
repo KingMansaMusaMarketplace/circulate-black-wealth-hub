@@ -15,7 +15,7 @@ export interface LoyaltyNotification {
 export const useLoyaltyNotifications = () => {
   const [notifications, setNotifications] = useState<LoyaltyNotification[]>([]);
   const { user } = useAuth();
-  const { summary, availableRewards, redeemedRewards } = useLoyalty();
+  const { summary, redeemedRewards } = useLoyalty();
   const [hasUnread, setHasUnread] = useState(false);
   
   // Check for milestone notifications

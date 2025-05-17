@@ -6,8 +6,22 @@ import { ArrowUp, Award, Sparkles } from 'lucide-react';
 import { useLoyalty } from '@/hooks/use-loyalty';
 import { motion } from 'framer-motion';
 
-const LoyaltyPointsCard: React.FC = () => {
+interface LoyaltyPointsCardProps {
+  points?: number;
+  target?: number;
+  saved?: number;
+}
+
+const LoyaltyPointsCard: React.FC<LoyaltyPointsCardProps> = ({
+  points,
+  target = 500,
+  saved = 0
+}) => {
   const { loyaltyPoints, pointsHistory, isLoading, nextRewardThreshold, currentTier } = useLoyalty();
+  
+  // Use provided points or fall back to the points from the hook
+  const displayPoints = points !== undefined ? points : loyaltyPoints;
+  const displayTarget = target || nextRewardThreshold;
   
   // Calculate the points earned this month
   const currentMonth = new Date().getMonth();
@@ -24,8 +38,8 @@ const LoyaltyPointsCard: React.FC = () => {
     : 0;
   
   // Calculate progress percentage toward next tier/reward
-  const progress = nextRewardThreshold > 0 
-    ? Math.min(Math.floor((loyaltyPoints / nextRewardThreshold) * 100), 100) 
+  const progress = displayTarget > 0 
+    ? Math.min(Math.floor((displayPoints / displayTarget) * 100), 100) 
     : 0;
 
   return (
@@ -54,7 +68,7 @@ const LoyaltyPointsCard: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                {isLoading ? '---' : loyaltyPoints?.toLocaleString() || 0}
+                {isLoading ? '---' : displayPoints?.toLocaleString() || 0}
               </motion.div>
               <span className="text-gray-500 text-sm">Total Points</span>
             </div>
@@ -68,7 +82,7 @@ const LoyaltyPointsCard: React.FC = () => {
             )}
           </div>
           
-          {nextRewardThreshold > 0 && (
+          {displayTarget > 0 && (
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Progress to next reward</span>
@@ -79,8 +93,17 @@ const LoyaltyPointsCard: React.FC = () => {
                 <span>Current</span>
                 <div className="flex items-center text-mansablue">
                   <Award className="h-3 w-3 mr-1" />
-                  <span>{nextRewardThreshold - loyaltyPoints} points to go</span>
+                  <span>{displayTarget - displayPoints} points to go</span>
                 </div>
+              </div>
+            </div>
+          )}
+          
+          {saved > 0 && (
+            <div className="mt-4 pt-4 border-t">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-gray-600">Total Savings</span>
+                <span className="font-bold text-green-600">${saved.toFixed(2)}</span>
               </div>
             </div>
           )}
