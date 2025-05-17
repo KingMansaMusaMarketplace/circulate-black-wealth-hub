@@ -6,11 +6,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import AuthLayout from '@/components/auth/AuthLayout';
 import LoginContainer from '@/components/auth/LoginContainer';
 import SignupForm from '@/components/auth/SignupForm';
-import SocialLogin from '@/components/auth/SocialLogin';
-import OrSeparator from '@/components/auth/OrSeparator';
 
 const SignupPage = () => {
-  const { signUp, signInWithSocial } = useAuth();
+  const { signUp } = useAuth();
 
   return (
     <AuthLayout>
@@ -25,8 +23,6 @@ const SignupPage = () => {
           </>
         }
       >
-        <SocialLogin onSocialLogin={signInWithSocial} />
-        <OrSeparator />
         <SignupForm onSubmit={signUp} />
 
         <div className="mt-6 text-center">

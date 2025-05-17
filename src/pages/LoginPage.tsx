@@ -5,11 +5,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import AuthLayout from '@/components/auth/AuthLayout';
 import LoginContainer from '@/components/auth/LoginContainer';
 import LoginForm from '@/components/auth/LoginForm';
-import SocialLogin from '@/components/auth/SocialLogin';
-import OrSeparator from '@/components/auth/OrSeparator';
 
 const LoginPage = () => {
-  const { signIn, signInWithSocial } = useAuth();
+  const { signIn } = useAuth();
 
   return (
     <AuthLayout>
@@ -23,8 +21,6 @@ const LoginPage = () => {
           </>
         }
       >
-        <SocialLogin onSocialLogin={signInWithSocial} />
-        <OrSeparator />
         <LoginForm onSubmit={signIn} />
       </LoginContainer>
     </AuthLayout>
