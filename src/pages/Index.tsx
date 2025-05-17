@@ -25,6 +25,7 @@ const HomePage = () => {
           </div>
           
           <div className="max-w-3xl mx-auto">
+            {/* Example of a direct MP4 video */}
             <VideoPlayer 
               src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" 
               title="The Future of Black Wealth Circulation" 
@@ -34,6 +35,19 @@ const HomePage = () => {
             <div className="mt-4 text-center text-sm text-gray-500">
               This is a placeholder video. Replace with your actual content.
             </div>
+            
+            {/* Example of a YouTube video - uncommment to use */}
+            {/* 
+            <VideoPlayer 
+              src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
+              title="YouTube Example" 
+              className="aspect-video mt-8"
+              isYouTube={true}
+            />
+            <div className="mt-4 text-center text-sm text-gray-500">
+              This is a YouTube example. Replace with your actual YouTube URL.
+            </div>
+            */}
           </div>
         </div>
       </section>
