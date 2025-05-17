@@ -1,45 +1,25 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
-import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import HowItWorks from '@/components/HowItWorks';
-import WhySection from '@/components/WhySection';
-import FeaturedBusinesses from '@/components/FeaturedBusinesses';
-import TestimonialsSection from '@/components/TestimonialsSection';
-import CTASection from '@/components/CTASection';
-import Footer from '@/components/Footer';
-import WelcomeBanner from '@/components/WelcomeBanner';
+import Hero from '../components/Hero';
+import HowItWorks from '../components/HowItWorks';
+import FeaturedBusinesses from '../components/FeaturedBusinesses';
+import WhySection from '../components/WhySection';
+import TestimonialsSection from '../components/TestimonialsSection';
+import CTASection from '../components/CTASection';
+import LogoShowcase from '../components/brand/LogoShowcase';
 
-const Index = () => {
+const HomePage = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>Mansa Musa Marketplace</title>
-        <meta name="description" content="Discover and support Black-owned businesses, earn rewards, and help circulate Black wealth. Join our community dedicated to building economic legacy together." />
-        <meta name="keywords" content="black-owned businesses, wealth circulation, economic empowerment, black business directory, loyalty rewards" />
-        <meta property="og:title" content="Mansa Musa Marketplace" />
-        <meta property="og:description" content="Discover and support Black-owned businesses, earn rewards, and help circulate Black wealth. Join our community dedicated to building economic legacy together." />
-        <meta property="og:type" content="website" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Mansa Musa Marketplace" />
-        <meta name="twitter:description" content="Discover and support Black-owned businesses, earn rewards, and help circulate Black wealth. Join our community dedicated to building economic legacy together." />
-        <link rel="canonical" href="https://mansamusamarketplace.com/" />
-      </Helmet>
-
-      <Navbar />
-      <WelcomeBanner />
-      <main className="flex-grow">
-        <Hero />
-        <WhySection />
-        <HowItWorks />
-        <FeaturedBusinesses />
-        <TestimonialsSection />
-        <CTASection />
-      </main>
-      <Footer />
+    <div className="min-h-screen">
+      <Hero />
+      <LogoShowcase />
+      <HowItWorks />
+      <WhySection />
+      <FeaturedBusinesses />
+      <TestimonialsSection />
+      <CTASection />
     </div>
   );
 };
 
-export default Index;
+export default HomePage;
