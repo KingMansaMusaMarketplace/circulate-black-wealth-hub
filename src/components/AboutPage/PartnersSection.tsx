@@ -55,7 +55,7 @@ const PartnersSection = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Link to="/partners">
+          <Link to="/contact">
             <Button className="bg-mansagold hover:bg-mansagold-dark text-white group">
               Become A Partner
               <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
