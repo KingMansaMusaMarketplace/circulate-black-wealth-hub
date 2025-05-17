@@ -7,6 +7,7 @@ import AuthLayout from '@/components/auth/AuthLayout';
 import { Button } from '@/components/ui/button';
 import { subscriptionService } from '@/lib/services/subscription-service';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { supabase } from '@/integrations/supabase/client'; // Import supabase client directly
 
 const SignupSuccessPage = () => {
   const [searchParams] = useSearchParams();
@@ -23,7 +24,7 @@ const SignupSuccessPage = () => {
           await subscriptionService.checkSubscription();
           
           // Get user type from metadata
-          const { data: { user: currentUser } } = await subscriptionService.supabase.auth.getUser();
+          const { data: { user: currentUser } } = await supabase.auth.getUser();
           const type = currentUser?.user_metadata?.userType as 'customer' | 'business' | null;
           setUserType(type);
           
