@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Business, businessCategories } from '@/data/businessData';
 import { FilterOptions } from '@/components/DirectoryFilter';
@@ -17,6 +17,10 @@ export function useDirectorySearch(businesses: Business[]) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(16);
   
+  // User location state
+  const [userLocation, setUserLocation] = useState<{ lat: number, lng: number } | null>(null);
+  const [businessesWithDistance, setBusinessesWithDistance] = useState<Business[]>([]);
+  
   const location = useLocation();
   
   useEffect(() => {
@@ -31,17 +35,57 @@ export function useDirectorySearch(businesses: Business[]) {
     setCurrentPage(1);
   }, [location]);
 
+  // Calculate distance between two points using Haversine formula
+  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+    const R = 3958.8; // Earth radius in miles
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  };
+
   const handleFilterChange = (newFilters: Partial<FilterOptions>) => {
     setFilterOptions(prev => ({ ...prev, ...newFilters }));
     // Reset to page 1 when filters change
     setCurrentPage(1);
   };
 
+  const updateUserLocation = useCallback((latitude: number, longitude: number) => {
+    setUserLocation({ lat: latitude, lng: longitude });
+    
+    // Update businesses with distance from user location
+    const updatedBusinesses = businesses.map(business => {
+      const distance = calculateDistance(
+        latitude, 
+        longitude, 
+        business.lat, 
+        business.lng
+      );
+      
+      return {
+        ...business,
+        distanceValue: distance,
+        distance: distance.toFixed(1) + ' mi'
+      };
+    });
+    
+    // Sort by distance
+    updatedBusinesses.sort((a, b) => (a.distanceValue || 0) - (b.distanceValue || 0));
+    setBusinessesWithDistance(updatedBusinesses);
+    
+    // Reset to page 1 when location changes
+    setCurrentPage(1);
+  }, [businesses]);
+
   // Get unique categories from our predefined list and any that appear in the data but aren't in our list
   const categories = [...businessCategories];
   
   // Filter businesses based on search term and filters
-  const filteredBusinesses = businesses.filter(business => {
+  const filteredBusinesses = (userLocation ? businessesWithDistance : businesses).filter(business => {
     // Search term filter
     const matchesSearch = business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          business.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -51,7 +95,8 @@ export function useDirectorySearch(businesses: Business[]) {
     const matchesCategory = filterOptions.category === 'all' || business.category === filterOptions.category;
     
     // Distance filter
-    const matchesDistance = filterOptions.distance === 0 || business.distanceValue <= filterOptions.distance;
+    const matchesDistance = filterOptions.distance === 0 || 
+                          (business.distanceValue !== undefined && business.distanceValue <= filterOptions.distance);
     
     // Rating filter
     const matchesRating = business.rating >= filterOptions.rating;
@@ -76,12 +121,14 @@ export function useDirectorySearch(businesses: Business[]) {
   };
 
   // Create map data for MapView
-  const mapData = businesses.map(b => ({
+  const mapData = (userLocation ? businessesWithDistance : businesses).map(b => ({
     id: b.id,
     name: b.name,
     lat: b.lat,
     lng: b.lng,
-    category: b.category
+    category: b.category,
+    distanceValue: b.distanceValue,
+    distance: b.distance
   }));
 
   return {
@@ -93,6 +140,8 @@ export function useDirectorySearch(businesses: Business[]) {
     filteredBusinesses,
     paginatedBusinesses,
     mapData,
+    userLocation,
+    updateUserLocation,
     pagination: {
       currentPage,
       totalPages,
