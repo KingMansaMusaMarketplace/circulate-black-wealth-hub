@@ -3,10 +3,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 
-const NearbyBusinessesFeature = () => {
+interface NearbyBusinessesFeatureProps {
+  isVisible?: boolean;
+}
+
+const NearbyBusinessesFeature: React.FC<NearbyBusinessesFeatureProps> = ({ isVisible = true }) => {
   return (
-    <div className="bg-white rounded-xl p-6 shadow-md">
+    <motion.div 
+      className="bg-white rounded-xl p-6 shadow-md"
+      initial={{ opacity: 0, y: 20 }}
+      animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+    >
       <div className="flex flex-col md:flex-row items-center gap-6">
         <div className="w-full md:w-1/2">
           <div className="text-xl font-semibold text-mansablue mb-3 flex items-center">
@@ -75,7 +85,7 @@ const NearbyBusinessesFeature = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
