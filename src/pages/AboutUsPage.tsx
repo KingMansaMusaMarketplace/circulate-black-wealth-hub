@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import VideoPlayer from '../components/VideoPlayer';
 import {
   HeroSection,
@@ -21,6 +23,8 @@ const AboutUsPage = () => {
         <title>About Us | Mansa Musa Marketplace</title>
         <meta name="description" content="Learn about our mission, vision, and the team behind Mansa Musa Marketplace" />
       </Helmet>
+      
+      <Navbar />
 
       {/* Hero Section */}
       <HeroSection />
@@ -71,6 +75,8 @@ const AboutUsPage = () => {
 
       {/* Contact Section */}
       <ContactSection />
+
+      <Footer />
     </div>
   );
 };
