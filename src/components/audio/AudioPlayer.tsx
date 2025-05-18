@@ -32,7 +32,22 @@ export const AudioPlayer = ({
     audio.addEventListener('ended', handleAudioEnded);
     audio.addEventListener('error', (e) => {
       console.error('Audio error:', e);
-      setError('Failed to load audio file');
+      
+      // Try the alternative format if available
+      if (src.endsWith('.mp3')) {
+        const wavSrc = src.replace('.mp3', '.wav');
+        console.log('Trying WAV format:', wavSrc);
+        
+        const wavAudio = new Audio(wavSrc);
+        wavAudio.addEventListener('error', () => {
+          setError('Failed to load audio file');
+        });
+        
+        wavAudio.addEventListener('ended', handleAudioEnded);
+        audioRef.current = wavAudio;
+      } else {
+        setError('Failed to load audio file');
+      }
     });
     
     // Clean up function

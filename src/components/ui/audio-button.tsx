@@ -18,6 +18,7 @@ export const AudioButton = ({
     <AudioPlayer 
       src={audioSrc}
       className={className}
+      {...props}
     >
       {children}
     </AudioPlayer>
