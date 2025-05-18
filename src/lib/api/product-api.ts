@@ -1,4 +1,3 @@
-
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { uploadProductImage } from './storage-api';
@@ -8,18 +7,18 @@ export interface ProductImage {
   id: string;
   business_id: string;
   title: string;
-  description: string;
+  description?: string;
   price?: string;
   image_url: string;
   is_active: boolean;
   alt_text?: string;
   meta_description?: string;
+  view_count?: number;
   category?: string;
   tags?: string;
   original_size?: number;
   compressed_size?: number;
   compression_savings?: number;
-  view_count?: number;
   created_at?: string;
   updated_at?: string;
 }

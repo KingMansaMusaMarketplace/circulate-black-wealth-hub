@@ -1,87 +1,54 @@
 
 import React from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Share2, Twitter, Facebook, Linkedin, Link } from 'lucide-react';
-import { useSocialShare } from '@/hooks/use-social-share';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Share2, Copy, Check } from "lucide-react";
+import { useSocialShare } from "@/hooks/use-social-share";
+import { toast } from 'sonner';
 
 interface SocialShareDialogProps {
   title: string;
-  text: string;
-  url?: string;
-  customPath?: string; // For generating a custom URL
-  triggerContent?: React.ReactNode;
+  path: string;
+  description?: string;
+  children?: React.ReactNode;
 }
 
-export const SocialShareDialog: React.FC<SocialShareDialogProps> = ({
-  title,
-  text,
-  url,
-  customPath,
-  triggerContent
-}) => {
-  const { shareWithNative, shareTargets, getShareUrl, canShare } = useSocialShare();
-  const [open, setOpen] = React.useState(false);
-
-  const shareUrl = url || (customPath ? getShareUrl(customPath) : window.location.href);
+const SocialShareDialog: React.FC<SocialShareDialogProps> = ({ title, path, description, children }) => {
+  const { shareTargets, getShareUrl } = useSocialShare();
+  const [copied, setCopied] = React.useState(false);
   
-  const shareOptions = {
-    title,
-    text,
-    url: shareUrl
-  };
+  const shareUrl = getShareUrl(path);
   
-  const handleShare = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    
-    // Try native sharing first
-    if (canShare) {
-      const shared = await shareWithNative(shareOptions);
-      if (shared) return;
-    }
-    
-    // If native sharing is not available or failed, open the dialog
-    setOpen(true);
-  };
-  
-  const getIconComponent = (iconName: string) => {
-    switch (iconName) {
-      case 'twitter':
-        return <Twitter className="h-5 w-5" />;
-      case 'facebook':
-        return <Facebook className="h-5 w-5" />;
-      case 'linkedin':
-        return <Linkedin className="h-5 w-5" />;
-      case 'link':
-        return <Link className="h-5 w-5" />;
-      default:
-        return <Share2 className="h-5 w-5" />;
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      toast.success('Link copied to clipboard');
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast.error('Failed to copy link');
     }
   };
-
+  
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        {triggerContent ? (
-          <div onClick={handleShare} className="cursor-pointer">
-            {triggerContent}
-          </div>
-        ) : (
+        {children || (
           <Button 
             variant="outline" 
-            size="sm" 
-            className="gap-2" 
-            onClick={handleShare}
+            size="sm"
+            className="flex gap-2 items-center"
           >
             <Share2 className="h-4 w-4" />
-            Share
+            <span>Share</span>
           </Button>
         )}
       </DialogTrigger>
@@ -89,21 +56,46 @@ export const SocialShareDialog: React.FC<SocialShareDialogProps> = ({
         <DialogHeader>
           <DialogTitle>Share</DialogTitle>
           <DialogDescription>
-            Share your loyalty reward with others
+            Share this link with your network
           </DialogDescription>
         </DialogHeader>
-        <div className="grid grid-cols-2 gap-3 py-4">
+        
+        <div className="flex items-center space-x-2 py-4">
+          <div className="grid flex-1 gap-2">
+            <div className="flex items-center border rounded-md pl-3">
+              <Input 
+                value={shareUrl} 
+                readOnly 
+                className="border-0 focus-visible:ring-0"
+              />
+            </div>
+          </div>
+          <Button 
+            type="submit" 
+            size="icon" 
+            onClick={handleCopy}
+            className={copied ? "bg-green-600 hover:bg-green-700" : ""}
+          >
+            {copied ? (
+              <Check className="h-4 w-4" />
+            ) : (
+              <Copy className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
+        
+        <div className="flex justify-center gap-4 py-2">
           {shareTargets.map((target) => (
             <Button
               key={target.name}
-              className={`gap-2 ${target.color}`}
-              onClick={() => {
-                target.action(shareOptions);
-                setOpen(false);
-              }}
+              size="icon"
+              variant="outline"
+              onClick={() => target.action({ title, text: description, url: shareUrl })}
+              className={`rounded-full ${target.color}`}
+              aria-label={`Share on ${target.name}`}
             >
-              {getIconComponent(target.icon)}
-              {target.name}
+              {/* Use proper icon component based on target.icon string */}
+              <span className="sr-only">Share on {target.name}</span>
             </Button>
           ))}
         </div>
