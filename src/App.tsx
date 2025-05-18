@@ -7,8 +7,8 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
-import { useAuth } from './contexts/auth';
-import { ThemeProvider } from "./components/ui/theme-provider"
+import { AuthProvider, useAuth } from './contexts/auth/AuthProvider';
+import { ThemeProvider } from "./components/ui/theme-provider";
 import LandingPage from './pages/Index';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -23,14 +23,17 @@ import AboutUsPage from './pages/AboutUsPage';
 import NotFound from './pages/NotFound';
 import AdminPage from './pages/AdminPage';
 import QRCodeManagementPage from './pages/QRCodeManagementPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 const App = () => {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="marketplace-theme">
-      <Router>
-        <AppContent />
-      </Router>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider defaultTheme="system" storageKey="marketplace-theme">
+        <Router>
+          <AppContent />
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 
@@ -46,7 +49,7 @@ const AppContent = () => {
 
   // Function to determine if the current route is a public route
   const isPublicRoute = () => {
-    const publicRoutes = ['/', '/login', '/signup', '/how-it-works', '/about', '/directory'];
+    const publicRoutes = ['/', '/login', '/signup', '/how-it-works', '/about', '/directory', '/reset-password'];
     return publicRoutes.includes(location.pathname);
   };
 
@@ -69,6 +72,7 @@ const AppContent = () => {
       <Route path="/how-it-works" element={<HowItWorksPage />} />
       <Route path="/about" element={<AboutUsPage />} />
       <Route path="/directory" element={<BusinessDirectoryPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
 
       {/* Private Routes - accessible only when authenticated */}
       <Route
@@ -133,7 +137,16 @@ const AppContent = () => {
       />
 
       {/* Add a new route for QR code management: */}
-      <Route path="/qr-code-management" element={<QRCodeManagementPage />} />
+      <Route 
+        path="/qr-code-management" 
+        element={
+          user ? (
+            <QRCodeManagementPage />
+          ) : (
+            <Navigate to="/login" replace state={{ from: location }} />
+          )
+        } 
+      />
 
       {/* Not Found Route - matches any route that doesn't match the above */}
       <Route path="*" element={<NotFound />} />
