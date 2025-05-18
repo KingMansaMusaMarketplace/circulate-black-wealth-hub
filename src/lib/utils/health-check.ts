@@ -70,23 +70,20 @@ export const checkSystemHealth = async (): Promise<SystemHealth> => {
     }
     results.auth.responseTime = Math.round(performance.now() - authStart);
 
-    // Determine overall status by checking each service's status using type-safe comparisons
-    // Use direct string comparisons instead of checking against variables
-    const databaseStatus = results.database.status;
-    const storageStatus = results.storage.status;
-    const authStatus = results.auth.status;
+    // Determine overall status with type-safe checks
+    const allHealthy = 
+      results.database.status === 'healthy' && 
+      results.storage.status === 'healthy' && 
+      results.auth.status === 'healthy';
+      
+    const anyOffline = 
+      results.database.status === 'offline' || 
+      results.storage.status === 'offline' || 
+      results.auth.status === 'offline';
     
-    if (
-      databaseStatus === 'healthy' && 
-      storageStatus === 'healthy' && 
-      authStatus === 'healthy'
-    ) {
+    if (allHealthy) {
       results.overall = 'healthy';
-    } else if (
-      databaseStatus === 'offline' || 
-      storageStatus === 'offline' || 
-      authStatus === 'offline'
-    ) {
+    } else if (anyOffline) {
       results.overall = 'offline';
     } else {
       results.overall = 'degraded';
