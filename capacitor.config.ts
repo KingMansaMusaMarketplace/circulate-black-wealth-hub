@@ -21,6 +21,12 @@ const config: CapacitorConfig = {
       androidPermissions: ['android.permission.ACCESS_COARSE_LOCATION', 'android.permission.ACCESS_FINE_LOCATION'],
       iosUsageDescription: "We need your location to show you businesses nearby"
     }
+  },
+  ios: {
+    contentInset: "always",
+    scheme: "ManaMusa",
+    backgroundColor: "#000000",
+    preferredContentMode: "mobile"
   }
 };
 
