@@ -15,7 +15,9 @@ const config: CapacitorConfig = {
       backgroundColor: "#000000",
       showSpinner: true,
       spinnerColor: "#F5A623",
-      androidSplashResourceName: "splash"
+      androidSplashResourceName: "splash",
+      iosSpinnerStyle: "small",
+      spinnerColor: "#F5A623"
     },
     Geolocation: {
       androidPermissions: ['android.permission.ACCESS_COARSE_LOCATION', 'android.permission.ACCESS_FINE_LOCATION'],
@@ -26,7 +28,11 @@ const config: CapacitorConfig = {
     contentInset: "always",
     scheme: "ManaMusa",
     backgroundColor: "#000000",
-    preferredContentMode: "mobile"
+    preferredContentMode: "mobile",
+    statusBarStyle: "dark",
+    preferredStatusBarStyle: "darkContent",
+    limitsNavigationsToAppBoundDomains: true,
+    handleApplicationNotifications: true
   }
 };
 

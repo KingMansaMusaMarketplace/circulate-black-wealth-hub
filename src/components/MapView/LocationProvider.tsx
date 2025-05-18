@@ -1,67 +1,97 @@
-
-import React, { useEffect } from 'react';
-import { toast } from 'sonner';
-import { BusinessLocation, LocationProviderProps } from './types';
+import React, { useState, useEffect } from 'react';
+import { calculateDistance } from './utils';
+import { BusinessLocation } from './types';
 import { useLocation } from '@/hooks/use-location';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
-const LocationProvider: React.FC<LocationProviderProps> = ({
-  businesses,
-  setUserLocation,
-  setNearbyBusinesses,
-  isVisible,
+interface LocationProviderProps {
+  businesses: BusinessLocation[];
+  setUserLocation: React.Dispatch<React.SetStateAction<{ lat: number; lng: number } | null>>;
+  setNearbyBusinesses: React.Dispatch<React.SetStateAction<BusinessLocation[]>>;
+  isVisible?: boolean;
+  userLocation: { lat: number; lng: number } | null;
+  children: ({ loading, error, getUserLocation }: { loading: boolean; error: string | null; getUserLocation: (forceRefresh?: boolean) => Promise<void> }) => React.ReactNode;
+}
+
+const LocationProvider: React.FC<LocationProviderProps> = ({ 
+  businesses, 
+  setUserLocation, 
+  setNearbyBusinesses, 
+  isVisible = true,
   userLocation,
-  children
+  children 
 }) => {
-  const { 
-    location, 
-    loading, 
-    error: locationError, 
-    getCurrentPosition,
-    getNearbyPoints,
-    isUsingFallback
-  } = useLocation({
-    enableHighAccuracy: true,
-    timeout: 5000
-  });
-
-  // Process location updates
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { location, getCurrentPosition, loading: locationLoading, error: locationError } = useLocation();
+  const { isNative, platform } = useCapacitor();
+  
+  // This useEffect handles displaying nearby businesses based on user location
   useEffect(() => {
-    if (location) {
-      setUserLocation({ lat: location.lat, lng: location.lng });
-      
-      // Process businesses with the getNearbyPoints utility
-      const businessesWithDistance = getNearbyPoints(businesses);
-      
-      setNearbyBusinesses(businessesWithDistance);
-      
-      // Show appropriate toast based on location source
-      if (isUsingFallback) {
-        toast.info("Using approximate location", {
-          description: `Showing ${businessesWithDistance.length} businesses near your approximate location.`,
-          duration: 3000
-        });
-      } else {
-        toast.success("Location found", {
-          description: `Showing ${businessesWithDistance.length} businesses near you.`,
-          duration: 3000
-        });
+    if (!location || !isVisible) return;
+    
+    // Set user location from location hook
+    setUserLocation({ lat: location.lat, lng: location.lng });
+    
+    // Filter and sort businesses based on user's location
+    const businessesWithDistance = businesses
+      .map(business => {
+        const distance = calculateDistance(
+          location.lat,
+          location.lng,
+          business.latitude,
+          business.longitude
+        );
+        return { ...business, distance };
+      })
+      .sort((a, b) => a.distance - b.distance);
+    
+    setNearbyBusinesses(businessesWithDistance);
+  }, [location, businesses, setUserLocation, setNearbyBusinesses, isVisible]);
+  
+  // This effect automatically gets the user's location when the component becomes visible
+  useEffect(() => {
+    if (!isVisible) return;
+    
+    // For iOS devices, we want to be more careful about when we request location
+    // to provide a better user experience
+    if (isNative && platform === 'ios') {
+      // Check if we already have a location before requesting a new one
+      if (!userLocation) {
+        getUserLocation();
       }
+    } else {
+      // For other platforms, get location immediately when component becomes visible
+      getUserLocation();
     }
-  }, [location, businesses, setUserLocation, setNearbyBusinesses, getNearbyPoints, isUsingFallback]);
-
-  // Automatically get location when map becomes visible
-  useEffect(() => {
-    if (isVisible && !userLocation) {
-      getCurrentPosition();
+  }, [isVisible]);
+  
+  // Handle getting user location
+  const getUserLocation = async (forceRefresh = false) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      await getCurrentPosition(forceRefresh);
+      
+      // Handle any location errors
+      if (locationError) {
+        setError(locationError);
+      }
+    } catch (err: any) {
+      console.error('Error in getUserLocation:', err);
+      setError(err.message || 'Error getting location');
+    } finally {
+      setLoading(false);
     }
-  }, [isVisible, userLocation, getCurrentPosition]);
-
+  };
+  
   return (
     <>
-      {children({ 
-        loading, 
-        error: locationError, 
-        getUserLocation: () => getCurrentPosition(true) 
+      {children({
+        loading: loading || locationLoading,
+        error,
+        getUserLocation,
       })}
     </>
   );
