@@ -4,15 +4,19 @@ import { Button } from '@/components/ui/button';
 import { toast } from "sonner";
 import { QrCode, Camera, CameraOff } from 'lucide-react';
 import { useLoyaltyQRCode } from '@/hooks/use-loyalty-qr-code';
+import { useLocation } from '@/hooks/use-location';
 
 const QRCodeScannerV2 = () => {
   const [isScanning, setIsScanning] = useState(false);
   const [hasCamera, setHasCamera] = useState(true);
-  const [permissionStatus, setPermissionStatus] = useState<'granted' | 'denied' | 'prompt'>('prompt');
   const [recentScans, setRecentScans] = useState<Array<{name: string, points: number, date: string}>>([]);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const scannerIntervalRef = useRef<number | null>(null);
+  
+  const { location, getCurrentPosition, permissionStatus } = useLocation({
+    skipPermissionCheck: true // Only check permissions when actually needed
+  });
   
   const { 
     scanning, 
@@ -21,34 +25,21 @@ const QRCodeScannerV2 = () => {
     refreshLoyaltyData 
   } = useLoyaltyQRCode({ autoRefresh: true });
 
-  // Check if camera permission is available
+  // Check if camera is available
   useEffect(() => {
-    const checkCameraPermission = async () => {
+    const checkCamera = async () => {
       try {
-        // Check if the browser supports the Permissions API
-        if (navigator.permissions && navigator.permissions.query) {
-          const result = await navigator.permissions.query({ name: 'camera' as PermissionName });
-          setPermissionStatus(result.state as 'granted' | 'denied' | 'prompt');
-          setHasCamera(result.state === 'granted');
-          
-          // Listen for permission changes
-          result.addEventListener('change', () => {
-            setPermissionStatus(result.state as 'granted' | 'denied' | 'prompt');
-            setHasCamera(result.state === 'granted');
-          });
-        } else {
-          // Fallback for browsers not supporting the Permission API
-          setHasCamera(true);
-          setPermissionStatus('prompt');
-        }
+        // Quick test to see if we can access any media devices
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const hasVideoInput = devices.some(device => device.kind === 'videoinput');
+        setHasCamera(hasVideoInput);
       } catch (error) {
         console.error("Error checking camera:", error);
         setHasCamera(false);
-        setPermissionStatus('prompt');
       }
     };
 
-    checkCameraPermission();
+    checkCamera();
   }, []);
 
   // Stop scanning when component unmounts
@@ -70,7 +61,7 @@ const QRCodeScannerV2 = () => {
     setIsScanning(true);
     
     try {
-      if (permissionStatus === 'granted') {
+      if (permissionStatus === 'granted' || permissionStatus === 'prompt') {
         // Attempt to get camera stream
         const stream = await navigator.mediaDevices.getUserMedia({ 
           video: { facingMode: 'environment' } 
@@ -113,22 +104,16 @@ const QRCodeScannerV2 = () => {
     // Simulate QR code ID
     const mockQrCodeId = `qr-${Math.random().toString(36).substring(2, 10)}`;
     
-    // Get user's current location (or mock it if not available)
-    let location = undefined;
+    // Get user's current location using our hook
+    let locationData = null;
     try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation?.getCurrentPosition(resolve, reject, { timeout: 3000 });
-      });
-      location = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
+      locationData = await getCurrentPosition();
     } catch (error) {
       console.log('Location not available, proceeding without it');
     }
     
     // Process the QR scan
-    const result = await scanQRAndProcessPoints(mockQrCodeId, location);
+    const result = await scanQRAndProcessPoints(mockQrCodeId, locationData || undefined);
     
     if (result) {
       // Add to recent scans
@@ -149,7 +134,6 @@ const QRCodeScannerV2 = () => {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true });
       setHasCamera(true);
-      setPermissionStatus('granted');
     } catch (error) {
       console.error("Error requesting camera permission:", error);
       toast("Camera Access Required", {

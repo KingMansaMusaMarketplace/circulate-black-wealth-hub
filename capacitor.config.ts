@@ -16,6 +16,10 @@ const config: CapacitorConfig = {
       showSpinner: true,
       spinnerColor: "#F5A623",
       androidSplashResourceName: "splash"
+    },
+    Geolocation: {
+      androidPermissions: ['android.permission.ACCESS_COARSE_LOCATION', 'android.permission.ACCESS_FINE_LOCATION'],
+      iosUsageDescription: "We need your location to show you businesses nearby"
     }
   }
 };

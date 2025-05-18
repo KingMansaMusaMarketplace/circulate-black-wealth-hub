@@ -11,12 +11,13 @@ import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
 import DirectoryResultsSummary from '@/components/directory/DirectoryResultsSummary';
 import DirectoryPagination from '@/components/directory/DirectoryPagination';
-import { toast } from 'sonner';
+import { useLocation } from '@/hooks/use-location';
 
 const DirectoryPage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  
+  const { location, getCurrentPosition, loading: locationLoading } = useLocation();
   
   const {
     searchTerm,
@@ -47,35 +48,12 @@ const DirectoryPage = () => {
     }
   };
 
-  const handleGetLocation = useCallback(() => {
-    if (!navigator.geolocation) {
-      toast.error("Geolocation not supported", {
-        description: "Your browser doesn't support geolocation services."
-      });
-      return;
+  const handleGetLocation = useCallback(async () => {
+    const newLocation = await getCurrentPosition(true);
+    if (newLocation) {
+      updateUserLocation(newLocation.lat, newLocation.lng);
     }
-
-    toast.loading("Getting your location...");
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const { latitude, longitude } = position.coords;
-        setUserLocation({ lat: latitude, lng: longitude });
-        updateUserLocation(latitude, longitude);
-        toast.dismiss();
-        toast.success("Location found", {
-          description: "Showing businesses near your location."
-        });
-      },
-      (error) => {
-        toast.dismiss();
-        toast.error("Location error", {
-          description: "Couldn't access your location. Please check your browser permissions."
-        });
-        console.error("Geolocation error:", error);
-      }
-    );
-  }, [updateUserLocation]);
+  }, [getCurrentPosition, updateUserLocation]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -98,8 +76,9 @@ const DirectoryPage = () => {
             toggleFilters={() => setShowFilters(!showFilters)}
             viewMode={viewMode}
             setViewMode={setViewMode}
-            userLocation={userLocation}
+            userLocation={location}
             onGetLocation={handleGetLocation}
+            locationLoading={locationLoading}
           />
           
           {/* Map View */}
@@ -119,7 +98,7 @@ const DirectoryPage = () => {
           
           <DirectoryResultsSummary 
             totalResults={filteredBusinesses.length}
-            nearMeActive={!!userLocation}
+            nearMeActive={!!location}
           />
         </div>
         

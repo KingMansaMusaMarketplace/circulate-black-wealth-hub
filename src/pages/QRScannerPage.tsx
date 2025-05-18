@@ -10,12 +10,18 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import WelcomeTooltip from '@/components/QRCodeScanner/components/WelcomeTooltip';
+import { useLocation } from '@/hooks/use-location';
 
 const QRScannerPage: React.FC = () => {
   const { user, loading: authLoading } = useAuth();
   const { scanQRAndProcessPoints, scanning, scanResult } = useLoyaltyQRCode({ autoRefresh: true });
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
+  
+  // Use our location hook without displaying errors to the user
+  const { getCurrentPosition } = useLocation({
+    skipPermissionCheck: true // Don't bother user with permission requests until they scan
+  });
 
   const handleScan = async (qrCodeId: string) => {
     if (!user) {
@@ -44,38 +50,15 @@ const QRScannerPage: React.FC = () => {
       // Get user's location if available
       let location = null;
       try {
-        location = await getLocationPromise();
+        location = await getCurrentPosition();
       } catch (error) {
         console.log('Unable to get location:', error);
       }
 
-      await scanQRAndProcessPoints(actualQrCodeId, location);
+      await scanQRAndProcessPoints(actualQrCodeId, location || undefined);
     } catch (error) {
       console.error('Error processing QR code:', error);
     }
-  };
-
-  const getLocationPromise = (): Promise<{ lat: number; lng: number } | null> => {
-    return new Promise((resolve, reject) => {
-      if (!navigator.geolocation) {
-        resolve(null);
-        return;
-      }
-      
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          resolve({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
-        },
-        (error) => {
-          console.log('Geolocation error:', error);
-          resolve(null);
-        },
-        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
-      );
-    });
   };
 
   if (authLoading) {

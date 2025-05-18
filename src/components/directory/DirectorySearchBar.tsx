@@ -1,9 +1,10 @@
 
 import React from 'react';
-import { Search, SlidersHorizontal, Grid, List, Map, Navigation } from 'lucide-react';
+import { Search, SlidersHorizontal, Grid, List, Map, Navigation, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { LocationData } from '@/hooks/use-location';
 
 interface DirectorySearchBarProps {
   searchTerm: string;
@@ -12,8 +13,9 @@ interface DirectorySearchBarProps {
   toggleFilters: () => void;
   viewMode: 'grid' | 'list';
   setViewMode: (mode: 'grid' | 'list') => void;
-  userLocation?: { lat: number; lng: number } | null;
+  userLocation?: LocationData | null;
   onGetLocation?: () => void;
+  locationLoading?: boolean;
 }
 
 const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
@@ -24,7 +26,8 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
   viewMode,
   setViewMode,
   userLocation,
-  onGetLocation
+  onGetLocation,
+  locationLoading = false
 }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 mb-4">
@@ -55,9 +58,14 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
               variant="outline" 
               size="sm"
               onClick={onGetLocation}
+              disabled={locationLoading}
               className="hidden sm:flex items-center gap-1"
             >
-              <Navigation className="h-4 w-4" />
+              {locationLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Navigation className="h-4 w-4" />
+              )}
               <span className="mr-1">Near Me</span>
               {userLocation && (
                 <Badge variant="secondary" className="text-xs">Active</Badge>
