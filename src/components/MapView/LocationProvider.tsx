@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { calculateDistance } from './utils';
 import { BusinessLocation } from './types';
@@ -39,12 +40,12 @@ const LocationProvider: React.FC<LocationProviderProps> = ({
         const distance = calculateDistance(
           location.lat,
           location.lng,
-          business.latitude,
-          business.longitude
+          business.lat,
+          business.lng
         );
-        return { ...business, distance };
+        return { ...business, distance: distance.toFixed(1) + ' mi', distanceValue: distance };
       })
-      .sort((a, b) => a.distance - b.distance);
+      .sort((a, b) => (a.distanceValue || 0) - (b.distanceValue || 0));
     
     setNearbyBusinesses(businessesWithDistance);
   }, [location, businesses, setUserLocation, setNearbyBusinesses, isVisible]);

@@ -18,7 +18,14 @@ export function useQRScanner() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const scannerIntervalRef = useRef<number | null>(null);
   
-  const { location, getCurrentPosition, permissionStatus } = useLocation({
+  const { 
+    location, 
+    getCurrentPosition,
+    // We don't use these properties but they're now available
+    // from the updated useLocation hook
+    // permissionStatus, 
+    // requestPermission 
+  } = useLocation({
     skipPermissionCheck: true // Only check permissions when actually needed
   });
   
@@ -65,7 +72,12 @@ export function useQRScanner() {
     setIsScanning(true);
     
     try {
-      if (permissionStatus === 'granted' || permissionStatus === 'prompt') {
+      // We'll check camera permissions using the browser API directly
+      const hasPermission = await navigator.permissions.query({ name: 'camera' as PermissionName })
+        .then(permission => permission.state === 'granted' || permission.state === 'prompt')
+        .catch(() => true); // Default to true if we can't check
+      
+      if (hasPermission) {
         // Attempt to get camera stream
         const stream = await navigator.mediaDevices.getUserMedia({ 
           video: { facingMode: 'environment' } 

@@ -5,8 +5,10 @@ export interface BusinessLocation {
   lat: number;
   lng: number;
   category: string;
-  distanceValue?: number;
+  latitude?: number;  // Added for backward compatibility
+  longitude?: number; // Added for backward compatibility
   distance?: string;
+  distanceValue?: number;
 }
 
 export interface LocationProviderProps {

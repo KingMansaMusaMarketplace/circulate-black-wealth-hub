@@ -1,37 +1,50 @@
 
 import { LocationData } from './types';
 
-// Cache duration in milliseconds (default: 5 minutes)
+// Default cache duration is 5 minutes (300000ms)
 export const DEFAULT_CACHE_DURATION = 5 * 60 * 1000;
+export const LOCATION_CACHE_KEY = 'mmm_location_cache';
 
-// Check if cached location is still valid
-export const isCacheValid = (cachedLocation: LocationData | null, cacheDuration: number): boolean => {
-  if (!cachedLocation) return false;
-  return Date.now() - cachedLocation.timestamp < cacheDuration;
-};
-
-// Get cached location from localStorage
-export const getCachedLocation = (): LocationData | null => {
+// Cache the user's location
+export const cacheLocation = (location: LocationData) => {
+  if (!location) return;
   try {
-    const cached = localStorage.getItem('userLocation');
-    if (!cached) return null;
-    return JSON.parse(cached) as LocationData;
-  } catch (error) {
-    console.error('Error parsing cached location:', error);
-    return null;
-  }
-};
-
-// Save location to localStorage
-export const cacheLocation = (location: LocationData): void => {
-  try {
-    localStorage.setItem('userLocation', JSON.stringify(location));
+    localStorage.setItem(LOCATION_CACHE_KEY, JSON.stringify(location));
   } catch (error) {
     console.error('Error caching location:', error);
   }
 };
 
-// Clear cached location
+// Get cached location
+export const getCachedLocation = (): LocationData | null => {
+  try {
+    const cached = localStorage.getItem(LOCATION_CACHE_KEY);
+    if (!cached) return null;
+    return JSON.parse(cached) as LocationData;
+  } catch (error) {
+    console.error('Error reading cached location:', error);
+    return null;
+  }
+};
+
+// Clear location cache
 export const clearLocationCache = (): void => {
-  localStorage.removeItem('userLocation');
+  try {
+    localStorage.removeItem(LOCATION_CACHE_KEY);
+  } catch (error) {
+    console.error('Error clearing location cache:', error);
+  }
+};
+
+// Check if cached location is still valid
+export const isCacheValid = (
+  location: LocationData | null, 
+  cacheDuration: number = DEFAULT_CACHE_DURATION
+): boolean => {
+  if (!location || !location.timestamp) return false;
+  
+  const now = Date.now();
+  const expirationTime = location.timestamp + cacheDuration;
+  
+  return now < expirationTime;
 };

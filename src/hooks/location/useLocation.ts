@@ -2,9 +2,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { useCapacitor } from '@/hooks/use-capacitor';
-import { LocationData, UseLocationOptions } from './types';
+import { LocationData, UseLocationOptions, LocationPermissionStatus } from './types';
 import { checkLocationPermission, requestLocationPermission } from './permissions';
-import { getCachedLocation, isCacheValid, cacheLocation, DEFAULT_CACHE_DURATION } from './cache';
+import { getCachedLocation, isCacheValid, cacheLocation, DEFAULT_CACHE_DURATION, clearLocationCache } from './cache';
 import { getFallbackLocation } from './fallback';
 
 /**
@@ -14,6 +14,7 @@ export function useLocation(options: UseLocationOptions = {}) {
   const [location, setLocation] = useState<LocationData | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [permissionStatus, setPermissionStatus] = useState<LocationPermissionStatus>('prompt');
   const { isNative, platform } = useCapacitor();
   
   // Merge default options with passed options
@@ -24,6 +25,18 @@ export function useLocation(options: UseLocationOptions = {}) {
     maximumAge = 0,
     skipPermissionCheck = false
   } = options;
+  
+  // Check permission status on mount and when options change
+  useEffect(() => {
+    const checkPermission = async () => {
+      const status = await checkLocationPermission();
+      setPermissionStatus(status);
+    };
+    
+    if (!skipPermissionCheck) {
+      checkPermission();
+    }
+  }, [skipPermissionCheck]);
 
   // Get the current position using Capacitor's Geolocation API
   const getCurrentPosition = useCallback(async (forceRefresh = false): Promise<LocationData | null> => {
@@ -43,10 +56,13 @@ export function useLocation(options: UseLocationOptions = {}) {
       
       // Check for location permission if needed
       if (!skipPermissionCheck) {
-        const permissionStatus = await checkLocationPermission();
+        const currentPermissionStatus = await checkLocationPermission();
+        setPermissionStatus(currentPermissionStatus);
         
-        if (permissionStatus !== 'granted') {
+        if (currentPermissionStatus !== 'granted') {
           const granted = await requestLocationPermission();
+          setPermissionStatus(granted ? 'granted' : 'denied');
+          
           if (!granted) {
             throw new Error('Location permission denied');
           }
@@ -106,6 +122,28 @@ export function useLocation(options: UseLocationOptions = {}) {
       setLoading(false);
     }
   }, [cacheDuration, enableHighAccuracy, timeout, maximumAge, skipPermissionCheck, isNative, platform]);
+  
+  // Request location permission explicitly
+  const requestPermission = useCallback(async (): Promise<boolean> => {
+    try {
+      const granted = await requestLocationPermission();
+      if (granted) {
+        setPermissionStatus('granted');
+      } else {
+        setPermissionStatus('denied');
+      }
+      return granted;
+    } catch (error) {
+      console.error('Error requesting permission:', error);
+      return false;
+    }
+  }, []);
+  
+  // Clear location cache
+  const clearCache = useCallback(() => {
+    clearLocationCache();
+    setLocation(null);
+  }, []);
 
   // Get location on mount if autoGetLocation is true
   useEffect(() => {
@@ -120,6 +158,9 @@ export function useLocation(options: UseLocationOptions = {}) {
     location,
     loading,
     error,
+    permissionStatus,
     getCurrentPosition,
+    requestPermission,
+    clearCache
   };
 }

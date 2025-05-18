@@ -83,6 +83,10 @@ export async function requestLocationPermission(): Promise<boolean> {
   }
 }
 
+// Export aliases for backward compatibility
+export const checkPermission = checkLocationPermission;
+export const requestPermission = requestLocationPermission;
+
 /**
  * Hook for iOS-friendly permission handling
  */

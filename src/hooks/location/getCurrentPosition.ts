@@ -3,7 +3,7 @@ import { Geolocation, GeolocationPosition, PositionOptions } from '@capacitor/ge
 import { toast } from 'sonner';
 import { LocationData, UseLocationOptions } from './types';
 import { cacheLocation, isCacheValid, getCachedLocation } from './cache';
-import { checkPermission, requestPermission } from './permissions';
+import { checkLocationPermission, requestLocationPermission } from './permissions';
 import { getFallbackLocation } from './fallback';
 
 // Get current position
@@ -34,9 +34,9 @@ export const getCurrentPosition = async (
     }
     
     // Check permission first
-    const hasPermission = await checkPermission(isCapacitor, skipPermissionCheck);
-    if (!hasPermission) {
-      const permissionGranted = await requestPermission(isCapacitor);
+    const hasPermission = await checkLocationPermission();
+    if (!skipPermissionCheck && !hasPermission) {
+      const permissionGranted = await requestLocationPermission();
       if (!permissionGranted) {
         // Try fallback
         toast.info("Using approximate location", {

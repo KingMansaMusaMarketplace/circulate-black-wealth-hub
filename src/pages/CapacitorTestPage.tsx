@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Geolocation, GeolocationPosition } from '@capacitor/geolocation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -160,6 +159,7 @@ const CapacitorTestPage = () => {
     }
   };
 
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
@@ -211,6 +211,7 @@ const CapacitorTestPage = () => {
             </Button>
           </div>
 
+          
           {testResults.length > 0 && (
             <Card>
               <CardHeader>
@@ -245,7 +246,7 @@ const CapacitorTestPage = () => {
             </Card>
           )}
           
-          {/* Current Location Display */}
+          
           {location && (
             <Card>
               <CardHeader>
@@ -270,7 +271,7 @@ const CapacitorTestPage = () => {
             </Card>
           )}
           
-          {/* Troubleshooting Section */}
+          
           <Card>
             <CardHeader>
               <CardTitle>Troubleshooting</CardTitle>
