@@ -1,7 +1,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Headphones } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/sonner';
 
 interface AudioPlayerProps {
   src: string;
@@ -25,6 +26,7 @@ export const AudioPlayer = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [audioLoaded, setAudioLoaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [audioSource, setAudioSource] = useState(src);
   
@@ -35,6 +37,11 @@ export const AudioPlayer = ({
     
     // Add event listeners
     audio.addEventListener('ended', handleAudioEnded);
+    audio.addEventListener('canplaythrough', () => {
+      setAudioLoaded(true);
+      setError(null);
+    });
+    
     audio.addEventListener('error', (e) => {
       console.error('Audio error:', e);
       
@@ -48,6 +55,10 @@ export const AudioPlayer = ({
         setAudioSource(wavSrc);
         
         wavAudio.addEventListener('ended', handleAudioEnded);
+        wavAudio.addEventListener('canplaythrough', () => {
+          setAudioLoaded(true);
+          setError(null);
+        });
         
         // Try to play the WAV automatically if error was during playback
         if (isPlaying) {
@@ -61,7 +72,7 @@ export const AudioPlayer = ({
               })
               .catch(error => {
                 console.error("Audio playback error:", error);
-                setError('Failed to play audio');
+                handleAudioError();
               });
           }
         }
@@ -69,10 +80,10 @@ export const AudioPlayer = ({
         // Add error handler for the fallback as well
         wavAudio.addEventListener('error', () => {
           console.error('WAV audio also failed to load');
-          setError('Failed to load audio file');
+          handleAudioError();
         });
       } else {
-        setError('Failed to load audio file');
+        handleAudioError();
       }
     });
     
@@ -85,6 +96,12 @@ export const AudioPlayer = ({
     };
   }, [src]);
 
+  const handleAudioError = () => {
+    setError('Audio file not available');
+    setAudioLoaded(false);
+    // Don't show the error on the UI, just show a toast when user attempts to play
+  };
+
   const toggleAudio = () => {
     if (!audioRef.current) return;
     
@@ -93,6 +110,16 @@ export const AudioPlayer = ({
       setIsPlaying(false);
       onPause?.();
     } else {
+      // Check if the audio has loaded successfully
+      if (!audioLoaded && error) {
+        // Audio failed to load, show toast message instead
+        toast.error("Audio file not available", {
+          description: "Please check back later when audio files are uploaded.",
+          duration: 3000
+        });
+        return;
+      }
+      
       // Play and handle potential errors
       const playPromise = audioRef.current.play();
       
@@ -104,7 +131,10 @@ export const AudioPlayer = ({
           })
           .catch(error => {
             console.error("Audio playback error:", error);
-            setError('Failed to play audio');
+            toast.error("Failed to play audio", {
+              description: "Please try again later.",
+              duration: 3000
+            });
           });
       }
     }
@@ -127,14 +157,18 @@ export const AudioPlayer = ({
       <Button 
         className={className}
         onClick={toggleAudio}
-        disabled={!!error || disabled}
+        disabled={disabled}
         {...props}
       >
         {children}
         {isPlaying ? (
           <Pause className="ml-2 h-4 w-4" />
         ) : (
-          <Play className="ml-2 h-4 w-4" />
+          error ? (
+            <Headphones className="ml-2 h-4 w-4" />
+          ) : (
+            <Play className="ml-2 h-4 w-4" />
+          )
         )}
       </Button>
       
@@ -151,10 +185,6 @@ export const AudioPlayer = ({
             <Volume2 className="h-4 w-4" />
           )}
         </Button>
-      )}
-      
-      {error && (
-        <span className="text-red-500 text-sm ml-2">{error}</span>
       )}
     </div>
   );
