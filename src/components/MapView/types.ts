@@ -1,4 +1,3 @@
-
 export interface BusinessLocation {
   id: number;
   name: string;
@@ -11,14 +10,13 @@ export interface BusinessLocation {
 
 export interface LocationProviderProps {
   businesses: BusinessLocation[];
-  userLocation: { lat: number; lng: number } | null;
-  setUserLocation: React.Dispatch<React.SetStateAction<{ lat: number; lng: number } | null>>;
-  setNearbyBusinesses: React.Dispatch<React.SetStateAction<BusinessLocation[]>>;
+  setUserLocation: (location: {lat: number; lng: number}) => void;
+  setNearbyBusinesses: (businesses: BusinessLocation[]) => void;
   isVisible: boolean;
   children: (props: {
     loading: boolean;
     error: string | null;
-    getUserLocation: () => void;
+    getUserLocation: (forceRefresh?: boolean) => Promise<any>;
   }) => React.ReactNode;
 }
 
