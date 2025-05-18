@@ -1,157 +1,89 @@
 
-import React, { useEffect, useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-  useLocation,
-} from 'react-router-dom';
-import { AuthProvider, useAuth } from './contexts/auth/AuthProvider';
-import { ThemeProvider } from "./components/ui/theme-provider";
-import LandingPage from './pages/Index';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import DashboardPage from './pages/DashboardPage';
-import BusinessProfilePage from './pages/BusinessProfilePage';
-import ProfilePage from './pages/ProfilePage';
-import SettingsPage from './pages/SettingsPage';
-import BusinessDirectoryPage from './pages/DirectoryPage';
-import LoyaltyHistoryPage from './pages/LoyaltyHistoryPage';
-import HowItWorksPage from './pages/HowItWorksPage';
-import AboutUsPage from './pages/AboutUsPage';
-import NotFound from './pages/NotFound';
-import AdminPage from './pages/AdminPage';
-import QRCodeManagementPage from './pages/QRCodeManagementPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
 
-const App = () => {
-  return (
-    <AuthProvider>
-      <ThemeProvider defaultTheme="system" storageKey="marketplace-theme">
-        <Router>
-          <AppContent />
-        </Router>
-      </ThemeProvider>
-    </AuthProvider>
-  );
-};
+// Pages
+import Index from '@/pages/Index';
+import AboutPage from '@/pages/AboutPage';
+import DirectoryPage from '@/pages/DirectoryPage';
+import BusinessDetailPage from '@/pages/BusinessDetailPage';
+import HowItWorksPage from '@/pages/HowItWorksPage';
+import DashboardPage from '@/pages/DashboardPage';
+import QRScannerPage from '@/pages/QRScannerPage';
+import LoginPage from '@/pages/LoginPage';
+import SignupPage from '@/pages/SignupPage';
+import SignupSuccessPage from '@/pages/SignupSuccessPage';
+import SettingsPage from '@/pages/SettingsPage';
+import BusinessProfilePage from '@/pages/BusinessProfilePage';
+import AdminPage from '@/pages/AdminPage';
+import QRCodeManagementPage from '@/pages/QRCodeManagementPage';
+import CapacitorTestPage from '@/pages/CapacitorTestPage'; // Add the new test page
+import NotFound from '@/pages/NotFound';
 
-const AppContent = () => {
-  const { user, loading } = useAuth();
-  const location = useLocation();
-  const [isFirstLoad, setIsFirstLoad] = useState(true);
+// Context Providers
+import { AuthProvider } from '@/contexts/auth';
+import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
+import { Toaster } from '@/components/ui/toaster';
+import { ThemeProvider } from '@/components/ui/theme-provider';
+import { Toaster as SonnerToaster } from 'sonner';
+import { initializeCapacitorPlugins } from '@/utils/capacitor-plugins';
+
+function App() {
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // After the very first load, set isFirstLoad to false
-    setIsFirstLoad(false);
+    // Initialize Capacitor plugins
+    const initPlugins = async () => {
+      try {
+        await initializeCapacitorPlugins();
+      } catch (error) {
+        console.error('Error initializing Capacitor plugins:', error);
+      }
+      setIsLoading(false);
+    };
+
+    initPlugins();
   }, []);
 
-  // Function to determine if the current route is a public route
-  const isPublicRoute = () => {
-    const publicRoutes = ['/', '/login', '/signup', '/how-it-works', '/about', '/directory', '/reset-password'];
-    return publicRoutes.includes(location.pathname);
-  };
-
-  // If loading, show a loading indicator
-  if (loading && isFirstLoad) {
+  if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Loading...</p>
+      <div className="h-screen flex items-center justify-center">
+        <div className="animate-spin w-16 h-16 border-t-4 border-mansablue border-solid rounded-full"></div>
       </div>
     );
   }
 
-  // If not loading, proceed with routing
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/how-it-works" element={<HowItWorksPage />} />
-      <Route path="/about" element={<AboutUsPage />} />
-      <Route path="/directory" element={<BusinessDirectoryPage />} />
-      <Route path="/reset-password" element={<ResetPasswordPage />} />
-
-      {/* Private Routes - accessible only when authenticated */}
-      <Route
-        path="/dashboard"
-        element={
-          user ? (
-            <DashboardPage />
-          ) : (
-            <Navigate to="/login" replace state={{ from: location }} />
-          )
-        }
-      />
-      <Route
-        path="/business-profile"
-        element={
-          user ? (
-            <BusinessProfilePage />
-          ) : (
-            <Navigate to="/login" replace state={{ from: location }} />
-          )
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          user ? (
-            <ProfilePage />
-          ) : (
-            <Navigate to="/login" replace state={{ from: location }} />
-          )
-        }
-      />
-      <Route
-        path="/settings"
-        element={
-          user ? (
-            <SettingsPage />
-          ) : (
-            <Navigate to="/login" replace state={{ from: location }} />
-          )
-        }
-      />
-      <Route
-        path="/loyalty-history"
-        element={
-          user ? (
-            <LoyaltyHistoryPage />
-          ) : (
-            <Navigate to="/login" replace state={{ from: location }} />
-          )
-        }
-      />
-      <Route
-        path="/admin"
-        element={
-          user ? (
-            <AdminPage />
-          ) : (
-            <Navigate to="/login" replace state={{ from: location }} />
-          )
-        }
-      />
-
-      {/* Add a new route for QR code management: */}
-      <Route 
-        path="/qr-code-management" 
-        element={
-          user ? (
-            <QRCodeManagementPage />
-          ) : (
-            <Navigate to="/login" replace state={{ from: location }} />
-          )
-        } 
-      />
-
-      {/* Not Found Route - matches any route that doesn't match the above */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <AuthProvider>
+      <SubscriptionProvider>
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+          <Router>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/directory" element={<DirectoryPage />} />
+              <Route path="/business/:id" element={<BusinessDetailPage />} />
+              <Route path="/how-it-works" element={<HowItWorksPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/scan" element={<QRScannerPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/signup-success" element={<SignupSuccessPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="/business-profile" element={<BusinessProfilePage />} />
+              <Route path="/admin" element={<AdminPage />} />
+              <Route path="/qr-code-management" element={<QRCodeManagementPage />} />
+              <Route path="/capacitor-test" element={<CapacitorTestPage />} /> {/* Add the new route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <SonnerToaster position="top-right" />
+            <Toaster />
+          </Router>
+        </ThemeProvider>
+      </SubscriptionProvider>
+    </AuthProvider>
   );
-};
+}
 
 export default App;
