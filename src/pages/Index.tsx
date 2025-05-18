@@ -7,10 +7,13 @@ import WhySection from '../components/WhySection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import CTASection from '../components/CTASection';
 import VideoPlayer from '../components/VideoPlayer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const HomePage = () => {
   return (
     <div className="min-h-screen">
+      <Navbar />
       <Hero />
       
       {/* Featured Video Section */}
@@ -32,18 +35,6 @@ const HomePage = () => {
               className="aspect-video"
               isYouTube={true}
             />
-            
-            {/* Comment out or remove the original placeholder video 
-            <VideoPlayer 
-              src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" 
-              title="The Future of Black Wealth Circulation" 
-              posterImage="/placeholder.svg"
-              className="aspect-video"
-            />
-            <div className="mt-4 text-center text-sm text-gray-500">
-              This is a placeholder video. Replace with your actual content.
-            </div>
-            */}
           </div>
         </div>
       </section>
@@ -53,6 +44,7 @@ const HomePage = () => {
       <FeaturedBusinesses />
       <TestimonialsSection />
       <CTASection />
+      <Footer />
     </div>
   );
 };
