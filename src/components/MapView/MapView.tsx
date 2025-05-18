@@ -3,13 +3,16 @@ import React, { useState } from 'react';
 import LocationProvider from './LocationProvider';
 import MapContainer from './MapContainer';
 import { BusinessLocation } from './types';
+import BusinessList from './BusinessList';
+import DistanceRanges from './DistanceRanges';
 
 interface MapViewProps {
   businesses: BusinessLocation[];
-  isVisible: boolean;
+  isVisible?: boolean;
+  onSelectBusiness?: (id: number) => void;
 }
 
-const MapView: React.FC<MapViewProps> = ({ businesses, isVisible }) => {
+const MapView: React.FC<MapViewProps> = ({ businesses, isVisible = true, onSelectBusiness }) => {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [nearbyBusinesses, setNearbyBusinesses] = useState<BusinessLocation[]>([]);
 
@@ -28,6 +31,12 @@ const MapView: React.FC<MapViewProps> = ({ businesses, isVisible }) => {
           loading={loading}
           error={error}
         >
+          <DistanceRanges nearbyBusinesses={nearbyBusinesses} />
+          <BusinessList 
+            nearbyBusinesses={nearbyBusinesses} 
+            onSelectBusiness={onSelectBusiness} 
+          />
+          
           <button 
             onClick={() => getUserLocation(true)}
             className="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg z-10"
