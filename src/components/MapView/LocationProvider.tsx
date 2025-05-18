@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import { toast } from 'sonner';
-import { BusinessLocation } from './types';
+import { BusinessLocation, LocationProviderProps } from './types';
 import { useLocation } from '@/hooks/use-location';
 
 const LocationProvider: React.FC<LocationProviderProps> = ({
@@ -9,6 +9,7 @@ const LocationProvider: React.FC<LocationProviderProps> = ({
   setUserLocation,
   setNearbyBusinesses,
   isVisible,
+  userLocation,
   children
 }) => {
   const { 
@@ -50,10 +51,10 @@ const LocationProvider: React.FC<LocationProviderProps> = ({
 
   // Automatically get location when map becomes visible
   useEffect(() => {
-    if (isVisible && !location) {
+    if (isVisible && !userLocation) {
       getCurrentPosition();
     }
-  }, [isVisible, location, getCurrentPosition]);
+  }, [isVisible, userLocation, getCurrentPosition]);
 
   return (
     <>

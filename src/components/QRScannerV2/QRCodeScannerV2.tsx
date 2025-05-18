@@ -20,11 +20,17 @@ const QRCodeScannerV2 = () => {
   } = useQRScanner();
 
   const handleCameraPermission = async () => {
-    const success = await requestCameraPermission();
-    if (!success) {
-      toast("Camera Access Required", {
-        description: "This app needs permission to access your camera for scanning QR codes."
-      });
+    try {
+      const success = await requestCameraPermission();
+      if (!success) {
+        toast("Camera Access Required", {
+          description: "This app needs permission to access your camera for scanning QR codes."
+        });
+      }
+      return success;
+    } catch (error) {
+      console.error("Error requesting camera permission:", error);
+      return false;
     }
   };
 

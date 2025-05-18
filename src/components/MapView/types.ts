@@ -1,3 +1,4 @@
+
 export interface BusinessLocation {
   id: number;
   name: string;
@@ -13,6 +14,7 @@ export interface LocationProviderProps {
   setUserLocation: (location: {lat: number; lng: number}) => void;
   setNearbyBusinesses: (businesses: BusinessLocation[]) => void;
   isVisible: boolean;
+  userLocation: { lat: number; lng: number } | null;
   children: (props: {
     loading: boolean;
     error: string | null;
