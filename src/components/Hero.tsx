@@ -54,7 +54,7 @@ const Hero = () => {
             </div>
           </div>
           
-          {/* Keep the existing right side of the hero */}
+          {/* Right side of the hero */}
           <div className="md:w-1/2 relative">
             <div className="relative bg-white rounded-2xl shadow-xl p-4 max-w-sm mx-auto animate-float">
               <div className="bg-mansablue/10 rounded-xl p-3">
