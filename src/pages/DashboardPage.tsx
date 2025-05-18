@@ -7,6 +7,7 @@ import DashboardLayout from '@/components/dashboard/DashboardLayout';
 import WelcomeGuide from '@/components/dashboard/WelcomeGuide';
 import { CirculationImpact, RecentActivity, NearbyBusinesses } from '@/components/dashboard';
 import { MiniLoyaltyWidget } from '@/components/loyalty/MiniLoyaltyWidget';
+import { SystemHealthWidget } from '@/components/dashboard/SystemHealthWidget';
 
 const DashboardPage = () => {
   const { userType } = useAuth();
@@ -89,6 +90,7 @@ const DashboardPage = () => {
           
           <div className="space-y-6">
             <MiniLoyaltyWidget />
+            <SystemHealthWidget />
             <NearbyBusinesses businesses={nearbyBusinessesList} />
           </div>
         </div>

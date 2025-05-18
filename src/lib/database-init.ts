@@ -2,6 +2,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { createDatabaseFunctions } from './supabase/functions';
+import { checkDatabaseHealth } from './utils/health-check';
 
 // Initialize all database tables and functions
 export const setupDatabase = async (
@@ -30,6 +31,13 @@ export const setupDatabase = async (
 // Check if the database is initialized by checking if the QR code functions exist
 export const checkDatabaseInitialized = async (): Promise<boolean> => {
   try {
+    // First check if we can connect to the database at all
+    const isHealthy = await checkDatabaseHealth();
+    if (!isHealthy) {
+      console.warn('Database health check failed, cannot verify initialization status');
+      return false;
+    }
+
     // Try to call a function that should exist if the database is initialized
     const { data, error } = await supabase.rpc('exec_sql', {
       query: "SELECT EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'create_business_qr_code')"

@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import ProfileHeader from '@/components/profile/ProfileHeader';
 import ProfileForm from '@/components/profile/ProfileForm';
 import SecuritySettings from '@/components/profile/SecuritySettings';
+import SystemHealthSettings from '@/components/profile/SystemHealthSettings';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
 
 const ProfilePage = () => {
@@ -14,6 +15,9 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const tab = searchParams.get('tab') || 'profile';
+
+  // Check if the user is an admin (for demo purposes we'll assume it's based on email)
+  const isAdmin = user?.email?.includes('admin') || false;
 
   // Handle tab changes
   const handleTabChange = (value: string) => {
@@ -36,9 +40,10 @@ const ProfilePage = () => {
             onValueChange={handleTabChange}
             className="space-y-4"
           >
-            <TabsList className="grid grid-cols-2 w-full max-w-md">
+            <TabsList className="grid grid-cols-3 w-full max-w-md">
               <TabsTrigger value="profile">Profile</TabsTrigger>
               <TabsTrigger value="security">Security</TabsTrigger>
+              {isAdmin && <TabsTrigger value="health">System Health</TabsTrigger>}
             </TabsList>
             
             <TabsContent value="profile" className="space-y-6">
@@ -48,6 +53,12 @@ const ProfilePage = () => {
             <TabsContent value="security" className="space-y-6">
               <SecuritySettings />
             </TabsContent>
+            
+            {isAdmin && (
+              <TabsContent value="health" className="space-y-6">
+                <SystemHealthSettings />
+              </TabsContent>
+            )}
           </Tabs>
         </div>
       </div>

@@ -1,5 +1,16 @@
 
-export { default as DashboardLayout } from './DashboardLayout';
-export { default as NearbyBusinesses } from './NearbyBusinesses';
-export { default as RecentActivity } from './RecentActivity';
-export { default as CirculationImpact } from './CirculationImpact';
+import CirculationImpact from './CirculationImpact';
+import DashboardLayout from './DashboardLayout';
+import NearbyBusinesses from './NearbyBusinesses';
+import RecentActivity from './RecentActivity';
+import WelcomeGuide from './WelcomeGuide';
+import { SystemHealthWidget } from './SystemHealthWidget';
+
+export { 
+  CirculationImpact, 
+  DashboardLayout, 
+  NearbyBusinesses, 
+  RecentActivity, 
+  WelcomeGuide,
+  SystemHealthWidget
+};

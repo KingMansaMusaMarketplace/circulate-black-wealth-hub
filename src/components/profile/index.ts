@@ -1,4 +1,22 @@
 
-export { default as ProfileHeader } from './ProfileHeader';
-export { default as ProfileForm } from './ProfileForm';
-export { default as SecuritySettings } from './SecuritySettings';
+import NotificationSettings from './NotificationSettings';
+import ProfileForm from './ProfileForm';
+import ProfileHeader from './ProfileHeader';
+import SecuritySettings from './SecuritySettings';
+import SystemHealthSettings from './SystemHealthSettings';
+
+export {
+  NotificationSettings,
+  ProfileForm,
+  ProfileHeader,
+  SecuritySettings,
+  SystemHealthSettings
+};
+
+export default {
+  NotificationSettings,
+  ProfileForm,
+  ProfileHeader,
+  SecuritySettings,
+  SystemHealthSettings
+};
