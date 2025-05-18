@@ -18,8 +18,10 @@ import SettingsPage from '@/pages/SettingsPage';
 import BusinessProfilePage from '@/pages/BusinessProfilePage';
 import AdminPage from '@/pages/AdminPage';
 import QRCodeManagementPage from '@/pages/QRCodeManagementPage';
-import CapacitorTestPage from '@/pages/CapacitorTestPage'; // Add the new test page
+import CapacitorTestPage from '@/pages/CapacitorTestPage';
 import NotFound from '@/pages/NotFound';
+import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
+import TermsOfServicePage from '@/pages/TermsOfServicePage';
 
 // Context Providers
 import { AuthProvider } from '@/contexts/auth';
@@ -74,7 +76,9 @@ function App() {
               <Route path="/business-profile" element={<BusinessProfilePage />} />
               <Route path="/admin" element={<AdminPage />} />
               <Route path="/qr-code-management" element={<QRCodeManagementPage />} />
-              <Route path="/capacitor-test" element={<CapacitorTestPage />} /> {/* Add the new route */}
+              <Route path="/capacitor-test" element={<CapacitorTestPage />} />
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsOfServicePage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <SonnerToaster position="top-right" />
