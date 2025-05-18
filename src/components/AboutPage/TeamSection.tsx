@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 interface TeamMember {
   name: string;
@@ -108,6 +109,35 @@ const TeamSection = () => {
     setIsDialogOpen(true);
   };
 
+  const handleSocialClick = (url: string | undefined, platform: string) => {
+    if (!url) {
+      toast.info(`This team member doesn't have a ${platform} account linked yet.`);
+      return;
+    }
+    
+    // For demonstration purposes, if the URL is just '#', show a toast
+    if (url === '#') {
+      toast.info(`${platform} integration coming soon!`);
+      return;
+    }
+    
+    window.open(url, '_blank');
+  };
+
+  const sendEmail = (email: string | undefined) => {
+    if (!email) {
+      toast.info("Email address not available yet.");
+      return;
+    }
+    
+    // If the email is just a placeholder, show a message
+    if (email.includes('mansamusamarketplace.com')) {
+      window.location.href = `mailto:${email}`;
+    } else {
+      toast.info("This is a demo email address. Real email integration coming soon!");
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -161,19 +191,31 @@ const TeamSection = () => {
                   <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-3">
                       {member.socials.linkedin && (
-                        <a href={member.socials.linkedin} className="text-gray-400 hover:text-mansablue transition-colors">
+                        <button 
+                          onClick={() => handleSocialClick(member.socials.linkedin, 'LinkedIn')}
+                          className="text-gray-400 hover:text-mansablue transition-colors"
+                          aria-label={`${member.name}'s LinkedIn profile`}
+                        >
                           <Linkedin className="h-4 w-4" />
-                        </a>
+                        </button>
                       )}
                       {member.socials.twitter && (
-                        <a href={member.socials.twitter} className="text-gray-400 hover:text-mansablue transition-colors">
+                        <button
+                          onClick={() => handleSocialClick(member.socials.twitter, 'Twitter')}
+                          className="text-gray-400 hover:text-mansablue transition-colors"
+                          aria-label={`${member.name}'s Twitter profile`}
+                        >
                           <Twitter className="h-4 w-4" />
-                        </a>
+                        </button>
                       )}
                       {member.socials.website && (
-                        <a href={member.socials.website} className="text-gray-400 hover:text-mansablue transition-colors">
+                        <button
+                          onClick={() => handleSocialClick(member.socials.website, 'Website')}
+                          className="text-gray-400 hover:text-mansablue transition-colors"
+                          aria-label={`${member.name}'s website`}
+                        >
                           <Globe className="h-4 w-4" />
-                        </a>
+                        </button>
                       )}
                     </div>
                     <Button 
@@ -230,23 +272,35 @@ const TeamSection = () => {
                   <div className="pt-4 flex justify-between items-center border-t border-gray-200 mt-4">
                     <div className="flex items-center space-x-4">
                       {selectedMember.socials.linkedin && (
-                        <a href={selectedMember.socials.linkedin} className="text-gray-500 hover:text-mansablue transition-colors">
+                        <button 
+                          onClick={() => handleSocialClick(selectedMember.socials.linkedin, 'LinkedIn')}
+                          className="text-gray-500 hover:text-mansablue transition-colors"
+                        >
                           <Linkedin className="h-5 w-5" />
-                        </a>
+                        </button>
                       )}
                       {selectedMember.socials.twitter && (
-                        <a href={selectedMember.socials.twitter} className="text-gray-500 hover:text-mansablue transition-colors">
+                        <button
+                          onClick={() => handleSocialClick(selectedMember.socials.twitter, 'Twitter')}
+                          className="text-gray-500 hover:text-mansablue transition-colors"
+                        >
                           <Twitter className="h-5 w-5" />
-                        </a>
+                        </button>
                       )}
                       {selectedMember.socials.website && (
-                        <a href={selectedMember.socials.website} className="text-gray-500 hover:text-mansablue transition-colors">
+                        <button
+                          onClick={() => handleSocialClick(selectedMember.socials.website, 'Website')}
+                          className="text-gray-500 hover:text-mansablue transition-colors"
+                        >
                           <Globe className="h-5 w-5" />
-                        </a>
+                        </button>
                       )}
                     </div>
                     {selectedMember.socials.email && (
-                      <Button className="bg-mansablue hover:bg-mansablue-dark">
+                      <Button 
+                        className="bg-mansablue hover:bg-mansablue-dark"
+                        onClick={() => sendEmail(selectedMember.socials.email)}
+                      >
                         <Mail className="mr-2 h-4 w-4" />
                         Contact
                       </Button>
@@ -263,4 +317,3 @@ const TeamSection = () => {
 };
 
 export default TeamSection;
-

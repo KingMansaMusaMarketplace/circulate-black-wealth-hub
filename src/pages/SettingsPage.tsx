@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileForm from '../components/profile/ProfileForm';
 import SecuritySettings from '../components/profile/SecuritySettings';
+import NotificationSettings from '../components/profile/NotificationSettings';
 
 const SettingsPage = () => {
   return (
@@ -52,19 +53,7 @@ const SettingsPage = () => {
           </TabsContent>
           
           <TabsContent value="notifications">
-            <Card>
-              <CardHeader>
-                <CardTitle>Notification Preferences</CardTitle>
-                <CardDescription>
-                  Configure how you receive notifications.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  Notification settings will be available in a future update.
-                </p>
-              </CardContent>
-            </Card>
+            <NotificationSettings />
           </TabsContent>
         </Tabs>
       </div>
