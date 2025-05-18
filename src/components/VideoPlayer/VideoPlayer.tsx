@@ -41,13 +41,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   };
 
   // Handler for YouTube state change
-  const handleYouTubeStateChange = (newPlayingState: boolean) => {
+  const handleYouTubeStateChange = (newPlayingState: boolean, playerState?: number) => {
     setIsPlaying(newPlayingState);
-    if (!newPlayingState) {
-      // Check if the video has ended
-      if (youtubePlayer && youtubePlayer.getPlayerState && youtubePlayer.getPlayerState() === 0) {
-        setHasEnded(true);
-      }
+    
+    // YouTube Player States: Ended = 0, Playing = 1, Paused = 2
+    if (playerState === 0) {
+      setHasEnded(true);
     }
   };
 

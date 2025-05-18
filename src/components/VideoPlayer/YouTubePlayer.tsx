@@ -6,7 +6,7 @@ interface YouTubePlayerProps {
   src: string;
   isPlaying: boolean;
   isMuted: boolean;
-  onStateChange: (isPlaying: boolean) => void;
+  onStateChange: (isPlaying: boolean, playerState?: number) => void;
 }
 
 const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
@@ -109,9 +109,9 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   const handleYouTubeStateChange = (event: any) => {
     // YT.PlayerState.PLAYING = 1, YT.PlayerState.PAUSED = 2, YT.PlayerState.ENDED = 0
     if (event.data === 1) {
-      onStateChange(true);
+      onStateChange(true, event.data);
     } else if (event.data === 2 || event.data === 0) {
-      onStateChange(false);
+      onStateChange(false, event.data);
     }
   };
 
