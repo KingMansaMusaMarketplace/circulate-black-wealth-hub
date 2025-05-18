@@ -44,8 +44,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const handleYouTubeStateChange = (newPlayingState: boolean) => {
     setIsPlaying(newPlayingState);
     if (!newPlayingState) {
-      // Check if video has ended (this would be set to false by YouTube player)
-      if (hasEnded) {
+      // Check if the video has ended
+      if (youtubePlayer && youtubePlayer.getPlayerState && youtubePlayer.getPlayerState() === 0) {
         setHasEnded(true);
       }
     }
@@ -79,7 +79,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         />
       )}
       
-      {/* Play/Pause button */}
+      {/* Play/Pause button with fade effect */}
       <PlayPauseButton 
         isPlaying={isPlaying}
         onClick={togglePlay}

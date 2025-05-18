@@ -58,20 +58,22 @@ const StandardPlayer: React.FC<StandardPlayerProps> = ({
   }, []);
 
   return (
-    <video
-      ref={videoRef}
-      src={src}
-      poster={posterImage}
-      className="w-full h-full object-cover bg-black"
-      onEnded={() => {
-        onEnded();
-        if (videoRef.current) {
-          videoRef.current.removeAttribute('poster');
-        }
-      }}
-      onPlay={() => onStateChange(true)}
-      onPause={() => onStateChange(false)}
-    />
+    <div className="w-full h-full bg-black">
+      <video
+        ref={videoRef}
+        src={src}
+        poster={posterImage}
+        className="w-full h-full object-cover bg-black"
+        onEnded={() => {
+          onEnded();
+          if (videoRef.current) {
+            videoRef.current.removeAttribute('poster');
+          }
+        }}
+        onPlay={() => onStateChange(true)}
+        onPause={() => onStateChange(false)}
+      />
+    </div>
   );
 };
 

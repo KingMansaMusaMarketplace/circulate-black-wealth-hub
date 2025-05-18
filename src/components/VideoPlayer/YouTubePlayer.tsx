@@ -39,13 +39,14 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           'playsinline': 1,
           'controls': 0,
           'showinfo': 0,
-          'rel': 0,
+          'rel': 0,        // Disable related videos
           'modestbranding': 1,
           'fs': 1,           // Enable fullscreen button
           'iv_load_policy': 3, // Hide annotations
           'autohide': 1,     // Hide video controls when playing
           'enablejsapi': 1,  // Enable JS API
-          'origin': window.location.origin
+          'origin': window.location.origin,
+          'end': 0,          // Do not show related videos at end
         },
         events: {
           'onReady': () => setYoutubeReady(true),
