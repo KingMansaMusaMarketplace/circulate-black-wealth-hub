@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
@@ -6,22 +7,22 @@ import {
   Navigate,
   useLocation,
 } from 'react-router-dom';
-import { useAuth } from '@/contexts/auth';
-import { ThemeProvider } from "@/components/theme-provider"
-import LandingPage from '@/pages/LandingPage';
-import LoginPage from '@/pages/LoginPage';
-import SignupPage from '@/pages/SignupPage';
-import DashboardPage from '@/pages/DashboardPage';
-import BusinessProfilePage from '@/pages/BusinessProfilePage';
-import ProfilePage from '@/pages/ProfilePage';
-import SettingsPage from '@/pages/SettingsPage';
-import BusinessDirectoryPage from '@/pages/BusinessDirectoryPage';
-import LoyaltyHistoryPage from '@/pages/LoyaltyHistoryPage';
-import HowItWorksPage from '@/pages/HowItWorksPage';
-import AboutUsPage from '@/pages/AboutUsPage';
-import NotFound from '@/pages/NotFound';
-import AdminPage from '@/pages/AdminPage';
-import QRCodeManagementPage from '@/pages/QRCodeManagementPage';
+import { useAuth } from './contexts/auth';
+import { ThemeProvider } from "./components/ui/theme-provider"
+import LandingPage from './pages/Index';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import DashboardPage from './pages/DashboardPage';
+import BusinessProfilePage from './pages/BusinessProfilePage';
+import ProfilePage from './pages/ProfilePage';
+import SettingsPage from './pages/SettingsPage';
+import BusinessDirectoryPage from './pages/DirectoryPage';
+import LoyaltyHistoryPage from './pages/LoyaltyHistoryPage';
+import HowItWorksPage from './pages/HowItWorksPage';
+import AboutUsPage from './pages/AboutUsPage';
+import NotFound from './pages/NotFound';
+import AdminPage from './pages/AdminPage';
+import QRCodeManagementPage from './pages/QRCodeManagementPage';
 
 const App = () => {
   return (
