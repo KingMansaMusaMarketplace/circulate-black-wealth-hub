@@ -5,7 +5,7 @@ import './App.css';
 
 // Pages
 import Index from '@/pages/Index';
-import AboutPage from '@/pages/AboutPage';
+import AboutUsPage from '@/pages/AboutUsPage';
 import DirectoryPage from '@/pages/DirectoryPage';
 import BusinessDetailPage from '@/pages/BusinessDetailPage';
 import HowItWorksPage from '@/pages/HowItWorksPage';
@@ -63,7 +63,7 @@ function App() {
           <Router>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/about" element={<AboutPage />} />
+              <Route path="/about" element={<AboutUsPage />} />
               <Route path="/directory" element={<DirectoryPage />} />
               <Route path="/business/:id" element={<BusinessDetailPage />} />
               <Route path="/how-it-works" element={<HowItWorksPage />} />
