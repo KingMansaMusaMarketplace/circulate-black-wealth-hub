@@ -1,5 +1,5 @@
 
-import { toast } from 'sonner';
+import { useCallback, useMemo } from 'react';
 
 interface ShareOptions {
   title?: string;
@@ -7,146 +7,67 @@ interface ShareOptions {
   url?: string;
 }
 
-export interface ShareTarget {
+interface ShareTarget {
   name: string;
-  icon: string;
-  color: string;
-  action: (options: ShareOptions) => Promise<boolean>;
+  action: (options: ShareOptions) => Promise<void>;
+  icon?: React.ReactNode;
 }
 
 export const useSocialShare = () => {
-  const baseUrl = window.location.origin;
+  // Check if native sharing is available
+  const canShare = useMemo(() => typeof navigator !== 'undefined' && !!navigator.share, []);
 
-  // Check if Web Share API is available
-  const canShare = 'share' in navigator;
-
-  // Share using the Web Share API
-  const shareWithNative = async (options: ShareOptions): Promise<boolean> => {
-    if (!canShare) return false;
-
-    try {
-      await navigator.share({
-        title: options.title,
-        text: options.text,
-        url: options.url || window.location.href
-      });
-      
-      toast.success('Shared successfully!');
-      return true;
-    } catch (error: any) {
-      // User canceled or share failed
-      if (error.name !== 'AbortError') {
-        console.error('Error sharing:', error);
-        toast.error('Failed to share');
+  // Native web share API
+  const shareWithNative = useCallback(async (options: ShareOptions) => {
+    if (canShare) {
+      try {
+        await navigator.share({
+          title: options.title,
+          text: options.text,
+          url: options.url || window.location.href
+        });
+        return true;
+      } catch (err) {
+        // User may have canceled or sharing failed
+        console.error('Error sharing:', err);
+        return false;
       }
-      return false;
     }
-  };
+    return false;
+  }, [canShare]);
 
-  // Share on Twitter
-  const shareOnTwitter = async (options: ShareOptions): Promise<boolean> => {
-    const text = encodeURIComponent(options.text || '');
-    const url = encodeURIComponent(options.url || window.location.href);
-    const shareUrl = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
-    
-    try {
-      window.open(shareUrl, '_blank');
-      return true;
-    } catch (error) {
-      console.error('Error sharing to Twitter:', error);
-      toast.error('Failed to share to Twitter');
-      return false;
-    }
-  };
-
-  // Share on Facebook
-  const shareOnFacebook = async (options: ShareOptions): Promise<boolean> => {
-    const url = encodeURIComponent(options.url || window.location.href);
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-    
-    try {
-      window.open(shareUrl, '_blank');
-      return true;
-    } catch (error) {
-      console.error('Error sharing to Facebook:', error);
-      toast.error('Failed to share to Facebook');
-      return false;
-    }
-  };
-
-  // Share on LinkedIn
-  const shareOnLinkedIn = async (options: ShareOptions): Promise<boolean> => {
-    const url = encodeURIComponent(options.url || window.location.href);
-    const title = encodeURIComponent(options.title || '');
-    const summary = encodeURIComponent(options.text || '');
-    const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}&summary=${summary}`;
-    
-    try {
-      window.open(shareUrl, '_blank');
-      return true;
-    } catch (error) {
-      console.error('Error sharing to LinkedIn:', error);
-      toast.error('Failed to share to LinkedIn');
-      return false;
-    }
-  };
-
-  // Copy link to clipboard
-  const copyToClipboard = async (options: ShareOptions): Promise<boolean> => {
-    const textToCopy = options.url || window.location.href;
-    
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      toast.success('Link copied to clipboard!');
-      return true;
-    } catch (error) {
-      console.error('Error copying to clipboard:', error);
-      toast.error('Failed to copy link');
-      return false;
-    }
-  };
-
-  // Generate sharing options
-  const getShareUrl = (path: string): string => {
-    return `${baseUrl}${path.startsWith('/') ? '' : '/'}${path}`;
-  };
-
-  // Available share targets
-  const shareTargets: ShareTarget[] = [
+  // Define sharing targets
+  const shareTargets = useMemo<ShareTarget[]>(() => [
     {
       name: 'Twitter',
-      icon: 'twitter',
-      color: 'bg-[#1DA1F2] text-white',
-      action: shareOnTwitter
+      action: async ({ title, text, url }) => {
+        const shareUrl = url || window.location.href;
+        const shareText = text || title || '';
+        const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+        window.open(twitterUrl, '_blank');
+      }
     },
     {
       name: 'Facebook',
-      icon: 'facebook',
-      color: 'bg-[#1877F2] text-white',
-      action: shareOnFacebook
+      action: async ({ url }) => {
+        const shareUrl = url || window.location.href;
+        const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+        window.open(facebookUrl, '_blank');
+      }
     },
     {
       name: 'LinkedIn',
-      icon: 'linkedin',
-      color: 'bg-[#0A66C2] text-white',
-      action: shareOnLinkedIn
-    },
-    {
-      name: 'Copy Link',
-      icon: 'link',
-      color: 'bg-gray-800 text-white dark:bg-gray-600',
-      action: copyToClipboard
+      action: async ({ title, url }) => {
+        const shareUrl = url || window.location.href;
+        const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+        window.open(linkedinUrl, '_blank');
+      }
     }
-  ];
+  ], []);
 
   return {
     canShare,
     shareWithNative,
-    shareTargets,
-    getShareUrl,
-    shareOnTwitter,
-    shareOnFacebook,
-    shareOnLinkedIn,
-    copyToClipboard
+    shareTargets
   };
 };

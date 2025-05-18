@@ -30,6 +30,10 @@ const TeamContactPage = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen">
       <Navbar />
@@ -45,14 +49,14 @@ const TeamContactPage = () => {
             <div className="flex justify-center mt-8">
               <Button 
                 className="bg-mansablue hover:bg-mansablue-dark text-white mr-4"
-                onClick={() => document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => scrollToSection('team')}
               >
                 Meet the Team
               </Button>
               <Button 
                 variant="outline"
                 className="border-mansablue text-mansablue hover:bg-mansablue hover:text-white"
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => scrollToSection('contact')}
               >
                 Contact Us
               </Button>
