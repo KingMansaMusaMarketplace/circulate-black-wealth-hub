@@ -12,7 +12,7 @@ import {
 interface MFAVerificationProps {
   factorId: string;
   challengeId: string;
-  onVerify: (factorId: string, code: string, challengeId: string) => Promise<any>;
+  onVerify: (code: string) => Promise<boolean>;
   onCancel: () => void;
 }
 

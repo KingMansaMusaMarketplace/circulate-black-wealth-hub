@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/auth';
 import { toast } from 'sonner';
-import { MFAVerification } from '@/components/auth/mfa';
+import MFAVerification from '@/components/auth/MFAVerification';
 
 interface MFAHandlerProps {
   mfaData: {
@@ -54,9 +54,10 @@ const MFAHandler: React.FC<MFAHandlerProps> = ({
 
   return (
     <MFAVerification
-      onSubmit={handleMFASubmit}
+      factorId={mfaData.factorId}
+      challengeId={mfaData.challengeId}
+      onVerify={handleMFASubmit}
       onCancel={onCancel}
-      isChallenge
     />
   );
 };

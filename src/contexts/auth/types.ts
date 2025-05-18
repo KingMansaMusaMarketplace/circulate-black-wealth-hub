@@ -29,10 +29,11 @@ export type AuthContextType = {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  authInitialized: boolean; // Added this property
   signUp: (email: string, password: string, metadata?: any) => Promise<any>;
   signIn: (email: string, password: string) => Promise<any>;
   signInWithSocial: (provider: Provider) => Promise<any>;
-  signOut: () => Promise<void>;
+  signOut: () => Promise<any>; // Updated return type from Promise<void>
   resetPassword: (email: string) => Promise<any>;
   updateUserPassword: (newPassword: string) => Promise<any>;
   userType: 'customer' | 'business' | null;
