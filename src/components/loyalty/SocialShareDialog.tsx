@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { 
   Dialog, 
   DialogContent, 
@@ -35,23 +35,89 @@ const SocialShareDialog: React.FC<SocialShareDialogProps> = ({
 }) => {
   const { shareTargets, getShareUrl } = useSocialShare();
   const [copied, setCopied] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
   
   // Use either customPath or path or fallback to current path
   const shareUrl = getShareUrl(customPath || path || window.location.pathname);
   
-  const handleCopy = async () => {
+  const handleCopy = useCallback(async () => {
     try {
+      // Copy to clipboard with a rate limit
+      const shareCount = parseInt(localStorage.getItem('share_count') || '0', 10);
+      const lastShareTime = parseInt(localStorage.getItem('last_share_time') || '0', 10);
+      const now = Date.now();
+      
+      // Rate limit to 5 shares per minute
+      if (shareCount >= 5 && (now - lastShareTime) < 60000) {
+        toast.error('Please wait before sharing again');
+        return;
+      }
+      
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       toast.success('Link copied to clipboard');
+      
+      // Store share count and time for rate limiting
+      localStorage.setItem('share_count', (shareCount + 1).toString());
+      localStorage.setItem('last_share_time', now.toString());
+      
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
+      console.error('Failed to copy link:', err);
       toast.error('Failed to copy link');
+    }
+  }, [shareUrl]);
+  
+  // Reset share count after 1 minute
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      const lastShareTime = parseInt(localStorage.getItem('last_share_time') || '0', 10);
+      const now = Date.now();
+      
+      if ((now - lastShareTime) > 60000) {
+        localStorage.setItem('share_count', '0');
+      }
+    }, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  // Security: Sanitize URLs before sharing
+  const sanitizeUrl = (url: string): string => {
+    try {
+      // Only allow specific origins or relative URLs
+      const urlObj = new URL(url, window.location.origin);
+      const allowedHosts = [
+        window.location.hostname,
+        'mansamusa.app',
+        'www.mansamusa.app'
+      ];
+      
+      if (!allowedHosts.includes(urlObj.hostname)) {
+        console.warn('Blocked potentially unsafe URL:', url);
+        return window.location.href;
+      }
+      
+      return urlObj.toString();
+    } catch (error) {
+      console.error('Invalid URL:', error);
+      return window.location.href;
     }
   };
   
+  // Handle share click with security check
+  const handleShareClick = useCallback((target: any, data: any) => {
+    const sanitizedData = {
+      ...data,
+      url: sanitizeUrl(data.url)
+    };
+    
+    target.action(sanitizedData);
+    setOpen(false);
+  }, []);
+  
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {triggerContent || children || (
           <Button 
@@ -102,7 +168,7 @@ const SocialShareDialog: React.FC<SocialShareDialogProps> = ({
               key={target.name}
               size="icon"
               variant="outline"
-              onClick={() => target.action({ title, text: text || description, url: shareUrl })}
+              onClick={() => handleShareClick(target, { title, text: text || description, url: shareUrl })}
               className={`rounded-full ${target.color}`}
               aria-label={`Share on ${target.name}`}
             >
