@@ -10,7 +10,8 @@ interface ShareOptions {
 interface ShareTarget {
   name: string;
   action: (options: ShareOptions) => Promise<void>;
-  icon?: React.ReactNode;
+  icon: string;
+  color: string;
 }
 
 export const useSocialShare = () => {
@@ -36,10 +37,22 @@ export const useSocialShare = () => {
     return false;
   }, [canShare]);
 
+  // Helper to generate share URLs
+  const getShareUrl = useCallback((path: string) => {
+    // Get base URL from current location
+    const baseUrl = window.location.origin;
+    // Ensure path starts with /
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    // Return full URL
+    return `${baseUrl}${normalizedPath}`;
+  }, []);
+
   // Define sharing targets
   const shareTargets = useMemo<ShareTarget[]>(() => [
     {
       name: 'Twitter',
+      icon: 'twitter',
+      color: 'bg-[#1DA1F2] hover:bg-[#0d95e8]',
       action: async ({ title, text, url }) => {
         const shareUrl = url || window.location.href;
         const shareText = text || title || '';
@@ -49,6 +62,8 @@ export const useSocialShare = () => {
     },
     {
       name: 'Facebook',
+      icon: 'facebook',
+      color: 'bg-[#1877F2] hover:bg-[#0e6adc]',
       action: async ({ url }) => {
         const shareUrl = url || window.location.href;
         const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
@@ -57,6 +72,8 @@ export const useSocialShare = () => {
     },
     {
       name: 'LinkedIn',
+      icon: 'linkedin',
+      color: 'bg-[#0A66C2] hover:bg-[#0958a8]',
       action: async ({ title, url }) => {
         const shareUrl = url || window.location.href;
         const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
@@ -68,6 +85,7 @@ export const useSocialShare = () => {
   return {
     canShare,
     shareWithNative,
-    shareTargets
+    shareTargets,
+    getShareUrl
   };
 };
