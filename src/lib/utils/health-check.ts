@@ -70,7 +70,7 @@ export const checkSystemHealth = async (): Promise<SystemHealth> => {
     }
     results.auth.responseTime = Math.round(performance.now() - authStart);
 
-    // Determine overall status with explicit type handling
+    // Determine overall status with explicit string matching
     let isAllHealthy = true;
     let hasOfflineService = false;
 
@@ -79,10 +79,10 @@ export const checkSystemHealth = async (): Promise<SystemHealth> => {
     if (results.storage.status !== 'healthy') isAllHealthy = false;
     if (results.auth.status !== 'healthy') isAllHealthy = false;
 
-    // Check if any service is offline
-    if (results.database.status === 'offline') hasOfflineService = true;
-    if (results.storage.status === 'offline') hasOfflineService = true;
-    if (results.auth.status === 'offline') hasOfflineService = true;
+    // Check if any service is offline by using explicit string comparison
+    if (results.database.status === 'offline' as const) hasOfflineService = true;
+    if (results.storage.status === 'offline' as const) hasOfflineService = true;
+    if (results.auth.status === 'offline' as const) hasOfflineService = true;
     
     // Set overall status based on checks
     if (isAllHealthy) {
