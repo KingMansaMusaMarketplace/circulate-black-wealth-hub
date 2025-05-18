@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
@@ -38,11 +39,14 @@ const Navbar = () => {
               <Link to="/" className="text-gray-700 hover:text-mansablue transition-colors">
                 Home
               </Link>
-              <Link to="/businesses" className="text-gray-700 hover:text-mansablue transition-colors">
+              <Link to="/directory" className="text-gray-700 hover:text-mansablue transition-colors">
                 Businesses
               </Link>
-              <Link to="/community" className="text-gray-700 hover:text-mansablue transition-colors">
-                Community
+              <Link to="/how-it-works" className="text-gray-700 hover:text-mansablue transition-colors">
+                How It Works
+              </Link>
+              <Link to="/about" className="text-gray-700 hover:text-mansablue transition-colors">
+                About
               </Link>
             </nav>
           </div>
