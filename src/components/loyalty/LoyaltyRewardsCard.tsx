@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RewardCard } from './RewardCard';
@@ -6,7 +5,7 @@ import { RewardDetailsView } from './RewardDetailsView';
 import RewardCategoryGroup from './RewardCategoryGroup';
 import EmptyRewardsState from './EmptyRewardsState';
 import RedemptionConfirmDialog from './RedemptionConfirmDialog';
-import { SocialShareDialog } from './SocialShareDialog';
+import SocialShareDialog from './SocialShareDialog';
 
 interface Reward {
   id: string | number;

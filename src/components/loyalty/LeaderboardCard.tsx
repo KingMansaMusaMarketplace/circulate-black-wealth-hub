@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Award, Trophy, Medal, UserRound, Share2 } from 'lucide-react';
 import { useLoyaltyLeaderboard, LeaderboardUser } from '@/hooks/use-loyalty-leaderboard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { SocialShareDialog } from './SocialShareDialog';
+import SocialShareDialog from './SocialShareDialog';
 import { Button } from '@/components/ui/button';
 
 interface LeaderboardCardProps {
