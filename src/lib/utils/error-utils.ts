@@ -125,7 +125,7 @@ export const checkRateLimit = async (
     let isAllowed = true;
     if (typeof data === 'string') {
       try {
-        isAllowed = data.includes('t'); // 't' for true in PostgreSQL text output
+        isAllowed = data === 't' || data === 'true'; // 't' for true in PostgreSQL text output
       } catch (parseError) {
         console.error('Error parsing rate limit response:', parseError);
       }

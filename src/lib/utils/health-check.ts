@@ -71,17 +71,19 @@ export const checkSystemHealth = async (): Promise<SystemHealth> => {
     results.auth.responseTime = Math.round(performance.now() - authStart);
 
     // Determine overall status
-    if (
+    const allHealthy = 
       results.database.status === 'healthy' &&
       results.storage.status === 'healthy' &&
-      results.auth.status === 'healthy'
-    ) {
-      results.overall = 'healthy';
-    } else if (
+      results.auth.status === 'healthy';
+      
+    const anyOffline = 
       results.database.status === 'offline' ||
       results.storage.status === 'offline' ||
-      results.auth.status === 'offline'
-    ) {
+      results.auth.status === 'offline';
+    
+    if (allHealthy) {
+      results.overall = 'healthy';
+    } else if (anyOffline) {
       results.overall = 'offline';
     } else {
       results.overall = 'degraded';
