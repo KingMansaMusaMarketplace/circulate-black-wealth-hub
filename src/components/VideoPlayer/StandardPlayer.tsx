@@ -40,13 +40,35 @@ const StandardPlayer: React.FC<StandardPlayerProps> = ({
     videoRef.current.muted = isMuted;
   }, [isMuted]);
 
+  // Remove poster image when the video has played at all
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    
+    const handleTimeUpdate = () => {
+      if (video.currentTime > 0 && video.getAttribute('poster')) {
+        video.removeAttribute('poster');
+      }
+    };
+    
+    video.addEventListener('timeupdate', handleTimeUpdate);
+    return () => {
+      video.removeEventListener('timeupdate', handleTimeUpdate);
+    };
+  }, []);
+
   return (
     <video
       ref={videoRef}
       src={src}
       poster={posterImage}
-      className="w-full h-full object-cover"
-      onEnded={onEnded}
+      className="w-full h-full object-cover bg-black"
+      onEnded={() => {
+        onEnded();
+        if (videoRef.current) {
+          videoRef.current.removeAttribute('poster');
+        }
+      }}
       onPlay={() => onStateChange(true)}
       onPause={() => onStateChange(false)}
     />

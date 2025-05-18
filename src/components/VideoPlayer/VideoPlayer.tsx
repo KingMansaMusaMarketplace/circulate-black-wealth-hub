@@ -22,9 +22,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [hasEnded, setHasEnded] = useState(false);
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
+    if (hasEnded) {
+      setHasEnded(false);
+    }
   };
 
   const toggleMute = () => {
@@ -33,15 +37,22 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   const handleVideoEnded = () => {
     setIsPlaying(false);
+    setHasEnded(true);
   };
 
   // Handler for YouTube state change
   const handleYouTubeStateChange = (newPlayingState: boolean) => {
     setIsPlaying(newPlayingState);
+    if (!newPlayingState) {
+      // Check if video has ended (this would be set to false by YouTube player)
+      if (hasEnded) {
+        setHasEnded(true);
+      }
+    }
   };
 
   return (
-    <div className={`relative rounded-xl overflow-hidden shadow-xl ${className}`}>
+    <div className={`relative rounded-xl overflow-hidden shadow-xl ${className} bg-black`}>
       {/* Video title */}
       {title && (
         <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/70 to-transparent p-4 z-10">
@@ -60,7 +71,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       ) : (
         <StandardPlayer
           src={src}
-          posterImage={posterImage}
+          posterImage={hasEnded ? "" : posterImage}
           isPlaying={isPlaying}
           isMuted={isMuted}
           onStateChange={setIsPlaying}
