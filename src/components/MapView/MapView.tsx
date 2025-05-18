@@ -1,63 +1,45 @@
 
 import React, { useState } from 'react';
-import { MapPin } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import MapContainer from './MapContainer';
 import LocationProvider from './LocationProvider';
-import BusinessList from './BusinessList';
-import DistanceRanges from './DistanceRanges';
+import MapContainer from './MapContainer';
 import { BusinessLocation } from './types';
 
 interface MapViewProps {
   businesses: BusinessLocation[];
-  onSelectBusiness?: (id: number) => void;
+  isVisible: boolean;
 }
 
-const MapView: React.FC<MapViewProps> = ({ businesses, onSelectBusiness }) => {
-  const [showMap, setShowMap] = useState(false);
+const MapView: React.FC<MapViewProps> = ({ businesses, isVisible }) => {
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [nearbyBusinesses, setNearbyBusinesses] = useState<BusinessLocation[]>([]);
 
-  const toggleMap = () => {
-    setShowMap(!showMap);
-  };
-
   return (
-    <div className="w-full">
-      <Button
-        variant="outline"
-        onClick={toggleMap}
-        className="w-full mb-4 flex items-center justify-center gap-2"
-      >
-        <MapPin size={16} />
-        {showMap ? "Hide Map View" : "Show Map View"}
-      </Button>
-
-      {showMap && (
-        <LocationProvider
-          businesses={businesses}
-          setUserLocation={setUserLocation}
-          setNearbyBusinesses={setNearbyBusinesses}
-          isVisible={showMap}
+    <LocationProvider
+      businesses={businesses}
+      setUserLocation={setUserLocation}
+      setNearbyBusinesses={setNearbyBusinesses}
+      isVisible={isVisible}
+      userLocation={userLocation}
+    >
+      {({ loading, error, getUserLocation }) => (
+        <MapContainer 
           userLocation={userLocation}
+          nearbyBusinesses={nearbyBusinesses}
+          loading={loading}
+          error={error}
         >
-          {(props) => (
-            <MapContainer 
-              userLocation={userLocation}
-              nearbyBusinesses={nearbyBusinesses}
-              loading={props.loading}
-              error={props.error}
-            >
-              <DistanceRanges nearbyBusinesses={nearbyBusinesses} />
-              <BusinessList 
-                nearbyBusinesses={nearbyBusinesses} 
-                onSelectBusiness={onSelectBusiness} 
-              />
-            </MapContainer>
-          )}
-        </LocationProvider>
+          <button 
+            onClick={() => getUserLocation(true)}
+            className="absolute bottom-4 right-4 bg-white p-2 rounded-full shadow-lg z-10"
+            aria-label="Refresh location"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </MapContainer>
       )}
-    </div>
+    </LocationProvider>
   );
 };
 
