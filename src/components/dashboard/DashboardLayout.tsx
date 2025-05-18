@@ -37,7 +37,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
   // Perform sign out
   const onSignOut = async () => {
-    await handleSignOut((props) => toast(props));
+    // Changed to pass a string instead of an object to toast
+    await handleSignOut((message) => toast(message));
   };
 
   return (
