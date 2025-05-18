@@ -85,18 +85,14 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
       } else {
         console.warn("Login returned success but no session", result);
         // Handle edge case where login succeeds but no session is returned
-        toast({
-          title: 'Authentication Issue',
+        toast.error('Authentication Issue', {
           description: 'Your login was processed, but we couldn\'t establish a session. Please try again.',
-          variant: 'destructive',
         });
       }
     } catch (error: any) {
       console.error("Login form submission error:", error);
-      toast({
-        title: 'Login Failed',
+      toast.error('Login Failed', {
         description: error.message || 'Please check your credentials and try again',
-        variant: 'destructive',
       });
     } finally {
       setIsSubmitting(false);
