@@ -14,6 +14,7 @@ import {
   ContactSection,
   TimelineSection,
   QuoteSection,
+  AuthorSection,
 } from '../components/AboutPage';
 
 const AboutUsPage = () => {
@@ -28,6 +29,9 @@ const AboutUsPage = () => {
 
       {/* Hero Section */}
       <HeroSection />
+
+      {/* Author Section - Thomas D. Bowling */}
+      <AuthorSection />
 
       {/* Mission Section */}
       <MissionSection />
