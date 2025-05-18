@@ -37,19 +37,25 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         videoId: videoId,
         playerVars: {
           'playsinline': 1,
-          'controls': 0,
+          'controls': 1,         // Enable YouTube controls for better user experience
           'showinfo': 0,
-          'rel': 0,        // Disable related videos
+          'rel': 0,              // Disable related videos
           'modestbranding': 1,
-          'fs': 1,           // Enable fullscreen button
-          'iv_load_policy': 3, // Hide annotations
-          'autohide': 1,     // Hide video controls when playing
-          'enablejsapi': 1,  // Enable JS API
+          'fs': 1,               // Enable fullscreen button
+          'iv_load_policy': 3,   // Hide annotations
+          'autohide': 1,         // Hide video controls when playing
+          'enablejsapi': 1,      // Enable JS API
           'origin': window.location.origin,
-          'end': 0,          // Do not show related videos at end
+          'end': 0,              // Do not show related videos at end
         },
         events: {
-          'onReady': () => setYoutubeReady(true),
+          'onReady': () => {
+            setYoutubeReady(true);
+            // Fix: Initialize mute state when player is ready
+            if (isMuted && youtubePlayer.current) {
+              youtubePlayer.current.mute();
+            }
+          },
           'onStateChange': handleYouTubeStateChange
         }
       });
@@ -74,7 +80,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         }
       }
     };
-  }, [src]);
+  }, [src, isMuted]);
 
   // Update player state based on props
   useEffect(() => {
@@ -107,7 +113,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   }, [isMuted, youtubeReady]);
 
   const handleYouTubeStateChange = (event: any) => {
-    // YT.PlayerState.PLAYING = 1, YT.PlayerState.PAUSED = 2, YT.PlayerState.ENDED = 0
+    // YouTube PlayerState: PLAYING = 1, PAUSED = 2, ENDED = 0
     if (event.data === 1) {
       onStateChange(true, event.data);
     } else if (event.data === 2 || event.data === 0) {

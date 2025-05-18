@@ -50,7 +50,7 @@ const AboutUsPage = () => {
           </div>
           <div className="max-w-4xl mx-auto">
             <VideoPlayer 
-              src="https://www.youtube.com/watch?v=6DudveUFGRo&t=20s" 
+              src="https://www.youtube.com/watch?v=6DudveUFGRo" 
               title="Who was Mansa Musa?" 
               isYouTube={true}
               className="shadow-xl"

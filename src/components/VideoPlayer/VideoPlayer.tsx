@@ -23,9 +23,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [hasEnded, setHasEnded] = useState(false);
+  const [showPlayButton, setShowPlayButton] = useState(true);
 
   const togglePlay = () => {
     setIsPlaying(!isPlaying);
+    // Show play button briefly after toggle for better UX
+    setShowPlayButton(true);
+    
     if (hasEnded) {
       setHasEnded(false);
     }
@@ -38,6 +42,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const handleVideoEnded = () => {
     setIsPlaying(false);
     setHasEnded(true);
+    setShowPlayButton(true);
   };
 
   // Handler for YouTube state change
@@ -47,6 +52,13 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     // YouTube Player States: Ended = 0, Playing = 1, Paused = 2
     if (playerState === 0) {
       setHasEnded(true);
+      setShowPlayButton(true);
+    } else if (playerState === 1) {
+      // If video starts playing by itself (e.g., autoplay), update our UI state
+      setShowPlayButton(false);
+    } else if (playerState === 2) {
+      // When paused, always show the play button
+      setShowPlayButton(true);
     }
   };
 
@@ -82,6 +94,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       <PlayPauseButton 
         isPlaying={isPlaying}
         onClick={togglePlay}
+        forceShow={showPlayButton}
       />
       
       {/* Video controls overlay */}
