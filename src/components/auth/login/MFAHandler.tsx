@@ -1,66 +1,64 @@
 
 import React from 'react';
-import MFAVerification from '@/components/auth/mfa/MFAVerification';
-import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/contexts/auth';
+import { toast } from 'sonner';
+import { MFAVerification } from '@/components/auth/mfa';
 
 interface MFAHandlerProps {
-  mfaData: { factorId: string, challengeId: string } | null;
+  mfaData: {
+    factorId: string;
+    challengeId: string;
+  };
   showMFAVerification: boolean;
   onCancel: () => void;
 }
 
-export const MFAHandler: React.FC<MFAHandlerProps> = ({ 
-  mfaData, 
+const MFAHandler: React.FC<MFAHandlerProps> = ({ 
+  mfaData,
   showMFAVerification, 
-  onCancel 
+  onCancel
 }) => {
+  const { verifyMFA } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const { toast } = useToast();
-  const { verifyMFA } = useAuth();
   
   // Get the redirect path from location state or default to dashboard
   const from = (location.state as any)?.from || '/dashboard';
 
-  const handleMFAVerify = async (factorId: string, code: string, challengeId: string) => {
+  const handleMFASubmit = async (code: string) => {
     try {
-      const result = await verifyMFA(factorId, code, challengeId);
+      const result = await verifyMFA(mfaData.factorId, code, mfaData.challengeId);
       
-      if (!result.success) {
-        throw new Error(result.error?.message || 'MFA verification failed');
+      if (result.success) {
+        toast.success('Authentication successful!');
+        // Navigate to the destination after successful MFA verification
+        navigate(from, { replace: true });
+        return true;
+      } else {
+        toast.error('Invalid verification code', {
+          description: 'Please try again with a correct code.'
+        });
+        return false;
       }
-      
-      toast({
-        title: 'Verification Successful',
-        description: 'You have been successfully logged in',
+    } catch (error) {
+      console.error('MFA verification error:', error);
+      toast.error('Failed to verify code', {
+        description: 'There was an error verifying your code. Please try again.'
       });
-      
-      // Navigate to the page they were trying to access or dashboard
-      navigate(from, { replace: true });
-      
-      return result;
-    } catch (error: any) {
-      toast({
-        title: 'Verification Failed',
-        description: error.message || 'Invalid verification code',
-        variant: 'destructive',
-      });
-      return { success: false, error };
+      return false;
     }
   };
 
-  if (showMFAVerification && mfaData) {
-    return (
-      <MFAVerification 
-        factorId={mfaData.factorId}
-        challengeId={mfaData.challengeId}
-        onVerify={handleMFAVerify}
-        onCancel={onCancel}
-      />
-    );
-  }
+  if (!showMFAVerification) return null;
 
-  return null;
+  return (
+    <MFAVerification
+      onSubmit={handleMFASubmit}
+      onCancel={onCancel}
+      isChallenge
+    />
+  );
 };
+
+export { MFAHandler };

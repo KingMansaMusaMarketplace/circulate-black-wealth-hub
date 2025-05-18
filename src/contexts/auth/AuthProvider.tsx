@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [mfaFactors, setMfaFactors] = useState<Factor[]>([]);
   const [mfaEnrolled, setMfaEnrolled] = useState(false);
   const [currentMFAChallenge, setCurrentMFAChallenge] = useState<MFAChallenge | null>(null);
+  const [authInitialized, setAuthInitialized] = useState(false);
 
   // Get MFA factors for the current user
   const getMFAFactors = async (): Promise<Factor[]> => {
@@ -66,17 +67,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Set up auth state listener first
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user || null);
+      async (event, currentSession) => {
+        console.log("Auth state changed:", event, !!currentSession);
         
-        if (session?.user?.user_metadata?.userType) {
-          setUserType(session.user.user_metadata.userType);
+        // Always update the session state
+        setSession(currentSession);
+        setUser(currentSession?.user || null);
+        
+        if (currentSession?.user?.user_metadata?.userType) {
+          setUserType(currentSession.user.user_metadata.userType);
+        } else if (currentSession?.user) {
+          // Attempt to get user type from profiles if not in metadata
+          try {
+            const { data: profileData } = await supabase
+              .from('profiles')
+              .select('user_type')
+              .eq('id', currentSession.user.id)
+              .single();
+            
+            if (profileData) {
+              setUserType(profileData.user_type as 'customer' | 'business' | null);
+            }
+          } catch (error) {
+            console.error('Error fetching user type from profile:', error);
+          }
         } else {
           setUserType(null);
         }
         
         setLoading(false);
+        setAuthInitialized(true);
         
         if (event === 'SIGNED_IN') {
           toast.success('You have successfully signed in!');
@@ -86,23 +106,42 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           toast.info('You have been signed out');
           setMfaFactors([]);
           setMfaEnrolled(false);
+        } else if (event === 'USER_UPDATED' && currentSession) {
+          getMFAFactors();
         }
       }
     );
 
     // Then check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user || null);
+    supabase.auth.getSession().then(async ({ data: { session: currentSession } }) => {
+      console.log("Initial session check:", !!currentSession);
+      setSession(currentSession);
+      setUser(currentSession?.user || null);
       
-      if (session?.user?.user_metadata?.userType) {
-        setUserType(session.user.user_metadata.userType);
+      if (currentSession?.user?.user_metadata?.userType) {
+        setUserType(currentSession.user.user_metadata.userType);
+      } else if (currentSession?.user) {
+        // Attempt to get user type from profiles if not in metadata
+        try {
+          const { data: profileData } = await supabase
+            .from('profiles')
+            .select('user_type')
+            .eq('id', currentSession.user.id)
+            .single();
+          
+          if (profileData) {
+            setUserType(profileData.user_type as 'customer' | 'business' | null);
+          }
+        } catch (error) {
+          console.error('Error fetching user type from profile:', error);
+        }
       }
       
       setLoading(false);
+      setAuthInitialized(true);
       
       // Fetch MFA factors if user is already signed in
-      if (session?.user) {
+      if (currentSession?.user) {
         getMFAFactors();
       }
     });
@@ -121,10 +160,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user,
     session,
     loading,
-    signUp: (email: string, password: string, metadata?: any) => 
-      handleUserSignUp(email, password, metadata, toastWrapper),
-    signIn: (email: string, password: string) =>
-      enhancedSignIn(email, password, setUser, getMFAFactors, setCurrentMFAChallenge, toastWrapper),
+    authInitialized,
+    signUp: async (email: string, password: string, metadata?: any) => {
+      const result = await handleUserSignUp(email, password, metadata, toastWrapper);
+      // If signup was successful and we have a session, update the auth state
+      if (result.data?.session) {
+        setUser(result.data.user || null);
+        setSession(result.data.session);
+        if (metadata?.userType) {
+          setUserType(metadata.userType);
+        }
+      }
+      return result;
+    },
+    signIn: async (email: string, password: string) => {
+      const result = await enhancedSignIn(
+        email, 
+        password, 
+        setUser, 
+        getMFAFactors, 
+        setCurrentMFAChallenge, 
+        toastWrapper
+      );
+      if (result.data?.session) {
+        setUser(result.data.user || null);
+        setSession(result.data.session);
+        const userType = result.data.user?.user_metadata?.userType;
+        if (userType) {
+          setUserType(userType);
+        }
+      }
+      return result;
+    },
     signInWithSocial: (provider: Provider) =>
       handleUserSocialSignIn(provider, toastWrapper),
     signOut: async () => {
@@ -137,6 +204,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setMfaEnrolled(false);
         setCurrentMFAChallenge(null);
       }
+      return result;
     },
     resetPassword: (email: string) =>
       handlePasswordReset(email, toastWrapper),

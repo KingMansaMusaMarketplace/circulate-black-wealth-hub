@@ -54,7 +54,9 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
       setEmailCache(values.email);
       
       const result = await onSubmit(values.email, values.password);
+      
       if (result.error) {
+        console.error("Login error:", result.error);
         throw new Error(result.error.message);
       }
       
@@ -65,12 +67,25 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
           challengeId: result.challengeId
         });
         setShowMFAVerification(true);
+        setIsSubmitting(false);
         return; // Stop here until MFA is verified
       }
       
-      // Navigate to the page they were trying to access or dashboard
-      navigate(from, { replace: true });
+      if (result.data?.session) {
+        console.log("Login successful, navigating to:", from);
+        // Navigate to the page they were trying to access or dashboard
+        navigate(from, { replace: true });
+      } else {
+        console.warn("Login returned success but no session", result);
+        // Handle edge case where login succeeds but no session is returned
+        toast({
+          title: 'Authentication Issue',
+          description: 'Your login was processed, but we couldn\'t establish a session. Please try again.',
+          variant: 'destructive',
+        });
+      }
     } catch (error: any) {
+      console.error("Login form submission error:", error);
       toast({
         title: 'Login Failed',
         description: error.message || 'Please check your credentials and try again',

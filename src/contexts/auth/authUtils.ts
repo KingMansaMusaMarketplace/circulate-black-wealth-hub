@@ -36,20 +36,33 @@ export const enhancedSignIn = async (
   toast?: (props: ToastProps) => any
 ) => {
   try {
+    console.log("Attempting enhanced sign-in for:", email);
     const result = await handleSignIn(email, password, toast);
+    
+    if (result.error) {
+      console.error("Sign in error:", result.error);
+      return result;
+    }
+    
+    console.log("Sign-in result:", result.data?.session ? "Session exists" : "No session", 
+                result.data?.user ? "User exists" : "No user");
     
     // Check if MFA challenge is required
     if (result.data?.session === null && result.data?.user !== null) {
+      console.log("MFA may be required - session null but user exists");
+      
       // User exists but session is null - likely needs MFA
       // Store user for later reference
       setUser(result.data.user);
       
       // Fetch available MFA factors
       const factors = await getMFAFactors();
+      console.log("MFA factors:", factors);
       
       // If user has MFA factors, initiate a challenge
       if (factors.length > 0) {
         const challenge = await createMFAChallenge(factors[0].id);
+        console.log("MFA challenge created:", challenge);
         
         if (challenge) {
           // Store the challenge for verification
@@ -101,6 +114,7 @@ export const checkUserSession = async (): Promise<boolean> => {
   try {
     const { supabase } = await import('@/integrations/supabase/client');
     const { data: { session } } = await supabase.auth.getSession();
+    console.log("checkUserSession result:", !!session);
     return !!session;
   } catch (error) {
     console.error('Error checking session:', error);

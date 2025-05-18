@@ -54,12 +54,19 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
             subscription_status: 'trial',
           };
       
+      console.log("Attempting signup with metadata:", metadata);
+      
       // Register the user first
       const { data, error } = await onSubmit(email, password, metadata);
       
-      if (error) throw error;
+      if (error) {
+        console.error("Signup error:", error);
+        throw error;
+      }
       
-      // If signup was successful, redirect to Stripe checkout
+      console.log("Signup successful:", data);
+      
+      // If signup was successful, redirect to Stripe checkout or dashboard
       if (data) {
         try {
           // Create checkout session
@@ -70,17 +77,29 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
             businessName: businessName
           };
           
+          console.log("Creating checkout session with options:", checkoutOptions);
+          
           const { url } = await subscriptionService.createCheckoutSession(checkoutOptions);
           
-          // Redirect to Stripe checkout
-          window.location.href = url;
+          if (url) {
+            console.log("Redirecting to checkout URL:", url);
+            // Redirect to Stripe checkout
+            window.location.href = url;
+          } else {
+            // Fallback to dashboard if no URL
+            toast({
+              title: "Account Created",
+              description: "Your account has been created successfully!",
+            });
+            navigate('/dashboard');
+          }
         } catch (checkoutError) {
           console.error('Checkout error:', checkoutError);
           // If checkout fails, still allow access but show warning
           toast({
             title: "Subscription Setup Pending",
             description: "Your account was created, but we couldn't set up your subscription. Please try again from your dashboard.",
-            variant: "destructive" // Changed from "warning" to "destructive" to fix the type error
+            variant: "destructive"
           });
           navigate('/dashboard');
         }

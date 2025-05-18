@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -12,14 +13,15 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children, 
   requiredUserType 
 }) => {
-  const { user, loading, userType, checkSession } = useAuth();
+  const { user, loading, userType, checkSession, authInitialized } = useAuth();
   const [isVerifying, setIsVerifying] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const verifyAuth = async () => {
-      if (!loading) {
+      // Wait for auth to be initialized
+      if (!loading && authInitialized) {
         // If user is already set, we can determine auth status immediately
         if (user) {
           // If a specific user type is required, check that as well
@@ -32,13 +34,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         
         // Otherwise, verify with the server
         const authenticated = await checkSession();
+        console.log("Session verification result:", authenticated);
         setIsAuthenticated(authenticated);
         setIsVerifying(false);
       }
     };
     
     verifyAuth();
-  }, [user, loading, userType, requiredUserType, checkSession]);
+  }, [user, loading, userType, requiredUserType, checkSession, authInitialized]);
 
   if (loading || isVerifying) {
     // Show loading state while checking authentication
@@ -54,6 +57,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   if (!isAuthenticated) {
     // Redirect to login if not authenticated
+    console.log("User not authenticated, redirecting to login", location.pathname);
     return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
