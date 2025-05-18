@@ -16,16 +16,28 @@ import { toast } from 'sonner';
 
 interface SocialShareDialogProps {
   title: string;
-  path: string;
+  text?: string;
   description?: string;
+  path?: string;
+  customPath?: string;
+  triggerContent?: React.ReactNode;
   children?: React.ReactNode;
 }
 
-const SocialShareDialog: React.FC<SocialShareDialogProps> = ({ title, path, description, children }) => {
+const SocialShareDialog: React.FC<SocialShareDialogProps> = ({ 
+  title, 
+  text, 
+  path, 
+  customPath,
+  description, 
+  triggerContent,
+  children 
+}) => {
   const { shareTargets, getShareUrl } = useSocialShare();
   const [copied, setCopied] = React.useState(false);
   
-  const shareUrl = getShareUrl(path);
+  // Use either customPath or path or fallback to current path
+  const shareUrl = getShareUrl(customPath || path || window.location.pathname);
   
   const handleCopy = async () => {
     try {
@@ -41,7 +53,7 @@ const SocialShareDialog: React.FC<SocialShareDialogProps> = ({ title, path, desc
   return (
     <Dialog>
       <DialogTrigger asChild>
-        {children || (
+        {triggerContent || children || (
           <Button 
             variant="outline" 
             size="sm"
@@ -56,7 +68,7 @@ const SocialShareDialog: React.FC<SocialShareDialogProps> = ({ title, path, desc
         <DialogHeader>
           <DialogTitle>Share</DialogTitle>
           <DialogDescription>
-            Share this link with your network
+            {description || "Share this link with your network"}
           </DialogDescription>
         </DialogHeader>
         
@@ -90,11 +102,11 @@ const SocialShareDialog: React.FC<SocialShareDialogProps> = ({ title, path, desc
               key={target.name}
               size="icon"
               variant="outline"
-              onClick={() => target.action({ title, text: description, url: shareUrl })}
+              onClick={() => target.action({ title, text: text || description, url: shareUrl })}
               className={`rounded-full ${target.color}`}
               aria-label={`Share on ${target.name}`}
             >
-              {/* Use proper icon component based on target.icon string */}
+              {/* Icon would be rendered here */}
               <span className="sr-only">Share on {target.name}</span>
             </Button>
           ))}
