@@ -18,6 +18,11 @@ export interface SystemHealth {
   overall: 'healthy' | 'degraded' | 'offline';
 }
 
+// Type guard function to check if a status is offline
+function isOffline(status: 'healthy' | 'degraded' | 'offline'): boolean {
+  return status === 'offline';
+}
+
 // Perform a complete health check
 export const checkSystemHealth = async (): Promise<SystemHealth> => {
   const results: SystemHealth = {
@@ -70,7 +75,7 @@ export const checkSystemHealth = async (): Promise<SystemHealth> => {
     }
     results.auth.responseTime = Math.round(performance.now() - authStart);
 
-    // Determine overall status with explicit string matching
+    // Determine overall status
     let isAllHealthy = true;
     let hasOfflineService = false;
 
@@ -79,10 +84,10 @@ export const checkSystemHealth = async (): Promise<SystemHealth> => {
     if (results.storage.status !== 'healthy') isAllHealthy = false;
     if (results.auth.status !== 'healthy') isAllHealthy = false;
 
-    // Check if any service is offline by using explicit string comparison
-    if (results.database.status === 'offline' as const) hasOfflineService = true;
-    if (results.storage.status === 'offline' as const) hasOfflineService = true;
-    if (results.auth.status === 'offline' as const) hasOfflineService = true;
+    // Check if any service is offline using the type guard function
+    hasOfflineService = isOffline(results.database.status) || 
+                        isOffline(results.storage.status) || 
+                        isOffline(results.auth.status);
     
     // Set overall status based on checks
     if (isAllHealthy) {
