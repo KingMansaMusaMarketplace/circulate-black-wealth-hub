@@ -10,7 +10,7 @@ export interface SocialShareProps {
   text?: string;
   url?: string;
   className?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'default' | 'lg' | 'icon';
   variant?: 'default' | 'outline' | 'ghost' | 'link';
   showLabels?: boolean;
 }

@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link as LinkIcon, Share2 } from "lucide-react";
-import { ProductImage } from '@/lib/api/product-image';
+import { ProductImage } from '@/lib/api/product-api';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
 
 interface ShareProductProps {
