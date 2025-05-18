@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 
 // System health check interface
@@ -70,22 +69,29 @@ export const checkSystemHealth = async (): Promise<SystemHealth> => {
     }
     results.auth.responseTime = Math.round(performance.now() - authStart);
 
-    // Determine overall status
-    const allHealthy = 
-      results.database.status === 'healthy' &&
-      results.storage.status === 'healthy' &&
-      results.auth.status === 'healthy';
-      
-    const anyOffline = 
-      results.database.status === 'offline' ||
-      results.storage.status === 'offline' ||
-      results.auth.status === 'offline';
+    // Determine overall status by checking each service's status
+    const databaseStatus = results.database.status;
+    const storageStatus = results.storage.status;
+    const authStatus = results.auth.status;
     
-    if (allHealthy) {
+    // Check if all services are healthy
+    if (
+      databaseStatus === 'healthy' && 
+      storageStatus === 'healthy' && 
+      authStatus === 'healthy'
+    ) {
       results.overall = 'healthy';
-    } else if (anyOffline) {
+    } 
+    // Check if any service is offline
+    else if (
+      databaseStatus === 'offline' || 
+      storageStatus === 'offline' || 
+      authStatus === 'offline'
+    ) {
       results.overall = 'offline';
-    } else {
+    } 
+    // Otherwise, it's degraded
+    else {
       results.overall = 'degraded';
     }
 
