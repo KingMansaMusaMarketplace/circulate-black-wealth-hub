@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -63,6 +62,7 @@ const HeroSection = () => {
             </div>
           </div>
           <div className="md:w-1/2 flex justify-center md:justify-end">
+            {/* Image with Black women on bed with laptop */}
             <div className="relative z-10">
               {/* Image with Black women on bed with laptop */}
               <div className="absolute -top-4 -left-4 w-full h-full bg-mansagold/20 rounded-xl"></div>

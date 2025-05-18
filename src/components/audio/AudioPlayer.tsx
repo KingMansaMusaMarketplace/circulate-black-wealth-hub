@@ -9,6 +9,8 @@ interface AudioPlayerProps {
   onPlay?: () => void;
   onPause?: () => void;
   className?: string;
+  disabled?: boolean;
+  [key: string]: any; // Allow other button props
 }
 
 export const AudioPlayer = ({ 
@@ -16,12 +18,15 @@ export const AudioPlayer = ({
   children, 
   onPlay, 
   onPause,
-  className = ""
+  className = "",
+  disabled,
+  ...props
 }: AudioPlayerProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [audioSource, setAudioSource] = useState(src);
   
   useEffect(() => {
     // Create audio element
@@ -39,12 +44,33 @@ export const AudioPlayer = ({
         console.log('Trying WAV format:', wavSrc);
         
         const wavAudio = new Audio(wavSrc);
-        wavAudio.addEventListener('error', () => {
-          setError('Failed to load audio file');
-        });
+        audioRef.current = wavAudio;
+        setAudioSource(wavSrc);
         
         wavAudio.addEventListener('ended', handleAudioEnded);
-        audioRef.current = wavAudio;
+        
+        // Try to play the WAV automatically if error was during playback
+        if (isPlaying) {
+          const playPromise = wavAudio.play();
+          
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                setIsPlaying(true);
+                onPlay?.();
+              })
+              .catch(error => {
+                console.error("Audio playback error:", error);
+                setError('Failed to play audio');
+              });
+          }
+        }
+
+        // Add error handler for the fallback as well
+        wavAudio.addEventListener('error', () => {
+          console.error('WAV audio also failed to load');
+          setError('Failed to load audio file');
+        });
       } else {
         setError('Failed to load audio file');
       }
@@ -101,7 +127,8 @@ export const AudioPlayer = ({
       <Button 
         className={className}
         onClick={toggleAudio}
-        disabled={!!error}
+        disabled={!!error || disabled}
+        {...props}
       >
         {children}
         {isPlaying ? (
