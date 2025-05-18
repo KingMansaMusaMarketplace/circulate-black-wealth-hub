@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Provider, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -49,11 +48,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Verify an MFA challenge
   const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+    console.log("Verifying MFA:", { factorId, code, challengeId });
     const result = await verifyUserMFA(factorId, code, challengeId);
     
     // Clear the MFA challenge after verification attempt
     if (result.success) {
+      console.log("MFA verification successful");
       setCurrentMFAChallenge(null);
+      // Update session after successful MFA
+      const { data } = await supabase.auth.getSession();
+      if (data?.session) {
+        setSession(data.session);
+        setUser(data.session.user);
+        if (data.session.user?.user_metadata?.userType) {
+          setUserType(data.session.user.user_metadata.userType);
+        }
+      }
+    } else {
+      console.error("MFA verification failed:", result);
     }
     
     return result;
@@ -65,6 +77,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    console.log("AuthProvider initialized");
     // Set up auth state listener first
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, currentSession) => {
@@ -75,6 +88,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(currentSession?.user || null);
         
         if (currentSession?.user?.user_metadata?.userType) {
+          console.log("Setting user type from metadata:", currentSession.user.user_metadata.userType);
           setUserType(currentSession.user.user_metadata.userType);
         } else if (currentSession?.user) {
           // Attempt to get user type from profiles if not in metadata
@@ -86,6 +100,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               .single();
             
             if (profileData) {
+              console.log("Setting user type from profile:", profileData.user_type);
               setUserType(profileData.user_type as 'customer' | 'business' | null);
             }
           } catch (error) {
@@ -99,6 +114,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setAuthInitialized(true);
         
         if (event === 'SIGNED_IN') {
+          console.log("User signed in, user type:", currentSession?.user?.user_metadata?.userType);
           toast.success('You have successfully signed in!');
           // Fetch MFA factors when user signs in
           getMFAFactors();
@@ -119,6 +135,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(currentSession?.user || null);
       
       if (currentSession?.user?.user_metadata?.userType) {
+        console.log("Setting initial user type from metadata:", currentSession.user.user_metadata.userType);
         setUserType(currentSession.user.user_metadata.userType);
       } else if (currentSession?.user) {
         // Attempt to get user type from profiles if not in metadata
@@ -130,6 +147,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             .single();
           
           if (profileData) {
+            console.log("Setting initial user type from profile:", profileData.user_type);
             setUserType(profileData.user_type as 'customer' | 'business' | null);
           }
         } catch (error) {
@@ -162,6 +180,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loading,
     authInitialized,
     signUp: async (email: string, password: string, metadata?: any) => {
+      console.log("Signing up with metadata:", metadata);
       const result = await handleUserSignUp(email, password, metadata, toastWrapper);
       // If signup was successful and we have a session, update the auth state
       if (result.data?.session) {
@@ -174,6 +193,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return result;
     },
     signIn: async (email: string, password: string) => {
+      console.log("Signing in:", email);
       const result = await enhancedSignIn(
         email, 
         password, 
@@ -187,6 +207,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setSession(result.data.session);
         const userType = result.data.user?.user_metadata?.userType;
         if (userType) {
+          console.log("Setting user type after sign in:", userType);
           setUserType(userType);
         }
       }

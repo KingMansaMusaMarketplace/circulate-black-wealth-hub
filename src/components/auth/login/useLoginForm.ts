@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { loginSchema, LoginFormValues } from './LoginSchema';
 
 interface UseLoginFormProps {
@@ -13,7 +13,6 @@ interface UseLoginFormProps {
 export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showMFAVerification, setShowMFAVerification] = useState(false);
   const [mfaData, setMfaData] = useState<{factorId: string, challengeId: string} | null>(null);
@@ -42,6 +41,8 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
 
   const handleFormSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
+    console.log("Login form submitted with values:", values);
+    
     try {
       // Save email to localStorage if rememberMe is checked
       if (values.rememberMe) {
@@ -53,7 +54,9 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
       // Cache the email in case we need it for MFA
       setEmailCache(values.email);
       
+      console.log("Attempting to sign in with:", values.email);
       const result = await onSubmit(values.email, values.password);
+      console.log("Login result:", result);
       
       if (result.error) {
         console.error("Login error:", result.error);
@@ -62,6 +65,10 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
       
       // Check if MFA is required
       if (result.mfaRequired && result.factorId && result.challengeId) {
+        console.log("MFA required. Setting up MFA verification with:", {
+          factorId: result.factorId,
+          challengeId: result.challengeId
+        });
         setMfaData({
           factorId: result.factorId,
           challengeId: result.challengeId

@@ -9,21 +9,21 @@ import {
   updatePassword 
 } from '@/lib/auth';
 import { getMFAFactors, createMFAChallenge } from './mfaUtils';
+import { toast } from 'sonner';
 
 // Helper function to wrap toast in the expected format
 export const toastWrapper = (props: ToastProps) => {
   if (props.variant === "destructive") {
-    return {
-      title: props.title,
-      description: props.description,
-      variant: props.variant
-    };
-  } else {
-    return {
-      title: props.title,
+    toast.error(props.title, {
       description: props.description
-    };
+    });
+  } else {
+    toast.success(props.title, {
+      description: props.description
+    });
   }
+  
+  return props;
 };
 
 // Enhanced sign-in function that handles MFA challenges
@@ -33,11 +33,11 @@ export const enhancedSignIn = async (
   setUser: (user: any) => void, 
   getMFAFactors: () => Promise<any[]>, 
   setCurrentMFAChallenge: (challenge: any) => void, 
-  toast?: (props: ToastProps) => any
+  toastFn?: (props: ToastProps) => any
 ) => {
   try {
     console.log("Attempting enhanced sign-in for:", email);
-    const result = await handleSignIn(email, password, toast);
+    const result = await handleSignIn(email, password, toastFn);
     
     if (result.error) {
       console.error("Sign in error:", result.error);
@@ -91,27 +91,32 @@ export const enhancedSignIn = async (
   }
 };
 
-export const handleUserSignUp = (email: string, password: string, metadata?: any, toast?: any) => 
-  handleSignUp(email, password, metadata, toast);
+export const handleUserSignUp = async (email: string, password: string, metadata?: any, toastFn?: any) => {
+  console.log("Handling user signup with metadata:", metadata);
+  const result = await handleSignUp(email, password, metadata, toastFn);
+  console.log("Signup result:", result);
+  return result;
+};
 
-export const handleUserSignIn = (email: string, password: string, toast?: any) => 
-  handleSignIn(email, password, toast);
+export const handleUserSignIn = (email: string, password: string, toastFn?: any) => 
+  handleSignIn(email, password, toastFn);
 
-export const handleUserSignOut = (toast?: any) => 
-  handleSignOut(toast);
+export const handleUserSignOut = (toastFn?: any) => 
+  handleSignOut(toastFn);
 
-export const handleUserSocialSignIn = (provider: any, toast?: any) => 
-  handleSocialSignIn(provider, toast);
+export const handleUserSocialSignIn = (provider: any, toastFn?: any) => 
+  handleSocialSignIn(provider, toastFn);
 
-export const handlePasswordReset = (email: string, toast?: any) => 
-  requestPasswordReset(email, toast);
+export const handlePasswordReset = (email: string, toastFn?: any) => 
+  requestPasswordReset(email, toastFn);
 
-export const handleUpdatePassword = (newPassword: string, toast?: any) => 
-  updatePassword(newPassword, toast);
+export const handleUpdatePassword = (newPassword: string, toastFn?: any) => 
+  updatePassword(newPassword, toastFn);
 
 // Check if the session is valid
 export const checkUserSession = async (): Promise<boolean> => {
   try {
+    console.log("Checking user session...");
     const { supabase } = await import('@/integrations/supabase/client');
     const { data: { session } } = await supabase.auth.getSession();
     console.log("checkUserSession result:", !!session);
