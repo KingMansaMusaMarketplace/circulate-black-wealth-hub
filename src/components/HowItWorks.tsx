@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle2, ChevronRight, MapPin, Navigation } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 const HowItWorks = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -180,13 +181,15 @@ const HowItWorks = () => {
                 </li>
               </ul>
               
-              <motion.button
-                className="bg-white text-mansablue font-medium px-5 py-2.5 rounded-md hover:bg-opacity-90 transition-all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Explore Directory
-              </motion.button>
+              <Link to="/directory">
+                <motion.button
+                  className="bg-white text-mansablue font-medium px-5 py-2.5 rounded-md hover:bg-opacity-90 transition-all"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Explore Directory
+                </motion.button>
+              </Link>
             </div>
             
             <div className="bg-mansablue-light/20 p-8 flex items-center justify-center relative">
