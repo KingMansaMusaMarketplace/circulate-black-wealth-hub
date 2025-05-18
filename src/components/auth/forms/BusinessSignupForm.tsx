@@ -42,7 +42,7 @@ export const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       <div className="space-y-4">
         <div>
           <label htmlFor="business-name" className="block text-sm font-medium text-gray-700 mb-1">
-            Business Name
+            Business Name <span className="text-red-500">*</span>
           </label>
           <Input
             id="business-name"
@@ -55,7 +55,7 @@ export const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         </div>
         <div>
           <label htmlFor="business-type" className="block text-sm font-medium text-gray-700 mb-1">
-            Business Type
+            Business Type <span className="text-red-500">*</span>
           </label>
           <select
             id="business-type"
@@ -75,7 +75,7 @@ export const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         </div>
         <div>
           <label htmlFor="business-address" className="block text-sm font-medium text-gray-700 mb-1">
-            Business Address
+            Business Address <span className="text-red-500">*</span>
           </label>
           <Input
             id="business-address"
@@ -88,7 +88,7 @@ export const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         </div>
         <div>
           <label htmlFor="business-email" className="block text-sm font-medium text-gray-700 mb-1">
-            Business Email
+            Business Email <span className="text-red-500">*</span>
           </label>
           <Input
             id="business-email"
@@ -101,7 +101,7 @@ export const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         </div>
         <div>
           <label htmlFor="business-password" className="block text-sm font-medium text-gray-700 mb-1">
-            Password
+            Password <span className="text-red-500">*</span>
           </label>
           <Input
             id="business-password"

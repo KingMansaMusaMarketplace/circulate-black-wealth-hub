@@ -16,6 +16,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState(''); // New field
+  const [address, setAddress] = useState(''); // New field
   const [businessName, setBusinessName] = useState('');
   const [businessType, setBusinessType] = useState('');
   const [businessAddress, setBusinessAddress] = useState('');
@@ -36,6 +38,16 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
       return;
     }
     
+    // Validate required fields
+    if (userType === 'customer' && (!phone || !address)) {
+      toast({
+        title: "Missing required fields",
+        description: "Phone number and address are required fields.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setLoading(true);
     
     try {
@@ -44,6 +56,8 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
         ? { 
             userType: 'customer',
             fullName: name,
+            phone: phone,  // Added phone
+            address: address,  // Added address
             subscription_status: 'pending',
           }
         : {
@@ -135,6 +149,10 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
           agreeTerms={agreeTerms}
           setAgreeTerms={setAgreeTerms}
           loading={loading}
+          phone={phone}
+          setPhone={setPhone}
+          address={address}
+          setAddress={setAddress}
         />
       </TabsContent>
 

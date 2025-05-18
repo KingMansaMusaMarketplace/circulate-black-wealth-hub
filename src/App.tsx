@@ -1,133 +1,143 @@
+import React, { useEffect, useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
+import { useAuth } from '@/contexts/auth';
+import { ThemeProvider } from "@/components/theme-provider"
+import LandingPage from '@/pages/LandingPage';
+import LoginPage from '@/pages/LoginPage';
+import SignupPage from '@/pages/SignupPage';
+import DashboardPage from '@/pages/DashboardPage';
+import BusinessProfilePage from '@/pages/BusinessProfilePage';
+import ProfilePage from '@/pages/ProfilePage';
+import SettingsPage from '@/pages/SettingsPage';
+import BusinessDirectoryPage from '@/pages/BusinessDirectoryPage';
+import LoyaltyHistoryPage from '@/pages/LoyaltyHistoryPage';
+import HowItWorksPage from '@/pages/HowItWorksPage';
+import AboutUsPage from '@/pages/AboutUsPage';
+import NotFound from '@/pages/NotFound';
+import AdminPage from '@/pages/AdminPage';
+import QRCodeManagementPage from '@/pages/QRCodeManagementPage';
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from "@/components/ui/sonner"; 
-import { useEffect } from "react";
-import { useCapacitor } from "@/hooks/use-capacitor";
-import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
-import Index from "@/pages/Index";
-import LoginPage from "@/pages/LoginPage";
-import SignupPage from "@/pages/SignupPage";
-import SignupSuccessPage from "@/pages/SignupSuccessPage";
-import BusinessDetailPage from "@/pages/BusinessDetailPage";
-import DashboardPage from "@/pages/DashboardPage";
-import DirectoryPage from "@/pages/DirectoryPage";
-import NotFound from "@/pages/NotFound";
-import AboutPage from "@/pages/AboutPage";
-import HowItWorksPage from "@/pages/HowItWorksPage";
-import ProfilePage from "@/pages/ProfilePage";
-import ResetPasswordPage from "@/pages/ResetPasswordPage";
-import NewPasswordPage from "@/pages/NewPasswordPage";
-import LoyaltyHistoryPage from "@/pages/LoyaltyHistoryPage";
-import LoyaltyPage from "@/pages/LoyaltyPage";
-import BusinessProfilePage from "@/pages/BusinessProfilePage";
-import AdminPage from "@/pages/AdminPage";
-import QRCodeManagementPage from "@/pages/QRCodeManagementPage";
-import QRScannerPage from "@/pages/QRScannerPage";
-import RegistrationTestPage from "@/pages/RegistrationTestPage";
-import FAQPage from "@/pages/FAQPage";
-import PrivacyPolicyPage from "@/pages/PrivacyPolicyPage";
-import TermsOfServicePage from "@/pages/TermsOfServicePage";
-import ContactPage from "@/pages/ContactPage";
-import TeamContactPage from "@/pages/TeamContactPage";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
-import ProtectedRoute from "@/components/auth/ProtectedRoute";
-import './App.css';
-
-function App() {
-  const { isCapacitor, isNative } = useCapacitor();
-  
-  useEffect(() => {
-    if (isNative) {
-      // Initialize Capacitor plugins when running on a native platform
-      initializeCapacitorPlugins();
-      console.log(`Running on ${isCapacitor ? 'Capacitor' : 'Web'}`);
-    }
-  }, [isNative, isCapacitor]);
-
+const App = () => {
   return (
-    <AuthProvider>
-      <SubscriptionProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* Public routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/signup/success" element={<SignupSuccessPage />} />
-            <Route path="/business/:id" element={<BusinessDetailPage />} />
-            <Route path="/directory" element={<DirectoryPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/how-it-works" element={<HowItWorksPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/new-password" element={<NewPasswordPage />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/privacy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms" element={<TermsOfServicePage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/team-contact" element={<TeamContactPage />} />
-            
-            {/* Protected routes - require authentication */}
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            } />
-            <Route path="/loyalty" element={
-              <ProtectedRoute>
-                <LoyaltyPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/loyalty-history" element={
-              <ProtectedRoute>
-                <LoyaltyHistoryPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/scan" element={
-              <ProtectedRoute>
-                <QRScannerPage />
-              </ProtectedRoute>
-            } />
-            
-            {/* Business-only routes */}
-            <Route path="/business-profile" element={
-              <ProtectedRoute requiredUserType="business">
-                <BusinessProfilePage />
-              </ProtectedRoute>
-            } />
-            <Route path="/qr-management" element={
-              <ProtectedRoute requiredUserType="business">
-                <QRCodeManagementPage />
-              </ProtectedRoute>
-            } />
-            
-            {/* Admin routes - protected with business user type requirement */}
-            <Route path="/admin" element={
-              <ProtectedRoute requiredUserType="business">
-                <AdminPage />
-              </ProtectedRoute>
-            } />
-            
-            {/* Testing routes - protected with business user type requirement */}
-            <Route path="/registration-test" element={
-              <ProtectedRoute requiredUserType="business">
-                <RegistrationTestPage />
-              </ProtectedRoute>
-            } />
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Toaster position="top-right" richColors />
-        </BrowserRouter>
-      </SubscriptionProvider>
-    </AuthProvider>
+    <ThemeProvider defaultTheme="system" storageKey="marketplace-theme">
+      <Router>
+        <AppContent />
+      </Router>
+    </ThemeProvider>
   );
-}
+};
+
+const AppContent = () => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+
+  useEffect(() => {
+    // After the very first load, set isFirstLoad to false
+    setIsFirstLoad(false);
+  }, []);
+
+  // Function to determine if the current route is a public route
+  const isPublicRoute = () => {
+    const publicRoutes = ['/', '/login', '/signup', '/how-it-works', '/about', '/directory'];
+    return publicRoutes.includes(location.pathname);
+  };
+
+  // If loading, show a loading indicator
+  if (loading && isFirstLoad) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // If not loading, proceed with routing
+  return (
+    <Routes>
+      {/* Public Routes */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/how-it-works" element={<HowItWorksPage />} />
+      <Route path="/about" element={<AboutUsPage />} />
+      <Route path="/directory" element={<BusinessDirectoryPage />} />
+
+      {/* Private Routes - accessible only when authenticated */}
+      <Route
+        path="/dashboard"
+        element={
+          user ? (
+            <DashboardPage />
+          ) : (
+            <Navigate to="/login" replace state={{ from: location }} />
+          )
+        }
+      />
+      <Route
+        path="/business-profile"
+        element={
+          user ? (
+            <BusinessProfilePage />
+          ) : (
+            <Navigate to="/login" replace state={{ from: location }} />
+          )
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          user ? (
+            <ProfilePage />
+          ) : (
+            <Navigate to="/login" replace state={{ from: location }} />
+          )
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          user ? (
+            <SettingsPage />
+          ) : (
+            <Navigate to="/login" replace state={{ from: location }} />
+          )
+        }
+      />
+      <Route
+        path="/loyalty-history"
+        element={
+          user ? (
+            <LoyaltyHistoryPage />
+          ) : (
+            <Navigate to="/login" replace state={{ from: location }} />
+          )
+        }
+      />
+      <Route
+        path="/admin"
+        element={
+          user ? (
+            <AdminPage />
+          ) : (
+            <Navigate to="/login" replace state={{ from: location }} />
+          )
+        }
+      />
+
+      {/* Add a new route for QR code management: */}
+      <Route path="/qr-code-management" element={<QRCodeManagementPage />} />
+
+      {/* Not Found Route - matches any route that doesn't match the above */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
 
 export default App;

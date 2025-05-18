@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Home, 
   Store, 
@@ -34,11 +34,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   const { user } = useAuth();
   const pathname = useLocation().pathname;
   const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   // Perform sign out
   const onSignOut = async () => {
-    // Changed to pass a string instead of an object to toast
-    await handleSignOut((message) => toast(message));
+    await handleSignOut((message: string) => toast(message));
   };
 
   return (

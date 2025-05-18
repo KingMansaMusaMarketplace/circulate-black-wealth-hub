@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Input } from '@/components/ui/input';
 import { FormCheckbox } from './FormCheckbox';
 import { SubmitButton } from './SubmitButton';
@@ -15,6 +15,10 @@ interface CustomerSignupFormProps {
   agreeTerms: boolean;
   setAgreeTerms: (agree: boolean) => void;
   loading: boolean;
+  phone: string;
+  setPhone: (phone: string) => void;
+  address: string;
+  setAddress: (address: string) => void;
 }
 
 export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
@@ -27,14 +31,18 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
   setPassword,
   agreeTerms,
   setAgreeTerms,
-  loading
+  loading,
+  phone,
+  setPhone,
+  address,
+  setAddress
 }) => {
   return (
     <form onSubmit={onSubmit}>
       <div className="space-y-4">
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Full Name
+            Full Name <span className="text-red-500">*</span>
           </label>
           <Input
             id="name"
@@ -47,7 +55,7 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email
+            Email <span className="text-red-500">*</span>
           </label>
           <Input
             id="email"
@@ -59,8 +67,34 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
           />
         </div>
         <div>
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+            Phone Number <span className="text-red-500">*</span>
+          </label>
+          <Input
+            id="phone"
+            type="tel"
+            placeholder="Your Phone Number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+            Address <span className="text-red-500">*</span>
+          </label>
+          <Input
+            id="address"
+            type="text"
+            placeholder="Your Address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+        </div>
+        <div>
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-            Password
+            Password <span className="text-red-500">*</span>
           </label>
           <Input
             id="password"

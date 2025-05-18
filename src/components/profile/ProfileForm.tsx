@@ -23,8 +23,12 @@ const profileFormSchema = z.object({
   fullName: z.string().min(2, {
     message: 'Full name must be at least 2 characters.',
   }),
-  phone: z.string().optional(),
-  address: z.string().optional(),
+  phone: z.string().min(10, {
+    message: 'Phone number is required and must be at least 10 characters.',
+  }),
+  address: z.string().min(5, {
+    message: 'Address is required and must be at least 5 characters.',
+  }),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -51,8 +55,8 @@ const ProfileForm = () => {
       const { error } = await supabase.auth.updateUser({
         data: {
           fullName: data.fullName,
-          phone: data.phone || null,
-          address: data.address || null,
+          phone: data.phone,
+          address: data.address,
         }
       });
       
@@ -63,8 +67,8 @@ const ProfileForm = () => {
         .from('profiles')
         .update({
           full_name: data.fullName,
-          phone: data.phone || null,
-          address: data.address || null,
+          phone: data.phone,
+          address: data.address,
           updated_at: new Date().toISOString(),
         })
         .eq('id', user.id);
@@ -110,12 +114,12 @@ const ProfileForm = () => {
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel>Phone Number <span className="text-red-500">*</span></FormLabel>
                 <FormControl>
-                  <Input placeholder="Your phone number" {...field} />
+                  <Input placeholder="Your phone number" {...field} required />
                 </FormControl>
                 <FormDescription>
-                  Your contact phone number (optional).
+                  Your contact phone number (required).
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -127,12 +131,12 @@ const ProfileForm = () => {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel>Address <span className="text-red-500">*</span></FormLabel>
                 <FormControl>
-                  <Input placeholder="Your address" {...field} />
+                  <Input placeholder="Your address" {...field} required />
                 </FormControl>
                 <FormDescription>
-                  Your address information (optional).
+                  Your address information (required).
                 </FormDescription>
                 <FormMessage />
               </FormItem>
