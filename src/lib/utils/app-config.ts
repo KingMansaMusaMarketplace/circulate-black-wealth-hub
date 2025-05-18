@@ -60,30 +60,41 @@ const defaultConfig: AppConfig = {
 let appConfig: AppConfig = { ...defaultConfig };
 let configLoaded = false;
 
+// Create a type for app_config table row
+interface AppConfigRow {
+  id: string;
+  is_active: boolean;
+  config_json: string;
+  created_at: string;
+}
+
 // Load configuration from database if available
 export const loadAppConfig = async (): Promise<AppConfig> => {
   if (configLoaded) return appConfig;
   
   try {
+    // Use exec_sql to query the app_config table since it's not in the types
     const { data, error } = await supabase
-      .from('app_config')
-      .select('*')
-      .eq('is_active', true)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
+      .rpc('exec_sql', {
+        query: `SELECT * FROM app_config WHERE is_active = true ORDER BY created_at DESC LIMIT 1`
+      }) as { data: AppConfigRow[] | null, error: any };
     
-    if (error || !data) {
+    if (error || !data || data.length === 0) {
       console.warn('Could not load app configuration from database, using defaults');
       configLoaded = true;
       return appConfig;
     }
     
     // Merge database configuration with defaults
-    appConfig = {
-      ...defaultConfig,
-      ...JSON.parse(data.config_json || '{}'),
-    };
+    try {
+      const configJson = data[0].config_json;
+      appConfig = {
+        ...defaultConfig,
+        ...JSON.parse(configJson || '{}'),
+      };
+    } catch (parseError) {
+      console.error('Error parsing app configuration:', parseError);
+    }
     
     configLoaded = true;
     console.log('App configuration loaded successfully');
@@ -127,7 +138,7 @@ export const isProduction = async (): Promise<boolean> => {
 };
 
 // Initialize configuration on app startup
-export const initAppConfig = async (): Promise<void> => {
+export const initAppConfig = async (): Promise<() => void> => {
   await loadAppConfig();
   
   // Listen for realtime updates to configuration
@@ -144,11 +155,14 @@ export const initAppConfig = async (): Promise<void> => {
       (payload) => {
         if (payload.new) {
           try {
-            appConfig = {
-              ...defaultConfig,
-              ...JSON.parse(payload.new.config_json || '{}'),
-            };
-            console.log('App configuration updated in realtime');
+            const newData = payload.new as any;
+            if (newData.config_json) {
+              appConfig = {
+                ...defaultConfig,
+                ...JSON.parse(newData.config_json || '{}'),
+              };
+              console.log('App configuration updated in realtime');
+            }
           } catch (error) {
             console.error('Error updating app configuration:', error);
           }

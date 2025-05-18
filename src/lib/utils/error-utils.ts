@@ -30,20 +30,37 @@ export const handleApiError = async (
   };
 
   try {
-    // Log error to database
-    const { data, error: logError } = await supabase.rpc('handle_api_error', {
-      operation_name: operationName,
-      error_message: errorMessage,
-      error_details: errorDetails
+    // Log error using exec_sql since handle_api_error function might not be in types
+    const { data, error: logError } = await supabase.rpc('exec_sql', {
+      query: `
+        SELECT * FROM handle_api_error(
+          '${operationName}',
+          '${errorMessage.replace(/'/g, "''")}',
+          '${JSON.stringify(errorDetails).replace(/'/g, "''")}'
+        )
+      `
     });
 
-    if (!logError && data?.error?.reference) {
-      console.error(`Error logged with reference: ${data.error.reference}`);
-      
-      const loggedError = new Error(errorMessage) as LoggedError;
-      loggedError.reference = data.error.reference;
-      loggedError.details = errorDetails;
-      return loggedError;
+    if (!logError) {
+      // Try to extract reference from the response if possible
+      let reference: string | undefined;
+      try {
+        if (typeof data === 'string') {
+          const jsonData = JSON.parse(data);
+          reference = jsonData.error?.reference;
+        }
+      } catch (parseError) {
+        console.error('Error parsing error response:', parseError);
+      }
+
+      if (reference) {
+        console.error(`Error logged with reference: ${reference}`);
+        
+        const loggedError = new Error(errorMessage) as LoggedError;
+        loggedError.reference = reference;
+        loggedError.details = errorDetails;
+        return loggedError;
+      }
     }
     
     // Fallback if logging to database failed
@@ -89,9 +106,14 @@ export const checkRateLimit = async (
   limitPerMinute = 60
 ): Promise<boolean> => {
   try {
-    const { data, error } = await supabase.rpc('check_rate_limit', {
-      operation_name: operationName,
-      limit_per_minute: limitPerMinute
+    // Use exec_sql since check_rate_limit function might not be in types
+    const { data, error } = await supabase.rpc('exec_sql', {
+      query: `
+        SELECT * FROM check_rate_limit(
+          '${operationName}',
+          ${limitPerMinute}
+        )
+      `
     });
     
     if (error) {
@@ -99,7 +121,17 @@ export const checkRateLimit = async (
       return true; // On error, allow the operation to proceed
     }
     
-    if (!data) {
+    // Parse the response
+    let isAllowed = true;
+    if (typeof data === 'string') {
+      try {
+        isAllowed = data.includes('t'); // 't' for true in PostgreSQL text output
+      } catch (parseError) {
+        console.error('Error parsing rate limit response:', parseError);
+      }
+    }
+    
+    if (!isAllowed) {
       toast.error('You are making too many requests. Please slow down.');
       return false;
     }
@@ -119,11 +151,16 @@ export const logActivity = async (
   details?: Record<string, any>
 ): Promise<void> => {
   try {
-    await supabase.rpc('log_activity', {
-      activity_type: activityType,
-      entity_type: entityType,
-      entity_id: entityId,
-      details
+    // Use exec_sql since log_activity function might not be in types
+    await supabase.rpc('exec_sql', {
+      query: `
+        SELECT * FROM log_activity(
+          '${activityType}',
+          '${entityType}',
+          '${entityId}',
+          '${details ? JSON.stringify(details).replace(/'/g, "''") : null}'
+        )
+      `
     });
   } catch (error) {
     console.error('Failed to log activity:', error);

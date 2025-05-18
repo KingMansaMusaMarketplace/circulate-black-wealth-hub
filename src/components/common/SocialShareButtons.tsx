@@ -25,13 +25,13 @@ const SocialShareButtons: React.FC<SocialShareProps> = ({
   showLabels = false,
 }) => {
   const [copied, setCopied] = React.useState(false);
-  const { shareTargets, shareWithNative, canShare } = useSocialShare();
+  const { shareTargets, share, canShare } = useSocialShare();
   
   const options = { title, text, url };
   
   const handleShare = async () => {
     if (canShare) {
-      await shareWithNative(options);
+      await share(options);
     } else {
       // Fallback to the first share target if native sharing isn't available
       if (shareTargets.length > 0) {

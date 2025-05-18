@@ -31,10 +31,13 @@ export const checkSystemHealth = async (): Promise<SystemHealth> => {
     // Check database health
     const dbStart = performance.now();
     try {
-      const { data, error } = await supabase.from('health_check').select('*').limit(1).maybeSingle();
+      // Use a known table instead of health_check which might not exist
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('count')
+        .limit(1);
       
-      if (error && error.code !== 'PGRST116') {
-        // PGRST116 is "relation does not exist" which is actually fine for health check
+      if (error) {
         results.database.status = 'degraded';
       } else {
         results.database.status = 'healthy';
