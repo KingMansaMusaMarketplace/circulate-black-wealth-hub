@@ -19,8 +19,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [youtubeReady, setYoutubeReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const youtubeRef = useRef<HTMLIFrameElement>(null);
+  const youtubeContainerRef = useRef<HTMLDivElement>(null);
   const youtubePlayer = useRef<any>(null);
 
   // Extract YouTube video ID from URL
@@ -32,19 +33,21 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   useEffect(() => {
     if (isYouTube) {
-      // Load YouTube iframe API
-      const tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+      // Create script tag if it doesn't exist
+      if (!window.YT) {
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+      }
 
       // Initialize player when API is ready
-      window.onYouTubeIframeAPIReady = () => {
+      const onYouTubeIframeAPIReady = () => {
         const videoId = getYouTubeId(src);
-        if (!videoId) return;
+        if (!videoId || !youtubeContainerRef.current) return;
 
-        youtubePlayer.current = new window.YT.Player(youtubeRef.current, {
-          videoId,
+        youtubePlayer.current = new window.YT.Player(youtubeContainerRef.current, {
+          videoId: videoId,
           playerVars: {
             'playsinline': 1,
             'controls': 0,
@@ -53,36 +56,57 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             'modestbranding': 1
           },
           events: {
+            'onReady': () => setYoutubeReady(true),
             'onStateChange': onYouTubeStateChange
           }
         });
       };
+
+      // Set up YouTube API callback
+      if (window.YT && window.YT.Player) {
+        // If API is already loaded
+        onYouTubeIframeAPIReady();
+      } else {
+        // If API is still loading
+        window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+      }
     }
 
     return () => {
       // Clean up
       if (youtubePlayer.current) {
-        youtubePlayer.current.destroy();
+        try {
+          youtubePlayer.current.destroy();
+        } catch (e) {
+          console.error("Error destroying YouTube player:", e);
+        }
       }
-      window.onYouTubeIframeAPIReady = null;
     };
   }, [src, isYouTube]);
 
   const onYouTubeStateChange = (event: any) => {
-    // YT.PlayerState.ENDED = 0
-    if (event.data === 0) {
+    // Update playing state based on YouTube player state
+    // YT.PlayerState.PLAYING = 1, YT.PlayerState.PAUSED = 2, YT.PlayerState.ENDED = 0
+    if (event.data === 1) {
+      setIsPlaying(true);
+    } else if (event.data === 2 || event.data === 0) {
       setIsPlaying(false);
     }
   };
 
   const togglePlay = () => {
     if (isYouTube && youtubePlayer.current) {
-      if (isPlaying) {
-        youtubePlayer.current.pauseVideo();
-      } else {
-        youtubePlayer.current.playVideo();
+      try {
+        if (isPlaying) {
+          youtubePlayer.current.pauseVideo();
+          setIsPlaying(false);
+        } else {
+          youtubePlayer.current.playVideo();
+          setIsPlaying(true);
+        }
+      } catch (e) {
+        console.error("Error controlling YouTube player:", e);
       }
-      setIsPlaying(!isPlaying);
     } else if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
@@ -95,12 +119,16 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   const toggleMute = () => {
     if (isYouTube && youtubePlayer.current) {
-      if (isMuted) {
-        youtubePlayer.current.unMute();
-      } else {
-        youtubePlayer.current.mute();
+      try {
+        if (isMuted) {
+          youtubePlayer.current.unMute();
+        } else {
+          youtubePlayer.current.mute();
+        }
+        setIsMuted(!isMuted);
+      } catch (e) {
+        console.error("Error toggling YouTube mute:", e);
       }
-      setIsMuted(!isMuted);
     } else if (videoRef.current) {
       videoRef.current.muted = !videoRef.current.muted;
       setIsMuted(!isMuted);
@@ -122,17 +150,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       
       {/* Video element */}
       {isYouTube ? (
-        <div className="relative w-full aspect-video">
-          <div id="youtube-player" className="w-full h-full">
-            <iframe 
-              ref={youtubeRef}
-              className="w-full h-full"
-              title={title}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
+        <div className="relative w-full aspect-video bg-black">
+          <div 
+            ref={youtubeContainerRef} 
+            className="w-full h-full"
+            id="youtube-container"
+          ></div>
         </div>
       ) : (
         <video
