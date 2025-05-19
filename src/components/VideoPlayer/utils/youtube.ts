@@ -18,14 +18,20 @@ export const getYouTubeId = (url: string): string | null => {
   }
   
   // If the URL is just the ID (11 characters)
-  if (urlWithoutParams.length === 11) {
+  if (urlWithoutParams.length === 11 && /^[a-zA-Z0-9_-]{11}$/.test(urlWithoutParams)) {
     return urlWithoutParams;
   }
   
   // If the URL contains only the ID with possible whitespace
   const trimmedUrl = urlWithoutParams.trim();
-  if (trimmedUrl.length === 11) {
+  if (trimmedUrl.length === 11 && /^[a-zA-Z0-9_-]{11}$/.test(trimmedUrl)) {
     return trimmedUrl;
+  }
+  
+  // Handle youtu.be format
+  const youtuBeMatch = urlWithoutParams.match(/youtu\.be\/([^?]*)/);
+  if (youtuBeMatch && youtuBeMatch[1].length === 11) {
+    return youtuBeMatch[1];
   }
   
   return null;

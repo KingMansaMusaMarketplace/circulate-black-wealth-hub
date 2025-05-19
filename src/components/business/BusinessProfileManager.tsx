@@ -1,13 +1,14 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, ImageIcon, Settings } from 'lucide-react';
+import { FileText, Image, ImageIcon, Settings, Shield } from 'lucide-react';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { 
   BusinessDetailsContent,
   BusinessImagesContent,
   BusinessProductsContent,
-  BusinessSettingsContent
+  BusinessSettingsContent,
+  BusinessVerificationContent
 } from './business-settings';
 import BusinessProfileLoading from './business-settings/BusinessProfileLoading';
 
@@ -29,7 +30,7 @@ const BusinessProfileManager = () => {
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="details" className="flex items-center gap-2">
             <FileText size={16} />
             Business Details
@@ -41,6 +42,10 @@ const BusinessProfileManager = () => {
           <TabsTrigger value="products" className="flex items-center gap-2">
             <ImageIcon size={16} />
             Products & Services
+          </TabsTrigger>
+          <TabsTrigger value="verification" className="flex items-center gap-2">
+            <Shield size={16} />
+            Verification
           </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings size={16} />
@@ -61,6 +66,10 @@ const BusinessProfileManager = () => {
 
         <TabsContent value="products" className="mt-6">
           <BusinessProductsContent profile={profile} />
+        </TabsContent>
+        
+        <TabsContent value="verification" className="mt-6">
+          <BusinessVerificationContent profile={profile} />
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">

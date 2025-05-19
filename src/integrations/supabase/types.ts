@@ -9,6 +9,65 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      business_verifications: {
+        Row: {
+          address_document_url: string | null
+          admin_notes: string | null
+          business_id: string
+          created_at: string
+          id: string
+          ownership_document_url: string | null
+          ownership_percentage: number | null
+          registration_document_url: string | null
+          rejection_reason: string | null
+          submitted_at: string
+          updated_at: string
+          verification_status: string
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          address_document_url?: string | null
+          admin_notes?: string | null
+          business_id: string
+          created_at?: string
+          id?: string
+          ownership_document_url?: string | null
+          ownership_percentage?: number | null
+          registration_document_url?: string | null
+          rejection_reason?: string | null
+          submitted_at?: string
+          updated_at?: string
+          verification_status?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          address_document_url?: string | null
+          admin_notes?: string | null
+          business_id?: string
+          created_at?: string
+          id?: string
+          ownership_document_url?: string | null
+          ownership_percentage?: number | null
+          registration_document_url?: string | null
+          rejection_reason?: string | null
+          submitted_at?: string
+          updated_at?: string
+          verification_status?: string
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_verifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       businesses: {
         Row: {
           address: string | null
@@ -542,9 +601,39 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      admin_verification_queue: {
+        Row: {
+          business_email: string | null
+          business_id: string | null
+          business_name: string | null
+          owner_id: string | null
+          owner_name: string | null
+          ownership_percentage: number | null
+          submitted_at: string | null
+          verification_id: string | null
+          verification_status: string | null
+          verified_at: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_verifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
+      admin_approve_business_verification: {
+        Args: { verification_id: string }
+        Returns: undefined
+      }
+      admin_reject_business_verification: {
+        Args: { verification_id: string; reason: string }
+        Returns: undefined
+      }
       exec_sql: {
         Args: { query: string }
         Returns: undefined
