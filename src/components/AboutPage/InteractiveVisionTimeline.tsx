@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Layers, TrendingUp, Users, Building, DollarSign } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 const visionMetrics = [
   {
@@ -133,7 +134,8 @@ const InteractiveVisionTimeline: React.FC = () => {
                   <Progress 
                     value={calculateProgress(metric.current, metric.goal)} 
                     className="h-2"
-                    indicatorClassName={metric.color}
+                    // Fix: Replace indicatorClassName with className using cn() utility
+                    className={cn("h-2", metric.color)}
                   />
                 </div>
                 

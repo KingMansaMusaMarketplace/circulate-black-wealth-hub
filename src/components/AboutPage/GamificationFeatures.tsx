@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Gamepad, Award, Gift, TrendingUp, Star, Trophy } from 'lucide-react';
+import { Gamepad, Award, Gift, TrendingUp, Star, Trophy, UserCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
@@ -252,7 +251,7 @@ const GamificationFeatures = () => {
                   
                   <div className="flex flex-col items-center text-center opacity-50">
                     <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center mb-2">
-                      <Users className="h-10 w-10 text-gray-400" />
+                      <UserCircle className="h-10 w-10 text-gray-400" />
                     </div>
                     <h4 className="font-medium">Influencer</h4>
                     <p className="text-xs text-gray-500">Referred 5+ friends</p>
