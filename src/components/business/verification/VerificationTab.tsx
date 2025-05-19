@@ -28,7 +28,7 @@ const VerificationTab: React.FC = () => {
           <CardDescription>Verify your business to build trust with customers</CardDescription>
         </CardHeader>
         <CardContent>
-          <Alert variant="warning">
+          <Alert variant="destructive">
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>No Business Profile</AlertTitle>
             <AlertDescription>

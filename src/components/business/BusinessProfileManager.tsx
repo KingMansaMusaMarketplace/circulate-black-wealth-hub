@@ -69,7 +69,9 @@ const BusinessProfileManager = () => {
         </TabsContent>
         
         <TabsContent value="verification" className="mt-6">
-          <BusinessVerificationContent profile={profile} />
+          <BusinessVerificationContent 
+            profile={profile as any} // Type assertion to resolve the interface mismatch
+          />
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">
