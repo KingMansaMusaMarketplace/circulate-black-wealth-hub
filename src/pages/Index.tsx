@@ -28,12 +28,14 @@ const HomePage = () => {
           </div>
           
           <div className="max-w-3xl mx-auto">
-            {/* YouTube video */}
+            {/* YouTube video with enhanced SEO */}
             <VideoPlayer 
               src="https://www.youtube.com/watch?v=71FmkfENYDI" 
               title="Mansa Musa Marketplace - Circulating Black Wealth" 
               className="aspect-video"
               isYouTube={true}
+              description="Learn how Mansa Musa Marketplace helps circulate wealth within Black communities, creating economic opportunities and building generational wealth."
+              uploadDate="2024-05-16"
             />
           </div>
         </div>

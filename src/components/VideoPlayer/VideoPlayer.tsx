@@ -4,6 +4,7 @@ import YouTubePlayer from './YouTubePlayer';
 import StandardPlayer from './StandardPlayer';
 import PlayPauseButton from './controls/PlayPauseButton';
 import ControlsOverlay from './controls/ControlsOverlay';
+import VideoStructuredData from './utils/structuredData';
 
 interface VideoPlayerProps {
   src: string;
@@ -11,6 +12,8 @@ interface VideoPlayerProps {
   posterImage?: string;
   className?: string;
   isYouTube?: boolean;
+  description?: string;
+  uploadDate?: string;
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
@@ -18,7 +21,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   title = "Circulate Black Wealth",
   posterImage = "/placeholder.svg",
   className = "",
-  isYouTube = false
+  isYouTube = false,
+  description,
+  uploadDate,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -63,48 +68,60 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   };
 
   return (
-    <div className={`relative rounded-xl overflow-hidden shadow-xl ${className} bg-black`}>
-      {/* Video title */}
-      {title && (
-        <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/70 to-transparent p-4 z-10">
-          <h3 className="text-white text-lg font-medium">{title}</h3>
-        </div>
-      )}
-      
-      {/* Video element - either YouTube or standard */}
-      {isYouTube ? (
-        <YouTubePlayer 
-          src={src}
-          isPlaying={isPlaying}
-          isMuted={isMuted}
-          onStateChange={handleYouTubeStateChange}
-        />
-      ) : (
-        <StandardPlayer
-          src={src}
-          posterImage={hasEnded ? "" : posterImage}
-          isPlaying={isPlaying}
-          isMuted={isMuted}
-          onStateChange={setIsPlaying}
-          onEnded={handleVideoEnded}
-        />
-      )}
-      
-      {/* Play/Pause button with fade effect */}
-      <PlayPauseButton 
-        isPlaying={isPlaying}
-        onClick={togglePlay}
-        forceShow={showPlayButton}
+    <>
+      {/* Add structured data for search engines */}
+      <VideoStructuredData 
+        src={src}
+        title={title}
+        description={description}
+        uploadDate={uploadDate}
+        thumbnailUrl={posterImage}
+        isYouTube={isYouTube}
       />
       
-      {/* Video controls overlay */}
-      <ControlsOverlay 
-        isPlaying={isPlaying}
-        isMuted={isMuted}
-        onPlayPause={togglePlay}
-        onToggleMute={toggleMute}
-      />
-    </div>
+      <div className={`relative rounded-xl overflow-hidden shadow-xl ${className} bg-black`}>
+        {/* Video title */}
+        {title && (
+          <div className="absolute top-0 left-0 right-0 bg-gradient-to-b from-black/70 to-transparent p-4 z-10">
+            <h3 className="text-white text-lg font-medium">{title}</h3>
+          </div>
+        )}
+        
+        {/* Video element - either YouTube or standard */}
+        {isYouTube ? (
+          <YouTubePlayer 
+            src={src}
+            isPlaying={isPlaying}
+            isMuted={isMuted}
+            onStateChange={handleYouTubeStateChange}
+          />
+        ) : (
+          <StandardPlayer
+            src={src}
+            posterImage={hasEnded ? "" : posterImage}
+            isPlaying={isPlaying}
+            isMuted={isMuted}
+            onStateChange={setIsPlaying}
+            onEnded={handleVideoEnded}
+          />
+        )}
+        
+        {/* Play/Pause button with fade effect */}
+        <PlayPauseButton 
+          isPlaying={isPlaying}
+          onClick={togglePlay}
+          forceShow={showPlayButton}
+        />
+        
+        {/* Video controls overlay */}
+        <ControlsOverlay 
+          isPlaying={isPlaying}
+          isMuted={isMuted}
+          onPlayPause={togglePlay}
+          onToggleMute={toggleMute}
+        />
+      </div>
+    </>
   );
 };
 
