@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -133,8 +132,6 @@ const InteractiveVisionTimeline: React.FC = () => {
                 <div className="mb-2">
                   <Progress 
                     value={calculateProgress(metric.current, metric.goal)} 
-                    className="h-2"
-                    // Fix: Replace indicatorClassName with className using cn() utility
                     className={cn("h-2", metric.color)}
                   />
                 </div>
