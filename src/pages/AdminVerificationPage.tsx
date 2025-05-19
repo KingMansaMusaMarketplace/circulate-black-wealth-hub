@@ -4,6 +4,8 @@ import VerificationQueue from '@/components/admin/verification/VerificationQueue
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import VerificationSettings from '@/components/admin/verification/VerificationSettings';
+import VerificationStatistics from '@/components/admin/verification/VerificationStatistics';
+import { Activity, Settings, ClipboardList } from 'lucide-react';
 
 const AdminVerificationPage: React.FC = () => {
   return (
@@ -12,9 +14,20 @@ const AdminVerificationPage: React.FC = () => {
       
       <Tabs defaultValue="queue">
         <TabsList className="mb-4">
-          <TabsTrigger value="queue">Verification Queue</TabsTrigger>
-          <TabsTrigger value="settings">Settings</TabsTrigger>
+          <TabsTrigger value="stats" className="flex items-center gap-2">
+            <Activity className="h-4 w-4" /> Statistics
+          </TabsTrigger>
+          <TabsTrigger value="queue" className="flex items-center gap-2">
+            <ClipboardList className="h-4 w-4" /> Verification Queue
+          </TabsTrigger>
+          <TabsTrigger value="settings" className="flex items-center gap-2">
+            <Settings className="h-4 w-4" /> Settings
+          </TabsTrigger>
         </TabsList>
+        
+        <TabsContent value="stats">
+          <VerificationStatistics />
+        </TabsContent>
         
         <TabsContent value="queue">
           <VerificationQueue />

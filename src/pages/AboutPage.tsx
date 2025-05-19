@@ -6,17 +6,22 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import { 
   HeroSection,
   MissionSection, 
+  SuccessStoriesSection,
   VisionSection,
   AuthorSection,
   QuoteSection,
   CTASection,
   TeamSection,
-  TimelineSection,
+  InteractiveVisionTimeline,
   PartnersSection,
   ImpactMetricsSection,
   FAQSection,
   MediaGallerySection,
-  ContactSection
+  ContactSection,
+  CommunityForum,
+  PersonalizedRecommendations,
+  AccessibilityFeatures,
+  GamificationFeatures
 } from '@/components/AboutPage';
 
 const AboutPage = () => {
@@ -28,12 +33,17 @@ const AboutPage = () => {
         <AuthorSection />
         <MissionSection />
         <VisionSection />
+        <InteractiveVisionTimeline />
+        <SuccessStoriesSection />
         <TeamSection />
-        <TimelineSection />
-        <PartnersSection />
-        <TestimonialsSection />
         <ImpactMetricsSection />
+        <PersonalizedRecommendations />
+        <GamificationFeatures />
+        <CommunityForum />
         <MediaGallerySection />
+        <TestimonialsSection />
+        <AccessibilityFeatures />
+        <PartnersSection />
         <ContactSection />
         <FAQSection />
         <QuoteSection />
