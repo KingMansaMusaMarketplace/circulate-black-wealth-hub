@@ -1,8 +1,9 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import VerificationQueue from '@/components/admin/verification/VerificationQueue';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import VerificationSettings from '@/components/admin/verification/VerificationSettings';
 
 const AdminVerificationPage: React.FC = () => {
   return (
@@ -20,17 +21,7 @@ const AdminVerificationPage: React.FC = () => {
         </TabsContent>
         
         <TabsContent value="settings">
-          <Card>
-            <CardHeader>
-              <CardTitle>Verification Process Settings</CardTitle>
-              <CardDescription>Configure how business verification works</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">
-                Settings for the verification process will be available here in a future update.
-              </p>
-            </CardContent>
-          </Card>
+          <VerificationSettings />
         </TabsContent>
       </Tabs>
     </div>

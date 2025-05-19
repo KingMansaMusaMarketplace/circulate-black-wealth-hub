@@ -634,6 +634,10 @@ export type Database = {
         Args: { verification_id: string; reason: string }
         Returns: undefined
       }
+      can_access_admin_features: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       exec_sql: {
         Args: { query: string }
         Returns: undefined
