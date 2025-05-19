@@ -18,8 +18,64 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   const [youtubeReady, setYoutubeReady] = useState(false);
   const youtubeContainerRef = useRef<HTMLDivElement>(null);
   const youtubePlayer = useRef<any>(null);
+  const [videoId, setVideoId] = useState<string | null>(null);
 
+  // Extract and set the video ID when src changes
   useEffect(() => {
+    const id = getYouTubeId(src);
+    setVideoId(id);
+    
+    // If player exists but video ID changes, destroy and recreate
+    if (youtubePlayer.current && id) {
+      try {
+        youtubePlayer.current.destroy();
+        youtubePlayer.current = null;
+        setYoutubeReady(false);
+        initializeYouTubePlayer(id);
+      } catch (error) {
+        console.error("Error resetting YouTube player:", error);
+      }
+    }
+  }, [src]);
+
+  const initializeYouTubePlayer = (videoId: string | null) => {
+    if (!videoId || !youtubeContainerRef.current) return;
+    
+    try {
+      youtubePlayer.current = new window.YT.Player(youtubeContainerRef.current, {
+        videoId: videoId,
+        playerVars: {
+          'playsinline': 1,
+          'controls': 0,        // Hide YouTube controls to use our custom controls
+          'showinfo': 0,
+          'rel': 0,             // Disable related videos
+          'modestbranding': 1,
+          'fs': 1,              // Enable fullscreen button
+          'iv_load_policy': 3,  // Hide annotations
+          'autohide': 1,        // Hide video controls when playing
+          'enablejsapi': 1,     // Enable JS API
+          'origin': window.location.origin,
+        },
+        events: {
+          'onReady': () => {
+            setYoutubeReady(true);
+            // Initialize mute state when player is ready
+            if (isMuted && youtubePlayer.current) {
+              youtubePlayer.current.mute();
+            }
+          },
+          'onStateChange': handleYouTubeStateChange
+        }
+      });
+    } catch (error) {
+      console.error("Error initializing YouTube player:", error);
+    }
+  };
+
+  // Setup YouTube API
+  useEffect(() => {
+    if (!videoId) return;
+
     // Create script tag if it doesn't exist
     if (!window.YT) {
       const tag = document.createElement('script');
@@ -30,35 +86,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
     // Initialize player when API is ready
     const onYouTubeIframeAPIReady = () => {
-      const videoId = getYouTubeId(src);
-      if (!videoId || !youtubeContainerRef.current) return;
-
-      youtubePlayer.current = new window.YT.Player(youtubeContainerRef.current, {
-        videoId: videoId,
-        playerVars: {
-          'playsinline': 1,
-          'controls': 1,         // Enable YouTube controls for better user experience
-          'showinfo': 0,
-          'rel': 0,              // Disable related videos
-          'modestbranding': 1,
-          'fs': 1,               // Enable fullscreen button
-          'iv_load_policy': 3,   // Hide annotations
-          'autohide': 1,         // Hide video controls when playing
-          'enablejsapi': 1,      // Enable JS API
-          'origin': window.location.origin,
-          'end': 0,              // Do not show related videos at end
-        },
-        events: {
-          'onReady': () => {
-            setYoutubeReady(true);
-            // Fix: Initialize mute state when player is ready
-            if (isMuted && youtubePlayer.current) {
-              youtubePlayer.current.mute();
-            }
-          },
-          'onStateChange': handleYouTubeStateChange
-        }
-      });
+      initializeYouTubePlayer(videoId);
     };
 
     // Set up YouTube API callback
@@ -75,12 +103,13 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
       if (youtubePlayer.current) {
         try {
           youtubePlayer.current.destroy();
+          youtubePlayer.current = null;
         } catch (e) {
           console.error("Error destroying YouTube player:", e);
         }
       }
     };
-  }, [src, isMuted]);
+  }, [videoId]);
 
   // Update player state based on props
   useEffect(() => {

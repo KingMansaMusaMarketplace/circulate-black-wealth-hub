@@ -54,7 +54,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       setHasEnded(true);
       setShowPlayButton(true);
     } else if (playerState === 1) {
-      // If video starts playing by itself (e.g., autoplay), update our UI state
+      // If video starts playing, update our UI state
       setShowPlayButton(false);
     } else if (playerState === 2) {
       // When paused, always show the play button

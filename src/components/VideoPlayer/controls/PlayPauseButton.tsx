@@ -51,7 +51,7 @@ const PlayPauseButton: React.FC<PlayPauseButtonProps> = ({
       onMouseLeave={handleMouseLeave}
       className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
                 bg-mansablue/80 hover:bg-mansablue text-white w-16 h-16 rounded-full 
-                flex items-center justify-center transition-all duration-500 z-20
+                flex items-center justify-center transition-all duration-300 z-20
                 border-2 border-white shadow-lg ${isPlaying && !isVisible ? 'opacity-0' : 'opacity-100'}`}
       aria-label={isPlaying ? "Pause video" : "Play video"}
     >
