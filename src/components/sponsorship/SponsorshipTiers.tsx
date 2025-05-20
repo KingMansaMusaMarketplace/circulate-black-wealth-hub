@@ -47,7 +47,7 @@ const SponsorshipTiers = () => {
         "Executive advisory board seat",
         "Featured speaker opportunity at community events",
         "Custom integration options",
-        "Unlimited premium business listings",
+        "100 premium business listings",
         "Direct access to leadership team",
         "Custom impact reporting",
         "First access to new marketplace features"
