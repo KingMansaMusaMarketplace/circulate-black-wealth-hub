@@ -40,6 +40,7 @@ const Footer = () => {
               <li><Link to="/directory" className="text-gray-300 hover:text-mansagold transition-colors">Directory</Link></li>
               <li><Link to="/how-it-works" className="text-gray-300 hover:text-mansagold transition-colors">How It Works</Link></li>
               <li><Link to="/team-contact" className="text-gray-300 hover:text-mansagold transition-colors">Our Team</Link></li>
+              <li><Link to="/corporate-sponsorship" className="text-gray-300 hover:text-mansagold transition-colors">Corporate Sponsorship</Link></li>
             </ul>
           </div>
           <div>
@@ -49,6 +50,7 @@ const Footer = () => {
               <li><Link to="/team-contact" className="text-gray-300 hover:text-mansagold transition-colors">Contact Us</Link></li>
               <li><Link to="/privacy" className="text-gray-300 hover:text-mansagold transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms" className="text-gray-300 hover:text-mansagold transition-colors">Terms of Service</Link></li>
+              <li><Link to="/corporate-sponsorship" className="text-gray-300 hover:text-mansagold transition-colors">Sponsorship</Link></li>
             </ul>
           </div>
         </div>
