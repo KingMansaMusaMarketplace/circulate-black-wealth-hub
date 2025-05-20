@@ -11,12 +11,30 @@ const corsHeaders = {
 // Helper function to determine subscription tier from price ID
 const getTierFromPriceId = async (stripe: Stripe, priceId: string): Promise<string> => {
   try {
+    console.log(`[CHECK-SUBSCRIPTION] Getting tier for price: ${priceId}`);
     const price = await stripe.prices.retrieve(priceId);
     
-    // Check for corporate tiers first based on price amount
-    const amount = price.unit_amount || 0;
+    // Get price ID for corporate tiers for direct comparison
+    const silverPriceId = Deno.env.get("STRIPE_SILVER_PRICE_ID");
+    const goldPriceId = Deno.env.get("STRIPE_GOLD_PRICE_ID");
+    const platinumPriceId = Deno.env.get("STRIPE_PLATINUM_PRICE_ID");
     
-    // Corporate tier pricing
+    console.log(`[CHECK-SUBSCRIPTION] Comparing to corporate tiers: silver=${silverPriceId}, gold=${goldPriceId}, platinum=${platinumPriceId}`);
+    
+    // Check for exact match with corporate tier price IDs first
+    if (priceId === platinumPriceId) {
+      return "platinum";
+    } else if (priceId === goldPriceId) {
+      return "gold";
+    } else if (priceId === silverPriceId) {
+      return "silver";
+    }
+    
+    // If no direct match, fall back to checking price amount
+    const amount = price.unit_amount || 0;
+    console.log(`[CHECK-SUBSCRIPTION] No direct match, checking amount: ${amount}`);
+    
+    // Corporate tier pricing - fallback based on price amounts
     if (amount >= 1000000) { // $10,000 (platinum)
       return "platinum";
     } else if (amount >= 500000) { // $5,000 (gold)
@@ -45,6 +63,7 @@ serve(async (req) => {
   }
 
   try {
+    console.log("[CHECK-SUBSCRIPTION] Function started");
     // Get auth token from request
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
@@ -66,6 +85,8 @@ serve(async (req) => {
       throw new Error("Error getting user or user not found");
     }
 
+    console.log(`[CHECK-SUBSCRIPTION] User authenticated: ${user.email}`);
+
     // Initialize Stripe
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
@@ -79,6 +100,7 @@ serve(async (req) => {
 
     // If no customer found, user is not subscribed
     if (customers.data.length === 0) {
+      console.log(`[CHECK-SUBSCRIPTION] No Stripe customer found for email: ${user.email}`);
       await supabaseAdmin.from("subscribers").upsert({
         email: user.email,
         user_id: user.id,
@@ -100,6 +122,7 @@ serve(async (req) => {
     }
 
     const customerId = customers.data[0].id;
+    console.log(`[CHECK-SUBSCRIPTION] Customer found: ${customerId}`);
     
     // Check for active subscriptions
     const subscriptions = await stripe.subscriptions.list({
@@ -121,7 +144,11 @@ serve(async (req) => {
       
       // Determine tier from price
       const priceId = subscription.items.data[0].price.id;
+      console.log(`[CHECK-SUBSCRIPTION] Active subscription found with price ID: ${priceId}`);
       subscriptionTier = await getTierFromPriceId(stripe, priceId);
+      console.log(`[CHECK-SUBSCRIPTION] Determined tier: ${subscriptionTier}`);
+    } else {
+      console.log(`[CHECK-SUBSCRIPTION] No active subscription found for customer: ${customerId}`);
     }
 
     // Update subscribers table with current status
@@ -134,6 +161,8 @@ serve(async (req) => {
       subscription_end: subscriptionEnd,
       updated_at: new Date().toISOString(),
     }, { onConflict: 'email' });
+    
+    console.log(`[CHECK-SUBSCRIPTION] Updated subscriber record: ${user.email}, tier: ${subscriptionTier}, subscribed: ${hasActiveSub}`);
     
     return new Response(JSON.stringify({
       subscribed: hasActiveSub,

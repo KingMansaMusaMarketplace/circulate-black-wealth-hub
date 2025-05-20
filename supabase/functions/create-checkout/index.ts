@@ -8,6 +8,12 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Helper logging function to trace execution steps
+const logStep = (step: string, details?: any) => {
+  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
+  console.log(`[CREATE-CHECKOUT] ${step}${detailsStr}`);
+};
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -16,6 +22,7 @@ serve(async (req) => {
 
   try {
     const { userType, email, name = '', businessName = '', tier = null, message = '' } = await req.json();
+    logStep("Request received", { userType, email, tier });
 
     // Create Supabase client with anon key for authentication
     const supabaseClient = createClient(
@@ -27,12 +34,14 @@ serve(async (req) => {
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
+    logStep("Stripe initialized");
 
     // Check if this email already has a customer record
     let customerId;
     const customers = await stripe.customers.list({ email, limit: 1 });
     if (customers.data.length > 0) {
       customerId = customers.data[0].id;
+      logStep("Existing customer found", { customerId });
     } else {
       // Create a new customer in Stripe
       const customer = await stripe.customers.create({
@@ -44,6 +53,7 @@ serve(async (req) => {
         },
       });
       customerId = customer.id;
+      logStep("New customer created", { customerId });
     }
 
     // Set price based on user type and tier
@@ -54,25 +64,32 @@ serve(async (req) => {
       switch(tier) {
         case 'silver':
           priceId = Deno.env.get("STRIPE_SILVER_PRICE_ID");
+          logStep("Using Silver tier price", { priceId });
           break;
         case 'gold':
           priceId = Deno.env.get("STRIPE_GOLD_PRICE_ID");
+          logStep("Using Gold tier price", { priceId });
           break;
         case 'platinum':
           priceId = Deno.env.get("STRIPE_PLATINUM_PRICE_ID");
+          logStep("Using Platinum tier price", { priceId });
           break;
         default:
           priceId = Deno.env.get("STRIPE_SILVER_PRICE_ID");
+          logStep("Using default Silver tier price", { priceId });
       }
     } else {
       // Default pricing for regular business and customer accounts
       priceId = userType === 'business' 
         ? Deno.env.get("STRIPE_BUSINESS_PRICE_ID") 
         : Deno.env.get("STRIPE_CUSTOMER_PRICE_ID");
+      logStep("Using standard price", { userType, priceId });
     }
     
     if (!priceId) {
-      throw new Error(`Price ID for ${userType} ${tier || ''} not configured`);
+      const errorMsg = `Price ID for ${userType} ${tier || ''} not configured`;
+      logStep("ERROR: Missing price ID", { userType, tier });
+      throw new Error(errorMsg);
     }
 
     // Create subscription checkout session
@@ -98,14 +115,20 @@ serve(async (req) => {
         trial_period_days: userType === 'business' ? 30 : 0, // 30-day trial for business accounts
       },
     });
+    
+    logStep("Checkout session created", { 
+      sessionId: session.id,
+      url: session.url?.substring(0, 30) + '...' // Log truncated URL for privacy
+    });
 
     return new Response(JSON.stringify({ url: session.url, sessionId: session.id }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
   } catch (error) {
-    console.error("Stripe checkout error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    const errorMsg = error instanceof Error ? error.message : String(error);
+    console.error("Stripe checkout error:", errorMsg);
+    return new Response(JSON.stringify({ error: errorMsg }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
