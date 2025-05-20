@@ -15,7 +15,7 @@ serve(async (req) => {
   }
 
   try {
-    const { userType, email, name = '', businessName = '' } = await req.json();
+    const { userType, email, name = '', businessName = '', tier = null, message = '' } = await req.json();
 
     // Create Supabase client with anon key for authentication
     const supabaseClient = createClient(
@@ -37,19 +37,42 @@ serve(async (req) => {
       // Create a new customer in Stripe
       const customer = await stripe.customers.create({
         email,
-        name: userType === 'business' ? businessName : name,
-        metadata: { userType },
+        name: userType === 'business' || userType === 'corporate' ? businessName : name,
+        metadata: { 
+          userType,
+          message: message || ''
+        },
       });
       customerId = customer.id;
     }
 
-    // Set price based on user type
-    const priceId = userType === 'business' 
-      ? Deno.env.get("STRIPE_BUSINESS_PRICE_ID") 
-      : Deno.env.get("STRIPE_CUSTOMER_PRICE_ID");
+    // Set price based on user type and tier
+    let priceId;
+    
+    if (userType === 'corporate' && tier) {
+      // Set price based on corporate sponsorship tier
+      switch(tier) {
+        case 'silver':
+          priceId = Deno.env.get("STRIPE_SILVER_PRICE_ID");
+          break;
+        case 'gold':
+          priceId = Deno.env.get("STRIPE_GOLD_PRICE_ID");
+          break;
+        case 'platinum':
+          priceId = Deno.env.get("STRIPE_PLATINUM_PRICE_ID");
+          break;
+        default:
+          priceId = Deno.env.get("STRIPE_SILVER_PRICE_ID");
+      }
+    } else {
+      // Default pricing for regular business and customer accounts
+      priceId = userType === 'business' 
+        ? Deno.env.get("STRIPE_BUSINESS_PRICE_ID") 
+        : Deno.env.get("STRIPE_CUSTOMER_PRICE_ID");
+    }
     
     if (!priceId) {
-      throw new Error(`Price ID for ${userType} not configured`);
+      throw new Error(`Price ID for ${userType} ${tier || ''} not configured`);
     }
 
     // Create subscription checkout session
@@ -68,6 +91,8 @@ serve(async (req) => {
       metadata: {
         userType,
         email,
+        tier: tier || '',
+        message: message || ''
       },
       subscription_data: {
         trial_period_days: userType === 'business' ? 30 : 0, // 30-day trial for business accounts

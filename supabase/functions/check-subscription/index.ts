@@ -8,8 +8,38 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Helper function to determine subscription tier from price ID
+const getTierFromPriceId = async (stripe: Stripe, priceId: string): Promise<string> => {
+  try {
+    const price = await stripe.prices.retrieve(priceId);
+    
+    // Check for corporate tiers first based on price amount
+    const amount = price.unit_amount || 0;
+    
+    // Corporate tier pricing
+    if (amount >= 1000000) { // $10,000 (platinum)
+      return "platinum";
+    } else if (amount >= 500000) { // $5,000 (gold)
+      return "gold";
+    } else if (amount >= 200000) { // $2,000 (silver)
+      return "silver";
+    }
+    
+    // Regular subscription tiers
+    if (amount <= 999) {
+      return "basic";
+    } else if (amount <= 1999) {
+      return "premium";
+    } else {
+      return "enterprise";
+    }
+  } catch (error) {
+    console.error("Error retrieving price:", error);
+    return "unknown";
+  }
+};
+
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -23,7 +53,7 @@ serve(async (req) => {
     
     const token = authHeader.replace("Bearer ", "");
     
-    // Create Supabase client with service role key for database writes
+    // Create Supabase client with service role key to bypass RLS
     const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
@@ -47,15 +77,23 @@ serve(async (req) => {
       limit: 1,
     });
 
+    // If no customer found, user is not subscribed
     if (customers.data.length === 0) {
-      // No Stripe customer found
-      await updateSubscriptionInfo(supabaseAdmin, user.id, {
+      await supabaseAdmin.from("subscribers").upsert({
+        email: user.email,
+        user_id: user.id,
+        stripe_customer_id: null,
         subscribed: false,
         subscription_tier: null,
         subscription_end: null,
-      });
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'email' });
       
-      return new Response(JSON.stringify({ subscribed: false }), {
+      return new Response(JSON.stringify({ 
+        subscribed: false,
+        subscription_tier: null,
+        subscription_end: null
+      }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });
@@ -63,40 +101,40 @@ serve(async (req) => {
 
     const customerId = customers.data[0].id;
     
-    // Get active subscriptions for customer
+    // Check for active subscriptions
     const subscriptions = await stripe.subscriptions.list({
       customer: customerId,
       status: "active",
-      expand: ["data.plan.product"],
       limit: 1,
     });
-
+    
+    // Set subscription details
     const hasActiveSub = subscriptions.data.length > 0;
     let subscriptionTier = null;
     let subscriptionEnd = null;
 
     if (hasActiveSub) {
       const subscription = subscriptions.data[0];
+      
+      // Get subscription end date
       subscriptionEnd = new Date(subscription.current_period_end * 1000).toISOString();
       
-      // Get subscription tier from product metadata or price
-      const product = subscription.items.data[0].price.product;
-      if (typeof product !== 'string') {
-        subscriptionTier = product.name.includes('Business') ? 'business' : 'customer';
-      } else {
-        // Fallback if product is just an ID
-        subscriptionTier = user.user_metadata.userType || null;
-      }
+      // Determine tier from price
+      const priceId = subscription.items.data[0].price.id;
+      subscriptionTier = await getTierFromPriceId(stripe, priceId);
     }
 
-    // Update subscription info in database
-    await updateSubscriptionInfo(supabaseAdmin, user.id, {
+    // Update subscribers table with current status
+    await supabaseAdmin.from("subscribers").upsert({
+      email: user.email,
+      user_id: user.id,
       stripe_customer_id: customerId,
       subscribed: hasActiveSub,
       subscription_tier: subscriptionTier,
       subscription_end: subscriptionEnd,
-    });
-
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'email' });
+    
     return new Response(JSON.stringify({
       subscribed: hasActiveSub,
       subscription_tier: subscriptionTier,
@@ -113,48 +151,3 @@ serve(async (req) => {
     });
   }
 });
-
-async function updateSubscriptionInfo(supabase, userId, data) {
-  // Check if subscriber record exists
-  const { data: subscriber, error: fetchError } = await supabase
-    .from('subscribers')
-    .select('*')
-    .eq('user_id', userId)
-    .maybeSingle();
-
-  if (fetchError) {
-    console.error('Error fetching subscriber:', fetchError);
-    throw new Error('Failed to fetch subscriber data');
-  }
-
-  if (subscriber) {
-    // Update existing record
-    const { error } = await supabase
-      .from('subscribers')
-      .update({
-        ...data,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('user_id', userId);
-
-    if (error) {
-      console.error('Error updating subscription info:', error);
-      throw new Error('Failed to update subscription information');
-    }
-  } else {
-    // Insert new record
-    const { error } = await supabase
-      .from('subscribers')
-      .insert({
-        user_id: userId,
-        ...data,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      });
-
-    if (error) {
-      console.error('Error inserting subscription info:', error);
-      throw new Error('Failed to create subscription record');
-    }
-  }
-}

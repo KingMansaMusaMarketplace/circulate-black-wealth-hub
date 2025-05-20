@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { subscriptionService } from '@/lib/services/subscription-service';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 
 const formSchema = z.object({
   companyName: z.string().min(2, { message: 'Company name must be at least 2 characters.' }),
@@ -45,25 +45,16 @@ const SponsorshipForm = () => {
     try {
       setIsLoading(true);
       
-      // Map tier to price
-      const tierPriceMap = {
-        silver: 'STRIPE_SILVER_PRICE_ID',
-        gold: 'STRIPE_GOLD_PRICE_ID',
-        platinum: 'STRIPE_PLATINUM_PRICE_ID',
-      };
-      
       const selectedTier = values.sponsorshipTier;
       
-      // In a real implementation, this would come from environment variables
-      // For now we just demonstrate the concept
+      // Create checkout options with user data to pass to the edge function
       const checkoutOptions = {
-        userType: 'business' as const,
+        userType: 'corporate' as const,
         email: values.email,
         name: values.contactName,
         businessName: values.companyName,
         tier: selectedTier,
-        // We'd use the actual price ID in production
-        priceId: tierPriceMap[selectedTier]
+        message: values.message
       };
       
       // Call the checkout service
@@ -73,6 +64,9 @@ const SponsorshipForm = () => {
       window.open(url, '_blank');
       
       toast.success('Redirecting to checkout page...');
+      
+      // Clear form if successful
+      form.reset();
       
     } catch (error) {
       console.error('Sponsorship checkout error:', error);
