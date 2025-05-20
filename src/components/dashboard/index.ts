@@ -8,9 +8,11 @@ import DashboardLayout from './layout/DashboardLayout';
 
 export { 
   CirculationImpact, 
-  DashboardLayout, 
   NearbyBusinesses, 
   RecentActivity, 
   WelcomeGuide,
   SystemHealthWidget
 };
+
+// Export the DashboardLayout component
+export { DashboardLayout };

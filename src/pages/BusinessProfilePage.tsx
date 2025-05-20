@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/auth';
 import { Navigate } from 'react-router-dom';
-import DashboardLayout from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
 import { BusinessProfileManager, BusinessDashboard } from '@/components/business';
 import { Briefcase, BarChart3 } from 'lucide-react';
 import {

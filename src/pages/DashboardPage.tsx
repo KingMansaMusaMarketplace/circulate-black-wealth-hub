@@ -3,7 +3,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { BarChart3 } from 'lucide-react';
 import { useAuth } from '@/contexts/auth';
-import DashboardLayout from '@/components/dashboard/DashboardLayout';
+import { DashboardLayout } from '@/components/dashboard';
 import WelcomeGuide from '@/components/dashboard/WelcomeGuide';
 import { CirculationImpact, RecentActivity, NearbyBusinesses } from '@/components/dashboard';
 import { MiniLoyaltyWidget } from '@/components/loyalty/MiniLoyaltyWidget';
