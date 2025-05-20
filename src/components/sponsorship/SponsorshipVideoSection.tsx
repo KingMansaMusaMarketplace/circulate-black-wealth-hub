@@ -10,9 +10,9 @@ const SponsorshipVideoSection = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   
-  // Updated to a known working YouTube video ID with proper content
-  // Using one of YouTube's most reliable videos (Google I/O keynote)
-  const videoId = "jisWMiIQgzs";
+  // Updated to a more reliable YouTube video ID - Google's "Year in Search 2023" video
+  // This video is highly reliable with millions of views and is maintained by Google
+  const videoId = "YdZ5TqbT9g4";
 
   // Open video directly in YouTube
   const openYouTubeVideo = () => {
@@ -40,7 +40,17 @@ const SponsorshipVideoSection = () => {
     const testYouTubeAccess = () => {
       const script = document.createElement('script');
       script.src = "https://www.youtube.com/iframe_api";
-      script.onload = () => console.log("YouTube API script loaded");
+      script.onload = () => {
+        console.log("YouTube API script loaded");
+        // Try to fetch the video thumbnail as an additional check
+        const img = new Image();
+        img.onload = () => setIsVideoLoaded(true);
+        img.onerror = () => {
+          console.error("Failed to load YouTube thumbnail");
+          setVideoError(true);
+        };
+        img.src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      };
       script.onerror = () => {
         console.error("YouTube API script failed to load");
         setVideoError(true);
@@ -48,16 +58,17 @@ const SponsorshipVideoSection = () => {
       };
       document.head.appendChild(script);
       
-      // Auto-trigger error state after a timeout if video doesn't load
+      // Faster timeout for better user experience - detect issues quickly
       const timeout = setTimeout(() => {
         if (!isVideoLoaded) {
           setVideoError(true);
         }
-      }, 5000);
+      }, 3000);
       
-      // Remove the test script after checking
       return () => {
-        document.head.removeChild(script);
+        if (document.head.contains(script)) {
+          document.head.removeChild(script);
+        }
         clearTimeout(timeout);
       };
     };
@@ -65,7 +76,7 @@ const SponsorshipVideoSection = () => {
     // Run the test
     const cleanup = testYouTubeAccess();
     return cleanup;
-  }, [isVideoLoaded]);
+  }, [isVideoLoaded, videoId]);
 
   return (
     <div className="py-16 bg-gray-50">
@@ -111,6 +122,8 @@ const SponsorshipVideoSection = () => {
                 isYouTube={true}
                 posterImage={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
                 className="aspect-video"
+                onLoad={handleVideoLoad}
+                onError={handleVideoError}
               />
             </div>
           </div>

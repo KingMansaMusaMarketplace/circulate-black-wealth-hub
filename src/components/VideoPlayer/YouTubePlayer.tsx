@@ -7,6 +7,7 @@ interface YouTubePlayerProps {
   isPlaying: boolean;
   isMuted: boolean;
   onStateChange: (isPlaying: boolean, playerState?: number) => void;
+  onError?: () => void;
 }
 
 const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
@@ -14,6 +15,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   isPlaying,
   isMuted,
   onStateChange,
+  onError,
 }) => {
   const [youtubeReady, setYoutubeReady] = useState(false);
   const youtubeContainerRef = useRef<HTMLDivElement>(null);
@@ -34,9 +36,10 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         initializeYouTubePlayer(id);
       } catch (error) {
         console.error("Error resetting YouTube player:", error);
+        onError?.();
       }
     }
-  }, [src]);
+  }, [src, onError]);
 
   const initializeYouTubePlayer = (videoId: string | null) => {
     if (!videoId || !youtubeContainerRef.current) return;
@@ -64,11 +67,16 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
               youtubePlayer.current.mute();
             }
           },
-          'onStateChange': handleYouTubeStateChange
+          'onStateChange': handleYouTubeStateChange,
+          'onError': (e: any) => {
+            console.error("YouTube player error:", e);
+            onError?.();
+          }
         }
       });
     } catch (error) {
       console.error("Error initializing YouTube player:", error);
+      onError?.();
     }
   };
 
@@ -98,8 +106,17 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
       window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
     }
 
+    // Handle timeout for slow API loading
+    const timeout = setTimeout(() => {
+      if (!youtubeReady) {
+        console.error("YouTube API timeout");
+        onError?.();
+      }
+    }, 5000);
+
     return () => {
       // Clean up
+      clearTimeout(timeout);
       if (youtubePlayer.current) {
         try {
           youtubePlayer.current.destroy();
@@ -109,7 +126,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         }
       }
     };
-  }, [videoId]);
+  }, [videoId, onError, youtubeReady]);
 
   // Update player state based on props
   useEffect(() => {
@@ -123,8 +140,9 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
       }
     } catch (e) {
       console.error("Error controlling YouTube player state:", e);
+      onError?.();
     }
-  }, [isPlaying, youtubeReady]);
+  }, [isPlaying, youtubeReady, onError]);
 
   // Update mute state based on props
   useEffect(() => {
@@ -138,8 +156,9 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
       }
     } catch (e) {
       console.error("Error controlling YouTube player mute:", e);
+      onError?.();
     }
-  }, [isMuted, youtubeReady]);
+  }, [isMuted, youtubeReady, onError]);
 
   const handleYouTubeStateChange = (event: any) => {
     // YouTube PlayerState: PLAYING = 1, PAUSED = 2, ENDED = 0

@@ -14,6 +14,8 @@ interface VideoPlayerProps {
   isYouTube?: boolean;
   description?: string;
   uploadDate?: string;
+  onLoad?: () => void;
+  onError?: () => void;
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
@@ -24,6 +26,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   isYouTube = false,
   description,
   uploadDate,
+  onLoad,
+  onError,
 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -61,6 +65,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     } else if (playerState === 1) {
       // If video starts playing, update our UI state
       setShowPlayButton(false);
+      // Signal successful video load
+      onLoad?.();
     } else if (playerState === 2) {
       // When paused, always show the play button
       setShowPlayButton(true);
@@ -94,6 +100,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             isPlaying={isPlaying}
             isMuted={isMuted}
             onStateChange={handleYouTubeStateChange}
+            onError={onError}
           />
         ) : (
           <StandardPlayer
@@ -103,6 +110,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             isMuted={isMuted}
             onStateChange={setIsPlaying}
             onEnded={handleVideoEnded}
+            onError={onError}
           />
         )}
         

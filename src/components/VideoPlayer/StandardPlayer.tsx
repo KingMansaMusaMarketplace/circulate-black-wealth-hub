@@ -8,6 +8,7 @@ interface StandardPlayerProps {
   isMuted: boolean;
   onStateChange: (isPlaying: boolean) => void;
   onEnded: () => void;
+  onError?: () => void;
 }
 
 const StandardPlayer: React.FC<StandardPlayerProps> = ({
@@ -16,7 +17,8 @@ const StandardPlayer: React.FC<StandardPlayerProps> = ({
   isPlaying,
   isMuted,
   onStateChange,
-  onEnded
+  onEnded,
+  onError
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   
@@ -28,11 +30,12 @@ const StandardPlayer: React.FC<StandardPlayerProps> = ({
       videoRef.current.play().catch(error => {
         console.error("Error playing video:", error);
         onStateChange(false);
+        onError?.();
       });
     } else {
       videoRef.current.pause();
     }
-  }, [isPlaying, onStateChange]);
+  }, [isPlaying, onStateChange, onError]);
   
   // Handle mute state based on isMuted prop
   useEffect(() => {
@@ -72,6 +75,10 @@ const StandardPlayer: React.FC<StandardPlayerProps> = ({
         }}
         onPlay={() => onStateChange(true)}
         onPause={() => onStateChange(false)}
+        onError={() => {
+          console.error("Video error occurred");
+          onError?.();
+        }}
       />
     </div>
   );
