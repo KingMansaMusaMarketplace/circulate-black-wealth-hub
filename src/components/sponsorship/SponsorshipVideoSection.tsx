@@ -10,8 +10,8 @@ const SponsorshipVideoSection = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   
-  // Use the full YouTube URL instead of just the ID
-  const youtubeUrl = "https://www.youtube.com/watch?v=CnYbGeS5Osc";
+  // Use the full YouTube URL for better compatibility
+  const youtubeUrl = "https://www.youtube.com/embed/CnYbGeS5Osc";
   const videoId = "CnYbGeS5Osc"; // Keep for thumbnail and direct YouTube link
 
   // Open video directly in YouTube
@@ -114,17 +114,20 @@ const SponsorshipVideoSection = () => {
             
             {/* Video player */}
             <div className={videoError ? "opacity-0" : ""}>
-              <VideoPlayer 
-                src={youtubeUrl}
-                title="The Business Case for Supporting Black Businesses" 
-                description="This video explores why investing in Black businesses is not just a social good but makes strong business sense."
-                uploadDate="2023-05-10" 
-                isYouTube={true}
-                posterImage={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-                className="aspect-video"
-                onLoad={handleVideoLoad}
-                onError={handleVideoError}
-              />
+              {!videoError && (
+                <div className="aspect-video w-full">
+                  <iframe
+                    src={youtubeUrl}
+                    title="The Business Case for Supporting Black Businesses"
+                    className="w-full h-full"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    onLoad={handleVideoLoad}
+                    onError={handleVideoError}
+                  ></iframe>
+                </div>
+              )}
             </div>
           </div>
           
