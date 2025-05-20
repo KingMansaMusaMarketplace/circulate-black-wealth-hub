@@ -9,6 +9,12 @@ import SponsorshipBenefits from '@/components/sponsorship/SponsorshipBenefits';
 import SponsorshipForm from '@/components/sponsorship/SponsorshipForm';
 import SponsorshipFAQ from '@/components/sponsorship/SponsorshipFAQ';
 import SponsorshipTestimonials from '@/components/sponsorship/SponsorshipTestimonials';
+import SponsorshipImpactStats from '@/components/sponsorship/SponsorshipImpactStats';
+import SponsorshipShowcase from '@/components/sponsorship/SponsorshipShowcase';
+import SponsorshipTimeline from '@/components/sponsorship/SponsorshipTimeline';
+import SponsorshipSuccessStories from '@/components/sponsorship/SponsorshipSuccessStories';
+import SponsorshipMediaKit from '@/components/sponsorship/SponsorshipMediaKit';
+import SponsorshipContact from '@/components/sponsorship/SponsorshipContact';
 
 const CorporateSponsorshipPage = () => {
   return (
@@ -22,10 +28,16 @@ const CorporateSponsorshipPage = () => {
       
       <main className="flex-grow">
         <SponsorshipHero />
+        <SponsorshipImpactStats />
         <SponsorshipBenefits />
+        <SponsorshipShowcase />
+        <SponsorshipTimeline />
         <SponsorshipTiers />
+        <SponsorshipSuccessStories />
         <SponsorshipTestimonials />
+        <SponsorshipMediaKit />
         <SponsorshipFAQ />
+        <SponsorshipContact />
         <SponsorshipForm />
       </main>
       

@@ -32,6 +32,30 @@ const SponsorshipFAQ = () => {
     {
       question: "How can we maximize our sponsorship value?",
       answer: "We encourage sponsors to actively engage with our community through events, content collaboration, and social media. Our team will work with you to develop strategies that align with your marketing and CSR goals to maximize visibility and impact."
+    },
+    {
+      question: "Is my sponsorship tax-deductible?",
+      answer: "Mansa Musa Marketplace is a for-profit social enterprise. While sponsorships are generally considered business expenses, they are not tax-deductible charitable contributions. We recommend consulting your tax advisor about the specific tax implications for your organization."
+    },
+    {
+      question: "Can we sponsor a specific initiative or program?",
+      answer: "Yes, especially at the Gold and Platinum tiers. We offer opportunities to sponsor specific initiatives like business education workshops, youth entrepreneurship programs, or technology access grants. These targeted sponsorships can align closely with your organization's focus areas."
+    },
+    {
+      question: "What industries do you accept sponsorships from?",
+      answer: "We welcome sponsors from a wide range of industries committed to economic empowerment and ethical business practices. We do have guidelines regarding certain industries (tobacco, firearms, etc.) and review each potential sponsorship to ensure alignment with our values and mission."
+    },
+    {
+      question: "How quickly will our sponsorship be implemented?",
+      answer: "Once your sponsorship agreement is finalized, we begin implementation immediately. Digital recognition typically appears within 3-5 business days, while more complex integrations may take 2-3 weeks. We'll provide you with a detailed onboarding timeline during the agreement process."
+    },
+    {
+      question: "Can international organizations become sponsors?",
+      answer: "Yes, we welcome international sponsors! Our platform serves a global audience interested in supporting Black economic empowerment. We can discuss country-specific opportunities and adaptations to ensure your sponsorship is effective in reaching your target markets."
+    },
+    {
+      question: "What happens if we need to cancel our sponsorship?",
+      answer: "Our sponsorship agreements include clear terms regarding cancellation. Typically, we require 30 days' notice for monthly agreements and discuss case-by-case arrangements for annual sponsors. We always aim to find mutually beneficial solutions when circumstances change."
     }
   ];
 
