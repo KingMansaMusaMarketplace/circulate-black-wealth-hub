@@ -10,9 +10,8 @@ const SponsorshipVideoSection = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   
-  // Updated to a more reliable YouTube video ID - Google's "Year in Search 2023" video
-  // This video is highly reliable with millions of views and is maintained by Google
-  const videoId = "YdZ5TqbT9g4";
+  // Update to use the new YouTube video ID provided by the user
+  const videoId = "CnYbGeS5Osc";
 
   // Open video directly in YouTube
   const openYouTubeVideo = () => {
