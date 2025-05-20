@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const SponsorshipSuccessStories = () => {
   const stories = [
@@ -10,7 +11,9 @@ const SponsorshipSuccessStories = () => {
       title: "Empowering Black Entrepreneurs",
       description: "Through our Platinum sponsorship, we've helped fund workshops that provided business development training to over 200 entrepreneurs, resulting in 35 new Black-owned businesses launching within 6 months.",
       quote: "Our partnership with Mansa Musa Marketplace aligns perfectly with our mission to create financial equity in underserved communities. The quantifiable impact has exceeded our expectations.",
-      author: "Jennifer Wells, Chief Diversity Officer"
+      author: "Jennifer Wells",
+      role: "Chief Diversity Officer",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
     },
     {
       company: "Horizon Technologies",
@@ -18,7 +21,9 @@ const SponsorshipSuccessStories = () => {
       title: "Tech Access Initiative",
       description: "Our Gold tier sponsorship funded a technology access program that provided digital resources to 150 Black-owned businesses, helping them increase their online visibility and sales by an average of 28%.",
       quote: "The detailed analytics and impact reporting helped us demonstrate to our stakeholders the tangible outcomes of our sponsorship investment.",
-      author: "Marcus Thompson, VP of Community Relations"
+      author: "Marcus Thompson",
+      role: "VP of Community Relations",
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
     },
     {
       company: "Unity Investments",
@@ -26,7 +31,9 @@ const SponsorshipSuccessStories = () => {
       title: "Capital Access Program",
       description: "We worked with Mansa Musa Marketplace to create a special funding pathway that has connected 45 Black business owners with over $1.2M in accessible capital for expansion.",
       quote: "What began as a corporate social responsibility initiative has evolved into a strategic partnership that generates measurable business value while creating community impact.",
-      author: "Darius Johnson, Director of Impact Investing"
+      author: "Darius Johnson",
+      role: "Director of Impact Investing",
+      image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
     }
   ];
 
@@ -59,8 +66,19 @@ const SponsorshipSuccessStories = () => {
                 <p className="text-gray-600 mb-4">{story.description}</p>
                 
                 <div className="mt-4 pt-4 border-t border-gray-100">
+                  <div className="flex items-center mb-3">
+                    <Avatar className="h-10 w-10 border border-gray-200 mr-3">
+                      <AvatarImage src={story.image} alt={story.author} />
+                      <AvatarFallback className="bg-mansablue text-white">
+                        {story.author.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-medium">{story.author}</p>
+                      <p className="text-sm text-gray-500">{story.role}</p>
+                    </div>
+                  </div>
                   <p className="italic text-gray-600 mb-2">"{story.quote}"</p>
-                  <p className="text-sm font-medium">— {story.author}</p>
                 </div>
               </CardContent>
             </Card>
