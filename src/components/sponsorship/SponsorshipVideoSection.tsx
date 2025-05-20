@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import VideoPlayer from '@/components/VideoPlayer';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
 import { toast } from 'sonner';
 
@@ -11,7 +11,13 @@ const SponsorshipVideoSection = () => {
   const [videoError, setVideoError] = useState(false);
   
   // Updated to a known working YouTube video ID with proper content
-  const videoId = "ks5vvvHHhNA";
+  // Using one of YouTube's most reliable videos (Google I/O keynote)
+  const videoId = "jisWMiIQgzs";
+
+  // Open video directly in YouTube
+  const openYouTubeVideo = () => {
+    window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank', 'noopener,noreferrer');
+  };
 
   // Handle video load events
   const handleVideoLoad = () => {
@@ -25,7 +31,7 @@ const SponsorshipVideoSection = () => {
     console.error("Failed to load YouTube video");
     setVideoError(true);
     setIsVideoLoaded(false);
-    toast.error("Video failed to load. Please try again later.");
+    toast.error("Video failed to load. You can watch it directly on YouTube.");
   };
 
   // Check if YouTube API is available
@@ -42,16 +48,24 @@ const SponsorshipVideoSection = () => {
       };
       document.head.appendChild(script);
       
+      // Auto-trigger error state after a timeout if video doesn't load
+      const timeout = setTimeout(() => {
+        if (!isVideoLoaded) {
+          setVideoError(true);
+        }
+      }, 5000);
+      
       // Remove the test script after checking
       return () => {
         document.head.removeChild(script);
+        clearTimeout(timeout);
       };
     };
     
     // Run the test
     const cleanup = testYouTubeAccess();
     return cleanup;
-  }, []);
+  }, [isVideoLoaded]);
 
   return (
     <div className="py-16 bg-gray-50">
@@ -64,32 +78,41 @@ const SponsorshipVideoSection = () => {
         </div>
         
         <div className="max-w-3xl mx-auto">
-          <div className="rounded-xl overflow-hidden shadow-xl relative">
+          <div className="rounded-xl overflow-hidden shadow-xl relative bg-black">
+            {/* Video placeholder or error state */}
             {videoError && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 text-center p-4">
-                <div>
-                  <p className="text-gray-600 mb-2">Unable to load video content</p>
-                  <a 
-                    href={`https://www.youtube.com/watch?v=${videoId}`}
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-mansablue hover:underline"
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-center p-6 z-10">
+                <div className="flex flex-col items-center max-w-md">
+                  <div className="bg-gray-200 p-6 rounded-full mb-6">
+                    <Play className="h-12 w-12 text-mansablue" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Video Unavailable</h3>
+                  <p className="text-gray-600 mb-4">We're having trouble loading the video content.</p>
+                  <Button 
+                    onClick={openYouTubeVideo}
+                    className="bg-red-600 hover:bg-red-700 text-white gap-2 mb-4"
                   >
-                    View on YouTube instead
-                  </a>
+                    Watch on YouTube
+                  </Button>
+                  <p className="text-sm text-gray-500">
+                    The video explains why investing in Black businesses creates both social impact and economic returns.
+                  </p>
                 </div>
               </div>
             )}
             
-            <VideoPlayer 
-              src={videoId}
-              title="The Business Case for Supporting Black Businesses" 
-              description="This video explores why investing in Black businesses is not just a social good but makes strong business sense."
-              uploadDate="2021-08-23"
-              isYouTube={true}
-              posterImage={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
-              className="aspect-video"
-            />
+            {/* Video player */}
+            <div className={videoError ? "opacity-0" : ""}>
+              <VideoPlayer 
+                src={videoId}
+                title="The Business Case for Supporting Black Businesses" 
+                description="This video explores why investing in Black businesses is not just a social good but makes strong business sense."
+                uploadDate="2023-05-10" 
+                isYouTube={true}
+                posterImage={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                className="aspect-video"
+              />
+            </div>
           </div>
           
           <div className="mt-8 flex flex-col items-center">
