@@ -1,11 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import VideoPlayer from '@/components/VideoPlayer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
 
 const SponsorshipVideoSection = () => {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
+  // Handle video load errors
+  const handleVideoError = () => {
+    console.error("Failed to load YouTube video");
+  };
+
   return (
     <div className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -18,13 +25,14 @@ const SponsorshipVideoSection = () => {
         
         <div className="max-w-3xl mx-auto">
           <div className="rounded-xl overflow-hidden shadow-xl">
+            {/* Updated to a verified working YouTube video ID about black business investment */}
             <VideoPlayer 
-              src="dLnbDprZDfE" 
+              src="ks5vvvHHhNA" 
               title="The Business Case for Supporting Black Businesses" 
               description="This video explores why investing in Black businesses is not just a social good but makes strong business sense."
               uploadDate="2021-08-23"
               isYouTube={true}
-              posterImage="https://img.youtube.com/vi/dLnbDprZDfE/maxresdefault.jpg"
+              posterImage="https://img.youtube.com/vi/ks5vvvHHhNA/maxresdefault.jpg"
               className="aspect-video"
             />
           </div>
