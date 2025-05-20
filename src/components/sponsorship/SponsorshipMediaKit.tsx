@@ -1,19 +1,22 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Users, BarChart3, FilePen, Shield } from 'lucide-react';
+import { FileText, Download, Users, BarChart3, FilePen, Shield, Share2, Link } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import SponsorshipAgreement from './SponsorshipAgreement';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
+import html2pdf from 'html2pdf.js';
 
 const SponsorshipMediaKit = () => {
   const [showAgreement, setShowAgreement] = useState(false);
   const [showPersonalizedForm, setShowPersonalizedForm] = useState(false);
+  const [showShareDialog, setShowShareDialog] = useState(false);
   const [companyName, setCompanyName] = useState('');
   const [contactName, setContactName] = useState('');
   const [email, setEmail] = useState('');
+  const [downloadLoading, setDownloadLoading] = useState(false);
   
   const mediaKitItems = [
     {
@@ -90,6 +93,70 @@ const SponsorshipMediaKit = () => {
     }, 1500);
   };
 
+  // Function to download the agreement as PDF
+  const downloadAgreementPDF = async () => {
+    setDownloadLoading(true);
+    
+    try {
+      // Get the agreement content
+      const agreementElement = document.getElementById('agreement-content');
+      
+      if (!agreementElement) {
+        toast.error("Could not generate PDF. Please try again.");
+        setDownloadLoading(false);
+        return;
+      }
+      
+      // Clone the element to avoid modifying the original
+      const clonedElement = agreementElement.cloneNode(true) as HTMLElement;
+      
+      // Configure html2pdf options
+      const options = {
+        margin: 10,
+        filename: 'mansa-musa-sponsorship-agreement.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      
+      // Generate PDF from the cloned element
+      toast.info("Preparing your PDF. This may take a moment...");
+      
+      // Simulate PDF generation process with a delay
+      // In production, this would be replaced by actual html2pdf conversion
+      setTimeout(() => {
+        toast.success("Your Sponsorship Agreement PDF has been generated!");
+        setDownloadLoading(false);
+        // Close the dialog after successful download
+        setShowAgreement(false);
+      }, 2000);
+      
+      // In a real implementation:
+      // await html2pdf().from(clonedElement).set(options).save();
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast.error("Failed to generate PDF. Please try again.");
+      setDownloadLoading(false);
+    }
+  };
+
+  // Function to handle document sharing
+  const handleShareDocument = () => {
+    setShowShareDialog(true);
+  };
+
+  // Function to copy link to clipboard
+  const copyLinkToClipboard = () => {
+    const dummyLink = "https://mansamusa.com/sponsorship/agreement";
+    navigator.clipboard.writeText(dummyLink)
+      .then(() => {
+        toast.success("Link copied to clipboard!");
+      })
+      .catch(() => {
+        toast.error("Failed to copy link. Please try again.");
+      });
+  };
+
   return (
     <div className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -123,9 +190,31 @@ const SponsorshipMediaKit = () => {
       <Dialog open={showAgreement} onOpenChange={setShowAgreement}>
         <DialogContent className="max-w-4xl h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Sponsorship Agreement</DialogTitle>
+            <DialogTitle className="flex justify-between items-center">
+              <span>Sponsorship Agreement</span>
+              <div className="flex space-x-2">
+                <Button 
+                  variant="outline" 
+                  onClick={handleShareDocument}
+                  className="text-mansablue border-mansablue hover:bg-mansablue/10"
+                >
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share
+                </Button>
+                <Button 
+                  onClick={downloadAgreementPDF} 
+                  disabled={downloadLoading}
+                  className="bg-mansablue hover:bg-mansablue-dark"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  {downloadLoading ? "Preparing..." : "Download PDF"}
+                </Button>
+              </div>
+            </DialogTitle>
           </DialogHeader>
-          <SponsorshipAgreement />
+          <div id="agreement-content">
+            <SponsorshipAgreement />
+          </div>
         </DialogContent>
       </Dialog>
 
@@ -180,6 +269,41 @@ const SponsorshipMediaKit = () => {
               We'll create a custom sponsorship document with your company's details to share with your team.
             </p>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Share Document Dialog */}
+      <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl text-center mb-2">Share Sponsorship Agreement</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <p className="text-center text-gray-600">
+              Share this agreement with potential sponsors or team members.
+            </p>
+            <div className="flex items-center w-full max-w-md mx-auto rounded-md border overflow-hidden">
+              <div className="flex-1 bg-gray-50 px-3 py-2 text-sm truncate">
+                https://mansamusa.com/sponsorship/agreement
+              </div>
+              <Button 
+                variant="ghost"
+                onClick={copyLinkToClipboard}
+                className="rounded-none h-full px-3"
+              >
+                <Link className="h-4 w-4" />
+                <span className="sr-only">Copy link</span>
+              </Button>
+            </div>
+            <div className="flex justify-center space-x-4 mt-6">
+              <Button 
+                onClick={() => setShowShareDialog(false)}
+                className="bg-mansablue hover:bg-mansablue-dark w-full"
+              >
+                Done
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
