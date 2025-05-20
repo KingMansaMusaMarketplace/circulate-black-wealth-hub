@@ -13,8 +13,9 @@ interface ShareDialogProps {
 const ShareDialog: React.FC<ShareDialogProps> = ({ open, onOpenChange }) => {
   // Function to copy link to clipboard
   const copyLinkToClipboard = () => {
-    const dummyLink = "https://mansamusa.com/sponsorship/agreement";
-    navigator.clipboard.writeText(dummyLink)
+    // Using a branded URL instead of the default Lovable URL
+    const brandedLink = "https://mansamusa.com/sponsorship/agreement";
+    navigator.clipboard.writeText(brandedLink)
       .then(() => {
         toast.success("Link copied to clipboard!");
       })
