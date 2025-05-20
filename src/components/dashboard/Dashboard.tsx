@@ -1,25 +1,89 @@
 
 import React from 'react';
-import { DashboardLayout } from './layout/DashboardLayout';
+import DashboardLayout from './layout/DashboardLayout';
 import WelcomeGuide from './WelcomeGuide';
 import CirculationImpact from './CirculationImpact';
 import RecentActivity from './RecentActivity';
 import NearbyBusinesses from './NearbyBusinesses';
 import { MiniLoyaltyWidget } from '@/components/loyalty/MiniLoyaltyWidget';
+import { useAuth } from '@/contexts/auth';
 
 const Dashboard = () => {
+  const { userType } = useAuth();
+  
+  // Sample data for dashboard components
+  const impactMetrics = {
+    totalSaved: 1250,
+    businessesSupported: 28,
+    totalScans: 145
+  };
+
+  const recentActivities = [
+    {
+      id: 1,
+      businessName: "Harmony Soul Food",
+      action: "Scan",
+      points: 15,
+      date: "Today, 2:30 PM"
+    },
+    {
+      id: 2,
+      businessName: "Black Bean Coffee",
+      action: "Reward",
+      points: 25,
+      date: "Yesterday, 10:15 AM"
+    },
+    {
+      id: 3,
+      businessName: "Culture Clothing",
+      action: "Scan",
+      points: 10,
+      date: "Jan 15, 2025"
+    }
+  ];
+
+  const nearbyBusinessesList = [
+    {
+      id: 1,
+      name: "Harmony Soul Food",
+      category: "Restaurant",
+      discount: "10% Off",
+      rating: 4.8,
+      reviewCount: 124,
+      distance: "0.8"
+    },
+    {
+      id: 2,
+      name: "Black Bean Coffee",
+      category: "Coffee Shop",
+      discount: "Free Drink",
+      rating: 4.6,
+      reviewCount: 87,
+      distance: "1.2"
+    },
+    {
+      id: 3,
+      name: "Culture Clothing",
+      category: "Retail",
+      discount: "15% Off",
+      rating: 4.7,
+      reviewCount: 93,
+      distance: "2.5"
+    }
+  ];
+
   return (
     <DashboardLayout title="Dashboard">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
-          <WelcomeGuide />
-          <CirculationImpact />
-          <RecentActivity />
+          {userType && <WelcomeGuide userType={userType} />}
+          <CirculationImpact metrics={impactMetrics} />
+          <RecentActivity activities={recentActivities} />
         </div>
         
         <div className="space-y-6">
           <MiniLoyaltyWidget />
-          <NearbyBusinesses />
+          <NearbyBusinesses businesses={nearbyBusinessesList} />
         </div>
       </div>
     </DashboardLayout>
