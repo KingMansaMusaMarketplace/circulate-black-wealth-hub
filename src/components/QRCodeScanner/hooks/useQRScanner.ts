@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 
 interface UseQRScannerProps {
@@ -12,13 +12,19 @@ export const useQRScanner = ({ onScan, isMobile }: UseQRScannerProps) => {
   const [scannerReady, setScannerReady] = useState<boolean>(false);
   const [scanning, setScanning] = useState<boolean>(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const qrReaderRef = useRef<HTMLDivElement | null>(null);
 
-  // Initialize scanner
+  // Initialize scanner when the element exists
   useEffect(() => {
-    if (!html5QrCode && typeof window !== 'undefined') {
-      const qrCode = new Html5Qrcode('qr-reader');
-      setHtml5QrCode(qrCode);
-      setScannerReady(true);
+    if (qrReaderRef.current && !html5QrCode) {
+      try {
+        const qrCode = new Html5Qrcode("qr-reader");
+        setHtml5QrCode(qrCode);
+        setScannerReady(true);
+      } catch (error) {
+        console.error("Error initializing QR scanner:", error);
+        setCameraError("Failed to initialize QR scanner");
+      }
     }
 
     return () => {
@@ -28,11 +34,14 @@ export const useQRScanner = ({ onScan, isMobile }: UseQRScannerProps) => {
         });
       }
     };
-  }, [html5QrCode]);
+  }, [html5QrCode, qrReaderRef.current]);
 
   // Start scanning function
   const startScanning = async () => {
-    if (!html5QrCode) return;
+    if (!html5QrCode || !qrReaderRef.current) {
+      setCameraError("QR scanner not initialized");
+      return;
+    }
 
     setScanning(true);
     setCameraError(null);
@@ -98,6 +107,7 @@ export const useQRScanner = ({ onScan, isMobile }: UseQRScannerProps) => {
     scannerReady,
     cameraError,
     toggleScanning,
-    stopScanning
+    stopScanning,
+    qrReaderRef
   };
 };

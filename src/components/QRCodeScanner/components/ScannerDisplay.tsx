@@ -6,17 +6,19 @@ interface ScannerDisplayProps {
   scanning: boolean;
   loading: boolean;
   cameraError: string | null;
+  qrReaderRef?: React.RefObject<HTMLDivElement>;
 }
 
 const ScannerDisplay: React.FC<ScannerDisplayProps> = ({
   scanning,
   loading,
   cameraError,
+  qrReaderRef
 }) => {
   if (scanning || loading) {
     return (
       <div className="relative w-full aspect-square max-w-xs mb-4 bg-gray-100 rounded-lg overflow-hidden shadow-inner">
-        <div id="qr-reader" className="w-full h-full"></div>
+        <div id="qr-reader" ref={qrReaderRef} className="w-full h-full"></div>
         
         {/* Show scanning guideline */}
         {scanning && !loading && (
@@ -42,6 +44,9 @@ const ScannerDisplay: React.FC<ScannerDisplayProps> = ({
 
   return (
     <div className="flex flex-col items-center justify-center w-full aspect-square max-w-xs mb-4 bg-gray-100 rounded-lg shadow-inner">
+      {/* This hidden div is needed for QR scanner initialization */}
+      <div id="qr-reader" ref={qrReaderRef} className="hidden"></div>
+      
       <Camera className="h-16 w-16 text-gray-400 mb-4" />
       {cameraError ? (
         <div className="text-center px-4">

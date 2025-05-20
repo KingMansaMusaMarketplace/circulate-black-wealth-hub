@@ -21,10 +21,6 @@ export function useQRScanner() {
   const { 
     location, 
     getCurrentPosition,
-    // We don't use these properties but they're now available
-    // from the updated useLocation hook
-    // permissionStatus, 
-    // requestPermission 
   } = useLocation({
     skipPermissionCheck: true // Only check permissions when actually needed
   });
@@ -151,11 +147,11 @@ export function useQRScanner() {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true });
       setHasCamera(true);
+      return true;
     } catch (error) {
       console.error("Error requesting camera permission:", error);
       return false;
     }
-    return true;
   };
 
   return {

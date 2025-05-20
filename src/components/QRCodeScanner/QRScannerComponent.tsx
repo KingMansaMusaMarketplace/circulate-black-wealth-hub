@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import ScanResult from './ScanResult';
 import ScannerDisplay from './components/ScannerDisplay';
@@ -28,6 +28,7 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
 }) => {
   // Use the custom hooks for camera detection and QR scanning
   const { hasCamera, isMobile } = useCameraDetection();
+  const qrReaderRef = useRef<HTMLDivElement>(null);
   const { scanning, scannerReady, cameraError, toggleScanning } = useQRScanner({
     onScan,
     isMobile
@@ -81,7 +82,8 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
               <ScannerDisplay 
                 scanning={scanning} 
                 loading={loading} 
-                cameraError={cameraError} 
+                cameraError={cameraError}
+                qrReaderRef={qrReaderRef}
               />
 
               <div className="w-full flex justify-center mt-4">
