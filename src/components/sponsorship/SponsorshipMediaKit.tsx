@@ -1,9 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { FileText, Download, Users, BarChart3, FilePen, Shield } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import SponsorshipAgreement from './SponsorshipAgreement';
 
 const SponsorshipMediaKit = () => {
+  const [showAgreement, setShowAgreement] = useState(false);
+  
   const mediaKitItems = [
     {
       icon: <FileText className="h-8 w-8 text-mansablue" />,
@@ -15,7 +19,8 @@ const SponsorshipMediaKit = () => {
       icon: <FilePen className="h-8 w-8 text-mansablue" />,
       title: "Sponsorship Agreement",
       description: "Our detailed legal agreement outlining terms, conditions, and cancellation policies.",
-      buttonText: "Download Agreement"
+      buttonText: "View Agreement",
+      action: "view-agreement"
     },
     {
       icon: <BarChart3 className="h-8 w-8 text-mansablue" />,
@@ -38,7 +43,12 @@ const SponsorshipMediaKit = () => {
   ];
 
   // Function to handle document downloads
-  const handleDownload = (documentTitle: string) => {
+  const handleDownload = (documentTitle: string, action?: string) => {
+    if (action === "view-agreement") {
+      setShowAgreement(true);
+      return;
+    }
+    
     // In a real implementation, this would download actual files
     console.log(`Downloading ${documentTitle}`);
     
@@ -66,7 +76,7 @@ const SponsorshipMediaKit = () => {
               <p className="text-gray-600 mb-6 flex-grow">{item.description}</p>
               <Button 
                 className="bg-mansablue hover:bg-mansablue-dark"
-                onClick={() => handleDownload(item.title)}
+                onClick={() => handleDownload(item.title, item.action)}
               >
                 <Download className="h-4 w-4 mr-2" />
                 {item.buttonText}
@@ -75,6 +85,15 @@ const SponsorshipMediaKit = () => {
           ))}
         </div>
       </div>
+      
+      <Dialog open={showAgreement} onOpenChange={setShowAgreement}>
+        <DialogContent className="max-w-4xl h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Sponsorship Agreement</DialogTitle>
+          </DialogHeader>
+          <SponsorshipAgreement />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
