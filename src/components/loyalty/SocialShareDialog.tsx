@@ -33,7 +33,7 @@ const SocialShareDialog: React.FC<SocialShareDialogProps> = ({
   triggerContent,
   children 
 }) => {
-  const { shareTargets, getShareUrl } = useSocialShare();
+  const { shareTargets, getShareUrl, share } = useSocialShare();
   const [copied, setCopied] = React.useState(false);
   const [open, setOpen] = React.useState(false);
   

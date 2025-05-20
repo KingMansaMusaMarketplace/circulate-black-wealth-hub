@@ -25,7 +25,7 @@ const SocialShareButtons: React.FC<SocialShareProps> = ({
   showLabels = false,
 }) => {
   const [copied, setCopied] = React.useState(false);
-  const { shareTargets, share, canShare } = useSocialShare();
+  const { share, canShare, shareTargets } = useSocialShare();
   
   const options = { title, text, url };
   

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -6,6 +5,12 @@ export interface ShareData {
   title: string;
   text: string;
   url: string;
+}
+
+export interface ShareTarget {
+  name: string;
+  action: (data: ShareData) => Promise<void>;
+  color: string;
 }
 
 export const useSocialShare = () => {
@@ -60,11 +65,57 @@ export const useSocialShare = () => {
     }
   };
 
+  // Get a properly formatted share URL from a path
+  const getShareUrl = (path?: string): string => {
+    // If no path is provided, use current location
+    if (!path) return window.location.href;
+    
+    // If path is already a full URL, return it
+    if (path.startsWith('http')) return path;
+    
+    // Otherwise, construct URL from origin and path
+    return `${window.location.origin}${path.startsWith('/') ? '' : '/'}${path}`;
+  };
+
+  // Define share targets for social media platforms
+  const shareTargets: ShareTarget[] = [
+    {
+      name: 'Twitter',
+      color: 'bg-[#1DA1F2] text-white hover:bg-[#0d95e8]',
+      action: async (data: ShareData) => {
+        const url = new URL('https://twitter.com/intent/tweet');
+        url.searchParams.append('text', data.text || data.title);
+        url.searchParams.append('url', data.url);
+        window.open(url.toString(), '_blank');
+      }
+    },
+    {
+      name: 'Facebook',
+      color: 'bg-[#1877F2] text-white hover:bg-[#0e6adc]',
+      action: async (data: ShareData) => {
+        const url = new URL('https://www.facebook.com/sharer/sharer.php');
+        url.searchParams.append('u', data.url);
+        window.open(url.toString(), '_blank');
+      }
+    },
+    {
+      name: 'LinkedIn',
+      color: 'bg-[#0A66C2] text-white hover:bg-[#0958a8]',
+      action: async (data: ShareData) => {
+        const url = new URL('https://www.linkedin.com/sharing/share-offsite/');
+        url.searchParams.append('url', data.url);
+        window.open(url.toString(), '_blank');
+      }
+    }
+  ];
+
   return {
     share,
     canShare,
     isSharing,
-    error
+    error,
+    shareTargets,
+    getShareUrl
   };
 };
 
