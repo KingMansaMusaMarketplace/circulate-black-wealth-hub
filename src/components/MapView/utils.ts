@@ -1,5 +1,7 @@
 
-// Calculate distance between two points using Haversine formula
+import { BusinessLocation } from './types';
+
+// Calculate distance between two points in miles using the Haversine formula
 export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
   const R = 3958.8; // Earth radius in miles
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -12,24 +14,14 @@ export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2
   return R * c;
 };
 
-// Calculate distance ranges
-export const getDistanceRanges = (nearbyBusinesses: Array<{ distanceValue?: number }>) => {
-  if (!nearbyBusinesses.length) return null;
+// Generate distance ranges information from businesses
+export const getDistanceRanges = (businesses: BusinessLocation[]) => {
+  if (!businesses || businesses.length === 0) return null;
   
-  const ranges = {
-    under1: 0,
-    under5: 0,
-    under10: 0,
-    over10: 0
+  return {
+    under1: businesses.filter(b => Number(b.distanceValue) < 1).length,
+    under5: businesses.filter(b => Number(b.distanceValue) >= 1 && Number(b.distanceValue) < 5).length,
+    under10: businesses.filter(b => Number(b.distanceValue) >= 5 && Number(b.distanceValue) < 10).length,
+    over10: businesses.filter(b => Number(b.distanceValue) >= 10).length,
   };
-  
-  nearbyBusinesses.forEach(business => {
-    const distance = business.distanceValue || 0;
-    if (distance < 1) ranges.under1++;
-    else if (distance < 5) ranges.under5++;
-    else if (distance < 10) ranges.under10++;
-    else ranges.over10++;
-  });
-  
-  return ranges;
 };

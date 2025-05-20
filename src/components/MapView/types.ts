@@ -4,24 +4,9 @@ export interface BusinessLocation {
   name: string;
   lat: number;
   lng: number;
-  category: string;
-  latitude?: number;  // Added for backward compatibility
-  longitude?: number; // Added for backward compatibility
+  category?: string;
   distance?: string;
   distanceValue?: number;
-}
-
-export interface LocationProviderProps {
-  businesses: BusinessLocation[];
-  setUserLocation: (location: {lat: number; lng: number}) => void;
-  setNearbyBusinesses: (businesses: BusinessLocation[]) => void;
-  isVisible: boolean;
-  userLocation: { lat: number; lng: number } | null;
-  children: (props: {
-    loading: boolean;
-    error: string | null;
-    getUserLocation: (forceRefresh?: boolean) => Promise<any>;
-  }) => React.ReactNode;
 }
 
 export interface MapContainerProps {
@@ -32,11 +17,11 @@ export interface MapContainerProps {
   children: React.ReactNode;
 }
 
-export interface DistanceRangesProps {
-  nearbyBusinesses: BusinessLocation[];
-}
-
 export interface BusinessListProps {
   nearbyBusinesses: BusinessLocation[];
   onSelectBusiness?: (id: number) => void;
+}
+
+export interface DistanceRangesProps {
+  nearbyBusinesses: BusinessLocation[];
 }
