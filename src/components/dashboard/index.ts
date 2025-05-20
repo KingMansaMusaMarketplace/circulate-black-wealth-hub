@@ -1,10 +1,10 @@
 
 import CirculationImpact from './CirculationImpact';
-import DashboardLayout from './DashboardLayout';
 import NearbyBusinesses from './NearbyBusinesses';
 import RecentActivity from './RecentActivity';
 import WelcomeGuide from './WelcomeGuide';
 import { SystemHealthWidget } from './SystemHealthWidget';
+import DashboardLayout from './layout/DashboardLayout';
 
 export { 
   CirculationImpact, 
