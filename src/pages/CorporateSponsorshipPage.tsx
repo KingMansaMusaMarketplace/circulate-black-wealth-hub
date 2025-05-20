@@ -15,6 +15,7 @@ import SponsorshipTimeline from '@/components/sponsorship/SponsorshipTimeline';
 import SponsorshipSuccessStories from '@/components/sponsorship/SponsorshipSuccessStories';
 import SponsorshipMediaKit from '@/components/sponsorship/SponsorshipMediaKit';
 import SponsorshipContact from '@/components/sponsorship/SponsorshipContact';
+import SponsorshipVideoSection from '@/components/sponsorship/SponsorshipVideoSection';
 
 const CorporateSponsorshipPage = () => {
   return (
@@ -30,6 +31,7 @@ const CorporateSponsorshipPage = () => {
         <SponsorshipHero />
         <SponsorshipImpactStats />
         <SponsorshipBenefits />
+        <SponsorshipVideoSection />
         <SponsorshipShowcase />
         <SponsorshipTimeline />
         <SponsorshipTiers />
