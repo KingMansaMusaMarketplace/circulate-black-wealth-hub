@@ -10,8 +10,9 @@ const SponsorshipVideoSection = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   
-  // Update to use the new YouTube video ID provided by the user
-  const videoId = "CnYbGeS5Osc";
+  // Use the full YouTube URL instead of just the ID
+  const youtubeUrl = "https://www.youtube.com/watch?v=CnYbGeS5Osc";
+  const videoId = "CnYbGeS5Osc"; // Keep for thumbnail and direct YouTube link
 
   // Open video directly in YouTube
   const openYouTubeVideo = () => {
@@ -114,7 +115,7 @@ const SponsorshipVideoSection = () => {
             {/* Video player */}
             <div className={videoError ? "opacity-0" : ""}>
               <VideoPlayer 
-                src={videoId}
+                src={youtubeUrl}
                 title="The Business Case for Supporting Black Businesses" 
                 description="This video explores why investing in Black businesses is not just a social good but makes strong business sense."
                 uploadDate="2023-05-10" 
