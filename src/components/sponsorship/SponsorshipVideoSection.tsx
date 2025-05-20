@@ -3,6 +3,7 @@ import React from 'react';
 import VideoPlayer from '@/components/VideoPlayer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import SocialShareButtons from '@/components/common/SocialShareButtons';
 
 const SponsorshipVideoSection = () => {
   return (
@@ -28,16 +29,27 @@ const SponsorshipVideoSection = () => {
             />
           </div>
           
-          <div className="mt-8 text-center">
-            <p className="mb-6 text-gray-700">
+          <div className="mt-8 flex flex-col items-center">
+            <p className="mb-6 text-gray-700 text-center max-w-2xl">
               Corporate partnerships with Black businesses and marketplaces like Mansa Musa create mutual value while driving economic equity.
             </p>
-            <Button 
-              onClick={() => document.getElementById('sponsorship-form')?.scrollIntoView({behavior: 'smooth'})}
-              className="bg-mansablue hover:bg-mansablue-dark text-white gap-2"
-            >
-              Become a Partner <ArrowRight className="h-4 w-4" />
-            </Button>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button 
+                onClick={() => document.getElementById('sponsorship-form')?.scrollIntoView({behavior: 'smooth'})}
+                className="bg-mansablue hover:bg-mansablue-dark text-white gap-2"
+              >
+                Become a Partner <ArrowRight className="h-4 w-4" />
+              </Button>
+              
+              <div className="mt-2">
+                <SocialShareButtons 
+                  title="The Business Case for Supporting Black Businesses" 
+                  text="Learn why corporate investment in Black businesses creates both social impact and economic returns."
+                  url={window.location.href}
+                  showLabels={true}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
