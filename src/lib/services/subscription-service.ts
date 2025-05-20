@@ -8,10 +8,12 @@ export interface SubscriptionInfo {
 }
 
 export interface CheckoutOptions {
-  userType: 'customer' | 'business';
+  userType: 'customer' | 'business' | 'corporate';
   email: string;
   name?: string;
   businessName?: string;
+  tier?: 'silver' | 'gold' | 'platinum';
+  priceId?: string;
 }
 
 export const subscriptionService = {

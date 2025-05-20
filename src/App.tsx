@@ -22,6 +22,7 @@ import CapacitorTestPage from '@/pages/CapacitorTestPage';
 import NotFound from '@/pages/NotFound';
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
+import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
 
 // Context Providers
 import { AuthProvider } from '@/contexts/auth';
@@ -79,6 +80,7 @@ function App() {
               <Route path="/capacitor-test" element={<CapacitorTestPage />} />
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
               <Route path="/terms" element={<TermsOfServicePage />} />
+              <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <SonnerToaster position="top-right" />
