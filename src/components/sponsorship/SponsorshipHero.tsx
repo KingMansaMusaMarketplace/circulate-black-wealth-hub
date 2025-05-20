@@ -20,7 +20,7 @@ const SponsorshipHero = () => {
             </Button>
             <Button 
               variant="outline" 
-              className="border-white text-white hover:bg-white/10 text-lg px-8 py-6"
+              className="border-white text-white hover:bg-white/20 text-lg px-8 py-6"
               onClick={() => document.getElementById('sponsorship-tiers')?.scrollIntoView({behavior: 'smooth'})}
             >
               View Sponsorship Tiers
