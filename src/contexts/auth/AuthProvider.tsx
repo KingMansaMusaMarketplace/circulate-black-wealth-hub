@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Provider, Session } from '@supabase/supabase-js';
+
+import React, { useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { setupDatabase, checkDatabaseInitialized } from '@/lib/database-init';
-import { AuthContextType, Factor, MFAChallenge, ToastProps } from './types';
+import { checkDatabaseInitialized } from '@/lib/database-init';
+import { AuthContextType } from './types';
 import { 
   enhancedSignIn, 
   handleUserSignUp, 
@@ -14,37 +14,27 @@ import {
   checkUserSession,
   toastWrapper
 } from './authUtils';
-import { getMFAFactors as fetchMFAFactors, verifyMFA as verifyUserMFA } from './mfaUtils';
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { verifyMFA as verifyUserMFA } from './mfaUtils';
+import { AuthContext } from './AuthContext';
+import { useAuthState } from './hooks/useAuthState';
+import { useMFAState } from './hooks/useMFAState';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [userType, setUserType] = useState<'customer' | 'business' | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [initializingDatabase, setInitializingDatabase] = useState(false);
-  const [databaseInitialized, setDatabaseInitialized] = useState(false);
-  const [mfaFactors, setMfaFactors] = useState<Factor[]>([]);
-  const [mfaEnrolled, setMfaEnrolled] = useState(false);
-  const [currentMFAChallenge, setCurrentMFAChallenge] = useState<MFAChallenge | null>(null);
-  const [authInitialized, setAuthInitialized] = useState(false);
-
-  // Get MFA factors for the current user
-  const getMFAFactors = async (): Promise<Factor[]> => {
-    if (!user) return [];
-    
-    try {
-      const factors = await fetchMFAFactors(user.id);
-      setMfaFactors(factors);
-      setMfaEnrolled(factors.length > 0);
-      
-      return factors;
-    } catch (error) {
-      console.error('Error in getMFAFactors:', error);
-      return [];
-    }
-  };
+  const {
+    user, setUser,
+    session, setSession,
+    userType, setUserType,
+    loading, setLoading,
+    initializingDatabase, setInitializingDatabase,
+    databaseInitialized, setDatabaseInitialized,
+    authInitialized, setAuthInitialized
+  } = useAuthState();
+  
+  const {
+    mfaFactors, mfaEnrolled,
+    currentMFAChallenge, setCurrentMFAChallenge,
+    getMFAFactors, getCurrentMFAChallenge
+  } = useMFAState();
 
   // Verify an MFA challenge
   const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
@@ -69,11 +59,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
     
     return result;
-  };
-
-  // Get the current MFA challenge
-  const getCurrentMFAChallenge = () => {
-    return currentMFAChallenge;
   };
 
   useEffect(() => {
@@ -117,13 +102,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           console.log("User signed in, user type:", currentSession?.user?.user_metadata?.userType);
           toast.success('You have successfully signed in!');
           // Fetch MFA factors when user signs in
-          getMFAFactors();
+          if (currentSession?.user) {
+            getMFAFactors(currentSession.user.id);
+          }
         } else if (event === 'SIGNED_OUT') {
           toast.info('You have been signed out');
-          setMfaFactors([]);
-          setMfaEnrolled(false);
         } else if (event === 'USER_UPDATED' && currentSession) {
-          getMFAFactors();
+          if (currentSession.user) {
+            getMFAFactors(currentSession.user.id);
+          }
         }
       }
     );
@@ -160,7 +147,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       // Fetch MFA factors if user is already signed in
       if (currentSession?.user) {
-        getMFAFactors();
+        getMFAFactors(currentSession.user.id);
       }
     });
 
@@ -174,7 +161,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const value = {
+  const value: AuthContextType = {
     user,
     session,
     loading,
@@ -198,7 +185,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email, 
         password, 
         setUser, 
-        getMFAFactors, 
+        async () => await getMFAFactors(user?.id),
         setCurrentMFAChallenge, 
         toastWrapper
       );
@@ -213,7 +200,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       return result;
     },
-    signInWithSocial: (provider: Provider) =>
+    signInWithSocial: (provider) =>
       handleUserSocialSignIn(provider, toastWrapper),
     signOut: async () => {
       const result = await handleUserSignOut(toastWrapper);
@@ -221,15 +208,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null);
         setSession(null);
         setUserType(null);
-        setMfaFactors([]);
-        setMfaEnrolled(false);
-        setCurrentMFAChallenge(null);
       }
       return result;
     },
-    resetPassword: (email: string) =>
+    resetPassword: (email) =>
       handlePasswordReset(email, toastWrapper),
-    updateUserPassword: (newPassword: string) =>
+    updateUserPassword: (newPassword) =>
       handleUpdatePassword(newPassword, toastWrapper),
     userType,
     initializingDatabase,
@@ -238,7 +222,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     mfaEnrolled,
     mfaFactors,
     verifyMFA,
-    getMFAFactors,
+    getMFAFactors: async () => await getMFAFactors(user?.id),
     getCurrentMFAChallenge
   };
 
@@ -249,10 +233,4 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export { useAuth } from './AuthContext';
