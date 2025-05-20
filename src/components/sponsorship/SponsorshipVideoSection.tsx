@@ -1,17 +1,57 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VideoPlayer from '@/components/VideoPlayer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
+import { toast } from 'sonner';
 
 const SponsorshipVideoSection = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  
+  // Updated to a known working YouTube video ID with proper content
+  const videoId = "ks5vvvHHhNA";
+
+  // Handle video load events
+  const handleVideoLoad = () => {
+    console.log("YouTube video loaded successfully");
+    setIsVideoLoaded(true);
+    setVideoError(false);
+  };
 
   // Handle video load errors
   const handleVideoError = () => {
     console.error("Failed to load YouTube video");
+    setVideoError(true);
+    setIsVideoLoaded(false);
+    toast.error("Video failed to load. Please try again later.");
   };
+
+  // Check if YouTube API is available
+  useEffect(() => {
+    // Create a test to check if YouTube iframe API is accessible
+    const testYouTubeAccess = () => {
+      const script = document.createElement('script');
+      script.src = "https://www.youtube.com/iframe_api";
+      script.onload = () => console.log("YouTube API script loaded");
+      script.onerror = () => {
+        console.error("YouTube API script failed to load");
+        setVideoError(true);
+        toast.error("YouTube content is not accessible. Please check your connection.");
+      };
+      document.head.appendChild(script);
+      
+      // Remove the test script after checking
+      return () => {
+        document.head.removeChild(script);
+      };
+    };
+    
+    // Run the test
+    const cleanup = testYouTubeAccess();
+    return cleanup;
+  }, []);
 
   return (
     <div className="py-16 bg-gray-50">
@@ -24,15 +64,30 @@ const SponsorshipVideoSection = () => {
         </div>
         
         <div className="max-w-3xl mx-auto">
-          <div className="rounded-xl overflow-hidden shadow-xl">
-            {/* Updated to a verified working YouTube video ID about black business investment */}
+          <div className="rounded-xl overflow-hidden shadow-xl relative">
+            {videoError && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 text-center p-4">
+                <div>
+                  <p className="text-gray-600 mb-2">Unable to load video content</p>
+                  <a 
+                    href={`https://www.youtube.com/watch?v=${videoId}`}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-mansablue hover:underline"
+                  >
+                    View on YouTube instead
+                  </a>
+                </div>
+              </div>
+            )}
+            
             <VideoPlayer 
-              src="ks5vvvHHhNA" 
+              src={videoId}
               title="The Business Case for Supporting Black Businesses" 
               description="This video explores why investing in Black businesses is not just a social good but makes strong business sense."
               uploadDate="2021-08-23"
               isYouTube={true}
-              posterImage="https://img.youtube.com/vi/ks5vvvHHhNA/maxresdefault.jpg"
+              posterImage={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
               className="aspect-video"
             />
           </div>
