@@ -10,21 +10,21 @@ const SponsorshipTestimonials = () => {
       author: "Morgan Reynolds",
       title: "Chief Marketing Officer",
       company: "Global Financial Partners",
-      avatar: "/placeholder.svg"
+      avatar: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80"
     },
     {
       quote: "As a Platinum sponsor, we've seen incredible brand visibility among conscious consumers. The dedicated support team ensures our partnership delivers mutual value.",
       author: "Tasha Williams",
       title: "VP of Community Relations",
       company: "Horizon Technologies",
-      avatar: "/placeholder.svg"
+      avatar: "https://images.unsplash.com/photo-1589156280159-27698a70f29e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwd29tYW58ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
     },
     {
       quote: "The detailed impact reports help us quantify our contribution to economic empowerment. Our employees and customers appreciate our commitment to this important cause.",
       author: "Marcus Johnson",
       title: "Director of Corporate Affairs",
       company: "Unity Investments",
-      avatar: "/placeholder.svg"
+      avatar: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsYWNrJTIwbWFufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60"
     }
   ];
 
