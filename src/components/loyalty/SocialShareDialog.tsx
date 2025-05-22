@@ -1,182 +1,146 @@
 
-import React, { useCallback } from 'react';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogTrigger 
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Share2, Copy, Check } from "lucide-react";
-import { useSocialShare } from "@/hooks/use-social-share";
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  Facebook,
+  Twitter,
+  Linkedin,
+  Mail,
+  Link as LinkIcon,
+  Copy,
+} from 'lucide-react';
 import { toast } from 'sonner';
 
 interface SocialShareDialogProps {
   title: string;
-  text?: string;
-  description?: string;
-  path?: string;
+  text: string;
   customPath?: string;
-  triggerContent?: React.ReactNode;
-  children?: React.ReactNode;
+  triggerContent: React.ReactNode;
 }
 
-const SocialShareDialog: React.FC<SocialShareDialogProps> = ({ 
-  title, 
-  text, 
-  path, 
+const SocialShareDialog: React.FC<SocialShareDialogProps> = ({
+  title,
+  text,
   customPath,
-  description, 
   triggerContent,
-  children 
 }) => {
-  const { shareTargets, getShareUrl, share } = useSocialShare();
-  const [copied, setCopied] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-  
-  // Use either customPath or path or fallback to current path
-  const shareUrl = getShareUrl(customPath || path || window.location.pathname);
-  
-  const handleCopy = useCallback(async () => {
-    try {
-      // Copy to clipboard with a rate limit
-      const shareCount = parseInt(localStorage.getItem('share_count') || '0', 10);
-      const lastShareTime = parseInt(localStorage.getItem('last_share_time') || '0', 10);
-      const now = Date.now();
-      
-      // Rate limit to 5 shares per minute
-      if (shareCount >= 5 && (now - lastShareTime) < 60000) {
-        toast.error('Please wait before sharing again');
-        return;
-      }
-      
-      await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-      toast.success('Link copied to clipboard');
-      
-      // Store share count and time for rate limiting
-      localStorage.setItem('share_count', (shareCount + 1).toString());
-      localStorage.setItem('last_share_time', now.toString());
-      
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy link:', err);
-      toast.error('Failed to copy link');
-    }
-  }, [shareUrl]);
-  
-  // Reset share count after 1 minute
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      const lastShareTime = parseInt(localStorage.getItem('last_share_time') || '0', 10);
-      const now = Date.now();
-      
-      if ((now - lastShareTime) > 60000) {
-        localStorage.setItem('share_count', '0');
-      }
-    }, 60000);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  // Security: Sanitize URLs before sharing
-  const sanitizeUrl = (url: string): string => {
-    try {
-      // Only allow specific origins or relative URLs
-      const urlObj = new URL(url, window.location.origin);
-      const allowedHosts = [
-        window.location.hostname,
-        'mansamusa.app',
-        'www.mansamusa.app'
-      ];
-      
-      if (!allowedHosts.includes(urlObj.hostname)) {
-        console.warn('Blocked potentially unsafe URL:', url);
-        return window.location.href;
-      }
-      
-      return urlObj.toString();
-    } catch (error) {
-      console.error('Invalid URL:', error);
-      return window.location.href;
-    }
+  const getShareUrl = () => {
+    const baseUrl = window.location.origin;
+    const path = customPath || window.location.pathname;
+    return `${baseUrl}${path}`;
   };
-  
-  // Handle share click with security check
-  const handleShareClick = useCallback((target: any, data: any) => {
-    const sanitizedData = {
-      ...data,
-      url: sanitizeUrl(data.url)
-    };
+
+  const shareUrl = getShareUrl();
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(shareUrl);
+    toast.success('Link copied to clipboard');
+  };
+
+  const handleShare = async (platform: string) => {
+    let shareLink = '';
     
-    target.action(sanitizedData);
-    setOpen(false);
-  }, []);
-  
+    switch (platform) {
+      case 'facebook':
+        shareLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(text)}`;
+        break;
+      case 'twitter':
+        shareLink = `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
+        break;
+      case 'linkedin':
+        shareLink = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+        break;
+      case 'email':
+        shareLink = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`${text}\n\n${shareUrl}`)}`;
+        break;
+      default:
+        return;
+    }
+    
+    // Open share link in a new window
+    window.open(shareLink, '_blank', 'noopener,noreferrer');
+    toast.success(`Shared on ${platform}`);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        {triggerContent || children || (
-          <Button 
-            variant="outline" 
-            size="sm"
-            className="flex gap-2 items-center"
-          >
-            <Share2 className="h-4 w-4" />
-            <span>Share</span>
-          </Button>
-        )}
+        {triggerContent}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Share</DialogTitle>
           <DialogDescription>
-            {description || "Share this link with your network"}
+            Share your loyalty achievements with friends and family
           </DialogDescription>
         </DialogHeader>
-        
-        <div className="flex items-center space-x-2 py-4">
-          <div className="grid flex-1 gap-2">
-            <div className="flex items-center border rounded-md pl-3">
-              <Input 
-                value={shareUrl} 
-                readOnly 
-                className="border-0 focus-visible:ring-0"
-              />
-            </div>
-          </div>
-          <Button 
-            type="submit" 
-            size="icon" 
-            onClick={handleCopy}
-            className={copied ? "bg-green-600 hover:bg-green-700" : ""}
+        <div className="grid grid-cols-4 gap-4 py-4">
+          <Button
+            variant="outline"
+            size="icon"
+            className="flex flex-col items-center gap-1 h-auto p-3"
+            onClick={() => handleShare('facebook')}
           >
-            {copied ? (
-              <Check className="h-4 w-4" />
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
+            <Facebook className="h-5 w-5 text-blue-600" />
+            <span className="text-xs">Facebook</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="flex flex-col items-center gap-1 h-auto p-3"
+            onClick={() => handleShare('twitter')}
+          >
+            <Twitter className="h-5 w-5 text-blue-400" />
+            <span className="text-xs">Twitter</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="flex flex-col items-center gap-1 h-auto p-3"
+            onClick={() => handleShare('linkedin')}
+          >
+            <Linkedin className="h-5 w-5 text-blue-700" />
+            <span className="text-xs">LinkedIn</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="flex flex-col items-center gap-1 h-auto p-3"
+            onClick={() => handleShare('email')}
+          >
+            <Mail className="h-5 w-5 text-gray-600" />
+            <span className="text-xs">Email</span>
           </Button>
         </div>
-        
-        <div className="flex justify-center gap-4 py-2">
-          {shareTargets.map((target) => (
-            <Button
-              key={target.name}
-              size="icon"
-              variant="outline"
-              onClick={() => handleShareClick(target, { title, text: text || description, url: shareUrl })}
-              className={`rounded-full ${target.color}`}
-              aria-label={`Share on ${target.name}`}
-            >
-              {/* Icon would be rendered here */}
-              <span className="sr-only">Share on {target.name}</span>
-            </Button>
-          ))}
+        <div className="flex items-center border rounded-md px-3 py-2">
+          <LinkIcon className="h-4 w-4 mr-2 text-gray-500" />
+          <input 
+            className="flex-1 bg-transparent outline-none text-sm text-gray-700" 
+            value={shareUrl} 
+            readOnly 
+          />
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={handleCopyLink}
+          >
+            <Copy className="h-4 w-4" />
+          </Button>
         </div>
+        <DialogFooter className="sm:justify-start">
+          <DialogTrigger asChild>
+            <Button variant="secondary">Done</Button>
+          </DialogTrigger>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
