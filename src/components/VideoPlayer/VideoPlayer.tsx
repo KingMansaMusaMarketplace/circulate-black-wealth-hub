@@ -105,29 +105,31 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         )}
         
         {/* Video element - either YouTube or standard */}
-        {loadError ? (
-          <div className="flex items-center justify-center w-full aspect-video bg-gray-900 text-white">
-            <p>Unable to load video. Please try again later.</p>
-          </div>
-        ) : isYouTube ? (
-          <YouTubePlayer 
-            src={src}
-            isPlaying={isPlaying}
-            isMuted={isMuted}
-            onStateChange={handleYouTubeStateChange}
-            onError={handleError}
-          />
-        ) : (
-          <StandardPlayer
-            src={src}
-            posterImage={hasEnded ? "" : posterImage}
-            isPlaying={isPlaying}
-            isMuted={isMuted}
-            onStateChange={setIsPlaying}
-            onEnded={handleVideoEnded}
-            onError={handleError}
-          />
-        )}
+        <div className="relative w-full aspect-video">
+          {loadError ? (
+            <div className="flex items-center justify-center w-full h-full bg-gray-900 text-white">
+              <p>Unable to load video. Please try again later.</p>
+            </div>
+          ) : isYouTube ? (
+            <YouTubePlayer 
+              src={src}
+              isPlaying={isPlaying}
+              isMuted={isMuted}
+              onStateChange={handleYouTubeStateChange}
+              onError={handleError}
+            />
+          ) : (
+            <StandardPlayer
+              src={src}
+              posterImage={hasEnded ? "" : posterImage}
+              isPlaying={isPlaying}
+              isMuted={isMuted}
+              onStateChange={setIsPlaying}
+              onEnded={handleVideoEnded}
+              onError={handleError}
+            />
+          )}
+        </div>
         
         {/* Play/Pause button with fade effect */}
         <PlayPauseButton 
