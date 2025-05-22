@@ -27,7 +27,6 @@ export const useYouTubePlayer = ({
 }: UseYouTubePlayerProps) => {
   const playerRef = useRef<HTMLIFrameElement>(null);
   const youtubePlayer = useRef<any>(null);
-  const [ytApiLoaded, setYtApiLoaded] = useState(false);
   const [videoId, setVideoId] = useState<string | null>(null);
   const [playerReady, setPlayerReady] = useState(false);
   
@@ -38,8 +37,54 @@ export const useYouTubePlayer = ({
     setVideoId(id);
   }, [src]);
   
-  // Load YouTube iframe API
+  // Load YouTube iframe API and create player
   useEffect(() => {
+    if (!videoId) return;
+    
+    // Function to initialize the YouTube player
+    const initializeYouTubePlayer = () => {
+      if (!window.YT || !window.YT.Player) return;
+      if (!playerRef.current) return;
+      
+      try {
+        console.log("Initializing YouTube player with video ID:", videoId);
+        
+        // Create YouTube player
+        youtubePlayer.current = new window.YT.Player(playerRef.current, {
+          videoId: videoId,
+          playerVars: {
+            autoplay: isPlaying ? 1 : 0,
+            mute: isMuted ? 1 : 0,
+            controls: 1,
+            rel: 0,
+            modestbranding: 1,
+            origin: window.location.origin
+          },
+          events: {
+            onReady: () => {
+              console.log("YouTube player ready");
+              setPlayerReady(true);
+            },
+            onStateChange: (event: any) => {
+              console.log("YouTube player state changed:", event.data);
+              
+              // YouTube Player States: unstarted (-1), ended (0), playing (1), paused (2), buffering (3)
+              const isCurrentlyPlaying = event.data === 1;
+              onStateChange(isCurrentlyPlaying, event.data);
+            },
+            onError: (event: any) => {
+              console.error("YouTube player error:", event.data);
+              onError?.();
+            }
+          }
+        });
+      } catch (err) {
+        console.error("Error initializing YouTube player:", err);
+        onError?.();
+      }
+    };
+    
+    // Load YouTube API if not already loaded
     if (!window.YT) {
       const tag = document.createElement('script');
       tag.src = "https://www.youtube.com/iframe_api";
@@ -47,97 +92,54 @@ export const useYouTubePlayer = ({
       firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
       
       window.onYouTubeIframeAPIReady = () => {
-        console.log("YouTube API loaded");
-        setYtApiLoaded(true);
+        console.log("YouTube API ready");
+        initializeYouTubePlayer();
       };
     } else {
-      setYtApiLoaded(true);
+      initializeYouTubePlayer();
     }
     
     // Cleanup
     return () => {
-      if (youtubePlayer.current) {
+      if (youtubePlayer.current && youtubePlayer.current.destroy) {
+        youtubePlayer.current.destroy();
         youtubePlayer.current = null;
       }
     };
-  }, []);
-  
-  // Create the iframe player
-  useEffect(() => {
-    if (!ytApiLoaded || !videoId) return;
-    
-    const embedUrl = getYouTubeEmbedUrl(videoId);
-    
-    if (playerRef.current) {
-      playerRef.current.src = `${embedUrl}?enablejsapi=1&origin=${window.location.origin}&autoplay=${isPlaying ? '1' : '0'}&mute=${isMuted ? '1' : '0'}`;
-    }
-  }, [ytApiLoaded, videoId, isPlaying, isMuted]);
-  
-  // Handle messages from the iframe
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      // Make sure the message is from YouTube
-      if (event.origin !== "https://www.youtube.com") return;
-      
-      try {
-        const data = JSON.parse(event.data);
-        
-        // YouTube iframe API sends events in this format
-        if (data.event === "onStateChange") {
-          // YouTube states: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering)
-          if (data.info === 1) {
-            onStateChange(true, 1);
-            setPlayerReady(true);
-          } else if (data.info === 2) {
-            onStateChange(false, 2);
-          } else if (data.info === 0) {
-            onStateChange(false, 0);
-          }
-        } else if (data.event === "onError") {
-          console.error("YouTube player error:", data);
-          onError?.();
-        }
-      } catch (e) {
-        // Not a JSON message or not for us
-      }
-    };
-    
-    window.addEventListener("message", handleMessage);
-    return () => {
-      window.removeEventListener("message", handleMessage);
-    };
-  }, [onStateChange, onError]);
+  }, [videoId, onStateChange, onError]);
   
   // Handle play/pause changes
   useEffect(() => {
-    if (!playerRef.current || !playerReady) return;
+    if (!youtubePlayer.current || !playerReady) return;
     
-    // Send play/pause commands via postMessage
-    const command = isPlaying ? 'playVideo' : 'pauseVideo';
-    playerRef.current.contentWindow?.postMessage(
-      JSON.stringify({
-        event: 'command',
-        func: command,
-        args: []
-      }), 
-      '*'
-    );
+    try {
+      if (isPlaying) {
+        console.log("Playing YouTube video");
+        youtubePlayer.current.playVideo();
+      } else {
+        console.log("Pausing YouTube video");
+        youtubePlayer.current.pauseVideo();
+      }
+    } catch (err) {
+      console.error("Error playing/pausing YouTube video:", err);
+    }
   }, [isPlaying, playerReady]);
   
   // Handle mute/unmute changes
   useEffect(() => {
-    if (!playerRef.current || !playerReady) return;
+    if (!youtubePlayer.current || !playerReady) return;
     
-    // Send mute/unmute commands via postMessage
-    const command = isMuted ? 'mute' : 'unMute';
-    playerRef.current.contentWindow?.postMessage(
-      JSON.stringify({
-        event: 'command',
-        func: command,
-        args: []
-      }), 
-      '*'
-    );
+    try {
+      if (isMuted) {
+        console.log("Muting YouTube video");
+        youtubePlayer.current.mute();
+      } else {
+        console.log("Unmuting YouTube video");
+        youtubePlayer.current.unMute();
+      }
+    } catch (err) {
+      console.error("Error muting/unmuting YouTube video:", err);
+    }
   }, [isMuted, playerReady]);
 
   return {

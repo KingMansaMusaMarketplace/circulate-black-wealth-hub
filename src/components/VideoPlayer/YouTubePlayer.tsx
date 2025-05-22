@@ -1,8 +1,7 @@
 
 import React from 'react';
 import { useYouTubePlayer } from './hooks/useYouTubePlayer';
-import YouTubeLoadingState from './components/YouTubeLoadingState';
-import YouTubeErrorState from './components/YouTubeErrorState';
+import { YouTubeLoadingState, YouTubeErrorState } from './components';
 
 interface YouTubePlayerProps {
   src: string;
@@ -32,17 +31,11 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   }
   
   return (
-    <div className="w-full aspect-video bg-black">
-      {videoId && (
-        <iframe 
-          ref={playerRef}
-          className="w-full h-full"
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        ></iframe>
-      )}
+    <div className="w-full aspect-video bg-black relative">
+      <div className="w-full h-full">
+        <div ref={playerRef} className="w-full h-full"></div>
+      </div>
+      
       {!playerReady && <YouTubeLoadingState />}
     </div>
   );

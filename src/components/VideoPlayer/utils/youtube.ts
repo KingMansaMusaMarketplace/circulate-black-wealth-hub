@@ -32,7 +32,9 @@ export const getYouTubeId = (url: string): string | null => {
   if (url.includes('youtu.be/')) {
     const parts = url.split('youtu.be/');
     if (parts[1] && parts[1].length >= 11) {
-      return parts[1].substring(0, 11);
+      // Remove any query parameters or hash
+      const videoId = parts[1].split(/[?&#]/)[0];
+      return videoId;
     }
   }
   
