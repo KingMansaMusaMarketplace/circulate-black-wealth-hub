@@ -13,6 +13,7 @@ import FAQSection from '@/components/HowItWorks/FAQSection';
 import VisualDivider from '@/components/HowItWorks/VisualDivider';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
+import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
 
 const HowItWorksPage = () => {
   useEffect(() => {
@@ -37,6 +38,7 @@ const HowItWorksPage = () => {
   const navSections = [
     { id: 'hero', label: 'Overview' },
     { id: 'how-it-works', label: 'How It Works' },
+    { id: 'videos', label: 'Videos' },
     { id: 'circulation-visualization', label: 'Money Flow' },
     { id: 'benefits', label: 'Benefits' },
     { id: 'testimonials', label: 'Testimonials' },
@@ -70,6 +72,9 @@ const HowItWorksPage = () => {
       <HeroSection />
       <PageNavigation sections={navSections} />
       <HowItWorksSteps />
+      <section id="videos">
+        <SponsorshipVideoSection />
+      </section>
       <VisualDivider />
       <CirculationVisualization />
       <BenefitsSection />

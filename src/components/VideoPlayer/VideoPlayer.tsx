@@ -33,8 +33,10 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const [isMuted, setIsMuted] = useState(false);
   const [hasEnded, setHasEnded] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(true);
+  const [loadError, setLoadError] = useState(false);
 
   const togglePlay = () => {
+    console.log("Toggle play:", !isPlaying);
     setIsPlaying(!isPlaying);
     // Show play button briefly after toggle for better UX
     setShowPlayButton(true);
@@ -45,10 +47,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   };
 
   const toggleMute = () => {
+    console.log("Toggle mute:", !isMuted);
     setIsMuted(!isMuted);
   };
 
   const handleVideoEnded = () => {
+    console.log("Video ended");
     setIsPlaying(false);
     setHasEnded(true);
     setShowPlayButton(true);
@@ -56,6 +60,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
 
   // Handler for YouTube state change
   const handleYouTubeStateChange = (newPlayingState: boolean, playerState?: number) => {
+    console.log("YouTube state change:", newPlayingState, playerState);
     setIsPlaying(newPlayingState);
     
     // YouTube Player States: Ended = 0, Playing = 1, Paused = 2
@@ -71,6 +76,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
       // When paused, always show the play button
       setShowPlayButton(true);
     }
+  };
+
+  const handleError = () => {
+    console.error("Video error occurred for source:", src);
+    setLoadError(true);
+    onError?.();
   };
 
   return (
@@ -94,13 +105,17 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         )}
         
         {/* Video element - either YouTube or standard */}
-        {isYouTube ? (
+        {loadError ? (
+          <div className="flex items-center justify-center w-full aspect-video bg-gray-900 text-white">
+            <p>Unable to load video. Please try again later.</p>
+          </div>
+        ) : isYouTube ? (
           <YouTubePlayer 
             src={src}
             isPlaying={isPlaying}
             isMuted={isMuted}
             onStateChange={handleYouTubeStateChange}
-            onError={onError}
+            onError={handleError}
           />
         ) : (
           <StandardPlayer
@@ -110,7 +125,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
             isMuted={isMuted}
             onStateChange={setIsPlaying}
             onEnded={handleVideoEnded}
-            onError={onError}
+            onError={handleError}
           />
         )}
         

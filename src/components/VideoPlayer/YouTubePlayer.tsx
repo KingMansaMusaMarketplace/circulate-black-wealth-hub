@@ -10,6 +10,13 @@ interface YouTubePlayerProps {
   onError?: () => void;
 }
 
+declare global {
+  interface Window {
+    YT: any;
+    onYouTubeIframeAPIReady: () => void;
+  }
+}
+
 const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   src,
   isPlaying,
@@ -25,6 +32,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   // Extract and set the video ID when src changes
   useEffect(() => {
     const id = getYouTubeId(src);
+    console.log("YouTube Video ID:", id);
     setVideoId(id);
     
     // If player exists but video ID changes, destroy and recreate
@@ -45,6 +53,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     if (!videoId || !youtubeContainerRef.current) return;
     
     try {
+      console.log("Initializing YouTube player with ID:", videoId);
       youtubePlayer.current = new window.YT.Player(youtubeContainerRef.current, {
         videoId: videoId,
         playerVars: {
@@ -61,6 +70,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         },
         events: {
           'onReady': () => {
+            console.log("YouTube player ready");
             setYoutubeReady(true);
             // Initialize mute state when player is ready
             if (isMuted && youtubePlayer.current) {
@@ -86,6 +96,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
     // Create script tag if it doesn't exist
     if (!window.YT) {
+      console.log("Loading YouTube API script");
       const tag = document.createElement('script');
       tag.src = "https://www.youtube.com/iframe_api";
       const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -94,15 +105,18 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
     // Initialize player when API is ready
     const onYouTubeIframeAPIReady = () => {
+      console.log("YouTube API script loaded");
       initializeYouTubePlayer(videoId);
     };
 
     // Set up YouTube API callback
     if (window.YT && window.YT.Player) {
       // If API is already loaded
+      console.log("YouTube API already loaded");
       onYouTubeIframeAPIReady();
     } else {
       // If API is still loading
+      console.log("Setting up YouTube API callback");
       window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
     }
 
@@ -112,7 +126,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
         console.error("YouTube API timeout");
         onError?.();
       }
-    }, 5000);
+    }, 10000); // Increased timeout for slower connections
 
     return () => {
       // Clean up
@@ -162,6 +176,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
 
   const handleYouTubeStateChange = (event: any) => {
     // YouTube PlayerState: PLAYING = 1, PAUSED = 2, ENDED = 0
+    console.log("YouTube player state change:", event.data);
     if (event.data === 1) {
       onStateChange(true, event.data);
     } else if (event.data === 2 || event.data === 0) {
@@ -174,8 +189,13 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
       <div 
         ref={youtubeContainerRef} 
         className="w-full h-full"
-        id="youtube-container"
+        id={`youtube-container-${videoId}`}
       ></div>
+      {!youtubeReady && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
+          <div className="animate-pulse text-white">Loading video...</div>
+        </div>
+      )}
     </div>
   );
 };
