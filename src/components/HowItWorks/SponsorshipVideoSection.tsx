@@ -29,7 +29,7 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden"
           >
             <VideoPlayer
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              src="https://www.youtube.com/embed/-TjgPI4kid4"
               title="How Circulation Works"
               isYouTube={true}
               posterImage="/placeholder.svg"
