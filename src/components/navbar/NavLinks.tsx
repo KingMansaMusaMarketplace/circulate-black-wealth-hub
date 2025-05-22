@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -13,8 +12,8 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "", onClick }) => {
   const links = [
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about-us" },
-    { name: "Directory", path: "/directory" },
     { name: "How It Works", path: "/how-it-works" },
+    { name: "Directory", path: "/directory" },
     { name: "Loyalty Program", path: "/loyalty" },
     { name: "Corporate Sponsorship", path: "/corporate-sponsorship" },
     { name: "Sales Agent", path: "/sales-agent" },
