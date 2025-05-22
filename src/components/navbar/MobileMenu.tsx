@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface MobileMenuProps {
@@ -9,126 +10,43 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
-  const location = useLocation();
-  
-  // Function to determine if the current route is active
-  const isActive = (path: string) => location.pathname === path;
-
   if (!isOpen) return null;
-  
+
+  const links = [
+    { name: "Home", path: "/" },
+    { name: "Directory", path: "/directory" },
+    { name: "How It Works", path: "/how-it-works" },
+    { name: "Loyalty Program", path: "/loyalty" },
+    { name: "Corporate Sponsorship", path: "/corporate-sponsorship" },
+    { name: "Sales Agent", path: "/sales-agent" },
+    { name: "FAQ", path: "/faq" },
+    { name: "About Us", path: "/about-us" },
+    { name: "Our Team", path: "/our-team" }
+  ];
+
   return (
-    <>
-      <div className="md:hidden py-2 border-t border-gray-200">
-        <nav className="flex flex-col space-y-2 pb-2">
-          <Button 
-            variant={isActive('/') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/" onClick={onClose}>Home</Link>
+    <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-100 shadow-lg z-50">
+      <div className="p-4">
+        <div className="flex items-center justify-end mb-4">
+          <Button variant="ghost" size="icon" onClick={onClose}>
+            <X className="h-6 w-6" />
           </Button>
-          
-          <Button 
-            variant={isActive('/directory') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/directory" onClick={onClose}>Map Directory</Link>
-          </Button>
-          
-          <Button 
-            variant={isActive('/businesses') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/businesses" onClick={onClose}>Businesses</Link>
-          </Button>
-          
-          <Button 
-            variant={isActive('/loyalty') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/loyalty" onClick={onClose}>Loyalty</Link>
-          </Button>
-          
-          <Button 
-            variant={isActive('/how-it-works') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/how-it-works" onClick={onClose}>How It Works</Link>
-          </Button>
-          
-          <Button 
-            variant={isActive('/about') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/about" onClick={onClose}>About</Link>
-          </Button>
-          
-          <Button 
-            variant={isActive('/team-contact') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/our-team" onClick={onClose}>Our Team</Link>
-          </Button>
-          
-          <Button 
-            variant={isActive('/corporate-sponsorship') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/corporate-sponsorship" onClick={onClose}>Sponsorship</Link>
-          </Button>
-          
-          <Button 
-            variant={isActive('/sales-agent') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/sales-agent" onClick={onClose}>Sales Program</Link>
-          </Button>
-          
-          <div className="pt-2 border-t border-gray-100">
-            <Button 
-              variant="outline"
-              size="sm"
-              className="w-full justify-start"
-              asChild
+        </div>
+        
+        <nav className="flex flex-col space-y-4">
+          {links.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              onClick={onClose}
+              className="text-gray-600 hover:text-mansablue px-4 py-2 rounded-md hover:bg-gray-50"
             >
-              <Link to="/login" onClick={onClose}>Log In</Link>
-            </Button>
-            
-            <Button 
-              variant="default"
-              size="sm"
-              className="w-full justify-start mt-2"
-              asChild
-            >
-              <Link to="/signup" onClick={onClose}>Sign Up</Link>
-            </Button>
-          </div>
+              {link.name}
+            </Link>
+          ))}
         </nav>
       </div>
-      
-      {/* Mobile nav backdrop */}
-      <div 
-        className="fixed inset-0 bg-gray-600 bg-opacity-50 z-10 lg:hidden"
-        onClick={onClose}
-      />
-    </>
+    </div>
   );
 };
 

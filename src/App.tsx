@@ -18,6 +18,8 @@ import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from './contexts/auth/AuthProvider';
 import HowItWorksPage from './pages/HowItWorksPage';
 import CorporateSponsorshipPage from './pages/CorporateSponsorshipPage';
+import FAQPage from './pages/FAQPage';
+import SalesAgentPage from './pages/SalesAgentPage';
 
 function App() {
   return (
@@ -43,6 +45,7 @@ function App() {
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/our-team" element={<TeamContactPage />} />
           <Route path="/team-contact" element={<TeamContactPage />} />
+          <Route path="/faq" element={<FAQPage />} />
           
           {/* How it works */}
           <Route path="/how-it-works" element={<HowItWorksPage />} />
@@ -51,7 +54,7 @@ function App() {
           <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
           
           {/* Sales agent */}
-          <Route path="/sales-agent" element={<AboutPage />} />
+          <Route path="/sales-agent" element={<SalesAgentPage />} />
           
           {/* 404 Not Found page */}
           <Route path="*" element={<NotFound />} />

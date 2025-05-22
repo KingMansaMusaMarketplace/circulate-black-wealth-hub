@@ -1,100 +1,42 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 
 interface NavLinksProps {
   className?: string;
+  onClick?: () => void;
 }
 
-const NavLinks: React.FC<NavLinksProps> = ({ className = "" }) => {
+const NavLinks: React.FC<NavLinksProps> = ({ className = "", onClick }) => {
   const location = useLocation();
   
-  // Function to determine if the current route is active
-  const isActive = (path: string) => location.pathname === path;
+  const links = [
+    { name: "Home", path: "/" },
+    { name: "Directory", path: "/directory" },
+    { name: "How It Works", path: "/how-it-works" },
+    { name: "Loyalty Program", path: "/loyalty" },
+    { name: "Corporate Sponsorship", path: "/corporate-sponsorship" },
+    { name: "Sales Agent", path: "/sales-agent" },
+    { name: "FAQ", path: "/faq" },
+    { name: "About Us", path: "/about-us" }
+  ];
   
   return (
-    <nav className={`hidden md:flex md:space-x-2 ${className}`}>
-      <Button 
-        variant={isActive('/') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/">Home</Link>
-      </Button>
-      
-      <Button 
-        variant={isActive('/directory') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/directory') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/directory">Map Directory</Link>
-      </Button>
-      
-      <Button 
-        variant={isActive('/businesses') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/businesses') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/businesses">Businesses</Link>
-      </Button>
-      
-      <Button 
-        variant={isActive('/loyalty') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/loyalty') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/loyalty">Loyalty</Link>
-      </Button>
-
-      <Button 
-        variant={isActive('/how-it-works') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/how-it-works') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/how-it-works">How It Works</Link>
-      </Button>
-      
-      <Button 
-        variant={isActive('/about') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/about') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/about">About</Link>
-      </Button>
-      
-      <Button 
-        variant={isActive('/team-contact') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/team-contact') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/our-team">Our Team</Link>
-      </Button>
-      
-      <Button 
-        variant={isActive('/corporate-sponsorship') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/corporate-sponsorship') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/corporate-sponsorship">Sponsorship</Link>
-      </Button>
-      
-      <Button 
-        variant={isActive('/sales-agent') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/sales-agent') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/sales-agent">Sales Program</Link>
-      </Button>
+    <nav className={`hidden md:flex items-center space-x-4 ${className}`}>
+      {links.map((link) => (
+        <Link
+          key={link.path}
+          to={link.path}
+          onClick={onClick}
+          className={`text-sm font-medium px-2 py-1 rounded-md transition-colors
+            ${location.pathname === link.path
+              ? "text-mansablue"
+              : "text-gray-600 hover:text-mansablue hover:bg-gray-50"
+            }`}
+        >
+          {link.name}
+        </Link>
+      ))}
     </nav>
   );
 };
