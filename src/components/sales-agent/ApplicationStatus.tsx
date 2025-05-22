@@ -33,7 +33,7 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({ application, onSt
       case 'pending':
         if (application.test_passed === true) {
           return {
-            icon: <Clock className="h-12 w-12 text-blue-500" />,
+            icon: <Clock className="h-12 w-12 text-mansablue" />,
             title: 'Under Review',
             description: 'Your application is being reviewed by our team.',
             details: `Submitted on ${formatDate(application.application_date || application.created_at)}`
@@ -51,7 +51,7 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({ application, onSt
           };
         } else {
           return {
-            icon: <AlertTriangle className="h-12 w-12 text-yellow-500" />,
+            icon: <AlertTriangle className="h-12 w-12 text-mansablue" />,
             title: 'Qualification Test Required',
             description: 'Complete the qualification test to proceed with your application.',
             action: {
@@ -62,7 +62,7 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({ application, onSt
         }
       default:
         return {
-          icon: <Clock className="h-12 w-12 text-gray-500" />,
+          icon: <Clock className="h-12 w-12 text-mansablue" />,
           title: 'Application Submitted',
           description: 'Your application has been received.'
         };
@@ -72,17 +72,17 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({ application, onSt
   const status = getStatusUI();
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>Application Status</CardTitle>
+    <Card className="w-full max-w-md mx-auto bg-white border-mansablue/10 shadow-md">
+      <CardHeader className="bg-gradient-to-r from-mansablue/5 to-blue-50">
+        <CardTitle className="text-mansablue">Application Status</CardTitle>
         <CardDescription>
           Track the status of your sales agent application
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <div className="flex flex-col items-center text-center space-y-4">
           {status.icon}
-          <h3 className="text-xl font-semibold">{status.title}</h3>
+          <h3 className="text-xl font-semibold text-mansablue">{status.title}</h3>
           <p>{status.description}</p>
           
           {status.details && (

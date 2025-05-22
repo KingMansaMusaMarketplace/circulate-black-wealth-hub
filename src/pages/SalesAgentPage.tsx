@@ -19,7 +19,7 @@ const SalesAgentPage: React.FC = () => {
   } = useSalesAgentTabs();
 
   return (
-    <ResponsiveLayout title="Sales Agent Program">
+    <ResponsiveLayout title="Sales Agent Program" className="bg-gradient-to-b from-white to-blue-50">
       <Helmet>
         <title>Sales Agent Program | Mansa Musa Marketplace</title>
       </Helmet>
@@ -27,7 +27,7 @@ const SalesAgentPage: React.FC = () => {
       {!user ? (
         <div className="max-w-6xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Sales Agent Program</h1>
+            <h1 className="text-3xl font-bold text-mansablue mb-2">Sales Agent Program</h1>
             <p className="text-gray-600">
               Join our sales agent program and earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
             </p>
@@ -38,7 +38,7 @@ const SalesAgentPage: React.FC = () => {
       ) : (
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Sales Agent Program</h1>
+            <h1 className="text-3xl font-bold text-mansablue mb-2">Sales Agent Program</h1>
             <p className="text-gray-600">
               Join our sales agent program and earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
             </p>

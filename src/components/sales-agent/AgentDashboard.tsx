@@ -39,38 +39,38 @@ const AgentDashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
+        <Card className="bg-gradient-to-br from-white to-blue-50 border-mansablue/10 shadow hover:shadow-lg transition-shadow">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">Total Earned</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(totalEarned)}</div>
+            <div className="text-2xl font-bold text-mansablue">{formatCurrency(totalEarned)}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-gradient-to-br from-white to-blue-50 border-mansablue/10 shadow hover:shadow-lg transition-shadow">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">Pending Commission</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(totalPending)}</div>
+            <div className="text-2xl font-bold text-mansablue">{formatCurrency(totalPending)}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-gradient-to-br from-white to-blue-50 border-mansablue/10 shadow hover:shadow-lg transition-shadow">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-gray-500">Total Referrals</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{referrals.length}</div>
+            <div className="text-2xl font-bold text-mansablue">{referrals.length}</div>
           </CardContent>
         </Card>
       </div>
 
       <ReferralCode referralCode={agent.referral_code} />
 
-      <Tabs defaultValue="referrals">
-        <TabsList className="grid grid-cols-2 mb-4">
-          <TabsTrigger value="referrals">Referrals</TabsTrigger>
-          <TabsTrigger value="commissions">Commissions</TabsTrigger>
+      <Tabs defaultValue="referrals" className="bg-white p-4 rounded-lg shadow border border-mansablue/10">
+        <TabsList className="grid grid-cols-2 mb-4 bg-blue-50">
+          <TabsTrigger value="referrals" className="data-[state=active]:bg-mansablue data-[state=active]:text-white">Referrals</TabsTrigger>
+          <TabsTrigger value="commissions" className="data-[state=active]:bg-mansablue data-[state=active]:text-white">Commissions</TabsTrigger>
         </TabsList>
         <TabsContent value="referrals">
           <ReferralsList referrals={referrals} />

@@ -71,14 +71,14 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>Sales Agent Application</CardTitle>
+    <Card className="w-full max-w-md mx-auto bg-white border-mansablue/10 shadow-lg hover:shadow-mansablue/5 transition-all">
+      <CardHeader className="border-b border-mansablue/10 bg-gradient-to-r from-mansablue/5 to-blue-50">
+        <CardTitle className="text-mansablue">Sales Agent Application</CardTitle>
         <CardDescription>
           Apply to become a Mansa Musa Marketplace sales agent and earn commissions on referrals.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -120,13 +120,13 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isSubmitting} className="w-full">
+            <Button type="submit" disabled={isSubmitting} className="w-full bg-mansablue hover:bg-mansablue-dark">
               {isSubmitting ? 'Submitting...' : 'Submit Application'}
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-center text-sm text-gray-500">
+      <CardFooter className="flex justify-center text-sm text-gray-500 border-t border-mansablue/10 bg-gradient-to-r from-mansablue/5 to-blue-50">
         After submission, you'll need to complete a qualification test.
       </CardFooter>
     </Card>

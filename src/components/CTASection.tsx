@@ -7,7 +7,7 @@ const CTASection = () => {
   const navigate = useNavigate();
   
   return (
-    <section className="bg-mansablue py-16">
+    <section className="bg-gradient-to-r from-mansablue to-mansablue-dark py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
@@ -26,7 +26,7 @@ const CTASection = () => {
               onClick={() => navigate('/signup')}
               variant="outline"
               size="lg"
-              className="bg-transparent border-white text-white hover:bg-blue-700"
+              className="bg-transparent border-white text-white hover:bg-mansablue-light"
             >
               For Customers
             </Button>
