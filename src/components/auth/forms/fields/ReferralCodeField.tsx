@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { SalesAgent } from '@/types/sales-agent';
-import { SignupFormValues } from '../schemas/signupFormSchema';
+import { SignupFormValues } from '../../schemas/signupFormSchema';
 
 interface ReferralCodeFieldProps {
   control: Control<SignupFormValues>;
