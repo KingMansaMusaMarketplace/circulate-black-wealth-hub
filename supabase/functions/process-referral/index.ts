@@ -10,15 +10,46 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+// Helper function to log errors to a table
+async function logError(supabase, error, operation, details = {}) {
+  try {
+    await supabase
+      .from('error_logs')
+      .insert({
+        error_message: error.message,
+        error_code: error.code,
+        operation,
+        details: JSON.stringify(details),
+        service: 'edge-function',
+        function_name: 'process-referral'
+      });
+  } catch (logError) {
+    // If we can't log to the database, at least console log the error
+    console.error('Failed to log error:', logError);
+    console.error('Original error:', error);
+  }
+}
+
+// Helper function to generate a reference ID
+function generateReference() {
+  return Math.random().toString(36).substring(2, 10).toUpperCase();
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
   
+  let supabaseClient;
+  const startTime = Date.now();
+  const requestId = generateReference();
+  
   try {
+    console.log(`[${requestId}] Starting process-referral function`);
+    
     // Create a Supabase client with the Auth context of the logged in user
-    const supabaseClient = createClient(
+    supabaseClient = createClient(
       // Supabase API URL - env var exported by default
       Deno.env.get('SUPABASE_URL') ?? '',
       // Supabase API ANON KEY - env var exported by default
@@ -28,6 +59,14 @@ Deno.serve(async (req) => {
       { global: { headers: { Authorization: req.headers.get('Authorization')! } } }
     )
     
+    // Log the start of processing
+    await supabaseClient.from('activity_logs').insert({
+      activity_type: 'process_referrals_start',
+      entity_type: 'system',
+      entity_id: requestId,
+      details: { source: 'edge-function' }
+    });
+    
     // Now we can run queries in the context of the authenticated user
     const { data, error } = await supabaseClient.rpc('process_pending_referrals')
     
@@ -35,12 +74,46 @@ Deno.serve(async (req) => {
       throw error
     }
     
-    return new Response(JSON.stringify({ success: true, data }), {
+    const processingTime = Date.now() - startTime;
+    console.log(`[${requestId}] Completed processing in ${processingTime}ms`);
+    
+    // Log successful completion
+    await supabaseClient.from('activity_logs').insert({
+      activity_type: 'process_referrals_complete',
+      entity_type: 'system',
+      entity_id: requestId,
+      details: { 
+        processing_time_ms: processingTime,
+        results: data
+      }
+    });
+    
+    return new Response(JSON.stringify({ 
+      success: true, 
+      data,
+      request_id: requestId,
+      processing_time_ms: processingTime
+    }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+    const processingTime = Date.now() - startTime;
+    console.error(`[${requestId}] Error in process-referral: ${error.message}`);
+    
+    // Log error to database if possible
+    if (supabaseClient) {
+      await logError(supabaseClient, error, 'process_referrals', {
+        request_id: requestId,
+        processing_time_ms: processingTime
+      });
+    }
+    
+    return new Response(JSON.stringify({ 
+      error: error.message,
+      request_id: requestId,
+      processing_time_ms: processingTime
+    }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 400,
     })
