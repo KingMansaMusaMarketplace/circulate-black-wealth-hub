@@ -43,7 +43,13 @@ export const getMFAFactors = async (userId: string | undefined): Promise<Factor[
     
     if (error) throw error;
     
-    return data?.all || [];
+    // Convert Supabase factors to our Factor type
+    return (data?.all || []).map(factor => ({
+      id: factor.id,
+      type: factor.factor_type || 'unknown',
+      status: factor.status,
+      friendly_name: factor.friendly_name
+    })) as Factor[];
   } catch (error: any) {
     console.error('Error fetching MFA factors:', error);
     return [];

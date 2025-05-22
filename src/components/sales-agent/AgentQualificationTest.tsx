@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/auth';
 import { getTestQuestions, submitTestAttempt, updateApplicationAfterTest } from '@/lib/api/sales-agent-api';
@@ -91,15 +90,9 @@ const AgentQualificationTest: React.FC<AgentQualificationTestProps> = ({ applica
         user_id: user.id,
         score: results.score,
         passed: results.passed,
-        answers
+        answers,
+        application_id: applicationId
       });
-      
-      // Update application with test results
-      await updateApplicationAfterTest(
-        applicationId,
-        results.score,
-        results.passed
-      );
       
       setTestCompleted(true);
       onComplete(results.passed);

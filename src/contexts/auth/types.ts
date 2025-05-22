@@ -31,7 +31,7 @@ export interface AuthContextType {
   signUp: (email: string, password: string, metadata?: any) => Promise<any>;
   signIn: (email: string, password: string) => Promise<any>;
   signInWithEmail: (email: string, password: string) => Promise<any>;
-  signInWithSocial: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
+  signInWithSocial: (provider: 'google' | 'facebook' | 'github') => Promise<any>;
   signOut: () => Promise<any>;
   resetPassword: (email: string) => Promise<any>;
   updateUserPassword: (newPassword: string) => Promise<any>;

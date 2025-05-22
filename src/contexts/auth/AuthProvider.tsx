@@ -14,7 +14,7 @@ import {
   checkUserSession,
   toastWrapper
 } from './authUtils';
-import { verifyMFA as verifyUserMFA } from './mfaUtils';
+import { verifyMFA as verifyUserMFA, getMFAFactors as getMFAFactorsUtil } from './mfaUtils';
 import { AuthContext } from './AuthContext';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -30,15 +30,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentMFAChallenge, setCurrentMFAChallenge] = useState(null);
   
   // Function to get MFA factors for the current user
-  const getMFAFactors = async (userId) => {
-    if (!userId) return [];
+  const getMFAFactors = async () => {
+    if (!user?.id) return [];
     
     try {
-      const { data, error } = await supabase.auth.mfa.listFactors();
-      
-      if (error) throw error;
-      
-      const factors = data?.all || [];
+      const factors = await getMFAFactorsUtil(user.id);
       setMfaFactors(factors);
       setMfaEnrolled(factors.length > 0);
       return factors;
@@ -120,13 +116,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           toast.success('You have successfully signed in!');
           // Fetch MFA factors when user signs in
           if (currentSession?.user) {
-            getMFAFactors(currentSession.user.id);
+            getMFAFactors();
           }
         } else if (event === 'SIGNED_OUT') {
           toast.info('You have been signed out');
         } else if (event === 'USER_UPDATED' && currentSession) {
           if (currentSession.user) {
-            getMFAFactors(currentSession.user.id);
+            getMFAFactors();
           }
         }
       }
@@ -164,7 +160,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       // Fetch MFA factors if user is already signed in
       if (currentSession?.user) {
-        getMFAFactors(currentSession.user.id);
+        getMFAFactors();
       }
     });
 
@@ -178,7 +174,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const value = {
+  const value: AuthContextType = {
     user,
     session,
     loading,
@@ -202,7 +198,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email, 
         password, 
         setUser, 
-        async () => await getMFAFactors(user?.id),
+        getMFAFactors,
         setCurrentMFAChallenge, 
         toastWrapper
       );
@@ -223,7 +219,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email, 
         password, 
         setUser, 
-        async () => await getMFAFactors(user?.id),
+        getMFAFactors,
         setCurrentMFAChallenge, 
         toastWrapper
       );
@@ -238,8 +234,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       return result;
     },
-    signInWithSocial: (provider) =>
-      handleUserSocialSignIn(provider, toastWrapper),
+    signInWithSocial: async (provider) => {
+      const result = await handleUserSocialSignIn(provider, toastWrapper);
+      return result;
+    },
     signOut: async () => {
       const result = await handleUserSignOut(toastWrapper);
       if (result.success) {
@@ -260,7 +258,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     mfaEnrolled,
     mfaFactors,
     verifyMFA,
-    getMFAFactors: async () => await getMFAFactors(user?.id),
+    getMFAFactors,
     getCurrentMFAChallenge
   };
 

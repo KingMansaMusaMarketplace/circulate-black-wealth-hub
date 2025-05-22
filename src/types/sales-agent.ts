@@ -39,6 +39,9 @@ export type Referral = {
   commission_status: 'pending' | 'paid' | 'cancelled';
   payment_date?: string;
   subscription_amount?: number;
+  referred_user?: {
+    email?: string;
+  };
 };
 
 export type AgentCommission = {
@@ -73,4 +76,5 @@ export type TestAttempt = {
   answers?: {
     [questionId: string]: string;
   };
+  application_id?: string; // Added for linking test attempts to applications
 };
