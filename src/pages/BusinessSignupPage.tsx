@@ -12,8 +12,8 @@ const BusinessSignupPage: React.FC = () => {
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
   
   // Function to check referral code validity and set the referring agent
-  const checkReferralCode = async (code: string) => {
-    if (!code) return;
+  const checkReferralCode = async (code: string): Promise<SalesAgent | null> => {
+    if (!code) return null;
     
     try {
       const agent = await getSalesAgentByReferralCode(code);

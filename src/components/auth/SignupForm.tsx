@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -74,8 +73,8 @@ const SignupForm: React.FC = () => {
     }
   }, []);
   
-  const checkReferralCode = async (code: string) => {
-    if (!code) return;
+  const checkReferralCode = async (code: string): Promise<SalesAgent | null> => {
+    if (!code) return null;
     
     try {
       const agent = await getSalesAgentByReferralCode(code);
@@ -83,8 +82,10 @@ const SignupForm: React.FC = () => {
         setReferringAgent(agent);
         toast.success(`Referred by: ${agent.full_name}`);
       }
+      return agent;
     } catch (error) {
       console.error('Error checking referral code:', error);
+      return null;
     }
   };
 
