@@ -28,6 +28,14 @@ export const getYouTubeId = (url: string): string | null => {
     return shortMatch[2];
   }
   
+  // Handle "youtu.be" URLs directly
+  if (url.includes('youtu.be/')) {
+    const parts = url.split('youtu.be/');
+    if (parts[1] && parts[1].length >= 11) {
+      return parts[1].substring(0, 11);
+    }
+  }
+  
   return null;
 };
 
