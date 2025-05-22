@@ -3,17 +3,50 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import DirectoryFilter from '@/components/DirectoryFilter';
+import DirectoryFilter, { FilterOptions } from '@/components/DirectoryFilter';
 import MapView from '@/components/MapView';
 import BusinessList from '@/components/MapView/BusinessList';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, MapPin, ListFilter, Grid3X3, List } from 'lucide-react';
+import { businessCategories } from '@/data/businessData';
+
+// Mock business data for display
+const mockBusinesses = [
+  {
+    id: '1',
+    name: 'Black Star Bakery',
+    category: 'Food & Dining',
+    rating: 4.5,
+    distance: 1.2,
+    discount: 10,
+    location: { lat: 33.7490, lng: -84.3880 }
+  },
+  {
+    id: '2',
+    name: 'Melanin Beauty Supply',
+    category: 'Beauty & Wellness',
+    rating: 4.8,
+    distance: 0.8,
+    discount: 15,
+    location: { lat: 33.7590, lng: -84.3900 }
+  }
+];
 
 const BusinessDirectoryPage: React.FC = () => {
   const [view, setView] = useState<'grid' | 'list' | 'map'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    category: 'all',
+    distance: 0,
+    rating: 0,
+    discount: 0
+  });
+
+  const handleFilterChange = (filters: Partial<FilterOptions>) => {
+    setFilterOptions(prev => ({ ...prev, ...filters }));
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -49,7 +82,11 @@ const BusinessDirectoryPage: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-start gap-6">
             {/* Sidebar Filters */}
             <div className="w-full md:w-1/4">
-              <DirectoryFilter />
+              <DirectoryFilter 
+                categories={businessCategories}
+                filterOptions={filterOptions}
+                onFilterChange={handleFilterChange}
+              />
             </div>
             
             {/* Main Content */}
@@ -92,14 +129,14 @@ const BusinessDirectoryPage: React.FC = () => {
               
               <Tabs value={view} onValueChange={(val) => setView(val as 'grid' | 'list' | 'map')}>
                 <TabsContent value="grid" className="mt-0">
-                  <BusinessList viewType="grid" />
+                  <BusinessList businesses={mockBusinesses} />
                 </TabsContent>
                 <TabsContent value="list" className="mt-0">
-                  <BusinessList viewType="list" />
+                  <BusinessList businesses={mockBusinesses} />
                 </TabsContent>
                 <TabsContent value="map" className="mt-0">
                   <div className="h-[600px] rounded-lg overflow-hidden">
-                    <MapView />
+                    <MapView businesses={mockBusinesses} />
                   </div>
                 </TabsContent>
               </Tabs>

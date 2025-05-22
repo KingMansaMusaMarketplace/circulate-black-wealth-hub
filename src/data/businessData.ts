@@ -1,7 +1,13 @@
 
-export { businessCategories } from './businessCategories';
-export { businesses } from './businessesData';
-export type { Business } from '@/types/business';
-
-// Export individual business categories
-export * from './businesses';
+export const businessCategories = [
+  "Food & Dining",
+  "Beauty & Wellness",
+  "Health & Fitness",
+  "Professional Services",
+  "Retail & Shopping",
+  "Art & Entertainment",
+  "Education",
+  "Technology",
+  "Transportation",
+  "Finance"
+];
