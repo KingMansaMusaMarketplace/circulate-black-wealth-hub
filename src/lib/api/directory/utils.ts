@@ -36,9 +36,21 @@ export function getBusinessImageUrl(business: any): string {
     'Fashion & Clothing': 'https://images.unsplash.com/photo-1595665593673-bf1ad72905c1?q=80&w=500',
     'Financial Services': 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=500',
     'Health Services': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=500',
-    'Retail': 'https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=500'
+    'Retail': 'https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=500',
+    'Food & Dining': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=500',
+    'Health & Fitness': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=500',
+    'Professional Services': 'https://images.unsplash.com/photo-1521790797524-b2497295b8a0?q=80&w=500',
+    'Art & Entertainment': 'https://images.unsplash.com/photo-1533699216779-fb25b284f29a?q=80&w=500',
+    'Education': 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=500',
+    'Transportation': 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?q=80&w=500',
+    'Finance': 'https://images.unsplash.com/photo-1589666564459-93cdd3ab856a?q=80&w=500'
   };
   
-  return categoryImageMap[business.category] || 
-        `https://placehold.co/500x300/e0e0e0/808080?text=${business.business_name?.charAt(0).toUpperCase() || 'B'}`;
+  // Check if we have a category and a matching image
+  if (business.category && categoryImageMap[business.category]) {
+    return categoryImageMap[business.category];
+  }
+  
+  // Default placeholder with business initial
+  return `https://placehold.co/500x300/e0e0e0/808080?text=${business.business_name?.charAt(0).toUpperCase() || 'B'}`;
 }

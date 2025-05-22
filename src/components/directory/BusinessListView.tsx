@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
-import { MapPin } from 'lucide-react';
 import { Business } from '@/types/business';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { MapPin, Star } from 'lucide-react';
 
 interface BusinessListViewProps {
   businesses: Business[];
