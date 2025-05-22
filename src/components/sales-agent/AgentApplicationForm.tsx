@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
+// Update the form schema to ensure email is required, matching the SalesAgentApplication type
 const formSchema = z.object({
   full_name: z.string().min(3, { message: 'Name must be at least 3 characters long' }),
   email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -51,9 +52,12 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
 
     try {
       setIsSubmitting(true);
+      // Make sure to pass all required fields and don't make them optional
       await submitSalesAgentApplication({
         user_id: user.id,
-        ...values,
+        full_name: values.full_name,
+        email: values.email,
+        phone: values.phone,
       });
       
       toast.success('Your application has been submitted successfully!');
