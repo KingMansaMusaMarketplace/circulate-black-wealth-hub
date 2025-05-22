@@ -25,8 +25,16 @@ export const useAuthSession = () => {
         setUser(currentSession?.user || null);
         
         if (currentSession?.user?.user_metadata?.userType) {
-          console.log("Setting user type from metadata:", currentSession.user.user_metadata.userType);
-          setUserType(currentSession.user.user_metadata.userType);
+          const metadata = currentSession.user.user_metadata;
+          console.log("Setting user type from metadata:", metadata.userType);
+          
+          // Only set if it's a valid user type
+          if (metadata.userType === 'customer' || metadata.userType === 'business') {
+            setUserType(metadata.userType);
+          } else {
+            console.warn("Unknown user type:", metadata.userType);
+            setUserType(null);
+          }
         } else if (currentSession?.user) {
           // Attempt to get user type from profiles if not in metadata
           try {
@@ -38,7 +46,13 @@ export const useAuthSession = () => {
             
             if (profileData) {
               console.log("Setting user type from profile:", profileData.user_type);
-              setUserType(profileData.user_type);
+              // Only set if it's a valid user type
+              if (profileData.user_type === 'customer' || profileData.user_type === 'business') {
+                setUserType(profileData.user_type);
+              } else {
+                console.warn("Unknown user type from profile:", profileData.user_type);
+                setUserType(null);
+              }
             }
           } catch (error) {
             console.error('Error fetching user type from profile:', error);
@@ -59,8 +73,16 @@ export const useAuthSession = () => {
       setUser(currentSession?.user || null);
       
       if (currentSession?.user?.user_metadata?.userType) {
-        console.log("Setting initial user type from metadata:", currentSession.user.user_metadata.userType);
-        setUserType(currentSession.user.user_metadata.userType);
+        const metadata = currentSession.user.user_metadata;
+        console.log("Setting initial user type from metadata:", metadata.userType);
+        
+        // Only set if it's a valid user type
+        if (metadata.userType === 'customer' || metadata.userType === 'business') {
+          setUserType(metadata.userType);
+        } else {
+          console.warn("Unknown initial user type:", metadata.userType);
+          setUserType(null);
+        }
       } else if (currentSession?.user) {
         // Attempt to get user type from profiles if not in metadata
         try {
@@ -72,7 +94,13 @@ export const useAuthSession = () => {
           
           if (profileData) {
             console.log("Setting initial user type from profile:", profileData.user_type);
-            setUserType(profileData.user_type);
+            // Only set if it's a valid user type
+            if (profileData.user_type === 'customer' || profileData.user_type === 'business') {
+              setUserType(profileData.user_type);
+            } else {
+              console.warn("Unknown initial user type from profile:", profileData.user_type);
+              setUserType(null);
+            }
           }
         } catch (error) {
           console.error('Error fetching user type from profile:', error);

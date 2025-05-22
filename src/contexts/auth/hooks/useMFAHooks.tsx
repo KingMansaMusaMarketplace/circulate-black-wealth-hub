@@ -1,8 +1,7 @@
 
 import { useState } from 'react';
 import { Factor } from '../types';
-import { getMFAFactorsUtil, verifyUserMFA } from '../mfaUtils';
-import { createMFAChallenge } from '../mfaUtils';
+import { getMFAFactors, verifyMFA, createMFAChallenge } from '../mfaUtils';
 
 // Function to handle MFA factors
 export const useMFAFactors = (userId: string | null) => {
@@ -14,7 +13,7 @@ export const useMFAFactors = (userId: string | null) => {
     if (!userId) return [];
     
     try {
-      const factors = await getMFAFactorsUtil(userId);
+      const factors = await getMFAFactors(userId);
       setMfaFactors(factors);
       setMfaEnrolled(factors.length > 0);
       return factors;
@@ -64,9 +63,9 @@ export const useMFAChallenge = () => {
   };
 
   // Verify an MFA challenge
-  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+  const verifyMFAChallenge = async (factorId: string, code: string, challengeId: string) => {
     console.log("Verifying MFA:", { factorId, code, challengeId });
-    const result = await verifyUserMFA(factorId, code, challengeId);
+    const result = await verifyMFA(factorId, code, challengeId);
     
     // Clear the MFA challenge after verification attempt
     if (result.success) {
@@ -84,6 +83,6 @@ export const useMFAChallenge = () => {
     setCurrentMFAChallenge,
     getCurrentMFAChallenge,
     createChallenge,
-    verifyMFA
+    verifyMFA: verifyMFAChallenge
   };
 };

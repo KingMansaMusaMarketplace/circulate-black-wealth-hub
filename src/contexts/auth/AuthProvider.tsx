@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(result.data.user || null);
         setSession(result.data.session);
         const userTypeFromMeta = result.data.user?.user_metadata?.userType;
-        if (userTypeFromMeta) {
+        if (userTypeFromMeta === 'customer' || userTypeFromMeta === 'business') {
           console.log("Setting user type after sign in:", userTypeFromMeta);
           setUserType(userTypeFromMeta);
         }
@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(result.data.user || null);
         setSession(result.data.session);
         const userTypeFromMeta = result.data.user?.user_metadata?.userType;
-        if (userTypeFromMeta) {
+        if (userTypeFromMeta === 'customer' || userTypeFromMeta === 'business') {
           console.log("Setting user type after sign in:", userTypeFromMeta);
           setUserType(userTypeFromMeta);
         }
