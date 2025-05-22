@@ -32,7 +32,7 @@ const Hero = () => {
               <div className="mt-4 bg-mansagold/10 border border-mansagold/30 rounded-md px-4 py-3">
                 <p className="text-sm md:text-base font-medium text-mansablue">
                   <span className="font-bold">Special Offer:</span> First month FREE for business owners! 
-                  <span className="block mt-1">Members only pay $10 per month</span>
+                  <span className="block mt-1">Members only pay $10 per month; Business owners $100 per month</span>
                 </p>
               </div>
               <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
