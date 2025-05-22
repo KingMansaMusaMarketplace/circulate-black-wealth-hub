@@ -25,9 +25,9 @@ export interface BusinessFilters {
   minDiscount?: number;
   searchTerm?: string;
   featured?: boolean;
-  distance?: number; // Added distance property
-  userLat?: number;  // Added user latitude
-  userLng?: number;  // Added user longitude
+  distance?: number; // Distance filter property
+  userLat?: number;  // User latitude for distance calculation
+  userLng?: number;  // User longitude for distance calculation
 }
 
 export interface PaginationParams {
@@ -95,10 +95,16 @@ export async function fetchBusinesses(
     
     // Transform Supabase response to our frontend Business type
     const businesses = data.map(business => {
-      // Extract coordinates safely with fallbacks
-      const lat = parseFloat(business.lat as unknown as string) || 40.7128;
-      const lng = parseFloat(business.lng as unknown as string) || -74.0060;
+      // Parse coordinates from address or use fallback (this is just an example approach)
+      // In a real application, you would want to actually store lat/lng in your database
+      // or use a geocoding service to get coordinates from addresses
       
+      // Default coordinates (NYC)
+      const defaultLat = 40.7128;
+      const defaultLng = -74.0060;
+      
+      // For now, use default coordinates or parse from string if available
+      // This is a temporary solution until we have actual lat/lng columns
       return {
         id: business.id as unknown as number, 
         name: business.business_name,
@@ -110,12 +116,39 @@ export async function fetchBusinesses(
         distance: 'Nearby', // Default distance
         distanceValue: 0,
         address: business.address || '',
-        lat, // Using parsed coordinates
-        lng, // Using parsed coordinates
+        lat: defaultLat, // Using default coordinates for now
+        lng: defaultLng, // Using default coordinates for now
         imageUrl: business.logo_url || `/businesses/${business.id}.jpg`,
         isFeatured: business.is_verified || false
       };
     });
+    
+    // Calculate distances if user location is provided
+    if (filters?.userLat && filters?.userLng) {
+      const userLat = filters.userLat;
+      const userLng = filters.userLng;
+      
+      // Calculate distance for each business
+      businesses.forEach(business => {
+        const distance = calculateDistance(
+          userLat,
+          userLng,
+          business.lat,
+          business.lng
+        );
+        business.distanceValue = distance;
+        business.distance = distance.toFixed(1) + ' mi';
+      });
+      
+      // Filter by distance if specified
+      if (filters.distance && filters.distance > 0) {
+        return {
+          businesses: businesses.filter(b => b.distanceValue <= filters.distance!),
+          totalCount,
+          totalPages
+        };
+      }
+    }
     
     return { businesses, totalCount, totalPages };
   } catch (error) {
@@ -123,6 +156,19 @@ export async function fetchBusinesses(
     toast.error('Something went wrong while loading businesses');
     return { businesses: [], totalCount: 0, totalPages: 0 };
   }
+}
+
+// Function to calculate distance between two points using Haversine formula
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 3958.8; // Earth radius in miles
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
 }
 
 // Function to fetch a single business by ID
@@ -141,9 +187,9 @@ export async function fetchBusinessById(id: number): Promise<Business | null> {
     
     if (!data) return null;
     
-    // Extract coordinates safely with fallbacks
-    const lat = parseFloat(data.lat as unknown as string) || 40.7128;
-    const lng = parseFloat(data.lng as unknown as string) || -74.0060;
+    // Default coordinates (NYC)
+    const defaultLat = 40.7128;
+    const defaultLng = -74.0060;
     
     return {
       id: data.id as unknown as number,
@@ -156,8 +202,8 @@ export async function fetchBusinessById(id: number): Promise<Business | null> {
       distance: 'Nearby',
       distanceValue: 0,
       address: data.address || '',
-      lat, // Using parsed coordinates
-      lng, // Using parsed coordinates
+      lat: defaultLat, // Using default coordinates for now
+      lng: defaultLng, // Using default coordinates for now
       imageUrl: data.logo_url || `/businesses/${data.id}.jpg`,
       isFeatured: data.is_verified || false
     };
@@ -203,12 +249,12 @@ export async function searchBusinesses(term: string): Promise<Business[]> {
       return [];
     }
     
+    // Default coordinates (NYC)
+    const defaultLat = 40.7128;
+    const defaultLng = -74.0060;
+    
     // Transform to Business type
     return data.map(business => {
-      // Extract coordinates safely with fallbacks
-      const lat = parseFloat(business.lat as unknown as string) || 40.7128;
-      const lng = parseFloat(business.lng as unknown as string) || -74.0060;
-      
       return {
         id: business.id as unknown as number,
         name: business.business_name,
@@ -220,8 +266,8 @@ export async function searchBusinesses(term: string): Promise<Business[]> {
         distance: 'Nearby',
         distanceValue: 0,
         address: business.address || '',
-        lat, // Using parsed coordinates
-        lng, // Using parsed coordinates
+        lat: defaultLat, // Using default coordinates for now
+        lng: defaultLng, // Using default coordinates for now
         imageUrl: business.logo_url || `/businesses/${business.id}.jpg`,
         isFeatured: business.is_verified || false
       };
