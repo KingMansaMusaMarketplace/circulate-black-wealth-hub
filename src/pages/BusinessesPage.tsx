@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Building2, Search, Filter, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { businesses } from '@/data/businessData';
+import BusinessCard from '@/components/BusinessCard';
 
 const BusinessesPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -91,41 +92,18 @@ const BusinessesPage: React.FC = () => {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {currentBusinesses.map((business) => (
-              <Link 
-                to={`/business/${business.id}`} 
+              <BusinessCard 
                 key={business.id}
-                className="block bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
-              >
-                <div className="h-36 bg-gray-100 flex items-center justify-center">
-                  {business.imageUrl ? (
-                    <img 
-                      src={business.imageUrl} 
-                      alt={business.imageAlt || business.name} 
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <span className="text-gray-300 text-5xl font-bold">{business.name.charAt(0)}</span>
-                  )}
-                </div>
-                
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg text-gray-800">{business.name}</h3>
-                  <p className="text-sm text-gray-600">{business.category}</p>
-                  
-                  <div className="flex items-center mt-2 text-xs text-gray-500">
-                    <MapPin size={12} className="mr-1" />
-                    <span>{business.address || 'Location not specified'}</span>
-                  </div>
-                  
-                  {business.discount && (
-                    <div className="mt-3">
-                      <span className="bg-mansagold/10 text-mansagold text-xs font-medium px-2 py-1 rounded">
-                        {business.discount} off
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </Link>
+                id={business.id}
+                name={business.name}
+                category={business.category}
+                rating={business.rating}
+                reviewCount={business.reviewCount}
+                discount={business.discount}
+                address={business.address}
+                imageUrl={business.imageUrl}
+                imageAlt={business.imageAlt || `${business.name} image`}
+              />
             ))}
           </div>
           
