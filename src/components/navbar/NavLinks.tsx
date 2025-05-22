@@ -39,7 +39,7 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "" }) => {
         className={isActive('/businesses') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
         asChild
       >
-        <Link to="/directory">Businesses</Link>
+        <Link to="/businesses">Businesses</Link>
       </Button>
       
       <Button 

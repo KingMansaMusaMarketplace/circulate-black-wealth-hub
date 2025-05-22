@@ -67,6 +67,7 @@ function App() {
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<AboutUsPage />} />
               <Route path="/directory" element={<DirectoryPage />} />
+              <Route path="/businesses" element={<DirectoryPage />} />
               <Route path="/business/:id" element={<BusinessDetailPage />} />
               <Route path="/how-it-works" element={<HowItWorksPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />

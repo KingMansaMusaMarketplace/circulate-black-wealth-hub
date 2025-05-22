@@ -44,7 +44,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             className="justify-start"
             asChild
           >
-            <Link to="/directory" onClick={onClose}>Businesses</Link>
+            <Link to="/businesses" onClick={onClose}>Businesses</Link>
           </Button>
           
           <Button 
