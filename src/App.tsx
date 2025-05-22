@@ -17,6 +17,7 @@ import LoyaltyHistoryPage from './pages/LoyaltyHistoryPage';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from './contexts/auth/AuthProvider';
 import HowItWorksPage from './pages/HowItWorksPage';
+import CorporateSponsorshipPage from './pages/CorporateSponsorshipPage';
 
 function App() {
   return (
@@ -47,7 +48,7 @@ function App() {
           <Route path="/how-it-works" element={<HowItWorksPage />} />
           
           {/* Corporate sponsorship */}
-          <Route path="/corporate-sponsorship" element={<AboutPage />} />
+          <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
           
           {/* Sales agent */}
           <Route path="/sales-agent" element={<AboutPage />} />
