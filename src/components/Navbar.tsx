@@ -1,7 +1,6 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -30,6 +29,9 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const isLoginPage = location.pathname === '/login';
   const isSignupPage = location.pathname === '/signup';
 
+  // Function to determine if the current route is active
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <header className={`bg-white shadow-sm z-40 w-full ${className}`}>
       <div className="container mx-auto px-4">
@@ -42,25 +44,60 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             </Link>
             
             {/* Navigation links - only show on desktop */}
-            <nav className="hidden md:ml-8 md:flex md:space-x-4">
-              <Link to="/" className="text-gray-700 hover:text-mansablue transition-colors">
-                Home
-              </Link>
-              <Link to="/directory" className="text-gray-700 hover:text-mansablue transition-colors">
-                Businesses
-              </Link>
-              <Link to="/how-it-works" className="text-gray-700 hover:text-mansablue transition-colors">
-                How It Works
-              </Link>
-              <Link to="/about" className="text-gray-700 hover:text-mansablue transition-colors">
-                About
-              </Link>
-              <Link to="/corporate-sponsorship" className="text-gray-700 hover:text-mansablue transition-colors">
-                Sponsorship
-              </Link>
-              <Link to="/sales-agent" className="text-gray-700 hover:text-mansablue transition-colors">
-                Sales Program
-              </Link>
+            <nav className="hidden md:ml-8 md:flex md:space-x-2">
+              <Button 
+                variant={isActive('/') ? "default" : "ghost"} 
+                size="sm" 
+                className={isActive('/') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
+                asChild
+              >
+                <Link to="/">Home</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/directory') ? "default" : "ghost"} 
+                size="sm" 
+                className={isActive('/directory') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
+                asChild
+              >
+                <Link to="/directory">Businesses</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/how-it-works') ? "default" : "ghost"} 
+                size="sm" 
+                className={isActive('/how-it-works') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
+                asChild
+              >
+                <Link to="/how-it-works">How It Works</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/about') ? "default" : "ghost"} 
+                size="sm" 
+                className={isActive('/about') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
+                asChild
+              >
+                <Link to="/about">About</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/corporate-sponsorship') ? "default" : "ghost"} 
+                size="sm" 
+                className={isActive('/corporate-sponsorship') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
+                asChild
+              >
+                <Link to="/corporate-sponsorship">Sponsorship</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/sales-agent') ? "default" : "ghost"} 
+                size="sm" 
+                className={isActive('/sales-agent') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
+                asChild
+              >
+                <Link to="/sales-agent">Sales Program</Link>
+              </Button>
             </nav>
           </div>
           
@@ -130,32 +167,79 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         {isMobile && mobileMenuOpen && (
           <div className="md:hidden py-2 border-t border-gray-200">
             <nav className="flex flex-col space-y-2 pb-2">
-              <Link to="/" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-                Home
-              </Link>
-              <Link to="/directory" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-                Businesses
-              </Link>
-              <Link to="/how-it-works" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-                How It Works
-              </Link>
-              <Link to="/about" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-                About
-              </Link>
-              <Link to="/corporate-sponsorship" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-                Sponsorship
-              </Link>
-              <Link to="/sales-agent" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-                Sales Program
-              </Link>
+              <Button 
+                variant={isActive('/') ? "default" : "ghost"}
+                size="sm"
+                className="justify-start"
+                asChild
+              >
+                <Link to="/">Home</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/directory') ? "default" : "ghost"}
+                size="sm"
+                className="justify-start"
+                asChild
+              >
+                <Link to="/directory">Businesses</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/how-it-works') ? "default" : "ghost"}
+                size="sm"
+                className="justify-start"
+                asChild
+              >
+                <Link to="/how-it-works">How It Works</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/about') ? "default" : "ghost"}
+                size="sm"
+                className="justify-start"
+                asChild
+              >
+                <Link to="/about">About</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/corporate-sponsorship') ? "default" : "ghost"}
+                size="sm"
+                className="justify-start"
+                asChild
+              >
+                <Link to="/corporate-sponsorship">Sponsorship</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/sales-agent') ? "default" : "ghost"}
+                size="sm"
+                className="justify-start"
+                asChild
+              >
+                <Link to="/sales-agent">Sales Program</Link>
+              </Button>
+              
               {!user && (
                 <>
-                  <Link to="/login" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-                    Log In
-                  </Link>
-                  <Link to="/signup" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-                    Sign Up
-                  </Link>
+                  <Button 
+                    variant="outline"
+                    size="sm"
+                    className="justify-start"
+                    asChild
+                  >
+                    <Link to="/login">Log In</Link>
+                  </Button>
+                  
+                  <Button 
+                    variant="default"
+                    size="sm"
+                    className="justify-start"
+                    asChild
+                  >
+                    <Link to="/signup">Sign Up</Link>
+                  </Button>
                 </>
               )}
             </nav>
