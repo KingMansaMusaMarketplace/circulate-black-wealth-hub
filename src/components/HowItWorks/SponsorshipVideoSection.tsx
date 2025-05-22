@@ -49,8 +49,8 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden"
           >
             <VideoPlayer
-              src="https://www.youtube.com/embed/71FmkfENYDI"
-              title="Mansa Musa Benefits"
+              src="https://www.youtube.com/embed/-8M3YSYjKM0"
+              title="Marketplace Benefits"
               isYouTube={true}
               posterImage="/placeholder.svg"
               className="w-full"
