@@ -62,10 +62,10 @@ const BusinessesPage: React.FC = () => {
                 className="block bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
               >
                 <div className="h-36 bg-gray-100 flex items-center justify-center">
-                  {business.logo ? (
+                  {business.imageUrl ? (
                     <img 
-                      src={business.logo} 
-                      alt={business.name} 
+                      src={business.imageUrl} 
+                      alt={business.imageAlt || business.name} 
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -79,7 +79,7 @@ const BusinessesPage: React.FC = () => {
                   
                   <div className="flex items-center mt-2 text-xs text-gray-500">
                     <MapPin size={12} className="mr-1" />
-                    <span>{business.location || 'Location not specified'}</span>
+                    <span>{business.address || 'Location not specified'}</span>
                   </div>
                   
                   {business.discount && (
