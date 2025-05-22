@@ -12,7 +12,7 @@ const successStories = [
     business: "Sweet Soul Bakery",
     location: "Atlanta, GA",
     testimonial: "Within 3 months of joining the Marketplace, my customer base grew by 45%. The circulation efforts have made my bakery a community cornerstone.",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     impact: "3.2x revenue growth",
     category: "Food & Beverage",
     stars: 5
@@ -22,7 +22,7 @@ const successStories = [
     business: "Tech Roots Solutions",
     location: "Oakland, CA",
     testimonial: "The verification process gave my clients confidence in my business. I've connected with enterprise clients who specifically sought out verified Black-owned tech companies.",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     impact: "5 enterprise partnerships",
     category: "Technology",
     stars: 5
@@ -32,7 +32,7 @@ const successStories = [
     business: "Sankofa Wellness",
     location: "Chicago, IL",
     testimonial: "Before Mansa Musa Marketplace, I struggled with customer retention. Now my clients are part of a loyalty ecosystem that keeps them coming back.",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     impact: "78% increased retention",
     category: "Health & Wellness",
     stars: 4
