@@ -31,7 +31,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
   
   return (
     <div className="min-h-screen flex flex-col">
-      {showNavbar && <Navbar className="sticky top-0 z-40" />}
+      {showNavbar && <Navbar />}
       
       {title && (
         <div className="bg-gradient-to-r from-mansablue to-mansablue-dark py-6 px-4">

@@ -45,7 +45,7 @@ export function useAuthState(): [AuthState, AuthActions] {
 
   // Initialize auth state and set up listeners
   useEffect(() => {
-    let authListener: { subscription: { unsubscribe: () => void } };
+    let authListener: { data: { subscription: { unsubscribe: () => void } } };
 
     async function initialize() {
       try {
@@ -95,7 +95,7 @@ export function useAuthState(): [AuthState, AuthActions] {
     return () => {
       isMounted.current = false;
       if (authListener) {
-        authListener.subscription.unsubscribe();
+        authListener.data.subscription.unsubscribe();
       }
     };
   }, [safeSetState]);
