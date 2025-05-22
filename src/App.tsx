@@ -7,6 +7,7 @@ import SignupPage from './pages/SignupPage';
 import BusinessProfilePage from './pages/BusinessProfilePage';
 import ProfilePage from './pages/ProfilePage';
 import BusinessDirectoryPage from './pages/BusinessDirectoryPage';
+import BusinessesPage from './pages/BusinessesPage';
 import AboutPage from './pages/AboutPage';
 import AboutUsPage from './pages/AboutUsPage';
 import TeamContactPage from './pages/TeamContactPage';
@@ -25,8 +26,9 @@ function App() {
           <Route path="/business/:id" element={<BusinessProfilePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           
-          {/* Directory route */}
+          {/* Directory routes */}
           <Route path="/directory" element={<BusinessDirectoryPage />} />
+          <Route path="/businesses" element={<BusinessesPage />} />
           
           {/* About pages */}
           <Route path="/about" element={<AboutPage />} />
