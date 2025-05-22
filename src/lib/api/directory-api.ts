@@ -95,9 +95,31 @@ export async function fetchBusinesses(
     
     // Transform Supabase response to our frontend Business type
     const businesses = data.map(business => {
-      // Parse coordinates from address or use fallback (this is just an example approach)
-      // In a real application, you would want to actually store lat/lng in your database
-      // or use a geocoding service to get coordinates from addresses
+      // Set up proper image URL with fallbacks
+      const logoUrl = business.logo_url || null;
+      
+      // Image URL options (in order of priority):
+      // 1. business.logo_url if available
+      // 2. Category-based placeholder images from Unsplash
+      // 3. Default placeholder based on business name
+      
+      let imageUrl = logoUrl;
+      
+      if (!imageUrl) {
+        // Select placeholder image based on category
+        const categoryImageMap: Record<string, string> = {
+          'Restaurant': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=500',
+          'Beauty & Wellness': 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=500',
+          'Technology': 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=500',
+          'Fashion & Clothing': 'https://images.unsplash.com/photo-1595665593673-bf1ad72905c1?q=80&w=500',
+          'Financial Services': 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=500',
+          'Health Services': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=500',
+          'Retail': 'https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=500'
+        };
+        
+        imageUrl = categoryImageMap[business.category] || 
+                  `https://placehold.co/500x300/e0e0e0/808080?text=${business.business_name.charAt(0).toUpperCase()}`;
+      }
       
       // Default coordinates (NYC)
       const defaultLat = 40.7128;
@@ -118,7 +140,8 @@ export async function fetchBusinesses(
         address: business.address || '',
         lat: defaultLat, // Using default coordinates for now
         lng: defaultLng, // Using default coordinates for now
-        imageUrl: business.logo_url || `/businesses/${business.id}.jpg`,
+        imageUrl: imageUrl,
+        imageAlt: business.business_name || 'Business image',
         isFeatured: business.is_verified || false
       };
     });
@@ -187,6 +210,32 @@ export async function fetchBusinessById(id: number): Promise<Business | null> {
     
     if (!data) return null;
     
+    // Set up proper image URL with fallbacks
+    const logoUrl = data.logo_url || null;
+    
+    // Image URL options (in order of priority):
+    // 1. business.logo_url if available
+    // 2. Category-based placeholder images from Unsplash
+    // 3. Default placeholder based on business name
+    
+    let imageUrl = logoUrl;
+    
+    if (!imageUrl) {
+      // Select placeholder image based on category
+      const categoryImageMap: Record<string, string> = {
+        'Restaurant': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=500',
+        'Beauty & Wellness': 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=500',
+        'Technology': 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=500',
+        'Fashion & Clothing': 'https://images.unsplash.com/photo-1595665593673-bf1ad72905c1?q=80&w=500',
+        'Financial Services': 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=500',
+        'Health Services': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=500',
+        'Retail': 'https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=500'
+      };
+      
+      imageUrl = categoryImageMap[data.category] || 
+                `https://placehold.co/500x300/e0e0e0/808080?text=${data.business_name.charAt(0).toUpperCase()}`;
+    }
+    
     // Default coordinates (NYC)
     const defaultLat = 40.7128;
     const defaultLng = -74.0060;
@@ -204,7 +253,8 @@ export async function fetchBusinessById(id: number): Promise<Business | null> {
       address: data.address || '',
       lat: defaultLat, // Using default coordinates for now
       lng: defaultLng, // Using default coordinates for now
-      imageUrl: data.logo_url || `/businesses/${data.id}.jpg`,
+      imageUrl: imageUrl,
+      imageAlt: data.business_name || 'Business image',
       isFeatured: data.is_verified || false
     };
   } catch (error) {
@@ -255,6 +305,32 @@ export async function searchBusinesses(term: string): Promise<Business[]> {
     
     // Transform to Business type
     return data.map(business => {
+      // Set up proper image URL with fallbacks
+      const logoUrl = business.logo_url || null;
+      
+      // Image URL options (in order of priority):
+      // 1. business.logo_url if available
+      // 2. Category-based placeholder images from Unsplash
+      // 3. Default placeholder based on business name
+      
+      let imageUrl = logoUrl;
+      
+      if (!imageUrl) {
+        // Select placeholder image based on category
+        const categoryImageMap: Record<string, string> = {
+          'Restaurant': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=500',
+          'Beauty & Wellness': 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=500',
+          'Technology': 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=500',
+          'Fashion & Clothing': 'https://images.unsplash.com/photo-1595665593673-bf1ad72905c1?q=80&w=500',
+          'Financial Services': 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=500',
+          'Health Services': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=500',
+          'Retail': 'https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=500'
+        };
+        
+        imageUrl = categoryImageMap[business.category] || 
+                 `https://placehold.co/500x300/e0e0e0/808080?text=${business.business_name.charAt(0).toUpperCase()}`;
+      }
+      
       return {
         id: business.id as unknown as number,
         name: business.business_name,
@@ -268,7 +344,8 @@ export async function searchBusinesses(term: string): Promise<Business[]> {
         address: business.address || '',
         lat: defaultLat, // Using default coordinates for now
         lng: defaultLng, // Using default coordinates for now
-        imageUrl: business.logo_url || `/businesses/${business.id}.jpg`,
+        imageUrl: imageUrl,
+        imageAlt: business.business_name || 'Business image',
         isFeatured: business.is_verified || false
       };
     });
