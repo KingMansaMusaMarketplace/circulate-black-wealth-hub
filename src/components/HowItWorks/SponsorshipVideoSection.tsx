@@ -49,15 +49,15 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden"
           >
             <VideoPlayer
-              src="https://www.youtube.com/embed/jNQXAC9IVRw"
-              title="Business Success Stories"
+              src="https://www.youtube.com/embed/71FmkfENYDI"
+              title="Mansa Musa Benefits"
               isYouTube={true}
               posterImage="/placeholder.svg"
               className="w-full"
             />
             <div className="p-4 bg-white">
-              <h3 className="font-bold text-lg">Business Success Stories</h3>
-              <p className="text-gray-600">Hear from businesses that have grown with our marketplace.</p>
+              <h3 className="font-bold text-lg">Marketplace Benefits</h3>
+              <p className="text-gray-600">Discover the benefits of our marketplace for businesses and customers.</p>
             </div>
           </motion.div>
           
