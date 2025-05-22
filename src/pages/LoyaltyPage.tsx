@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLoyaltyRewards } from '@/hooks/loyalty-qr-code/use-loyalty-rewards';
@@ -13,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import LeaderboardCard from '@/components/loyalty/LeaderboardCard';
 import NotificationsPopover from '@/components/loyalty/NotificationsPopover';
+import LoyaltyGuide from '@/components/loyalty/LoyaltyGuide';
 
 // Define the LoyaltyTransaction type expected by LoyaltyHistory component
 interface LoyaltyTransaction {
@@ -55,6 +55,9 @@ const LoyaltyPage = () => {
         <h1 className="text-3xl font-semibold">My Loyalty Rewards</h1>
         <NotificationsPopover />
       </div>
+      
+      {/* Display the Loyalty Guide */}
+      <LoyaltyGuide />
       
       <div className="flex flex-col md:flex-row gap-6 mb-6">
         <div className="w-full md:w-1/3">
