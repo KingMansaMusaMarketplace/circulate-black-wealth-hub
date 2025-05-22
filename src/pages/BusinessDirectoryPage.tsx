@@ -5,32 +5,32 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import DirectoryFilter, { FilterOptions } from '@/components/DirectoryFilter';
 import MapView from '@/components/MapView';
-import BusinessList from '@/components/MapView/BusinessList';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { BusinessLocation } from '@/components/MapView/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, MapPin, ListFilter, Grid3X3, List } from 'lucide-react';
 import { businessCategories } from '@/data/businessData';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-// Mock business data for display
-const mockBusinesses = [
+// Mock business data with the correct structure for BusinessLocation
+const mockBusinesses: BusinessLocation[] = [
   {
-    id: '1',
+    id: 1,
     name: 'Black Star Bakery',
     category: 'Food & Dining',
-    rating: 4.5,
-    distance: 1.2,
-    discount: 10,
-    location: { lat: 33.7490, lng: -84.3880 }
+    lat: 33.7490,
+    lng: -84.3880,
+    distanceValue: 1.2,
+    distance: '1.2 mi'
   },
   {
-    id: '2',
+    id: 2,
     name: 'Melanin Beauty Supply',
     category: 'Beauty & Wellness',
-    rating: 4.8,
-    distance: 0.8,
-    discount: 15,
-    location: { lat: 33.7590, lng: -84.3900 }
+    lat: 33.7590,
+    lng: -84.3900,
+    distanceValue: 0.8,
+    distance: '0.8 mi'
   }
 ];
 
@@ -129,10 +129,34 @@ const BusinessDirectoryPage: React.FC = () => {
               
               <Tabs value={view} onValueChange={(val) => setView(val as 'grid' | 'list' | 'map')}>
                 <TabsContent value="grid" className="mt-0">
-                  <BusinessList businesses={mockBusinesses} />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {mockBusinesses.map(business => (
+                      <div key={business.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                        <h3 className="font-medium">{business.name}</h3>
+                        <p className="text-sm text-gray-500">{business.category}</p>
+                        <div className="mt-2 text-xs flex items-center text-gray-600">
+                          <MapPin size={12} className="mr-1" />
+                          {business.distance}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </TabsContent>
                 <TabsContent value="list" className="mt-0">
-                  <BusinessList businesses={mockBusinesses} />
+                  <div className="space-y-3">
+                    {mockBusinesses.map(business => (
+                      <div key={business.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center">
+                        <div>
+                          <h3 className="font-medium">{business.name}</h3>
+                          <p className="text-sm text-gray-500">{business.category}</p>
+                        </div>
+                        <div className="ml-auto text-xs flex items-center text-gray-600">
+                          <MapPin size={12} className="mr-1" />
+                          {business.distance}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </TabsContent>
                 <TabsContent value="map" className="mt-0">
                   <div className="h-[600px] rounded-lg overflow-hidden">
