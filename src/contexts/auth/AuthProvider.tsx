@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { checkDatabaseInitialized } from '@/lib/database-init';
@@ -16,28 +16,45 @@ import {
 } from './authUtils';
 import { verifyMFA as verifyUserMFA } from './mfaUtils';
 import { AuthContext } from './AuthContext';
-import { useAuthState } from './hooks/useAuthState';
-import { useMFAState } from './hooks/useMFAState';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const {
-    user, setUser,
-    session, setSession,
-    userType, setUserType,
-    loading, setLoading,
-    initializingDatabase, setInitializingDatabase,
-    databaseInitialized, setDatabaseInitialized,
-    authInitialized, setAuthInitialized
-  } = useAuthState();
+  const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
+  const [userType, setUserType] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [initializingDatabase, setInitializingDatabase] = useState(false);
+  const [databaseInitialized, setDatabaseInitialized] = useState(false);
+  const [authInitialized, setAuthInitialized] = useState(false);
+  const [mfaFactors, setMfaFactors] = useState([]);
+  const [mfaEnrolled, setMfaEnrolled] = useState(false);
+  const [currentMFAChallenge, setCurrentMFAChallenge] = useState(null);
   
-  const {
-    mfaFactors, mfaEnrolled,
-    currentMFAChallenge, setCurrentMFAChallenge,
-    getMFAFactors, getCurrentMFAChallenge
-  } = useMFAState();
+  // Function to get MFA factors for the current user
+  const getMFAFactors = async (userId) => {
+    if (!userId) return [];
+    
+    try {
+      const { data, error } = await supabase.auth.mfa.listFactors();
+      
+      if (error) throw error;
+      
+      const factors = data?.all || [];
+      setMfaFactors(factors);
+      setMfaEnrolled(factors.length > 0);
+      return factors;
+    } catch (error) {
+      console.error('Error fetching MFA factors:', error);
+      return [];
+    }
+  };
+  
+  // Get current MFA challenge
+  const getCurrentMFAChallenge = () => {
+    return currentMFAChallenge;
+  };
 
   // Verify an MFA challenge
-  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+  const verifyMFA = async (factorId, code, challengeId) => {
     console.log("Verifying MFA:", { factorId, code, challengeId });
     const result = await verifyUserMFA(factorId, code, challengeId);
     
@@ -86,7 +103,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             
             if (profileData) {
               console.log("Setting user type from profile:", profileData.user_type);
-              setUserType(profileData.user_type as 'customer' | 'business' | null);
+              setUserType(profileData.user_type);
             }
           } catch (error) {
             console.error('Error fetching user type from profile:', error);
@@ -135,7 +152,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           
           if (profileData) {
             console.log("Setting initial user type from profile:", profileData.user_type);
-            setUserType(profileData.user_type as 'customer' | 'business' | null);
+            setUserType(profileData.user_type);
           }
         } catch (error) {
           console.error('Error fetching user type from profile:', error);
@@ -161,12 +178,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const value: AuthContextType = {
+  const value = {
     user,
     session,
     loading,
     authInitialized,
-    signUp: async (email: string, password: string, metadata?: any) => {
+    signUp: async (email, password, metadata) => {
       console.log("Signing up with metadata:", metadata);
       const result = await handleUserSignUp(email, password, metadata, toastWrapper);
       // If signup was successful and we have a session, update the auth state
@@ -179,7 +196,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
       return result;
     },
-    signIn: async (email: string, password: string) => {
+    signIn: async (email, password) => {
       console.log("Signing in:", email);
       const result = await enhancedSignIn(
         email, 
@@ -192,10 +209,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (result.data?.session) {
         setUser(result.data.user || null);
         setSession(result.data.session);
-        const userType = result.data.user?.user_metadata?.userType;
-        if (userType) {
-          console.log("Setting user type after sign in:", userType);
-          setUserType(userType);
+        const userTypeFromMeta = result.data.user?.user_metadata?.userType;
+        if (userTypeFromMeta) {
+          console.log("Setting user type after sign in:", userTypeFromMeta);
+          setUserType(userTypeFromMeta);
+        }
+      }
+      return result;
+    },
+    signInWithEmail: async (email, password) => {
+      console.log("Signing in with email:", email);
+      const result = await enhancedSignIn(
+        email, 
+        password, 
+        setUser, 
+        async () => await getMFAFactors(user?.id),
+        setCurrentMFAChallenge, 
+        toastWrapper
+      );
+      if (result.data?.session) {
+        setUser(result.data.user || null);
+        setSession(result.data.session);
+        const userTypeFromMeta = result.data.user?.user_metadata?.userType;
+        if (userTypeFromMeta) {
+          console.log("Setting user type after sign in:", userTypeFromMeta);
+          setUserType(userTypeFromMeta);
         }
       }
       return result;

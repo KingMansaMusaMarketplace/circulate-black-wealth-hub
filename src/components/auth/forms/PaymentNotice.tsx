@@ -1,18 +1,17 @@
 
 import React from 'react';
-import { CreditCard } from 'lucide-react';
 
-interface PaymentNoticeProps {
-  className?: string;
-}
-
-export const PaymentNotice: React.FC<PaymentNoticeProps> = ({ className = "mb-6" }) => {
+export const PaymentNotice: React.FC = () => {
   return (
-    <div className={`${className} bg-mansablue/10 rounded-md p-3 border border-mansablue/30 flex items-center`}>
-      <CreditCard size={18} className="text-mansablue mr-2 flex-shrink-0" />
-      <p className="text-sm text-mansablue-dark">
-        <span className="font-medium">Secure Payment Processing</span> - Your subscription will be activated after completing payment. Cancel anytime from your dashboard.
-      </p>
+    <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+      <h4 className="text-sm font-medium text-gray-900 mb-2">Business Subscription:</h4>
+      <ul className="text-xs text-gray-600 space-y-1">
+        <li>• $29/month subscription fee</li>
+        <li>• Business profile in the marketplace</li>
+        <li>• Unlimited QR code generation</li>
+        <li>• Customer analytics dashboard</li>
+        <li>• Loyalty program management</li>
+      </ul>
     </div>
   );
 };

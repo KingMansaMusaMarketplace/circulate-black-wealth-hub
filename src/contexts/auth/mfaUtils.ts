@@ -2,6 +2,38 @@
 import { supabase } from '@/integrations/supabase/client';
 import { Factor, MFAChallenge } from './types';
 
+// Get MFA status for a user
+export const getMFAStatus = async (userId: string): Promise<boolean> => {
+  if (!userId) return false;
+  
+  try {
+    const { data, error } = await supabase.auth.mfa.listFactors();
+    
+    if (error) throw error;
+    
+    return data?.all && data.all.length > 0;
+  } catch (error: any) {
+    console.error('Error fetching MFA status:', error);
+    return false;
+  }
+};
+
+// Setup MFA for a user
+export const setupMFA = async (userId: string): Promise<string> => {
+  try {
+    const { data, error } = await supabase.auth.mfa.enroll({
+      factorType: 'totp'
+    });
+    
+    if (error) throw error;
+    
+    return data?.id || '';
+  } catch (error: any) {
+    console.error('Error setting up MFA:', error);
+    return '';
+  }
+};
+
 // Get MFA factors for the current user
 export const getMFAFactors = async (userId: string | undefined): Promise<Factor[]> => {
   if (!userId) return [];

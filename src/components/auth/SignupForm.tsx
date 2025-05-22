@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useNavigate } from 'react-router-dom';
-import { signUp } from '@/lib/auth';
 import { useAuth } from '@/contexts/auth';
 import { toast } from 'sonner';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
@@ -28,7 +27,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import BusinessSignupForm from './forms/BusinessSignupForm';
-import CustomerSignupForm from './forms/CustomerSignupForm';
+import { CustomerSignupForm } from './forms/CustomerSignupForm';
 import OrSeparator from './OrSeparator';
 import SocialLogin from './SocialLogin';
 
@@ -49,7 +48,7 @@ type SignupFormValues = z.infer<typeof signupFormSchema>;
 
 const SignupForm: React.FC = () => {
   const navigate = useNavigate();
-  const { signInWithEmail } = useAuth();
+  const { signIn, signUp } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [userType, setUserType] = useState<'customer' | 'business'>('customer');
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
@@ -108,7 +107,7 @@ const SignupForm: React.FC = () => {
       toast.success('Account created successfully!');
       
       // Sign in the user automatically
-      await signInWithEmail(values.email, values.password);
+      await signIn(values.email, values.password);
       
       navigate('/signup-success');
     } catch (error: any) {
@@ -227,7 +226,7 @@ const SignupForm: React.FC = () => {
             
             <OrSeparator />
             
-            <SocialLogin type="signup" />
+            <SocialLogin />
             
             <div className="text-center mt-4">
               <p className="text-sm text-gray-500">

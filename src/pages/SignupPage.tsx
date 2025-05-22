@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth/AuthContext';
 
 import AuthLayout from '@/components/auth/AuthLayout';
 import LoginContainer from '@/components/auth/LoginContainer';
@@ -23,7 +23,7 @@ const SignupPage = () => {
           </>
         }
       >
-        <SignupForm onSubmit={signUp} />
+        <SignupForm />
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">

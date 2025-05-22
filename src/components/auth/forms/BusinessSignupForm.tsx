@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useNavigate } from 'react-router-dom';
-import { signUp } from '@/lib/auth';
 import { useAuth } from '@/contexts/auth';
 import { toast } from 'sonner';
 import { SalesAgent } from '@/types/sales-agent';
@@ -19,7 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import PaymentNotice from './PaymentNotice';
+import { PaymentNotice } from './PaymentNotice';
 
 const businessSignupFormSchema = z.object({
   businessName: z.string().min(2, {
@@ -53,7 +52,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   onCheckReferralCode
 }) => {
   const navigate = useNavigate();
-  const { signInWithEmail } = useAuth();
+  const { signIn, signUp } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   
   const form = useForm<BusinessSignupFormValues>({
@@ -91,7 +90,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       toast.success('Business account created successfully!');
       
       // Sign in the user automatically
-      await signInWithEmail(values.email, values.password);
+      await signIn(values.email, values.password);
       
       navigate('/signup-success');
     } catch (error: any) {
@@ -111,7 +110,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
           name="businessName"
