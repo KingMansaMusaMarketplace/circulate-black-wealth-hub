@@ -7,7 +7,7 @@ import FeaturedBusinesses from '../components/FeaturedBusinesses';
 import WhySection from '../components/WhySection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import CTASection from '../components/CTASection';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/Footer';
 
 const HomePage = () => {

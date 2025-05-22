@@ -23,7 +23,6 @@ function App() {
           
           {/* Directory route */}
           <Route path="/directory" element={<BusinessDirectoryPage />} />
-          
         </Routes>
         <Toaster />
       </BrowserRouter>
