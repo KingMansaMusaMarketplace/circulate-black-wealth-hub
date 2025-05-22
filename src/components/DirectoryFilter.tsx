@@ -11,21 +11,18 @@ import { Slider } from '@/components/ui/slider';
 import { 
   MapPin, 
   Star,
-  Tag
+  Tag,
+  CheckCircle
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-
-export interface FilterOptions {
-  category: string;
-  distance: number;
-  rating: number;
-  discount: number;
-}
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { BusinessFilters } from '@/lib/api/directory-api';
 
 interface DirectoryFilterProps {
   categories: string[];
-  filterOptions: FilterOptions;
-  onFilterChange: (filters: Partial<FilterOptions>) => void;
+  filterOptions: BusinessFilters;
+  onFilterChange: (filters: Partial<BusinessFilters>) => void;
 }
 
 const DirectoryFilter: React.FC<DirectoryFilterProps> = ({ 
@@ -42,8 +39,8 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
             <label className="text-sm font-medium">Category</label>
           </div>
           <Select 
-            value={filterOptions.category} 
-            onValueChange={(value) => onFilterChange({ category: value })}
+            value={filterOptions.category || 'all'} 
+            onValueChange={(value) => onFilterChange({ category: value === 'all' ? undefined : value })}
           >
             <SelectTrigger className="w-full bg-white border-gray-200">
               <SelectValue placeholder="All Categories" />
@@ -66,7 +63,7 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
             </Badge>
           </div>
           <Slider 
-            value={[filterOptions.distance]} 
+            value={[filterOptions.distance || 0]} 
             min={0} 
             max={10} 
             step={0.5}
@@ -80,15 +77,15 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
             <Star size={16} className="text-mansablue" />
             <label className="text-sm font-medium">Min Rating</label>
             <Badge variant="outline" className="ml-auto text-mansablue">
-              {filterOptions.rating} stars+
+              {filterOptions.minRating || 0} stars+
             </Badge>
           </div>
           <Slider 
-            value={[filterOptions.rating]} 
+            value={[filterOptions.minRating || 0]} 
             min={0} 
             max={5} 
             step={0.5}
-            onValueChange={(value) => onFilterChange({ rating: value[0] })}
+            onValueChange={(value) => onFilterChange({ minRating: value[0] })}
             className="py-4"
           />
         </div>
@@ -98,17 +95,31 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
             <Tag size={16} className="text-mansablue" />
             <label className="text-sm font-medium">Min Discount (%)</label>
             <Badge variant="outline" className="ml-auto text-mansablue">
-              {filterOptions.discount}%+
+              {filterOptions.minDiscount || 0}%+
             </Badge>
           </div>
           <Slider 
-            value={[filterOptions.discount]} 
+            value={[filterOptions.minDiscount || 0]} 
             min={0} 
             max={50} 
             step={5}
-            onValueChange={(value) => onFilterChange({ discount: value[0] })}
+            onValueChange={(value) => onFilterChange({ minDiscount: value[0] })}
             className="py-4"
           />
+        </div>
+        
+        <div className="pt-2 border-t border-gray-100">
+          <div className="flex items-center space-x-2">
+            <Switch 
+              id="featured-only" 
+              checked={filterOptions.featured || false}
+              onCheckedChange={(checked) => onFilterChange({ featured: checked })}
+            />
+            <Label htmlFor="featured-only" className="flex items-center gap-2 cursor-pointer">
+              <CheckCircle size={16} className="text-mansagold" />
+              <span>Featured businesses only</span>
+            </Label>
+          </div>
         </div>
       </div>
     </div>

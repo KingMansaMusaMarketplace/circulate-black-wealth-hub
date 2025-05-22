@@ -1,29 +1,67 @@
 
 import React from 'react';
-import { MapPin } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { MapPin, Info } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface DirectoryResultsSummaryProps {
   totalResults: number;
   nearMeActive?: boolean;
+  searchTerm?: string;
+  isFiltered?: boolean;
 }
 
-const DirectoryResultsSummary: React.FC<DirectoryResultsSummaryProps> = ({ totalResults, nearMeActive }) => {
+const DirectoryResultsSummary: React.FC<DirectoryResultsSummaryProps> = ({ 
+  totalResults, 
+  nearMeActive = false,
+  searchTerm,
+  isFiltered = false
+}) => {
+  const getMessage = () => {
+    if (totalResults === 0) {
+      return "No businesses found";
+    } else if (totalResults === 1) {
+      return "1 business found";
+    } else {
+      return `${totalResults} businesses found`;
+    }
+  };
+  
   return (
-    <div className="flex justify-between items-center py-3 px-4 bg-slate-50 rounded-md mb-4">
-      <div>
-        <p className="text-sm font-medium text-gray-700">
-          {totalResults === 0 
-            ? 'No businesses found' 
-            : `${totalResults} ${totalResults === 1 ? 'business' : 'businesses'} found`}
-        </p>
+    <div className="flex items-center text-sm text-gray-500 mb-4">
+      <div className="font-medium">
+        {getMessage()}
+        {searchTerm && <span className="ml-1">for "{searchTerm}"</span>}
       </div>
       
       {nearMeActive && (
-        <Badge variant="outline" className="flex items-center gap-1 bg-white">
-          <MapPin size={12} />
-          <span>Near Me</span>
-        </Badge>
+        <div className="ml-auto flex items-center">
+          <MapPin size={14} className="mr-1 text-mansablue" />
+          <span className="text-mansablue font-medium">Near Me</span>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="ml-1 rounded-full p-1 hover:bg-gray-100">
+                  <Info size={12} className="text-gray-400" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Showing businesses based on your current location</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      )}
+      
+      {isFiltered && (
+        <div className="ml-2 text-gray-500 text-xs py-0.5 px-2 bg-gray-100 rounded-full">
+          Filtered
+        </div>
       )}
     </div>
   );

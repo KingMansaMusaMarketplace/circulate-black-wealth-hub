@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer';
@@ -14,33 +14,108 @@ import DirectoryPagination from '@/components/directory/DirectoryPagination';
 import { useLocation } from '@/hooks/location/useLocation';
 import { useBusinessDirectory } from '@/hooks/use-business-directory';
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, ArrowUp } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from '@/components/ui/button';
+import { BusinessFilters } from '@/lib/api/directory-api';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/components/ui/use-toast';
 
 const DirectoryPage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterOptions, setFilterOptions] = useState<BusinessFilters>({});
+  const [page, setPage] = useState(1);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  
+  const { toast } = useToast();
   
   // Fetch user location
   const { location, getCurrentPosition, loading: locationLoading } = useLocation();
   
-  // Fetch businesses from Supabase
-  const { businesses, loading, error } = useBusinessDirectory();
-  
-  const {
-    searchTerm,
-    setSearchTerm,
-    filterOptions,
-    handleFilterChange,
+  // Fetch businesses from Supabase with pagination
+  const { 
+    businesses, 
+    loading, 
+    error, 
     categories,
-    filteredBusinesses,
-    paginatedBusinesses,
-    mapData,
     pagination,
-    updateUserLocation
-  } = useDirectorySearch(businesses);
+    updateFilters,
+    setPage: changePage,
+    refetch 
+  } = useBusinessDirectory({
+    initialFilters: {
+      searchTerm: searchTerm,
+      ...filterOptions
+    },
+    initialPage: page,
+    pageSize: 16,
+    autoFetch: true
+  });
   
+  // Listen for scroll events to show/hide scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
+  // Set up real-time updates for business ratings
+  useEffect(() => {
+    // Subscribe to changes in the businesses table
+    const channel = supabase
+      .channel('business-changes')
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'businesses' },
+        (payload) => {
+          console.log('Business updated:', payload);
+          // Refresh the businesses list to get the latest data
+          refetch();
+          // Show toast notification
+          toast({
+            title: "Directory updated",
+            description: "Business information has been updated",
+          });
+        }
+      )
+      .subscribe();
+      
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [refetch, toast]);
+  
+  // Update search term and filters
+  const handleSearchChange = (term: string) => {
+    setSearchTerm(term);
+    updateFilters({ searchTerm: term });
+  };
+  
+  const handleFilterChange = (newFilters: Partial<BusinessFilters>) => {
+    setFilterOptions(prev => {
+      const updated = { ...prev, ...newFilters };
+      updateFilters(updated);
+      return updated;
+    });
+  };
+  
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    changePage(newPage);
+  };
+
   const handleSelectBusiness = (id: number) => {
     const business = businesses.find(b => b.id === id);
     if (business) {
@@ -60,10 +135,15 @@ const DirectoryPage = () => {
   const handleGetLocation = useCallback(async () => {
     const newLocation = await getCurrentPosition(true);
     if (newLocation) {
-      updateUserLocation(newLocation.lat, newLocation.lng);
+      // Update filters to include location
+      updateFilters({ userLat: newLocation.lat, userLng: newLocation.lng });
       setShowMap(true); // Show map after getting location
     }
-  }, [getCurrentPosition, updateUserLocation]);
+  }, [getCurrentPosition, updateFilters]);
+  
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Render loading state
   if (loading) {
@@ -145,7 +225,7 @@ const DirectoryPage = () => {
         <div className="mb-8">
           <DirectorySearchBar 
             searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
+            onSearchChange={handleSearchChange}
             showFilters={showFilters}
             toggleFilters={() => setShowFilters(!showFilters)}
             viewMode={viewMode}
@@ -159,7 +239,15 @@ const DirectoryPage = () => {
           {showMap && (
             <div className="mb-6">
               <MapView 
-                businesses={mapData}
+                businesses={businesses.map(b => ({
+                  id: b.id,
+                  name: b.name,
+                  lat: b.lat,
+                  lng: b.lng,
+                  category: b.category,
+                  distanceValue: b.distanceValue,
+                  distance: b.distance
+                }))}
                 onSelectBusiness={handleSelectBusiness}
               />
             </div>
@@ -175,7 +263,7 @@ const DirectoryPage = () => {
           )}
           
           <DirectoryResultsSummary 
-            totalResults={filteredBusinesses.length}
+            totalResults={pagination.totalCount}
             nearMeActive={!!location}
           />
         </div>
@@ -183,25 +271,35 @@ const DirectoryPage = () => {
         {/* Businesses Display */}
         {viewMode === 'grid' ? (
           <BusinessGridView 
-            businesses={paginatedBusinesses} 
+            businesses={businesses} 
             onSelectBusiness={handleSelectBusiness} 
           />
         ) : (
           <BusinessListView 
-            businesses={paginatedBusinesses} 
+            businesses={businesses} 
             onSelectBusiness={handleSelectBusiness} 
           />
         )}
         
         {/* Pagination */}
-        {filteredBusinesses.length > 0 && pagination.totalPages > 1 && (
+        {pagination.totalPages > 1 && (
           <div className="mt-8">
             <DirectoryPagination
-              currentPage={pagination.currentPage}
+              currentPage={pagination.page}
               totalPages={pagination.totalPages}
-              onPageChange={pagination.handlePageChange}
+              onPageChange={handlePageChange}
             />
           </div>
+        )}
+        
+        {/* Scroll to top button */}
+        {showScrollTop && (
+          <Button 
+            className="fixed bottom-6 right-6 rounded-full shadow-lg bg-mansablue hover:bg-mansablue/90 h-12 w-12"
+            onClick={scrollToTop}
+          >
+            <ArrowUp className="h-5 w-5" />
+          </Button>
         )}
       </main>
       <Footer />
