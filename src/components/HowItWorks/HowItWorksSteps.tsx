@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle2, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
+import VideoPlayer from '@/components/VideoPlayer';
 
 const HowItWorksSteps = () => {
   const [activeStep, setActiveStep] = useState<number | null>(null);
@@ -84,6 +85,24 @@ const HowItWorksSteps = () => {
   return (
     <section id="how-it-works" className="py-16 bg-white">
       <div className="container-custom">
+        {/* Featured YouTube Video Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mb-16 max-w-3xl mx-auto"
+        >
+          <h3 className="heading-sm text-center mb-6 text-mansablue-dark">See How It Works</h3>
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+            <VideoPlayer
+              src="https://www.youtube.com/embed/71FmkfENYDI"
+              title="Mansa Musa Benefits Explained"
+              isYouTube={true}
+              className="w-full"
+            />
+          </div>
+        </motion.div>
+
         <motion.div 
           className="space-y-16"
           variants={containerVariants}

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -7,7 +6,6 @@ import BenefitsTabSwitcher from './BenefitsTabSwitcher';
 import BenefitsList from './BenefitsList';
 import NearbyBusinessesFeature from './NearbyBusinessesFeature';
 import { Benefit } from './BenefitCard';
-import VideoPlayer from '@/components/VideoPlayer';
 
 const BenefitsSection = () => {
   const [activeTab, setActiveTab] = useState<'customers' | 'businesses'>('customers');
