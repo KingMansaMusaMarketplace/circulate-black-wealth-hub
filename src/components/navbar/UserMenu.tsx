@@ -40,15 +40,20 @@ const UserMenu: React.FC<UserMenuProps> = ({
         
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0 rounded-full">
-              <Avatar className="h-8 w-8">
+            <Button variant="ghost" className="h-9 w-9 p-0 rounded-full border-2 border-gray-100 hover:border-mansablue/30 transition-colors">
+              <Avatar className="h-7 w-7">
                 <AvatarImage src={user?.user_metadata?.avatar_url as string} alt={user?.user_metadata?.name as string} />
-                <AvatarFallback>{user?.user_metadata?.name?.charAt(0).toUpperCase() || 'MM'}</AvatarFallback>
+                <AvatarFallback className="bg-mansablue text-white">{user?.user_metadata?.name?.charAt(0).toUpperCase() || 'MM'}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">{user?.user_metadata?.name || 'User'}</p>
+                <p className="text-xs leading-none text-gray-500">{user?.email}</p>
+              </div>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => window.location.href = '/dashboard'}>
               Dashboard
@@ -69,7 +74,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
               Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer">
+            <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer text-red-600 focus:text-red-600">
               <LogOut className="mr-2 h-4 w-4" />
               Sign Out
             </DropdownMenuItem>
@@ -82,15 +87,15 @@ const UserMenu: React.FC<UserMenuProps> = ({
   // Show auth buttons when user is not logged in and not on mobile
   if (!isMobile) {
     return (
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-3">
         {!isLoginPage && (
           <Link to="/login">
-            <Button variant="outline">Log In</Button>
+            <Button variant="outline" className="font-medium px-4 shadow-sm border-gray-200 hover:border-mansablue/50">Log In</Button>
           </Link>
         )}
         {!isSignupPage && (
           <Link to="/signup">
-            <Button>Sign Up</Button>
+            <Button className="font-medium px-4 bg-gradient-to-r from-mansablue to-mansablue-light shadow-md hover:shadow-lg transition-shadow">Sign Up</Button>
           </Link>
         )}
       </div>

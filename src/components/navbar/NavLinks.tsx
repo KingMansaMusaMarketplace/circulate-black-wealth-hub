@@ -22,19 +22,21 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "", onClick }) => {
   ];
   
   return (
-    <nav className={`hidden md:flex items-center space-x-4 ${className}`}>
+    <nav className={`hidden md:flex items-center space-x-6 ${className}`}>
       {links.map((link) => (
         <Link
           key={link.path}
           to={link.path}
           onClick={onClick}
-          className={`text-sm font-medium px-2 py-1 rounded-md transition-colors
+          className={`text-sm font-medium transition-colors hover:text-mansablue relative group
             ${location.pathname === link.path
               ? "text-mansablue"
-              : "text-gray-600 hover:text-mansablue hover:bg-gray-50"
+              : "text-gray-700"
             }`}
         >
           {link.name}
+          <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-mansablue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 
+            ${location.pathname === link.path ? "scale-x-100" : ""}`}></span>
         </Link>
       ))}
     </nav>

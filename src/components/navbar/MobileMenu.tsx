@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -11,6 +11,8 @@ interface MobileMenuProps {
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+  
+  const location = useLocation();
 
   const links = [
     { name: "Home", path: "/" },
@@ -33,13 +35,17 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           </Button>
         </div>
         
-        <nav className="flex flex-col space-y-4">
+        <nav className="flex flex-col space-y-2">
           {links.map((link) => (
             <Link
               key={link.path}
               to={link.path}
               onClick={onClose}
-              className="text-gray-600 hover:text-mansablue px-4 py-2 rounded-md hover:bg-gray-50"
+              className={`py-3 px-4 rounded-md transition-colors ${
+                location.pathname === link.path 
+                ? "bg-mansablue/10 text-mansablue font-medium" 
+                : "text-gray-700 hover:bg-gray-50 hover:text-mansablue"
+              }`}
             >
               {link.name}
             </Link>

@@ -28,7 +28,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   };
 
   return (
-    <header className={`bg-white shadow-sm z-40 w-full ${className}`}>
+    <header className={`bg-white shadow-md z-40 w-full sticky top-0 ${className}`}>
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
@@ -59,7 +59,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         </div>
 
         {/* Mobile navigation menu */}
-        {isMobile && mobileMenuOpen && (
+        {isMobile && (
           <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
         )}
       </div>
