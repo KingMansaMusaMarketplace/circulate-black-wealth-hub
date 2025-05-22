@@ -18,3 +18,4 @@ export { default as CommunityForum } from './CommunityForum';
 export { default as PersonalizedRecommendations } from './PersonalizedRecommendations';
 export { default as AccessibilityFeatures } from './AccessibilityFeatures';
 export { default as GamificationFeatures } from './GamificationFeatures';
+export { default as MansaMusaVideoSection } from './MansaMusaVideoSection';

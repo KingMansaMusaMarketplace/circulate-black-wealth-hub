@@ -3,8 +3,6 @@ import React from 'react';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import ReferralCodeField from './fields/ReferralCodeField';
-import OrSeparator from '../OrSeparator';
-import SocialLogin from '../SocialLogin';
 import { useSignupForm } from '../hooks/useSignupForm';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -77,10 +75,6 @@ const CustomerSignupTab: React.FC = () => {
           {isLoading ? 'Creating Account...' : 'Sign Up'}
         </Button>
       </form>
-      
-      <OrSeparator />
-      
-      <SocialLogin />
       
       <div className="text-center mt-4">
         <p className="text-sm text-gray-500">

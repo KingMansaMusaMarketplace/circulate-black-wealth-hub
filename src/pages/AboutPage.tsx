@@ -23,6 +23,7 @@ import {
   AccessibilityFeatures,
   GamificationFeatures
 } from '@/components/AboutPage';
+import MansaMusaVideoSection from '@/components/AboutPage/MansaMusaVideoSection';
 
 const AboutPage = () => {
   return (
@@ -32,6 +33,7 @@ const AboutPage = () => {
         <HeroSection />
         <AuthorSection />
         <MissionSection />
+        <MansaMusaVideoSection />
         <VisionSection />
         <InteractiveVisionTimeline />
         <SuccessStoriesSection />
