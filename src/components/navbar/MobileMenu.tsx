@@ -35,6 +35,15 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             className="justify-start"
             asChild
           >
+            <Link to="/directory" onClick={onClose}>Directory</Link>
+          </Button>
+          
+          <Button 
+            variant={isActive('/businesses') ? "default" : "ghost"}
+            size="sm"
+            className="justify-start"
+            asChild
+          >
             <Link to="/directory" onClick={onClose}>Businesses</Link>
           </Button>
           
