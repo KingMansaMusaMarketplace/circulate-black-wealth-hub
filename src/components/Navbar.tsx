@@ -58,6 +58,9 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
               <Link to="/corporate-sponsorship" className="text-gray-700 hover:text-mansablue transition-colors">
                 Sponsorship
               </Link>
+              <Link to="/sales-agent" className="text-gray-700 hover:text-mansablue transition-colors">
+                Sales Program
+              </Link>
             </nav>
           </div>
           
@@ -141,6 +144,9 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
               </Link>
               <Link to="/corporate-sponsorship" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
                 Sponsorship
+              </Link>
+              <Link to="/sales-agent" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
+                Sales Program
               </Link>
               {!user && (
                 <>

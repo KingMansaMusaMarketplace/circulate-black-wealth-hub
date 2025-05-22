@@ -9,6 +9,54 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      agent_commissions: {
+        Row: {
+          amount: number
+          due_date: string | null
+          id: string
+          paid_date: string | null
+          payment_reference: string | null
+          referral_id: string
+          sales_agent_id: string
+          status: string | null
+        }
+        Insert: {
+          amount: number
+          due_date?: string | null
+          id?: string
+          paid_date?: string | null
+          payment_reference?: string | null
+          referral_id: string
+          sales_agent_id: string
+          status?: string | null
+        }
+        Update: {
+          amount?: number
+          due_date?: string | null
+          id?: string
+          paid_date?: string | null
+          payment_reference?: string | null
+          referral_id?: string
+          sales_agent_id?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_commissions_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: true
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_commissions_sales_agent_id_fkey"
+            columns: ["sales_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_verifications: {
         Row: {
           address_document_url: string | null
@@ -261,6 +309,8 @@ export type Database = {
           full_name: string | null
           id: string
           phone: string | null
+          referral_code: string | null
+          referred_by: string | null
           subscription_end_date: string | null
           subscription_start_date: string | null
           subscription_status: string | null
@@ -275,6 +325,8 @@ export type Database = {
           full_name?: string | null
           id: string
           phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
@@ -289,13 +341,23 @@ export type Database = {
           full_name?: string | null
           id?: string
           phone?: string | null
+          referral_code?: string | null
+          referred_by?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
           updated_at?: string | null
           user_type?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_referred_by_fkey"
+            columns: ["referred_by"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       qr_codes: {
         Row: {
@@ -455,6 +517,50 @@ export type Database = {
           },
         ]
       }
+      referrals: {
+        Row: {
+          commission_amount: number | null
+          commission_status: string | null
+          id: string
+          payment_date: string | null
+          referral_date: string | null
+          referred_user_id: string
+          referred_user_type: string
+          sales_agent_id: string
+          subscription_amount: number | null
+        }
+        Insert: {
+          commission_amount?: number | null
+          commission_status?: string | null
+          id?: string
+          payment_date?: string | null
+          referral_date?: string | null
+          referred_user_id: string
+          referred_user_type: string
+          sales_agent_id: string
+          subscription_amount?: number | null
+        }
+        Update: {
+          commission_amount?: number | null
+          commission_status?: string | null
+          id?: string
+          payment_date?: string | null
+          referral_date?: string | null
+          referred_user_id?: string
+          referred_user_type?: string
+          sales_agent_id?: string
+          subscription_amount?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referrals_sales_agent_id_fkey"
+            columns: ["sales_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           business_id: string
@@ -542,6 +648,162 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      sales_agent_applications: {
+        Row: {
+          application_date: string | null
+          application_status: string | null
+          email: string
+          full_name: string
+          id: string
+          notes: string | null
+          phone: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          test_passed: boolean | null
+          test_score: number | null
+          user_id: string | null
+        }
+        Insert: {
+          application_date?: string | null
+          application_status?: string | null
+          email: string
+          full_name: string
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          test_passed?: boolean | null
+          test_score?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          application_date?: string | null
+          application_status?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          notes?: string | null
+          phone?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          test_passed?: boolean | null
+          test_score?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      sales_agent_test_attempts: {
+        Row: {
+          answers: Json | null
+          attempt_date: string | null
+          completed_date: string | null
+          id: string
+          passed: boolean
+          score: number
+          user_id: string | null
+        }
+        Insert: {
+          answers?: Json | null
+          attempt_date?: string | null
+          completed_date?: string | null
+          id?: string
+          passed: boolean
+          score: number
+          user_id?: string | null
+        }
+        Update: {
+          answers?: Json | null
+          attempt_date?: string | null
+          completed_date?: string | null
+          id?: string
+          passed?: boolean
+          score?: number
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      sales_agent_tests: {
+        Row: {
+          correct_answer: string
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          option_a: string
+          option_b: string
+          option_c: string
+          option_d: string
+          question: string
+        }
+        Insert: {
+          correct_answer: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          option_a: string
+          option_b: string
+          option_c: string
+          option_d: string
+          question: string
+        }
+        Update: {
+          correct_answer?: string
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          option_a?: string
+          option_b?: string
+          option_c?: string
+          option_d?: string
+          question?: string
+        }
+        Relationships: []
+      }
+      sales_agents: {
+        Row: {
+          commission_rate: number | null
+          created_at: string | null
+          email: string
+          full_name: string
+          id: string
+          is_active: boolean | null
+          phone: string | null
+          referral_code: string
+          total_earned: number | null
+          total_pending: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          commission_rate?: number | null
+          created_at?: string | null
+          email: string
+          full_name: string
+          id?: string
+          is_active?: boolean | null
+          phone?: string | null
+          referral_code: string
+          total_earned?: number | null
+          total_pending?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          commission_rate?: number | null
+          created_at?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          is_active?: boolean | null
+          phone?: string | null
+          referral_code?: string
+          total_earned?: number | null
+          total_pending?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       transactions: {
         Row: {
@@ -642,6 +904,10 @@ export type Database = {
         Args: { query: string }
         Returns: undefined
       }
+      generate_referral_code: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       get_qr_scan_metrics: {
         Args: { p_business_id: string }
         Returns: Json
@@ -649,6 +915,10 @@ export type Database = {
       is_admin: {
         Args: Record<PropertyKey, never>
         Returns: boolean
+      }
+      process_pending_commissions: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
     }
     Enums: {

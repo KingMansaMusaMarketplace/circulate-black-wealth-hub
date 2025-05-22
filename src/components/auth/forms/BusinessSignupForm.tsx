@@ -1,140 +1,249 @@
 
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { FormCheckbox } from './FormCheckbox';
-import { SubmitButton } from './SubmitButton';
+import { Textarea } from '@/components/ui/textarea';
+import { useNavigate } from 'react-router-dom';
+import { signUp } from '@/lib/auth';
+import { useAuth } from '@/contexts/auth';
+import { toast } from 'sonner';
+import { SalesAgent } from '@/types/sales-agent';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import PaymentNotice from './PaymentNotice';
+
+const businessSignupFormSchema = z.object({
+  businessName: z.string().min(2, {
+    message: 'Business name must be at least 2 characters.',
+  }),
+  description: z.string().optional(),
+  name: z.string().min(2, {
+    message: 'Owner name must be at least 2 characters.',
+  }),
+  email: z.string().email({
+    message: 'Please enter a valid email.',
+  }),
+  phone: z.string().optional(),
+  password: z.string().min(8, {
+    message: 'Password must be at least 8 characters.',
+  }),
+  referralCode: z.string().optional(),
+});
+
+type BusinessSignupFormValues = z.infer<typeof businessSignupFormSchema>;
 
 interface BusinessSignupFormProps {
-  onSubmit: (e: React.FormEvent) => void;
-  businessName: string;
-  setBusinessName: (name: string) => void;
-  businessType: string;
-  setBusinessType: (type: string) => void;
-  businessAddress: string;
-  setBusinessAddress: (address: string) => void;
-  email: string;
-  setEmail: (email: string) => void;
-  password: string;
-  setPassword: (password: string) => void;
-  agreeTerms: boolean;
-  setAgreeTerms: (agree: boolean) => void;
-  loading: boolean;
+  referralCode?: string;
+  referringAgent: SalesAgent | null;
+  onCheckReferralCode: (code: string) => Promise<void>;
 }
 
-export const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
-  onSubmit,
-  businessName,
-  setBusinessName,
-  businessType,
-  setBusinessType,
-  businessAddress,
-  setBusinessAddress,
-  email,
-  setEmail,
-  password,
-  setPassword,
-  agreeTerms,
-  setAgreeTerms,
-  loading
+const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({ 
+  referralCode,
+  referringAgent,
+  onCheckReferralCode
 }) => {
+  const navigate = useNavigate();
+  const { signInWithEmail } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const form = useForm<BusinessSignupFormValues>({
+    resolver: zodResolver(businessSignupFormSchema),
+    defaultValues: {
+      businessName: '',
+      description: '',
+      name: '',
+      email: '',
+      phone: '',
+      password: '',
+      referralCode: referralCode || ''
+    },
+  });
+
+  const onSubmit = async (values: BusinessSignupFormValues) => {
+    try {
+      setIsLoading(true);
+      
+      if (values.referralCode && !referringAgent) {
+        await onCheckReferralCode(values.referralCode);
+      }
+      
+      // Sign up the business owner
+      await signUp(values.email, values.password, {
+        name: values.name,
+        user_type: 'business',
+        business_name: values.businessName,
+        business_description: values.description,
+        phone: values.phone,
+        referral_code: values.referralCode,
+        referring_agent: referringAgent?.id
+      });
+
+      toast.success('Business account created successfully!');
+      
+      // Sign in the user automatically
+      await signInWithEmail(values.email, values.password);
+      
+      navigate('/signup-success');
+    } catch (error: any) {
+      console.error('Business signup error:', error);
+      toast.error(error.message || 'Failed to create business account');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onReferralCodeBlur = () => {
+    const code = form.getValues('referralCode');
+    if (code) {
+      onCheckReferralCode(code);
+    }
+  };
+
   return (
-    <form onSubmit={onSubmit}>
-      <div className="space-y-4">
-        <div>
-          <label htmlFor="business-name" className="block text-sm font-medium text-gray-700 mb-1">
-            Business Name <span className="text-red-500">*</span>
-          </label>
-          <Input
-            id="business-name"
-            type="text"
-            placeholder="Your Business Name"
-            value={businessName}
-            onChange={(e) => setBusinessName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="business-type" className="block text-sm font-medium text-gray-700 mb-1">
-            Business Type <span className="text-red-500">*</span>
-          </label>
-          <select
-            id="business-type"
-            value={businessType}
-            onChange={(e) => setBusinessType(e.target.value)}
-            className="w-full border-gray-300 rounded-md shadow-sm focus:border-mansablue focus:ring-mansablue"
-            required
-          >
-            <option value="">Select a category</option>
-            <option value="restaurant">Restaurant</option>
-            <option value="retail">Retail</option>
-            <option value="beauty">Beauty & Barber</option>
-            <option value="services">Professional Services</option>
-            <option value="health">Health & Wellness</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="business-address" className="block text-sm font-medium text-gray-700 mb-1">
-            Business Address <span className="text-red-500">*</span>
-          </label>
-          <Input
-            id="business-address"
-            type="text"
-            placeholder="123 Main St, City, State"
-            value={businessAddress}
-            onChange={(e) => setBusinessAddress(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="business-email" className="block text-sm font-medium text-gray-700 mb-1">
-            Business Email <span className="text-red-500">*</span>
-          </label>
-          <Input
-            id="business-email"
-            type="email"
-            placeholder="business@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="business-password" className="block text-sm font-medium text-gray-700 mb-1">
-            Password <span className="text-red-500">*</span>
-          </label>
-          <Input
-            id="business-password"
-            type="password"
-            placeholder="Create a secure password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        
-        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-          <h4 className="text-sm font-medium text-gray-900 mb-2">Business Subscription:</h4>
-          <ul className="text-xs text-gray-600 space-y-1">
-            <li>• First month completely free</li>
-            <li>• $100/month after trial period</li>
-            <li>• Enhanced visibility to subscribers</li>
-            <li>• QR code for in-store discounts</li>
-            <li>• Customer loyalty analytics</li>
-          </ul>
-        </div>
-        
-        <FormCheckbox 
-          id="business-terms" 
-          checked={agreeTerms}
-          onCheckedChange={setAgreeTerms}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="businessName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Business Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your business name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
         
-        <SubmitButton 
-          loading={loading}
-          text="Continue to Payment"
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Business Description (Optional)</FormLabel>
+              <FormControl>
+                <Textarea 
+                  placeholder="Enter a short description of your business" 
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-    </form>
+        
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Owner Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter owner name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="Enter your email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone (Optional)</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your phone number" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Create a password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="referralCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Referral Code (Optional)</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Enter referral code"
+                  {...field}
+                  onBlur={onReferralCodeBlur}
+                />
+              </FormControl>
+              <FormMessage />
+              {referringAgent && (
+                <p className="text-xs text-green-600">Referred by: {referringAgent.full_name}</p>
+              )}
+            </FormItem>
+          )}
+        />
+        
+        <PaymentNotice />
+        
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? 'Creating Account...' : 'Sign Up as Business'}
+        </Button>
+        
+        <div className="text-center mt-4">
+          <p className="text-sm text-gray-500">
+            Already have an account?{' '}
+            <a
+              href="/login"
+              className="text-mansablue hover:text-mansablue-dark"
+            >
+              Sign in
+            </a>
+          </p>
+        </div>
+      </form>
+    </Form>
   );
 };
+
+export default BusinessSignupForm;

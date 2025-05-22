@@ -23,6 +23,7 @@ import NotFound from '@/pages/NotFound';
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
 import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
+import SalesAgentPage from '@/pages/SalesAgentPage';
 
 // Context Providers
 import { AuthProvider } from '@/contexts/auth';
@@ -81,6 +82,7 @@ function App() {
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
               <Route path="/terms" element={<TermsOfServicePage />} />
               <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
+              <Route path="/sales-agent" element={<SalesAgentPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <SonnerToaster position="top-right" />

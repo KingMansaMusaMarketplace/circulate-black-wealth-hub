@@ -1,180 +1,257 @@
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/use-toast';
-import { CustomerSignupForm } from './forms/CustomerSignupForm';
-import { BusinessSignupForm } from './forms/BusinessSignupForm';
-import { PaymentNotice } from './forms/PaymentNotice';
-import { subscriptionService } from '@/lib/services/subscription-service';
+import { useNavigate } from 'react-router-dom';
+import { signUp } from '@/lib/auth';
+import { useAuth } from '@/contexts/auth';
+import { toast } from 'sonner';
+import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
+import { SalesAgent } from '@/types/sales-agent';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import BusinessSignupForm from './forms/BusinessSignupForm';
+import CustomerSignupForm from './forms/CustomerSignupForm';
+import OrSeparator from './OrSeparator';
+import SocialLogin from './SocialLogin';
 
-interface SignupFormProps {
-  onSubmit: (email: string, password: string, metadata: any) => Promise<any>;
-}
+const signupFormSchema = z.object({
+  name: z.string().min(2, {
+    message: 'Name must be at least 2 characters.',
+  }),
+  email: z.string().email({
+    message: 'Please enter a valid email.',
+  }),
+  password: z.string().min(8, {
+    message: 'Password must be at least 8 characters.',
+  }),
+  referralCode: z.string().optional(),
+});
 
-const SignupForm: React.FC<SignupFormProps> = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [phone, setPhone] = useState(''); // New field
-  const [address, setAddress] = useState(''); // New field
-  const [businessName, setBusinessName] = useState('');
-  const [businessType, setBusinessType] = useState('');
-  const [businessAddress, setBusinessAddress] = useState('');
-  const [agreeTerms, setAgreeTerms] = useState(false);
-  const [loading, setLoading] = useState(false);
+type SignupFormValues = z.infer<typeof signupFormSchema>;
+
+const SignupForm: React.FC = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
-
-  const handleSignup = async (e: React.FormEvent, userType: 'customer' | 'business') => {
-    e.preventDefault();
+  const { signInWithEmail } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [userType, setUserType] = useState<'customer' | 'business'>('customer');
+  const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
+  
+  const form = useForm<SignupFormValues>({
+    resolver: zodResolver(signupFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      referralCode: ''
+    },
+  });
+  
+  // Check for referral code in URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const refCode = params.get('ref');
     
-    if (!agreeTerms) {
-      toast({
-        title: "Please agree to terms",
-        description: "You must agree to the terms of service to continue.",
-        variant: "destructive"
-      });
-      return;
+    if (refCode) {
+      form.setValue('referralCode', refCode);
+      checkReferralCode(refCode);
     }
-    
-    // Validate required fields
-    if (userType === 'customer' && (!phone || !address)) {
-      toast({
-        title: "Missing required fields",
-        description: "Phone number and address are required fields.",
-        variant: "destructive"
-      });
-      return;
-    }
-    
-    setLoading(true);
+  }, []);
+  
+  const checkReferralCode = async (code: string) => {
+    if (!code) return;
     
     try {
-      // Create metadata based on user type
-      const metadata = userType === 'customer' 
-        ? { 
-            userType: 'customer',
-            fullName: name,
-            phone: phone,  // Added phone
-            address: address,  // Added address
-            subscription_status: 'pending',
-          }
-        : {
-            userType: 'business',
-            businessName,
-            businessType,
-            businessAddress,
-            subscription_status: 'trial',
-          };
-      
-      console.log("Attempting signup with metadata:", metadata);
-      
-      // Register the user first
-      const { data, error } = await onSubmit(email, password, metadata);
-      
-      if (error) {
-        console.error("Signup error:", error);
-        throw error;
-      }
-      
-      console.log("Signup successful:", data);
-      
-      // If signup was successful, redirect to Stripe checkout or dashboard
-      if (data) {
-        try {
-          // Create checkout session
-          const checkoutOptions = {
-            userType,
-            email,
-            name: name,
-            businessName: businessName
-          };
-          
-          console.log("Creating checkout session with options:", checkoutOptions);
-          
-          const { url } = await subscriptionService.createCheckoutSession(checkoutOptions);
-          
-          if (url) {
-            console.log("Redirecting to checkout URL:", url);
-            // Redirect to Stripe checkout
-            window.location.href = url;
-          } else {
-            // Fallback to dashboard if no URL
-            toast({
-              title: "Account Created",
-              description: "Your account has been created successfully!",
-            });
-            navigate('/dashboard');
-          }
-        } catch (checkoutError) {
-          console.error('Checkout error:', checkoutError);
-          // If checkout fails, still allow access but show warning
-          toast({
-            title: "Subscription Setup Pending",
-            description: "Your account was created, but we couldn't set up your subscription. Please try again from your dashboard.",
-            variant: "destructive"
-          });
-          navigate('/dashboard');
-        }
+      const agent = await getSalesAgentByReferralCode(code);
+      if (agent) {
+        setReferringAgent(agent);
+        toast.success(`Referred by: ${agent.full_name}`);
       }
     } catch (error) {
-      console.error('Signup error:', error);
-      toast({
-        title: "Signup Failed",
-        description: error instanceof Error ? error.message : "An unexpected error occurred",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
+      console.error('Error checking referral code:', error);
     }
   };
 
+  const onSubmit = async (values: SignupFormValues) => {
+    try {
+      setIsLoading(true);
+      
+      // Check referral code if provided and not already checked
+      if (values.referralCode && !referringAgent) {
+        await checkReferralCode(values.referralCode);
+      }
+
+      await signUp(values.email, values.password, {
+        name: values.name,
+        user_type: userType,
+        referral_code: values.referralCode,
+        referring_agent: referringAgent?.id
+      });
+
+      toast.success('Account created successfully!');
+      
+      // Sign in the user automatically
+      await signInWithEmail(values.email, values.password);
+      
+      navigate('/signup-success');
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      toast.error(error.message || 'Failed to create account');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const onReferralCodeBlur = () => {
+    const code = form.getValues('referralCode');
+    if (code) {
+      checkReferralCode(code);
+    }
+  };
+
+  const handleUserTypeChange = (value: string) => {
+    setUserType(value as 'customer' | 'business');
+  };
+
   return (
-    <Tabs defaultValue="customer" className="w-full">
-      <TabsList className="grid grid-cols-2 mb-6">
-        <TabsTrigger value="customer">Customer</TabsTrigger>
-        <TabsTrigger value="business">Business Owner</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="customer">
-        <CustomerSignupForm 
-          onSubmit={(e) => handleSignup(e, 'customer')}
-          name={name}
-          setName={setName}
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          agreeTerms={agreeTerms}
-          setAgreeTerms={setAgreeTerms}
-          loading={loading}
-          phone={phone}
-          setPhone={setPhone}
-          address={address}
-          setAddress={setAddress}
-        />
-      </TabsContent>
-
-      <TabsContent value="business">
-        <BusinessSignupForm 
-          onSubmit={(e) => handleSignup(e, 'business')}
-          businessName={businessName}
-          setBusinessName={setBusinessName}
-          businessType={businessType}
-          setBusinessType={setBusinessType}
-          businessAddress={businessAddress}
-          setBusinessAddress={setBusinessAddress}
-          email={email}
-          setEmail={setEmail}
-          password={password}
-          setPassword={setPassword}
-          agreeTerms={agreeTerms}
-          setAgreeTerms={setAgreeTerms}
-          loading={loading}
-        />
-      </TabsContent>
-    </Tabs>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Create an account</CardTitle>
+        <CardDescription>
+          Sign up to start using Mansa Musa Marketplace
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Tabs 
+          defaultValue="customer" 
+          className="w-full" 
+          onValueChange={handleUserTypeChange}
+        >
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="customer">Customer</TabsTrigger>
+            <TabsTrigger value="business">Business</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="customer">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="Enter your email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Create a password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="referralCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Referral Code (Optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter referral code"
+                          {...field}
+                          onBlur={onReferralCodeBlur}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                      {referringAgent && (
+                        <p className="text-xs text-green-600">Referred by: {referringAgent.full_name}</p>
+                      )}
+                    </FormItem>
+                  )}
+                />
+                
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? 'Creating Account...' : 'Sign Up'}
+                </Button>
+              </form>
+            </Form>
+            
+            <OrSeparator />
+            
+            <SocialLogin type="signup" />
+            
+            <div className="text-center mt-4">
+              <p className="text-sm text-gray-500">
+                Already have an account?{' '}
+                <a
+                  href="/login"
+                  className="text-mansablue hover:text-mansablue-dark"
+                >
+                  Sign in
+                </a>
+              </p>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="business">
+            <BusinessSignupForm 
+              referralCode={form.getValues('referralCode')}
+              referringAgent={referringAgent}
+              onCheckReferralCode={checkReferralCode}
+            />
+          </TabsContent>
+        </Tabs>
+      </CardContent>
+    </Card>
   );
 };
 
