@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -38,7 +39,7 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "" }) => {
         className={isActive('/businesses') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
         asChild
       >
-        <Link to="/businesses">All Businesses</Link>
+        <Link to="/businesses">Businesses</Link>
       </Button>
       
       <Button 
@@ -49,7 +50,7 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "" }) => {
       >
         <Link to="/loyalty">Loyalty</Link>
       </Button>
-      
+
       <Button 
         variant={isActive('/how-it-works') ? "default" : "ghost"} 
         size="sm" 
@@ -69,21 +70,12 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "" }) => {
       </Button>
       
       <Button 
-        variant={isActive('/about-us') ? "default" : "ghost"} 
-        size="sm" 
-        className={isActive('/about-us') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
-        asChild
-      >
-        <Link to="/about-us">About Us</Link>
-      </Button>
-      
-      <Button 
         variant={isActive('/team-contact') ? "default" : "ghost"} 
         size="sm" 
         className={isActive('/team-contact') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
         asChild
       >
-        <Link to="/team-contact">Our Team</Link>
+        <Link to="/our-team">Our Team</Link>
       </Button>
       
       <Button 

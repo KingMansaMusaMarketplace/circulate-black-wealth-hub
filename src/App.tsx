@@ -39,7 +39,17 @@ function App() {
           {/* About pages */}
           <Route path="/about" element={<AboutPage />} />
           <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/our-team" element={<TeamContactPage />} />
           <Route path="/team-contact" element={<TeamContactPage />} />
+          
+          {/* How it works */}
+          <Route path="/how-it-works" element={<AboutPage />} />
+          
+          {/* Corporate sponsorship */}
+          <Route path="/corporate-sponsorship" element={<AboutPage />} />
+          
+          {/* Sales agent */}
+          <Route path="/sales-agent" element={<AboutPage />} />
           
           {/* 404 Not Found page */}
           <Route path="*" element={<NotFound />} />

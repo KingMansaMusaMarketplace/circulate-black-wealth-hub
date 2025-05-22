@@ -35,7 +35,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
             className="justify-start"
             asChild
           >
-            <Link to="/directory" onClick={onClose}>Directory</Link>
+            <Link to="/directory" onClick={onClose}>Map Directory</Link>
           </Button>
           
           <Button 
@@ -75,21 +75,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose }) => {
           </Button>
           
           <Button 
-            variant={isActive('/about-us') ? "default" : "ghost"}
-            size="sm"
-            className="justify-start"
-            asChild
-          >
-            <Link to="/about-us" onClick={onClose}>About Us</Link>
-          </Button>
-          
-          <Button 
             variant={isActive('/team-contact') ? "default" : "ghost"}
             size="sm"
             className="justify-start"
             asChild
           >
-            <Link to="/team-contact" onClick={onClose}>Our Team</Link>
+            <Link to="/our-team" onClick={onClose}>Our Team</Link>
           </Button>
           
           <Button 
