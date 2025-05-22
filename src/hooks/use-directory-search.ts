@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { businesses } from '@/data/businessData';
@@ -81,8 +82,7 @@ export function useDirectorySearch(businesses: Business[]) {
     setCurrentPage(1);
   }, [businesses]);
 
-  // Get unique categories from our predefined list and any that appear in the data but aren't in our list
-  // const categories = [...businessCategories, ...new Set(businesses.map(business => business.category))];
+  // Define the categories
   const categories = ['Food & Dining',
   'Beauty & Wellness',
   'Health & Fitness',

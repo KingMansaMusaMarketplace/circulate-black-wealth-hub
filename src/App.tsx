@@ -27,6 +27,9 @@ import SalesAgentSignupPage from './pages/SalesAgentSignupPage';
 import SalesAgentDashboardPage from './pages/SalesAgentDashboardPage';
 import QRCodeGeneratorPage from './pages/QRCodeGeneratorPage';
 import QRCodeScannerV2Page from './pages/QRCodeScannerV2Page';
+import AboutPage from './pages/AboutPage';
+import HowItWorksPage from './pages/HowItWorksPage';
+import CorporateSponsorshipPage from './pages/CorporateSponsorshipPage';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +39,18 @@ const router = createBrowserRouter([
   {
     path: "/directory",
     element: <BusinessDirectoryPage />,
+  },
+  {
+    path: "/about",
+    element: <AboutPage />,
+  },
+  {
+    path: "/how-it-works",
+    element: <HowItWorksPage />,
+  },
+  {
+    path: "/corporate-sponsorship",
+    element: <CorporateSponsorshipPage />,
   },
   {
     path: "/login",

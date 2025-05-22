@@ -5,48 +5,32 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import DirectoryFilter, { FilterOptions } from '@/components/DirectoryFilter';
 import MapView from '@/components/MapView';
-import { BusinessLocation } from '@/components/MapView/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, MapPin, ListFilter, Grid3X3, List } from 'lucide-react';
 import { businessCategories } from '@/data/businessData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-// Mock business data with the correct structure for BusinessLocation
-const mockBusinesses: BusinessLocation[] = [
-  {
-    id: 1,
-    name: 'Black Star Bakery',
-    category: 'Food & Dining',
-    lat: 33.7490,
-    lng: -84.3880,
-    distanceValue: 1.2,
-    distance: '1.2 mi'
-  },
-  {
-    id: 2,
-    name: 'Melanin Beauty Supply',
-    category: 'Beauty & Wellness',
-    lat: 33.7590,
-    lng: -84.3900,
-    distanceValue: 0.8,
-    distance: '0.8 mi'
-  }
-];
+import { businesses } from '@/data/businessData';
+import { useDirectorySearch } from '@/hooks/use-directory-search';
+import { Business } from '@/types/business';
+import { BusinessLocation } from '@/components/MapView/types';
 
 const BusinessDirectoryPage: React.FC = () => {
   const [view, setView] = useState<'grid' | 'list' | 'map'>('grid');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
-    category: 'all',
-    distance: 0,
-    rating: 0,
-    discount: 0
-  });
+  
+  // Use the directory search hook
+  const {
+    searchTerm,
+    setSearchTerm,
+    filterOptions,
+    handleFilterChange,
+    categories,
+    filteredBusinesses,
+    mapData
+  } = useDirectorySearch(businesses);
 
-  const handleFilterChange = (filters: Partial<FilterOptions>) => {
-    setFilterOptions(prev => ({ ...prev, ...filters }));
-  };
+  // Convert businesses to the format expected by MapView
+  const mapViewBusinesses: BusinessLocation[] = mapData;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -83,7 +67,7 @@ const BusinessDirectoryPage: React.FC = () => {
             {/* Sidebar Filters */}
             <div className="w-full md:w-1/4">
               <DirectoryFilter 
-                categories={businessCategories}
+                categories={categories}
                 filterOptions={filterOptions}
                 onFilterChange={handleFilterChange}
               />
@@ -95,7 +79,7 @@ const BusinessDirectoryPage: React.FC = () => {
                 <div className="flex flex-col sm:flex-row justify-between items-center">
                   <div className="flex items-center mb-4 sm:mb-0">
                     <ListFilter className="h-5 w-5 mr-2 text-gray-500" />
-                    <span className="text-gray-700">248 businesses found</span>
+                    <span className="text-gray-700">{filteredBusinesses.length} businesses found</span>
                   </div>
                   
                   <div className="flex items-center space-x-2">
@@ -130,7 +114,7 @@ const BusinessDirectoryPage: React.FC = () => {
               <Tabs value={view} onValueChange={(val) => setView(val as 'grid' | 'list' | 'map')}>
                 <TabsContent value="grid" className="mt-0">
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {mockBusinesses.map(business => (
+                    {filteredBusinesses.map(business => (
                       <div key={business.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                         <h3 className="font-medium">{business.name}</h3>
                         <p className="text-sm text-gray-500">{business.category}</p>
@@ -144,7 +128,7 @@ const BusinessDirectoryPage: React.FC = () => {
                 </TabsContent>
                 <TabsContent value="list" className="mt-0">
                   <div className="space-y-3">
-                    {mockBusinesses.map(business => (
+                    {filteredBusinesses.map(business => (
                       <div key={business.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center">
                         <div>
                           <h3 className="font-medium">{business.name}</h3>
@@ -160,7 +144,7 @@ const BusinessDirectoryPage: React.FC = () => {
                 </TabsContent>
                 <TabsContent value="map" className="mt-0">
                   <div className="h-[600px] rounded-lg overflow-hidden">
-                    <MapView businesses={mockBusinesses} />
+                    <MapView businesses={mapViewBusinesses} />
                   </div>
                 </TabsContent>
               </Tabs>
