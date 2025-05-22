@@ -51,7 +51,7 @@ const Hero = () => {
                 <Button 
                   onClick={() => navigate('/directory')}
                   variant="outline"
-                  className="w-full flex items-center justify-center px-8 py-3 border border-white text-white hover:bg-white/10 md:py-4 md:text-lg md:px-10"
+                  className="w-full flex items-center justify-center px-8 py-3 border border-mansagold text-white bg-mansagold hover:bg-mansagold-dark md:py-4 md:text-lg md:px-10"
                 >
                   Find Businesses
                 </Button>
