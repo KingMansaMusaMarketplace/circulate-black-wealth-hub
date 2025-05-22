@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer';
 import DirectoryFilter, { FilterOptions } from '@/components/DirectoryFilter';
 import MapView from '@/components/MapView';

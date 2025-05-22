@@ -6,7 +6,6 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import BusinessProfilePage from './pages/BusinessProfilePage';
 import ProfilePage from './pages/ProfilePage';
-import DirectoryPage from './pages/DirectoryPage';
 import BusinessDirectoryPage from './pages/BusinessDirectoryPage';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -20,7 +19,7 @@ function App() {
         <Route path="/business/:id" element={<BusinessProfilePage />} />
         <Route path="/profile" element={<ProfilePage />} />
         
-        {/* Update directory route to use BusinessDirectoryPage */}
+        {/* Directory route */}
         <Route path="/directory" element={<BusinessDirectoryPage />} />
         
       </Routes>
