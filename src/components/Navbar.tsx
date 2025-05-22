@@ -64,6 +64,15 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
               </Button>
               
               <Button 
+                variant={isActive('/loyalty') ? "default" : "ghost"} 
+                size="sm" 
+                className={isActive('/loyalty') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
+                asChild
+              >
+                <Link to="/loyalty">Loyalty</Link>
+              </Button>
+              
+              <Button 
                 variant={isActive('/how-it-works') ? "default" : "ghost"} 
                 size="sm" 
                 className={isActive('/how-it-works') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
@@ -136,6 +145,15 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                   <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
                     Profile
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => window.location.href = '/business-profile'}>
+                    Business Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => window.location.href = '/qr-code-management'}>
+                    QR Code Management
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => window.location.href = '/loyalty'}>
+                    Loyalty Program
+                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => window.location.href = '/settings'}>
                     Settings
                   </DropdownMenuItem>
@@ -183,6 +201,15 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                 asChild
               >
                 <Link to="/directory">Businesses</Link>
+              </Button>
+              
+              <Button 
+                variant={isActive('/loyalty') ? "default" : "ghost"}
+                size="sm"
+                className="justify-start"
+                asChild
+              >
+                <Link to="/loyalty">Loyalty</Link>
               </Button>
               
               <Button 

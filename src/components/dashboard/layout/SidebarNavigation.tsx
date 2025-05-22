@@ -8,7 +8,8 @@ import {
   Award, 
   QrCode, 
   Settings, 
-  LogOut
+  LogOut,
+  Users
 } from 'lucide-react';
 import SidebarNavItem from './SidebarNavItem';
 import { toast } from 'sonner';
@@ -62,6 +63,14 @@ const SidebarNavigation: React.FC = () => {
         isActive={pathname === "/qr-code-management"}
       >
         QR Code Management
+      </SidebarNavItem>
+
+      <SidebarNavItem 
+        to="/sales-agent" 
+        icon={<Users />} 
+        isActive={pathname === "/sales-agent"}
+      >
+        Sales Agent
       </SidebarNavItem>
 
       <div className="pt-4 mt-4 border-t border-gray-200">
