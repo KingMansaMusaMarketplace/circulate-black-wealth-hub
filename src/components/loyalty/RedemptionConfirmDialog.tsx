@@ -3,86 +3,99 @@ import React from 'react';
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
   DialogDescription,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Gift } from 'lucide-react';
-
-interface Reward {
-  id: string | number;
-  title: string;
-  description: string;
-  pointsCost: number;
-  businessId?: string;
-  businessName?: string;
-  category?: string;
-  expiresAt?: string;
-  imageUrl?: string;
-}
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Gift, CheckCircle2, AlertCircle } from "lucide-react";
 
 interface RedemptionConfirmDialogProps {
-  reward: Reward;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  reward: {
+    id: string | number;
+    title: string;
+    description: string;
+    pointsCost: number;
+    businessName?: string;
+  };
   onConfirm: () => void;
   totalPoints: number;
-  isRedeeming?: boolean;
+  isRedeeming: boolean;
 }
 
 const RedemptionConfirmDialog: React.FC<RedemptionConfirmDialogProps> = ({
-  reward,
   open,
   onOpenChange,
+  reward,
   onConfirm,
   totalPoints,
-  isRedeeming = false
+  isRedeeming
 }) => {
+  const remainingPoints = totalPoints - reward.pointsCost;
+  const canAfford = remainingPoints >= 0;
+  
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Confirm Redemption</DialogTitle>
+      <DialogContent className="sm:max-w-md border-blue-100">
+        <DialogHeader className="bg-gradient-to-r from-mansablue/10 to-blue-50 -mx-6 -mt-6 px-6 pt-6 pb-4 rounded-t-lg">
+          <DialogTitle className="text-xl text-mansablue flex items-center gap-2">
+            <Gift className="h-5 w-5 text-mansagold" />
+            Confirm Redemption
+          </DialogTitle>
           <DialogDescription>
-            You're about to redeem this reward using your loyalty points
+            You're about to redeem the following reward:
           </DialogDescription>
         </DialogHeader>
         
         <div className="py-4">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-12 h-12 rounded-full bg-mansablue/10 flex items-center justify-center text-mansablue">
-              <Gift className="h-6 w-6" />
+              <Gift size={24} />
             </div>
             <div>
-              <h3 className="font-semibold text-lg">{reward.title}</h3>
+              <h3 className="font-semibold text-lg text-mansablue">{reward.title}</h3>
               <p className="text-gray-500 text-sm">{reward.description}</p>
+              {reward.businessName && (
+                <p className="text-sm text-mansablue-light">{reward.businessName}</p>
+              )}
             </div>
           </div>
           
-          <div className="bg-gray-50 p-4 rounded-lg mb-4 flex items-center justify-between">
-            <div className="text-sm text-gray-600">
-              <p>Points Cost:</p>
-              <p>Your Available Points:</p>
-              <p>Remaining After Redemption:</p>
-            </div>
-            <div className="text-right font-medium">
-              <p>{reward.pointsCost} points</p>
-              <p>{totalPoints} points</p>
-              <p>{totalPoints - reward.pointsCost} points</p>
+          <div className="bg-blue-50 p-5 rounded-lg mb-4">
+            <div className="grid grid-cols-2 gap-2">
+              <div className="text-sm text-gray-600">
+                <p>Points Cost:</p>
+                <p>Your Available Points:</p>
+                <p className="font-medium">Remaining After Redemption:</p>
+              </div>
+              <div className="text-right font-medium">
+                <p>{reward.pointsCost.toLocaleString()} points</p>
+                <p>{totalPoints.toLocaleString()} points</p>
+                <p className={remainingPoints >= 0 ? 'text-green-600' : 'text-red-600'}>
+                  {remainingPoints.toLocaleString()} points
+                </p>
+              </div>
             </div>
           </div>
           
-          {reward.businessName && (
-            <div className="text-sm bg-blue-50 p-3 rounded mb-4">
-              <span className="font-medium">Redeemable at:</span> {reward.businessName}
+          {canAfford ? (
+            <div className="flex items-start p-3 bg-green-50 text-green-700 rounded-lg border border-green-100">
+              <CheckCircle2 className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
+              <p className="text-sm">
+                This action cannot be undone. Once redeemed, your points will be deducted and you'll receive a confirmation code.
+              </p>
+            </div>
+          ) : (
+            <div className="flex items-start p-3 bg-red-50 text-red-700 rounded-lg border border-red-100">
+              <AlertCircle className="h-5 w-5 mr-2 flex-shrink-0 mt-0.5" />
+              <p className="text-sm">
+                You don't have enough points to redeem this reward. You need {Math.abs(remainingPoints)} more points.
+              </p>
             </div>
           )}
-          
-          <p className="text-sm text-gray-500">
-            This action cannot be undone. Once redeemed, your points will be deducted and the reward will be added to your account.
-          </p>
         </div>
         
         <DialogFooter className="sm:justify-between">
@@ -90,13 +103,14 @@ const RedemptionConfirmDialog: React.FC<RedemptionConfirmDialogProps> = ({
             variant="outline"
             onClick={() => onOpenChange(false)}
             disabled={isRedeeming}
+            className="border-gray-300"
           >
             Cancel
           </Button>
           <Button
             onClick={onConfirm}
-            className="bg-mansablue hover:bg-mansablue/80"
-            disabled={isRedeeming}
+            disabled={isRedeeming || !canAfford}
+            className="bg-mansablue hover:bg-mansablue-dark"
           >
             {isRedeeming ? (
               <>
