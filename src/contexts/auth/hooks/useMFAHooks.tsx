@@ -9,7 +9,7 @@ export const useMFAFactors = (userId: string | null) => {
   const [mfaEnrolled, setMfaEnrolled] = useState(false);
   
   // Get MFA factors for the current user
-  const getMFAFactors = async () => {
+  const getMFAFactorsForUser = async () => {
     if (!userId) return [];
     
     try {
@@ -26,7 +26,7 @@ export const useMFAFactors = (userId: string | null) => {
   return {
     mfaFactors,
     mfaEnrolled,
-    getMFAFactors
+    getMFAFactors: getMFAFactorsForUser
   };
 };
 
