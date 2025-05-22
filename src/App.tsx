@@ -14,7 +14,7 @@ import SignupSuccessPage from './pages/SignupSuccessPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ReferralPage from './pages/ReferralPage';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/Index';
 import RequireAuth from './components/auth/RequireAuth';
 import RequireBusiness from './components/auth/RequireBusiness';
 import RequireCustomer from './components/auth/RequireCustomer';
