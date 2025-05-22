@@ -19,12 +19,12 @@ import RequireAuth from './components/auth/RequireAuth';
 import RequireBusiness from './components/auth/RequireBusiness';
 import RequireCustomer from './components/auth/RequireCustomer';
 import RequireSalesAgent from './components/auth/RequireSalesAgent';
+import BusinessSignupPage from './pages/BusinessSignupPage';
 
 // Create placeholder components for missing pages
 const BusinessDirectoryPage = () => <div>Business Directory Page</div>;
 const SalesAgentSignup = () => <div>Sales Agent Signup</div>;
 const SalesAgentDashboard = () => <div>Sales Agent Dashboard</div>;
-const BusinessSignupPage = () => <div>Business Signup Page</div>;
 const CustomerSignupPage = () => <div>Customer Signup Page</div>;
 const BusinessDashboard = () => <div>Business Dashboard</div>;
 const QRCodeGeneratorPage = () => <div>QR Code Generator Page</div>;

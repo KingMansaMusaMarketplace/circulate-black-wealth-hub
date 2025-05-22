@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { User, AuthError, Session } from '@supabase/supabase-js';
+import { User, AuthError, Session, UserResponse } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { AuthState, AuthActions } from './types';
 import { signInWithEmail as authSignIn, 
@@ -111,7 +111,8 @@ export function useAuthState(): [AuthState, AuthActions] {
   const signUp = useCallback(async (email: string, password: string, metadata?: object) => {
     try {
       safeSetState({ isLoading: true });
-      return await authSignUp(email, password, metadata);
+      const result = await authSignUp(email, password, metadata);
+      return result;
     } finally {
       safeSetState({ isLoading: false });
     }

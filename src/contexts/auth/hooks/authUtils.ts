@@ -65,7 +65,7 @@ export const signUp = async (email: string, password: string, metadata?: object)
     
     // Create a properly typed response
     const response: { error?: AuthError; data?: UserResponse } = {
-      data: result.data as unknown as UserResponse,
+      data: result.data,
       error: undefined
     };
     
