@@ -73,34 +73,16 @@ export const submitReview = async (
       });
       
       // Update loyalty points
-      // First check if entry exists
-      const { data: existingPoints } = await supabase
+      await supabase
         .from('loyalty_points')
-        .select('id, points')
-        .eq('customer_id', customerId)
-        .eq('business_id', businessId)
-        .single();
-      
-      if (existingPoints) {
-        // Update existing points
-        await supabase
-          .from('loyalty_points')
-          .update({ 
-            points: existingPoints.points + 25,
-            updated_at: new Date().toISOString() 
-          })
-          .eq('customer_id', customerId)
-          .eq('business_id', businessId);
-      } else {
-        // Create new loyalty points entry
-        await supabase
-          .from('loyalty_points')
-          .insert({
-            customer_id: customerId,
-            business_id: businessId,
-            points: 25
-          });
-      }
+        .insert({
+          customer_id: customerId,
+          business_id: businessId,
+          points: 25
+        })
+        .onConflict(['customer_id', 'business_id'])
+        .merge('points', '+')
+        .select();
       
       toast.success('Your review has been submitted! You earned 25 loyalty points.');
     }

@@ -43,7 +43,7 @@ type BusinessSignupFormValues = z.infer<typeof businessSignupFormSchema>;
 interface BusinessSignupFormProps {
   referralCode?: string;
   referringAgent: SalesAgent | null;
-  onCheckReferralCode: (code: string) => Promise<SalesAgent | null>;
+  onCheckReferralCode: (code: string) => Promise<void>;
 }
 
 const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({ 

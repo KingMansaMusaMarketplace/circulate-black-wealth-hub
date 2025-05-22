@@ -12,7 +12,7 @@ export interface Business {
   address: string;
   lat: number;
   lng: number;
-  imageUrl: string;
+  imageUrl?: string;
   imageAlt?: string;
   isFeatured?: boolean;
 }

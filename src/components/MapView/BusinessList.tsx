@@ -1,15 +1,11 @@
+
 import React from 'react';
 import { MapPin } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BusinessLocation } from './types';
+import { BusinessListProps } from './types';
 
-interface BusinessListProps {
-  nearbyBusinesses?: BusinessLocation[];
-  onSelectBusiness?: (id: number) => void;
-}
-
-const BusinessList: React.FC<BusinessListProps> = ({ nearbyBusinesses = [], onSelectBusiness }) => {
+const BusinessList: React.FC<BusinessListProps> = ({ nearbyBusinesses, onSelectBusiness }) => {
   if (nearbyBusinesses.length === 0) {
     return (
       <div className="text-center py-4">

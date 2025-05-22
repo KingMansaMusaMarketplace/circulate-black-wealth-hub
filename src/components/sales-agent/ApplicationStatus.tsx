@@ -12,10 +12,7 @@ interface ApplicationStatusProps {
 
 const ApplicationStatus: React.FC<ApplicationStatusProps> = ({ application, onStartTest }) => {
   const getStatusUI = () => {
-    // Use 'status' field if 'application_status' is not available
-    const status = application.application_status || application.status;
-    
-    switch (status) {
+    switch (application.application_status) {
       case 'approved':
         return {
           icon: <CheckCircle className="h-12 w-12 text-green-500" />,
@@ -36,9 +33,9 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({ application, onSt
             icon: <Clock className="h-12 w-12 text-blue-500" />,
             title: 'Under Review',
             description: 'Your application is being reviewed by our team.',
-            details: `Submitted on ${formatDate(application.application_date || application.created_at)}`
+            details: `Submitted on ${formatDate(application.application_date)}`
           };
-        } else if (application.test_score !== undefined && application.test_score !== null) {
+        } else if (application.test_score !== null) {
           return {
             icon: <AlertTriangle className="h-12 w-12 text-yellow-500" />,
             title: 'Test Failed',

@@ -14,6 +14,7 @@ import {
   Tag
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { businessCategories } from '@/data/businessData';
 
 export interface FilterOptions {
   category: string;
@@ -29,13 +30,12 @@ interface DirectoryFilterProps {
 }
 
 const DirectoryFilter: React.FC<DirectoryFilterProps> = ({ 
-  categories,
   filterOptions, 
   onFilterChange 
 }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4 space-y-6">
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <Tag size={16} className="text-mansablue" />
@@ -50,7 +50,7 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
             </SelectTrigger>
             <SelectContent className="max-h-80">
               <SelectItem value="all">All Categories</SelectItem>
-              {categories.map((cat) => (
+              {businessCategories.map((cat) => (
                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
               ))}
             </SelectContent>

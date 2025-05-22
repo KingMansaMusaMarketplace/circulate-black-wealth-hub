@@ -1,40 +1,53 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { Helmet } from 'react-helmet';
 
 interface ResponsiveLayoutProps {
   children: React.ReactNode;
   title?: string;
-  description?: string;
+  showNavbar?: boolean;
+  showFooter?: boolean;
   className?: string;
-  containerClassName?: string;
+  fullWidth?: boolean;
 }
 
 const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
   children,
   title,
-  description,
+  showNavbar = true,
+  showFooter = true,
   className = '',
-  containerClassName = ''
+  fullWidth = false
 }) => {
+  const isMobile = useIsMobile();
+  
+  // Fix scrolling behavior when navigating between pages on mobile
+  useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+  }, []);
+  
   return (
-    <div className={`flex flex-col min-h-screen ${className}`}>
-      <Helmet>
-        {title && <title>{title} | Mansa Musa Marketplace</title>}
-        {description && <meta name="description" content={description} />}
-      </Helmet>
+    <div className="min-h-screen flex flex-col">
+      {showNavbar && <Navbar className="sticky top-0 z-40" />}
       
-      <Navbar />
+      {title && (
+        <div className="bg-gradient-to-r from-mansablue to-mansablue-dark py-6 px-4">
+          <div className={`${fullWidth ? 'w-full' : 'container mx-auto'}`}>
+            <h1 className="text-2xl md:text-3xl font-bold text-white">{title}</h1>
+          </div>
+        </div>
+      )}
       
-      <main className="flex-grow bg-gray-50 py-8">
-        <div className={`container mx-auto px-4 ${containerClassName}`}>
+      <main className={`flex-grow ${className}`}>
+        <div className={`${fullWidth ? 'w-full' : 'container mx-auto'} px-4 py-6 md:py-8`}>
           {children}
         </div>
       </main>
       
-      <Footer />
+      {showFooter && <Footer />}
     </div>
   );
 };

@@ -91,34 +91,16 @@ export const createTransaction = async (
     
     // Update loyalty points if this transaction earns points
     if (transaction.points_earned > 0) {
-      // First check if entry exists
-      const { data: existingPoints } = await supabase
+      await supabase
         .from('loyalty_points')
-        .select('id, points')
-        .eq('customer_id', transaction.customer_id)
-        .eq('business_id', transaction.business_id)
-        .single();
-      
-      if (existingPoints) {
-        // Update existing points
-        await supabase
-          .from('loyalty_points')
-          .update({ 
-            points: existingPoints.points + transaction.points_earned,
-            updated_at: new Date().toISOString() 
-          })
-          .eq('customer_id', transaction.customer_id)
-          .eq('business_id', transaction.business_id);
-      } else {
-        // Create new loyalty points entry
-        await supabase
-          .from('loyalty_points')
-          .insert({
-            customer_id: transaction.customer_id,
-            business_id: transaction.business_id,
-            points: transaction.points_earned
-          });
-      }
+        .insert({
+          customer_id: transaction.customer_id,
+          business_id: transaction.business_id,
+          points: transaction.points_earned
+        })
+        .onConflict(['customer_id', 'business_id'])
+        .merge('points', '+')
+        .select();
     }
     
     return { success: true, transaction: data };
