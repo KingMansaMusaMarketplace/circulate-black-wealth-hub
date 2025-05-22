@@ -14,9 +14,13 @@ import SignupSuccessPage from './pages/SignupSuccessPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ReferralPage from './pages/ReferralPage';
+import HomePage from './pages/Index';
+import RequireAuth from './components/auth/RequireAuth';
+import RequireBusiness from './components/auth/RequireBusiness';
+import RequireCustomer from './components/auth/RequireCustomer';
+import RequireSalesAgent from './components/auth/RequireSalesAgent';
 
 // Create placeholder components for missing pages
-const HomePage = () => <div>Home Page</div>;
 const BusinessDirectoryPage = () => <div>Business Directory Page</div>;
 const SalesAgentSignup = () => <div>Sales Agent Signup</div>;
 const SalesAgentDashboard = () => <div>Sales Agent Dashboard</div>;
@@ -25,12 +29,6 @@ const CustomerSignupPage = () => <div>Customer Signup Page</div>;
 const BusinessDashboard = () => <div>Business Dashboard</div>;
 const QRCodeGeneratorPage = () => <div>QR Code Generator Page</div>;
 const QRCodeScannerV2Page = () => <div>QR Code Scanner V2 Page</div>;
-
-// Create placeholder auth components
-const RequireAuth = ({ children }) => children;
-const RequireBusiness = ({ children }) => children;
-const RequireCustomer = ({ children }) => children;
-const RequireSalesAgent = ({ children }) => children;
 
 const router = createBrowserRouter([
   {
