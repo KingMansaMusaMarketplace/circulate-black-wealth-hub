@@ -8,8 +8,6 @@ import LoginContainer from '@/components/auth/LoginContainer';
 import SignupForm from '@/components/auth/SignupForm';
 
 const SignupPage = () => {
-  const { signUp } = useAuth();
-
   return (
     <AuthLayout>
       <LoginContainer
