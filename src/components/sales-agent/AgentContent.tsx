@@ -36,10 +36,10 @@ const AgentContent: React.FC<AgentContentProps> = ({
 
   if (isAgent) {
     return (
-      <Tabs defaultValue="dashboard">
-        <TabsList className="mb-6">
-          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-          <TabsTrigger value="how-it-works">How It Works</TabsTrigger>
+      <Tabs defaultValue="dashboard" className="bg-blue-50/50 p-4 rounded-lg shadow-sm">
+        <TabsList className="mb-6 bg-blue-100/50">
+          <TabsTrigger value="dashboard" className="data-[state=active]:bg-mansablue data-[state=active]:text-white">Dashboard</TabsTrigger>
+          <TabsTrigger value="how-it-works" className="data-[state=active]:bg-mansablue data-[state=active]:text-white">How It Works</TabsTrigger>
         </TabsList>
         <TabsContent value="dashboard">
           <AgentDashboard />

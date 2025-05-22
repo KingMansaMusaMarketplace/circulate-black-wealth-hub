@@ -8,7 +8,7 @@ const GuestView: React.FC = () => {
     <div className="space-y-10">
       {/* Hero section */}
       <div className="text-center py-8 px-4">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Become a Mansa Musa Marketplace Sales Agent</h2>
+        <h2 className="text-3xl font-bold text-mansablue mb-4">Become a Mansa Musa Marketplace Sales Agent</h2>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
           Join our growing team of sales agents and earn commissions by connecting businesses and customers to the Mansa Musa Marketplace.
         </p>
@@ -20,11 +20,11 @@ const GuestView: React.FC = () => {
       </div>
 
       {/* Benefits grid */}
-      <div className="bg-gray-50 py-12 px-4">
+      <div className="bg-blue-50 py-12 px-4 rounded-lg">
         <h2 className="text-2xl font-bold text-center mb-8">Benefits of Becoming a Sales Agent</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
             <div className="bg-mansablue/10 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
               <DollarSign className="h-6 w-6 text-mansablue" />
             </div>
@@ -34,7 +34,7 @@ const GuestView: React.FC = () => {
             </p>
           </div>
           
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
             <div className="bg-mansablue/10 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
               <Medal className="h-6 w-6 text-mansablue" />
             </div>
@@ -44,7 +44,7 @@ const GuestView: React.FC = () => {
             </p>
           </div>
           
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
             <div className="bg-mansablue/10 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
               <Users className="h-6 w-6 text-mansablue" />
             </div>
@@ -58,7 +58,7 @@ const GuestView: React.FC = () => {
 
       {/* How it works section */}
       <div className="max-w-4xl mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-8 text-center">How the Sales Agent Program Works</h2>
+        <h2 className="text-2xl font-bold mb-8 text-center text-mansablue">How the Sales Agent Program Works</h2>
         
         <ol className="space-y-8">
           <li className="flex gap-4">
@@ -104,7 +104,7 @@ const GuestView: React.FC = () => {
       </div>
 
       {/* CTA section */}
-      <div className="bg-mansablue py-12 px-4 text-white text-center">
+      <div className="bg-gradient-to-r from-mansablue to-mansablue-light py-12 px-4 text-white text-center rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Ready to Join Our Sales Agent Team?</h2>
         <p className="text-lg mb-6 max-w-2xl mx-auto">
           Sign up today and start earning commissions while helping to build wealth in Black communities.

@@ -73,7 +73,7 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({ application, onSt
 
   return (
     <Card className="w-full max-w-md mx-auto bg-white border-mansablue/10 shadow-md">
-      <CardHeader className="bg-gradient-to-r from-mansablue/5 to-blue-50">
+      <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
         <CardTitle className="text-mansablue">Application Status</CardTitle>
         <CardDescription>
           Track the status of your sales agent application

@@ -7,7 +7,7 @@ const CTASection = () => {
   const navigate = useNavigate();
   
   return (
-    <section className="bg-gradient-to-r from-mansablue to-mansablue-dark py-16">
+    <section className="bg-gradient-to-r from-mansablue to-mansablue-light py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">

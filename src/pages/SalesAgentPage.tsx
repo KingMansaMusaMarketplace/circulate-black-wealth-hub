@@ -19,7 +19,7 @@ const SalesAgentPage: React.FC = () => {
   } = useSalesAgentTabs();
 
   return (
-    <ResponsiveLayout title="Sales Agent Program" className="bg-gradient-to-b from-white to-blue-50">
+    <ResponsiveLayout title="Sales Agent Program" className="bg-gradient-to-b from-blue-50 to-blue-100">
       <Helmet>
         <title>Sales Agent Program | Mansa Musa Marketplace</title>
       </Helmet>
