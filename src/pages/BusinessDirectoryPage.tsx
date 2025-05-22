@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer';
-import DirectoryFilter, { FilterOptions } from '@/components/DirectoryFilter';
+import DirectoryFilter from '@/components/DirectoryFilter';
 import MapView from '@/components/MapView';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,7 @@ import { businesses } from '@/data/businessData';
 import { useDirectorySearch } from '@/hooks/use-directory-search';
 import { Business } from '@/types/business';
 import { BusinessLocation } from '@/components/MapView/types';
+import { BusinessFilters } from '@/lib/api/directory-api';
 
 const BusinessDirectoryPage: React.FC = () => {
   const [view, setView] = useState<'grid' | 'list' | 'map'>('grid');

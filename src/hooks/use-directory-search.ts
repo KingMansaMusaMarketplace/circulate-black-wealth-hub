@@ -2,15 +2,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation as useRouterLocation } from 'react-router-dom';
 import { Business } from '@/types/business';
-import { FilterOptions } from '@/components/DirectoryFilter';
+import { BusinessFilters } from '@/lib/api/directory-api';
 
 export function useDirectorySearch(businesses: Business[]) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+  const [filterOptions, setFilterOptions] = useState<BusinessFilters>({
     category: 'all',
     distance: 0, // 0 means any distance
-    rating: 0,   // 0 means any rating
-    discount: 0  // 0 means any discount
+    minRating: 0,   // 0 means any rating
+    minDiscount: 0  // 0 means any discount
   });
   
   // Pagination state - updated to show more items per page
@@ -48,7 +48,7 @@ export function useDirectorySearch(businesses: Business[]) {
     return R * c;
   };
 
-  const handleFilterChange = (newFilters: Partial<FilterOptions>) => {
+  const handleFilterChange = (newFilters: Partial<BusinessFilters>) => {
     setFilterOptions(prev => ({ ...prev, ...newFilters }));
     // Reset to page 1 when filters change
     setCurrentPage(1);
@@ -108,10 +108,10 @@ export function useDirectorySearch(businesses: Business[]) {
                           (business.distanceValue !== undefined && business.distanceValue <= filterOptions.distance);
     
     // Rating filter
-    const matchesRating = business.rating >= filterOptions.rating;
+    const matchesRating = business.rating >= (filterOptions.minRating || 0);
     
     // Discount filter
-    const matchesDiscount = business.discountValue >= filterOptions.discount;
+    const matchesDiscount = business.discountValue >= (filterOptions.minDiscount || 0);
     
     return matchesSearch && matchesCategory && matchesDistance && matchesRating && matchesDiscount;
   });

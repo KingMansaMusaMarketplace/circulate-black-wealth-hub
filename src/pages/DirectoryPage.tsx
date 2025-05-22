@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
@@ -136,7 +135,11 @@ const DirectoryPage = () => {
     const newLocation = await getCurrentPosition(true);
     if (newLocation) {
       // Update filters to include location
-      updateFilters({ userLat: newLocation.lat, userLng: newLocation.lng });
+      updateFilters({ 
+        userLat: newLocation.lat, 
+        userLng: newLocation.lng,
+        distance: 10 // Set a default distance radius of 10 miles
+      });
       setShowMap(true); // Show map after getting location
     }
   }, [getCurrentPosition, updateFilters]);

@@ -19,7 +19,8 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { BusinessFilters } from '@/lib/api/directory-api';
 
-interface DirectoryFilterProps {
+// Export the interface for use in other components
+export interface DirectoryFilterProps {
   categories: string[];
   filterOptions: BusinessFilters;
   onFilterChange: (filters: Partial<BusinessFilters>) => void;

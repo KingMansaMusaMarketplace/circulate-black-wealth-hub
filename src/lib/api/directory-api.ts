@@ -25,6 +25,9 @@ export interface BusinessFilters {
   minDiscount?: number;
   searchTerm?: string;
   featured?: boolean;
+  distance?: number; // Added distance property
+  userLat?: number;  // Added user latitude
+  userLng?: number;  // Added user longitude
 }
 
 export interface PaginationParams {
@@ -91,22 +94,28 @@ export async function fetchBusinesses(
     const totalPages = pagination ? Math.ceil(totalCount / pagination.pageSize) : 1;
     
     // Transform Supabase response to our frontend Business type
-    const businesses = data.map(business => ({
-      id: business.id as unknown as number, 
-      name: business.business_name,
-      category: business.category || 'Uncategorized',
-      rating: business.average_rating || 4.5,
-      reviewCount: business.review_count || 10,
-      discount: '10% Off', // Default discount
-      discountValue: 10,
-      distance: 'Nearby', // Default distance
-      distanceValue: 0,
-      address: business.address || '',
-      lat: business.lat || 40.7128, // Default latitude if not available
-      lng: business.lng || -74.0060, // Default longitude if not available
-      imageUrl: business.logo_url || `/businesses/${business.id}.jpg`,
-      isFeatured: business.is_verified || false
-    }));
+    const businesses = data.map(business => {
+      // Extract coordinates safely with fallbacks
+      const lat = parseFloat(business.lat as unknown as string) || 40.7128;
+      const lng = parseFloat(business.lng as unknown as string) || -74.0060;
+      
+      return {
+        id: business.id as unknown as number, 
+        name: business.business_name,
+        category: business.category || 'Uncategorized',
+        rating: business.average_rating || 4.5,
+        reviewCount: business.review_count || 10,
+        discount: '10% Off', // Default discount
+        discountValue: 10,
+        distance: 'Nearby', // Default distance
+        distanceValue: 0,
+        address: business.address || '',
+        lat, // Using parsed coordinates
+        lng, // Using parsed coordinates
+        imageUrl: business.logo_url || `/businesses/${business.id}.jpg`,
+        isFeatured: business.is_verified || false
+      };
+    });
     
     return { businesses, totalCount, totalPages };
   } catch (error) {
@@ -132,6 +141,10 @@ export async function fetchBusinessById(id: number): Promise<Business | null> {
     
     if (!data) return null;
     
+    // Extract coordinates safely with fallbacks
+    const lat = parseFloat(data.lat as unknown as string) || 40.7128;
+    const lng = parseFloat(data.lng as unknown as string) || -74.0060;
+    
     return {
       id: data.id as unknown as number,
       name: data.business_name,
@@ -143,8 +156,8 @@ export async function fetchBusinessById(id: number): Promise<Business | null> {
       distance: 'Nearby',
       distanceValue: 0,
       address: data.address || '',
-      lat: data.lat || 40.7128,
-      lng: data.lng || -74.0060,
+      lat, // Using parsed coordinates
+      lng, // Using parsed coordinates
       imageUrl: data.logo_url || `/businesses/${data.id}.jpg`,
       isFeatured: data.is_verified || false
     };
@@ -191,22 +204,28 @@ export async function searchBusinesses(term: string): Promise<Business[]> {
     }
     
     // Transform to Business type
-    return data.map(business => ({
-      id: business.id as unknown as number,
-      name: business.business_name,
-      category: business.category || 'Uncategorized',
-      rating: business.average_rating || 4.5,
-      reviewCount: business.review_count || 10,
-      discount: '10% Off',
-      discountValue: 10,
-      distance: 'Nearby',
-      distanceValue: 0,
-      address: business.address || '',
-      lat: business.lat || 40.7128,
-      lng: business.lng || -74.0060,
-      imageUrl: business.logo_url || `/businesses/${business.id}.jpg`,
-      isFeatured: business.is_verified || false
-    }));
+    return data.map(business => {
+      // Extract coordinates safely with fallbacks
+      const lat = parseFloat(business.lat as unknown as string) || 40.7128;
+      const lng = parseFloat(business.lng as unknown as string) || -74.0060;
+      
+      return {
+        id: business.id as unknown as number,
+        name: business.business_name,
+        category: business.category || 'Uncategorized',
+        rating: business.average_rating || 4.5,
+        reviewCount: business.review_count || 10,
+        discount: '10% Off',
+        discountValue: 10,
+        distance: 'Nearby',
+        distanceValue: 0,
+        address: business.address || '',
+        lat, // Using parsed coordinates
+        lng, // Using parsed coordinates
+        imageUrl: business.logo_url || `/businesses/${business.id}.jpg`,
+        isFeatured: business.is_verified || false
+      };
+    });
   } catch (error) {
     console.error('Unexpected error searching businesses:', error);
     return [];
