@@ -139,7 +139,6 @@ export function useAuthState(): [AuthState, AuthActions] {
     try {
       safeSetState({ isLoading: true });
       
-      // Fix the return type to match the expected interface
       const result = await supabase.auth.signUp({
         email,
         password,
@@ -158,8 +157,12 @@ export function useAuthState(): [AuthState, AuthActions] {
       });
       
       // Transform the result to match the expected return type
+      // Use a proper type assertion with a type guard to ensure the types match
       return { 
-        data: result.data as UserResponse,
+        data: result.data ? {
+          user: result.data.user,
+          session: result.data.session
+        } as unknown as UserResponse : undefined,
         error: result.error 
       };
     } catch (error) {
