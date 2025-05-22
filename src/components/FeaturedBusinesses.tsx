@@ -1,131 +1,95 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Utensils, Scissors, Book, DollarSign } from 'lucide-react';
+import { Star } from 'lucide-react';
+
+// Mock data - in a real app, this would come from your backend
+const businesses = [
+  {
+    id: '1',
+    name: 'Green Leaf Cafe',
+    category: 'Restaurant',
+    rating: 4.8,
+    image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    description: 'Organic, locally-sourced ingredients in every dish. Vegan options available.'
+  },
+  {
+    id: '2',
+    name: 'Urban Styles',
+    category: 'Fashion',
+    rating: 4.5,
+    image: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    description: 'Latest fashion trends at affordable prices. Sustainable clothing options.'
+  },
+  {
+    id: '3',
+    name: 'Tech Haven',
+    category: 'Electronics',
+    rating: 4.6,
+    image: 'https://images.unsplash.com/photo-1518997554305-5eea2f04e384?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+    description: 'Quality tech products, expert advice, and repair services.'
+  },
+];
 
 const FeaturedBusinesses = () => {
-  const businesses = [
-    {
-      id: 1,
-      name: "Soul Food Kitchen",
-      category: "Restaurant",
-      discount: "15% off",
-      rating: 4.8,
-      reviewCount: 124,
-      description: "Authentic soul food with family recipes passed down generations.",
-      icon: <Utensils className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1493770348161-369560ae357d?q=80&w=1000&auto=format&fit=crop",
-      imageAlt: "Delicious soul food with chicken, cornbread, and vegetables"
-    },
-    {
-      id: 2,
-      name: "Prestigious Cuts",
-      category: "Barber Shop",
-      discount: "10% off",
-      rating: 4.9,
-      reviewCount: 207,
-      description: "Premium barbershop experience with skilled professionals.",
-      icon: <Scissors className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=1000&auto=format&fit=crop",
-      imageAlt: "Black barber cutting client's hair in modern barbershop"
-    },
-    {
-      id: 3,
-      name: "Heritage Bookstore",
-      category: "Retail",
-      discount: "20% off",
-      rating: 4.7,
-      reviewCount: 89,
-      description: "Curated selection of books celebrating Black culture and history.",
-      icon: <Book className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?q=80&w=1000&auto=format&fit=crop",
-      imageAlt: "Bookstore with shelves full of diverse books"
-    },
-    {
-      id: 4,
-      name: "Prosperity Financial",
-      category: "Services",
-      discount: "Free Consultation",
-      rating: 4.9,
-      reviewCount: 56,
-      description: "Financial planning services focused on building generational wealth.",
-      icon: <DollarSign className="w-6 h-6 text-mansablue" />,
-      imageUrl: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?q=80&w=1000&auto=format&fit=crop",
-      imageAlt: "Black financial advisor in professional meeting setting"
-    }
-  ];
-
+  const navigate = useNavigate();
+  
   return (
-    <section className="py-20 bg-white">
-      <div className="container-custom">
-        <div className="flex justify-between items-center mb-12">
-          <h2 className="heading-md text-mansablue-dark">Featured Black-Owned Businesses</h2>
-          <Link to="/directory" className="text-mansablue font-medium hover:text-mansablue-dark transition-colors">
-            View All →
-          </Link>
+    <section className="py-12 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Featured Businesses
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+            Discover great local businesses in our network
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {businesses.map((business) => (
-            <div key={business.id} className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden card-hover">
-              <div className="h-48 bg-gray-100 relative overflow-hidden">
+            <Card key={business.id} className="overflow-hidden">
+              <div className="h-48 w-full overflow-hidden">
                 <img 
-                  src={business.imageUrl} 
-                  alt={business.imageAlt}
-                  width="400"
-                  height="300"
-                  loading="eager"
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  onError={(e) => {
-                    console.error(`Failed to load image: ${business.imageUrl}`);
-                    e.currentTarget.src = `https://placehold.co/400x300/e0e0e0/808080?text=${business.name.charAt(0)}`;
-                  }}
+                  src={business.image} 
+                  alt={business.name} 
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                 />
-                <div className="absolute top-3 left-3 bg-white/90 p-2 rounded-full shadow">
-                  {business.icon}
-                </div>
               </div>
-              <div className="p-5">
-                <div className="flex justify-between items-start mb-3">
+              <CardContent className="p-6">
+                <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="font-bold text-lg text-gray-900">{business.name}</h3>
-                    <p className="text-gray-500 text-sm">{business.category}</p>
+                    <h3 className="text-xl font-bold">{business.name}</h3>
+                    <p className="text-sm text-gray-500">{business.category}</p>
                   </div>
-                  <span className="bg-mansagold/10 text-mansagold text-xs font-medium px-2.5 py-1 rounded">
-                    {business.discount}
-                  </span>
-                </div>
-                <p className="text-sm text-gray-600 mb-4">
-                  {business.description}
-                </p>
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <div className="flex text-mansagold">
-                      {[...Array(5)].map((_, i) => (
-                        <svg key={i} className={`w-4 h-4 ${i < Math.floor(business.rating) ? 'text-mansagold' : 'text-gray-300'}`} 
-                          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                          <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clipRule="evenodd"></path>
-                        </svg>
-                      ))}
-                    </div>
-                    <p className="ml-2 text-sm text-gray-500">{business.rating} ({business.reviewCount})</p>
+                  <div className="flex items-center bg-yellow-100 px-2 py-1 rounded">
+                    <Star className="h-4 w-4 text-yellow-500 mr-1" />
+                    <span>{business.rating}</span>
                   </div>
-                  <Link to={`/business/${business.id}`} className="text-sm font-medium text-mansablue hover:text-mansablue-dark">
-                    View →
-                  </Link>
                 </div>
-              </div>
-            </div>
+                <p className="mt-3 text-gray-600">{business.description}</p>
+              </CardContent>
+              <CardFooter className="px-6 py-4 bg-gray-50">
+                <Button 
+                  className="w-full" 
+                  onClick={() => navigate(`/business/${business.id}`)}
+                >
+                  View Business
+                </Button>
+              </CardFooter>
+            </Card>
           ))}
         </div>
         
-        <div className="flex justify-center mt-10">
-          <Link to="/directory">
-            <Button className="bg-mansablue hover:bg-mansablue-dark text-white px-8 py-2">
-              Discover More Businesses
-            </Button>
-          </Link>
+        <div className="mt-10 text-center">
+          <Button 
+            variant="outline" 
+            onClick={() => navigate('/directory')}
+          >
+            View All Businesses
+          </Button>
         </div>
       </div>
     </section>
