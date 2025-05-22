@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -23,9 +23,15 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
 }) => {
   const isMobile = useIsMobile();
   
+  // Fix scrolling behavior when navigating between pages on mobile
+  useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+  }, []);
+  
   return (
     <div className="min-h-screen flex flex-col">
-      {showNavbar && <Navbar />}
+      {showNavbar && <Navbar className="sticky top-0 z-40" />}
       
       {title && (
         <div className="bg-gradient-to-r from-mansablue to-mansablue-dark py-6 px-4">

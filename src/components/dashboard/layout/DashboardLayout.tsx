@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '@/contexts/auth';
 import { cn } from '@/lib/utils';
 import DashboardHeader from './DashboardHeader';
@@ -21,6 +21,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 }) => {
   const { user } = useAuth();
   const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
+
+  // Fix scrolling behavior when navigating between pages on mobile
+  useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">

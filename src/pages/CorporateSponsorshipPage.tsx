@@ -1,8 +1,7 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import SponsorshipHero from '@/components/sponsorship/SponsorshipHero';
 import SponsorshipTiers from '@/components/sponsorship/SponsorshipTiers';
 import SponsorshipBenefits from '@/components/sponsorship/SponsorshipBenefits';
@@ -18,33 +17,32 @@ import SponsorshipContact from '@/components/sponsorship/SponsorshipContact';
 import SponsorshipVideoSection from '@/components/sponsorship/SponsorshipVideoSection';
 
 const CorporateSponsorshipPage = () => {
+  // Ensure page scrolls to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className="flex flex-col min-h-screen">
+    <ResponsiveLayout>
       <Helmet>
         <title>Corporate Sponsorship | Mansa Musa Marketplace</title>
         <meta name="description" content="Join our corporate sponsorship program and help support Black-owned businesses while gaining visibility and making a meaningful impact in the community." />
       </Helmet>
       
-      <Navbar />
-      
-      <main className="flex-grow">
-        <SponsorshipHero />
-        <SponsorshipImpactStats />
-        <SponsorshipBenefits />
-        <SponsorshipVideoSection />
-        <SponsorshipShowcase />
-        <SponsorshipTimeline />
-        <SponsorshipTiers />
-        <SponsorshipSuccessStories />
-        <SponsorshipTestimonials />
-        <SponsorshipMediaKit />
-        <SponsorshipFAQ />
-        <SponsorshipContact />
-        <SponsorshipForm />
-      </main>
-      
-      <Footer />
-    </div>
+      <SponsorshipHero />
+      <SponsorshipImpactStats />
+      <SponsorshipBenefits />
+      <SponsorshipVideoSection />
+      <SponsorshipShowcase />
+      <SponsorshipTimeline />
+      <SponsorshipTiers />
+      <SponsorshipSuccessStories />
+      <SponsorshipTestimonials />
+      <SponsorshipMediaKit />
+      <SponsorshipFAQ />
+      <SponsorshipContact />
+      <SponsorshipForm />
+    </ResponsiveLayout>
   );
 };
 

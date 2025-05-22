@@ -17,7 +17,6 @@ const config: CapacitorConfig = {
       spinnerColor: "#F5A623",
       androidSplashResourceName: "splash",
       iosSpinnerStyle: "small",
-      spinnerColor: "#F5A623"
     },
     Geolocation: {
       androidPermissions: ['android.permission.ACCESS_COARSE_LOCATION', 'android.permission.ACCESS_FINE_LOCATION'],
@@ -32,7 +31,12 @@ const config: CapacitorConfig = {
     statusBarStyle: "dark",
     preferredStatusBarStyle: "darkContent",
     limitsNavigationsToAppBoundDomains: true,
-    handleApplicationNotifications: true
+    handleApplicationNotifications: true,
+    // Add these settings to fix iOS-specific issues
+    allowsLinkPreview: false,
+    overrideUserInterfaceStyle: "light",
+    scrollEnabled: true,
+    webViewAllowsBackForwardNavigationGestures: true,
   }
 };
 
