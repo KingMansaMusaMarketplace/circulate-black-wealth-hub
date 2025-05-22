@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation as useRouterLocation } from 'react-router-dom';
 import { Business } from '@/types/business';
 import { FilterOptions } from '@/components/DirectoryFilter';
 
@@ -21,7 +21,7 @@ export function useDirectorySearch(businesses: Business[]) {
   const [userLocation, setUserLocation] = useState<{ lat: number, lng: number } | null>(null);
   const [businessesWithDistance, setBusinessesWithDistance] = useState<Business[]>([]);
   
-  const location = useLocation();
+  const location = useRouterLocation();
   
   useEffect(() => {
     // Check if there's a search parameter in the URL
@@ -81,24 +81,24 @@ export function useDirectorySearch(businesses: Business[]) {
     setCurrentPage(1);
   }, [businesses]);
 
-  // Define the categories
-  const categories = ['Food & Dining',
-  'Beauty & Wellness',
-  'Health & Fitness',
-  'Professional Services',
-  'Retail & Shopping',
-  'Art & Entertainment',
-  'Education',
-  'Technology',
-  'Transportation',
-  'Finance'];
+  // Use effect to update business distances if user location changes or businesses change
+  useEffect(() => {
+    if (userLocation && businesses.length > 0) {
+      updateUserLocation(userLocation.lat, userLocation.lng);
+    }
+  }, [businesses, userLocation, updateUserLocation]);
+
+  // Extract unique categories from the businesses
+  const categories = [...new Set(businesses.map(b => b.category))].sort();
   
   // Filter businesses based on search term and filters
   const filteredBusinesses = (userLocation ? businessesWithDistance : businesses).filter(business => {
-    // Search term filter
-    const matchesSearch = business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         business.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         business.address.toLowerCase().includes(searchTerm.toLowerCase());
+    // Search term filter - more comprehensive search including name, category, and address
+    const searchLower = searchTerm.toLowerCase();
+    const matchesSearch = 
+      business.name.toLowerCase().includes(searchLower) || 
+      business.category.toLowerCase().includes(searchLower) || 
+      (business.address && business.address.toLowerCase().includes(searchLower));
     
     // Category filter
     const matchesCategory = filterOptions.category === 'all' || business.category === filterOptions.category;

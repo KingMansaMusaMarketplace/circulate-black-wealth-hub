@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -31,6 +31,10 @@ const BusinessCard = ({
   imageAlt,
   isFeatured = false 
 }: BusinessCardProps) => {
+  // Track image loading state
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
+
   // Generate a placeholder image with the business initial
   const generatePlaceholderUrl = (businessName: string) => {
     const initial = businessName.charAt(0).toUpperCase();
@@ -40,7 +44,12 @@ const BusinessCard = ({
   // Add logging to debug image loading issues
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     console.log(`Image failed to load: ${imageUrl}`);
+    setImgError(true);
     e.currentTarget.src = generatePlaceholderUrl(name);
+  };
+
+  const handleImageLoad = () => {
+    setImgLoaded(true);
   };
 
   return (
@@ -51,16 +60,24 @@ const BusinessCard = ({
         </div>
       )}
       <div className="h-36 bg-gray-100 relative overflow-hidden">
-        {imageUrl ? (
-          <img 
-            src={imageUrl} 
-            alt={imageAlt || `${name} image`}
-            width="300"
-            height="200"
-            loading="eager"
-            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-            onError={handleImageError}
-          />
+        {!imgError && imageUrl ? (
+          <>
+            {!imgLoaded && (
+              <div className="w-full h-full flex items-center justify-center bg-gray-200 animate-pulse">
+                <span className="text-gray-400 text-3xl font-bold">{name.charAt(0).toUpperCase()}</span>
+              </div>
+            )}
+            <img 
+              src={imageUrl} 
+              alt={imageAlt || `${name} image`}
+              width="300"
+              height="200"
+              loading="lazy"
+              className={`w-full h-full object-cover transition-transform duration-300 hover:scale-105 ${!imgLoaded ? 'opacity-0' : 'opacity-100'}`}
+              onError={handleImageError}
+              onLoad={handleImageLoad}
+            />
+          </>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">
             <span className="text-gray-400 text-3xl font-bold">{name.charAt(0).toUpperCase()}</span>
