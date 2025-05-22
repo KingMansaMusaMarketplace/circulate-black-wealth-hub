@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Logo from '@/components/navbar/Logo';
 
@@ -9,119 +9,102 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto pt-12 pb-8 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 border-b border-gray-700 pb-12">
+    <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-white">
+      <div className="max-w-7xl mx-auto pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 border-b border-gray-700/50 pb-12">
           {/* Column 1: Logo and mission */}
           <div className="lg:col-span-2">
-            <Logo className="text-white mb-6" />
-            <p className="text-gray-300 mt-4 max-w-md">
+            <Logo className="invert opacity-90" />
+            <p className="text-gray-300 mt-6 max-w-md leading-relaxed">
               Building, protecting, and expanding the Black economic ecosystem through 
               intentional consumer behavior, loyalty rewards, and strategic digital infrastructure.
             </p>
-            <div className="flex space-x-4 mt-6">
-              <Button variant="ghost" size="icon" className="hover:bg-white/10 text-white" aria-label="Facebook">
-                <Facebook className="h-5 w-5" />
+            <div className="flex space-x-3 mt-8">
+              <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" aria-label="Facebook">
+                <Facebook className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="hover:bg-white/10 text-white" aria-label="Twitter">
-                <Twitter className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" aria-label="Twitter">
+                <Twitter className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="hover:bg-white/10 text-white" aria-label="Instagram">
-                <Instagram className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" aria-label="Instagram">
+                <Instagram className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="hover:bg-white/10 text-white" aria-label="LinkedIn">
-                <Linkedin className="h-5 w-5" />
+              <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" aria-label="LinkedIn">
+                <Linkedin className="h-4 w-4" />
               </Button>
             </div>
           </div>
           
           {/* Column 2: Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-mansagold">
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-6 text-mansagold border-b border-mansagold/30 pb-2 inline-block">
               Quick Links
             </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/directory" className="text-gray-300 hover:text-white transition-colors">
-                  Business Directory
-                </Link>
-              </li>
-              <li>
-                <Link to="/how-it-works" className="text-gray-300 hover:text-white transition-colors">
-                  How It Works
-                </Link>
-              </li>
-              <li>
-                <Link to="/loyalty" className="text-gray-300 hover:text-white transition-colors">
-                  Loyalty Program
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-gray-300 hover:text-white transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/our-team" className="text-gray-300 hover:text-white transition-colors">
-                  Our Team
-                </Link>
-              </li>
+            <ul className="space-y-4">
+              {[
+                { name: "Business Directory", path: "/directory" },
+                { name: "How It Works", path: "/how-it-works" },
+                { name: "Loyalty Program", path: "/loyalty" },
+                { name: "About Us", path: "/about-us" },
+                { name: "Our Team", path: "/our-team" }
+              ].map((link) => (
+                <li key={link.path}>
+                  <Link to={link.path} className="text-gray-300 hover:text-white transition-colors flex items-center group">
+                    <ChevronRight className="h-3 w-3 mr-2 text-mansagold-light opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           
           {/* Column 3: For Businesses */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-mansagold">
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-6 text-mansagold border-b border-mansagold/30 pb-2 inline-block">
               For Businesses
             </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/business-signup" className="text-gray-300 hover:text-white transition-colors">
-                  Sign Up
-                </Link>
-              </li>
-              <li>
-                <Link to="/sales-agent" className="text-gray-300 hover:text-white transition-colors">
-                  Become a Sales Agent
-                </Link>
-              </li>
-              <li>
-                <Link to="/corporate-sponsorship" className="text-gray-300 hover:text-white transition-colors">
-                  Corporate Sponsorship
-                </Link>
-              </li>
-              <li>
-                <Link to="/case-studies" className="text-gray-300 hover:text-white transition-colors">
-                  Success Stories
-                </Link>
-              </li>
+            <ul className="space-y-4">
+              {[
+                { name: "Sign Up", path: "/business-signup" },
+                { name: "Become a Sales Agent", path: "/sales-agent" },
+                { name: "Corporate Sponsorship", path: "/corporate-sponsorship" },
+                { name: "Success Stories", path: "/case-studies" },
+                { name: "FAQ", path: "/faq" }
+              ].map((link) => (
+                <li key={link.path}>
+                  <Link to={link.path} className="text-gray-300 hover:text-white transition-colors flex items-center group">
+                    <ChevronRight className="h-3 w-3 mr-2 text-mansagold-light opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <span className="group-hover:translate-x-1 transition-transform">{link.name}</span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           
           {/* Column 4: Contact & Legal */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-mansagold">
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-6 text-mansagold border-b border-mansagold/30 pb-2 inline-block">
               Contact & Legal
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               <li className="flex items-start">
-                <Mail className="h-5 w-5 mr-2 text-mansagold-light flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">support@mansamusa.com</span>
+                <Mail className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
+                <span className="text-gray-300 hover:text-white transition-colors">support@mansamusa.com</span>
               </li>
               <li className="flex items-start">
-                <Phone className="h-5 w-5 mr-2 text-mansagold-light flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">(555) 123-4567</span>
+                <Phone className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
+                <span className="text-gray-300 hover:text-white transition-colors">(555) 123-4567</span>
               </li>
               <li className="flex items-start">
-                <MapPin className="h-5 w-5 mr-2 text-mansagold-light flex-shrink-0 mt-0.5" />
-                <span className="text-gray-300">Atlanta, GA</span>
+                <MapPin className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
+                <span className="text-gray-300 hover:text-white transition-colors">Atlanta, GA</span>
               </li>
-              <li className="mt-4">
+              <li className="mt-6">
                 <Link to="/privacy" className="text-gray-300 hover:text-white transition-colors">
                   Privacy Policy
                 </Link>
               </li>
-              <li>
+              <li className="mt-2">
                 <Link to="/terms" className="text-gray-300 hover:text-white transition-colors">
                   Terms of Service
                 </Link>
@@ -131,19 +114,19 @@ const Footer = () => {
         </div>
         
         {/* Bottom section with copyright */}
-        <div className="mt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="mt-10 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
             &copy; {currentYear} Mansa Musa Marketplace. All rights reserved.
           </p>
-          <div className="mt-4 md:mt-0">
+          <div className="mt-4 md:mt-0 flex items-center space-x-4">
             <Button variant="link" className="text-gray-400 hover:text-white text-sm p-0 h-auto" asChild>
               <Link to="/help">Help Center</Link>
             </Button>
-            <span className="text-gray-600 mx-2">•</span>
+            <span className="text-gray-600 text-xs">•</span>
             <Button variant="link" className="text-gray-400 hover:text-white text-sm p-0 h-auto" asChild>
               <Link to="/blog">Blog</Link>
             </Button>
-            <span className="text-gray-600 mx-2">•</span>
+            <span className="text-gray-600 text-xs">•</span>
             <Button variant="link" className="text-gray-400 hover:text-white text-sm p-0 h-auto" asChild>
               <Link to="/cookies">Cookie Policy</Link>
             </Button>
