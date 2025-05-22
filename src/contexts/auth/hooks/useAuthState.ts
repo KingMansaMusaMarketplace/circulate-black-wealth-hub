@@ -157,14 +157,17 @@ export function useAuthState(): [AuthState, AuthActions] {
       });
       
       // Transform the result to match the expected return type
-      // Use a proper type assertion with a type guard to ensure the types match
-      return { 
-        data: result.data ? {
-          user: result.data.user,
-          session: result.data.session
-        } as unknown as UserResponse : undefined,
-        error: result.error 
+      if (result.error) {
+        return { error: result.error };
+      }
+      
+      // Create a properly typed response
+      const response: { error?: AuthError; data?: UserResponse } = {
+        data: result.data as unknown as UserResponse,
+        error: undefined
       };
+      
+      return response;
     } catch (error) {
       console.error("Error signing up:", error);
       return { error: error as AuthError };
