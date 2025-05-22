@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Navbar } from '@/components/navbar';
 import Hero from '../components/Hero';
 import HowItWorks from '../components/HowItWorks';
 import FeaturedBusinesses from '../components/FeaturedBusinesses';
@@ -7,7 +8,6 @@ import WhySection from '../components/WhySection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import CTASection from '../components/CTASection';
 import VideoPlayer from '../components/VideoPlayer';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const HomePage = () => {

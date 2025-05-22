@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Navbar as NewNavbar } from '@/components/navbar-old';
+import { Navbar as NewNavbar } from '@/components/navbar';
 
 // This is just a wrapper that exports the refactored Navbar to maintain backward compatibility
 const Navbar = () => {
