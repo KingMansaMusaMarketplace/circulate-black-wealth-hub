@@ -12,7 +12,7 @@ import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
 import VisualDivider from '@/components/HowItWorks/VisualDivider';
 import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import { Navbar } from '@/components/navbar';
 import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
 
 const HowItWorksPage = () => {
