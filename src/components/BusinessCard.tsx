@@ -44,7 +44,7 @@ const BusinessCard = ({
   };
 
   return (
-    <div className={`border rounded-xl overflow-hidden ${isFeatured ? 'border-mansagold shadow-md' : 'border-gray-200'}`}>
+    <div className={`border rounded-xl overflow-hidden h-full flex flex-col ${isFeatured ? 'border-mansagold shadow-md' : 'border-gray-200'}`}>
       {isFeatured && (
         <div className="bg-mansagold text-white text-xs font-medium px-3 py-1 text-center">
           Featured Business
@@ -70,7 +70,7 @@ const BusinessCard = ({
           {discount}
         </div>
       </div>
-      <div className="p-4">
+      <div className="p-4 flex flex-col flex-grow">
         <h3 className="font-bold text-lg mb-1">{name}</h3>
         <p className="text-gray-500 text-sm mb-2">{category}</p>
         
@@ -95,16 +95,18 @@ const BusinessCard = ({
           
           {distance && (
             <div className="ml-auto text-xs bg-gray-100 px-2 py-0.5 rounded-full">
-              {distance} miles
+              {distance}
             </div>
           )}
         </div>
         
-        <Link to={`/business/${id}`}>
-          <Button variant="outline" size="sm" className="w-full border-mansablue text-mansablue hover:bg-mansablue hover:text-white">
-            View Business
-          </Button>
-        </Link>
+        <div className="mt-auto">
+          <Link to={`/business/${id}`} className="w-full">
+            <Button variant="outline" size="sm" className="w-full border-mansablue text-mansablue hover:bg-mansablue hover:text-white">
+              View Business
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

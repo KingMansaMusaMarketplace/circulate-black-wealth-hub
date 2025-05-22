@@ -24,7 +24,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
         <div 
           key={business.id} 
           id={`business-${business.id}`} 
-          className="transition-all duration-300"
+          className="transition-all duration-300 h-full"
           onClick={() => onSelectBusiness(business.id)}
         >
           <BusinessCard {...business} />

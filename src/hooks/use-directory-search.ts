@@ -1,7 +1,6 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
-import { businesses } from '@/data/businessData';
 import { Business } from '@/types/business';
 import { FilterOptions } from '@/components/DirectoryFilter';
 
@@ -16,7 +15,7 @@ export function useDirectorySearch(businesses: Business[]) {
   
   // Pagination state - updated to show more items per page
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(16);
+  const [itemsPerPage, setItemsPerPage] = useState(16); // Show 16 items per page
   
   // User location state
   const [userLocation, setUserLocation] = useState<{ lat: number, lng: number } | null>(null);
