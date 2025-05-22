@@ -20,15 +20,13 @@ import RequireBusiness from './components/auth/RequireBusiness';
 import RequireCustomer from './components/auth/RequireCustomer';
 import RequireSalesAgent from './components/auth/RequireSalesAgent';
 import BusinessSignupPage from './pages/BusinessSignupPage';
-
-// Create placeholder components for missing pages
-const BusinessDirectoryPage = () => <div>Business Directory Page</div>;
-const SalesAgentSignup = () => <div>Sales Agent Signup</div>;
-const SalesAgentDashboard = () => <div>Sales Agent Dashboard</div>;
-const CustomerSignupPage = () => <div>Customer Signup Page</div>;
-const BusinessDashboard = () => <div>Business Dashboard</div>;
-const QRCodeGeneratorPage = () => <div>QR Code Generator Page</div>;
-const QRCodeScannerV2Page = () => <div>QR Code Scanner V2 Page</div>;
+import BusinessDashboardPage from './pages/BusinessDashboardPage';
+import BusinessDirectoryPage from './pages/BusinessDirectoryPage';
+import CustomerSignupPage from './pages/CustomerSignupPage';
+import SalesAgentSignupPage from './pages/SalesAgentSignupPage';
+import SalesAgentDashboardPage from './pages/SalesAgentDashboardPage';
+import QRCodeGeneratorPage from './pages/QRCodeGeneratorPage';
+import QRCodeScannerV2Page from './pages/QRCodeScannerV2Page';
 
 const router = createBrowserRouter([
   {
@@ -85,15 +83,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/become-agent",
-    element: <RequireAuth><SalesAgentSignup /></RequireAuth>,
+    element: <RequireAuth><SalesAgentSignupPage /></RequireAuth>,
   },
   {
     path: "/agent-dashboard",
-    element: <RequireSalesAgent><SalesAgentDashboard /></RequireSalesAgent>,
+    element: <RequireSalesAgent><SalesAgentDashboardPage /></RequireSalesAgent>,
   },
   {
     path: "/business-dashboard",
-    element: <RequireBusiness><BusinessDashboard /></RequireBusiness>,
+    element: <RequireBusiness><BusinessDashboardPage /></RequireBusiness>,
   },
   {
     path: "/qr-generator",

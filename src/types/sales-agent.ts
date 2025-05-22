@@ -4,14 +4,9 @@ export interface SalesAgent {
   user_id: string;
   full_name: string;
   email: string;
-  phone?: string;
   referral_code: string;
-  commission_rate: number;
-  total_earned: number;
-  total_pending: number;
-  is_active: boolean;
+  status: 'active' | 'inactive' | 'suspended';
   created_at: string;
-  updated_at: string;
 }
 
 export interface SalesAgentApplication {
@@ -19,47 +14,29 @@ export interface SalesAgentApplication {
   user_id: string;
   full_name: string;
   email: string;
-  phone?: string;
-  application_status: 'pending' | 'approved' | 'rejected';
-  application_date: string;
-  test_score: number | null;
-  test_passed: boolean | null;
-  notes?: string;
-  reviewed_at?: string;
-  reviewed_by?: string;
+  phone: string;
+  why_join: string;
+  business_experience: string;
+  marketing_ideas: string;
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+  updated_at: string;
 }
 
-export interface TestQuestion {
+export interface SalesAgentReferral {
   id: string;
-  question: string;
-  option_a: string;
-  option_b: string;
-  option_c: string;
-  option_d: string;
-  correct_answer: 'A' | 'B' | 'C' | 'D';
-  is_active: boolean;
+  agent_id: string;
+  referred_user_id: string;
+  user_type: 'customer' | 'business';
+  status: 'pending' | 'completed';
+  commission_amount: number;
   created_at: string;
 }
 
-export interface Referral {
-  id: string;
-  sales_agent_id: string;
-  referred_user_id: string;
-  referred_user_type: 'business' | 'customer';
-  referral_date: string;
-  commission_amount: number;
-  subscription_amount: number;
-  commission_status: 'pending' | 'paid';
-  payment_date?: string;
-}
-
-export interface AgentCommission {
-  id: string;
-  sales_agent_id: string;
-  referral_id: string;
-  amount: number;
-  status: 'pending' | 'paid';
-  due_date?: string;
-  paid_date?: string;
-  payment_reference?: string;
+export interface SalesAgentStats {
+  total_referrals: number;
+  successful_referrals: number;
+  pending_referrals: number;
+  total_earnings: number;
+  pending_earnings: number;
 }

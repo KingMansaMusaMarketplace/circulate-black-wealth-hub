@@ -3,22 +3,24 @@ import { useState } from 'react';
 
 export const useSalesAgentTabs = () => {
   const [showTestForm, setShowTestForm] = useState(false);
-  const [refresh, setRefresh] = useState(false);
 
   const handleApplicationSubmitted = () => {
-    setRefresh(prev => !prev);
+    // In a real app, you might want to show a success message or redirect
+    console.log('Application submitted successfully');
   };
 
   const handleTestCompleted = () => {
     setShowTestForm(false);
-    setRefresh(prev => !prev);
+    // In a real app, you might want to show a success message or redirect
+    console.log('Test completed successfully');
   };
 
-  const showTest = () => setShowTestForm(true);
-  
+  const showTest = () => {
+    setShowTestForm(true);
+  };
+
   return {
     showTestForm,
-    refresh,
     handleApplicationSubmitted,
     handleTestCompleted,
     showTest
