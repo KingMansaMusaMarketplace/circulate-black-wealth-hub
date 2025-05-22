@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer';
@@ -9,6 +9,35 @@ import { Link } from 'react-router-dom';
 import { businesses } from '@/data/businessData';
 
 const BusinessesPage: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const itemsPerPage = 16; // Show 16 businesses per page
+  
+  // Filter businesses based on search term
+  const filteredBusinesses = businesses.filter((business) =>
+    business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    business.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    business.address.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  
+  // Calculate pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentBusinesses = filteredBusinesses.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredBusinesses.length / itemsPerPage);
+  
+  // Handle page change
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  
+  // Handle search
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Helmet>
@@ -50,12 +79,14 @@ const BusinessesPage: React.FC = () => {
                 type="text" 
                 placeholder="Search businesses by name, category, or location..."
                 className="pl-10 w-full h-12 rounded-lg border border-gray-200 focus:border-mansablue focus:ring-1 focus:ring-mansablue outline-none"
+                value={searchTerm}
+                onChange={handleSearch}
               />
             </div>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {businesses.map((business) => (
+            {currentBusinesses.map((business) => (
               <Link 
                 to={`/business/${business.id}`} 
                 key={business.id}
@@ -94,7 +125,7 @@ const BusinessesPage: React.FC = () => {
             ))}
           </div>
           
-          {businesses.length === 0 && (
+          {filteredBusinesses.length === 0 && (
             <div className="text-center py-16">
               <Building2 className="h-12 w-12 text-gray-300 mx-auto" />
               <h3 className="mt-4 text-lg font-medium text-gray-900">No businesses found</h3>
@@ -104,10 +135,39 @@ const BusinessesPage: React.FC = () => {
             </div>
           )}
           
-          <div className="mt-8 flex justify-center">
-            <Button variant="outline" className="mr-2">Previous</Button>
-            <Button variant="outline">Next</Button>
-          </div>
+          {filteredBusinesses.length > 0 && totalPages > 1 && (
+            <div className="mt-8 flex justify-center gap-2">
+              <Button 
+                variant="outline" 
+                onClick={() => handlePageChange(currentPage - 1)} 
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              
+              {/* Page numbers */}
+              <div className="flex gap-2">
+                {[...Array(totalPages)].map((_, i) => (
+                  <Button
+                    key={i}
+                    variant={currentPage === i + 1 ? "default" : "outline"}
+                    className={currentPage === i + 1 ? "bg-mansablue" : ""}
+                    onClick={() => handlePageChange(i + 1)}
+                  >
+                    {i + 1}
+                  </Button>
+                ))}
+              </div>
+              
+              <Button 
+                variant="outline" 
+                onClick={() => handlePageChange(currentPage + 1)} 
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          )}
         </div>
       </main>
       
