@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
@@ -14,7 +13,7 @@ import { businesses } from '@/data/businessData';
 import { useDirectorySearch } from '@/hooks/use-directory-search';
 import { Business } from '@/types/business';
 import { BusinessLocation } from '@/components/MapView/types';
-import { BusinessFilters } from '@/lib/api/directory-api';
+import { BusinessFilters } from '@/lib/api/directory/types';
 
 const BusinessDirectoryPage: React.FC = () => {
   const [view, setView] = useState<'grid' | 'list' | 'map'>('grid');

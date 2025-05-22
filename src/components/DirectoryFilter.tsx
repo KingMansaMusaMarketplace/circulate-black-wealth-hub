@@ -17,7 +17,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { BusinessFilters } from '@/lib/api/directory-api';
+import { BusinessFilters } from '@/lib/api/directory/types';
 
 // Export the interface for use in other components
 export interface DirectoryFilterProps {

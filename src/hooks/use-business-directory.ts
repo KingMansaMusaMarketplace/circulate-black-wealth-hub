@@ -6,7 +6,7 @@ import {
   BusinessFilters, 
   PaginationParams, 
   BusinessQueryResult
-} from '@/lib/api/directory-api';
+} from '@/lib/api/directory';
 import { Business } from '@/types/business';
 
 export interface UseBusinessDirectoryOptions {

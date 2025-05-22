@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
@@ -16,7 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, ArrowUp } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from '@/components/ui/button';
-import { BusinessFilters } from '@/lib/api/directory-api';
+import { BusinessFilters } from '@/lib/api/directory/types';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 

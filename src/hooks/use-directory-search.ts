@@ -1,8 +1,8 @@
-
 import { useState, useEffect, useCallback } from 'react';
 import { useLocation as useRouterLocation } from 'react-router-dom';
 import { Business } from '@/types/business';
-import { BusinessFilters } from '@/lib/api/directory-api';
+import { BusinessFilters } from '@/lib/api/directory/types';
+import { calculateDistance } from '@/lib/api/directory/utils';
 
 export function useDirectorySearch(businesses: Business[]) {
   const [searchTerm, setSearchTerm] = useState('');
