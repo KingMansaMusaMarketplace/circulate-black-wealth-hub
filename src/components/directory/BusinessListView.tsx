@@ -4,6 +4,7 @@ import { Business } from '@/types/business';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { MapPin, Star } from 'lucide-react';
+import { getBusinessImageUrl } from '@/lib/api/directory/utils';
 
 interface BusinessListViewProps {
   businesses: Business[];
