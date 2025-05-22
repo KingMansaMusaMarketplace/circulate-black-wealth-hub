@@ -1,6 +1,8 @@
 
-import React, { useRef, useState, useEffect } from 'react';
-import { getYouTubeId, getYouTubeEmbedUrl } from './utils/youtube';
+import React from 'react';
+import { useYouTubePlayer } from './hooks/useYouTubePlayer';
+import YouTubeLoadingState from './components/YouTubeLoadingState';
+import YouTubeErrorState from './components/YouTubeErrorState';
 
 interface YouTubePlayerProps {
   src: string;
@@ -10,13 +12,6 @@ interface YouTubePlayerProps {
   onError?: () => void;
 }
 
-declare global {
-  interface Window {
-    YT: any;
-    onYouTubeIframeAPIReady: () => void;
-  }
-}
-
 const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   src,
   isPlaying,
@@ -24,127 +19,16 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   onStateChange,
   onError,
 }) => {
-  const playerRef = useRef<HTMLIFrameElement>(null);
-  const youtubePlayer = useRef<any>(null);
-  const [ytApiLoaded, setYtApiLoaded] = useState(false);
-  const [videoId, setVideoId] = useState<string | null>(null);
-  const [playerReady, setPlayerReady] = useState(false);
-  
-  // Extract video ID from source URL
-  useEffect(() => {
-    const id = getYouTubeId(src);
-    console.log("YouTube Video ID:", id);
-    setVideoId(id);
-  }, [src]);
-  
-  // Load YouTube iframe API
-  useEffect(() => {
-    if (!window.YT) {
-      const tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-      
-      window.onYouTubeIframeAPIReady = () => {
-        console.log("YouTube API loaded");
-        setYtApiLoaded(true);
-      };
-    } else {
-      setYtApiLoaded(true);
-    }
-    
-    // Cleanup
-    return () => {
-      if (youtubePlayer.current) {
-        youtubePlayer.current = null;
-      }
-    };
-  }, []);
-  
-  // Create the iframe player
-  useEffect(() => {
-    if (!ytApiLoaded || !videoId) return;
-    
-    const embedUrl = getYouTubeEmbedUrl(videoId);
-    
-    if (playerRef.current) {
-      playerRef.current.src = `${embedUrl}?enablejsapi=1&origin=${window.location.origin}&autoplay=${isPlaying ? '1' : '0'}&mute=${isMuted ? '1' : '0'}`;
-    }
-  }, [ytApiLoaded, videoId, isPlaying, isMuted]);
-  
-  // Handle messages from the iframe
-  useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      // Make sure the message is from YouTube
-      if (event.origin !== "https://www.youtube.com") return;
-      
-      try {
-        const data = JSON.parse(event.data);
-        
-        // YouTube iframe API sends events in this format
-        if (data.event === "onStateChange") {
-          // YouTube states: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering)
-          if (data.info === 1) {
-            onStateChange(true, 1);
-            setPlayerReady(true);
-          } else if (data.info === 2) {
-            onStateChange(false, 2);
-          } else if (data.info === 0) {
-            onStateChange(false, 0);
-          }
-        } else if (data.event === "onError") {
-          console.error("YouTube player error:", data);
-          onError?.();
-        }
-      } catch (e) {
-        // Not a JSON message or not for us
-      }
-    };
-    
-    window.addEventListener("message", handleMessage);
-    return () => {
-      window.removeEventListener("message", handleMessage);
-    };
-  }, [onStateChange, onError]);
-  
-  // Handle play/pause changes
-  useEffect(() => {
-    if (!playerRef.current || !playerReady) return;
-    
-    // Send play/pause commands via postMessage
-    const command = isPlaying ? 'playVideo' : 'pauseVideo';
-    playerRef.current.contentWindow?.postMessage(
-      JSON.stringify({
-        event: 'command',
-        func: command,
-        args: []
-      }), 
-      '*'
-    );
-  }, [isPlaying, playerReady]);
-  
-  // Handle mute/unmute changes
-  useEffect(() => {
-    if (!playerRef.current || !playerReady) return;
-    
-    // Send mute/unmute commands via postMessage
-    const command = isMuted ? 'mute' : 'unMute';
-    playerRef.current.contentWindow?.postMessage(
-      JSON.stringify({
-        event: 'command',
-        func: command,
-        args: []
-      }), 
-      '*'
-    );
-  }, [isMuted, playerReady]);
+  const { playerRef, videoId, playerReady } = useYouTubePlayer({
+    src,
+    isPlaying,
+    isMuted,
+    onStateChange,
+    onError,
+  });
   
   if (!videoId) {
-    return (
-      <div className="flex items-center justify-center w-full h-full bg-gray-900 text-white">
-        <p>Invalid YouTube URL</p>
-      </div>
-    );
+    return <YouTubeErrorState />;
   }
   
   return (
@@ -159,11 +43,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           allowFullScreen
         ></iframe>
       )}
-      {!playerReady && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
-          <div className="animate-pulse text-white">Loading video...</div>
-        </div>
-      )}
+      {!playerReady && <YouTubeLoadingState />}
     </div>
   );
 };
