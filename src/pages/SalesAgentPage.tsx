@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/auth';
@@ -139,7 +138,7 @@ const SalesAgentPage: React.FC = () => {
                 Login to Apply
               </a>
             </Button>
-            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-mansablue" asChild>
+            <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10" asChild>
               <a href="/signup">
                 Create an Account
               </a>
