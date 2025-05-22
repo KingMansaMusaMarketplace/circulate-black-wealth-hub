@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -30,7 +29,7 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "" }) => {
         className={isActive('/directory') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
         asChild
       >
-        <Link to="/directory">Directory</Link>
+        <Link to="/directory">Map Directory</Link>
       </Button>
       
       <Button 
@@ -39,7 +38,7 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "" }) => {
         className={isActive('/businesses') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
         asChild
       >
-        <Link to="/businesses">Businesses</Link>
+        <Link to="/businesses">All Businesses</Link>
       </Button>
       
       <Button 

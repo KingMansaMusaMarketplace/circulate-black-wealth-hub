@@ -38,6 +38,10 @@ const BusinessesPage: React.FC = () => {
     setCurrentPage(1); // Reset to first page when searching
   };
   
+  // Debug logging to check if businesses data is available
+  console.log(`Total businesses: ${businesses.length}`);
+  console.log(`Current page: ${currentPage}, businesses shown: ${currentBusinesses.length}`);
+  
   return (
     <div className="flex flex-col min-h-screen">
       <Helmet>
