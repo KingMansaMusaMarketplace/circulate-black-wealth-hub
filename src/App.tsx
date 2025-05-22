@@ -1,98 +1,111 @@
+import React from 'react';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import HomePage from './pages/HomePage';
+import BusinessDirectoryPage from './pages/BusinessDirectoryPage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import { AuthProvider } from './contexts/AuthContext';
+import ProfilePage from './pages/ProfilePage';
+import BusinessProfilePage from './pages/BusinessProfilePage';
+import QRScannerPage from './pages/QRScannerPage';
+import LoyaltyPage from './pages/LoyaltyPage';
+import SalesAgentSignup from './pages/SalesAgentSignup';
+import SalesAgentDashboard from './pages/SalesAgentDashboard';
+import BusinessSignupPage from './pages/BusinessSignupPage';
+import CustomerSignupPage from './pages/CustomerSignupPage';
+import SignupSuccessPage from './pages/SignupSuccessPage';
+import RequireAuth from './components/auth/RequireAuth';
+import RequireBusiness from './components/auth/RequireBusiness';
+import RequireCustomer from './components/auth/RequireCustomer';
+import RequireSalesAgent from './components/auth/RequireSalesAgent';
+import BusinessDashboard from './pages/BusinessDashboard';
+import LoyaltyHistoryPage from './pages/LoyaltyHistoryPage';
+import QRCodeGeneratorPage from './pages/QRCodeGeneratorPage';
+import QRCodeScannerV2Page from './pages/QRCodeScannerV2Page';
+import ReferralPage from './pages/ReferralPage';
 
-import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
-
-// Pages
-import Index from '@/pages/Index';
-import AboutUsPage from '@/pages/AboutUsPage';
-import DirectoryPage from '@/pages/DirectoryPage';
-import BusinessDetailPage from '@/pages/BusinessDetailPage';
-import HowItWorksPage from '@/pages/HowItWorksPage';
-import DashboardPage from '@/pages/DashboardPage';
-import QRScannerPage from '@/pages/QRScannerPage';
-import LoginPage from '@/pages/LoginPage';
-import SignupPage from '@/pages/SignupPage';
-import SignupSuccessPage from '@/pages/SignupSuccessPage';
-import SettingsPage from '@/pages/SettingsPage';
-import BusinessProfilePage from '@/pages/BusinessProfilePage';
-import AdminPage from '@/pages/AdminPage';
-import QRCodeManagementPage from '@/pages/QRCodeManagementPage';
-import CapacitorTestPage from '@/pages/CapacitorTestPage';
-import NotFound from '@/pages/NotFound';
-import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
-import TermsOfServicePage from '@/pages/TermsOfServicePage';
-import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
-import SalesAgentPage from '@/pages/SalesAgentPage';
-import LoyaltyPage from '@/pages/LoyaltyPage';
-
-// Context Providers
-import { AuthProvider } from '@/contexts/auth';
-import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
-import { Toaster } from '@/components/ui/toaster';
-import { ThemeProvider } from '@/components/ui/theme-provider';
-import { Toaster as SonnerToaster } from 'sonner';
-import { initializeCapacitorPlugins } from '@/utils/capacitor-plugins';
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/directory",
+    element: <BusinessDirectoryPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/signup",
+    element: <SignupPage />,
+  },
+  {
+    path: "/signup-success",
+    element: <SignupSuccessPage />,
+  },
+  {
+    path: "/business-signup",
+    element: <BusinessSignupPage />,
+  },
+  {
+    path: "/customer-signup",
+    element: <CustomerSignupPage />,
+  },
+  {
+    path: "/profile",
+    element: <RequireAuth><ProfilePage /></RequireAuth>,
+  },
+  {
+    path: "/business/:id",
+    element: <BusinessProfilePage />,
+  },
+  {
+    path: "/scan",
+    element: <RequireCustomer><QRScannerPage /></RequireCustomer>,
+  },
+  {
+   path: "/scan-v2",
+   element: <RequireCustomer><QRCodeScannerV2Page /></RequireCustomer>,
+  },
+  {
+    path: "/loyalty",
+    element: <RequireCustomer><LoyaltyPage /></RequireCustomer>,
+  },
+  {
+    path: "/loyalty-history",
+    element: <RequireCustomer><LoyaltyHistoryPage /></RequireCustomer>,
+  },
+  {
+    path: "/become-agent",
+    element: <RequireAuth><SalesAgentSignup /></RequireAuth>,
+  },
+  {
+    path: "/agent-dashboard",
+    element: <RequireSalesAgent><SalesAgentDashboard /></RequireSalesAgent>,
+  },
+  {
+    path: "/business-dashboard",
+    element: <RequireBusiness><BusinessDashboard /></RequireBusiness>,
+  },
+  {
+    path: "/qr-generator",
+    element: <RequireBusiness><QRCodeGeneratorPage /></RequireBusiness>,
+  },
+  {
+    path: "/referrals",
+    element: <ReferralPage />
+  },
+]);
 
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Initialize Capacitor plugins
-    const initPlugins = async () => {
-      try {
-        await initializeCapacitorPlugins();
-      } catch (error) {
-        console.error('Error initializing Capacitor plugins:', error);
-      }
-      setIsLoading(false);
-    };
-
-    initPlugins();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <div className="animate-spin w-16 h-16 border-t-4 border-mansablue border-solid rounded-full"></div>
-      </div>
-    );
-  }
-
   return (
     <AuthProvider>
-      <SubscriptionProvider>
-        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-          <Router>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<AboutUsPage />} />
-              <Route path="/directory" element={<DirectoryPage />} />
-              <Route path="/businesses" element={<DirectoryPage />} />
-              <Route path="/business/:id" element={<BusinessDetailPage />} />
-              <Route path="/how-it-works" element={<HowItWorksPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/scan" element={<QRScannerPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="/signup-success" element={<SignupSuccessPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/business-profile" element={<BusinessProfilePage />} />
-              <Route path="/admin" element={<AdminPage />} />
-              <Route path="/qr-code-management" element={<QRCodeManagementPage />} />
-              <Route path="/capacitor-test" element={<CapacitorTestPage />} />
-              <Route path="/privacy" element={<PrivacyPolicyPage />} />
-              <Route path="/terms" element={<TermsOfServicePage />} />
-              <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
-              <Route path="/sales-agent" element={<SalesAgentPage />} />
-              <Route path="/loyalty" element={<LoyaltyPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <SonnerToaster position="top-right" />
-            <Toaster />
-          </Router>
-        </ThemeProvider>
-      </SubscriptionProvider>
+      <RouterProvider router={router} />
     </AuthProvider>
   );
 }

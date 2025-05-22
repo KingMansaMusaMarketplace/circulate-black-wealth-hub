@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Award, Gift, QrCode, ArrowRight, X } from 'lucide-react';
+import { Award, Gift, QrCode, ArrowRight, X, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface GuideStep {
@@ -30,6 +30,11 @@ export function LoyaltyGuide() {
       title: "Redeem Rewards",
       description: "Use your points to claim exciting rewards from local businesses and exclusive discounts.",
       icon: <Gift className="h-10 w-10 text-green-600" />
+    },
+    {
+      title: "Refer Friends",
+      description: "Share your referral code with friends and family. You'll both earn bonus points when they join.",
+      icon: <Users className="h-10 w-10 text-purple-600" />
     }
   ];
 

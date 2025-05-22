@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLoyaltyRewards } from '@/hooks/loyalty-qr-code/use-loyalty-rewards';
@@ -13,6 +14,7 @@ import { Link } from 'react-router-dom';
 import LeaderboardCard from '@/components/loyalty/LeaderboardCard';
 import NotificationsPopover from '@/components/loyalty/NotificationsPopover';
 import LoyaltyGuide from '@/components/loyalty/LoyaltyGuide';
+import ReferralCard from '@/components/loyalty/ReferralCard';
 
 // Define the LoyaltyTransaction type expected by LoyaltyHistory component
 interface LoyaltyTransaction {
@@ -68,47 +70,51 @@ const LoyaltyPage = () => {
           />
         </div>
         
-        <Card className="flex-1">
-          <CardContent className="p-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-mansablue">{totalPoints}</h2>
-              <p className="text-gray-500">Total Points</p>
-              
-              <div className="grid grid-cols-2 gap-4 mt-6">
-                <Button variant="outline" className="flex items-center gap-2" asChild>
-                  <Link to="/scan">
-                    <QrCode size={16} />
-                    Scan for Points
-                  </Link>
-                </Button>
-                <Button variant="outline" className="flex items-center gap-2" asChild>
-                  <Link to="/loyalty-history">
-                    <BarChart2 size={16} />
-                    View History
-                  </Link>
-                </Button>
+        <div className="w-full md:w-2/3 flex flex-col gap-6">
+          <Card className="flex-1">
+            <CardContent className="p-6">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold text-mansablue">{totalPoints}</h2>
+                <p className="text-gray-500">Total Points</p>
+                
+                <div className="grid grid-cols-2 gap-4 mt-6">
+                  <Button variant="outline" className="flex items-center gap-2" asChild>
+                    <Link to="/scan">
+                      <QrCode size={16} />
+                      Scan for Points
+                    </Link>
+                  </Button>
+                  <Button variant="outline" className="flex items-center gap-2" asChild>
+                    <Link to="/loyalty-history">
+                      <BarChart2 size={16} />
+                      View History
+                    </Link>
+                  </Button>
+                </div>
+                
+                <div className="mt-6 pt-6 border-t">
+                  <h3 className="text-sm font-medium mb-3">Your Points by Business</h3>
+                  {loyaltyPoints.length > 0 ? (
+                    <div className="space-y-2">
+                      {loyaltyPoints.map((biz, index) => (
+                        <div key={index} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                          <span className="font-medium">{biz.businessName}</span>
+                          <Badge className="bg-mansablue">{biz.points} pts</Badge>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-sm">
+                      Visit businesses and scan QR codes to earn points
+                    </p>
+                  )}
+                </div>
               </div>
-              
-              <div className="mt-6 pt-6 border-t">
-                <h3 className="text-sm font-medium mb-3">Your Points by Business</h3>
-                {loyaltyPoints.length > 0 ? (
-                  <div className="space-y-2">
-                    {loyaltyPoints.map((biz, index) => (
-                      <div key={index} className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                        <span className="font-medium">{biz.businessName}</span>
-                        <Badge className="bg-mansablue">{biz.points} pts</Badge>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-500 text-sm">
-                    Visit businesses and scan QR codes to earn points
-                  </p>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+          
+          <ReferralCard />
+        </div>
       </div>
       
       <Tabs defaultValue="rewards" className="w-full">
