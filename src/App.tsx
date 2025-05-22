@@ -12,6 +12,8 @@ import AboutPage from './pages/AboutPage';
 import AboutUsPage from './pages/AboutUsPage';
 import TeamContactPage from './pages/TeamContactPage';
 import NotFound from './pages/NotFound';
+import LoyaltyPage from './pages/LoyaltyPage';
+import LoyaltyHistoryPage from './pages/LoyaltyHistoryPage';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from './contexts/auth/AuthProvider';
 
@@ -29,6 +31,10 @@ function App() {
           {/* Directory routes */}
           <Route path="/directory" element={<BusinessDirectoryPage />} />
           <Route path="/businesses" element={<BusinessesPage />} />
+          
+          {/* Loyalty routes */}
+          <Route path="/loyalty" element={<LoyaltyPage />} />
+          <Route path="/loyalty-history" element={<LoyaltyHistoryPage />} />
           
           {/* About pages */}
           <Route path="/about" element={<AboutPage />} />
