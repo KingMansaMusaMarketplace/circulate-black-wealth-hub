@@ -62,7 +62,7 @@ export async function fetchBusinessById(id: number): Promise<Business | null> {
     const { data, error } = await supabase
       .from('businesses')
       .select('*')
-      .eq('id', id)
+      .eq('id', id.toString()) // Convert number ID to string for Supabase query
       .single();
     
     if (error) {
