@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -100,23 +101,6 @@ const BenefitsSection = () => {
       <div className="container-custom px-4">
         <BenefitsHeader isVisible={isVisible} />
         
-        {/* YouTube Video Section */}
-        <motion.div
-          className="mb-10 max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          <div className="bg-white p-4 rounded-xl shadow-md overflow-hidden">
-            <VideoPlayer
-              src="https://www.youtube.com/embed/71FmkfENYDI"
-              title="Mansa Musa Benefits Explained"
-              isYouTube={true}
-              className="w-full"
-            />
-          </div>
-        </motion.div>
-
         <motion.div 
           className="flex justify-center mb-8"
           initial={{ opacity: 0, y: 20 }}
