@@ -1,4 +1,5 @@
 
+import { AuthError, UserResponse } from '@supabase/supabase-js';
 import { ToastProps } from './types';
 import { 
   handleSignUp, 
@@ -10,7 +11,6 @@ import {
 } from '@/lib/auth';
 import { getMFAFactors, createMFAChallenge } from './mfaUtils';
 import { toast } from 'sonner';
-import { AuthError, UserResponse } from '@supabase/supabase-js';
 
 // Helper function to wrap toast in the expected format
 export const toastWrapper = (props: ToastProps) => {
@@ -32,7 +32,7 @@ export const enhancedSignIn = async (
   email: string, 
   password: string, 
   setUser: (user: any) => void, 
-  getMFAFactors: () => Promise<any[]>, 
+  getMFAFactorsFn: () => Promise<any[]>, 
   setCurrentMFAChallenge: (challenge: any) => void, 
   toastFn?: (props: ToastProps) => any
 ) => {
@@ -57,7 +57,7 @@ export const enhancedSignIn = async (
       setUser(result.data.user);
       
       // Fetch available MFA factors
-      const factors = await getMFAFactors();
+      const factors = await getMFAFactorsFn();
       console.log("MFA factors:", factors);
       
       // If user has MFA factors, initiate a challenge
@@ -96,7 +96,7 @@ export const handleUserSignUp = async (email: string, password: string, metadata
   console.log("Handling user signup with metadata:", metadata);
   const result = await handleSignUp(email, password, metadata, toastFn);
   console.log("Signup result:", result);
-  return result;
+  return result as {error?: AuthError, data?: UserResponse};
 };
 
 export const handleUserSignIn = (email: string, password: string, toastFn?: any) => 
@@ -127,3 +127,10 @@ export const checkUserSession = async (): Promise<boolean> => {
     return false;
   }
 };
+
+// Export these function names to match the imports in useAuthState.ts
+export const signInWithEmail = handleUserSignIn;
+export const signInWithProvider = handleUserSocialSignIn;
+export const signUp = handleUserSignUp;
+export const signOut = handleUserSignOut;
+export { checkMFAStatus } from './mfaUtils';

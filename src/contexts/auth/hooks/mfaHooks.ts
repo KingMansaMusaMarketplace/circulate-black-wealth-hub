@@ -1,25 +1,46 @@
 
-import { setupMFA } from '../mfaUtils';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
+import { setupMFA as setupMFAUtil } from './mfaUtils';
 
 export const useMFASetup = (userId: string | null) => {
-  const [isSettingUp, setIsSettingUp] = useState(false);
-  
-  const setupMFAForUser = useCallback(async () => {
+  const [isEnrolling, setIsEnrolling] = useState(false);
+  const [enrollmentData, setEnrollmentData] = useState<{ qrCode?: string, secret?: string, factorId?: string } | null>(null);
+
+  const setupMFAForUser = async () => {
     if (!userId) {
-      throw new Error("User must be logged in to setup MFA");
+      console.error('Cannot set up MFA: No user ID provided');
+      return '';
     }
-    setIsSettingUp(true);
+    
     try {
-      const result = await setupMFA(userId);
-      return result;
+      setIsEnrolling(true);
+      const factorId = await setupMFAUtil(userId);
+      
+      if (factorId) {
+        // Here we would normally set the enrollment data with QR code
+        setEnrollmentData({
+          factorId,
+          // Add other data as needed from the setupMFA response
+        });
+      }
+      
+      return factorId;
+    } catch (error) {
+      console.error('Error setting up MFA:', error);
+      return '';
     } finally {
-      setIsSettingUp(false);
+      setIsEnrolling(false);
     }
-  }, [userId]);
-  
+  };
+
+  const resetEnrollment = () => {
+    setEnrollmentData(null);
+  };
+
   return {
-    isSettingUp,
-    setupMFAForUser
+    isEnrolling,
+    enrollmentData,
+    setupMFAForUser,
+    resetEnrollment
   };
 };

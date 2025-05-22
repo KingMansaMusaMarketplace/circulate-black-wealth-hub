@@ -20,3 +20,22 @@ export type AuthActions = {
   signOut: () => Promise<void>;
   setupMFA: () => Promise<string>;
 };
+
+export type ToastProps = {
+  title: string;
+  description: string;
+  variant?: "default" | "destructive";
+};
+
+export type Factor = {
+  id: string;
+  type: string;
+  status: string;
+  friendly_name?: string;
+};
+
+export type MFAChallenge = {
+  id: string;
+  factorId: string;
+  expiresAt: string;
+};
