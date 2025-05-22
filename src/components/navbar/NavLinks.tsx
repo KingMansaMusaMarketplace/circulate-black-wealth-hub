@@ -70,6 +70,24 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "" }) => {
       </Button>
       
       <Button 
+        variant={isActive('/about-us') ? "default" : "ghost"} 
+        size="sm" 
+        className={isActive('/about-us') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
+        asChild
+      >
+        <Link to="/about-us">About Us</Link>
+      </Button>
+      
+      <Button 
+        variant={isActive('/team-contact') ? "default" : "ghost"} 
+        size="sm" 
+        className={isActive('/team-contact') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
+        asChild
+      >
+        <Link to="/team-contact">Our Team</Link>
+      </Button>
+      
+      <Button 
         variant={isActive('/corporate-sponsorship') ? "default" : "ghost"} 
         size="sm" 
         className={isActive('/corporate-sponsorship') ? "bg-mansablue" : "text-gray-700 hover:text-mansablue"} 
