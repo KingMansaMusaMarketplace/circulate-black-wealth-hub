@@ -139,7 +139,8 @@ export function useAuthState(): [AuthState, AuthActions] {
     try {
       safeSetState({ isLoading: true });
       
-      const { data, error } = await supabase.auth.signUp({
+      // Fix the return type to match the expected interface
+      const result = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -156,7 +157,11 @@ export function useAuthState(): [AuthState, AuthActions] {
         },
       });
       
-      return { data, error };
+      // Transform the result to match the expected return type
+      return { 
+        data: result.data as UserResponse,
+        error: result.error 
+      };
     } catch (error) {
       console.error("Error signing up:", error);
       return { error: error as AuthError };
