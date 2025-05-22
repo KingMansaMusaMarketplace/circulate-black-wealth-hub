@@ -1,93 +1,129 @@
 
+import { ToastProps } from './types';
+import { 
+  handleSignUp, 
+  handleSignIn, 
+  handleSignOut,
+  handleSocialSignIn,
+  requestPasswordReset,
+  updatePassword 
+} from '@/lib/auth';
+import { getMFAFactors, createMFAChallenge } from './mfaUtils';
+import { toast } from 'sonner';
 import { AuthError, UserResponse } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
-import { getMFAStatus } from '../mfaUtils';
 
-// Check if a user session exists and is valid
-export const checkSession = async () => {
-  const { data: { session } } = await supabase.auth.getSession();
-  return session;
-};
-
-// Sign in with email and password
-export const signInWithEmail = async (email: string, password: string) => {
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+// Helper function to wrap toast in the expected format
+export const toastWrapper = (props: ToastProps) => {
+  if (props.variant === "destructive") {
+    toast.error(props.title, {
+      description: props.description
     });
-    
-    return { data, error };
-  } catch (error) {
-    console.error("Error signing in:", error);
-    return { error: error as AuthError };
+  } else {
+    toast.success(props.title, {
+      description: props.description
+    });
   }
+  
+  return props;
 };
 
-// Sign in with third-party provider
-export const signInWithProvider = async (provider: 'google' | 'facebook' | 'github') => {
+// Enhanced sign-in function that handles MFA challenges
+export const enhancedSignIn = async (
+  email: string, 
+  password: string, 
+  setUser: (user: any) => void, 
+  getMFAFactors: () => Promise<any[]>, 
+  setCurrentMFAChallenge: (challenge: any) => void, 
+  toastFn?: (props: ToastProps) => any
+) => {
   try {
-    return await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-  } catch (error) {
-    console.error("Error signing in with provider:", error);
-    throw error;
-  }
-};
-
-// Sign up with email and password
-export const signUp = async (email: string, password: string, metadata?: object) => {
-  try {
-    const result = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          ...metadata,
-          // If this is a referral, store the metadata
-          referred_by: metadata && 'referring_agent' in metadata 
-            ? (metadata as any).referring_agent
-            : null,
-          referral_code: metadata && 'referral_code' in metadata
-            ? (metadata as any).referral_code
-            : null
-        },
-      },
-    });
+    console.log("Attempting enhanced sign-in for:", email);
+    const result = await handleSignIn(email, password, toastFn);
     
     if (result.error) {
-      return { error: result.error };
+      console.error("Sign in error:", result.error);
+      return result;
     }
     
-    // Create a properly typed response
-    const response: { error?: AuthError; data?: UserResponse } = {
-      data: result.data,
-      error: undefined
-    };
+    console.log("Sign-in result:", result.data?.session ? "Session exists" : "No session", 
+                result.data?.user ? "User exists" : "No user");
     
-    return response;
+    // Check if MFA challenge is required
+    if (result.data?.session === null && result.data?.user !== null) {
+      console.log("MFA may be required - session null but user exists");
+      
+      // User exists but session is null - likely needs MFA
+      // Store user for later reference
+      setUser(result.data.user);
+      
+      // Fetch available MFA factors
+      const factors = await getMFAFactors();
+      console.log("MFA factors:", factors);
+      
+      // If user has MFA factors, initiate a challenge
+      if (factors.length > 0) {
+        const challenge = await createMFAChallenge(factors[0].id);
+        console.log("MFA challenge created:", challenge);
+        
+        if (challenge) {
+          // Store the challenge for verification
+          // Convert expires_at to string if it's not already
+          setCurrentMFAChallenge({
+            id: challenge.id,
+            factorId: factors[0].id,
+            expiresAt: String(challenge.expires_at)
+          });
+          
+          // Return a special result indicating MFA is required
+          return { 
+            ...result, 
+            mfaRequired: true,
+            factorId: factors[0].id,
+            challengeId: challenge.id
+          };
+        }
+      }
+    }
+    
+    return result;
   } catch (error) {
-    console.error("Error signing up:", error);
-    return { error: error as AuthError };
+    console.error('Enhanced sign in error:', error);
+    return { data: null, error };
   }
 };
 
-// Sign out
-export const signOut = async () => {
+export const handleUserSignUp = async (email: string, password: string, metadata?: any, toastFn?: any): Promise<{error?: AuthError, data?: UserResponse}> => {
+  console.log("Handling user signup with metadata:", metadata);
+  const result = await handleSignUp(email, password, metadata, toastFn);
+  console.log("Signup result:", result);
+  return result;
+};
+
+export const handleUserSignIn = (email: string, password: string, toastFn?: any) => 
+  handleSignIn(email, password, toastFn);
+
+export const handleUserSignOut = (toastFn?: any) => 
+  handleSignOut(toastFn);
+
+export const handleUserSocialSignIn = (provider: any, toastFn?: any) => 
+  handleSocialSignIn(provider, toastFn);
+
+export const handlePasswordReset = (email: string, toastFn?: any) => 
+  requestPasswordReset(email, toastFn);
+
+export const handleUpdatePassword = (newPassword: string, toastFn?: any) => 
+  updatePassword(newPassword, toastFn);
+
+// Check if the session is valid
+export const checkUserSession = async (): Promise<boolean> => {
   try {
-    await supabase.auth.signOut();
+    console.log("Checking user session...");
+    const { supabase } = await import('@/integrations/supabase/client');
+    const { data: { session } } = await supabase.auth.getSession();
+    console.log("checkUserSession result:", !!session);
+    return !!session;
   } catch (error) {
-    console.error("Error signing out:", error);
-    throw error;
+    console.error('Error checking session:', error);
+    return false;
   }
-};
-
-// Check MFA status for a user
-export const checkMFAStatus = async (userId: string) => {
-  if (!userId) return false;
-  return await getMFAStatus(userId);
 };
