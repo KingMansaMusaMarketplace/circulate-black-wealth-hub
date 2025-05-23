@@ -115,7 +115,7 @@ const GuestView: React.FC = () => {
               Login to Apply
             </a>
           </Button>
-          <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/20" asChild>
+          <Button variant="outline" size="lg" className="bg-mansagold hover:bg-mansagold-dark text-white border-mansagold hover:border-mansagold-dark" asChild>
             <a href="/signup">
               Create an Account
             </a>
@@ -127,3 +127,4 @@ const GuestView: React.FC = () => {
 };
 
 export default GuestView;
+
