@@ -16,7 +16,7 @@ const SponsorshipVideoSection = () => {
         >
           <h2 className="text-3xl font-bold text-gray-900 mb-4">See The Impact</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Watch how if stick together in our communities and businesses we can transform economic circulation of black empowerment.
+            Watch how if we stick together in our communities and businesses we can transform economic circulation of black empowerment.
           </p>
         </motion.div>
 
