@@ -69,7 +69,7 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden lg:col-span-1 md:col-span-2 lg:col-span-1"
           >
             <VideoPlayer
-              src="https://www.youtube.com/embed/8jLOx1hD3_o"
+              src="https://www.youtube.com/embed/sn19xvfoXvk"
               title="Join Our Team"
               isYouTube={true}
               posterImage="/placeholder.svg"
@@ -77,7 +77,7 @@ const SponsorshipVideoSection = () => {
             />
             <div className="p-4 bg-white">
               <h3 className="font-bold text-lg">Join Our Team</h3>
-              <p className="text-gray-600">Learn how you can become a sales agent and help grow our community.</p>
+              <p className="text-gray-600">Let's help one another get out of economic enslavement.</p>
             </div>
           </motion.div>
         </div>
