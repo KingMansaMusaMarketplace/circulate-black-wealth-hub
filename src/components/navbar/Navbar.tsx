@@ -28,18 +28,18 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   };
 
   return (
-    <header className={`bg-white shadow-md z-40 w-full sticky top-0 ${className}`}>
+    <header className={`bg-white shadow-sm z-40 w-full sticky top-0 border-b border-gray-100 ${className}`}>
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-18 items-center justify-between py-3">
           <div className="flex items-center">
             {/* Logo */}
             <Logo />
             
             {/* Navigation links - only show on desktop */}
-            <NavLinks className="ml-8" />
+            <NavLinks className="ml-10" />
           </div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center gap-2">
             {/* Mobile menu button */}
             {isMobile && (
               <Button variant="ghost" size="icon" onClick={toggleMobileMenu} className="md:hidden">

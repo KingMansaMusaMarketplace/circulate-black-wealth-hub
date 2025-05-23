@@ -28,14 +28,14 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "", onClick }) => {
           key={link.path}
           to={link.path}
           onClick={onClick}
-          className={`text-sm font-medium transition-colors hover:text-mansablue relative group
+          className={`text-sm font-medium transition-colors hover:text-mansablue relative group px-1
             ${location.pathname === link.path
-              ? "text-mansablue"
+              ? "text-mansablue font-semibold"
               : "text-gray-700"
             }`}
         >
           {link.name}
-          <span className={`absolute -bottom-1 left-0 w-full h-0.5 bg-mansablue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 
+          <span className={`absolute -bottom-1.5 left-0 w-full h-0.5 bg-mansablue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 
             ${location.pathname === link.path ? "scale-x-100" : ""}`}></span>
         </Link>
       ))}

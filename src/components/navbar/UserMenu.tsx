@@ -32,7 +32,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
 }) => {
   if (user) {
     return (
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center gap-4">
         {/* Loyalty points indicator if user is logged in */}
         <Link to="/loyalty" className="hidden md:flex">
           <LoyaltyPointsIndicator />
@@ -87,15 +87,15 @@ const UserMenu: React.FC<UserMenuProps> = ({
   // Show auth buttons when user is not logged in and not on mobile
   if (!isMobile) {
     return (
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center gap-3">
         {!isLoginPage && (
           <Link to="/login">
-            <Button variant="outline" className="font-medium px-4 shadow-sm border-gray-200 hover:border-mansablue/50">Log In</Button>
+            <Button variant="outline" className="font-medium px-5 shadow-sm border-gray-200 hover:border-mansablue/50">Log In</Button>
           </Link>
         )}
         {!isSignupPage && (
           <Link to="/signup">
-            <Button className="font-medium px-4 bg-gradient-to-r from-mansablue to-mansablue-light shadow-md hover:shadow-lg transition-shadow">Sign Up</Button>
+            <Button className="font-medium px-5 bg-gradient-to-r from-mansablue to-mansablue-light shadow-md hover:shadow-lg transition-shadow">Sign Up</Button>
           </Link>
         )}
       </div>
