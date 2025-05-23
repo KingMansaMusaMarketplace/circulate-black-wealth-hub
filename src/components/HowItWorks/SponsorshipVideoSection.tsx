@@ -57,7 +57,7 @@ const SponsorshipVideoSection = () => {
             />
             <div className="p-4 bg-white">
               <h3 className="font-bold text-lg">Marketplace Benefits</h3>
-              <p className="text-gray-600">Discover the benefits of our marketplace for businesses and customers.</p>
+              <p className="text-gray-600">Discover the benefits of two brothers creating a empowerment zone for black businesses.</p>
             </div>
           </motion.div>
           
