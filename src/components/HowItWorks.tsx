@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { CircleCheck, CircleUser, CircleDollarSign, QrCode } from 'lucide-react';
 
@@ -18,7 +17,7 @@ const HowItWorks = () => {
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <CircleUser className="h-12 w-12 text-mansablue" />
-            <h3 className="mt-5 text-lg font-medium text-gray-900">Sign Up Free</h3>
+            <h3 className="mt-5 text-lg font-medium text-gray-900">Sign Up</h3>
             <p className="mt-2 text-base text-gray-500">
               Join our platform as a business or customer in just minutes.
             </p>
