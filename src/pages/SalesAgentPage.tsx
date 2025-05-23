@@ -7,6 +7,8 @@ import { useSalesAgentTabs } from '@/hooks/use-sales-agent-tabs';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import GuestView from '@/components/sales-agent/GuestView';
 import AgentContent from '@/components/sales-agent/AgentContent';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const SalesAgentPage: React.FC = () => {
   const { user } = useAuth();
@@ -23,6 +25,16 @@ const SalesAgentPage: React.FC = () => {
       <Helmet>
         <title>Sales Agent Program | Mansa Musa Marketplace</title>
       </Helmet>
+
+      {/* Account Button - Fixed position at top right */}
+      <div className="fixed top-4 right-4 z-40">
+        <Button 
+          className="bg-mansagold hover:bg-mansagold-dark text-white font-medium shadow-md"
+          asChild
+        >
+          <Link to="/profile">Account</Link>
+        </Button>
+      </div>
 
       {!user ? (
         <div className="max-w-6xl mx-auto">
