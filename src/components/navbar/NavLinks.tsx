@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -21,7 +22,7 @@ const NavLinks: React.FC<NavLinksProps> = ({ className = "", onClick }) => {
   ];
   
   return (
-    <nav className={`hidden md:flex items-center space-x-6 ${className}`}>
+    <nav className={`hidden md:flex items-center space-x-8 ${className}`}>
       {links.map((link) => (
         <Link
           key={link.path}
