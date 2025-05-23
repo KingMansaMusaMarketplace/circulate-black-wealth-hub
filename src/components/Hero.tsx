@@ -67,8 +67,8 @@ const Hero = () => {
               
               <img
                 className="relative z-10 h-56 w-full object-cover sm:h-72 md:h-96 rounded-lg shadow-lg"
-                src="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
-                alt="Black entrepreneur working at a desk"
+                src="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+                alt="Group of Black professionals collaborating around laptops"
               />
             </div>
           </div>
