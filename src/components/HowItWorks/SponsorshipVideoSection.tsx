@@ -70,14 +70,14 @@ const SponsorshipVideoSection = () => {
           >
             <VideoPlayer
               src="https://www.youtube.com/embed/8jLOx1hD3_o"
-              title="Community Impact"
+              title="Join Our Team"
               isYouTube={true}
               posterImage="/placeholder.svg"
               className="w-full"
             />
             <div className="p-4 bg-white">
-              <h3 className="font-bold text-lg">Community Impact</h3>
-              <p className="text-gray-600">Discover the positive changes in communities using our platform.</p>
+              <h3 className="font-bold text-lg">Join Our Team</h3>
+              <p className="text-gray-600">Learn how you can become a sales agent and help grow our community.</p>
             </div>
           </motion.div>
         </div>
