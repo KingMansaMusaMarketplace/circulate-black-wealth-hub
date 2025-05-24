@@ -3,6 +3,7 @@ import React from 'react';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import ReferralCodeField from './fields/ReferralCodeField';
+import HBCUVerificationField from './fields/HBCUVerificationField';
 import { useSignupForm } from '../hooks/useSignupForm';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -12,8 +13,11 @@ const CustomerSignupTab: React.FC = () => {
     form, 
     isLoading, 
     referringAgent,
+    isHBCUMember,
     onSubmit, 
-    onReferralCodeBlur 
+    onReferralCodeBlur,
+    handleHBCUStatusChange,
+    handleHBCUFileChange
   } = useSignupForm();
 
   return (
@@ -69,6 +73,13 @@ const CustomerSignupTab: React.FC = () => {
           control={form.control}
           referringAgent={referringAgent}
           onBlur={onReferralCodeBlur}
+        />
+        
+        <HBCUVerificationField
+          control={form.control}
+          isHBCUMember={isHBCUMember}
+          onHBCUStatusChange={handleHBCUStatusChange}
+          onFileChange={handleHBCUFileChange}
         />
         
         <Button type="submit" className="w-full" disabled={isLoading}>

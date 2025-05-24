@@ -197,6 +197,51 @@ export type Database = {
         }
         Relationships: []
       }
+      hbcu_verifications: {
+        Row: {
+          created_at: string | null
+          document_type: string
+          document_url: string
+          id: string
+          rejection_reason: string | null
+          updated_at: string | null
+          user_id: string
+          verification_status:
+            | Database["public"]["Enums"]["hbcu_verification_status"]
+            | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          document_type: string
+          document_url: string
+          id?: string
+          rejection_reason?: string | null
+          updated_at?: string | null
+          user_id: string
+          verification_status?:
+            | Database["public"]["Enums"]["hbcu_verification_status"]
+            | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          document_type?: string
+          document_url?: string
+          id?: string
+          rejection_reason?: string | null
+          updated_at?: string | null
+          user_id?: string
+          verification_status?:
+            | Database["public"]["Enums"]["hbcu_verification_status"]
+            | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: []
+      }
       loyalty_points: {
         Row: {
           business_id: string
@@ -307,7 +352,11 @@ export type Database = {
           created_at: string | null
           email: string | null
           full_name: string | null
+          hbcu_verification_status:
+            | Database["public"]["Enums"]["hbcu_verification_status"]
+            | null
           id: string
+          is_hbcu_member: boolean | null
           phone: string | null
           referral_code: string | null
           referred_by: string | null
@@ -323,7 +372,11 @@ export type Database = {
           created_at?: string | null
           email?: string | null
           full_name?: string | null
+          hbcu_verification_status?:
+            | Database["public"]["Enums"]["hbcu_verification_status"]
+            | null
           id: string
+          is_hbcu_member?: boolean | null
           phone?: string | null
           referral_code?: string | null
           referred_by?: string | null
@@ -339,7 +392,11 @@ export type Database = {
           created_at?: string | null
           email?: string | null
           full_name?: string | null
+          hbcu_verification_status?:
+            | Database["public"]["Enums"]["hbcu_verification_status"]
+            | null
           id?: string
+          is_hbcu_member?: boolean | null
           phone?: string | null
           referral_code?: string | null
           referred_by?: string | null
@@ -922,7 +979,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      hbcu_verification_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1037,6 +1094,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      hbcu_verification_status: ["pending", "approved", "rejected"],
+    },
   },
 } as const

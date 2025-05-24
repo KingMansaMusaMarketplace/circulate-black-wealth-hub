@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/auth';
 import { toast } from 'sonner';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
+import { uploadHBCUVerificationDocument } from '@/lib/api/hbcu-verification';
 import { SalesAgent } from '@/types/sales-agent';
 import { signupFormSchema, SignupFormValues } from '../schemas/signupFormSchema';
 
@@ -15,6 +16,8 @@ export const useSignupForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userType, setUserType] = useState<'customer' | 'business'>('customer');
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
+  const [isHBCUMember, setIsHBCUMember] = useState(false);
+  const [hbcuVerificationFile, setHBCUVerificationFile] = useState<File | null>(null);
   
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupFormSchema),
@@ -22,7 +25,8 @@ export const useSignupForm = () => {
       name: '',
       email: '',
       password: '',
-      referralCode: ''
+      referralCode: '',
+      isHBCUMember: false
     },
   });
   
@@ -62,14 +66,31 @@ export const useSignupForm = () => {
         await checkReferralCode(values.referralCode);
       }
 
-      await signUp(values.email, values.password, {
+      const metadata = {
         name: values.name,
         user_type: userType,
         referral_code: values.referralCode,
-        referring_agent: referringAgent?.id
-      });
+        referring_agent: referringAgent?.id,
+        is_hbcu_member: isHBCUMember
+      };
 
-      toast.success('Account created successfully!');
+      const result = await signUp(values.email, values.password, metadata);
+
+      if (result.data?.user && isHBCUMember && hbcuVerificationFile) {
+        // Upload HBCU verification document
+        const uploadResult = await uploadHBCUVerificationDocument(result.data.user.id, {
+          documentType: 'student_id', // Default type, could be made selectable
+          file: hbcuVerificationFile
+        });
+
+        if (uploadResult.success) {
+          toast.success('Account created successfully! HBCU verification document uploaded.');
+        } else {
+          toast.error('Account created but failed to upload verification document. You can upload it later from your profile.');
+        }
+      } else {
+        toast.success('Account created successfully!');
+      }
       
       // Sign in the user automatically
       await signIn(values.email, values.password);
@@ -94,14 +115,29 @@ export const useSignupForm = () => {
     setUserType(value as 'customer' | 'business');
   };
 
+  const handleHBCUStatusChange = (checked: boolean) => {
+    setIsHBCUMember(checked);
+    form.setValue('isHBCUMember', checked);
+    if (!checked) {
+      setHBCUVerificationFile(null);
+    }
+  };
+
+  const handleHBCUFileChange = (file: File | null) => {
+    setHBCUVerificationFile(file);
+  };
+
   return {
     form,
     isLoading,
     userType,
     referringAgent,
+    isHBCUMember,
     onSubmit,
     onReferralCodeBlur,
     handleUserTypeChange,
+    handleHBCUStatusChange,
+    handleHBCUFileChange,
     checkReferralCode
   };
 };

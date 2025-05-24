@@ -12,6 +12,7 @@ export const signupFormSchema = z.object({
     message: 'Password must be at least 8 characters.',
   }),
   referralCode: z.string().optional(),
+  isHBCUMember: z.boolean().default(false),
 });
 
 export type SignupFormValues = z.infer<typeof signupFormSchema>;
