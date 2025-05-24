@@ -1,5 +1,7 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -19,14 +21,16 @@ import HowItWorksPage from './pages/HowItWorksPage';
 import CorporateSponsorshipPage from './pages/CorporateSponsorshipPage';
 import FAQPage from './pages/FAQPage';
 import SalesAgentPage from './pages/SalesAgentPage';
-import { QueryClient } from 'react-query';
 import HBCUTestPage from './pages/HBCUTestPage';
+
+// Create a client
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <QueryClient>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
           <Toaster />
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -67,8 +71,8 @@ function App() {
             {/* 404 Not Found page */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </QueryClient>
-      </AuthProvider>
+        </AuthProvider>
+      </QueryClientProvider>
     </Router>
   );
 }
