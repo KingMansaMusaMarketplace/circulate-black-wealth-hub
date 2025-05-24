@@ -60,9 +60,16 @@ export const useSignupForm = () => {
   const onSubmit = async (values: SignupFormValues) => {
     try {
       setIsLoading(true);
+      console.log('🚀 Starting signup process with values:', { 
+        ...values, 
+        password: '[REDACTED]',
+        isHBCUMember,
+        hasVerificationFile: !!hbcuVerificationFile 
+      });
       
       // Check referral code if provided and not already checked
       if (values.referralCode && !referringAgent) {
+        console.log('Checking referral code:', values.referralCode);
         await checkReferralCode(values.referralCode);
       }
 
@@ -74,30 +81,44 @@ export const useSignupForm = () => {
         is_hbcu_member: isHBCUMember
       };
 
+      console.log('Signing up user with metadata:', metadata);
       const result = await signUp(values.email, values.password, metadata);
 
-      if (result.data?.user && isHBCUMember && hbcuVerificationFile) {
-        // Upload HBCU verification document
-        const uploadResult = await uploadHBCUVerificationDocument(result.data.user.id, {
-          documentType: 'student_id', // Default type, could be made selectable
-          file: hbcuVerificationFile
-        });
+      if (result.data?.user) {
+        console.log('✅ User created successfully:', result.data.user.id);
+        
+        if (isHBCUMember && hbcuVerificationFile) {
+          console.log('📄 Uploading HBCU verification document...');
+          
+          const uploadResult = await uploadHBCUVerificationDocument(result.data.user.id, {
+            documentType: 'student_id', // Default type, could be made selectable
+            file: hbcuVerificationFile
+          });
 
-        if (uploadResult.success) {
-          toast.success('Account created successfully! HBCU verification document uploaded.');
+          if (uploadResult.success) {
+            console.log('✅ HBCU verification document uploaded successfully');
+            toast.success('Account created successfully! HBCU verification document uploaded for review.');
+          } else {
+            console.error('❌ Failed to upload HBCU verification document:', uploadResult.error);
+            toast.error('Account created but failed to upload verification document. You can upload it later from your profile.');
+          }
         } else {
-          toast.error('Account created but failed to upload verification document. You can upload it later from your profile.');
+          console.log('✅ Account created successfully (no HBCU verification)');
+          toast.success('Account created successfully!');
         }
+        
+        // Sign in the user automatically
+        console.log('🔑 Signing in user automatically...');
+        await signIn(values.email, values.password);
+        
+        console.log('🎯 Navigating to signup success page');
+        navigate('/signup-success');
       } else {
-        toast.success('Account created successfully!');
+        console.error('❌ No user data returned from signup');
+        throw new Error('Account creation failed - no user data returned');
       }
-      
-      // Sign in the user automatically
-      await signIn(values.email, values.password);
-      
-      navigate('/signup-success');
     } catch (error: any) {
-      console.error('Signup error:', error);
+      console.error('❌ Signup error:', error);
       toast.error(error.message || 'Failed to create account');
     } finally {
       setIsLoading(false);

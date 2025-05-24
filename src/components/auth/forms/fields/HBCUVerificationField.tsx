@@ -4,8 +4,10 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/comp
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Info, Upload } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Info, Upload, CheckCircle, AlertCircle } from 'lucide-react';
 import { Control } from 'react-hook-form';
+import { testHBCUVerificationAPI } from '@/lib/api/hbcu-verification';
 
 interface HBCUVerificationFieldProps {
   control: Control<any>;
@@ -21,11 +23,65 @@ const HBCUVerificationField: React.FC<HBCUVerificationFieldProps> = ({
   onFileChange
 }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileValidation, setFileValidation] = useState<{ valid: boolean; message: string } | null>(null);
+  const [isTestingAPI, setIsTestingAPI] = useState(false);
+
+  const validateFile = (file: File) => {
+    // Check file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      return { valid: false, message: 'File size must be less than 10MB' };
+    }
+
+    // Check file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+    if (!allowedTypes.includes(file.type)) {
+      return { valid: false, message: 'Only JPEG, PNG, and PDF files are allowed' };
+    }
+
+    return { valid: true, message: 'File is valid and ready for upload' };
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setSelectedFile(file);
-    onFileChange(file);
+    
+    if (file) {
+      const validation = validateFile(file);
+      setFileValidation(validation);
+      
+      if (validation.valid) {
+        setSelectedFile(file);
+        onFileChange(file);
+        console.log('Valid file selected:', { name: file.name, size: file.size, type: file.type });
+      } else {
+        setSelectedFile(null);
+        onFileChange(null);
+        console.log('Invalid file selected:', validation.message);
+      }
+    } else {
+      setSelectedFile(null);
+      onFileChange(null);
+      setFileValidation(null);
+    }
+  };
+
+  const handleTestAPI = async () => {
+    setIsTestingAPI(true);
+    console.log('Testing HBCU verification API...');
+    
+    try {
+      const result = await testHBCUVerificationAPI();
+      console.log('API test result:', result);
+      
+      if (result) {
+        console.log('✅ HBCU verification API is working correctly');
+      } else {
+        console.log('❌ HBCU verification API test failed');
+      }
+    } catch (error) {
+      console.error('API test error:', error);
+    } finally {
+      setIsTestingAPI(false);
+    }
   };
 
   return (
@@ -43,6 +99,20 @@ const HBCUVerificationField: React.FC<HBCUVerificationFieldProps> = ({
           I am an active student or staff member of a Historically Black College or University (HBCU)
         </label>
       </div>
+
+      {/* Development Testing Button */}
+      {process.env.NODE_ENV === 'development' && (
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={handleTestAPI}
+          disabled={isTestingAPI}
+          className="text-xs"
+        >
+          {isTestingAPI ? 'Testing API...' : 'Test HBCU API'}
+        </Button>
+      )}
 
       {isHBCUMember && (
         <div className="space-y-3">
@@ -63,12 +133,27 @@ const HBCUVerificationField: React.FC<HBCUVerificationFieldProps> = ({
                 className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-mansablue file:text-white hover:file:bg-mansablue-dark"
               />
               <p className="text-xs text-gray-500">
-                Upload one of the following: Student ID, Class Schedule, Transcript, Staff ID, or Enrollment Letter
+                Upload one of the following: Student ID, Class Schedule, Transcript, Staff ID, or Enrollment Letter (Max 10MB, JPEG/PNG/PDF)
               </p>
-              {selectedFile && (
+              
+              {/* File validation feedback */}
+              {fileValidation && (
+                <Alert variant={fileValidation.valid ? "default" : "destructive"}>
+                  {fileValidation.valid ? (
+                    <CheckCircle className="h-4 w-4" />
+                  ) : (
+                    <AlertCircle className="h-4 w-4" />
+                  )}
+                  <AlertDescription className="text-sm">
+                    {fileValidation.message}
+                  </AlertDescription>
+                </Alert>
+              )}
+              
+              {selectedFile && fileValidation?.valid && (
                 <p className="text-sm text-green-600 flex items-center">
                   <Upload className="h-4 w-4 mr-1" />
-                  {selectedFile.name} selected
+                  {selectedFile.name} selected ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
                 </p>
               )}
             </div>
