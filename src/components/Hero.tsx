@@ -36,6 +36,8 @@ const Hero = () => {
               <p className="text-sm md:text-base font-medium text-white">
                 <span className="font-bold text-mansagold">Special Offer:</span> First month FREE for business owners! 
                 <span className="block mt-1">Members only pay $10 per month; Business owners $100 per month</span>
+                <span className="block mt-2 font-bold text-mansagold">FREE Membership:</span>
+                <span className="block">for all active students and staff members of Historically Black Colleges and Universities (HBCUs)</span>
               </p>
             </div>
             <div className="mt-5 sm:mt-8 sm:flex sm:justify-start">
