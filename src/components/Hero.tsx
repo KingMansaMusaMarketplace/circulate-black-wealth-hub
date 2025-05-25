@@ -28,6 +28,9 @@ const Hero = () => {
             <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
               <span className="block">Grow your business with</span>
               <span className="block text-mansagold">Mansa Musa Marketplace</span>
+              <span className="block text-lg sm:text-xl md:text-2xl font-normal mt-2 text-white/90">
+                by giving customers 10% - 20% discounts!
+              </span>
             </h1>
             <p className="mt-3 text-base text-white/80 sm:mt-5 sm:text-lg sm:max-w-xl md:mt-5 md:text-xl">
               Connect with customers, offer rewards, and watch your business thrive with our innovative loyalty program platform.
