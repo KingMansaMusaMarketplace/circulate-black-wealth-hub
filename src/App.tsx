@@ -12,6 +12,8 @@ import BusinessesPage from './pages/BusinessesPage';
 import AboutPage from './pages/AboutPage';
 import AboutUsPage from './pages/AboutUsPage';
 import TeamContactPage from './pages/TeamContactPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
 import NotFound from './pages/NotFound';
 import LoyaltyPage from './pages/LoyaltyPage';
 import LoyaltyHistoryPage from './pages/LoyaltyHistoryPage';
@@ -53,6 +55,10 @@ function App() {
             <Route path="/our-team" element={<TeamContactPage />} />
             <Route path="/team-contact" element={<TeamContactPage />} />
             <Route path="/faq" element={<FAQPage />} />
+            
+            {/* Legal pages */}
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms" element={<TermsOfServicePage />} />
             
             {/* How it works */}
             <Route path="/how-it-works" element={<HowItWorksPage />} />
