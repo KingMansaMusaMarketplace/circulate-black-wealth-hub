@@ -8,7 +8,7 @@ const ImpactMetricsSection = () => {
     <section className="py-20">
       <div className="container-custom">
         <div className="text-center mb-12">
-          <h2 className="heading-md text-mansablue mb-4">Our Impact So Far</h2>
+          <h2 className="heading-md text-mansablue mb-4">Our Goals for 2025 with your help</h2>
           <div className="w-24 h-1 bg-mansagold mx-auto mb-6"></div>
           <p className="text-gray-600 max-w-2xl mx-auto">
             We measure our success by the economic impact we create within Black communities.
