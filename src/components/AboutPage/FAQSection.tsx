@@ -61,7 +61,7 @@ const FAQSection = () => {
             <p className="text-gray-600 mb-4">
               Have more questions about our platform or mission?
             </p>
-            <Link to="/contact" className="text-mansablue font-medium hover:underline">
+            <Link to="/team-contact" className="text-mansablue font-medium hover:underline">
               Contact our team for more information →
             </Link>
           </div>
