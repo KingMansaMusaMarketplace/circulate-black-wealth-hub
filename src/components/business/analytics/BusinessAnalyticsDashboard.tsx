@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -66,7 +67,6 @@ const BusinessAnalyticsDashboard: React.FC = () => {
 
         if (error) throw error;
         
-        // Properly type the response data with type assertion
         if (data && typeof data === 'object' && !Array.isArray(data)) {
           const responseData = data as Record<string, any>;
           const typedData: AnalyticsData = {
@@ -88,8 +88,8 @@ const BusinessAnalyticsDashboard: React.FC = () => {
     fetchAnalytics();
   }, [profile?.id]);
 
-  // Sample data for charts
-  const weeklyData = [
+  // Sample data for charts with proper typing
+  const weeklyData: Array<{ name: string; views: number; scans: number; shares: number }> = [
     { name: 'Mon', views: 45, scans: 12, shares: 3 },
     { name: 'Tue', views: 52, scans: 15, shares: 5 },
     { name: 'Wed', views: 48, scans: 18, shares: 4 },
@@ -99,7 +99,7 @@ const BusinessAnalyticsDashboard: React.FC = () => {
     { name: 'Sun', views: 67, scans: 24, shares: 8 }
   ];
 
-  const customerSegments = [
+  const customerSegments: Array<{ name: string; value: number; color: string }> = [
     { name: 'New Customers', value: 35, color: '#FFD700' },
     { name: 'Returning Customers', value: 45, color: '#1E40AF' },
     { name: 'VIP Customers', value: 20, color: '#059669' }
