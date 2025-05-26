@@ -66,14 +66,15 @@ const BusinessAnalyticsDashboard: React.FC = () => {
 
         if (error) throw error;
         
-        // Properly type the response data
-        if (data && typeof data === 'object') {
+        // Properly type the response data with type assertion
+        if (data && typeof data === 'object' && !Array.isArray(data)) {
+          const responseData = data as Record<string, any>;
           const typedData: AnalyticsData = {
-            total_views: Number(data.total_views) || 0,
-            total_scans: Number(data.total_scans) || 0,
-            total_shares: Number(data.total_shares) || 0,
-            avg_daily_views: Number(data.avg_daily_views) || 0,
-            recent_activity: Array.isArray(data.recent_activity) ? data.recent_activity : []
+            total_views: Number(responseData.total_views) || 0,
+            total_scans: Number(responseData.total_scans) || 0,
+            total_shares: Number(responseData.total_shares) || 0,
+            avg_daily_views: Number(responseData.avg_daily_views) || 0,
+            recent_activity: Array.isArray(responseData.recent_activity) ? responseData.recent_activity : []
           };
           setAnalytics(typedData);
         }
