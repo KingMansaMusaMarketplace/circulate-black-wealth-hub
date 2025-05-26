@@ -57,6 +57,41 @@ export type Database = {
           },
         ]
       }
+      business_analytics: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          date_recorded: string
+          id: string
+          metric_type: string
+          metric_value: number
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          date_recorded?: string
+          id?: string
+          metric_type: string
+          metric_value: number
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          date_recorded?: string
+          id?: string
+          metric_type?: string
+          metric_value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_analytics_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_verifications: {
         Row: {
           address_document_url: string | null
@@ -194,6 +229,42 @@ export type Database = {
           updated_at?: string | null
           website?: string | null
           zip_code?: string | null
+        }
+        Relationships: []
+      }
+      email_notifications: {
+        Row: {
+          content: string
+          created_at: string | null
+          email_type: string
+          id: string
+          recipient_email: string
+          sent_at: string | null
+          status: string | null
+          subject: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          email_type: string
+          id?: string
+          recipient_email: string
+          sent_at?: string | null
+          status?: string | null
+          subject: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          email_type?: string
+          id?: string
+          recipient_email?: string
+          sent_at?: string | null
+          status?: string | null
+          subject?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -862,6 +933,44 @@ export type Database = {
         }
         Relationships: []
       }
+      social_shares: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          id: string
+          platform: string
+          share_url: string | null
+          shared_at: string | null
+          shared_by: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          id?: string
+          platform: string
+          share_url?: string | null
+          shared_at?: string | null
+          shared_by?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          id?: string
+          platform?: string
+          share_url?: string | null
+          shared_at?: string | null
+          shared_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_shares_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transactions: {
         Row: {
           amount: number | null
@@ -965,6 +1074,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_business_analytics_summary: {
+        Args: { p_business_id: string }
+        Returns: Json
+      }
       get_qr_scan_metrics: {
         Args: { p_business_id: string }
         Returns: Json
@@ -975,6 +1088,14 @@ export type Database = {
       }
       process_pending_commissions: {
         Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      record_business_metric: {
+        Args: {
+          p_business_id: string
+          p_metric_type: string
+          p_metric_value: number
+        }
         Returns: undefined
       }
     }

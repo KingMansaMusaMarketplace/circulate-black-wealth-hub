@@ -7,12 +7,14 @@ import { useAuth } from '@/contexts/auth';
 import { toast } from 'sonner';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { uploadHBCUVerificationDocument } from '@/lib/api/hbcu-verification';
+import { useEmailNotifications } from '@/hooks/use-email-notifications';
 import { SalesAgent } from '@/types/sales-agent';
 import { signupFormSchema, SignupFormValues } from '../schemas/signupFormSchema';
 
 export const useSignupForm = () => {
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
+  const { sendWelcomeEmail } = useEmailNotifications();
   const [isLoading, setIsLoading] = useState(false);
   const [userType, setUserType] = useState<'customer' | 'business'>('customer');
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
@@ -87,11 +89,20 @@ export const useSignupForm = () => {
       if (result.data?.user) {
         console.log('✅ User created successfully:', result.data.user.id);
         
+        // Send welcome email
+        try {
+          await sendWelcomeEmail(userType, values.email, result.data.user.id, values.name);
+          console.log('✅ Welcome email sent successfully');
+        } catch (emailError) {
+          console.error('❌ Failed to send welcome email:', emailError);
+          // Don't block signup for email failure
+        }
+        
         if (isHBCUMember && hbcuVerificationFile) {
           console.log('📄 Uploading HBCU verification document...');
           
           const uploadResult = await uploadHBCUVerificationDocument(result.data.user.id, {
-            documentType: 'student_id', // Default type, could be made selectable
+            documentType: 'student_id',
             file: hbcuVerificationFile
           });
 
@@ -104,7 +115,7 @@ export const useSignupForm = () => {
           }
         } else {
           console.log('✅ Account created successfully (no HBCU verification)');
-          toast.success('Account created successfully!');
+          toast.success('Account created successfully! Check your email for a welcome message.');
         }
         
         // Sign in the user automatically

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, ImageIcon, Settings, Shield } from 'lucide-react';
+import { FileText, Image, ImageIcon, Settings, Shield, BarChart3 } from 'lucide-react';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { 
   BusinessDetailsContent,
@@ -11,6 +11,7 @@ import {
   BusinessVerificationContent
 } from './business-settings';
 import BusinessProfileLoading from './business-settings/BusinessProfileLoading';
+import BusinessAnalyticsTab from './BusinessAnalyticsTab';
 
 const BusinessProfileManager = () => {
   const [activeTab, setActiveTab] = useState('details');
@@ -30,18 +31,22 @@ const BusinessProfileManager = () => {
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="details" className="flex items-center gap-2">
             <FileText size={16} />
-            Business Details
+            Details
           </TabsTrigger>
           <TabsTrigger value="images" className="flex items-center gap-2">
             <Image size={16} />
-            Logo & Banner
+            Images
           </TabsTrigger>
           <TabsTrigger value="products" className="flex items-center gap-2">
             <ImageIcon size={16} />
-            Products & Services
+            Products
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="flex items-center gap-2">
+            <BarChart3 size={16} />
+            Analytics
           </TabsTrigger>
           <TabsTrigger value="verification" className="flex items-center gap-2">
             <Shield size={16} />
@@ -67,10 +72,14 @@ const BusinessProfileManager = () => {
         <TabsContent value="products" className="mt-6">
           <BusinessProductsContent profile={profile} />
         </TabsContent>
+
+        <TabsContent value="analytics" className="mt-6">
+          <BusinessAnalyticsTab />
+        </TabsContent>
         
         <TabsContent value="verification" className="mt-6">
           <BusinessVerificationContent 
-            profile={profile as any} // Type assertion to resolve the interface mismatch
+            profile={profile as any}
           />
         </TabsContent>
 
