@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Phone, MapPin } from 'lucide-react';
@@ -23,8 +22,8 @@ const ContactInfo = () => {
       id: 'email',
       title: 'Email',
       icon: Mail,
-      value: 'MMM@mansamusamarketplace.com',
-      link: 'mailto:MMM@mansamusamarketplace.com',
+      value: 'contact@mansamusamarketplace.com',
+      link: 'mailto:contact@mansamusamarketplace.com',
       description: 'Email us anytime for general inquiries or partnership opportunities.'
     },
     {

@@ -50,7 +50,7 @@ const defaultConfig: AppConfig = {
     sessionTimeoutMinutes: 60,
   },
   contactInfo: {
-    supportEmail: 'support@mansamusa.app',
+    supportEmail: 'contact@mansamusamarketplace.com',
     privacyPolicyUrl: '/privacy-policy',
     termsOfServiceUrl: '/terms-of-service',
   },

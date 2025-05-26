@@ -89,7 +89,7 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <Mail className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
-                <span className="text-gray-300 hover:text-white transition-colors">support@mansamusa.com</span>
+                <span className="text-gray-300 hover:text-white transition-colors">contact@mansamusamarketplace.com</span>
               </li>
               <li className="flex items-start">
                 <Phone className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
