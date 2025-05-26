@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -66,7 +65,18 @@ const BusinessAnalyticsDashboard: React.FC = () => {
         });
 
         if (error) throw error;
-        setAnalytics(data);
+        
+        // Properly type the response data
+        if (data && typeof data === 'object') {
+          const typedData: AnalyticsData = {
+            total_views: Number(data.total_views) || 0,
+            total_scans: Number(data.total_scans) || 0,
+            total_shares: Number(data.total_shares) || 0,
+            avg_daily_views: Number(data.avg_daily_views) || 0,
+            recent_activity: Array.isArray(data.recent_activity) ? data.recent_activity : []
+          };
+          setAnalytics(typedData);
+        }
       } catch (error) {
         console.error('Error fetching analytics:', error);
       } finally {
