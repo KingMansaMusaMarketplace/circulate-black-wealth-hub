@@ -18,7 +18,7 @@ const SignupTestPage: React.FC = () => {
     setTestLogs(prev => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
   };
 
-  const updateTestResult = (testName: string, result: 'success' | 'error') => {
+  const updateTestResult = (testName: string, result: 'pending' | 'success' | 'error') => {
     setTestResults(prev => ({ ...prev, [testName]: result }));
   };
 
