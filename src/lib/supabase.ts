@@ -1,10 +1,12 @@
 
-// Re-export from supabase-config.ts
-export { 
-  supabase, 
-  getCurrentUser, 
-  getSession, 
-  signUp, 
-  signIn, 
-  signOut 
-} from '../utils/supabase-config';
+// Import the main supabase client from integrations
+export { supabase } from '@/integrations/supabase/client';
+
+// Re-export auth functions from integrations
+export {
+  getCurrentUser,
+  getSession,
+  signUp,
+  signIn,
+  signOut
+} from '@/integrations/supabase/client';

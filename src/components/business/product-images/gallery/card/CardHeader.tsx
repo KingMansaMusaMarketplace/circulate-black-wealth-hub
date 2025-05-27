@@ -8,47 +8,40 @@ interface CardHeaderProps {
 }
 
 const CardHeader: React.FC<CardHeaderProps> = ({ product }) => {
-  const displayTags = () => {
-    if (!product.tags) return null;
-    
-    // Handle tags as string
-    const tagString = typeof product.tags === 'string' ? product.tags : '';
-    const tags = tagString.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
-    
-    if (tags.length === 0) return null;
-    
-    return (
-      <div className="flex flex-wrap gap-1 mt-2">
-        {tags.slice(0, 3).map((tag, index) => (
-          <Badge key={index} variant="secondary" className="text-xs">
-            {tag}
-          </Badge>
-        ))}
-        {tags.length > 3 && (
-          <Badge variant="outline" className="text-xs">
-            +{tags.length - 3}
-          </Badge>
-        )}
-      </div>
-    );
-  };
-
   return (
-    <div className="p-4">
-      <h3 className="font-semibold text-sm truncate" title={product.title}>
-        {product.title}
-      </h3>
+    <div className="space-y-3">
+      <div className="flex items-start justify-between">
+        <div className="space-y-1">
+          <h3 className="font-medium text-sm leading-tight line-clamp-2">
+            {product.title}
+          </h3>
+          {product.price && (
+            <p className="text-sm font-semibold text-green-600">
+              {product.price}
+            </p>
+          )}
+        </div>
+        <Badge variant={product.is_active ? "default" : "secondary"} className="text-xs">
+          {product.is_active ? "Active" : "Inactive"}
+        </Badge>
+      </div>
+      
       {product.description && (
-        <p className="text-xs text-gray-600 mt-1 line-clamp-2">
+        <p className="text-xs text-gray-600 line-clamp-2">
           {product.description}
         </p>
       )}
-      {product.price && (
-        <p className="text-sm font-medium text-green-600 mt-2">
-          ${product.price}
-        </p>
-      )}
-      {displayTags()}
+      
+      <div className="flex items-center gap-2 text-xs text-gray-500">
+        {product.category && (
+          <span className="bg-gray-100 px-2 py-1 rounded">
+            {product.category}
+          </span>
+        )}
+        {product.view_count > 0 && (
+          <span>{product.view_count} views</span>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,151 +1,206 @@
-
 import { supabase } from '@/lib/supabase';
+import { BusinessVerification, VerificationQueueItem } from '@/lib/types/verification';
 import { toast } from 'sonner';
-import { v4 as uuidv4 } from 'uuid';
-import { BusinessVerification, VerificationQueueItem } from '../types/verification';
 
-// Get verification status for a business
-export const getBusinessVerificationStatus = async (businessId: string): Promise<BusinessVerification | null> => {
+export const getBusinessVerification = async (businessId: string): Promise<BusinessVerification | null> => {
   try {
     const { data, error } = await supabase
       .from('business_verifications')
       .select('*')
       .eq('business_id', businessId)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
-      
-    if (error) throw error;
-    
-    if (!data) return null;
-    
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw error;
+    }
+
+    // Type assertion with proper verification status
     return {
       ...data,
-      verification_status: data.verification_status as BusinessVerification['verification_status']
-    };
+      verification_status: data.verification_status as 'pending' | 'approved' | 'rejected'
+    } as BusinessVerification;
   } catch (error: any) {
-    console.error('Error fetching business verification status:', error);
+    console.error('Error fetching business verification:', error);
     return null;
   }
 };
 
-// Upload verification document
-export const uploadVerificationDocument = async (
-  file: File,
+export const createBusinessVerification = async (
   businessId: string,
-  userId: string,
-  documentType: 'registration' | 'ownership' | 'address'
-): Promise<{ url: string } | { error: string }> => {
+  verificationData: Omit<BusinessVerification, 'id' | 'created_at' | 'updated_at' | 'verification_status' | 'submitted_at'>
+): Promise<{ success: boolean; verification?: BusinessVerification; error?: any }> => {
   try {
-    if (!file) {
-      return { error: 'No file selected' };
-    }
-
-    // Create a unique file path
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${userId}/${businessId}/${documentType}_${uuidv4()}.${fileExt}`;
-    const filePath = `${fileName}`;
-
-    // Upload file to Supabase storage
-    const { error: uploadError } = await supabase.storage
-      .from('verification_documents')
-      .upload(filePath, file);
-
-    if (uploadError) {
-      throw uploadError;
-    }
-
-    // Get public URL for the uploaded file
-    const { data } = supabase.storage
-      .from('verification_documents')
-      .getPublicUrl(filePath);
-
-    return { url: data.publicUrl };
-  } catch (error: any) {
-    console.error('Error uploading document:', error);
-    return { error: error.message || 'Error uploading document' };
-  }
-};
-
-// Submit verification request
-export const submitVerificationRequest = async (
-  businessId: string,
-  ownershipPercentage: number,
-  registrationDocUrl: string,
-  ownershipDocUrl: string,
-  addressDocUrl: string
-): Promise<{ success: boolean, error?: string }> => {
-  try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('business_verifications')
       .insert({
         business_id: businessId,
-        ownership_percentage: ownershipPercentage,
-        registration_document_url: registrationDocUrl,
-        ownership_document_url: ownershipDocUrl,
-        address_document_url: addressDocUrl
-      });
+        ...verificationData,
+        verification_status: 'pending',
+        submitted_at: new Date().toISOString()
+      })
+      .select()
+      .single();
 
     if (error) throw error;
-    
-    toast.success('Verification documents submitted successfully');
-    return { success: true };
+
+    // Type assertion with proper verification status
+    const verification: BusinessVerification = {
+      ...data,
+      verification_status: data.verification_status as 'pending' | 'approved' | 'rejected'
+    };
+
+    toast.success('Verification request submitted successfully!');
+    return { success: true, verification };
   } catch (error: any) {
-    console.error('Error submitting verification request:', error);
-    toast.error('Failed to submit verification request');
-    return { success: false, error: error.message };
+    console.error('Error creating business verification:', error);
+    toast.error('Failed to submit verification request: ' + error.message);
+    return { success: false, error };
   }
 };
 
-// Fetch verification queue for admin
-export const fetchVerificationQueue = async (): Promise<VerificationQueueItem[]> => {
+export const updateBusinessVerification = async (
+  verificationId: string,
+  updates: Partial<Omit<BusinessVerification, 'id' | 'created_at' | 'updated_at' | 'business_id'>>
+): Promise<{ success: boolean; verification?: BusinessVerification; error?: any }> => {
+  try {
+    const { data, error } = await supabase
+      .from('business_verifications')
+      .update(updates)
+      .eq('id', verificationId)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Type assertion with proper verification status
+    const verification: BusinessVerification = {
+      ...data,
+      verification_status: data.verification_status as 'pending' | 'approved' | 'rejected'
+    };
+
+    toast.success('Verification updated successfully!');
+    return { success: true, verification };
+  } catch (error: any) {
+    console.error('Error updating business verification:', error);
+    toast.error('Failed to update verification: ' + error.message);
+    return { success: false, error };
+  }
+};
+
+export const approveBusinessVerification = async (
+  verificationId: string,
+  adminNotes?: string
+): Promise<{ success: boolean; error?: any }> => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('User not authenticated');
+
+    const { error } = await supabase
+      .from('business_verifications')
+      .update({
+        verification_status: 'approved',
+        verified_by: user.id,
+        verified_at: new Date().toISOString(),
+        admin_notes: adminNotes
+      })
+      .eq('id', verificationId);
+
+    if (error) throw error;
+
+    toast.success('Business verification approved successfully!');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error approving business verification:', error);
+    toast.error('Failed to approve verification: ' + error.message);
+    return { success: false, error };
+  }
+};
+
+export const rejectBusinessVerification = async (
+  verificationId: string,
+  rejectionReason: string,
+  adminNotes?: string
+): Promise<{ success: boolean; error?: any }> => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('User not authenticated');
+
+    const { error } = await supabase
+      .from('business_verifications')
+      .update({
+        verification_status: 'rejected',
+        verified_by: user.id,
+        verified_at: new Date().toISOString(),
+        rejection_reason: rejectionReason,
+        admin_notes: adminNotes
+      })
+      .eq('id', verificationId);
+
+    if (error) throw error;
+
+    toast.success('Business verification rejected successfully!');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error rejecting business verification:', error);
+    toast.error('Failed to reject verification: ' + error.message);
+    return { success: false, error };
+  }
+};
+
+export const getVerificationQueue = async (): Promise<VerificationQueueItem[]> => {
   try {
     const { data, error } = await supabase
       .from('admin_verification_queue')
-      .select('*');
-    
+      .select('*')
+      .order('submitted_at', { ascending: true });
+
     if (error) throw error;
+
+    // Type assertion with proper verification status
     return (data || []).map(item => ({
       ...item,
-      verification_status: item.verification_status as VerificationQueueItem['verification_status']
-    }));
+      verification_status: item.verification_status as 'pending' | 'approved' | 'rejected'
+    })) as VerificationQueueItem[];
   } catch (error: any) {
     console.error('Error fetching verification queue:', error);
     return [];
   }
 };
 
-// Approve business verification (admin only)
-export const approveBusinessVerification = async (verificationId: string): Promise<boolean> => {
-  try {
-    const { error } = await supabase.rpc('admin_approve_business_verification', {
-      verification_id: verificationId
-    });
-
-    if (error) throw error;
-    toast.success('Business verification approved');
-    return true;
-  } catch (error: any) {
-    console.error('Error approving business verification:', error);
-    toast.error('Failed to approve business verification');
-    return false;
-  }
-};
-
-// Reject business verification (admin only)
-export const rejectBusinessVerification = async (verificationId: string, reason: string): Promise<boolean> => {
-  try {
-    const { error } = await supabase.rpc('admin_reject_business_verification', {
-      verification_id: verificationId,
-      reason
-    });
-
-    if (error) throw error;
-    toast.success('Business verification rejected');
-    return true;
-  } catch (error: any) {
-    console.error('Error rejecting business verification:', error);
-    toast.error('Failed to reject business verification');
-    return false;
-  }
-};
+export const resubmitBusinessVerification = async (
+    verificationId: string,
+    verificationData: Omit<BusinessVerification, 'id' | 'created_at' | 'updated_at' | 'verification_status' | 'submitted_at' | 'business_id'>
+  ): Promise<{ success: boolean; verification?: BusinessVerification; error?: any }> => {
+    try {
+      const { data, error } = await supabase
+        .from('business_verifications')
+        .update({
+          ...verificationData,
+          verification_status: 'pending',
+          submitted_at: new Date().toISOString(),
+          rejection_reason: null,
+          admin_notes: null,
+          verified_at: null,
+          verified_by: null
+        })
+        .eq('id', verificationId)
+        .select()
+        .single();
+  
+      if (error) throw error;
+  
+      // Type assertion with proper verification status
+      const verification: BusinessVerification = {
+        ...data,
+        verification_status: data.verification_status as 'pending' | 'approved' | 'rejected'
+      };
+  
+      toast.success('Verification request resubmitted successfully!');
+      return { success: true, verification };
+    } catch (error: any) {
+      console.error('Error resubmitting business verification:', error);
+      toast.error('Failed to resubmit verification request: ' + error.message);
+      return { success: false, error };
+    }
+  };

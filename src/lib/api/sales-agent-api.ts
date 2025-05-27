@@ -1,6 +1,110 @@
-
 import { supabase } from '@/lib/supabase';
-import { SalesAgent, SalesAgentApplication, TestQuestion, Referral, AgentCommission } from '@/types/sales-agent';
+import { SalesAgent, SalesAgentApplication, TestQuestion } from '@/types/sales-agent';
+import { toast } from 'sonner';
+
+export const createSalesAgentApplication = async (applicationData: {
+  full_name: string;
+  email: string;
+  phone?: string;
+  why_join: string;
+  business_experience: string;
+  marketing_ideas: string;
+}): Promise<{ success: boolean; application?: SalesAgentApplication; error?: any }> => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
+
+    const { data, error } = await supabase
+      .from('sales_agent_applications')
+      .insert({
+        user_id: user.id,
+        full_name: applicationData.full_name,
+        email: applicationData.email,
+        phone: applicationData.phone,
+        why_join: applicationData.why_join,
+        business_experience: applicationData.business_experience,
+        marketing_ideas: applicationData.marketing_ideas,
+        application_status: 'pending',
+        test_passed: false
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Map the database result to match the SalesAgentApplication type
+    const application: SalesAgentApplication = {
+      id: data.id,
+      user_id: data.user_id,
+      full_name: data.full_name,
+      email: data.email,
+      phone: data.phone,
+      why_join: applicationData.why_join,
+      business_experience: applicationData.business_experience,
+      marketing_ideas: applicationData.marketing_ideas,
+      application_status: data.application_status,
+      status: data.application_status as 'pending' | 'approved' | 'rejected',
+      test_score: data.test_score,
+      test_passed: data.test_passed,
+      application_date: data.application_date,
+      reviewed_by: data.reviewed_by,
+      reviewed_at: data.reviewed_at,
+      notes: data.notes
+    };
+
+    toast.success('Application submitted successfully!');
+    return { success: true, application };
+  } catch (error: any) {
+    console.error('Error creating sales agent application:', error);
+    toast.error('Failed to submit application: ' + error.message);
+    return { success: false, error };
+  }
+};
+
+export const getSalesAgentApplication = async (): Promise<SalesAgentApplication | null> => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+
+    const { data, error } = await supabase
+      .from('sales_agent_applications')
+      .select('*')
+      .eq('user_id', user.id)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null; // No rows returned
+      throw error;
+    }
+
+    // Map the database result to match the SalesAgentApplication type
+    const application: SalesAgentApplication = {
+      id: data.id,
+      user_id: data.user_id,
+      full_name: data.full_name,
+      email: data.email,
+      phone: data.phone,
+      why_join: '', // These fields are not stored in the current table
+      business_experience: '',
+      marketing_ideas: '',
+      application_status: data.application_status,
+      status: data.application_status as 'pending' | 'approved' | 'rejected',
+      test_score: data.test_score,
+      test_passed: data.test_passed,
+      application_date: data.application_date,
+      reviewed_by: data.reviewed_by,
+      reviewed_at: data.reviewed_at,
+      notes: data.notes
+    };
+
+    return application;
+  } catch (error: any) {
+    console.error('Error fetching sales agent application:', error);
+    return null;
+  }
+};
 
 export const getSalesAgentByReferralCode = async (referralCode: string): Promise<SalesAgent | null> => {
   try {
@@ -8,109 +112,16 @@ export const getSalesAgentByReferralCode = async (referralCode: string): Promise
       .from('sales_agents')
       .select('*')
       .eq('referral_code', referralCode)
-      .eq('is_active', true)
       .single();
-    
-    if (error) throw error;
-    return {
-      ...data,
-      status: 'active'
-    } as SalesAgent;
-  } catch (error) {
-    console.error('Error getting sales agent:', error);
-    return null;
-  }
-};
 
-export const getSalesAgentById = async (agentId: string): Promise<SalesAgent | null> => {
-  try {
-    const { data, error } = await supabase
-      .from('sales_agents')
-      .select('*')
-      .eq('id', agentId)
-      .single();
-    
-    if (error) throw error;
-    return {
-      ...data,
-      status: data.is_active ? 'active' : 'inactive'
-    } as SalesAgent;
-  } catch (error) {
-    console.error('Error getting sales agent:', error);
-    return null;
-  }
-};
+    if (error) {
+      console.error('Error fetching sales agent by referral code:', error);
+      return null;
+    }
 
-export const getSalesAgentByUserId = async (userId: string): Promise<SalesAgent | null> => {
-  try {
-    const { data, error } = await supabase
-      .from('sales_agents')
-      .select('*')
-      .eq('user_id', userId)
-      .single();
-    
-    if (error) throw error;
-    return {
-      ...data,
-      status: data.is_active ? 'active' : 'inactive'
-    } as SalesAgent;
-  } catch (error) {
-    console.error('Error getting sales agent by user ID:', error);
-    return null;
-  }
-};
-
-export const getSalesAgentApplication = async (userId: string): Promise<SalesAgentApplication | null> => {
-  try {
-    const { data, error } = await supabase
-      .from('sales_agent_applications')
-      .select('*')
-      .eq('user_id', userId)
-      .single();
-    
-    if (error) throw error;
-    return {
-      ...data,
-      status: data.application_status as SalesAgentApplication['status'],
-      why_join: '',
-      business_experience: '',
-      marketing_ideas: ''
-    } as SalesAgentApplication;
-  } catch (error) {
-    console.error('Error getting sales agent application:', error);
-    return null;
-  }
-};
-
-export const submitSalesAgentApplication = async (application: {
-  user_id: string;
-  full_name: string;
-  email: string;
-  phone?: string;
-}): Promise<SalesAgentApplication | null> => {
-  try {
-    const { data, error } = await supabase
-      .from('sales_agent_applications')
-      .insert({
-        user_id: application.user_id,
-        full_name: application.full_name,
-        email: application.email,
-        phone: application.phone,
-        application_status: 'pending'
-      })
-      .select()
-      .single();
-    
-    if (error) throw error;
-    return {
-      ...data,
-      status: data.application_status as SalesAgentApplication['status'],
-      why_join: '',
-      business_experience: '',
-      marketing_ideas: ''
-    } as SalesAgentApplication;
-  } catch (error) {
-    console.error('Error submitting sales agent application:', error);
+    return data as SalesAgent;
+  } catch (error: any) {
+    console.error('Error fetching sales agent by referral code:', error);
     return null;
   }
 };
@@ -118,92 +129,46 @@ export const submitSalesAgentApplication = async (application: {
 export const getTestQuestions = async (): Promise<TestQuestion[]> => {
   try {
     const { data, error } = await supabase
-      .from('sales_agent_tests')
+      .from('test_questions')
       .select('*')
       .eq('is_active', true);
-    
-    if (error) throw error;
+
+    if (error) {
+      console.error('Error fetching test questions:', error);
+      return [];
+    }
+
     return data as TestQuestion[];
-  } catch (error) {
-    console.error('Error getting test questions:', error);
+  } catch (error: any) {
+    console.error('Error fetching test questions:', error);
     return [];
   }
 };
 
-export const submitTestAttempt = async (attempt: {
-  user_id: string;
-  score: number;
-  passed: boolean;
-  answers: Record<string, string>;
-  application_id: string;
-}): Promise<void> => {
+export const submitTestResults = async (testScore: number): Promise<{ success: boolean; error?: any }> => {
   try {
-    const { error: testError } = await supabase
-      .from('sales_agent_test_attempts')
-      .insert({
-        user_id: attempt.user_id,
-        score: attempt.score,
-        passed: attempt.passed,
-        answers: attempt.answers,
-        completed_date: new Date().toISOString()
-      });
-    
-    if (testError) throw testError;
-    
-    // Update the application with the test results
-    await updateApplicationAfterTest(attempt.application_id, attempt.score, attempt.passed);
-    
-  } catch (error) {
-    console.error('Error submitting test attempt:', error);
-  }
-};
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      throw new Error('User not authenticated');
+    }
 
-export const updateApplicationAfterTest = async (
-  applicationId: string, 
-  testScore: number, 
-  testPassed: boolean
-): Promise<void> => {
-  try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('sales_agent_applications')
-      .update({
-        test_score: testScore,
-        test_passed: testPassed
-      })
-      .eq('id', applicationId);
-    
-    if (error) throw error;
-  } catch (error) {
-    console.error('Error updating application after test:', error);
-  }
-};
+      .update({ test_score: testScore, test_passed: testScore >= 70 })
+      .eq('user_id', user.id)
+      .select()
+      .single();
 
-export const getAgentReferrals = async (agentId: string): Promise<Referral[]> => {
-  try {
-    const { data, error } = await supabase
-      .from('referrals')
-      .select('*')
-      .eq('sales_agent_id', agentId);
-    
-    if (error) throw error;
-    return data as Referral[];
-  } catch (error) {
-    console.error('Error getting agent referrals:', error);
-    return [];
-  }
-};
+    if (error) {
+      console.error('Error submitting test results:', error);
+      return { success: false, error };
+    }
 
-export const getAgentCommissions = async (agentId: string): Promise<AgentCommission[]> => {
-  try {
-    const { data, error } = await supabase
-      .from('agent_commissions')
-      .select('*')
-      .eq('sales_agent_id', agentId);
-    
-    if (error) throw error;
-    return data as AgentCommission[];
-  } catch (error) {
-    console.error('Error getting agent commissions:', error);
-    return [];
+    toast.success('Test results submitted successfully!');
+    return { success: true };
+  } catch (error: any) {
+    console.error('Error submitting test results:', error);
+    toast.error('Failed to submit test results: ' + error.message);
+    return { success: false, error };
   }
 };
