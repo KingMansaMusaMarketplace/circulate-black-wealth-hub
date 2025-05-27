@@ -29,8 +29,16 @@ const SignupTestPage: React.FC = () => {
     return `SecureTest${timestamp}${randomChars}!`;
   };
 
+  // Generate a realistic test email that should pass validation
+  const generateTestEmail = (type: string) => {
+    const timestamp = Date.now();
+    const randomId = Math.random().toString(36).substring(2, 8);
+    // Use a more realistic domain that's less likely to be blocked
+    return `test-${type}-${timestamp}-${randomId}@testmail.com`;
+  };
+
   const testCustomerSignup = async () => {
-    const testEmail = `test-customer-${Date.now()}@example.com`;
+    const testEmail = generateTestEmail('customer');
     const testPassword = generateStrongPassword();
     
     try {
@@ -59,7 +67,7 @@ const SignupTestPage: React.FC = () => {
   };
 
   const testBusinessSignup = async () => {
-    const testEmail = `test-business-${Date.now()}@example.com`;
+    const testEmail = generateTestEmail('business');
     const testPassword = generateStrongPassword();
     
     try {
@@ -132,8 +140,8 @@ const SignupTestPage: React.FC = () => {
       <Alert className="mb-6 border-green-200 bg-green-50">
         <CheckCircle className="h-4 w-4 text-green-600" />
         <AlertDescription className="text-green-800">
-          <strong>URL Configuration Fixed!</strong> The email confirmation should now work properly. 
-          Tests now use strong, unique passwords to avoid weak password errors.
+          <strong>Tests Updated!</strong> Now using realistic email domains (@testmail.com) and strong passwords. 
+          The email confirmation should work properly with the updated URL configuration.
         </AlertDescription>
       </Alert>
       
