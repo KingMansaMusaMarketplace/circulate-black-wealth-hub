@@ -19,7 +19,7 @@ import {
 
 const AboutUsPage = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       <Helmet>
         <title>About Us | Mansa Musa Marketplace</title>
         <meta name="description" content="Learn about our mission, vision, and the team behind Mansa Musa Marketplace" />
