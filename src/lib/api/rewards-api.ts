@@ -124,7 +124,7 @@ export const getRewardsByCategory = async (category: string): Promise<Reward[]> 
   }
 };
 
-// Get global rewards (available to all users)
+// Get global rewards (available to all users)  
 export const getGlobalRewards = async (): Promise<Reward[]> => {
   try {
     const { data, error } = await supabase

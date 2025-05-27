@@ -69,7 +69,13 @@ export const getSalesAgentApplication = async (userId: string): Promise<SalesAge
       .single();
     
     if (error) throw error;
-    return data as SalesAgentApplication;
+    return {
+      ...data,
+      status: data.application_status as SalesAgentApplication['status'],
+      why_join: '',
+      business_experience: '',
+      marketing_ideas: ''
+    } as SalesAgentApplication;
   } catch (error) {
     console.error('Error getting sales agent application:', error);
     return null;
@@ -96,7 +102,13 @@ export const submitSalesAgentApplication = async (application: {
       .single();
     
     if (error) throw error;
-    return data as SalesAgentApplication;
+    return {
+      ...data,
+      status: data.application_status as SalesAgentApplication['status'],
+      why_join: '',
+      business_experience: '',
+      marketing_ideas: ''
+    } as SalesAgentApplication;
   } catch (error) {
     console.error('Error submitting sales agent application:', error);
     return null;

@@ -40,7 +40,10 @@ export const getCustomerTransactions = async (
     const { data, error } = await query;
     
     if (error) throw error;
-    return data || [];
+    return (data || []).map(item => ({
+      ...item,
+      transaction_type: item.transaction_type as Transaction['transaction_type']
+    }));
   } catch (error: any) {
     console.error('Error fetching customer transactions:', error.message);
     return [];
@@ -66,7 +69,10 @@ export const getBusinessTransactions = async (
     const { data, error } = await query;
     
     if (error) throw error;
-    return data || [];
+    return (data || []).map(item => ({
+      ...item,
+      transaction_type: item.transaction_type as Transaction['transaction_type']
+    }));
   } catch (error: any) {
     console.error('Error fetching business transactions:', error.message);
     return [];
@@ -121,7 +127,13 @@ export const createTransaction = async (
       }
     }
     
-    return { success: true, transaction: data };
+    return { 
+      success: true, 
+      transaction: {
+        ...data,
+        transaction_type: data.transaction_type as Transaction['transaction_type']
+      }
+    };
   } catch (error: any) {
     console.error('Error creating transaction:', error.message);
     return { success: false, error };

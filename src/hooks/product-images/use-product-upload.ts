@@ -41,8 +41,7 @@ export const useProductUpload = (businessId: string, updateProducts: (newProduct
           tags: productData.tags,
           compressed_size: file.size, // Ideally would be the compressed size
           compression_savings: 0,
-          image_url: imageUpload.imageUrl,
-          view_count: 0,
+          image_url: imageUpload.url,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         }
@@ -106,8 +105,7 @@ export const useProductUpload = (businessId: string, updateProducts: (newProduct
             tags: defaultData.tags || '',
             category: defaultData.category || '',
             compressed_size: file.size,
-            image_url: imageUpload.imageUrl,
-            view_count: 0,
+            image_url: imageUpload.url,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
           };

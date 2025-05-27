@@ -16,7 +16,13 @@ export const getBusinessVerificationStatus = async (businessId: string): Promise
       .maybeSingle();
       
     if (error) throw error;
-    return data;
+    
+    if (!data) return null;
+    
+    return {
+      ...data,
+      verification_status: data.verification_status as BusinessVerification['verification_status']
+    };
   } catch (error: any) {
     console.error('Error fetching business verification status:', error);
     return null;
@@ -99,7 +105,10 @@ export const fetchVerificationQueue = async (): Promise<VerificationQueueItem[]>
       .select('*');
     
     if (error) throw error;
-    return data || [];
+    return (data || []).map(item => ({
+      ...item,
+      verification_status: item.verification_status as VerificationQueueItem['verification_status']
+    }));
   } catch (error: any) {
     console.error('Error fetching verification queue:', error);
     return [];

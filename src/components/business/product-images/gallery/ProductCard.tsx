@@ -96,12 +96,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       
       <div className={cn("flex flex-col", layoutType === 'list' && "flex-1")}>
         <CardContent className="pt-4">
-          <CardHeader 
-            product={product}
-            imageLoaded={true}
-            togglingId={togglingId}
-            onToggleActive={onToggleActive}
-          />
+          <CardHeader product={product} />
         </CardContent>
         
         <CardFooter className="flex justify-end gap-2 pt-0">

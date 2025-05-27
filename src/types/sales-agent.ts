@@ -4,9 +4,15 @@ export interface SalesAgent {
   user_id: string;
   full_name: string;
   email: string;
+  phone?: string;
   referral_code: string;
-  status: 'active' | 'inactive' | 'suspended';
+  commission_rate: number;
+  total_earned: number;
+  total_pending: number;
+  is_active: boolean;
+  status: 'active' | 'inactive';
   created_at: string;
+  updated_at: string;
 }
 
 export interface SalesAgentApplication {
@@ -14,42 +20,20 @@ export interface SalesAgentApplication {
   user_id: string;
   full_name: string;
   email: string;
-  phone: string;
+  phone?: string;
   why_join: string;
   business_experience: string;
   marketing_ideas: string;
+  application_status: string;
   status: 'pending' | 'approved' | 'rejected';
-  created_at: string;
-  updated_at: string;
-  
-  // Adding the missing fields
-  application_status?: 'pending' | 'approved' | 'rejected';
+  test_score?: number;
+  test_passed: boolean;
+  application_date: string;
+  reviewed_by?: string;
   reviewed_at?: string;
   notes?: string;
-  test_passed?: boolean;
-  test_score?: number;
-  application_date?: string;
 }
 
-export interface SalesAgentReferral {
-  id: string;
-  agent_id: string;
-  referred_user_id: string;
-  user_type: 'customer' | 'business';
-  status: 'pending' | 'completed';
-  commission_amount: number;
-  created_at: string;
-}
-
-export interface SalesAgentStats {
-  total_referrals: number;
-  successful_referrals: number;
-  pending_referrals: number;
-  total_earnings: number;
-  pending_earnings: number;
-}
-
-// Adding the TestQuestion type
 export interface TestQuestion {
   id: string;
   question: string;
@@ -57,34 +41,30 @@ export interface TestQuestion {
   option_b: string;
   option_c: string;
   option_d: string;
-  correct_answer: 'A' | 'B' | 'C' | 'D';
+  correct_answer: string;
   is_active: boolean;
+  created_at: string;
 }
 
-// Adding the Referral type
 export interface Referral {
   id: string;
   sales_agent_id: string;
   referred_user_id: string;
-  referred_user_type: 'customer' | 'business';
+  referred_user_type: string;
+  commission_status: string;
+  commission_amount?: number;
+  subscription_amount?: number;
   referral_date: string;
-  commission_status: 'pending' | 'paid' | 'cancelled';
-  commission_amount: number;
-  referred_user?: {
-    email: string;
-  };
+  payment_date?: string;
 }
 
-// Adding the AgentCommission type
 export interface AgentCommission {
   id: string;
   sales_agent_id: string;
+  referral_id: string;
   amount: number;
-  status: 'pending' | 'paid' | 'cancelled' | 'processing';
+  status: string;
   due_date?: string;
   paid_date?: string;
   payment_reference?: string;
-  referral?: {
-    referral_date: string;
-  };
 }
