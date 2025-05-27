@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/auth";
 import { businessFormSchema, BusinessFormValues, defaultFormValues } from "./models";
 import { saveBusinessProfile, fetchBusinessProfile, BusinessProfile } from "@/lib/api/business-api";
 
