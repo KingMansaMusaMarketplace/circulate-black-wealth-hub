@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -10,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/auth';
 import { toast } from 'sonner';
 import { SalesAgent } from '@/types/sales-agent';
+import { subscriptionService } from '@/lib/services/subscription-service';
 import {
   Form,
   FormControl,
@@ -77,7 +77,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       }
       
       // Sign up the business owner
-      await signUp(values.email, values.password, {
+      const signupResult = await signUp(values.email, values.password, {
         name: values.name,
         user_type: 'business',
         business_name: values.businessName,
@@ -87,10 +87,27 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         referring_agent: referringAgent?.id
       });
 
+      if (signupResult.error) {
+        throw new Error(signupResult.error.message);
+      }
+
       toast.success('Business account created successfully!');
       
       // Sign in the user automatically
       await signIn(values.email, values.password);
+      
+      // Create Stripe checkout session for business subscription
+      const checkoutData = await subscriptionService.createCheckoutSession({
+        userType: 'business',
+        email: values.email,
+        name: values.name,
+        businessName: values.businessName
+      });
+      
+      // Open Stripe checkout in a new tab
+      window.open(checkoutData.url, '_blank');
+      
+      toast.success('Complete your business subscription in the new tab.');
       
       navigate('/signup-success');
     } catch (error: any) {
@@ -223,10 +240,24 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           )}
         />
         
+        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+          <h4 className="text-sm font-medium text-gray-900 mb-2">Business Subscription:</h4>
+          <ul className="text-xs text-gray-600 space-y-1">
+            <li>• $100/month subscription fee</li>
+            <li>• Business profile in the marketplace</li>
+            <li>• Unlimited QR code generation</li>
+            <li>• Customer analytics dashboard</li>
+            <li>• Loyalty program management</li>
+          </ul>
+          <div className="mt-2 text-xs text-gray-800 font-medium">
+            30-day free trial included
+          </div>
+        </div>
+        
         <PaymentNotice />
         
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? 'Creating Account...' : 'Sign Up as Business'}
+          {isLoading ? 'Creating Account...' : 'Create Account & Subscribe'}
         </Button>
         
         <div className="text-center mt-4">

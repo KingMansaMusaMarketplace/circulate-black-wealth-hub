@@ -6,6 +6,8 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useSignupForm } from '../hooks/useSignupForm';
+import { subscriptionService } from '@/lib/services/subscription-service';
+import { toast } from 'sonner';
 
 const CustomerSignupTab: React.FC = () => {
   const { 
@@ -14,9 +16,31 @@ const CustomerSignupTab: React.FC = () => {
     onSubmit
   } = useSignupForm();
 
+  const handleSubmitWithPayment = async (values: any) => {
+    try {
+      // First create the account
+      await onSubmit(values);
+      
+      // Then redirect to Stripe checkout for subscription
+      const checkoutData = await subscriptionService.createCheckoutSession({
+        userType: 'customer',
+        email: values.email,
+        name: values.name
+      });
+      
+      // Open Stripe checkout in a new tab
+      window.open(checkoutData.url, '_blank');
+      
+      toast.success('Account created! Complete your subscription in the new tab.');
+    } catch (error: any) {
+      console.error('Signup with payment error:', error);
+      toast.error(error.message || 'Failed to create account or start subscription');
+    }
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmitWithPayment)} className="space-y-4">
         <FormField
           control={form.control}
           name="name"
@@ -101,10 +125,13 @@ const CustomerSignupTab: React.FC = () => {
             <li>• Special discounts and offers</li>
             <li>• Support economic empowerment</li>
           </ul>
+          <div className="mt-2 text-xs text-blue-800 font-medium">
+            Subscription: $10/month after account creation
+          </div>
         </div>
         
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? 'Creating Account...' : 'Create Customer Account'}
+          {isLoading ? 'Creating Account...' : 'Create Account & Subscribe'}
         </Button>
       </form>
       

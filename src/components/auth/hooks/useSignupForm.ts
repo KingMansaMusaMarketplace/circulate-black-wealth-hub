@@ -114,15 +114,14 @@ export const useSignupForm = () => {
           }
         } else {
           console.log('✅ Account created successfully (no HBCU verification)');
-          toast.success('Account created successfully! Check your email for a welcome message.');
+          toast.success('Account created successfully! Complete your subscription to get started.');
         }
         
         // Sign in the user automatically
         console.log('🔑 Signing in user automatically...');
         await signIn(values.email, values.password);
         
-        console.log('🎯 Navigating to signup success page');
-        navigate('/signup-success');
+        return result; // Return the result so forms can handle next steps
       } else {
         console.error('❌ No user data returned from signup');
         throw new Error('Account creation failed - no user data returned');
@@ -130,6 +129,7 @@ export const useSignupForm = () => {
     } catch (error: any) {
       console.error('❌ Signup error:', error);
       toast.error(error.message || 'Failed to create account');
+      throw error; // Re-throw so forms can handle the error
     } finally {
       setIsLoading(false);
     }
