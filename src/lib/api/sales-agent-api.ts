@@ -1,3 +1,4 @@
+
 import { supabase } from '@/lib/supabase';
 import { SalesAgent, SalesAgentApplication, TestQuestion } from '@/types/sales-agent';
 import { toast } from 'sonner';
@@ -63,6 +64,26 @@ export const createSalesAgentApplication = async (applicationData: {
   }
 };
 
+export const submitSalesAgentApplication = async (applicationData: {
+  user_id: string;
+  full_name: string;
+  email: string;
+  phone?: string;
+}): Promise<void> => {
+  const { data, error } = await supabase
+    .from('sales_agent_applications')
+    .insert({
+      user_id: applicationData.user_id,
+      full_name: applicationData.full_name,
+      email: applicationData.email,
+      phone: applicationData.phone,
+      application_status: 'pending',
+      test_passed: false
+    });
+
+  if (error) throw error;
+};
+
 export const getSalesAgentApplication = async (): Promise<SalesAgentApplication | null> => {
   try {
     const { data: { user } } = await supabase.auth.getUser();
@@ -106,6 +127,26 @@ export const getSalesAgentApplication = async (): Promise<SalesAgentApplication 
   }
 };
 
+export const getSalesAgentByUserId = async (userId: string): Promise<SalesAgent | null> => {
+  try {
+    const { data, error } = await supabase
+      .from('sales_agents')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw error;
+    }
+
+    return data as SalesAgent;
+  } catch (error: any) {
+    console.error('Error fetching sales agent by user ID:', error);
+    return null;
+  }
+};
+
 export const getSalesAgentByReferralCode = async (referralCode: string): Promise<SalesAgent | null> => {
   try {
     const { data, error } = await supabase
@@ -129,7 +170,7 @@ export const getSalesAgentByReferralCode = async (referralCode: string): Promise
 export const getTestQuestions = async (): Promise<TestQuestion[]> => {
   try {
     const { data, error } = await supabase
-      .from('test_questions')
+      .from('sales_agent_tests')
       .select('*')
       .eq('is_active', true);
 
@@ -170,5 +211,75 @@ export const submitTestResults = async (testScore: number): Promise<{ success: b
     console.error('Error submitting test results:', error);
     toast.error('Failed to submit test results: ' + error.message);
     return { success: false, error };
+  }
+};
+
+export const submitTestAttempt = async (attemptData: {
+  user_id: string;
+  score: number;
+  passed: boolean;
+  answers: {[key: string]: string};
+  application_id: string;
+}): Promise<void> => {
+  const { error } = await supabase
+    .from('sales_agent_test_attempts')
+    .insert({
+      user_id: attemptData.user_id,
+      score: attemptData.score,
+      passed: attemptData.passed,
+      answers: attemptData.answers
+    });
+
+  if (error) throw error;
+
+  // Update the application with test results
+  await supabase
+    .from('sales_agent_applications')
+    .update({
+      test_score: attemptData.score,
+      test_passed: attemptData.passed
+    })
+    .eq('id', attemptData.application_id);
+};
+
+export const updateApplicationAfterTest = async (applicationId: string, testData: {
+  test_score: number;
+  test_passed: boolean;
+}): Promise<void> => {
+  const { error } = await supabase
+    .from('sales_agent_applications')
+    .update(testData)
+    .eq('id', applicationId);
+
+  if (error) throw error;
+};
+
+export const getAgentReferrals = async (agentId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('referrals')
+      .select('*')
+      .eq('sales_agent_id', agentId);
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching agent referrals:', error);
+    return [];
+  }
+};
+
+export const getAgentCommissions = async (agentId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('agent_commissions')
+      .select('*')
+      .eq('sales_agent_id', agentId);
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching agent commissions:', error);
+    return [];
   }
 };

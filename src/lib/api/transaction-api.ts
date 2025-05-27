@@ -59,29 +59,44 @@ export const getCustomerTransactions = async (customerId: string): Promise<Trans
 
 export const getBusinessTransactions = async (businessId: string): Promise<Transaction[]> => {
   try {
-    const { data, error } = await supabase
+    // First get transactions without profiles join since it's causing errors
+    const { data: transactions, error } = await supabase
       .from('transactions')
-      .select(`
-        *,
-        profiles (
-          full_name,
-          email
-        )
-      `)
+      .select('*')
       .eq('business_id', businessId)
       .order('created_at', { ascending: false });
 
     if (error) throw error;
 
-    // Type assertion with proper type checking
-    return (data || []).map(item => ({
-      ...item,
-      transaction_type: item.transaction_type as 'purchase' | 'scan' | 'redemption' | 'review' | 'referral',
-      customer: item.profiles ? {
-        full_name: item.profiles.full_name,
-        email: item.profiles.email
-      } : undefined
-    })) as Transaction[];
+    // Then get customer profiles separately if needed
+    const enrichedTransactions = await Promise.all(
+      (transactions || []).map(async (transaction) => {
+        try {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('full_name, email')
+            .eq('id', transaction.customer_id)
+            .single();
+
+          return {
+            ...transaction,
+            transaction_type: transaction.transaction_type as 'purchase' | 'scan' | 'redemption' | 'review' | 'referral',
+            customer: profile ? {
+              full_name: profile.full_name || 'Unknown',
+              email: profile.email || 'Unknown'
+            } : undefined
+          };
+        } catch {
+          return {
+            ...transaction,
+            transaction_type: transaction.transaction_type as 'purchase' | 'scan' | 'redemption' | 'review' | 'referral',
+            customer: undefined
+          };
+        }
+      })
+    );
+
+    return enrichedTransactions as Transaction[];
   } catch (error: any) {
     console.error('Error fetching business transactions:', error);
     return [];

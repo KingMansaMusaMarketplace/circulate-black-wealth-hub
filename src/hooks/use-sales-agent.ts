@@ -58,8 +58,8 @@ export const useSalesAgent = () => {
           setTotalEarned(earned);
           setTotalPending(pending);
         } else {
-          // Check if user has an application
-          const userApplication = await getSalesAgentApplication(user.id);
+          // Check if user has an application - call without parameters
+          const userApplication = await getSalesAgentApplication();
           if (userApplication) {
             console.log('User has an application:', userApplication);
             setHasApplication(true);

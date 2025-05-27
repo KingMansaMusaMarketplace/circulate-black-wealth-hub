@@ -4,22 +4,46 @@ import { toast } from 'sonner';
 
 export interface Reward {
   id: string;
+  business_id?: string;
   title: string;
-  description: string;
+  description?: string;
   points_cost: number;
   image_url?: string;
-  is_global: boolean;
-  business_id?: string;
-  category?: string;
   is_active: boolean;
+  is_global: boolean;
   created_at: string;
   updated_at: string;
-  expiration_date?: string;
 }
 
-type CreateRewardData = Omit<Reward, 'id' | 'is_active' | 'created_at' | 'updated_at'>;
+export interface RedeemedReward {
+  id: string;
+  customer_id: string;
+  reward_id: string;
+  business_id?: string;
+  points_used: number;
+  redemption_date: string;
+  expiration_date?: string;
+  is_used: boolean;
+  created_at: string;
+}
 
-// Get rewards for a business
+export const getGlobalRewards = async (): Promise<Reward[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('rewards')
+      .select('*')
+      .eq('is_global', true)
+      .eq('is_active', true)
+      .order('points_cost', { ascending: true });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error: any) {
+    console.error('Error fetching global rewards:', error);
+    return [];
+  }
+};
+
 export const getBusinessRewards = async (businessId: string): Promise<Reward[]> => {
   try {
     const { data, error } = await supabase
@@ -28,115 +52,62 @@ export const getBusinessRewards = async (businessId: string): Promise<Reward[]> 
       .eq('business_id', businessId)
       .eq('is_active', true)
       .order('points_cost', { ascending: true });
-    
+
     if (error) throw error;
     return data || [];
   } catch (error: any) {
-    console.error('Error fetching business rewards:', error.message);
+    console.error('Error fetching business rewards:', error);
     return [];
   }
 };
 
-// Create a new reward for a business
-export const createBusinessReward = async (
-  businessId: string,
-  rewardData: CreateRewardData
-): Promise<{ success: boolean; reward?: Reward; error?: any }> => {
+export const redeemReward = async (rewardId: string, customerId: string): Promise<{ success: boolean; error?: any }> => {
   try {
-    const { data, error } = await supabase
+    // First get the reward details
+    const { data: reward, error: rewardError } = await supabase
       .from('rewards')
+      .select('*')
+      .eq('id', rewardId)
+      .single();
+
+    if (rewardError) throw rewardError;
+
+    // Create redemption record
+    const { data, error } = await supabase
+      .from('redeemed_rewards')
       .insert({
-        ...rewardData,
-        business_id: businessId,
-        is_active: true
+        customer_id: customerId,
+        reward_id: rewardId,
+        business_id: reward.business_id,
+        points_used: reward.points_cost,
+        is_used: false
       })
       .select()
       .single();
-    
-    if (error) throw error;
-    
-    toast.success('Reward created successfully!');
-    return { success: true, reward: data };
-  } catch (error: any) {
-    console.error('Error creating reward:', error.message);
-    toast.error('Failed to create reward: ' + error.message);
-    return { success: false, error };
-  }
-};
 
-// Update a reward
-export const updateBusinessReward = async (
-  rewardId: string,
-  updates: Partial<Reward>
-): Promise<{ success: boolean; reward?: Reward; error?: any }> => {
-  try {
-    const { data, error } = await supabase
-      .from('rewards')
-      .update(updates)
-      .eq('id', rewardId)
-      .select()
-      .single();
-    
     if (error) throw error;
-    
-    toast.success('Reward updated successfully!');
-    return { success: true, reward: data };
-  } catch (error: any) {
-    console.error('Error updating reward:', error.message);
-    toast.error('Failed to update reward: ' + error.message);
-    return { success: false, error };
-  }
-};
 
-// Delete a reward (soft delete by setting is_active to false)
-export const deactivateBusinessReward = async (rewardId: string): Promise<{ success: boolean; error?: any }> => {
-  try {
-    const { error } = await supabase
-      .from('rewards')
-      .update({ is_active: false })
-      .eq('id', rewardId);
-    
-    if (error) throw error;
-    
-    toast.success('Reward deactivated successfully!');
+    toast.success('Reward redeemed successfully!');
     return { success: true };
   } catch (error: any) {
-    console.error('Error deactivating reward:', error.message);
-    toast.error('Failed to deactivate reward: ' + error.message);
+    console.error('Error redeeming reward:', error);
+    toast.error('Failed to redeem reward: ' + error.message);
     return { success: false, error };
   }
 };
 
-// Get rewards by category (useful for filtering)
-export const getRewardsByCategory = async (category: string): Promise<Reward[]> => {
+export const getCustomerRedemptions = async (customerId: string): Promise<RedeemedReward[]> => {
   try {
     const { data, error } = await supabase
-      .from('rewards')
+      .from('redeemed_rewards')
       .select('*')
-      .eq('category', category)
-      .eq('is_active', true);
-    
-    if (error) throw error;
-    return data || [];
-  } catch (error: any) {
-    console.error('Error fetching rewards by category:', error.message);
-    return [];
-  }
-};
+      .eq('customer_id', customerId)
+      .order('redemption_date', { ascending: false });
 
-// Get global rewards (available to all users)  
-export const getGlobalRewards = async (): Promise<Reward[]> => {
-  try {
-    const { data, error } = await supabase
-      .from('rewards')
-      .select('*')
-      .eq('is_global', true)
-      .eq('is_active', true);
-    
     if (error) throw error;
     return data || [];
   } catch (error: any) {
-    console.error('Error fetching global rewards:', error.message);
+    console.error('Error fetching customer redemptions:', error);
     return [];
   }
 };
