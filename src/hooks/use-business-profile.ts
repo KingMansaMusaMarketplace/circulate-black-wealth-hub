@@ -38,10 +38,17 @@ export const useBusinessProfile = () => {
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
 
+  console.log('useBusinessProfile: user state:', user);
+  console.log('useBusinessProfile: loading state:', loading);
+
   // Load business profile
   const loadBusinessProfile = useCallback(async () => {
-    if (!user) return;
+    if (!user) {
+      console.log('useBusinessProfile: No user found, skipping load');
+      return;
+    }
     
+    console.log('useBusinessProfile: Loading profile for user:', user.id);
     setLoading(true);
     setError(null);
     
@@ -54,6 +61,7 @@ export const useBusinessProfile = () => {
       
       if (error) throw error;
       
+      console.log('useBusinessProfile: Profile loaded:', data);
       setProfile(data);
     } catch (err: any) {
       console.error('Error loading business profile:', err);
@@ -130,6 +138,7 @@ export const useBusinessProfile = () => {
 
   // Load profile when user changes
   useEffect(() => {
+    console.log('useBusinessProfile: Effect triggered, user:', user);
     if (user) {
       loadBusinessProfile();
     } else {
