@@ -41,14 +41,13 @@ const BusinessCard = ({
     return `https://placehold.co/300x200/e0e0e0/808080?text=${initial}`;
   };
 
-  // Add logging to debug image loading issues
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleImageError = () => {
     console.log(`Image failed to load: ${imageUrl}`);
     setImgError(true);
-    e.currentTarget.src = generatePlaceholderUrl(name);
   };
 
   const handleImageLoad = () => {
+    console.log(`Image loaded successfully: ${imageUrl}`);
     setImgLoaded(true);
   };
 
@@ -60,7 +59,7 @@ const BusinessCard = ({
         </div>
       )}
       <div className="h-36 bg-gray-100 relative overflow-hidden">
-        {!imgError && imageUrl ? (
+        {imageUrl && !imgError ? (
           <>
             {!imgLoaded && (
               <div className="w-full h-full flex items-center justify-center bg-gray-200 animate-pulse">
@@ -69,13 +68,11 @@ const BusinessCard = ({
             )}
             <img 
               src={imageUrl} 
-              alt={imageAlt || `${name} image`}
-              width="300"
-              height="200"
-              loading="lazy"
-              className={`w-full h-full object-cover transition-transform duration-300 hover:scale-105 ${!imgLoaded ? 'opacity-0' : 'opacity-100'}`}
+              alt={imageAlt || `${name} business image`}
+              className={`w-full h-full object-cover transition-all duration-300 hover:scale-105 ${!imgLoaded ? 'opacity-0 absolute' : 'opacity-100'}`}
               onError={handleImageError}
               onLoad={handleImageLoad}
+              loading="lazy"
             />
           </>
         ) : (
