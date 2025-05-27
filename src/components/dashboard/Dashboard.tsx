@@ -72,11 +72,14 @@ const Dashboard = () => {
     }
   ];
 
+  // Ensure userType is properly typed
+  const validUserType = (userType === 'customer' || userType === 'business') ? userType : 'customer';
+
   return (
     <DashboardLayout title="Dashboard">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
-          {userType && <WelcomeGuide userType={userType} />}
+          <WelcomeGuide userType={validUserType} />
           <CirculationImpact metrics={impactMetrics} />
           <RecentActivity activities={recentActivities} />
         </div>

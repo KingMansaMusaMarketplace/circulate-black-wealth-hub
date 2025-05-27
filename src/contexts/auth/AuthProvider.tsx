@@ -33,6 +33,87 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const signIn = async (email: string, password: string) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      return { data, error };
+    } catch (error) {
+      return { data: null, error };
+    }
+  };
+
+  const signUp = async (email: string, password: string, metadata?: any) => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: metadata
+        }
+      });
+      return { data, error };
+    } catch (error) {
+      return { data: null, error };
+    }
+  };
+
+  const signInWithSocial = async (provider: 'google' | 'facebook' | 'github') => {
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+    } catch (error) {
+      console.error('Social login error:', error);
+    }
+  };
+
+  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+    try {
+      const { data, error } = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId,
+        code
+      });
+      return { success: !error, data, error };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
+  const getMFAFactors = async () => {
+    try {
+      const { data, error } = await supabase.auth.mfa.listFactors();
+      return data?.all || [];
+    } catch (error) {
+      console.error('Error getting MFA factors:', error);
+      return [];
+    }
+  };
+
+  const updateUserPassword = async (password: string) => {
+    try {
+      const { data, error } = await supabase.auth.updateUser({ password });
+      return { success: !error, data, error };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
+  const resetPassword = async (email: string) => {
+    try {
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+      return { success: !error, data, error };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -67,7 +148,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     authInitialized,
     userType,
     checkSession,
-    signOut
+    signOut,
+    signIn,
+    signUp,
+    signInWithSocial,
+    verifyMFA,
+    getMFAFactors,
+    updateUserPassword,
+    resetPassword,
+    databaseInitialized: true
   };
 
   return (
