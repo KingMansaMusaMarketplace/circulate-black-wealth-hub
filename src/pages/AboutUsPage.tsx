@@ -38,11 +38,11 @@ const AboutUsPage = () => {
 
       {/* Mansa Musa Video */}
       <section className="py-16 bg-gray-50">
-        <div className="container-custom">
+        <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-8">
-            <h2 className="heading-md text-mansablue mb-4 inline-block relative">
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4 inline-block relative">
               Who was Mansa Musa?
-              <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-mansagold"></span>
+              <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-yellow-500"></span>
             </h2>
             <p className="text-gray-600 max-w-3xl mx-auto mb-8">
               Learn about the legendary African ruler who inspired our marketplace and represents the pinnacle of economic power coupled with community reinvestment.
