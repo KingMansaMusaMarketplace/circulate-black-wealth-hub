@@ -23,7 +23,7 @@ import SettingsPage from '@/pages/SettingsPage';
 import QRScannerPage from '@/pages/QRScannerPage';
 import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
 import HowItWorksPage from '@/pages/HowItWorksPage';
-import DirectoryPage from '@/pages/DirectoryPage';
+import BusinessDirectoryPage from '@/pages/BusinessDirectoryPage';
 import AboutUsPage from '@/pages/AboutUsPage';
 import AboutPage from '@/pages/AboutPage';
 
@@ -40,7 +40,7 @@ function App() {
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/signup" element={<SignupPage />} />
                   <Route path="/how-it-works" element={<HowItWorksPage />} />
-                  <Route path="/directory" element={<DirectoryPage />} />
+                  <Route path="/directory" element={<BusinessDirectoryPage />} />
                   <Route path="/about-us" element={<AboutUsPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/qr-scanner" element={<QRScannerPage />} />
