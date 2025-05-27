@@ -1,9 +1,12 @@
+
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer';
 import DirectoryFilter from '@/components/DirectoryFilter';
 import MapView from '@/components/MapView';
+import BusinessGridView from '@/components/directory/BusinessGridView';
+import BusinessListView from '@/components/directory/BusinessListView';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, MapPin, ListFilter, Grid3X3, List } from 'lucide-react';
@@ -31,6 +34,11 @@ const BusinessDirectoryPage: React.FC = () => {
 
   // Convert businesses to the format expected by MapView
   const mapViewBusinesses: BusinessLocation[] = mapData;
+
+  const handleSelectBusiness = (id: number) => {
+    console.log('Selected business:', id);
+    // You can add navigation logic here if needed
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -113,34 +121,10 @@ const BusinessDirectoryPage: React.FC = () => {
               
               <Tabs value={view} onValueChange={(val) => setView(val as 'grid' | 'list' | 'map')}>
                 <TabsContent value="grid" className="mt-0">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {filteredBusinesses.map(business => (
-                      <div key={business.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                        <h3 className="font-medium">{business.name}</h3>
-                        <p className="text-sm text-gray-500">{business.category}</p>
-                        <div className="mt-2 text-xs flex items-center text-gray-600">
-                          <MapPin size={12} className="mr-1" />
-                          {business.distance}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <BusinessGridView businesses={filteredBusinesses} onSelectBusiness={handleSelectBusiness} />
                 </TabsContent>
                 <TabsContent value="list" className="mt-0">
-                  <div className="space-y-3">
-                    {filteredBusinesses.map(business => (
-                      <div key={business.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center">
-                        <div>
-                          <h3 className="font-medium">{business.name}</h3>
-                          <p className="text-sm text-gray-500">{business.category}</p>
-                        </div>
-                        <div className="ml-auto text-xs flex items-center text-gray-600">
-                          <MapPin size={12} className="mr-1" />
-                          {business.distance}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <BusinessListView businesses={filteredBusinesses} onSelectBusiness={handleSelectBusiness} />
                 </TabsContent>
                 <TabsContent value="map" className="mt-0">
                   <div className="h-[600px] rounded-lg overflow-hidden">
