@@ -18,6 +18,9 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
     );
   }
 
+  console.log('BusinessGridView rendering businesses:', businesses.length);
+  console.log('Sample business with image:', businesses[0]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {businesses.map((business) => (

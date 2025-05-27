@@ -18,6 +18,9 @@ const BusinessListView: React.FC<BusinessListViewProps> = ({ businesses, onSelec
     );
   }
 
+  console.log('BusinessListView rendering businesses:', businesses.length);
+  console.log('Sample business with image:', businesses[0]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {businesses.map((business) => (
