@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { CheckCircle, XCircle, Loader2, AlertTriangle } from 'lucide-react';
 import { useAuth } from '@/contexts/auth';
 import { toast } from 'sonner';
 
@@ -121,6 +121,21 @@ const SignupTestPage: React.FC = () => {
   return (
     <div className="container mx-auto p-6 max-w-4xl">
       <h1 className="text-3xl font-bold mb-6">Signup Testing Dashboard</h1>
+      
+      <Alert className="mb-6 border-amber-200 bg-amber-50">
+        <AlertTriangle className="h-4 w-4 text-amber-600" />
+        <AlertDescription className="text-amber-800">
+          <strong>Email Confirmation Issue:</strong> If you're getting connection refused errors after clicking email confirmation links, you need to:
+          <br />
+          1. Go to your Supabase Dashboard → Authentication → URL Configuration
+          <br />
+          2. Set Site URL to your current preview URL
+          <br />
+          3. Add your preview URL to Redirect URLs
+          <br />
+          <strong>OR</strong> disable email confirmation temporarily in Authentication → Settings → "Confirm email" toggle.
+        </AlertDescription>
+      </Alert>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
