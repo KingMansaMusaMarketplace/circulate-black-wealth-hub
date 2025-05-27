@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { v4 as uuidv4 } from 'uuid';
 import { uploadProductImage } from '@/lib/api/storage-api';
-import { addProductImage, ProductImage } from '@/lib/api/product-api';
+import { createProductImage, ProductImage } from '@/lib/api/product-api';
 import { ProductImageFormValues } from '@/components/business/business-form/models';
 
 export const useProductUpload = (businessId: string, updateProducts: (newProduct: ProductImage) => void) => {
@@ -28,8 +28,7 @@ export const useProductUpload = (businessId: string, updateProducts: (newProduct
       }
 
       // Save product data with image URL and compression info
-      const result = await addProductImage(
-        file,
+      const result = await createProductImage(
         businessId,
         {
           title: productData.title,
@@ -37,11 +36,15 @@ export const useProductUpload = (businessId: string, updateProducts: (newProduct
           price: productData.price,
           is_active: productData.isActive,
           alt_text: productData.altText,
-          meta_description: productData.metaDescription,
+          seo_description: productData.metaDescription,
           category: productData.category,
           tags: productData.tags,
           compressed_size: file.size, // Ideally would be the compressed size
-          compression_savings: 0
+          compression_savings: 0,
+          image_url: imageUpload.imageUrl,
+          view_count: 0,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         }
       );
 
@@ -102,11 +105,15 @@ export const useProductUpload = (businessId: string, updateProducts: (newProduct
             alt_text: defaultData.altText || title,
             tags: defaultData.tags || '',
             category: defaultData.category || '',
-            compressed_size: file.size
+            compressed_size: file.size,
+            image_url: imageUpload.imageUrl,
+            view_count: 0,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
           };
           
           // Save product
-          const result = await addProductImage(file, businessId, productMetadata);
+          const result = await createProductImage(businessId, productMetadata);
           
           if (result.success && result.product) {
             results.push(result.product);

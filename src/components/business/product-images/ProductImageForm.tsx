@@ -41,7 +41,7 @@ const ProductImageForm: React.FC<ProductImageFormProps> = ({
       price: initialData.price || '',
       isActive: initialData.is_active,
       altText: initialData.alt_text || '',
-      metaDescription: initialData.meta_description || '',
+      metaDescription: initialData.seo_description || '',
       category: initialData.category || '',
       tags: initialData.tags || ''
     } : defaultProductImageValues,

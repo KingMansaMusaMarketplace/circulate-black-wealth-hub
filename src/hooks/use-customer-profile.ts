@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCustomerProfile, saveCustomerProfile, CustomerProfile } from '@/lib/api/customer-api';
+import { getCustomerProfile, updateCustomerProfile, CustomerProfile } from '@/lib/api/customer-api';
 import { toast } from 'sonner';
 
 export const useCustomerProfile = () => {
@@ -20,7 +20,7 @@ export const useCustomerProfile = () => {
 
       setLoading(true);
       try {
-        const customerProfile = await fetchCustomerProfile(user.id);
+        const customerProfile = await getCustomerProfile(user.id);
         setProfile(customerProfile);
       } catch (error) {
         console.error('Error loading customer profile:', error);
@@ -40,8 +40,7 @@ export const useCustomerProfile = () => {
     }
 
     try {
-      const updatedProfile = { ...profile, ...updates };
-      const result = await saveCustomerProfile(updatedProfile as CustomerProfile);
+      const result = await updateCustomerProfile(user.id, updates);
       
       if (result.success) {
         setProfile(prev => prev ? { ...prev, ...updates } : null);

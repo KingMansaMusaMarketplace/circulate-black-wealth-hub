@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { updateProductImage, deleteProductImage } from '@/lib/api/product-api';
+import { updateProductImage, deactivateProductImage } from '@/lib/api/product-api';
 import { ProductImage } from '@/lib/api/product-api';
 
 export const useBulkOperations = (setProducts: React.Dispatch<React.SetStateAction<ProductImage[]>>) => {
@@ -12,7 +12,7 @@ export const useBulkOperations = (setProducts: React.Dispatch<React.SetStateActi
     setIsProcessing(true);
     try {
       // Delete products one by one
-      const promises = productIds.map(id => deleteProductImage(id));
+      const promises = productIds.map(id => deactivateProductImage(id));
       await Promise.all(promises);
       
       // Update local state

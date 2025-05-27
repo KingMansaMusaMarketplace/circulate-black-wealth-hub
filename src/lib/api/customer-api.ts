@@ -1,4 +1,3 @@
-
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 
@@ -40,13 +39,19 @@ export const getCustomerProfile = async (userId: string): Promise<CustomerProfil
     
     return {
       ...data,
-      user_id: data.id
+      user_id: data.id,
+      loyalty_points: 0, // Default values for missing properties
+      total_scans: 0,
+      total_purchases: 0
     } as CustomerProfile;
   } catch (error: any) {
     console.error('Error fetching customer profile:', error.message);
     return null;
   }
 };
+
+// Export alias for compatibility
+export const fetchCustomerProfile = getCustomerProfile;
 
 // Update customer profile
 export const updateCustomerProfile = async (
@@ -68,7 +73,10 @@ export const updateCustomerProfile = async (
       success: true, 
       profile: {
         ...data,
-        user_id: data.id
+        user_id: data.id,
+        loyalty_points: 0,
+        total_scans: 0,
+        total_purchases: 0
       } as CustomerProfile 
     };
   } catch (error: any) {
@@ -78,14 +86,19 @@ export const updateCustomerProfile = async (
   }
 };
 
+// Export alias for compatibility
+export const saveCustomerProfile = async (profile: CustomerProfile) => {
+  return updateCustomerProfile(profile.user_id, profile);
+};
+
 // Get customer loyalty stats
 export const getCustomerLoyaltyStats = async (userId: string) => {
   try {
     const { data, error } = await supabase
       .from('qr_scans')
-      .select('points_awarded, scanned_at')
+      .select('points_awarded, scan_date')
       .eq('customer_id', userId)
-      .order('scanned_at', { ascending: false });
+      .order('scan_date', { ascending: false });
     
     if (error) throw error;
     

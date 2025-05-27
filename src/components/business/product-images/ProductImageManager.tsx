@@ -53,7 +53,7 @@ const ProductImageManager: React.FC<ProductImageManagerProps> = ({ businessId })
         price: values.price,
         is_active: values.isActive,
         alt_text: values.altText,
-        meta_description: values.metaDescription,
+        seo_description: values.metaDescription,
         category: values.category,
         tags: values.tags
       });

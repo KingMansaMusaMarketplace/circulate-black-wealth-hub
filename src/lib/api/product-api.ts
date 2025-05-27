@@ -8,9 +8,9 @@ export interface ProductImage {
   image_url: string;
   title: string;
   description?: string;
-  price?: number;
+  price?: string; // Keep as string to match database
   category?: string;
-  tags?: string[];
+  tags?: string; // Keep as string to match database
   is_active: boolean;
   view_count: number;
   alt_text?: string;
@@ -41,6 +41,9 @@ export const getBusinessProducts = async (businessId: string): Promise<ProductIm
   }
 };
 
+// Export alias for compatibility
+export const fetchProductImages = getBusinessProducts;
+
 // Create a new product
 export const createProductImage = async (
   businessId: string,
@@ -66,6 +69,15 @@ export const createProductImage = async (
     toast.error('Failed to upload product image: ' + error.message);
     return { success: false, error };
   }
+};
+
+// Export alias for compatibility
+export const addProductImage = async (
+  file: File,
+  businessId: string,
+  productData: any
+): Promise<{ success: boolean; product?: ProductImage; error?: any }> => {
+  return createProductImage(businessId, productData);
 };
 
 // Update a product
@@ -116,6 +128,9 @@ export const deactivateProductImage = async (productId: string): Promise<{ succe
     return { success: false, error };
   }
 };
+
+// Export alias for compatibility
+export const deleteProductImage = deactivateProductImage;
 
 // Get product by ID and increment view count
 export const getProductById = async (productId: string): Promise<ProductImage | null> => {

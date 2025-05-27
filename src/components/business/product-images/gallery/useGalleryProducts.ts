@@ -32,7 +32,7 @@ export const useGalleryProducts = (products: ProductImage[], itemsPerPage: numbe
     return products.filter(product => {
       // Basic search term filter
       const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
+                          product.description?.toLowerCase().includes(searchTerm.toLowerCase());
                           
       // Status filter
       let matchesStatus = true;
@@ -50,10 +50,12 @@ export const useGalleryProducts = (products: ProductImage[], itemsPerPage: numbe
         matchesAdvancedFilters = false;
       }
       
-      // Tag filter
-      if (advancedFilters.hasTag && 
-          !(product.tags?.toLowerCase().includes(advancedFilters.hasTag.toLowerCase()))) {
-        matchesAdvancedFilters = false;
+      // Tag filter - handle tags as string
+      if (advancedFilters.hasTag) {
+        const tagString = typeof product.tags === 'string' ? product.tags : '';
+        if (!tagString.toLowerCase().includes(advancedFilters.hasTag.toLowerCase())) {
+          matchesAdvancedFilters = false;
+        }
       }
       
       // Price range filter (if price is available)

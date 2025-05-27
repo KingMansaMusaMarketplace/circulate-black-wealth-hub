@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { updateProductImage, deleteProductImage } from '@/lib/api/product-api';
+import { updateProductImage, deactivateProductImage } from '@/lib/api/product-api';
 import { ProductImage } from '@/lib/api/product-api';
 
 export const useProductManagement = (setProducts: React.Dispatch<React.SetStateAction<ProductImage[]>>) => {
@@ -29,7 +29,7 @@ export const useProductManagement = (setProducts: React.Dispatch<React.SetStateA
     setDeletingId(productId);
     try {
       // Delete image from storage first
-      await deleteProductImage(productId);
+      await deactivateProductImage(productId);
       
       // Update local state
       setProducts(prev => prev.filter(p => p.id !== productId));

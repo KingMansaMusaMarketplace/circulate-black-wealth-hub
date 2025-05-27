@@ -1,7 +1,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { toast } from 'sonner';
-import { ProductImage, fetchProductImages } from '@/lib/api/product-api';
+import { ProductImage, getBusinessProducts } from '@/lib/api/product-api';
 import { useProductUpload } from './product-images/use-product-upload';
 import { useProductManagement } from './product-images/use-product-management';
 import { useBulkOperations } from './product-images/use-bulk-operations';
@@ -41,7 +41,7 @@ export const useProductImages = (businessId: string) => {
   const loadProducts = async () => {
     setLoading(true);
     try {
-      const data = await fetchProductImages(businessId);
+      const data = await getBusinessProducts(businessId);
       setProducts(data);
     } catch (error: any) {
       toast.error(`Failed to load products: ${error.message}`);
