@@ -22,9 +22,16 @@ const SignupTestPage: React.FC = () => {
     setTestResults(prev => ({ ...prev, [testName]: result }));
   };
 
+  // Generate a strong, unique password for testing
+  const generateStrongPassword = () => {
+    const timestamp = Date.now();
+    const randomChars = Math.random().toString(36).substring(2, 8).toUpperCase();
+    return `SecureTest${timestamp}${randomChars}!`;
+  };
+
   const testCustomerSignup = async () => {
     const testEmail = `test-customer-${Date.now()}@example.com`;
-    const testPassword = 'TestPassword123!';
+    const testPassword = generateStrongPassword();
     
     try {
       log(`Testing customer signup with email: ${testEmail}`);
@@ -53,7 +60,7 @@ const SignupTestPage: React.FC = () => {
 
   const testBusinessSignup = async () => {
     const testEmail = `test-business-${Date.now()}@example.com`;
-    const testPassword = 'TestPassword123!';
+    const testPassword = generateStrongPassword();
     
     try {
       log(`Testing business signup with email: ${testEmail}`);
@@ -122,18 +129,11 @@ const SignupTestPage: React.FC = () => {
     <div className="container mx-auto p-6 max-w-4xl">
       <h1 className="text-3xl font-bold mb-6">Signup Testing Dashboard</h1>
       
-      <Alert className="mb-6 border-amber-200 bg-amber-50">
-        <AlertTriangle className="h-4 w-4 text-amber-600" />
-        <AlertDescription className="text-amber-800">
-          <strong>Email Confirmation Issue:</strong> If you're getting connection refused errors after clicking email confirmation links, you need to:
-          <br />
-          1. Go to your Supabase Dashboard → Authentication → URL Configuration
-          <br />
-          2. Set Site URL to your current preview URL
-          <br />
-          3. Add your preview URL to Redirect URLs
-          <br />
-          <strong>OR</strong> disable email confirmation temporarily in Authentication → Settings → "Confirm email" toggle.
+      <Alert className="mb-6 border-green-200 bg-green-50">
+        <CheckCircle className="h-4 w-4 text-green-600" />
+        <AlertDescription className="text-green-800">
+          <strong>URL Configuration Fixed!</strong> The email confirmation should now work properly. 
+          Tests now use strong, unique passwords to avoid weak password errors.
         </AlertDescription>
       </Alert>
       
