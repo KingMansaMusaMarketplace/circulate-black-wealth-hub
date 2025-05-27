@@ -10,7 +10,6 @@ export interface SalesAgent {
   total_earned: number;
   total_pending: number;
   is_active: boolean;
-  status: 'active' | 'inactive';
   created_at: string;
   updated_at: string;
 }
@@ -51,10 +50,10 @@ export interface Referral {
   sales_agent_id: string;
   referred_user_id: string;
   referred_user_type: string;
+  referral_date: string;
   commission_status: string;
   commission_amount?: number;
   subscription_amount?: number;
-  referral_date: string;
   payment_date?: string;
 }
 

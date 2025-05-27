@@ -1,140 +1,73 @@
 
-import React from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
+import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { AuthContextType } from './types';
-import { 
-  enhancedSignIn, 
-  handleUserSignUp, 
-  handleUserSignOut, 
-  handleUserSocialSignIn,
-  handlePasswordReset,
-  handleUpdatePassword,
-  toastWrapper
-} from './authUtils';
 import { AuthContext } from './AuthContext';
-import { useAuthSession, useSessionCheck } from './hooks/useAuthSession';
-import { useMFAFactors, useMFAChallenge } from './hooks/useMFAHooks';
-import { useDatabaseInit } from './hooks/useDatabaseInit';
+import { AuthContextType } from './types';
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const {
-    user,
-    setUser,
-    session,
-    setSession,
-    userType,
-    setUserType,
-    loading,
-    authInitialized
-  } = useAuthSession();
-  
-  const {
-    initializingDatabase,
-    databaseInitialized
-  } = useDatabaseInit();
-  
-  const { checkSession } = useSessionCheck();
-  
-  const {
-    mfaFactors,
-    mfaEnrolled,
-    getMFAFactors
-  } = useMFAFactors(user?.id);
-  
-  const {
-    currentMFAChallenge,
-    setCurrentMFAChallenge,
-    getCurrentMFAChallenge,
-    verifyMFA
-  } = useMFAChallenge();
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [authInitialized, setAuthInitialized] = useState(false);
+
+  const checkSession = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      return !!session;
+    } catch (error) {
+      console.error('Error checking session:', error);
+      return false;
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setLoading(false);
+        
+        if (!authInitialized) {
+          setAuthInitialized(true);
+        }
+      }
+    );
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+      setAuthInitialized(true);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [authInitialized]);
+
+  const userType = user?.user_metadata?.user_type || null;
 
   const value: AuthContextType = {
     user,
     session,
     loading,
     authInitialized,
-    signUp: async (email, password, metadata) => {
-      console.log("Signing up with metadata:", metadata);
-      const result = await handleUserSignUp(email, password, metadata, toastWrapper);
-      // If signup was successful and we have a session, update the auth state
-      if (result.data?.session) {
-        setUser(result.data.user || null);
-        setSession(result.data.session);
-        if (metadata?.userType) {
-          setUserType(metadata.userType);
-        }
-      }
-      return result;
-    },
-    signIn: async (email, password) => {
-      console.log("Signing in:", email);
-      const result = await enhancedSignIn(
-        email, 
-        password, 
-        setUser, 
-        getMFAFactors,
-        setCurrentMFAChallenge, 
-        toastWrapper
-      );
-      if (result.data?.session) {
-        setUser(result.data.user || null);
-        setSession(result.data.session);
-        const userTypeFromMeta = result.data.user?.user_metadata?.userType;
-        if (userTypeFromMeta === 'customer' || userTypeFromMeta === 'business') {
-          console.log("Setting user type after sign in:", userTypeFromMeta);
-          setUserType(userTypeFromMeta);
-        }
-      }
-      return result;
-    },
-    signInWithEmail: async (email, password) => {
-      console.log("Signing in with email:", email);
-      const result = await enhancedSignIn(
-        email, 
-        password, 
-        setUser, 
-        getMFAFactors,
-        setCurrentMFAChallenge, 
-        toastWrapper
-      );
-      if (result.data?.session) {
-        setUser(result.data.user || null);
-        setSession(result.data.session);
-        const userTypeFromMeta = result.data.user?.user_metadata?.userType;
-        if (userTypeFromMeta === 'customer' || userTypeFromMeta === 'business') {
-          console.log("Setting user type after sign in:", userTypeFromMeta);
-          setUserType(userTypeFromMeta);
-        }
-      }
-      return result;
-    },
-    signInWithSocial: async (provider) => {
-      const result = await handleUserSocialSignIn(provider, toastWrapper);
-      return result;
-    },
-    signOut: async () => {
-      const result = await handleUserSignOut(toastWrapper);
-      if (result.success) {
-        setUser(null);
-        setSession(null);
-        setUserType(null);
-      }
-      return result;
-    },
-    resetPassword: (email) =>
-      handlePasswordReset(email, toastWrapper),
-    updateUserPassword: (newPassword) =>
-      handleUpdatePassword(newPassword, toastWrapper),
     userType,
-    initializingDatabase,
-    databaseInitialized,
     checkSession,
-    mfaEnrolled,
-    mfaFactors,
-    verifyMFA,
-    getMFAFactors,
-    getCurrentMFAChallenge
+    signOut
   };
 
   return (
@@ -143,5 +76,3 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     </AuthContext.Provider>
   );
 };
-
-export { useAuth } from './AuthContext';

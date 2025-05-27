@@ -1,8 +1,4 @@
 
-export * from './AuthProvider';
-export * from './AuthContext';
-export * from './types';
-export * from './mfaUtils';
-export * from './authUtils';
-export * from './hooks/useAuthState';
-export * from './hooks/useMFAState';
+export { AuthProvider } from './AuthProvider';
+export { useAuth } from './AuthContext';
+export type { AuthContextType } from './types';

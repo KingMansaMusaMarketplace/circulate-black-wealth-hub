@@ -5,14 +5,14 @@ export const useSalesAgentTabs = () => {
   const [showTestForm, setShowTestForm] = useState(false);
 
   const handleApplicationSubmitted = () => {
-    // In a real app, you might want to show a success message or redirect
-    console.log('Application submitted successfully');
+    // Refresh the page or update state to show application status
+    window.location.reload();
   };
 
   const handleTestCompleted = () => {
     setShowTestForm(false);
-    // In a real app, you might want to show a success message or redirect
-    console.log('Test completed successfully');
+    // Refresh to show updated status
+    window.location.reload();
   };
 
   const showTest = () => {
