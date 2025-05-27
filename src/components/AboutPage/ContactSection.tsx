@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
@@ -113,7 +114,7 @@ const ContactSection = () => {
             </div>
           </div>
           <div className="text-center mt-4 text-sm text-gray-500">
-            Find us at our Atlanta, GA headquarters
+            Find us at our Chicago, Illinois headquarters
           </div>
         </div>
       </div>
@@ -122,3 +123,4 @@ const ContactSection = () => {
 };
 
 export default ContactSection;
+

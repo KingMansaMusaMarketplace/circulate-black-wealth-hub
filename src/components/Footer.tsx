@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, ChevronRight } from 'lucide-react';
@@ -93,11 +94,11 @@ const Footer = () => {
               </li>
               <li className="flex items-start">
                 <Phone className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
-                <span className="text-gray-300 hover:text-white transition-colors">(555) 123-4567</span>
+                <span className="text-gray-300 hover:text-white transition-colors">312.709.6006</span>
               </li>
               <li className="flex items-start">
                 <MapPin className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
-                <span className="text-gray-300 hover:text-white transition-colors">Atlanta, GA</span>
+                <span className="text-gray-300 hover:text-white transition-colors">1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628</span>
               </li>
               <li className="mt-6">
                 <Link to="/privacy" className="text-gray-300 hover:text-white transition-colors">
@@ -138,3 +139,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
