@@ -34,39 +34,49 @@ export interface BusinessProfile {
 
 export const useBusinessProfile = () => {
   const [profile, setProfile] = useState<BusinessProfile | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true); // Start with true to show loading initially
   const [error, setError] = useState<string | null>(null);
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
 
-  console.log('useBusinessProfile: user state:', user);
-  console.log('useBusinessProfile: loading state:', loading);
+  console.log('useBusinessProfile: Auth loading:', authLoading);
+  console.log('useBusinessProfile: User state:', user);
+  console.log('useBusinessProfile: Profile loading state:', loading);
 
   // Load business profile
   const loadBusinessProfile = useCallback(async () => {
     if (!user) {
-      console.log('useBusinessProfile: No user found, skipping load');
+      console.log('useBusinessProfile: No user found, setting loading to false');
+      setLoading(false);
       return;
     }
     
-    console.log('useBusinessProfile: Loading profile for user:', user.id);
+    console.log('useBusinessProfile: Starting to load profile for user:', user.id);
     setLoading(true);
     setError(null);
     
     try {
+      console.log('useBusinessProfile: Making Supabase query...');
       const { data, error } = await supabase
         .from('businesses')
         .select('*')
         .eq('owner_id', user.id)
         .maybeSingle();
       
-      if (error) throw error;
+      console.log('useBusinessProfile: Supabase response:', { data, error });
       
-      console.log('useBusinessProfile: Profile loaded:', data);
+      if (error) {
+        console.error('useBusinessProfile: Supabase error:', error);
+        throw error;
+      }
+      
+      console.log('useBusinessProfile: Profile loaded successfully:', data);
       setProfile(data);
     } catch (err: any) {
-      console.error('Error loading business profile:', err);
+      console.error('useBusinessProfile: Error in catch block:', err);
       setError(err.message || 'Error loading business profile');
+      toast.error('Failed to load business profile');
     } finally {
+      console.log('useBusinessProfile: Setting loading to false');
       setLoading(false);
     }
   }, [user]);
@@ -138,13 +148,23 @@ export const useBusinessProfile = () => {
 
   // Load profile when user changes
   useEffect(() => {
-    console.log('useBusinessProfile: Effect triggered, user:', user);
+    console.log('useBusinessProfile: Effect triggered - authLoading:', authLoading, 'user:', user);
+    
+    // Wait for auth to finish loading before proceeding
+    if (authLoading) {
+      console.log('useBusinessProfile: Auth still loading, waiting...');
+      return;
+    }
+    
     if (user) {
+      console.log('useBusinessProfile: User found, loading profile...');
       loadBusinessProfile();
     } else {
+      console.log('useBusinessProfile: No user, setting loading to false');
       setProfile(null);
+      setLoading(false);
     }
-  }, [user, loadBusinessProfile]);
+  }, [user, authLoading, loadBusinessProfile]);
 
   return {
     profile,

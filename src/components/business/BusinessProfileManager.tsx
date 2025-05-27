@@ -15,10 +15,25 @@ import BusinessAnalyticsTab from './BusinessAnalyticsTab';
 
 const BusinessProfileManager = () => {
   const [activeTab, setActiveTab] = useState('details');
-  const { profile, loading, updateBusinessProfile } = useBusinessProfile();
+  const { profile, loading, error, updateBusinessProfile } = useBusinessProfile();
+
+  console.log('BusinessProfileManager: loading:', loading, 'profile:', profile, 'error:', error);
 
   if (loading) {
+    console.log('BusinessProfileManager: Showing loading state');
     return <BusinessProfileLoading />;
+  }
+
+  if (error) {
+    console.log('BusinessProfileManager: Showing error state:', error);
+    return (
+      <div className="flex justify-center items-center p-8">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">Error loading business profile:</p>
+          <p className="text-sm text-gray-600">{error}</p>
+        </div>
+      </div>
+    );
   }
 
   // Handle image updates via the main profile update function
