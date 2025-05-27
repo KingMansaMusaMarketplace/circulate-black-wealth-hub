@@ -1,25 +1,13 @@
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth';
 import { SalesAgent, SalesAgentApplication, Referral, AgentCommission } from '@/types/sales-agent';
-
-// Placeholder function to get sales agent by referral code
-export const getSalesAgentByReferralCode = async (code: string): Promise<SalesAgent | null> => {
-  // In a real application, this would make an API call
-  // For now, return mock data
-  if (code) {
-    return {
-      id: '1',
-      user_id: '1',
-      full_name: 'John Doe',
-      email: 'john@example.com',
-      referral_code: code,
-      status: 'active',
-      created_at: new Date().toISOString()
-    };
-  }
-  return null;
-};
+import { 
+  getSalesAgentByUserId, 
+  getSalesAgentApplication, 
+  getAgentReferrals, 
+  getAgentCommissions 
+} from '@/lib/api/sales-agent-api';
 
 export const useSalesAgent = () => {
   const { user } = useAuth();
@@ -42,96 +30,46 @@ export const useSalesAgent = () => {
       }
 
       try {
-        // In a real app, these would be API calls
-        // Simulating API delay
-        await new Promise(resolve => setTimeout(resolve, 500));
+        console.log('Fetching sales agent data for user:', user.id);
         
-        // Mock data for demonstration
-        const mockApplication: SalesAgentApplication = {
-          id: '1',
-          user_id: user.id,
-          full_name: 'John Doe',
-          email: user.email || '',
-          phone: '123-456-7890',
-          why_join: 'I want to help grow the community',
-          business_experience: 'I have 5 years of sales experience',
-          marketing_ideas: 'Social media campaigns and community events',
-          status: 'pending',
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          application_status: 'pending',
-          application_date: new Date().toISOString(),
-          test_score: 65,
-          test_passed: false
-        };
-
-        // For demo, show as if user has applied but is not yet an agent
-        setHasApplication(true);
-        setApplication(mockApplication);
-        setIsAgent(false);
-        setReferralCode('AGENT123');
-        
-        // Mock agent data
-        const mockAgent: SalesAgent = {
-          id: '1',
-          user_id: user.id,
-          full_name: 'John Doe',
-          email: user.email || '',
-          referral_code: 'AGENT123',
-          status: 'active',
-          created_at: new Date().toISOString()
-        };
-        
-        // Mock referrals
-        const mockReferrals: Referral[] = [
-          {
-            id: '1',
-            sales_agent_id: '1',
-            referred_user_id: '2',
-            referred_user_type: 'customer',
-            referral_date: new Date().toISOString(),
-            commission_status: 'paid',
-            commission_amount: 15,
-            referred_user: { email: 'customer@example.com' }
-          },
-          {
-            id: '2',
-            sales_agent_id: '1',
-            referred_user_id: '3',
-            referred_user_type: 'business',
-            referral_date: new Date().toISOString(),
-            commission_status: 'pending',
-            commission_amount: 25,
-            referred_user: { email: 'business@example.com' }
+        // Check if user is already a sales agent
+        const existingAgent = await getSalesAgentByUserId(user.id);
+        if (existingAgent) {
+          console.log('User is already a sales agent:', existingAgent);
+          setIsAgent(true);
+          setAgent(existingAgent);
+          setReferralCode(existingAgent.referral_code);
+          
+          // Fetch agent's referrals and commissions
+          const agentReferrals = await getAgentReferrals(existingAgent.id);
+          const agentCommissions = await getAgentCommissions(existingAgent.id);
+          
+          setReferrals(agentReferrals);
+          setCommissions(agentCommissions);
+          
+          // Calculate totals
+          const earned = agentCommissions
+            .filter(c => c.status === 'paid')
+            .reduce((sum, c) => sum + Number(c.amount), 0);
+          const pending = agentCommissions
+            .filter(c => c.status === 'pending')
+            .reduce((sum, c) => sum + Number(c.amount), 0);
+            
+          setTotalEarned(earned);
+          setTotalPending(pending);
+        } else {
+          // Check if user has an application
+          const userApplication = await getSalesAgentApplication(user.id);
+          if (userApplication) {
+            console.log('User has an application:', userApplication);
+            setHasApplication(true);
+            setApplication(userApplication);
+          } else {
+            console.log('User has no application or agent record');
+            setHasApplication(false);
+            setIsAgent(false);
           }
-        ];
-        
-        // Mock commissions
-        const mockCommissions: AgentCommission[] = [
-          {
-            id: '1',
-            sales_agent_id: '1',
-            amount: 15,
-            status: 'paid',
-            paid_date: new Date().toISOString(),
-            payment_reference: 'PAY123',
-            referral: { referral_date: new Date().toISOString() }
-          },
-          {
-            id: '2',
-            sales_agent_id: '1',
-            amount: 25,
-            status: 'pending',
-            due_date: new Date().toISOString(),
-            referral: { referral_date: new Date().toISOString() }
-          }
-        ];
-        
-        setAgent(mockAgent);
-        setReferrals(mockReferrals);
-        setCommissions(mockCommissions);
-        setTotalEarned(15);
-        setTotalPending(25);
+        }
         
         setLoading(false);
       } catch (error) {
