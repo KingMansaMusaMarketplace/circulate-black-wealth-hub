@@ -6,16 +6,21 @@ import type { Database } from './types';
 const SUPABASE_URL = "https://agoclnqfyinwjxdmjnns.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFnb2NsbnFmeWlud2p4ZG1qbm5zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY1OTUyMjUsImV4cCI6MjA2MjE3MTIyNX0.9upJQa6LxK7_0waLixPY5403mpvckXVIvd8GGcDs-bQ";
 
-// Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
+// Create a single instance to avoid multiple client warnings
+let supabaseInstance: ReturnType<typeof createClient<Database>> | null = null;
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    storage: localStorage
+export const supabase = (() => {
+  if (!supabaseInstance) {
+    supabaseInstance = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        storage: localStorage
+      }
+    });
   }
-});
+  return supabaseInstance;
+})();
 
 // Get the current user
 export const getCurrentUser = async () => {

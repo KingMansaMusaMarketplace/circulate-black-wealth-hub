@@ -34,13 +34,9 @@ export interface BusinessProfile {
 
 export const useBusinessProfile = () => {
   const [profile, setProfile] = useState<BusinessProfile | null>(null);
-  const [loading, setLoading] = useState(true); // Start with true to show loading initially
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user, loading: authLoading } = useAuth();
-
-  console.log('useBusinessProfile: Auth loading:', authLoading);
-  console.log('useBusinessProfile: User state:', user);
-  console.log('useBusinessProfile: Profile loading state:', loading);
 
   // Load business profile
   const loadBusinessProfile = useCallback(async () => {

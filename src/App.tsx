@@ -1,75 +1,91 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "@/contexts/auth";
-import { initAppConfig } from "@/lib/utils/app-config";
-import { useEffect } from "react";
 
-import Index from "./pages/Index";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import CustomerSignupPage from "./pages/CustomerSignupPage";
-import BusinessSignupPage from "./pages/BusinessSignupPage";
-import SalesAgentSignupPage from "./pages/SalesAgentSignupPage";
-import SignupSuccessPage from "./pages/SignupSuccessPage";
-import SalesAgentPage from "./pages/SalesAgentPage";
-import DashboardPage from "./pages/DashboardPage";
-import DirectoryPage from "./pages/DirectoryPage";
-import AboutPage from "./pages/AboutPage";
-import HowItWorksPage from "./pages/HowItWorksPage";
-import AdminDashboardPage from "./pages/AdminDashboardPage";
-import BusinessProfilePage from "./pages/BusinessProfilePage";
-import ProfilePage from "./pages/ProfilePage";
-import LoyaltyPage from "./pages/LoyaltyPage";
-import QRCodeManagementPage from "./pages/QRCodeManagementPage";
-import SettingsPage from "./pages/SettingsPage";
-import SignupTestPage from "./pages/SignupTestPage";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Toaster } from '@/components/ui/toaster';
+import { AuthProvider } from '@/contexts/auth';
+import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import ProtectedRoute from '@/components/auth/ProtectedRoute';
+import RequireBusiness from '@/components/auth/RequireBusiness';
 
-const queryClient = new QueryClient();
+// Import pages
+import HomePage from '@/pages/HomePage';
+import LoginPage from '@/pages/LoginPage';
+import SignupPage from '@/pages/SignupPage';
+import DashboardPage from '@/pages/DashboardPage';
+import BusinessProfilePage from '@/pages/BusinessProfilePage';
+import UserProfilePage from '@/pages/UserProfilePage';
+import LoyaltyProgramPage from '@/pages/LoyaltyProgramPage';
+import QRManagementPage from '@/pages/QRManagementPage';
+import SalesAgentPage from '@/pages/SalesAgentPage';
+import SettingsPage from '@/pages/SettingsPage';
+import QRScannerPage from '@/pages/QRScannerPage';
+import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
 
 function App() {
-  useEffect(() => {
-    // Initialize app configuration
-    initAppConfig().then((cleanup) => {
-      // Store cleanup function if needed
-      if (cleanup) {
-        window.addEventListener('beforeunload', cleanup);
-      }
-    });
-  }, []);
-
   return (
-    <QueryClientProvider client={queryClient}>
+    <ErrorBoundary>
       <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignupPage />} />
-              <Route path="/customer-signup" element={<CustomerSignupPage />} />
-              <Route path="/business-signup" element={<BusinessSignupPage />} />
-              <Route path="/sales-agent-signup" element={<SalesAgentSignupPage />} />
-              <Route path="/signup-success" element={<SignupSuccessPage />} />
-              <Route path="/sales-agent" element={<SalesAgentPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/business-profile" element={<BusinessProfilePage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/loyalty-history" element={<LoyaltyPage />} />
-              <Route path="/qr-code-management" element={<QRCodeManagementPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/directory" element={<DirectoryPage />} />
-              <Route path="/about-us" element={<AboutPage />} />
-              <Route path="/how-it-works" element={<HowItWorksPage />} />
-              <Route path="/admin" element={<AdminDashboardPage />} />
-              <Route path="/signup-test" element={<SignupTestPage />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <SubscriptionProvider>
+          <Router>
+            <div className="App">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/qr-scanner" element={<QRScannerPage />} />
+                <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
+                
+                {/* Protected routes */}
+                <Route path="/dashboard" element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                } />
+                
+                <Route path="/profile" element={
+                  <ProtectedRoute>
+                    <UserProfilePage />
+                  </ProtectedRoute>
+                } />
+                
+                <Route path="/loyalty" element={
+                  <ProtectedRoute>
+                    <LoyaltyProgramPage />
+                  </ProtectedRoute>
+                } />
+                
+                <Route path="/settings" element={
+                  <ProtectedRoute>
+                    <SettingsPage />
+                  </ProtectedRoute>
+                } />
+                
+                {/* Business only routes */}
+                <Route path="/business-profile" element={
+                  <RequireBusiness>
+                    <BusinessProfilePage />
+                  </RequireBusiness>
+                } />
+                
+                <Route path="/qr-management" element={
+                  <RequireBusiness>
+                    <QRManagementPage />
+                  </RequireBusiness>
+                } />
+                
+                <Route path="/sales-agent" element={
+                  <ProtectedRoute>
+                    <SalesAgentPage />
+                  </ProtectedRoute>
+                } />
+              </Routes>
+              <Toaster />
+            </div>
+          </Router>
+        </SubscriptionProvider>
       </AuthProvider>
-    </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

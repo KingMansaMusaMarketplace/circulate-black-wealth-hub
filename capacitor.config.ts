@@ -12,31 +12,56 @@ const config: CapacitorConfig = {
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
-      backgroundColor: "#000000",
+      backgroundColor: "#1B365D",
       showSpinner: true,
       spinnerColor: "#F5A623",
       androidSplashResourceName: "splash",
       iosSpinnerStyle: "small",
     },
     Geolocation: {
-      androidPermissions: ['android.permission.ACCESS_COARSE_LOCATION', 'android.permission.ACCESS_FINE_LOCATION'],
-      iosUsageDescription: "We need your location to show you businesses nearby"
+      androidPermissions: [
+        'android.permission.ACCESS_COARSE_LOCATION', 
+        'android.permission.ACCESS_FINE_LOCATION'
+      ],
+      iosUsageDescription: "We need your location to show you businesses nearby and process QR code scans"
+    },
+    Camera: {
+      iosUsageDescription: "This app needs access to camera to scan QR codes for loyalty rewards",
+      androidPermissions: [
+        'android.permission.CAMERA',
+        'android.permission.READ_EXTERNAL_STORAGE',
+        'android.permission.WRITE_EXTERNAL_STORAGE'
+      ]
+    },
+    StatusBar: {
+      style: 'DARK',
+      backgroundColor: '#1B365D'
+    },
+    Keyboard: {
+      resize: 'body',
+      style: 'dark',
+      resizeOnFullScreen: true
     }
   },
   ios: {
     contentInset: "always",
     scheme: "ManaMusa",
-    backgroundColor: "#000000",
+    backgroundColor: "#1B365D",
     preferredContentMode: "mobile",
     statusBarStyle: "dark",
     preferredStatusBarStyle: "darkContent",
     limitsNavigationsToAppBoundDomains: true,
     handleApplicationNotifications: true,
-    // Add these settings to fix iOS-specific issues
     allowsLinkPreview: false,
     overrideUserInterfaceStyle: "light",
     scrollEnabled: true,
     webViewAllowsBackForwardNavigationGestures: true,
+  },
+  android: {
+    backgroundColor: "#1B365D",
+    allowMixedContent: true,
+    captureInput: true,
+    webContentsDebuggingEnabled: false
   }
 };
 
