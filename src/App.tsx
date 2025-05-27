@@ -20,6 +20,11 @@ import DirectoryPage from "./pages/DirectoryPage";
 import AboutPage from "./pages/AboutPage";
 import HowItWorksPage from "./pages/HowItWorksPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import BusinessProfilePage from "./pages/BusinessProfilePage";
+import ProfilePage from "./pages/ProfilePage";
+import LoyaltyPage from "./pages/LoyaltyPage";
+import QRCodeManagementPage from "./pages/QRCodeManagementPage";
+import SettingsPage from "./pages/SettingsPage";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +55,11 @@ function App() {
               <Route path="/signup-success" element={<SignupSuccessPage />} />
               <Route path="/sales-agent" element={<SalesAgentPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/business-profile" element={<BusinessProfilePage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/loyalty-history" element={<LoyaltyPage />} />
+              <Route path="/qr-code-management" element={<QRCodeManagementPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
               <Route path="/directory" element={<DirectoryPage />} />
               <Route path="/about-us" element={<AboutPage />} />
               <Route path="/how-it-works" element={<HowItWorksPage />} />
