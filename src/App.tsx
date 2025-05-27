@@ -16,12 +16,9 @@ import SalesAgentSignupPage from "./pages/SalesAgentSignupPage";
 import SignupSuccessPage from "./pages/SignupSuccessPage";
 import SalesAgentPage from "./pages/SalesAgentPage";
 import DashboardPage from "./pages/DashboardPage";
-import BusinessPage from "./pages/BusinessPage";
 import DirectoryPage from "./pages/DirectoryPage";
-import MapViewPage from "./pages/MapViewPage";
 import AboutPage from "./pages/AboutPage";
 import HowItWorksPage from "./pages/HowItWorksPage";
-import QRCodeScannerPage from "./pages/QRCodeScannerPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 
 const queryClient = new QueryClient();
@@ -53,12 +50,9 @@ function App() {
               <Route path="/signup-success" element={<SignupSuccessPage />} />
               <Route path="/sales-agent" element={<SalesAgentPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/business/:id" element={<BusinessPage />} />
               <Route path="/directory" element={<DirectoryPage />} />
-              <Route path="/map" element={<MapViewPage />} />
               <Route path="/about-us" element={<AboutPage />} />
               <Route path="/how-it-works" element={<HowItWorksPage />} />
-              <Route path="/scanner" element={<QRCodeScannerPage />} />
               <Route path="/admin" element={<AdminDashboardPage />} />
             </Routes>
           </BrowserRouter>
