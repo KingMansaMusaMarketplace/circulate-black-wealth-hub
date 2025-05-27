@@ -2,22 +2,16 @@
 import React from 'react';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import ReferralCodeField from './fields/ReferralCodeField';
-import HBCUVerificationField from './fields/HBCUVerificationField';
-import { useSignupForm } from '../hooks/useSignupForm';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useSignupForm } from '../hooks/useSignupForm';
 
 const CustomerSignupTab: React.FC = () => {
   const { 
     form, 
     isLoading, 
-    referringAgent,
-    isHBCUMember,
-    onSubmit, 
-    onReferralCodeBlur,
-    handleHBCUStatusChange,
-    handleHBCUFileChange
+    onSubmit
   } = useSignupForm();
 
   return (
@@ -28,7 +22,7 @@ const CustomerSignupTab: React.FC = () => {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>Full Name *</FormLabel>
               <FormControl>
                 <Input placeholder="Enter your name" {...field} />
               </FormControl>
@@ -42,7 +36,7 @@ const CustomerSignupTab: React.FC = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email *</FormLabel>
               <FormControl>
                 <Input type="email" placeholder="Enter your email" {...field} />
               </FormControl>
@@ -56,11 +50,11 @@ const CustomerSignupTab: React.FC = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Password *</FormLabel>
               <FormControl>
                 <Input
                   type="password"
-                  placeholder="Create a password"
+                  placeholder="Create a password (min 8 characters)"
                   {...field}
                 />
               </FormControl>
@@ -69,21 +63,48 @@ const CustomerSignupTab: React.FC = () => {
           )}
         />
         
-        <ReferralCodeField
+        <FormField
           control={form.control}
-          referringAgent={referringAgent}
-          onBlur={onReferralCodeBlur}
+          name="referralCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Referral Code (Optional)</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Enter referral code if you have one"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
+
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="terms"
+            required
+          />
+          <label
+            htmlFor="terms"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            I agree to the Terms of Service and Privacy Policy *
+          </label>
+        </div>
         
-        <HBCUVerificationField
-          control={form.control}
-          isHBCUMember={isHBCUMember}
-          onHBCUStatusChange={handleHBCUStatusChange}
-          onFileChange={handleHBCUFileChange}
-        />
+        <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+          <h4 className="text-sm font-medium text-blue-900 mb-2">Customer Benefits:</h4>
+          <ul className="text-xs text-blue-700 space-y-1">
+            <li>• Access to exclusive Black-owned businesses</li>
+            <li>• Earn loyalty points with every purchase</li>
+            <li>• Special discounts and offers</li>
+            <li>• Support economic empowerment</li>
+          </ul>
+        </div>
         
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? 'Creating Account...' : 'Sign Up'}
+          {isLoading ? 'Creating Account...' : 'Create Customer Account'}
         </Button>
       </form>
       
@@ -92,7 +113,7 @@ const CustomerSignupTab: React.FC = () => {
           Already have an account?{' '}
           <a
             href="/login"
-            className="text-mansablue hover:text-mansablue-dark"
+            className="text-mansablue hover:text-mansablue-dark font-medium"
           >
             Sign in
           </a>

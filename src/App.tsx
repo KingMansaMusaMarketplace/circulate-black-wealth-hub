@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -25,6 +24,7 @@ import ProfilePage from "./pages/ProfilePage";
 import LoyaltyPage from "./pages/LoyaltyPage";
 import QRCodeManagementPage from "./pages/QRCodeManagementPage";
 import SettingsPage from "./pages/SettingsPage";
+import SignupTestPage from "./pages/SignupTestPage";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +64,7 @@ function App() {
               <Route path="/about-us" element={<AboutPage />} />
               <Route path="/how-it-works" element={<HowItWorksPage />} />
               <Route path="/admin" element={<AdminDashboardPage />} />
+              <Route path="/signup-test" element={<SignupTestPage />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
