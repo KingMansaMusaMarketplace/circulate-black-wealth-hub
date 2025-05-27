@@ -17,6 +17,8 @@ export interface Reward {
   expiration_date?: string;
 }
 
+type CreateRewardData = Omit<Reward, 'id' | 'is_active' | 'created_at' | 'updated_at'>;
+
 // Get rewards for a business
 export const getBusinessRewards = async (businessId: string): Promise<Reward[]> => {
   try {
@@ -38,7 +40,7 @@ export const getBusinessRewards = async (businessId: string): Promise<Reward[]> 
 // Create a new reward for a business
 export const createBusinessReward = async (
   businessId: string,
-  rewardData: Omit<Reward, 'id' | 'is_active' | 'created_at' | 'updated_at'>
+  rewardData: CreateRewardData
 ): Promise<{ success: boolean; reward?: Reward; error?: any }> => {
   try {
     const { data, error } = await supabase

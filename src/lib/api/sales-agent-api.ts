@@ -12,7 +12,10 @@ export const getSalesAgentByReferralCode = async (referralCode: string): Promise
       .single();
     
     if (error) throw error;
-    return data as SalesAgent;
+    return {
+      ...data,
+      status: 'active'
+    } as SalesAgent;
   } catch (error) {
     console.error('Error getting sales agent:', error);
     return null;
@@ -28,7 +31,10 @@ export const getSalesAgentById = async (agentId: string): Promise<SalesAgent | n
       .single();
     
     if (error) throw error;
-    return data as SalesAgent;
+    return {
+      ...data,
+      status: data.is_active ? 'active' : 'inactive'
+    } as SalesAgent;
   } catch (error) {
     console.error('Error getting sales agent:', error);
     return null;
@@ -44,7 +50,10 @@ export const getSalesAgentByUserId = async (userId: string): Promise<SalesAgent 
       .single();
     
     if (error) throw error;
-    return data as SalesAgent;
+    return {
+      ...data,
+      status: data.is_active ? 'active' : 'inactive'
+    } as SalesAgent;
   } catch (error) {
     console.error('Error getting sales agent by user ID:', error);
     return null;

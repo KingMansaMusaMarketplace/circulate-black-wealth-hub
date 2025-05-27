@@ -14,9 +14,9 @@ import LoginPage from '@/pages/LoginPage';
 import SignupPage from '@/pages/SignupPage';
 import DashboardPage from '@/pages/DashboardPage';
 import BusinessProfilePage from '@/pages/BusinessProfilePage';
-import UserProfilePage from '@/pages/UserProfilePage';
-import LoyaltyProgramPage from '@/pages/LoyaltyProgramPage';
-import QRManagementPage from '@/pages/QRManagementPage';
+import ProfilePage from '@/pages/ProfilePage';
+import LoyaltyPage from '@/pages/LoyaltyPage';
+import QRCodeManagementPage from '@/pages/QRCodeManagementPage';
 import SalesAgentPage from '@/pages/SalesAgentPage';
 import SettingsPage from '@/pages/SettingsPage';
 import QRScannerPage from '@/pages/QRScannerPage';
@@ -45,13 +45,13 @@ function App() {
                 
                 <Route path="/profile" element={
                   <ProtectedRoute>
-                    <UserProfilePage />
+                    <ProfilePage />
                   </ProtectedRoute>
                 } />
                 
                 <Route path="/loyalty" element={
                   <ProtectedRoute>
-                    <LoyaltyProgramPage />
+                    <LoyaltyPage />
                   </ProtectedRoute>
                 } />
                 
@@ -70,7 +70,7 @@ function App() {
                 
                 <Route path="/qr-management" element={
                   <RequireBusiness>
-                    <QRManagementPage />
+                    <QRCodeManagementPage />
                   </RequireBusiness>
                 } />
                 

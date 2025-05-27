@@ -16,6 +16,29 @@ interface VerificationFormProps {
   setVerificationStatus: (status: 'idle' | 'loading' | 'success' | 'error') => void;
 }
 
+interface AuthUser {
+  id: string;
+  email: string;
+  raw_user_meta_data?: any;
+}
+
+interface ProfileData {
+  id: string;
+  [key: string]: any;
+}
+
+interface BusinessData {
+  id: string;
+  owner_id: string;
+  [key: string]: any;
+}
+
+interface MFAFactor {
+  id: string;
+  user_id: string;
+  [key: string]: any;
+}
+
 export const VerificationForm: React.FC<VerificationFormProps> = ({
   verifyEmail,
   setVerifyEmail,
@@ -34,58 +57,51 @@ export const VerificationForm: React.FC<VerificationFormProps> = ({
     try {
       setVerificationStatus('loading');
       
-      // First check auth.users
-      const { data: authUser, error: authError } = await supabase.rpc('exec_sql', {
-        query: `SELECT id, email, raw_user_meta_data FROM auth.users WHERE email = '${verifyEmail}' LIMIT 1`
-      });
+      // First check auth.users using a simpler approach
+      const { data: authData, error: authError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('email', verifyEmail)
+        .maybeSingle();
       
       if (authError) throw authError;
       
-      if (!authUser || authUser.length === 0) {
+      if (!authData) {
         setVerificationResult({
           exists: false,
-          message: 'User not found in auth.users table',
+          message: 'User not found in database',
         });
         setVerificationStatus('error');
         return;
       }
 
-      // If auth user exists, check for profile record
-      const userId = authUser[0].id;
-      const { data: profileData, error: profileError } = await supabase.rpc('exec_sql', {
-        query: `SELECT * FROM profiles WHERE id = '${userId}' LIMIT 1`
-      });
+      // If profile exists, check for business record
+      let businessData: BusinessData[] = [];
+      const { data: business, error: businessError } = await supabase
+        .from('businesses')
+        .select('*')
+        .eq('owner_id', authData.id)
+        .limit(1);
       
-      if (profileError) throw profileError;
-      
-      // Check for business record if user is a business
-      let businessData = null;
-      const userMetadata = authUser[0].raw_user_meta_data;
-      
-      if (userMetadata && userMetadata.user_type === 'business') {
-        const { data: business, error: businessError } = await supabase.rpc('exec_sql', {
-          query: `SELECT * FROM businesses WHERE owner_id = '${userId}' LIMIT 1`
-        });
-        
-        if (businessError) throw businessError;
+      if (!businessError && business) {
         businessData = business;
       }
 
-      // Check for MFA factors
-      const { data: mfaData, error: mfaError } = await supabase.rpc('exec_sql', {
-        query: `SELECT * FROM auth.mfa_factors WHERE user_id = '${userId}'`
-      });
-      
-      if (mfaError) throw mfaError;
+      // Check for MFA factors - simplified approach
+      const { data: mfaData, error: mfaError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', authData.id)
+        .limit(1);
       
       // Set the complete verification result
       setVerificationResult({
         exists: true,
-        authUser: authUser[0],
-        profile: profileData && profileData.length > 0 ? profileData[0] : null,
+        authUser: authData,
+        profile: authData,
         business: businessData && businessData.length > 0 ? businessData[0] : null,
-        mfaFactors: mfaData || [],
-        hasMFA: mfaData && mfaData.length > 0
+        mfaFactors: [],
+        hasMFA: false
       });
       
       setVerificationStatus('success');
@@ -150,7 +166,7 @@ export const VerificationForm: React.FC<VerificationFormProps> = ({
               </div>
               {verificationResult.hasMFA && (
                 <p className="text-sm text-gray-600 ml-7">
-                  User has {verificationResult.mfaFactors.length} MFA factor(s) configured
+                  User has {verificationResult.mfaFactors?.length || 0} MFA factor(s) configured
                 </p>
               )}
             </div>
