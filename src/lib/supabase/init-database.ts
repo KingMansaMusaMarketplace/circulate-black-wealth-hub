@@ -1,18 +1,7 @@
 
 import { supabase } from '../supabase';
 import { InitDbResult } from './types';
-import {
-  createProfilesTable,
-  createBusinessesTable,
-  createProductImagesTable,
-  createLoyaltyPointsTable,
-  createTransactionsTable,
-  createReviewsTable,
-  createQrCodesTable,
-  createQrScansTable,
-  createRewardsTable,
-  createRedeemedRewardsTable
-} from './tables';
+import { getTableData, insertTableData } from './tables';
 import { createDatabaseFunctions } from './functions';
 
 // Create tables in Supabase
@@ -20,17 +9,8 @@ export const createTables = async (): Promise<InitDbResult> => {
   try {
     console.log('Setting up Supabase database tables...');
     
-    // Create all tables
-    await createProfilesTable();
-    await createBusinessesTable();
-    await createProductImagesTable();
-    await createLoyaltyPointsTable();
-    await createTransactionsTable();
-    await createReviewsTable();
-    await createQrCodesTable();
-    await createQrScansTable();
-    await createRewardsTable();
-    await createRedeemedRewardsTable();
+    // Note: Tables should already exist in Supabase
+    // This function now focuses on ensuring database functions are created
     
     // Create database functions
     await createDatabaseFunctions();

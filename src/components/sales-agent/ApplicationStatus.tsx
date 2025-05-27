@@ -36,7 +36,7 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({ application, onSt
             icon: <Clock className="h-12 w-12 text-mansablue" />,
             title: 'Under Review',
             description: 'Your application is being reviewed by our team.',
-            details: `Submitted on ${formatDate(application.application_date || application.created_at)}`
+            details: `Submitted on ${formatDate(application.application_date)}`
           };
         } else if (application.test_score !== undefined && application.test_score !== null) {
           return {
