@@ -89,7 +89,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const getMFAFactors = async () => {
     try {
       const { data, error } = await supabase.auth.mfa.listFactors();
-      return data?.all || [];
+      if (error) {
+        console.error('Error getting MFA factors:', error);
+        return [];
+      }
+      
+      // Map Supabase factors to our custom Factor type
+      return (data?.all || []).map(factor => ({
+        id: factor.id,
+        type: factor.factor_type || 'totp', // Provide default type
+        status: factor.status,
+        friendly_name: factor.friendly_name
+      }));
     } catch (error) {
       console.error('Error getting MFA factors:', error);
       return [];
