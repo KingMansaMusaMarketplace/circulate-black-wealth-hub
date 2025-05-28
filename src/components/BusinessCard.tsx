@@ -35,48 +35,43 @@ const BusinessCard = ({
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
 
-  console.log(`BusinessCard ${name} - Props received:`, {
-    id,
-    name,
-    imageUrl,
-    imageAlt,
-    hasImageUrl: !!imageUrl
-  });
+  console.log(`BusinessCard ${name} - Rendering with imageUrl:`, imageUrl);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    console.log(`Image ERROR for ${name}:`, {
-      imageUrl,
-      error: e,
-      naturalWidth: (e.target as HTMLImageElement).naturalWidth,
-      naturalHeight: (e.target as HTMLImageElement).naturalHeight
-    });
+    console.log(`Image ERROR for ${name}:`, imageUrl);
     setImgError(true);
   };
 
   const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    console.log(`Image LOADED successfully for ${name}:`, {
-      imageUrl,
-      naturalWidth: (e.target as HTMLImageElement).naturalWidth,
-      naturalHeight: (e.target as HTMLImageElement).naturalHeight
-    });
+    console.log(`Image LOADED successfully for ${name}:`, imageUrl);
     setImgLoaded(true);
   };
 
+  // Create a more reliable fallback image
+  const getFallbackContent = () => (
+    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+      <div className="flex flex-col items-center">
+        <span className="text-gray-400 text-3xl font-bold mb-2">{name.charAt(0).toUpperCase()}</span>
+        <span className="text-xs text-gray-500 text-center px-2">{category}</span>
+      </div>
+    </div>
+  );
+
   return (
-    <div className={`border rounded-xl overflow-hidden h-full flex flex-col ${isFeatured ? 'border-mansagold shadow-md' : 'border-gray-200'}`}>
+    <div className={`border rounded-xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-lg ${isFeatured ? 'border-mansagold shadow-md' : 'border-gray-200'}`}>
       {isFeatured && (
         <div className="bg-mansagold text-white text-xs font-medium px-3 py-1 text-center">
           Featured Business
         </div>
       )}
       <div className="h-36 bg-gray-100 relative overflow-hidden">
-        {imageUrl ? (
+        {imageUrl && !imgError ? (
           <>
-            {!imgLoaded && !imgError && (
+            {!imgLoaded && (
               <div className="w-full h-full flex items-center justify-center bg-gray-200 animate-pulse">
                 <div className="flex flex-col items-center">
-                  <span className="text-gray-400 text-3xl font-bold mb-2">{name.charAt(0).toUpperCase()}</span>
-                  <span className="text-xs text-gray-500">Loading image...</span>
+                  <span className="text-gray-400 text-2xl font-bold mb-1">{name.charAt(0).toUpperCase()}</span>
+                  <span className="text-xs text-gray-500">Loading...</span>
                 </div>
               </div>
             )}
@@ -87,37 +82,23 @@ const BusinessCard = ({
               onError={handleImageError}
               onLoad={handleImageLoad}
               loading="lazy"
-              style={{ display: imgError ? 'none' : 'block' }}
             />
-            {imgError && (
-              <div className="w-full h-full flex items-center justify-center bg-red-50">
-                <div className="flex flex-col items-center">
-                  <span className="text-red-400 text-3xl font-bold mb-2">{name.charAt(0).toUpperCase()}</span>
-                  <span className="text-xs text-red-500">Image failed to load</span>
-                </div>
-              </div>
-            )}
           </>
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gray-200">
-            <div className="flex flex-col items-center">
-              <span className="text-gray-400 text-3xl font-bold mb-2">{name.charAt(0).toUpperCase()}</span>
-              <span className="text-xs text-gray-500">No image available</span>
-            </div>
-          </div>
+          getFallbackContent()
         )}
-        <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-mansablue">
+        <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-mansablue shadow-sm">
           {discount}
         </div>
       </div>
       <div className="p-4 flex flex-col flex-grow">
-        <h3 className="font-bold text-lg mb-1">{name}</h3>
+        <h3 className="font-bold text-lg mb-1 text-gray-900">{name}</h3>
         <p className="text-gray-500 text-sm mb-2">{category}</p>
         
         {address && (
           <div className="flex items-center text-gray-500 text-xs mb-3">
-            <MapPin size={14} className="mr-1" />
-            <span>{address}</span>
+            <MapPin size={14} className="mr-1 flex-shrink-0" />
+            <span className="truncate">{address}</span>
           </div>
         )}
         
@@ -142,7 +123,7 @@ const BusinessCard = ({
         
         <div className="mt-auto">
           <Link to={`/business/${id}`} className="w-full">
-            <Button variant="outline" size="sm" className="w-full border-mansablue text-mansablue hover:bg-mansablue hover:text-white">
+            <Button variant="outline" size="sm" className="w-full border-mansablue text-mansablue hover:bg-mansablue hover:text-white transition-colors">
               View Business
             </Button>
           </Link>

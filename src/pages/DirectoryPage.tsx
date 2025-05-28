@@ -21,8 +21,11 @@ import { Search, MapPin, ListFilter, Grid3X3, List } from 'lucide-react';
 import DirectoryFilter from '@/components/DirectoryFilter';
 import MapView from '@/components/MapView';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 const DirectoryPage: React.FC = () => {
+  console.log('DirectoryPage - Starting render');
+  
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [showMap, setShowMap] = useState(false);
@@ -41,9 +44,13 @@ const DirectoryPage: React.FC = () => {
     mapData
   } = useDirectorySearch(businesses);
 
-  console.log('DirectoryPage - businesses data:', businesses.length);
-  console.log('DirectoryPage - filteredBusinesses:', filteredBusinesses.length);
-  console.log('DirectoryPage - sample business with image:', filteredBusinesses[0]);
+  console.log('DirectoryPage - businesses loaded:', businesses?.length || 0);
+  console.log('DirectoryPage - filteredBusinesses:', filteredBusinesses?.length || 0);
+  
+  // Safety check for data
+  if (!businesses || businesses.length === 0) {
+    console.error('DirectoryPage - No businesses data available');
+  }
 
   const handleSelectBusiness = (id: number) => {
     const business = filteredBusinesses.find(b => b.id === id);
@@ -62,112 +69,128 @@ const DirectoryPage: React.FC = () => {
   };
 
   const handleGetLocation = useCallback(async () => {
-    const newLocation = await getCurrentPosition(true);
-    if (newLocation) {
-      setShowMap(true); // Show map after getting location
+    try {
+      const newLocation = await getCurrentPosition(true);
+      if (newLocation) {
+        setShowMap(true); // Show map after getting location
+      }
+    } catch (error) {
+      console.error('Error getting location:', error);
     }
   }, [getCurrentPosition]);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>Business Directory | Mansa Musa Marketplace</title>
-        <meta name="description" content="Find and support Black-owned businesses in your community" />
-      </Helmet>
-      
-      <Navbar />
-      
-      <div className="bg-mansablue py-8">
-        <div className="container mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Discover Black-Owned Businesses</h1>
-          <p className="text-white/80 max-w-2xl mx-auto mb-6">
-            Support economic circulation by shopping at verified Black-owned businesses in our community
-          </p>
-          
-          <div className="relative max-w-xl mx-auto">
-            <Search className="absolute left-3 top-3 h-5 w-5 text-gray-500" />
-            <Input
-              type="text" 
-              placeholder="Search for businesses, products, or services..."
-              className="pl-10 h-12 bg-white rounded-lg w-full"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
-      
-      <div className="flex-grow bg-gray-50 py-8">
-        <div className="container mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-6">
-            {/* Sidebar Filters */}
-            <div className="w-full md:w-1/4">
-              <DirectoryFilter 
-                categories={categories}
-                filterOptions={filterOptions}
-                onFilterChange={handleFilterChange}
+    <ErrorBoundary>
+      <div className="flex flex-col min-h-screen">
+        <Helmet>
+          <title>Business Directory | Mansa Musa Marketplace</title>
+          <meta name="description" content="Find and support Black-owned businesses in your community" />
+        </Helmet>
+        
+        <Navbar />
+        
+        <div className="bg-mansablue py-8">
+          <div className="container mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Discover Black-Owned Businesses</h1>
+            <p className="text-white/80 max-w-2xl mx-auto mb-6">
+              Support economic circulation by shopping at verified Black-owned businesses in our community
+            </p>
+            
+            <div className="relative max-w-xl mx-auto">
+              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-500" />
+              <Input
+                type="text" 
+                placeholder="Search for businesses, products, or services..."
+                className="pl-10 h-12 bg-white rounded-lg w-full"
+                value={searchTerm || ''}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            
-            {/* Main Content */}
-            <div className="w-full md:w-3/4">
-              <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-                <div className="flex flex-col sm:flex-row justify-between items-center">
-                  <div className="flex items-center mb-4 sm:mb-0">
-                    <ListFilter className="h-5 w-5 mr-2 text-gray-500" />
-                    <span className="text-gray-700">{filteredBusinesses.length} businesses found</span>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2">
-                    <Button 
-                      variant={viewMode === 'grid' ? "default" : "outline"} 
-                      size="sm"
-                      onClick={() => setViewMode('grid')}
-                    >
-                      <Grid3X3 className="h-4 w-4 mr-1" />
-                      Grid
-                    </Button>
-                    <Button 
-                      variant={viewMode === 'list' ? "default" : "outline"} 
-                      size="sm"
-                      onClick={() => setViewMode('list')}
-                    >
-                      <List className="h-4 w-4 mr-1" />
-                      List
-                    </Button>
-                    <Button 
-                      variant={viewMode === 'map' ? "default" : "outline"} 
-                      size="sm"
-                      onClick={() => setViewMode('map')}
-                    >
-                      <MapPin className="h-4 w-4 mr-1" />
-                      Map
-                    </Button>
-                  </div>
-                </div>
+          </div>
+        </div>
+        
+        <div className="flex-grow bg-gray-50 py-8">
+          <div className="container mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start gap-6">
+              {/* Sidebar Filters */}
+              <div className="w-full md:w-1/4">
+                <ErrorBoundary>
+                  <DirectoryFilter 
+                    categories={categories || []}
+                    filterOptions={filterOptions}
+                    onFilterChange={handleFilterChange}
+                  />
+                </ErrorBoundary>
               </div>
               
-              <Tabs value={viewMode} onValueChange={(val) => setViewMode(val as 'grid' | 'list' | 'map')}>
-                <TabsContent value="grid" className="mt-0">
-                  <BusinessGridView businesses={filteredBusinesses} onSelectBusiness={handleSelectBusiness} />
-                </TabsContent>
-                <TabsContent value="list" className="mt-0">
-                  <BusinessListView businesses={filteredBusinesses} onSelectBusiness={handleSelectBusiness} />
-                </TabsContent>
-                <TabsContent value="map" className="mt-0">
-                  <div className="h-[600px] rounded-lg overflow-hidden">
-                    <MapView businesses={mapData} />
+              {/* Main Content */}
+              <div className="w-full md:w-3/4">
+                <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+                  <div className="flex flex-col sm:flex-row justify-between items-center">
+                    <div className="flex items-center mb-4 sm:mb-0">
+                      <ListFilter className="h-5 w-5 mr-2 text-gray-500" />
+                      <span className="text-gray-700">{filteredBusinesses?.length || 0} businesses found</span>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      <Button 
+                        variant={viewMode === 'grid' ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => setViewMode('grid')}
+                      >
+                        <Grid3X3 className="h-4 w-4 mr-1" />
+                        Grid
+                      </Button>
+                      <Button 
+                        variant={viewMode === 'list' ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => setViewMode('list')}
+                      >
+                        <List className="h-4 w-4 mr-1" />
+                        List
+                      </Button>
+                      <Button 
+                        variant={viewMode === 'map' ? "default" : "outline"} 
+                        size="sm"
+                        onClick={() => setViewMode('map')}
+                      >
+                        <MapPin className="h-4 w-4 mr-1" />
+                        Map
+                      </Button>
+                    </div>
                   </div>
-                </TabsContent>
-              </Tabs>
+                </div>
+                
+                <ErrorBoundary>
+                  <Tabs value={viewMode} onValueChange={(val) => setViewMode(val as 'grid' | 'list' | 'map')}>
+                    <TabsContent value="grid" className="mt-0">
+                      <BusinessGridView 
+                        businesses={filteredBusinesses || []} 
+                        onSelectBusiness={handleSelectBusiness} 
+                      />
+                    </TabsContent>
+                    <TabsContent value="list" className="mt-0">
+                      <BusinessListView 
+                        businesses={filteredBusinesses || []} 
+                        onSelectBusiness={handleSelectBusiness} 
+                      />
+                    </TabsContent>
+                    <TabsContent value="map" className="mt-0">
+                      <div className="h-[600px] rounded-lg overflow-hidden">
+                        <MapView businesses={mapData || []} />
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </ErrorBoundary>
+              </div>
             </div>
           </div>
         </div>
+        
+        <ScrollToTopButton />
+        <Footer />
       </div>
-      
-      <ScrollToTopButton />
-      <Footer />
-    </div>
+    </ErrorBoundary>
   );
 };
 
