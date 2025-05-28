@@ -35,15 +35,30 @@ const BusinessCard = ({
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
 
-  console.log(`BusinessCard ${name} - imageUrl:`, imageUrl);
+  console.log(`BusinessCard ${name} - Props received:`, {
+    id,
+    name,
+    imageUrl,
+    imageAlt,
+    hasImageUrl: !!imageUrl
+  });
 
-  const handleImageError = () => {
-    console.log(`Image failed to load for ${name}:`, imageUrl);
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    console.log(`Image ERROR for ${name}:`, {
+      imageUrl,
+      error: e,
+      naturalWidth: (e.target as HTMLImageElement).naturalWidth,
+      naturalHeight: (e.target as HTMLImageElement).naturalHeight
+    });
     setImgError(true);
   };
 
-  const handleImageLoad = () => {
-    console.log(`Image loaded successfully for ${name}:`, imageUrl);
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    console.log(`Image LOADED successfully for ${name}:`, {
+      imageUrl,
+      naturalWidth: (e.target as HTMLImageElement).naturalWidth,
+      naturalHeight: (e.target as HTMLImageElement).naturalHeight
+    });
     setImgLoaded(true);
   };
 
@@ -55,11 +70,14 @@ const BusinessCard = ({
         </div>
       )}
       <div className="h-36 bg-gray-100 relative overflow-hidden">
-        {imageUrl && !imgError ? (
+        {imageUrl ? (
           <>
-            {!imgLoaded && (
+            {!imgLoaded && !imgError && (
               <div className="w-full h-full flex items-center justify-center bg-gray-200 animate-pulse">
-                <span className="text-gray-400 text-3xl font-bold">{name.charAt(0).toUpperCase()}</span>
+                <div className="flex flex-col items-center">
+                  <span className="text-gray-400 text-3xl font-bold mb-2">{name.charAt(0).toUpperCase()}</span>
+                  <span className="text-xs text-gray-500">Loading image...</span>
+                </div>
               </div>
             )}
             <img 
@@ -69,11 +87,23 @@ const BusinessCard = ({
               onError={handleImageError}
               onLoad={handleImageLoad}
               loading="lazy"
+              style={{ display: imgError ? 'none' : 'block' }}
             />
+            {imgError && (
+              <div className="w-full h-full flex items-center justify-center bg-red-50">
+                <div className="flex flex-col items-center">
+                  <span className="text-red-400 text-3xl font-bold mb-2">{name.charAt(0).toUpperCase()}</span>
+                  <span className="text-xs text-red-500">Image failed to load</span>
+                </div>
+              </div>
+            )}
           </>
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">
-            <span className="text-gray-400 text-3xl font-bold">{name.charAt(0).toUpperCase()}</span>
+            <div className="flex flex-col items-center">
+              <span className="text-gray-400 text-3xl font-bold mb-2">{name.charAt(0).toUpperCase()}</span>
+              <span className="text-xs text-gray-500">No image available</span>
+            </div>
           </div>
         )}
         <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-mansablue">

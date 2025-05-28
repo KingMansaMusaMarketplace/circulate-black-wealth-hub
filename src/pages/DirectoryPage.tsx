@@ -41,6 +41,10 @@ const DirectoryPage: React.FC = () => {
     mapData
   } = useDirectorySearch(businesses);
 
+  console.log('DirectoryPage - businesses data:', businesses.length);
+  console.log('DirectoryPage - filteredBusinesses:', filteredBusinesses.length);
+  console.log('DirectoryPage - sample business with image:', filteredBusinesses[0]);
+
   const handleSelectBusiness = (id: number) => {
     const business = filteredBusinesses.find(b => b.id === id);
     if (business) {
