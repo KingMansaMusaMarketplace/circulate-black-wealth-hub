@@ -7,6 +7,8 @@ import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import SponsorshipForm from '@/components/sponsorship/SponsorshipForm';
+import { toast } from 'sonner';
 
 const CorporateSponsorshipPage = () => {
   const sponsorshipTiers = [
@@ -81,6 +83,30 @@ const CorporateSponsorshipPage = () => {
     }
   ];
 
+  const handleScrollToSection = (elementId: string) => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleTierSelection = (tierName: string) => {
+    handleScrollToSection('sponsorship-form');
+    toast.success(`${tierName} tier selected. Please fill out the form below.`);
+  };
+
+  const handleContactTeam = () => {
+    window.location.href = 'mailto:partnerships@mansamusamarketplace.com?subject=Corporate Sponsorship Inquiry';
+  };
+
+  const handleDownloadPackage = () => {
+    toast.info('Sponsorship package download would be available here. Contact our team for detailed materials.');
+  };
+
+  const handleScheduleCall = () => {
+    window.open('https://calendly.com/mansamusa-partnerships', '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Helmet>
@@ -104,7 +130,7 @@ const CorporateSponsorshipPage = () => {
               <Button 
                 size="lg"
                 className="bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold px-8 py-6 text-lg"
-                onClick={() => document.getElementById('sponsorship-tiers')?.scrollIntoView({behavior: 'smooth'})}
+                onClick={() => handleScrollToSection('sponsorship-tiers')}
               >
                 View Sponsorship Tiers
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -113,7 +139,7 @@ const CorporateSponsorshipPage = () => {
                 size="lg"
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-mansablue px-8 py-6 text-lg"
-                onClick={() => document.getElementById('impact-stats')?.scrollIntoView({behavior: 'smooth'})}
+                onClick={() => handleScrollToSection('impact-stats')}
               >
                 See Our Impact
               </Button>
@@ -256,6 +282,7 @@ const CorporateSponsorshipPage = () => {
                   <Button 
                     className={`w-full ${tier.popular ? 'bg-mansagold hover:bg-mansagold-dark text-mansablue' : 'bg-mansablue hover:bg-mansablue-dark'} font-semibold`}
                     size="lg"
+                    onClick={() => handleTierSelection(tier.name)}
                   >
                     Get Started
                   </Button>
@@ -265,6 +292,9 @@ const CorporateSponsorshipPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Sponsorship Form */}
+      <SponsorshipForm />
 
       {/* Contact Section */}
       <div className="py-16 bg-mansablue">
@@ -280,6 +310,7 @@ const CorporateSponsorshipPage = () => {
               <Button 
                 size="lg" 
                 className="bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold px-8 py-6 text-lg"
+                onClick={handleContactTeam}
               >
                 Contact Partnership Team
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -288,6 +319,7 @@ const CorporateSponsorshipPage = () => {
                 size="lg"
                 variant="outline" 
                 className="border-white text-white hover:bg-white hover:text-mansablue px-8 py-6 text-lg"
+                onClick={handleDownloadPackage}
               >
                 Download Sponsorship Package
               </Button>

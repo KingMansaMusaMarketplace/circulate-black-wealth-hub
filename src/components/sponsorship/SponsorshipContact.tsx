@@ -5,6 +5,19 @@ import { Mail, Phone, Calendar } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 const SponsorshipContact = () => {
+  const handleScheduleCall = () => {
+    // In production, this would link to an actual scheduling system like Calendly
+    window.open('https://calendly.com/mansamusa-partnerships', '_blank');
+  };
+
+  const handleEmailClick = () => {
+    window.location.href = 'mailto:partnerships@mansamusamarketplace.com?subject=Corporate Sponsorship Inquiry';
+  };
+
+  const handlePhoneClick = () => {
+    window.location.href = 'tel:+1-555-867-5309';
+  };
+
   return (
     <div className="py-16 bg-mansablue text-white">
       <div className="container mx-auto px-4">
@@ -36,20 +49,29 @@ const SponsorshipContact = () => {
                 <div className="space-y-4">
                   <div className="flex items-center">
                     <Mail className="h-5 w-5 text-mansablue mr-3" />
-                    <a href="mailto:partnerships@mansamusamarketplace.com" className="text-mansablue hover:underline">
+                    <button 
+                      onClick={handleEmailClick}
+                      className="text-mansablue hover:underline cursor-pointer"
+                    >
                       partnerships@mansamusamarketplace.com
-                    </a>
+                    </button>
                   </div>
                   
                   <div className="flex items-center">
                     <Phone className="h-5 w-5 text-mansablue mr-3" />
-                    <a href="tel:+1-555-867-5309" className="text-mansablue hover:underline">
+                    <button 
+                      onClick={handlePhoneClick}
+                      className="text-mansablue hover:underline cursor-pointer"
+                    >
                       (555) 867-5309
-                    </a>
+                    </button>
                   </div>
                   
                   <div className="pt-4">
-                    <Button className="bg-mansablue hover:bg-mansablue-dark w-full sm:w-auto">
+                    <Button 
+                      className="bg-mansablue hover:bg-mansablue-dark w-full sm:w-auto"
+                      onClick={handleScheduleCall}
+                    >
                       <Calendar className="h-4 w-4 mr-2" />
                       Schedule a Call
                     </Button>
