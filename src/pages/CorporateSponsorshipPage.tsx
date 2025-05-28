@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Building2, Star, Users, TrendingUp, ArrowRight, CheckCircle } from 'lucide-react';
@@ -8,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import SponsorshipForm from '@/components/sponsorship/SponsorshipForm';
+import SponsorshipFAQ from '@/components/sponsorship/SponsorshipFAQ';
 import { toast } from 'sonner';
 
 const CorporateSponsorshipPage = () => {
@@ -295,6 +295,9 @@ const CorporateSponsorshipPage = () => {
 
       {/* Sponsorship Form */}
       <SponsorshipForm />
+
+      {/* FAQ Section */}
+      <SponsorshipFAQ />
 
       {/* Contact Section */}
       <div className="py-16 bg-mansablue">
