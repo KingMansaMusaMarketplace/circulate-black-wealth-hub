@@ -26,6 +26,7 @@ import HowItWorksPage from '@/pages/HowItWorksPage';
 import BusinessDirectoryPage from '@/pages/BusinessDirectoryPage';
 import AboutUsPage from '@/pages/AboutUsPage';
 import AboutPage from '@/pages/AboutPage';
+import FAQPage from '@/pages/FAQPage';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
                   <Route path="/directory" element={<BusinessDirectoryPage />} />
                   <Route path="/about-us" element={<AboutUsPage />} />
                   <Route path="/about" element={<AboutPage />} />
+                  <Route path="/faq" element={<FAQPage />} />
                   <Route path="/qr-scanner" element={<QRScannerPage />} />
                   <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                   
