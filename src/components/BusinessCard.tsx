@@ -35,19 +35,15 @@ const BusinessCard = ({
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
 
-  // Generate a placeholder image with the business initial
-  const generatePlaceholderUrl = (businessName: string) => {
-    const initial = businessName.charAt(0).toUpperCase();
-    return `https://placehold.co/300x200/e0e0e0/808080?text=${initial}`;
-  };
+  console.log(`BusinessCard ${name} - imageUrl:`, imageUrl);
 
   const handleImageError = () => {
-    console.log(`Image failed to load: ${imageUrl}`);
+    console.log(`Image failed to load for ${name}:`, imageUrl);
     setImgError(true);
   };
 
   const handleImageLoad = () => {
-    console.log(`Image loaded successfully: ${imageUrl}`);
+    console.log(`Image loaded successfully for ${name}:`, imageUrl);
     setImgLoaded(true);
   };
 

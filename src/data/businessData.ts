@@ -14,7 +14,7 @@ export const businessCategories = [
   "Finance"
 ];
 
-// Sample businesses data - expanded to 16 businesses with proper images
+// Sample businesses data - expanded to 16 businesses with fresh image URLs
 export const businesses: Business[] = [
   {
     id: 1,
@@ -29,7 +29,7 @@ export const businesses: Business[] = [
     address: "123 Main St, Atlanta, GA",
     lat: 33.748997,
     lng: -84.387985,
-    imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Soul food restaurant interior",
     isFeatured: true
   },
@@ -46,7 +46,7 @@ export const businesses: Business[] = [
     address: "456 Oak Ave, Atlanta, GA",
     lat: 33.749568,
     lng: -84.388427,
-    imageUrl: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Natural beauty spa interior"
   },
   {
@@ -62,7 +62,7 @@ export const businesses: Business[] = [
     address: "789 Tech Blvd, Atlanta, GA",
     lat: 33.751234,
     lng: -84.394321,
-    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Technology innovation workspace",
     isFeatured: true
   },
@@ -79,7 +79,7 @@ export const businesses: Business[] = [
     address: "234 Health St, Atlanta, GA",
     lat: 33.747123,
     lng: -84.382345,
-    imageUrl: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Modern fitness center"
   },
   {
@@ -95,7 +95,7 @@ export const businesses: Business[] = [
     address: "567 Reader Ln, Atlanta, GA",
     lat: 33.753421,
     lng: -84.391234,
-    imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Cozy bookstore interior"
   },
   {
@@ -111,7 +111,7 @@ export const businesses: Business[] = [
     address: "890 Money Ave, Atlanta, GA",
     lat: 33.755678,
     lng: -84.386543,
-    imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Financial advisor office"
   },
   {
@@ -127,7 +127,7 @@ export const businesses: Business[] = [
     address: "432 Canvas St, Atlanta, GA",
     lat: 33.746789,
     lng: -84.389876,
-    imageUrl: "https://images.unsplash.com/photo-1578269174936-2709b6aeb913?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1578269174936-2709b6aeb913?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Art studio with paintings"
   },
   {
@@ -143,7 +143,7 @@ export const businesses: Business[] = [
     address: "765 Motion Blvd, Atlanta, GA",
     lat: 33.750987,
     lng: -84.395678,
-    imageUrl: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Transportation service"
   },
   {
@@ -159,7 +159,7 @@ export const businesses: Business[] = [
     address: "345 Scholar Rd, Atlanta, GA",
     lat: 33.748765,
     lng: -84.384567,
-    imageUrl: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Education academy classroom"
   },
   {
@@ -175,7 +175,7 @@ export const businesses: Business[] = [
     address: "678 Justice Ave, Atlanta, GA",
     lat: 33.752345,
     lng: -84.390123,
-    imageUrl: "https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1589391886645-d51941baf7fb?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Professional legal office"
   },
   {
@@ -191,7 +191,7 @@ export const businesses: Business[] = [
     address: "901 Fresh St, Atlanta, GA",
     lat: 33.746543,
     lng: -84.387654,
-    imageUrl: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Organic market produce section",
     isFeatured: true
   },
@@ -208,7 +208,7 @@ export const businesses: Business[] = [
     address: "543 Fashion Blvd, Atlanta, GA",
     lat: 33.751876,
     lng: -84.393456,
-    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Modern hair salon interior"
   },
   {
@@ -224,7 +224,7 @@ export const businesses: Business[] = [
     address: "876 Flavor St, Atlanta, GA",
     lat: 33.747890,
     lng: -84.392345,
-    imageUrl: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Soul food restaurant dining area"
   },
   {
@@ -240,7 +240,7 @@ export const businesses: Business[] = [
     address: "234 Cyber Rd, Atlanta, GA",
     lat: 33.754321,
     lng: -84.388765,
-    imageUrl: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Digital solutions workspace"
   },
   {
@@ -256,7 +256,7 @@ export const businesses: Business[] = [
     address: "654 Wellness Ave, Atlanta, GA",
     lat: 33.749876,
     lng: -84.385432,
-    imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Community health clinic reception"
   },
   {
@@ -272,7 +272,10 @@ export const businesses: Business[] = [
     address: "789 Capital St, Atlanta, GA",
     lat: 33.752987,
     lng: -84.389543,
-    imageUrl: "https://images.unsplash.com/photo-1589666564459-93cdd3ab856a?w=600&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1589666564459-93cdd3ab856a?w=400&h=250&fit=crop&auto=format&q=80",
     imageAlt: "Investment office workspace"
   }
 ];
+
+console.log('Business data loaded with', businesses.length, 'businesses');
+console.log('Sample business with imageUrl:', businesses[0].imageUrl);
