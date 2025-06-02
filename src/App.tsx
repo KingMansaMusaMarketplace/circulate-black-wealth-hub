@@ -27,6 +27,7 @@ import BusinessDirectoryPage from '@/pages/BusinessDirectoryPage';
 import AboutUsPage from '@/pages/AboutUsPage';
 import AboutPage from '@/pages/AboutPage';
 import FAQPage from '@/pages/FAQPage';
+import TeamContactPage from '@/pages/TeamContactPage';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
                   <Route path="/about-us" element={<AboutUsPage />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/our-team" element={<TeamContactPage />} />
                   <Route path="/qr-scanner" element={<QRScannerPage />} />
                   <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                   
