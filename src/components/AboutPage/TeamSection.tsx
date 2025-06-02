@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Users, Linkedin, Twitter, Globe, ChevronRight, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 
@@ -13,6 +13,7 @@ interface TeamMember {
   role: string;
   bio: string;
   image: string;
+  avatarImage: string;
   extendedBio?: string;
   experience?: string[];
   education?: string;
@@ -41,6 +42,7 @@ const TeamSection = () => {
       ],
       education: "MBA from Howard University, BS in Business Management from Spelman College",
       image: "AJ",
+      avatarImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       socials: { 
         linkedin: "#", 
         twitter: "#", 
@@ -60,6 +62,7 @@ const TeamSection = () => {
       ],
       education: "BA in Economics from Morehouse College",
       image: "MW",
+      avatarImage: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       socials: { 
         linkedin: "#", 
         twitter: "#",
@@ -78,6 +81,7 @@ const TeamSection = () => {
       ],
       education: "MS in Computer Science from Georgia Tech, BS in Software Engineering from North Carolina A&T",
       image: "ZT",
+      avatarImage: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       socials: { 
         linkedin: "#", 
         website: "#",
@@ -96,6 +100,7 @@ const TeamSection = () => {
       ],
       education: "MA in Urban Planning from Columbia University, BA in Sociology from Temple University",
       image: "DC",
+      avatarImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       socials: { 
         twitter: "#", 
         website: "#",
@@ -180,8 +185,13 @@ const TeamSection = () => {
             <motion.div key={index} variants={itemVariants}>
               <Card className="card-hover border-mansagold/10 overflow-hidden h-full">
                 <div className="bg-mansablue p-6 text-center">
-                  <div className="w-20 h-20 rounded-full bg-white mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-mansablue font-spartan font-bold text-2xl">{member.image}</span>
+                  <div className="w-20 h-20 rounded-full bg-white mx-auto mb-4 flex items-center justify-center overflow-hidden">
+                    <Avatar className="w-20 h-20">
+                      <AvatarImage src={member.avatarImage} alt={member.name} className="object-cover" />
+                      <AvatarFallback className="text-mansablue font-spartan font-bold text-2xl bg-white">
+                        {member.image}
+                      </AvatarFallback>
+                    </Avatar>
                   </div>
                   <h3 className="text-white font-bold text-lg">{member.name}</h3>
                   <p className="text-white/70 text-sm">{member.role}</p>
@@ -240,6 +250,7 @@ const TeamSection = () => {
             <DialogHeader>
               <DialogTitle className="flex items-center gap-3">
                 <Avatar className="h-12 w-12 bg-mansablue text-white">
+                  <AvatarImage src={selectedMember.avatarImage} alt={selectedMember.name} className="object-cover" />
                   <AvatarFallback>{selectedMember.image}</AvatarFallback>
                 </Avatar>
                 <div>
