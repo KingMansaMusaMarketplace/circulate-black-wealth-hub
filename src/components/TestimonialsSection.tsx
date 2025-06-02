@@ -9,21 +9,24 @@ const testimonials = [
     content: "Implementing Mansa Musa's loyalty program increased our customer return rate by 40% in just two months. The QR code system is so easy for both our staff and customers.",
     author: "Sarah Johnson",
     role: "Owner, The Cozy Corner Cafe",
-    avatar: "SJ"
+    avatar: "SJ",
+    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 2,
     content: "As a customer, I love collecting points at my favorite shops. I've already redeemed rewards at three different businesses, and the experience was seamless.",
     author: "Marcus Chen",
     role: "Loyal Customer",
-    avatar: "MC"
+    avatar: "MC",
+    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
   {
     id: 3,
     content: "The analytics provided by Mansa Musa have completely transformed how we approach our marketing. We now know exactly what brings customers back.",
     author: "Priya Patel",
     role: "Marketing Director, Urban Fitness",
-    avatar: "PP"
+    avatar: "PP",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
   },
 ];
 
@@ -46,7 +49,8 @@ const TestimonialsSection = () => {
               <CardContent className="pt-6">
                 <div className="flex items-start mb-4">
                   <div className="flex-shrink-0 mr-4">
-                    <Avatar>
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage src={testimonial.image} alt={testimonial.author} />
                       <AvatarFallback className="bg-mansablue text-white">
                         {testimonial.avatar}
                       </AvatarFallback>
