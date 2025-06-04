@@ -28,6 +28,8 @@ import AboutUsPage from '@/pages/AboutUsPage';
 import AboutPage from '@/pages/AboutPage';
 import FAQPage from '@/pages/FAQPage';
 import TeamContactPage from '@/pages/TeamContactPage';
+import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
+import TermsOfServicePage from '@/pages/TermsOfServicePage';
 
 function App() {
   return (
@@ -49,6 +51,8 @@ function App() {
                   <Route path="/our-team" element={<TeamContactPage />} />
                   <Route path="/qr-scanner" element={<QRScannerPage />} />
                   <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
+                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                  <Route path="/terms" element={<TermsOfServicePage />} />
                   
                   {/* Protected routes */}
                   <Route path="/dashboard" element={
