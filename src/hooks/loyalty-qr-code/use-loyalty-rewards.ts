@@ -41,9 +41,9 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
     description: reward.description || '',
     pointsCost: reward.pointsCost,
     category: reward.category || 'General',
-    businessName: reward.businessName,
-    expiresAt: reward.expiresAt,
-    imageUrl: reward.imageUrl
+    businessName: reward.businessName || undefined,
+    expiresAt: reward.expiresAt || undefined,
+    imageUrl: reward.imageUrl || undefined
   }));
 
   // Update the loyaltyPoints whenever there's a change in the summary
@@ -66,7 +66,7 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
   }, [summary]);
 
   // Handle reward redemption with proper feedback
-  const handleRedeemReward = async (rewardId: string, pointsCost: number) => {
+  const handleRedeemReward = async (rewardId: string) => {
     if (!user) {
       toast.error('You must be logged in to redeem rewards');
       return false;
