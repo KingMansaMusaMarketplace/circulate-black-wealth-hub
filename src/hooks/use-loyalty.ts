@@ -7,12 +7,31 @@ interface LoyaltySummary {
   totalPoints: number;
   businessCount: number;
   recentTransactions: any[];
+  businessesVisited?: number;
+}
+
+interface LoyaltyPoint {
+  businessName: string;
+  points: number;
+  businessId: string;
+}
+
+interface LoyaltyReward {
+  id: string;
+  title: string;
+  description: string;
+  pointsCost: number;
+  category: string;
+  expiresAt?: string;
 }
 
 export const useLoyalty = () => {
   const [summary, setSummary] = useState<LoyaltySummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [loyaltyPoints, setLoyaltyPoints] = useState<LoyaltyPoint[]>([]);
+  const [availableRewards, setAvailableRewards] = useState<LoyaltyReward[]>([]);
+  const [redeemedRewards, setRedeemedRewards] = useState<any[]>([]);
   const { user } = useAuth();
 
   const fetchLoyaltyData = useCallback(async () => {
@@ -26,16 +45,25 @@ export const useLoyalty = () => {
       setError(null);
 
       // Fetch loyalty points
-      const { data: loyaltyPoints, error: loyaltyError } = await supabase
+      const { data: loyaltyPointsData, error: loyaltyError } = await supabase
         .from('loyalty_points')
-        .select('points, business_id')
+        .select('points, business_id, businesses(business_name)')
         .eq('customer_id', user.id);
 
       if (loyaltyError) throw loyaltyError;
 
+      // Transform loyalty points data
+      const formattedLoyaltyPoints: LoyaltyPoint[] = loyaltyPointsData?.map(lp => ({
+        businessName: lp.businesses?.business_name || 'Unknown Business',
+        points: lp.points,
+        businessId: lp.business_id
+      })) || [];
+
+      setLoyaltyPoints(formattedLoyaltyPoints);
+
       // Calculate totals
-      const totalPoints = loyaltyPoints?.reduce((sum, lp) => sum + lp.points, 0) || 0;
-      const businessCount = loyaltyPoints?.length || 0;
+      const totalPoints = loyaltyPointsData?.reduce((sum, lp) => sum + lp.points, 0) || 0;
+      const businessCount = loyaltyPointsData?.length || 0;
 
       // Fetch recent transactions
       const { data: transactions, error: transactionsError } = await supabase
@@ -47,10 +75,32 @@ export const useLoyalty = () => {
 
       if (transactionsError) throw transactionsError;
 
+      // Fetch available rewards (mock data for now)
+      const mockRewards: LoyaltyReward[] = [
+        {
+          id: '1',
+          title: '$10 Off Purchase',
+          description: 'Get $10 off your next purchase of $50 or more',
+          pointsCost: 100,
+          category: 'Discount',
+          expiresAt: '2024-12-31'
+        },
+        {
+          id: '2',
+          title: 'Free Coffee',
+          description: 'Redeem for a free coffee at participating locations',
+          pointsCost: 50,
+          category: 'Food & Drink'
+        }
+      ];
+
+      setAvailableRewards(mockRewards);
+
       setSummary({
         totalPoints,
         businessCount,
-        recentTransactions: transactions || []
+        recentTransactions: transactions || [],
+        businessesVisited: businessCount
       });
 
     } catch (err: any) {
@@ -60,6 +110,11 @@ export const useLoyalty = () => {
       setLoading(false);
     }
   }, [user]);
+
+  const redeemReward = useCallback(async (rewardId: string) => {
+    // Implementation for redeeming rewards
+    console.log('Redeeming reward:', rewardId);
+  }, []);
 
   const refreshData = useCallback(() => {
     return fetchLoyaltyData();
@@ -73,6 +128,13 @@ export const useLoyalty = () => {
     summary,
     loading,
     error,
-    refreshData
+    refreshData,
+    loyaltyPoints,
+    availableRewards,
+    redeemReward,
+    redeemedRewards,
+    isLoading: loading,
+    nextRewardThreshold: 500,
+    currentTier: 'Bronze'
   };
 };
