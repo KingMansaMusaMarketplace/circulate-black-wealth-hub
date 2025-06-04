@@ -30,6 +30,8 @@ import FAQPage from '@/pages/FAQPage';
 import TeamContactPage from '@/pages/TeamContactPage';
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
+import ResetPasswordPage from '@/pages/ResetPasswordPage';
+import NewPasswordPage from '@/pages/NewPasswordPage';
 
 function App() {
   return (
@@ -54,6 +56,8 @@ function App() {
                   <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                   <Route path="/privacy" element={<PrivacyPolicyPage />} />
                   <Route path="/terms" element={<TermsOfServicePage />} />
+                  <Route path="/reset-password" element={<ResetPasswordPage />} />
+                  <Route path="/new-password" element={<NewPasswordPage />} />
                   
                   {/* Protected routes */}
                   <Route path="/dashboard" element={

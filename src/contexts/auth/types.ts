@@ -16,7 +16,7 @@ export interface AuthContextType {
   getMFAFactors: () => Promise<Factor[]>;
   updateUserPassword: (password: string) => Promise<any>;
   resetPassword: (email: string) => Promise<any>;
-  databaseInitialized?: boolean;
+  databaseInitialized: boolean;
 }
 
 export type ToastProps = {

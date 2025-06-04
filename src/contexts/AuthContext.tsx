@@ -15,6 +15,11 @@ interface AuthContextType {
   checkSession: () => Promise<boolean>;
   authInitialized: boolean;
   getMFAFactors: () => Promise<any[]>;
+  updateUserPassword: (password: string) => Promise<any>;
+  resetPassword: (email: string) => Promise<any>;
+  databaseInitialized: boolean;
+  signInWithSocial: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
+  verifyMFA: (factorId: string, code: string, challengeId: string) => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -158,6 +163,52 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const updateUserPassword = async (password: string) => {
+    try {
+      const { data, error } = await supabase.auth.updateUser({ password });
+      return { success: !error, data, error };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
+  const resetPassword = async (email: string) => {
+    try {
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/new-password`,
+      });
+      return { success: !error, data, error };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
+  const signInWithSocial = async (provider: 'google' | 'facebook' | 'github') => {
+    try {
+      await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+    } catch (error) {
+      console.error('Social login error:', error);
+    }
+  };
+
+  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+    try {
+      const { data, error } = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId,
+        code
+      });
+      return { success: !error, data, error };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -169,7 +220,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       userType,
       checkSession,
       authInitialized,
-      getMFAFactors
+      getMFAFactors,
+      updateUserPassword,
+      resetPassword,
+      databaseInitialized: true,
+      signInWithSocial,
+      verifyMFA
     }}>
       {children}
     </AuthContext.Provider>
