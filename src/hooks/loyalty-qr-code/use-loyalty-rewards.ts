@@ -41,9 +41,9 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
     description: reward.description || '',
     pointsCost: reward.pointsCost,
     category: reward.category || 'General',
-    businessName: reward.businessName || undefined,
+    businessName: undefined, // The LoyaltyReward from use-loyalty doesn't have this property
     expiresAt: reward.expiresAt || undefined,
-    imageUrl: reward.imageUrl || undefined
+    imageUrl: undefined // The LoyaltyReward from use-loyalty doesn't have this property
   }));
 
   // Update the loyaltyPoints whenever there's a change in the summary
