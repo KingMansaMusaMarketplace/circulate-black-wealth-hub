@@ -25,13 +25,22 @@ interface LoyaltyReward {
   expiresAt?: string;
 }
 
+interface PointsHistoryEntry {
+  id: string;
+  date: string;
+  points: number;
+  type: 'earned' | 'redeemed';
+  businessName: string;
+}
+
 export const useLoyalty = () => {
   const [summary, setSummary] = useState<LoyaltySummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [loyaltyPoints, setLoyaltyPoints] = useState<LoyaltyPoint[]>([]);
+  const [loyaltyPoints, setLoyaltyPoints] = useState<number>(0);
   const [availableRewards, setAvailableRewards] = useState<LoyaltyReward[]>([]);
   const [redeemedRewards, setRedeemedRewards] = useState<any[]>([]);
+  const [pointsHistory, setPointsHistory] = useState<PointsHistoryEntry[]>([]);
   const { user } = useAuth();
 
   const fetchLoyaltyData = useCallback(async () => {
@@ -52,28 +61,32 @@ export const useLoyalty = () => {
 
       if (loyaltyError) throw loyaltyError;
 
-      // Transform loyalty points data
-      const formattedLoyaltyPoints: LoyaltyPoint[] = loyaltyPointsData?.map(lp => ({
-        businessName: lp.businesses?.business_name || 'Unknown Business',
-        points: lp.points,
-        businessId: lp.business_id
-      })) || [];
-
-      setLoyaltyPoints(formattedLoyaltyPoints);
-
       // Calculate totals
       const totalPoints = loyaltyPointsData?.reduce((sum, lp) => sum + lp.points, 0) || 0;
       const businessCount = loyaltyPointsData?.length || 0;
 
-      // Fetch recent transactions
+      setLoyaltyPoints(totalPoints);
+
+      // Fetch recent transactions for points history
       const { data: transactions, error: transactionsError } = await supabase
         .from('transactions')
-        .select('*')
+        .select('*, businesses(business_name)')
         .eq('customer_id', user.id)
         .order('created_at', { ascending: false })
-        .limit(5);
+        .limit(10);
 
       if (transactionsError) throw transactionsError;
+
+      // Transform transactions to points history
+      const history: PointsHistoryEntry[] = transactions?.map(t => ({
+        id: t.id,
+        date: t.created_at,
+        points: t.points_earned > 0 ? t.points_earned : t.points_redeemed,
+        type: t.points_earned > 0 ? 'earned' : 'redeemed',
+        businessName: t.businesses?.business_name || 'Unknown Business'
+      })) || [];
+
+      setPointsHistory(history);
 
       // Fetch available rewards (mock data for now)
       const mockRewards: LoyaltyReward[] = [
@@ -114,6 +127,7 @@ export const useLoyalty = () => {
   const redeemReward = useCallback(async (rewardId: string) => {
     // Implementation for redeeming rewards
     console.log('Redeeming reward:', rewardId);
+    return Promise.resolve();
   }, []);
 
   const refreshData = useCallback(() => {
@@ -133,6 +147,7 @@ export const useLoyalty = () => {
     availableRewards,
     redeemReward,
     redeemedRewards,
+    pointsHistory,
     isLoading: loading,
     nextRewardThreshold: 500,
     currentTier: 'Bronze'

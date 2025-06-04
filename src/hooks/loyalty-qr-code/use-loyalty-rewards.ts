@@ -21,7 +21,7 @@ interface UseLoyaltyRewardsOptions {
 }
 
 export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
-  const [loyaltyPoints, setLoyaltyPoints] = useState<Array<{
+  const [loyaltyPointsData, setLoyaltyPointsData] = useState<Array<{
     businessId: string;
     businessName: string;
     points: number;
@@ -39,11 +39,11 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
     id: reward.id,
     title: reward.title,
     description: reward.description || '',
-    pointsCost: reward.points_cost,
+    pointsCost: reward.pointsCost,
     category: reward.category || 'General',
     businessName: reward.businessName,
     expiresAt: reward.expiresAt,
-    imageUrl: reward.image_url // Add imageUrl property
+    imageUrl: reward.imageUrl
   }));
 
   // Update the loyaltyPoints whenever there's a change in the summary
@@ -61,7 +61,7 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
         }
       ];
 
-      setLoyaltyPoints(formattedPoints);
+      setLoyaltyPointsData(formattedPoints);
     }
   }, [summary]);
 
@@ -73,16 +73,10 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
     }
     
     try {
-      const result = await redeemReward(rewardId, pointsCost);
-      
-      if (result) {
-        toast.success('Reward redeemed successfully!');
-        refreshData();
-        return true;
-      } else {
-        toast.error('Failed to redeem reward');
-        return false;
-      }
+      await redeemReward(rewardId);
+      toast.success('Reward redeemed successfully!');
+      refreshData();
+      return true;
     } catch (error: any) {
       console.error('Error redeeming reward:', error);
       toast.error(error.message || 'An error occurred while redeeming the reward');
@@ -92,7 +86,7 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
 
   return {
     totalPoints: summary?.totalPoints || 0,
-    loyaltyPoints,
+    loyaltyPoints: loyaltyPointsData,
     availableRewards: formattedRewards,
     redeemReward: handleRedeemReward,
     refreshLoyaltyData: refreshData

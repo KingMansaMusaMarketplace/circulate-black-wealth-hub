@@ -5,6 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 export interface BusinessProfile {
   id: string;
+  owner_id: string;
   business_name: string;
   description?: string;
   category?: string;
@@ -119,6 +120,7 @@ export const useBusinessProfile = () => {
     error,
     updateBusinessProfile,
     createBusinessProfile,
-    refreshProfile: fetchBusinessProfile
+    refreshProfile: fetchBusinessProfile,
+    loadBusinessProfile: fetchBusinessProfile
   };
 };

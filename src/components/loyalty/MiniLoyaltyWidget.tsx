@@ -17,9 +17,13 @@ export const MiniLoyaltyWidget: React.FC<MiniLoyaltyWidgetProps> = ({
 }) => {
   const { loyaltyPoints, isLoading, nextRewardThreshold, currentTier } = useLoyalty();
   
+  // Ensure loyaltyPoints is a number for calculations
+  const totalPoints = typeof loyaltyPoints === 'number' ? loyaltyPoints : 0;
+  const threshold = typeof nextRewardThreshold === 'number' ? nextRewardThreshold : 500;
+  
   // Calculate progress percentage toward next tier/reward
-  const progress = nextRewardThreshold > 0 
-    ? Math.min(Math.floor((loyaltyPoints / nextRewardThreshold) * 100), 100) 
+  const progress = threshold > 0 
+    ? Math.min(Math.floor((totalPoints / threshold) * 100), 100) 
     : 0;
   
   return (
@@ -43,7 +47,7 @@ export const MiniLoyaltyWidget: React.FC<MiniLoyaltyWidgetProps> = ({
         
         <div className="flex items-baseline gap-1">
           <span className="text-2xl font-bold text-mansablue">
-            {isLoading ? '---' : loyaltyPoints?.toLocaleString() || 0}
+            {isLoading ? '---' : totalPoints?.toLocaleString() || 0}
           </span>
           <span className="text-gray-500 text-sm">points</span>
         </div>
@@ -54,12 +58,12 @@ export const MiniLoyaltyWidget: React.FC<MiniLoyaltyWidgetProps> = ({
           </div>
         )}
         
-        {nextRewardThreshold > 0 && (
+        {threshold > 0 && (
           <div className="space-y-1">
             <Progress value={progress} className="h-2" />
             <div className="flex justify-between text-xs text-gray-500">
               <span>{progress}% to next reward</span>
-              <span>{nextRewardThreshold - loyaltyPoints} points needed</span>
+              <span>{threshold - totalPoints} points needed</span>
             </div>
           </div>
         )}
