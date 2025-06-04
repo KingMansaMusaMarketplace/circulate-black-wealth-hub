@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { AuthProvider } from '@/contexts/auth';
+import { AuthProvider } from '@/contexts/AuthContext';
 import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import ProtectedRoute from '@/components/auth/ProtectedRoute';
@@ -38,8 +38,9 @@ function App() {
         <AuthProvider>
           <SubscriptionProvider>
             <Router>
-              <div className="App">
+              <div className="App min-h-screen bg-gray-50">
                 <Routes>
+                  {/* Public routes */}
                   <Route path="/" element={<HomePage />} />
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/signup" element={<SignupPage />} />

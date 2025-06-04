@@ -41,6 +41,12 @@ const config: CapacitorConfig = {
       resize: 'body',
       style: 'dark',
       resizeOnFullScreen: true
+    },
+    LocalNotifications: {
+      iconColor: "#F5A623"
+    },
+    PushNotifications: {
+      presentationOptions: ["badge", "sound", "alert"]
     }
   },
   ios: {
@@ -56,12 +62,16 @@ const config: CapacitorConfig = {
     overrideUserInterfaceStyle: "light",
     scrollEnabled: true,
     webViewAllowsBackForwardNavigationGestures: true,
+    minSwipeDistance: 60,
+    cordovaSwiftVersion: "5.0"
   },
   android: {
     backgroundColor: "#1B365D",
     allowMixedContent: true,
     captureInput: true,
-    webContentsDebuggingEnabled: false
+    webContentsDebuggingEnabled: false,
+    useLegacyBridge: false,
+    hideLogs: true
   }
 };
 

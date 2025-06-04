@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Menu } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
@@ -27,43 +27,64 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  return (
-    <header className={`bg-white shadow-sm z-40 w-full sticky top-0 border-b border-gray-100 ${className}`}>
-      <div className="container mx-auto px-4">
-        <div className="flex h-18 items-center justify-between py-3">
-          <div className="flex items-center">
-            {/* Logo */}
-            <Logo />
-            
-            {/* Navigation links - only show on desktop */}
-            <NavLinks className="ml-10" />
-          </div>
-          
-          <div className="flex items-center gap-2">
-            {/* Mobile menu button */}
-            {isMobile && (
-              <Button variant="ghost" size="icon" onClick={toggleMobileMenu} className="md:hidden">
-                <Menu className="h-6 w-6" />
-              </Button>
-            )}
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
 
-            {/* User menu (auth buttons or user avatar) */}
-            <UserMenu 
-              user={user} 
-              signOut={signOut} 
-              isLoginPage={isLoginPage} 
-              isSignupPage={isSignupPage}
-              isMobile={isMobile}
-            />
+  return (
+    <>
+      <header className={`bg-white shadow-sm z-50 w-full sticky top-0 border-b border-gray-100 ${className}`}>
+        <div className="container mx-auto px-4">
+          <div className="flex h-16 items-center justify-between">
+            <div className="flex items-center">
+              <Logo />
+              {!isMobile && <NavLinks className="ml-10" />}
+            </div>
+            
+            <div className="flex items-center gap-2">
+              {isMobile && (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={toggleMobileMenu} 
+                  className="md:hidden relative z-50"
+                  aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                >
+                  {mobileMenuOpen ? (
+                    <X className="h-6 w-6" />
+                  ) : (
+                    <Menu className="h-6 w-6" />
+                  )}
+                </Button>
+              )}
+
+              <UserMenu 
+                user={user} 
+                signOut={signOut} 
+                isLoginPage={isLoginPage} 
+                isSignupPage={isSignupPage}
+                isMobile={isMobile}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Mobile navigation menu */}
-        {isMobile && (
-          <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+        {/* Mobile navigation overlay */}
+        {isMobile && mobileMenuOpen && (
+          <div className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden" onClick={closeMobileMenu} />
         )}
-      </div>
-    </header>
+      </header>
+
+      {/* Mobile navigation menu */}
+      {isMobile && (
+        <MobileMenu 
+          isOpen={mobileMenuOpen} 
+          onClose={closeMobileMenu}
+          user={user}
+          signOut={signOut}
+        />
+      )}
+    </>
   );
 };
 
