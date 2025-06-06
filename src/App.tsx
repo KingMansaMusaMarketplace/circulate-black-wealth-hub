@@ -58,6 +58,9 @@ function App() {
                   <Route path="/terms" element={<TermsOfServicePage />} />
                   <Route path="/reset-password" element={<ResetPasswordPage />} />
                   <Route path="/new-password" element={<NewPasswordPage />} />
+                  <Route path="/help" element={<HelpCenterPage />} />
+                  <Route path="/blog" element={<BlogPage />} />
+                  <Route path="/cookies" element={<CookiePolicyPage />} />
                   
                   {/* Protected routes */}
                   <Route path="/dashboard" element={
