@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, ChevronRight } from 'lucide-react';
@@ -8,6 +7,18 @@ import Logo from '@/components/navbar/Logo';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  
+  // Social media links - update these with your actual social media URLs
+  const socialLinks = {
+    facebook: 'https://facebook.com/mansamusamarketplace',
+    twitter: 'https://twitter.com/mansamusamarketplace', 
+    instagram: 'https://instagram.com/mansamusamarketplace',
+    linkedin: 'https://linkedin.com/company/mansamusamarketplace'
+  };
+
+  const handleSocialClick = (platform: string, url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
   
   return (
     <footer className="bg-gradient-to-b from-gray-900 to-gray-950 text-white">
@@ -21,16 +32,40 @@ const Footer = () => {
               intentional consumer behavior, loyalty rewards, and strategic digital infrastructure.
             </p>
             <div className="flex space-x-3 mt-8">
-              <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" aria-label="Facebook">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" 
+                aria-label="Facebook"
+                onClick={() => handleSocialClick('Facebook', socialLinks.facebook)}
+              >
                 <Facebook className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" aria-label="Twitter">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" 
+                aria-label="Twitter"
+                onClick={() => handleSocialClick('Twitter', socialLinks.twitter)}
+              >
                 <Twitter className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" aria-label="Instagram">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" 
+                aria-label="Instagram"
+                onClick={() => handleSocialClick('Instagram', socialLinks.instagram)}
+              >
                 <Instagram className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" aria-label="LinkedIn">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full hover:bg-white/15 text-white bg-white/10 transition-all" 
+                aria-label="LinkedIn"
+                onClick={() => handleSocialClick('LinkedIn', socialLinks.linkedin)}
+              >
                 <Linkedin className="h-4 w-4" />
               </Button>
             </div>
@@ -90,11 +125,21 @@ const Footer = () => {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <Mail className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
-                <span className="text-gray-300 hover:text-white transition-colors">contact@mansamusamarketplace.com</span>
+                <a 
+                  href="mailto:contact@mansamusamarketplace.com"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  contact@mansamusamarketplace.com
+                </a>
               </li>
               <li className="flex items-start">
                 <Phone className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
-                <span className="text-gray-300 hover:text-white transition-colors">312.709.6006</span>
+                <a 
+                  href="tel:+13127096006"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  312.709.6006
+                </a>
               </li>
               <li className="flex items-start">
                 <MapPin className="h-4 w-4 mr-3 text-mansagold-light flex-shrink-0 mt-1" />
@@ -139,4 +184,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
