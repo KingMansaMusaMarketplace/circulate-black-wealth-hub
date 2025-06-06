@@ -32,6 +32,9 @@ import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import NewPasswordPage from '@/pages/NewPasswordPage';
+import HelpCenterPage from '@/pages/HelpCenterPage';
+import BlogPage from '@/pages/BlogPage';
+import CookiePolicyPage from '@/pages/CookiePolicyPage';
 
 function App() {
   return (
