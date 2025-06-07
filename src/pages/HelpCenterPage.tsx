@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -6,6 +7,14 @@ import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, MessageCircle, HelpCircle } from 'lucide-react';
 
 const HelpCenterPage = () => {
+  const handleEmailSupport = () => {
+    window.location.href = 'mailto:contact@mansamusamarketplace.com';
+  };
+
+  const handlePhoneSupport = () => {
+    window.location.href = 'tel:+13127096006';
+  };
+
   return (
     <ResponsiveLayout
       title="Help Center"
@@ -339,11 +348,20 @@ const HelpCenterPage = () => {
               on the Mansa Musa Marketplace platform.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-mansablue hover:bg-mansablue-dark">
+              <Button 
+                size="lg" 
+                className="bg-mansablue hover:bg-mansablue-dark"
+                onClick={handleEmailSupport}
+              >
                 <Mail className="h-4 w-4 mr-2" />
                 Email Support
               </Button>
-              <Button size="lg" variant="outline" className="border-mansablue text-mansablue hover:bg-mansablue/10">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-mansablue text-mansablue hover:bg-mansablue/10"
+                onClick={handlePhoneSupport}
+              >
                 <Phone className="h-4 w-4 mr-2" />
                 Call Us
               </Button>
