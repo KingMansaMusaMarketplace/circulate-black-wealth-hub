@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -31,12 +30,12 @@ const HelpCenterPage = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start space-x-3">
-                <Mail className="h-4 w-4 text-mansagold mt-1" />
-                <div>
+                <Mail className="h-4 w-4 text-mansagold mt-1 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
                   <p className="font-medium">Email Support</p>
                   <a 
                     href="mailto:contact@mansamusamarketplace.com"
-                    className="text-mansablue hover:text-mansablue-dark"
+                    className="text-mansablue hover:text-mansablue-dark break-all"
                   >
                     contact@mansamusamarketplace.com
                   </a>
@@ -44,8 +43,8 @@ const HelpCenterPage = () => {
               </div>
               
               <div className="flex items-start space-x-3">
-                <Phone className="h-4 w-4 text-mansagold mt-1" />
-                <div>
+                <Phone className="h-4 w-4 text-mansagold mt-1 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
                   <p className="font-medium">Phone Support</p>
                   <a 
                     href="tel:+13127096006"
@@ -58,8 +57,8 @@ const HelpCenterPage = () => {
               </div>
               
               <div className="flex items-start space-x-3">
-                <MapPin className="h-4 w-4 text-mansagold mt-1" />
-                <div>
+                <MapPin className="h-4 w-4 text-mansagold mt-1 flex-shrink-0" />
+                <div className="min-w-0 flex-1">
                   <p className="font-medium">Office Location</p>
                   <p className="text-sm text-gray-600">
                     1000 E. 111th Street, Suite 1100<br />
