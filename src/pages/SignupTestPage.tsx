@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle, XCircle, Loader2, AlertTriangle } from 'lucide-react';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 const SignupTestPage: React.FC = () => {
@@ -45,8 +45,7 @@ const SignupTestPage: React.FC = () => {
       log(`Testing customer signup with email: ${testEmail}`);
       
       const result = await signUp(testEmail, testPassword, {
-        name: 'Test Customer',
-        userType: 'customer',
+        full_name: 'Test Customer',
         user_type: 'customer'
       });
       
@@ -74,12 +73,8 @@ const SignupTestPage: React.FC = () => {
       log(`Testing business signup with email: ${testEmail}`);
       
       const result = await signUp(testEmail, testPassword, {
-        name: 'Test Business Owner',
-        userType: 'business',
-        user_type: 'business',
-        businessName: 'Test Business LLC',
-        business_name: 'Test Business LLC',
-        business_description: 'A test business for signup testing'
+        full_name: 'Test Business Owner',
+        user_type: 'business'
       });
       
       if (result.error) {
