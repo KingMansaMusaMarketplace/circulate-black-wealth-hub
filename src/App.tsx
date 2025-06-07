@@ -35,6 +35,7 @@ import NewPasswordPage from '@/pages/NewPasswordPage';
 import HelpCenterPage from '@/pages/HelpCenterPage';
 import BlogPage from '@/pages/BlogPage';
 import CookiePolicyPage from '@/pages/CookiePolicyPage';
+import SignupTestPage from '@/pages/SignupTestPage';
 
 function App() {
   return (
@@ -64,6 +65,7 @@ function App() {
                   <Route path="/help" element={<HelpCenterPage />} />
                   <Route path="/blog" element={<BlogPage />} />
                   <Route path="/cookies" element={<CookiePolicyPage />} />
+                  <Route path="/signup-test" element={<SignupTestPage />} />
                   
                   {/* Protected routes */}
                   <Route path="/dashboard" element={
