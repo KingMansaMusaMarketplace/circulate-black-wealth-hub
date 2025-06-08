@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -31,6 +31,38 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
     setMobileMenuOpen(false);
   };
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    closeMobileMenu();
+  }, [location.pathname]);
+
+  // Close mobile menu when scrolling
+  useEffect(() => {
+    if (!isMobile || !mobileMenuOpen) return;
+
+    const handleScroll = () => {
+      closeMobileMenu();
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isMobile, mobileMenuOpen]);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('[data-mobile-menu]') && !target.closest('[data-mobile-menu-trigger]')) {
+        closeMobileMenu();
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [mobileMenuOpen]);
+
   return (
     <>
       <header className={`bg-white shadow-sm z-50 w-full sticky top-0 border-b border-gray-100 ${className}`}>
@@ -53,6 +85,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                   onClick={toggleMobileMenu} 
                   className="md:hidden relative z-50"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+                  data-mobile-menu-trigger
                 >
                   {mobileMenuOpen ? (
                     <X className="h-6 w-6" />
@@ -66,15 +99,10 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             </div>
           </div>
         </div>
-
-        {/* Mobile navigation overlay */}
-        {isMobile && mobileMenuOpen && (
-          <div className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden" onClick={closeMobileMenu} />
-        )}
       </header>
 
       {/* Mobile navigation menu */}
-      {isMobile && (
+      {isMobile && mobileMenuOpen && (
         <MobileMenu onNavigate={closeMobileMenu} />
       )}
     </>
