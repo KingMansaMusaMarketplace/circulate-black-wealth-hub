@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -24,7 +23,7 @@ const discussionTopics = [
     category: "business-strategy",
     title: "Marketing Strategies for Small Black-Owned Businesses",
     author: "Tasha Williams",
-    authorImage: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&auto=format&fit=crop&crop=face",
+    authorImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&crop=face",
     date: "1 week ago",
     replies: 34,
     likes: 52,
@@ -35,7 +34,7 @@ const discussionTopics = [
     category: "financial-literacy",
     title: "First-time Home Buying Tips for Millennials",
     author: "Devon Carter",
-    authorImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&crop=face",
+    authorImage: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=150&auto=format&fit=crop&crop=face",
     date: "3 days ago",
     replies: 19,
     likes: 31,
@@ -46,7 +45,7 @@ const discussionTopics = [
     category: "circulation",
     title: "How to Increase Dollar Circulation in Your Community",
     author: "Jasmine Taylor",
-    authorImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=150&auto=format&fit=crop&crop=face",
+    authorImage: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=150&auto=format&fit=crop&crop=face",
     date: "5 days ago",
     replies: 42,
     likes: 73,
@@ -57,7 +56,7 @@ const discussionTopics = [
     category: "circulation",
     title: "Supporting Black-Owned Banks and Credit Unions",
     author: "Robert Johnson",
-    authorImage: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&crop=face",
+    authorImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&crop=face",
     date: "2 weeks ago",
     replies: 16,
     likes: 29,
@@ -68,7 +67,7 @@ const discussionTopics = [
     category: "business-strategy",
     title: "E-commerce Strategies for Product-Based Businesses",
     author: "Nicole Brown",
-    authorImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop&crop=face",
+    authorImage: "https://images.unsplash.com/photo-1594824950743-84db158b0d7f?w=150&auto=format&fit=crop&crop=face",
     date: "4 days ago",
     replies: 23,
     likes: 38,
