@@ -1,7 +1,6 @@
-
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import { toast } from 'sonner';
-import { useAuth } from './AuthContext';
+import { useAuth } from './auth';
 import { subscriptionService, SubscriptionInfo } from '@/lib/services/subscription-service';
 
 interface SubscriptionContextType {
