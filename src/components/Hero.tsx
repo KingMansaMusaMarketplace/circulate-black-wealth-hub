@@ -74,7 +74,7 @@ const Hero = () => {
               {/* Premium Features */}
               <div className="bg-mansagold/20 border border-mansagold/40 rounded-md px-4 py-3">
                 <p className="text-sm md:text-base font-medium text-white">
-                  <span className="font-bold text-mansagold">💰 PREMIUM ($10/month):</span> Earn points, scan QR codes for discounts, exclusive deals
+                  <span className="font-bold text-mansagold">💰 PREMIUM ($10/month):</span> Get 10% - 20% discounts, earn points, redeem rewards, exclusive deals, premium support, mentorship access, advanced networking
                 </p>
               </div>
 
