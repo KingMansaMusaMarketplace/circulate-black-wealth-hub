@@ -26,14 +26,21 @@ const businessSignupFormSchema = z.object({
   businessName: z.string().min(2, {
     message: 'Business name must be at least 2 characters.',
   }),
-  description: z.string().optional(),
+  description: z.string().min(10, {
+    message: 'Business description must be at least 10 characters.',
+  }),
+  businessAddress: z.string().min(5, {
+    message: 'Business address must be at least 5 characters.',
+  }),
   name: z.string().min(2, {
     message: 'Owner name must be at least 2 characters.',
   }),
   email: z.string().email({
     message: 'Please enter a valid email.',
   }),
-  phone: z.string().optional(),
+  phone: z.string().min(10, {
+    message: 'Phone number must be at least 10 characters.',
+  }),
   password: z.string().min(8, {
     message: 'Password must be at least 8 characters.',
   }),
@@ -66,6 +73,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
     defaultValues: {
       businessName: '',
       description: '',
+      businessAddress: '',
       name: '',
       email: '',
       phone: '',
@@ -89,6 +97,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         user_type: 'business',
         business_name: values.businessName,
         business_description: values.description,
+        business_address: values.businessAddress,
         phone: values.phone,
         referral_code: values.referralCode,
         referring_agent: referringAgent?.id
@@ -154,12 +163,26 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Business Description (Optional)</FormLabel>
+              <FormLabel>Business Description <span className="text-red-500">*</span></FormLabel>
               <FormControl>
                 <Textarea 
-                  placeholder="Enter a short description of your business" 
+                  placeholder="Enter a description of your business" 
                   {...field} 
                 />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="businessAddress"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Business Address <span className="text-red-500">*</span></FormLabel>
+              <FormControl>
+                <Input placeholder="Enter your business address" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -199,7 +222,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone Number (Optional)</FormLabel>
+              <FormLabel>Phone Number <span className="text-red-500">*</span></FormLabel>
               <FormControl>
                 <Input placeholder="Enter your phone number" {...field} />
               </FormControl>
