@@ -1,12 +1,8 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import QRCodeScansChart from './QRCodeScansChart';
-import QRCodeMetricCard from './QRCodeMetricsCard';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { TimePeriod } from '@/hooks/qr-code/use-qr-code-analytics';
-import { Line, Pie } from 'recharts';
-import { Users, QrCode, Repeat, TrendingUp, Award } from 'lucide-react';
 
 interface QRCodeAnalyticsDashboardProps {
   metrics: {
@@ -24,119 +20,146 @@ const QRCodeAnalyticsDashboard: React.FC<QRCodeAnalyticsDashboardProps> = ({
   scanData,
   timePeriod
 }) => {
-  // Calculate repeat customer rate
-  const repeatRate = metrics.uniqueCustomers > 0 
-    ? Math.round((metrics.totalScans / metrics.uniqueCustomers) * 10) / 10
-    : 0;
-  
-  // Prepare data for pie chart
-  const pieChartData = [
-    { name: 'Unique Customers', value: metrics.uniqueCustomers, fill: '#8884d8' },
-    { name: 'Repeat Scans', value: Math.max(0, metrics.totalScans - metrics.uniqueCustomers), fill: '#82ca9d' }
-  ];
-  
+  const getChartTitle = () => {
+    switch (timePeriod) {
+      case '7days': return 'Daily Scans (Last 7 Days)';
+      case '30days': return 'Daily Scans (Last 30 Days)';
+      case '90days': return 'Weekly Scans (Last 90 Days)';
+      case 'all': return 'Scan Trends (All Time)';
+      default: return 'Scan Activity';
+    }
+  };
+
+  const getInsights = () => {
+    const totalScans = scanData.reduce((sum, day) => sum + day.scans, 0);
+    const avgScansPerPeriod = totalScans / scanData.length;
+    const maxScans = Math.max(...scanData.map(day => day.scans));
+    const bestDay = scanData.find(day => day.scans === maxScans)?.name;
+
+    return {
+      avgScansPerPeriod: Math.round(avgScansPerPeriod * 10) / 10,
+      bestDay,
+      maxScans,
+      totalScans
+    };
+  };
+
+  const insights = getInsights();
+
   return (
-    <Tabs defaultValue="overview" className="w-full">
-      <TabsList className="mb-6">
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="charts">Detailed Charts</TabsTrigger>
-      </TabsList>
-      
-      <TabsContent value="overview" className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <QRCodeMetricCard 
-            title="Total Scans" 
-            value={metrics.totalScans} 
-            icon={<QrCode className="h-4 w-4" />}
-          />
-          <QRCodeMetricCard 
-            title="Unique Customers" 
-            value={metrics.uniqueCustomers} 
-            icon={<Users className="h-4 w-4" />}
-          />
-          <QRCodeMetricCard 
-            title="Points Awarded" 
-            value={metrics.totalPointsAwarded} 
-            icon={<Award className="h-4 w-4" />}
-          />
-          <QRCodeMetricCard 
-            title="Avg Points/Scan" 
-            value={metrics.averagePointsPerScan.toFixed(1)} 
-            icon={<TrendingUp className="h-4 w-4" />}
-          />
-        </div>
-        
+    <div className="space-y-6">
+      {/* Main Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            {getChartTitle()}
+            <span className="text-sm font-normal text-muted-foreground">
+              {insights.totalScans} total scans
+            </span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              {timePeriod === '7days' || timePeriod === '30days' ? (
+                <BarChart data={scanData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip 
+                    formatter={[null, 'Scans']}
+                    labelFormatter={(label) => `${label}`}
+                  />
+                  <Bar dataKey="scans" fill="#0F2876" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              ) : (
+                <LineChart data={scanData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip 
+                    formatter={[null, 'Scans']}
+                    labelFormatter={(label) => `${label}`}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="scans" 
+                    stroke="#0F2876" 
+                    strokeWidth={3}
+                    dot={{ fill: '#0F2876', strokeWidth: 2, r: 4 }}
+                  />
+                </LineChart>
+              )}
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Insights Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <CardHeader>
-            <CardTitle>QR Code Scan Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <QRCodeScansChart data={scanData} />
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-mansablue">{insights.avgScansPerPeriod}</p>
+              <p className="text-sm text-muted-foreground">
+                Average scans per {timePeriod === '7days' ? 'day' : timePeriod === '30days' ? 'day' : 'period'}
+              </p>
+            </div>
           </CardContent>
         </Card>
-      </TabsContent>
-      
-      <TabsContent value="charts" className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Customer Engagement</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px]">
-                <QRCodeScansChart 
-                  data={scanData}
-                  showArea={true}
-                  customLabel="Customer Engagement Over Time"
-                />
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Customer Breakdown</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center">
-              <div className="h-[250px] w-full">
-                <QRCodeScansChart 
-                  data={pieChartData}
-                  chartType="pie"
-                  dataKey="value"
-                  nameKey="name"
-                  customLabel="New vs Returning Customers"
-                />
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card className="md:col-span-2">
-            <CardHeader>
-              <CardTitle>Scan Performance Metrics</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg">
-                  <Repeat className="h-8 w-8 text-blue-500 mb-2" />
-                  <div className="text-2xl font-bold">{repeatRate}</div>
-                  <div className="text-sm text-gray-500">Scans per Customer</div>
-                </div>
-                <div className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg">
-                  <Award className="h-8 w-8 text-green-500 mb-2" />
-                  <div className="text-2xl font-bold">{metrics.totalPointsAwarded}</div>
-                  <div className="text-sm text-gray-500">Total Points Awarded</div>
-                </div>
-                <div className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg">
-                  <TrendingUp className="h-8 w-8 text-purple-500 mb-2" />
-                  <div className="text-2xl font-bold">{metrics.averagePointsPerScan.toFixed(1)}</div>
-                  <div className="text-sm text-gray-500">Avg Points/Scan</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </TabsContent>
-    </Tabs>
+
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-green-600">{insights.maxScans}</p>
+              <p className="text-sm text-muted-foreground">
+                Peak scans {insights.bestDay && `(${insights.bestDay})`}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-purple-600">
+                {metrics.averagePointsPerScan}
+              </p>
+              <p className="text-sm text-muted-foreground">Points per scan</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Performance Summary */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Performance Summary</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+            <div>
+              <p className="text-lg font-semibold">{metrics.totalScans}</p>
+              <p className="text-sm text-muted-foreground">Total Scans</p>
+            </div>
+            <div>
+              <p className="text-lg font-semibold">{metrics.uniqueCustomers}</p>
+              <p className="text-sm text-muted-foreground">Unique Customers</p>
+            </div>
+            <div>
+              <p className="text-lg font-semibold">{metrics.totalPointsAwarded}</p>
+              <p className="text-sm text-muted-foreground">Points Awarded</p>
+            </div>
+            <div>
+              <p className="text-lg font-semibold">
+                {metrics.uniqueCustomers > 0 ? Math.round((metrics.totalScans / metrics.uniqueCustomers) * 10) / 10 : 0}
+              </p>
+              <p className="text-sm text-muted-foreground">Scans per Customer</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

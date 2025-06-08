@@ -27,12 +27,15 @@ export const PointsField: React.FC<PointsFieldProps> = ({ control }) => {
           <FormControl>
             <Input
               type="number"
+              placeholder="10"
+              min="1"
+              max="1000"
               {...field}
-              onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+              onChange={(e) => field.onChange(Number(e.target.value))}
             />
           </FormControl>
           <FormDescription>
-            Number of loyalty points awarded when this QR code is scanned.
+            Enter the number of loyalty points customers will earn (1-1000).
           </FormDescription>
           <FormMessage />
         </FormItem>

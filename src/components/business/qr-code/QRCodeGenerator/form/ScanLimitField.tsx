@@ -27,14 +27,14 @@ export const ScanLimitField: React.FC<ScanLimitFieldProps> = ({ control }) => {
           <FormControl>
             <Input
               type="number"
-              placeholder="Unlimited"
+              placeholder="100"
+              min="1"
               {...field}
-              onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
-              value={field.value || ''}
+              onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
             />
           </FormControl>
           <FormDescription>
-            Maximum number of times this QR code can be scanned. Leave empty for unlimited.
+            Maximum number of times this QR code can be scanned. Leave empty for unlimited scans.
           </FormDescription>
           <FormMessage />
         </FormItem>

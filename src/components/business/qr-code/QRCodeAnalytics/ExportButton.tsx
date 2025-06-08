@@ -2,7 +2,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
-import { saveAs } from 'file-saver';
 import { toast } from 'sonner';
 
 interface ExportButtonProps {
@@ -54,7 +53,14 @@ const ExportButton: React.FC<ExportButtonProps> = ({
       
       // Create blob and download
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-      saveAs(blob, `qr-analytics-${timePeriod}-${new Date().toISOString().split('T')[0]}.csv`);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `qr-analytics-${timePeriod}-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
       
       toast.success('Analytics data exported successfully');
     } catch (error) {

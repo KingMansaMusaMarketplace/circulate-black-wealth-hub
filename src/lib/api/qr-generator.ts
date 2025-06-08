@@ -1,73 +1,37 @@
 
-import QRCode from 'qrcode';
-
-export interface QRCodeOptions {
+interface QRCodeOptions {
   color?: string;
   backgroundColor?: string;
   size?: number;
-  margin?: number;
-  errorCorrectionLevel?: 'L' | 'M' | 'Q' | 'H';
 }
 
-export const generateCustomQrCode = async (
-  data: string, 
-  options: QRCodeOptions = {}
-): Promise<string> => {
-  const defaultOptions = {
-    color: '#000000',
-    backgroundColor: '#FFFFFF',
-    size: 400,
-    margin: 2,
-    errorCorrectionLevel: 'M' as const,
-    ...options
-  };
+export const generateCustomQrCode = async (data: string, options?: QRCodeOptions): Promise<string> => {
+  const {
+    color = '#000000',
+    backgroundColor = '#FFFFFF',
+    size = 400
+  } = options || {};
 
-  try {
-    const qrCodeUrl = await QRCode.toDataURL(data, {
-      color: {
-        dark: defaultOptions.color,
-        light: defaultOptions.backgroundColor
-      },
-      width: defaultOptions.size,
-      margin: defaultOptions.margin,
-      errorCorrectionLevel: defaultOptions.errorCorrectionLevel
-    });
+  // For now, we'll use the QR Server API as a fallback
+  // In a production app, you might want to use a more robust QR code library
+  const baseUrl = 'https://api.qrserver.com/v1/create-qr-code/';
+  const params = new URLSearchParams({
+    data: data,
+    size: `${size}x${size}`,
+    color: color.replace('#', ''),
+    bgcolor: backgroundColor.replace('#', ''),
+    format: 'png',
+    ecc: 'M'
+  });
 
-    return qrCodeUrl;
-  } catch (error) {
-    console.error('Error generating QR code:', error);
-    throw new Error('Failed to generate QR code');
-  }
+  return `${baseUrl}?${params.toString()}`;
 };
 
-export const generateQRCodeSVG = async (
-  data: string,
-  options: QRCodeOptions = {}
-): Promise<string> => {
-  const defaultOptions = {
-    color: '#000000',
-    backgroundColor: '#FFFFFF',
-    size: 400,
-    margin: 2,
-    errorCorrectionLevel: 'M' as const,
-    ...options
-  };
-
-  try {
-    const qrCodeSVG = await QRCode.toString(data, {
-      type: 'svg',
-      color: {
-        dark: defaultOptions.color,
-        light: defaultOptions.backgroundColor
-      },
-      width: defaultOptions.size,
-      margin: defaultOptions.margin,
-      errorCorrectionLevel: defaultOptions.errorCorrectionLevel
-    });
-
-    return qrCodeSVG;
-  } catch (error) {
-    console.error('Error generating QR code SVG:', error);
-    throw new Error('Failed to generate QR code SVG');
-  }
+export const downloadQRCode = (url: string, filename?: string) => {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename || `qr-code-${Date.now()}.png`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 };

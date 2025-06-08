@@ -9,6 +9,7 @@ import { QRCodeEditor } from './QRCodeEditor';
 import { EmptyState } from './QRCodeEmptyState';
 import { QRCode } from '@/lib/api/qr-code-api';
 import { useQRCode } from '@/hooks/qr-code';
+import { toast } from 'sonner';
 
 interface QRCodeManageTabProps {
   qrCodes: QRCode[];
@@ -19,7 +20,7 @@ export const QRCodeManageTab: React.FC<QRCodeManageTabProps> = ({ qrCodes }) => 
   const [filterType, setFilterType] = useState<'all' | 'active' | 'inactive'>('all');
   const [editingQRCode, setEditingQRCode] = useState<QRCode | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
-  const { loading } = useQRCode();
+  const { loading, deleteQRCode } = useQRCode();
 
   const filteredQRCodes = qrCodes.filter(qr => {
     const matchesSearch = qr.code_type.toLowerCase().includes(searchTerm.toLowerCase());
@@ -40,14 +41,29 @@ export const QRCodeManageTab: React.FC<QRCodeManageTabProps> = ({ qrCodes }) => 
     setIsEditorOpen(true);
   };
 
-  const handleDelete = (id: string) => {
-    // Handle delete logic here
-    console.log('Delete QR code:', id);
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Are you sure you want to delete this QR code? This action cannot be undone.')) {
+      try {
+        const success = await deleteQRCode(id);
+        if (success) {
+          toast.success('QR code deleted successfully');
+          // Trigger a refresh of the parent component
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error('Error deleting QR code:', error);
+        toast.error('Failed to delete QR code');
+      }
+    }
   };
 
   const handleView = (qrCode: QRCode) => {
-    // Handle view logic here
-    console.log('View QR code:', qrCode);
+    // Open QR code in a new tab for viewing/downloading
+    if (qrCode.qr_image_url) {
+      window.open(qrCode.qr_image_url, '_blank');
+    } else {
+      toast.error('QR code image not available');
+    }
   };
 
   const handleEditorClose = () => {

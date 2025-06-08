@@ -7,6 +7,7 @@ import {
   FormLabel,
   FormControl,
   FormDescription,
+  FormMessage,
 } from '@/components/ui/form';
 import { Switch } from '@/components/ui/switch';
 import { FormValues } from './types';
@@ -25,7 +26,7 @@ export const ActiveStatusField: React.FC<ActiveStatusFieldProps> = ({ control })
           <div className="space-y-0.5">
             <FormLabel className="text-base">Active Status</FormLabel>
             <FormDescription>
-              Make this QR code active or inactive.
+              Enable this QR code for customer scanning.
             </FormDescription>
           </div>
           <FormControl>
@@ -34,6 +35,7 @@ export const ActiveStatusField: React.FC<ActiveStatusFieldProps> = ({ control })
               onCheckedChange={field.onChange}
             />
           </FormControl>
+          <FormMessage />
         </FormItem>
       )}
     />

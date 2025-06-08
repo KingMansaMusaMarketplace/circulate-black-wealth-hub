@@ -28,11 +28,11 @@ export const ExpirationDateField: React.FC<ExpirationDateFieldProps> = ({ contro
             <Input
               type="date"
               {...field}
-              value={field.value || ''}
+              min={new Date().toISOString().split('T')[0]}
             />
           </FormControl>
           <FormDescription>
-            Date when this QR code expires. Leave empty for no expiration.
+            Set when this QR code should expire. Leave empty if it should never expire.
           </FormDescription>
           <FormMessage />
         </FormItem>

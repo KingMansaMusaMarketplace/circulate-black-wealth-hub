@@ -27,12 +27,15 @@ export const DiscountField: React.FC<DiscountFieldProps> = ({ control }) => {
           <FormControl>
             <Input
               type="number"
+              placeholder="10"
+              min="1"
+              max="100"
               {...field}
-              onChange={(e) => field.onChange(parseInt(e.target.value) || 0)}
+              onChange={(e) => field.onChange(Number(e.target.value))}
             />
           </FormControl>
           <FormDescription>
-            Discount percentage applied when this QR code is scanned.
+            Enter the discount percentage customers will receive (1-100%).
           </FormDescription>
           <FormMessage />
         </FormItem>

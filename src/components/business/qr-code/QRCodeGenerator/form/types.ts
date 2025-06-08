@@ -1,6 +1,6 @@
 
 export interface FormValues {
-  codeType: string;
+  codeType: 'discount' | 'loyalty' | 'checkin';
   discountPercentage?: number;
   pointsValue?: number;
   scanLimit?: number;
