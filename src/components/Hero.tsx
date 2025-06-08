@@ -15,6 +15,18 @@ const Hero = () => {
   const handleDirectoryClick = () => {
     navigate('/directory');
   };
+
+  const handleFreeSignupClick = () => {
+    navigate('/signup/customer');
+  };
+
+  const handlePremiumSignupClick = () => {
+    navigate('/signup/customer');
+  };
+
+  const handleHBCUSignupClick = () => {
+    navigate('/signup/customer');
+  };
   
   return (
     <section className="bg-gradient-to-b from-mansablue to-mansablue-dark py-16 md:py-20 relative">
@@ -37,18 +49,27 @@ const Hero = () => {
           <div className="w-full md:w-1/2 text-white mb-8 md:mb-0">
             {/* Free membership highlight */}
             <div className="mb-4 flex flex-wrap gap-2">
-              <Badge className="bg-green-600 text-white px-3 py-1 text-sm font-medium">
+              <button
+                onClick={handleFreeSignupClick}
+                className="bg-green-600 text-white px-3 py-1 text-sm font-medium rounded-full flex items-center hover:bg-green-700 transition-colors cursor-pointer"
+              >
                 <Star className="h-3 w-3 mr-1" />
                 Start FREE
-              </Badge>
-              <Badge className="bg-mansagold text-mansablue px-3 py-1 text-sm font-medium">
+              </button>
+              <button
+                onClick={handlePremiumSignupClick}
+                className="bg-mansagold text-mansablue px-3 py-1 text-sm font-medium rounded-full flex items-center hover:bg-mansagold/90 transition-colors cursor-pointer"
+              >
                 <Crown className="h-3 w-3 mr-1" />
                 Premium $10/month
-              </Badge>
-              <Badge className="bg-blue-600 text-white px-3 py-1 text-sm font-medium">
+              </button>
+              <button
+                onClick={handleHBCUSignupClick}
+                className="bg-blue-600 text-white px-3 py-1 text-sm font-medium rounded-full flex items-center hover:bg-blue-700 transition-colors cursor-pointer"
+              >
                 <GraduationCap className="h-3 w-3 mr-1" />
                 FREE Premium for HBCU
-              </Badge>
+              </button>
             </div>
 
             <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
