@@ -22,7 +22,7 @@ const Navbar = () => {
               <span className="text-white font-spartan font-bold text-lg">M</span>
             </div>
             <span className="font-spartan font-bold text-xl text-mansablue hidden sm:block">
-              Mansa Musa
+              Mansa Musa Marketplace
             </span>
           </Link>
 
@@ -84,6 +84,17 @@ const Navbar = () => {
               }`}
             >
               About
+            </Link>
+
+            <Link 
+              to="/sponsorship" 
+              className={`text-sm font-medium transition-colors ${
+                isActive('/sponsorship') 
+                  ? 'text-mansablue' 
+                  : 'text-gray-600 hover:text-mansablue'
+              }`}
+            >
+              Sponsorship
             </Link>
           </div>
 
