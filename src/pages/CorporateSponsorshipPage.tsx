@@ -8,6 +8,7 @@ import SponsorshipHeroSection from '@/components/sponsorship/SponsorshipHeroSect
 import SponsorshipImpactSection from '@/components/sponsorship/SponsorshipImpactSection';
 import SponsorshipTiersSection from '@/components/sponsorship/SponsorshipTiersSection';
 import SponsorshipCTASection from '@/components/sponsorship/SponsorshipCTASection';
+import SponsorshipForm from '@/components/sponsorship/SponsorshipForm';
 import { useSponsorshipActions } from '@/hooks/useSponsorshipActions';
 
 const CorporateSponsorshipPage: React.FC = () => {
@@ -31,6 +32,7 @@ const CorporateSponsorshipPage: React.FC = () => {
         <SponsorshipHeroSection onContactPartnership={handleContactPartnership} />
         <SponsorshipImpactSection />
         <SponsorshipTiersSection onLearnMore={handleLearnMore} />
+        <SponsorshipForm />
         <SponsorshipMediaKit />
         <SponsorshipCTASection 
           onContactPartnership={handleContactPartnership}
