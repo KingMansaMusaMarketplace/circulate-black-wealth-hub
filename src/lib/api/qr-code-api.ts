@@ -1,71 +1,33 @@
 
-// Define the QR code types
-export type QRCodeType = 'loyalty' | 'discount' | 'info';
-
-// Define the QR code model
 export interface QRCode {
   id: string;
-  business_id: string;
-  code_type: QRCodeType;
+  qr_image_url?: string;
+  code_type: 'loyalty' | 'discount' | 'info';
   points_value?: number;
   discount_percentage?: number;
-  qr_image_url?: string;
+  business_id: string;
   is_active: boolean;
+  scan_limit?: number;
+  current_scans: number;
+  expiration_date?: string;
   created_at: string;
   updated_at: string;
-  current_scans: number;
-  scan_limit?: number;
-  expiration_date?: string;
 }
 
-// Define the QR code scan model
-export interface QRScan {
-  id: string;
-  qr_code_id: string;
-  customer_id: string;
-  business_id: string;
-  scan_date: string;
-  points_awarded: number;
-  discount_applied: number;
-  location_lat?: number;
-  location_lng?: number;
-}
-
-// Define parameters for QR code generation
 export interface QRCodeGenerationParams {
   businessId: string;
-  codeType: QRCodeType;
+  codeType: 'loyalty' | 'discount' | 'info';
   pointsValue?: number;
   discountPercentage?: number;
   scanLimit?: number;
-  expirationDays?: number;
+  expirationDate?: string;
+  isActive?: boolean;
 }
 
-// Define QR code update parameters
-export interface QRCodeUpdateParams {
-  is_active?: boolean;
-  points_value?: number;
-  discount_percentage?: number;
-  scan_limit?: number;
-  expiration_date?: string;
-  qr_image_url?: string;
+export interface QRCodeScanResult {
+  success: boolean;
+  businessName?: string;
+  pointsEarned?: number;
+  discountApplied?: number;
+  error?: string;
 }
-
-// Get QR scans for a customer
-export const getCustomerQRScans = async (customerId: string): Promise<QRScan[]> => {
-  const { supabase } = await import('@/integrations/supabase/client');
-  
-  try {
-    const { data, error } = await supabase
-      .from('qr_scans')
-      .select('*')
-      .eq('customer_id', customerId);
-    
-    if (error) throw error;
-    
-    return data as QRScan[];
-  } catch (error) {
-    console.error('Error fetching customer QR scans:', error);
-    return [];
-  }
-};

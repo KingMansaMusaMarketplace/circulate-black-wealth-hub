@@ -10,31 +10,33 @@ interface LocationData {
 }
 
 interface CurrentLocationProps {
-  location: LocationData | null;
+  location: LocationData;
 }
 
 const CurrentLocation: React.FC<CurrentLocationProps> = ({ location }) => {
-  if (!location) return null;
-
   return (
     <Card>
       <CardHeader>
         <CardTitle>Current Location</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <div>
-            <span className="font-medium">Latitude:</span> {location.lat.toFixed(6)}
+      <CardContent className="space-y-2">
+        <div className="flex justify-between">
+          <span>Latitude:</span>
+          <span className="font-mono">{location.lat.toFixed(6)}</span>
+        </div>
+        <div className="flex justify-between">
+          <span>Longitude:</span>
+          <span className="font-mono">{location.lng.toFixed(6)}</span>
+        </div>
+        {location.accuracy && (
+          <div className="flex justify-between">
+            <span>Accuracy:</span>
+            <span className="font-mono">{location.accuracy.toFixed(2)}m</span>
           </div>
-          <div>
-            <span className="font-medium">Longitude:</span> {location.lng.toFixed(6)}
-          </div>
-          <div>
-            <span className="font-medium">Accuracy:</span> {location.accuracy ? `${location.accuracy.toFixed(1)}m` : 'Unknown'}
-          </div>
-          <div>
-            <span className="font-medium">Last Updated:</span> {new Date(location.timestamp).toLocaleString()}
-          </div>
+        )}
+        <div className="flex justify-between">
+          <span>Timestamp:</span>
+          <span className="font-mono">{new Date(location.timestamp).toLocaleTimeString()}</span>
         </div>
       </CardContent>
     </Card>

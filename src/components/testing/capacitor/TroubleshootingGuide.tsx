@@ -1,22 +1,36 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { InfoIcon } from 'lucide-react';
 
 const TroubleshootingGuide: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Troubleshooting</CardTitle>
+        <CardTitle>Troubleshooting Guide</CardTitle>
       </CardHeader>
-      <CardContent>
-        <ul className="list-disc list-inside space-y-2 text-sm">
-          <li>Make sure <code>@capacitor/geolocation</code> is installed.</li>
-          <li>Check that permissions are properly configured in <code>capacitor.config.ts</code>.</li>
-          <li>On Android, verify the manifest has the location permissions.</li>
-          <li>On iOS, verify Info.plist contains the location usage descriptions.</li>
-          <li>Test on a real device, as emulators may have simulated location services.</li>
-          <li>After making changes, run <code>npx cap sync</code> to update native projects.</li>
-        </ul>
+      <CardContent className="space-y-4">
+        <Alert>
+          <InfoIcon className="h-4 w-4" />
+          <AlertDescription>
+            <strong>Location not working?</strong> Make sure you've granted location permissions in your browser settings or device settings.
+          </AlertDescription>
+        </Alert>
+        
+        <Alert>
+          <InfoIcon className="h-4 w-4" />
+          <AlertDescription>
+            <strong>On mobile devices:</strong> Location accuracy may be affected by GPS signal strength and device settings.
+          </AlertDescription>
+        </Alert>
+        
+        <Alert>
+          <InfoIcon className="h-4 w-4" />
+          <AlertDescription>
+            <strong>HTTPS required:</strong> Geolocation API requires a secure context (HTTPS) to function properly.
+          </AlertDescription>
+        </Alert>
       </CardContent>
     </Card>
   );

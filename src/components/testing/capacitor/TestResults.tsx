@@ -1,10 +1,12 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 
 interface TestResult {
-  step: string;
-  status: 'pending' | 'success' | 'error';
+  name: string;
+  status: 'pass' | 'fail' | 'warning';
   message: string;
 }
 
@@ -13,33 +15,48 @@ interface TestResultsProps {
 }
 
 const TestResults: React.FC<TestResultsProps> = ({ testResults }) => {
+  const getIcon = (status: string) => {
+    switch (status) {
+      case 'pass':
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case 'fail':
+        return <XCircle className="h-4 w-4 text-red-500" />;
+      case 'warning':
+        return <AlertCircle className="h-4 w-4 text-yellow-500" />;
+      default:
+        return null;
+    }
+  };
+
+  const getVariant = (status: string) => {
+    switch (status) {
+      case 'pass':
+        return 'default';
+      case 'fail':
+        return 'destructive';
+      case 'warning':
+        return 'secondary';
+      default:
+        return 'outline';
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Test Results</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="space-y-3">
           {testResults.map((result, index) => (
-            <div 
-              key={index}
-              className="p-3 rounded-md border"
-            >
-              <div className="flex items-center gap-2">
-                <div className={`w-3 h-3 rounded-full ${
-                  result.status === 'success' ? 'bg-green-500' : 
-                  result.status === 'error' ? 'bg-red-500' : 
-                  'bg-yellow-500'
-                }`} />
-                <span className="font-medium">{result.step}</span>
+            <div key={index} className="flex items-center justify-between p-3 border rounded">
+              <div className="flex items-center space-x-2">
+                {getIcon(result.status)}
+                <span className="font-medium">{result.name}</span>
               </div>
-              <p className={`mt-1 text-sm ${
-                result.status === 'success' ? 'text-green-700' : 
-                result.status === 'error' ? 'text-red-700' : 
-                'text-yellow-700'
-              }`}>
-                {result.message}
-              </p>
+              <Badge variant={getVariant(result.status) as any}>
+                {result.status}
+              </Badge>
             </div>
           ))}
         </div>

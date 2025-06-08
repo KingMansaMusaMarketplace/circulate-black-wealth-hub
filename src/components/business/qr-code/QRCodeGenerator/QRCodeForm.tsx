@@ -1,71 +1,173 @@
 
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from '@/components/ui/form';
-import { 
-  QRCodeTypeField,
-  PointsField,
-  DiscountField,
-  ScanLimitField,
-  ExpirationDateField,
-  ActiveStatusField,
-  SubmitButton,
-  FormValues
-} from './form';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { QrCode } from 'lucide-react';
 
 const formSchema = z.object({
-  codeType: z.string().min(1, "QR code type is required"),
-  discountPercentage: z.number().int().min(0).max(100).optional(),
-  pointsValue: z.number().int().min(0).optional(),
-  scanLimit: z.number().int().min(0).optional(),
+  codeType: z.enum(['loyalty', 'discount', 'info']),
+  pointsValue: z.number().min(1).optional(),
+  discountPercentage: z.number().min(1).max(100).optional(),
+  scanLimit: z.number().min(1).optional(),
   expirationDate: z.string().optional(),
-  isActive: z.boolean().default(true),
+  isActive: z.boolean().default(true)
 });
 
 interface QRCodeFormProps {
-  onSubmit: (values: FormValues) => void;
-  initialValues?: Partial<FormValues>;
-  isLoading?: boolean;
+  onSubmit: (values: any) => Promise<void>;
+  isLoading: boolean;
 }
 
-export const QRCodeForm: React.FC<QRCodeFormProps> = ({
-  onSubmit,
-  initialValues,
-  isLoading = false,
-}) => {
-  const form = useForm<FormValues>({
+const QRCodeForm: React.FC<QRCodeFormProps> = ({ onSubmit, isLoading }) => {
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      codeType: initialValues?.codeType || 'points',
-      discountPercentage: initialValues?.discountPercentage || 0,
-      pointsValue: initialValues?.pointsValue || 10,
-      scanLimit: initialValues?.scanLimit,
-      expirationDate: initialValues?.expirationDate,
-      isActive: initialValues?.isActive ?? true,
-    },
+      codeType: 'loyalty',
+      isActive: true
+    }
   });
 
   const codeType = form.watch('codeType');
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <QRCodeTypeField control={form.control} />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="codeType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>QR Code Type</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select QR code type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="loyalty">Loyalty Points</SelectItem>
+                  <SelectItem value="discount">Discount</SelectItem>
+                  <SelectItem value="info">Information</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        {(codeType === 'points' || codeType === 'combo') && (
-          <PointsField control={form.control} />
+        {codeType === 'loyalty' && (
+          <FormField
+            control={form.control}
+            name="pointsValue"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Points Value</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Enter points value"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         )}
 
-        {(codeType === 'discount' || codeType === 'combo') && (
-          <DiscountField control={form.control} />
+        {codeType === 'discount' && (
+          <FormField
+            control={form.control}
+            name="discountPercentage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Discount Percentage</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Enter discount percentage"
+                    min="1"
+                    max="100"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         )}
 
-        <ScanLimitField control={form.control} />
-        <ExpirationDateField control={form.control} />
-        <ActiveStatusField control={form.control} />
-        <SubmitButton isLoading={isLoading} />
+        <FormField
+          control={form.control}
+          name="scanLimit"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Scan Limit (Optional)</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter scan limit"
+                  {...field}
+                  onChange={(e) => field.onChange(Number(e.target.value) || undefined)}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="expirationDate"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Expiration Date (Optional)</FormLabel>
+              <FormControl>
+                <Input
+                  type="date"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="isActive"
+          render={({ field }) => (
+            <FormItem className="flex items-center justify-between">
+              <FormLabel>Active</FormLabel>
+              <FormControl>
+                <Switch
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? (
+            <>Generating...</>
+          ) : (
+            <>
+              <QrCode className="h-4 w-4 mr-2" />
+              Generate QR Code
+            </>
+          )}
+        </Button>
       </form>
     </Form>
   );

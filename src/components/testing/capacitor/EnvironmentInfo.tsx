@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 interface EnvironmentInfoProps {
   isCapacitor: boolean;
@@ -20,20 +21,28 @@ const EnvironmentInfo: React.FC<EnvironmentInfoProps> = ({
       <CardHeader>
         <CardTitle>Environment Information</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <div>
-            <span className="font-medium">Capacitor Detected:</span> {isCapacitor ? 'Yes' : 'No'}
-          </div>
-          <div>
-            <span className="font-medium">Platform:</span> {platform}
-          </div>
-          <div>
-            <span className="font-medium">Native Platform:</span> {isNative ? 'Yes' : 'No'}
-          </div>
-          <div>
-            <span className="font-medium">Permission Status:</span> {permissionStatus}
-          </div>
+      <CardContent className="space-y-2">
+        <div className="flex justify-between">
+          <span>Capacitor:</span>
+          <Badge variant={isCapacitor ? "default" : "secondary"}>
+            {isCapacitor ? "Enabled" : "Disabled"}
+          </Badge>
+        </div>
+        <div className="flex justify-between">
+          <span>Platform:</span>
+          <Badge variant="outline">{platform}</Badge>
+        </div>
+        <div className="flex justify-between">
+          <span>Native:</span>
+          <Badge variant={isNative ? "default" : "secondary"}>
+            {isNative ? "Yes" : "No"}
+          </Badge>
+        </div>
+        <div className="flex justify-between">
+          <span>Location Permission:</span>
+          <Badge variant={permissionStatus === 'granted' ? "default" : "destructive"}>
+            {permissionStatus}
+          </Badge>
         </div>
       </CardContent>
     </Card>

@@ -1,14 +1,14 @@
 
 import React from 'react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
 
 const TestWarning: React.FC = () => {
   return (
-    <Alert className="mt-6">
+    <Alert variant="destructive" className="mt-6">
+      <AlertTriangle className="h-4 w-4" />
       <AlertDescription>
-        This testing page will create real test accounts in your database. 
-        The tests use timestamp-based email addresses to avoid conflicts.
-        Check the console and logs above for detailed error information.
+        <strong>Warning:</strong> This testing page should only be used in development environments. Do not use in production.
       </AlertDescription>
     </Alert>
   );

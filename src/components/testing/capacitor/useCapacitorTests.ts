@@ -1,12 +1,12 @@
 
 import { useState } from 'react';
-import { Geolocation } from '@capacitor/geolocation';
-import { toast } from 'sonner';
+import { useCapacitor } from '@/hooks/use-capacitor';
 import { useLocation } from '@/hooks/use-location';
+import { toast } from 'sonner';
 
 interface TestResult {
-  step: string;
-  status: 'pending' | 'success' | 'error';
+  name: string;
+  status: 'pass' | 'fail' | 'warning';
   message: string;
 }
 
@@ -14,87 +14,79 @@ export const useCapacitorTests = () => {
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [isRunningTests, setIsRunningTests] = useState(false);
   
-  const { 
-    getCurrentPosition, 
-    location,
-    error,
-    requestPermission,
-    clearCache
-  } = useLocation();
-
-  const addResult = (step: string, status: 'pending' | 'success' | 'error', message: string) => {
-    setTestResults(prev => [...prev, { step, status, message }]);
-  };
+  const { isCapacitor, platform, isNative } = useCapacitor();
+  const { getCurrentPosition, requestPermission, clearCache } = useLocation();
 
   const runTests = async () => {
     setIsRunningTests(true);
-    setTestResults([]);
+    const results: TestResult[] = [];
 
-    // Test 1: Check Capacitor environment
-    addResult('Checking Capacitor environment', 'pending', 'Detecting Capacitor environment...');
-    
-    if (window.Capacitor) {
-      addResult('Checking Capacitor environment', 'success', 
-        `Capacitor detected: Platform detected`);
-    } else {
-      addResult('Checking Capacitor environment', 'error', 
-        'Capacitor not detected. Make sure Capacitor is properly installed and configured.');
-    }
-
-    // Test 2: Check Geolocation plugin
-    addResult('Checking Geolocation plugin', 'pending', 'Testing Geolocation plugin...');
-    
     try {
-      await Geolocation.checkPermissions();
-      addResult('Checking Geolocation plugin', 'success', 'Geolocation plugin is accessible.');
-    } catch (error) {
-      addResult('Checking Geolocation plugin', 'error', 
-        `Geolocation plugin error: ${error instanceof Error ? error.message : String(error)}`);
-    }
+      // Test 1: Capacitor Detection
+      results.push({
+        name: 'Capacitor Detection',
+        status: isCapacitor ? 'pass' : 'warning',
+        message: isCapacitor ? 'Capacitor is available' : 'Running in web mode'
+      });
 
-    // Test 3: Check location permissions
-    addResult('Checking location permissions', 'pending', 'Checking location permissions...');
-    
-    try {
-      const permissionStatus = await Geolocation.checkPermissions();
-      addResult('Checking location permissions', 'success', 
-        `Current permission status: ${permissionStatus.location}`);
-    } catch (error) {
-      addResult('Checking location permissions', 'error', 
-        `Permission check error: ${error instanceof Error ? error.message : String(error)}`);
-    }
+      // Test 2: Platform Detection
+      results.push({
+        name: 'Platform Detection',
+        status: 'pass',
+        message: `Platform: ${platform}`
+      });
 
-    // Test 4: Test our useLocation hook
-    addResult('Testing useLocation hook', 'pending', 'Testing our useLocation hook...');
-    
-    try {
-      clearCache();
-      await getCurrentPosition(true);
-      
-      if (location) {
-        addResult('Testing useLocation hook', 'success', 
-          `Location received: Lat ${location.lat.toFixed(6)}, Lng ${location.lng.toFixed(6)}`);
-      } else if (error) {
-        addResult('Testing useLocation hook', 'error', 
-          `useLocation hook error: ${error}`);
-      } else {
-        addResult('Testing useLocation hook', 'error', 
-          'No location received and no error reported. This is unexpected.');
+      // Test 3: Location Permission
+      try {
+        const hasPermission = await requestPermission();
+        results.push({
+          name: 'Location Permission',
+          status: hasPermission ? 'pass' : 'fail',
+          message: hasPermission ? 'Permission granted' : 'Permission denied'
+        });
+      } catch (error) {
+        results.push({
+          name: 'Location Permission',
+          status: 'fail',
+          message: 'Permission check failed'
+        });
       }
-    } catch (error) {
-      addResult('Testing useLocation hook', 'error', 
-        `useLocation hook exception: ${error instanceof Error ? error.message : String(error)}`);
-    }
 
-    setIsRunningTests(false);
+      // Test 4: Location Retrieval
+      try {
+        await getCurrentPosition(true);
+        results.push({
+          name: 'Location Retrieval',
+          status: 'pass',
+          message: 'Location retrieved successfully'
+        });
+      } catch (error: any) {
+        results.push({
+          name: 'Location Retrieval',
+          status: 'fail',
+          message: error.message || 'Location retrieval failed'
+        });
+      }
+
+      setTestResults(results);
+      toast.success('Tests completed');
+    } catch (error) {
+      toast.error('Test suite failed');
+    } finally {
+      setIsRunningTests(false);
+    }
   };
 
   const requestLocationPermission = async () => {
     try {
-      const result = await requestPermission();
-      toast.success(`Permission request result: ${result ? 'Granted' : 'Denied'}`);
+      const granted = await requestPermission();
+      if (granted) {
+        toast.success('Location permission granted');
+      } else {
+        toast.error('Location permission denied');
+      }
     } catch (error) {
-      toast.error(`Error requesting permission: ${error instanceof Error ? error.message : String(error)}`);
+      toast.error('Failed to request permission');
     }
   };
 
