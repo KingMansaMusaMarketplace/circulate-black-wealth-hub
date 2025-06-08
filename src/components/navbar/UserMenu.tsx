@@ -2,22 +2,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { LogOut } from 'lucide-react';
-import { User } from '@supabase/supabase-js';
-import { LoyaltyPointsIndicator } from '@/components/loyalty/LoyaltyPointsIndicator';
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { User, LogOut, Settings, BarChart } from 'lucide-react';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 interface UserMenuProps {
-  user: User | null;
-  signOut: () => void;
+  user: SupabaseUser | null;
+  signOut: () => Promise<void>;
   isLoginPage: boolean;
   isSignupPage: boolean;
   isMobile: boolean;
@@ -30,80 +28,78 @@ const UserMenu: React.FC<UserMenuProps> = ({
   isSignupPage, 
   isMobile 
 }) => {
+  if (isMobile) {
+    return null; // Mobile menu handles authentication
+  }
+
   if (user) {
     return (
-      <div className="flex items-center gap-4">
-        {/* Loyalty points indicator if user is logged in */}
-        <Link to="/loyalty" className="hidden md:flex">
-          <LoyaltyPointsIndicator />
-        </Link>
-        
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-9 w-9 p-0 rounded-full border-2 border-gray-100 hover:border-mansablue/30 transition-colors">
-              <Avatar className="h-7 w-7">
-                <AvatarImage src={user?.user_metadata?.avatar_url as string} alt={user?.user_metadata?.name as string} />
-                <AvatarFallback className="bg-mansablue text-white">{user?.user_metadata?.name?.charAt(0).toUpperCase() || 'MM'}</AvatarFallback>
-              </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{user?.user_metadata?.name || 'User'}</p>
-                <p className="text-xs leading-none text-gray-500">{user?.email}</p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => window.location.href = '/dashboard'}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+            <Avatar className="h-8 w-8">
+              <AvatarImage src={user.user_metadata?.avatar_url} alt="User" />
+              <AvatarFallback>
+                {user.user_metadata?.name?.charAt(0) || user.email?.charAt(0) || 'U'}
+              </AvatarFallback>
+            </Avatar>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <div className="flex items-center justify-start gap-2 p-2">
+            <div className="flex flex-col space-y-1 leading-none">
+              <p className="font-medium">{user.user_metadata?.name || 'User'}</p>
+              <p className="text-xs text-muted-foreground">{user.email}</p>
+            </div>
+          </div>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <Link to="/dashboard" className="flex items-center">
+              <BarChart className="mr-2 h-4 w-4" />
               Dashboard
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => window.location.href = '/profile'}>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/profile" className="flex items-center">
+              <User className="mr-2 h-4 w-4" />
               Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => window.location.href = '/business-profile'}>
-              Business Profile
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => window.location.href = '/qr-code-management'}>
-              QR Code Management
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => window.location.href = '/loyalty'}>
-              Loyalty Program
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => window.location.href = '/settings'}>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/settings" className="flex items-center">
+              <Settings className="mr-2 h-4 w-4" />
               Settings
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer text-red-600 focus:text-red-600">
-              <LogOut className="mr-2 h-4 w-4" />
-              Sign Out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className="text-red-600 focus:text-red-600"
+            onClick={signOut}
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   }
-  
-  // Show auth buttons when user is not logged in and not on mobile
-  if (!isMobile) {
-    return (
-      <div className="flex items-center gap-3">
-        {!isLoginPage && (
-          <Link to="/login">
-            <Button variant="outline" className="font-medium px-5 shadow-sm border-gray-200 hover:border-mansablue/50">Log In</Button>
-          </Link>
-        )}
-        {!isSignupPage && (
-          <Link to="/signup">
-            <Button className="font-medium px-5 bg-gradient-to-r from-mansablue to-mansablue-light shadow-md hover:shadow-lg transition-shadow">Sign Up</Button>
-          </Link>
-        )}
-      </div>
-    );
-  }
-  
-  // Return null for mobile case, since auth buttons are in the mobile menu
-  return null;
+
+  return (
+    <div className="flex items-center space-x-2">
+      {!isLoginPage && (
+        <Link to="/login">
+          <Button variant="ghost">Sign In</Button>
+        </Link>
+      )}
+      {!isSignupPage && (
+        <Link to="/signup">
+          <Button className="bg-mansablue hover:bg-mansablue-dark">
+            Get Started
+          </Button>
+        </Link>
+      )}
+    </div>
+  );
 };
 
 export default UserMenu;

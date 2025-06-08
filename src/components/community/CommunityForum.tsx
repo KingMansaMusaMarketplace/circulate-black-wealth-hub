@@ -43,10 +43,10 @@ interface ForumTopic {
   user_id: string;
   is_featured: boolean;
   is_pinned: boolean;
-  profiles: {
+  profiles?: {
     full_name: string;
     avatar_url?: string;
-  };
+  } | null;
   forum_categories: {
     name: string;
     color: string;
@@ -111,10 +111,17 @@ const CommunityForum: React.FC = () => {
     if (error) {
       console.error('Error fetching topics:', error);
       toast.error('Failed to load forum topics');
+      setLoading(false);
       return;
     }
     
-    setTopics(data || []);
+    // Transform the data to match our interface
+    const transformedTopics: ForumTopic[] = (data || []).map(topic => ({
+      ...topic,
+      profiles: topic.profiles || null
+    }));
+
+    setTopics(transformedTopics);
     setLoading(false);
   };
 
@@ -146,11 +153,14 @@ const CommunityForum: React.FC = () => {
   };
 
   const handleTopicClick = async (topicId: string) => {
-    // Increment view count
-    await supabase
-      .from('forum_topics')
-      .update({ views_count: supabase.sql`views_count + 1` })
-      .eq('id', topicId);
+    // Increment view count using a database function or RPC
+    const { error } = await supabase.rpc('increment_topic_views', {
+      topic_id: topicId
+    });
+    
+    if (error) {
+      console.error('Error incrementing views:', error);
+    }
     
     // Navigate to topic detail (you can implement this)
     console.log('Navigate to topic:', topicId);

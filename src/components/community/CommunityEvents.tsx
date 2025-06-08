@@ -38,14 +38,14 @@ interface CommunityEvent {
   organizer_id: string;
   business_id?: string;
   created_at: string;
-  profiles: {
+  profiles?: {
     full_name: string;
     avatar_url?: string;
-  };
+  } | null;
   businesses?: {
     business_name: string;
     logo_url?: string;
-  };
+  } | null;
 }
 
 const CommunityEvents: React.FC = () => {
@@ -95,10 +95,18 @@ const CommunityEvents: React.FC = () => {
     if (error) {
       console.error('Error fetching events:', error);
       toast.error('Failed to load events');
+      setLoading(false);
       return;
     }
 
-    setEvents(data || []);
+    // Transform the data to match our interface
+    const transformedEvents: CommunityEvent[] = (data || []).map(event => ({
+      ...event,
+      profiles: event.profiles || null,
+      businesses: event.businesses || null
+    }));
+
+    setEvents(transformedEvents);
     setLoading(false);
   };
 
@@ -156,11 +164,14 @@ const CommunityEvents: React.FC = () => {
       return;
     }
 
-    // Update attendee count
-    await supabase
-      .from('community_events')
-      .update({ current_attendees: supabase.sql`current_attendees + 1` })
-      .eq('id', eventId);
+    // Update attendee count using RPC or direct increment
+    const { error: updateError } = await supabase.rpc('increment_event_attendees', {
+      event_id: eventId
+    });
+
+    if (updateError) {
+      console.error('Error updating attendee count:', updateError);
+    }
 
     toast.success('Successfully joined the event!');
     fetchEvents();

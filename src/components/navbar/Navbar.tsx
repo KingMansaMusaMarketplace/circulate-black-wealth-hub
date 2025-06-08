@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth/AuthContext';
 import { useIsMobile } from '@/hooks/use-mobile';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
@@ -38,7 +38,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
               <Logo />
-              {!isMobile && <NavLinks className="ml-10" />}
+              {!isMobile && <NavLinks />}
             </div>
             
             <div className="flex items-center gap-2">
@@ -77,12 +77,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
 
       {/* Mobile navigation menu */}
       {isMobile && (
-        <MobileMenu 
-          isOpen={mobileMenuOpen} 
-          onClose={closeMobileMenu}
-          user={user}
-          signOut={signOut}
-        />
+        <MobileMenu onNavigate={closeMobileMenu} />
       )}
     </>
   );
