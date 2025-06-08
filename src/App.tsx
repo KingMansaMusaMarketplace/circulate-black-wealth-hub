@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { AuthProvider } from '@/contexts/auth/AuthProvider';
+import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 import PerformanceMonitor from '@/components/PerformanceMonitor';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
@@ -31,6 +32,8 @@ const SalesAgentPage = React.lazy(() => import('@/pages/SalesAgentPage'));
 const AdminPage = React.lazy(() => import('@/pages/AdminPage'));
 const HowItWorksPage = React.lazy(() => import('@/pages/HowItWorksPage'));
 const CorporateSponsorshipPage = React.lazy(() => import('@/pages/CorporateSponsorshipPage'));
+const SubscriptionPage = React.lazy(() => import('@/pages/SubscriptionPage'));
+const StripeTestPage = React.lazy(() => import('@/pages/StripeTestPage'));
 
 // Create a client
 const queryClient = new QueryClient({
@@ -53,47 +56,51 @@ function App() {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Router>
-            <PerformanceMonitor />
-            <div className="min-h-screen bg-white">
-              <Suspense fallback={<LoadingSpinner />}>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/how-it-works" element={<HowItWorksPage />} />
-                  <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
-                  <Route path="/directory" element={<DirectoryPage />} />
-                  <Route path="/directory/enhanced" element={<EnhancedDirectoryPage />} />
-                  <Route path="/business/:id" element={<BusinessDetailPage />} />
-                  <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="/business/dashboard" element={<BusinessDashboardPage />} />
-                  <Route path="/business/profile" element={<BusinessProfilePage />} />
-                  <Route path="/business/qr-codes" element={<QRCodeGeneratorPage />} />
-                  <Route path="/scanner" element={<QRScannerPage />} />
-                  <Route path="/loyalty" element={<LoyaltyPage />} />
-                  <Route path="/community" element={<CommunityPage />} />
-                  <Route path="/community-impact" element={<CommunityImpactPage />} />
-                  <Route path="/community-impact/test" element={<CommunityImpactTestPage />} />
-                  <Route path="/economic-impact" element={<EconomicImpactPage />} />
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/help" element={<HelpCenterPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/signup" element={<SignupPage />} />
-                  <Route path="/signup/:userType" element={<SignupPage />} />
-                  <Route path="/sales-agent" element={<SalesAgentPage />} />
-                  <Route path="/admin" element={<AdminPage />} />
-                </Routes>
-              </Suspense>
-            </div>
-            <Toaster 
-              position="top-right" 
-              richColors 
-              closeButton
-              toastOptions={{
-                duration: 4000,
-              }}
-            />
-          </Router>
+          <SubscriptionProvider>
+            <Router>
+              <PerformanceMonitor />
+              <div className="min-h-screen bg-white">
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/about" element={<AboutPage />} />
+                    <Route path="/how-it-works" element={<HowItWorksPage />} />
+                    <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
+                    <Route path="/directory" element={<DirectoryPage />} />
+                    <Route path="/directory/enhanced" element={<EnhancedDirectoryPage />} />
+                    <Route path="/business/:id" element={<BusinessDetailPage />} />
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="/business/dashboard" element={<BusinessDashboardPage />} />
+                    <Route path="/business/profile" element={<BusinessProfilePage />} />
+                    <Route path="/business/qr-codes" element={<QRCodeGeneratorPage />} />
+                    <Route path="/scanner" element={<QRScannerPage />} />
+                    <Route path="/loyalty" element={<LoyaltyPage />} />
+                    <Route path="/community" element={<CommunityPage />} />
+                    <Route path="/community-impact" element={<CommunityImpactPage />} />
+                    <Route path="/community-impact/test" element={<CommunityImpactTestPage />} />
+                    <Route path="/economic-impact" element={<EconomicImpactPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/help" element={<HelpCenterPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/signup" element={<SignupPage />} />
+                    <Route path="/signup/:userType" element={<SignupPage />} />
+                    <Route path="/sales-agent" element={<SalesAgentPage />} />
+                    <Route path="/admin" element={<AdminPage />} />
+                    <Route path="/subscription" element={<SubscriptionPage />} />
+                    <Route path="/stripe-test" element={<StripeTestPage />} />
+                  </Routes>
+                </Suspense>
+              </div>
+              <Toaster 
+                position="top-right" 
+                richColors 
+                closeButton
+                toastOptions={{
+                  duration: 4000,
+                }}
+              />
+            </Router>
+          </SubscriptionProvider>
         </AuthProvider>
       </QueryClientProvider>
     </ErrorBoundary>
