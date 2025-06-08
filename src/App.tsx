@@ -17,7 +17,6 @@ const DashboardPage = React.lazy(() => import('@/pages/DashboardPage'));
 const BusinessDashboardPage = React.lazy(() => import('@/pages/BusinessDashboardPage'));
 const BusinessProfilePage = React.lazy(() => import('@/pages/BusinessProfilePage'));
 const QRCodeGeneratorPage = React.lazy(() => import('@/pages/QRCodeGeneratorPage'));
-const BusinessAnalyticsDashboard = React.lazy(() => import('@/components/business/BusinessAnalyticsTab'));
 const QRScannerPage = React.lazy(() => import('@/pages/QRScannerPage'));
 const LoyaltyPage = React.lazy(() => import('@/pages/LoyaltyPage'));
 const CommunityPage = React.lazy(() => import('@/pages/CommunityPage'));
@@ -70,7 +69,6 @@ function App() {
                   <Route path="/business/dashboard" element={<BusinessDashboardPage />} />
                   <Route path="/business/profile" element={<BusinessProfilePage />} />
                   <Route path="/business/qr-codes" element={<QRCodeGeneratorPage />} />
-                  <Route path="/business/analytics" element={<BusinessAnalyticsDashboard />} />
                   <Route path="/scanner" element={<QRScannerPage />} />
                   <Route path="/loyalty" element={<LoyaltyPage />} />
                   <Route path="/community" element={<CommunityPage />} />
