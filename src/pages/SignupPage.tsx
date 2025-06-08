@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/auth/AuthContext';
 
 import AuthLayout from '@/components/auth/AuthLayout';
 import LoginContainer from '@/components/auth/LoginContainer';
