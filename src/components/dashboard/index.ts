@@ -1,18 +1,8 @@
 
-import CirculationImpact from './CirculationImpact';
-import NearbyBusinesses from './NearbyBusinesses';
-import RecentActivity from './RecentActivity';
-import WelcomeGuide from './WelcomeGuide';
-import { SystemHealthWidget } from './SystemHealthWidget';
-import DashboardLayout from './layout/DashboardLayout';
-import Dashboard from './Dashboard';
-
-export { 
-  CirculationImpact, 
-  NearbyBusinesses, 
-  RecentActivity, 
-  WelcomeGuide,
-  SystemHealthWidget,
-  Dashboard,
-  DashboardLayout
-};
+export { default as Dashboard } from './Dashboard';
+export { default as CirculationImpact } from './CirculationImpact';
+export { default as RecentActivity } from './RecentActivity';
+export { default as NearbyBusinesses } from './NearbyBusinesses';
+export { default as WelcomeGuide } from './WelcomeGuide';
+export { default as SystemHealthWidget } from './SystemHealthWidget';
+export { default as EconomicImpactDashboard } from './EconomicImpactDashboard';
