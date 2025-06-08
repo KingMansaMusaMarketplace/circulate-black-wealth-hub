@@ -1,138 +1,116 @@
 
 import React from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { QRCode as QRCodeType } from '@/lib/api/qr-code-api';
-import { Badge } from "@/components/ui/badge";
-import { formatDistanceToNow } from 'date-fns';
-import { QrCode, Download, X } from 'lucide-react';
+import { Download, Copy, Share2 } from 'lucide-react';
+import { QRCode } from '@/lib/api/qr-code-api';
+import { toast } from 'sonner';
 
 interface QRCodeViewerProps {
-  qrCode: QRCodeType | null;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  qrCode: QRCode | null;
 }
 
 export const QRCodeViewer: React.FC<QRCodeViewerProps> = ({
-  qrCode,
-  onClose
+  open,
+  onOpenChange,
+  qrCode
 }) => {
-  if (!qrCode) return null;
-  
-  // Function to download QR code as image
-  const downloadQRCode = () => {
-    if (qrCode.qr_image_url) {
+  const handleDownload = () => {
+    if (qrCode?.qr_image_url) {
       const link = document.createElement('a');
       link.href = qrCode.qr_image_url;
-      link.download = `qr-code-${qrCode.id}.png`;
+      link.download = `qr-code-${qrCode.code_type}-${qrCode.id}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      toast.success('QR Code downloaded!');
     }
   };
 
-  // Function to create QR code URL if one doesn't exist
-  const getQRCodeImage = () => {
-    if (qrCode.qr_image_url) {
-      return qrCode.qr_image_url;
+  const handleCopy = () => {
+    if (qrCode?.qr_image_url) {
+      navigator.clipboard.writeText(qrCode.qr_image_url);
+      toast.success('QR Code URL copied to clipboard!');
     }
-    
-    // Generate a QR code URL using an online service
-    return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
-      `https://mansa-musa.vercel.app/scan?qr=${qrCode.id}&business=${qrCode.business_id}`
-    )}`;
   };
+
+  const handleShare = async () => {
+    if (qrCode?.qr_image_url && navigator.share) {
+      try {
+        await navigator.share({
+          title: `${qrCode.code_type} QR Code`,
+          url: qrCode.qr_image_url
+        });
+      } catch (error) {
+        handleCopy(); // Fallback to copy
+      }
+    } else {
+      handleCopy();
+    }
+  };
+
+  if (!qrCode) return null;
 
   return (
-    <Dialog open={!!qrCode} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>QR Code Details</DialogTitle>
-          <DialogClose asChild>
-            <Button variant="ghost" size="icon" className="absolute right-4 top-4">
-              <X className="h-4 w-4" />
-            </Button>
-          </DialogClose>
+          <DialogTitle className="capitalize">{qrCode.code_type} QR Code</DialogTitle>
         </DialogHeader>
         
-        <div className="flex flex-col items-center">
-          {getQRCodeImage() ? (
-            <div className="mb-4 p-4 bg-white rounded-lg border border-gray-200 shadow-sm">
+        <div className="space-y-4">
+          <div className="flex justify-center">
+            {qrCode.qr_image_url ? (
               <img 
-                src={getQRCodeImage()} 
-                alt="QR Code" 
-                className="w-48 h-48 object-contain"
+                src={qrCode.qr_image_url} 
+                alt="QR Code"
+                className="w-64 h-64 object-contain border rounded-lg"
               />
-            </div>
-          ) : (
-            <div className="mb-4 p-4 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
-              <QrCode size={96} className="text-gray-400" />
-            </div>
-          )}
-          
-          <div className="space-y-3 w-full mt-2">
-            <div className="flex justify-between">
-              <span className="text-sm font-medium">Type:</span>
-              <Badge variant="outline">{qrCode.code_type}</Badge>
-            </div>
-            
-            <div className="flex justify-between">
-              <span className="text-sm font-medium">Status:</span>
-              <Badge variant={qrCode.is_active ? "default" : "secondary"}>
-                {qrCode.is_active ? 'Active' : 'Inactive'}
-              </Badge>
-            </div>
-            
-            {qrCode.points_value && (
-              <div className="flex justify-between">
-                <span className="text-sm font-medium">Points Value:</span>
-                <span>{qrCode.points_value}</span>
-              </div>
-            )}
-            
-            {qrCode.discount_percentage && (
-              <div className="flex justify-between">
-                <span className="text-sm font-medium">Discount:</span>
-                <span>{qrCode.discount_percentage}%</span>
-              </div>
-            )}
-            
-            {qrCode.scan_limit && (
-              <div className="flex justify-between">
-                <span className="text-sm font-medium">Scans:</span>
-                <span>{qrCode.current_scans} / {qrCode.scan_limit}</span>
-              </div>
-            )}
-            
-            <div className="flex justify-between">
-              <span className="text-sm font-medium">Created:</span>
-              <span className="text-sm text-muted-foreground">
-                {formatDistanceToNow(new Date(qrCode.created_at), { addSuffix: true })}
-              </span>
-            </div>
-            
-            {qrCode.expiration_date && (
-              <div className="flex justify-between">
-                <span className="text-sm font-medium">Expires:</span>
-                <span className="text-sm text-muted-foreground">
-                  {formatDistanceToNow(new Date(qrCode.expiration_date), { addSuffix: true })}
-                </span>
+            ) : (
+              <div className="w-64 h-64 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+                <p className="text-gray-500">No image available</p>
               </div>
             )}
           </div>
-          
-          <Button 
-            onClick={downloadQRCode} 
-            className="mt-4 w-full"
-            disabled={!qrCode.qr_image_url}
-          >
-            <Download className="mr-2 h-4 w-4" /> Download QR Code
-          </Button>
+
+          <div className="space-y-2 text-sm">
+            <div className="grid grid-cols-2 gap-2">
+              <div><strong>Type:</strong> {qrCode.code_type}</div>
+              <div><strong>Status:</strong> {qrCode.is_active ? 'Active' : 'Inactive'}</div>
+            </div>
+            
+            {qrCode.discount_percentage && (
+              <div><strong>Discount:</strong> {qrCode.discount_percentage}%</div>
+            )}
+            {qrCode.points_value && (
+              <div><strong>Points:</strong> {qrCode.points_value}</div>
+            )}
+            
+            <div><strong>Scans:</strong> {qrCode.current_scans}{qrCode.scan_limit && ` / ${qrCode.scan_limit}`}</div>
+            
+            {qrCode.expiration_date && (
+              <div><strong>Expires:</strong> {new Date(qrCode.expiration_date).toLocaleDateString()}</div>
+            )}
+            
+            <div><strong>Created:</strong> {new Date(qrCode.created_at).toLocaleDateString()}</div>
+          </div>
+
+          <div className="flex gap-2">
+            <Button onClick={handleDownload} variant="outline" className="flex-1">
+              <Download className="mr-2 h-4 w-4" />
+              Download
+            </Button>
+            <Button onClick={handleCopy} variant="outline" className="flex-1">
+              <Copy className="mr-2 h-4 w-4" />
+              Copy URL
+            </Button>
+            <Button onClick={handleShare} variant="outline" className="flex-1">
+              <Share2 className="mr-2 h-4 w-4" />
+              Share
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

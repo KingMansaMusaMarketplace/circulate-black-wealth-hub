@@ -1,11 +1,10 @@
 
 import React from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Edit, Trash2, Eye, QrCode } from 'lucide-react';
 import { QRCode } from '@/lib/api/qr-code-api';
-import { formatDistanceToNow } from 'date-fns';
-import { Edit, Trash, Eye } from 'lucide-react';
 
 interface QRCodeCardProps {
   qrCode: QRCode;
@@ -20,69 +19,79 @@ const QRCodeCard: React.FC<QRCodeCardProps> = ({
   onEdit,
   onView
 }) => {
-  const isExpired = qrCode.expiration_date && new Date(qrCode.expiration_date) < new Date();
-  
-  // Get QR code image or placeholder
-  const getQRCodeImage = () => {
-    if (qrCode.qr_image_url) {
-      return qrCode.qr_image_url;
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case 'discount': return 'bg-red-100 text-red-800';
+      case 'loyalty': return 'bg-blue-100 text-blue-800';
+      case 'checkin': return 'bg-green-100 text-green-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
-    
-    // Generate a QR code URL using an online service
-    return `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${encodeURIComponent(
-      `https://mansa-musa.vercel.app/scan?qr=${qrCode.id}&business=${qrCode.business_id}`
-    )}`;
   };
-  
+
+  const isExpired = qrCode.expiration_date && new Date(qrCode.expiration_date) < new Date();
+  const isLimitReached = qrCode.scan_limit && qrCode.current_scans >= qrCode.scan_limit;
+
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-md capitalize">{qrCode.code_type} QR Code</CardTitle>
-          <Badge variant={qrCode.is_active ? "default" : "secondary"}>
-            {qrCode.is_active ? 'Active' : 'Inactive'}
+    <Card className="h-full">
+      <CardHeader className="pb-4">
+        <div className="flex justify-between items-start">
+          <CardTitle className="text-lg capitalize">{qrCode.code_type} QR Code</CardTitle>
+          <Badge className={getTypeColor(qrCode.code_type)}>
+            {qrCode.code_type}
           </Badge>
         </div>
       </CardHeader>
-      <CardContent>
-        <div className="flex items-center gap-4">
-          <div className="bg-white p-2 rounded-lg border border-gray-100 shadow-sm">
+      
+      <CardContent className="space-y-4">
+        <div className="flex justify-center">
+          {qrCode.qr_image_url ? (
             <img 
-              src={getQRCodeImage()}
-              alt={`${qrCode.code_type} QR Code`}
-              className="w-16 h-16 object-contain"
+              src={qrCode.qr_image_url} 
+              alt="QR Code"
+              className="w-32 h-32 object-contain border rounded"
             />
-          </div>
-          <div>
-            {qrCode.points_value && (
-              <p className="text-sm"><strong>Points:</strong> {qrCode.points_value}</p>
-            )}
-            {qrCode.discount_percentage && (
-              <p className="text-sm"><strong>Discount:</strong> {qrCode.discount_percentage}%</p>
-            )}
-            {qrCode.scan_limit && (
-              <p className="text-sm"><strong>Scans:</strong> {qrCode.current_scans} / {qrCode.scan_limit}</p>
-            )}
-            <p className="text-xs text-muted-foreground mt-1">
-              Created {qrCode.created_at && formatDistanceToNow(new Date(qrCode.created_at), { addSuffix: true })}
-            </p>
-            {isExpired && (
-              <Badge variant="destructive" className="mt-2">Expired</Badge>
-            )}
-          </div>
+          ) : (
+            <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+              <QrCode className="h-8 w-8 text-gray-400" />
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-2 text-sm">
+          {qrCode.discount_percentage && (
+            <div><strong>Discount:</strong> {qrCode.discount_percentage}%</div>
+          )}
+          {qrCode.points_value && (
+            <div><strong>Points:</strong> {qrCode.points_value}</div>
+          )}
+          <div><strong>Scans:</strong> {qrCode.current_scans}{qrCode.scan_limit && ` / ${qrCode.scan_limit}`}</div>
+          {qrCode.expiration_date && (
+            <div><strong>Expires:</strong> {new Date(qrCode.expiration_date).toLocaleDateString()}</div>
+          )}
+        </div>
+
+        <div className="flex gap-1">
+          <Badge variant={qrCode.is_active && !isExpired && !isLimitReached ? "default" : "secondary"}>
+            {qrCode.is_active && !isExpired && !isLimitReached ? 'Active' : 'Inactive'}
+          </Badge>
+          {isExpired && <Badge variant="destructive">Expired</Badge>}
+          {isLimitReached && <Badge variant="outline">Limit Reached</Badge>}
+        </div>
+
+        <div className="flex gap-2">
+          <Button onClick={() => onView(qrCode)} variant="outline" size="sm" className="flex-1">
+            <Eye className="mr-1 h-3 w-3" />
+            View
+          </Button>
+          <Button onClick={() => onEdit(qrCode)} variant="outline" size="sm" className="flex-1">
+            <Edit className="mr-1 h-3 w-3" />
+            Edit
+          </Button>
+          <Button onClick={() => onDelete(qrCode.id)} variant="destructive" size="sm">
+            <Trash2 className="h-3 w-3" />
+          </Button>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end gap-2">
-        <Button size="sm" variant="outline" onClick={() => onView(qrCode)}>
-          <Eye className="h-4 w-4 mr-1" /> View
-        </Button>
-        <Button size="sm" variant="outline" onClick={() => onEdit(qrCode)}>
-          <Edit className="h-4 w-4 mr-1" /> Edit
-        </Button>
-        <Button size="sm" variant="destructive" onClick={() => onDelete(qrCode.id)}>
-          <Trash className="h-4 w-4 mr-1" /> Delete
-        </Button>
-      </CardFooter>
     </Card>
   );
 };

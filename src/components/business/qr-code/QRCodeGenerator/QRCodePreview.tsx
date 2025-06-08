@@ -1,87 +1,102 @@
 
 import React from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Download, Share } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { QrCode, Download, Copy, RefreshCw } from 'lucide-react';
 import { QRCode } from '@/lib/api/qr-code-api';
+import { toast } from 'sonner';
 
 interface QRCodePreviewProps {
   qrCode: QRCode | null;
-  isGenerating: boolean;
   onDownload?: () => void;
-  onShare?: () => void;
+  onCopy?: () => void;
+  onRegenerate?: () => void;
+  isLoading?: boolean;
 }
 
-export const QRCodePreview: React.FC<QRCodePreviewProps> = ({
+const QRCodePreview: React.FC<QRCodePreviewProps> = ({
   qrCode,
-  isGenerating,
-  onDownload = () => {},
-  onShare = () => {}
+  onDownload,
+  onCopy,
+  onRegenerate,
+  isLoading = false
 }) => {
-  if (isGenerating) {
-    return (
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader className="text-center">
-          <CardTitle>Generating QR Code...</CardTitle>
-        </CardHeader>
-        <CardContent className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-mansablue"></div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (!qrCode) {
-    return (
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader className="text-center">
-          <CardTitle>QR Code Preview</CardTitle>
-        </CardHeader>
-        <CardContent className="flex justify-center items-center h-64">
-          <p className="text-gray-500 text-center">
-            Fill out the form and click Generate to create your QR code
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
+  const handleCopy = () => {
+    if (qrCode?.qr_image_url) {
+      navigator.clipboard.writeText(qrCode.qr_image_url);
+      toast.success('QR Code URL copied to clipboard!');
+    }
+    onCopy?.();
+  };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader className="text-center">
-        <CardTitle>Your QR Code</CardTitle>
-        <div className="flex justify-center gap-2 mt-2">
-          {qrCode.code_type === 'loyalty' && qrCode.points_value && (
-            <Badge variant="secondary">{qrCode.points_value} Points</Badge>
-          )}
-          {qrCode.code_type === 'discount' && qrCode.discount_percentage && (
-            <Badge variant="secondary">{qrCode.discount_percentage}% Discount</Badge>
-          )}
-          {qrCode.code_type === 'info' && (
-            <Badge variant="secondary">Information</Badge>
+    <Card>
+      <CardHeader>
+        <CardTitle>QR Code Preview</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex justify-center">
+          {qrCode?.qr_image_url ? (
+            <div className="w-64 h-64 border rounded-lg overflow-hidden">
+              <img 
+                src={qrCode.qr_image_url} 
+                alt="Generated QR Code"
+                className="w-full h-full object-contain"
+              />
+            </div>
+          ) : (
+            <div className="w-64 h-64 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <QrCode className="h-16 w-16 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm text-gray-500">QR Code will appear here</p>
+              </div>
+            </div>
           )}
         </div>
-      </CardHeader>
-      <CardContent className="flex justify-center">
-        <div className="p-4 bg-white rounded-lg max-w-[250px]">
-          <img 
-            src={qrCode.qr_image_url || 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=placeholder'} 
-            alt="QR Code" 
-            className="w-full h-auto"
-          />
+
+        {qrCode && (
+          <div className="space-y-2 text-sm">
+            <div><strong>Type:</strong> {qrCode.code_type}</div>
+            {qrCode.discount_percentage && (
+              <div><strong>Discount:</strong> {qrCode.discount_percentage}%</div>
+            )}
+            {qrCode.points_value && (
+              <div><strong>Points:</strong> {qrCode.points_value}</div>
+            )}
+            <div><strong>Status:</strong> {qrCode.is_active ? 'Active' : 'Inactive'}</div>
+            <div><strong>Scans:</strong> {qrCode.current_scans}{qrCode.scan_limit && ` / ${qrCode.scan_limit}`}</div>
+          </div>
+        )}
+
+        <div className="flex gap-2">
+          <Button 
+            onClick={onDownload} 
+            variant="outline" 
+            className="flex-1"
+            disabled={!qrCode || isLoading}
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Download
+          </Button>
+          <Button 
+            onClick={handleCopy} 
+            variant="outline" 
+            className="flex-1"
+            disabled={!qrCode || isLoading}
+          >
+            <Copy className="mr-2 h-4 w-4" />
+            Copy URL
+          </Button>
+          <Button 
+            onClick={onRegenerate} 
+            variant="outline" 
+            size="icon"
+            disabled={!qrCode || isLoading}
+          >
+            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+          </Button>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-center gap-4">
-        <Button variant="outline" onClick={onDownload}>
-          <Download className="h-4 w-4 mr-2" />
-          Download
-        </Button>
-        <Button variant="outline" onClick={onShare}>
-          <Share className="h-4 w-4 mr-2" />
-          Share
-        </Button>
-      </CardFooter>
     </Card>
   );
 };
