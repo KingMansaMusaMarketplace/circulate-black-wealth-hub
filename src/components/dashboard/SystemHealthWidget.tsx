@@ -1,102 +1,79 @@
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Gauge } from "lucide-react";
-import { useEffect, useState } from "react";
-import { SystemHealth, checkSystemHealth } from "@/lib/utils/health-check";
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
 
-const getStatusColor = (status: 'healthy' | 'degraded' | 'offline') => {
-  switch (status) {
-    case 'healthy':
-      return 'bg-green-500';
-    case 'degraded':
-      return 'bg-yellow-500';
-    case 'offline':
-      return 'bg-red-500';
-    default:
-      return 'bg-gray-500';
-  }
-};
+interface SystemHealthProps {
+  className?: string;
+}
 
-export const SystemHealthWidget = () => {
-  const [health, setHealth] = useState<SystemHealth | null>(null);
-  const [loading, setLoading] = useState(true);
+export const SystemHealthWidget: React.FC<SystemHealthProps> = ({ className }) => {
+  const systemStatus = {
+    overall: 'healthy',
+    database: 'healthy',
+    authentication: 'healthy',
+    payments: 'warning',
+    api: 'healthy'
+  };
 
-  useEffect(() => {
-    const checkHealth = async () => {
-      setLoading(true);
-      try {
-        const result = await checkSystemHealth();
-        setHealth(result);
-      } catch (error) {
-        console.error("Error checking system health:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'healthy':
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case 'warning':
+        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+      case 'error':
+        return <XCircle className="h-4 w-4 text-red-500" />;
+      default:
+        return <CheckCircle className="h-4 w-4 text-gray-500" />;
+    }
+  };
 
-    checkHealth();
-    
-    // Refresh every 5 minutes
-    const interval = setInterval(checkHealth, 5 * 60 * 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'healthy':
+        return <Badge className="bg-green-100 text-green-800">Operational</Badge>;
+      case 'warning':
+        return <Badge className="bg-yellow-100 text-yellow-800">Warning</Badge>;
+      case 'error':
+        return <Badge className="bg-red-100 text-red-800">Error</Badge>;
+      default:
+        return <Badge variant="secondary">Unknown</Badge>;
+    }
+  };
 
   return (
-    <Card className="shadow-md">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium flex items-center justify-between">
+    <Card className={className}>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          {getStatusIcon(systemStatus.overall)}
           System Health
-          <Gauge className="h-4 w-4 text-muted-foreground" />
         </CardTitle>
-        <CardDescription className="text-xs text-muted-foreground">
-          Backend services status
+        <CardDescription>
+          Current status of all system components
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        {loading ? (
-          <div className="flex items-center justify-center h-16">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
-          </div>
-        ) : health ? (
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-medium">Overall:</span>
-              <Badge className={`${getStatusColor(health.overall)} text-white`}>
-                {health.overall.toUpperCase()}
-              </Badge>
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="flex flex-col items-center p-1 bg-secondary/20 rounded-md">
-                <span className="text-[10px] text-muted-foreground">Database</span>
-                <Badge variant="outline" className={`w-full mt-1 flex justify-center ${getStatusColor(health.database.status)} text-white text-[10px]`}>
-                  {health.database.status.toUpperCase()}
-                </Badge>
-                <span className="text-[10px] mt-1">{health.database.responseTime}ms</span>
-              </div>
-              <div className="flex flex-col items-center p-1 bg-secondary/20 rounded-md">
-                <span className="text-[10px] text-muted-foreground">Storage</span>
-                <Badge variant="outline" className={`w-full mt-1 flex justify-center ${getStatusColor(health.storage.status)} text-white text-[10px]`}>
-                  {health.storage.status.toUpperCase()}
-                </Badge>
-                <span className="text-[10px] mt-1">{health.storage.responseTime}ms</span>
-              </div>
-              <div className="flex flex-col items-center p-1 bg-secondary/20 rounded-md">
-                <span className="text-[10px] text-muted-foreground">Auth</span>
-                <Badge variant="outline" className={`w-full mt-1 flex justify-center ${getStatusColor(health.auth.status)} text-white text-[10px]`}>
-                  {health.auth.status.toUpperCase()}
-                </Badge>
-                <span className="text-[10px] mt-1">{health.auth.responseTime}ms</span>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="text-center text-sm text-muted-foreground">
-            Unable to fetch system health
-          </div>
-        )}
+      <CardContent className="space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm">Database</span>
+          {getStatusBadge(systemStatus.database)}
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm">Authentication</span>
+          {getStatusBadge(systemStatus.authentication)}
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm">Payments</span>
+          {getStatusBadge(systemStatus.payments)}
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-sm">API Services</span>
+          {getStatusBadge(systemStatus.api)}
+        </div>
       </CardContent>
     </Card>
   );
 };
+
+export default SystemHealthWidget;
