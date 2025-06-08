@@ -9,22 +9,22 @@ const PartnersSection = () => {
   const partners = [
     {
       name: "Urban Business Alliance",
-      logo: "UBA",
+      logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       description: "Network of urban entrepreneurs focused on business development and expansion."
     },
     {
       name: "Black Economic Initiative",
-      logo: "BEI",
+      logo: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       description: "Research institute dedicated to analyzing and enhancing Black wealth circulation patterns."
     },
     {
       name: "Financial Future Foundation",
-      logo: "FFF",
+      logo: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       description: "Non-profit organization providing financial literacy education to underserved communities."
     },
     {
       name: "Community Capital Partners",
-      logo: "CCP",
+      logo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
       description: "Investment group focused exclusively on funding Black-owned businesses and initiatives."
     }
   ];
@@ -44,8 +44,12 @@ const PartnersSection = () => {
           {partners.map((partner, index) => (
             <Card key={index} className="bg-white/10 border-white/20 backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
               <CardContent className="p-6 flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-mansablue mb-4">
-                  <span className="font-bold text-xl">{partner.logo}</span>
+                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 overflow-hidden">
+                  <img 
+                    src={partner.logo} 
+                    alt={`${partner.name} logo`}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="font-bold text-lg mb-2">{partner.name}</h3>
                 <p className="text-white/80 text-center text-sm">{partner.description}</p>
