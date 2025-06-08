@@ -8,10 +8,49 @@ import WelcomeGuide from './WelcomeGuide';
 import NearbyBusinesses from './NearbyBusinesses';
 import RecentActivity from './RecentActivity';
 import ActivityFeed from '@/components/community/ActivityFeed';
-import { CommunityImpactDashboard } from '@/components/community-impact/CommunityImpactDashboard';
+import CommunityImpactDashboard from '@/components/community-impact/CommunityImpactDashboard';
 
 const Dashboard: React.FC = () => {
   const { user, userType } = useAuth();
+
+  // Sample data for components that need it
+  const sampleBusinesses = [
+    {
+      id: 1,
+      name: "Harmony Soul Food",
+      category: "Restaurant",
+      discount: "10% Off",
+      rating: 4.8,
+      reviewCount: 124,
+      distance: "0.8"
+    },
+    {
+      id: 2,
+      name: "Black Bean Coffee",
+      category: "Coffee Shop", 
+      discount: "Free Drink",
+      rating: 4.6,
+      reviewCount: 87,
+      distance: "1.2"
+    }
+  ];
+
+  const sampleActivities = [
+    {
+      id: 1,
+      businessName: "Harmony Soul Food",
+      action: "Scan",
+      points: 15,
+      date: "Today, 2:30 PM"
+    },
+    {
+      id: 2,
+      businessName: "Black Bean Coffee", 
+      action: "Reward",
+      points: 25,
+      date: "Yesterday, 10:15 AM"
+    }
+  ];
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
@@ -30,9 +69,9 @@ const Dashboard: React.FC = () => {
         
         {/* Left Column - Main Content */}
         <div className="lg:col-span-2 space-y-6">
-          <WelcomeGuide />
+          <WelcomeGuide userType={userType || 'customer'} />
           <CommunityImpactDashboard />
-          <NearbyBusinesses />
+          <NearbyBusinesses businesses={sampleBusinesses} />
         </div>
         
         {/* Right Column - Sidebar */}
@@ -47,7 +86,7 @@ const Dashboard: React.FC = () => {
             className="border-mansagold/20"
           />
           
-          <RecentActivity />
+          <RecentActivity activities={sampleActivities} />
         </div>
       </div>
     </div>

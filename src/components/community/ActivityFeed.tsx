@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Activity, MapPin, QrCode, Target, TrendingUp, Users } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useCommunityActivity } from './hooks/useCommunityActivity';
+import ActivityItem from './ActivityItem';
 
 interface ActivityFeedProps {
   limit?: number;
