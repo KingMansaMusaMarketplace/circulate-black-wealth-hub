@@ -1,63 +1,68 @@
 
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 
 export interface SubscriptionInfo {
-  subscribed: boolean;
-  subscription_tier: string | null;
-  subscription_end: string | null;
-}
-
-export interface CheckoutOptions {
-  userType: 'customer' | 'business' | 'corporate';
-  email: string;
-  name?: string;
-  businessName?: string;
-  tier?: 'premium' | 'business' | 'enterprise' | 'silver' | 'gold' | 'platinum';
-  priceId?: string;
+  isActive: boolean;
+  tier: 'free' | 'paid' | 'premium';
+  status: 'active' | 'canceled' | 'past_due' | 'trial';
+  currentPeriodStart?: string;
+  currentPeriodEnd?: string;
+  cancelAtPeriodEnd?: boolean;
 }
 
 export const subscriptionService = {
-  /**
-   * Create a Stripe checkout session for subscription
-   */
-  async createCheckoutSession(options: CheckoutOptions): Promise<{ url: string, sessionId: string }> {
-    const { data, error } = await supabase.functions.invoke('create-checkout', {
-      body: options
-    });
-    
-    if (error) {
-      console.error('Checkout error:', error);
-      throw new Error(error.message || 'Failed to create checkout session');
-    }
-    
-    return data;
-  },
-
-  /**
-   * Check current subscription status
-   */
   async checkSubscription(): Promise<SubscriptionInfo> {
-    const { data, error } = await supabase.functions.invoke('check-subscription');
-    
-    if (error) {
-      console.error('Subscription check error:', error);
-      throw new Error(error.message || 'Failed to check subscription status');
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      // Get user profile to check subscription status
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('subscription_status, subscription_tier, subscription_start_date, subscription_end_date')
+        .eq('id', user.id)
+        .single();
+
+      if (error) throw error;
+
+      // Default to free tier if no profile
+      if (!profile) {
+        return {
+          isActive: true,
+          tier: 'free',
+          status: 'active'
+        };
+      }
+
+      return {
+        isActive: profile.subscription_status === 'active',
+        tier: profile.subscription_tier || 'free',
+        status: profile.subscription_status || 'active',
+        currentPeriodStart: profile.subscription_start_date,
+        currentPeriodEnd: profile.subscription_end_date
+      };
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+      // Return default free tier on error
+      return {
+        isActive: true,
+        tier: 'free',
+        status: 'active'
+      };
     }
-    
-    return data as SubscriptionInfo;
   },
 
-  /**
-   * Create a Stripe customer portal session for managing subscription
-   */
   async createCustomerPortalSession(): Promise<{ url: string }> {
-    const { data, error } = await supabase.functions.invoke('customer-portal');
-    
-    if (error) {
-      console.error('Customer portal error:', error);
-      throw new Error(error.message || 'Failed to create customer portal session');
+    try {
+      // This would typically call a Stripe customer portal endpoint
+      // For now, return a placeholder
+      return { url: '/subscription' };
+    } catch (error) {
+      console.error('Error creating customer portal session:', error);
+      throw error;
     }
-    
-    return data;
   }
 };

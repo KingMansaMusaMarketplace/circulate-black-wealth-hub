@@ -1,7 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth';
 import Loading from '@/components/ui/loading';
 
 interface ProtectedRouteProps {
@@ -42,10 +41,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           return;
         }
         
-        // Otherwise, verify with the server
-        const authenticated = await checkSession();
-        console.log("Session verification result:", authenticated);
-        setIsAuthenticated(authenticated);
+        // Otherwise, verify with the server if checkSession is available
+        if (checkSession) {
+          const authenticated = await checkSession();
+          console.log("Session verification result:", authenticated);
+          setIsAuthenticated(authenticated);
+        } else {
+          setIsAuthenticated(false);
+        }
         setIsVerifying(false);
       }
     };

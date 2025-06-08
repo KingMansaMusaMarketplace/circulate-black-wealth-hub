@@ -1,14 +1,12 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { User, AuthError, Session, UserResponse } from '@supabase/supabase-js';
+import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
-import { AuthState, AuthActions } from './types';
-import { signInWithEmail as authSignIn, 
-         signInWithProvider as authSignInProvider, 
-         signUp as authSignUp,
-         signOut as authSignOut,
-         checkMFAStatus } from './authUtils';
-import { useMFASetup } from './mfaHooks';
+import { AuthState, AuthActions } from '../types';
+import { handleSignIn, handleSignOut } from '@/lib/auth/auth-login';
+import { handleSignUp } from '@/lib/auth/auth-signup';
+import { handleSocialSignIn } from '@/lib/auth/auth-social';
+import { toast } from 'sonner';
 
 export function useAuthState(): [AuthState, AuthActions] {
   const [state, setState] = useState<AuthState>({
@@ -17,67 +15,69 @@ export function useAuthState(): [AuthState, AuthActions] {
     session: null,
     isMfaEnabled: false,
     isLoading: true,
+    userType: undefined,
+    authInitialized: false,
+    loading: true,
   });
   
-  // Track mounted state to avoid state updates after unmount
   const isMounted = useRef(true);
 
-  // Safe setState that checks if component is still mounted
   const safeSetState = useCallback((newState: Partial<AuthState>) => {
     if (isMounted.current) {
       setState((prevState) => ({ ...prevState, ...newState }));
     }
   }, []);
 
-  // Initialize auth state and set up listeners
   useEffect(() => {
     let authListener: { data: { subscription: { unsubscribe: () => void } } };
 
     async function initialize() {
       try {
-        // First, set up the auth state change listener
         authListener = supabase.auth.onAuthStateChange(async (event, session) => {
           if (isMounted.current) {
-            // Check MFA status whenever auth state changes
-            let mfaStatus = false;
-            if (session?.user) {
-              mfaStatus = await checkMFAStatus(session.user.id);
-            }
-
+            const userType = session?.user?.user_metadata?.user_type || 
+                           session?.user?.user_metadata?.userType;
+            
             safeSetState({
               user: session?.user ?? null,
               session,
-              isMfaEnabled: mfaStatus,
+              userType,
+              isMfaEnabled: false,
               isLoading: false,
               initialized: true,
+              authInitialized: true,
+              loading: false,
             });
           }
         });
 
-        // Then check for existing session
         const { data: { session } } = await supabase.auth.getSession();
-        
-        let mfaStatus = false;
-        if (session?.user) {
-          mfaStatus = await checkMFAStatus(session.user.id);
-        }
+        const userType = session?.user?.user_metadata?.user_type || 
+                        session?.user?.user_metadata?.userType;
 
         safeSetState({
           user: session?.user ?? null,
           session,
-          isMfaEnabled: mfaStatus,
+          userType,
+          isMfaEnabled: false,
           isLoading: false,
           initialized: true,
+          authInitialized: true,
+          loading: false,
         });
       } catch (error) {
         console.error("Error initializing auth:", error);
-        safeSetState({ isLoading: false, initialized: true });
+        safeSetState({ 
+          isLoading: false, 
+          initialized: true, 
+          authInitialized: true,
+          loading: false 
+        });
       }
     }
 
     initialize();
 
-    // Clean up subscription on unmount
     return () => {
       isMounted.current = false;
       if (authListener) {
@@ -86,50 +86,74 @@ export function useAuthState(): [AuthState, AuthActions] {
     };
   }, [safeSetState]);
 
-  // Sign in with email and password
   const signInWithEmail = useCallback(async (email: string, password: string) => {
     try {
-      safeSetState({ isLoading: true });
-      const result = await authSignIn(email, password);
-      return result;
+      safeSetState({ isLoading: true, loading: true });
+      return await handleSignIn(email, password, ({ title, description, variant }) => {
+        toast[variant === 'destructive' ? 'error' : 'success'](title, { description });
+      });
     } finally {
-      safeSetState({ isLoading: false });
+      safeSetState({ isLoading: false, loading: false });
     }
   }, [safeSetState]);
 
-  // Sign in with a provider
   const signInWithProvider = useCallback(async (provider: 'google' | 'facebook' | 'github') => {
     try {
-      safeSetState({ isLoading: true });
-      await authSignInProvider(provider);
+      safeSetState({ isLoading: true, loading: true });
+      await handleSocialSignIn(provider, ({ title, description, variant }) => {
+        toast[variant === 'destructive' ? 'error' : 'success'](title, { description });
+      });
     } finally {
-      safeSetState({ isLoading: false });
+      safeSetState({ isLoading: false, loading: false });
     }
   }, [safeSetState]);
 
-  // Sign up with email and password
   const signUp = useCallback(async (email: string, password: string, metadata?: object) => {
     try {
-      safeSetState({ isLoading: true });
-      const result = await authSignUp(email, password, metadata);
-      return result;
+      safeSetState({ isLoading: true, loading: true });
+      return await handleSignUp(email, password, metadata, ({ title, description, variant }) => {
+        toast[variant === 'destructive' ? 'error' : 'success'](title, { description });
+      });
     } finally {
-      safeSetState({ isLoading: false });
+      safeSetState({ isLoading: false, loading: false });
     }
   }, [safeSetState]);
 
-  // Sign out
   const signOut = useCallback(async () => {
     try {
-      safeSetState({ isLoading: true });
-      await authSignOut();
+      safeSetState({ isLoading: true, loading: true });
+      await handleSignOut(({ title, description, variant }) => {
+        toast[variant === 'destructive' ? 'error' : 'success'](title, { description });
+      });
     } finally {
-      safeSetState({ isLoading: false });
+      safeSetState({ isLoading: false, loading: false });
     }
   }, [safeSetState]);
 
-  // Setup MFA
-  const { setupMFAForUser } = useMFASetup(state.user?.id || null);
+  const checkSession = useCallback(async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      return !!session;
+    } catch (error) {
+      console.error('Error checking session:', error);
+      return false;
+    }
+  }, []);
+
+  const getMFAFactors = useCallback(async () => {
+    try {
+      const { data } = await supabase.auth.mfa.listFactors();
+      return data?.totp || [];
+    } catch (error) {
+      console.error('Error getting MFA factors:', error);
+      return [];
+    }
+  }, []);
+
+  const setupMFA = useCallback(async () => {
+    // MFA setup implementation
+    console.log('MFA setup not implemented');
+  }, []);
 
   return [
     state,
@@ -138,10 +162,10 @@ export function useAuthState(): [AuthState, AuthActions] {
       signInWithProvider,
       signUp,
       signOut,
-      setupMFA: setupMFAForUser,
+      setupMFA,
+      checkSession,
+      getMFAFactors,
+      signIn: signInWithEmail, // Alias for compatibility
     },
   ];
 }
-
-// Re-export types for convenience
-export type { AuthState, AuthActions };

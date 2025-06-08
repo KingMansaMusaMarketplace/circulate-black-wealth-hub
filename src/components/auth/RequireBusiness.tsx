@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth';
 import Loading from '@/components/ui/loading';
 
 interface RequireBusinessProps {
@@ -35,7 +35,6 @@ const RequireBusiness: React.FC<RequireBusinessProps> = ({ children }) => {
           >
             Go Back
           </button>
-          <Navigate to="/signup" state={{ userType: 'business' }} replace />
         </div>
       </div>
     );

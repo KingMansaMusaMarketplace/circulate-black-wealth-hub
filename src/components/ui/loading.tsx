@@ -18,24 +18,32 @@ const Loading: React.FC<LoadingProps> = ({
 }) => {
   const sizeClasses = {
     sm: 'h-4 w-4',
-    md: 'h-8 w-8',
-    lg: 'h-12 w-12'
+    md: 'h-6 w-6',
+    lg: 'h-8 w-8'
   };
 
-  const containerClasses = fullScreen 
-    ? 'fixed inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm z-50'
-    : 'flex items-center justify-center p-4';
+  const textSizeClasses = {
+    sm: 'text-sm',
+    md: 'text-base',
+    lg: 'text-lg'
+  };
 
-  return (
-    <div className={cn(containerClasses, className)}>
-      <div className="text-center">
-        <Loader2 className={cn('animate-spin text-mansablue mx-auto mb-2', sizeClasses[size])} />
-        {text && (
-          <p className="text-sm text-gray-600">{text}</p>
-        )}
-      </div>
+  const content = (
+    <div className={cn(
+      "flex flex-col items-center justify-center space-y-2",
+      fullScreen ? "min-h-screen" : "p-8",
+      className
+    )}>
+      <Loader2 className={cn(sizeClasses[size], "animate-spin text-mansablue")} />
+      {text && (
+        <p className={cn(textSizeClasses[size], "text-gray-600")}>
+          {text}
+        </p>
+      )}
     </div>
   );
+
+  return content;
 };
 
 export default Loading;

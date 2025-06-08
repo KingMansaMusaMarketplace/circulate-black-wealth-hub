@@ -1,39 +1,32 @@
 
 import { User, Session } from '@supabase/supabase-js';
 
-export interface AuthContextType {
+export interface AuthState {
+  initialized: boolean;
   user: User | null;
   session: Session | null;
-  loading: boolean;
-  authInitialized: boolean;
-  userType: string | null;
-  checkSession: () => Promise<boolean>;
-  signOut: () => Promise<void>;
-  signIn: (email: string, password: string) => Promise<any>;
-  signUp: (email: string, password: string, metadata?: any) => Promise<any>;
-  signInWithSocial: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
-  verifyMFA: (factorId: string, code: string, challengeId: string) => Promise<any>;
-  getMFAFactors: () => Promise<Factor[]>;
-  updateUserPassword: (password: string) => Promise<any>;
-  resetPassword: (email: string) => Promise<any>;
-  databaseInitialized: boolean;
+  isMfaEnabled: boolean;
+  isLoading: boolean;
+  userType?: string;
+  authInitialized?: boolean;
+  loading?: boolean;
 }
 
-export type ToastProps = {
+export interface AuthActions {
+  signInWithEmail: (email: string, password: string) => Promise<any>;
+  signInWithProvider: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
+  signUp: (email: string, password: string, metadata?: object) => Promise<any>;
+  signOut: () => Promise<void>;
+  setupMFA: () => Promise<void>;
+  checkSession?: () => Promise<boolean>;
+  getMFAFactors?: () => Promise<any[]>;
+  signIn?: (email: string, password: string) => Promise<any>;
+}
+
+export interface AuthContextType extends AuthState, AuthActions {}
+
+export interface ToastProps {
   title: string;
   description: string;
   variant?: "default" | "destructive";
-};
-
-export type Factor = {
-  id: string;
-  type: string;
-  status: string;
-  friendly_name?: string;
-};
-
-export type MFAChallenge = {
-  id: string;
-  factorId: string;
-  expiresAt: string;
-};
+}
