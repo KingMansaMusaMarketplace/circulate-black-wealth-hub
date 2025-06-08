@@ -1323,6 +1323,78 @@ export type Database = {
           },
         ]
       }
+      sponsors: {
+        Row: {
+          company_address: string | null
+          company_city: string | null
+          company_name: string
+          company_size: string | null
+          company_state: string | null
+          company_website: string | null
+          company_zip_code: string | null
+          contact_name: string
+          contact_title: string | null
+          created_at: string | null
+          email: string
+          id: string
+          industry: string | null
+          message: string | null
+          phone: string
+          sponsorship_tier: string
+          subscription_end_date: string | null
+          subscription_start_date: string | null
+          subscription_status: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          company_address?: string | null
+          company_city?: string | null
+          company_name: string
+          company_size?: string | null
+          company_state?: string | null
+          company_website?: string | null
+          company_zip_code?: string | null
+          contact_name: string
+          contact_title?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          industry?: string | null
+          message?: string | null
+          phone: string
+          sponsorship_tier: string
+          subscription_end_date?: string | null
+          subscription_start_date?: string | null
+          subscription_status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          company_address?: string | null
+          company_city?: string | null
+          company_name?: string
+          company_size?: string | null
+          company_state?: string | null
+          company_website?: string | null
+          company_zip_code?: string | null
+          contact_name?: string
+          contact_title?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          industry?: string | null
+          message?: string | null
+          phone?: string
+          sponsorship_tier?: string
+          subscription_end_date?: string | null
+          subscription_start_date?: string | null
+          subscription_status?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       transactions: {
         Row: {
           amount: number | null

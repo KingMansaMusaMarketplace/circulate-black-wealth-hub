@@ -90,6 +90,15 @@ export const subscriptionService = {
     companyName?: string;
     phone?: string;
     message?: string;
+    // New sponsor-specific fields
+    contactTitle?: string;
+    companyAddress?: string;
+    companyCity?: string;
+    companyState?: string;
+    companyZipCode?: string;
+    companyWebsite?: string;
+    industry?: string;
+    companySize?: string;
   }) => {
     try {
       console.log('Creating checkout session with options:', options);
@@ -101,10 +110,18 @@ export const subscriptionService = {
           name: options.name,
           businessName: options.businessName,
           tier: options.tier || 'premium',
-          // Include sponsor-specific fields
+          // Include all sponsor-specific fields
           companyName: options.companyName,
           phone: options.phone,
-          message: options.message
+          message: options.message,
+          contactTitle: options.contactTitle,
+          companyAddress: options.companyAddress,
+          companyCity: options.companyCity,
+          companyState: options.companyState,
+          companyZipCode: options.companyZipCode,
+          companyWebsite: options.companyWebsite,
+          industry: options.industry,
+          companySize: options.companySize
         }
       });
 

@@ -63,14 +63,22 @@ export const createUserProfile = async (userId: string, userMetadata: any) => {
       }
     }
     
-    // If this is a sponsor user, also create sponsor record
+    // If this is a sponsor user, also create sponsor record with comprehensive data
     if (userType === 'sponsor' && userMetadata.company_name) {
       const sponsorData = {
         user_id: userId,
         company_name: userMetadata.company_name,
         contact_name: userMetadata.contact_name || userMetadata.name || '',
+        contact_title: userMetadata.contact_title || '',
         email: userMetadata.email || '',
         phone: userMetadata.phone || '',
+        company_address: userMetadata.company_address || '',
+        company_city: userMetadata.company_city || '',
+        company_state: userMetadata.company_state || '',
+        company_zip_code: userMetadata.company_zip_code || '',
+        company_website: userMetadata.company_website || '',
+        industry: userMetadata.industry || '',
+        company_size: userMetadata.company_size || '',
         sponsorship_tier: userMetadata.sponsorship_tier || 'silver',
         message: userMetadata.message || '',
         subscription_status: 'trial',

@@ -7,8 +7,16 @@ export interface SponsorProfile {
   user_id?: string;
   company_name: string;
   contact_name: string;
+  contact_title?: string;
   email: string;
   phone: string;
+  company_address?: string;
+  company_city?: string;
+  company_state?: string;
+  company_zip_code?: string;
+  company_website?: string;
+  industry?: string;
+  company_size?: string;
   sponsorship_tier: 'silver' | 'gold' | 'platinum';
   message?: string;
   subscription_status?: string;
@@ -27,8 +35,16 @@ export const createSponsorProfile = async (profileData: SponsorProfile): Promise
       user_id: user?.id,
       company_name: profileData.company_name,
       contact_name: profileData.contact_name,
+      contact_title: profileData.contact_title || '',
       email: profileData.email,
       phone: profileData.phone,
+      company_address: profileData.company_address || '',
+      company_city: profileData.company_city || '',
+      company_state: profileData.company_state || '',
+      company_zip_code: profileData.company_zip_code || '',
+      company_website: profileData.company_website || '',
+      industry: profileData.industry || '',
+      company_size: profileData.company_size || '',
       sponsorship_tier: profileData.sponsorship_tier,
       message: profileData.message || '',
       subscription_status: 'pending',
