@@ -27,7 +27,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ userType }) => {
 
   const customerNavItems = [
     { to: '/dashboard', icon: Home, label: 'Dashboard' },
-    { to: '/directory', icon: Search, label: 'Business Directory' },
+    { to: '/directory/enhanced', icon: Search, label: 'Business Directory' },
     { to: '/community', icon: Users, label: 'Community Hub' },
     { to: '/community-impact', icon: TrendingUp, label: 'Community Impact' },
     { to: '/loyalty', icon: Award, label: 'Rewards & Loyalty' },
@@ -50,7 +50,7 @@ const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ userType }) => {
   const salesAgentNavItems = [
     { to: '/dashboard', icon: Home, label: 'Dashboard' },
     { to: '/sales-agent', icon: UserCheck, label: 'Sales Agent Hub' },
-    { to: '/directory', icon: Search, label: 'Business Directory' },
+    { to: '/directory/enhanced', icon: Search, label: 'Business Directory' },
     { to: '/community', icon: Users, label: 'Community Hub' },
     { to: '/community-impact', icon: TrendingUp, label: 'Community Impact' },
     { to: '/help', icon: HelpCircle, label: 'Help Center' },

@@ -11,6 +11,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 const HomePage = React.lazy(() => import('@/pages/HomePage'));
 const AboutPage = React.lazy(() => import('@/pages/AboutPage'));
 const DirectoryPage = React.lazy(() => import('@/pages/DirectoryPage'));
+const EnhancedDirectoryPage = React.lazy(() => import('@/pages/EnhancedDirectoryPage'));
 const BusinessDetailPage = React.lazy(() => import('@/pages/BusinessDetailPage'));
 const DashboardPage = React.lazy(() => import('@/pages/DashboardPage'));
 const BusinessDashboardPage = React.lazy(() => import('@/pages/BusinessDashboardPage'));
@@ -63,6 +64,7 @@ function App() {
                   <Route path="/how-it-works" element={<HowItWorksPage />} />
                   <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
                   <Route path="/directory" element={<DirectoryPage />} />
+                  <Route path="/directory/enhanced" element={<EnhancedDirectoryPage />} />
                   <Route path="/business/:id" element={<BusinessDetailPage />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
                   <Route path="/business/dashboard" element={<BusinessDashboardPage />} />

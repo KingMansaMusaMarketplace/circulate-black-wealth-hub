@@ -34,9 +34,9 @@ const NavLinks: React.FC = () => {
         How It Works
       </Link>
       <Link 
-        to="/directory" 
+        to="/directory/enhanced" 
         className={`text-sm font-medium transition-colors hover:text-mansagold ${
-          isActive('/directory') ? 'text-mansagold' : 'text-gray-700'
+          isActive('/directory/enhanced') || isActive('/directory') ? 'text-mansagold' : 'text-gray-700'
         }`}
       >
         Directory

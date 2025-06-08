@@ -29,9 +29,9 @@ const Navbar = () => {
           {/* Main Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link 
-              to="/directory" 
+              to="/directory/enhanced" 
               className={`flex items-center space-x-2 text-sm font-medium transition-colors ${
-                isActive('/directory') 
+                isActive('/directory/enhanced') || isActive('/directory')
                   ? 'text-mansablue' 
                   : 'text-gray-600 hover:text-mansablue'
               }`}
