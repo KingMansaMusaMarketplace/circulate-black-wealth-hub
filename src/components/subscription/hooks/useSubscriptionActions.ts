@@ -20,8 +20,14 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
     console.log('Current user from auth context:', user);
     
     if (!user) {
-      console.log('No user found, showing error');
-      toast.error('Please log in to subscribe');
+      console.log('No user found, showing login prompt');
+      toast.error('Please log in to subscribe to a plan', {
+        description: 'You need to create an account or log in to purchase a subscription.',
+        action: {
+          label: 'Go to Login',
+          onClick: () => window.location.href = '/login'
+        }
+      });
       return;
     }
 
@@ -82,6 +88,7 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
 
   return {
     loading,
-    handleSubscribe
+    handleSubscribe,
+    isAuthenticated: !!user
   };
 };

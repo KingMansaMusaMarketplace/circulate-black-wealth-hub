@@ -7,7 +7,8 @@ import { useSubscription } from '@/contexts/SubscriptionContext';
 import SubscriptionPlans from '@/components/subscription/SubscriptionPlans';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Crown, TrendingUp, Users, Star } from 'lucide-react';
+import { Crown, TrendingUp, Users, Star, Lock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const SubscriptionPage: React.FC = () => {
   const { user } = useAuth();
@@ -40,6 +41,31 @@ const SubscriptionPage: React.FC = () => {
               Every subscription helps strengthen our economic ecosystem.
             </p>
           </div>
+
+          {/* Authentication Notice */}
+          {!user && (
+            <Card className="max-w-2xl mx-auto border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-amber-800">
+                  <Lock className="h-5 w-5" />
+                  Login Required
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-amber-700 mb-4">
+                  To subscribe to a plan, you need to create an account or log in first.
+                </p>
+                <div className="flex gap-3">
+                  <Link to="/login" className="flex-1">
+                    <Button className="w-full">Login</Button>
+                  </Link>
+                  <Link to="/signup" className="flex-1">
+                    <Button variant="outline" className="w-full">Sign Up</Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Current Subscription Status */}
           {user && subscriptionInfo && (
