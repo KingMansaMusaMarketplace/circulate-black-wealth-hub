@@ -36,7 +36,7 @@ const FeatureGate: React.FC<FeatureGateProps> = ({
         userType: requiredTier === 'business' || requiredTier === 'enterprise' ? 'business' : 'customer',
         email: user?.email || '',
         name: user?.user_metadata?.name || '',
-        tier: requiredTier === 'premium' ? undefined : requiredTier,
+        tier: requiredTier === 'free' ? undefined : requiredTier,
       });
       
       window.open(checkoutData.url, '_blank');

@@ -52,7 +52,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
         userType: tier === 'business' || tier === 'enterprise' ? 'business' : 'customer',
         email: user.email || '',
         name: user.user_metadata?.name || '',
-        tier: tier === 'premium' ? undefined : tier,
+        tier: tier === 'free' ? undefined : tier,
       });
       
       window.open(checkoutData.url, '_blank');
