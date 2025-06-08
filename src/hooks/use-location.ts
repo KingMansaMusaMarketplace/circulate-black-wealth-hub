@@ -4,10 +4,11 @@ import { useState, useCallback } from 'react';
 interface LocationData {
   lat: number;
   lng: number;
-  timestamp?: number;
+  timestamp: number;
+  accuracy?: number;
 }
 
-export const useLocation = () => {
+export const useLocation = (options?: { skipPermissionCheck?: boolean }) => {
   const [location, setLocation] = useState<LocationData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -32,10 +33,11 @@ export const useLocation = () => {
         });
       });
 
-      const newLocation = {
+      const newLocation: LocationData = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        accuracy: position.coords.accuracy
       };
 
       setLocation(newLocation);

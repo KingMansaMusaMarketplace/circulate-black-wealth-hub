@@ -41,7 +41,7 @@ export const subscriptionService = {
         };
       }
 
-      const status = profile.subscription_status as 'active' | 'canceled' | 'past_due' | 'trial' || 'active';
+      const status = (profile.subscription_status as 'active' | 'canceled' | 'past_due' | 'trial') || 'active';
 
       return {
         isActive: status === 'active',
@@ -81,6 +81,7 @@ export const subscriptionService = {
     email: string;
     name: string;
     tier?: string;
+    businessName?: string;
   }): Promise<{ url: string }> {
     try {
       // This would typically create a Stripe checkout session

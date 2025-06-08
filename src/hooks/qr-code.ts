@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 export interface QRCode {
   id: string;
   qr_image_url?: string;
-  code_type: string;
+  code_type: 'loyalty' | 'discount' | 'info';
   points_value?: number;
   discount_percentage?: number;
   business_id: string;
@@ -33,7 +33,7 @@ export const useQRCode = () => {
       
       const newQrCode: QRCode = {
         id: Math.random().toString(36).substr(2, 9),
-        code_type: codeType || 'loyalty',
+        code_type: (codeType || 'loyalty') as 'loyalty' | 'discount' | 'info',
         business_id: businessId || 'default',
         is_active: true,
         points_value: options?.pointsValue,

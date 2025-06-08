@@ -5,7 +5,7 @@ import QRScannerComponent from '@/components/QRCodeScanner/QRScannerComponent';
 import { useLoyaltyQRCode } from '@/hooks/use-loyalty-qr-code';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
@@ -47,15 +47,7 @@ const QRScannerPage: React.FC = () => {
         }
       }
 
-      // Get user's location if available
-      let location = null;
-      try {
-        location = await getCurrentPosition();
-      } catch (error) {
-        console.log('Unable to get location:', error);
-      }
-
-      await scanQRAndProcessPoints(actualQrCodeId, location || undefined);
+      await scanQRAndProcessPoints(actualQrCodeId);
     } catch (error) {
       console.error('Error processing QR code:', error);
     }

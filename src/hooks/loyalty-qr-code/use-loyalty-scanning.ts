@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth';
 import { useQRCode } from '@/hooks/qr-code';
 import { useLoyalty } from '@/hooks/use-loyalty';
 import { toast } from 'sonner';
@@ -25,8 +25,7 @@ export const useLoyaltyScanning = (options: UseLoyaltyScanningOptions = {}) => {
   
   // Scan QR code and process loyalty points in one operation
   const scanQRAndProcessPoints = async (
-    qrCodeId: string,
-    location?: { lat: number; lng: number }
+    qrCodeId: string
   ) => {
     if (!user) {
       toast.error('You must be logged in to scan a QR code');
@@ -37,7 +36,7 @@ export const useLoyaltyScanning = (options: UseLoyaltyScanningOptions = {}) => {
     setScanResult(null);
     
     try {
-      const result = await scanQRCode(qrCodeId, location);
+      const result = await scanQRCode(qrCodeId);
       
       if (result && result.success) {
         // Get business name from the result

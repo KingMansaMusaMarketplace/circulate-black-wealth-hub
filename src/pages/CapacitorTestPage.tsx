@@ -47,7 +47,12 @@ const CapacitorTestPage = () => {
 
           {testResults.length > 0 && <TestResults testResults={testResults} />}
           
-          <CurrentLocation location={location} />
+          {location && (
+            <CurrentLocation location={{
+              ...location,
+              timestamp: location.timestamp
+            }} />
+          )}
           
           <TroubleshootingGuide />
         </div>

@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { QRCodeTabs } from '@/components/business/qr-code';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
-import { useQRCode } from '@/hooks/use-qr-code';
-import { useAuth } from '@/contexts/AuthContext';
-import { QRCode } from '@/lib/api/qr-code-api';
+import { useQRCode, QRCode } from '@/hooks/qr-code';
+import { useAuth } from '@/contexts/auth';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Loader2 } from 'lucide-react';
@@ -49,7 +48,7 @@ const QRCodeManagementPage: React.FC = () => {
     if (!profile?.id) return;
     
     try {
-      const codes = await fetchBusinessQRCodes();
+      const codes = await fetchBusinessQRCodes(profile.id);
       setQrCodes(codes);
     } catch (error) {
       console.error('Error loading QR codes:', error);

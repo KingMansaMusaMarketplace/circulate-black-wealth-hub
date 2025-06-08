@@ -125,7 +125,7 @@ export function useQRScanner() {
     }
     
     // Process the QR scan
-    const result = await scanQRAndProcessPoints(mockQrCodeId, locationData || undefined);
+    const result = await scanQRAndProcessPoints(mockQrCodeId);
     
     if (result) {
       // Add to recent scans
