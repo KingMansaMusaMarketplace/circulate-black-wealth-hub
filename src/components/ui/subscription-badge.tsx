@@ -2,10 +2,10 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Crown, Star } from 'lucide-react';
-import { getTierDisplayName } from '@/lib/services/subscription-tiers';
+import { getTierDisplayName, type SubscriptionTier } from '@/lib/services/subscription-tiers';
 
 interface SubscriptionBadgeProps {
-  tier: 'free' | 'paid';
+  tier: SubscriptionTier;
   className?: string;
 }
 

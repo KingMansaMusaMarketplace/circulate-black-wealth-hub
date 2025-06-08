@@ -11,25 +11,29 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useAuth } from '@/contexts/auth/AuthContext';
 import { Shield, User, LogOut } from 'lucide-react';
 
-interface ProfileMenuProps {
-  children: React.ReactNode;
-}
-
-const ProfileMenu: React.FC<ProfileMenuProps> = ({ children }) => {
-  const { signOut, userType } = useAuth();
+const ProfileMenu: React.FC = () => {
+  const { user, signOut } = useAuth();
 
   const handleSignOut = async () => {
     await signOut();
   };
 
+  if (!user) return null;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          {children}
+          <Avatar className="h-8 w-8">
+            <AvatarImage src={user.user_metadata?.avatar_url} alt="User" />
+            <AvatarFallback>
+              {user.user_metadata?.name?.charAt(0) || user.email?.charAt(0) || 'U'}
+            </AvatarFallback>
+          </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>

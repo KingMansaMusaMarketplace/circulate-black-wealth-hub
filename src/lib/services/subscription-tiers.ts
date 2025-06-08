@@ -136,3 +136,24 @@ export const canAccessFeature = (userTier: SubscriptionTier, feature: keyof Tier
   const features = getFeatureAccess(userTier);
   return features[feature] as boolean;
 };
+
+// Helper function for signup forms
+export const getTierBenefits = (tier: 'free' | 'paid'): string[] => {
+  if (tier === 'free') {
+    return [
+      'QR Code Scanning',
+      'Earn Loyalty Points',
+      'Access Business Directory',
+      'Basic Community Features'
+    ];
+  }
+  
+  return [
+    'All Free Features',
+    'Redeem Rewards',
+    'Exclusive Deals Access',
+    'Premium Support',
+    'Mentorship Access',
+    'Advanced Networking'
+  ];
+};
