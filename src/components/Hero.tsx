@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
-import { Star, Crown } from 'lucide-react';
+import { Star, Crown, GraduationCap } from 'lucide-react';
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -35,7 +35,11 @@ const Hero = () => {
               </Badge>
               <Badge className="bg-mansagold text-mansablue px-3 py-1 text-sm font-medium">
                 <Crown className="h-3 w-3 mr-1" />
-                Upgrade for $10/month
+                Premium $10/month
+              </Badge>
+              <Badge className="bg-blue-600 text-white px-3 py-1 text-sm font-medium">
+                <GraduationCap className="h-3 w-3 mr-1" />
+                FREE Premium for HBCU
               </Badge>
             </div>
 
@@ -66,11 +70,19 @@ const Hero = () => {
                 </p>
               </div>
 
+              {/* HBCU Special Offer */}
+              <div className="bg-blue-600/20 border border-blue-400/40 rounded-md px-4 py-3">
+                <p className="text-sm md:text-base font-medium text-white">
+                  <span className="font-bold text-blue-300">🎓 HBCU STUDENTS &amp; STAFF:</span> Get ALL Premium features FREE with verification!
+                  <span className="block mt-1 text-xs text-blue-200">Upload student ID or staff credentials during signup</span>
+                </p>
+              </div>
+
               {/* Business Owner Benefits */}
               <div className="bg-white/10 border border-white/30 rounded-md px-4 py-3">
                 <p className="text-sm md:text-base font-medium text-white">
                   <span className="font-bold text-mansagold">🏪 BUSINESS OWNERS:</span> First month FREE! Connect with loyal customers
-                  <span className="block mt-1">Businesses: $100/month • 🎓 FREE for HBCU students &amp; staff</span>
+                  <span className="block mt-1">$100/month after trial period</span>
                 </p>
               </div>
             </div>
