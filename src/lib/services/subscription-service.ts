@@ -12,7 +12,7 @@ export interface CheckoutOptions {
   email: string;
   name?: string;
   businessName?: string;
-  tier?: 'premium' | 'business' | 'enterprise';
+  tier?: 'premium' | 'business' | 'enterprise' | 'silver' | 'gold' | 'platinum';
   priceId?: string;
 }
 

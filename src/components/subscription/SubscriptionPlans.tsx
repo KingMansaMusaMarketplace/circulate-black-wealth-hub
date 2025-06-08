@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -52,7 +51,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
         userType: tier === 'business' || tier === 'enterprise' ? 'business' : 'customer',
         email: user.email || '',
         name: user.user_metadata?.name || '',
-        tier: tier === 'free' ? undefined : tier,
+        tier: tier,
       });
       
       window.open(checkoutData.url, '_blank');
