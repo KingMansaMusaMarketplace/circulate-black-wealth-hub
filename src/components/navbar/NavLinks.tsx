@@ -23,7 +23,7 @@ const NavLinks: React.FC = () => {
           isActive('/about') ? 'text-mansagold' : 'text-gray-700'
         }`}
       >
-        About Us
+        About
       </Link>
       <Link 
         to="/how-it-works" 
@@ -50,12 +50,28 @@ const NavLinks: React.FC = () => {
         Community
       </Link>
       <Link 
+        to="/subscription" 
+        className={`text-sm font-medium transition-colors hover:text-mansagold ${
+          isActive('/subscription') ? 'text-mansagold' : 'text-gray-700'
+        }`}
+      >
+        Plans
+      </Link>
+      <Link 
         to="/sponsorship" 
         className={`text-sm font-medium transition-colors hover:text-mansagold ${
           isActive('/sponsorship') ? 'text-mansagold' : 'text-gray-700'
         }`}
       >
         Sponsorship
+      </Link>
+      <Link 
+        to="/contact" 
+        className={`text-sm font-medium transition-colors hover:text-mansagold ${
+          isActive('/contact') ? 'text-mansagold' : 'text-gray-700'
+        }`}
+      >
+        Contact
       </Link>
     </div>
   );
