@@ -38,7 +38,11 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
               <Logo />
-              {!isMobile && <NavLinks />}
+              {!isMobile && (
+                <div className="ml-12">
+                  <NavLinks />
+                </div>
+              )}
             </div>
             
             <div className="flex items-center gap-2">
