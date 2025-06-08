@@ -11,9 +11,9 @@ export interface BusinessProfile {
   description: string;
   category: string;
   address: string;
-  city: string;
-  state: string;
-  zip_code: string;
+  city?: string;
+  state?: string;
+  zip_code?: string;
   phone: string;
   email: string;
   website?: string;
@@ -57,8 +57,8 @@ export const saveBusinessProfile = async (profile: BusinessProfile): Promise<{ s
       return { success: false, error: { message: 'Rate limit exceeded' } };
     }
     
-    // Validate required fields
-    const requiredFields = ['business_name', 'owner_id', 'category', 'address', 'city', 'state', 'zip_code', 'phone', 'email'];
+    // Validate required fields - updated to include new required fields
+    const requiredFields = ['business_name', 'owner_id', 'description', 'address', 'phone', 'email'];
     const validationResult = validateRequiredFields(profile, requiredFields);
     
     if (!validationResult.isValid) {

@@ -24,6 +24,7 @@ export const createUserProfile = async (userId: string, userMetadata: any) => {
       user_type: userType,
       full_name: userMetadata.fullName || userMetadata.name || '',
       email: userMetadata.email || '',
+      phone: userMetadata.phone || '', // Add phone to profile
       subscription_status: subscriptionStatus,
       subscription_tier: subscriptionTier,
       subscription_start_date: startDate,
@@ -37,12 +38,15 @@ export const createUserProfile = async (userId: string, userMetadata: any) => {
     if (error) throw error;
     
     // If this is a business user, also create business record
-    if (userType === 'business' && userMetadata.businessName) {
+    if (userType === 'business' && userMetadata.business_name) {
       const businessData = {
         owner_id: userId,
-        business_name: userMetadata.businessName,
+        business_name: userMetadata.business_name,
+        description: userMetadata.business_description || '', // Store business description
+        address: userMetadata.business_address || '', // Store business address
+        phone: userMetadata.phone || '', // Store business phone
+        email: userMetadata.email || '', // Store business email
         category: userMetadata.businessType || '',
-        address: userMetadata.businessAddress || '',
         subscription_status: 'trial',
         subscription_start_date: startDate,
         subscription_end_date: endDate,

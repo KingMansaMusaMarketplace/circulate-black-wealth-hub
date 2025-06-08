@@ -59,7 +59,13 @@ export const useSignupForm = () => {
     }
   };
 
-  const onSubmit = async (values: SignupFormValues & { subscription_tier?: 'free' | 'paid' }) => {
+  const onSubmit = async (values: SignupFormValues & { 
+    subscription_tier?: 'free' | 'paid';
+    business_name?: string;
+    business_description?: string;
+    business_address?: string;
+    phone?: string;
+  }) => {
     try {
       setIsLoading(true);
       console.log('🚀 Starting signup process with values:', { 
@@ -77,11 +83,23 @@ export const useSignupForm = () => {
 
       const metadata = {
         name: values.name,
+        email: values.email,
         user_type: userType,
         referral_code: values.referralCode,
         referring_agent: referringAgent?.id,
         is_hbcu_member: isHBCUMember,
-        subscription_tier: values.subscription_tier || 'free'
+        subscription_tier: values.subscription_tier || 'free',
+        // Include business-specific fields if it's a business signup
+        ...(userType === 'business' && {
+          business_name: values.business_name,
+          business_description: values.business_description,
+          business_address: values.business_address,
+          phone: values.phone
+        }),
+        // Include customer phone if provided
+        ...(userType === 'customer' && values.phone && {
+          phone: values.phone
+        })
       };
 
       console.log('Signing up user with metadata:', metadata);
