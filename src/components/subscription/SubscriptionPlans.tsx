@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -51,12 +50,19 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
 
     setLoading(tier);
     try {
+      // Map tier to appropriate userType
+      const userType = (tier === 'business' || tier === 'enterprise') ? 'business' : 'customer';
+      
+      console.log('Creating checkout session for:', { tier, userType, email: user.email });
+      
       const checkoutData = await subscriptionService.createCheckoutSession({
-        userType: tier === 'business' || tier === 'enterprise' ? 'business' : 'customer',
+        userType: userType,
         email: user.email || '',
-        name: user.user_metadata?.name || 'User',
+        name: user.user_metadata?.full_name || user.user_metadata?.name || 'User',
         tier: tier,
       });
+      
+      console.log('Checkout session created:', checkoutData);
       
       // Open checkout in new tab
       window.open(checkoutData.url, '_blank');
@@ -70,7 +76,8 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
       onPlanSelect?.(tier);
     } catch (error) {
       console.error('Error creating checkout session:', error);
-      toast.error('Failed to start subscription process');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to start subscription process';
+      toast.error(errorMessage);
     } finally {
       setLoading(null);
     }
