@@ -52,6 +52,9 @@ const Dashboard: React.FC = () => {
     }
   ];
 
+  // Ensure userType is properly typed for WelcomeGuide
+  const validUserType: 'customer' | 'business' = userType === 'business' ? 'business' : 'customer';
+
   return (
     <div className="container mx-auto px-4 py-6 space-y-6">
       {/* Welcome Section */}
@@ -69,7 +72,7 @@ const Dashboard: React.FC = () => {
         
         {/* Left Column - Main Content */}
         <div className="lg:col-span-2 space-y-6">
-          <WelcomeGuide userType={userType || 'customer'} />
+          <WelcomeGuide userType={validUserType} />
           <CommunityImpactDashboard />
           <NearbyBusinesses businesses={sampleBusinesses} />
         </div>
