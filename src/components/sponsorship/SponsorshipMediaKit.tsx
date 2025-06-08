@@ -105,7 +105,7 @@ export const generatePartnershipGuide = async () => {
           <h3 style="color: #1e40af; font-size: 20px; margin-bottom: 15px;">Next Steps</h3>
           <ol style="line-height: 1.6;">
             <li>Review partnership tiers and select the level that aligns with your goals</li>
-            <li>Contact our partnership team at partnerships@mansamusamarketplace.com</li>
+            <li>Contact our partnership team at contact@mansamusamarketplace.com</li>
             <li>Schedule a consultation to discuss custom opportunities</li>
             <li>Review and sign partnership agreement</li>
             <li>Launch partnership with onboarding and asset preparation</li>
@@ -115,7 +115,7 @@ export const generatePartnershipGuide = async () => {
         <div style="text-align: center; margin-top: 40px; padding: 20px; background-color: #1e40af; color: white; border-radius: 8px;">
           <h3 style="margin-bottom: 10px;">Ready to Partner?</h3>
           <p style="margin-bottom: 15px;">Contact our partnership team to get started</p>
-          <p><strong>Email:</strong> partnerships@mansamusamarketplace.com</p>
+          <p><strong>Email:</strong> contact@mansamusamarketplace.com</p>
           <p><strong>Phone:</strong> 312.709.6006</p>
         </div>
       </div>
@@ -220,7 +220,7 @@ export const generateBrandAssets = async () => {
         <div style="text-align: center; margin-top: 40px; padding: 20px; background-color: #1e40af; color: white; border-radius: 8px;">
           <h3 style="margin-bottom: 10px;">Need Brand Assets?</h3>
           <p style="margin-bottom: 15px;">Contact our partnership team for complete brand package</p>
-          <p><strong>Email:</strong> partnerships@mansamusamarketplace.com</p>
+          <p><strong>Email:</strong> contact@mansamusamarketplace.com</p>
           <p><strong>Phone:</strong> 312.709.6006</p>
         </div>
       </div>
@@ -319,7 +319,7 @@ export const generateImpactReport = async () => {
         <div style="text-align: center; margin-top: 40px; padding: 20px; background-color: #1e40af; color: white; border-radius: 8px;">
           <h3 style="margin-bottom: 10px;">Partner With Us</h3>
           <p style="margin-bottom: 15px;">Join us in creating lasting economic impact</p>
-          <p><strong>Email:</strong> partnerships@mansamusamarketplace.com</p>
+          <p><strong>Email:</strong> contact@mansamusamarketplace.com</p>
           <p><strong>Phone:</strong> 312.709.6006</p>
         </div>
       </div>
@@ -425,9 +425,9 @@ export const generateMediaKit = async () => {
 
         <div style="text-align: center; margin-top: 40px; padding: 20px; background-color: #1e40af; color: white; border-radius: 8px;">
           <h3 style="margin-bottom: 10px;">Media Contact</h3>
-          <p style="margin-bottom: 5px;"><strong>Email:</strong> media@mansamusamarketplace.com</p>
+          <p style="margin-bottom: 5px;"><strong>Email:</strong> contact@mansamusamarketplace.com</p>
           <p style="margin-bottom: 5px;"><strong>Phone:</strong> 312.709.6006</p>
-          <p style="margin: 0;"><strong>Partnership Inquiries:</strong> partnerships@mansamusamarketplace.com</p>
+          <p style="margin: 0;"><strong>Partnership Inquiries:</strong> contact@mansamusamarketplace.com</p>
         </div>
       </div>
     `;

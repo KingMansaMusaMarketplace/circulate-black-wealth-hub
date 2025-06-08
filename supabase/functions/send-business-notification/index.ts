@@ -50,6 +50,7 @@ const handler = async (req: Request): Promise<Response> => {
           </ul>
           <p>Together, we're building economic empowerment and keeping dollars circulating in our community.</p>
           <p>Best regards,<br>The Mansa Musa Marketplace Team</p>
+          <p>For questions, contact us at: contact@mansamusamarketplace.com</p>
         `;
         break;
 
@@ -61,6 +62,7 @@ const handler = async (req: Request): Promise<Response> => {
           <p>Your business verification has been approved. You now have full access to all marketplace features.</p>
           <p>Your verified badge will help customers trust and find your business more easily.</p>
           <p>Start maximizing your impact in the community today!</p>
+          <p>For questions, contact us at: contact@mansamusamarketplace.com</p>
         `;
         break;
 
@@ -79,6 +81,7 @@ const handler = async (req: Request): Promise<Response> => {
           </ul>
           <p>Together, we're extending the circulation of the Black dollar beyond the national average of 6 hours.</p>
           <p>Welcome to the movement!</p>
+          <p>For questions, contact us at: contact@mansamusamarketplace.com</p>
         `;
         break;
     }

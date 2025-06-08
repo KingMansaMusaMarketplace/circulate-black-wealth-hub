@@ -11,11 +11,11 @@ const SponsorshipContact = () => {
   };
 
   const handleEmailClick = () => {
-    window.location.href = 'mailto:partnerships@mansamusamarketplace.com?subject=Corporate Sponsorship Inquiry';
+    window.location.href = 'mailto:contact@mansamusamarketplace.com?subject=Corporate Sponsorship Inquiry';
   };
 
   const handlePhoneClick = () => {
-    window.location.href = 'tel:+1-555-867-5309';
+    window.location.href = 'tel:+13127096006';
   };
 
   return (
@@ -53,7 +53,7 @@ const SponsorshipContact = () => {
                       onClick={handleEmailClick}
                       className="text-mansablue hover:underline cursor-pointer"
                     >
-                      partnerships@mansamusamarketplace.com
+                      contact@mansamusamarketplace.com
                     </button>
                   </div>
                   
@@ -63,7 +63,7 @@ const SponsorshipContact = () => {
                       onClick={handlePhoneClick}
                       className="text-mansablue hover:underline cursor-pointer"
                     >
-                      (555) 867-5309
+                      312.709.6006
                     </button>
                   </div>
                   
