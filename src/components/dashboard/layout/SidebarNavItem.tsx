@@ -2,18 +2,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { LucideIcon } from 'lucide-react';
 
 interface SidebarNavItemProps {
   to: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
+  icon: LucideIcon;
+  label: string;
   isActive: boolean;
 }
 
 const SidebarNavItem: React.FC<SidebarNavItemProps> = ({
   to,
-  icon,
-  children,
+  icon: Icon,
+  label,
   isActive
 }) => {
   return (
@@ -26,8 +27,8 @@ const SidebarNavItem: React.FC<SidebarNavItemProps> = ({
           : "text-gray-700 hover:bg-gray-100"
       )}
     >
-      {React.cloneElement(icon as React.ReactElement, { className: "mr-3 h-5 w-5" })}
-      {children}
+      <Icon className="mr-3 h-5 w-5" />
+      {label}
     </Link>
   );
 };
