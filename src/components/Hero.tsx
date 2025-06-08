@@ -2,6 +2,8 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { Badge } from '@/components/ui/badge';
+import { Star, Crown } from 'lucide-react';
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -25,50 +27,70 @@ const Hero = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center">
           <div className="w-full md:w-1/2 text-white mb-8 md:mb-0">
+            {/* Free membership highlight */}
+            <div className="mb-4 flex flex-wrap gap-2">
+              <Badge className="bg-green-600 text-white px-3 py-1 text-sm font-medium">
+                <Star className="h-3 w-3 mr-1" />
+                Start FREE
+              </Badge>
+              <Badge className="bg-mansagold text-mansablue px-3 py-1 text-sm font-medium">
+                <Crown className="h-3 w-3 mr-1" />
+                Upgrade for $10/month
+              </Badge>
+            </div>
+
             <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
               <span className="block">Save Money &amp; Support</span>
               <span className="block text-mansagold">Black-Owned Businesses</span>
               <span className="block text-lg sm:text-xl md:text-2xl font-normal mt-2 text-white/90">
-                Get 10% - 20% discounts while building community wealth!
+                Start FREE - Get 10% - 20% discounts while building community wealth!
               </span>
             </h1>
             <p className="mt-3 text-base text-white/80 sm:mt-5 sm:text-lg sm:max-w-xl md:mt-5 md:text-xl">
-              Join thousands of customers earning rewards, discovering amazing businesses, and making every purchase count toward building generational wealth.
+              Join thousands of customers discovering amazing businesses and making every purchase count toward building generational wealth.
             </p>
             
-            {/* Customer Benefits Highlight */}
-            <div className="mt-4 bg-mansagold/20 border border-mansagold/40 rounded-md px-4 py-3">
-              <p className="text-sm md:text-base font-medium text-white">
-                <span className="font-bold text-mansagold">💰 For Customers:</span> Earn points on every purchase, get exclusive discounts, discover new businesses
-                <span className="block mt-1">📱 Simply scan QR codes to unlock savings and rewards</span>
-              </p>
-            </div>
+            {/* Free vs Premium Features */}
+            <div className="mt-6 space-y-3">
+              {/* Free Features */}
+              <div className="bg-white/10 border border-white/30 rounded-md px-4 py-3">
+                <p className="text-sm md:text-base font-medium text-white">
+                  <span className="font-bold text-green-400">🆓 FREE MEMBERSHIP:</span> Browse directory, discover businesses, view profiles
+                </p>
+              </div>
 
-            {/* Business Owner Benefits */}
-            <div className="mt-3 bg-white/10 border border-white/30 rounded-md px-4 py-3">
-              <p className="text-sm md:text-base font-medium text-white">
-                <span className="font-bold text-mansagold">🏪 For Business Owners:</span> First month FREE! Connect with loyal customers
-                <span className="block mt-1">Members: $10/month • Businesses: $100/month</span>
-                <span className="block mt-2 font-bold text-mansagold">🎓 FREE for HBCU students &amp; staff</span>
-              </p>
+              {/* Premium Features */}
+              <div className="bg-mansagold/20 border border-mansagold/40 rounded-md px-4 py-3">
+                <p className="text-sm md:text-base font-medium text-white">
+                  <span className="font-bold text-mansagold">💰 PREMIUM ($10/month):</span> Earn points, scan QR codes for discounts, exclusive deals
+                </p>
+              </div>
+
+              {/* Business Owner Benefits */}
+              <div className="bg-white/10 border border-white/30 rounded-md px-4 py-3">
+                <p className="text-sm md:text-base font-medium text-white">
+                  <span className="font-bold text-mansagold">🏪 BUSINESS OWNERS:</span> First month FREE! Connect with loyal customers
+                  <span className="block mt-1">Businesses: $100/month • 🎓 FREE for HBCU students &amp; staff</span>
+                </p>
+              </div>
             </div>
             
-            <div className="mt-5 sm:mt-8 sm:flex sm:justify-start">
+            <div className="mt-6 sm:mt-8 sm:flex sm:justify-start gap-3">
               <div className="rounded-md shadow">
                 <Button 
                   onClick={() => navigate('/signup')}
                   className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-mansablue bg-mansagold hover:bg-mansagold-dark md:py-4 md:text-lg md:px-10"
                 >
-                  Start Earning Rewards
+                  Start FREE Today
                 </Button>
               </div>
-              <div className="mt-3 sm:mt-0 sm:ml-3">
+              <div className="mt-3 sm:mt-0">
                 <Button 
                   onClick={() => navigate('/directory')}
                   variant="outline"
                   className="w-full flex items-center justify-center px-8 py-3 border border-white text-white bg-transparent hover:bg-white/10 md:py-4 md:text-lg md:px-10"
                 >
-                  Find Businesses
+                  Browse Directory
                 </Button>
               </div>
             </div>
