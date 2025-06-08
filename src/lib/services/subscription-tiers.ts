@@ -1,73 +1,138 @@
 
-export type SubscriptionTier = 'free' | 'paid';
+export type SubscriptionTier = 'free' | 'premium' | 'business' | 'enterprise';
 
-export interface FeatureAccess {
+export interface TierFeatures {
   canScanQR: boolean;
   canEarnPoints: boolean;
   canRedeemRewards: boolean;
   canAccessExclusiveDeals: boolean;
-  hasFullDirectoryAccess: boolean;
+  canCreateBusiness: boolean;
+  canVerifyBusiness: boolean;
+  maxBusinessListings: number;
+  canAccessAnalytics: boolean;
+  canCreateEvents: boolean;
+  maxQRCodes: number;
+  canAccessPremiumSupport: boolean;
+  canAccessMentorship: boolean;
+  canAccessNetworking: boolean;
 }
 
-export const getFeatureAccess = (tier: SubscriptionTier): FeatureAccess => {
-  switch (tier) {
-    case 'free':
-      return {
-        canScanQR: false,
-        canEarnPoints: false,
-        canRedeemRewards: false,
-        canAccessExclusiveDeals: false,
-        hasFullDirectoryAccess: true, // Basic directory access
-      };
-    case 'paid':
-      return {
-        canScanQR: true,
-        canEarnPoints: true,
-        canRedeemRewards: true,
-        canAccessExclusiveDeals: true,
-        hasFullDirectoryAccess: true,
-      };
-    default:
-      return {
-        canScanQR: false,
-        canEarnPoints: false,
-        canRedeemRewards: false,
-        canAccessExclusiveDeals: false,
-        hasFullDirectoryAccess: true,
-      };
+export interface TierInfo {
+  name: string;
+  displayName: string;
+  description: string;
+  price: number;
+  interval: 'month' | 'year';
+  features: TierFeatures;
+  stripePriceId?: string;
+  popular?: boolean;
+}
+
+export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
+  free: {
+    name: 'free',
+    displayName: 'Community Member',
+    description: 'Basic access to support Black-owned businesses',
+    price: 0,
+    interval: 'month',
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: false,
+      canAccessExclusiveDeals: false,
+      canCreateBusiness: false,
+      canVerifyBusiness: false,
+      maxBusinessListings: 0,
+      canAccessAnalytics: false,
+      canCreateEvents: false,
+      maxQRCodes: 0,
+      canAccessPremiumSupport: false,
+      canAccessMentorship: false,
+      canAccessNetworking: false,
+    }
+  },
+  premium: {
+    name: 'premium',
+    displayName: 'Wealth Builder',
+    description: 'Enhanced features for maximizing your impact',
+    price: 9.99,
+    interval: 'month',
+    popular: true,
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: false,
+      canVerifyBusiness: false,
+      maxBusinessListings: 0,
+      canAccessAnalytics: true,
+      canCreateEvents: false,
+      maxQRCodes: 0,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+    }
+  },
+  business: {
+    name: 'business',
+    displayName: 'Business Owner',
+    description: 'Complete toolkit for Black business owners',
+    price: 49.99,
+    interval: 'month',
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: true,
+      canVerifyBusiness: true,
+      maxBusinessListings: 3,
+      canAccessAnalytics: true,
+      canCreateEvents: true,
+      maxQRCodes: 10,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+    }
+  },
+  enterprise: {
+    name: 'enterprise',
+    displayName: 'Enterprise',
+    description: 'Advanced features for established businesses',
+    price: 199.99,
+    interval: 'month',
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: true,
+      canVerifyBusiness: true,
+      maxBusinessListings: -1, // unlimited
+      canAccessAnalytics: true,
+      canCreateEvents: true,
+      maxQRCodes: -1, // unlimited
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+    }
   }
+};
+
+export const getFeatureAccess = (tier: SubscriptionTier): TierFeatures => {
+  return subscriptionTiers[tier]?.features || subscriptionTiers.free.features;
 };
 
 export const getTierDisplayName = (tier: SubscriptionTier): string => {
-  switch (tier) {
-    case 'free':
-      return 'Free Member';
-    case 'paid':
-      return 'Premium Member';
-    default:
-      return 'Member';
-  }
+  return subscriptionTiers[tier]?.displayName || 'Community Member';
 };
 
-export const getTierBenefits = (tier: SubscriptionTier): string[] => {
-  switch (tier) {
-    case 'free':
-      return [
-        'Browse Black-owned businesses',
-        'View business profiles and contact info',
-        'Search and filter directory',
-        'Access basic business information'
-      ];
-    case 'paid':
-      return [
-        'All free features',
-        'Scan QR codes for instant discounts',
-        'Earn loyalty points with every purchase',
-        'Redeem points for exclusive rewards',
-        'Access member-only deals',
-        'Priority customer support'
-      ];
-    default:
-      return [];
-  }
+export const getTierInfo = (tier: SubscriptionTier): TierInfo => {
+  return subscriptionTiers[tier] || subscriptionTiers.free;
+};
+
+export const canAccessFeature = (userTier: SubscriptionTier, feature: keyof TierFeatures): boolean => {
+  const features = getFeatureAccess(userTier);
+  return features[feature] as boolean;
 };
