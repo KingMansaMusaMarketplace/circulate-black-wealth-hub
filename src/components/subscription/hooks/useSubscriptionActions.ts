@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { subscriptionService } from '@/lib/services/subscription-service';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import { toast } from 'sonner';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import ProfileMenu from '@/components/auth/ProfileMenu';
 import { Search, MapPin, Users, Crown } from 'lucide-react';
 
