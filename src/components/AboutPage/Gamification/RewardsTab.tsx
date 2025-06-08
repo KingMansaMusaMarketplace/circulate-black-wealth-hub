@@ -80,7 +80,7 @@ const RewardsTab = () => {
               <div className="flex items-center space-x-3">
                 <div className="font-bold text-lg">1</div>
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder.svg" />
+                  <AvatarImage src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&crop=face" alt="Michael J." />
                   <AvatarFallback>MJ</AvatarFallback>
                 </Avatar>
                 <div>Michael J.</div>
@@ -92,7 +92,7 @@ const RewardsTab = () => {
               <div className="flex items-center space-x-3">
                 <div className="font-bold text-lg">2</div>
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder.svg" />
+                  <AvatarImage src="https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&auto=format&fit=crop&crop=face" alt="Sarah K." />
                   <AvatarFallback>SK</AvatarFallback>
                 </Avatar>
                 <div>Sarah K.</div>
@@ -104,7 +104,7 @@ const RewardsTab = () => {
               <div className="flex items-center space-x-3">
                 <div className="font-bold text-lg">3</div>
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder.svg" />
+                  <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&crop=face" alt="James D." />
                   <AvatarFallback>JD</AvatarFallback>
                 </Avatar>
                 <div>James D.</div>
@@ -116,7 +116,7 @@ const RewardsTab = () => {
               <div className="flex items-center space-x-3">
                 <div className="font-bold text-lg">12</div>
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="/placeholder.svg" />
+                  <AvatarImage src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&crop=face" alt="You" />
                   <AvatarFallback>YOU</AvatarFallback>
                 </Avatar>
                 <div>You</div>
