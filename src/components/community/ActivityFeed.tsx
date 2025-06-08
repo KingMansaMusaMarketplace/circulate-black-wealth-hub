@@ -23,9 +23,15 @@ interface ActivityItem {
 
 interface ActivityFeedProps {
   limit?: number;
+  showHeader?: boolean;
+  className?: string;
 }
 
-const ActivityFeed: React.FC<ActivityFeedProps> = ({ limit = 10 }) => {
+const ActivityFeed: React.FC<ActivityFeedProps> = ({ 
+  limit = 10, 
+  showHeader = true,
+  className = ""
+}) => {
   const { user } = useAuth();
   const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -164,8 +170,8 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ limit = 10 }) => {
 
   if (loading) {
     return (
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-mansablue">Community Activity</h3>
+      <div className={`space-y-4 ${className}`}>
+        {showHeader && <h3 className="text-lg font-semibold text-mansablue">Community Activity</h3>}
         {[1, 2, 3].map((i) => (
           <Card key={i} className="animate-pulse">
             <CardContent className="p-4">
@@ -185,8 +191,8 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({ limit = 10 }) => {
   }
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold text-mansablue">Community Activity</h3>
+    <div className={`space-y-4 ${className}`}>
+      {showHeader && <h3 className="text-lg font-semibold text-mansablue">Community Activity</h3>}
       
       {activities.map((activity) => (
         <Card key={activity.id} className="hover:shadow-md transition-shadow">
