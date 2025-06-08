@@ -11,6 +11,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 // Lazy load pages for better performance
 const HomePage = React.lazy(() => import('@/pages/HomePage'));
 const AboutPage = React.lazy(() => import('@/pages/AboutPage'));
+const ContactPage = React.lazy(() => import('@/pages/ContactPage'));
 const DirectoryPage = React.lazy(() => import('@/pages/DirectoryPage'));
 const EnhancedDirectoryPage = React.lazy(() => import('@/pages/EnhancedDirectoryPage'));
 const BusinessDetailPage = React.lazy(() => import('@/pages/BusinessDetailPage'));
@@ -64,6 +65,7 @@ function App() {
                   <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/about" element={<AboutPage />} />
+                    <Route path="/contact" element={<ContactPage />} />
                     <Route path="/how-it-works" element={<HowItWorksPage />} />
                     <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
                     <Route path="/directory" element={<DirectoryPage />} />
