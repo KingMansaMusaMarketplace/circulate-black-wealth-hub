@@ -11,7 +11,7 @@ const recommendedBusinesses = [
     name: "Elite Tech Solutions",
     category: "Technology",
     rating: 4.8,
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=600&auto=format&fit=crop",
     location: "Atlanta, GA",
     distance: "0.8 miles away",
     deals: ["20% off first consultation", "Free system health check"],
@@ -22,7 +22,7 @@ const recommendedBusinesses = [
     name: "Harmony Wellness Spa",
     category: "Health & Wellness",
     rating: 4.9,
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=600&auto=format&fit=crop",
     location: "Oakland, CA",
     distance: "1.2 miles away",
     deals: ["Buy one service, get second 50% off", "New client special"],
@@ -33,7 +33,7 @@ const recommendedBusinesses = [
     name: "Flavor Fusion Kitchen",
     category: "Food & Beverage",
     rating: 4.7,
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop",
     location: "Chicago, IL", 
     distance: "0.5 miles away",
     deals: ["Free appetizer with entrée purchase", "10% off first order"],
@@ -63,7 +63,7 @@ const PersonalizedRecommendations = () => {
               <div className="relative h-48 bg-gray-200 overflow-hidden">
                 <img 
                   src={business.image} 
-                  alt={business.name} 
+                  alt={`${business.name} - ${business.category}`}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm px-2 py-1 rounded text-sm font-medium">
