@@ -8,7 +8,7 @@ const Logo: React.FC = () => {
       <img 
         src="/lovable-uploads/20f584ba-b02b-4b47-a402-708831771379.png" 
         alt="Mansa Musa" 
-        className="w-8 h-8 rounded-full object-cover"
+        className="w-12 h-12 rounded-full object-cover"
       />
       <span className="text-xl font-bold text-mansablue">Mansa Musa Marketplace</span>
     </Link>
