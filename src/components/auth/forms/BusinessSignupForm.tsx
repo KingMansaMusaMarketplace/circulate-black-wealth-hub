@@ -1,9 +1,11 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Textarea } from '@/components/ui/textarea';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -35,7 +37,11 @@ const businessSignupFormSchema = z.object({
   password: z.string().min(8, {
     message: 'Password must be at least 8 characters.',
   }),
+  confirmPassword: z.string(),
   referralCode: z.string().optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 type BusinessSignupFormValues = z.infer<typeof businessSignupFormSchema>;
@@ -64,6 +70,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       email: '',
       phone: '',
       password: '',
+      confirmPassword: '',
       referralCode: referralCode || ''
     },
   });
@@ -133,7 +140,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           name="businessName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Business Name</FormLabel>
+              <FormLabel>Business Name <span className="text-red-500">*</span></FormLabel>
               <FormControl>
                 <Input placeholder="Enter your business name" {...field} />
               </FormControl>
@@ -164,7 +171,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Owner Name</FormLabel>
+              <FormLabel>Owner Name <span className="text-red-500">*</span></FormLabel>
               <FormControl>
                 <Input placeholder="Enter owner name" {...field} />
               </FormControl>
@@ -178,7 +185,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email <span className="text-red-500">*</span></FormLabel>
               <FormControl>
                 <Input type="email" placeholder="Enter your email" {...field} />
               </FormControl>
@@ -192,7 +199,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone (Optional)</FormLabel>
+              <FormLabel>Phone Number (Optional)</FormLabel>
               <FormControl>
                 <Input placeholder="Enter your phone number" {...field} />
               </FormControl>
@@ -206,11 +213,30 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Password <span className="text-red-500">*</span></FormLabel>
               <FormControl>
-                <Input
-                  type="password"
+                <PasswordInput
                   placeholder="Create a password"
+                  {...field}
+                />
+              </FormControl>
+              <p className="text-xs text-gray-500">
+                Password must be at least 8 characters long
+              </p>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password <span className="text-red-500">*</span></FormLabel>
+              <FormControl>
+                <PasswordInput
+                  placeholder="Confirm your password"
                   {...field}
                 />
               </FormControl>
