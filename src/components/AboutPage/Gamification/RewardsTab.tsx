@@ -92,7 +92,7 @@ const RewardsTab = () => {
               <div className="flex items-center space-x-3">
                 <div className="font-bold text-lg">2</div>
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src="https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=150&auto=format&fit=crop&crop=face" alt="Sarah K." />
+                  <AvatarImage src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=150&auto=format&fit=crop&crop=face" alt="Sarah K." />
                   <AvatarFallback>SK</AvatarFallback>
                 </Avatar>
                 <div>Sarah K.</div>
