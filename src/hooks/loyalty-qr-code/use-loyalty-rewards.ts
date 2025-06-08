@@ -4,12 +4,13 @@ import { useLoyalty } from '@/hooks/use-loyalty';
 import { useAuth } from '@/contexts/auth';
 import { toast } from 'sonner';
 
-interface UseLoyaltyRewardsOptions {
+export interface UseLoyaltyRewardsOptions {
   businessId?: string;
 }
 
 export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
   const [loyaltyPoints, setLoyaltyPoints] = useState<any[]>([]);
+  const [availableRewards, setAvailableRewards] = useState<any[]>([]);
   const { user } = useAuth();
   const { summary, refreshData } = useLoyalty();
   
@@ -45,6 +46,7 @@ export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
   return {
     totalPoints,
     loyaltyPoints,
+    availableRewards,
     refreshLoyaltyData,
     redeemReward
   };

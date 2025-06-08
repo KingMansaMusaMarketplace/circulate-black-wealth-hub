@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
+export type TimePeriod = '7days' | '30days' | '90days' | 'all';
+
 interface UseQRCodeAnalyticsOptions {
   setLoading: (loading: boolean) => void;
 }
@@ -9,7 +11,7 @@ interface UseQRCodeAnalyticsOptions {
 export const useQRCodeAnalytics = ({ setLoading }: UseQRCodeAnalyticsOptions) => {
   const [analytics, setAnalytics] = useState<any>(null);
 
-  const fetchAnalytics = async (businessId: string) => {
+  const fetchAnalytics = async (businessId: string, timePeriod: TimePeriod = '7days') => {
     setLoading(true);
     try {
       // Simulate analytics data

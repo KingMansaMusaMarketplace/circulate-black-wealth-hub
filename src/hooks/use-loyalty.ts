@@ -13,6 +13,23 @@ export interface LoyaltyPoints {
   updated_at: string;
 }
 
+export interface PointsHistory {
+  id: string;
+  points: number;
+  type: 'earned' | 'redeemed';
+  date: string;
+  business_name?: string;
+}
+
+export interface RedeemedReward {
+  id: string;
+  reward_id: string;
+  customer_id: string;
+  points_used: number;
+  redemption_date: string;
+  title: string;
+}
+
 export interface LoyaltySummary {
   totalPoints: number;
   totalBusinesses: number;
@@ -25,6 +42,9 @@ export const useLoyalty = () => {
     totalBusinesses: 0,
     recentTransactions: []
   });
+  const [loyaltyPoints, setLoyaltyPoints] = useState<LoyaltyPoints[]>([]);
+  const [pointsHistory, setPointsHistory] = useState<PointsHistory[]>([]);
+  const [redeemedRewards, setRedeemedRewards] = useState<RedeemedReward[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
@@ -52,6 +72,22 @@ export const useLoyalty = () => {
         totalBusinesses,
         recentTransactions: []
       });
+
+      setLoyaltyPoints(loyaltyData || []);
+
+      // Mock points history for now
+      setPointsHistory([
+        {
+          id: '1',
+          points: 25,
+          type: 'earned',
+          date: new Date().toISOString(),
+          business_name: 'Sample Business'
+        }
+      ]);
+
+      // Mock redeemed rewards for now
+      setRedeemedRewards([]);
     } catch (error) {
       console.error('Error refreshing loyalty data:', error);
     } finally {
@@ -61,7 +97,13 @@ export const useLoyalty = () => {
 
   return {
     summary,
+    loyaltyPoints: totalPoints,
+    pointsHistory,
+    isLoading: loading,
     loading,
+    nextRewardThreshold: 500,
+    currentTier: 'Bronze',
+    redeemedRewards,
     refreshData
   };
 };

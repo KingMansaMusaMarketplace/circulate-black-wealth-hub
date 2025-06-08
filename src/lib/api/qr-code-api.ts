@@ -14,6 +14,19 @@ export interface QRCode {
   updated_at: string;
 }
 
+export interface QRScan {
+  id: string;
+  qr_code_id: string;
+  customer_id: string;
+  business_id: string;
+  points_awarded: number;
+  discount_applied: number;
+  scan_date: string;
+  location_lat?: number;
+  location_lng?: number;
+  created_at: string;
+}
+
 export interface QRCodeGenerationParams {
   businessId: string;
   codeType: 'loyalty' | 'discount' | 'info';

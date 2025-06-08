@@ -26,7 +26,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 border-b border-gray-700/50 pb-12">
           {/* Column 1: Logo and mission */}
           <div className="lg:col-span-2">
-            <Logo className="invert opacity-90" />
+            <Logo />
             <p className="text-gray-300 mt-6 max-w-md leading-relaxed">
               Building, protecting, and expanding the Black economic ecosystem through 
               intentional consumer behavior, loyalty rewards, and strategic digital infrastructure.

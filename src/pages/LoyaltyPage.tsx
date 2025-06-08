@@ -1,173 +1,212 @@
-import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useLoyaltyRewards } from '@/hooks/loyalty-qr-code/use-loyalty-rewards';
-import LoyaltyPointsCard from '@/components/LoyaltyPointsCard';
-import LoyaltyHistory from '@/components/loyalty/LoyaltyHistory';
-import LoyaltyRewardsCard from '@/components/loyalty/LoyaltyRewardsCard';
-import { useLoyaltyHistory } from '@/hooks/use-loyalty-history';
-import { Card, CardContent } from '@/components/ui/card';
-import { Award, Gift, BarChart2, QrCode, Users, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Link, Navigate } from 'react-router-dom';
-import LeaderboardCard from '@/components/loyalty/LeaderboardCard';
-import NotificationsPopover from '@/components/loyalty/NotificationsPopover';
-import LoyaltyGuide from '@/components/loyalty/LoyaltyGuide';
-import ReferralCard from '@/components/loyalty/ReferralCard';
-import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
+import React, { useState } from 'react';
 import { useAuth } from '@/contexts/auth';
-import { Helmet } from 'react-helmet';
-
-// Define the LoyaltyTransaction type expected by LoyaltyHistory component
-interface LoyaltyTransaction {
-  id: number | string;
-  businessName: string;
-  action: string;
-  points: number;
-  date: string;
-  time: string;
-}
+import { Navigate } from 'react-router-dom';
+import { DashboardLayout } from '@/components/dashboard';
+import { Award } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from 'sonner';
+import LoyaltyHistory from '@/components/loyalty/LoyaltyHistory';
+import RewardsTab from '@/components/loyalty/RewardsTab';
+import { useLoyaltyRewards } from '@/hooks/loyalty-qr-code/use-loyalty-rewards';
 
 const LoyaltyPage = () => {
-  const { user } = useAuth();
-  const { totalPoints, loyaltyPoints, availableRewards, redeemReward } = useLoyaltyRewards({ autoRefresh: true });
-  const { stats, transactions } = useLoyaltyHistory();
+  const { user, loading } = useAuth();
+  const [activeTab, setActiveTab] = useState('history');
   
-  // Redirect unauthenticated users to login
-  if (!user) {
-    return <Navigate to="/login?redirect=/loyalty" replace />;
+  // Use the loyalty rewards hook
+  const { totalPoints, redeemReward } = useLoyaltyRewards();
+  
+  // State for loyalty points and transactions
+  const [loyaltyStats, setLoyaltyStats] = useState({
+    totalPoints,
+    pointsEarned: 445,
+    pointsRedeemed: 100,
+    visitsThisMonth: 5,
+  });
+  
+  const [transactions, setTransactions] = useState([
+    {
+      id: 1,
+      businessName: "Soul Food Kitchen",
+      action: "Scan",
+      points: 15,
+      date: "2023-05-01",
+      time: "14:30"
+    },
+    {
+      id: 2,
+      businessName: "Prestigious Cuts",
+      action: "Review",
+      points: 25,
+      date: "2023-04-28",
+      time: "11:15"
+    },
+    {
+      id: 3,
+      businessName: "Heritage Bookstore",
+      action: "Scan",
+      points: 10,
+      date: "2023-04-25",
+      time: "16:45"
+    },
+    {
+      id: 4,
+      businessName: "Prosperity Financial",
+      action: "Referral",
+      points: 50,
+      date: "2023-04-20",
+      time: "09:30"
+    },
+    {
+      id: 5,
+      businessName: "Soul Food Kitchen",
+      action: "Redemption",
+      points: -100,
+      date: "2023-04-15",
+      time: "18:20"
+    },
+    {
+      id: 6,
+      businessName: "Ebony Crafts",
+      action: "Scan",
+      points: 12,
+      date: "2023-04-10",
+      time: "13:45"
+    },
+    {
+      id: 7,
+      businessName: "Royal Apparel",
+      action: "Scan",
+      points: 15,
+      date: "2023-04-05",
+      time: "15:30"
+    },
+  ]);
+  
+  const [rewards, setRewards] = useState([
+    {
+      id: 1,
+      title: "$10 off at Soul Food Kitchen",
+      description: "Get $10 off your next purchase of $30 or more at Soul Food Kitchen.",
+      pointsCost: 100,
+      category: "Restaurant Deals",
+      expiresAt: "2023-06-30"
+    },
+    {
+      id: 2,
+      title: "Free Haircut at Prestigious Cuts",
+      description: "Redeem a free haircut at Prestigious Cuts barber shop.",
+      pointsCost: 200,
+      category: "Beauty & Wellness",
+      expiresAt: "2023-07-15"
+    },
+    {
+      id: 3,
+      title: "20% off any book at Heritage Bookstore",
+      description: "Get 20% off any book purchase at Heritage Bookstore.",
+      pointsCost: 75,
+      category: "Retail Rewards",
+    },
+    {
+      id: 4,
+      title: "Free Financial Consultation",
+      description: "Redeem a 30-minute financial consultation at Prosperity Financial.",
+      pointsCost: 150,
+      category: "Services",
+      expiresAt: "2023-08-01"
+    },
+    {
+      id: 5,
+      title: "$25 Mansa Musa Gift Card",
+      description: "Get a $25 gift card to use at any participating business.",
+      pointsCost: 250,
+      category: "Gift Cards",
+    },
+    {
+      id: 6,
+      title: "Buy One Get One Free at Royal Apparel",
+      description: "Buy any item and get one of equal or lesser value for free.",
+      pointsCost: 175,
+      category: "Retail Rewards",
+      expiresAt: "2023-07-31"
+    }
+  ]);
+  
+  // Handle reward redemption
+  const handleRedeemReward = (rewardId: number, pointsCost: number) => {
+    // Check if user has enough points
+    if (loyaltyStats.totalPoints < pointsCost) {
+      toast.error("Not enough points to redeem this reward");
+      return;
+    }
+    
+    // Update points balance
+    setLoyaltyStats(prev => ({
+      ...prev,
+      totalPoints: prev.totalPoints - pointsCost,
+      pointsRedeemed: prev.pointsRedeemed + pointsCost
+    }));
+    
+    // Add transaction for this redemption
+    const newTransaction = {
+      id: Date.now(),
+      businessName: "Rewards Program",
+      action: "Redemption",
+      points: -pointsCost,
+      date: new Date().toISOString().split('T')[0],
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    
+    setTransactions([newTransaction, ...transactions]);
+    
+    // Find the reward to show in the toast
+    const redeemedReward = rewards.find(r => r.id === rewardId);
+    
+    toast.success("Reward Redeemed", {
+      description: `You've redeemed "${redeemedReward?.title}". ${pointsCost} points have been deducted.`
+    });
+  };
+  
+  // Show loading state while checking auth status
+  if (loading) {
+    return (
+      <DashboardLayout title="Loyalty History" location="">
+        <div className="flex justify-center items-center h-64">
+          <p>Loading...</p>
+        </div>
+      </DashboardLayout>
+    );
   }
   
-  // Calculate total amount saved based on reward value
-  const savedAmount = Math.round(totalPoints / 100) * 5; // Simplified calculation for demo
-
-  // Transform the data to match the expected types
-  const formattedStats = {
-    totalPoints: stats.totalPointsEarned || 0,
-    pointsEarned: stats.totalPointsEarned || 0,
-    pointsRedeemed: stats.totalPointsRedeemed || 0,
-    visitsThisMonth: stats.visitsThisMonth || 0
-  };
-
-  // Transform transactions to match expected format
-  const formattedTransactions: LoyaltyTransaction[] = transactions.map(transaction => ({
-    id: transaction.id,
-    businessName: transaction.business?.business_name || 'Business',
-    action: transaction.transaction_type || 'Scan',
-    points: transaction.points_earned || -transaction.points_redeemed,
-    date: new Date(transaction.transaction_date).toLocaleDateString(),
-    time: new Date(transaction.transaction_date).toLocaleTimeString()
-  }));
-
+  // Redirect to login if not authenticated
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+  
   return (
-    <ResponsiveLayout title="Loyalty Rewards">
-      <Helmet>
-        <title>Loyalty Rewards | Mansa Musa Marketplace</title>
-      </Helmet>
-      <div className="container py-8 max-w-5xl">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-semibold text-mansablue">My Loyalty Rewards</h1>
-          <NotificationsPopover />
-        </div>
+    <DashboardLayout 
+      title="Loyalty Program" 
+      icon={<Award className="mr-2 h-5 w-5" />}
+    >
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid grid-cols-2 mb-8">
+          <TabsTrigger value="history">History</TabsTrigger>
+          <TabsTrigger value="rewards">Redeem Rewards</TabsTrigger>
+        </TabsList>
         
-        {/* Display the Loyalty Guide */}
-        <LoyaltyGuide />
+        <TabsContent value="history" className="space-y-6">
+          <LoyaltyHistory stats={loyaltyStats} transactions={transactions} />
+        </TabsContent>
         
-        <div className="flex flex-col md:flex-row gap-6 mb-8">
-          <div className="w-full md:w-1/3">
-            <LoyaltyPointsCard 
-              points={totalPoints}
-              target={500}
-              saved={savedAmount}
-            />
-          </div>
-          
-          <div className="w-full md:w-2/3 flex flex-col gap-6">
-            <Card className="flex-1 overflow-hidden border border-blue-100 shadow-md hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 bg-gradient-to-br from-white to-blue-50">
-                <div className="text-center">
-                  <div className="mb-4">
-                    <span className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-mansablue/10 mb-2">
-                      <Sparkles size={28} className="text-mansablue" />
-                    </span>
-                    <h2 className="text-2xl font-bold text-mansablue">{totalPoints}</h2>
-                    <p className="text-gray-600">Total Points</p>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-4 mt-6">
-                    <Button variant="default" className="flex items-center gap-2 bg-mansablue hover:bg-mansablue-dark" asChild>
-                      <Link to="/scan">
-                        <QrCode size={16} />
-                        Scan for Points
-                      </Link>
-                    </Button>
-                    <Button variant="outline" className="flex items-center gap-2 text-mansablue border-mansablue hover:bg-mansablue/5" asChild>
-                      <Link to="/loyalty-history">
-                        <BarChart2 size={16} />
-                        View History
-                      </Link>
-                    </Button>
-                  </div>
-                  
-                  <div className="mt-6 pt-6 border-t border-blue-100">
-                    <h3 className="text-sm font-medium mb-3 text-mansablue">Your Points by Business</h3>
-                    {loyaltyPoints.length > 0 ? (
-                      <div className="space-y-2">
-                        {loyaltyPoints.map((biz, index) => (
-                          <div key={index} className="flex justify-between items-center p-2 bg-mansablue/5 rounded hover:bg-mansablue/10 transition-colors">
-                            <span className="font-medium text-gray-700">{biz.businessName}</span>
-                            <Badge className="bg-mansablue hover:bg-mansablue-dark">{biz.points} pts</Badge>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-gray-500 text-sm p-4 bg-blue-50 rounded-md border border-blue-100">
-                        Visit businesses and scan QR codes to earn points
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <ReferralCard />
-          </div>
-        </div>
-        
-        <Tabs defaultValue="rewards" className="w-full">
-          <TabsList className="grid grid-cols-3 bg-blue-50 p-1">
-            <TabsTrigger value="rewards" className="flex items-center gap-2 data-[state=active]:bg-mansablue data-[state=active]:text-white">
-              <Gift size={16} />
-              Available Rewards
-            </TabsTrigger>
-            <TabsTrigger value="leaderboard" className="flex items-center gap-2 data-[state=active]:bg-mansablue data-[state=active]:text-white">
-              <Users size={16} />
-              Leaderboard
-            </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center gap-2 data-[state=active]:bg-mansablue data-[state=active]:text-white">
-              <BarChart2 size={16} />
-              Points History
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="rewards" className="mt-6">
-            <LoyaltyRewardsCard 
-              totalPoints={totalPoints}
-              availableRewards={availableRewards}
-              onRedeemReward={redeemReward}
-            />
-          </TabsContent>
-          <TabsContent value="leaderboard" className="mt-6">
-            <LeaderboardCard limit={10} />
-          </TabsContent>
-          <TabsContent value="history" className="mt-6">
-            <LoyaltyHistory 
-              stats={formattedStats}
-              transactions={formattedTransactions}
-            />
-          </TabsContent>
-        </Tabs>
-      </div>
-    </ResponsiveLayout>
+        <TabsContent value="rewards">
+          <RewardsTab 
+            availablePoints={loyaltyStats.totalPoints}
+            rewards={rewards}
+            onRedeem={handleRedeemReward}
+          />
+        </TabsContent>
+      </Tabs>
+    </DashboardLayout>
   );
 };
 

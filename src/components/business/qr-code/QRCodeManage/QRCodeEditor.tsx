@@ -2,7 +2,7 @@
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { QRCode } from '@/lib/api/qr-code-api';
-import { QRCodeForm } from '../QRCodeGenerator/QRCodeForm';
+import QRCodeForm from '../QRCodeGenerator/QRCodeForm';
 import { useQRCode } from '@/hooks/qr-code';
 import { toast } from 'sonner';
 
