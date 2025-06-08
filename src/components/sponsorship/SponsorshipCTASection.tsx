@@ -26,7 +26,7 @@ const SponsorshipCTASection: React.FC<SponsorshipCTASectionProps> = ({
         <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
           <Button 
             size="lg" 
-            className="bg-mansagold hover:bg-mansagold-dark text-mansablue"
+            className="bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold"
             onClick={onContactPartnership}
           >
             Contact Partnership Team
@@ -34,7 +34,7 @@ const SponsorshipCTASection: React.FC<SponsorshipCTASectionProps> = ({
           <Button 
             size="lg" 
             variant="outline"
-            className="border-white text-white hover:bg-white hover:text-mansablue"
+            className="border-2 border-white bg-white text-mansablue hover:bg-gray-100 hover:text-mansablue font-semibold"
             onClick={onDownloadGuide}
             disabled={isGeneratingPDF}
           >
