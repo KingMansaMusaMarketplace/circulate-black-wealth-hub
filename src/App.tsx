@@ -1,122 +1,78 @@
 
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Toaster } from '@/components/ui/toaster';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
-import ErrorBoundary from '@/components/ErrorBoundary';
-import ProtectedRoute from '@/components/auth/ProtectedRoute';
-import RequireBusiness from '@/components/auth/RequireBusiness';
+import { Suspense, lazy } from "react";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/auth/AuthProvider";
+import Navbar from "@/components/navbar/Navbar";
+import Footer from "@/components/Footer";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
 
-// Import pages
-import HomePage from '@/pages/HomePage';
-import LoginPage from '@/pages/LoginPage';
-import SignupPage from '@/pages/SignupPage';
-import DashboardPage from '@/pages/DashboardPage';
-import BusinessProfilePage from '@/pages/BusinessProfilePage';
-import ProfilePage from '@/pages/ProfilePage';
-import LoyaltyPage from '@/pages/LoyaltyPage';
-import QRCodeManagementPage from '@/pages/QRCodeManagementPage';
-import SalesAgentPage from '@/pages/SalesAgentPage';
-import SettingsPage from '@/pages/SettingsPage';
-import QRScannerPage from '@/pages/QRScannerPage';
-import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
-import HowItWorksPage from '@/pages/HowItWorksPage';
-import BusinessDirectoryPage from '@/pages/BusinessDirectoryPage';
-import AboutUsPage from '@/pages/AboutUsPage';
-import AboutPage from '@/pages/AboutPage';
-import FAQPage from '@/pages/FAQPage';
-import TeamContactPage from '@/pages/TeamContactPage';
-import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
-import TermsOfServicePage from '@/pages/TermsOfServicePage';
-import ResetPasswordPage from '@/pages/ResetPasswordPage';
-import NewPasswordPage from '@/pages/NewPasswordPage';
-import HelpCenterPage from '@/pages/HelpCenterPage';
-import BlogPage from '@/pages/BlogPage';
-import CookiePolicyPage from '@/pages/CookiePolicyPage';
-import SignupTestPage from '@/pages/SignupTestPage';
+// Lazy load components for better performance
+const Index = lazy(() => import("@/pages/Index"));
+const AboutPage = lazy(() => import("@/pages/AboutPage"));
+const HowItWorksPage = lazy(() => import("@/pages/HowItWorksPage"));
+const DirectoryPage = lazy(() => import("@/pages/DirectoryPage"));
+const BusinessDetailPage = lazy(() => import("@/pages/BusinessDetailPage"));
+const LoginPage = lazy(() => import("@/pages/LoginPage"));
+const SignupPage = lazy(() => import("@/pages/SignupPage"));
+const DashboardPage = lazy(() => import("@/pages/DashboardPage"));
+const ProfilePage = lazy(() => import("@/pages/ProfilePage"));
+const BusinessDashboardPage = lazy(() => import("@/pages/BusinessDashboardPage"));
+const QRScannerPage = lazy(() => import("@/pages/QRScannerPage"));
+const LoyaltyPage = lazy(() => import("@/pages/LoyaltyPage"));
+const SalesAgentPage = lazy(() => import("@/pages/SalesAgentPage"));
+const CorporateSponsorshipPage = lazy(() => import("@/pages/CorporateSponsorshipPage"));
+const CommunityPage = lazy(() => import("@/pages/CommunityPage"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <ErrorBoundary>
-      <TooltipProvider>
-        <AuthProvider>
-          <SubscriptionProvider>
-            <Router>
-              <div className="App min-h-screen bg-gray-50">
-                <Routes>
-                  {/* Public routes */}
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/signup" element={<SignupPage />} />
-                  <Route path="/how-it-works" element={<HowItWorksPage />} />
-                  <Route path="/directory" element={<BusinessDirectoryPage />} />
-                  <Route path="/about-us" element={<AboutUsPage />} />
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/faq" element={<FAQPage />} />
-                  <Route path="/our-team" element={<TeamContactPage />} />
-                  <Route path="/qr-scanner" element={<QRScannerPage />} />
-                  <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
-                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                  <Route path="/terms" element={<TermsOfServicePage />} />
-                  <Route path="/reset-password" element={<ResetPasswordPage />} />
-                  <Route path="/new-password" element={<NewPasswordPage />} />
-                  <Route path="/help" element={<HelpCenterPage />} />
-                  <Route path="/blog" element={<BlogPage />} />
-                  <Route path="/cookies" element={<CookiePolicyPage />} />
-                  <Route path="/signup-test" element={<SignupTestPage />} />
-                  
-                  {/* Protected routes */}
-                  <Route path="/dashboard" element={
-                    <ProtectedRoute>
-                      <DashboardPage />
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/profile" element={
-                    <ProtectedRoute>
-                      <ProfilePage />
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/loyalty" element={
-                    <ProtectedRoute>
-                      <LoyaltyPage />
-                    </ProtectedRoute>
-                  } />
-                  
-                  <Route path="/settings" element={
-                    <ProtectedRoute>
-                      <SettingsPage />
-                    </ProtectedRoute>
-                  } />
-                  
-                  {/* Business only routes */}
-                  <Route path="/business-profile" element={
-                    <RequireBusiness>
-                      <BusinessProfilePage />
-                    </RequireBusiness>
-                  } />
-                  
-                  <Route path="/qr-management" element={
-                    <RequireBusiness>
-                      <QRCodeManagementPage />
-                    </RequireBusiness>
-                  } />
-                  
-                  <Route path="/sales-agent" element={
-                    <ProtectedRoute>
-                      <SalesAgentPage />
-                    </ProtectedRoute>
-                  } />
-                </Routes>
-                <Toaster />
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <AuthProvider>
+            <BrowserRouter>
+              <div className="min-h-screen flex flex-col">
+                <PerformanceMonitor />
+                <Navbar />
+                <main className="flex-grow">
+                  <Suspense fallback={
+                    <div className="flex items-center justify-center min-h-[50vh]">
+                      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-mansablue"></div>
+                    </div>
+                  }>
+                    <Routes>
+                      <Route path="/" element={<Index />} />
+                      <Route path="/about" element={<AboutPage />} />
+                      <Route path="/how-it-works" element={<HowItWorksPage />} />
+                      <Route path="/directory" element={<DirectoryPage />} />
+                      <Route path="/business/:id" element={<BusinessDetailPage />} />
+                      <Route path="/login" element={<LoginPage />} />
+                      <Route path="/signup" element={<SignupPage />} />
+                      <Route path="/dashboard" element={<DashboardPage />} />
+                      <Route path="/profile" element={<ProfilePage />} />
+                      <Route path="/business-dashboard" element={<BusinessDashboardPage />} />
+                      <Route path="/scanner" element={<QRScannerPage />} />
+                      <Route path="/loyalty" element={<LoyaltyPage />} />
+                      <Route path="/sales-agent" element={<SalesAgentPage />} />
+                      <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
+                      <Route path="/community" element={<CommunityPage />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Suspense>
+                </main>
+                <Footer />
               </div>
-            </Router>
-          </SubscriptionProvider>
-        </AuthProvider>
-      </TooltipProvider>
+              <Toaster />
+            </BrowserRouter>
+          </AuthProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 }

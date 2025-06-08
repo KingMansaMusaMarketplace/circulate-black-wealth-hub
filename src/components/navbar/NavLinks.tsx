@@ -2,44 +2,62 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-interface NavLinksProps {
-  className?: string;
-  onClick?: () => void;
-}
-
-const NavLinks: React.FC<NavLinksProps> = ({ className = "", onClick }) => {
+const NavLinks: React.FC = () => {
   const location = useLocation();
   
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "About Us", path: "/about-us" },
-    { name: "How It Works", path: "/how-it-works" },
-    { name: "Directory", path: "/directory" },
-    { name: "Loyalty Program", path: "/loyalty" },
-    { name: "Corporate Sponsorship", path: "/corporate-sponsorship" },
-    { name: "Sales Agent", path: "/sales-agent" },
-    { name: "FAQ", path: "/faq" }
-  ];
+  const isActive = (path: string) => location.pathname === path;
   
   return (
-    <nav className={`hidden md:flex items-center space-x-8 ${className}`}>
-      {links.map((link) => (
-        <Link
-          key={link.path}
-          to={link.path}
-          onClick={onClick}
-          className={`text-sm font-medium transition-colors hover:text-mansablue relative group px-1
-            ${location.pathname === link.path
-              ? "text-mansablue font-semibold"
-              : "text-gray-700"
-            }`}
-        >
-          {link.name}
-          <span className={`absolute -bottom-1.5 left-0 w-full h-0.5 bg-mansablue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 
-            ${location.pathname === link.path ? "scale-x-100" : ""}`}></span>
-        </Link>
-      ))}
-    </nav>
+    <div className="hidden md:flex items-center space-x-8">
+      <Link 
+        to="/" 
+        className={`text-sm font-medium transition-colors hover:text-mansagold ${
+          isActive('/') ? 'text-mansagold' : 'text-gray-700'
+        }`}
+      >
+        Home
+      </Link>
+      <Link 
+        to="/about" 
+        className={`text-sm font-medium transition-colors hover:text-mansagold ${
+          isActive('/about') ? 'text-mansagold' : 'text-gray-700'
+        }`}
+      >
+        About Us
+      </Link>
+      <Link 
+        to="/how-it-works" 
+        className={`text-sm font-medium transition-colors hover:text-mansagold ${
+          isActive('/how-it-works') ? 'text-mansagold' : 'text-gray-700'
+        }`}
+      >
+        How It Works
+      </Link>
+      <Link 
+        to="/directory" 
+        className={`text-sm font-medium transition-colors hover:text-mansagold ${
+          isActive('/directory') ? 'text-mansagold' : 'text-gray-700'
+        }`}
+      >
+        Directory
+      </Link>
+      <Link 
+        to="/community" 
+        className={`text-sm font-medium transition-colors hover:text-mansagold ${
+          isActive('/community') ? 'text-mansagold' : 'text-gray-700'
+        }`}
+      >
+        Community
+      </Link>
+      <Link 
+        to="/sponsorship" 
+        className={`text-sm font-medium transition-colors hover:text-mansagold ${
+          isActive('/sponsorship') ? 'text-mansagold' : 'text-gray-700'
+        }`}
+      >
+        Sponsorship
+      </Link>
+    </div>
   );
 };
 
