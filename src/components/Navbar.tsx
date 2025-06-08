@@ -18,9 +18,11 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-mansablue flex items-center justify-center">
-              <span className="text-white font-spartan font-bold text-lg">M</span>
-            </div>
+            <img 
+              src="/lovable-uploads/150432cc-c354-44c5-8b52-771f74dfc018.png" 
+              alt="Mansa Musa" 
+              className="w-10 h-10 rounded-full object-cover"
+            />
             <span className="font-spartan font-bold text-xl text-mansablue hidden sm:block">
               Mansa Musa Marketplace
             </span>
