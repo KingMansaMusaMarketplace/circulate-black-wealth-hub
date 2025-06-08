@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/auth/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import { subscriptionService } from '@/lib/services/subscription-service';
 import { toast } from 'sonner';
-import { CreditCard, Refresh, ExternalLink } from 'lucide-react';
+import { CreditCard, RefreshCw, ExternalLink } from 'lucide-react';
 
 const StripeTestComponent: React.FC = () => {
   const { user } = useAuth();
@@ -92,7 +92,7 @@ const StripeTestComponent: React.FC = () => {
               disabled={isLoading}
               className="ml-auto"
             >
-              <Refresh className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
               Refresh
             </Button>
           </div>

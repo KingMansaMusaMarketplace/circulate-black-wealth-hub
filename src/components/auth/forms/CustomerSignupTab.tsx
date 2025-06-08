@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
@@ -20,7 +19,7 @@ const CustomerSignupTab: React.FC = () => {
     onSubmit
   } = useSignupForm();
 
-  const [selectedTier, setSelectedTier] = useState<'free' | 'paid'>('free');
+  const [selectedTier, setSelectedTier] = useState<'free' | 'premium'>('free');
 
   const handleSubmitWithTier = async (values: any) => {
     try {
@@ -41,7 +40,8 @@ const CustomerSignupTab: React.FC = () => {
         const checkoutData = await subscriptionService.createCheckoutSession({
           userType: 'customer',
           email: values.email,
-          name: values.name
+          name: values.name,
+          tier: 'premium'
         });
         
         window.open(checkoutData.url, '_blank');
@@ -124,7 +124,7 @@ const CustomerSignupTab: React.FC = () => {
           <FormLabel>Choose Your Plan</FormLabel>
           <RadioGroup 
             value={selectedTier} 
-            onValueChange={(value: 'free' | 'paid') => setSelectedTier(value)}
+            onValueChange={(value: 'free' | 'premium') => setSelectedTier(value)}
             className="space-y-3"
           >
             {/* Free Tier */}
@@ -144,17 +144,17 @@ const CustomerSignupTab: React.FC = () => {
               </div>
             </div>
 
-            {/* Paid Tier */}
+            {/* Premium Tier */}
             <div className="flex items-start space-x-3 p-4 border-2 border-amber-200 rounded-lg bg-gradient-to-r from-amber-50 to-orange-50 hover:border-amber-300 transition-colors">
-              <RadioGroupItem value="paid" id="paid" className="mt-1" />
+              <RadioGroupItem value="premium" id="premium" className="mt-1" />
               <div className="flex-1">
-                <Label htmlFor="paid" className="flex items-center gap-2 font-medium cursor-pointer">
+                <Label htmlFor="premium" className="flex items-center gap-2 font-medium cursor-pointer">
                   <Crown className="h-4 w-4 text-amber-500" />
                   Premium Member
                   <span className="text-amber-700 text-sm font-semibold">$10/month</span>
                 </Label>
                 <ul className="text-xs text-amber-700 mt-2 space-y-1">
-                  {getTierBenefits('paid').map((benefit, index) => (
+                  {getTierBenefits('premium').map((benefit, index) => (
                     <li key={index}>• {benefit}</li>
                   ))}
                 </ul>
