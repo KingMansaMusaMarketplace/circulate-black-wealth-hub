@@ -11,8 +11,12 @@ export const signupFormSchema = z.object({
   password: z.string().min(8, {
     message: 'Password must be at least 8 characters.',
   }),
+  confirmPassword: z.string(),
   referralCode: z.string().optional(),
   isHBCUMember: z.boolean().default(false),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 export type SignupFormValues = z.infer<typeof signupFormSchema>;

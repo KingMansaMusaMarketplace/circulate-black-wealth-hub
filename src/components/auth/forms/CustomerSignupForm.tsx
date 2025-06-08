@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { FormCheckbox } from './FormCheckbox';
 import { SubmitButton } from './SubmitButton';
 
@@ -12,6 +13,8 @@ interface CustomerSignupFormProps {
   setEmail: (email: string) => void;
   password: string;
   setPassword: (password: string) => void;
+  confirmPassword: string;
+  setConfirmPassword: (confirmPassword: string) => void;
   agreeTerms: boolean;
   setAgreeTerms: (agree: boolean) => void;
   loading: boolean;
@@ -19,6 +22,7 @@ interface CustomerSignupFormProps {
   setPhone: (phone: string) => void;
   address: string;
   setAddress: (address: string) => void;
+  passwordError?: string;
 }
 
 export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
@@ -29,13 +33,16 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
   setEmail,
   password,
   setPassword,
+  confirmPassword,
+  setConfirmPassword,
   agreeTerms,
   setAgreeTerms,
   loading,
   phone,
   setPhone,
   address,
-  setAddress
+  setAddress,
+  passwordError
 }) => {
   return (
     <form onSubmit={onSubmit}>
@@ -96,9 +103,8 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
             Password <span className="text-red-500">*</span>
           </label>
-          <Input
+          <PasswordInput
             id="password"
-            type="password"
             placeholder="Create a secure password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -107,6 +113,21 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
           <p className="mt-1 text-xs text-gray-500">
             Password must be at least 8 characters long
           </p>
+        </div>
+        <div>
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+            Confirm Password <span className="text-red-500">*</span>
+          </label>
+          <PasswordInput
+            id="confirmPassword"
+            placeholder="Confirm your password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          {passwordError && (
+            <p className="mt-1 text-xs text-red-500">{passwordError}</p>
+          )}
         </div>
         
         <FormCheckbox 
