@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,6 +7,7 @@ import { Check, Crown, Star, Zap, Building2 } from 'lucide-react';
 import { subscriptionTiers, type SubscriptionTier } from '@/lib/services/subscription-tiers';
 import { subscriptionService } from '@/lib/services/subscription-service';
 import { useAuth } from '@/contexts/auth/AuthContext';
+import { useSubscription } from '@/contexts/SubscriptionContext';
 import { toast } from 'sonner';
 
 interface SubscriptionPlansProps {
@@ -32,6 +34,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
   onPlanSelect 
 }) => {
   const { user } = useAuth();
+  const { refreshSubscription } = useSubscription();
   const [loading, setLoading] = useState<SubscriptionTier | null>(null);
 
   const handleSubscribe = async (tier: SubscriptionTier) => {
@@ -41,6 +44,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
     }
 
     if (tier === 'free') {
+      toast.info('You are already on the free plan');
       onPlanSelect?.(tier);
       return;
     }
@@ -50,11 +54,19 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
       const checkoutData = await subscriptionService.createCheckoutSession({
         userType: tier === 'business' || tier === 'enterprise' ? 'business' : 'customer',
         email: user.email || '',
-        name: user.user_metadata?.name || '',
+        name: user.user_metadata?.name || 'User',
         tier: tier,
       });
       
+      // Open checkout in new tab
       window.open(checkoutData.url, '_blank');
+      
+      // Refresh subscription after a delay to check for updates
+      setTimeout(() => {
+        refreshSubscription();
+      }, 2000);
+      
+      toast.success('Redirecting to checkout...');
       onPlanSelect?.(tier);
     } catch (error) {
       console.error('Error creating checkout session:', error);
@@ -201,7 +213,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
                 ) : isCurrentTier ? (
                   'Current Plan'
                 ) : tier.price === 0 ? (
-                  'Get Started'
+                  'Current Plan'
                 ) : (
                   `Subscribe for $${tier.price}/${tier.interval}`
                 )}
