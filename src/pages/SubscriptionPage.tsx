@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '@/components/navbar/Navbar';
+import Navbar from '@/components/Navbar';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import SubscriptionPlans from '@/components/subscription/SubscriptionPlans';
