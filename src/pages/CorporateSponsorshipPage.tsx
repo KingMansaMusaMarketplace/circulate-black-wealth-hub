@@ -60,6 +60,22 @@ const CorporateSponsorshipPage = () => {
     window.location.href = mailtoUrl;
   };
 
+  const handleContactPartnership = () => {
+    const subject = 'Partnership Inquiry - Mansa Musa Marketplace';
+    const body = `Hello,\n\nI am interested in exploring corporate sponsorship opportunities with Mansa Musa Marketplace.\n\nPlease contact me to discuss:\n- Available partnership tiers\n- Custom sponsorship opportunities\n- Partnership benefits and ROI\n- Next steps in the process\n\nI look forward to hearing from you.\n\nBest regards`;
+    
+    const mailtoUrl = `mailto:partnerships@mansamusamarketplace.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+  };
+
+  const handleDownloadGuide = () => {
+    // Create a placeholder PDF download - in a real app this would link to an actual PDF
+    const link = document.createElement('a');
+    link.href = '/partnership-guide.pdf';
+    link.download = 'Mansa-Musa-Partnership-Guide.pdf';
+    link.click();
+  };
+
   return (
     <div className="flex flex-col min-h-screen">
       <Helmet>
@@ -176,10 +192,19 @@ const CorporateSponsorshipPage = () => {
               that align with your company's values and goals.
             </p>
             <div className="space-y-4 sm:space-y-0 sm:space-x-4 sm:flex sm:justify-center">
-              <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-mansablue">
+              <Button 
+                size="lg" 
+                className="bg-mansagold hover:bg-mansagold-dark text-mansablue"
+                onClick={handleContactPartnership}
+              >
                 Contact Partnership Team
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-mansablue">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-mansablue bg-transparent"
+                onClick={handleDownloadGuide}
+              >
                 Download Partnership Guide
               </Button>
             </div>
