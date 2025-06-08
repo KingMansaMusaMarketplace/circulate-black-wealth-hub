@@ -21,7 +21,7 @@ const Navbar = () => {
             <img 
               src="/lovable-uploads/150432cc-c354-44c5-8b52-771f74dfc018.png" 
               alt="Mansa Musa" 
-              className="w-12 h-12 rounded-full object-cover"
+              className="w-14 h-14 rounded-full object-cover"
             />
             <span className="font-spartan font-bold text-xl text-mansablue hidden sm:block">
               Mansa Musa Marketplace
