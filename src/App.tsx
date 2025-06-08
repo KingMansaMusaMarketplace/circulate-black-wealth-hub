@@ -35,6 +35,9 @@ const HowItWorksPage = React.lazy(() => import('@/pages/HowItWorksPage'));
 const CorporateSponsorshipPage = React.lazy(() => import('@/pages/CorporateSponsorshipPage'));
 const SubscriptionPage = React.lazy(() => import('@/pages/SubscriptionPage'));
 const StripeTestPage = React.lazy(() => import('@/pages/StripeTestPage'));
+const SignupTestPage = React.lazy(() => import('@/pages/SignupTestPage'));
+const AuthPage = React.lazy(() => import('@/pages/AuthPage'));
+const SystemTestPage = React.lazy(() => import('@/pages/SystemTestPage'));
 
 // Create a client
 const queryClient = new QueryClient({
@@ -86,10 +89,13 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/signup/:userType" element={<SignupPage />} />
+                    <Route path="/auth" element={<AuthPage />} />
                     <Route path="/sales-agent" element={<SalesAgentPage />} />
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/subscription" element={<SubscriptionPage />} />
                     <Route path="/stripe-test" element={<StripeTestPage />} />
+                    <Route path="/signup-test" element={<SignupTestPage />} />
+                    <Route path="/system-test" element={<SystemTestPage />} />
                   </Routes>
                 </Suspense>
               </div>
