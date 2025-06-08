@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ReviewCard from '@/components/ReviewCard';
 import ReviewForm from '@/components/ReviewForm';
+import SocialShareButtons from '@/components/common/SocialShareButtons';
 import { Button } from '@/components/ui/button';
 import {
   Tabs,
@@ -193,27 +194,19 @@ const BusinessDetailPage = () => {
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                      <DialogTitle>Share this business</DialogTitle>
+                      <DialogTitle>Share {business.name}</DialogTitle>
                       <DialogDescription>
-                        Copy the link or share directly on your social networks
+                        Share this amazing Black-owned business with your network
                       </DialogDescription>
                     </DialogHeader>
-                    <div className="flex items-center space-x-2">
-                      <div className="grid flex-1 gap-2">
-                        <input
-                          className="w-full border rounded-md px-3 py-2 text-sm"
-                          value={`https://yourapp.com/business/${business.id}`}
-                          readOnly
-                        />
-                      </div>
-                      <Button type="submit" size="sm" className="px-3 bg-mansablue hover:bg-mansablue-dark">
-                        Copy
-                      </Button>
-                    </div>
-                    <div className="flex justify-center gap-4 mt-4">
-                      <Button variant="outline" size="sm">Facebook</Button>
-                      <Button variant="outline" size="sm">Twitter</Button>
-                      <Button variant="outline" size="sm">Instagram</Button>
+                    <div className="flex justify-center py-4">
+                      <SocialShareButtons
+                        title={`Check out ${business.name} on Mansa Musa Marketplace`}
+                        text={`I found this amazing Black-owned business: ${business.name} - ${business.description.substring(0, 100)}...`}
+                        url={`${window.location.origin}/business/${business.id}`}
+                        showLabels={true}
+                        size="default"
+                      />
                     </div>
                   </DialogContent>
                 </Dialog>
