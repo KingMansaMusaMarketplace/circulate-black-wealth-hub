@@ -8,8 +8,8 @@ import MapView from '@/components/MapView';
 import { Business } from '@/types/business';
 
 interface DesktopContentRendererProps {
-  viewMode: string;
-  setViewMode: (mode: string) => void;
+  viewMode: 'recommendations' | 'grid' | 'list' | 'map';
+  setViewMode: (mode: 'recommendations' | 'grid' | 'list' | 'map') => void;
   location: any;
   businesses: Business[];
   loading: boolean;
@@ -27,7 +27,7 @@ const DesktopContentRenderer: React.FC<DesktopContentRendererProps> = ({
   mapData
 }) => {
   return (
-    <Tabs value={viewMode} onValueChange={(val) => setViewMode(val)}>
+    <Tabs value={viewMode} onValueChange={(val) => setViewMode(val as 'recommendations' | 'grid' | 'list' | 'map')}>
       <TabsContent value="recommendations" className="mt-0">
         <div className="space-y-8">
           <SmartBusinessRecommendations userLocation={location} />

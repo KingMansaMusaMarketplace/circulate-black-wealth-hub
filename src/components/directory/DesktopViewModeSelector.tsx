@@ -4,8 +4,8 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrendingUp, Grid3X3, List, MapPin } from 'lucide-react';
 
 interface DesktopViewModeSelectorProps {
-  viewMode: string;
-  setViewMode: (mode: string) => void;
+  viewMode: 'recommendations' | 'grid' | 'list' | 'map';
+  setViewMode: (mode: 'recommendations' | 'grid' | 'list' | 'map') => void;
   loading: boolean;
   totalCount: number;
   location: any;
@@ -29,7 +29,7 @@ const DesktopViewModeSelector: React.FC<DesktopViewModeSelectorProps> = ({
           {error && <span className="text-red-500 ml-2">Error loading data</span>}
         </div>
         
-        <Tabs value={viewMode} onValueChange={(val) => setViewMode(val)}>
+        <Tabs value={viewMode} onValueChange={(val) => setViewMode(val as 'recommendations' | 'grid' | 'list' | 'map')}>
           <TabsList>
             <TabsTrigger value="recommendations">
               <TrendingUp className="h-4 w-4 mr-1" />
