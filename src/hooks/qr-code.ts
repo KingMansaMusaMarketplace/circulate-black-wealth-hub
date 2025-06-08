@@ -1,21 +1,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
-
-export interface QRCode {
-  id: string;
-  qr_image_url?: string;
-  code_type: 'loyalty' | 'discount' | 'info';
-  points_value?: number;
-  discount_percentage?: number;
-  business_id: string;
-  is_active: boolean;
-  scan_limit?: number;
-  current_scans: number;
-  expiration_date?: string;
-  created_at: string;
-  updated_at: string;
-}
+import { QRCode } from '@/lib/api/qr-code-api';
 
 export const useQRCode = () => {
   const [loading, setLoading] = useState(false);
@@ -33,7 +19,7 @@ export const useQRCode = () => {
       
       const newQrCode: QRCode = {
         id: Math.random().toString(36).substr(2, 9),
-        code_type: (codeType || 'loyalty') as 'loyalty' | 'discount' | 'info',
+        code_type: (codeType || 'loyalty') as 'loyalty' | 'discount' | 'checkin',
         business_id: businessId || 'default',
         is_active: true,
         points_value: options?.pointsValue,
