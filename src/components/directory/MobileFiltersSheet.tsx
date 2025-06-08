@@ -38,7 +38,7 @@ const MobileFiltersSheet: React.FC<MobileFiltersSheetProps> = ({
       minRating: undefined,
       minDiscount: undefined,
       featured: undefined,
-      maxDistance: undefined
+      distance: undefined
     });
   };
 
@@ -47,7 +47,7 @@ const MobileFiltersSheet: React.FC<MobileFiltersSheetProps> = ({
     filters.minRating,
     filters.minDiscount,
     filters.featured,
-    filters.maxDistance
+    filters.distance
   ].filter(Boolean).length;
 
   return (
@@ -152,8 +152,8 @@ const MobileFiltersSheet: React.FC<MobileFiltersSheetProps> = ({
             </h3>
             <div className="space-y-3">
               <Slider
-                value={[filters.maxDistance || 25]}
-                onValueChange={(value) => onFiltersChange({ maxDistance: value[0] })}
+                value={[filters.distance || 25]}
+                onValueChange={(value) => onFiltersChange({ distance: value[0] })}
                 max={25}
                 min={1}
                 step={1}
@@ -161,7 +161,7 @@ const MobileFiltersSheet: React.FC<MobileFiltersSheetProps> = ({
               />
               <div className="flex justify-between text-sm text-gray-600">
                 <span>1 mile</span>
-                <span>Within {filters.maxDistance || 25} miles</span>
+                <span>Within {filters.distance || 25} miles</span>
               </div>
             </div>
           </div>
