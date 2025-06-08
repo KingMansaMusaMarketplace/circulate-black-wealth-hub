@@ -4,19 +4,19 @@ import React from 'react';
 const SponsorshipShowcase = () => {
   const sponsors = {
     platinum: [
-      { name: 'Global Financial Partners', logo: 'https://via.placeholder.com/180x100?text=GFP' },
-      { name: 'Tech Innovations Inc', logo: 'https://via.placeholder.com/180x100?text=TII' },
+      { name: 'Global Financial Partners', logo: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
+      { name: 'Tech Innovations Inc', logo: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
     ],
     gold: [
-      { name: 'Horizon Technologies', logo: 'https://via.placeholder.com/160x90?text=HT' },
-      { name: 'Unity Investments', logo: 'https://via.placeholder.com/160x90?text=UI' },
-      { name: 'Northwest Healthcare', logo: 'https://via.placeholder.com/160x90?text=NH' },
+      { name: 'Horizon Technologies', logo: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
+      { name: 'Unity Investments', logo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
+      { name: 'Northwest Healthcare', logo: 'https://images.unsplash.com/photo-1560472355-536de3962603?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
     ],
     silver: [
-      { name: 'Metro Construction', logo: 'https://via.placeholder.com/140x80?text=MC' },
-      { name: 'Evergreen Energy', logo: 'https://via.placeholder.com/140x80?text=EE' },
-      { name: 'Urban Retail Group', logo: 'https://via.placeholder.com/140x80?text=URG' },
-      { name: 'Local Food Co-op', logo: 'https://via.placeholder.com/140x80?text=LFC' },
+      { name: 'Metro Construction', logo: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
+      { name: 'Evergreen Energy', logo: 'https://images.unsplash.com/photo-1554224154-26032fced8bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
+      { name: 'Urban Retail Group', logo: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
+      { name: 'Local Food Co-op', logo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80' },
     ],
   };
 
@@ -37,11 +37,13 @@ const SponsorshipShowcase = () => {
             <div className="flex flex-wrap justify-center gap-8">
               {sponsors.platinum.map((sponsor, index) => (
                 <div key={index} className="flex flex-col items-center">
-                  <img 
-                    src={sponsor.logo} 
-                    alt={`${sponsor.name} logo`} 
-                    className="h-24 object-contain mb-3 bg-white p-4 rounded-md shadow-sm"
-                  />
+                  <div className="w-24 h-24 bg-white rounded-lg shadow-sm overflow-hidden mb-3">
+                    <img 
+                      src={sponsor.logo} 
+                      alt={`${sponsor.name} logo`} 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                   <span className="text-sm font-medium">{sponsor.name}</span>
                 </div>
               ))}
@@ -54,11 +56,13 @@ const SponsorshipShowcase = () => {
             <div className="flex flex-wrap justify-center gap-6">
               {sponsors.gold.map((sponsor, index) => (
                 <div key={index} className="flex flex-col items-center">
-                  <img 
-                    src={sponsor.logo} 
-                    alt={`${sponsor.name} logo`} 
-                    className="h-20 object-contain mb-3 bg-white p-4 rounded-md shadow-sm"
-                  />
+                  <div className="w-20 h-20 bg-white rounded-lg shadow-sm overflow-hidden mb-3">
+                    <img 
+                      src={sponsor.logo} 
+                      alt={`${sponsor.name} logo`} 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                   <span className="text-sm font-medium">{sponsor.name}</span>
                 </div>
               ))}
@@ -71,11 +75,13 @@ const SponsorshipShowcase = () => {
             <div className="flex flex-wrap justify-center gap-6">
               {sponsors.silver.map((sponsor, index) => (
                 <div key={index} className="flex flex-col items-center">
-                  <img 
-                    src={sponsor.logo} 
-                    alt={`${sponsor.name} logo`} 
-                    className="h-16 object-contain mb-2 bg-white p-3 rounded-md shadow-sm"
-                  />
+                  <div className="w-16 h-16 bg-white rounded-lg shadow-sm overflow-hidden mb-2">
+                    <img 
+                      src={sponsor.logo} 
+                      alt={`${sponsor.name} logo`} 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                   <span className="text-sm font-medium">{sponsor.name}</span>
                 </div>
               ))}
