@@ -78,11 +78,11 @@ const Footer = () => {
             </h3>
             <ul className="space-y-4">
               {[
-                { name: "Business Directory", path: "/directory" },
+                { name: "Business Directory", path: "/directory/enhanced" },
                 { name: "How It Works", path: "/how-it-works" },
-                { name: "Loyalty Program", path: "/loyalty" },
-                { name: "About Us", path: "/about-us" },
-                { name: "Our Team", path: "/our-team" }
+                { name: "Community", path: "/community" },
+                { name: "Plans", path: "/subscription" },
+                { name: "About Us", path: "/about" }
               ].map((link) => (
                 <li key={link.path}>
                   <Link to={link.path} className="text-gray-300 hover:text-white transition-colors flex items-center group">
@@ -103,7 +103,7 @@ const Footer = () => {
               {[
                 { name: "Sign Up", path: "/business-signup" },
                 { name: "Become a Sales Agent", path: "/sales-agent" },
-                { name: "Corporate Sponsorship", path: "/corporate-sponsorship" },
+                { name: "Corporate Sponsorship", path: "/sponsorship" },
                 { name: "Success Stories", path: "/case-studies" },
                 { name: "FAQ", path: "/faq" }
               ].map((link) => (
