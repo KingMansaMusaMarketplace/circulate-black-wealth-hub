@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,7 +13,8 @@ import {
   Star,
   Heart,
   Eye,
-  ArrowRight
+  ArrowRight,
+  Target
 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useState, useEffect } from 'react';
@@ -108,6 +108,13 @@ const Dashboard: React.FC = () => {
 
   const quickActions = [
     {
+      title: 'Community Impact',
+      description: 'See your wealth circulation impact',
+      icon: <Target className="h-6 w-6" />,
+      action: () => navigate('/community-impact'),
+      color: 'bg-green-500'
+    },
+    {
       title: 'Discover Businesses',
       description: 'Find personalized recommendations',
       icon: <TrendingUp className="h-6 w-6" />,
@@ -160,15 +167,25 @@ const Dashboard: React.FC = () => {
           Welcome back, {user?.user_metadata?.name || 'Community Member'}!
         </h1>
         <p className="text-blue-100 mb-4">
-          Ready to discover amazing Black-owned businesses and connect with your community?
+          Ready to discover amazing Black-owned businesses and see your community impact?
         </p>
-        <Button 
-          onClick={() => navigate('/community')}
-          className="bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold"
-        >
-          Explore Community Hub
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="flex flex-wrap gap-3">
+          <Button 
+            onClick={() => navigate('/community-impact')}
+            className="bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold"
+          >
+            View Your Impact
+            <Target className="ml-2 h-4 w-4" />
+          </Button>
+          <Button 
+            onClick={() => navigate('/community')}
+            variant="outline"
+            className="border-white text-white hover:bg-white/10"
+          >
+            Explore Community Hub
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       {/* Stats Overview */}
@@ -237,7 +254,7 @@ const Dashboard: React.FC = () => {
           <CardDescription>Jump into the community features you love</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {quickActions.map((action, index) => (
               <div
                 key={index}
@@ -297,8 +314,8 @@ const Dashboard: React.FC = () => {
           <CardContent>
             <div className="space-y-3">
               <div className="p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
-                <p className="text-sm font-medium text-gray-900">Community Spotlight</p>
-                <p className="text-xs text-gray-600">Join our weekly business owner success stories discussion</p>
+                <p className="text-sm font-medium text-gray-900">Community Impact Tracking</p>
+                <p className="text-xs text-gray-600">See how your spending builds community wealth</p>
               </div>
               <div className="p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg">
                 <p className="text-sm font-medium text-gray-900">Wealth Building Workshop</p>

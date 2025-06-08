@@ -2,94 +2,85 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { 
-  Home, 
-  Store, 
-  User, 
-  Award, 
-  QrCode, 
-  Settings, 
-  LogOut,
-  Users
+  Home,
+  Search,
+  Users,
+  MessageSquare,
+  Calendar,
+  Settings,
+  Building2,
+  QrCode,
+  TrendingUp,
+  BarChart3,
+  Award,
+  HelpCircle,
+  UserCheck
 } from 'lucide-react';
 import SidebarNavItem from './SidebarNavItem';
-import { toast } from 'sonner';
-import { handleSignOut } from '@/lib/auth-operations';
 
-const SidebarNavigation: React.FC = () => {
-  const pathname = useLocation().pathname;
-  
-  // Perform sign out
-  const onSignOut = async () => {
-    await handleSignOut((message: string) => toast(message));
+interface SidebarNavigationProps {
+  userType?: string;
+}
+
+const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ userType }) => {
+  const location = useLocation();
+
+  const customerNavItems = [
+    { to: '/dashboard', icon: Home, label: 'Dashboard' },
+    { to: '/directory', icon: Search, label: 'Business Directory' },
+    { to: '/community', icon: Users, label: 'Community Hub' },
+    { to: '/community-impact', icon: TrendingUp, label: 'Community Impact' },
+    { to: '/loyalty', icon: Award, label: 'Rewards & Loyalty' },
+    { to: '/scanner', icon: QrCode, label: 'QR Scanner' },
+    { to: '/help', icon: HelpCircle, label: 'Help Center' },
+    { to: '/profile', icon: Settings, label: 'Account Settings' },
+  ];
+
+  const businessNavItems = [
+    { to: '/dashboard', icon: Home, label: 'Dashboard' },
+    { to: '/business/profile', icon: Building2, label: 'Business Profile' },
+    { to: '/business/qr-codes', icon: QrCode, label: 'QR Codes' },
+    { to: '/business/analytics', icon: BarChart3, label: 'Analytics' },
+    { to: '/community', icon: Users, label: 'Community Hub' },
+    { to: '/community-impact', icon: TrendingUp, label: 'Community Impact' },
+    { to: '/help', icon: HelpCircle, label: 'Help Center' },
+    { to: '/profile', icon: Settings, label: 'Account Settings' },
+  ];
+
+  const salesAgentNavItems = [
+    { to: '/dashboard', icon: Home, label: 'Dashboard' },
+    { to: '/sales-agent', icon: UserCheck, label: 'Sales Agent Hub' },
+    { to: '/directory', icon: Search, label: 'Business Directory' },
+    { to: '/community', icon: Users, label: 'Community Hub' },
+    { to: '/community-impact', icon: TrendingUp, label: 'Community Impact' },
+    { to: '/help', icon: HelpCircle, label: 'Help Center' },
+    { to: '/profile', icon: Settings, label: 'Account Settings' },
+  ];
+
+  const getNavItems = () => {
+    switch (userType) {
+      case 'business':
+        return businessNavItems;
+      case 'sales_agent':
+        return salesAgentNavItems;
+      default:
+        return customerNavItems;
+    }
   };
 
+  const navItems = getNavItems();
+
   return (
-    <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-      <SidebarNavItem 
-        to="/dashboard" 
-        icon={<Home />} 
-        isActive={pathname === "/dashboard"}
-      >
-        Dashboard
-      </SidebarNavItem>
-
-      <SidebarNavItem 
-        to="/business-profile" 
-        icon={<Store />} 
-        isActive={pathname === "/business-profile"}
-      >
-        Business Profile
-      </SidebarNavItem>
-
-      <SidebarNavItem 
-        to="/profile" 
-        icon={<User />} 
-        isActive={pathname === "/profile"}
-      >
-        User Profile
-      </SidebarNavItem>
-
-      <SidebarNavItem 
-        to="/loyalty-history" 
-        icon={<Award />} 
-        isActive={pathname === "/loyalty-history"}
-      >
-        Loyalty Program
-      </SidebarNavItem>
-
-      <SidebarNavItem 
-        to="/qr-code-management" 
-        icon={<QrCode />} 
-        isActive={pathname === "/qr-code-management"}
-      >
-        QR Code Management
-      </SidebarNavItem>
-
-      <SidebarNavItem 
-        to="/sales-agent" 
-        icon={<Users />} 
-        isActive={pathname === "/sales-agent"}
-      >
-        Sales Agent
-      </SidebarNavItem>
-
-      <div className="pt-4 mt-4 border-t border-gray-200">
-        <SidebarNavItem 
-          to="/settings" 
-          icon={<Settings />} 
-          isActive={pathname === "/settings"}
-        >
-          Settings
-        </SidebarNavItem>
-
-        <button
-          onClick={onSignOut}
-          className="flex w-full items-center px-2 py-2 mt-1 text-sm rounded-md text-gray-700 hover:bg-gray-100"
-        >
-          <LogOut className="mr-3 h-5 w-5" />
-          Log out
-        </button>
-      </div>
+    <nav className="space-y-1 px-3">
+      {navItems.map((item) => (
+        <SidebarNavItem
+          key={item.to}
+          to={item.to}
+          icon={item.icon}
+          label={item.label}
+          isActive={location.pathname === item.to}
+        />
+      ))}
     </nav>
   );
 };

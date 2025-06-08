@@ -267,6 +267,39 @@ export type Database = {
         }
         Relationships: []
       }
+      community_aggregate_metrics: {
+        Row: {
+          created_at: string
+          id: string
+          metric_type: string
+          participant_count: number | null
+          period_end: string
+          period_start: string
+          total_value: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metric_type: string
+          participant_count?: number | null
+          period_end: string
+          period_start: string
+          total_value?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metric_type?: string
+          participant_count?: number | null
+          period_end?: string
+          period_start?: string
+          total_value?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       community_events: {
         Row: {
           business_id: string | null
@@ -322,6 +355,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      community_impact_metrics: {
+        Row: {
+          created_at: string
+          id: string
+          metric_type: string
+          metric_value: number
+          period_end: string
+          period_start: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          metric_type: string
+          metric_value?: number
+          period_end: string
+          period_start: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          metric_type?: string
+          metric_value?: number
+          period_end?: string
+          period_start?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       email_notifications: {
         Row: {
@@ -1384,6 +1450,10 @@ export type Database = {
         Args: { verification_id: string; reason: string }
         Returns: undefined
       }
+      calculate_user_impact_metrics: {
+        Args: { p_user_id: string }
+        Returns: Json
+      }
       can_access_admin_features: {
         Args: Record<PropertyKey, never>
         Returns: boolean
@@ -1398,6 +1468,10 @@ export type Database = {
       }
       get_business_analytics_summary: {
         Args: { p_business_id: string }
+        Returns: Json
+      }
+      get_community_impact_summary: {
+        Args: Record<PropertyKey, never>
         Returns: Json
       }
       get_qr_scan_metrics: {
