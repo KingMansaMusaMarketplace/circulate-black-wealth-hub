@@ -21,6 +21,7 @@ const QRScannerPage = React.lazy(() => import('@/pages/QRScannerPage'));
 const LoyaltyPage = React.lazy(() => import('@/pages/LoyaltyPage'));
 const CommunityPage = React.lazy(() => import('@/pages/CommunityPage'));
 const CommunityImpactPage = React.lazy(() => import('@/pages/CommunityImpactPage'));
+const CommunityImpactTestPage = React.lazy(() => import('@/pages/CommunityImpactTestPage'));
 const EconomicImpactPage = React.lazy(() => import('@/pages/EconomicImpactPage'));
 const ProfilePage = React.lazy(() => import('@/pages/ProfilePage'));
 const HelpCenterPage = React.lazy(() => import('@/pages/HelpCenterPage'));
@@ -72,6 +73,7 @@ function App() {
                   <Route path="/loyalty" element={<LoyaltyPage />} />
                   <Route path="/community" element={<CommunityPage />} />
                   <Route path="/community-impact" element={<CommunityImpactPage />} />
+                  <Route path="/community-impact/test" element={<CommunityImpactTestPage />} />
                   <Route path="/economic-impact" element={<EconomicImpactPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/help" element={<HelpCenterPage />} />
