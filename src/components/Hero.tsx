@@ -8,6 +8,14 @@ import { Star, Crown, GraduationCap } from 'lucide-react';
 const Hero = () => {
   const navigate = useNavigate();
   
+  const handleSignupClick = () => {
+    navigate('/signup');
+  };
+  
+  const handleDirectoryClick = () => {
+    navigate('/directory');
+  };
+  
   return (
     <section className="bg-gradient-to-b from-mansablue to-mansablue-dark py-16 md:py-20 relative">
       {/* Background decoration */}
@@ -90,7 +98,7 @@ const Hero = () => {
             <div className="mt-6 sm:mt-8 sm:flex sm:justify-start gap-3">
               <div className="rounded-md shadow">
                 <Button 
-                  onClick={() => navigate('/signup')}
+                  onClick={handleSignupClick}
                   className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-mansablue bg-mansagold hover:bg-mansagold-dark md:py-4 md:text-lg md:px-10"
                 >
                   Start FREE Today
@@ -98,7 +106,7 @@ const Hero = () => {
               </div>
               <div className="mt-3 sm:mt-0">
                 <Button 
-                  onClick={() => navigate('/directory')}
+                  onClick={handleDirectoryClick}
                   variant="outline"
                   className="w-full flex items-center justify-center px-8 py-3 border border-white text-white bg-transparent hover:bg-white/10 md:py-4 md:text-lg md:px-10"
                 >
