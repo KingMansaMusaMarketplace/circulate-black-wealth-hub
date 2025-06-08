@@ -37,9 +37,9 @@ export const QRCodeTypeField: React.FC<QRCodeTypeFieldProps> = ({ control }) => 
               </SelectTrigger>
             </FormControl>
             <SelectContent>
-              <SelectItem value="points">Loyalty Points</SelectItem>
+              <SelectItem value="loyalty">Loyalty Points</SelectItem>
               <SelectItem value="discount">Discount</SelectItem>
-              <SelectItem value="combo">Points + Discount</SelectItem>
+              <SelectItem value="checkin">Check-in</SelectItem>
             </SelectContent>
           </Select>
           <FormDescription>
