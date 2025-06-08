@@ -1,63 +1,66 @@
 
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 
-type ToastProps = {
-  title: string;
-  description: string;
-  variant?: "default" | "destructive";
-};
-
-// Handle user sign in
 export const handleSignIn = async (
-  email: string, 
+  email: string,
   password: string,
-  toast?: (props: ToastProps) => void
+  showToast: (props: { title: string; description: string; variant?: 'default' | 'destructive' }) => void
 ) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password
+      password,
     });
-    
-    if (error) throw error;
-    
-    toast?.({
-      title: "Login Successful",
-      description: "Welcome back to Mansa Musa Marketplace!",
+
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive'
+      });
+      return { error };
+    }
+
+    showToast({
+      title: 'Success',
+      description: 'Successfully signed in'
     });
-    
-    return { data, error: null };
+
+    return { data };
   } catch (error: any) {
-    toast?.({
-      title: "Login Failed",
-      description: error.message || "Invalid email or password",
-      variant: "destructive"
+    showToast({
+      title: 'Error',
+      description: error.message || 'An unexpected error occurred',
+      variant: 'destructive'
     });
-    
-    return { data: null, error };
+    return { error };
   }
 };
 
-// Handle user sign out
 export const handleSignOut = async (
-  toast?: (props: ToastProps) => void
+  showToast: (props: { title: string; description: string; variant?: 'default' | 'destructive' }) => void
 ) => {
   try {
-    await supabase.auth.signOut();
-    
-    toast?.({
-      title: "Signed Out",
-      description: "You have been successfully signed out.",
-    });
+    const { error } = await supabase.auth.signOut();
 
-    return { success: true };
-  } catch (error: any) {
-    toast?.({
-      title: "Sign Out Failed",
-      description: error.message || "An error occurred during sign out",
-      variant: "destructive"
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    showToast({
+      title: 'Success',
+      description: 'Successfully signed out'
     });
-    
-    return { success: false, error };
+  } catch (error: any) {
+    showToast({
+      title: 'Error',
+      description: error.message || 'An unexpected error occurred',
+      variant: 'destructive'
+    });
   }
 };

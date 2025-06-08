@@ -108,6 +108,10 @@ export function useAuthState(): [AuthState, AuthActions] {
     }
   }, [safeSetState]);
 
+  const signInWithSocial = useCallback(async (provider: 'google' | 'facebook' | 'github') => {
+    return signInWithProvider(provider);
+  }, [signInWithProvider]);
+
   const signUp = useCallback(async (email: string, password: string, metadata?: object) => {
     try {
       safeSetState({ isLoading: true, loading: true });
@@ -150,6 +154,23 @@ export function useAuthState(): [AuthState, AuthActions] {
     }
   }, []);
 
+  const verifyMFA = useCallback(async (factorId: string, code: string, challengeId: string) => {
+    try {
+      const { data, error } = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId,
+        code
+      });
+      
+      if (error) throw error;
+      
+      return { success: true, data };
+    } catch (error: any) {
+      console.error('MFA verification error:', error);
+      return { success: false, error };
+    }
+  }, []);
+
   const setupMFA = useCallback(async () => {
     // MFA setup implementation
     console.log('MFA setup not implemented');
@@ -160,11 +181,13 @@ export function useAuthState(): [AuthState, AuthActions] {
     {
       signInWithEmail,
       signInWithProvider,
+      signInWithSocial,
       signUp,
       signOut,
       setupMFA,
       checkSession,
       getMFAFactors,
+      verifyMFA,
       signIn: signInWithEmail, // Alias for compatibility
     },
   ];

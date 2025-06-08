@@ -1,49 +1,43 @@
 
-import { supabase } from '@/integrations/supabase/client';
-import { createUserProfile } from './auth-profile';
+import { supabase } from '@/lib/supabase';
 
-type ToastProps = {
-  title: string;
-  description: string;
-  variant?: "default" | "destructive";
-};
-
-// Handle user sign up
 export const handleSignUp = async (
-  email: string, 
-  password: string, 
-  metadata?: any,
-  toast?: (props: ToastProps) => void
+  email: string,
+  password: string,
+  metadata: object = {},
+  showToast: (props: { title: string; description: string; variant?: 'default' | 'destructive' }) => void
 ) => {
   try {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: metadata
+        data: metadata,
+        emailRedirectTo: `${window.location.origin}/`
       }
     });
-    
-    if (error) throw error;
-    
-    // Create user profile in the database
-    if (data.user) {
-      await createUserProfile(data.user.id, { ...metadata, email });
+
+    if (error) {
+      showToast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive'
+      });
+      return { error };
     }
-    
-    toast?.({
-      title: "Sign Up Successful!",
-      description: "You're now registered with Mansa Musa Marketplace.",
+
+    showToast({
+      title: 'Success',
+      description: 'Account created successfully! Please check your email to verify your account.'
     });
-    
-    return { data, error: null };
+
+    return { data };
   } catch (error: any) {
-    toast?.({
-      title: "Sign Up Failed",
-      description: error.message || "An error occurred during sign up",
-      variant: "destructive"
+    showToast({
+      title: 'Error',
+      description: error.message || 'An unexpected error occurred',
+      variant: 'destructive'
     });
-    
-    return { data: null, error };
+    return { error };
   }
 };

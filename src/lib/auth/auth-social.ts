@@ -1,43 +1,31 @@
 
-import { supabase } from '@/integrations/supabase/client';
-import { ToastProps } from '@/contexts/auth/types';
-import { Provider } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 
 export const handleSocialSignIn = async (
-  provider: 'google' | 'facebook' | 'github', 
-  toastFn?: (props: ToastProps) => any
+  provider: 'google' | 'facebook' | 'github',
+  showToast: (props: { title: string; description: string; variant?: 'default' | 'destructive' }) => void
 ) => {
   try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: provider as Provider,
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
+        redirectTo: `${window.location.origin}/`
+      }
     });
 
     if (error) {
-      console.error('Social login error:', error);
-      if (toastFn) {
-        toastFn({
-          title: 'Login Failed',
-          description: error.message,
-          variant: 'destructive',
-        });
-      }
-      return { error };
-    }
-
-    console.log('Social login initiated:', data);
-    return { data };
-  } catch (error: any) {
-    console.error('Unexpected error during social login:', error);
-    if (toastFn) {
-      toastFn({
-        title: 'Login Failed',
-        description: 'An unexpected error occurred. Please try again.',
-        variant: 'destructive',
+      showToast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive'
       });
+      return;
     }
-    return { error };
+  } catch (error: any) {
+    showToast({
+      title: 'Error',
+      description: error.message || 'An unexpected error occurred',
+      variant: 'destructive'
+    });
   }
 };
