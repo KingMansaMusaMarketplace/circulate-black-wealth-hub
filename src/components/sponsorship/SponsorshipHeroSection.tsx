@@ -7,6 +7,13 @@ interface SponsorshipHeroSectionProps {
 }
 
 const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onContactPartnership }) => {
+  const handleBecomePartner = () => {
+    const formElement = document.getElementById('sponsorship-form');
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="bg-gradient-to-r from-mansablue to-mansablue-dark py-20">
       <div className="container mx-auto px-4 text-center">
@@ -20,7 +27,7 @@ const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onConta
         <Button 
           size="lg" 
           className="bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold"
-          onClick={onContactPartnership}
+          onClick={handleBecomePartner}
         >
           Become a Partner
         </Button>
