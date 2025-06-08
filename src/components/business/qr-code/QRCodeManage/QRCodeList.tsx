@@ -9,16 +9,18 @@ interface QRCodeListProps {
   onDelete: (id: string) => void;
   onEdit: (qrCode: QRCode) => void;
   onView: (qrCode: QRCode) => void;
+  onCreateNew: () => void;
 }
 
 export const QRCodeList: React.FC<QRCodeListProps> = ({
   qrCodes,
   onDelete,
   onEdit,
-  onView
+  onView,
+  onCreateNew
 }) => {
   if (qrCodes.length === 0) {
-    return <EmptyState />;
+    return <EmptyState onCreateNew={onCreateNew} />;
   }
 
   return (
@@ -28,8 +30,8 @@ export const QRCodeList: React.FC<QRCodeListProps> = ({
           key={qrCode.id}
           qrCode={qrCode}
           onDelete={onDelete}
-          onEdit={onEdit}
-          onView={onView}
+          onEdit={() => onEdit(qrCode)}
+          onView={() => onView(qrCode)}
         />
       ))}
     </div>

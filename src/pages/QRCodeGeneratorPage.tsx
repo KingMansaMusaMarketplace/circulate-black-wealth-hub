@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer';
-import { QRCodeTabs } from '@/components/business/qr-code/QRCodeTabs';
+import QRCodeTabs from '@/components/business/qr-code/QRCodeTabs';
 import { useQRCode } from '@/hooks/qr-code';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { QRCode } from '@/lib/api/qr-code-api';

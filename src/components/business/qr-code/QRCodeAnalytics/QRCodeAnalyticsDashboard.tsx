@@ -67,7 +67,7 @@ const QRCodeAnalyticsDashboard: React.FC<QRCodeAnalyticsDashboardProps> = ({
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip 
-                    formatter={[null, 'Scans']}
+                    formatter={(value) => [value, 'Scans']}
                     labelFormatter={(label) => `${label}`}
                   />
                   <Bar dataKey="scans" fill="#0F2876" radius={[4, 4, 0, 0]} />
@@ -78,7 +78,7 @@ const QRCodeAnalyticsDashboard: React.FC<QRCodeAnalyticsDashboardProps> = ({
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip 
-                    formatter={[null, 'Scans']}
+                    formatter={(value) => [value, 'Scans']}
                     labelFormatter={(label) => `${label}`}
                   />
                   <Line 

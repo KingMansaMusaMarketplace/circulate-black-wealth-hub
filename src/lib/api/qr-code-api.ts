@@ -2,7 +2,7 @@
 export interface QRCode {
   id: string;
   qr_image_url?: string;
-  code_type: 'loyalty' | 'discount' | 'info';
+  code_type: 'loyalty' | 'discount' | 'checkin';
   points_value?: number;
   discount_percentage?: number;
   business_id: string;
@@ -29,7 +29,7 @@ export interface QRScan {
 
 export interface QRCodeGenerationParams {
   businessId: string;
-  codeType: 'loyalty' | 'discount' | 'info';
+  codeType: 'loyalty' | 'discount' | 'checkin';
   pointsValue?: number;
   discountPercentage?: number;
   scanLimit?: number;

@@ -14,7 +14,7 @@ interface QRCodeTabsProps {
   businessId?: string;
 }
 
-const QRCodeTabs: React.FC<QRCodeTabsProps> = ({
+export const QRCodeTabs: React.FC<QRCodeTabsProps> = ({
   activeTab,
   setActiveTab,
   qrCodes,
