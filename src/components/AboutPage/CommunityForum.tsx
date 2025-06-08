@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -67,7 +68,7 @@ const discussionTopics = [
     category: "business-strategy",
     title: "E-commerce Strategies for Product-Based Businesses",
     author: "Nicole Brown",
-    authorImage: "https://images.unsplash.com/photo-1594824950743-84db158b0d7f?w=150&auto=format&fit=crop&crop=face",
+    authorImage: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&crop=face",
     date: "4 days ago",
     replies: 23,
     likes: 38,
