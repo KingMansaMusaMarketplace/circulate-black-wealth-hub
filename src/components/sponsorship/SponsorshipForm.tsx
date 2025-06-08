@@ -69,9 +69,18 @@ const SponsorshipForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    console.log('Form submission started', values);
+    
     try {
       setIsLoading(true);
       
+      // Check if user is authenticated for database operations
+      if (!user) {
+        toast.error('Please log in to submit a sponsorship application.');
+        return;
+      }
+      
+      console.log('Creating sponsor profile...');
       // First, create the sponsor profile in our database
       const sponsorProfileResult = await createSponsorProfile({
         company_name: values.companyName,
@@ -91,9 +100,12 @@ const SponsorshipForm = () => {
       });
 
       if (!sponsorProfileResult.success) {
+        console.error('Failed to create sponsor profile:', sponsorProfileResult.error);
         throw new Error('Failed to create sponsor profile');
       }
 
+      console.log('Sponsor profile created successfully, creating checkout session...');
+      
       // Then create the checkout session
       const checkoutOptions = {
         userType: 'corporate' as const,
@@ -115,6 +127,8 @@ const SponsorshipForm = () => {
       
       const { url } = await subscriptionService.createCheckoutSession(checkoutOptions);
       
+      console.log('Checkout session created, opening in new tab:', url);
+      
       // Open checkout in new window
       window.open(url, '_blank');
       
@@ -125,7 +139,19 @@ const SponsorshipForm = () => {
       
     } catch (error) {
       console.error('Sponsorship submission error:', error);
-      toast.error('There was a problem processing your request. Please try again.');
+      
+      // Show more specific error messages
+      if (error instanceof Error) {
+        if (error.message.includes('authentication') || error.message.includes('auth')) {
+          toast.error('Authentication required. Please log in and try again.');
+        } else if (error.message.includes('checkout') || error.message.includes('payment')) {
+          toast.error('Payment setup failed. Please check your information and try again.');
+        } else {
+          toast.error(`Submission failed: ${error.message}`);
+        }
+      } else {
+        toast.error('There was a problem processing your request. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
