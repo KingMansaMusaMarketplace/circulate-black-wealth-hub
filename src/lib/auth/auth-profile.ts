@@ -1,4 +1,3 @@
-
 import { supabase } from '@/integrations/supabase/client';
 
 // Create a profile in the profiles table
@@ -17,6 +16,8 @@ export const createUserProfile = async (userId: string, userMetadata: any) => {
       subscriptionStatus = 'active'; // Free customers are always active
     } else if (userType === 'customer' && subscriptionTier === 'paid') {
       subscriptionStatus = 'trial'; // Will be updated to active after payment
+    } else if (userType === 'sponsor') {
+      subscriptionStatus = 'trial'; // Sponsors start with trial
     }
     
     const profileData = {
@@ -59,6 +60,30 @@ export const createUserProfile = async (userId: string, userMetadata: any) => {
       
       if (businessError) {
         console.error('Error creating business record:', businessError);
+      }
+    }
+    
+    // If this is a sponsor user, also create sponsor record
+    if (userType === 'sponsor' && userMetadata.company_name) {
+      const sponsorData = {
+        user_id: userId,
+        company_name: userMetadata.company_name,
+        contact_name: userMetadata.contact_name || userMetadata.name || '',
+        email: userMetadata.email || '',
+        phone: userMetadata.phone || '',
+        sponsorship_tier: userMetadata.sponsorship_tier || 'silver',
+        message: userMetadata.message || '',
+        subscription_status: 'trial',
+        subscription_start_date: startDate,
+        subscription_end_date: endDate,
+        created_at: startDate,
+        updated_at: startDate
+      };
+      
+      const { error: sponsorError } = await supabase.from('sponsors').insert(sponsorData);
+      
+      if (sponsorError) {
+        console.error('Error creating sponsor record:', sponsorError);
       }
     }
     

@@ -1,4 +1,3 @@
-
 import { supabase } from '@/lib/supabase';
 
 export interface SubscriptionInfo {
@@ -82,32 +81,47 @@ export const subscriptionService = {
     }
   },
 
-  async createCheckoutSession(options: {
-    userType: string;
+  createCheckoutSession: async (options: {
+    userType: 'customer' | 'business' | 'corporate';
     email: string;
     name: string;
-    tier?: string;
     businessName?: string;
-  }): Promise<{ url: string }> {
+    tier?: string;
+    companyName?: string;
+    phone?: string;
+    message?: string;
+  }) => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      console.log('Creating checkout session with options:', options);
       
-      if (!session) {
-        throw new Error('User not authenticated');
-      }
-
       const { data, error } = await supabase.functions.invoke('create-checkout', {
-        body: options,
-        headers: {
-          Authorization: `Bearer ${session.access_token}`,
-        },
+        body: {
+          userType: options.userType,
+          email: options.email,
+          name: options.name,
+          businessName: options.businessName,
+          tier: options.tier || 'premium',
+          // Include sponsor-specific fields
+          companyName: options.companyName,
+          phone: options.phone,
+          message: options.message
+        }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw new Error(`Failed to create checkout session: ${error.message}`);
+      }
 
-      return { url: data.url };
+      if (!data?.url) {
+        console.error('No checkout URL returned:', data);
+        throw new Error('No checkout URL returned from payment service');
+      }
+
+      console.log('Checkout session created successfully:', data.url);
+      return data;
     } catch (error) {
-      console.error('Error creating checkout session:', error);
+      console.error('Error in createCheckoutSession:', error);
       throw error;
     }
   }

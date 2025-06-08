@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { subscriptionService } from '@/lib/services/subscription-service';
+import { createSponsorProfile } from '@/lib/api/sponsor-api';
 import { useAuth } from '@/contexts/AuthContext';
 
 const formSchema = z.object({
@@ -45,31 +46,43 @@ const SponsorshipForm = () => {
     try {
       setIsLoading(true);
       
-      const selectedTier = values.sponsorshipTier;
-      
-      // Create checkout options with user data to pass to the edge function
+      // First, create the sponsor profile in our database
+      const sponsorProfileResult = await createSponsorProfile({
+        company_name: values.companyName,
+        contact_name: values.contactName,
+        email: values.email,
+        phone: values.phone,
+        sponsorship_tier: values.sponsorshipTier,
+        message: values.message
+      });
+
+      if (!sponsorProfileResult.success) {
+        throw new Error('Failed to create sponsor profile');
+      }
+
+      // Then create the checkout session
       const checkoutOptions = {
         userType: 'corporate' as const,
         email: values.email,
         name: values.contactName,
-        businessName: values.companyName,
-        tier: selectedTier,
+        companyName: values.companyName,
+        tier: values.sponsorshipTier,
+        phone: values.phone,
         message: values.message
       };
       
-      // Call the checkout service
       const { url } = await subscriptionService.createCheckoutSession(checkoutOptions);
       
       // Open checkout in new window
       window.open(url, '_blank');
       
-      toast.success('Redirecting to checkout page...');
+      toast.success('Sponsor profile created! Complete your subscription in the new tab.');
       
       // Clear form if successful
       form.reset();
       
     } catch (error) {
-      console.error('Sponsorship checkout error:', error);
+      console.error('Sponsorship submission error:', error);
       toast.error('There was a problem processing your request. Please try again.');
     } finally {
       setIsLoading(false);
@@ -95,7 +108,7 @@ const SponsorshipForm = () => {
                   name="companyName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company Name</FormLabel>
+                      <FormLabel>Company Name <span className="text-red-500">*</span></FormLabel>
                       <FormControl>
                         <Input placeholder="Your company name" {...field} />
                       </FormControl>
@@ -109,7 +122,7 @@ const SponsorshipForm = () => {
                   name="contactName"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Contact Name</FormLabel>
+                      <FormLabel>Contact Name <span className="text-red-500">*</span></FormLabel>
                       <FormControl>
                         <Input placeholder="Your full name" {...field} />
                       </FormControl>
@@ -124,7 +137,7 @@ const SponsorshipForm = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>Email <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
                           <Input type="email" placeholder="your@email.com" {...field} />
                         </FormControl>
@@ -138,7 +151,7 @@ const SponsorshipForm = () => {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Phone</FormLabel>
+                        <FormLabel>Phone <span className="text-red-500">*</span></FormLabel>
                         <FormControl>
                           <Input placeholder="(123) 456-7890" {...field} />
                         </FormControl>
@@ -153,7 +166,7 @@ const SponsorshipForm = () => {
                   name="sponsorshipTier"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Sponsorship Tier</FormLabel>
+                      <FormLabel>Sponsorship Tier <span className="text-red-500">*</span></FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
