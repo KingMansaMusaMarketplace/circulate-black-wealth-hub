@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Star, MapPin, Phone, ExternalLink } from 'lucide-react';
 import { Business } from '@/types/business';
+import FavoriteButton from './FavoriteButton';
 
 interface MobileBusinessCardProps extends Business {
   onSelect?: () => void;
@@ -47,6 +48,9 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
               {discount}
             </Badge>
           )}
+          <div className="absolute top-2 right-2">
+            <FavoriteButton businessId={id} size="sm" variant="ghost" />
+          </div>
         </div>
         
         {/* Content Section */}

@@ -12,13 +12,16 @@ import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
 import MobileBusinessCard from '@/components/directory/MobileBusinessCard';
 import MobileSearchBar from '@/components/directory/MobileSearchBar';
+import UserPreferencesDialog from '@/components/directory/UserPreferencesDialog';
 import MapView from '@/components/MapView';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Search, MapPin, Grid3X3, List, TrendingUp, Filter } from 'lucide-react';
+import { Search, MapPin, Grid3X3, List, TrendingUp, Filter, Settings } from 'lucide-react';
 import { useLocation } from '@/hooks/location/useLocation';
 import { useBusinessDirectory } from '@/hooks/use-business-directory';
+import { useSearchHistory } from '@/hooks/use-search-history';
+import { useUserPreferences } from '@/hooks/use-user-preferences';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { BusinessFilters } from '@/lib/api/directory/types';
 
@@ -28,6 +31,10 @@ const EnhancedDirectoryPage: React.FC = () => {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const isMobile = useIsMobile();
+  
+  // Hooks for personalization
+  const { addToSearchHistory } = useSearchHistory();
+  const { preferences } = useUserPreferences();
   
   // Location hook
   const { location, getCurrentPosition, loading: locationLoading } = useLocation();
@@ -47,7 +54,10 @@ const EnhancedDirectoryPage: React.FC = () => {
     initialFilters: {
       searchTerm: searchTerm,
       userLat: location?.lat,
-      userLng: location?.lng
+      userLng: location?.lng,
+      // Apply user preferences if available
+      distance: preferences?.default_radius,
+      category: preferences?.preferred_categories?.[0]
     },
     pageSize: isMobile ? 12 : 16,
     autoFetch: true
@@ -98,6 +108,16 @@ const EnhancedDirectoryPage: React.FC = () => {
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
     updateFilters({ searchTerm: value });
+    
+    // Add to search history when user performs a search
+    if (value.trim() && value.length > 2) {
+      addToSearchHistory(
+        value, 
+        filters.category, 
+        location ? `${location.lat},${location.lng}` : undefined,
+        businesses.length
+      );
+    }
   };
 
   const handleFilterChange = (newFilters: Partial<BusinessFilters>) => {
@@ -178,6 +198,16 @@ const EnhancedDirectoryPage: React.FC = () => {
                 <TrendingUp className="h-4 w-4 mr-2" />
                 Smart Filters
               </Button>
+
+              <UserPreferencesDialog categories={categories}>
+                <Button
+                  variant="secondary"
+                  className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                >
+                  <Settings className="h-4 w-4 mr-2" />
+                  Preferences
+                </Button>
+              </UserPreferencesDialog>
             </div>
           </div>
         </div>
@@ -196,6 +226,7 @@ const EnhancedDirectoryPage: React.FC = () => {
           onGetLocation={handleGetLocation}
           locationLoading={locationLoading}
           totalResults={pagination.totalCount}
+          categories={categories}
         />
       )}
 
