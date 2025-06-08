@@ -52,6 +52,7 @@ const CustomerSignupTab: React.FC = () => {
       
       const metadata = {
         name,
+        email,
         user_type: 'customer',
         phone,
         address,

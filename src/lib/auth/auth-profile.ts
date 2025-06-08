@@ -24,7 +24,8 @@ export const createUserProfile = async (userId: string, userMetadata: any) => {
       user_type: userType,
       full_name: userMetadata.fullName || userMetadata.name || '',
       email: userMetadata.email || '',
-      phone: userMetadata.phone || '', // Add phone to profile
+      phone: userMetadata.phone || '', // Store customer phone
+      address: userMetadata.address || '', // Store customer address
       subscription_status: subscriptionStatus,
       subscription_tier: subscriptionTier,
       subscription_start_date: startDate,

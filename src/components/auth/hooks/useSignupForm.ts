@@ -65,6 +65,7 @@ export const useSignupForm = () => {
     business_description?: string;
     business_address?: string;
     phone?: string;
+    address?: string;
   }) => {
     try {
       setIsLoading(true);
@@ -96,9 +97,10 @@ export const useSignupForm = () => {
           business_address: values.business_address,
           phone: values.phone
         }),
-        // Include customer phone if provided
-        ...(userType === 'customer' && values.phone && {
-          phone: values.phone
+        // Include customer-specific fields if it's a customer signup
+        ...(userType === 'customer' && {
+          phone: values.phone,
+          address: values.address
         })
       };
 
