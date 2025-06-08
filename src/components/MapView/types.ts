@@ -4,9 +4,9 @@ export interface BusinessLocation {
   name: string;
   lat: number;
   lng: number;
-  category?: string;
-  distance?: string;
+  category: string;
   distanceValue?: number;
+  distance?: string;
 }
 
 export interface MapContainerProps {
@@ -15,13 +15,4 @@ export interface MapContainerProps {
   loading: boolean;
   error: string | null;
   children: React.ReactNode;
-}
-
-export interface BusinessListProps {
-  nearbyBusinesses: BusinessLocation[];
-  onSelectBusiness?: (id: number) => void;
-}
-
-export interface DistanceRangesProps {
-  nearbyBusinesses: BusinessLocation[];
 }
