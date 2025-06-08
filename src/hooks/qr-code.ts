@@ -11,7 +11,7 @@ export interface QRCode {
   business_id: string;
   is_active: boolean;
   scan_limit?: number;
-  current_scans?: number;
+  current_scans: number;
   expiration_date?: string;
   created_at: string;
   updated_at: string;

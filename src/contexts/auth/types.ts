@@ -10,6 +10,7 @@ export interface AuthState {
   userType?: string;
   authInitialized?: boolean;
   loading?: boolean;
+  databaseInitialized: boolean;
 }
 
 export interface AuthActions {
