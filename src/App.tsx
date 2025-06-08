@@ -1,4 +1,3 @@
-
 import React, { Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -71,6 +70,7 @@ function App() {
                     <Route path="/contact" element={<ContactPage />} />
                     <Route path="/how-it-works" element={<HowItWorksPage />} />
                     <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
+                    <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                     <Route path="/directory" element={<DirectoryPage />} />
                     <Route path="/directory/enhanced" element={<EnhancedDirectoryPage />} />
                     <Route path="/business/:id" element={<BusinessDetailPage />} />
