@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Navbar } from '@/components/navbar';
@@ -49,6 +50,15 @@ const CorporateSponsorshipPage = () => {
       icon: TrendingUp
     }
   ];
+
+  const handleLearnMore = (tierName: string) => {
+    // Create contact email with tier information
+    const subject = `Interest in ${tierName} Sponsorship`;
+    const body = `Hello,\n\nI would like to learn more about the ${tierName} sponsorship tier and how our organization can get involved.\n\nPlease provide additional details about:\n- Specific benefits and opportunities\n- Partnership process and timeline\n- Available customization options\n\nThank you for your time.\n\nBest regards`;
+    
+    const mailtoUrl = `mailto:partnerships@mansamusamarketplace.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -144,6 +154,7 @@ const CorporateSponsorshipPage = () => {
                     <Button 
                       className="w-full mt-6" 
                       variant={tier.popular ? 'default' : 'outline'}
+                      onClick={() => handleLearnMore(tier.name)}
                     >
                       Learn More
                     </Button>
