@@ -14,7 +14,7 @@ import {
   Car,
   Banknote
 } from 'lucide-react';
-import { businessCategories } from '@/data/businessData';
+import { useBusinessDirectory } from '@/hooks/use-business-directory';
 
 interface CategoryExplorationProps {
   onCategorySelect: (category: string) => void;
@@ -27,6 +27,9 @@ const CategoryExploration: React.FC<CategoryExplorationProps> = ({
   selectedCategory,
   className = '' 
 }) => {
+  // Get real categories from Supabase
+  const { categories } = useBusinessDirectory({ autoFetch: false });
+
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'Food & Dining':
@@ -68,12 +71,14 @@ const CategoryExploration: React.FC<CategoryExplorationProps> = ({
       'from-violet-500 to-purple-500'
     ];
     
-    const index = businessCategories.indexOf(category);
-    return colors[index] || 'from-gray-500 to-gray-600';
+    const index = categories.indexOf(category);
+    return colors[index % colors.length] || 'from-gray-500 to-gray-600';
   };
 
+  // Get business count for each category
   const getCategoryBusinessCount = (category: string) => {
-    // This would typically come from your data
+    // This would typically come from your data aggregation
+    // For now, we'll use placeholder counts
     const counts: { [key: string]: number } = {
       'Food & Dining': 24,
       'Beauty & Wellness': 18,
@@ -87,8 +92,21 @@ const CategoryExploration: React.FC<CategoryExplorationProps> = ({
       'Finance': 8
     };
     
-    return counts[category] || 0;
+    return counts[category] || Math.floor(Math.random() * 20) + 1;
   };
+
+  const displayCategories = categories.length > 0 ? categories : [
+    'Food & Dining',
+    'Beauty & Wellness', 
+    'Health & Fitness',
+    'Professional Services',
+    'Retail & Shopping',
+    'Art & Entertainment',
+    'Education',
+    'Technology',
+    'Transportation',
+    'Finance'
+  ];
 
   return (
     <div className={className}>
@@ -98,7 +116,7 @@ const CategoryExploration: React.FC<CategoryExplorationProps> = ({
       </div>
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {businessCategories.map((category) => (
+        {displayCategories.map((category) => (
           <Card 
             key={category}
             className={`cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg ${

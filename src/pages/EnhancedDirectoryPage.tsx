@@ -14,30 +14,40 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Search, MapPin, Grid3X3, List, TrendingUp } from 'lucide-react';
 import { useLocation } from '@/hooks/location/useLocation';
-import { useDirectorySearch } from '@/hooks/use-directory-search';
-import { businesses } from '@/data/businessData';
+import { useBusinessDirectory } from '@/hooks/use-business-directory';
 import { BusinessFilters } from '@/lib/api/directory/types';
 
 const EnhancedDirectoryPage: React.FC = () => {
   const [viewMode, setViewMode] = useState<'recommendations' | 'grid' | 'list' | 'map'>('recommendations');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   
   // Location hook
   const { location, getCurrentPosition, loading: locationLoading } = useLocation();
   
-  // Directory search hook
+  // Business directory hook with real Supabase data
   const {
-    searchTerm,
-    setSearchTerm,
-    filterOptions,
-    handleFilterChange,
+    businesses,
+    loading,
+    error,
     categories,
-    filteredBusinesses,
-    mapData
-  } = useDirectorySearch(businesses);
+    pagination,
+    filters,
+    updateFilters,
+    setPage,
+    refetch
+  } = useBusinessDirectory({
+    initialFilters: {
+      searchTerm: searchTerm,
+      userLat: location?.lat,
+      userLng: location?.lng
+    },
+    pageSize: 16,
+    autoFetch: true
+  });
 
   const handleSelectBusiness = (id: number) => {
-    const business = filteredBusinesses.find(b => b.id === id);
+    const business = businesses.find(b => b.id === id);
     if (business) {
       // Scroll to the business card
       const element = document.getElementById(`business-${id}`);
@@ -53,20 +63,46 @@ const EnhancedDirectoryPage: React.FC = () => {
 
   const handleGetLocation = useCallback(async () => {
     try {
-      await getCurrentPosition(true);
+      const position = await getCurrentPosition(true);
+      if (position) {
+        updateFilters({
+          userLat: position.lat,
+          userLng: position.lng
+        });
+      }
     } catch (error) {
       console.error('Error getting location:', error);
     }
-  }, [getCurrentPosition]);
+  }, [getCurrentPosition, updateFilters]);
 
   const handleCategorySelect = (category: string) => {
     if (category === 'all') {
-      handleFilterChange({ category: undefined });
+      updateFilters({ category: undefined });
     } else {
-      handleFilterChange({ category });
+      updateFilters({ category });
       setViewMode('grid'); // Switch to grid view when category is selected
     }
   };
+
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    updateFilters({ searchTerm: value });
+  };
+
+  const handleFilterChange = (newFilters: Partial<BusinessFilters>) => {
+    updateFilters(newFilters);
+  };
+
+  // Create map data for MapView
+  const mapData = businesses.map(b => ({
+    id: b.id,
+    name: b.name,
+    lat: b.lat,
+    lng: b.lng,
+    category: b.category,
+    distanceValue: b.distanceValue,
+    distance: b.distance
+  }));
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -93,8 +129,8 @@ const EnhancedDirectoryPage: React.FC = () => {
               type="text" 
               placeholder="Search businesses, categories, or locations..."
               className="pl-10 h-12 bg-white rounded-lg w-full text-lg"
-              value={searchTerm || ''}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchTerm}
+              onChange={(e) => handleSearchChange(e.target.value)}
             />
           </div>
           
@@ -128,7 +164,7 @@ const EnhancedDirectoryPage: React.FC = () => {
           <div className="mb-8">
             <CategoryExploration
               onCategorySelect={handleCategorySelect}
-              selectedCategory={filterOptions.category}
+              selectedCategory={filters.category}
             />
           </div>
           
@@ -138,7 +174,7 @@ const EnhancedDirectoryPage: React.FC = () => {
             {showAdvancedFilters && (
               <div className="w-full lg:w-1/4">
                 <SmartFiltering
-                  filters={filterOptions}
+                  filters={filters}
                   onFiltersChange={handleFilterChange}
                   userLocation={location}
                 />
@@ -152,8 +188,9 @@ const EnhancedDirectoryPage: React.FC = () => {
               <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                   <div className="text-gray-700">
-                    {filteredBusinesses?.length || 0} businesses found
+                    {loading ? 'Loading...' : `${pagination.totalCount} businesses found`}
                     {location && ' near you'}
+                    {error && <span className="text-red-500 ml-2">Error loading data</span>}
                   </div>
                   
                   <Tabs value={viewMode} onValueChange={(val) => setViewMode(val as any)}>
@@ -186,37 +223,78 @@ const EnhancedDirectoryPage: React.FC = () => {
                     <SmartBusinessRecommendations userLocation={location} />
                     <div>
                       <h2 className="text-2xl font-bold text-mansablue mb-4">All Businesses</h2>
-                      <BusinessGridView 
-                        businesses={filteredBusinesses || []} 
-                        onSelectBusiness={handleSelectBusiness} 
-                      />
+                      {loading ? (
+                        <div className="text-center py-8">Loading businesses...</div>
+                      ) : (
+                        <BusinessGridView 
+                          businesses={businesses} 
+                          onSelectBusiness={handleSelectBusiness} 
+                        />
+                      )}
                     </div>
                   </div>
                 </TabsContent>
                 
                 <TabsContent value="grid" className="mt-0">
-                  <BusinessGridView 
-                    businesses={filteredBusinesses || []} 
-                    onSelectBusiness={handleSelectBusiness} 
-                  />
+                  {loading ? (
+                    <div className="text-center py-8">Loading businesses...</div>
+                  ) : (
+                    <BusinessGridView 
+                      businesses={businesses} 
+                      onSelectBusiness={handleSelectBusiness} 
+                    />
+                  )}
                 </TabsContent>
                 
                 <TabsContent value="list" className="mt-0">
-                  <BusinessListView 
-                    businesses={filteredBusinesses || []} 
-                    onSelectBusiness={handleSelectBusiness} 
-                  />
+                  {loading ? (
+                    <div className="text-center py-8">Loading businesses...</div>
+                  ) : (
+                    <BusinessListView 
+                      businesses={businesses} 
+                      onSelectBusiness={handleSelectBusiness} 
+                    />
+                  )}
                 </TabsContent>
                 
                 <TabsContent value="map" className="mt-0">
                   <div className="h-[600px] rounded-lg overflow-hidden">
                     <MapView 
-                      businesses={mapData || []} 
+                      businesses={mapData} 
                       onSelectBusiness={handleSelectBusiness}
                     />
                   </div>
                 </TabsContent>
               </Tabs>
+
+              {/* Pagination */}
+              {pagination.totalPages > 1 && (
+                <div className="flex justify-center mt-8">
+                  <div className="flex gap-2">
+                    {pagination.page > 1 && (
+                      <Button
+                        variant="outline"
+                        onClick={() => setPage(pagination.page - 1)}
+                      >
+                        Previous
+                      </Button>
+                    )}
+                    
+                    <span className="flex items-center px-4">
+                      Page {pagination.page} of {pagination.totalPages}
+                    </span>
+                    
+                    {pagination.page < pagination.totalPages && (
+                      <Button
+                        variant="outline"
+                        onClick={() => setPage(pagination.page + 1)}
+                      >
+                        Next
+                      </Button>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

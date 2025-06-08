@@ -1,8 +1,6 @@
 
-import { toast } from 'sonner';
-
-// Function to calculate distance between two points using Haversine formula
-export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+// Calculate distance between two coordinates using Haversine formula
+export const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
   const R = 3958.8; // Earth radius in miles
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -12,45 +10,47 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
     Math.sin(dLon/2) * Math.sin(dLon/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   return R * c;
-}
+};
 
-// Image utility function to get appropriate image URL based on business data
-export function getBusinessImageUrl(business: any): string {
-  // Set up proper image URL with fallbacks
-  const logoUrl = business.logo_url || null;
-  
-  // Image URL options (in order of priority):
-  // 1. business.logo_url if available
-  // 2. Category-based placeholder images from Unsplash
-  // 3. Default placeholder based on business name
-  
-  if (logoUrl) {
-    return logoUrl;
+// Generate business image URL with fallbacks
+export const getBusinessImageUrl = (business: any): string => {
+  // If we have a logo_url, use it
+  if (business.logo_url) {
+    return business.logo_url;
   }
   
-  // Select placeholder image based on category
-  const categoryImageMap: Record<string, string> = {
-    'Restaurant': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=500',
-    'Beauty & Wellness': 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=500',
-    'Technology': 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=500',
-    'Fashion & Clothing': 'https://images.unsplash.com/photo-1595665593673-bf1ad72905c1?q=80&w=500',
-    'Financial Services': 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?q=80&w=500',
-    'Health Services': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=500',
-    'Retail': 'https://images.unsplash.com/photo-1607083206968-13611e3d76db?q=80&w=500',
-    'Food & Dining': 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=500',
-    'Health & Fitness': 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=500',
-    'Professional Services': 'https://images.unsplash.com/photo-1521790797524-b2497295b8a0?q=80&w=500',
-    'Art & Entertainment': 'https://images.unsplash.com/photo-1533699216779-fb25b284f29a?q=80&w=500',
-    'Education': 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=500',
-    'Transportation': 'https://images.unsplash.com/photo-1561361513-2d000a50f0dc?q=80&w=500',
-    'Finance': 'https://images.unsplash.com/photo-1589666564459-93cdd3ab856a?q=80&w=500'
-  };
-  
-  // Check if we have a category and a matching image
-  if (business.category && categoryImageMap[business.category]) {
-    return categoryImageMap[business.category];
+  // If we have a banner_url, use it
+  if (business.banner_url) {
+    return business.banner_url;
   }
   
-  // Default placeholder with business initial
-  return `https://placehold.co/500x300/e0e0e0/808080?text=${business.business_name?.charAt(0).toUpperCase() || 'B'}`;
-}
+  // Fallback to a placeholder based on business name
+  const businessName = business.business_name || 'Business';
+  const firstLetter = businessName.charAt(0).toUpperCase();
+  return `https://placehold.co/400x300/e0e0e0/808080?text=${firstLetter}`;
+};
+
+// Format business address
+export const formatAddress = (business: any): string => {
+  const parts = [];
+  if (business.address) parts.push(business.address);
+  if (business.city) parts.push(business.city);
+  if (business.state) parts.push(business.state);
+  if (business.zip_code) parts.push(business.zip_code);
+  
+  return parts.join(', ') || 'Address not available';
+};
+
+// Generate discount text
+export const generateDiscountText = (business: any): string => {
+  // You could enhance this to use actual discount data from QR codes
+  const discountValues = ['10% Off', '15% Off', '20% Off', '$5 Off', 'Buy 1 Get 1'];
+  const randomDiscount = discountValues[Math.floor(Math.random() * discountValues.length)];
+  return randomDiscount;
+};
+
+// Calculate discount value for filtering
+export const calculateDiscountValue = (discountText: string): number => {
+  const match = discountText.match(/(\d+)/);
+  return match ? parseInt(match[1]) : 0;
+};

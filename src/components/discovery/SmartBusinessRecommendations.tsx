@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Star, MapPin, TrendingUp, Clock, Heart } from 'lucide-react';
 import { useAuth } from '@/contexts/auth/AuthContext';
 import { Business } from '@/types/business';
-import { businesses } from '@/data/businessData';
+import { useBusinessDirectory } from '@/hooks/use-business-directory';
 
 interface SmartBusinessRecommendationsProps {
   userLocation?: { lat: number; lng: number } | null;
@@ -21,8 +21,23 @@ const SmartBusinessRecommendations: React.FC<SmartBusinessRecommendationsProps> 
   const [recommendations, setRecommendations] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Get businesses using the real Supabase data
+  const { businesses, loading: businessesLoading } = useBusinessDirectory({
+    initialFilters: {
+      userLat: userLocation?.lat,
+      userLng: userLocation?.lng
+    },
+    pageSize: 20,
+    autoFetch: true
+  });
+
   // AI-powered recommendation engine (simplified)
   const generateRecommendations = () => {
+    if (businessesLoading || businesses.length === 0) {
+      setLoading(true);
+      return;
+    }
+
     setLoading(true);
     
     // Simulate AI processing time
@@ -65,7 +80,7 @@ const SmartBusinessRecommendations: React.FC<SmartBusinessRecommendationsProps> 
 
   useEffect(() => {
     generateRecommendations();
-  }, [userLocation]);
+  }, [businesses, businessesLoading, userLocation]);
 
   const getRecommendationReason = (business: Business & { aiScore: number }) => {
     const reasons = [];
@@ -79,7 +94,7 @@ const SmartBusinessRecommendations: React.FC<SmartBusinessRecommendationsProps> 
     return reasons[0] || 'Recommended for you';
   };
 
-  if (loading) {
+  if (loading || businessesLoading) {
     return (
       <Card className={className}>
         <CardHeader>
@@ -97,6 +112,28 @@ const SmartBusinessRecommendations: React.FC<SmartBusinessRecommendationsProps> 
                 <div className="h-3 bg-gray-200 rounded w-1/2"></div>
               </div>
             ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (recommendations.length === 0) {
+    return (
+      <Card className={className}>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-mansagold" />
+            AI Recommendations
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-8">
+            <p className="text-gray-500">No recommendations available at the moment.</p>
+            <Button variant="outline" onClick={generateRecommendations} className="mt-4">
+              <TrendingUp className="h-4 w-4 mr-2" />
+              Refresh Recommendations
+            </Button>
           </div>
         </CardContent>
       </Card>
