@@ -64,11 +64,11 @@ export const useLoyalty = () => {
         return;
       }
 
-      const totalPoints = loyaltyData?.reduce((sum, record) => sum + (record.points || 0), 0) || 0;
+      const calculatedTotalPoints = loyaltyData?.reduce((sum, record) => sum + (record.points || 0), 0) || 0;
       const totalBusinesses = loyaltyData?.length || 0;
 
       setSummary({
-        totalPoints,
+        totalPoints: calculatedTotalPoints,
         totalBusinesses,
         recentTransactions: []
       });
@@ -97,7 +97,7 @@ export const useLoyalty = () => {
 
   return {
     summary,
-    loyaltyPoints: totalPoints,
+    loyaltyPoints: summary.totalPoints,
     pointsHistory,
     isLoading: loading,
     loading,

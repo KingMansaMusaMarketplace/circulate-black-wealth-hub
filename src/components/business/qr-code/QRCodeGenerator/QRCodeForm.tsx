@@ -22,12 +22,20 @@ const formSchema = z.object({
 interface QRCodeFormProps {
   onSubmit: (values: any) => Promise<void>;
   isLoading: boolean;
+  initialValues?: {
+    codeType: 'loyalty' | 'discount' | 'info';
+    discountPercentage?: number;
+    pointsValue?: number;
+    scanLimit?: number;
+    expirationDate?: string;
+    isActive: boolean;
+  };
 }
 
-const QRCodeForm: React.FC<QRCodeFormProps> = ({ onSubmit, isLoading }) => {
+const QRCodeForm: React.FC<QRCodeFormProps> = ({ onSubmit, isLoading, initialValues }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: initialValues || {
       codeType: 'loyalty',
       isActive: true
     }

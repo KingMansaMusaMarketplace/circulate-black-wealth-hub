@@ -16,7 +16,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const location = useLocation();
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -58,13 +58,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                 </Button>
               )}
 
-              <UserMenu 
-                user={user} 
-                signOut={signOut} 
-                isLoginPage={isLoginPage} 
-                isSignupPage={isSignupPage}
-                isMobile={isMobile}
-              />
+              <UserMenu user={user} />
             </div>
           </div>
         </div>
