@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -41,7 +41,7 @@ interface ImpactCategory {
 }
 
 const EconomicImpactDashboard: React.FC = () => {
-  const [metrics, setMetrics] = useState<EconomicMetrics>({
+  const [metrics] = useState<EconomicMetrics>({
     totalCirculation: 1247600,
     businessesSupported: 342,
     communityMembers: 2847,
@@ -68,7 +68,7 @@ const EconomicImpactDashboard: React.FC = () => {
     { category: 'Services', impact: 22, color: '#45B7D1' },
     { category: 'Tech', impact: 15, color: '#96CEB4' },
     { category: 'Health', impact: 11, color: '#FFEAA7' }
-  ];
+  ]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -206,7 +206,7 @@ const EconomicImpactDashboard: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <Card className="bg-gradient-to-r from-mansablue to-mansablue-dark text-white">
+        <Card className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -215,17 +215,17 @@ const EconomicImpactDashboard: React.FC = () => {
                   Every dollar spent creates additional economic impact
                 </CardDescription>
               </div>
-              <Zap className="h-8 w-8 text-mansagold" />
+              <Zap className="h-8 w-8 text-yellow-300" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="flex items-center space-x-4">
-              <div className="text-4xl font-bold text-mansagold">
+              <div className="text-4xl font-bold text-yellow-300">
                 {metrics.circulationMultiplier}x
               </div>
               <div className="flex-1">
                 <div className="text-sm text-blue-100 mb-2">
-                  Impact: ${formatCurrency(metrics.totalCirculation * metrics.circulationMultiplier)}
+                  Impact: {formatCurrency(metrics.totalCirculation * metrics.circulationMultiplier)}
                 </div>
                 <Progress 
                   value={(metrics.circulationMultiplier / 5) * 100} 
