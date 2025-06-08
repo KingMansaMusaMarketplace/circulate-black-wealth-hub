@@ -2,7 +2,7 @@
 import React from 'react';
 import { Users, TrendingUp, Award } from 'lucide-react';
 
-const SponsorshipImpactSection = () => {
+const SponsorshipImpactSection: React.FC = () => {
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">

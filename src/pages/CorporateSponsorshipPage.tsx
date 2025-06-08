@@ -10,7 +10,7 @@ import SponsorshipTiersSection from '@/components/sponsorship/SponsorshipTiersSe
 import SponsorshipCTASection from '@/components/sponsorship/SponsorshipCTASection';
 import { useSponsorshipActions } from '@/hooks/useSponsorshipActions';
 
-const CorporateSponsorshipPage = () => {
+const CorporateSponsorshipPage: React.FC = () => {
   const {
     isGeneratingPDF,
     handleLearnMore,

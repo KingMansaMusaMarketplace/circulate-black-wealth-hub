@@ -9,7 +9,7 @@ interface SponsorshipTier {
   price: string;
   period: string;
   features: string[];
-  icon: any;
+  icon: React.ElementType;
   popular?: boolean;
 }
 
@@ -68,42 +68,45 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
           Partnership Opportunities
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
-          {sponsorshipTiers.map((tier, index) => (
-            <Card key={index} className={`relative ${tier.popular ? 'border-mansagold shadow-lg' : ''}`}>
-              {tier.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-mansagold text-mansablue px-4 py-1 rounded-full text-sm font-semibold">
-                    Most Popular
-                  </span>
-                </div>
-              )}
-              <CardHeader className="text-center">
-                <tier.icon className="h-8 w-8 text-mansagold mx-auto mb-2" />
-                <CardTitle className="text-xl">{tier.name}</CardTitle>
-                <CardDescription>
-                  <span className="text-3xl font-bold text-mansablue">{tier.price}</span>
-                  <span className="text-gray-600">/{tier.period}</span>
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  {tier.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      <Check className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-                      <span className="text-gray-600">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Button 
-                  className="w-full mt-6" 
-                  variant={tier.popular ? 'default' : 'outline'}
-                  onClick={() => onLearnMore(tier.name)}
-                >
-                  Learn More
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+          {sponsorshipTiers.map((tier, index) => {
+            const IconComponent = tier.icon;
+            return (
+              <Card key={index} className={`relative ${tier.popular ? 'border-mansagold shadow-lg' : ''}`}>
+                {tier.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-mansagold text-mansablue px-4 py-1 rounded-full text-sm font-semibold">
+                      Most Popular
+                    </span>
+                  </div>
+                )}
+                <CardHeader className="text-center">
+                  <IconComponent className="h-8 w-8 text-mansagold mx-auto mb-2" />
+                  <CardTitle className="text-xl">{tier.name}</CardTitle>
+                  <CardDescription>
+                    <span className="text-3xl font-bold text-mansablue">{tier.price}</span>
+                    <span className="text-gray-600">/{tier.period}</span>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3">
+                    {tier.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-center">
+                        <Check className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
+                        <span className="text-gray-600">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button 
+                    className="w-full mt-6" 
+                    variant={tier.popular ? 'default' : 'outline'}
+                    onClick={() => onLearnMore(tier.name)}
+                  >
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </div>
     </section>
