@@ -38,14 +38,9 @@ interface CommunityEvent {
   organizer_id: string;
   business_id?: string;
   created_at: string;
-  profiles?: {
-    full_name: string;
-    avatar_url?: string;
-  } | null;
-  businesses?: {
-    business_name: string;
-    logo_url?: string;
-  } | null;
+  organizer_name?: string;
+  business_name?: string;
+  business_logo?: string;
 }
 
 const CommunityEvents: React.FC = () => {
@@ -87,7 +82,6 @@ const CommunityEvents: React.FC = () => {
       .from('community_events')
       .select(`
         *,
-        profiles!community_events_organizer_id_fkey(full_name, avatar_url),
         businesses(business_name, logo_url)
       `)
       .order('event_date', { ascending: true });
@@ -101,9 +95,21 @@ const CommunityEvents: React.FC = () => {
 
     // Transform the data to match our interface
     const transformedEvents: CommunityEvent[] = (data || []).map(event => ({
-      ...event,
-      profiles: event.profiles || null,
-      businesses: event.businesses || null
+      id: event.id,
+      title: event.title,
+      description: event.description,
+      event_date: event.event_date,
+      location: event.location,
+      is_virtual: event.is_virtual,
+      max_attendees: event.max_attendees,
+      current_attendees: event.current_attendees,
+      is_featured: event.is_featured,
+      organizer_id: event.organizer_id,
+      business_id: event.business_id,
+      created_at: event.created_at,
+      organizer_name: 'Community Member', // We'll enhance this later
+      business_name: event.businesses?.business_name,
+      business_logo: event.businesses?.logo_url
     }));
 
     setEvents(transformedEvents);
@@ -164,12 +170,12 @@ const CommunityEvents: React.FC = () => {
       return;
     }
 
-    // Update attendee count using RPC or direct increment
-    const { error: updateError } = await supabase.rpc('increment_event_attendees', {
-      event_id: eventId
-    });
-
-    if (updateError) {
+    // Update attendee count using our edge function
+    try {
+      await supabase.functions.invoke('increment-counters', {
+        body: { action: 'increment_event_attendees', id: eventId }
+      });
+    } catch (updateError) {
       console.error('Error updating attendee count:', updateError);
     }
 
@@ -204,9 +210,9 @@ const CommunityEvents: React.FC = () => {
               </p>
             </div>
             
-            {event.businesses?.logo_url && (
+            {event.business_logo && (
               <img
-                src={event.businesses.logo_url}
+                src={event.business_logo}
                 alt="Business Logo"
                 className="w-12 h-12 rounded object-cover"
               />
@@ -246,9 +252,9 @@ const CommunityEvents: React.FC = () => {
 
           <div className="flex justify-between items-center">
             <div className="flex items-center text-sm text-gray-500">
-              <span>Organized by {event.profiles?.full_name || 'Anonymous'}</span>
-              {event.businesses && (
-                <span className="ml-2">• {event.businesses.business_name}</span>
+              <span>Organized by {event.organizer_name}</span>
+              {event.business_name && (
+                <span className="ml-2">• {event.business_name}</span>
               )}
             </div>
             

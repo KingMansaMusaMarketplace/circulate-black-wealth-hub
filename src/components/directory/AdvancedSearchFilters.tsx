@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
-import { useMediaQuery } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface PriceRange {
   min: number;
@@ -33,7 +33,7 @@ const AdvancedSearchFilters: React.FC<AdvancedSearchFiltersProps> = ({
   onApplyFilters,
   onResetFilters
 }) => {
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useIsMobile();
   
   const [priceRange, setPriceRange] = useState<PriceRange>({
     min: filterOptions.priceRange?.min || 0,

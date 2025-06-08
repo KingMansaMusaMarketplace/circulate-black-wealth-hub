@@ -43,14 +43,9 @@ interface ForumTopic {
   user_id: string;
   is_featured: boolean;
   is_pinned: boolean;
-  profiles?: {
-    full_name: string;
-    avatar_url?: string;
-  } | null;
-  forum_categories: {
-    name: string;
-    color: string;
-  };
+  author_name?: string;
+  category_name: string;
+  category_color: string;
 }
 
 const CommunityForum: React.FC = () => {
@@ -95,8 +90,7 @@ const CommunityForum: React.FC = () => {
       .from('forum_topics')
       .select(`
         *,
-        profiles!forum_topics_user_id_fkey(full_name, avatar_url),
-        forum_categories(name, color)
+        forum_categories!inner(name, color)
       `)
       .order('is_pinned', { ascending: false })
       .order('is_featured', { ascending: false })
@@ -117,8 +111,20 @@ const CommunityForum: React.FC = () => {
     
     // Transform the data to match our interface
     const transformedTopics: ForumTopic[] = (data || []).map(topic => ({
-      ...topic,
-      profiles: topic.profiles || null
+      id: topic.id,
+      title: topic.title,
+      content: topic.content,
+      views_count: topic.views_count,
+      replies_count: topic.replies_count,
+      likes_count: topic.likes_count,
+      created_at: topic.created_at,
+      category_id: topic.category_id,
+      user_id: topic.user_id,
+      is_featured: topic.is_featured,
+      is_pinned: topic.is_pinned,
+      author_name: 'Community Member', // We'll enhance this later
+      category_name: topic.forum_categories.name,
+      category_color: topic.forum_categories.color
     }));
 
     setTopics(transformedTopics);
@@ -153,12 +159,12 @@ const CommunityForum: React.FC = () => {
   };
 
   const handleTopicClick = async (topicId: string) => {
-    // Increment view count using a database function or RPC
-    const { error } = await supabase.rpc('increment_topic_views', {
-      topic_id: topicId
-    });
-    
-    if (error) {
+    // Increment view count using our edge function
+    try {
+      await supabase.functions.invoke('increment-counters', {
+        body: { action: 'increment_topic_views', id: topicId }
+      });
+    } catch (error) {
       console.error('Error incrementing views:', error);
     }
     
@@ -331,9 +337,9 @@ const CommunityForum: React.FC = () => {
                       <Badge 
                         variant="outline" 
                         className="text-xs"
-                        style={{ borderColor: topic.forum_categories.color, color: topic.forum_categories.color }}
+                        style={{ borderColor: topic.category_color, color: topic.category_color }}
                       >
-                        {topic.forum_categories.name}
+                        {topic.category_name}
                       </Badge>
                     </div>
                     
@@ -349,7 +355,7 @@ const CommunityForum: React.FC = () => {
                       <div className="flex items-center space-x-4">
                         <span className="flex items-center">
                           <Users className="h-4 w-4 mr-1" />
-                          {topic.profiles?.full_name || 'Anonymous'}
+                          {topic.author_name}
                         </span>
                         <span className="flex items-center">
                           <Clock className="h-4 w-4 mr-1" />
