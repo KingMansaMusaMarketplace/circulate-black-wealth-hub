@@ -26,6 +26,11 @@ export const PlanCard: React.FC<PlanCardProps> = ({
   const isCurrentTier = currentTier === tierKey;
   const isLoading = loading === tierKey;
 
+  const handleButtonClick = () => {
+    console.log('Plan card button clicked for tier:', tierKey);
+    onSubscribe(tierKey);
+  };
+
   return (
     <Card 
       className={`relative transition-all duration-300 hover:shadow-lg ${
@@ -82,7 +87,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({
                 ? 'bg-mansablue hover:bg-mansablue-dark' 
                 : ''
           }`}
-          onClick={() => onSubscribe(tierKey)}
+          onClick={handleButtonClick}
           disabled={isCurrentTier || isLoading}
         >
           {isLoading ? (
