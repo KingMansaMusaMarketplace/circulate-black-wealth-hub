@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -59,7 +58,7 @@ export const useSignupForm = () => {
     }
   };
 
-  const onSubmit = async (values: SignupFormValues) => {
+  const onSubmit = async (values: SignupFormValues & { subscription_tier?: 'free' | 'paid' }) => {
     try {
       setIsLoading(true);
       console.log('🚀 Starting signup process with values:', { 
@@ -80,7 +79,8 @@ export const useSignupForm = () => {
         user_type: userType,
         referral_code: values.referralCode,
         referring_agent: referringAgent?.id,
-        is_hbcu_member: isHBCUMember
+        is_hbcu_member: isHBCUMember,
+        subscription_tier: values.subscription_tier || 'free'
       };
 
       console.log('Signing up user with metadata:', metadata);
@@ -114,8 +114,11 @@ export const useSignupForm = () => {
             toast.error('Account created but failed to upload verification document. You can upload it later from your profile.');
           }
         } else {
-          console.log('✅ Account created successfully (no HBCU verification)');
-          toast.success('Account created successfully! Complete your subscription to get started.');
+          console.log('✅ Account created successfully');
+          const tierMessage = values.subscription_tier === 'free' 
+            ? 'Free account created successfully!' 
+            : 'Account created successfully! Complete your subscription to get started.';
+          toast.success(tierMessage);
         }
         
         // Sign in the user automatically

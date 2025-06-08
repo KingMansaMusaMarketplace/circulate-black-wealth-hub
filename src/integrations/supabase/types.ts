@@ -434,6 +434,9 @@ export type Database = {
           subscription_end_date: string | null
           subscription_start_date: string | null
           subscription_status: string | null
+          subscription_tier:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           updated_at: string | null
           user_type: string
         }
@@ -454,6 +457,9 @@ export type Database = {
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           updated_at?: string | null
           user_type: string
         }
@@ -474,6 +480,9 @@ export type Database = {
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
+          subscription_tier?:
+            | Database["public"]["Enums"]["subscription_tier"]
+            | null
           updated_at?: string | null
           user_type?: string
         }
@@ -1101,6 +1110,7 @@ export type Database = {
     }
     Enums: {
       hbcu_verification_status: "pending" | "approved" | "rejected"
+      subscription_tier: "free" | "paid"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1217,6 +1227,7 @@ export const Constants = {
   public: {
     Enums: {
       hbcu_verification_status: ["pending", "approved", "rejected"],
+      subscription_tier: ["free", "paid"],
     },
   },
 } as const

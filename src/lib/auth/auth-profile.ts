@@ -4,16 +4,28 @@ import { supabase } from '@/integrations/supabase/client';
 // Create a profile in the profiles table
 export const createUserProfile = async (userId: string, userMetadata: any) => {
   try {
-    const userType = userMetadata.userType || 'customer';
+    const userType = userMetadata.userType || userMetadata.user_type || 'customer';
+    const subscriptionTier = userMetadata.subscription_tier || 'free';
     const startDate = new Date().toISOString();
     const endDate = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(); // 30 days
+    
+    // Determine subscription status based on tier and user type
+    let subscriptionStatus = 'active';
+    if (userType === 'business') {
+      subscriptionStatus = 'trial';
+    } else if (userType === 'customer' && subscriptionTier === 'free') {
+      subscriptionStatus = 'active'; // Free customers are always active
+    } else if (userType === 'customer' && subscriptionTier === 'paid') {
+      subscriptionStatus = 'trial'; // Will be updated to active after payment
+    }
     
     const profileData = {
       id: userId,
       user_type: userType,
-      full_name: userMetadata.fullName || '',
+      full_name: userMetadata.fullName || userMetadata.name || '',
       email: userMetadata.email || '',
-      subscription_status: userType === 'customer' ? 'active' : 'trial',
+      subscription_status: subscriptionStatus,
+      subscription_tier: subscriptionTier,
       subscription_start_date: startDate,
       subscription_end_date: endDate,
       created_at: startDate,
