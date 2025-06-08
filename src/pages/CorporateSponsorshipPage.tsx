@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Navbar } from '@/components/navbar';
@@ -6,6 +5,7 @@ import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check, Star, Users, TrendingUp, Award } from 'lucide-react';
+import SponsorshipMediaKit from '@/components/sponsorship/SponsorshipMediaKit';
 
 const CorporateSponsorshipPage = () => {
   const sponsorshipTiers = [
@@ -66,14 +66,6 @@ const CorporateSponsorshipPage = () => {
     
     const mailtoUrl = `mailto:partnerships@mansamusamarketplace.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoUrl;
-  };
-
-  const handleDownloadGuide = () => {
-    // Create a placeholder PDF download - in a real app this would link to an actual PDF
-    const link = document.createElement('a');
-    link.href = '/partnership-guide.pdf';
-    link.download = 'Mansa-Musa-Partnership-Guide.pdf';
-    link.click();
   };
 
   return (
@@ -181,6 +173,9 @@ const CorporateSponsorshipPage = () => {
           </div>
         </section>
 
+        {/* Media Kit Section */}
+        <SponsorshipMediaKit />
+
         {/* CTA Section */}
         <section className="py-16 bg-mansablue">
           <div className="container mx-auto px-4 text-center">
@@ -198,14 +193,6 @@ const CorporateSponsorshipPage = () => {
                 onClick={handleContactPartnership}
               >
                 Contact Partnership Team
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="border-white text-white hover:bg-white hover:text-mansablue bg-transparent"
-                onClick={handleDownloadGuide}
-              >
-                Download Partnership Guide
               </Button>
             </div>
           </div>
