@@ -8,7 +8,7 @@ const Logo: React.FC = () => {
       <div className="w-8 h-8 bg-mansablue rounded-full flex items-center justify-center">
         <span className="text-white font-bold text-sm">M</span>
       </div>
-      <span className="text-xl font-bold text-mansablue">Mansa</span>
+      <span className="text-xl font-bold text-mansablue">Mansa Musa Marketplace</span>
     </Link>
   );
 };

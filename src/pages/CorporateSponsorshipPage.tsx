@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Navbar } from '@/components/navbar';
@@ -59,6 +58,7 @@ const CorporateSponsorshipPage = () => {
       </Helmet>
 
       <Navbar />
+      
       <main className="flex-grow">
         {/* Hero Section */}
         <div className="bg-gradient-to-r from-mansablue to-mansablue-dark py-20">
