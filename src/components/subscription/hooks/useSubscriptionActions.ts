@@ -17,6 +17,7 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
 
   const handleSubscribe = async (tier: SubscriptionTier) => {
     console.log('Subscribe button clicked for tier:', tier);
+    console.log('Current user from auth context:', user);
     
     if (!user) {
       console.log('No user found, showing error');
