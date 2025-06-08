@@ -22,17 +22,15 @@ export const subscriptionService = {
         throw new Error('User not authenticated');
       }
 
-      // Get user profile to check subscription status
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('subscription_status, subscription_tier, subscription_start_date, subscription_end_date')
-        .eq('id', user.id)
-        .single();
+      const { data, error } = await supabase.functions.invoke('check-subscription', {
+        headers: {
+          Authorization: `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
+        },
+      });
 
-      if (error) throw error;
-
-      // Default to free tier if no profile
-      if (!profile) {
+      if (error) {
+        console.error('Error checking subscription:', error);
+        // Return default free tier on error
         return {
           isActive: true,
           tier: 'free',
@@ -41,17 +39,13 @@ export const subscriptionService = {
         };
       }
 
-      const status = (profile.subscription_status as 'active' | 'canceled' | 'past_due' | 'trial') || 'active';
-
       return {
-        isActive: status === 'active',
-        tier: profile.subscription_tier || 'free',
-        status,
-        currentPeriodStart: profile.subscription_start_date,
-        currentPeriodEnd: profile.subscription_end_date,
-        subscription_tier: profile.subscription_tier || 'free',
-        subscription_end: profile.subscription_end_date,
-        subscribed: status === 'active'
+        isActive: data.subscribed || false,
+        tier: data.subscription_tier || 'free',
+        status: data.subscribed ? 'active' : 'canceled',
+        subscription_tier: data.subscription_tier || 'free',
+        subscription_end: data.subscription_end,
+        subscribed: data.subscribed || false
       };
     } catch (error) {
       console.error('Error checking subscription:', error);
@@ -67,9 +61,21 @@ export const subscriptionService = {
 
   async createCustomerPortalSession(): Promise<{ url: string }> {
     try {
-      // This would typically call a Stripe customer portal endpoint
-      // For now, return a placeholder
-      return { url: '/subscription' };
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        throw new Error('User not authenticated');
+      }
+
+      const { data, error } = await supabase.functions.invoke('customer-portal', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+
+      return { url: data.url };
     } catch (error) {
       console.error('Error creating customer portal session:', error);
       throw error;
@@ -84,9 +90,22 @@ export const subscriptionService = {
     businessName?: string;
   }): Promise<{ url: string }> {
     try {
-      // This would typically create a Stripe checkout session
-      // For now, return a placeholder
-      return { url: '/subscription' };
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        throw new Error('User not authenticated');
+      }
+
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: options,
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+
+      return { url: data.url };
     } catch (error) {
       console.error('Error creating checkout session:', error);
       throw error;

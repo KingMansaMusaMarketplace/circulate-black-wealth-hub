@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
 import { toast } from 'sonner';
 import { useAuth } from './auth';
@@ -49,20 +50,31 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({ chil
 
   const openCustomerPortal = async () => {
     try {
+      setIsLoading(true);
       const { url } = await subscriptionService.createCustomerPortalSession();
       window.open(url, '_blank');
     } catch (error) {
       console.error('Failed to open customer portal:', error);
       toast.error('Failed to open subscription management portal');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   // Refresh subscription when user changes
   useEffect(() => {
-    refreshSubscription();
+    if (user) {
+      refreshSubscription();
+    } else {
+      setSubscriptionInfo(null);
+    }
     
-    // Set up periodic refresh
-    const intervalId = setInterval(refreshSubscription, 60000); // every minute
+    // Set up periodic refresh every 5 minutes
+    const intervalId = setInterval(() => {
+      if (user) {
+        refreshSubscription();
+      }
+    }, 300000); // 5 minutes
     
     return () => clearInterval(intervalId);
   }, [user]);
