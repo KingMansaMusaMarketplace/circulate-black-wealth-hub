@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Navbar from '@/components/navbar/Navbar';
 import CommunityForum from '@/components/community/CommunityForum';
 import CommunityEvents from '@/components/community/CommunityEvents';
 import SmartBusinessRecommendations from '@/components/discovery/SmartBusinessRecommendations';
@@ -9,6 +10,8 @@ import { MessageSquare, Calendar, TrendingUp } from 'lucide-react';
 const CommunityPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      
       <div className="bg-gradient-to-r from-mansablue to-mansablue-dark text-white py-12">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-4xl font-bold mb-4">Community Hub</h1>
