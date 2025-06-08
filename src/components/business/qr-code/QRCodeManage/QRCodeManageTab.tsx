@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Plus, Search, Filter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { QRCodeCard } from './QRCodeCard';
+import QRCodeCard from './QRCodeCard';
 import { QRCodeEditor } from './QRCodeEditor';
 import { EmptyState } from './QRCodeEmptyState';
 import { QRCode } from '@/lib/api/qr-code-api';
@@ -38,6 +38,16 @@ export const QRCodeManageTab: React.FC<QRCodeManageTabProps> = ({ qrCodes }) => 
   const handleEdit = (qrCode: QRCode) => {
     setEditingQRCode(qrCode);
     setIsEditorOpen(true);
+  };
+
+  const handleDelete = (id: string) => {
+    // Handle delete logic here
+    console.log('Delete QR code:', id);
+  };
+
+  const handleView = (qrCode: QRCode) => {
+    // Handle view logic here
+    console.log('View QR code:', qrCode);
   };
 
   const handleEditorClose = () => {
@@ -113,6 +123,8 @@ export const QRCodeManageTab: React.FC<QRCodeManageTabProps> = ({ qrCodes }) => 
               key={qrCode.id}
               qrCode={qrCode}
               onEdit={() => handleEdit(qrCode)}
+              onDelete={handleDelete}
+              onView={handleView}
             />
           ))}
         </div>
