@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Helmet } from 'react-helmet';
 
 interface ResponsiveLayoutProps {
@@ -26,15 +24,11 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
         {description && <meta name="description" content={description} />}
       </Helmet>
       
-      <Navbar />
-      
       <main className="flex-grow bg-gray-50 py-8">
         <div className={`container mx-auto px-4 ${containerClassName}`}>
           {children}
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 };

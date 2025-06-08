@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Navbar } from '@/components/navbar';
 import Hero from '../components/Hero';
 import HowItWorks from '../components/HowItWorks';
 import FeaturedBusinesses from '../components/FeaturedBusinesses';
@@ -8,12 +7,10 @@ import WhySection from '../components/WhySection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import CTASection from '../components/CTASection';
 import VideoPlayer from '../components/VideoPlayer';
-import Footer from '../components/Footer';
 
 const HomePage = () => {
   return (
     <div className="min-h-screen">
-      <Navbar />
       <Hero />
       
       {/* Featured Video Section */}
@@ -46,7 +43,6 @@ const HomePage = () => {
       <FeaturedBusinesses />
       <TestimonialsSection />
       <CTASection />
-      <Footer />
     </div>
   );
 };
