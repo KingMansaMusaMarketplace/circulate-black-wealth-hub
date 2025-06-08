@@ -16,14 +16,14 @@ const CTASection = () => {
           </h2>
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0 gap-4">
             <Button
-              onClick={() => navigate('/signup')}
+              onClick={() => navigate('/signup/customer')}
               size="lg"
               className="bg-mansagold text-mansablue hover:bg-mansagold-dark"
             >
               Start Earning Rewards
             </Button>
             <Button
-              onClick={() => navigate('/signup')}
+              onClick={() => navigate('/signup/business')}
               variant="outline"
               size="lg"
               className="bg-transparent border-white text-white hover:bg-mansablue-light"
