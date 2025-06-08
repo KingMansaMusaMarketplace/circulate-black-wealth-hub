@@ -54,14 +54,14 @@ const QRCodeForm: React.FC<QRCodeFormProps> = ({
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <QRCodeTypeField />
+            <QRCodeTypeField control={form.control} />
             
-            {codeType === 'discount' && <DiscountField />}
-            {codeType === 'loyalty' && <PointsField />}
+            {codeType === 'discount' && <DiscountField control={form.control} />}
+            {codeType === 'loyalty' && <PointsField control={form.control} />}
             
-            <ScanLimitField />
-            <ExpirationDateField />
-            <ActiveStatusField />
+            <ScanLimitField control={form.control} />
+            <ExpirationDateField control={form.control} />
+            <ActiveStatusField control={form.control} />
             
             <SubmitButton isLoading={isLoading} />
           </form>
