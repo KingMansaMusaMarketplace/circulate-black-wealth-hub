@@ -52,7 +52,7 @@ export const teamMembers: TeamMember[] = [
     ],
     education: "MS in Computer Science from Georgia Tech, BS in Software Engineering from North Carolina A&T",
     image: "ZT",
-    avatarImage: "https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
+    avatarImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     socials: { 
       linkedin: "#", 
       website: "#",
