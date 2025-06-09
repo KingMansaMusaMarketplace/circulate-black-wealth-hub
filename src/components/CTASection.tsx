@@ -16,7 +16,7 @@ const CTASection = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link to="/signup/customer">
+          <Link to="/signup">
             <Button size="lg" className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-semibold px-8 py-3">
               <Users className="mr-2 h-5 w-5" />
               Join as Customer
@@ -24,7 +24,7 @@ const CTASection = () => {
             </Button>
           </Link>
           
-          <Link to="/signup/business">
+          <Link to="/signup?type=business">
             <Button 
               variant="white" 
               size="lg" 

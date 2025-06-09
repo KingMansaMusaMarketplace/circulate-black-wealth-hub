@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -55,11 +54,9 @@ const HeroSection = () => {
                   Join Now
                 </Button>
               </Link>
-              <Link to="#how-it-works" onClick={scrollToNextSection}>
-                <Button variant="white" size="lg" className="relative z-10">
-                  Learn More
-                </Button>
-              </Link>
+              <Button variant="white" size="lg" className="relative z-10" onClick={scrollToNextSection}>
+                Learn More
+              </Button>
             </div>
           </div>
           <div className="md:w-1/2 flex justify-center md:justify-end">

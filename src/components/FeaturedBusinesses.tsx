@@ -109,7 +109,7 @@ const FeaturedBusinesses = () => {
 
         <div className="text-center">
           <Link to="/directory">
-            <Button size="lg" variant="outline">
+            <Button size="lg" variant="outline" className="border-mansablue text-mansablue hover:bg-mansablue hover:text-white">
               View All Businesses
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
