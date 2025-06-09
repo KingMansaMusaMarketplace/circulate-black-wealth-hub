@@ -2,7 +2,6 @@
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
-import { QRCode } from '@/lib/api/qr-code-api';
 
 interface UseQRCodeScanningOptions {
   setLoading: (loading: boolean) => void;

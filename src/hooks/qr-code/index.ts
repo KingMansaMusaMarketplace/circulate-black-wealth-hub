@@ -1,6 +1,6 @@
 
-export * from './use-qr-code';
-export * from './use-qr-code-generation';
-export * from './use-qr-code-management';
-export * from './use-qr-code-scanning';
-export * from './use-qr-code-analytics';
+// Export all QR code hooks for easier importing
+export { useQRCode } from './use-qr-code';
+export { useQRCodeGeneration } from './use-qr-code-generation';
+export { useQRCodeManagement } from './use-qr-code-management';
+export { useQRCodeScanning } from './use-qr-code-scanning';
