@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import SidebarNavItem from './SidebarNavItem';
 import { 
@@ -19,28 +18,27 @@ import {
 
 const SidebarNavigation = () => {
   const { userType } = useAuth();
-  const location = useLocation();
 
   const customerNavItems = [
-    { icon: Home, label: 'Dashboard', to: '/dashboard' },
-    { icon: Scan, label: 'QR Scanner', to: '/scanner' },
-    { icon: Gift, label: 'Loyalty & Rewards', to: '/loyalty' },
-    { icon: Building2, label: 'Directory', to: '/directory' },
-    { icon: TrendingUp, label: 'Community Impact', to: '/community-impact' },
-    { icon: Users, label: 'Community', to: '/community' },
-    { icon: User, label: 'Profile', to: '/profile' },
-    { icon: HelpCircle, label: 'Help Center', to: '/help' },
+    { icon: Home, label: 'Dashboard', href: '/dashboard' },
+    { icon: Scan, label: 'QR Scanner', href: '/scanner' },
+    { icon: Gift, label: 'Loyalty & Rewards', href: '/loyalty' },
+    { icon: Building2, label: 'Directory', href: '/directory' },
+    { icon: TrendingUp, label: 'Community Impact', href: '/community-impact' },
+    { icon: Users, label: 'Community', href: '/community' },
+    { icon: User, label: 'Profile', href: '/profile' },
+    { icon: HelpCircle, label: 'Help Center', href: '/help' },
   ];
 
   const businessNavItems = [
-    { icon: BarChart3, label: 'Dashboard', to: '/business/dashboard' },
-    { icon: Building2, label: 'Business Profile', to: '/business/profile' },
-    { icon: QrCode, label: 'QR Code Management', to: '/business/qr-codes' },
-    { icon: TrendingUp, label: 'Analytics', to: '/business/profile?tab=analytics' },
-    { icon: Users, label: 'Directory', to: '/directory' },
-    { icon: Users, label: 'Community', to: '/community' },
-    { icon: Settings, label: 'Settings', to: '/profile' },
-    { icon: HelpCircle, label: 'Help Center', to: '/help' },
+    { icon: BarChart3, label: 'Dashboard', href: '/business/dashboard' },
+    { icon: Building2, label: 'Business Profile', href: '/business/profile' },
+    { icon: QrCode, label: 'QR Code Management', href: '/business/qr-codes' },
+    { icon: TrendingUp, label: 'Analytics', href: '/business/profile?tab=analytics' },
+    { icon: Users, label: 'Directory', href: '/directory' },
+    { icon: Users, label: 'Community', href: '/community' },
+    { icon: Settings, label: 'Settings', href: '/profile' },
+    { icon: HelpCircle, label: 'Help Center', href: '/help' },
   ];
 
   const navItems = userType === 'business' ? businessNavItems : customerNavItems;
@@ -50,11 +48,10 @@ const SidebarNavigation = () => {
       <div className="space-y-1">
         {navItems.map((item) => (
           <SidebarNavItem
-            key={item.to}
+            key={item.href}
             icon={item.icon}
             label={item.label}
-            to={item.to}
-            isActive={location.pathname === item.to}
+            href={item.href}
           />
         ))}
       </div>
