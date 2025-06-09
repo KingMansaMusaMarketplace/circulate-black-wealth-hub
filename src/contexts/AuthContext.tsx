@@ -1,6 +1,6 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Session } from '@supabase/supabase-js';
+import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { createUserProfile } from '@/lib/auth/auth-profile';
@@ -11,10 +11,15 @@ interface AuthContextType {
   userType: string | null;
   loading: boolean;
   authInitialized: boolean;
+  databaseInitialized: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any; data?: any }>;
   signUp: (email: string, password: string, metadata?: object) => Promise<{ error: any; data?: any }>;
   signOut: () => Promise<void>;
   signInWithProvider: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
+  checkSession: () => Promise<boolean>;
+  getMFAFactors: () => Promise<any[]>;
+  updateUserPassword: (password: string) => Promise<{ success: boolean; error?: any }>;
+  resetPassword: (email: string) => Promise<{ success: boolean; error?: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,11 +37,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [authInitialized, setAuthInitialized] = useState(false);
+  const [databaseInitialized, setDatabaseInitialized] = useState(true); // Assume initialized for now
 
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: AuthChangeEvent, session) => {
         console.log('Auth state changed:', event, session?.user?.id);
         setSession(session);
         setUser(session?.user ?? null);
@@ -82,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       
       toast.success('Successfully signed in!');
-      return { data };
+      return { error: null, data };
     } catch (error: any) {
       toast.error(error.message);
       return { error };
@@ -113,7 +119,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         toast.success('Account created successfully!');
       }
       
-      return { data };
+      return { error: null, data };
     } catch (error: any) {
       toast.error(error.message);
       return { error };
@@ -150,6 +156,53 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const checkSession = async (): Promise<boolean> => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      return !!session;
+    } catch (error) {
+      console.error('Error checking session:', error);
+      return false;
+    }
+  };
+
+  const getMFAFactors = async (): Promise<any[]> => {
+    try {
+      const { data, error } = await supabase.auth.mfa.listFactors();
+      if (error) throw error;
+      return data?.totp || [];
+    } catch (error) {
+      console.error('Error getting MFA factors:', error);
+      return [];
+    }
+  };
+
+  const updateUserPassword = async (password: string): Promise<{ success: boolean; error?: any }> => {
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) {
+        return { success: false, error };
+      }
+      return { success: true };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
+  const resetPassword = async (email: string): Promise<{ success: boolean; error?: any }> => {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/new-password`
+      });
+      if (error) {
+        return { success: false, error };
+      }
+      return { success: true };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
   const userType = user?.user_metadata?.user_type || user?.user_metadata?.userType || 'customer';
 
   const value = {
@@ -158,10 +211,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     userType,
     loading,
     authInitialized,
+    databaseInitialized,
     signIn,
     signUp,
     signOut,
     signInWithProvider,
+    checkSession,
+    getMFAFactors,
+    updateUserPassword,
+    resetPassword,
   };
 
   return (
