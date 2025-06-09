@@ -1,56 +1,78 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrendingUp, Users, DollarSign, Building2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCommunityImpact } from './hooks/useCommunityImpact';
+import { formatCurrency, formatNumber } from './utils/formatters';
+import { shareImpact } from './utils/socialShare';
+import PersonalImpactCards from './PersonalImpactCards';
+import MultiplierEffectCard from './MultiplierEffectCard';
+import CommunityWideImpact from './CommunityWideImpact';
+import ImpactGoals from './ImpactGoals';
+import { Card, CardContent } from '@/components/ui/card';
 
 const CommunityImpactDashboard: React.FC = () => {
-  const impactStats = {
-    totalCirculated: 1250000,
-    businessesSupported: 145,
-    activeMembers: 2340,
-    jobsCreated: 125
-  };
+  const { user } = useAuth();
+  const { userMetrics, communityMetrics, loading } = useCommunityImpact(user?.id);
+
+  const handleShareImpact = () => shareImpact(userMetrics);
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        {[1, 2, 3, 4].map((i) => (
+          <Card key={i} className="animate-pulse">
+            <CardContent className="p-6">
+              <div className="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
+              <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <TrendingUp className="h-5 w-5 text-mansablue" />
-          Community Impact
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-mansablue">
-              ${(impactStats.totalCirculated / 1000000).toFixed(1)}M
-            </div>
-            <p className="text-sm text-gray-600">Wealth Circulated</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="text-2xl font-bold text-mansagold">
-              {impactStats.businessesSupported}
-            </div>
-            <p className="text-sm text-gray-600">Businesses Supported</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="text-2xl font-bold text-mansablue">
-              {impactStats.activeMembers.toLocaleString()}
-            </div>
-            <p className="text-sm text-gray-600">Active Members</p>
-          </div>
-          
-          <div className="text-center">
-            <div className="text-2xl font-bold text-mansagold">
-              {impactStats.jobsCreated}
-            </div>
-            <p className="text-sm text-gray-600">Jobs Created</p>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="space-y-6">
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-8"
+      >
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Community Impact</h1>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          See how your support of Black-owned businesses creates real wealth circulation and job opportunities in our community
+        </p>
+      </motion.div>
+
+      {/* Personal Impact Cards */}
+      <PersonalImpactCards 
+        userMetrics={userMetrics}
+        formatCurrency={formatCurrency}
+        formatNumber={formatNumber}
+      />
+
+      {/* Wealth Circulation Explanation */}
+      <MultiplierEffectCard 
+        userMetrics={userMetrics}
+        formatCurrency={formatCurrency}
+        onShareImpact={handleShareImpact}
+      />
+
+      {/* Community-Wide Impact */}
+      <CommunityWideImpact 
+        communityMetrics={communityMetrics}
+        formatCurrency={formatCurrency}
+        formatNumber={formatNumber}
+      />
+
+      {/* Impact Goals */}
+      <ImpactGoals 
+        userMetrics={userMetrics}
+        formatCurrency={formatCurrency}
+      />
+    </div>
   );
 };
 
