@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
-interface BusinessProfile {
+export interface BusinessProfile {
   id: string;
   business_name: string;
   description: string;
@@ -18,6 +18,8 @@ interface BusinessProfile {
   website?: string;
   is_verified: boolean;
   owner_id: string;
+  logo_url?: string;
+  banner_url?: string;
 }
 
 export const useBusinessProfile = () => {
