@@ -1,7 +1,9 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { MiniLoyaltyWidget } from '@/components/loyalty/MiniLoyaltyWidget';
 import { SystemHealthWidget } from './SystemHealthWidget';
 import WelcomeGuide from './WelcomeGuide';
@@ -9,6 +11,7 @@ import NearbyBusinesses from './NearbyBusinesses';
 import RecentActivity from './RecentActivity';
 import ActivityFeed from '@/components/community/ActivityFeed';
 import CommunityImpactDashboard from '@/components/community-impact/CommunityImpactDashboard';
+import { ArrowRight } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
   const { user, userType } = useAuth();
@@ -65,6 +68,54 @@ const Dashboard: React.FC = () => {
         <p className="text-gray-600">
           Continue building wealth in the Black community
         </p>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <Link to="/scanner">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle className="text-lg">Scan QR Code</CardTitle>
+              <CardDescription>Earn points at Black-owned businesses</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button className="w-full">
+                Start Scanning
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link to="/directory">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle className="text-lg">Find Businesses</CardTitle>
+              <CardDescription>Discover nearby Black-owned businesses</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full">
+                Explore Directory
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link to="/loyalty">
+          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <CardHeader>
+              <CardTitle className="text-lg">View Rewards</CardTitle>
+              <CardDescription>Check your loyalty points and rewards</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button variant="outline" className="w-full">
+                My Rewards
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
 
       {/* Main Dashboard Grid */}

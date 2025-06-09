@@ -1,78 +1,66 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
-const NavLinks: React.FC = () => {
+const NavLinks = () => {
   const location = useLocation();
-  
-  const isActive = (path: string) => location.pathname === path;
-  
+  const { user, userType } = useAuth();
+
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
+  const getLinkClass = (path: string) => {
+    return `text-gray-700 hover:text-mansablue px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+      isActive(path) ? 'text-mansablue bg-mansablue/10' : ''
+    }`;
+  };
+
   return (
-    <div className="hidden md:flex items-center space-x-8">
-      <Link 
-        to="/" 
-        className={`text-sm font-medium transition-colors hover:text-mansagold ${
-          isActive('/') ? 'text-mansagold' : 'text-gray-700'
-        }`}
-      >
+    <div className="hidden md:flex items-center space-x-4">
+      <Link to="/" className={getLinkClass('/')}>
         Home
       </Link>
-      <Link 
-        to="/about" 
-        className={`text-sm font-medium transition-colors hover:text-mansagold ${
-          isActive('/about') ? 'text-mansagold' : 'text-gray-700'
-        }`}
-      >
-        About
-      </Link>
-      <Link 
-        to="/how-it-works" 
-        className={`text-sm font-medium transition-colors hover:text-mansagold ${
-          isActive('/how-it-works') ? 'text-mansagold' : 'text-gray-700'
-        }`}
-      >
-        How It Works
-      </Link>
-      <Link 
-        to="/directory/enhanced" 
-        className={`text-sm font-medium transition-colors hover:text-mansagold ${
-          isActive('/directory/enhanced') || isActive('/directory') ? 'text-mansagold' : 'text-gray-700'
-        }`}
-      >
+      <Link to="/directory" className={getLinkClass('/directory')}>
         Directory
       </Link>
-      <Link 
-        to="/community" 
-        className={`text-sm font-medium transition-colors hover:text-mansagold ${
-          isActive('/community') ? 'text-mansagold' : 'text-gray-700'
-        }`}
-      >
+      <Link to="/how-it-works" className={getLinkClass('/how-it-works')}>
+        How It Works
+      </Link>
+      <Link to="/community" className={getLinkClass('/community')}>
         Community
       </Link>
-      <Link 
-        to="/subscription" 
-        className={`text-sm font-medium transition-colors hover:text-mansagold ${
-          isActive('/subscription') ? 'text-mansagold' : 'text-gray-700'
-        }`}
-      >
-        Plans
-      </Link>
-      <Link 
-        to="/sponsorship" 
-        className={`text-sm font-medium transition-colors hover:text-mansagold ${
-          isActive('/sponsorship') ? 'text-mansagold' : 'text-gray-700'
-        }`}
-      >
-        Sponsorship
-      </Link>
-      <Link 
-        to="/contact" 
-        className={`text-sm font-medium transition-colors hover:text-mansagold ${
-          isActive('/contact') ? 'text-mansagold' : 'text-gray-700'
-        }`}
-      >
-        Contact
-      </Link>
+      
+      {user && (
+        <>
+          {userType === 'business' ? (
+            <>
+              <Link to="/business/dashboard" className={getLinkClass('/business/dashboard')}>
+                Dashboard
+              </Link>
+              <Link to="/business/profile" className={getLinkClass('/business/profile')}>
+                Profile
+              </Link>
+              <Link to="/business/qr-codes" className={getLinkClass('/business/qr-codes')}>
+                QR Codes
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/dashboard" className={getLinkClass('/dashboard')}>
+                Dashboard
+              </Link>
+              <Link to="/scanner" className={getLinkClass('/scanner')}>
+                Scanner
+              </Link>
+              <Link to="/loyalty" className={getLinkClass('/loyalty')}>
+                Loyalty
+              </Link>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };

@@ -1,86 +1,60 @@
 
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { 
-  Home,
-  Search,
-  Users,
-  MessageSquare,
-  Calendar,
-  Settings,
-  Building2,
-  QrCode,
-  TrendingUp,
-  BarChart3,
-  Award,
-  HelpCircle,
-  UserCheck
-} from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import SidebarNavItem from './SidebarNavItem';
+import { 
+  BarChart3, 
+  Building2, 
+  QrCode, 
+  Users, 
+  Settings,
+  Home,
+  Scan,
+  Gift,
+  TrendingUp,
+  HelpCircle,
+  User
+} from 'lucide-react';
 
-interface SidebarNavigationProps {
-  userType?: string;
-}
-
-const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ userType }) => {
-  const location = useLocation();
+const SidebarNavigation = () => {
+  const { userType } = useAuth();
 
   const customerNavItems = [
-    { to: '/dashboard', icon: Home, label: 'Dashboard' },
-    { to: '/directory/enhanced', icon: Search, label: 'Business Directory' },
-    { to: '/community', icon: Users, label: 'Community Hub' },
-    { to: '/community-impact', icon: TrendingUp, label: 'Community Impact' },
-    { to: '/loyalty', icon: Award, label: 'Rewards & Loyalty' },
-    { to: '/scanner', icon: QrCode, label: 'QR Scanner' },
-    { to: '/help', icon: HelpCircle, label: 'Help Center' },
-    { to: '/profile', icon: Settings, label: 'Account Settings' },
+    { icon: Home, label: 'Dashboard', href: '/dashboard' },
+    { icon: Scan, label: 'QR Scanner', href: '/scanner' },
+    { icon: Gift, label: 'Loyalty & Rewards', href: '/loyalty' },
+    { icon: Building2, label: 'Directory', href: '/directory' },
+    { icon: TrendingUp, label: 'Community Impact', href: '/community-impact' },
+    { icon: Users, label: 'Community', href: '/community' },
+    { icon: User, label: 'Profile', href: '/profile' },
+    { icon: HelpCircle, label: 'Help Center', href: '/help' },
   ];
 
   const businessNavItems = [
-    { to: '/dashboard', icon: Home, label: 'Dashboard' },
-    { to: '/business/profile', icon: Building2, label: 'Business Profile' },
-    { to: '/business/qr-codes', icon: QrCode, label: 'QR Codes' },
-    { to: '/business/analytics', icon: BarChart3, label: 'Analytics' },
-    { to: '/community', icon: Users, label: 'Community Hub' },
-    { to: '/community-impact', icon: TrendingUp, label: 'Community Impact' },
-    { to: '/help', icon: HelpCircle, label: 'Help Center' },
-    { to: '/profile', icon: Settings, label: 'Account Settings' },
+    { icon: BarChart3, label: 'Dashboard', href: '/business/dashboard' },
+    { icon: Building2, label: 'Business Profile', href: '/business/profile' },
+    { icon: QrCode, label: 'QR Code Management', href: '/business/qr-codes' },
+    { icon: TrendingUp, label: 'Analytics', href: '/business/profile?tab=analytics' },
+    { icon: Users, label: 'Directory', href: '/directory' },
+    { icon: Users, label: 'Community', href: '/community' },
+    { icon: Settings, label: 'Settings', href: '/profile' },
+    { icon: HelpCircle, label: 'Help Center', href: '/help' },
   ];
 
-  const salesAgentNavItems = [
-    { to: '/dashboard', icon: Home, label: 'Dashboard' },
-    { to: '/sales-agent', icon: UserCheck, label: 'Sales Agent Hub' },
-    { to: '/directory/enhanced', icon: Search, label: 'Business Directory' },
-    { to: '/community', icon: Users, label: 'Community Hub' },
-    { to: '/community-impact', icon: TrendingUp, label: 'Community Impact' },
-    { to: '/help', icon: HelpCircle, label: 'Help Center' },
-    { to: '/profile', icon: Settings, label: 'Account Settings' },
-  ];
-
-  const getNavItems = () => {
-    switch (userType) {
-      case 'business':
-        return businessNavItems;
-      case 'sales_agent':
-        return salesAgentNavItems;
-      default:
-        return customerNavItems;
-    }
-  };
-
-  const navItems = getNavItems();
+  const navItems = userType === 'business' ? businessNavItems : customerNavItems;
 
   return (
-    <nav className="space-y-1 px-3">
-      {navItems.map((item) => (
-        <SidebarNavItem
-          key={item.to}
-          to={item.to}
-          icon={item.icon}
-          label={item.label}
-          isActive={location.pathname === item.to}
-        />
-      ))}
+    <nav className="mt-8">
+      <div className="space-y-1">
+        {navItems.map((item) => (
+          <SidebarNavItem
+            key={item.href}
+            icon={item.icon}
+            label={item.label}
+            href={item.href}
+          />
+        ))}
+      </div>
     </nav>
   );
 };

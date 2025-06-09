@@ -1,95 +1,117 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Star } from 'lucide-react';
-
-// Mock data - in a real app, this would come from your backend
-const businesses = [
-  {
-    id: '1',
-    name: 'Green Leaf Cafe',
-    category: 'Restaurant',
-    rating: 4.8,
-    image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    description: 'Organic, locally-sourced ingredients in every dish. Vegan options available.'
-  },
-  {
-    id: '2',
-    name: 'Urban Styles',
-    category: 'Fashion',
-    rating: 4.5,
-    image: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    description: 'Latest fashion trends at affordable prices. Sustainable clothing options.'
-  },
-  {
-    id: '3',
-    name: 'Tech Haven',
-    category: 'Electronics',
-    rating: 4.6,
-    image: 'https://images.unsplash.com/photo-1518997554305-5eea2f04e384?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    description: 'Quality tech products, expert advice, and repair services.'
-  },
-];
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { MapPin, Star, ArrowRight } from 'lucide-react';
 
 const FeaturedBusinesses = () => {
-  const navigate = useNavigate();
-  
+  const featuredBusinesses = [
+    {
+      id: 1,
+      name: "Harmony Soul Food",
+      category: "Restaurant",
+      description: "Authentic Southern cuisine with modern twists",
+      rating: 4.8,
+      reviews: 124,
+      distance: "0.8 miles",
+      image: "/placeholder.svg",
+      discount: "10% Off First Visit"
+    },
+    {
+      id: 2,
+      name: "Black Bean Coffee Co.",
+      category: "Coffee Shop",
+      description: "Ethically sourced coffee and pastries",
+      rating: 4.6,
+      reviews: 87,
+      distance: "1.2 miles",
+      image: "/placeholder.svg",
+      discount: "Free Pastry with Drink"
+    },
+    {
+      id: 3,
+      name: "Culture Clothing",
+      category: "Retail",
+      description: "Urban fashion and cultural expression",
+      rating: 4.7,
+      reviews: 93,
+      distance: "2.5 miles",
+      image: "/placeholder.svg",
+      discount: "15% Off Purchase"
+    }
+  ];
+
   return (
-    <section className="py-12 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Featured Businesses
+    <section className="py-16 bg-gray-50">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            Featured Black-Owned Businesses
           </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-            Discover great local businesses in our network
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Discover amazing businesses in your community and start earning loyalty points today
           </p>
         </div>
 
-        <div className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {businesses.map((business) => (
-            <Card key={business.id} className="overflow-hidden">
-              <div className="h-48 w-full overflow-hidden">
-                <img 
-                  src={business.image} 
-                  alt={business.name} 
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                />
-              </div>
-              <CardContent className="p-6">
+        <div className="grid md:grid-cols-3 gap-6 mb-10">
+          {featuredBusinesses.map((business) => (
+            <Card key={business.id} className="hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="aspect-video bg-gray-200 rounded-lg mb-4">
+                  <img 
+                    src={business.image} 
+                    alt={business.name}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                </div>
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-xl font-bold">{business.name}</h3>
-                    <p className="text-sm text-gray-500">{business.category}</p>
+                    <CardTitle className="text-lg">{business.name}</CardTitle>
+                    <Badge variant="secondary" className="mt-1">
+                      {business.category}
+                    </Badge>
                   </div>
-                  <div className="flex items-center bg-yellow-100 px-2 py-1 rounded">
-                    <Star className="h-4 w-4 text-yellow-500 mr-1" />
-                    <span>{business.rating}</span>
+                  <Badge className="bg-green-100 text-green-800">
+                    {business.discount}
+                  </Badge>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="mb-4">
+                  {business.description}
+                </CardDescription>
+                
+                <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+                  <div className="flex items-center">
+                    <Star className="h-4 w-4 text-yellow-400 mr-1" />
+                    <span>{business.rating} ({business.reviews} reviews)</span>
+                  </div>
+                  <div className="flex items-center">
+                    <MapPin className="h-4 w-4 mr-1" />
+                    <span>{business.distance}</span>
                   </div>
                 </div>
-                <p className="mt-3 text-gray-600">{business.description}</p>
+                
+                <Link to={`/business/${business.id}`}>
+                  <Button className="w-full">
+                    View Details
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </CardContent>
-              <CardFooter className="px-6 py-4 bg-gray-50">
-                <Button 
-                  className="w-full" 
-                  onClick={() => navigate(`/business/${business.id}`)}
-                >
-                  View Business
-                </Button>
-              </CardFooter>
             </Card>
           ))}
         </div>
-        
-        <div className="mt-10 text-center">
-          <Button 
-            variant="outline" 
-            onClick={() => navigate('/directory')}
-          >
-            View All Businesses
-          </Button>
+
+        <div className="text-center">
+          <Link to="/directory">
+            <Button size="lg" variant="outline">
+              View All Businesses
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

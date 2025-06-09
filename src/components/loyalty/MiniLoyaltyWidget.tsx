@@ -1,72 +1,60 @@
 
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Sparkles, ChevronRight } from 'lucide-react';
-import { useLoyalty } from '@/hooks/use-loyalty';
 import { Link } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Gift, Star, ArrowRight } from 'lucide-react';
+import { useLoyalty } from '@/hooks/use-loyalty';
 
-interface MiniLoyaltyWidgetProps {
-  showLink?: boolean;
-  className?: string;
-}
+export const MiniLoyaltyWidget: React.FC = () => {
+  const { summary } = useLoyalty();
 
-export const MiniLoyaltyWidget: React.FC<MiniLoyaltyWidgetProps> = ({ 
-  showLink = true,
-  className = ''
-}) => {
-  const { loyaltyPoints, isLoading, nextRewardThreshold, currentTier } = useLoyalty();
-  
-  // Ensure loyaltyPoints is a number for calculations
-  const totalPoints = typeof loyaltyPoints === 'number' ? loyaltyPoints : 0;
-  const threshold = typeof nextRewardThreshold === 'number' ? nextRewardThreshold : 500;
-  
-  // Calculate progress percentage toward next tier/reward
-  const progress = threshold > 0 
-    ? Math.min(Math.floor((totalPoints / threshold) * 100), 100) 
-    : 0;
-  
   return (
-    <Card className={`border-mansagold/20 overflow-hidden ${className}`}>
-      <CardContent className="p-4 space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-mansagold" />
-            <span className="font-semibold text-sm">Loyalty Points</span>
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle className="text-lg flex items-center gap-2">
+          <Gift className="h-5 w-5 text-mansablue" />
+          Loyalty Points
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="text-center">
+          <div className="text-3xl font-bold text-mansablue">
+            {summary.totalPoints}
           </div>
-          {showLink && (
-            <Link 
-              to="/loyalty" 
-              className="text-xs text-mansablue hover:text-mansablue-dark flex items-center"
-            >
-              Details
-              <ChevronRight className="h-3 w-3 ml-1" />
-            </Link>
-          )}
+          <p className="text-sm text-gray-600">Total Points</p>
         </div>
         
-        <div className="flex items-baseline gap-1">
-          <span className="text-2xl font-bold text-mansablue">
-            {isLoading ? '---' : totalPoints?.toLocaleString() || 0}
-          </span>
-          <span className="text-gray-500 text-sm">points</span>
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Level</span>
+            <Badge className="bg-mansagold text-mansablue">
+              <Star className="h-3 w-3 mr-1" />
+              Bronze
+            </Badge>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Available Rewards</span>
+            <span className="text-sm font-medium">3</span>
+          </div>
         </div>
         
-        {currentTier && (
-          <div className="text-xs text-gray-600">
-            Current tier: <span className="font-semibold">{currentTier}</span>
-          </div>
-        )}
-        
-        {threshold > 0 && (
-          <div className="space-y-1">
-            <Progress value={progress} className="h-2" />
-            <div className="flex justify-between text-xs text-gray-500">
-              <span>{progress}% to next reward</span>
-              <span>{threshold - totalPoints} points needed</span>
-            </div>
-          </div>
-        )}
+        <div className="space-y-2">
+          <Link to="/loyalty" className="block">
+            <Button className="w-full" size="sm">
+              View All Rewards
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+          
+          <Link to="/scanner" className="block">
+            <Button variant="outline" className="w-full" size="sm">
+              Scan to Earn Points
+            </Button>
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );

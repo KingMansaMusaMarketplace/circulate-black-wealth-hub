@@ -39,8 +39,8 @@ const BusinessDashboard = () => {
   };
 
   const handlePromotionsManagement = () => {
-    // For now, navigate to QR codes page as promotions might be managed there
-    navigate('/business/qr-codes');
+    // Navigate to business profile with promotions/settings tab
+    navigate('/business/profile?tab=profile');
   };
 
   const handleAnalytics = () => {
@@ -53,8 +53,63 @@ const BusinessDashboard = () => {
     navigate('/business/profile?tab=analytics');
   };
 
+  const handleViewProfile = () => {
+    navigate('/business/profile');
+  };
+
   return (
     <div className="space-y-6">
+      {/* Quick Actions Row */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={handleQRCodeManagement}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <QrCode className="h-5 w-5 text-mansablue" />
+              QR Codes
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600">Generate and manage QR codes</p>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={handleViewProfile}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <UserSquare className="h-5 w-5 text-mansablue" />
+              Profile
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600">Manage business profile</p>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={handleAnalytics}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-mansablue" />
+              Analytics
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600">View detailed analytics</p>
+          </CardContent>
+        </Card>
+
+        <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={handlePromotionsManagement}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <CalendarDays className="h-5 w-5 text-mansablue" />
+              Settings
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600">Business settings and promotions</p>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Key Metrics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
@@ -151,66 +206,6 @@ const BusinessDashboard = () => {
               onClick={handleViewAllActivity}
             >
               View all activity
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
-      
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <div className="space-y-1">
-              <CardTitle className="text-base">Generate QR Code</CardTitle>
-              <CardDescription>Create loyalty or discount QR codes</CardDescription>
-            </div>
-            <QrCode className="text-mansablue" size={20} />
-          </CardHeader>
-          <CardFooter className="pt-2">
-            <Button 
-              variant="ghost" 
-              className="text-mansablue text-sm hover:underline w-full text-center"
-              onClick={handleQRCodeManagement}
-            >
-              Manage QR Codes →
-            </Button>
-          </CardFooter>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <div className="space-y-1">
-              <CardTitle className="text-base">Upcoming Promotions</CardTitle>
-              <CardDescription>View your scheduled offers</CardDescription>
-            </div>
-            <CalendarDays className="text-mansablue" size={20} />
-          </CardHeader>
-          <CardFooter className="pt-2">
-            <Button 
-              variant="ghost" 
-              className="text-mansablue text-sm hover:underline w-full text-center"
-              onClick={handlePromotionsManagement}
-            >
-              Manage Promotions →
-            </Button>
-          </CardFooter>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <div className="space-y-1">
-              <CardTitle className="text-base">Customer Insights</CardTitle>
-              <CardDescription>Customer demographics and behavior</CardDescription>
-            </div>
-            <TrendingUp className="text-mansablue" size={20} />
-          </CardHeader>
-          <CardFooter className="pt-2">
-            <Button 
-              variant="ghost" 
-              className="text-mansablue text-sm hover:underline w-full text-center"
-              onClick={handleAnalytics}
-            >
-              View Analytics →
             </Button>
           </CardFooter>
         </Card>

@@ -1,79 +1,84 @@
 
 import React from 'react';
-import { Repeat, Users, Zap, TrendingUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { TrendingUp, Users, Heart, DollarSign, ArrowRight } from 'lucide-react';
 
 const WhySection = () => {
+  const benefits = [
+    {
+      icon: TrendingUp,
+      title: "Economic Impact",
+      description: "Every dollar spent circulates 6-9 times within the Black community, creating lasting wealth.",
+      stat: "$1.2M+ Circulated"
+    },
+    {
+      icon: Users,
+      title: "Community Building",
+      description: "Connect with local entrepreneurs and build stronger community relationships.",
+      stat: "500+ Businesses"
+    },
+    {
+      icon: Heart,
+      title: "Cultural Preservation",
+      description: "Support businesses that celebrate and preserve Black culture and heritage.",
+      stat: "10K+ Members"
+    },
+    {
+      icon: DollarSign,
+      title: "Loyalty Rewards",
+      description: "Earn points and rewards while supporting businesses that matter to you.",
+      stat: "50K+ Points Earned"
+    }
+  ];
+
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-base text-mansablue font-semibold tracking-wide uppercase">Why Choose Us</h2>
-          <p className="mt-2 text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Empower Your Business Growth
-          </p>
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-            Join thousands of businesses and customers in our growing ecosystem
+    <section className="py-20 bg-white">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6">
+            Why Choose Mansa Musa Marketplace?
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Join a movement that's creating real economic change in the Black community through conscious spending and business support.
           </p>
         </div>
 
-        <div className="mt-16">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-mansablue text-white">
-                  <Repeat className="h-6 w-6" />
-                </div>
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg font-medium text-gray-900">Increase Customer Loyalty</h3>
-                <p className="mt-2 text-base text-gray-500">
-                  Our platform helps you create meaningful relationships with your customers, encouraging repeat business and fostering brand loyalty.
-                </p>
-              </div>
-            </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          {benefits.map((benefit, index) => {
+            const Icon = benefit.icon;
+            return (
+              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-mansablue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon className="h-6 w-6 text-mansablue" />
+                  </div>
+                  <CardTitle className="text-lg">{benefit.title}</CardTitle>
+                  <div className="text-2xl font-bold text-mansagold">{benefit.stat}</div>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-gray-600">
+                    {benefit.description}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
 
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-mansablue text-white">
-                  <TrendingUp className="h-6 w-6" />
-                </div>
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg font-medium text-gray-900">Data-Driven Insights</h3>
-                <p className="mt-2 text-base text-gray-500">
-                  Gain valuable insights into customer behavior patterns, preferences, and purchasing habits to optimize your business strategies.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-mansablue text-white">
-                  <Zap className="h-6 w-6" />
-                </div>
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg font-medium text-gray-900">Easy Implementation</h3>
-                <p className="mt-2 text-base text-gray-500">
-                  Get started in minutes with our user-friendly platform. No technical expertise required—just sign up and start rewarding your customers.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <div className="flex items-center justify-center h-12 w-12 rounded-md bg-mansablue text-white">
-                  <Users className="h-6 w-6" />
-                </div>
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg font-medium text-gray-900">Community Impact</h3>
-                <p className="mt-2 text-base text-gray-500">
-                  Join a network of businesses building stronger local economies and communities through innovative customer engagement strategies.
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="text-center">
+          <Link to="/how-it-works">
+            <Button size="lg" className="mr-4">
+              Learn How It Works
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+          <Link to="/signup">
+            <Button size="lg" variant="outline">
+              Join the Movement
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
