@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { Star, Users, Building2, GraduationCap } from 'lucide-react';
 
-const HomePage = () => {
+const Index = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
@@ -163,4 +163,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Index;
