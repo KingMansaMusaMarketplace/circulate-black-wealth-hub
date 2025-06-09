@@ -14,6 +14,7 @@ import { initializeCapacitorPlugins } from '@/utils/capacitor-plugins';
 // Lazy load pages for better performance
 const HomePage = React.lazy(() => import('@/pages/HomePage'));
 const AboutPage = React.lazy(() => import('@/pages/AboutPage'));
+const BlogPage = React.lazy(() => import('@/pages/BlogPage'));
 const ContactPage = React.lazy(() => import('@/pages/ContactPage'));
 const FAQPage = React.lazy(() => import('@/pages/FAQPage'));
 const DirectoryPage = React.lazy(() => import('@/pages/DirectoryPage'));
@@ -80,6 +81,7 @@ function App() {
                       <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/about" element={<AboutPage />} />
+                        <Route path="/blog" element={<BlogPage />} />
                         <Route path="/contact" element={<ContactPage />} />
                         <Route path="/faq" element={<FAQPage />} />
                         <Route path="/how-it-works" element={<HowItWorksPage />} />
