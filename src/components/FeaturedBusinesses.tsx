@@ -5,43 +5,42 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Star, ArrowRight } from 'lucide-react';
+import { businesses } from '@/data/businessData';
 
 const FeaturedBusinesses = () => {
-  const featuredBusinesses = [
-    {
-      id: 1,
-      name: "Harmony Soul Food",
-      category: "Restaurant",
-      description: "Authentic Southern cuisine with modern twists",
-      rating: 4.8,
-      reviews: 124,
-      distance: "0.8 miles",
-      image: "/placeholder.svg",
-      discount: "10% Off First Visit"
-    },
-    {
-      id: 2,
-      name: "Black Bean Coffee Co.",
-      category: "Coffee Shop",
-      description: "Ethically sourced coffee and pastries",
-      rating: 4.6,
-      reviews: 87,
-      distance: "1.2 miles",
-      image: "/placeholder.svg",
-      discount: "Free Pastry with Drink"
-    },
-    {
-      id: 3,
-      name: "Culture Clothing",
-      category: "Retail",
-      description: "Urban fashion and cultural expression",
-      rating: 4.7,
-      reviews: 93,
-      distance: "2.5 miles",
-      image: "/placeholder.svg",
-      discount: "15% Off Purchase"
-    }
-  ];
+  // Get the first 3 featured businesses from our business data
+  const featuredBusinesses = businesses
+    .filter(business => business.isFeatured)
+    .slice(0, 3)
+    .map(business => ({
+      id: business.id,
+      name: business.name,
+      category: business.category,
+      description: `Discover amazing ${business.category.toLowerCase()} services and earn loyalty points`,
+      rating: business.rating,
+      reviews: business.reviewCount,
+      distance: business.distance,
+      image: business.imageUrl,
+      discount: business.discount
+    }));
+
+  // If we don't have enough featured businesses, fill with regular ones
+  const allDisplayBusinesses = featuredBusinesses.length >= 3 
+    ? featuredBusinesses 
+    : [
+        ...featuredBusinesses,
+        ...businesses.slice(0, 3 - featuredBusinesses.length).map(business => ({
+          id: business.id,
+          name: business.name,
+          category: business.category,
+          description: `Discover amazing ${business.category.toLowerCase()} services and earn loyalty points`,
+          rating: business.rating,
+          reviews: business.reviewCount,
+          distance: business.distance,
+          image: business.imageUrl,
+          discount: business.discount
+        }))
+      ];
 
   return (
     <section className="py-16 bg-gray-50">
@@ -56,14 +55,17 @@ const FeaturedBusinesses = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-10">
-          {featuredBusinesses.map((business) => (
+          {allDisplayBusinesses.map((business) => (
             <Card key={business.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
-                <div className="aspect-video bg-gray-200 rounded-lg mb-4">
+                <div className="aspect-video bg-gray-200 rounded-lg mb-4 overflow-hidden">
                   <img 
                     src={business.image} 
                     alt={business.name}
-                    className="w-full h-full object-cover rounded-lg"
+                    className="w-full h-full object-cover transition-transform hover:scale-105"
+                    onError={(e) => {
+                      e.currentTarget.src = `https://placehold.co/400x250/e5e7eb/6b7280?text=${encodeURIComponent(business.name)}`;
+                    }}
                   />
                 </div>
                 <div className="flex justify-between items-start">
