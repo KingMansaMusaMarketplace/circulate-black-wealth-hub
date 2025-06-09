@@ -1,140 +1,91 @@
 
 import { supabase } from '@/integrations/supabase/client';
+import { QRCodeScanResult } from '@/lib/api/qr-code-api';
 import { toast } from 'sonner';
-import { useAuth } from '@/contexts/AuthContext';
-import { QRCode } from '@/lib/api/qr-code-api';
 
 interface UseQRCodeScanningOptions {
   setLoading: (loading: boolean) => void;
 }
 
 export const useQRCodeScanning = ({ setLoading }: UseQRCodeScanningOptions) => {
-  const { user } = useAuth();
-
-  // Scan a QR code
-  const scanQRCode = async (qrCodeId: string, location?: { lat: number; lng: number }): Promise<any> => {
+  const scanQRCode = async (qrCodeId: string): Promise<QRCodeScanResult | null> => {
     setLoading(true);
     try {
-      // Verify the QR code exists and is valid
       const { data: qrCode, error: qrError } = await supabase
         .from('qr_codes')
-        .select('*')
+        .select('*, businesses(business_name)')
         .eq('id', qrCodeId)
         .single();
-      
+
       if (qrError || !qrCode) {
-        console.error('Error finding QR code:', qrError);
         toast.error('Invalid QR code');
-        return { success: false };
+        return { success: false, error: 'Invalid QR code' };
       }
-      
+
       if (!qrCode.is_active) {
-        toast.error('This QR code is inactive');
-        return { success: false };
+        toast.error('This QR code is no longer active');
+        return { success: false, error: 'QR code is inactive' };
       }
-      
-      // Check if the QR code has reached its scan limit
+
       if (qrCode.scan_limit && qrCode.current_scans >= qrCode.scan_limit) {
         toast.error('This QR code has reached its scan limit');
-        return { success: false };
+        return { success: false, error: 'Scan limit reached' };
       }
-      
-      // Check if the QR code has expired
-      if (qrCode.expiration_date && new Date(qrCode.expiration_date) < new Date()) {
-        toast.error('This QR code has expired');
-        return { success: false };
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error('You must be logged in to scan QR codes');
+        return { success: false, error: 'Authentication required' };
       }
-      
-      // Record the scan in the database
+
       const scanData = {
         qr_code_id: qrCodeId,
-        customer_id: user?.id || 'anonymous',
+        customer_id: user.id,
         business_id: qrCode.business_id,
         points_awarded: qrCode.points_value || 0,
-        discount_applied: qrCode.discount_percentage || 0,
-        location_lat: location?.lat,
-        location_lng: location?.lng
+        discount_applied: qrCode.discount_percentage || 0
       };
-      
-      const { data: scanResult, error: scanError } = await supabase
+
+      const { error: scanError } = await supabase
         .from('qr_scans')
-        .insert(scanData)
-        .select()
-        .single();
-        
+        .insert(scanData);
+
       if (scanError) {
         console.error('Error recording scan:', scanError);
         toast.error('Failed to record scan');
-        return { success: false };
+        return { success: false, error: 'Failed to record scan' };
       }
-      
-      // Update the current_scans count
+
       await supabase
         .from('qr_codes')
         .update({ current_scans: qrCode.current_scans + 1 })
         .eq('id', qrCodeId);
-      
-      // For loyalty QR codes, update the user's points
-      if (qrCode.code_type === 'loyalty' && qrCode.points_value && user) {
-        // First check if the user already has points with this business
-        const { data: existingPoints } = await supabase
-          .from('loyalty_points')
-          .select('*')
-          .eq('customer_id', user.id)
-          .eq('business_id', qrCode.business_id)
-          .maybeSingle();
-          
-        if (existingPoints) {
-          // Update existing points
-          await supabase
-            .from('loyalty_points')
-            .update({ points: existingPoints.points + qrCode.points_value })
-            .eq('id', existingPoints.id);
-        } else {
-          // Create new points record
-          await supabase
-            .from('loyalty_points')
-            .insert({
-              customer_id: user.id,
-              business_id: qrCode.business_id,
-              points: qrCode.points_value
-            });
-        }
-        
-        toast.success(`You earned ${qrCode.points_value} points!`);
-      }
-      
-      // For discount QR codes, show the discount amount
-      if (qrCode.code_type === 'discount' && qrCode.discount_percentage) {
-        toast.success(`You received a ${qrCode.discount_percentage}% discount!`);
-      }
-      
-      // Record the transaction in the transactions table
-      if (user) {
+
+      if (qrCode.points_value > 0) {
         await supabase
-          .from('transactions')
-          .insert({
+          .from('loyalty_points')
+          .upsert({
             customer_id: user.id,
             business_id: qrCode.business_id,
-            points_earned: qrCode.points_value || 0,
-            discount_percentage: qrCode.discount_percentage || 0,
-            description: `QR code scan - ${qrCode.code_type}`,
-            transaction_type: 'scan',
-            qr_scan_id: scanResult.id
+            points: qrCode.points_value
+          }, {
+            onConflict: 'customer_id,business_id'
           });
       }
-      
-      return { 
+
+      const result = {
         success: true,
-        business_id: qrCode.business_id,
-        points_awarded: qrCode.points_value || 0,
-        discount_applied: qrCode.discount_percentage || 0,
-        scan_id: scanResult.id
+        businessName: qrCode.businesses?.business_name || 'Business',
+        pointsEarned: qrCode.points_value || 0,
+        discountApplied: qrCode.discount_percentage || 0
       };
+
+      toast.success(`Scanned successfully! Earned ${result.pointsEarned} points`);
+      return result;
     } catch (error) {
       console.error('Error scanning QR code:', error);
       toast.error('Failed to scan QR code');
-      return { success: false };
+      return { success: false, error: 'Scan failed' };
     } finally {
       setLoading(false);
     }

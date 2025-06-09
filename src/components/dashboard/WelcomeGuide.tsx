@@ -1,63 +1,60 @@
 
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { useAuth } from '@/contexts/AuthContext';
-import { CheckCircle, Star, Users, TrendingUp } from 'lucide-react';
+import { QrCode, Store, Users, Trophy } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface WelcomeGuideProps {
   userType: 'customer' | 'business';
 }
 
 const WelcomeGuide: React.FC<WelcomeGuideProps> = ({ userType }) => {
-  const { user } = useAuth();
-
   const customerSteps = [
     {
-      id: 1,
-      title: "Discover Black-owned businesses",
-      description: "Browse our directory to find amazing local businesses",
-      icon: Users,
-      completed: true
+      icon: <QrCode className="h-5 w-5" />,
+      title: "Scan QR Codes",
+      description: "Visit participating businesses and scan their QR codes to earn points",
+      action: "Start Scanning",
+      link: "/scanner"
     },
     {
-      id: 2,
-      title: "Start scanning QR codes",
-      description: "Earn loyalty points by scanning business QR codes",
-      icon: Star,
-      completed: false
+      icon: <Store className="h-5 w-5" />,
+      title: "Discover Businesses",
+      description: "Find Black-owned businesses in your area and support your community",
+      action: "Browse Directory",
+      link: "/directory"
     },
     {
-      id: 3,
-      title: "Watch your impact grow",
-      description: "See how your spending supports the community",
-      icon: TrendingUp,
-      completed: false
+      icon: <Trophy className="h-5 w-5" />,
+      title: "Earn Rewards",
+      description: "Redeem your loyalty points for discounts and exclusive offers",
+      action: "View Rewards",
+      link: "/loyalty"
     }
   ];
 
   const businessSteps = [
     {
-      id: 1,
-      title: "Complete your business profile",
-      description: "Add photos, contact info, and business details",
-      icon: Users,
-      completed: false
+      icon: <Store className="h-5 w-5" />,
+      title: "Complete Your Profile",
+      description: "Add your business information and photos to attract customers",
+      action: "Edit Profile",
+      link: "/business/profile"
     },
     {
-      id: 2,
-      title: "Generate QR codes",
-      description: "Create QR codes to reward customer visits",
-      icon: Star,
-      completed: false
+      icon: <QrCode className="h-5 w-5" />,
+      title: "Generate QR Codes",
+      description: "Create loyalty and discount QR codes for your customers",
+      action: "Create QR Code",
+      link: "/business/qr-codes"
     },
     {
-      id: 3,
-      title: "Track your analytics",
-      description: "Monitor customer engagement and loyalty",
-      icon: TrendingUp,
-      completed: false
+      icon: <Users className="h-5 w-5" />,
+      title: "Engage Customers",
+      description: "Track scans and reward loyal customers with points",
+      action: "View Analytics",
+      link: "/business/dashboard"
     }
   ];
 
@@ -67,42 +64,24 @@ const WelcomeGuide: React.FC<WelcomeGuideProps> = ({ userType }) => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          Welcome back, {user?.user_metadata?.fullName || user?.email}!
+          <Users className="h-5 w-5 text-mansablue" />
+          Welcome to Mansa Musa Marketplace
         </CardTitle>
-        <CardDescription>
-          {userType === 'customer' 
-            ? "Continue building wealth in the Black community" 
-            : "Grow your business and connect with customers"
-          }
-        </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
-          {steps.map((step) => {
-            const Icon = step.icon;
-            return (
-              <div key={step.id} className="flex items-start gap-3 p-3 rounded-lg border">
-                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                  step.completed ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
-                }`}>
-                  {step.completed ? <CheckCircle className="w-4 h-4" /> : <Icon className="w-4 h-4" />}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-medium">{step.title}</h3>
-                    {step.completed && <Badge variant="secondary" className="text-xs">Done</Badge>}
-                  </div>
-                  <p className="text-sm text-gray-600 mt-1">{step.description}</p>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {steps.map((step, index) => (
+            <div key={index} className="flex flex-col items-center text-center p-4 border rounded-lg">
+              <div className="flex items-center justify-center w-12 h-12 bg-mansablue/10 rounded-full mb-3">
+                {step.icon}
               </div>
-            );
-          })}
-          
-          <div className="pt-4 border-t">
-            <Button className="w-full">
-              {userType === 'customer' ? 'Explore Directory' : 'Complete Profile'}
-            </Button>
-          </div>
+              <h3 className="font-semibold mb-2">{step.title}</h3>
+              <p className="text-sm text-gray-600 mb-4">{step.description}</p>
+              <Button asChild size="sm" variant="outline">
+                <Link to={step.link}>{step.action}</Link>
+              </Button>
+            </div>
+          ))}
         </div>
       </CardContent>
     </Card>

@@ -1,7 +1,7 @@
 
 import { useState, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 export interface LoyaltyPoints {
@@ -53,7 +53,6 @@ export const useLoyalty = () => {
 
     setLoading(true);
     try {
-      // Get loyalty points
       const { data: loyaltyData, error: loyaltyError } = await supabase
         .from('loyalty_points')
         .select('*')
@@ -75,7 +74,6 @@ export const useLoyalty = () => {
 
       setLoyaltyPoints(loyaltyData || []);
 
-      // Mock points history for now
       setPointsHistory([
         {
           id: '1',
@@ -86,7 +84,6 @@ export const useLoyalty = () => {
         }
       ]);
 
-      // Mock redeemed rewards for now
       setRedeemedRewards([]);
     } catch (error) {
       console.error('Error refreshing loyalty data:', error);
