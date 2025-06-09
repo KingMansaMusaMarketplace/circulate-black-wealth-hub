@@ -45,13 +45,13 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Mock activity data
+    // Mock activity data with real Unsplash images
     const mockActivities: ActivityItem[] = [
       {
         id: '1',
         type: 'qr_scan',
         user_name: 'Marcus Johnson',
-        user_avatar: '/placeholder.svg',
+        user_avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
         business_name: 'Soul Food Kitchen',
         content: 'Just discovered an amazing soul food restaurant! The QR scan earned me 50 points.',
         timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 minutes ago
@@ -63,7 +63,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
         id: '2',
         type: 'business_review',
         user_name: 'Keisha Williams',
-        user_avatar: '/placeholder.svg',
+        user_avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
         business_name: 'Natural Hair Studio',
         content: 'Left a 5-star review for this incredible hair salon. Supporting Black businesses feels so good!',
         timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
@@ -75,7 +75,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
         id: '3',
         type: 'milestone',
         user_name: 'Andre Thompson',
-        user_avatar: '/placeholder.svg',
+        user_avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
         content: 'Just reached $500 in total spending with Black-owned businesses this month! 🎉',
         timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4).toISOString(), // 4 hours ago
         likes: 45,
@@ -86,7 +86,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
         id: '4',
         type: 'community_post',
         user_name: 'Zara Davis',
-        user_avatar: '/placeholder.svg',
+        user_avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
         content: 'Anyone know good Black-owned bookstores in the Atlanta area? Looking for some new reads!',
         timestamp: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(), // 6 hours ago
         likes: 8,
@@ -97,7 +97,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
         id: '5',
         type: 'qr_scan',
         user_name: 'Jordan Smith',
-        user_avatar: '/placeholder.svg',
+        user_avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
         business_name: 'Tech Innovators Inc',
         content: 'Supporting Black tech! This consulting firm helped my startup with their excellent services.',
         timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString(), // 8 hours ago
@@ -199,8 +199,12 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
           <CardContent className="p-4">
             <div className="flex space-x-3">
               <Avatar className="h-10 w-10">
-                <AvatarImage src={activity.user_avatar} />
-                <AvatarFallback>
+                <AvatarImage 
+                  src={activity.user_avatar} 
+                  alt={activity.user_name}
+                  className="object-cover"
+                />
+                <AvatarFallback className="bg-mansablue text-white">
                   {activity.user_name.split(' ').map(n => n[0]).join('')}
                 </AvatarFallback>
               </Avatar>
