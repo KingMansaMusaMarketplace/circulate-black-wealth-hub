@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
-import { ArrowRight, FileText, Video, Image } from 'lucide-react';
+import { ArrowRight, FileText, Video, Image, ExternalLink } from 'lucide-react';
 
 const MediaGallerySection = () => {
   const mediaItems = [
@@ -13,7 +13,8 @@ const MediaGallerySection = () => {
       date: "May 15, 2024",
       preview: "How Mansa Musa Marketplace is revolutionizing Black economic empowerment through intentional circulation...",
       icon: <FileText className="h-5 w-5" />,
-      link: "#"
+      link: "/blog",
+      isExternal: false
     },
     {
       type: "video",
@@ -22,7 +23,8 @@ const MediaGallerySection = () => {
       date: "April 3, 2024",
       preview: "Thomas Bowling explains the systemic approach to wealth building that inspired the marketplace...",
       icon: <Video className="h-5 w-5" />,
-      link: "#"
+      link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      isExternal: true
     },
     {
       type: "article",
@@ -31,7 +33,8 @@ const MediaGallerySection = () => {
       date: "March 21, 2024",
       preview: "Analyzing how Mansa Musa Marketplace has extended Black dollar circulation time from 6 to 72 hours...",
       icon: <FileText className="h-5 w-5" />,
-      link: "#"
+      link: "/blog",
+      isExternal: false
     },
     {
       type: "image",
@@ -40,9 +43,39 @@ const MediaGallerySection = () => {
       date: "February 8, 2024",
       preview: "Photo gallery from our annual gathering of marketplace merchants sharing success stories...",
       icon: <Image className="h-5 w-5" />,
-      link: "#"
+      link: "/blog",
+      isExternal: false
     },
   ];
+
+  const renderLink = (item: typeof mediaItems[0]) => {
+    const linkText = `View Full ${item.type}`;
+    const linkIcon = item.isExternal ? <ExternalLink className="ml-1 h-3 w-3" /> : <ArrowRight className="ml-1 h-3 w-3" />;
+    
+    if (item.isExternal) {
+      return (
+        <a 
+          href={item.link} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-mansablue font-medium text-sm flex items-center hover:underline"
+        >
+          {linkText}
+          {linkIcon}
+        </a>
+      );
+    } else {
+      return (
+        <Link 
+          to={item.link} 
+          className="text-mansablue font-medium text-sm flex items-center hover:underline"
+        >
+          {linkText}
+          {linkIcon}
+        </Link>
+      );
+    }
+  };
 
   return (
     <section className="py-20">
@@ -68,17 +101,14 @@ const MediaGallerySection = () => {
                   {item.source} • {item.date}
                 </div>
                 <p className="text-gray-600 mb-4 text-sm">{item.preview}</p>
-                <Link to={item.link} className="text-mansablue font-medium text-sm flex items-center hover:underline">
-                  View Full {item.type}
-                  <ArrowRight className="ml-1 h-3 w-3" />
-                </Link>
+                {renderLink(item)}
               </CardContent>
             </Card>
           ))}
         </div>
 
         <div className="text-center mt-12">
-          <Link to="/resources" className="text-mansablue font-bold hover:underline inline-flex items-center">
+          <Link to="/blog" className="text-mansablue font-bold hover:underline inline-flex items-center">
             View Complete Media Archive
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
