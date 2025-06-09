@@ -1,3 +1,4 @@
+
 import React, { Suspense, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -14,6 +15,7 @@ import { initializeCapacitorPlugins } from '@/utils/capacitor-plugins';
 const HomePage = React.lazy(() => import('@/pages/HomePage'));
 const AboutPage = React.lazy(() => import('@/pages/AboutPage'));
 const ContactPage = React.lazy(() => import('@/pages/ContactPage'));
+const FAQPage = React.lazy(() => import('@/pages/FAQPage'));
 const DirectoryPage = React.lazy(() => import('@/pages/DirectoryPage'));
 const EnhancedDirectoryPage = React.lazy(() => import('@/pages/EnhancedDirectoryPage'));
 const BusinessDetailPage = React.lazy(() => import('@/pages/BusinessDetailPage'));
@@ -79,6 +81,7 @@ function App() {
                         <Route path="/" element={<HomePage />} />
                         <Route path="/about" element={<AboutPage />} />
                         <Route path="/contact" element={<ContactPage />} />
+                        <Route path="/faq" element={<FAQPage />} />
                         <Route path="/how-it-works" element={<HowItWorksPage />} />
                         <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
                         <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
