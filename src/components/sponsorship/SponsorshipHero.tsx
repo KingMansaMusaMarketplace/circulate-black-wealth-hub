@@ -13,7 +13,8 @@ const SponsorshipHero = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button 
-              className="bg-white text-mansablue hover:bg-white/90 text-lg px-8 py-6"
+              variant="white"
+              className="text-lg px-8 py-6"
               onClick={() => document.getElementById('sponsorship-form')?.scrollIntoView({behavior: 'smooth'})}
             >
               Become a Sponsor

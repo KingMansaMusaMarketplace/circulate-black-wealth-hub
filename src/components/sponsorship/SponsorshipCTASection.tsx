@@ -33,8 +33,8 @@ const SponsorshipCTASection: React.FC<SponsorshipCTASectionProps> = ({
           </Button>
           <Button 
             size="lg" 
-            variant="outline"
-            className="border-2 border-white bg-white text-mansablue hover:bg-gray-100 hover:text-mansablue font-semibold"
+            variant="white"
+            className="font-semibold"
             onClick={onDownloadGuide}
             disabled={isGeneratingPDF}
           >

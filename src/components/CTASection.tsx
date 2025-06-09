@@ -26,9 +26,9 @@ const CTASection = () => {
           
           <Link to="/signup/business">
             <Button 
-              variant="outline" 
+              variant="white" 
               size="lg" 
-              className="border-white text-white hover:bg-white hover:text-mansablue px-8 py-3"
+              className="px-8 py-3"
             >
               <Building2 className="mr-2 h-5 w-5" />
               Join as Business

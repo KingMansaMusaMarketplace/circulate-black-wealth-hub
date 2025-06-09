@@ -49,7 +49,7 @@ export const CTAButtons: React.FC<CTAButtonsProps> = ({ isVisible }) => {
         whileTap={{ scale: 0.95 }}
       >
         <Link to="/directory">
-          <Button variant="outline" className="border-mansagold bg-mansagold/20 text-mansagold hover:bg-mansagold/30 px-8 py-6 text-lg">
+          <Button variant="white" className="px-8 py-6 text-lg">
             Browse Directory
           </Button>
         </Link>
