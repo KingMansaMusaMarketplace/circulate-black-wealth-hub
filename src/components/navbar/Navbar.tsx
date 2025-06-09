@@ -95,7 +95,9 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                 </Button>
               )}
 
-              <UserMenu user={user} />
+              <div className="flex-shrink-0">
+                <UserMenu user={user} />
+              </div>
             </div>
           </div>
         </div>
