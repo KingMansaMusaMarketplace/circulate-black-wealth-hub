@@ -70,7 +70,7 @@ const Hero = () => {
           <div className="flex justify-center lg:justify-end">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-lg">
               <img 
-                src="/lovable-uploads/b85e3c26-f651-49bd-9e25-c036ba533bd3.png" 
+                src="/lovable-uploads/487f9aac-a3ad-4b28-8d90-3fd25a3a689b.png" 
                 alt="Professional business women working together"
                 className="w-full h-auto object-cover"
               />
