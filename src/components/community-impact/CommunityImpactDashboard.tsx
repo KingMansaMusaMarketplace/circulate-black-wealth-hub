@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useCommunityImpact } from './hooks/useCommunityImpact';
 import { formatCurrency, formatNumber } from './utils/formatters';
 import { shareImpact } from './utils/socialShare';
