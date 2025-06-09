@@ -1,6 +1,8 @@
 
 import { useState } from 'react';
 
+export type TimePeriod = '7days' | '30days' | '90days' | 'all';
+
 interface QRCodeMetrics {
   totalScans: number;
   uniqueCustomers: number;
@@ -12,9 +14,10 @@ interface ScanData {
   date: string;
   scans: number;
   points: number;
+  name: string; // Added name property for chart compatibility
 }
 
-export const useQRCodeAnalytics = (businessId?: string, timePeriod?: string) => {
+export const useQRCodeAnalytics = (businessId?: string, timePeriod?: TimePeriod) => {
   const [metrics, setMetrics] = useState<QRCodeMetrics>({
     totalScans: 0,
     uniqueCustomers: 0,
@@ -40,9 +43,9 @@ export const useQRCodeAnalytics = (businessId?: string, timePeriod?: string) => 
       });
 
       setScanData([
-        { date: '2024-01-01', scans: 15, points: 150 },
-        { date: '2024-01-02', scans: 23, points: 230 },
-        { date: '2024-01-03', scans: 18, points: 180 }
+        { date: '2024-01-01', scans: 15, points: 150, name: 'Jan 1' },
+        { date: '2024-01-02', scans: 23, points: 230, name: 'Jan 2' },
+        { date: '2024-01-03', scans: 18, points: 180, name: 'Jan 3' }
       ]);
       
       setLoading(false);
