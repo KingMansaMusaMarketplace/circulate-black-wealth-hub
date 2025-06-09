@@ -1,10 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { getHBCUVerificationStatus } from '@/lib/api/hbcu-verification';
 import { CheckCircle, Clock, XCircle, Upload, FileText } from 'lucide-react';
 import { toast } from 'sonner';

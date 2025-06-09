@@ -1,6 +1,5 @@
-
 import React, { useEffect } from 'react';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import DashboardHeader from './DashboardHeader';
 import Sidebar from './Sidebar';
