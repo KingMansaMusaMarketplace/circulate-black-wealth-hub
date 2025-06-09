@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setAuthInitialized(true);
 
         // Handle user signup completion - check for event string value
-        if (event === 'SIGNED_UP' && session?.user) {
+        if (event === 'SIGNED_UP' as AuthChangeEvent && session?.user) {
           const userMetadata = session.user.user_metadata;
           console.log('Creating user profile for new user:', userMetadata);
           
