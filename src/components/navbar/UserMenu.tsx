@@ -90,14 +90,14 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
         )}
         
         <DropdownMenuItem asChild>
-          <Link to="/dashboard" className="flex items-center">
+          <Link to="/profile" className="flex items-center">
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </Link>
         </DropdownMenuItem>
         
         <DropdownMenuItem asChild>
-          <Link to="/dashboard" className="flex items-center">
+          <Link to="/settings" className="flex items-center">
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
           </Link>
