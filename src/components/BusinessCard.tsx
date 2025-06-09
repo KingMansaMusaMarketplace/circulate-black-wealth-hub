@@ -64,7 +64,7 @@ const BusinessCard = ({
           Featured Business
         </div>
       )}
-      <div className="h-36 bg-gray-100 relative overflow-hidden">
+      <div className="aspect-video bg-gray-100 relative overflow-hidden">
         {imgLoading && (
           <div className="w-full h-full flex items-center justify-center bg-gray-200 animate-pulse">
             <div className="flex flex-col items-center">

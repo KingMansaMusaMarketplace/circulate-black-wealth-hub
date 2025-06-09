@@ -35,7 +35,7 @@ const TeamMemberCard = ({ member }: TeamMemberCardProps) => {
     >
       <Card className="h-full border-mansagold/20 overflow-hidden group card-hover">
         <CardContent className="p-0">
-          <div className="overflow-hidden aspect-[4/5]">
+          <div className="aspect-[4/5] overflow-hidden">
             <img 
               src={member.imageSrc} 
               alt={member.name}
