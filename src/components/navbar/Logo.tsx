@@ -6,11 +6,11 @@ const Logo: React.FC = () => {
   return (
     <Link to="/" className="flex items-center space-x-2">
       <img 
-        src="/lovable-uploads/20f584ba-b02b-4b47-a402-708831771379.png" 
+        src="/lovable-uploads/463fe82d-8622-41a8-8286-28b3ef9532a4.png" 
         alt="Mansa Musa" 
         className="w-12 h-12 rounded-full object-cover"
       />
-      <span className="text-xl font-bold text-mansablue">Mansa Musa Marketplace</span>
+      <span className="text-xl font-bold text-mansablue">Mansa Musa</span>
     </Link>
   );
 };
