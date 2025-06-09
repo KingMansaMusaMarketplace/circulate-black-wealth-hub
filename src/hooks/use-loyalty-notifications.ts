@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useLoyalty } from './use-loyalty';
 
 export const useLoyaltyNotifications = () => {
-  const { summary, redeemedRewards, loyaltyPoints } = useLoyalty();
+  const { summary } = useLoyalty();
   const [notifications, setNotifications] = useState<Array<{
     id: string;
     type: 'points' | 'reward' | 'milestone';
@@ -25,7 +25,7 @@ export const useLoyaltyNotifications = () => {
     ];
 
     setNotifications(mockNotifications);
-  }, [summary, redeemedRewards, loyaltyPoints]);
+  }, [summary]);
 
   const markAsRead = (notificationId: string) => {
     setNotifications(prev => 

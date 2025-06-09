@@ -1,109 +1,97 @@
 
-import { useState, useCallback } from 'react';
-import { supabase } from '@/lib/supabase';
-import { useAuth } from '@/contexts/auth';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
-export interface LoyaltyPoints {
-  id: string;
-  customer_id: string;
-  business_id: string;
-  points: number;
-  created_at: string;
-  updated_at: string;
+interface LoyaltySummary {
+  totalPoints: number;
+  pointsThisMonth: number;
+  businessesSupported: number;
+  level: string;
 }
 
-export interface PointsHistory {
-  id: string;
+interface PointsHistoryEntry {
+  date: string;
   points: number;
   type: 'earned' | 'redeemed';
-  date: string;
-  business_name?: string;
-}
-
-export interface RedeemedReward {
-  id: string;
-  reward_id: string;
-  customer_id: string;
-  points_used: number;
-  redemption_date: string;
-  title: string;
-}
-
-export interface LoyaltySummary {
-  totalPoints: number;
-  totalBusinesses: number;
-  recentTransactions: any[];
+  business?: string;
 }
 
 export const useLoyalty = () => {
   const [summary, setSummary] = useState<LoyaltySummary>({
     totalPoints: 0,
-    totalBusinesses: 0,
-    recentTransactions: []
+    pointsThisMonth: 0,
+    businessesSupported: 0,
+    level: 'Bronze'
   });
-  const [loyaltyPoints, setLoyaltyPoints] = useState<LoyaltyPoints[]>([]);
-  const [pointsHistory, setPointsHistory] = useState<PointsHistory[]>([]);
-  const [redeemedRewards, setRedeemedRewards] = useState<RedeemedReward[]>([]);
   const [loading, setLoading] = useState(false);
+  const [pointsHistory, setPointsHistory] = useState<PointsHistoryEntry[]>([]);
+  const [redeemedRewards, setRedeemedRewards] = useState<any[]>([]);
   const { user } = useAuth();
 
-  const refreshData = useCallback(async () => {
-    if (!user) return;
+  // Computed properties for compatibility
+  const loyaltyPoints = summary.totalPoints;
+  const isLoading = loading;
+  const nextRewardThreshold = summary.level === 'Bronze' ? 500 : summary.level === 'Silver' ? 1000 : 2000;
+  const currentTier = summary.level;
 
+  const refreshData = async () => {
+    if (!user) return;
+    
     setLoading(true);
     try {
-      // Get loyalty points
-      const { data: loyaltyData, error: loyaltyError } = await supabase
+      // Get total points
+      const { data: loyaltyData } = await supabase
         .from('loyalty_points')
-        .select('*')
+        .select('points, business_id')
         .eq('customer_id', user.id);
 
-      if (loyaltyError) {
-        console.error('Error fetching loyalty data:', loyaltyError);
-        return;
+      if (loyaltyData) {
+        const totalPoints = loyaltyData.reduce((sum, item) => sum + item.points, 0);
+        const businessesSupported = new Set(loyaltyData.map(item => item.business_id)).size;
+        
+        // Calculate level based on points
+        let level = 'Bronze';
+        if (totalPoints >= 1000) level = 'Gold';
+        else if (totalPoints >= 500) level = 'Silver';
+
+        setSummary({
+          totalPoints,
+          pointsThisMonth: Math.floor(totalPoints * 0.3), // Simulate monthly points
+          businessesSupported,
+          level
+        });
+
+        // Mock points history
+        setPointsHistory([
+          { date: new Date().toISOString(), points: 25, type: 'earned', business: 'Sample Business' }
+        ]);
+
+        // Mock redeemed rewards
+        setRedeemedRewards([]);
       }
-
-      const calculatedTotalPoints = loyaltyData?.reduce((sum, record) => sum + (record.points || 0), 0) || 0;
-      const totalBusinesses = loyaltyData?.length || 0;
-
-      setSummary({
-        totalPoints: calculatedTotalPoints,
-        totalBusinesses,
-        recentTransactions: []
-      });
-
-      setLoyaltyPoints(loyaltyData || []);
-
-      // Mock points history for now
-      setPointsHistory([
-        {
-          id: '1',
-          points: 25,
-          type: 'earned',
-          date: new Date().toISOString(),
-          business_name: 'Sample Business'
-        }
-      ]);
-
-      // Mock redeemed rewards for now
-      setRedeemedRewards([]);
     } catch (error) {
-      console.error('Error refreshing loyalty data:', error);
+      console.error('Error fetching loyalty data:', error);
+      toast.error('Failed to load loyalty information');
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    refreshData();
   }, [user]);
 
   return {
     summary,
-    loyaltyPoints: summary.totalPoints,
-    pointsHistory,
-    isLoading: loading,
     loading,
-    nextRewardThreshold: 500,
-    currentTier: 'Bronze',
-    redeemedRewards,
-    refreshData
+    refreshData,
+    loyaltyPoints,
+    pointsHistory,
+    isLoading,
+    nextRewardThreshold,
+    currentTier,
+    redeemedRewards
   };
 };

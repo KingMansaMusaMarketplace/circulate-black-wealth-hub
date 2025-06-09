@@ -1,26 +1,25 @@
 
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
 
 interface SidebarNavItemProps {
-  href: string;
+  to: string;
   icon: LucideIcon;
   label: string;
+  isActive: boolean;
 }
 
 const SidebarNavItem: React.FC<SidebarNavItemProps> = ({
-  href,
+  to,
   icon: Icon,
-  label
+  label,
+  isActive
 }) => {
-  const location = useLocation();
-  const isActive = location.pathname === href;
-
   return (
     <Link
-      to={href}
+      to={to}
       className={cn(
         "flex items-center px-2 py-2 text-sm rounded-md",
         isActive
