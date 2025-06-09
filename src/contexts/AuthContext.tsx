@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -49,7 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setLoading(false);
         setAuthInitialized(true);
 
-        // Handle user signup completion
+        // Handle user signup completion - check for event string value
         if (event === 'SIGNED_UP' && session?.user) {
           const userMetadata = session.user.user_metadata;
           console.log('Creating user profile for new user:', userMetadata);
