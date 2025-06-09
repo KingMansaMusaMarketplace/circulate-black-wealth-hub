@@ -11,13 +11,6 @@ interface LoyaltySummary {
   level: string;
 }
 
-interface PointsHistoryEntry {
-  date: string;
-  points: number;
-  type: 'earned' | 'redeemed';
-  business?: string;
-}
-
 export const useLoyalty = () => {
   const [summary, setSummary] = useState<LoyaltySummary>({
     totalPoints: 0,
@@ -26,15 +19,7 @@ export const useLoyalty = () => {
     level: 'Bronze'
   });
   const [loading, setLoading] = useState(false);
-  const [pointsHistory, setPointsHistory] = useState<PointsHistoryEntry[]>([]);
-  const [redeemedRewards, setRedeemedRewards] = useState<any[]>([]);
   const { user } = useAuth();
-
-  // Computed properties for compatibility
-  const loyaltyPoints = summary.totalPoints;
-  const isLoading = loading;
-  const nextRewardThreshold = summary.level === 'Bronze' ? 500 : summary.level === 'Silver' ? 1000 : 2000;
-  const currentTier = summary.level;
 
   const refreshData = async () => {
     if (!user) return;
@@ -62,14 +47,6 @@ export const useLoyalty = () => {
           businessesSupported,
           level
         });
-
-        // Mock points history
-        setPointsHistory([
-          { date: new Date().toISOString(), points: 25, type: 'earned', business: 'Sample Business' }
-        ]);
-
-        // Mock redeemed rewards
-        setRedeemedRewards([]);
       }
     } catch (error) {
       console.error('Error fetching loyalty data:', error);
@@ -86,12 +63,6 @@ export const useLoyalty = () => {
   return {
     summary,
     loading,
-    refreshData,
-    loyaltyPoints,
-    pointsHistory,
-    isLoading,
-    nextRewardThreshold,
-    currentTier,
-    redeemedRewards
+    refreshData
   };
 };
