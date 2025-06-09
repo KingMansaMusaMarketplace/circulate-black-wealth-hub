@@ -1,6 +1,5 @@
 
 export { default as ActivityFeed } from './ActivityFeed';
-export { default as ActivityItem } from './ActivityItem';
 export { default as ActivityCard } from './ActivityCard';
 export { default as ActivityFeedLoadingState } from './ActivityFeedLoadingState';
 export { default as ActivityFeedEmptyState } from './ActivityFeedEmptyState';
