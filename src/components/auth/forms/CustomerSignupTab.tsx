@@ -52,8 +52,10 @@ const CustomerSignupTab: React.FC = () => {
       
       const metadata = {
         name,
+        fullName: name,
         email,
         user_type: 'customer',
+        userType: 'customer',
         phone,
         address,
         subscription_tier: 'paid'
@@ -62,21 +64,28 @@ const CustomerSignupTab: React.FC = () => {
       const result = await signUp(email, password, metadata);
 
       if (result.data?.user) {
-        console.log('✅ Customer account created, redirecting to payment...');
+        console.log('✅ Customer account created, proceeding to payment...');
         
-        // Create Stripe checkout session for customer subscription
-        const checkoutData = await subscriptionService.createCheckoutSession({
-          userType: 'customer',
-          email,
-          name,
-          tier: 'premium'
-        });
+        try {
+          // Create Stripe checkout session for customer subscription
+          const checkoutData = await subscriptionService.createCheckoutSession({
+            userType: 'customer',
+            email,
+            name,
+            tier: 'premium'
+          });
 
-        if (checkoutData.url) {
-          // Redirect to Stripe checkout
-          window.location.href = checkoutData.url;
-        } else {
-          throw new Error('Failed to create checkout session');
+          if (checkoutData.url) {
+            // Redirect to Stripe checkout
+            window.location.href = checkoutData.url;
+          } else {
+            throw new Error('Failed to create checkout session');
+          }
+        } catch (checkoutError: any) {
+          console.error('❌ Checkout creation failed:', checkoutError);
+          toast.error('Account created but payment setup failed. Please contact support.');
+          // Still redirect to success/dashboard since account was created
+          navigate('/dashboard');
         }
       }
     } catch (error: any) {

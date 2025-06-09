@@ -10,11 +10,8 @@ import {
 } from '@/components/ui/card';
 import BusinessSignupForm from './forms/BusinessSignupForm';
 import CustomerSignupTab from './forms/CustomerSignupTab';
-import { useSignupForm } from './hooks/useSignupForm';
 
 const SignupForm: React.FC = () => {
-  const { userType, handleUserTypeChange, checkReferralCode, referringAgent } = useSignupForm();
-
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
@@ -24,11 +21,7 @@ const SignupForm: React.FC = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Tabs 
-          defaultValue="customer" 
-          className="w-full" 
-          onValueChange={handleUserTypeChange}
-        >
+        <Tabs defaultValue="customer" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="customer">Customer</TabsTrigger>
             <TabsTrigger value="business">Business</TabsTrigger>
@@ -40,9 +33,9 @@ const SignupForm: React.FC = () => {
           
           <TabsContent value="business">
             <BusinessSignupForm 
-              referralCode={''} // This will be accessed from the URL in the component
-              referringAgent={referringAgent}
-              onCheckReferralCode={checkReferralCode}
+              referralCode=""
+              referringAgent={null}
+              onCheckReferralCode={async () => null}
             />
           </TabsContent>
         </Tabs>
