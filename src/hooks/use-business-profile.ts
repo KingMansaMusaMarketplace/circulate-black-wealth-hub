@@ -1,51 +1,86 @@
 
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
+import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/contexts/auth';
 import { toast } from 'sonner';
 
-interface BusinessProfile {
+export interface BusinessProfile {
   id: string;
   business_name: string;
-  description: string;
-  category: string;
-  address: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  phone: string;
-  email: string;
+  description?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zip_code?: string;
+  phone?: string;
+  email?: string;
   website?: string;
-  is_verified: boolean;
+  category?: string;
+  logo_url?: string;
+  banner_url?: string;
+  is_verified?: boolean;
   owner_id: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export const useBusinessProfile = () => {
   const [profile, setProfile] = useState<BusinessProfile | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
 
-  const loadBusinessProfile = async () => {
-    if (!user) return;
-    
+  const loadBusinessProfile = useCallback(async () => {
+    if (!user) {
+      setError('User not authenticated');
+      return;
+    }
+
     setLoading(true);
+    setError(null);
+    
     try {
-      const { data, error } = await supabase
+      const { data, error: fetchError } = await supabase
         .from('businesses')
         .select('*')
         .eq('owner_id', user.id)
-        .maybeSingle();
+        .single();
 
-      if (error) {
-        console.error('Error loading business profile:', error);
-        toast.error('Failed to load business profile');
-        return;
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        throw fetchError;
       }
 
       setProfile(data);
-    } catch (error) {
-      console.error('Error loading business profile:', error);
-      toast.error('Failed to load business profile');
+    } catch (err: any) {
+      console.error('Error loading business profile:', err);
+      setError(err.message || 'Failed to load business profile');
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
+
+  const updateBusinessProfile = async (updates: Partial<BusinessProfile>) => {
+    if (!user || !profile) {
+      toast.error('Cannot update profile: user or profile not found');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { data, error: updateError } = await supabase
+        .from('businesses')
+        .update(updates)
+        .eq('owner_id', user.id)
+        .select()
+        .single();
+
+      if (updateError) throw updateError;
+
+      setProfile(data);
+      toast.success('Business profile updated successfully');
+    } catch (err: any) {
+      console.error('Error updating business profile:', err);
+      toast.error('Failed to update business profile');
     } finally {
       setLoading(false);
     }
@@ -53,11 +88,13 @@ export const useBusinessProfile = () => {
 
   useEffect(() => {
     loadBusinessProfile();
-  }, [user]);
+  }, [loadBusinessProfile]);
 
   return {
     profile,
     loading,
-    loadBusinessProfile
+    error,
+    loadBusinessProfile,
+    updateBusinessProfile
   };
 };

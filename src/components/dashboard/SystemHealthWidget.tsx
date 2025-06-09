@@ -1,79 +1,75 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, AlertCircle, Clock } from 'lucide-react';
+import { CheckCircle, AlertTriangle, XCircle } from 'lucide-react';
 
-const SystemHealthWidget: React.FC = () => {
+interface SystemHealthProps {
+  className?: string;
+}
+
+export const SystemHealthWidget: React.FC<SystemHealthProps> = ({ className }) => {
   const systemStatus = {
-    qrScanning: 'operational',
-    loyaltySystem: 'operational',
-    businessDirectory: 'operational',
-    notifications: 'maintenance'
+    overall: 'healthy',
+    database: 'healthy',
+    authentication: 'healthy',
+    payments: 'warning',
+    api: 'healthy'
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'operational':
+      case 'healthy':
         return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'maintenance':
-        return <Clock className="h-4 w-4 text-yellow-500" />;
-      case 'down':
-        return <AlertCircle className="h-4 w-4 text-red-500" />;
+      case 'warning':
+        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+      case 'error':
+        return <XCircle className="h-4 w-4 text-red-500" />;
       default:
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
+        return <CheckCircle className="h-4 w-4 text-gray-500" />;
     }
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'operational':
-        return <Badge variant="secondary" className="bg-green-100 text-green-800">Operational</Badge>;
-      case 'maintenance':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Maintenance</Badge>;
-      case 'down':
-        return <Badge variant="destructive">Down</Badge>;
+      case 'healthy':
+        return <Badge className="bg-green-100 text-green-800">Operational</Badge>;
+      case 'warning':
+        return <Badge className="bg-yellow-100 text-yellow-800">Warning</Badge>;
+      case 'error':
+        return <Badge className="bg-red-100 text-red-800">Error</Badge>;
       default:
         return <Badge variant="secondary">Unknown</Badge>;
     }
   };
 
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-lg">System Status</CardTitle>
+        <CardTitle className="flex items-center gap-2">
+          {getStatusIcon(systemStatus.overall)}
+          System Health
+        </CardTitle>
+        <CardDescription>
+          Current status of all system components
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {getStatusIcon(systemStatus.qrScanning)}
-            <span className="text-sm">QR Scanning</span>
-          </div>
-          {getStatusBadge(systemStatus.qrScanning)}
+          <span className="text-sm">Database</span>
+          {getStatusBadge(systemStatus.database)}
         </div>
-        
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {getStatusIcon(systemStatus.loyaltySystem)}
-            <span className="text-sm">Loyalty System</span>
-          </div>
-          {getStatusBadge(systemStatus.loyaltySystem)}
+          <span className="text-sm">Authentication</span>
+          {getStatusBadge(systemStatus.authentication)}
         </div>
-        
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {getStatusIcon(systemStatus.businessDirectory)}
-            <span className="text-sm">Business Directory</span>
-          </div>
-          {getStatusBadge(systemStatus.businessDirectory)}
+          <span className="text-sm">Payments</span>
+          {getStatusBadge(systemStatus.payments)}
         </div>
-        
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            {getStatusIcon(systemStatus.notifications)}
-            <span className="text-sm">Notifications</span>
-          </div>
-          {getStatusBadge(systemStatus.notifications)}
+          <span className="text-sm">API Services</span>
+          {getStatusBadge(systemStatus.api)}
         </div>
       </CardContent>
     </Card>

@@ -1,8 +1,9 @@
 
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { QRCode } from '@/lib/api/qr-code-api';
+import { QRCode, QRCodeGenerationParams } from '@/lib/api/qr-code-api';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
+import { generateCustomQrCode } from '@/lib/api/qr-generator';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface UseQRCodeGenerationOptions {
@@ -49,10 +50,21 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
         ...(options?.pointsValue && { points: options.pointsValue })
       };
 
-      // Generate a QR code image URL using a simple QR code generator API
-      const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
-        JSON.stringify(qrData)
-      )}&size=400x400&color=0F2876&bgcolor=FFFFFF`;
+      // Generate a QR code image URL using our utility
+      let qrImageUrl = '';
+      try {
+        qrImageUrl = await generateCustomQrCode(JSON.stringify(qrData), {
+          color: '#0F2876', // mansablue color
+          backgroundColor: '#FFFFFF',
+          size: 400
+        });
+      } catch (error) {
+        console.error('Error generating QR code image:', error);
+        // Fallback to a simple QR code generator API
+        qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
+          JSON.stringify(qrData)
+        )}&size=400x400&color=0F2876&bgcolor=FFFFFF`;
+      }
 
       // Insert into the qr_codes table
       const { data: qrCodeData, error: insertError } = await supabase
@@ -92,7 +104,71 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
     }
   };
 
+  // Regenerate QR code image
+  const regenerateQRCodeImage = async (qrCodeId: string): Promise<QRCode | null> => {
+    setLoading(true);
+    try {
+      // Get the QR code data
+      const { data: qrCode, error: fetchError } = await supabase
+        .from('qr_codes')
+        .select('*')
+        .eq('id', qrCodeId)
+        .single();
+
+      if (fetchError || !qrCode) {
+        toast.error('Failed to find QR code');
+        return null;
+      }
+
+      // Generate new QR code image
+      const qrData = {
+        id: qrCode.id,
+        type: qrCode.code_type,
+        businessId: qrCode.business_id,
+        timestamp: Date.now(),
+        ...(qrCode.discount_percentage && { discount: qrCode.discount_percentage }),
+        ...(qrCode.points_value && { points: qrCode.points_value })
+      };
+
+      let qrImageUrl = '';
+      try {
+        qrImageUrl = await generateCustomQrCode(JSON.stringify(qrData), {
+          color: '#0F2876', // mansablue color
+          backgroundColor: '#FFFFFF',
+          size: 400
+        });
+      } catch (error) {
+        // Fallback to a simple QR code generator API
+        qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
+          JSON.stringify(qrData)
+        )}&size=400x400&color=0F2876&bgcolor=FFFFFF`;
+      }
+
+      // Update the QR code with the new image URL
+      const { data: updatedQrCode, error: updateError } = await supabase
+        .from('qr_codes')
+        .update({ qr_image_url: qrImageUrl })
+        .eq('id', qrCodeId)
+        .select()
+        .single();
+
+      if (updateError) {
+        toast.error('Failed to update QR code image');
+        return null;
+      }
+
+      toast.success('QR code image regenerated successfully');
+      return updatedQrCode as QRCode;
+    } catch (error) {
+      console.error('Error regenerating QR code image:', error);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
-    generateQRCode
+    generateQRCode,
+    regenerateQRCodeImage
   };
 };
