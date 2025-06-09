@@ -31,6 +31,9 @@ const NavLinks = () => {
       <Link to="/how-it-works" className={getLinkClass('/how-it-works')}>
         How It Works
       </Link>
+      <Link to="/subscription" className={getLinkClass('/subscription')}>
+        Plans
+      </Link>
       <Link to="/community" className={getLinkClass('/community')}>
         Community
       </Link>
