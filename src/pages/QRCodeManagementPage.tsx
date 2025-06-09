@@ -5,9 +5,8 @@ import { QRCodeTabs } from '@/components/business/qr-code';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { useQRCode } from '@/hooks/qr-code';
 import { QRCode } from '@/lib/api/qr-code-api';
-import { useAuth } from '@/contexts/auth';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import { useAuth } from '@/contexts/AuthContext';
+import { DashboardLayout } from '@/components/dashboard';
 import { Loader2 } from 'lucide-react';
 
 const QRCodeManagementPage: React.FC = () => {
@@ -58,23 +57,20 @@ const QRCodeManagementPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
+      <DashboardLayout title="QR Code Management">
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-mansablue" />
             <p className="text-gray-500">Loading QR Code Management...</p>
           </div>
         </div>
-        <Footer />
-      </div>
+      </DashboardLayout>
     );
   }
 
   if (!databaseInitialized) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
+      <DashboardLayout title="QR Code Management">
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center max-w-md mx-auto p-6">
             <h1 className="text-2xl font-bold text-red-600 mb-4">Database Not Initialized</h1>
@@ -89,31 +85,26 @@ const QRCodeManagementPage: React.FC = () => {
             </button>
           </div>
         </div>
-        <Footer />
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-grow container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold">QR Code Management</h1>
-          <p className="text-gray-600 mt-2">
-            Create and manage QR codes for your business to boost customer loyalty and engagement
-          </p>
-        </div>
-
-        <QRCodeTabs 
-          activeTab={activeTab} 
-          setActiveTab={setActiveTab} 
-          qrCodes={qrCodes}
-          businessId={profile?.id}
-        />
+    <DashboardLayout title="QR Code Management">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold">QR Code Management</h1>
+        <p className="text-gray-600 mt-2">
+          Create and manage QR codes for your business to boost customer loyalty and engagement
+        </p>
       </div>
-      <Footer />
-    </div>
+
+      <QRCodeTabs 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        qrCodes={qrCodes}
+        businessId={profile?.id}
+      />
+    </DashboardLayout>
   );
 };
 

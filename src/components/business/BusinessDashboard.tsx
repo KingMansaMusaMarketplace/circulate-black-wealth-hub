@@ -1,10 +1,14 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { QrCode, UserSquare, ArrowUpRight, ArrowDownRight, TrendingUp, BadgeDollarSign, CalendarDays, Clock } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const BusinessDashboard = () => {
+  const navigate = useNavigate();
+
   // Mock data
   const customerData = [
     { day: 'Mon', customers: 12 },
@@ -28,6 +32,25 @@ const BusinessDashboard = () => {
     totalCustomers: { value: 152, change: +8, isPositive: true },
     loyaltyPoints: { value: 360, change: +120, isPositive: true },
     retentionRate: { value: "78%", change: -2, isPositive: false },
+  };
+
+  const handleQRCodeManagement = () => {
+    navigate('/business/qr-codes');
+  };
+
+  const handlePromotionsManagement = () => {
+    // For now, navigate to QR codes page as promotions might be managed there
+    navigate('/business/qr-codes');
+  };
+
+  const handleAnalytics = () => {
+    // Navigate to business profile with analytics tab
+    navigate('/business/profile?tab=analytics');
+  };
+
+  const handleViewAllActivity = () => {
+    // Navigate to business profile analytics tab for detailed activity
+    navigate('/business/profile?tab=analytics');
   };
 
   return (
@@ -122,9 +145,13 @@ const BusinessDashboard = () => {
             </div>
           </CardContent>
           <CardFooter className="border-t pt-4 flex justify-center">
-            <button className="text-mansablue text-sm hover:underline">
+            <Button 
+              variant="ghost" 
+              className="text-mansablue text-sm hover:underline"
+              onClick={handleViewAllActivity}
+            >
               View all activity
-            </button>
+            </Button>
           </CardFooter>
         </Card>
       </div>
@@ -140,9 +167,13 @@ const BusinessDashboard = () => {
             <QrCode className="text-mansablue" size={20} />
           </CardHeader>
           <CardFooter className="pt-2">
-            <a href="/qr-code-management" className="text-mansablue text-sm hover:underline w-full text-center">
+            <Button 
+              variant="ghost" 
+              className="text-mansablue text-sm hover:underline w-full text-center"
+              onClick={handleQRCodeManagement}
+            >
               Manage QR Codes →
-            </a>
+            </Button>
           </CardFooter>
         </Card>
         
@@ -155,9 +186,13 @@ const BusinessDashboard = () => {
             <CalendarDays className="text-mansablue" size={20} />
           </CardHeader>
           <CardFooter className="pt-2">
-            <button className="text-mansablue text-sm hover:underline w-full text-center">
+            <Button 
+              variant="ghost" 
+              className="text-mansablue text-sm hover:underline w-full text-center"
+              onClick={handlePromotionsManagement}
+            >
               Manage Promotions →
-            </button>
+            </Button>
           </CardFooter>
         </Card>
         
@@ -170,9 +205,13 @@ const BusinessDashboard = () => {
             <TrendingUp className="text-mansablue" size={20} />
           </CardHeader>
           <CardFooter className="pt-2">
-            <button className="text-mansablue text-sm hover:underline w-full text-center">
+            <Button 
+              variant="ghost" 
+              className="text-mansablue text-sm hover:underline w-full text-center"
+              onClick={handleAnalytics}
+            >
               View Analytics →
-            </button>
+            </Button>
           </CardFooter>
         </Card>
       </div>
