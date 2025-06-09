@@ -1,57 +1,45 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/Footer';
-import QRCodeTabs from '@/components/business/qr-code/QRCodeTabs';
-import { useQRCode } from '@/hooks/qr-code';
-import { useBusinessProfile } from '@/hooks/use-business-profile';
-import { QRCode } from '@/lib/api/qr-code-api';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { DashboardLayout } from '@/components/dashboard';
+import QRCodeManagementPage from './QRCodeManagementPage';
+import { Loader2, QrCode } from 'lucide-react';
 
 const QRCodeGeneratorPage = () => {
-  const [activeTab, setActiveTab] = useState('generate');
-  const [qrCodes, setQrCodes] = useState<QRCode[]>([]);
-  const { fetchBusinessQRCodes } = useQRCode();
-  const { profile: businessProfile } = useBusinessProfile();
+  const { user, userType, loading, authInitialized } = useAuth();
 
-  useEffect(() => {
-    const loadQRCodes = async () => {
-      if (businessProfile?.id) {
-        const codes = await fetchBusinessQRCodes(businessProfile.id);
-        setQrCodes(codes);
-      }
-    };
+  // Show loading while auth is initializing
+  if (loading || !authInitialized) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-mansablue" />
+      </div>
+    );
+  }
 
-    loadQRCodes();
-  }, [businessProfile?.id, fetchBusinessQRCodes]);
+  // Redirect to login if not authenticated
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // Redirect to regular dashboard if not a business user
+  if (userType !== 'business') {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
       <Helmet>
         <title>QR Code Generator | Mansa Musa Marketplace</title>
         <meta name="description" content="Generate and manage QR codes for your business" />
       </Helmet>
       
-      <Navbar />
-      
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight mb-2">QR Code Management</h1>
-          <p className="text-muted-foreground">
-            Create, manage, and track QR codes for customer engagement
-          </p>
-        </div>
-
-        <QRCodeTabs 
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          qrCodes={qrCodes}
-          businessId={businessProfile?.id}
-        />
-      </main>
-      
-      <Footer />
-    </div>
+      <DashboardLayout title="QR Code Management" icon={<QrCode className="h-6 w-6" />}>
+        <QRCodeManagementPage />
+      </DashboardLayout>
+    </>
   );
 };
 

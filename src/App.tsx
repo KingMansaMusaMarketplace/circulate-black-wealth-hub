@@ -90,25 +90,37 @@ function App() {
                         <Route path="/directory" element={<DirectoryPage />} />
                         <Route path="/directory/enhanced" element={<EnhancedDirectoryPage />} />
                         <Route path="/business/:id" element={<BusinessDetailPage />} />
+                        
+                        {/* Customer Dashboard Routes */}
                         <Route path="/dashboard" element={<DashboardPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        
+                        {/* Business Dashboard Routes */}
                         <Route path="/business/dashboard" element={<BusinessDashboardPage />} />
                         <Route path="/business/profile" element={<BusinessProfilePage />} />
                         <Route path="/business/qr-codes" element={<QRCodeGeneratorPage />} />
+                        
+                        {/* Shared Routes */}
                         <Route path="/scanner" element={<QRScannerPage />} />
                         <Route path="/loyalty" element={<LoyaltyPage />} />
                         <Route path="/community" element={<CommunityPage />} />
                         <Route path="/community-impact" element={<CommunityImpactPage />} />
                         <Route path="/community-impact/test" element={<CommunityImpactTestPage />} />
                         <Route path="/economic-impact" element={<EconomicImpactPage />} />
-                        <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/help" element={<HelpCenterPage />} />
+                        
+                        {/* Auth Routes */}
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/signup" element={<SignupPage />} />
                         <Route path="/signup/:userType" element={<SignupPage />} />
                         <Route path="/auth" element={<AuthPage />} />
+                        
+                        {/* Admin Routes */}
                         <Route path="/sales-agent" element={<SalesAgentPage />} />
                         <Route path="/admin" element={<AdminPage />} />
                         <Route path="/subscription" element={<SubscriptionPage />} />
+                        
+                        {/* Test Pages */}
                         <Route path="/stripe-test" element={<StripeTestPage />} />
                         <Route path="/signup-test" element={<SignupTestPage />} />
                         <Route path="/system-test" element={<SystemTestPage />} />

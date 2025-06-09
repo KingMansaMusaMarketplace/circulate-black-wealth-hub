@@ -1,77 +1,45 @@
 
-import React, { useState } from 'react';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Navigate, useSearchParams } from 'react-router-dom';
 import { DashboardLayout } from '@/components/dashboard';
-import { BusinessProfileManager, BusinessDashboard } from '@/components/business';
-import { Briefcase, BarChart3, Settings, TrendingUp } from 'lucide-react';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import BusinessProfileManager from '@/components/business/BusinessProfileManager';
+import { Loader2, Building2 } from 'lucide-react';
 
 const BusinessProfilePage = () => {
-  const { user, loading } = useAuth();
-  const [searchParams] = useSearchParams();
-  const defaultTab = searchParams.get('tab') || 'dashboard';
-  const [activeTab, setActiveTab] = useState(defaultTab);
-  
-  // Show loading state while checking auth status
-  if (loading) {
+  const { user, userType, loading, authInitialized } = useAuth();
+
+  // Show loading while auth is initializing
+  if (loading || !authInitialized) {
     return (
-      <DashboardLayout title="Business Profile" location="">
-        <div className="flex justify-center items-center h-64">
-          <p>Loading...</p>
-        </div>
-      </DashboardLayout>
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-mansablue" />
+      </div>
     );
   }
-  
+
   // Redirect to login if not authenticated
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
-  
+
+  // Redirect to regular dashboard if not a business user
+  if (userType !== 'business') {
+    return <Navigate to="/dashboard" replace />;
+  }
+
   return (
-    <DashboardLayout 
-      title="Business Management" 
-      icon={<Briefcase className="mr-2 h-5 w-5" />}
-    >
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-3 mb-8">
-          <TabsTrigger value="dashboard" className="flex items-center gap-2">
-            <BarChart3 size={16} />
-            Dashboard
-          </TabsTrigger>
-          <TabsTrigger value="profile" className="flex items-center gap-2">
-            <Briefcase size={16} />
-            Business Profile
-          </TabsTrigger>
-          <TabsTrigger value="analytics" className="flex items-center gap-2">
-            <TrendingUp size={16} />
-            Analytics
-          </TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="dashboard">
-          <BusinessDashboard />
-        </TabsContent>
-        
-        <TabsContent value="profile">
-          <BusinessProfileManager />
-        </TabsContent>
-        
-        <TabsContent value="analytics">
-          <div className="text-center py-12">
-            <TrendingUp className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Analytics Dashboard</h3>
-            <p className="text-gray-600 mb-4">Detailed analytics and insights coming soon.</p>
-          </div>
-        </TabsContent>
-      </Tabs>
-    </DashboardLayout>
+    <>
+      <Helmet>
+        <title>Business Profile | Mansa Musa Marketplace</title>
+        <meta name="description" content="Manage your business profile and settings" />
+      </Helmet>
+      
+      <DashboardLayout title="Business Profile" icon={<Building2 className="h-6 w-6" />}>
+        <BusinessProfileManager />
+      </DashboardLayout>
+    </>
   );
 };
 

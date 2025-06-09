@@ -1,63 +1,68 @@
 
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
-import SidebarNavItem from './SidebarNavItem';
 import { 
-  BarChart3, 
+  Home, 
   Building2, 
   QrCode, 
+  BarChart3, 
   Users, 
   Settings,
-  Home,
-  Scan,
-  Gift,
-  TrendingUp,
-  HelpCircle,
-  User
+  Wallet,
+  Search,
+  Heart,
+  HelpCircle
 } from 'lucide-react';
 
 const SidebarNavigation = () => {
-  const { userType } = useAuth();
   const location = useLocation();
+  const { userType } = useAuth();
 
   const customerNavItems = [
-    { icon: Home, label: 'Dashboard', to: '/dashboard' },
-    { icon: Scan, label: 'QR Scanner', to: '/scanner' },
-    { icon: Gift, label: 'Loyalty & Rewards', to: '/loyalty' },
-    { icon: Building2, label: 'Directory', to: '/directory' },
-    { icon: TrendingUp, label: 'Community Impact', to: '/community-impact' },
-    { icon: Users, label: 'Community', to: '/community' },
-    { icon: User, label: 'Profile', to: '/profile' },
-    { icon: HelpCircle, label: 'Help Center', to: '/help' },
+    { name: 'Dashboard', href: '/dashboard', icon: Home },
+    { name: 'Directory', href: '/directory', icon: Search },
+    { name: 'Scanner', href: '/scanner', icon: QrCode },
+    { name: 'Loyalty', href: '/loyalty', icon: Wallet },
+    { name: 'Community', href: '/community', icon: Users },
+    { name: 'Profile', href: '/profile', icon: Settings },
+    { name: 'Help', href: '/help', icon: HelpCircle },
   ];
 
   const businessNavItems = [
-    { icon: BarChart3, label: 'Dashboard', to: '/business/dashboard' },
-    { icon: Building2, label: 'Business Profile', to: '/business/profile' },
-    { icon: QrCode, label: 'QR Code Management', to: '/business/qr-codes' },
-    { icon: TrendingUp, label: 'Analytics', to: '/business/profile?tab=analytics' },
-    { icon: Users, label: 'Directory', to: '/directory' },
-    { icon: Users, label: 'Community', to: '/community' },
-    { icon: Settings, label: 'Settings', to: '/profile' },
-    { icon: HelpCircle, label: 'Help Center', to: '/help' },
+    { name: 'Dashboard', href: '/business/dashboard', icon: Home },
+    { name: 'Profile', href: '/business/profile', icon: Building2 },
+    { name: 'QR Codes', href: '/business/qr-codes', icon: QrCode },
+    { name: 'Analytics', href: '/business/analytics', icon: BarChart3 },
+    { name: 'Customers', href: '/business/customers', icon: Users },
+    { name: 'Directory', href: '/directory', icon: Search },
+    { name: 'Community', href: '/community', icon: Heart },
+    { name: 'Help', href: '/help', icon: HelpCircle },
   ];
 
   const navItems = userType === 'business' ? businessNavItems : customerNavItems;
 
   return (
-    <nav className="mt-8">
-      <div className="space-y-1">
-        {navItems.map((item) => (
-          <SidebarNavItem
-            key={item.to}
-            icon={item.icon}
-            label={item.label}
-            to={item.to}
-            isActive={location.pathname === item.to}
-          />
-        ))}
-      </div>
+    <nav className="flex-1 px-4 py-6 space-y-2">
+      {navItems.map((item) => {
+        const isActive = location.pathname === item.href;
+        return (
+          <Link
+            key={item.name}
+            to={item.href}
+            className={cn(
+              "flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+              isActive
+                ? "bg-mansablue text-white"
+                : "text-gray-700 hover:bg-gray-100 hover:text-mansablue"
+            )}
+          >
+            <item.icon className="mr-3 h-5 w-5" />
+            {item.name}
+          </Link>
+        );
+      })}
     </nav>
   );
 };
