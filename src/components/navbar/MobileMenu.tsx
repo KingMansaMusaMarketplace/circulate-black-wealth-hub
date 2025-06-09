@@ -11,12 +11,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
   const navItems = [
     { to: '/', label: 'Home' },
     { to: '/about', label: 'About' },
-    { to: '/how-it-works', label: 'How It Works' },
     { to: '/directory', label: 'Directory' },
+    { to: '/how-it-works', label: 'How It Works' },
     { to: '/community', label: 'Community' },
-    { to: '/subscription', label: 'Plans' },
     { to: '/sponsorship', label: 'Sponsorship' },
     { to: '/contact', label: 'Contact' },
+    { to: '/subscription', label: 'Plans' },
   ];
 
   return (

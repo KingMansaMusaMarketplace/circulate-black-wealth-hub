@@ -22,6 +22,9 @@ const NavLinks = () => {
       <Link to="/" className={getLinkClass('/')}>
         Home
       </Link>
+      <Link to="/about" className={getLinkClass('/about')}>
+        About
+      </Link>
       <Link to="/directory" className={getLinkClass('/directory')}>
         Directory
       </Link>
@@ -30,6 +33,12 @@ const NavLinks = () => {
       </Link>
       <Link to="/community" className={getLinkClass('/community')}>
         Community
+      </Link>
+      <Link to="/sponsorship" className={getLinkClass('/sponsorship')}>
+        Sponsorship
+      </Link>
+      <Link to="/contact" className={getLinkClass('/contact')}>
+        Contact
       </Link>
       
       {user && (
