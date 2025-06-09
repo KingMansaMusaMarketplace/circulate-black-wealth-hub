@@ -6,7 +6,7 @@ import CirculationImpact from '@/components/dashboard/CirculationImpact';
 import RecentActivity from '@/components/dashboard/RecentActivity';
 import NearbyBusinesses from '@/components/dashboard/NearbyBusinesses';
 import { MiniLoyaltyWidget } from '@/components/loyalty/MiniLoyaltyWidget';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 
 const DashboardPage = () => {
   const { userType } = useAuth();
