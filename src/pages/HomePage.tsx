@@ -1,51 +1,105 @@
 
-import React from 'react';
-import Navbar from '@/components/navbar/Navbar';
-import Hero from '../components/Hero';
-import HowItWorks from '../components/HowItWorks';
-import FeaturedBusinesses from '../components/FeaturedBusinesses';
-import WhySection from '../components/WhySection';
-import TestimonialsSection from '../components/TestimonialsSection';
-import CTASection from '../components/CTASection';
-import Footer from '../components/Footer';
-import VideoPlayer from '../components/VideoPlayer';
+import React, { useEffect } from 'react';
+import Hero from '@/components/Hero';
+import FeaturedBusinesses from '@/components/FeaturedBusinesses';
+import TestimonialsSection from '@/components/TestimonialsSection';
+import CTASection from '@/components/CTASection';
+import Footer from '@/components/Footer';
+import { Navbar } from '@/components/navbar';
+import PageNavigation from '@/components/HowItWorks/PageNavigation';
+import { BenefitsSection } from '@/components/HowItWorks/Benefits';
+import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
+import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
+import FAQSection from '@/components/HowItWorks/FAQSection';
+import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
+import CirculationVisualization from '@/components/HowItWorks/CirculationVisualization/CirculationVisualization';
+import VisualDivider from '@/components/HowItWorks/VisualDivider';
 
 const HomePage = () => {
+  useEffect(() => {
+    document.title = 'Mansa Musa Marketplace - Save Money & Support Black-Owned Businesses';
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', 
+      'Join thousands discovering amazing Black-owned businesses while earning rewards and building community wealth. Start FREE today!'
+    );
+  }, []);
+
+  const navSections = [
+    { id: 'hero', label: 'Overview' },
+    { id: 'how-it-works', label: 'How It Works' },
+    { id: 'videos', label: 'Videos' },
+    { id: 'circulation-visualization', label: 'Money Flow' },
+    { id: 'benefits', label: 'Benefits' },
+    { id: 'testimonials', label: 'Testimonials' },
+    { id: 'history', label: 'Our Story' },
+    { id: 'faq', label: 'FAQ' },
+    { id: 'cta-section', label: 'Join Us' }
+  ];
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <Navbar />
-      <Hero />
       
-      {/* Featured Video Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-mansablue mb-4">See Our Vision in Action</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Watch how Mansa Musa Marketplace is revolutionizing Black wealth circulation
-              and empowering communities through economic collaboration.
-            </p>
-          </div>
-          
-          <div className="max-w-3xl mx-auto">
-            {/* YouTube video with enhanced SEO */}
-            <VideoPlayer 
-              src="https://www.youtube.com/watch?v=71FmkfENYDI" 
-              title="Mansa Musa Marketplace - Circulating Black Wealth" 
-              className="aspect-video shadow-xl rounded-lg"
-              isYouTube={true}
-              description="Learn how Mansa Musa Marketplace helps circulate wealth within Black communities, creating economic opportunities and building generational wealth."
-              uploadDate="2024-05-16"
-            />
-          </div>
-        </div>
+      {/* Hero Section */}
+      <section id="hero">
+        <Hero />
       </section>
-      
-      <HowItWorks />
-      <WhySection />
+
+      {/* Page Navigation */}
+      <PageNavigation sections={navSections} />
+
+      {/* How It Works Section */}
+      <section id="how-it-works">
+        <HowItWorksSteps />
+      </section>
+
+      {/* Videos Section */}
+      <section id="videos">
+        <SponsorshipVideoSection />
+      </section>
+
+      {/* Visual Divider */}
+      <VisualDivider />
+
+      {/* Money Flow Visualization */}
+      <section id="circulation-visualization">
+        <CirculationVisualization />
+      </section>
+
+      {/* Benefits Section */}
+      <section id="benefits">
+        <BenefitsSection />
+      </section>
+
+      {/* Featured Businesses */}
       <FeaturedBusinesses />
-      <TestimonialsSection />
-      <CTASection />
+
+      {/* Testimonials Section */}
+      <section id="testimonials">
+        <TestimonialsSection />
+      </section>
+
+      {/* Our Story / History Section */}
+      <section id="history">
+        <MansaMusaHistory />
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq">
+        <FAQSection />
+      </section>
+
+      {/* CTA Section */}
+      <section id="cta-section">
+        <CTASection />
+      </section>
+
       <Footer />
     </div>
   );
