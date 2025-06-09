@@ -39,6 +39,8 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
               <li className="text-sm text-gray-600">• Full directory access</li>
               <li className="text-sm text-gray-600">• QR scanning for discounts</li>
               <li className="text-sm text-gray-600">• Loyalty points system</li>
+              <li className="text-sm text-gray-600">• Earn and redeem rewards</li>
+              <li className="text-sm text-gray-600">• Exclusive deals access</li>
             </ul>
           </div>
           
@@ -48,9 +50,11 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
               <span className="font-bold text-mansablue">$100/month</span>
             </div>
             <ul className="mt-2 space-y-1">
-              <li className="text-sm text-gray-600">• Business listing</li>
-              <li className="text-sm text-gray-600">• Customer analytics</li>
-              <li className="text-sm text-gray-600">• First month free</li>
+              <li className="text-sm text-gray-600">• Business listing in directory</li>
+              <li className="text-sm text-gray-600">• Customer analytics dashboard</li>
+              <li className="text-sm text-gray-600">• QR code generation</li>
+              <li className="text-sm text-gray-600">• Loyalty program management</li>
+              <li className="text-sm text-mansagold font-medium">• First month FREE!</li>
             </ul>
           </div>
         </div>
