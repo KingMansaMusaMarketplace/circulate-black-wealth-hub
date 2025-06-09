@@ -69,13 +69,11 @@ const Hero = () => {
           {/* Right Column - Business Image */}
           <div className="flex justify-center lg:justify-end">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-lg">
-              <div className="aspect-[4/5] w-full">
-                <img 
-                  src="/lovable-uploads/487f9aac-a3ad-4b28-8d90-3fd25a3a689b.png" 
-                  alt="Professional business women working together"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <img 
+                src="/lovable-uploads/487f9aac-a3ad-4b28-8d90-3fd25a3a689b.png" 
+                alt="Professional business women working together"
+                className="w-full h-auto object-cover"
+              />
             </div>
           </div>
         </div>
