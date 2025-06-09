@@ -32,40 +32,43 @@ export const SafeAreaProvider: React.FC<SafeAreaProviderProps> = ({ children }) 
   useEffect(() => {
     const updateSafeArea = () => {
       // Get CSS environment variables for safe area
-      const top = parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue('--safe-area-inset-top') || '0');
-      const bottom = parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue('--safe-area-inset-bottom') || '0');
-      const left = parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue('--safe-area-inset-left') || '0');
-      const right = parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue('--safe-area-inset-right') || '0');
+      const computedStyle = getComputedStyle(document.documentElement);
+      const top = parseInt(computedStyle.getPropertyValue('--safe-area-inset-top').replace('px', '') || '0');
+      const bottom = parseInt(computedStyle.getPropertyValue('--safe-area-inset-bottom').replace('px', '') || '0');
+      const left = parseInt(computedStyle.getPropertyValue('--safe-area-inset-left').replace('px', '') || '0');
+      const right = parseInt(computedStyle.getPropertyValue('--safe-area-inset-right').replace('px', '') || '0');
 
       setSafeAreaInsets({ top, bottom, left, right });
     };
 
     updateSafeArea();
     
-    // Listen for orientation changes
-    window.addEventListener('orientationchange', updateSafeArea);
-    window.addEventListener('resize', updateSafeArea);
+    // Listen for orientation changes and viewport changes
+    const handleResize = () => {
+      setTimeout(updateSafeArea, 100); // Small delay to ensure CSS has updated
+    };
+    
+    window.addEventListener('orientationchange', handleResize);
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('load', updateSafeArea);
 
     return () => {
-      window.removeEventListener('orientationchange', updateSafeArea);
-      window.removeEventListener('resize', updateSafeArea);
+      window.removeEventListener('orientationchange', handleResize);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('load', updateSafeArea);
     };
   }, []);
 
   return (
     <SafeAreaContext.Provider value={safeAreaInsets}>
       <div 
+        className="min-h-screen w-full overflow-x-hidden"
         style={{
-          paddingTop: `env(safe-area-inset-top, ${safeAreaInsets.top}px)`,
-          paddingBottom: `env(safe-area-inset-bottom, ${safeAreaInsets.bottom}px)`,
-          paddingLeft: `env(safe-area-inset-left, ${safeAreaInsets.left}px)`,
-          paddingRight: `env(safe-area-inset-right, ${safeAreaInsets.right}px)`,
+          paddingTop: `max(env(safe-area-inset-top), ${safeAreaInsets.top}px)`,
+          paddingBottom: `max(env(safe-area-inset-bottom), ${safeAreaInsets.bottom}px)`,
+          paddingLeft: `max(env(safe-area-inset-left), ${safeAreaInsets.left}px)`,
+          paddingRight: `max(env(safe-area-inset-right), ${safeAreaInsets.right}px)`,
         }}
-        className="min-h-screen"
       >
         {children}
       </div>

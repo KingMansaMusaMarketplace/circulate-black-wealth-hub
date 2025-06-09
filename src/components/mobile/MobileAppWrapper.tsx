@@ -15,7 +15,7 @@ const MobileAppWrapper: React.FC<MobileAppWrapperProps> = ({ children }) => {
   const showIOSNotice = isIOS && !isCapacitor;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background w-full overflow-x-hidden">
       {showIOSNotice && (
         <Alert className="mx-4 mt-2 border-mansagold bg-mansagold/10">
           <Smartphone className="h-4 w-4" />
@@ -34,7 +34,7 @@ const MobileAppWrapper: React.FC<MobileAppWrapperProps> = ({ children }) => {
         </Alert>
       )}
       
-      <div className={`${isMobile ? 'mobile-optimized' : ''}`}>
+      <div className={`w-full ${isMobile ? 'mobile-optimized' : ''}`}>
         {children}
       </div>
     </div>

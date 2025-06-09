@@ -65,16 +65,43 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
+  
+  html {
+    height: 100%;
+    /* Prevent horizontal scrolling on mobile */
+    overflow-x: hidden;
+    /* Support for safe area insets */
+    padding: 0;
+  }
+  
   body {
     @apply bg-background text-foreground;
     font-family: 'Spartan', sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    /* Prevent zoom on iOS when tapping inputs */
+    -webkit-text-size-adjust: 100%;
+    /* Support for safe area insets */
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  
+  #root {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 }
 
 @layer components {
   .container-custom {
     @apply container mx-auto px-4 sm:px-6 lg:px-8;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   
   .btn-primary {
@@ -83,5 +110,36 @@
   
   .btn-secondary {
     @apply bg-mansagold hover:bg-mansagold-dark text-mansablue font-medium py-2 px-4 rounded transition-colors;
+  }
+}
+
+/* Mobile-specific fixes */
+@media screen and (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 100%;
+  }
+  
+  /* Prevent horizontal overflow */
+  * {
+    max-width: 100%;
+  }
+  
+  /* Fix input zoom on iOS */
+  input[type="email"],
+  input[type="password"],
+  input[type="text"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* Fix for iOS Safari viewport issues */
+    min-height: -webkit-fill-available;
   }
 }

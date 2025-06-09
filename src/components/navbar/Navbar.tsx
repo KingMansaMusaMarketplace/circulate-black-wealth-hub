@@ -66,18 +66,18 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   return (
     <>
       <header className={`bg-white shadow-sm z-50 w-full sticky top-0 border-b border-gray-100 ${className}`}>
-        <div className="container mx-auto px-4">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center">
+        <div className="w-full px-4 max-w-none overflow-x-hidden">
+          <div className="flex h-16 items-center justify-between w-full">
+            <div className="flex items-center min-w-0 flex-shrink-0">
               <Logo />
               {!isMobile && (
-                <div className="ml-12">
+                <div className="ml-12 hidden md:block">
                   <NavLinks />
                 </div>
               )}
             </div>
             
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-shrink-0">
               {isMobile && (
                 <Button 
                   variant="ghost" 
