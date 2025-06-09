@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { SalesAgent, SalesAgentApplication, Referral, AgentCommission } from '@/types/sales-agent';
 import { 
   getSalesAgentByUserId, 
@@ -58,7 +58,7 @@ export const useSalesAgent = () => {
           setTotalEarned(earned);
           setTotalPending(pending);
         } else {
-          // Check if user has an application - call without parameters
+          // Check if user has an application
           const userApplication = await getSalesAgentApplication();
           if (userApplication) {
             console.log('User has an application:', userApplication);

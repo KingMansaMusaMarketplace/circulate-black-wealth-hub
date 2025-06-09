@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { useSalesAgent } from '@/hooks/use-sales-agent';
 import { useSalesAgentTabs } from '@/hooks/use-sales-agent-tabs';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
