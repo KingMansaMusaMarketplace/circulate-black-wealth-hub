@@ -102,7 +102,7 @@ const Footer = () => {
             <ul className="space-y-4">
               {[
                 { name: "Sign Up", path: "/business-signup" },
-                { name: "Become a Sales Agent", path: "/sales-agent" },
+                { name: "Sales Agent Program", path: "/sales-agent" },
                 { name: "Corporate Sponsorship", path: "/sponsorship" },
                 { name: "Success Stories", path: "/case-studies" },
                 { name: "FAQ", path: "/faq" }
