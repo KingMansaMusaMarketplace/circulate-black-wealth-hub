@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -19,10 +19,12 @@ interface UserMenuProps {
 
 export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const { signOut } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
       await signOut();
+      navigate('/');
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -35,6 +37,20 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
 
   const displayName = user?.user_metadata?.full_name || user?.email || 'User';
   const userType = user?.user_metadata?.user_type || 'customer';
+
+  // If no user, show login/signup buttons
+  if (!user) {
+    return (
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" asChild>
+          <Link to="/login">Login</Link>
+        </Button>
+        <Button asChild>
+          <Link to="/signup">Sign Up</Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <DropdownMenu>
@@ -57,24 +73,31 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
         </div>
         <DropdownMenuSeparator />
         
-        {userType === 'business' && (
+        {userType === 'business' ? (
           <DropdownMenuItem asChild>
-            <Link to="/business-dashboard" className="flex items-center">
+            <Link to="/business/dashboard" className="flex items-center">
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span>Business Dashboard</span>
+            </Link>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem asChild>
+            <Link to="/dashboard" className="flex items-center">
+              <LayoutDashboard className="mr-2 h-4 w-4" />
+              <span>Dashboard</span>
             </Link>
           </DropdownMenuItem>
         )}
         
         <DropdownMenuItem asChild>
-          <Link to="/profile" className="flex items-center">
+          <Link to="/dashboard" className="flex items-center">
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </Link>
         </DropdownMenuItem>
         
         <DropdownMenuItem asChild>
-          <Link to="/settings" className="flex items-center">
+          <Link to="/dashboard" className="flex items-center">
             <Settings className="mr-2 h-4 w-4" />
             <span>Settings</span>
           </Link>
