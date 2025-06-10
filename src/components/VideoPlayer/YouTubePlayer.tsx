@@ -28,16 +28,9 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
-  if (!videoId) {
-    return <YouTubeErrorState />;
-  }
-  
-  // Create YouTube embed URL with autoplay parameter based on isPlaying state
-  const embedUrl = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&modestbranding=1&rel=0&showinfo=0&autoplay=${isPlaying ? 1 : 0}&mute=${isMuted ? 1 : 0}`;
-  
-  // Handle play state changes by updating the iframe src
+  // Always call useEffect, but conditionally execute the logic inside
   useEffect(() => {
-    if (playerReady && iframeRef.current) {
+    if (playerReady && iframeRef.current && videoId) {
       const newUrl = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&modestbranding=1&rel=0&showinfo=0&autoplay=${isPlaying ? 1 : 0}&mute=${isMuted ? 1 : 0}`;
       
       // Only update if the URL actually changed to avoid unnecessary reloads
@@ -46,6 +39,13 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
       }
     }
   }, [isPlaying, isMuted, videoId, playerReady]);
+  
+  if (!videoId) {
+    return <YouTubeErrorState />;
+  }
+  
+  // Create YouTube embed URL with autoplay parameter based on isPlaying state
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&modestbranding=1&rel=0&showinfo=0&autoplay=${isPlaying ? 1 : 0}&mute=${isMuted ? 1 : 0}`;
   
   return (
     <div className="w-full aspect-video bg-black relative">
