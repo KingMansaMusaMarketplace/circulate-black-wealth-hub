@@ -90,8 +90,6 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
           allowFullScreen
           loading="lazy"
-          // Mobile-specific attributes for better compatibility
-          playsInline
           style={{ 
             border: 'none',
             outline: 'none',
