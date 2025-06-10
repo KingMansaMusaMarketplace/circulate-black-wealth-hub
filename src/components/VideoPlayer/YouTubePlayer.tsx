@@ -28,34 +28,6 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   
   const iframeRef = useRef<HTMLIFrameElement>(null);
   
-  // Always call useEffect, but conditionally execute the logic inside
-  useEffect(() => {
-    if (playerReady && iframeRef.current && videoId) {
-      // Enhanced mobile parameters for better iPhone/Android compatibility
-      const mobileParams = [
-        'enablejsapi=1',
-        'playsinline=1', // Critical for iOS inline playback
-        'modestbranding=1',
-        'rel=0',
-        'showinfo=0',
-        'iv_load_policy=3', // Hide annotations on mobile
-        'disablekb=1', // Disable keyboard controls on mobile
-        'fs=1', // Allow fullscreen
-        'cc_load_policy=0', // Disable captions by default
-        'origin=' + window.location.origin, // Required for API
-        `autoplay=${isPlaying ? 1 : 0}`,
-        `mute=${isMuted ? 1 : 0}`
-      ].join('&');
-      
-      const newUrl = `https://www.youtube.com/embed/${videoId}?${mobileParams}`;
-      
-      // Only update if the URL actually changed to avoid unnecessary reloads
-      if (iframeRef.current.src !== newUrl) {
-        iframeRef.current.src = newUrl;
-      }
-    }
-  }, [isPlaying, isMuted, videoId, playerReady]);
-  
   if (!videoId) {
     return <YouTubeErrorState />;
   }
@@ -68,12 +40,12 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     'rel=0',
     'showinfo=0',
     'iv_load_policy=3',
-    'disablekb=1',
+    'disablekb=0', // Enable keyboard controls
     'fs=1',
     'cc_load_policy=0',
+    'controls=1', // Show YouTube controls
     'origin=' + window.location.origin,
-    `autoplay=${isPlaying ? 1 : 0}`,
-    `mute=${isMuted ? 1 : 0}`
+    // Remove autoplay and mute to let YouTube handle it naturally
   ].join('&');
   
   const embedUrl = `https://www.youtube.com/embed/${videoId}?${mobileParams}`;

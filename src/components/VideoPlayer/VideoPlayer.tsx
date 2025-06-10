@@ -131,20 +131,25 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           )}
         </div>
         
-        {/* Play/Pause button with fade effect */}
-        <PlayPauseButton 
-          isPlaying={isPlaying}
-          onClick={togglePlay}
-          forceShow={showPlayButton}
-        />
-        
-        {/* Video controls overlay */}
-        <ControlsOverlay 
-          isPlaying={isPlaying}
-          isMuted={isMuted}
-          onPlayPause={togglePlay}
-          onToggleMute={toggleMute}
-        />
+        {/* Only show custom controls for non-YouTube videos */}
+        {!isYouTube && (
+          <>
+            {/* Play/Pause button with fade effect */}
+            <PlayPauseButton 
+              isPlaying={isPlaying}
+              onClick={togglePlay}
+              forceShow={showPlayButton}
+            />
+            
+            {/* Video controls overlay */}
+            <ControlsOverlay 
+              isPlaying={isPlaying}
+              isMuted={isMuted}
+              onPlayPause={togglePlay}
+              onToggleMute={toggleMute}
+            />
+          </>
+        )}
       </div>
     </>
   );
