@@ -29,7 +29,7 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden"
           >
             <VideoPlayer
-              src="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+              src="https://www.youtube.com/watch?v=-TjgPI4kid4"
               title="How Circulation Works"
               isYouTube={true}
               posterImage="/placeholder.svg"
@@ -50,7 +50,7 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden"
           >
             <VideoPlayer
-              src="https://www.youtube.com/watch?v=ScMzIvxBSi4"
+              src="https://www.youtube.com/watch?v=-8M3YSYjKM0"
               title="Marketplace Benefits"
               isYouTube={true}
               posterImage="/placeholder.svg"
