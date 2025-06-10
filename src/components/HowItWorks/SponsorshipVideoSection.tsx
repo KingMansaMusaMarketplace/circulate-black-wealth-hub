@@ -29,7 +29,7 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden"
           >
             <VideoPlayer
-              src="https://www.youtube.com/embed/-TjgPI4kid4"
+              src="https://www.youtube.com/watch?v=-TjgPI4kid4"
               title="How Circulation Works"
               isYouTube={true}
               posterImage="/placeholder.svg"
@@ -49,7 +49,7 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden"
           >
             <VideoPlayer
-              src="https://www.youtube.com/embed/-8M3YSYjKM0"
+              src="https://www.youtube.com/watch?v=-8M3YSYjKM0"
               title="Marketplace Benefits"
               isYouTube={true}
               posterImage="/placeholder.svg"
@@ -69,7 +69,7 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden lg:col-span-1 md:col-span-2 lg:col-span-1"
           >
             <VideoPlayer
-              src="https://www.youtube.com/embed/sn19xvfoXvk"
+              src="https://www.youtube.com/watch?v=sn19xvfoXvk"
               title="Join Our Team"
               isYouTube={true}
               posterImage="/placeholder.svg"
