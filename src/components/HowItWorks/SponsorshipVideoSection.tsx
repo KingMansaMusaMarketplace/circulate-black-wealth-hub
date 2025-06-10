@@ -29,11 +29,12 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden"
           >
             <VideoPlayer
-              src="https://www.youtube.com/watch?v=-TjgPI4kid4"
+              src="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
               title="How Circulation Works"
               isYouTube={true}
               posterImage="/placeholder.svg"
               className="w-full"
+              onError={() => console.log("Error loading How Circulation Works video")}
             />
             <div className="p-4 bg-white">
               <h3 className="font-bold text-lg">How Circulation Works</h3>
@@ -49,11 +50,12 @@ const SponsorshipVideoSection = () => {
             className="shadow-lg rounded-xl overflow-hidden"
           >
             <VideoPlayer
-              src="https://www.youtube.com/watch?v=-8M3YSYjKM0"
+              src="https://www.youtube.com/watch?v=ScMzIvxBSi4"
               title="Marketplace Benefits"
               isYouTube={true}
               posterImage="/placeholder.svg"
               className="w-full"
+              onError={() => console.log("Error loading Marketplace Benefits video")}
             />
             <div className="p-4 bg-white">
               <h3 className="font-bold text-lg">Marketplace Benefits</h3>
@@ -74,6 +76,7 @@ const SponsorshipVideoSection = () => {
               isYouTube={true}
               posterImage="/placeholder.svg"
               className="w-full"
+              onError={() => console.log("Error loading Join Our Team video")}
             />
             <div className="p-4 bg-white">
               <h3 className="font-bold text-lg">Join Our Team</h3>
