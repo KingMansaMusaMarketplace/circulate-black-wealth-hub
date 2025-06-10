@@ -1,53 +1,30 @@
 
-import { useState } from 'react';
-import { useLoyalty } from '@/hooks/use-loyalty';
-import { useAuth } from '@/contexts/auth';
-import { toast } from 'sonner';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
-export interface UseLoyaltyRewardsOptions {
-  businessId?: string;
-}
-
-export const useLoyaltyRewards = (options: UseLoyaltyRewardsOptions = {}) => {
-  const [loyaltyPoints, setLoyaltyPoints] = useState<any[]>([]);
-  const [availableRewards, setAvailableRewards] = useState<any[]>([]);
+export const useLoyaltyRewards = () => {
   const { user } = useAuth();
-  const { summary, refreshData } = useLoyalty();
-  
-  const totalPoints = summary.totalPoints;
-  
-  const refreshLoyaltyData = async () => {
-    await refreshData();
-  };
-  
-  const redeemReward = async (rewardId: string, pointsCost: number) => {
-    if (!user) {
-      toast.error('You must be logged in to redeem rewards');
-      return false;
-    }
-    
-    if (totalPoints < pointsCost) {
-      toast.error('Insufficient points for this reward');
-      return false;
-    }
-    
-    try {
-      // Simulate reward redemption
-      toast.success(`Reward redeemed for ${pointsCost} points!`);
-      await refreshLoyaltyData();
+  const [totalPoints, setTotalPoints] = useState(345);
+
+  // Mock function to redeem reward
+  const redeemReward = (rewardId: number, pointsCost: number) => {
+    if (totalPoints >= pointsCost) {
+      setTotalPoints(prev => prev - pointsCost);
       return true;
-    } catch (error) {
-      console.error('Error redeeming reward:', error);
-      toast.error('Failed to redeem reward');
-      return false;
     }
+    return false;
   };
-  
+
+  // In a real app, you would fetch points from your backend
+  useEffect(() => {
+    if (user) {
+      // Fetch user's loyalty points from backend
+      console.log('Fetching loyalty points for user:', user.id);
+    }
+  }, [user]);
+
   return {
     totalPoints,
-    loyaltyPoints,
-    availableRewards,
-    refreshLoyaltyData,
-    redeemReward
+    redeemReward,
   };
 };
