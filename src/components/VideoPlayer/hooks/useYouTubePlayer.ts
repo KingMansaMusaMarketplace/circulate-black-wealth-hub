@@ -26,9 +26,15 @@ export const useYouTubePlayer = ({
     console.log("YouTube Video ID:", id);
     setVideoId(id);
     if (id) {
-      setPlayerReady(true);
-      // Signal that player is ready and paused initially
-      onStateChange(false, 2);
+      // Add a small delay for mobile devices to ensure proper initialization
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const delay = isMobile ? 500 : 100;
+      
+      setTimeout(() => {
+        setPlayerReady(true);
+        // Signal that player is ready and paused initially
+        onStateChange(false, 2);
+      }, delay);
     } else {
       onError?.();
     }
