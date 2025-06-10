@@ -18,7 +18,7 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   onStateChange,
   onError,
 }) => {
-  const { playerRef, videoId, playerReady } = useYouTubePlayer({
+  const { videoId, playerReady } = useYouTubePlayer({
     src,
     isPlaying,
     isMuted,
@@ -30,13 +30,24 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
     return <YouTubeErrorState />;
   }
   
+  // Create YouTube embed URL with mobile-friendly parameters
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&modestbranding=1&rel=0&showinfo=0`;
+  
   return (
     <div className="w-full aspect-video bg-black relative">
-      <div className="w-full h-full">
-        <div ref={playerRef} className="w-full h-full"></div>
-      </div>
-      
-      {!playerReady && <YouTubeLoadingState />}
+      {playerReady ? (
+        <iframe
+          src={embedUrl}
+          title="YouTube video player"
+          className="w-full h-full"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          loading="lazy"
+        />
+      ) : (
+        <YouTubeLoadingState />
+      )}
     </div>
   );
 };
