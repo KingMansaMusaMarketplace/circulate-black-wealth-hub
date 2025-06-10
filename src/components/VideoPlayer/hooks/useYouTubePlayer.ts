@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { getYouTubeId } from '../utils/youtube';
 
 interface UseYouTubePlayerProps {
@@ -17,7 +17,6 @@ export const useYouTubePlayer = ({
   onStateChange,
   onError,
 }: UseYouTubePlayerProps) => {
-  const playerRef = useRef<HTMLDivElement>(null);
   const [videoId, setVideoId] = useState<string | null>(null);
   const [playerReady, setPlayerReady] = useState(false);
   
@@ -28,12 +27,23 @@ export const useYouTubePlayer = ({
     setVideoId(id);
     if (id) {
       setPlayerReady(true);
-      onStateChange(false, 2); // Start in paused state
+      // Signal that player is ready and paused initially
+      onStateChange(false, 2);
+    } else {
+      onError?.();
     }
-  }, [src, onStateChange]);
+  }, [src, onStateChange, onError]);
+
+  // Update state when play/pause changes
+  useEffect(() => {
+    if (playerReady) {
+      // Simulate state change when play state updates
+      const playerState = isPlaying ? 1 : 2; // 1 = playing, 2 = paused
+      onStateChange(isPlaying, playerState);
+    }
+  }, [isPlaying, playerReady, onStateChange]);
 
   return {
-    playerRef,
     videoId,
     playerReady,
   };
