@@ -30,21 +30,19 @@ export const useLoyaltyQRCode = (options: UseLoyaltyQRCodeOptions = {}) => {
   
   const {
     totalPoints,
-    loyaltyPoints,
-    refreshLoyaltyData,
     redeemReward
-  } = useLoyaltyRewards(options);
+  } = useLoyaltyRewards();
   
   return {
     qrCode: qrCode || qrCodeData,
     totalPoints,
-    loyaltyPoints,
+    loyaltyPoints: totalPoints, // Use totalPoints as loyaltyPoints for backward compatibility
     scanning,
     scanResult,
     scanQRAndProcessPoints,
     generateLoyaltyQRCode,
     generateDiscountQRCode,
     redeemReward,
-    refreshLoyaltyData
+    refreshLoyaltyData: () => Promise.resolve() // Provide empty function for backward compatibility
   };
 };
