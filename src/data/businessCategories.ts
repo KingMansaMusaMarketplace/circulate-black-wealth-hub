@@ -1,4 +1,3 @@
-
 export interface BusinessCategory {
   id: string;
   name: string;
@@ -1011,6 +1010,727 @@ export const businessCategories: BusinessCategory[] = [
     name: 'Yoga Studios',
     description: 'Yoga instruction and wellness',
     icon: '🧘‍♀️'
+  },
+  // 100 NEW CATEGORIES START HERE
+  {
+    id: 'acupuncture',
+    name: 'Acupuncture & Traditional Medicine',
+    description: 'Alternative healing and traditional treatments',
+    icon: '🌿'
+  },
+  {
+    id: 'addiction-counseling',
+    name: 'Addiction Counseling',
+    description: 'Substance abuse and addiction recovery services',
+    icon: '🫶'
+  },
+  {
+    id: 'aerial-photography',
+    name: 'Aerial Photography & Drone Services',
+    description: 'Drone photography and videography',
+    icon: '🚁'
+  },
+  {
+    id: 'aircraft',
+    name: 'Aircraft Services',
+    description: 'Aviation maintenance and services',
+    icon: '✈️'
+  },
+  {
+    id: 'alpaca-farming',
+    name: 'Alpaca & Llama Farming',
+    description: 'Specialty livestock and fiber production',
+    icon: '🦙'
+  },
+  {
+    id: 'ambulance',
+    name: 'Ambulance & Medical Transport',
+    description: 'Emergency medical transportation',
+    icon: '🚑'
+  },
+  {
+    id: 'animation',
+    name: 'Animation & Motion Graphics',
+    description: 'Digital animation and motion design',
+    icon: '🎬'
+  },
+  {
+    id: 'apparel-manufacturing',
+    name: 'Apparel Manufacturing',
+    description: 'Clothing production and manufacturing',
+    icon: '👗'
+  },
+  {
+    id: 'appliance-manufacturing',
+    name: 'Appliance Manufacturing',
+    description: 'Home and commercial appliance production',
+    icon: '🏭'
+  },
+  {
+    id: 'aquarium',
+    name: 'Aquarium Services',
+    description: 'Fish tank maintenance and aquatic supplies',
+    icon: '🐠'
+  },
+  {
+    id: 'aromatherapy',
+    name: 'Aromatherapy & Essential Oils',
+    description: 'Natural wellness and therapeutic oils',
+    icon: '🌸'
+  },
+  {
+    id: 'artificial-intelligence',
+    name: 'Artificial Intelligence Services',
+    description: 'AI development and consulting',
+    icon: '🤖'
+  },
+  {
+    id: 'asbestos-removal',
+    name: 'Asbestos Removal',
+    description: 'Hazardous material removal services',
+    icon: '⚠️'
+  },
+  {
+    id: 'auto-glass',
+    name: 'Auto Glass Repair',
+    description: 'Windshield and auto window services',
+    icon: '🚗'
+  },
+  {
+    id: 'auto-insurance',
+    name: 'Auto Insurance',
+    description: 'Vehicle insurance and claims services',
+    icon: '🛡️'
+  },
+  {
+    id: 'auto-racing',
+    name: 'Auto Racing & Motorsports',
+    description: 'Racing events and motorsport services',
+    icon: '🏎️'
+  },
+  {
+    id: 'banquet-halls',
+    name: 'Banquet Halls & Event Venues',
+    description: 'Large event and celebration venues',
+    icon: '🏛️'
+  },
+  {
+    id: 'bartending',
+    name: 'Bartending Services',
+    description: 'Professional bartending and mixology',
+    icon: '🍸'
+  },
+  {
+    id: 'beekeeping',
+    name: 'Beekeeping & Honey Production',
+    description: 'Bee farming and honey products',
+    icon: '🐝'
+  },
+  {
+    id: 'bicycle-manufacturing',
+    name: 'Bicycle Manufacturing',
+    description: 'Bike production and custom builds',
+    icon: '🚲'
+  },
+  {
+    id: 'biotech',
+    name: 'Biotechnology',
+    description: 'Biological technology and research',
+    icon: '🧬'
+  },
+  {
+    id: 'blacksmithing',
+    name: 'Blacksmithing & Metalworking',
+    description: 'Traditional metalcraft and forging',
+    icon: '🔨'
+  },
+  {
+    id: 'blockchain',
+    name: 'Blockchain & Cryptocurrency',
+    description: 'Digital currency and blockchain services',
+    icon: '₿'
+  },
+  {
+    id: 'boarding-schools',
+    name: 'Boarding Schools',
+    description: 'Residential educational institutions',
+    icon: '🏫'
+  },
+  {
+    id: 'boat-manufacturing',
+    name: 'Boat Manufacturing',
+    description: 'Watercraft construction and design',
+    icon: '⛵'
+  },
+  {
+    id: 'botanical-gardens',
+    name: 'Botanical Gardens & Arboretums',
+    description: 'Plant conservation and education',
+    icon: '🌺'
+  },
+  {
+    id: 'bowling',
+    name: 'Bowling Alleys',
+    description: 'Bowling entertainment and leagues',
+    icon: '🎳'
+  },
+  {
+    id: 'brewing',
+    name: 'Brewing & Distilleries',
+    description: 'Craft beer and spirit production',
+    icon: '🍺'
+  },
+  {
+    id: 'broadcast-equipment',
+    name: 'Broadcast Equipment',
+    description: 'Radio and TV equipment sales and service',
+    icon: '📡'
+  },
+  {
+    id: 'building-materials',
+    name: 'Building Materials Supply',
+    description: 'Construction and building supplies',
+    icon: '🧱'
+  },
+  {
+    id: 'business-coaching',
+    name: 'Business Coaching & Mentoring',
+    description: 'Professional development and business guidance',
+    icon: '📈'
+  },
+  {
+    id: 'call-centers',
+    name: 'Call Centers',
+    description: 'Customer service and telemarketing',
+    icon: '☎️'
+  },
+  {
+    id: 'candle-making',
+    name: 'Candle Making',
+    description: 'Handcrafted candles and wax products',
+    icon: '🕯️'
+  },
+  {
+    id: 'cannabis',
+    name: 'Cannabis & Hemp Products',
+    description: 'Legal cannabis and CBD products',
+    icon: '🌿'
+  },
+  {
+    id: 'carnival-rides',
+    name: 'Carnival & Amusement Rides',
+    description: 'Mobile entertainment and rides',
+    icon: '🎠'
+  },
+  {
+    id: 'carpentry',
+    name: 'Carpentry & Woodworking',
+    description: 'Custom wood construction and furniture',
+    icon: '🪵'
+  },
+  {
+    id: 'cart-rental',
+    name: 'Cart & Equipment Rental',
+    description: 'Event and construction equipment rental',
+    icon: '🛒'
+  },
+  {
+    id: 'casting-agencies',
+    name: 'Casting Agencies',
+    description: 'Talent casting and entertainment booking',
+    icon: '🎭'
+  },
+  {
+    id: 'cell-tower',
+    name: 'Cell Tower Services',
+    description: 'Telecommunications infrastructure',
+    icon: '📶'
+  },
+  {
+    id: 'cemetery',
+    name: 'Cemetery & Memorial Services',
+    description: 'Burial grounds and memorial care',
+    icon: '⚱️'
+  },
+  {
+    id: 'cheese-making',
+    name: 'Cheese Making & Dairy',
+    description: 'Artisan dairy and cheese production',
+    icon: '🧀'
+  },
+  {
+    id: 'chemical-manufacturing',
+    name: 'Chemical Manufacturing',
+    description: 'Industrial chemical production',
+    icon: '⚗️'
+  },
+  {
+    id: 'chocolate-making',
+    name: 'Chocolate Making',
+    description: 'Artisan chocolate and confectionery',
+    icon: '🍫'
+  },
+  {
+    id: 'circus',
+    name: 'Circus & Performance Arts',
+    description: 'Acrobatic and circus entertainment',
+    icon: '🎪'
+  },
+  {
+    id: 'cloud-computing',
+    name: 'Cloud Computing Services',
+    description: 'Cloud infrastructure and services',
+    icon: '☁️'
+  },
+  {
+    id: 'coin-laundry',
+    name: 'Coin-Operated Laundry',
+    description: 'Self-service laundry facilities',
+    icon: '🪙'
+  },
+  {
+    id: 'collectibles',
+    name: 'Collectibles & Memorabilia',
+    description: 'Rare items and collectible trading',
+    icon: '🏆'
+  },
+  {
+    id: 'comedy-clubs',
+    name: 'Comedy Clubs',
+    description: 'Stand-up comedy and entertainment venues',
+    icon: '😂'
+  },
+  {
+    id: 'commercial-fishing',
+    name: 'Commercial Fishing',
+    description: 'Professional fishing and seafood',
+    icon: '🎣'
+  },
+  {
+    id: 'composite-manufacturing',
+    name: 'Composite Manufacturing',
+    description: 'Advanced materials and composites',
+    icon: '🧪'
+  },
+  {
+    id: 'concrete',
+    name: 'Concrete Services',
+    description: 'Concrete pouring and finishing',
+    icon: '🏗️'
+  },
+  {
+    id: 'consulting-engineering',
+    name: 'Consulting Engineering',
+    description: 'Technical engineering consultation',
+    icon: '⚙️'
+  },
+  {
+    id: 'costume-design',
+    name: 'Costume Design & Rental',
+    description: 'Theatrical and event costumes',
+    icon: '🎭'
+  },
+  {
+    id: 'court-reporting',
+    name: 'Court Reporting',
+    description: 'Legal transcription and stenography',
+    icon: '⚖️'
+  },
+  {
+    id: 'credit-repair',
+    name: 'Credit Repair Services',
+    description: 'Credit score improvement and counseling',
+    icon: '📊'
+  },
+  {
+    id: 'cremation',
+    name: 'Cremation Services',
+    description: 'Cremation and memorial services',
+    icon: '🕊️'
+  },
+  {
+    id: 'cruise-services',
+    name: 'Cruise Services',
+    description: 'Cruise planning and maritime tourism',
+    icon: '🚢'
+  },
+  {
+    id: 'custom-software',
+    name: 'Custom Software Development',
+    description: 'Bespoke software solutions',
+    icon: '💻'
+  },
+  {
+    id: 'data-analytics',
+    name: 'Data Analytics',
+    description: 'Business intelligence and data analysis',
+    icon: '📈'
+  },
+  {
+    id: 'data-recovery',
+    name: 'Data Recovery Services',
+    description: 'Digital data restoration and backup',
+    icon: '💾'
+  },
+  {
+    id: 'debt-collection',
+    name: 'Debt Collection',
+    description: 'Financial debt recovery services',
+    icon: '💰'
+  },
+  {
+    id: 'demolition',
+    name: 'Demolition Services',
+    description: 'Building demolition and site clearing',
+    icon: '🏗️'
+  },
+  {
+    id: 'detective',
+    name: 'Detective & Investigation Services',
+    description: 'Private investigation and security',
+    icon: '🔍'
+  },
+  {
+    id: 'dialysis',
+    name: 'Dialysis Centers',
+    description: 'Kidney treatment and dialysis services',
+    icon: '🏥'
+  },
+  {
+    id: 'digital-forensics',
+    name: 'Digital Forensics',
+    description: 'Cyber investigation and data analysis',
+    icon: '🔬'
+  },
+  {
+    id: 'disaster-recovery',
+    name: 'Disaster Recovery Services',
+    description: 'Emergency cleanup and restoration',
+    icon: '🚨'
+  },
+  {
+    id: 'disc-jockey',
+    name: 'Disc Jockey Services',
+    description: 'Professional DJ and music services',
+    icon: '🎧'
+  },
+  {
+    id: 'distilling',
+    name: 'Distilling & Spirits',
+    description: 'Alcoholic beverage production',
+    icon: '🥃'
+  },
+  {
+    id: 'doll-making',
+    name: 'Doll Making & Toy Crafting',
+    description: 'Handcrafted dolls and custom toys',
+    icon: '🪆'
+  },
+  {
+    id: 'drone-manufacturing',
+    name: 'Drone Manufacturing',
+    description: 'Unmanned aerial vehicle production',
+    icon: '🚁'
+  },
+  {
+    id: 'ebook-publishing',
+    name: 'E-book Publishing',
+    description: 'Digital book publishing and distribution',
+    icon: '📚'
+  },
+  {
+    id: 'economic-development',
+    name: 'Economic Development',
+    description: 'Community and regional development',
+    icon: '🏙️'
+  },
+  {
+    id: 'elderly-transportation',
+    name: 'Elderly Transportation',
+    description: 'Senior citizen transportation services',
+    icon: '🚐'
+  },
+  {
+    id: 'elevator-services',
+    name: 'Elevator Services',
+    description: 'Elevator installation and maintenance',
+    icon: '🛗'
+  },
+  {
+    id: 'embroidery',
+    name: 'Embroidery & Monogramming',
+    description: 'Custom embroidery and textile decoration',
+    icon: '🧵'
+  },
+  {
+    id: 'energy-auditing',
+    name: 'Energy Auditing',
+    description: 'Energy efficiency assessment and consulting',
+    icon: '🔋'
+  },
+  {
+    id: 'engraving',
+    name: 'Engraving Services',
+    description: 'Custom engraving and personalization',
+    icon: '🪪'
+  },
+  {
+    id: 'equipment-leasing',
+    name: 'Equipment Leasing',
+    description: 'Industrial and commercial equipment rental',
+    icon: '🏗️'
+  },
+  {
+    id: 'escape-rooms',
+    name: 'Escape Rooms',
+    description: 'Interactive puzzle and adventure games',
+    icon: '🗝️'
+  },
+  {
+    id: 'estate-sales',
+    name: 'Estate Sales',
+    description: 'Estate liquidation and auction services',
+    icon: '🏠'
+  },
+  {
+    id: 'ethical-hacking',
+    name: 'Ethical Hacking & Penetration Testing',
+    description: 'Cybersecurity testing and assessment',
+    icon: '🛡️'
+  },
+  {
+    id: 'event-security',
+    name: 'Event Security Services',
+    description: 'Security for events and gatherings',
+    icon: '👮'
+  },
+  {
+    id: 'exotic-pets',
+    name: 'Exotic Pet Services',
+    description: 'Specialized care for exotic animals',
+    icon: '🦎'
+  },
+  {
+    id: 'explosives',
+    name: 'Explosives & Demolition',
+    description: 'Controlled demolition and blasting',
+    icon: '💥'
+  },
+  {
+    id: 'fashion-design',
+    name: 'Fashion Design',
+    description: 'Custom fashion and clothing design',
+    icon: '👗'
+  },
+  {
+    id: 'fiber-optics',
+    name: 'Fiber Optic Services',
+    description: 'High-speed internet infrastructure',
+    icon: '🌐'
+  },
+  {
+    id: 'film-editing',
+    name: 'Film Editing & Post-Production',
+    description: 'Video editing and film production',
+    icon: '🎬'
+  },
+  {
+    id: 'fire-protection',
+    name: 'Fire Protection Services',
+    description: 'Fire safety systems and prevention',
+    icon: '🚒'
+  },
+  {
+    id: 'fireworks',
+    name: 'Fireworks & Pyrotechnics',
+    description: 'Professional fireworks displays',
+    icon: '🎆'
+  },
+  {
+    id: 'flight-training',
+    name: 'Flight Training Schools',
+    description: 'Pilot education and aviation training',
+    icon: '✈️'
+  },
+  {
+    id: 'food-testing',
+    name: 'Food Testing & Safety',
+    description: 'Food quality assurance and testing',
+    icon: '🔬'
+  },
+  {
+    id: 'forensic-accounting',
+    name: 'Forensic Accounting',
+    description: 'Financial investigation and fraud detection',
+    icon: '🔍'
+  },
+  {
+    id: 'franchise-consulting',
+    name: 'Franchise Consulting',
+    description: 'Franchise development and consulting',
+    icon: '🏢'
+  },
+  {
+    id: 'freight-brokerage',
+    name: 'Freight Brokerage',
+    description: 'Transportation logistics and coordination',
+    icon: '🚛'
+  },
+  {
+    id: 'genetic-testing',
+    name: 'Genetic Testing Services',
+    description: 'DNA analysis and genetic counseling',
+    icon: '🧬'
+  },
+  {
+    id: 'geothermal',
+    name: 'Geothermal Energy Services',
+    description: 'Renewable geothermal energy systems',
+    icon: '🌋'
+  },
+  {
+    id: 'glass-blowing',
+    name: 'Glass Blowing & Art Glass',
+    description: 'Artistic glass creation and custom work',
+    icon: '🫧'
+  },
+  {
+    id: 'greenhouse',
+    name: 'Greenhouse & Nursery Services',
+    description: 'Plant cultivation and horticultural services',
+    icon: '🌱'
+  },
+  {
+    id: 'hazmat',
+    name: 'Hazardous Material Handling',
+    description: 'Dangerous goods transportation and disposal',
+    icon: '☢️'
+  },
+  {
+    id: 'helicopter-services',
+    name: 'Helicopter Services',
+    description: 'Helicopter transport and aerial services',
+    icon: '🚁'
+  },
+  {
+    id: 'holistic-medicine',
+    name: 'Holistic Medicine',
+    description: 'Alternative and integrative healthcare',
+    icon: '🌿'
+  },
+  {
+    id: 'home-brewing',
+    name: 'Home Brewing Supplies',
+    description: 'Beer and wine making equipment',
+    icon: '🍺'
+  },
+  {
+    id: 'horse-boarding',
+    name: 'Horse Boarding & Stables',
+    description: 'Equestrian facilities and horse care',
+    icon: '🐎'
+  },
+  {
+    id: 'hypnotherapy',
+    name: 'Hypnotherapy Services',
+    description: 'Therapeutic hypnosis and counseling',
+    icon: '🌀'
+  },
+  {
+    id: 'immigration-services',
+    name: 'Immigration Services',
+    description: 'Immigration assistance and documentation',
+    icon: '🛂'
+  },
+  {
+    id: 'industrial-design',
+    name: 'Industrial Design',
+    description: 'Product design and development',
+    icon: '📐'
+  },
+  {
+    id: 'infusion-centers',
+    name: 'Infusion Centers',
+    description: 'Medical infusion and IV therapy',
+    icon: '💉'
+  },
+  {
+    id: 'invention-services',
+    name: 'Invention & Patent Services',
+    description: 'Innovation development and patent assistance',
+    icon: '💡'
+  },
+  {
+    id: 'karaoke',
+    name: 'Karaoke Services',
+    description: 'Karaoke entertainment and equipment rental',
+    icon: '🎤'
+  },
+  {
+    id: 'laser-services',
+    name: 'Laser Services',
+    description: 'Laser cutting, engraving, and medical services',
+    icon: '⚡'
+  },
+  {
+    id: 'leather-working',
+    name: 'Leather Working',
+    description: 'Custom leather goods and repair',
+    icon: '🧳'
+  },
+  {
+    id: 'lighting-design',
+    name: 'Lighting Design',
+    description: 'Architectural and event lighting',
+    icon: '💡'
+  },
+  {
+    id: 'marine-biology',
+    name: 'Marine Biology Services',
+    description: 'Ocean research and aquatic consulting',
+    icon: '🐋'
+  },
+  {
+    id: 'medical-devices',
+    name: 'Medical Device Manufacturing',
+    description: 'Healthcare equipment production',
+    icon: '🏥'
+  },
+  {
+    id: 'meteorology',
+    name: 'Meteorology Services',
+    description: 'Weather forecasting and climate analysis',
+    icon: '🌤️'
+  },
+  {
+    id: 'midwifery',
+    name: 'Midwifery Services',
+    description: 'Birth assistance and prenatal care',
+    icon: '👶'
+  },
+  {
+    id: 'mobile-app-development',
+    name: 'Mobile App Development',
+    description: 'Smartphone and tablet application development',
+    icon: '📱'
+  },
+  {
+    id: 'model-making',
+    name: 'Model Making & Miniatures',
+    description: 'Scale models and miniature crafting',
+    icon: '🏠'
+  },
+  {
+    id: 'mystery-shopping',
+    name: 'Mystery Shopping Services',
+    description: 'Retail evaluation and customer experience testing',
+    icon: '🕵️'
+  },
+  {
+    id: 'nanotechnology',
+    name: 'Nanotechnology Services',
+    description: 'Microscale technology and materials',
+    icon: '⚛️'
   },
   {
     id: 'other',
