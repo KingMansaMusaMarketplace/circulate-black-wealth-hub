@@ -1,3 +1,4 @@
+
 export interface BusinessCategory {
   id: string;
   name: string;
@@ -1747,6 +1748,697 @@ export const businessCategories: BusinessCategory[] = [
       'Innovation Services',
       'Emerging Industries'
     ]
+  },
+  // NEW CATEGORIES START HERE
+  {
+    id: 'attorneys-general',
+    name: 'Attorneys & General Law',
+    description: 'General practice attorneys and legal consultation',
+    icon: '⚖️'
+  },
+  {
+    id: 'personal-injury-lawyers',
+    name: 'Personal Injury Lawyers',
+    description: 'Attorneys specializing in personal injury cases',
+    icon: '🩹'
+  },
+  {
+    id: 'criminal-defense-attorneys',
+    name: 'Criminal Defense Attorneys',
+    description: 'Legal defense for criminal cases',
+    icon: '🛡️'
+  },
+  {
+    id: 'family-lawyers',
+    name: 'Family Lawyers',
+    description: 'Divorce, custody, and family law attorneys',
+    icon: '👨‍👩‍👧‍👦'
+  },
+  {
+    id: 'business-attorneys',
+    name: 'Business Attorneys',
+    description: 'Corporate and business law specialists',
+    icon: '🏢'
+  },
+  {
+    id: 'estate-planning-lawyers',
+    name: 'Estate Planning Lawyers',
+    description: 'Wills, trusts, and estate planning attorneys',
+    icon: '📜'
+  },
+  {
+    id: 'immigration-attorneys',
+    name: 'Immigration Attorneys',
+    description: 'Immigration and citizenship legal services',
+    icon: '🌍'
+  },
+  {
+    id: 'tax-attorneys',
+    name: 'Tax Attorneys',
+    description: 'Tax law and IRS representation',
+    icon: '📊'
+  },
+  {
+    id: 'employment-lawyers',
+    name: 'Employment Lawyers',
+    description: 'Workplace rights and employment law',
+    icon: '💼'
+  },
+  {
+    id: 'real-estate-attorneys',
+    name: 'Real Estate Attorneys',
+    description: 'Property law and real estate transactions',
+    icon: '🏠'
+  },
+  {
+    id: 'bankruptcy-lawyers',
+    name: 'Bankruptcy Lawyers',
+    description: 'Debt relief and bankruptcy proceedings',
+    icon: '💸'
+  },
+  {
+    id: 'intellectual-property-lawyers',
+    name: 'Intellectual Property Lawyers',
+    description: 'Patents, trademarks, and IP protection',
+    icon: '💡'
+  },
+  {
+    id: 'general-dentistry',
+    name: 'General Dentistry',
+    description: 'Comprehensive dental care and checkups',
+    icon: '🦷'
+  },
+  {
+    id: 'pediatric-dentistry',
+    name: 'Pediatric Dentistry',
+    description: 'Dental care for children and teens',
+    icon: '👶'
+  },
+  {
+    id: 'orthodontics',
+    name: 'Orthodontics',
+    description: 'Braces, aligners, and teeth straightening',
+    icon: '😁'
+  },
+  {
+    id: 'oral-surgery',
+    name: 'Oral Surgery',
+    description: 'Dental surgery and oral procedures',
+    icon: '🔬'
+  },
+  {
+    id: 'periodontics',
+    name: 'Periodontics',
+    description: 'Gum disease treatment and prevention',
+    icon: '🦷'
+  },
+  {
+    id: 'endodontics',
+    name: 'Endodontics',
+    description: 'Root canal therapy and tooth preservation',
+    icon: '🩺'
+  },
+  {
+    id: 'prosthodontics',
+    name: 'Prosthodontics',
+    description: 'Dental prosthetics and tooth replacement',
+    icon: '🦷'
+  },
+  {
+    id: 'cosmetic-dentistry',
+    name: 'Cosmetic Dentistry',
+    description: 'Teeth whitening and aesthetic dental work',
+    icon: '✨'
+  },
+  {
+    id: 'dental-implants',
+    name: 'Dental Implants',
+    description: 'Tooth implant surgery and restoration',
+    icon: '🔧'
+  },
+  {
+    id: 'emergency-dentistry',
+    name: 'Emergency Dentistry',
+    description: '24/7 dental emergency services',
+    icon: '🚨'
+  },
+  {
+    id: 'dentures-partials',
+    name: 'Dentures & Partials',
+    description: 'Full and partial denture services',
+    icon: '🦷'
+  },
+  {
+    id: 'sleep-dentistry',
+    name: 'Sleep Dentistry',
+    description: 'Sleep apnea and snoring treatment',
+    icon: '😴'
+  },
+  {
+    id: 'mobile-dentistry',
+    name: 'Mobile Dentistry',
+    description: 'In-home and mobile dental services',
+    icon: '🚐'
+  },
+  {
+    id: 'dental-hygienists',
+    name: 'Dental Hygienists',
+    description: 'Professional teeth cleaning services',
+    icon: '🧽'
+  },
+  {
+    id: 'podiatry',
+    name: 'Podiatry',
+    description: 'Foot and ankle medical care',
+    icon: '🦶'
+  },
+  {
+    id: 'dermatology',
+    name: 'Dermatology',
+    description: 'Skin care and dermatological treatment',
+    icon: '🧴'
+  },
+  {
+    id: 'cardiology',
+    name: 'Cardiology',
+    description: 'Heart and cardiovascular specialists',
+    icon: '❤️'
+  },
+  {
+    id: 'neurology',
+    name: 'Neurology',
+    description: 'Brain and nervous system specialists',
+    icon: '🧠'
+  },
+  {
+    id: 'orthopedics',
+    name: 'Orthopedics',
+    description: 'Bone, joint, and muscle specialists',
+    icon: '🦴'
+  },
+  {
+    id: 'gastroenterology',
+    name: 'Gastroenterology',
+    description: 'Digestive system specialists',
+    icon: '🫄'
+  },
+  {
+    id: 'oncology',
+    name: 'Oncology',
+    description: 'Cancer treatment and care',
+    icon: '🎗️'
+  },
+  {
+    id: 'psychiatry',
+    name: 'Psychiatry',
+    description: 'Mental health and psychiatric care',
+    icon: '🧠'
+  },
+  {
+    id: 'psychology',
+    name: 'Psychology',
+    description: 'Psychological counseling and therapy',
+    icon: '💭'
+  },
+  {
+    id: 'physical-therapy',
+    name: 'Physical Therapy',
+    description: 'Rehabilitation and physical treatment',
+    icon: '🏃'
+  },
+  {
+    id: 'occupational-therapy',
+    name: 'Occupational Therapy',
+    description: 'Daily living skills rehabilitation',
+    icon: '🖐️'
+  },
+  {
+    id: 'speech-therapy',
+    name: 'Speech Therapy',
+    description: 'Communication and speech improvement',
+    icon: '🗣️'
+  },
+  {
+    id: 'respiratory-therapy',
+    name: 'Respiratory Therapy',
+    description: 'Breathing and lung health treatment',
+    icon: '🫁'
+  },
+  {
+    id: 'radiology',
+    name: 'Radiology',
+    description: 'Medical imaging and diagnostic services',
+    icon: '📷'
+  },
+  {
+    id: 'laboratory-services',
+    name: 'Laboratory Services',
+    description: 'Medical testing and lab work',
+    icon: '🔬'
+  },
+  {
+    id: 'urgent-care',
+    name: 'Urgent Care',
+    description: 'Walk-in medical care and treatment',
+    icon: '🏥'
+  },
+  {
+    id: 'home-healthcare',
+    name: 'Home Healthcare',
+    description: 'In-home medical and nursing care',
+    icon: '🏠'
+  },
+  {
+    id: 'hospice-care',
+    name: 'Hospice Care',
+    description: 'End-of-life care and comfort services',
+    icon: '🕊️'
+  },
+  {
+    id: 'medical-equipment',
+    name: 'Medical Equipment',
+    description: 'Medical device sales and rental',
+    icon: '🩺'
+  },
+  {
+    id: 'hearing-aids',
+    name: 'Hearing Aids',
+    description: 'Hearing testing and hearing aid services',
+    icon: '👂'
+  },
+  {
+    id: 'vision-therapy',
+    name: 'Vision Therapy',
+    description: 'Eye exercises and vision improvement',
+    icon: '👁️'
+  },
+  {
+    id: 'contact-lenses',
+    name: 'Contact Lenses',
+    description: 'Contact lens fitting and supplies',
+    icon: '👁️'
+  },
+  {
+    id: 'mobile-apps',
+    name: 'Mobile App Development',
+    description: 'iOS and Android app development',
+    icon: '📱'
+  },
+  {
+    id: 'web-development',
+    name: 'Web Development',
+    description: 'Website design and development',
+    icon: '💻'
+  },
+  {
+    id: 'seo-services',
+    name: 'SEO Services',
+    description: 'Search engine optimization',
+    icon: '🔍'
+  },
+  {
+    id: 'social-media-marketing',
+    name: 'Social Media Marketing',
+    description: 'Social media management and advertising',
+    icon: '📱'
+  },
+  {
+    id: 'graphic-design',
+    name: 'Graphic Design',
+    description: 'Logo design and visual branding',
+    icon: '🎨'
+  },
+  {
+    id: 'copywriting',
+    name: 'Copywriting',
+    description: 'Content writing and marketing copy',
+    icon: '✍️'
+  },
+  {
+    id: 'translation-services',
+    name: 'Translation Services',
+    description: 'Document and language translation',
+    icon: '🌐'
+  },
+  {
+    id: 'interpreting',
+    name: 'Interpreting Services',
+    description: 'Live interpretation and sign language',
+    icon: '🤟'
+  },
+  {
+    id: 'tutoring-services',
+    name: 'Tutoring Services',
+    description: 'Academic tutoring and test prep',
+    icon: '📚'
+  },
+  {
+    id: 'music-lessons',
+    name: 'Music Lessons',
+    description: 'Private music instruction',
+    icon: '🎵'
+  },
+  {
+    id: 'driving-schools',
+    name: 'Driving Schools',
+    description: 'Driver education and training',
+    icon: '🚗'
+  },
+  {
+    id: 'language-schools',
+    name: 'Language Schools',
+    description: 'Foreign language instruction',
+    icon: '🗣️'
+  },
+  {
+    id: 'cooking-classes',
+    name: 'Cooking Classes',
+    description: 'Culinary instruction and food classes',
+    icon: '👨‍🍳'
+  },
+  {
+    id: 'art-classes',
+    name: 'Art Classes',
+    description: 'Drawing, painting, and art instruction',
+    icon: '🎨'
+  },
+  {
+    id: 'martial-arts',
+    name: 'Martial Arts Schools',
+    description: 'Karate, judo, and self-defense training',
+    icon: '🥋'
+  },
+  {
+    id: 'swim-lessons',
+    name: 'Swimming Lessons',
+    description: 'Swimming instruction and water safety',
+    icon: '🏊'
+  },
+  {
+    id: 'tennis-lessons',
+    name: 'Tennis Lessons',
+    description: 'Tennis coaching and instruction',
+    icon: '🎾'
+  },
+  {
+    id: 'golf-lessons',
+    name: 'Golf Lessons',
+    description: 'Golf instruction and coaching',
+    icon: '⛳'
+  },
+  {
+    id: 'personal-trainers',
+    name: 'Personal Trainers',
+    description: 'Individual fitness coaching',
+    icon: '💪'
+  },
+  {
+    id: 'life-coaches',
+    name: 'Life Coaches',
+    description: 'Personal development and life coaching',
+    icon: '🌟'
+  },
+  {
+    id: 'career-counseling',
+    name: 'Career Counseling',
+    description: 'Career guidance and job placement',
+    icon: '💼'
+  },
+  {
+    id: 'marriage-counseling',
+    name: 'Marriage Counseling',
+    description: 'Couples therapy and relationship counseling',
+    icon: '💑'
+  },
+  {
+    id: 'family-counseling',
+    name: 'Family Counseling',
+    description: 'Family therapy and conflict resolution',
+    icon: '👪'
+  },
+  {
+    id: 'addiction-treatment',
+    name: 'Addiction Treatment',
+    description: 'Substance abuse treatment and recovery',
+    icon: '🆘'
+  },
+  {
+    id: 'grief-counseling',
+    name: 'Grief Counseling',
+    description: 'Bereavement support and grief therapy',
+    icon: '💐'
+  },
+  {
+    id: 'child-psychology',
+    name: 'Child Psychology',
+    description: 'Pediatric mental health services',
+    icon: '🧸'
+  },
+  {
+    id: 'teen-counseling',
+    name: 'Teen Counseling',
+    description: 'Adolescent therapy and support',
+    icon: '👦'
+  },
+  {
+    id: 'group-therapy',
+    name: 'Group Therapy',
+    description: 'Support groups and group counseling',
+    icon: '👥'
+  },
+  {
+    id: 'substance-abuse-counseling',
+    name: 'Substance Abuse Counseling',
+    description: 'Drug and alcohol counseling services',
+    icon: '🚫'
+  },
+  {
+    id: 'eating-disorder-treatment',
+    name: 'Eating Disorder Treatment',
+    description: 'Specialized eating disorder therapy',
+    icon: '🍎'
+  },
+  {
+    id: 'trauma-therapy',
+    name: 'Trauma Therapy',
+    description: 'PTSD and trauma recovery services',
+    icon: '🛡️'
+  },
+  {
+    id: 'adhd-treatment',
+    name: 'ADHD Treatment',
+    description: 'Attention deficit disorder therapy',
+    icon: '🧩'
+  },
+  {
+    id: 'autism-services',
+    name: 'Autism Services',
+    description: 'Autism spectrum disorder support',
+    icon: '🌈'
+  },
+  {
+    id: 'learning-disabilities',
+    name: 'Learning Disabilities',
+    description: 'Special education and learning support',
+    icon: '📖'
+  },
+  {
+    id: 'behavioral-therapy',
+    name: 'Behavioral Therapy',
+    description: 'Behavior modification and therapy',
+    icon: '🔄'
+  },
+  {
+    id: 'cognitive-therapy',
+    name: 'Cognitive Therapy',
+    description: 'Cognitive behavioral therapy services',
+    icon: '🧠'
+  },
+  {
+    id: 'anger-management',
+    name: 'Anger Management',
+    description: 'Anger control and stress management',
+    icon: '😤'
+  },
+  {
+    id: 'stress-management',
+    name: 'Stress Management',
+    description: 'Stress reduction and coping strategies',
+    icon: '😌'
+  },
+  {
+    id: 'mindfulness-coaching',
+    name: 'Mindfulness Coaching',
+    description: 'Meditation and mindfulness training',
+    icon: '🧘'
+  },
+  {
+    id: 'wellness-coaching',
+    name: 'Wellness Coaching',
+    description: 'Holistic health and wellness guidance',
+    icon: '🌿'
+  },
+  {
+    id: 'nutrition-counseling',
+    name: 'Nutrition Counseling',
+    description: 'Dietary planning and nutrition advice',
+    icon: '🥗'
+  },
+  {
+    id: 'weight-loss-coaching',
+    name: 'Weight Loss Coaching',
+    description: 'Weight management and fitness coaching',
+    icon: '⚖️'
+  },
+  {
+    id: 'diabetes-education',
+    name: 'Diabetes Education',
+    description: 'Diabetes management and education',
+    icon: '🩸'
+  },
+  {
+    id: 'smoking-cessation',
+    name: 'Smoking Cessation',
+    description: 'Quit smoking programs and support',
+    icon: '🚭'
+  },
+  {
+    id: 'sleep-disorders',
+    name: 'Sleep Disorders',
+    description: 'Sleep study and treatment services',
+    icon: '😴'
+  },
+  {
+    id: 'pain-management',
+    name: 'Pain Management',
+    description: 'Chronic pain treatment and therapy',
+    icon: '🩹'
+  },
+  {
+    id: 'allergy-testing',
+    name: 'Allergy Testing',
+    description: 'Allergy diagnosis and treatment',
+    icon: '🤧'
+  },
+  {
+    id: 'immunology',
+    name: 'Immunology',
+    description: 'Immune system disorders and treatment',
+    icon: '🛡️'
+  },
+  {
+    id: 'rheumatology',
+    name: 'Rheumatology',
+    description: 'Arthritis and joint disease treatment',
+    icon: '🦴'
+  },
+  {
+    id: 'pulmonology',
+    name: 'Pulmonology',
+    description: 'Lung and respiratory specialists',
+    icon: '🫁'
+  },
+  {
+    id: 'nephrology',
+    name: 'Nephrology',
+    description: 'Kidney disease and treatment',
+    icon: '🩺'
+  },
+  {
+    id: 'urology',
+    name: 'Urology',
+    description: 'Urinary system and male health',
+    icon: '🩺'
+  },
+  {
+    id: 'gynecology',
+    name: 'Gynecology',
+    description: 'Women\'s reproductive health',
+    icon: '👩‍⚕️'
+  },
+  {
+    id: 'obstetrics',
+    name: 'Obstetrics',
+    description: 'Pregnancy and childbirth care',
+    icon: '🤱'
+  },
+  {
+    id: 'fertility-services',
+    name: 'Fertility Services',
+    description: 'Reproductive health and fertility treatment',
+    icon: '👶'
+  },
+  {
+    id: 'mens-health',
+    name: 'Men\'s Health',
+    description: 'Specialized healthcare for men',
+    icon: '👨‍⚕️'
+  },
+  {
+    id: 'womens-health',
+    name: 'Women\'s Health',
+    description: 'Specialized healthcare for women',
+    icon: '👩‍⚕️'
+  },
+  {
+    id: 'pediatrics',
+    name: 'Pediatrics',
+    description: 'Children\'s healthcare and medicine',
+    icon: '👶'
+  },
+  {
+    id: 'geriatrics',
+    name: 'Geriatrics',
+    description: 'Healthcare for elderly patients',
+    icon: '👴'
+  },
+  {
+    id: 'family-medicine',
+    name: 'Family Medicine',
+    description: 'Comprehensive family healthcare',
+    icon: '👨‍👩‍👧‍👦'
+  },
+  {
+    id: 'internal-medicine',
+    name: 'Internal Medicine',
+    description: 'Adult internal medicine specialists',
+    icon: '🩺'
+  },
+  {
+    id: 'emergency-medicine',
+    name: 'Emergency Medicine',
+    description: 'Emergency room and trauma care',
+    icon: '🚑'
+  },
+  {
+    id: 'sports-medicine',
+    name: 'Sports Medicine',
+    description: 'Athletic injury treatment and prevention',
+    icon: '🏃‍♂️'
+  },
+  {
+    id: 'occupational-medicine',
+    name: 'Occupational Medicine',
+    description: 'Workplace health and safety',
+    icon: '👷'
+  },
+  {
+    id: 'travel-medicine',
+    name: 'Travel Medicine',
+    description: 'Travel health and vaccination services',
+    icon: '✈️'
+  },
+  {
+    id: 'preventive-medicine',
+    name: 'Preventive Medicine',
+    description: 'Disease prevention and health screening',
+    icon: '🛡️'
+  },
+  {
+    id: 'telemedicine',
+    name: 'Telemedicine',
+    description: 'Remote healthcare and virtual consultations',
+    icon: '💻'
   }
 ];
 
