@@ -1,11 +1,10 @@
 
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, Crown, GraduationCap, Building2 } from 'lucide-react';
+import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -72,13 +71,42 @@ const Hero = () => {
           </div>
 
           <div className="flex justify-center lg:justify-end">
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-lg w-full">
-              <img 
-                src="/lovable-uploads/487f9aac-a3ad-4b28-8d90-3fd25a3a689b.png" 
-                alt="Professional business women working together"
-                className="w-full h-auto object-cover"
-              />
-            </div>
+            <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl max-w-lg w-full">
+              <CardContent className="p-8">
+                <div className="text-center text-white space-y-6">
+                  <div className="flex items-center justify-center mb-6">
+                    <Users className="h-12 w-12 text-mansagold mr-4" />
+                    <div className="text-left">
+                      <h3 className="text-2xl font-bold">Professional Women</h3>
+                      <p className="text-white/80">Building Community Wealth</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <TrendingUp className="h-6 w-6 text-green-400 mr-3" />
+                      <span className="text-lg">5% - 30% Discounts</span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <Shield className="h-6 w-6 text-blue-400 mr-3" />
+                      <span className="text-lg">Trusted Network</span>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <Crown className="h-6 w-6 text-mansagold mr-3" />
+                      <span className="text-lg">Premium for $4.99/month</span>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-mansagold/20 rounded-lg p-4 mt-6">
+                    <p className="text-sm text-mansagold font-semibold">
+                      Join thousands supporting Black-owned businesses and earning rewards!
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
 
@@ -152,4 +180,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
