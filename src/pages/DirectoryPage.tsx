@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
@@ -10,8 +9,8 @@ import { useDirectorySearch } from '@/hooks/use-directory-search';
 
 // Import the directory components
 import DirectoryHeader from '@/components/directory/DirectoryHeader';
-import DirectoryLoadingState from '@/components/directory/DirectoryLoadingState';
-import DirectoryErrorState from '@/components/directory/DirectoryErrorState';
+import DirectoryLoadingState from '@/components/directory/DirectoryErrorState';
+import DirectoryErrorState from '@/components/directory/DirectoryLoadingState';
 import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
 import ScrollToTopButton from '@/components/directory/ScrollToTopButton';

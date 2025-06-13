@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { businessCategories } from '@/data/businessCategories';
+import { businessCategories } from '@/data/categories';
 import { useBusinessDirectory } from '@/hooks/use-business-directory';
 
 interface CategoryExplorationProps {

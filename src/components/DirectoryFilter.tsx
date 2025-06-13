@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Select, 
@@ -18,7 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { BusinessFilters } from '@/lib/api/directory/types';
-import { businessCategories } from '@/data/businessCategories';
+import { businessCategories } from '@/data/categories';
 
 // Export the interface for use in other components
 export interface DirectoryFilterProps {
