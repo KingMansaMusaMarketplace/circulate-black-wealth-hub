@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface SubscriptionStepProps {
@@ -19,14 +18,6 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
           <div className="bg-mansagold text-white px-2 py-1 rounded text-xs font-medium">
             Best Value
           </div>
-        </div>
-        
-        {/* Coming Soon Payment Message */}
-        <div className="mb-4 bg-mansablue/10 rounded-md p-3 border border-mansablue/30 flex items-center">
-          <Clock size={18} className="text-mansablue mr-2 flex-shrink-0" />
-          <p className="text-sm text-mansablue-dark">
-            <span className="font-medium">Payment Processing Coming Soon!</span> We're setting up our payment system. Register now to get notified when it's ready.
-          </p>
         </div>
         
         <div className="space-y-4">
