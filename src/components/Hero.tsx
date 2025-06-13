@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -21,7 +22,7 @@ const Hero = () => {
           <Link to="/subscription">
             <Badge className="bg-mansagold hover:bg-mansagold-dark text-mansablue px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
               <Crown className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              Premium - $4.99 to sign up
+              Premium - $4.99/month
             </Badge>
           </Link>
           <Link to="/signup/customer">
@@ -101,7 +102,7 @@ const Hero = () => {
                 <div className="text-center">
                   <Badge className="bg-mansagold text-mansablue mb-3 md:mb-4">
                     <Crown className="mr-1 h-3 w-3" />
-                    $4.99
+                    $4.99/month
                   </Badge>
                   <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">PREMIUM</h3>
                   <p className="text-white/90 text-xs md:text-sm">
