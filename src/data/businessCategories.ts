@@ -204,6 +204,294 @@ export const businessCategories: BusinessCategory[] = [
       'Insurance',
       'Bookkeeping'
     ]
+  },
+  {
+    id: 'grocery',
+    name: 'Grocery & Markets',
+    description: 'Supermarkets, specialty foods, and farmers markets',
+    icon: '🛒',
+    subcategories: [
+      'Supermarkets',
+      'Organic Foods',
+      'Specialty Grocers',
+      'Farmers Markets',
+      'Butcher Shops',
+      'Seafood Markets',
+      'International Foods',
+      'Health Foods'
+    ]
+  },
+  {
+    id: 'fitness',
+    name: 'Fitness & Recreation',
+    description: 'Gyms, sports facilities, and recreational activities',
+    icon: '💪',
+    subcategories: [
+      'Gyms & Fitness Centers',
+      'Yoga Studios',
+      'Martial Arts',
+      'Personal Training',
+      'Sports Facilities',
+      'Recreation Centers',
+      'Swimming Pools',
+      'Outdoor Activities'
+    ]
+  },
+  {
+    id: 'travel',
+    name: 'Travel & Hospitality',
+    description: 'Hotels, travel agencies, and tourism services',
+    icon: '✈️',
+    subcategories: [
+      'Hotels & Lodging',
+      'Travel Agencies',
+      'Tour Operators',
+      'Vacation Rentals',
+      'Transportation',
+      'Travel Planning',
+      'Event Venues',
+      'Wedding Venues'
+    ]
+  },
+  {
+    id: 'pet',
+    name: 'Pet Services',
+    description: 'Veterinary care, grooming, and pet supplies',
+    icon: '🐕',
+    subcategories: [
+      'Veterinary Services',
+      'Pet Grooming',
+      'Pet Supplies',
+      'Pet Training',
+      'Pet Boarding',
+      'Pet Photography',
+      'Pet Walking',
+      'Animal Rescue'
+    ]
+  },
+  {
+    id: 'legal',
+    name: 'Legal Services',
+    description: 'Law firms, attorneys, and legal consultation',
+    icon: '⚖️',
+    subcategories: [
+      'Personal Injury',
+      'Family Law',
+      'Criminal Defense',
+      'Business Law',
+      'Real Estate Law',
+      'Immigration Law',
+      'Estate Planning',
+      'Employment Law'
+    ]
+  },
+  {
+    id: 'media',
+    name: 'Media & Communications',
+    description: 'Broadcasting, publishing, and media production',
+    icon: '📺',
+    subcategories: [
+      'Radio Stations',
+      'TV Production',
+      'Publishing',
+      'Podcasting',
+      'Social Media',
+      'Public Relations',
+      'Advertising',
+      'Content Creation'
+    ]
+  },
+  {
+    id: 'agriculture',
+    name: 'Agriculture & Farming',
+    description: 'Farms, agricultural services, and rural businesses',
+    icon: '🌾',
+    subcategories: [
+      'Crop Farming',
+      'Livestock',
+      'Organic Farming',
+      'Agricultural Equipment',
+      'Farm Supplies',
+      'Agricultural Consulting',
+      'Beekeeping',
+      'Aquaculture'
+    ]
+  },
+  {
+    id: 'manufacturing',
+    name: 'Manufacturing & Industrial',
+    description: 'Manufacturing, warehousing, and industrial services',
+    icon: '🏭',
+    subcategories: [
+      'Food Processing',
+      'Textile Manufacturing',
+      'Metal Fabrication',
+      'Packaging',
+      'Industrial Equipment',
+      'Warehousing',
+      'Quality Control',
+      'Supply Chain'
+    ]
+  },
+  {
+    id: 'transportation',
+    name: 'Transportation & Logistics',
+    description: 'Shipping, delivery, and transportation services',
+    icon: '🚛',
+    subcategories: [
+      'Trucking',
+      'Delivery Services',
+      'Logistics',
+      'Moving Companies',
+      'Courier Services',
+      'Freight',
+      'Taxi & Rideshare',
+      'Public Transit'
+    ]
+  },
+  {
+    id: 'energy',
+    name: 'Energy & Environment',
+    description: 'Renewable energy, environmental services, and utilities',
+    icon: '🔋',
+    subcategories: [
+      'Solar Energy',
+      'Wind Energy',
+      'Environmental Consulting',
+      'Waste Management',
+      'Recycling',
+      'Energy Efficiency',
+      'Utilities',
+      'Green Technology'
+    ]
+  },
+  {
+    id: 'childcare',
+    name: 'Childcare & Family',
+    description: 'Daycare, family services, and child-focused businesses',
+    icon: '👶',
+    subcategories: [
+      'Daycare Centers',
+      'Preschools',
+      'After School Programs',
+      'Summer Camps',
+      'Babysitting',
+      'Family Counseling',
+      'Children\'s Activities',
+      'Parenting Classes'
+    ]
+  },
+  {
+    id: 'senior',
+    name: 'Senior Services',
+    description: 'Elder care, senior living, and age-focused services',
+    icon: '👴',
+    subcategories: [
+      'Senior Living',
+      'Home Healthcare',
+      'Adult Day Care',
+      'Senior Activities',
+      'Elder Law',
+      'Medicare Services',
+      'Assisted Living',
+      'Senior Transportation'
+    ]
+  },
+  {
+    id: 'security',
+    name: 'Security Services',
+    description: 'Security systems, protection, and safety services',
+    icon: '🛡️',
+    subcategories: [
+      'Security Systems',
+      'Private Security',
+      'Cybersecurity',
+      'Surveillance',
+      'Alarm Systems',
+      'Background Checks',
+      'Safety Consulting',
+      'Emergency Services'
+    ]
+  },
+  {
+    id: 'craft',
+    name: 'Arts & Crafts',
+    description: 'Handmade goods, artisan services, and creative workshops',
+    icon: '🎨',
+    subcategories: [
+      'Handmade Jewelry',
+      'Pottery',
+      'Woodworking',
+      'Textiles',
+      'Custom Art',
+      'Craft Supplies',
+      'Art Classes',
+      'Custom Design'
+    ]
+  },
+  {
+    id: 'spiritual',
+    name: 'Spiritual & Religious',
+    description: 'Churches, spiritual services, and religious organizations',
+    icon: '⛪',
+    subcategories: [
+      'Churches',
+      'Spiritual Coaching',
+      'Religious Education',
+      'Wedding Ceremonies',
+      'Funeral Services',
+      'Religious Supplies',
+      'Meditation Centers',
+      'Faith-Based Counseling'
+    ]
+  },
+  {
+    id: 'events',
+    name: 'Event Planning & Services',
+    description: 'Event coordination, party supplies, and celebration services',
+    icon: '🎉',
+    subcategories: [
+      'Wedding Planning',
+      'Party Planning',
+      'Corporate Events',
+      'Catering Services',
+      'Event Venues',
+      'DJ Services',
+      'Photography',
+      'Decoration Services'
+    ]
+  },
+  {
+    id: 'sports',
+    name: 'Sports & Athletics',
+    description: 'Sports teams, coaching, and athletic services',
+    icon: '⚽',
+    subcategories: [
+      'Sports Coaching',
+      'Athletic Training',
+      'Sports Equipment',
+      'Sports Medicine',
+      'Youth Sports',
+      'Professional Teams',
+      'Sports Facilities',
+      'Sports Photography'
+    ]
+  },
+  {
+    id: 'other',
+    name: 'Other Services',
+    description: 'Miscellaneous and specialized services',
+    icon: '🔧',
+    subcategories: [
+      'Specialty Services',
+      'Consulting',
+      'Custom Solutions',
+      'Unique Offerings',
+      'Specialized Equipment',
+      'Niche Markets',
+      'Innovation Services',
+      'Emerging Industries'
+    ]
   }
 ];
 
