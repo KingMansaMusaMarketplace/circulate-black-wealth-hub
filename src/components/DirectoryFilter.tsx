@@ -18,6 +18,7 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { BusinessFilters } from '@/lib/api/directory/types';
+import { businessCategories } from '@/data/businessCategories';
 
 // Export the interface for use in other components
 export interface DirectoryFilterProps {
@@ -31,6 +32,9 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
   filterOptions, 
   onFilterChange 
 }) => {
+  // Use the comprehensive business categories instead of the passed categories
+  const allCategories = businessCategories.map(cat => cat.name).sort();
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4 space-y-6">
       <div className="grid grid-cols-1 gap-6">
@@ -48,7 +52,7 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
             </SelectTrigger>
             <SelectContent className="max-h-80">
               <SelectItem value="all">All Categories</SelectItem>
-              {categories.map((cat) => (
+              {allCategories.map((cat) => (
                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
               ))}
             </SelectContent>
