@@ -19,7 +19,7 @@ const Hero = () => {
           </Badge>
           <Badge className="bg-mansagold hover:bg-mansagold-dark text-mansablue px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full">
             <Crown className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-            Premium $10/month
+            Premium $4.99/month
           </Badge>
           <Badge className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full">
             <GraduationCap className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
@@ -27,9 +27,7 @@ const Hero = () => {
           </Badge>
         </div>
 
-        {/* Main Content - Mobile Responsive Layout */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-20">
-          {/* Left Column - Text Content */}
           <div className="text-white">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6 md:mb-8">
               Save Money &{' '}
@@ -39,7 +37,7 @@ const Hero = () => {
             </h1>
             
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 leading-relaxed mb-6 md:mb-8">
-              Start FREE - Get 10% - 20% discounts while building community wealth!
+              Start FREE - Get 5% - 30% discounts while building community wealth!
             </p>
             
             <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed mb-8 md:mb-12">
@@ -66,7 +64,6 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right Column - Business Image */}
           <div className="flex justify-center lg:justify-end">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl max-w-lg w-full">
               <img 
@@ -78,9 +75,7 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Subscription Plans - Mobile Responsive Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto">
-          {/* Free Membership */}
           <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all">
             <CardContent className="p-4 md:p-6">
               <div className="text-center">
@@ -93,23 +88,21 @@ const Hero = () => {
             </CardContent>
           </Card>
 
-          {/* Premium Membership */}
           <Card className="bg-mansagold/20 backdrop-blur-lg border border-mansagold/30 hover:bg-mansagold/25 transition-all">
             <CardContent className="p-4 md:p-6">
               <div className="text-center">
                 <Badge className="bg-mansagold text-mansablue mb-3 md:mb-4">
                   <Crown className="mr-1 h-3 w-3" />
-                  $10
+                  $4.99
                 </Badge>
                 <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">PREMIUM</h3>
                 <p className="text-white/90 text-xs md:text-sm">
-                  Get 10% - 20% discounts, earn points, redeem rewards, exclusive deals
+                  Get 5% - 30% discounts, earn points, redeem rewards, exclusive deals
                 </p>
               </div>
             </CardContent>
           </Card>
 
-          {/* HBCU Students & Staff */}
           <Card className="bg-blue-500/20 backdrop-blur-lg border border-blue-400/30 hover:bg-blue-500/25 transition-all">
             <CardContent className="p-4 md:p-6">
               <div className="text-center">
@@ -124,7 +117,6 @@ const Hero = () => {
             </CardContent>
           </Card>
 
-          {/* Business Owners */}
           <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all">
             <CardContent className="p-4 md:p-6">
               <div className="text-center">

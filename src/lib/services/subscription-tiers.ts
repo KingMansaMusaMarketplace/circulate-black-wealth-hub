@@ -49,7 +49,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   premium: {
     displayName: 'Premium Member',
     description: 'Enhanced features and exclusive access',
-    price: 10,
+    price: 4.99,
     interval: 'month',
     popular: true,
     features: {
