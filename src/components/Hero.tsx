@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -19,7 +18,7 @@ const Hero = () => {
           </Badge>
           <Badge className="bg-mansagold hover:bg-mansagold-dark text-mansablue px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full">
             <Crown className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-            Premium $4.99/month
+            Premium - Get 5% - 30% discounts
           </Badge>
           <Badge className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full">
             <GraduationCap className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
