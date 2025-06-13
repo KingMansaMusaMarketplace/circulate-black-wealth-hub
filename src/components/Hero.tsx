@@ -12,18 +12,24 @@ const Hero = () => {
       <div className="relative container mx-auto px-4 py-16">
         {/* Subscription Badges - Mobile Responsive */}
         <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
-          <Badge className="bg-green-500 hover:bg-green-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full">
-            <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-            Start FREE
-          </Badge>
-          <Badge className="bg-mansagold hover:bg-mansagold-dark text-mansablue px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full">
-            <Crown className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-            Premium - $4.99 to sign up
-          </Badge>
-          <Badge className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full">
-            <GraduationCap className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-            FREE Premium for HBCU
-          </Badge>
+          <Link to="/signup">
+            <Badge className="bg-green-500 hover:bg-green-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
+              <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
+              Start FREE
+            </Badge>
+          </Link>
+          <Link to="/subscription">
+            <Badge className="bg-mansagold hover:bg-mansagold-dark text-mansablue px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
+              <Crown className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
+              Premium - $4.99 to sign up
+            </Badge>
+          </Link>
+          <Link to="/signup/customer">
+            <Badge className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
+              <GraduationCap className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
+              FREE Premium for HBCU
+            </Badge>
+          </Link>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-20">
@@ -75,60 +81,68 @@ const Hero = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto">
-          <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all">
-            <CardContent className="p-4 md:p-6">
-              <div className="text-center">
-                <Badge variant="secondary" className="bg-green-500/20 text-green-100 mb-3 md:mb-4">
-                  FREE
-                </Badge>
-                <h3 className="text-green-100 font-semibold text-base md:text-lg mb-2 md:mb-3">FREE MEMBERSHIP</h3>
-                <p className="text-white/90 text-xs md:text-sm">Browse directory, discover businesses, view profiles</p>
-              </div>
-            </CardContent>
-          </Card>
+          <Link to="/signup">
+            <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all cursor-pointer">
+              <CardContent className="p-4 md:p-6">
+                <div className="text-center">
+                  <Badge variant="secondary" className="bg-green-500/20 text-green-100 mb-3 md:mb-4">
+                    FREE
+                  </Badge>
+                  <h3 className="text-green-100 font-semibold text-base md:text-lg mb-2 md:mb-3">FREE MEMBERSHIP</h3>
+                  <p className="text-white/90 text-xs md:text-sm">Browse directory, discover businesses, view profiles</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card className="bg-mansagold/20 backdrop-blur-lg border border-mansagold/30 hover:bg-mansagold/25 transition-all">
-            <CardContent className="p-4 md:p-6">
-              <div className="text-center">
-                <Badge className="bg-mansagold text-mansablue mb-3 md:mb-4">
-                  <Crown className="mr-1 h-3 w-3" />
-                  $4.99
-                </Badge>
-                <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">PREMIUM</h3>
-                <p className="text-white/90 text-xs md:text-sm">
-                  Get 5% - 30% discounts, earn points, redeem rewards, exclusive deals
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          <Link to="/subscription">
+            <Card className="bg-mansagold/20 backdrop-blur-lg border border-mansagold/30 hover:bg-mansagold/25 transition-all cursor-pointer">
+              <CardContent className="p-4 md:p-6">
+                <div className="text-center">
+                  <Badge className="bg-mansagold text-mansablue mb-3 md:mb-4">
+                    <Crown className="mr-1 h-3 w-3" />
+                    $4.99
+                  </Badge>
+                  <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">PREMIUM</h3>
+                  <p className="text-white/90 text-xs md:text-sm">
+                    Get 5% - 30% discounts, earn points, redeem rewards, exclusive deals
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card className="bg-blue-500/20 backdrop-blur-lg border border-blue-400/30 hover:bg-blue-500/25 transition-all">
-            <CardContent className="p-4 md:p-6">
-              <div className="text-center">
-                <Badge className="bg-blue-500 text-white mb-3 md:mb-4">
-                  <GraduationCap className="mr-1 h-3 w-3" />
-                  🎓
-                </Badge>
-                <h3 className="text-blue-200 font-semibold text-base md:text-lg mb-2 md:mb-3">HBCU STUDENTS</h3>
-                <p className="text-white/90 text-xs md:text-sm mb-2">Get ALL Premium features FREE!</p>
-                <p className="text-blue-200 text-xs">Upload student ID during signup</p>
-              </div>
-            </CardContent>
-          </Card>
+          <Link to="/signup/customer">
+            <Card className="bg-blue-500/20 backdrop-blur-lg border border-blue-400/30 hover:bg-blue-500/25 transition-all cursor-pointer">
+              <CardContent className="p-4 md:p-6">
+                <div className="text-center">
+                  <Badge className="bg-blue-500 text-white mb-3 md:mb-4">
+                    <GraduationCap className="mr-1 h-3 w-3" />
+                    🎓
+                  </Badge>
+                  <h3 className="text-blue-200 font-semibold text-base md:text-lg mb-2 md:mb-3">HBCU STUDENTS</h3>
+                  <p className="text-white/90 text-xs md:text-sm mb-2">Get ALL Premium features FREE!</p>
+                  <p className="text-blue-200 text-xs">Upload student ID during signup</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all">
-            <CardContent className="p-4 md:p-6">
-              <div className="text-center">
-                <Badge className="bg-mansagold/80 text-mansablue mb-3 md:mb-4">
-                  <Building2 className="mr-1 h-3 w-3" />
-                  👥
-                </Badge>
-                <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">BUSINESS OWNERS</h3>
-                <p className="text-white/90 text-xs md:text-sm mb-1">First month FREE!</p>
-                <p className="text-white/80 text-xs">$100/month after trial</p>
-              </div>
-            </CardContent>
-          </Card>
+          <Link to="/signup/business">
+            <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all cursor-pointer">
+              <CardContent className="p-4 md:p-6">
+                <div className="text-center">
+                  <Badge className="bg-mansagold/80 text-mansablue mb-3 md:mb-4">
+                    <Building2 className="mr-1 h-3 w-3" />
+                    👥
+                  </Badge>
+                  <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">BUSINESS OWNERS</h3>
+                  <p className="text-white/90 text-xs md:text-sm mb-1">First month FREE!</p>
+                  <p className="text-white/80 text-xs">$100/month after trial</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </div>
     </section>
