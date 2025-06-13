@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -71,42 +70,35 @@ const Hero = () => {
           </div>
 
           <div className="flex justify-center lg:justify-end">
-            <Card className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl max-w-lg w-full">
-              <CardContent className="p-8">
-                <div className="text-center text-white space-y-6">
-                  <div className="flex items-center justify-center mb-6">
-                    <Users className="h-12 w-12 text-mansagold mr-4" />
-                    <div className="text-left">
-                      <h3 className="text-2xl font-bold">Professional Women</h3>
-                      <p className="text-white/80">Building Community Wealth</p>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
+            <div className="relative max-w-lg w-full">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/lovable-uploads/487f9aac-a3ad-4b28-8d90-3fd25a3a689b.png" 
+                  alt="Professional business woman working on laptop"
+                  className="w-full h-auto object-cover"
+                />
+                
+                {/* Overlay with key benefits */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                  <div className="text-white space-y-3">
                     <div className="flex items-center">
-                      <TrendingUp className="h-6 w-6 text-green-400 mr-3" />
-                      <span className="text-lg">5% - 30% Discounts</span>
+                      <TrendingUp className="h-5 w-5 text-green-400 mr-2" />
+                      <span className="text-sm font-medium">5% - 30% Discounts</span>
                     </div>
                     
                     <div className="flex items-center">
-                      <Shield className="h-6 w-6 text-blue-400 mr-3" />
-                      <span className="text-lg">Trusted Network</span>
+                      <Crown className="h-5 w-5 text-mansagold mr-2" />
+                      <span className="text-sm font-medium">Premium $4.99/month</span>
                     </div>
                     
                     <div className="flex items-center">
-                      <Crown className="h-6 w-6 text-mansagold mr-3" />
-                      <span className="text-lg">Premium for $4.99/month</span>
+                      <Shield className="h-5 w-5 text-blue-400 mr-2" />
+                      <span className="text-sm font-medium">Trusted Network</span>
                     </div>
-                  </div>
-                  
-                  <div className="bg-mansagold/20 rounded-lg p-4 mt-6">
-                    <p className="text-sm text-mansagold font-semibold">
-                      Join thousands supporting Black-owned businesses and earning rewards!
-                    </p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
 
