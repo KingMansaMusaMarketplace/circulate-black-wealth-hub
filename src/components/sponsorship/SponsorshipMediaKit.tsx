@@ -1,9 +1,16 @@
+
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Download, Share2, Users, TrendingUp, Award, DollarSign, Target, BarChart3 } from 'lucide-react';
+import jsPDF from 'jspdf';
 import * as html2pdf from 'html2pdf.js';
+
+// Make jsPDF available globally for html2pdf
+if (typeof window !== 'undefined') {
+  (window as any).jsPDF = jsPDF;
+}
 
 export const generatePartnershipGuide = async () => {
   try {
