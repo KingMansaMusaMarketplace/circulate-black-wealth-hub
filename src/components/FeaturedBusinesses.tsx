@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { MapPin, Star, ArrowRight } from 'lucide-react';
 import { businesses } from '@/data/businessData';
+import OptimizedImage from '@/components/ui/optimized-image';
+import { generatePlaceholder } from '@/utils/imageOptimizer';
 
 const FeaturedBusinesses = () => {
   // Get the first 3 featured businesses from our business data
@@ -59,13 +61,13 @@ const FeaturedBusinesses = () => {
             <Card key={business.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="aspect-video bg-gray-200 rounded-lg mb-4 overflow-hidden">
-                  <img 
+                  <OptimizedImage 
                     src={business.image} 
                     alt={business.name}
                     className="w-full h-full object-cover transition-transform hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.src = `https://placehold.co/400x250/e5e7eb/6b7280?text=${encodeURIComponent(business.name)}`;
-                    }}
+                    fallbackSrc={generatePlaceholder(400, 250, business.name)}
+                    quality="medium"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
                 <div className="flex justify-between items-start">

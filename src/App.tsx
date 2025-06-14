@@ -1,4 +1,3 @@
-
 import React, { Suspense, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -10,6 +9,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import MobileAppWrapper from '@/components/mobile/MobileAppWrapper';
 import { SafeAreaProvider } from '@/components/mobile/SafeAreaProvider';
 import { initializeCapacitorPlugins } from '@/utils/capacitor-plugins';
+import { initializeCaching, preloadResources, initializePerformanceMonitoring } from '@/utils/cacheOptimizer';
 
 // Lazy load pages with better chunking strategy
 const HomePage = React.lazy(() => import('@/pages/HomePage'));
@@ -83,8 +83,11 @@ const OptimizedLoadingSpinner = () => (
 
 function App() {
   useEffect(() => {
-    // Initialize Capacitor plugins when app starts
+    // Initialize all optimizations
     initializeCapacitorPlugins();
+    initializeCaching();
+    preloadResources();
+    initializePerformanceMonitoring();
   }, []);
 
   return (

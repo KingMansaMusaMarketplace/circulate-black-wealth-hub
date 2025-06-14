@@ -20,6 +20,7 @@ import {
   LazySponsorshipVideoSection 
 } from '@/components/lazy';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
+import { preloadCriticalImages } from '@/utils/imageOptimizer';
 
 const HomePage = () => {
   useEffect(() => {
@@ -28,6 +29,14 @@ const HomePage = () => {
     
     // Add resource hints for better loading
     addResourceHints();
+    
+    // Preload critical images
+    const criticalImages = [
+      // Add your hero image URLs here
+      '/lovable-uploads/hero-image.jpg',
+      '/lovable-uploads/logo.png'
+    ];
+    preloadCriticalImages(criticalImages);
     
     // SEO optimizations
     document.title = 'Mansa Musa Marketplace - Save Money & Support Black-Owned Businesses';
