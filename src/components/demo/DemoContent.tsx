@@ -17,9 +17,26 @@ interface DemoContentProps {
   activeDemo: number;
   nextDemo: () => void;
   prevDemo: () => void;
+  onPauseAutoPlay?: () => void;
 }
 
-const DemoContent = ({ demoSteps, activeDemo, nextDemo, prevDemo }: DemoContentProps) => {
+const DemoContent = ({ 
+  demoSteps, 
+  activeDemo, 
+  nextDemo, 
+  prevDemo, 
+  onPauseAutoPlay 
+}: DemoContentProps) => {
+  const handleNext = () => {
+    nextDemo();
+    onPauseAutoPlay?.();
+  };
+
+  const handlePrev = () => {
+    prevDemo();
+    onPauseAutoPlay?.();
+  };
+
   return (
     <div className="order-2 lg:order-1">
       <div className="mb-6">
@@ -49,7 +66,7 @@ const DemoContent = ({ demoSteps, activeDemo, nextDemo, prevDemo }: DemoContentP
       {/* Navigation Controls */}
       <div className="flex items-center justify-between">
         <Button
-          onClick={prevDemo}
+          onClick={handlePrev}
           variant="outline"
           className="flex items-center gap-2"
         >
@@ -69,7 +86,7 @@ const DemoContent = ({ demoSteps, activeDemo, nextDemo, prevDemo }: DemoContentP
         </div>
 
         <Button
-          onClick={nextDemo}
+          onClick={handleNext}
           className="flex items-center gap-2 bg-mansablue hover:bg-mansablue-dark"
         >
           Next
