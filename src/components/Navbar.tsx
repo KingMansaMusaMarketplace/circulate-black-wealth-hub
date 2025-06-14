@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { Menu, X, User, LogOut, Settings } from 'lucide-react';
+import Logo from '@/components/navbar/Logo';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,9 +44,7 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <span className="text-2xl font-bold text-mansablue">Mansa Musa</span>
-            </Link>
+            <Logo />
           </div>
 
           {/* Desktop Navigation */}
