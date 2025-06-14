@@ -7,6 +7,7 @@ import RecentActivity from '@/components/dashboard/RecentActivity';
 import NearbyBusinesses from '@/components/dashboard/NearbyBusinesses';
 import { MiniLoyaltyWidget } from '@/components/loyalty/MiniLoyaltyWidget';
 import { useAuth } from '@/contexts/AuthContext';
+import { Home } from 'lucide-react';
 
 const DashboardPage = () => {
   const { userType } = useAuth();
@@ -76,7 +77,7 @@ const DashboardPage = () => {
   const validUserType = (userType === 'customer' || userType === 'business') ? userType : 'customer';
 
   return (
-    <DashboardLayout title="Dashboard">
+    <DashboardLayout title="Dashboard" icon={<Home className="mr-2 h-6 w-6" />}>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
           <WelcomeGuide userType={validUserType} />
