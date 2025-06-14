@@ -7,10 +7,14 @@ import RecentActivity from '@/components/dashboard/RecentActivity';
 import NearbyBusinesses from '@/components/dashboard/NearbyBusinesses';
 import { MiniLoyaltyWidget } from '@/components/loyalty/MiniLoyaltyWidget';
 import { useAuth } from '@/contexts/AuthContext';
-import { Home } from 'lucide-react';
+import { Home, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const DashboardPage = () => {
   const { userType } = useAuth();
+  
+  console.log('DashboardPage rendering, userType:', userType);
   
   // Sample data for dashboard components
   const impactMetrics = {
@@ -73,11 +77,27 @@ const DashboardPage = () => {
     }
   ];
 
+  // Handle refresh functionality
+  const handleRefresh = () => {
+    console.log('Refresh button clicked');
+    toast.success('Dashboard refreshed!');
+    // Force a page refresh or reload data here
+    window.location.reload();
+  };
+
   // Ensure userType is properly typed
   const validUserType = (userType === 'customer' || userType === 'business') ? userType : 'customer';
 
   return (
     <DashboardLayout title="Dashboard" icon={<Home className="mr-2 h-6 w-6" />}>
+      <div className="mb-4 flex justify-between items-center">
+        <h1 className="text-2xl font-bold">Welcome to your Dashboard</h1>
+        <Button onClick={handleRefresh} variant="outline" size="sm">
+          <RefreshCw className="h-4 w-4 mr-2" />
+          Refresh
+        </Button>
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">
           <WelcomeGuide userType={validUserType} />
