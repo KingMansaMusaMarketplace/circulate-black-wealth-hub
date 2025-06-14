@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import FeaturedBusinesses from '@/components/FeaturedBusinesses';
@@ -14,6 +13,7 @@ import FAQSection from '@/components/HowItWorks/FAQSection';
 import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
 import CirculationVisualization from '@/components/HowItWorks/CirculationVisualization/CirculationVisualization';
 import VisualDivider from '@/components/HowItWorks/VisualDivider';
+import InteractiveDemo from '@/components/demo/InteractiveDemo';
 
 const HomePage = () => {
   useEffect(() => {
@@ -53,6 +53,9 @@ const HomePage = () => {
 
       {/* Page Navigation */}
       <PageNavigation sections={navSections} />
+
+      {/* Interactive Demo Section - NEW */}
+      <InteractiveDemo />
 
       {/* How It Works Section */}
       <section id="how-it-works">
