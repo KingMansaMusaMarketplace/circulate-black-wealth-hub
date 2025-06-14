@@ -19,10 +19,10 @@ import ContactPage from '@/pages/ContactPage';
 import HowItWorksPage from '@/pages/HowItWorksPage';
 import CommunityPage from '@/pages/CommunityPage';
 import SubscriptionPage from '@/pages/SubscriptionPage';
-import SponsorshipPage from '@/pages/SponsorshipPage';
+import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
 import SalesAgentPage from '@/pages/SalesAgentPage';
-import PrivacyPage from '@/pages/PrivacyPage';
-import TermsPage from '@/pages/TermsPage';
+import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
+import TermsOfServicePage from '@/pages/TermsOfServicePage';
 import FAQPage from '@/pages/FAQPage';
 import HelpPage from '@/pages/HelpPage';
 import BlogPage from '@/pages/BlogPage';
@@ -30,9 +30,9 @@ import BlogPage from '@/pages/BlogPage';
 // Dashboard and protected pages
 import DashboardPage from '@/pages/DashboardPage';
 import ProfilePage from '@/pages/ProfilePage';
-import BusinessDashboard from '@/pages/BusinessDashboard';
-import BusinessProfile from '@/pages/BusinessProfile';
-import BusinessQRCodes from '@/pages/BusinessQRCodes';
+import BusinessDashboardPage from '@/pages/BusinessDashboardPage';
+import BusinessProfilePage from '@/pages/BusinessProfilePage';
+import QRCodeManagementPage from '@/pages/QRCodeManagementPage';
 import QRScannerPage from '@/pages/QRScannerPage';
 import LoyaltyPage from '@/pages/LoyaltyPage';
 
@@ -67,10 +67,10 @@ function App() {
                     <Route path="/how-it-works" element={<HowItWorksPage />} />
                     <Route path="/community" element={<CommunityPage />} />
                     <Route path="/subscription" element={<SubscriptionPage />} />
-                    <Route path="/sponsorship" element={<SponsorshipPage />} />
+                    <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
                     <Route path="/sales-agent" element={<SalesAgentPage />} />
-                    <Route path="/privacy" element={<PrivacyPage />} />
-                    <Route path="/terms" element={<TermsPage />} />
+                    <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                    <Route path="/terms" element={<TermsOfServicePage />} />
                     <Route path="/faq" element={<FAQPage />} />
                     <Route path="/help" element={<HelpPage />} />
                     <Route path="/blog" element={<BlogPage />} />
@@ -78,9 +78,9 @@ function App() {
                     {/* Protected Routes */}
                     <Route path="/dashboard" element={<DashboardPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/business/dashboard" element={<BusinessDashboard />} />
-                    <Route path="/business/profile" element={<BusinessProfile />} />
-                    <Route path="/business/qr-codes" element={<BusinessQRCodes />} />
+                    <Route path="/business/dashboard" element={<BusinessDashboardPage />} />
+                    <Route path="/business/profile" element={<BusinessProfilePage />} />
+                    <Route path="/business/qr-codes" element={<QRCodeManagementPage />} />
                     <Route path="/scanner" element={<QRScannerPage />} />
                     <Route path="/loyalty" element={<LoyaltyPage />} />
                   </Routes>
