@@ -3,7 +3,7 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, Download, Share2, Users, TrendingUp, Award, DollarSign, Target, BarChart3 } from 'lucide-react';
-import html2pdf from 'html2pdf.js';
+import * as html2pdf from 'html2pdf.js';
 
 export const generatePartnershipGuide = async () => {
   try {
