@@ -7,6 +7,7 @@ interface LazySectionProps {
   children: React.ReactNode;
   fallback?: React.ReactNode;
   className?: string;
+  id?: string;
   threshold?: number;
   rootMargin?: string;
 }
@@ -15,6 +16,7 @@ const LazySection: React.FC<LazySectionProps> = ({
   children,
   fallback,
   className,
+  id,
   threshold = 0.1,
   rootMargin = '100px'
 }) => {
@@ -33,7 +35,7 @@ const LazySection: React.FC<LazySectionProps> = ({
   );
 
   return (
-    <div ref={elementRef} className={className}>
+    <div ref={elementRef} className={className} id={id}>
       {isVisible ? (
         <Suspense fallback={fallback || defaultFallback}>
           {children}
