@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import FeaturedBusinesses from '@/components/FeaturedBusinesses';
@@ -14,6 +15,7 @@ import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSec
 import CirculationVisualization from '@/components/HowItWorks/CirculationVisualization/CirculationVisualization';
 import VisualDivider from '@/components/HowItWorks/VisualDivider';
 import InteractiveDemo from '@/components/demo/InteractiveDemo';
+import { SocialProofWidget } from '@/components/social-proof';
 
 const HomePage = () => {
   useEffect(() => {
@@ -32,6 +34,7 @@ const HomePage = () => {
 
   const navSections = [
     { id: 'hero', label: 'Overview' },
+    { id: 'social-proof', label: 'Impact' },
     { id: 'how-it-works', label: 'How It Works' },
     { id: 'videos', label: 'Videos' },
     { id: 'circulation-visualization', label: 'Money Flow' },
@@ -54,7 +57,12 @@ const HomePage = () => {
       {/* Page Navigation */}
       <PageNavigation sections={navSections} />
 
-      {/* Interactive Demo Section - NEW */}
+      {/* Social Proof Section - NEW */}
+      <section id="social-proof">
+        <SocialProofWidget />
+      </section>
+
+      {/* Interactive Demo Section */}
       <InteractiveDemo />
 
       {/* How It Works Section */}
