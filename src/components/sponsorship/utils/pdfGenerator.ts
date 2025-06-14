@@ -1,12 +1,7 @@
 
 import jsPDF from 'jspdf';
-import * as html2pdf from 'html2pdf.js';
+import html2pdf from 'html2pdf.js';
 import { toast } from 'sonner';
-
-// Make jsPDF available globally for html2pdf
-if (typeof window !== 'undefined') {
-  (window as any).jsPDF = jsPDF;
-}
 
 interface PDFOptions {
   filename: string;
@@ -15,20 +10,46 @@ interface PDFOptions {
 
 export const generatePDF = async ({ filename, content }: PDFOptions): Promise<void> => {
   try {
+    // Create a temporary div element with the content
     const element = document.createElement('div');
     element.innerHTML = content;
+    element.style.width = '210mm';
+    element.style.minHeight = '297mm';
+    element.style.padding = '20mm';
+    element.style.margin = '0';
+    element.style.backgroundColor = 'white';
+    element.style.fontFamily = 'Arial, sans-serif';
     
+    // Temporarily add to DOM for proper rendering
+    element.style.position = 'absolute';
+    element.style.left = '-9999px';
+    document.body.appendChild(element);
+
     const opt = {
-      margin: 1,
+      margin: 0.5,
       filename,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      html2canvas: { 
+        scale: 2,
+        useCORS: true,
+        allowTaint: true
+      },
+      jsPDF: { 
+        unit: 'in', 
+        format: 'letter', 
+        orientation: 'portrait' 
+      }
     };
 
+    // Generate and download the PDF
     await html2pdf().set(opt).from(element).save();
+    
+    // Clean up
+    document.body.removeChild(element);
+    
   } catch (error) {
     console.error('Error generating PDF:', error);
+    toast.error('Failed to generate PDF. Please try again.');
     throw error;
   }
 };
