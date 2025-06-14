@@ -2,6 +2,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { ChevronDown } from 'lucide-react';
 
 const NavLinks = () => {
   const location = useLocation();
@@ -17,32 +24,71 @@ const NavLinks = () => {
     }`;
   };
 
+  const getDropdownTriggerClass = () => {
+    return "text-gray-700 hover:text-mansablue px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1";
+  };
+
   return (
     <div className="hidden md:flex items-center space-x-4">
       <Link to="/" className={getLinkClass('/')}>
         Home
       </Link>
+      
       <Link to="/about" className={getLinkClass('/about')}>
         About
       </Link>
-      <Link to="/directory" className={getLinkClass('/directory')}>
-        Directory
-      </Link>
-      <Link to="/how-it-works" className={getLinkClass('/how-it-works')}>
-        How It Works
-      </Link>
-      <Link to="/subscription" className={getLinkClass('/subscription')}>
-        Plans
-      </Link>
-      <Link to="/sales-agent" className={getLinkClass('/sales-agent')}>
-        Sales Agent Program
-      </Link>
+
+      {/* For Businesses Dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger className={getDropdownTriggerClass()}>
+          For Businesses
+          <ChevronDown className="h-4 w-4" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="bg-white border shadow-lg">
+          <DropdownMenuItem asChild>
+            <Link to="/directory" className="w-full">Business Directory</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/signup?type=business" className="w-full">Business Signup</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/sponsorship" className="w-full">Sponsorship</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/sales-agent" className="w-full">Sales Agent Program</Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      {/* Resources Dropdown */}
+      <DropdownMenu>
+        <DropdownMenuTrigger className={getDropdownTriggerClass()}>
+          Resources
+          <ChevronDown className="h-4 w-4" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="bg-white border shadow-lg">
+          <DropdownMenuItem asChild>
+            <Link to="/how-it-works" className="w-full">How It Works</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/subscription" className="w-full">Plans</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/faq" className="w-full">FAQ</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/help" className="w-full">Help Center</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/blog" className="w-full">Blog</Link>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
       <Link to="/community" className={getLinkClass('/community')}>
         Community
       </Link>
-      <Link to="/sponsorship" className={getLinkClass('/sponsorship')}>
-        Sponsorship
-      </Link>
+      
       <Link to="/contact" className={getLinkClass('/contact')}>
         Contact
       </Link>
