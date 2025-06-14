@@ -7,8 +7,8 @@ export const trackBundleMetrics = () => {
       const navigationTiming = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
       
       console.log('Bundle Performance Metrics:', {
-        domContentLoaded: navigationTiming.domContentLoadedEventEnd - navigationTiming.navigationStart,
-        fullLoad: navigationTiming.loadEventEnd - navigationTiming.navigationStart,
+        domContentLoaded: navigationTiming.domContentLoadedEventEnd - navigationTiming.domContentLoadedEventStart,
+        fullLoad: navigationTiming.loadEventEnd - navigationTiming.loadEventStart,
         firstPaint: performance.getEntriesByName('first-paint')[0]?.startTime || 0,
         firstContentfulPaint: performance.getEntriesByName('first-contentful-paint')[0]?.startTime || 0,
       });
