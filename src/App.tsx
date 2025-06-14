@@ -11,53 +11,73 @@ import MobileAppWrapper from '@/components/mobile/MobileAppWrapper';
 import { SafeAreaProvider } from '@/components/mobile/SafeAreaProvider';
 import { initializeCapacitorPlugins } from '@/utils/capacitor-plugins';
 
-// Lazy load pages for better performance
+// Lazy load pages with better chunking strategy
 const HomePage = React.lazy(() => import('@/pages/HomePage'));
+
+// Group auth-related pages together
+const LoginPage = React.lazy(() => import('@/pages/LoginPage'));
+const SignupPage = React.lazy(() => import('@/pages/SignupPage'));
+const AuthPage = React.lazy(() => import('@/pages/AuthPage'));
+
+// Group dashboard-related pages together
+const DashboardPage = React.lazy(() => import('@/pages/DashboardPage'));
+const BusinessDashboardPage = React.lazy(() => import('@/pages/BusinessDashboardPage'));
+const BusinessProfilePage = React.lazy(() => import('@/pages/BusinessProfilePage'));
+const ProfilePage = React.lazy(() => import('@/pages/ProfilePage'));
+
+// Group directory-related pages together
+const DirectoryPage = React.lazy(() => import('@/pages/DirectoryPage'));
+const EnhancedDirectoryPage = React.lazy(() => import('@/pages/EnhancedDirectoryPage'));
+const BusinessDetailPage = React.lazy(() => import('@/pages/BusinessDetailPage'));
+
+// Group QR-related pages together
+const QRCodeGeneratorPage = React.lazy(() => import('@/pages/QRCodeGeneratorPage'));
+const QRScannerPage = React.lazy(() => import('@/pages/QRScannerPage'));
+
+// Group community-related pages together
+const CommunityPage = React.lazy(() => import('@/pages/CommunityPage'));
+const CommunityImpactPage = React.lazy(() => import('@/pages/CommunityImpactPage'));
+const EconomicImpactPage = React.lazy(() => import('@/pages/EconomicImpactPage'));
+
+// Group informational pages together
 const AboutPage = React.lazy(() => import('@/pages/AboutPage'));
 const BlogPage = React.lazy(() => import('@/pages/BlogPage'));
 const ContactPage = React.lazy(() => import('@/pages/ContactPage'));
 const FAQPage = React.lazy(() => import('@/pages/FAQPage'));
-const DirectoryPage = React.lazy(() => import('@/pages/DirectoryPage'));
-const EnhancedDirectoryPage = React.lazy(() => import('@/pages/EnhancedDirectoryPage'));
-const BusinessDetailPage = React.lazy(() => import('@/pages/BusinessDetailPage'));
-const DashboardPage = React.lazy(() => import('@/pages/DashboardPage'));
-const BusinessDashboardPage = React.lazy(() => import('@/pages/BusinessDashboardPage'));
-const BusinessProfilePage = React.lazy(() => import('@/pages/BusinessProfilePage'));
-const QRCodeGeneratorPage = React.lazy(() => import('@/pages/QRCodeGeneratorPage'));
-const QRScannerPage = React.lazy(() => import('@/pages/QRScannerPage'));
-const LoyaltyPage = React.lazy(() => import('@/pages/LoyaltyPage'));
-const CommunityPage = React.lazy(() => import('@/pages/CommunityPage'));
-const CommunityImpactPage = React.lazy(() => import('@/pages/CommunityImpactPage'));
-const CommunityImpactTestPage = React.lazy(() => import('@/pages/CommunityImpactTestPage'));
-const EconomicImpactPage = React.lazy(() => import('@/pages/EconomicImpactPage'));
-const ProfilePage = React.lazy(() => import('@/pages/ProfilePage'));
-const HelpCenterPage = React.lazy(() => import('@/pages/HelpCenterPage'));
-const LoginPage = React.lazy(() => import('@/pages/LoginPage'));
-const SignupPage = React.lazy(() => import('@/pages/SignupPage'));
-const SalesAgentPage = React.lazy(() => import('@/pages/SalesAgentPage'));
-const AdminPage = React.lazy(() => import('@/pages/AdminPage'));
 const HowItWorksPage = React.lazy(() => import('@/pages/HowItWorksPage'));
 const CorporateSponsorshipPage = React.lazy(() => import('@/pages/CorporateSponsorshipPage'));
+const HelpCenterPage = React.lazy(() => import('@/pages/HelpCenterPage'));
+
+// Group admin pages together
+const AdminPage = React.lazy(() => import('@/pages/AdminPage'));
+const SalesAgentPage = React.lazy(() => import('@/pages/SalesAgentPage'));
 const SubscriptionPage = React.lazy(() => import('@/pages/SubscriptionPage'));
+
+// Group remaining pages
+const LoyaltyPage = React.lazy(() => import('@/pages/LoyaltyPage'));
+const CommunityImpactTestPage = React.lazy(() => import('@/pages/CommunityImpactTestPage'));
 const StripeTestPage = React.lazy(() => import('@/pages/StripeTestPage'));
 const SignupTestPage = React.lazy(() => import('@/pages/SignupTestPage'));
-const AuthPage = React.lazy(() => import('@/pages/AuthPage'));
 const SystemTestPage = React.lazy(() => import('@/pages/SystemTestPage'));
 const CapacitorTestPage = React.lazy(() => import('@/pages/CapacitorTestPage'));
 
-// Create a client
+// Create a client with optimized settings
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5, // 5 minutes
       retry: 1,
+      refetchOnWindowFocus: false, // Reduce unnecessary refetches
     },
   },
 });
 
-const LoadingSpinner = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansablue"></div>
+const OptimizedLoadingSpinner = () => (
+  <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="text-center space-y-4">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansablue mx-auto"></div>
+      <p className="text-gray-600">Loading...</p>
+    </div>
   </div>
 );
 
@@ -77,9 +97,39 @@ function App() {
                 <Router>
                   <PerformanceMonitor />
                   <div className="min-h-screen bg-white">
-                    <Suspense fallback={<LoadingSpinner />}>
+                    <Suspense fallback={<OptimizedLoadingSpinner />}>
                       <Routes>
                         <Route path="/" element={<HomePage />} />
+                        
+                        {/* Auth Routes */}
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/signup" element={<SignupPage />} />
+                        <Route path="/signup/:userType" element={<SignupPage />} />
+                        <Route path="/auth" element={<AuthPage />} />
+                        
+                        {/* Dashboard Routes */}
+                        <Route path="/dashboard" element={<DashboardPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route path="/business/dashboard" element={<BusinessDashboardPage />} />
+                        <Route path="/business/profile" element={<BusinessProfilePage />} />
+                        <Route path="/business/qr-codes" element={<QRCodeGeneratorPage />} />
+                        
+                        {/* Directory Routes */}
+                        <Route path="/directory" element={<DirectoryPage />} />
+                        <Route path="/directory/enhanced" element={<EnhancedDirectoryPage />} />
+                        <Route path="/business/:id" element={<BusinessDetailPage />} />
+                        
+                        {/* QR & Scanner Routes */}
+                        <Route path="/scanner" element={<QRScannerPage />} />
+                        <Route path="/loyalty" element={<LoyaltyPage />} />
+                        
+                        {/* Community Routes */}
+                        <Route path="/community" element={<CommunityPage />} />
+                        <Route path="/community-impact" element={<CommunityImpactPage />} />
+                        <Route path="/community-impact/test" element={<CommunityImpactTestPage />} />
+                        <Route path="/economic-impact" element={<EconomicImpactPage />} />
+                        
+                        {/* Information Routes */}
                         <Route path="/about" element={<AboutPage />} />
                         <Route path="/blog" element={<BlogPage />} />
                         <Route path="/contact" element={<ContactPage />} />
@@ -87,33 +137,7 @@ function App() {
                         <Route path="/how-it-works" element={<HowItWorksPage />} />
                         <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
                         <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
-                        <Route path="/directory" element={<DirectoryPage />} />
-                        <Route path="/directory/enhanced" element={<EnhancedDirectoryPage />} />
-                        <Route path="/business/:id" element={<BusinessDetailPage />} />
-                        
-                        {/* Customer Dashboard Routes */}
-                        <Route path="/dashboard" element={<DashboardPage />} />
-                        <Route path="/profile" element={<ProfilePage />} />
-                        
-                        {/* Business Dashboard Routes */}
-                        <Route path="/business/dashboard" element={<BusinessDashboardPage />} />
-                        <Route path="/business/profile" element={<BusinessProfilePage />} />
-                        <Route path="/business/qr-codes" element={<QRCodeGeneratorPage />} />
-                        
-                        {/* Shared Routes */}
-                        <Route path="/scanner" element={<QRScannerPage />} />
-                        <Route path="/loyalty" element={<LoyaltyPage />} />
-                        <Route path="/community" element={<CommunityPage />} />
-                        <Route path="/community-impact" element={<CommunityImpactPage />} />
-                        <Route path="/community-impact/test" element={<CommunityImpactTestPage />} />
-                        <Route path="/economic-impact" element={<EconomicImpactPage />} />
                         <Route path="/help" element={<HelpCenterPage />} />
-                        
-                        {/* Auth Routes */}
-                        <Route path="/login" element={<LoginPage />} />
-                        <Route path="/signup" element={<SignupPage />} />
-                        <Route path="/signup/:userType" element={<SignupPage />} />
-                        <Route path="/auth" element={<AuthPage />} />
                         
                         {/* Admin Routes */}
                         <Route path="/sales-agent" element={<SalesAgentPage />} />
