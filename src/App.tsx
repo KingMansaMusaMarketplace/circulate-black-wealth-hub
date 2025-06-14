@@ -1,3 +1,4 @@
+
 import React, { Suspense, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -5,6 +6,7 @@ import { Toaster } from 'sonner';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 import PerformanceMonitor from '@/components/PerformanceMonitor';
+import PerformanceOptimizerComponent from '@/components/performance/PerformanceOptimizer';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import MobileAppWrapper from '@/components/mobile/MobileAppWrapper';
 import { SafeAreaProvider } from '@/components/mobile/SafeAreaProvider';
@@ -99,6 +101,7 @@ function App() {
               <MobileAppWrapper>
                 <Router>
                   <PerformanceMonitor />
+                  <PerformanceOptimizerComponent />
                   <div className="min-h-screen bg-white">
                     <Suspense fallback={<OptimizedLoadingSpinner />}>
                       <Routes>
