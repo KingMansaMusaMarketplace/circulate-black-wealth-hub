@@ -66,7 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   return (
     <>
       <header className={`bg-white shadow-sm z-50 w-full sticky top-0 border-b border-gray-100 ${className}`}>
-        <div className="w-full px-4 max-w-none overflow-x-hidden">
+        <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="flex h-16 items-center justify-between w-full">
             <div className="flex items-center min-w-0 flex-shrink-0">
               <Logo />
