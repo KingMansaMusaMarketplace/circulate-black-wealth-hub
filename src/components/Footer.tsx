@@ -78,7 +78,7 @@ const Footer = () => {
             </h3>
             <ul className="space-y-4">
               {[
-                { name: "Business Directory", path: "/directory/enhanced" },
+                { name: "Business Directory", path: "/directory" },
                 { name: "How It Works", path: "/how-it-works" },
                 { name: "Community", path: "/community" },
                 { name: "Plans", path: "/subscription" },
@@ -101,7 +101,7 @@ const Footer = () => {
             </h3>
             <ul className="space-y-4">
               {[
-                { name: "Sign Up", path: "/business-signup" },
+                { name: "Sign Up", path: "/signup?type=business" },
                 { name: "Sales Agent Program", path: "/sales-agent" },
                 { name: "Corporate Sponsorship", path: "/sponsorship" },
                 { name: "Success Stories", path: "/case-studies" },
