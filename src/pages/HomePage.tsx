@@ -11,11 +11,14 @@ import { BenefitsSection } from '@/components/HowItWorks/Benefits';
 import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
 import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
-import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
-import CirculationVisualization from '@/components/HowItWorks/CirculationVisualization/CirculationVisualization';
 import VisualDivider from '@/components/HowItWorks/VisualDivider';
-import InteractiveDemo from '@/components/demo/InteractiveDemo';
 import { SocialProofWidget } from '@/components/social-proof';
+import LazySection from '@/components/common/LazySection';
+import { 
+  LazyInteractiveDemo, 
+  LazyCirculationVisualization, 
+  LazySponsorshipVideoSection 
+} from '@/components/lazy';
 
 const HomePage = () => {
   useEffect(() => {
@@ -57,31 +60,43 @@ const HomePage = () => {
       {/* Page Navigation */}
       <PageNavigation sections={navSections} />
 
-      {/* Social Proof Section - NEW */}
+      {/* Social Proof Section */}
       <section id="social-proof">
         <SocialProofWidget />
       </section>
 
-      {/* Interactive Demo Section */}
-      <InteractiveDemo />
+      {/* Interactive Demo Section - Lazy Loaded */}
+      <LazySection threshold={0.2} rootMargin="200px">
+        <LazyInteractiveDemo />
+      </LazySection>
 
       {/* How It Works Section */}
       <section id="how-it-works">
         <HowItWorksSteps />
       </section>
 
-      {/* Videos Section */}
-      <section id="videos">
-        <SponsorshipVideoSection />
-      </section>
+      {/* Videos Section - Lazy Loaded */}
+      <LazySection 
+        threshold={0.1} 
+        rootMargin="300px"
+        className="section" 
+        id="videos"
+      >
+        <LazySponsorshipVideoSection />
+      </LazySection>
 
       {/* Visual Divider */}
       <VisualDivider />
 
-      {/* Money Flow Visualization */}
-      <section id="circulation-visualization">
-        <CirculationVisualization />
-      </section>
+      {/* Money Flow Visualization - Lazy Loaded */}
+      <LazySection 
+        threshold={0.1} 
+        rootMargin="200px"
+        className="section" 
+        id="circulation-visualization"
+      >
+        <LazyCirculationVisualization />
+      </LazySection>
 
       {/* Benefits Section */}
       <section id="benefits">

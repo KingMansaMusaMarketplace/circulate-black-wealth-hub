@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import OptimizedImage from '@/components/ui/optimized-image';
 import { 
   Smartphone, 
   QrCode, 
@@ -44,10 +45,11 @@ const PhoneMockup = ({ demoSteps, activeDemo }: PhoneMockupProps) => {
                 
                 {/* App Content */}
                 <div className="p-4 h-full">
-                  <img
+                  <OptimizedImage
                     src={demoSteps[activeDemo].image}
                     alt={demoSteps[activeDemo].title}
                     className="w-full h-64 object-cover rounded-lg mb-4"
+                    fallbackSrc="/lovable-uploads/463fe82d-8622-41a8-8286-28b3ef9532a4.png"
                   />
                   
                   {/* Demo-specific UI elements */}
