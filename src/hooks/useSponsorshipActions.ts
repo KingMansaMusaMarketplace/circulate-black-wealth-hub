@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { generatePartnershipGuide } from '@/components/sponsorship/services/pdfGenerationService';
 
 export const useSponsorshipActions = () => {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
@@ -25,7 +26,6 @@ export const useSponsorshipActions = () => {
     setIsGeneratingPDF(true);
     
     try {
-      const { generatePartnershipGuide } = await import('@/components/sponsorship/SponsorshipMediaKit');
       await generatePartnershipGuide();
     } catch (error) {
       console.error('Error downloading partnership guide:', error);
