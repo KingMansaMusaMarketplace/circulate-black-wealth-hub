@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Database, Smartphone } from 'lucide-react';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import { toast } from 'sonner';
 import { TestResult } from './types';
