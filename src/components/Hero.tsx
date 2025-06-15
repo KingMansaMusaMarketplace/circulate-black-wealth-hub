@@ -24,7 +24,7 @@ const Hero = () => {
               Limited Premium Special - $4.99/month (for 1 year)
             </Badge>
           </Link>
-          <Link to="/signup/customer">
+          <Link to="/signup">
             <Badge className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
               <GraduationCap className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               FREE Premium for HBCU
@@ -134,7 +134,7 @@ const Hero = () => {
             </Card>
           </Link>
 
-          <Link to="/signup/customer">
+          <Link to="/signup">
             <Card className="bg-blue-500/20 backdrop-blur-lg border border-blue-400/30 hover:bg-blue-500/25 transition-all cursor-pointer">
               <CardContent className="p-4 md:p-6">
                 <div className="text-center">
@@ -150,7 +150,7 @@ const Hero = () => {
             </Card>
           </Link>
 
-          <Link to="/signup/business">
+          <Link to="/signup?type=business">
             <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all cursor-pointer">
               <CardContent className="p-4 md:p-6">
                 <div className="text-center">
