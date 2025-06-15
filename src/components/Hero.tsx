@@ -42,7 +42,7 @@ const Hero = () => {
             </h1>
             
             <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 leading-relaxed mb-6 md:mb-8">
-              Start FREE - Get 5% - 30% discounts while building community wealth!
+              Get 5% - 30% discounts while building community wealth!
             </p>
             
             <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed mb-8 md:mb-12">
