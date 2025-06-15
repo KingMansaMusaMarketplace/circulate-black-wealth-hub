@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 import ComprehensiveSystemTest from '@/components/testing/comprehensive/ComprehensiveSystemTest';
