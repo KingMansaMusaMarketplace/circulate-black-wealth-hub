@@ -1,51 +1,36 @@
-
-import { useState, useEffect } from "react";
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
-import HomePage from "@/pages/HomePage";
-import DirectoryPage from "@/pages/DirectoryPage";
-import LoginPage from "@/pages/LoginPage";
-import SignupPage from "@/pages/SignupPage";
-import ProfilePage from "@/pages/ProfilePage";
-import SubscriptionPage from "@/pages/SubscriptionPage";
-import CorporateSponsorshipPage from "@/pages/CorporateSponsorshipPage";
-import ContactPage from "@/pages/ContactPage";
-import AboutPage from "@/pages/AboutPage";
-import TestPage from "@/pages/TestPage";
-import MobileTestPage from "@/pages/MobileTestPage";
-import CapacitorTestPage from "@/pages/CapacitorTestPage";
-import CommunityImpactTestPage from "@/pages/CommunityImpactTestPage";
-import RegistrationTestPage from "@/pages/RegistrationTestPage";
-import SystemTestPage from "@/pages/SystemTestPage";
-import MobileAppWrapper from "@/components/mobile/MobileAppWrapper";
-import QRCodeScannerV2 from "@/components/QRScannerV2";
-import ComprehensiveTestPage from "@/pages/ComprehensiveTestPage";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import AuthProvider from "./contexts/AuthContext";
+import { SubscriptionProvider } from "./contexts/SubscriptionContext";
+import LoadingSpinner from "./components/ui/loading-spinner";
+import HomePage from "./pages/HomePage";
+import DirectoryPage from "./pages/DirectoryPage";
+import BusinessPage from "./pages/BusinessPage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import DashboardPage from "./pages/DashboardPage";
+import QRScannerPage from "./pages/QRScannerPage";
+import LoyaltyPage from "./pages/LoyaltyPage";
+import BusinessFormPage from "./pages/BusinessFormPage";
+import SponsorshipPage from "./pages/SponsorshipPage";
+import CommunityImpactPage from "./pages/CommunityImpactPage";
+import SystemTestPage from "./pages/SystemTestPage";
+import MobileTestPage from "./pages/MobileTestPage";
+import ComprehensiveTestPage from "./pages/ComprehensiveTestPage";
+import SignupTestPage from "./pages/SignupTestPage";
+import NewPasswordPage from "./pages/NewPasswordPage";
+import PasswordResetRequestPage from "./pages/PasswordResetRequestPage";
+
+// Add new lazy import
+const AppTestPage = lazy(() => import("./pages/AppTestPage"));
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [queryClient] = useState(() => new QueryClient());
-
-  useEffect(() => {
-    // Set a custom CSS property for the status bar height on iOS
-    if (typeof window !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream) {
-      const setStatusBarHeight = () => {
-        const statusBarHeight = window.innerWidth > window.innerHeight ? '20px' : '44px';
-        document.documentElement.style.setProperty('--status-bar-height', statusBarHeight);
-      };
-
-      setStatusBarHeight();
-      window.addEventListener('resize', setStatusBarHeight);
-
-      return () => {
-        window.removeEventListener('resize', setStatusBarHeight);
-      };
-    }
-  }, []);
-
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
@@ -54,29 +39,37 @@ function App() {
             <TooltipProvider>
               <Toaster />
               <BrowserRouter>
-                <MobileAppWrapper>
-                  <div className="min-h-screen bg-background">
-                    <Routes>
-                      <Route path="/" element={<HomePage />} />
-                      <Route path="/directory" element={<DirectoryPage />} />
-                      <Route path="/login" element={<LoginPage />} />
-                      <Route path="/signup" element={<SignupPage />} />
-                      <Route path="/profile" element={<ProfilePage />} />
-                      <Route path="/subscription" element={<SubscriptionPage />} />
-                      <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
-                      <Route path="/contact" element={<ContactPage />} />
-                      <Route path="/about" element={<AboutPage />} />
-                      <Route path="/test" element={<TestPage />} />
-                      <Route path="/mobile-test" element={<MobileTestPage />} />
-                      <Route path="/capacitor-test" element={<CapacitorTestPage />} />
-                      <Route path="/community-impact-test" element={<CommunityImpactTestPage />} />
-                      <Route path="/registration-test" element={<RegistrationTestPage />} />
-                      <Route path="/system-test" element={<SystemTestPage />} />
-                      <Route path="/scanner-v2" element={<QRCodeScannerV2 />} />
-                      <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
-                    </Routes>
-                  </div>
-                </MobileAppWrapper>
+                <div className="min-h-screen bg-background font-sans antialiased">
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/directory" element={<DirectoryPage />} />
+                    <Route path="/business/:id" element={<BusinessPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/signup" element={<SignupPage />} />
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="/scanner" element={<QRScannerPage />} />
+                    <Route path="/loyalty" element={<LoyaltyPage />} />
+                    <Route path="/business-form" element={<BusinessFormPage />} />
+                    <Route path="/corporate-sponsorship" element={<SponsorshipPage />} />
+                    <Route path="/community-impact" element={<CommunityImpactPage />} />
+                    <Route path="/system-test" element={<SystemTestPage />} />
+                    <Route path="/mobile-test" element={<MobileTestPage />} />
+                    <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
+                    <Route path="/signup-test" element={<SignupTestPage />} />
+                    <Route path="/new-password" element={<NewPasswordPage />} />
+                    <Route path="/password-reset-request" element={<PasswordResetRequestPage />} />
+                    
+                    {/* Add new test route */}
+                    <Route 
+                      path="/app-test" 
+                      element={
+                        <Suspense fallback={<LoadingSpinner />}>
+                          <AppTestPage />
+                        </Suspense>
+                      } 
+                    />
+                  </Routes>
+                </div>
               </BrowserRouter>
             </TooltipProvider>
           </SubscriptionProvider>
