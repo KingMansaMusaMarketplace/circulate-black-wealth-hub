@@ -1,176 +1,173 @@
-
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Menu, X, User, LogOut, Settings } from 'lucide-react';
-import Logo from '@/components/navbar/Logo';
+import { MansaMusaLogo } from '@/components/ui/logo';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu"
+import { Button } from "@/components/ui/button"
+import { useNavigate } from 'react-router-dom';
+import { useSubscription } from '@/contexts/SubscriptionContext';
+import { toast } from 'sonner';
 
-const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const Navbar = () => {
   const { user, signOut, userType } = useAuth();
+  const { subscriptionInfo, openCustomerPortal } = useSubscription();
   const navigate = useNavigate();
-  const location = useLocation();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      navigate('/');
-    } catch (error) {
-      console.error('Sign out error:', error);
-    }
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/directory', label: 'Directory' },
-    { href: '/about', label: 'About' },
-    { href: '/how-it-works', label: 'How It Works' },
-    { href: '/community', label: 'Community' },
-    { href: '/contact', label: 'Contact' }
-  ];
-
-  const isActive = (path: string) => location.pathname === path;
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/login');
+    toast.success('Signed out successfully');
+  };
 
   return (
-    <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
+    <nav className="bg-white shadow-lg border-b border-gray-200 relative z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Logo />
+            <Link to="/" className="flex-shrink-0 flex items-center">
+              <MansaMusaLogo className="h-8 w-auto" />
+            </Link>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className={`px-3 py-2 text-sm font-medium transition-colors ${
-                  isActive(link.href)
-                    ? 'text-mansablue border-b-2 border-mansablue'
-                    : 'text-gray-700 hover:text-mansablue'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Auth Section */}
-          <div className="hidden md:flex items-center space-x-4">
+            <Link to="/" className="text-gray-700 hover:text-mansablue px-3 py-2 text-sm font-medium transition-colors">
+              Home
+            </Link>
+            <Link to="/directory" className="text-gray-700 hover:text-mansablue px-3 py-2 text-sm font-medium transition-colors">
+              Directory
+            </Link>
+            <Link to="/about" className="text-gray-700 hover:text-mansablue px-3 py-2 text-sm font-medium transition-colors">
+              About
+            </Link>
+            <Link to="/contact" className="text-gray-700 hover:text-mansablue px-3 py-2 text-sm font-medium transition-colors">
+              Contact
+            </Link>
+            <Link to="/comprehensive-test" className="text-gray-700 hover:text-mansablue px-3 py-2 text-sm font-medium transition-colors bg-blue-50 rounded-md">
+              🔧 System Test
+            </Link>
+            
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center space-x-2">
-                    <User className="h-4 w-4" />
-                    <span>{user.email}</span>
+                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user?.user_metadata?.avatar_url} alt={user?.email || "User"} />
+                      <AvatarFallback>{user?.email?.[0]?.toUpperCase() || "U"}</AvatarFallback>
+                    </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem onClick={() => navigate('/dashboard')}>
-                    <User className="mr-2 h-4 w-4" />
-                    Dashboard
-                  </DropdownMenuItem>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate('/profile')}>
-                    <Settings className="mr-2 h-4 w-4" />
                     Profile
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
+                  {userType === 'business' && (
+                    <DropdownMenuItem onClick={() => navigate('/subscription')}>
+                      Subscription
+                    </DropdownMenuItem>
+                  )}
+                  {userType === 'customer' && subscriptionInfo?.is_subscribed && (
+                    <DropdownMenuItem onClick={openCustomerPortal}>
+                      Manage Subscription
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut className="mr-2 h-4 w-4" />
                     Sign Out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <div className="flex items-center space-x-2">
-                <Link to="/login">
-                  <Button variant="ghost">Sign In</Button>
+              <>
+                <Link to="/login" className="text-gray-700 hover:text-mansablue px-3 py-2 text-sm font-medium transition-colors">
+                  Log In
                 </Link>
-                <Link to="/signup">
-                  <Button>Get Started</Button>
+                <Link to="/signup" className="text-white bg-mansablue hover:bg-mansablue-dark px-4 py-2 rounded-md text-sm font-medium transition-colors">
+                  Sign Up
                 </Link>
-              </div>
+              </>
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2"
+          <div className="flex items-center md:hidden">
+            <button
+              onClick={toggleMobileMenu}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-mansablue"
+              aria-expanded="false"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
+              <span className="sr-only">Open main menu</span>
+              <svg className={`${isMobileMenuOpen ? 'hidden' : 'block'} h-6 w-6`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              <svg className={`${isMobileMenuOpen ? 'block' : 'hidden'} h-6 w-6`} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="md:hidden border-t bg-white">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className={`block px-3 py-2 text-base font-medium transition-colors ${
-                  isActive(link.href)
-                    ? 'text-mansablue bg-blue-50'
-                    : 'text-gray-700 hover:text-mansablue hover:bg-gray-50'
-                }`}
-                onClick={() => setIsOpen(false)}
-              >
-                {link.label}
+      <div className={`${isMobileMenuOpen ? 'block' : 'none'} md:hidden absolute top-full left-0 w-full bg-white shadow-md z-50`}>
+        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+          <Link to="/" className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
+            Home
+          </Link>
+          <Link to="/directory" className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
+            Directory
+          </Link>
+          <Link to="/about" className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
+            About
+          </Link>
+          <Link to="/contact" className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
+            Contact
+          </Link>
+          <Link to="/comprehensive-test" className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors bg-blue-50 rounded-md">
+              🔧 System Test
+            </Link>
+          {user ? (
+            <>
+              <Link to="/profile" className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                Profile
               </Link>
-            ))}
-            <div className="pt-4 pb-2 border-t">
-              {user ? (
-                <div className="space-y-2">
-                  <Link
-                    to="/dashboard"
-                    className="block px-3 py-2 text-base font-medium text-gray-700"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Dashboard
-                  </Link>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start px-3"
-                    onClick={() => {
-                      handleSignOut();
-                      setIsOpen(false);
-                    }}
-                  >
-                    Sign Out
-                  </Button>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <Link to="/login" onClick={() => setIsOpen(false)}>
-                    <Button variant="ghost" className="w-full">
-                      Sign In
-                    </Button>
-                  </Link>
-                  <Link to="/signup" onClick={() => setIsOpen(false)}>
-                    <Button className="w-full">Get Started</Button>
-                  </Link>
-                </div>
+              {userType === 'business' && (
+                <Link to="/subscription" className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                  Subscription
+                </Link>
               )}
-            </div>
-          </div>
+              {userType === 'customer' && subscriptionInfo?.is_subscribed && (
+                <button onClick={openCustomerPortal} className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                  Manage Subscription
+                </button>
+              )}
+              <button onClick={handleSignOut} className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                Log In
+              </Link>
+              <Link to="/signup" className="text-white bg-mansablue hover:bg-mansablue-dark block px-3 py-2 rounded-md text-base font-medium transition-colors">
+                Sign Up
+              </Link>
+            </>
+          )}
         </div>
-      )}
+      </div>
     </nav>
   );
 };
