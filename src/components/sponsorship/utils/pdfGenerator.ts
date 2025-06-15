@@ -1,6 +1,5 @@
 
 import jsPDF from 'jspdf';
-import * as html2pdf from 'html2pdf.js';
 import { toast } from 'sonner';
 
 interface PDFOptions {
@@ -10,6 +9,12 @@ interface PDFOptions {
 
 export const generatePDF = async ({ filename, content }: PDFOptions): Promise<void> => {
   try {
+    // Make jsPDF available globally for html2pdf
+    (window as any).jsPDF = jsPDF;
+    
+    // Dynamically import html2pdf to ensure jsPDF is available first
+    const html2pdf = await import('html2pdf.js');
+    
     // Create a temporary div element with the content
     const element = document.createElement('div');
     element.innerHTML = content;
@@ -42,7 +47,7 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     };
 
     // Generate and download the PDF using the correct syntax
-    await (html2pdf as any)().set(opt).from(element).save();
+    await (html2pdf.default || html2pdf)().set(opt).from(element).save();
     
     // Clean up
     document.body.removeChild(element);
