@@ -21,7 +21,7 @@ const Hero = () => {
           <Link to="/subscription">
             <Badge className="bg-mansagold hover:bg-mansagold-dark text-mansablue px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
               <Crown className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              Limited Premium Special - $4.99/month
+              Limited Premium Special - $4.99/month (for 1 year)
             </Badge>
           </Link>
           <Link to="/signup/customer">
