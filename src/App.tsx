@@ -1,3 +1,4 @@
+
 import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import AuthProvider from "./contexts/AuthContext";
 import { SubscriptionProvider } from "./contexts/SubscriptionContext";
-import LoadingSpinner from "./components/ui/loading-spinner";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import HomePage from "./pages/HomePage";
 import DirectoryPage from "./pages/DirectoryPage";
 import BusinessPage from "./pages/BusinessPage";
