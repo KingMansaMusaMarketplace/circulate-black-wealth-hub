@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { MansaMusaLogo } from '@/components/ui/logo';
+import { MansaMusaLogo } from '@/components/brand/MansaMusaLogo';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   DropdownMenu,
@@ -80,7 +81,7 @@ const Navbar = () => {
                       Subscription
                     </DropdownMenuItem>
                   )}
-                  {userType === 'customer' && subscriptionInfo?.is_subscribed && (
+                  {userType === 'customer' && subscriptionInfo?.subscribed && (
                     <DropdownMenuItem onClick={openCustomerPortal}>
                       Manage Subscription
                     </DropdownMenuItem>
@@ -147,7 +148,7 @@ const Navbar = () => {
                   Subscription
                 </Link>
               )}
-              {userType === 'customer' && subscriptionInfo?.is_subscribed && (
+              {userType === 'customer' && subscriptionInfo?.subscribed && (
                 <button onClick={openCustomerPortal} className="text-gray-700 hover:text-mansablue block px-3 py-2 rounded-md text-base font-medium transition-colors">
                   Manage Subscription
                 </button>
