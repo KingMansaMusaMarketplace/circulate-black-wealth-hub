@@ -1,16 +1,24 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 interface SponsorshipHeroSectionProps {
   onContactPartnership: () => void;
 }
 
 const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onContactPartnership }) => {
+  const navigate = useNavigate();
+
   const handleBecomePartner = () => {
     const formElement = document.getElementById('sponsorship-form');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // If form is not on current page, navigate to sponsorship page
+      navigate('/sponsorship');
+      toast.success('Redirecting to sponsorship form...');
     }
   };
 

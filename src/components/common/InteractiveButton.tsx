@@ -9,6 +9,7 @@ interface InteractiveButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | 'white';
   size?: 'default' | 'sm' | 'lg' | 'icon';
   children: React.ReactNode;
+  href?: string; // Add href for navigation
 }
 
 const InteractiveButton: React.FC<InteractiveButtonProps> = ({
@@ -17,12 +18,19 @@ const InteractiveButton: React.FC<InteractiveButtonProps> = ({
   children,
   disabled,
   onClick,
+  href,
   ...props
 }) => {
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (loading || disabled) return;
     
     try {
+      // If href is provided and no onClick, navigate
+      if (href && !onClick) {
+        window.location.href = href;
+        return;
+      }
+      
       if (onClick) {
         await onClick(e);
       }

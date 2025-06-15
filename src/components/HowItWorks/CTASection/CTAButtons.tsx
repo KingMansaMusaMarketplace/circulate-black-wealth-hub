@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 interface CTAButtonsProps {
@@ -11,11 +12,11 @@ interface CTAButtonsProps {
 }
 
 export const CTAButtons: React.FC<CTAButtonsProps> = ({ isVisible }) => {
+  const navigate = useNavigate();
+
   const handleEarlyAccess = () => {
-    toast("Early Access", {
-      description: "You've been added to our early access waitlist!",
-      duration: 3000,
-    });
+    navigate('/signup');
+    toast.success("Welcome! Sign up to get early access to all features.");
   };
 
   return (
@@ -36,12 +37,10 @@ export const CTAButtons: React.FC<CTAButtonsProps> = ({ isVisible }) => {
         {/* Decorative glow effect */}
         <div className="absolute inset-0 bg-mansagold/20 rounded-md filter blur-md -z-10"></div>
         
-        <Link to="/signup">
-          <Button onClick={handleEarlyAccess} className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg group">
-            Get Early Access 
-            <ArrowUp className="ml-2 rotate-45 group-hover:translate-x-1 transition-transform" />
-          </Button>
-        </Link>
+        <Button onClick={handleEarlyAccess} className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg group">
+          Get Early Access 
+          <ArrowUp className="ml-2 rotate-45 group-hover:translate-x-1 transition-transform" />
+        </Button>
       </motion.div>
       
       <motion.div
