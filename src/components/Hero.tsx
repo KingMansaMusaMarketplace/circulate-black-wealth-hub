@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -88,7 +89,7 @@ const Hero = () => {
                     
                     <div className="flex items-center">
                       <Crown className="h-5 w-5 text-mansagold mr-2" />
-                      <span className="text-sm font-medium">Premium $4.99/month</span>
+                      <span className="text-sm font-medium">$4.99/month</span>
                     </div>
                     
                     <div className="flex items-center">
