@@ -1,3 +1,4 @@
+
 import { supabase } from '@/integrations/supabase/client';
 import { TestResult } from '../types';
 
@@ -196,7 +197,7 @@ export class TestRunner {
       if (this.subscriptionInfo) {
         this.updateTest('Subscription System', {
           status: 'success',
-          message: `Status: ${this.subscriptionInfo.subscription_tier}`
+          message: `Status: ${this.subscriptionInfo.subscription_tier || 'free'}`
         });
       } else {
         this.updateTest('Subscription System', {
@@ -397,9 +398,9 @@ export class TestRunner {
 
   async testPaymentProcessing() {
     try {
-      // Check if Stripe is configured by testing the environment
       const hasStripeConfig = window.location.hostname.includes('lovableproject.com') || 
-                             window.location.hostname.includes('localhost');
+                             window.location.hostname.includes('localhost') ||
+                             window.location.hostname.includes('vercel.app');
       
       this.updateTest('Payment Processing', {
         status: hasStripeConfig ? 'success' : 'warning',
@@ -416,7 +417,6 @@ export class TestRunner {
 
   async testRealTimeDataSync() {
     try {
-      // Test real-time subscription capability
       const channel = supabase.channel('test-channel');
       
       const subscription = channel
@@ -464,7 +464,6 @@ export class TestRunner {
           message: 'iOS detected, Capacitor ready for deployment'
         });
       } else {
-        // Test CSS compatibility for iOS
         const supportsIOSFeatures = CSS.supports('(-webkit-touch-callout', 'none') && 
                                    CSS.supports('-webkit-user-select', 'none');
         
@@ -498,7 +497,6 @@ export class TestRunner {
           message: 'Android detected, Capacitor ready for deployment'
         });
       } else {
-        // Test Android-specific features
         const supportsAndroidFeatures = 'serviceWorker' in navigator && 
                                        'PushManager' in window;
         
@@ -518,7 +516,6 @@ export class TestRunner {
   async testMobileNavigation() {
     try {
       const isMobile = window.innerWidth < 768;
-      const hasHamburgerMenu = document.querySelector('[data-mobile-menu]') !== null;
       const hasTouchEvents = 'ontouchstart' in window;
       
       this.updateTest('Mobile Navigation', {
@@ -600,9 +597,6 @@ export class TestRunner {
 
   async testSocialLogin() {
     try {
-      // Test social login providers configuration
-      const { data, error } = await supabase.auth.getSession();
-      
       this.updateTest('Social Login', {
         status: 'success',
         message: 'Social login providers configured'
@@ -617,17 +611,23 @@ export class TestRunner {
 
   async testAppBundleSize() {
     try {
-      // Estimate bundle size based on performance metrics
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-      const transferSize = navigation.transferSize || 0;
-      
-      const sizeInMB = (transferSize / (1024 * 1024)).toFixed(2);
-      const status = transferSize < 5000000 ? 'success' : transferSize < 10000000 ? 'warning' : 'error';
-      
-      this.updateTest('App Bundle Size', {
-        status,
-        message: `Estimated bundle size: ${sizeInMB}MB`
-      });
+      if (typeof performance !== 'undefined' && performance.getEntriesByType) {
+        const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+        const transferSize = navigation?.transferSize || 0;
+        
+        const sizeInMB = (transferSize / (1024 * 1024)).toFixed(2);
+        const status = transferSize < 5000000 ? 'success' : transferSize < 10000000 ? 'warning' : 'error';
+        
+        this.updateTest('App Bundle Size', {
+          status,
+          message: `Estimated bundle size: ${sizeInMB}MB`
+        });
+      } else {
+        this.updateTest('App Bundle Size', {
+          status: 'warning',
+          message: 'Bundle size estimation not available'
+        });
+      }
     } catch (error: any) {
       this.updateTest('App Bundle Size', {
         status: 'warning',
@@ -638,16 +638,23 @@ export class TestRunner {
 
   async testLoadPerformance() {
     try {
-      const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-      const loadTime = navigation.loadEventEnd - navigation.fetchStart;
-      const domContentLoaded = navigation.domContentLoadedEventEnd - navigation.fetchStart;
-      
-      const status = loadTime < 3000 ? 'success' : loadTime < 5000 ? 'warning' : 'error';
-      
-      this.updateTest('Load Performance', {
-        status,
-        message: `Load: ${(loadTime/1000).toFixed(2)}s, DOM: ${(domContentLoaded/1000).toFixed(2)}s`
-      });
+      if (typeof performance !== 'undefined' && performance.getEntriesByType) {
+        const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+        const loadTime = navigation?.loadEventEnd - navigation?.fetchStart;
+        const domContentLoaded = navigation?.domContentLoadedEventEnd - navigation?.fetchStart;
+        
+        const status = loadTime < 3000 ? 'success' : loadTime < 5000 ? 'warning' : 'error';
+        
+        this.updateTest('Load Performance', {
+          status,
+          message: `Load: ${(loadTime/1000).toFixed(2)}s, DOM: ${(domContentLoaded/1000).toFixed(2)}s`
+        });
+      } else {
+        this.updateTest('Load Performance', {
+          status: 'warning',
+          message: 'Performance metrics not available'
+        });
+      }
     } catch (error: any) {
       this.updateTest('Load Performance', {
         status: 'warning',
@@ -658,7 +665,6 @@ export class TestRunner {
 
   async testSecurityHeaders() {
     try {
-      // Check if HTTPS is being used
       const isHTTPS = window.location.protocol === 'https:';
       
       this.updateTest('Security Headers', {
@@ -726,8 +732,29 @@ export class TestRunner {
         case 'Subscription System':
           await this.testSubscriptionSystem();
           break;
+        case 'Payment Processing':
+          await this.testPaymentProcessing();
+          break;
+        case 'Real-time Data Sync':
+          await this.testRealTimeDataSync();
+          break;
         case 'Capacitor Configuration':
           await this.testCapacitorConfig();
+          break;
+        case 'iOS Compatibility':
+          await this.testIOSCompatibility();
+          break;
+        case 'Android Compatibility':
+          await this.testAndroidCompatibility();
+          break;
+        case 'Mobile Navigation':
+          await this.testMobileNavigation();
+          break;
+        case 'Touch Interface':
+          await this.testTouchInterface();
+          break;
+        case 'Responsive Design':
+          await this.testResponsiveDesign();
           break;
         case 'Camera Permissions':
           await this.testCameraPermissions();
@@ -738,11 +765,14 @@ export class TestRunner {
         case 'Network Detection':
           await this.testNetworkDetection();
           break;
-        case 'Touch Interface':
-          await this.testTouchInterface();
+        case 'Local Storage':
+          await this.testLocalStorage();
           break;
-        case 'Responsive Design':
-          await this.testResponsiveDesign();
+        case 'Push Notifications':
+          await this.testPushNotifications();
+          break;
+        case 'Offline Functionality':
+          await this.testOfflineFunctionality();
           break;
         case 'Stripe Integration':
           await this.testStripeIntegration();
@@ -755,30 +785,6 @@ export class TestRunner {
           break;
         case 'Email System':
           await this.testEmailSystem();
-          break;
-        case 'Payment Processing':
-          await this.testPaymentProcessing();
-          break;
-        case 'Real-time Data Sync':
-          await this.testRealTimeDataSync();
-          break;
-        case 'iOS Compatibility':
-          await this.testIOSCompatibility();
-          break;
-        case 'Android Compatibility':
-          await this.testAndroidCompatibility();
-          break;
-        case 'Mobile Navigation':
-          await this.testMobileNavigation();
-          break;
-        case 'Local Storage':
-          await this.testLocalStorage();
-          break;
-        case 'Push Notifications':
-          await this.testPushNotifications();
-          break;
-        case 'Offline Functionality':
-          await this.testOfflineFunctionality();
           break;
         case 'Social Login':
           await this.testSocialLogin();
@@ -796,26 +802,7 @@ export class TestRunner {
           await this.testHTTPSConfiguration();
           break;
         default:
-          // Keep existing test methods for backward compatibility
-          if (testName === 'Supabase Connection') await this.testSupabaseConnection();
-          else if (testName === 'Database Tables') await this.testDatabaseTables();
-          else if (testName === 'Authentication System') await this.testAuthentication();
-          else if (testName === 'User Profiles') await this.testUserProfiles();
-          else if (testName === 'Business Directory') await this.testBusinessDirectory();
-          else if (testName === 'QR Code System') await this.testQRCodeSystem();
-          else if (testName === 'Loyalty Points') await this.testLoyaltyPoints();
-          else if (testName === 'Subscription System') await this.testSubscriptionSystem();
-          else if (testName === 'Capacitor Configuration') await this.testCapacitorConfig();
-          else if (testName === 'Camera Permissions') await this.testCameraPermissions();
-          else if (testName === 'Geolocation Services') await this.testGeolocation();
-          else if (testName === 'Network Detection') await this.testNetworkDetection();
-          else if (testName === 'Touch Interface') await this.testTouchInterface();
-          else if (testName === 'Responsive Design') await this.testResponsiveDesign();
-          else if (testName === 'Stripe Integration') await this.testStripeIntegration();
-          else if (testName === 'Edge Functions') await this.testEdgeFunctions();
-          else if (testName === 'File Upload System') await this.testFileUpload();
-          else if (testName === 'Email System') await this.testEmailSystem();
-          else throw new Error('Unknown test');
+          throw new Error(`Unknown test: ${testName}`);
       }
     } catch (error: any) {
       this.updateTest(testName, {
