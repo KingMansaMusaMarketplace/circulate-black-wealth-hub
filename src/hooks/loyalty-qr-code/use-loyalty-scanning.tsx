@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useQRCode } from '@/hooks/qr-code';
 import { useLoyalty } from '@/hooks/use-loyalty';
 import { toast } from 'sonner';
