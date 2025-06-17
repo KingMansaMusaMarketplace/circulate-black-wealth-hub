@@ -15,7 +15,7 @@ const Hero = () => {
           <Link to="/signup">
             <Badge className="bg-green-500 hover:bg-green-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
               <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              Start FREE
+              Start FREE - Browse directory, discover businesses, view profiles
             </Badge>
           </Link>
           <Link to="/subscription">
@@ -54,7 +54,7 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-8 w-full">
               <Link to="/signup" className="w-full sm:w-auto">
                 <Button className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-6 md:px-8 text-lg md:text-xl rounded-xl w-full sm:w-auto">
-                  Start FREE Today
+                  Start FREE Today - Browse, Discover, View Profiles
                 </Button>
               </Link>
               
