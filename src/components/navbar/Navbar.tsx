@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -131,4 +130,6 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   );
 };
 
+// Export both named and default
+export { Navbar };
 export default Navbar;
