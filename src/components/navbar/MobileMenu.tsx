@@ -32,9 +32,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <div className="fixed inset-x-0 top-16 z-40 md:hidden" data-mobile-menu>
-      <Card className="mx-4 mt-2 shadow-lg">
-        <CardContent className="p-4">
+    <div className="w-full" data-mobile-menu>
+      <Card className="mx-4 mt-2 shadow-lg bg-white border border-gray-200">
+        <CardContent className="p-4 max-h-[80vh] overflow-y-auto">
           <nav className="space-y-2">
             {/* Main Navigation */}
             {mainItems.map((item) => (

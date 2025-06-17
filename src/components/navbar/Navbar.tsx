@@ -20,9 +20,6 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const isLoginPage = location.pathname === '/login';
-  const isSignupPage = location.pathname === '/signup';
-  
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -61,6 +58,19 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
 
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
+  }, [mobileMenuOpen]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [mobileMenuOpen]);
 
   return (
@@ -103,9 +113,19 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         </div>
       </header>
 
-      {/* Mobile navigation menu */}
+      {/* Mobile navigation menu with proper z-index and backdrop */}
       {isMobile && mobileMenuOpen && (
-        <MobileMenu onNavigate={closeMobileMenu} />
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+            onClick={closeMobileMenu}
+          />
+          {/* Mobile Menu */}
+          <div className="fixed inset-x-0 top-16 z-50 md:hidden">
+            <MobileMenu onNavigate={closeMobileMenu} />
+          </div>
+        </>
       )}
     </>
   );
