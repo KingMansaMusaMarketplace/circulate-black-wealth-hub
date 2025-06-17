@@ -50,8 +50,8 @@ const Hero = () => {
               purchase count toward building generational wealth.
             </p>
 
-            {/* CTA Buttons - Mobile Optimized */}
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 mb-8 w-full">
+            {/* CTA Buttons - Mobile Optimized with vertical layout */}
+            <div className="flex flex-col gap-4 mb-8 w-full">
               <Link to="/signup" className="w-full sm:w-auto">
                 <Button className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-6 md:px-8 text-lg md:text-xl rounded-xl w-full sm:w-auto">
                   Start FREE Today - Browse, Discover, View Profiles
