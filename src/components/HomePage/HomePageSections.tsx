@@ -11,6 +11,8 @@ import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
 import { SocialProofWidget } from '@/components/social-proof';
 import LazySection from '@/components/common/LazySection';
+import CommunityStatsWidget from '@/components/HomePage/CommunityStatsWidget';
+import WelcomeNotification from '@/components/common/WelcomeNotification';
 import { 
   LazyInteractiveDemo, 
   LazyCirculationVisualization, 
@@ -20,6 +22,12 @@ import {
 const HomePageSections: React.FC = () => {
   return (
     <>
+      {/* Welcome notification for new visitors */}
+      <WelcomeNotification />
+
+      {/* Community Stats Widget */}
+      <CommunityStatsWidget />
+
       {/* Social Proof Section */}
       <section id="social-proof">
         <SocialProofWidget />
