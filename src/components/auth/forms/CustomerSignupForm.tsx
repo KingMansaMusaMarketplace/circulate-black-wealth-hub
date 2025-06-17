@@ -136,14 +136,26 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
           onCheckedChange={setAgreeTerms}
         />
         
-        <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-          <h4 className="text-sm font-medium text-gray-900 mb-2">Customer Subscription:</h4>
-          <ul className="text-xs text-gray-600 space-y-1">
-            <li>• $4.99/month subscription fee</li>
-            <li>• Access to all businesses in the network</li>
-            <li>• Unlimited QR code scans</li>
-            <li>• Loyalty rewards program access</li>
-          </ul>
+        {/* Membership Options */}
+        <div className="space-y-4">
+          <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+            <h4 className="text-sm font-medium text-green-900 mb-2">FREE MEMBERSHIP:</h4>
+            <ul className="text-xs text-green-700 space-y-1">
+              <li>• Browse directory</li>
+              <li>• Discover businesses</li>
+              <li>• View profiles</li>
+            </ul>
+          </div>
+          
+          <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+            <h4 className="text-sm font-medium text-gray-900 mb-2">Customer Subscription:</h4>
+            <ul className="text-xs text-gray-600 space-y-1">
+              <li>• $4.99/month subscription fee</li>
+              <li>• Access to all businesses in the network</li>
+              <li>• Unlimited QR code scans</li>
+              <li>• Loyalty rewards program access</li>
+            </ul>
+          </div>
         </div>
         
         <SubmitButton 
