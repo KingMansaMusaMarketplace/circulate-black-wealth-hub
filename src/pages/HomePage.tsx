@@ -1,7 +1,6 @@
-
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
-import Navbar from '@/components/navbar/Navbar';
+import Navbar from '@/components/Navbar';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
 import HomePageSections from '@/components/HomePage/HomePageSections';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
