@@ -136,31 +136,37 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
           onCheckedChange={setAgreeTerms}
         />
         
-        {/* Membership Options */}
+        {/* Free Membership Benefits */}
         <div className="space-y-4">
           <div className="bg-green-50 rounded-lg p-4 border border-green-200">
-            <h4 className="text-sm font-medium text-green-900 mb-2">FREE MEMBERSHIP:</h4>
+            <h4 className="text-sm font-medium text-green-900 mb-2">🎉 FREE MEMBERSHIP INCLUDES:</h4>
             <ul className="text-xs text-green-700 space-y-1">
-              <li>• Browse directory</li>
-              <li>• Discover businesses</li>
-              <li>• View profiles</li>
+              <li>✓ Browse complete business directory</li>
+              <li>✓ Discover Black-owned businesses near you</li>
+              <li>✓ View detailed business profiles</li>
+              <li>✓ Access business contact information</li>
+              <li>✓ Support community economic growth</li>
             </ul>
           </div>
           
-          <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-            <h4 className="text-sm font-medium text-gray-900 mb-2">Customer Subscription:</h4>
-            <ul className="text-xs text-gray-600 space-y-1">
-              <li>• $4.99/month subscription fee</li>
-              <li>• Access to all businesses in the network</li>
-              <li>• Unlimited QR code scans</li>
-              <li>• Loyalty rewards program access</li>
+          <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+            <h4 className="text-sm font-medium text-blue-900 mb-2">🚀 Want More? Upgrade Later:</h4>
+            <ul className="text-xs text-blue-700 space-y-1">
+              <li>• Premium subscription: $4.99/month</li>
+              <li>• Get 5% - 30% discounts at businesses</li>
+              <li>• Earn and redeem loyalty points</li>
+              <li>• Access exclusive member deals</li>
+              <li>• Priority customer support</li>
             </ul>
+            <p className="text-xs text-blue-600 mt-2 font-medium">
+              Start free now - upgrade anytime!
+            </p>
           </div>
         </div>
         
         <SubmitButton 
           loading={loading}
-          text="Continue to Payment"
+          text="Create Free Account & Start Browsing"
         />
       </div>
     </form>

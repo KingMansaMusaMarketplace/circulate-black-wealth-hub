@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomerSignupForm } from './CustomerSignupForm';
 import { useAuth } from '@/contexts/AuthContext';
-import { subscriptionService } from '@/lib/services/subscription-service';
 import { toast } from 'sonner';
 
 const CustomerSignupTab: React.FC = () => {
@@ -48,7 +47,7 @@ const CustomerSignupTab: React.FC = () => {
     setLoading(true);
     
     try {
-      console.log('Creating customer account...');
+      console.log('Creating free customer account...');
       
       const metadata = {
         name,
@@ -58,35 +57,17 @@ const CustomerSignupTab: React.FC = () => {
         userType: 'customer',
         phone,
         address,
-        subscription_tier: 'paid'
+        subscription_tier: 'free' // Set to free tier instead of paid
       };
 
       const result = await signUp(email, password, metadata);
 
       if (result.data?.user) {
-        console.log('✅ Customer account created, proceeding to payment...');
+        console.log('✅ Free customer account created successfully');
+        toast.success('Welcome! Your free account has been created. Start browsing businesses now!');
         
-        try {
-          // Create Stripe checkout session for customer subscription
-          const checkoutData = await subscriptionService.createCheckoutSession({
-            userType: 'customer',
-            email,
-            name,
-            tier: 'premium'
-          });
-
-          if (checkoutData.url) {
-            // Redirect to Stripe checkout
-            window.location.href = checkoutData.url;
-          } else {
-            throw new Error('Failed to create checkout session');
-          }
-        } catch (checkoutError: any) {
-          console.error('❌ Checkout creation failed:', checkoutError);
-          toast.error('Account created but payment setup failed. Please contact support.');
-          // Still redirect to success/dashboard since account was created
-          navigate('/dashboard');
-        }
+        // Redirect to directory instead of payment
+        navigate('/directory');
       }
     } catch (error: any) {
       console.error('❌ Customer signup error:', error);
