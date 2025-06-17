@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '@/components/Navbar';
+import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 import QRCodeScannerV2 from '@/components/QRScannerV2';
 import { Card, CardContent } from '@/components/ui/card';
