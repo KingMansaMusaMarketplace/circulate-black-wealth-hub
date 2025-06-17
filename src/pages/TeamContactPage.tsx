@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import Navbar from '@/components/Navbar';
+import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 import TeamSection from '@/components/AboutPage/TeamSection';
 import ContactSection from '@/components/AboutPage/ContactSection';

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Navbar from '@/components/Navbar';
+import { Navbar } from '@/components/navbar';
 import CommunityForum from '@/components/community/CommunityForum';
 import CommunityEvents from '@/components/community/CommunityEvents';
 import ActivityFeed from '@/components/community/ActivityFeed';

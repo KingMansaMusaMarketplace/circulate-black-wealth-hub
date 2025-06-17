@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSalesAgent } from '@/hooks/use-sales-agent';
 import { useSalesAgentTabs } from '@/hooks/use-sales-agent-tabs';
-import Navbar from '@/components/Navbar';
+import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 import GuestView from '@/components/sales-agent/GuestView';
 import AgentContent from '@/components/sales-agent/AgentContent';

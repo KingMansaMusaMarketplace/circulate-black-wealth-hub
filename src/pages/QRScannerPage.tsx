@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import QRScannerComponent from '@/components/QRCodeScanner/QRScannerComponent';
 import { useLoyaltyQRCode } from '@/hooks/use-loyalty-qr-code';
-import Navbar from '@/components/Navbar';
+import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/auth';
 import { Card, CardContent } from '@/components/ui/card';
