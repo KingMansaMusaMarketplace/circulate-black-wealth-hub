@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -50,11 +51,16 @@ const Hero = () => {
               purchase count toward building generational wealth.
             </p>
 
-            {/* CTA Buttons - Mobile Optimized with vertical layout */}
+            {/* CTA Buttons - Mobile Optimized with better text wrapping */}
             <div className="flex flex-col gap-4 mb-8 w-full">
               <Link to="/signup" className="w-full sm:w-auto">
-                <Button className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-6 md:px-8 text-lg md:text-xl rounded-xl w-full sm:w-auto">
-                  Start FREE Today - Browse, Discover, View Profiles
+                <Button className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-4 md:px-6 text-sm sm:text-base md:text-lg rounded-xl w-full sm:w-auto leading-tight">
+                  <span className="text-center">
+                    Start FREE Today
+                    <br className="sm:hidden" />
+                    <span className="hidden sm:inline"> - </span>
+                    Browse, Discover, View Profiles
+                  </span>
                 </Button>
               </Link>
               
