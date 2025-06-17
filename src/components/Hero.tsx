@@ -61,7 +61,7 @@ const Hero = () => {
               <Link to="/directory" className="w-full sm:w-auto">
                 <Button 
                   variant="white"
-                  className="py-3 md:py-4 px-6 md:px-8 text-lg md:text-xl rounded-xl w-full sm:w-auto"
+                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap"
                 >
                   Browse Directory
                 </Button>
