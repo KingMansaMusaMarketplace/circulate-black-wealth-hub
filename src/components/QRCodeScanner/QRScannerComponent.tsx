@@ -29,10 +29,9 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [scanHistory, setScanHistory] = useState<ScanHistoryItem[]>([]);
   const [html5QrCode, setHtml5QrCode] = useState<Html5Qrcode | null>(null);
-  const scannerRef = useRef<HTMLDivElement>(null);
   const scannerIdRef = useRef<string>('qr-reader-' + Date.now());
 
-  // Check camera availability
+  // Check camera availability on mount
   useEffect(() => {
     const checkCamera = async () => {
       try {
@@ -59,18 +58,24 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
     checkCamera();
   }, []);
 
-  // Initialize Html5Qrcode when scanner element is ready
-  useEffect(() => {
-    if (scannerRef.current && !html5QrCode) {
+  // Initialize Html5Qrcode when needed
+  const initializeScanner = () => {
+    if (!html5QrCode) {
       try {
         const qrCode = new Html5Qrcode(scannerIdRef.current);
         setHtml5QrCode(qrCode);
+        return qrCode;
       } catch (error) {
         console.error('Error initializing QR scanner:', error);
         setCameraError('Failed to initialize QR scanner');
+        return null;
       }
     }
+    return html5QrCode;
+  };
 
+  // Cleanup scanner on unmount
+  useEffect(() => {
     return () => {
       if (html5QrCode && html5QrCode.isScanning) {
         html5QrCode.stop().catch(error => {
@@ -103,8 +108,9 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
       return;
     }
 
-    if (!html5QrCode) {
-      setCameraError('QR scanner not initialized');
+    // Initialize scanner if not already done
+    const scanner = initializeScanner();
+    if (!scanner) {
       return;
     }
 
@@ -131,11 +137,15 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
         aspectRatio: 1.0
       };
 
-      await html5QrCode.start(
+      await scanner.start(
         cameraId,
         config,
         (decodedText, decodedResult) => {
           console.log('QR Code detected:', decodedText);
+          // Stop scanner after successful scan
+          scanner.stop().then(() => {
+            setScanning(false);
+          }).catch(console.error);
           onScan(decodedText);
         },
         (errorMessage) => {
@@ -205,29 +215,27 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
                 {/* QR Scanner Element */}
                 <div 
                   id={scannerIdRef.current}
-                  ref={scannerRef}
                   className={`w-full h-full ${scanning ? 'block' : 'hidden'}`}
                   style={{ lineHeight: 0 }}
                 />
                 
-                {scanning ? (
-                  <div className={`${scanning ? 'hidden' : 'flex'} flex-col items-center justify-center w-full h-full`}>
-                    <Loader2 className="h-12 w-12 animate-spin text-mansablue mb-4" />
-                    <p className="text-sm text-gray-600">Starting camera...</p>
-                  </div>
-                ) : cameraError ? (
-                  <div className="flex flex-col items-center text-center p-4">
-                    <AlertCircle className="h-12 w-12 text-red-500 mb-2" />
-                    <p className="text-sm text-red-500 mb-2 font-medium">Camera Error</p>
-                    <p className="text-xs text-gray-500">{cameraError}</p>
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center">
-                    <QrCode className="h-12 w-12 text-gray-400 mb-4" />
-                    <p className="text-sm text-gray-600 text-center">
-                      Position QR code within the frame to scan
-                    </p>
-                    <div className="absolute inset-4 border-2 border-dashed border-gray-300 rounded-lg"></div>
+                {!scanning && (
+                  <div className="flex flex-col items-center justify-center w-full h-full">
+                    {cameraError ? (
+                      <div className="flex flex-col items-center text-center p-4">
+                        <AlertCircle className="h-12 w-12 text-red-500 mb-2" />
+                        <p className="text-sm text-red-500 mb-2 font-medium">Camera Error</p>
+                        <p className="text-xs text-gray-500">{cameraError}</p>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <QrCode className="h-12 w-12 text-gray-400 mb-4" />
+                        <p className="text-sm text-gray-600 text-center">
+                          Position QR code within the frame to scan
+                        </p>
+                        <div className="absolute inset-4 border-2 border-dashed border-gray-300 rounded-lg"></div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
