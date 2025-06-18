@@ -35,6 +35,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { businesses } from '@/data/businessesData';
 
 const BusinessDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -44,30 +45,10 @@ const BusinessDetailPage = () => {
   
   const businessId = Number(id);
   
-  // Mock business data - in a real app, this would be fetched based on the ID
-  const [business, setBusiness] = useState({
-    id: businessId || 1,
-    name: "Soul Food Kitchen",
-    category: "Restaurant",
-    discount: "15% off",
-    discountValue: 15,
-    rating: 4.8,
-    reviewCount: 124,
-    address: "123 Main St, Atlanta, GA",
-    phone: "(404) 555-1234",
-    website: "https://soulfoodkitchen.example",
-    hours: {
-      mon: "11AM - 9PM",
-      tue: "11AM - 9PM",
-      wed: "11AM - 9PM",
-      thu: "11AM - 10PM",
-      fri: "11AM - 11PM",
-      sat: "10AM - 11PM",
-      sun: "10AM - 8PM"
-    },
-    description: "Soul Food Kitchen offers authentic Southern cuisine with family recipes that have been passed down for generations. Our commitment to using fresh, locally sourced ingredients ensures that every meal is not only delicious but also supports our community farmers.",
-    established: 2012,
-    ownerName: "James Wilson"
+  // Find the business from our data
+  const [business, setBusiness] = useState(() => {
+    const foundBusiness = businesses.find(b => b.id === businessId);
+    return foundBusiness || null;
   });
   
   // Mock reviews
@@ -105,7 +86,7 @@ const BusinessDetailPage = () => {
   ];
 
   useEffect(() => {
-    // Simulate loading business data
+    // Simulate loading
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
@@ -123,7 +104,7 @@ const BusinessDetailPage = () => {
   
   const handleCheckIn = () => {
     toast("Checked In!", {
-      description: "You've successfully checked in at Soul Food Kitchen and earned 10 loyalty points!"
+      description: `You've successfully checked in at ${business?.name} and earned 10 loyalty points!`
     });
   };
 
@@ -151,7 +132,7 @@ const BusinessDetailPage = () => {
     );
   }
 
-  if (!business && !loading) {
+  if (!business) {
     return (
       <div className="min-h-screen">
         <Navbar />
@@ -206,7 +187,7 @@ const BusinessDetailPage = () => {
                 </div>
                 <div className="flex items-center text-sm text-gray-500 mb-4">
                   <MapPin size={16} className="mr-1" />
-                  {business.address}
+                  {business.address}, {business.city}, {business.state}
                 </div>
               </div>
               
@@ -298,15 +279,15 @@ const BusinessDetailPage = () => {
                         <Calendar size={18} className="text-mansablue" />
                         Established
                       </h3>
-                      <p className="text-gray-600">{business.established}</p>
+                      <p className="text-gray-600">2015</p>
                     </div>
                     
                     <div>
                       <h3 className="font-semibold mb-3 flex items-center gap-2">
                         <Users size={18} className="text-mansablue" />
-                        Owned By
+                        Category
                       </h3>
-                      <p className="text-gray-600">{business.ownerName}</p>
+                      <p className="text-gray-600">{business.category}</p>
                     </div>
                   </div>
                 </div>
@@ -320,9 +301,9 @@ const BusinessDetailPage = () => {
                     </div>
                   </div>
                   <div className="text-center">
-                    <p className="text-gray-600 mb-4">{business.address}</p>
+                    <p className="text-gray-600 mb-4">{business.address}, {business.city}, {business.state} {business.zipCode}</p>
                     <a 
-                      href={`https://maps.google.com/?q=${encodeURIComponent(business.address)}`}
+                      href={`https://maps.google.com/?q=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center text-mansablue hover:underline"
@@ -362,7 +343,7 @@ const BusinessDetailPage = () => {
                       <MapPin size={18} className="text-mansablue mt-0.5 flex-shrink-0" />
                       <div>
                         <p className="font-medium">Address</p>
-                        <p className="text-gray-600">{business.address}</p>
+                        <p className="text-gray-600">{business.address}, {business.city}, {business.state}</p>
                       </div>
                     </div>
                   </div>
@@ -374,12 +355,34 @@ const BusinessDetailPage = () => {
                     Business Hours
                   </h3>
                   <div className="space-y-2">
-                    {Object.entries(business.hours).map(([day, hours]) => (
-                      <div key={day} className="flex justify-between">
-                        <span className="font-medium capitalize">{day === 'tue' ? 'Tuesday' : day === 'wed' ? 'Wednesday' : day === 'thu' ? 'Thursday' : day === 'fri' ? 'Friday' : day === 'sat' ? 'Saturday' : day === 'sun' ? 'Sunday' : 'Monday'}</span>
-                        <span className="text-gray-600">{hours}</span>
-                      </div>
-                    ))}
+                    <div className="flex justify-between">
+                      <span className="font-medium">Monday</span>
+                      <span className="text-gray-600">9:00 AM - 6:00 PM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Tuesday</span>
+                      <span className="text-gray-600">9:00 AM - 6:00 PM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Wednesday</span>
+                      <span className="text-gray-600">9:00 AM - 6:00 PM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Thursday</span>
+                      <span className="text-gray-600">9:00 AM - 8:00 PM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Friday</span>
+                      <span className="text-gray-600">9:00 AM - 8:00 PM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Saturday</span>
+                      <span className="text-gray-600">10:00 AM - 7:00 PM</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="font-medium">Sunday</span>
+                      <span className="text-gray-600">Closed</span>
+                    </div>
                   </div>
                 </div>
               </div>
