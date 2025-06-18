@@ -52,6 +52,7 @@ function App() {
                     <Route path="/scanner" element={<QRScannerPage />} />
                     <Route path="/loyalty" element={<LoyaltyPage />} />
                     <Route path="/business-form" element={<BusinessFormPage />} />
+                    <Route path="/sponsorship" element={<SponsorshipPage />} />
                     <Route path="/corporate-sponsorship" element={<SponsorshipPage />} />
                     <Route path="/community-impact" element={<CommunityImpactPage />} />
                     <Route path="/system-test" element={<SystemTestPage />} />
