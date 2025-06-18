@@ -10,20 +10,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import WelcomeTooltip from '@/components/QRCodeScanner/components/WelcomeTooltip';
-import { useLocation } from '@/hooks/use-location';
 
 const QRScannerPage: React.FC = () => {
   const { user, loading: authLoading } = useAuth();
   const { scanQRAndProcessPoints, scanning, scanResult } = useLoyaltyQRCode({ autoRefresh: true });
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
-  
-  // Use our location hook without displaying errors to the user
-  const { getCurrentPosition } = useLocation({
-    skipPermissionCheck: true // Don't bother user with permission requests until they scan
-  });
 
   const handleScan = async (qrCodeId: string) => {
+    console.log('QR Code scanned:', qrCodeId);
+    
     if (!user) {
       setShowLogin(true);
       return;
@@ -34,7 +30,6 @@ const QRScannerPage: React.FC = () => {
       let actualQrCodeId = qrCodeId;
       
       if (qrCodeId.includes('?')) {
-        // This appears to be a URL, try to extract the QR code ID
         try {
           const url = new URL(qrCodeId);
           const qrParam = url.searchParams.get('qr');
@@ -42,11 +37,11 @@ const QRScannerPage: React.FC = () => {
             actualQrCodeId = qrParam;
           }
         } catch (e) {
-          // Not a valid URL, use as-is
           console.log('Not a valid URL, using raw value:', qrCodeId);
         }
       }
 
+      console.log('Processing QR code:', actualQrCodeId);
       await scanQRAndProcessPoints(actualQrCodeId);
     } catch (error) {
       console.error('Error processing QR code:', error);
