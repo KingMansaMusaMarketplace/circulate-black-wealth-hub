@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
@@ -16,7 +17,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -31,9 +31,8 @@ import {
   Star,
   Calendar,
   Share2,
-  ThumbsUp,
-  MessageSquare,
-  Users
+  Users,
+  ArrowLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -41,10 +40,12 @@ const BusinessDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState('about');
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+  
   const businessId = Number(id);
   
   // Mock business data - in a real app, this would be fetched based on the ID
-  const business = {
+  const [business, setBusiness] = useState({
     id: businessId || 1,
     name: "Soul Food Kitchen",
     category: "Restaurant",
@@ -67,7 +68,7 @@ const BusinessDetailPage = () => {
     description: "Soul Food Kitchen offers authentic Southern cuisine with family recipes that have been passed down for generations. Our commitment to using fresh, locally sourced ingredients ensures that every meal is not only delicious but also supports our community farmers.",
     established: 2012,
     ownerName: "James Wilson"
-  };
+  });
   
   // Mock reviews
   const reviews = [
@@ -102,53 +103,110 @@ const BusinessDetailPage = () => {
       isVerified: true
     }
   ];
+
+  useEffect(() => {
+    // Simulate loading business data
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [id]);
   
   const handleReviewSubmit = (rating: number, content: string) => {
     setShowReviewForm(false);
-    // In a real app, this would send the review to an API
     toast("Review Submitted Successfully", {
       description: "Thank you for your feedback! You've earned 15 loyalty points."
     });
   };
   
   const handleCheckIn = () => {
-    // Simulate check-in process
     toast("Checked In!", {
       description: "You've successfully checked in at Soul Food Kitchen and earned 10 loyalty points!"
     });
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="container mx-auto px-4 py-8">
+          <div className="animate-pulse">
+            <div className="bg-gray-200 h-48 rounded-xl mb-6"></div>
+            <div className="bg-gray-200 h-8 w-3/4 rounded mb-4"></div>
+            <div className="bg-gray-200 h-4 w-1/2 rounded mb-8"></div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="md:col-span-2">
+                <div className="bg-gray-200 h-64 rounded-xl mb-6"></div>
+              </div>
+              <div>
+                <div className="bg-gray-200 h-32 rounded-xl"></div>
+              </div>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!business && !loading) {
+    return (
+      <div className="min-h-screen">
+        <Navbar />
+        <main className="container mx-auto px-4 py-8">
+          <div className="text-center py-16">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Business Not Found</h1>
+            <p className="text-gray-600 mb-8">The business you're looking for doesn't exist or has been removed.</p>
+            <Link to="/directory">
+              <Button>
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Directory
+              </Button>
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
   
   return (
     <div className="min-h-screen">
       <Navbar />
       
-      <main className="container-custom py-8">
+      <main className="container mx-auto px-4 py-8">
         {/* Business Header */}
         <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm mb-8">
-          <div className="h-48 bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-300 text-5xl font-bold">{business.name.charAt(0)}</span>
+          <div className="h-48 bg-gradient-to-r from-mansablue to-mansagold flex items-center justify-center">
+            <span className="text-white text-6xl font-bold">{business.name.charAt(0)}</span>
           </div>
           
           <div className="p-6">
             <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">{business.name}</h1>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-gray-500">{business.category}</span>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">{business.name}</h1>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-gray-500 text-lg">{business.category}</span>
                   <span className="w-1 h-1 rounded-full bg-gray-300"></span>
                   <div className="flex items-center">
                     <div className="flex text-mansagold">
                       {[...Array(5)].map((_, i) => (
                         <Star 
                           key={i} 
-                          size={16} 
+                          size={18} 
                           fill={i < Math.floor(business.rating) ? "currentColor" : "none"} 
                           className={i < Math.floor(business.rating) ? "text-mansagold" : "text-gray-300"} 
                         />
                       ))}
                     </div>
-                    <span className="ml-2 text-sm text-gray-600">{business.rating} ({business.reviewCount})</span>
+                    <span className="ml-2 text-sm text-gray-600">{business.rating} ({business.reviewCount} reviews)</span>
                   </div>
+                </div>
+                <div className="flex items-center text-sm text-gray-500 mb-4">
+                  <MapPin size={16} className="mr-1" />
+                  {business.address}
                 </div>
               </div>
               
@@ -178,7 +236,7 @@ const BusinessDetailPage = () => {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="flex justify-center py-6">
-                      <div className="w-48 h-48 border-2 border-mansablue flex items-center justify-center">
+                      <div className="w-48 h-48 border-2 border-mansablue flex items-center justify-center rounded-lg">
                         <QrCode size={120} className="text-mansablue" />
                       </div>
                     </div>
@@ -213,11 +271,6 @@ const BusinessDetailPage = () => {
               </div>
             </div>
             
-            <div className="flex items-center text-sm text-gray-500 mb-4">
-              <MapPin size={16} className="mr-1" />
-              {business.address}
-            </div>
-            
             <div className="bg-mansagold/10 text-mansagold font-medium text-sm px-4 py-2 rounded-md inline-block">
               {business.discount} for app users
             </div>
@@ -228,7 +281,7 @@ const BusinessDetailPage = () => {
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid grid-cols-3 mb-8">
             <TabsTrigger value="about">About</TabsTrigger>
-            <TabsTrigger value="reviews">Reviews</TabsTrigger>
+            <TabsTrigger value="reviews">Reviews ({business.reviewCount})</TabsTrigger>
             <TabsTrigger value="photos">Photos</TabsTrigger>
           </TabsList>
           
@@ -237,7 +290,7 @@ const BusinessDetailPage = () => {
               <div className="md:col-span-2">
                 <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-8">
                   <h2 className="text-xl font-bold mb-4">About {business.name}</h2>
-                  <p className="text-gray-600 mb-6">{business.description}</p>
+                  <p className="text-gray-600 mb-6 leading-relaxed">{business.description}</p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -260,12 +313,24 @@ const BusinessDetailPage = () => {
                 
                 <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
                   <h2 className="text-xl font-bold mb-4">Business Location</h2>
-                  <div className="h-80 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
-                    <MapPin size={48} className="text-gray-400" />
+                  <div className="h-80 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center mb-4">
+                    <div className="text-center">
+                      <MapPin size={48} className="text-gray-400 mx-auto mb-2" />
+                      <p className="text-gray-500">Interactive map coming soon</p>
+                    </div>
                   </div>
-                  <p className="text-gray-600 text-center">
-                    Interactive map would be displayed here in a production app
-                  </p>
+                  <div className="text-center">
+                    <p className="text-gray-600 mb-4">{business.address}</p>
+                    <a 
+                      href={`https://maps.google.com/?q=${encodeURIComponent(business.address)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-mansablue hover:underline"
+                    >
+                      <MapPin size={16} className="mr-1" />
+                      Get Directions
+                    </a>
+                  </div>
                 </div>
               </div>
               
@@ -274,31 +339,30 @@ const BusinessDetailPage = () => {
                   <h3 className="font-bold mb-4">Contact Information</h3>
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <Phone size={18} className="text-mansablue mt-0.5" />
+                      <Phone size={18} className="text-mansablue mt-0.5 flex-shrink-0" />
                       <div>
                         <p className="font-medium">Phone Number</p>
-                        <p className="text-gray-600">{business.phone}</p>
+                        <a href={`tel:${business.phone}`} className="text-gray-600 hover:text-mansablue">
+                          {business.phone}
+                        </a>
                       </div>
                     </div>
                     
                     <div className="flex items-start gap-3">
-                      <Globe size={18} className="text-mansablue mt-0.5" />
+                      <Globe size={18} className="text-mansablue mt-0.5 flex-shrink-0" />
                       <div>
                         <p className="font-medium">Website</p>
-                        <a href={business.website} target="_blank" rel="noopener noreferrer" className="text-mansablue hover:underline">
+                        <a href={business.website} target="_blank" rel="noopener noreferrer" className="text-mansablue hover:underline break-all">
                           {business.website.replace('https://', '')}
                         </a>
                       </div>
                     </div>
                     
                     <div className="flex items-start gap-3">
-                      <MapPin size={18} className="text-mansablue mt-0.5" />
+                      <MapPin size={18} className="text-mansablue mt-0.5 flex-shrink-0" />
                       <div>
                         <p className="font-medium">Address</p>
                         <p className="text-gray-600">{business.address}</p>
-                        <a href={`https://maps.google.com/?q=${business.address}`} target="_blank" rel="noopener noreferrer" className="text-mansablue hover:underline text-sm">
-                          Get Directions →
-                        </a>
                       </div>
                     </div>
                   </div>
@@ -310,34 +374,12 @@ const BusinessDetailPage = () => {
                     Business Hours
                   </h3>
                   <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="font-medium">Monday</span>
-                      <span>{business.hours.mon}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Tuesday</span>
-                      <span>{business.hours.tue}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Wednesday</span>
-                      <span>{business.hours.wed}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Thursday</span>
-                      <span>{business.hours.thu}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Friday</span>
-                      <span>{business.hours.fri}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Saturday</span>
-                      <span>{business.hours.sat}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Sunday</span>
-                      <span>{business.hours.sun}</span>
-                    </div>
+                    {Object.entries(business.hours).map(([day, hours]) => (
+                      <div key={day} className="flex justify-between">
+                        <span className="font-medium capitalize">{day === 'tue' ? 'Tuesday' : day === 'wed' ? 'Wednesday' : day === 'thu' ? 'Thursday' : day === 'fri' ? 'Friday' : day === 'sat' ? 'Saturday' : day === 'sun' ? 'Sunday' : 'Monday'}</span>
+                        <span className="text-gray-600">{hours}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -368,9 +410,8 @@ const BusinessDetailPage = () => {
                 
                 <Button 
                   onClick={() => setShowReviewForm(true)}
-                  className="bg-mansablue hover:bg-mansablue-dark"
+                  className="bg-mansablue hover:bg-mansablue/90"
                 >
-                  <MessageSquare className="mr-2 h-4 w-4" />
                   Write a Review
                 </Button>
               </div>
@@ -403,15 +444,15 @@ const BusinessDetailPage = () => {
             <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
               <h2 className="text-xl font-bold mb-6">Business Photos</h2>
               
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
                 {[...Array(8)].map((_, i) => (
-                  <div key={i} className="aspect-square bg-gray-100 rounded-lg flex items-center justify-center">
-                    <span className="text-gray-300 text-3xl font-bold">{i + 1}</span>
+                  <div key={i} className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center hover:shadow-md transition-shadow">
+                    <span className="text-gray-400 text-2xl font-bold">{i + 1}</span>
                   </div>
                 ))}
               </div>
               
-              <div className="mt-6 pt-4 border-t flex justify-center">
+              <div className="text-center">
                 <Button variant="outline">Upload Photos</Button>
               </div>
             </div>
