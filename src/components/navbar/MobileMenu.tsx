@@ -9,10 +9,16 @@ interface MobileMenuProps {
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
+  const handleLinkClick = (e: React.MouseEvent) => {
+    // Ensure the click event propagates properly
+    e.stopPropagation();
+    onNavigate();
+  };
+
   const businessItems = [
     { to: '/directory', label: 'Business Directory' },
     { to: '/signup?type=business', label: 'Business Signup' },
-    { to: '/sponsorship', label: 'Sponsorship' },
+    { to: '/corporate-sponsorship', label: 'Sponsorship' },
     { to: '/sales-agent', label: 'Sales Agent Program' },
   ];
 
@@ -27,7 +33,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
   const mainItems = [
     { to: '/', label: 'Home' },
     { to: '/about', label: 'About' },
-    { to: '/community', label: 'Community' },
+    { to: '/scanner', label: 'QR Scanner' },
+    { to: '/loyalty', label: 'Rewards' },
+    { to: '/community-impact', label: 'Community Impact' },
     { to: '/contact', label: 'Contact' },
   ];
 
@@ -41,8 +49,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
               <Link
                 key={item.to}
                 to={item.to}
-                onClick={onNavigate}
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors"
+                onClick={handleLinkClick}
+                className="block px-3 py-3 text-base font-medium text-gray-700 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
+                style={{ minHeight: '44px' }} // Ensure minimum touch target size
               >
                 {item.label}
               </Link>
@@ -60,8 +69,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
               <Link
                 key={item.to}
                 to={item.to}
-                onClick={onNavigate}
-                className="block px-6 py-2 text-sm text-gray-600 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors"
+                onClick={handleLinkClick}
+                className="block px-6 py-3 text-sm text-gray-600 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
+                style={{ minHeight: '44px' }} // Ensure minimum touch target size
               >
                 {item.label}
               </Link>
@@ -79,8 +89,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
               <Link
                 key={item.to}
                 to={item.to}
-                onClick={onNavigate}
-                className="block px-6 py-2 text-sm text-gray-600 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors"
+                onClick={handleLinkClick}
+                className="block px-6 py-3 text-sm text-gray-600 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
+                style={{ minHeight: '44px' }} // Ensure minimum touch target size
               >
                 {item.label}
               </Link>

@@ -45,31 +45,44 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobile, mobileMenuOpen]);
 
-  // Close mobile menu when clicking outside
+  // Close mobile menu when clicking outside - improved for mobile
   useEffect(() => {
     if (!mobileMenuOpen) return;
 
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Element;
       if (!target.closest('[data-mobile-menu]') && !target.closest('[data-mobile-menu-trigger]')) {
         closeMobileMenu();
       }
     };
 
+    // Add both click and touch events for better mobile support
     document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside, { passive: true });
+    
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
   }, [mobileMenuOpen]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
+      // Prevent iOS bounce scroll
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
     } else {
       document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
     }
 
     return () => {
       document.body.style.overflow = 'unset';
+      document.body.style.position = 'unset';
+      document.body.style.width = 'unset';
     };
   }, [mobileMenuOpen]);
 
@@ -93,9 +106,10 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                   variant="ghost" 
                   size="icon" 
                   onClick={toggleMobileMenu} 
-                  className="md:hidden relative z-50"
+                  className="md:hidden relative z-50 touch-manipulation"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   data-mobile-menu-trigger
+                  style={{ minHeight: '44px', minWidth: '44px' }} // Ensure minimum touch target
                 >
                   {mobileMenuOpen ? (
                     <X className="h-6 w-6" />
@@ -113,13 +127,14 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         </div>
       </header>
 
-      {/* Mobile navigation menu with proper z-index and backdrop */}
+      {/* Mobile navigation menu with improved mobile support */}
       {isMobile && mobileMenuOpen && (
         <>
           {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
             onClick={closeMobileMenu}
+            style={{ touchAction: 'manipulation' }}
           />
           {/* Mobile Menu */}
           <div className="fixed inset-x-0 top-16 z-50 md:hidden">
