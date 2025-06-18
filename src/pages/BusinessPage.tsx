@@ -20,20 +20,23 @@ const BusinessPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('about');
   const [loading, setLoading] = useState(true);
   
+  console.log('BusinessPage - URL param id:', id);
+  console.log('BusinessPage - Available businesses:', businesses.length);
+  console.log('BusinessPage - First few business IDs:', businesses.slice(0, 5).map(b => ({ id: b.id, name: b.name })));
+  
   const businessId = Number(id);
+  console.log('BusinessPage - Converted businessId:', businessId);
   
   // Find the business from our data
-  const [business, setBusiness] = useState(() => {
-    const foundBusiness = businesses.find(b => b.id === businessId);
-    return foundBusiness || null;
-  });
+  const business = businesses.find(b => b.id === businessId);
+  console.log('BusinessPage - Found business:', business ? business.name : 'Not found');
 
   useEffect(() => {
     // Simulate loading
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 500); // Reduced loading time
 
     return () => clearTimeout(timer);
   }, [id]);
@@ -43,6 +46,7 @@ const BusinessPage: React.FC = () => {
   }
 
   if (!business) {
+    console.log('BusinessPage - Business not found, showing NotFoundState');
     return <NotFoundState />;
   }
   
