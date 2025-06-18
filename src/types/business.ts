@@ -2,17 +2,31 @@
 export interface Business {
   id: number;
   name: string;
+  description: string;
   category: string;
-  rating: number;
+  address: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  phone: string;
+  email: string;
+  website: string;
+  logoUrl: string;
+  bannerUrl: string;
+  averageRating: number;
   reviewCount: number;
+  rating: number;
   discount: string;
   discountValue: number;
   distance: string;
   distanceValue: number;
-  address: string;
   lat: number;
   lng: number;
   imageUrl: string;
   imageAlt?: string;
   isFeatured?: boolean;
+  isVerified: boolean;
+  ownerId: string;
+  createdAt: string;
+  updatedAt: string;
 }
