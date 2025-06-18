@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { DollarSign, Building2, TrendingUp, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { formatCurrency } from './utils/formatters';
 
 interface UserImpactMetrics {
@@ -16,55 +17,72 @@ interface QuickStatsOverviewProps {
 }
 
 const QuickStatsOverview: React.FC<QuickStatsOverviewProps> = ({ displayUserMetrics }) => {
+  const stats = [
+    {
+      title: "You've Spent",
+      value: formatCurrency(displayUserMetrics.total_spending),
+      icon: DollarSign,
+      color: "green",
+      bgColor: "bg-green-50",
+      iconColor: "text-green-600",
+      borderColor: "border-l-green-500"
+    },
+    {
+      title: "Businesses Helped",
+      value: displayUserMetrics.businesses_supported.toString(),
+      icon: Building2,
+      color: "blue",
+      bgColor: "bg-blue-50",
+      iconColor: "text-blue-600",
+      borderColor: "border-l-blue-500"
+    },
+    {
+      title: "Wealth Circulated",
+      value: formatCurrency(displayUserMetrics.wealth_circulated),
+      icon: TrendingUp,
+      color: "purple",
+      bgColor: "bg-purple-50",
+      iconColor: "text-purple-600",
+      borderColor: "border-l-purple-500"
+    },
+    {
+      title: "Jobs Supported",
+      value: displayUserMetrics.estimated_jobs_created.toFixed(1),
+      icon: Users,
+      color: "orange",
+      bgColor: "bg-orange-50",
+      iconColor: "text-orange-600",
+      borderColor: "border-l-orange-500"
+    }
+  ];
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-      <Card className="border-l-4 border-l-green-500">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{formatCurrency(displayUserMetrics.total_spending)}</p>
-              <p className="text-sm text-gray-600">You've Spent</p>
-            </div>
-            <DollarSign className="h-8 w-8 text-green-500" />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="border-l-4 border-l-blue-500">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{displayUserMetrics.businesses_supported}</p>
-              <p className="text-sm text-gray-600">Businesses Helped</p>
-            </div>
-            <Building2 className="h-8 w-8 text-blue-500" />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="border-l-4 border-l-purple-500">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{formatCurrency(displayUserMetrics.wealth_circulated)}</p>
-              <p className="text-sm text-gray-600">Wealth Circulated</p>
-            </div>
-            <TrendingUp className="h-8 w-8 text-purple-500" />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="border-l-4 border-l-orange-500">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-2xl font-bold text-gray-900">{displayUserMetrics.estimated_jobs_created.toFixed(1)}</p>
-              <p className="text-sm text-gray-600">Jobs Supported</p>
-            </div>
-            <Users className="h-8 w-8 text-orange-500" />
-          </div>
-        </CardContent>
-      </Card>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      {stats.map((stat, index) => (
+        <motion.div
+          key={stat.title}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.1 }}
+        >
+          <Card className={`${stat.borderColor} border-l-4 hover:shadow-lg transition-shadow duration-200 ${stat.bgColor}`}>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex-1">
+                  <p className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</p>
+                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                </div>
+                <div className={`p-3 rounded-full ${stat.bgColor}`}>
+                  <stat.icon className={`h-8 w-8 ${stat.iconColor}`} />
+                </div>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className={`bg-gradient-to-r from-${stat.color}-400 to-${stat.color}-600 h-2 rounded-full`} style={{width: '75%'}}></div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      ))}
     </div>
   );
 };
