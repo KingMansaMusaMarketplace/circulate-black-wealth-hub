@@ -1,31 +1,33 @@
 
 import { Business } from '@/types/business';
-import { getBusinessImageUrl } from './utils';
 
-// Default coordinates (NYC)
-const DEFAULT_LAT = 40.7128;
-const DEFAULT_LNG = -74.0060;
-
-// Transform Supabase response to our frontend Business type
-export function mapSupabaseBusinessToBusiness(business: any): Business {
-  // Set up proper image URL with fallbacks
-  const imageUrl = getBusinessImageUrl(business);
-  
+/**
+ * Maps a Supabase business record to our frontend Business type
+ */
+export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
   return {
-    id: business.id as unknown as number, 
-    name: business.business_name,
-    category: business.category || 'Uncategorized',
-    rating: business.average_rating || 4.5,
-    reviewCount: business.review_count || 10,
-    discount: '10% Off', // Default discount
-    discountValue: 10,
-    distance: 'Nearby', // Default distance
+    id: supabaseRecord.id,
+    name: supabaseRecord.name || supabaseRecord.business_name || 'Unnamed Business',
+    description: supabaseRecord.description || '',
+    category: supabaseRecord.category || 'Other',
+    address: supabaseRecord.address || '',
+    city: supabaseRecord.city || '',
+    state: supabaseRecord.state || '',
+    zipCode: supabaseRecord.zip_code || '',
+    phone: supabaseRecord.phone || '',
+    email: supabaseRecord.email || '',
+    website: supabaseRecord.website || '',
+    logoUrl: supabaseRecord.logo_url || '',
+    bannerUrl: supabaseRecord.banner_url || '',
+    averageRating: Number(supabaseRecord.average_rating) || 0,
+    reviewCount: supabaseRecord.review_count || 0,
+    isVerified: supabaseRecord.is_verified || false,
+    lat: 40.7128, // Default to NYC coordinates if not provided
+    lng: -74.0060,
+    distance: '',
     distanceValue: 0,
-    address: business.address || '',
-    lat: DEFAULT_LAT, // Using default coordinates for now
-    lng: DEFAULT_LNG, // Using default coordinates for now
-    imageUrl: imageUrl,
-    imageAlt: business.business_name || 'Business image',
-    isFeatured: business.is_verified || false
+    ownerId: supabaseRecord.owner_id,
+    createdAt: supabaseRecord.created_at,
+    updatedAt: supabaseRecord.updated_at
   };
 }

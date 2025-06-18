@@ -200,6 +200,7 @@ export type Database = {
           id: string
           is_verified: boolean | null
           logo_url: string | null
+          name: string
           owner_id: string
           phone: string | null
           qr_code_id: string | null
@@ -226,6 +227,7 @@ export type Database = {
           id?: string
           is_verified?: boolean | null
           logo_url?: string | null
+          name: string
           owner_id: string
           phone?: string | null
           qr_code_id?: string | null
@@ -252,6 +254,7 @@ export type Database = {
           id?: string
           is_verified?: boolean | null
           logo_url?: string | null
+          name?: string
           owner_id?: string
           phone?: string | null
           qr_code_id?: string | null

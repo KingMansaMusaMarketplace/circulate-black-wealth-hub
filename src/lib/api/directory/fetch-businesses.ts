@@ -31,7 +31,8 @@ export async function fetchBusinesses(
       
       if (filters.searchTerm && filters.searchTerm.trim() !== '') {
         const searchTerm = filters.searchTerm.trim().toLowerCase();
-        query = query.or(`business_name.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%,address.ilike.%${searchTerm}%`);
+        // Now search in both name and business_name columns for backward compatibility
+        query = query.or(`name.ilike.%${searchTerm}%,business_name.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%,address.ilike.%${searchTerm}%`);
       }
     }
     
