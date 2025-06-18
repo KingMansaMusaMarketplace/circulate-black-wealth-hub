@@ -29,17 +29,7 @@ export const useCommunityImpact = (userId?: string) => {
     try {
       setLoading(true);
 
-      // Fetch user impact metrics
-      const { data: userImpactData, error: userError } = await supabase
-        .rpc('calculate_user_impact_metrics', { p_user_id: userId });
-
-      if (userError) {
-        console.error('Error fetching user metrics:', userError);
-      } else {
-        setUserMetrics(userImpactData);
-      }
-
-      // Fetch community metrics
+      // Always fetch community metrics, regardless of user authentication
       const { data: communityData, error: communityError } = await supabase
         .rpc('get_community_impact_summary');
 
@@ -47,6 +37,18 @@ export const useCommunityImpact = (userId?: string) => {
         console.error('Error fetching community metrics:', communityError);
       } else {
         setCommunityMetrics(communityData);
+      }
+
+      // Only fetch user metrics if user is authenticated
+      if (userId) {
+        const { data: userImpactData, error: userError } = await supabase
+          .rpc('calculate_user_impact_metrics', { p_user_id: userId });
+
+        if (userError) {
+          console.error('Error fetching user metrics:', userError);
+        } else {
+          setUserMetrics(userImpactData);
+        }
       }
 
     } catch (error) {
@@ -57,9 +59,8 @@ export const useCommunityImpact = (userId?: string) => {
   };
 
   useEffect(() => {
-    if (userId) {
-      fetchImpactMetrics();
-    }
+    // Always fetch data, even without a user
+    fetchImpactMetrics();
   }, [userId]);
 
   return {
