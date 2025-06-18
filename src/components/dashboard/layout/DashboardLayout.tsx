@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
@@ -46,7 +47,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         "flex-1 lg:ml-64 pt-4",
         mobileNavOpen ? "lg:mr-0" : "mr-0",
       )}>
-        <main className="px-4 sm:px-6 lg:px-8 py-8 mt-10 lg:mt-0">
+        <main className="px-4 sm:px-6 lg:px-8 mt-10 lg:mt-0">
           {/* Page header */}
           <PageHeader title={title} icon={icon} location={location} />
           
