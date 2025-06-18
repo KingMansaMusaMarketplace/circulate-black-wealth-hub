@@ -5,7 +5,7 @@ import QRScannerComponent from '@/components/QRCodeScanner/QRScannerComponent';
 import { useLoyaltyQRCode } from '@/hooks/use-loyalty-qr-code';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
