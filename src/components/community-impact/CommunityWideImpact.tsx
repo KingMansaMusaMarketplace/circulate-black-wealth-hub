@@ -35,42 +35,42 @@ const CommunityWideImpact: React.FC<CommunityWideImpactProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.6 }}
-      className="mb-12"
+      className="mb-6"
     >
       <Card className="shadow-xl border-0 bg-gradient-to-br from-white to-gray-50">
-        <CardHeader className="pb-6">
+        <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="flex items-center text-2xl font-bold text-gray-900">
-                <Trophy className="h-6 w-6 mr-3 text-mansagold" />
+              <CardTitle className="flex items-center text-xl font-bold text-gray-900">
+                <Trophy className="h-5 w-5 mr-2 text-mansagold" />
                 Community-Wide Impact
               </CardTitle>
-              <CardDescription className="text-lg text-gray-600 mt-2">
+              <CardDescription className="text-base text-gray-600 mt-1">
                 See how our entire community is building wealth together
               </CardDescription>
             </div>
             <div className="hidden md:block">
-              <div className="bg-mansablue/10 p-4 rounded-full">
-                <Users className="h-8 w-8 text-mansablue" />
+              <div className="bg-mansablue/10 p-3 rounded-full">
+                <Users className="h-6 w-6 text-mansablue" />
               </div>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="space-y-8">
+        <CardContent className="space-y-6">
           {/* Main Impact Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <motion.div 
-              className="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-xl border border-green-200"
+              className="text-center p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-lg border border-green-200"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="flex items-center justify-center mb-3">
-                <DollarSign className="h-6 w-6 text-green-600 mr-2" />
-                <div className="text-3xl font-bold text-green-700">
+              <div className="flex items-center justify-center mb-2">
+                <DollarSign className="h-5 w-5 text-green-600 mr-2" />
+                <div className="text-2xl font-bold text-green-700">
                   {formatCurrency(communityMetrics?.total_circulation || 0)}
                 </div>
               </div>
-              <div className="text-sm font-semibold text-green-800 mb-2">Total Wealth Circulated</div>
+              <div className="text-sm font-semibold text-green-800 mb-1">Total Wealth Circulated</div>
               <div className="text-xs text-green-600 flex items-center justify-center">
                 <Users className="h-3 w-3 mr-1" />
                 by {formatNumber(communityMetrics?.total_users || 0)} community members
@@ -78,50 +78,50 @@ const CommunityWideImpact: React.FC<CommunityWideImpactProps> = ({
             </motion.div>
             
             <motion.div 
-              className="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200"
+              className="text-center p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg border border-blue-200"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="flex items-center justify-center mb-3">
-                <Building2 className="h-6 w-6 text-blue-600 mr-2" />
-                <div className="text-3xl font-bold text-blue-700">
+              <div className="flex items-center justify-center mb-2">
+                <Building2 className="h-5 w-5 text-blue-600 mr-2" />
+                <div className="text-2xl font-bold text-blue-700">
                   {formatNumber(communityMetrics?.total_businesses || 0)}
                 </div>
               </div>
-              <div className="text-sm font-semibold text-blue-800 mb-2">Black-Owned Businesses</div>
+              <div className="text-sm font-semibold text-blue-800 mb-1">Black-Owned Businesses</div>
               <div className="text-xs text-blue-600">supported by our community</div>
             </motion.div>
             
             <motion.div 
-              className="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200"
+              className="text-center p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg border border-purple-200"
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="flex items-center justify-center mb-3">
-                <Briefcase className="h-6 w-6 text-purple-600 mr-2" />
-                <div className="text-3xl font-bold text-purple-700">
+              <div className="flex items-center justify-center mb-2">
+                <Briefcase className="h-5 w-5 text-purple-600 mr-2" />
+                <div className="text-2xl font-bold text-purple-700">
                   {formatNumber(communityMetrics?.estimated_jobs_created || 0)}
                 </div>
               </div>
-              <div className="text-sm font-semibold text-purple-800 mb-2">Jobs Supported</div>
+              <div className="text-sm font-semibold text-purple-800 mb-1">Jobs Supported</div>
               <div className="text-xs text-purple-600">estimated job equivalents created</div>
             </motion.div>
           </div>
 
           {/* Community Activity Section */}
-          <div className="bg-gradient-to-r from-mansablue/5 to-mansablue/10 rounded-xl p-6 border border-mansablue/20">
-            <div className="flex items-center justify-between mb-4">
+          <div className="bg-gradient-to-r from-mansablue/5 to-mansablue/10 rounded-lg p-4 border border-mansablue/20">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center">
-                <Activity className="h-5 w-5 text-mansablue mr-2" />
-                <span className="text-lg font-semibold text-gray-800">Community Activity This Month</span>
+                <Activity className="h-4 w-4 text-mansablue mr-2" />
+                <span className="text-base font-semibold text-gray-800">Community Activity This Month</span>
               </div>
-              <Badge variant="secondary" className="bg-mansablue text-white px-3 py-1">
+              <Badge variant="secondary" className="bg-mansablue text-white px-2 py-1 text-sm">
                 {formatNumber(communityMetrics?.active_this_month || 0)} active members
               </Badge>
             </div>
             <Progress 
               value={activityPercentage} 
-              className="h-3 mb-3"
+              className="h-2 mb-2"
             />
             <div className="flex justify-between items-center text-sm">
               <span className="text-gray-600">
