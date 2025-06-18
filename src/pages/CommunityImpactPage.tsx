@@ -9,6 +9,7 @@ const CommunityImpactPage: React.FC = () => {
     <DashboardLayout 
       title="Community Impact" 
       icon={<TrendingUp className="h-6 w-6" />}
+      className="p-0"
     >
       <CommunityImpactDashboard />
     </DashboardLayout>
