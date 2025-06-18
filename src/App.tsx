@@ -17,7 +17,7 @@ import DashboardPage from "./pages/DashboardPage";
 import QRScannerPage from "./pages/QRScannerPage";
 import LoyaltyPage from "./pages/LoyaltyPage";
 import BusinessFormPage from "./pages/BusinessFormPage";
-import SponsorshipPage from "./pages/SponsorshipPage";
+import CorporateSponsorshipPage from "./pages/CorporateSponsorshipPage";
 import CommunityImpactPage from "./pages/CommunityImpactPage";
 import SystemTestPage from "./pages/SystemTestPage";
 import MobileTestPage from "./pages/MobileTestPage";
@@ -52,8 +52,8 @@ function App() {
                     <Route path="/scanner" element={<QRScannerPage />} />
                     <Route path="/loyalty" element={<LoyaltyPage />} />
                     <Route path="/business-form" element={<BusinessFormPage />} />
-                    <Route path="/sponsorship" element={<SponsorshipPage />} />
-                    <Route path="/corporate-sponsorship" element={<SponsorshipPage />} />
+                    <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
+                    <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                     <Route path="/community-impact" element={<CommunityImpactPage />} />
                     <Route path="/system-test" element={<SystemTestPage />} />
                     <Route path="/mobile-test" element={<MobileTestPage />} />
