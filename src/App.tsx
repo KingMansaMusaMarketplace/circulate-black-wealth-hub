@@ -26,6 +26,7 @@ import SignupTestPage from "./pages/SignupTestPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import PasswordResetRequestPage from "./pages/PasswordResetRequestPage";
 import MobileReadinessTestPage from "./pages/MobileReadinessTestPage";
+import SalesAgentPage from "./pages/SalesAgentPage";
 
 // Add new lazy import
 const AppTestPage = lazy(() => import("./pages/AppTestPage"));
@@ -62,6 +63,7 @@ function App() {
                     <Route path="/new-password" element={<NewPasswordPage />} />
                     <Route path="/password-reset-request" element={<PasswordResetRequestPage />} />
                     <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
+                    <Route path="/sales-agent" element={<SalesAgentPage />} />
                     
                     {/* Add new test route */}
                     <Route 
