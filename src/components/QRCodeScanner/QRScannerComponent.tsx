@@ -1,10 +1,11 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from '@/components/ui/button';
 import ScanResult from './ScanResult';
 import ScannerInstructions from './components/ScannerInstructions';
-import { QrCode, Clock, Camera, Loader2 } from 'lucide-react';
+import { QrCode, Clock, Camera, Loader2, AlertCircle } from 'lucide-react';
+import { Html5Qrcode } from 'html5-qrcode';
 
 interface ScanHistoryItem {
   businessName: string;
@@ -27,8 +28,11 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
   const [hasCamera, setHasCamera] = useState(true);
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [scanHistory, setScanHistory] = useState<ScanHistoryItem[]>([]);
+  const [html5QrCode, setHtml5QrCode] = useState<Html5Qrcode | null>(null);
+  const scannerRef = useRef<HTMLDivElement>(null);
+  const scannerIdRef = useRef<string>('qr-reader-' + Date.now());
 
-  // Check camera availability on mobile
+  // Check camera availability
   useEffect(() => {
     const checkCamera = async () => {
       try {
@@ -38,9 +42,8 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
           return;
         }
         
-        // For iOS Safari, we need to check permissions differently
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        const hasVideoDevice = devices.some(device => device.kind === 'videoinput');
+        const devices = await Html5Qrcode.getCameras();
+        const hasVideoDevice = devices && devices.length > 0;
         setHasCamera(hasVideoDevice);
         
         if (!hasVideoDevice) {
@@ -56,12 +59,42 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
     checkCamera();
   }, []);
 
+  // Initialize Html5Qrcode when scanner element is ready
+  useEffect(() => {
+    if (scannerRef.current && !html5QrCode) {
+      try {
+        const qrCode = new Html5Qrcode(scannerIdRef.current);
+        setHtml5QrCode(qrCode);
+      } catch (error) {
+        console.error('Error initializing QR scanner:', error);
+        setCameraError('Failed to initialize QR scanner');
+      }
+    }
+
+    return () => {
+      if (html5QrCode && html5QrCode.isScanning) {
+        html5QrCode.stop().catch(error => {
+          console.error('Error stopping scanner during cleanup:', error);
+        });
+      }
+    };
+  }, [html5QrCode]);
+
   // Handle scanner button click
   const handleScannerClick = async () => {
-    console.log('Scanner button clicked');
+    console.log('Scanner button clicked, scanning:', scanning);
     
     if (scanning) {
-      setScanning(false);
+      // Stop scanning
+      if (html5QrCode && html5QrCode.isScanning) {
+        try {
+          await html5QrCode.stop();
+          setScanning(false);
+          setCameraError(null);
+        } catch (error) {
+          console.error('Error stopping scanner:', error);
+        }
+      }
       return;
     }
 
@@ -70,38 +103,59 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
       return;
     }
 
+    if (!html5QrCode) {
+      setCameraError('QR scanner not initialized');
+      return;
+    }
+
     setScanning(true);
     setCameraError(null);
 
     try {
-      // Request camera permission for iOS Safari
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: 'environment',
-          width: { ideal: 1920 },
-          height: { ideal: 1080 }
-        } 
-      });
-      
-      console.log('Camera access granted');
-      
-      // For now, simulate a successful scan after 3 seconds
-      // In a real implementation, you'd integrate with a QR code scanning library
-      setTimeout(() => {
-        const mockQrCode = `qr-${Date.now()}`;
-        console.log('Simulated QR scan:', mockQrCode);
-        
-        onScan(mockQrCode);
+      // Get available cameras
+      const cameras = await Html5Qrcode.getCameras();
+      if (cameras.length === 0) {
+        setCameraError('No cameras found');
         setScanning(false);
-        
-        // Stop the camera stream
-        stream.getTracks().forEach(track => track.stop());
-      }, 3000);
+        return;
+      }
+
+      // Use back camera if available (for mobile), otherwise use first camera
+      const cameraId = cameras.length > 1 ? cameras[1].id : cameras[0].id;
       
-    } catch (error) {
+      console.log('Starting QR scanner with camera:', cameraId);
+      
+      const config = {
+        fps: 10,
+        qrbox: { width: 250, height: 250 },
+        aspectRatio: 1.0
+      };
+
+      await html5QrCode.start(
+        cameraId,
+        config,
+        (decodedText, decodedResult) => {
+          console.log('QR Code detected:', decodedText);
+          onScan(decodedText);
+        },
+        (errorMessage) => {
+          // This fires continuously while scanning, so we don't log it
+        }
+      );
+
+      console.log('QR scanner started successfully');
+      
+    } catch (error: any) {
       console.error('Camera error:', error);
       setScanning(false);
-      setCameraError(`Camera error: ${error.message}`);
+      
+      if (error.name === 'NotAllowedError' || error.message.includes('Permission denied')) {
+        setCameraError('Camera permission denied. Please allow camera access and try again.');
+      } else if (error.message.includes('NotFoundError')) {
+        setCameraError('No camera found on this device.');
+      } else {
+        setCameraError(`Camera error: ${error.message || 'Unknown error'}`);
+      }
     }
   };
 
@@ -148,17 +202,24 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
             <CardContent className="p-6 flex flex-col items-center">
               {/* Scanner Display Area */}
               <div className="w-full aspect-square bg-gray-100 rounded-lg flex flex-col items-center justify-center mb-4 relative overflow-hidden">
+                {/* QR Scanner Element */}
+                <div 
+                  id={scannerIdRef.current}
+                  ref={scannerRef}
+                  className={`w-full h-full ${scanning ? 'block' : 'hidden'}`}
+                  style={{ lineHeight: 0 }}
+                />
+                
                 {scanning ? (
-                  <div className="flex flex-col items-center">
+                  <div className={`${scanning ? 'hidden' : 'flex'} flex-col items-center justify-center w-full h-full`}>
                     <Loader2 className="h-12 w-12 animate-spin text-mansablue mb-4" />
-                    <p className="text-sm text-gray-600">Scanning for QR code...</p>
-                    <div className="absolute inset-4 border-2 border-mansablue rounded-lg opacity-50 animate-pulse"></div>
+                    <p className="text-sm text-gray-600">Starting camera...</p>
                   </div>
                 ) : cameraError ? (
                   <div className="flex flex-col items-center text-center p-4">
-                    <Camera className="h-12 w-12 text-gray-400 mb-2" />
-                    <p className="text-sm text-red-500 mb-2">{cameraError}</p>
-                    <p className="text-xs text-gray-500">Please allow camera access to scan QR codes</p>
+                    <AlertCircle className="h-12 w-12 text-red-500 mb-2" />
+                    <p className="text-sm text-red-500 mb-2 font-medium">Camera Error</p>
+                    <p className="text-xs text-gray-500">{cameraError}</p>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center">
@@ -179,7 +240,7 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
                 className={`w-full relative touch-manipulation ${
                   scanning ? 'bg-red-500 hover:bg-red-600' : 'bg-mansablue hover:bg-mansablue-dark'
                 }`}
-                style={{ minHeight: '48px' }} // Ensure good touch target for mobile
+                style={{ minHeight: '48px' }}
               >
                 {loading ? (
                   <>
