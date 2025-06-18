@@ -28,6 +28,7 @@ import PasswordResetRequestPage from "./pages/PasswordResetRequestPage";
 import MobileReadinessTestPage from "./pages/MobileReadinessTestPage";
 import SalesAgentPage from "./pages/SalesAgentPage";
 import CommunityPage from "./pages/CommunityPage";
+import CaseStudiesPage from "./pages/CaseStudiesPage";
 
 // Add new lazy import
 const AppTestPage = lazy(() => import("./pages/AppTestPage"));
@@ -58,6 +59,8 @@ function App() {
                     <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                     <Route path="/community" element={<CommunityPage />} />
                     <Route path="/community-impact" element={<CommunityImpactPage />} />
+                    <Route path="/case-studies" element={<CaseStudiesPage />} />
+                    <Route path="/sales-agent" element={<SalesAgentPage />} />
                     <Route path="/system-test" element={<SystemTestPage />} />
                     <Route path="/mobile-test" element={<MobileTestPage />} />
                     <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
@@ -65,7 +68,6 @@ function App() {
                     <Route path="/new-password" element={<NewPasswordPage />} />
                     <Route path="/password-reset-request" element={<PasswordResetRequestPage />} />
                     <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
-                    <Route path="/sales-agent" element={<SalesAgentPage />} />
                     
                     {/* Add new test route */}
                     <Route 
