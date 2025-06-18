@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Calendar, Users, MapPin, Clock } from 'lucide-react';
+import { Calendar, Users, MapPin, Clock, Phone, Globe } from 'lucide-react';
 import { Business } from '@/types/business';
 
 interface AboutTabProps {
