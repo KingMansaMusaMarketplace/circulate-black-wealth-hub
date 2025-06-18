@@ -42,11 +42,11 @@ const CommunityImpactDashboard: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="space-y-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="space-y-6">
             {[1, 2, 3, 4].map((i) => (
               <Card key={i} className="animate-pulse shadow-lg">
-                <CardContent className="p-8">
+                <CardContent className="p-6">
                   <div className="h-6 bg-gray-200 rounded-lg w-3/4 mb-4"></div>
                   <div className="h-4 bg-gray-200 rounded w-1/2 mb-3"></div>
                   <div className="h-4 bg-gray-200 rounded w-2/3"></div>
@@ -65,17 +65,21 @@ const CommunityImpactDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Hero Section */}
-        <HeroSection user={user} />
+        <div className="mb-8">
+          <HeroSection user={user} />
+        </div>
 
         {user && (
           <>
             {/* Quick Stats Overview - Only show for authenticated users */}
-            <QuickStatsOverview displayUserMetrics={displayUserMetrics} />
+            <div className="mb-8">
+              <QuickStatsOverview displayUserMetrics={displayUserMetrics} />
+            </div>
 
             {/* Personal Impact Cards - Only for authenticated users */}
-            <div className="mb-12">
+            <div className="mb-8">
               <PersonalImpactCards 
                 userMetrics={displayUserMetrics}
                 formatCurrency={formatCurrency}
@@ -84,7 +88,7 @@ const CommunityImpactDashboard: React.FC = () => {
             </div>
 
             {/* Wealth Circulation Explanation - Only for authenticated users */}
-            <div className="mb-12">
+            <div className="mb-8">
               <MultiplierEffectCard 
                 userMetrics={displayUserMetrics}
                 formatCurrency={formatCurrency}
@@ -93,7 +97,7 @@ const CommunityImpactDashboard: React.FC = () => {
             </div>
 
             {/* Impact Goals - Only for authenticated users */}
-            <div className="mb-12">
+            <div className="mb-8">
               <ImpactGoals 
                 userMetrics={displayUserMetrics}
                 formatCurrency={formatCurrency}
@@ -103,11 +107,13 @@ const CommunityImpactDashboard: React.FC = () => {
         )}
 
         {/* Community-Wide Impact - Show for everyone */}
-        <CommunityWideImpact 
-          communityMetrics={displayCommunityMetrics}
-          formatCurrency={formatCurrency}
-          formatNumber={formatNumber}
-        />
+        <div className="mb-8">
+          <CommunityWideImpact 
+            communityMetrics={displayCommunityMetrics}
+            formatCurrency={formatCurrency}
+            formatNumber={formatNumber}
+          />
+        </div>
 
         {/* Call to Action */}
         <CallToActionSection user={user} />
