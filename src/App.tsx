@@ -39,6 +39,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import CookiePolicyPage from "./pages/CookiePolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage";
 import FAQPage from "./pages/FAQPage";
+import AboutPage from "./pages/AboutPage";
 
 // Add new lazy import
 const AppTestPage = lazy(() => import("./pages/AppTestPage"));
@@ -57,6 +58,7 @@ function App() {
                 <div className="min-h-screen bg-background font-sans antialiased">
                   <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/about" element={<AboutPage />} />
                     <Route path="/directory" element={<DirectoryPage />} />
                     <Route path="/business/:id" element={<BusinessPage />} />
                     <Route path="/login" element={<LoginPage />} />
