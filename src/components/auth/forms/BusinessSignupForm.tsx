@@ -83,10 +83,12 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
     }
   };
 
-  // Wrapper to match the expected signature
+  // Wrapper to match the expected signature - just call the original function without parameters
   const handleReferralCodeBlur = async (code: string): Promise<void> => {
+    // The onReferralCodeBlur function from useSignupForm doesn't need parameters
+    // It gets the code directly from the form
     if (onReferralCodeBlur) {
-      await onReferralCodeBlur(code);
+      onReferralCodeBlur();
     }
   };
 
