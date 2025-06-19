@@ -38,6 +38,7 @@ import BlogPage from "./pages/BlogPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import CookiePolicyPage from "./pages/CookiePolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage";
+import FAQPage from "./pages/FAQPage";
 
 // Add new lazy import
 const AppTestPage = lazy(() => import("./pages/AppTestPage"));
@@ -79,6 +80,7 @@ function App() {
                     <Route path="/privacy" element={<PrivacyPolicyPage />} />
                     <Route path="/cookies" element={<CookiePolicyPage />} />
                     <Route path="/terms" element={<TermsOfServicePage />} />
+                    <Route path="/faq" element={<FAQPage />} />
                     <Route path="/system-test" element={<SystemTestPage />} />
                     <Route path="/mobile-test" element={<MobileTestPage />} />
                     <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
