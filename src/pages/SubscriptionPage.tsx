@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSearchParams } from 'react-router-dom';
 import { Navbar } from '@/components/navbar';
+import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import SubscriptionPlans from '@/components/subscription/SubscriptionPlans';
@@ -77,6 +77,8 @@ const SubscriptionPage: React.FC = () => {
           <SubscriptionFAQ userType={userType} />
         </div>
       </div>
+      
+      <Footer />
     </div>
   );
 };
