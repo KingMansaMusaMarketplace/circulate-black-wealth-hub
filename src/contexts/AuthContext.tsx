@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User as SupabaseUser, Session } from '@supabase/supabase-js';
 
 interface User extends SupabaseUser {
-  user_metadata?: {
+  user_metadata: {
     fullName?: string;
     full_name?: string;
     name?: string;
