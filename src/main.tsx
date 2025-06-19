@@ -43,6 +43,9 @@ import RegistrationTestPage from '@/pages/RegistrationTestPage';
 import SignupTestPage from '@/pages/SignupTestPage';
 import SystemTestPage from '@/pages/SystemTestPage';
 
+// Import the new dashboard router
+import DashboardRouter from '@/components/dashboard/DashboardRouter';
+
 // Create a client for React Query
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,8 +79,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                 <Route path="/sales-agent" element={<SalesAgentPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                
+                {/* Dashboard routes */}
+                <Route path="/dashboard" element={<DashboardRouter />} />
                 <Route path="/dashboard/business" element={<BusinessDashboardPage />} />
                 <Route path="/dashboard/customer" element={<DashboardPage />} />
+                
                 <Route path="/scanner" element={<QRScannerPage />} />
                 <Route path="/education" element={<EducationPage />} />
                 <Route path="/mentorship" element={<MentorshipPage />} />
