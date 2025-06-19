@@ -15,9 +15,9 @@ interface User extends SupabaseUser {
     avatar_url?: string;
     avatarUrl?: string;
   };
-  app_metadata?: any;
-  aud?: string;
-  created_at?: string;
+  app_metadata: any; // Make this required to match SupabaseUser
+  aud: string; // Make this required to match SupabaseUser
+  created_at: string; // Make this required to match SupabaseUser
   email_confirmed_at?: string;
 }
 

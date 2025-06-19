@@ -38,7 +38,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
       {/* Sidebar */}
       <Sidebar 
-        user={user} 
+        user={user as any} 
         mobileNavOpen={mobileNavOpen} 
       />
 
