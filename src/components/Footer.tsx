@@ -10,7 +10,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-4">
-              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-mansagold/20 mr-3">
+              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-mansagold/20 mr-3">
                 <img 
                   src="/lovable-uploads/cf76d32c-f277-43a6-96b6-58dc29f4f21f.png" 
                   alt="Mansa Musa Marketplace" 
