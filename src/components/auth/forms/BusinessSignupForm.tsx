@@ -164,19 +164,19 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
                   )}
                   
                   <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-3 flex-1 min-w-0">
                       <div className={`p-2 rounded-full ${
                         selectedTier === plan.id ? 'bg-mansablue text-white' : 'bg-gray-100 text-gray-600'
                       }`}>
                         {plan.icon}
                       </div>
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <h3 className="font-semibold text-lg">{plan.name}</h3>
                         <p className="text-sm text-gray-600">{plan.description}</p>
                       </div>
                     </div>
                     
-                    <div className="text-right flex-shrink-0">
+                    <div className="text-right ml-4 flex-shrink-0">
                       <div className="text-2xl font-bold">${plan.price}</div>
                       <div className="text-sm text-gray-500">/month</div>
                     </div>
