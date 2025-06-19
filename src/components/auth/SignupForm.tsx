@@ -13,34 +13,38 @@ import CustomerSignupTab from './forms/CustomerSignupTab';
 
 const SignupForm: React.FC = () => {
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>Create an account</CardTitle>
-        <CardDescription>
-          Sign up to start using Mansa Musa Marketplace
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="customer" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="customer">Customer</TabsTrigger>
-            <TabsTrigger value="business">Business</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="customer">
-            <CustomerSignupTab />
-          </TabsContent>
-          
-          <TabsContent value="business">
-            <BusinessSignupForm 
-              referralCode=""
-              referringAgent={null}
-              onCheckReferralCode={async () => null}
-            />
-          </TabsContent>
-        </Tabs>
-      </CardContent>
-    </Card>
+    <div className="w-full max-w-7xl mx-auto">
+      <Card className="w-full">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Create an account</CardTitle>
+          <CardDescription>
+            Sign up to start using Mansa Musa Marketplace
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="p-6">
+          <Tabs defaultValue="customer" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-6 max-w-md mx-auto">
+              <TabsTrigger value="customer">Customer</TabsTrigger>
+              <TabsTrigger value="business">Business</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="customer" className="w-full">
+              <div className="max-w-md mx-auto">
+                <CustomerSignupTab />
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="business" className="w-full">
+              <BusinessSignupForm 
+                referralCode=""
+                referringAgent={null}
+                onCheckReferralCode={async () => null}
+              />
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
