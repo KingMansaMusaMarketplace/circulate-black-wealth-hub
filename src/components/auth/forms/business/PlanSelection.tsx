@@ -72,7 +72,7 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
               />
               <Label
                 htmlFor={plan.id}
-                className={`flex flex-col p-6 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md ${
+                className={`relative block p-6 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md ${
                   selectedTier === plan.id 
                     ? 'border-mansablue bg-mansablue/5' 
                     : 'border-gray-200 hover:border-gray-300'
@@ -85,30 +85,33 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
                   </Badge>
                 )}
                 
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center space-x-3 flex-1 min-w-0">
-                    <div className={`p-2 rounded-full ${
-                      selectedTier === plan.id ? 'bg-mansablue text-white' : 'bg-gray-100 text-gray-600'
-                    }`}>
-                      {plan.icon}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="font-semibold text-lg">{plan.name}</h3>
-                      <p className="text-sm text-gray-600">{plan.description}</p>
-                    </div>
+                {/* Header with icon and title */}
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className={`p-2 rounded-full ${
+                    selectedTier === plan.id ? 'bg-mansablue text-white' : 'bg-gray-100 text-gray-600'
+                  }`}>
+                    {plan.icon}
                   </div>
-                  
-                  <div className="text-right ml-4 flex-shrink-0">
-                    <div className="text-2xl font-bold">${plan.price}</div>
-                    <div className="text-sm text-gray-500">/month</div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg text-left">{plan.name}</h3>
+                    <p className="text-sm text-gray-600 text-left">{plan.description}</p>
                   </div>
                 </div>
                 
-                <div className="space-y-2">
+                {/* Pricing */}
+                <div className="mb-6">
+                  <div className="flex items-baseline space-x-1">
+                    <span className="text-3xl font-bold">${plan.price}</span>
+                    <span className="text-sm text-gray-500">/month</span>
+                  </div>
+                </div>
+                
+                {/* Features */}
+                <div className="space-y-3">
                   {plan.features.map((feature, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
-                      <span className="text-sm">{feature}</span>
+                    <div key={index} className="flex items-start space-x-2">
+                      <Check className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm text-left">{feature}</span>
                     </div>
                   ))}
                 </div>
