@@ -50,10 +50,10 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
   ];
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-4xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">Choose Your Business Plan</h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Business Plan</h2>
+        <p className="text-lg text-gray-600">
           Select the plan that best fits your business needs. Both plans include a 30-day free trial.
         </p>
       </div>
@@ -61,7 +61,7 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
       <RadioGroup 
         value={selectedTier} 
         onValueChange={(value) => onTierChange(value as SubscriptionTier)}
-        className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto"
+        className="space-y-6"
       >
         {businessPlans.map((plan) => (
           <div key={plan.id} className="relative">
@@ -72,21 +72,17 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
             />
             <Label
               htmlFor={plan.id}
-              className={`relative block h-full cursor-pointer transition-all duration-200 ${
-                selectedTier === plan.id 
-                  ? 'transform scale-105' 
-                  : 'hover:transform hover:scale-102'
-              }`}
+              className="block cursor-pointer"
             >
-              <Card className={`h-full border-2 transition-all duration-200 ${
+              <Card className={`relative transition-all duration-300 hover:shadow-lg ${
                 selectedTier === plan.id 
-                  ? 'border-mansablue shadow-xl shadow-mansablue/20 bg-gradient-to-br from-mansablue/5 to-transparent' 
-                  : 'border-gray-200 hover:border-gray-300 hover:shadow-lg'
-              } ${plan.popular ? 'ring-2 ring-mansagold/50' : ''}`}>
+                  ? 'border-2 border-mansablue shadow-lg ring-2 ring-mansablue/20 bg-gradient-to-br from-mansablue/5 to-white' 
+                  : 'border border-gray-200 hover:border-gray-300'
+              }`}>
                 
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                    <Badge className="bg-mansagold text-mansablue font-semibold px-4 py-1 text-sm shadow-lg">
+                  <div className="absolute -top-3 left-6 z-10">
+                    <Badge className="bg-mansagold text-mansablue font-semibold px-3 py-1 shadow-md">
                       <Star className="h-3 w-3 mr-1" />
                       Most Popular
                     </Badge>
@@ -94,44 +90,44 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
                 )}
                 
                 <CardHeader className="pb-4">
-                  <div className="flex items-center space-x-4 mb-4">
-                    <div className={`p-3 rounded-xl ${
-                      selectedTier === plan.id 
-                        ? 'bg-mansablue text-white shadow-lg' 
-                        : 'bg-gray-100 text-gray-600'
-                    }`}>
-                      {plan.icon}
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className={`p-3 rounded-lg transition-colors ${
+                        selectedTier === plan.id 
+                          ? 'bg-mansablue text-white' 
+                          : 'bg-gray-100 text-gray-600'
+                      }`}>
+                        {plan.icon}
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl font-bold text-gray-900 mb-1">
+                          {plan.name}
+                        </CardTitle>
+                        <CardDescription className="text-gray-600">
+                          {plan.description}
+                        </CardDescription>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <CardTitle className="text-xl font-bold text-gray-900 mb-1">
-                        {plan.name}
-                      </CardTitle>
-                      <CardDescription className="text-gray-600 text-base">
-                        {plan.description}
-                      </CardDescription>
-                    </div>
-                  </div>
-                  
-                  <div className="text-center py-4 border-t border-gray-100">
-                    <div className="flex items-baseline justify-center space-x-1">
-                      <span className="text-4xl font-bold text-gray-900">${plan.price}</span>
-                      <span className="text-lg text-gray-500 font-medium">/month</span>
+                    
+                    <div className="text-right">
+                      <div className="flex items-baseline">
+                        <span className="text-3xl font-bold text-gray-900">${plan.price}</span>
+                        <span className="text-sm text-gray-500 ml-1">/month</span>
+                      </div>
                     </div>
                   </div>
                 </CardHeader>
                 
                 <CardContent className="pt-0">
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-gray-900 text-sm uppercase tracking-wide border-b border-gray-100 pb-2">
+                  <div className="border-t border-gray-100 pt-4">
+                    <h4 className="font-semibold text-gray-900 text-sm uppercase tracking-wide mb-3">
                       What's Included
                     </h4>
-                    <ul className="space-y-3">
+                    <ul className="space-y-2">
                       {plan.features.map((feature, index) => (
-                        <li key={index} className="flex items-start space-x-3">
-                          <div className="flex-shrink-0 mt-0.5">
-                            <Check className="h-4 w-4 text-green-500" />
-                          </div>
-                          <span className="text-gray-700 text-sm leading-relaxed">{feature}</span>
+                        <li key={index} className="flex items-center space-x-3">
+                          <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
+                          <span className="text-gray-700 text-sm">{feature}</span>
                         </li>
                       ))}
                     </ul>
