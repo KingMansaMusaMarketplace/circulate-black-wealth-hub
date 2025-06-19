@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
@@ -10,7 +11,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-4">
-              <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-mansagold/20 mr-3">
+              <div className="w-20 h-20 rounded-full overflow-hidden border-3 border-mansagold/30 mr-4 shadow-lg bg-white/10 backdrop-blur-sm">
                 <img 
                   src="/lovable-uploads/cf76d32c-f277-43a6-96b6-58dc29f4f21f.png" 
                   alt="Mansa Musa Marketplace" 
