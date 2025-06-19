@@ -8,7 +8,7 @@ import { Toaster } from 'sonner';
 import './index.css';
 
 // Import providers
-import { AuthProvider } from '@/contexts/auth/AuthProvider';
+import { AuthProvider } from '@/contexts/AuthContext';
 import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 
 // Import the main App component

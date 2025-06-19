@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet-async';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
-import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
 
 const BusinessSignupPage: React.FC = () => {
@@ -18,9 +17,9 @@ const BusinessSignupPage: React.FC = () => {
     if (!code) return null;
     
     try {
-      const agent = await getSalesAgentByReferralCode(code);
-      setReferringAgent(agent);
-      return agent;
+      // For now, return null until sales agent API is working
+      console.log('Checking referral code:', code);
+      return null;
     } catch (error) {
       console.error('Error checking referral code:', error);
       return null;
