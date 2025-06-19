@@ -20,65 +20,49 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    // Bundle optimization settings
+    // Optimize bundle size
     rollupOptions: {
       output: {
-        // Manual chunk splitting for better caching
-        manualChunks: {
+        // Manual chunk splitting for better caching and to avoid circular dependencies
+        manualChunks: (id) => {
           // Vendor chunks
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-popover', '@radix-ui/react-select'],
-          'vendor-query': ['@tanstack/react-query'],
-          'vendor-supabase': ['@supabase/supabase-js'],
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) {
+              return 'vendor-react';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'vendor-ui';
+            }
+            if (id.includes('@tanstack/react-query')) {
+              return 'vendor-query';
+            }
+            if (id.includes('@supabase')) {
+              return 'vendor-supabase';
+            }
+            return 'vendor';
+          }
           
-          // Feature chunks
-          'auth-pages': [
-            './src/pages/LoginPage.tsx',
-            './src/pages/SignupPage.tsx',
-            './src/pages/AuthPage.tsx'
-          ],
-          'dashboard-pages': [
-            './src/pages/DashboardPage.tsx',
-            './src/pages/BusinessDashboardPage.tsx',
-            './src/pages/ProfilePage.tsx'
-          ],
-          'directory-pages': [
-            './src/pages/DirectoryPage.tsx',
-            './src/pages/EnhancedDirectoryPage.tsx',
-            './src/pages/BusinessDetailPage.tsx'
-          ],
+          // Auth chunks
+          if (id.includes('/contexts/auth/') || id.includes('/lib/auth/')) {
+            return 'auth';
+          }
           
-          // Heavy components
-          'charts': ['recharts'],
-          'qr-code': ['html5-qrcode', 'qrcode'],
-          'animations': ['framer-motion'],
-          'utils': ['date-fns', 'file-saver']
+          // Component chunks
+          if (id.includes('/components/')) {
+            return 'components';
+          }
+          
+          // Page chunks
+          if (id.includes('/pages/')) {
+            return 'pages';
+          }
         },
-        // Optimize chunk file names
-        chunkFileNames: (chunkInfo) => {
-          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop()?.replace('.tsx', '').replace('.ts', '') : 'chunk';
-          return `assets/[name]-[hash].js`;
-        }
       }
     },
-    // Optimize bundle size - only enable terser in production
-    minify: mode === 'production' ? 'terser' : false,
-    ...(mode === 'production' && {
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-        },
-      },
-    }),
+    // Enable source maps for debugging
+    sourcemap: false,
     // Set chunk size warning limit
-    chunkSizeWarningLimit: 1000,
-    // Enable source maps in development
-    sourcemap: mode === 'development',
-  },
-  // CSS optimization
-  css: {
-    devSourcemap: mode === 'development',
+    chunkSizeWarningLimit: 1500,
   },
   // Optimize dependencies
   optimizeDeps: {
@@ -89,11 +73,5 @@ export default defineConfig(({ mode }) => ({
       '@tanstack/react-query',
       'lucide-react'
     ],
-    exclude: [
-      // Exclude heavy deps that should be loaded on demand
-      'html5-qrcode',
-      'html2pdf.js',
-      'file-saver'
-    ]
   }
 }));

@@ -1,6 +1,6 @@
 
 import { AuthError, UserResponse } from '@supabase/supabase-js';
-import { ToastProps } from './types';
+import { ToastProps } from '../types';
 import { 
   handleSignUp, 
   handleSignIn, 
@@ -9,7 +9,6 @@ import {
   requestPasswordReset,
   updatePassword 
 } from '@/lib/auth';
-import { getMFAFactors, createMFAChallenge } from './mfaUtils';
 import { toast } from 'sonner';
 
 // Helper function to wrap toast in the expected format
@@ -62,6 +61,8 @@ export const enhancedSignIn = async (
       
       // If user has MFA factors, initiate a challenge
       if (factors.length > 0) {
+        // Import MFA utils dynamically to avoid circular dependency
+        const { createMFAChallenge } = await import('../mfaUtils');
         const challenge = await createMFAChallenge(factors[0].id);
         console.log("MFA challenge created:", challenge);
         
@@ -133,4 +134,9 @@ export const signInWithEmail = handleUserSignIn;
 export const signInWithProvider = handleUserSocialSignIn;
 export const signUp = handleUserSignUp;
 export const signOut = handleUserSignOut;
-export { checkMFAStatus } from './mfaUtils';
+
+// Import MFA utils dynamically to avoid circular dependencies
+export const checkMFAStatus = async () => {
+  const { checkMFAStatus: checkStatus } = await import('../mfaUtils');
+  return checkStatus();
+};
