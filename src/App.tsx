@@ -13,6 +13,8 @@ import DirectoryPage from "./pages/DirectoryPage";
 import BusinessPage from "./pages/BusinessPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import BusinessSignupPage from "./pages/BusinessSignupPage";
+import CustomerSignupPage from "./pages/CustomerSignupPage";
 import DashboardPage from "./pages/DashboardPage";
 import QRScannerPage from "./pages/QRScannerPage";
 import LoyaltyPage from "./pages/LoyaltyPage";
@@ -63,6 +65,11 @@ function App() {
                     <Route path="/business/:id" element={<BusinessPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
+                    
+                    {/* Add specific signup routes */}
+                    <Route path="/signup/business" element={<BusinessSignupPage />} />
+                    <Route path="/signup/customer" element={<CustomerSignupPage />} />
+                    
                     <Route path="/dashboard" element={<DashboardPage />} />
                     <Route path="/scanner" element={<QRScannerPage />} />
                     <Route path="/loyalty" element={<LoyaltyPage />} />
