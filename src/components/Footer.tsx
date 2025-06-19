@@ -92,6 +92,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/sales-agent" className="text-blue-100 hover:text-white transition-colors">
+                  Sales Agent
+                </Link>
+              </li>
+              <li>
                 <Link to="/scanner" className="text-blue-100 hover:text-white transition-colors">
                   QR Scanner
                 </Link>
