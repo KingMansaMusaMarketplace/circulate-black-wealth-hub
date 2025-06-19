@@ -27,6 +27,7 @@ import ComprehensiveTestPage from "./pages/ComprehensiveTestPage";
 import SignupTestPage from "./pages/SignupTestPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import PasswordResetRequestPage from "./pages/PasswordResetRequestPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import MobileReadinessTestPage from "./pages/MobileReadinessTestPage";
 import SalesAgentPage from "./pages/SalesAgentPage";
 import CommunityPage from "./pages/CommunityPage";
@@ -42,6 +43,7 @@ import CookiePolicyPage from "./pages/CookiePolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage";
 import FAQPage from "./pages/FAQPage";
 import AboutPage from "./pages/AboutPage";
+import NotFound from "./pages/NotFound";
 
 // Add new lazy import
 const AppTestPage = lazy(() => import("./pages/AppTestPage"));
@@ -95,6 +97,7 @@ function App() {
                   <Route path="/signup-test" element={<SignupTestPage />} />
                   <Route path="/new-password" element={<NewPasswordPage />} />
                   <Route path="/password-reset-request" element={<PasswordResetRequestPage />} />
+                  <Route path="/reset-password" element={<ResetPasswordPage />} />
                   <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
                   
                   {/* Add new test route */}
@@ -106,6 +109,9 @@ function App() {
                       </Suspense>
                     } 
                   />
+                  
+                  {/* 404 Route - must be last */}
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>
             </TooltipProvider>

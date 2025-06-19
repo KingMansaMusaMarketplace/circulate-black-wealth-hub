@@ -1,154 +1,80 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+
+import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import MFASetup from '@/components/auth/MFASetup';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'sonner';
 
-const passwordFormSchema = z.object({
-  currentPassword: z.string().min(6, {
-    message: 'Password must be at least 6 characters.',
-  }),
-  newPassword: z.string().min(6, {
-    message: 'New password must be at least 6 characters.',
-  }),
-  confirmPassword: z.string().min(6, {
-    message: 'Confirm password must be at least 6 characters.',
-  }),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
-
-type PasswordFormValues = z.infer<typeof passwordFormSchema>;
-
-const SecuritySettings = () => {
+const SecuritySettings: React.FC = () => {
   const { updateUserPassword } = useAuth();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const form = useForm<PasswordFormValues>({
-    resolver: zodResolver(passwordFormSchema),
-    defaultValues: {
-      currentPassword: '',
-      newPassword: '',
-      confirmPassword: '',
-    },
-  });
-  
-  const onSubmit = async (data: PasswordFormValues) => {
+  const [newPassword, setNewPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handlePasswordUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (newPassword !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      toast.error('Password must be at least 6 characters');
+      return;
+    }
+
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      
-      // In a real implementation, we'd verify the current password first
-      // For now, we'll just update the password directly
-      const result = await updateUserPassword(data.newPassword);
-      
-      if (!result.success) throw new Error(result.error?.message || 'Failed to update password');
-      
-      form.reset();
-      
-      toast({
-        title: "Password Updated",
-        description: "Your password has been updated successfully.",
-      });
-    } catch (error: any) {
-      toast({
-        title: "Update Failed",
-        description: error.message || "There was a problem updating your password.",
-        variant: "destructive"
-      });
+      const result = await updateUserPassword?.(newPassword);
+      if (result?.success) {
+        toast.success('Password updated successfully');
+        setNewPassword('');
+        setConfirmPassword('');
+      } else {
+        toast.error('Failed to update password');
+      }
+    } catch (error) {
+      toast.error('An error occurred');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Tabs defaultValue="password" className="space-y-6">
-      <TabsList className="grid grid-cols-2 w-full max-w-md mb-4">
-        <TabsTrigger value="password">Password</TabsTrigger>
-        <TabsTrigger value="mfa">Two-Factor Auth</TabsTrigger>
-      </TabsList>
-      
-      <TabsContent value="password">
-        <Card>
-          <CardHeader>
-            <CardTitle>Password Security</CardTitle>
-            <CardDescription>
-              Update your password to keep your account secure.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="currentPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Current Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="newPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>New Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Confirm New Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading ? 'Updating...' : 'Update Password'}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-      </TabsContent>
-      
-      <TabsContent value="mfa">
-        <MFASetup />
-      </TabsContent>
-    </Tabs>
+    <Card>
+      <CardHeader>
+        <CardTitle>Security Settings</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handlePasswordUpdate} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">New Password</label>
+            <Input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Enter new password"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Confirm Password</label>
+            <Input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="Confirm new password"
+              required
+            />
+          </div>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? 'Updating...' : 'Update Password'}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 

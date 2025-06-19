@@ -1,108 +1,59 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
+
+import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from 'sonner';
 
-const ResetPasswordPage = () => {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isRequestSent, setIsRequestSent] = useState(false);
+const ResetPasswordPage: React.FC = () => {
   const { resetPassword } = useAuth();
-  const navigate = useNavigate();
+  const [email, setEmail] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (!email) {
+      toast.error('Please enter your email');
+      return;
+    }
 
+    setIsLoading(true);
     try {
-      const result = await resetPassword(email);
-      if (result.success) {
-        setIsRequestSent(true);
+      const result = await resetPassword?.(email);
+      if (result?.success) {
+        toast.success('Password reset email sent!');
+      } else {
+        toast.error('Failed to send reset email');
       }
+    } catch (error) {
+      toast.error('An error occurred');
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-grow flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-mansablue">
-              Reset Your Password
-            </CardTitle>
-            <CardDescription>
-              Enter your email address and we'll send you a link to reset your password
-            </CardDescription>
-          </CardHeader>
-          
-          {isRequestSent ? (
-            <CardContent className="text-center py-6">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 mb-4">
-                <Mail className="h-6 w-6 text-green-600" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-900">Check your email</h3>
-              <p className="mt-2 text-gray-500">
-                We've sent a password reset link to {email}
-              </p>
-              <Button 
-                onClick={() => navigate('/login')} 
-                variant="link" 
-                className="mt-4 text-mansablue"
-              >
-                Back to login
-              </Button>
-            </CardContent>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <CardContent className="space-y-4">
-                <div className="space-y-1">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email address
-                  </label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button 
-                  type="submit" 
-                  className="w-full bg-mansablue hover:bg-mansablue-dark"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Reset Link"}
-                </Button>
-              </CardFooter>
-              <div className="text-center pb-4">
-                <Button 
-                  onClick={() => navigate('/login')} 
-                  variant="link" 
-                  className="text-mansablue"
-                >
-                  Back to login
-                </Button>
-              </div>
-            </form>
-          )}
-        </Card>
-      </div>
-      <Footer />
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>Reset Password</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? 'Sending...' : 'Send Reset Email'}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };
