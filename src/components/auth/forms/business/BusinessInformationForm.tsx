@@ -1,25 +1,28 @@
 
 import React from 'react';
-import { UseFormReturn } from 'react-hook-form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { UseFormReturn } from 'react-hook-form';
 import { SalesAgent } from '@/types/sales-agent';
+import { Loader2, Star, Crown } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import ReferralCodeField from '../fields/ReferralCodeField';
 import HBCUVerificationField from '../fields/HBCUVerificationField';
+import CategoryField from '@/components/business/business-form/CategoryField';
 
 interface BusinessInformationFormProps {
-  form: UseFormReturn<any>; // Use any to avoid type conflicts
-  onSubmit: (values: any) => Promise<void>; // Use any to avoid type conflicts
+  form: UseFormReturn<any>;
+  onSubmit: (values: any) => Promise<void>;
   isLoading: boolean;
   isHBCUMember: boolean;
-  referringAgent: SalesAgent | null;
+  referringAgent?: SalesAgent | null;
   selectedTierName: string;
-  onReferralCodeBlur: () => void;
-  onHBCUStatusChange: (checked: boolean) => void;
-  onHBCUFileChange: (file: File | null) => void;
+  onReferralCodeBlur?: (code: string) => Promise<void>;
+  onHBCUStatusChange?: (isHBCU: boolean) => void;
+  onHBCUFileChange?: (file: File | null) => void;
 }
 
 const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
@@ -34,133 +37,187 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
   onHBCUFileChange
 }) => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Business Information</CardTitle>
+    <Card className="w-full max-w-4xl mx-auto">
+      <CardHeader className="text-center">
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <Crown className="h-6 w-6 text-mansagold" />
+          <CardTitle className="text-2xl">Business Information</CardTitle>
+        </div>
         <CardDescription>
-          Tell us about your business to create your profile
+          Complete your business profile for {selectedTierName}
         </CardDescription>
+        <div className="flex justify-center">
+          <Badge variant="outline" className="text-mansablue border-mansablue">
+            <Star className="h-3 w-3 mr-1" />
+            30-Day Free Trial Included
+          </Badge>
+        </div>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label htmlFor="name">Your Full Name *</Label>
-              <Input
-                id="name"
-                {...form.register('name')}
-                placeholder="John Doe"
+      
+      <CardContent className="space-y-6">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            
+            {/* Personal Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your full name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {form.formState.errors.name && (
-                <p className="text-sm text-red-500">{String(form.formState.errors.name.message || 'This field is required')}</p>
-              )}
+              
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email Address *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="your@email.com" type="email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email Address *</Label>
-              <Input
-                id="email"
-                type="email"
-                {...form.register('email')}
-                placeholder="john@business.com"
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Create a secure password" type="password" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {form.formState.errors.email && (
-                <p className="text-sm text-red-500">{String(form.formState.errors.email.message || 'This field is required')}</p>
-              )}
+              
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="(555) 123-4567" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password *</Label>
-              <Input
-                id="password"
-                type="password"
-                {...form.register('password')}
-                placeholder="••••••••"
-              />
-              {form.formState.errors.password && (
-                <p className="text-sm text-red-500">{String(form.formState.errors.password.message || 'This field is required')}</p>
-              )}
+            {/* Business Information */}
+            <div className="border-t pt-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Business Details</h3>
+              
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="business_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Business Name *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Your business name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <CategoryField form={form} name="category" />
+
+                <FormField
+                  control={form.control}
+                  name="business_description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Business Description *</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Describe your business, products, or services" 
+                          className="min-h-[100px]"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="business_address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Business Address *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="123 Main St, City, State 12345" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number *</Label>
-              <Input
-                id="phone"
-                {...form.register('phone')}
-                placeholder="(555) 123-4567"
+            {/* Referral Code Section */}
+            <div className="border-t pt-6">
+              <ReferralCodeField
+                form={form}
+                onReferralCodeBlur={onReferralCodeBlur}
+                referringAgent={referringAgent}
               />
-              {form.formState.errors.phone && (
-                <p className="text-sm text-red-500">{String(form.formState.errors.phone.message || 'This field is required')}</p>
-              )}
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="business_name">Business Name *</Label>
-            <Input
-              id="business_name"
-              {...form.register('business_name')}
-              placeholder="Your Business Name"
-            />
-            {form.formState.errors.business_name && (
-              <p className="text-sm text-red-500">{String(form.formState.errors.business_name.message || 'This field is required')}</p>
-            )}
-          </div>
+            {/* HBCU Verification Section */}
+            <div className="border-t pt-6">
+              <HBCUVerificationField
+                isHBCUMember={isHBCUMember}
+                onHBCUStatusChange={onHBCUStatusChange}
+                onHBCUFileChange={onHBCUFileChange}
+              />
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="business_description">Business Description *</Label>
-            <Textarea
-              id="business_description"
-              {...form.register('business_description')}
-              placeholder="Describe your business, what you offer, and what makes you unique..."
-              rows={4}
-            />
-            {form.formState.errors.business_description && (
-              <p className="text-sm text-red-500">{String(form.formState.errors.business_description.message || 'This field is required')}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="business_address">Business Address *</Label>
-            <Input
-              id="business_address"
-              {...form.register('business_address')}
-              placeholder="123 Main St, City, State 12345"
-            />
-            {form.formState.errors.business_address && (
-              <p className="text-sm text-red-500">{String(form.formState.errors.business_address.message || 'This field is required')}</p>
-            )}
-          </div>
-
-          <ReferralCodeField
-            value={form.watch('referralCode') || ''}
-            onChange={(value) => form.setValue('referralCode', value)}
-            onBlur={onReferralCodeBlur}
-            referringAgent={referringAgent}
-          />
-
-          <HBCUVerificationField
-            isHBCUMember={isHBCUMember}
-            onHBCUStatusChange={onHBCUStatusChange}
-            onFileChange={onHBCUFileChange}
-          />
-
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Creating Account...
-              </>
-            ) : (
-              `Start ${selectedTierName} Free Trial`
-            )}
-          </Button>
-
-          <p className="text-sm text-gray-600 text-center">
-            By signing up, you agree to our Terms of Service and Privacy Policy.
-            Your 30-day free trial will begin immediately.
-          </p>
-        </form>
+            {/* Submit Button */}
+            <div className="border-t pt-6">
+              <Button 
+                type="submit" 
+                className="w-full bg-mansablue hover:bg-mansablue-dark text-white py-6 text-lg font-semibold"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Creating Your Account...
+                  </>
+                ) : (
+                  <>
+                    Start Your Free Trial
+                    <Star className="ml-2 h-5 w-5" />
+                  </>
+                )}
+              </Button>
+              
+              <p className="text-center text-sm text-gray-600 mt-3">
+                You'll be redirected to complete your subscription setup after account creation.
+              </p>
+            </div>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   );

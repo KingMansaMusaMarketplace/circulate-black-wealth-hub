@@ -54,10 +54,24 @@ export const businessCategories: BusinessCategory[] = [
     icon: '📈'
   },
   {
-    id: 'consulting-engineering',
-    name: 'Consulting Engineering',
-    description: 'Technical engineering consultation',
-    icon: '⚙️'
+    id: 'consulting',
+    name: 'Consulting Services',
+    description: 'Professional consulting across various industries',
+    icon: '🤝',
+    subcategories: [
+      'Business Consulting',
+      'Management Consulting',
+      'IT Consulting',
+      'Marketing Consulting',
+      'Financial Consulting',
+      'HR Consulting',
+      'Strategy Consulting',
+      'Operations Consulting',
+      'Engineering Consulting',
+      'Healthcare Consulting',
+      'Legal Consulting',
+      'Educational Consulting'
+    ]
   },
   {
     id: 'franchise-consulting',
