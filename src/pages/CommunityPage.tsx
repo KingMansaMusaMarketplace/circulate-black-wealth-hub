@@ -2,6 +2,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Navbar } from '@/components/navbar';
+import Footer from '@/components/Footer';
 import CommunityForum from '@/components/community/CommunityForum';
 import CommunityEvents from '@/components/community/CommunityEvents';
 import ActivityFeed from '@/components/community/ActivityFeed';
@@ -83,6 +84,8 @@ const CommunityPage: React.FC = () => {
           </TabsContent>
         </Tabs>
       </div>
+      
+      <Footer />
     </div>
   );
 };
