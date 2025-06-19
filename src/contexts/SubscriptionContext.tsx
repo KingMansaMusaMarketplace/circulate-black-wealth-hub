@@ -5,6 +5,8 @@ interface SubscriptionInfo {
   subscription_tier: string;
   status: string;
   current_period_end?: string;
+  subscription_end?: string;
+  subscribed?: boolean;
 }
 
 interface SubscriptionContextType {
@@ -30,7 +32,8 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [isLoading] = useState(false);
   const [subscriptionInfo] = useState<SubscriptionInfo | null>({
     subscription_tier: 'free',
-    status: 'active'
+    status: 'active',
+    subscribed: false
   });
 
   const refreshSubscription = async () => {

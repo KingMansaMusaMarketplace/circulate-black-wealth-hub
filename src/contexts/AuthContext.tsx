@@ -1,15 +1,14 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { User as SupabaseUser, Session } from '@supabase/supabase-js';
 
-interface User {
-  id: string;
-  email: string;
-  name?: string;
-  user_type?: 'customer' | 'business' | 'sales_agent';
+interface User extends SupabaseUser {
   user_metadata?: {
     fullName?: string;
+    full_name?: string;
     name?: string;
     role?: string;
+    user_type?: 'customer' | 'business' | 'sales_agent';
     is_admin?: boolean;
     is_customer?: boolean;
     is_agent?: boolean;
@@ -19,19 +18,23 @@ interface User {
   app_metadata?: any;
   aud?: string;
   created_at?: string;
+  email_confirmed_at?: string;
 }
 
 interface AuthContextType {
   user: User | null;
+  session: Session | null;
   loading: boolean;
   userType?: 'customer' | 'business' | 'sales_agent';
   authInitialized: boolean;
+  databaseInitialized: boolean;
   signIn: (email: string, password: string) => Promise<{ error?: any }>;
   signUp: (email: string, password: string, metadata?: any) => Promise<{ error?: any; data?: any }>;
   signOut: () => Promise<void>;
   checkSession: () => Promise<boolean>;
   updateUserPassword?: (newPassword: string) => Promise<{ success: boolean; error?: any }>;
   getMFAFactors?: () => Promise<any[]>;
+  resetPassword?: (email: string) => Promise<{ success: boolean; error?: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -46,9 +49,11 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [userType, setUserType] = useState<'customer' | 'business' | 'sales_agent' | undefined>();
   const [authInitialized, setAuthInitialized] = useState(false);
+  const [databaseInitialized, setDatabaseInitialized] = useState(true);
 
   useEffect(() => {
     // Simulate checking for existing session
@@ -90,6 +95,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       setUser(null);
+      setSession(null);
       setUserType(undefined);
     } catch (error) {
       console.error('Error signing out:', error);
@@ -113,17 +119,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return [];
   };
 
+  const resetPassword = async (email: string) => {
+    try {
+      console.log('Resetting password for:', email);
+      return { success: true };
+    } catch (error) {
+      return { success: false, error };
+    }
+  };
+
   const value = {
     user,
+    session,
     loading,
     userType,
     authInitialized,
+    databaseInitialized,
     signIn,
     signUp,
     signOut,
     checkSession,
     updateUserPassword,
-    getMFAFactors
+    getMFAFactors,
+    resetPassword
   };
 
   return (
