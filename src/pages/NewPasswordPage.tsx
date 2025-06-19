@@ -1,12 +1,14 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
-import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle } from 'lucide-react';
+import { toast } from 'sonner';
+import { updatePassword } from '@/lib/auth/auth-password';
 
 const NewPasswordPage = () => {
   const [password, setPassword] = useState('');
@@ -14,7 +16,6 @@ const NewPasswordPage = () => {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const { updateUserPassword } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,7 +38,14 @@ const NewPasswordPage = () => {
     setIsSubmitting(true);
 
     try {
-      const result = await updateUserPassword(password);
+      const result = await updatePassword(password, (props) => {
+        if (props.variant === 'destructive') {
+          toast.error(props.title, { description: props.description });
+        } else {
+          toast.success(props.title, { description: props.description });
+        }
+      });
+      
       if (result.success) {
         setIsComplete(true);
         setTimeout(() => {
