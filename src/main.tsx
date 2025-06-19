@@ -23,6 +23,7 @@ import BusinessSignupPage from '@/pages/BusinessSignupPage';
 import CustomerSignupPage from '@/pages/CustomerSignupPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
+import NewPasswordPage from '@/pages/NewPasswordPage';
 import SubscriptionPage from '@/pages/SubscriptionPage';
 import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
 import SalesAgentPage from '@/pages/SalesAgentPage';
@@ -78,6 +79,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="/signup/customer" element={<CustomerSignupPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
+                <Route path="/new-password" element={<NewPasswordPage />} />
                 <Route path="/subscription" element={<SubscriptionPage />} />
                 <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
                 <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
