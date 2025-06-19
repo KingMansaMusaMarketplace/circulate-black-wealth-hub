@@ -60,7 +60,7 @@ export const useSignupForm = () => {
   };
 
   const onSubmit = async (values: SignupFormValues & { 
-    subscription_tier?: 'free' | 'paid';
+    subscription_tier?: 'free' | 'paid' | 'premium' | 'business_starter' | 'business' | 'enterprise';
     business_name?: string;
     business_description?: string;
     business_address?: string;

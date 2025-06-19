@@ -77,7 +77,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
     try {
       const signupData = {
         ...values,
-        subscription_tier: selectedTier === 'business_starter' ? 'free' : 'free', // Start with free trial for both
+        subscription_tier: 'free' as const, // Start with free trial for both tiers
         user_type: 'business' as const
       };
 

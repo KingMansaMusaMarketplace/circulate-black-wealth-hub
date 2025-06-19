@@ -113,7 +113,9 @@ const SubscriptionPage: React.FC = () => {
                         ? 'Community Member' 
                         : subscriptionInfo.subscription_tier === 'business_starter'
                           ? 'Starter Business'
-                          : subscriptionInfo.subscription_tier?.charAt(0).toUpperCase() + subscriptionInfo.subscription_tier?.slice(1)
+                          : subscriptionInfo.subscription_tier === 'business'
+                            ? 'Professional Business'
+                            : subscriptionInfo.subscription_tier?.charAt(0).toUpperCase() + subscriptionInfo.subscription_tier?.slice(1)
                       }
                     </p>
                     {subscriptionInfo.subscription_end && (
