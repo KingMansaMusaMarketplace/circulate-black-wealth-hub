@@ -1,5 +1,5 @@
 
-// Service Worker for Circulate Black Wealth Hub PWA
+// Service Worker for Mansa Musa Marketplace PWA
 const CACHE_NAME = 'wealth-hub-cache-v1';
 const urlsToCache = [
   '/',
@@ -14,6 +14,9 @@ self.addEventListener('install', event => {
       .then(cache => {
         return cache.addAll(urlsToCache);
       })
+      .catch(error => {
+        console.log('Cache installation failed:', error);
+      })
   );
 });
 
@@ -24,9 +27,11 @@ self.addEventListener('fetch', event => {
         if (response) {
           return response;
         }
+        
         return fetch(event.request)
           .then(response => {
-            if(!response || response.status !== 200 || response.type !== 'basic') {
+            // Check if we received a valid response
+            if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
             
@@ -38,6 +43,14 @@ self.addEventListener('fetch', event => {
               });
               
             return response;
+          })
+          .catch(error => {
+            console.log('Fetch failed for:', event.request.url, error);
+            // Return a fallback response or let the browser handle it
+            return new Response('Network error occurred', {
+              status: 408,
+              statusText: 'Network error'
+            });
           });
       })
   );
