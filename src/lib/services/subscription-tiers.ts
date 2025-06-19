@@ -1,5 +1,5 @@
 
-export type SubscriptionTier = 'free' | 'premium' | 'business' | 'enterprise';
+export type SubscriptionTier = 'free' | 'premium' | 'business_starter' | 'business' | 'enterprise';
 
 export interface TierFeatures {
   canScanQR: boolean;
@@ -67,8 +67,28 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
       maxQRCodes: 0
     }
   },
+  business_starter: {
+    displayName: 'Starter Business',
+    description: 'Perfect for new and small businesses',
+    price: 29,
+    interval: 'month',
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: true,
+      canVerifyBusiness: true,
+      canAccessAnalytics: true,
+      canCreateEvents: false,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+      maxQRCodes: 3
+    }
+  },
   business: {
-    displayName: 'Business Plan',
+    displayName: 'Professional Business',
     description: 'Full business management suite',
     price: 100,
     interval: 'month',

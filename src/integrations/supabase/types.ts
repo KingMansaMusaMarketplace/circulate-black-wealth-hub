@@ -1572,7 +1572,7 @@ export type Database = {
     }
     Enums: {
       hbcu_verification_status: "pending" | "approved" | "rejected"
-      subscription_tier: "free" | "paid"
+      subscription_tier: "free" | "paid" | "business_starter"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1689,7 +1689,7 @@ export const Constants = {
   public: {
     Enums: {
       hbcu_verification_status: ["pending", "approved", "rejected"],
-      subscription_tier: ["free", "paid"],
+      subscription_tier: ["free", "paid", "business_starter"],
     },
   },
 } as const

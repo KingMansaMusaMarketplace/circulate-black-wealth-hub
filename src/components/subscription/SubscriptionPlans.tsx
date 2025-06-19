@@ -3,18 +3,22 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, Star, Crown, Building, Users } from 'lucide-react';
+import { Check, Star, Crown, Building, Users, Rocket } from 'lucide-react';
 import { useSubscriptionActions } from './hooks/useSubscriptionActions';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 
 interface SubscriptionPlansProps {
   currentTier?: SubscriptionTier;
+  userType?: 'customer' | 'business';
 }
 
-const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({ currentTier = 'free' }) => {
+const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({ 
+  currentTier = 'free', 
+  userType = 'customer' 
+}) => {
   const { loading, handleSubscribe, isAuthenticated } = useSubscriptionActions();
 
-  const plans = [
+  const customerPlans = [
     {
       id: 'free' as SubscriptionTier,
       name: 'Community Member',
@@ -50,37 +54,64 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({ currentTier = 'fr
       icon: <Crown className="h-6 w-6" />,
       buttonText: 'Upgrade to Premium',
       popular: true
+    }
+  ];
+
+  const businessPlans = [
+    {
+      id: 'business_starter' as SubscriptionTier,
+      name: 'Starter Business',
+      price: 29,
+      period: 'month',
+      description: 'Perfect for new and small businesses getting started',
+      features: [
+        'Business profile creation & management',
+        'Up to 3 QR codes',
+        'Basic analytics dashboard',
+        'Customer loyalty program',
+        'Email support',
+        'Business verification',
+        '30-day free trial'
+      ],
+      icon: <Rocket className="h-6 w-6" />,
+      buttonText: 'Start Free Trial',
+      popular: false
     },
     {
       id: 'business' as SubscriptionTier,
-      name: 'Business Plan',
+      name: 'Professional Business',
       price: 100,
       period: 'month',
       description: 'Complete business management and marketing suite',
       features: [
-        'Business profile creation & management',
-        'QR code generation & analytics',
-        'Customer loyalty program',
-        'Business analytics dashboard',
+        'Everything in Starter Business',
+        'Up to 50 QR codes',
+        'Advanced analytics dashboard',
         'Marketing tools & promotions',
+        'Event creation & management',
         'Priority business support',
-        '30-day free trial'
+        'Advanced customer insights'
       ],
       icon: <Building className="h-6 w-6" />,
       buttonText: 'Start Free Trial',
-      popular: false
+      popular: true
     }
   ];
 
+  const plans = userType === 'business' ? businessPlans : customerPlans;
+
   const getButtonVariant = (planId: SubscriptionTier) => {
     if (currentTier === planId) return 'outline';
-    if (planId === 'premium') return 'default';
+    if ((userType === 'customer' && planId === 'premium') || 
+        (userType === 'business' && planId === 'business')) return 'default';
     return 'outline';
   };
 
   const getButtonText = (plan: any) => {
     if (currentTier === plan.id) return 'Current Plan';
-    if (plan.id === 'business') return 'Start Free Trial';
+    if (userType === 'business' && (plan.id === 'business_starter' || plan.id === 'business')) {
+      return 'Start Free Trial';
+    }
     return plan.buttonText;
   };
 
@@ -89,7 +120,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({ currentTier = 'fr
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
       {plans.map((plan) => (
         <Card 
           key={plan.id} 
@@ -138,7 +169,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({ currentTier = 'fr
                 <span className="text-3xl font-bold">${plan.price}</span>
                 <span className="text-gray-500 ml-1">/{plan.period}</span>
               </div>
-              {plan.id === 'business' && (
+              {userType === 'business' && (
                 <p className="text-sm text-green-600 mt-1 font-medium">30-day free trial</p>
               )}
             </div>

@@ -1,19 +1,29 @@
+
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { useSearchParams } from 'react-router-dom';
 import { Navbar } from '@/components/navbar';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import SubscriptionPlans from '@/components/subscription/SubscriptionPlans';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Crown, TrendingUp, Users, Star, Lock } from 'lucide-react';
+import { Crown, TrendingUp, Users, Star, Lock, Rocket, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const SubscriptionPage: React.FC = () => {
   const { user } = useAuth();
   const { subscriptionInfo, openCustomerPortal } = useSubscription();
-
+  const [searchParams] = useSearchParams();
+  
+  const suggestedTier = searchParams.get('tier');
+  const isTrialMode = searchParams.get('trial') === 'true';
+  
   const currentTier = subscriptionInfo?.subscription_tier as any || 'free';
+  
+  // Determine user type based on profile or suggested tier
+  const userType = user?.user_metadata?.user_type || 
+    (suggestedTier === 'business_starter' || suggestedTier === 'business' ? 'business' : 'customer');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -28,17 +38,37 @@ const SubscriptionPage: React.FC = () => {
           {/* Header Section */}
           <div className="text-center space-y-6">
             <div className="flex justify-center">
-              <Crown className="h-16 w-16 text-mansagold" />
+              {userType === 'business' ? (
+                <Building className="h-16 w-16 text-mansablue" />
+              ) : (
+                <Crown className="h-16 w-16 text-mansagold" />
+              )}
             </div>
             
             <h1 className="text-4xl font-bold text-mansablue">
-              Choose Your Impact Level
+              {userType === 'business' 
+                ? 'Choose Your Business Plan' 
+                : 'Choose Your Impact Level'
+              }
             </h1>
             
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Join thousands of community members circulating Black wealth. 
-              Every subscription helps strengthen our economic ecosystem.
+              {userType === 'business' 
+                ? 'Grow your business and connect with customers in the Black community. All business plans include a 30-day free trial.'
+                : 'Join thousands of community members circulating Black wealth. Every subscription helps strengthen our economic ecosystem.'
+              }
             </p>
+
+            {isTrialMode && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 max-w-2xl mx-auto">
+                <div className="flex items-center justify-center space-x-2 text-green-700">
+                  <Rocket className="h-5 w-5" />
+                  <span className="font-medium">
+                    Welcome! Complete your free trial setup by selecting your plan below.
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Authentication Notice */}
@@ -81,7 +111,9 @@ const SubscriptionPage: React.FC = () => {
                     <p className="font-semibold text-lg">
                       {subscriptionInfo.subscription_tier === 'free' 
                         ? 'Community Member' 
-                        : subscriptionInfo.subscription_tier?.charAt(0).toUpperCase() + subscriptionInfo.subscription_tier?.slice(1)
+                        : subscriptionInfo.subscription_tier === 'business_starter'
+                          ? 'Starter Business'
+                          : subscriptionInfo.subscription_tier?.charAt(0).toUpperCase() + subscriptionInfo.subscription_tier?.slice(1)
                       }
                     </p>
                     {subscriptionInfo.subscription_end && (
@@ -111,9 +143,14 @@ const SubscriptionPage: React.FC = () => {
               <div className="w-16 h-16 bg-mansablue/10 rounded-full flex items-center justify-center mx-auto">
                 <TrendingUp className="h-8 w-8 text-mansablue" />
               </div>
-              <h3 className="text-xl font-semibold">Maximize Your Impact</h3>
+              <h3 className="text-xl font-semibold">
+                {userType === 'business' ? 'Grow Your Business' : 'Maximize Your Impact'}
+              </h3>
               <p className="text-gray-600">
-                Track and amplify your contribution to Black wealth circulation
+                {userType === 'business' 
+                  ? 'Connect with customers and grow your revenue in the Black community'
+                  : 'Track and amplify your contribution to Black wealth circulation'
+                }
               </p>
             </div>
 
@@ -123,7 +160,7 @@ const SubscriptionPage: React.FC = () => {
               </div>
               <h3 className="text-xl font-semibold">Support Community</h3>
               <p className="text-gray-600">
-                Every subscription directly supports Black business growth
+                Every subscription directly supports Black business growth and community development
               </p>
             </div>
 
@@ -131,9 +168,14 @@ const SubscriptionPage: React.FC = () => {
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
                 <Crown className="h-8 w-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold">Unlock Rewards</h3>
+              <h3 className="text-xl font-semibold">
+                {userType === 'business' ? 'Advanced Tools' : 'Unlock Rewards'}
+              </h3>
               <p className="text-gray-600">
-                Get exclusive access to deals, events, and networking
+                {userType === 'business' 
+                  ? 'Get access to analytics, QR codes, and marketing tools'
+                  : 'Get exclusive access to deals, events, and networking'
+                }
               </p>
             </div>
           </div>
@@ -142,14 +184,17 @@ const SubscriptionPage: React.FC = () => {
           <div className="space-y-8">
             <div className="text-center">
               <h2 className="text-3xl font-bold text-mansablue mb-4">
-                Choose Your Plan
+                {userType === 'business' ? 'Business Plans' : 'Choose Your Plan'}
               </h2>
               <p className="text-gray-600">
-                All plans include our core features to support Black-owned businesses
+                {userType === 'business' 
+                  ? 'All business plans include a 30-day free trial to get you started'
+                  : 'All plans include our core features to support Black-owned businesses'
+                }
               </p>
             </div>
 
-            <SubscriptionPlans currentTier={currentTier} />
+            <SubscriptionPlans currentTier={currentTier} userType={userType} />
           </div>
 
           {/* FAQ or Additional Info */}
@@ -158,8 +203,10 @@ const SubscriptionPage: React.FC = () => {
               Questions About Subscriptions?
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              All subscriptions come with a 30-day money-back guarantee. 
-              You can cancel or change your plan anytime.
+              {userType === 'business' 
+                ? 'All business subscriptions come with a 30-day free trial and can be cancelled anytime. Start building your customer base today!'
+                : 'All subscriptions come with a 30-day money-back guarantee. You can cancel or change your plan anytime.'
+              }
             </p>
           </div>
         </div>
