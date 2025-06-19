@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield } from 'lucide-react';
+import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -108,7 +108,8 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-7xl mx-auto">
+        {/* Updated Plan Cards Grid - Now includes new business tiers */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 md:gap-6 max-w-7xl mx-auto">
           <Link to="/signup">
             <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all cursor-pointer">
               <CardContent className="p-4 md:p-6">
@@ -156,6 +157,38 @@ const Hero = () => {
             </Card>
           </Link>
 
+          <Link to="/signup?type=business&tier=business_starter">
+            <Card className="bg-purple-500/20 backdrop-blur-lg border border-purple-400/30 hover:bg-purple-500/25 transition-all cursor-pointer">
+              <CardContent className="p-4 md:p-6">
+                <div className="text-center">
+                  <Badge className="bg-purple-500 text-white mb-3 md:mb-4">
+                    <QrCode className="mr-1 h-3 w-3" />
+                    $29/month
+                  </Badge>
+                  <h3 className="text-purple-200 font-semibold text-base md:text-lg mb-2 md:mb-3">STARTER BUSINESS</h3>
+                  <p className="text-white/90 text-xs md:text-sm mb-1">Up to 3 QR codes</p>
+                  <p className="text-white/80 text-xs">30-day free trial</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
+          <Link to="/signup?type=business&tier=business">
+            <Card className="bg-orange-500/20 backdrop-blur-lg border border-orange-400/30 hover:bg-orange-500/25 transition-all cursor-pointer">
+              <CardContent className="p-4 md:p-6">
+                <div className="text-center">
+                  <Badge className="bg-orange-500 text-white mb-3 md:mb-4">
+                    <BarChart3 className="mr-1 h-3 w-3" />
+                    $100/month
+                  </Badge>
+                  <h3 className="text-orange-200 font-semibold text-base md:text-lg mb-2 md:mb-3">PROFESSIONAL BUSINESS</h3>
+                  <p className="text-white/90 text-xs md:text-sm mb-1">Up to 50 QR codes</p>
+                  <p className="text-white/80 text-xs">30-day free trial</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
           <Link to="/signup?type=business">
             <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all cursor-pointer">
               <CardContent className="p-4 md:p-6">
@@ -164,9 +197,9 @@ const Hero = () => {
                     <Building2 className="mr-1 h-3 w-3" />
                     👥
                   </Badge>
-                  <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">BUSINESS OWNERS</h3>
+                  <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">ALL BUSINESS PLANS</h3>
                   <p className="text-white/90 text-xs md:text-sm mb-1">First month FREE!</p>
-                  <p className="text-white/80 text-xs">$100/month after trial</p>
+                  <p className="text-white/80 text-xs">Compare all plans</p>
                 </div>
               </CardContent>
             </Card>
