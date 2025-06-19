@@ -8,9 +8,10 @@ const urlsToCache = [
   '/favicon.ico'
 ];
 
-// Check if the app is running in Capacitor
+// Check if the app is running in Capacitor - service workers don't have access to window
 const isCapacitor = () => {
-  return window.location.protocol === 'capacitor:';
+  // Service workers can't access window, so always return false
+  return false;
 };
 
 self.addEventListener('install', event => {
@@ -23,7 +24,7 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
-  // Skip caching for Capacitor requests
+  // Skip caching for Capacitor requests (always false in service worker)
   if (isCapacitor()) {
     return fetch(event.request);
   }
