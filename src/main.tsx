@@ -77,6 +77,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/subscription" element={<SubscriptionPage />} />
+                <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
                 <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                 <Route path="/sales-agent" element={<SalesAgentPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
