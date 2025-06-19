@@ -44,6 +44,7 @@ import SignupTestPage from '@/pages/SignupTestPage';
 import SystemTestPage from '@/pages/SystemTestPage';
 import BusinessFormPage from '@/pages/BusinessFormPage';
 import MobileTestPage from '@/pages/MobileTestPage';
+import ComprehensiveTestPage from '@/pages/ComprehensiveTestPage';
 
 // Import the new dashboard router
 import DashboardRouter from '@/components/dashboard/DashboardRouter';
@@ -104,6 +105,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="/test/system" element={<SystemTestPage />} />
                 <Route path="/system-test" element={<SystemTestPage />} />
                 <Route path="/mobile-test" element={<MobileTestPage />} />
+                <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
               </Routes>
               <Toaster />
             </Router>
