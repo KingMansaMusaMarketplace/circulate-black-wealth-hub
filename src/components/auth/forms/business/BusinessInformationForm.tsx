@@ -10,7 +10,7 @@ import { SalesAgent } from '@/types/sales-agent';
 import ReferralCodeField from '../fields/ReferralCodeField';
 import HBCUVerificationField from '../fields/HBCUVerificationField';
 
-interface BusinessFormValues {
+interface BusinessSignupFormValues {
   name: string;
   email: string;
   password: string;
@@ -20,12 +20,12 @@ interface BusinessFormValues {
   phone: string;
   referralCode?: string;
   isHBCUMember: boolean;
-  subscription_tier: string;
+  subscription_tier: 'business_starter' | 'business';
 }
 
 interface BusinessInformationFormProps {
-  form: UseFormReturn<BusinessFormValues>;
-  onSubmit: (values: BusinessFormValues) => void;
+  form: UseFormReturn<BusinessSignupFormValues>;
+  onSubmit: (values: BusinessSignupFormValues) => Promise<void>;
   isLoading: boolean;
   isHBCUMember: boolean;
   referringAgent: SalesAgent | null;
