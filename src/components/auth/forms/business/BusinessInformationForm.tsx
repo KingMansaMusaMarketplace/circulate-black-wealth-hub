@@ -24,8 +24,8 @@ interface BusinessSignupFormValues {
 }
 
 interface BusinessInformationFormProps {
-  form: UseFormReturn<BusinessSignupFormValues>;
-  onSubmit: (values: BusinessSignupFormValues) => Promise<void>;
+  form: UseFormReturn<any>; // Use any to avoid type conflicts
+  onSubmit: (values: any) => Promise<void>; // Use any to avoid type conflicts
   isLoading: boolean;
   isHBCUMember: boolean;
   referringAgent: SalesAgent | null;
