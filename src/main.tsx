@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -48,6 +47,7 @@ import BusinessFormPage from '@/pages/BusinessFormPage';
 import MobileTestPage from '@/pages/MobileTestPage';
 import ComprehensiveTestPage from '@/pages/ComprehensiveTestPage';
 import MobileReadinessTestPage from '@/pages/MobileReadinessTestPage';
+import AppTestPage from '@/pages/AppTestPage';
 
 // Import the new dashboard router
 import DashboardRouter from '@/components/dashboard/DashboardRouter';
@@ -113,6 +113,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="/mobile-test" element={<MobileTestPage />} />
                 <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
                 <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
+                <Route path="/app-test" element={<AppTestPage />} />
               </Routes>
               <Toaster />
             </Router>
