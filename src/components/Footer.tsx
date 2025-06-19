@@ -22,11 +22,21 @@ const Footer = () => {
             <div className="space-y-2">
               <div className="flex items-center">
                 <Mail className="h-4 w-4 mr-2" />
-                <span className="text-blue-100">contact@mansamusamarketplace.com</span>
+                <a 
+                  href="mailto:contact@mansamusamarketplace.com" 
+                  className="text-blue-100 hover:text-white transition-colors"
+                >
+                  contact@mansamusamarketplace.com
+                </a>
               </div>
               <div className="flex items-center">
                 <Phone className="h-4 w-4 mr-2" />
-                <span className="text-blue-100">(555) MANSA-MM</span>
+                <a 
+                  href="tel:+1-555-626-7266" 
+                  className="text-blue-100 hover:text-white transition-colors"
+                >
+                  (555) MANSA-MM
+                </a>
               </div>
               <div className="flex items-center">
                 <MapPin className="h-4 w-4 mr-2" />
