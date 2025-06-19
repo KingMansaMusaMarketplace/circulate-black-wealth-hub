@@ -101,6 +101,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="/test/registration" element={<RegistrationTestPage />} />
                 <Route path="/test/signup" element={<SignupTestPage />} />
                 <Route path="/test/system" element={<SystemTestPage />} />
+                <Route path="/system-test" element={<SystemTestPage />} />
               </Routes>
               <Toaster />
             </Router>
