@@ -1,6 +1,5 @@
-
 import { useState } from 'react';
-import { setupMFA as setupMFAUtil } from './mfaUtils';
+import { setupMFA as setupMFAUtil } from '../mfaUtils';
 
 export const useMFASetup = (userId: string | null) => {
   const [isEnrolling, setIsEnrolling] = useState(false);
