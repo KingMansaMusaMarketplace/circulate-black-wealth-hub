@@ -8,11 +8,6 @@ const urlsToCache = [
   '/favicon.ico'
 ];
 
-// Service workers don't have access to window object
-const isCapacitor = () => {
-  return false;
-};
-
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -23,11 +18,6 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
-  // Skip caching for Capacitor requests (always false in service worker)
-  if (isCapacitor()) {
-    return fetch(event.request);
-  }
-  
   event.respondWith(
     caches.match(event.request)
       .then(response => {
