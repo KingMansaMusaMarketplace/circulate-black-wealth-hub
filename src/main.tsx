@@ -42,6 +42,7 @@ import ContactPage from '@/pages/ContactPage';
 import RegistrationTestPage from '@/pages/RegistrationTestPage';
 import SignupTestPage from '@/pages/SignupTestPage';
 import SystemTestPage from '@/pages/SystemTestPage';
+import BusinessFormPage from '@/pages/BusinessFormPage';
 
 // Import the new dashboard router
 import DashboardRouter from '@/components/dashboard/DashboardRouter';
@@ -79,6 +80,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                 <Route path="/sales-agent" element={<SalesAgentPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/business-form" element={<BusinessFormPage />} />
                 
                 {/* Dashboard routes */}
                 <Route path="/dashboard" element={<DashboardRouter />} />
