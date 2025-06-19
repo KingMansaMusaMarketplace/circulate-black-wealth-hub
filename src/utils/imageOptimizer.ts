@@ -32,3 +32,9 @@ export const optimizeImage = (file: File, maxWidth: number = 800, quality: numbe
     img.src = URL.createObjectURL(file);
   });
 };
+
+// Generate placeholder image URL
+export const generatePlaceholder = (width: number, height: number, text?: string): string => {
+  const encodedText = text ? encodeURIComponent(text) : 'Placeholder';
+  return `https://via.placeholder.com/${width}x${height}/cccccc/666666?text=${encodedText}`;
+};
