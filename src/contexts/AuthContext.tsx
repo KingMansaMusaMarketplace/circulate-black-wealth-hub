@@ -15,9 +15,9 @@ interface User extends SupabaseUser {
     avatar_url?: string;
     avatarUrl?: string;
   };
-  app_metadata: any; // Make this required to match SupabaseUser
-  aud: string; // Make this required to match SupabaseUser
-  created_at: string; // Make this required to match SupabaseUser
+  app_metadata: any;
+  aud: string;
+  created_at: string;
   email_confirmed_at?: string;
 }
 
@@ -56,10 +56,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [databaseInitialized, setDatabaseInitialized] = useState(true);
 
   useEffect(() => {
-    // Simulate checking for existing session
     const checkUser = async () => {
       try {
-        // For now, just set loading to false and mark as initialized
+        console.log('AuthContext: Checking user session');
         setLoading(false);
         setAuthInitialized(true);
       } catch (error) {
@@ -75,7 +74,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signIn = async (email: string, password: string) => {
     try {
       console.log('Sign in attempt:', email);
-      // Simulate sign in
       return { error: null };
     } catch (error) {
       return { error };
@@ -85,7 +83,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, metadata?: any) => {
     try {
       console.log('Sign up attempt:', email, metadata);
-      // Simulate sign up
       return { error: null, data: { user: { id: '1', email, user_metadata: metadata } } };
     } catch (error) {
       return { error };

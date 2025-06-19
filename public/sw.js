@@ -8,9 +8,8 @@ const urlsToCache = [
   '/favicon.ico'
 ];
 
-// Check if the app is running in Capacitor - service workers don't have access to window
+// Service workers don't have access to window object
 const isCapacitor = () => {
-  // Service workers can't access window, so always return false
   return false;
 };
 
