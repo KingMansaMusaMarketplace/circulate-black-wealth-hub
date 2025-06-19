@@ -50,7 +50,7 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
   ];
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-5xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Business Plan</h2>
         <p className="text-lg text-gray-600">

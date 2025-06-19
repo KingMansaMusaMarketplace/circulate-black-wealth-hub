@@ -91,7 +91,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   const selectedTierName = businessPlans.find(p => p.id === selectedTier)?.name || 'Starter Business';
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-6 space-y-8">
+    <div className="w-full max-w-7xl mx-auto px-4 py-6 space-y-8">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-mansablue mb-2">Join Mansa Musa Marketplace</h1>
         <p className="text-gray-600">Start your journey to build wealth in Black communities</p>
