@@ -35,6 +35,8 @@ import EducationPage from "./pages/EducationPage";
 import MentorshipPage from "./pages/MentorshipPage";
 import HelpPage from "./pages/HelpPage";
 import BlogPage from "./pages/BlogPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import CookiePolicyPage from "./pages/CookiePolicyPage";
 
 // Add new lazy import
 const AppTestPage = lazy(() => import("./pages/AppTestPage"));
@@ -73,6 +75,8 @@ function App() {
                     <Route path="/sales-agent" element={<SalesAgentPage />} />
                     <Route path="/help" element={<HelpPage />} />
                     <Route path="/blog" element={<BlogPage />} />
+                    <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                    <Route path="/cookies" element={<CookiePolicyPage />} />
                     <Route path="/system-test" element={<SystemTestPage />} />
                     <Route path="/mobile-test" element={<MobileTestPage />} />
                     <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
