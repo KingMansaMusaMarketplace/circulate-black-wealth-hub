@@ -1,12 +1,102 @@
 
-import { createRoot } from 'react-dom/client';
-import { ThemeProvider } from "next-themes";
-import App from './App.tsx';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'sonner';
 import './index.css';
-import './App.css';
 
-createRoot(document.getElementById("root")!).render(
-  <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-    <App />
-  </ThemeProvider>
+// Import providers
+import { AuthProvider } from '@/contexts/auth/AuthProvider';
+import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
+
+// Import pages
+import App from './App';
+import AboutPage from '@/pages/AboutPage';
+import DirectoryPage from '@/pages/DirectoryPage';
+import BusinessDetailPage from '@/pages/BusinessDetailPage';
+import HowItWorksPage from '@/pages/HowItWorksPage';
+import CommunityImpactPage from '@/pages/CommunityImpactPage';
+import SignupPage from '@/pages/SignupPage';
+import BusinessSignupPage from '@/pages/BusinessSignupPage';
+import CustomerSignupPage from '@/pages/CustomerSignupPage';
+import LoginPage from '@/pages/LoginPage';
+import ResetPasswordPage from '@/pages/ResetPasswordPage';
+import SubscriptionPage from '@/pages/SubscriptionPage';
+import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
+import SalesAgentPage from '@/pages/SalesAgentPage';
+import ProfilePage from '@/pages/ProfilePage';
+import BusinessDashboardPage from '@/pages/BusinessDashboardPage';
+import CustomerDashboardPage from '@/pages/CustomerDashboardPage';
+import ScannerPage from '@/pages/ScannerPage';
+import EducationPage from '@/pages/EducationPage';
+import MentorshipPage from '@/pages/MentorshipPage';
+import LoyaltyPage from '@/pages/LoyaltyPage';
+import BlogPage from '@/pages/BlogPage';
+import HelpPage from '@/pages/HelpPage';
+import FAQPage from '@/pages/FAQPage';
+import PrivacyPage from '@/pages/PrivacyPage';
+import TermsPage from '@/pages/TermsPage';
+import ContactPage from '@/pages/ContactPage';
+import RegistrationTestPage from '@/pages/RegistrationTestPage';
+import SignupTestPage from '@/pages/SignupTestPage';
+import SystemTestPage from '@/pages/SystemTestPage';
+
+// Create a client for React Query
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 1,
+    },
+  },
+});
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <SubscriptionProvider>
+            <Router>
+              <Routes>
+                <Route path="/" element={<App />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/directory" element={<DirectoryPage />} />
+                <Route path="/business/:id" element={<BusinessDetailPage />} />
+                <Route path="/how-it-works" element={<HowItWorksPage />} />
+                <Route path="/community-impact" element={<CommunityImpactPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/signup/business" element={<BusinessSignupPage />} />
+                <Route path="/signup/customer" element={<CustomerSignupPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
+                <Route path="/subscription" element={<SubscriptionPage />} />
+                <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
+                <Route path="/sales-agent" element={<SalesAgentPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/dashboard/business" element={<BusinessDashboardPage />} />
+                <Route path="/dashboard/customer" element={<CustomerDashboardPage />} />
+                <Route path="/scanner" element={<ScannerPage />} />
+                <Route path="/education" element={<EducationPage />} />
+                <Route path="/mentorship" element={<MentorshipPage />} />
+                <Route path="/loyalty" element={<LoyaltyPage />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/help" element={<HelpPage />} />
+                <Route path="/faq" element={<FAQPage />} />
+                <Route path="/privacy" element={<PrivacyPage />} />
+                <Route path="/terms" element={<TermsPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/test/registration" element={<RegistrationTestPage />} />
+                <Route path="/test/signup" element={<SignupTestPage />} />
+                <Route path="/test/system" element={<SystemTestPage />} />
+              </Routes>
+              <Toaster />
+            </Router>
+          </SubscriptionProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
+  </React.StrictMode>
 );
