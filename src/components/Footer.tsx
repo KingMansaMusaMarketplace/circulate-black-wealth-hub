@@ -80,6 +80,7 @@ const Footer = () => {
               {[
                 { name: "Business Directory", path: "/directory" },
                 { name: "Education Center", path: "/education" },
+                { name: "Mentorship", path: "/mentorship" },
                 { name: "How It Works", path: "/how-it-works" },
                 { name: "Community", path: "/community" },
                 { name: "Plans", path: "/subscription" },
