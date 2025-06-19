@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="bg-mansablue-dark text-white py-12">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-4">
@@ -50,13 +50,18 @@ const Footer = () => {
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
+                <Link to="/" className="text-blue-100 hover:text-white transition-colors">
+                  Home
+                </Link>
+              </li>
+              <li>
                 <Link to="/about" className="text-blue-100 hover:text-white transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
                 <Link to="/directory" className="text-blue-100 hover:text-white transition-colors">
-                  Business Directory
+                  Directory
                 </Link>
               </li>
               <li>
@@ -66,16 +71,53 @@ const Footer = () => {
               </li>
               <li>
                 <Link to="/community-impact" className="text-blue-100 hover:text-white transition-colors">
-                  Community Impact
+                  Impact
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Legal & Support */}
+          {/* Services */}
           <div>
-            <h4 className="font-semibold mb-4">Support</h4>
+            <h4 className="font-semibold mb-4">Services</h4>
             <ul className="space-y-2">
+              <li>
+                <Link to="/education" className="text-blue-100 hover:text-white transition-colors">
+                  Education
+                </Link>
+              </li>
+              <li>
+                <Link to="/mentorship" className="text-blue-100 hover:text-white transition-colors">
+                  Mentorship
+                </Link>
+              </li>
+              <li>
+                <Link to="/scanner" className="text-blue-100 hover:text-white transition-colors">
+                  QR Scanner
+                </Link>
+              </li>
+              <li>
+                <Link to="/loyalty" className="text-blue-100 hover:text-white transition-colors">
+                  Rewards
+                </Link>
+              </li>
+              <li>
+                <Link to="/corporate-sponsorship" className="text-blue-100 hover:text-white transition-colors">
+                  Sponsors
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Resources & Legal */}
+          <div>
+            <h4 className="font-semibold mb-4">Resources & Legal</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/blog" className="text-blue-100 hover:text-white transition-colors">
+                  Blog
+                </Link>
+              </li>
               <li>
                 <Link to="/help" className="text-blue-100 hover:text-white transition-colors">
                   Help Center
