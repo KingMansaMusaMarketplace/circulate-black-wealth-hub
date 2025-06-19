@@ -3,8 +3,7 @@ import React from 'react';
 import { AuthContext } from './AuthContext';
 import { useAuthState } from './hooks/useAuthState';
 import { AuthActions } from './types';
-import { handlePasswordReset, handleUpdatePassword } from './hooks/authUtils';
-import { toastWrapper } from './hooks/authUtils';
+import { handlePasswordReset, handleUpdatePassword, toastWrapper } from './hooks/authUtils';
 
 interface AuthProviderProps {
   children: React.ReactNode;

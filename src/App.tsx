@@ -5,9 +5,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import AuthProvider from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/auth/AuthProvider";
 import { SubscriptionProvider } from "./contexts/SubscriptionContext";
 import LoadingSpinner from "@/components/ui/loading-spinner";
+
+// Import pages directly to avoid potential import issues
 import HomePage from "./pages/HomePage";
 import DirectoryPage from "./pages/DirectoryPage";
 import BusinessPage from "./pages/BusinessPage";
