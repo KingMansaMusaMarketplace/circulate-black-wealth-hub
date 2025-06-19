@@ -11,6 +11,8 @@ import { toast } from 'sonner';
 import { updatePassword } from '@/lib/auth/auth-password';
 
 const NewPasswordPage = () => {
+  console.log('NewPasswordPage component is rendering');
+  
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
@@ -20,6 +22,7 @@ const NewPasswordPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form submitted');
     
     // Reset error state
     setError('');
@@ -55,11 +58,14 @@ const NewPasswordPage = () => {
         setError(result.error?.message || 'Failed to update password');
       }
     } catch (err: any) {
+      console.error('Password update error:', err);
       setError(err.message || 'An unexpected error occurred');
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  console.log('About to render NewPasswordPage JSX');
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -67,7 +73,7 @@ const NewPasswordPage = () => {
       <div className="flex-grow flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-mansablue">
+            <CardTitle className="text-2xl font-bold text-blue-600">
               Set New Password
             </CardTitle>
             <CardDescription>
@@ -131,7 +137,7 @@ const NewPasswordPage = () => {
               <CardFooter>
                 <Button 
                   type="submit" 
-                  className="w-full bg-mansablue hover:bg-mansablue-dark"
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Updating..." : "Update Password"}
