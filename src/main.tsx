@@ -28,16 +28,16 @@ import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
 import SalesAgentPage from '@/pages/SalesAgentPage';
 import ProfilePage from '@/pages/ProfilePage';
 import BusinessDashboardPage from '@/pages/BusinessDashboardPage';
-import CustomerDashboardPage from '@/pages/CustomerDashboardPage';
-import ScannerPage from '@/pages/ScannerPage';
+import DashboardPage from '@/pages/DashboardPage';
+import QRScannerPage from '@/pages/QRScannerPage';
 import EducationPage from '@/pages/EducationPage';
 import MentorshipPage from '@/pages/MentorshipPage';
 import LoyaltyPage from '@/pages/LoyaltyPage';
 import BlogPage from '@/pages/BlogPage';
 import HelpPage from '@/pages/HelpPage';
 import FAQPage from '@/pages/FAQPage';
-import PrivacyPage from '@/pages/PrivacyPage';
-import TermsPage from '@/pages/TermsPage';
+import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
+import TermsOfServicePage from '@/pages/TermsOfServicePage';
 import ContactPage from '@/pages/ContactPage';
 import RegistrationTestPage from '@/pages/RegistrationTestPage';
 import SignupTestPage from '@/pages/SignupTestPage';
@@ -77,16 +77,16 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 <Route path="/sales-agent" element={<SalesAgentPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/dashboard/business" element={<BusinessDashboardPage />} />
-                <Route path="/dashboard/customer" element={<CustomerDashboardPage />} />
-                <Route path="/scanner" element={<ScannerPage />} />
+                <Route path="/dashboard/customer" element={<DashboardPage />} />
+                <Route path="/scanner" element={<QRScannerPage />} />
                 <Route path="/education" element={<EducationPage />} />
                 <Route path="/mentorship" element={<MentorshipPage />} />
                 <Route path="/loyalty" element={<LoyaltyPage />} />
                 <Route path="/blog" element={<BlogPage />} />
                 <Route path="/help" element={<HelpPage />} />
                 <Route path="/faq" element={<FAQPage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
-                <Route path="/terms" element={<TermsPage />} />
+                <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                <Route path="/terms" element={<TermsOfServicePage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/test/registration" element={<RegistrationTestPage />} />
                 <Route path="/test/signup" element={<SignupTestPage />} />
