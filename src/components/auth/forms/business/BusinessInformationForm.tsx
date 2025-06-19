@@ -177,9 +177,15 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
             {/* Referral Code Section */}
             <div className="border-t pt-6">
               <ReferralCodeField
-                form={form}
-                onReferralCodeBlur={onReferralCodeBlur}
-                referringAgent={referringAgent}
+                value={form.watch('referralCode') || ''}
+                onChange={(value) => form.setValue('referralCode', value)}
+                onBlur={() => {
+                  const code = form.getValues('referralCode');
+                  if (code && onReferralCodeBlur) {
+                    onReferralCodeBlur(code);
+                  }
+                }}
+                referringAgent={referringAgent || null}
               />
             </div>
 
@@ -188,7 +194,7 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
               <HBCUVerificationField
                 isHBCUMember={isHBCUMember}
                 onHBCUStatusChange={onHBCUStatusChange}
-                onHBCUFileChange={onHBCUFileChange}
+                onFileChange={onHBCUFileChange}
               />
             </div>
 

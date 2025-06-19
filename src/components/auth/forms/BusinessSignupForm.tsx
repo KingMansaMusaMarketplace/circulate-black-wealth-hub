@@ -83,6 +83,13 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
     }
   };
 
+  // Wrapper to match the expected signature
+  const handleReferralCodeBlur = async (code: string): Promise<void> => {
+    if (onReferralCodeBlur) {
+      await onReferralCodeBlur(code);
+    }
+  };
+
   const businessPlans = [
     { id: 'business_starter', name: 'Starter Business' },
     { id: 'business', name: 'Professional Business' }
@@ -109,7 +116,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         isHBCUMember={isHBCUMember}
         referringAgent={referringAgent}
         selectedTierName={selectedTierName}
-        onReferralCodeBlur={onReferralCodeBlur}
+        onReferralCodeBlur={handleReferralCodeBlur}
         onHBCUStatusChange={handleHBCUStatusChange}
         onHBCUFileChange={handleHBCUFileChange}
       />
