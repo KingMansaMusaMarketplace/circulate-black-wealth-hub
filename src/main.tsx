@@ -14,6 +14,9 @@ import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 // Import the main App component
 import App from './App';
 
+// Add console log to check if main.tsx is loading
+console.log('main.tsx: Starting application initialization');
+
 // Create a client for React Query
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,19 +27,34 @@ const queryClient = new QueryClient({
   },
 });
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <SubscriptionProvider>
-            <Router>
-              <App />
-              <Toaster />
-            </Router>
-          </SubscriptionProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
-  </React.StrictMode>
-);
+console.log('main.tsx: QueryClient created');
+
+const rootElement = document.getElementById('root');
+console.log('main.tsx: Root element found:', !!rootElement);
+
+if (!rootElement) {
+  console.error('main.tsx: Root element not found!');
+  throw new Error('Root element not found');
+}
+
+try {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <SubscriptionProvider>
+              <Router>
+                <App />
+                <Toaster />
+              </Router>
+            </SubscriptionProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </HelmetProvider>
+    </React.StrictMode>
+  );
+  console.log('main.tsx: React app rendered successfully');
+} catch (error) {
+  console.error('main.tsx: Error rendering React app:', error);
+}

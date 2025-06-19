@@ -5,91 +5,187 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Routes, Route } from "react-router-dom";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 
+console.log('App.tsx: Starting App component');
+
 // Import pages directly to avoid potential import issues
 import HomePage from "./pages/HomePage";
-import DirectoryPage from "./pages/DirectoryPage";
-import BusinessPage from "./pages/BusinessPage";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import BusinessSignupPage from "./pages/BusinessSignupPage";
-import CustomerSignupPage from "./pages/CustomerSignupPage";
-import DashboardPage from "./pages/DashboardPage";
-import QRScannerPage from "./pages/QRScannerPage";
-import LoyaltyPage from "./pages/LoyaltyPage";
-import BusinessFormPage from "./pages/BusinessFormPage";
-import CorporateSponsorshipPage from "./pages/CorporateSponsorshipPage";
-import CommunityImpactPage from "./pages/CommunityImpactPage";
-import SystemTestPage from "./pages/SystemTestPage";
-import MobileTestPage from "./pages/MobileTestPage";
-import ComprehensiveTestPage from "./pages/ComprehensiveTestPage";
-import SignupTestPage from "./pages/SignupTestPage";
-import NewPasswordPage from "./pages/NewPasswordPage";
-import PasswordResetRequestPage from "./pages/PasswordResetRequestPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
-import MobileReadinessTestPage from "./pages/MobileReadinessTestPage";
-import SalesAgentPage from "./pages/SalesAgentPage";
-import CommunityPage from "./pages/CommunityPage";
-import CaseStudiesPage from "./pages/CaseStudiesPage";
-import HowItWorksPage from "./pages/HowItWorksPage";
-import SubscriptionPage from "./pages/SubscriptionPage";
-import EducationPage from "./pages/EducationPage";
-import MentorshipPage from "./pages/MentorshipPage";
-import HelpPage from "./pages/HelpPage";
-import BlogPage from "./pages/BlogPage";
-import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
-import CookiePolicyPage from "./pages/CookiePolicyPage";
-import TermsOfServicePage from "./pages/TermsOfServicePage";
-import FAQPage from "./pages/FAQPage";
-import AboutPage from "./pages/AboutPage";
-import NotFound from "./pages/NotFound";
 
-// Add new lazy import
+// Lazy load other pages to improve initial load
+const DirectoryPage = lazy(() => import("./pages/DirectoryPage"));
+const BusinessPage = lazy(() => import("./pages/BusinessPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
+const SignupPage = lazy(() => import("./pages/SignupPage"));
+const BusinessSignupPage = lazy(() => import("./pages/BusinessSignupPage"));
+const CustomerSignupPage = lazy(() => import("./pages/CustomerSignupPage"));
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const QRScannerPage = lazy(() => import("./pages/QRScannerPage"));
+const LoyaltyPage = lazy(() => import("./pages/LoyaltyPage"));
+const BusinessFormPage = lazy(() => import("./pages/BusinessFormPage"));
+const CorporateSponsorshipPage = lazy(() => import("./pages/CorporateSponsorshipPage"));
+const CommunityImpactPage = lazy(() => import("./pages/CommunityImpactPage"));
+const SubscriptionPage = lazy(() => import("./pages/SubscriptionPage"));
+const CommunityPage = lazy(() => import("./pages/CommunityPage"));
+const CaseStudiesPage = lazy(() => import("./pages/CaseStudiesPage"));
+const HowItWorksPage = lazy(() => import("./pages/HowItWorksPage"));
+const EducationPage = lazy(() => import("./pages/EducationPage"));
+const MentorshipPage = lazy(() => import("./pages/MentorshipPage"));
+const SalesAgentPage = lazy(() => import("./pages/SalesAgentPage"));
+const HelpPage = lazy(() => import("./pages/HelpPage"));
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const PrivacyPolicyPage = lazy(() => import("./pages/PrivacyPolicyPage"));
+const CookiePolicyPage = lazy(() => import("./pages/CookiePolicyPage"));
+const TermsOfServicePage = lazy(() => import("./pages/TermsOfServicePage"));
+const FAQPage = lazy(() => import("./pages/FAQPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 const AppTestPage = lazy(() => import("./pages/AppTestPage"));
 
 function App() {
+  console.log('App.tsx: Rendering App component');
+  
   return (
     <TooltipProvider>
       <div className="min-h-screen bg-background font-sans antialiased">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/directory" element={<DirectoryPage />} />
-          <Route path="/business/:id" element={<BusinessPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/about" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <AboutPage />
+            </Suspense>
+          } />
+          <Route path="/directory" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <DirectoryPage />
+            </Suspense>
+          } />
+          <Route path="/business/:id" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <BusinessPage />
+            </Suspense>
+          } />
+          <Route path="/login" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <LoginPage />
+            </Suspense>
+          } />
+          <Route path="/signup" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <SignupPage />
+            </Suspense>
+          } />
           
           {/* Add specific signup routes */}
-          <Route path="/signup/business" element={<BusinessSignupPage />} />
-          <Route path="/signup/customer" element={<CustomerSignupPage />} />
+          <Route path="/signup/business" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <BusinessSignupPage />
+            </Suspense>
+          } />
+          <Route path="/signup/customer" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CustomerSignupPage />
+            </Suspense>
+          } />
           
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/scanner" element={<QRScannerPage />} />
-          <Route path="/loyalty" element={<LoyaltyPage />} />
-          <Route path="/business-form" element={<BusinessFormPage />} />
-          <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
-          <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
-          <Route path="/subscription" element={<SubscriptionPage />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/community-impact" element={<CommunityImpactPage />} />
-          <Route path="/case-studies" element={<CaseStudiesPage />} />
-          <Route path="/how-it-works" element={<HowItWorksPage />} />
-          <Route path="/education" element={<EducationPage />} />
-          <Route path="/mentorship" element={<MentorshipPage />} />
-          <Route path="/sales-agent" element={<SalesAgentPage />} />
-          <Route path="/help" element={<HelpPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/privacy" element={<PrivacyPolicyPage />} />
-          <Route path="/cookies" element={<CookiePolicyPage />} />
-          <Route path="/terms" element={<TermsOfServicePage />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path="/system-test" element={<SystemTestPage />} />
-          <Route path="/mobile-test" element={<MobileTestPage />} />
-          <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
-          <Route path="/signup-test" element={<SignupTestPage />} />
-          <Route path="/new-password" element={<NewPasswordPage />} />
-          <Route path="/password-reset-request" element={<PasswordResetRequestPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
+          <Route path="/dashboard" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <DashboardPage />
+            </Suspense>
+          } />
+          <Route path="/scanner" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <QRScannerPage />
+            </Suspense>
+          } />
+          <Route path="/loyalty" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <LoyaltyPage />
+            </Suspense>
+          } />
+          <Route path="/business-form" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <BusinessFormPage />
+            </Suspense>
+          } />
+          <Route path="/sponsorship" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CorporateSponsorshipPage />
+            </Suspense>
+          } />
+          <Route path="/corporate-sponsorship" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CorporateSponsorshipPage />
+            </Suspense>
+          } />
+          <Route path="/subscription" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <SubscriptionPage />
+            </Suspense>
+          } />
+          <Route path="/community" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CommunityPage />
+            </Suspense>
+          } />
+          <Route path="/community-impact" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CommunityImpactPage />
+            </Suspense>
+          } />
+          <Route path="/case-studies" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CaseStudiesPage />
+            </Suspense>
+          } />
+          <Route path="/how-it-works" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <HowItWorksPage />
+            </Suspense>
+          } />
+          <Route path="/education" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <EducationPage />
+            </Suspense>
+          } />
+          <Route path="/mentorship" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <MentorshipPage />
+            </Suspense>
+          } />
+          <Route path="/sales-agent" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <SalesAgentPage />
+            </Suspense>
+          } />
+          <Route path="/help" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <HelpPage />
+            </Suspense>
+          } />
+          <Route path="/blog" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <BlogPage />
+            </Suspense>
+          } />
+          <Route path="/privacy" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <PrivacyPolicyPage />
+            </Suspense>
+          } />
+          <Route path="/cookies" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CookiePolicyPage />
+            </Suspense>
+          } />
+          <Route path="/terms" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <TermsOfServicePage />
+            </Suspense>
+          } />
+          <Route path="/faq" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <FAQPage />
+            </Suspense>
+          } />
           
           {/* Add new test route */}
           <Route 
@@ -102,7 +198,11 @@ function App() {
           />
           
           {/* 404 Route - must be last */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <NotFound />
+            </Suspense>
+          } />
         </Routes>
       </div>
     </TooltipProvider>
