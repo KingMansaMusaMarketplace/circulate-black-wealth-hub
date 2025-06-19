@@ -23,6 +23,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
   ];
 
   const resourceItems = [
+    { to: '/education', label: 'Education Center' },
     { to: '/how-it-works', label: 'How It Works' },
     { to: '/subscription', label: 'Plans' },
     { to: '/faq', label: 'FAQ' },

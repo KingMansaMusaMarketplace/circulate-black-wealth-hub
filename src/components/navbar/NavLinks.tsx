@@ -19,6 +19,12 @@ const NavLinks: React.FC = () => {
         Directory
       </Link>
       <Link 
+        to="/education" 
+        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
+      >
+        Education
+      </Link>
+      <Link 
         to="/scanner" 
         className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
       >

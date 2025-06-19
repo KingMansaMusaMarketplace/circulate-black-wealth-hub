@@ -13,7 +13,8 @@ import {
   Wallet,
   Search,
   Heart,
-  HelpCircle
+  HelpCircle,
+  BookOpen
 } from 'lucide-react';
 
 const SidebarNavigation = () => {
@@ -23,6 +24,7 @@ const SidebarNavigation = () => {
   const customerNavItems = [
     { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'Directory', href: '/directory', icon: Search },
+    { name: 'Education', href: '/education', icon: BookOpen },
     { name: 'Scanner', href: '/scanner', icon: QrCode },
     { name: 'Loyalty', href: '/loyalty', icon: Wallet },
     { name: 'Community', href: '/community', icon: Users },
@@ -37,6 +39,7 @@ const SidebarNavigation = () => {
     { name: 'Analytics', href: '/business/analytics', icon: BarChart3 },
     { name: 'Customers', href: '/business/customers', icon: Users },
     { name: 'Directory', href: '/directory', icon: Search },
+    { name: 'Education', href: '/education', icon: BookOpen },
     { name: 'Community', href: '/community', icon: Heart },
     { name: 'Help', href: '/help', icon: HelpCircle },
   ];
