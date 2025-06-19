@@ -10,19 +10,6 @@ import { SalesAgent } from '@/types/sales-agent';
 import ReferralCodeField from '../fields/ReferralCodeField';
 import HBCUVerificationField from '../fields/HBCUVerificationField';
 
-interface BusinessSignupFormValues {
-  name: string;
-  email: string;
-  password: string;
-  business_name: string;
-  business_description: string;
-  business_address: string;
-  phone: string;
-  referralCode?: string;
-  isHBCUMember: boolean;
-  subscription_tier: 'business_starter' | 'business';
-}
-
 interface BusinessInformationFormProps {
   form: UseFormReturn<any>; // Use any to avoid type conflicts
   onSubmit: (values: any) => Promise<void>; // Use any to avoid type conflicts
@@ -65,7 +52,7 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
                 placeholder="John Doe"
               />
               {form.formState.errors.name && (
-                <p className="text-sm text-red-500">{form.formState.errors.name.message}</p>
+                <p className="text-sm text-red-500">{String(form.formState.errors.name.message || 'This field is required')}</p>
               )}
             </div>
 
@@ -78,7 +65,7 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
                 placeholder="john@business.com"
               />
               {form.formState.errors.email && (
-                <p className="text-sm text-red-500">{form.formState.errors.email.message}</p>
+                <p className="text-sm text-red-500">{String(form.formState.errors.email.message || 'This field is required')}</p>
               )}
             </div>
 
@@ -91,7 +78,7 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
                 placeholder="••••••••"
               />
               {form.formState.errors.password && (
-                <p className="text-sm text-red-500">{form.formState.errors.password.message}</p>
+                <p className="text-sm text-red-500">{String(form.formState.errors.password.message || 'This field is required')}</p>
               )}
             </div>
 
@@ -103,7 +90,7 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
                 placeholder="(555) 123-4567"
               />
               {form.formState.errors.phone && (
-                <p className="text-sm text-red-500">{form.formState.errors.phone.message}</p>
+                <p className="text-sm text-red-500">{String(form.formState.errors.phone.message || 'This field is required')}</p>
               )}
             </div>
           </div>
@@ -116,7 +103,7 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
               placeholder="Your Business Name"
             />
             {form.formState.errors.business_name && (
-              <p className="text-sm text-red-500">{form.formState.errors.business_name.message}</p>
+              <p className="text-sm text-red-500">{String(form.formState.errors.business_name.message || 'This field is required')}</p>
             )}
           </div>
 
@@ -129,7 +116,7 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
               rows={4}
             />
             {form.formState.errors.business_description && (
-              <p className="text-sm text-red-500">{form.formState.errors.business_description.message}</p>
+              <p className="text-sm text-red-500">{String(form.formState.errors.business_description.message || 'This field is required')}</p>
             )}
           </div>
 
@@ -141,7 +128,7 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
               placeholder="123 Main St, City, State 12345"
             />
             {form.formState.errors.business_address && (
-              <p className="text-sm text-red-500">{form.formState.errors.business_address.message}</p>
+              <p className="text-sm text-red-500">{String(form.formState.errors.business_address.message || 'This field is required')}</p>
             )}
           </div>
 
