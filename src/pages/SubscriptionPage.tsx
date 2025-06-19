@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Crown, TrendingUp, Users, Star, Lock, Rocket, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 
 const SubscriptionPage: React.FC = () => {
   const { user } = useAuth();
@@ -19,7 +20,7 @@ const SubscriptionPage: React.FC = () => {
   const suggestedTier = searchParams.get('tier');
   const isTrialMode = searchParams.get('trial') === 'true';
   
-  const currentTier = subscriptionInfo?.subscription_tier as any || 'free';
+  const currentTier = (subscriptionInfo?.subscription_tier as SubscriptionTier) || 'free';
   
   // Determine user type based on profile or suggested tier
   const userType = user?.user_metadata?.user_type || 
@@ -109,13 +110,17 @@ const SubscriptionPage: React.FC = () => {
                 <div className="flex justify-between items-center">
                   <div>
                     <p className="font-semibold text-lg">
-                      {subscriptionInfo.subscription_tier === 'free' 
+                      {currentTier === 'free' 
                         ? 'Community Member' 
-                        : subscriptionInfo.subscription_tier === 'business_starter'
+                        : currentTier === 'business_starter'
                           ? 'Starter Business'
-                          : subscriptionInfo.subscription_tier === 'business'
+                          : currentTier === 'business'
                             ? 'Professional Business'
-                            : subscriptionInfo.subscription_tier?.charAt(0).toUpperCase() + subscriptionInfo.subscription_tier?.slice(1)
+                            : currentTier === 'premium'
+                              ? 'Premium Member'
+                              : currentTier === 'enterprise'
+                                ? 'Enterprise'
+                                : 'Community Member'
                       }
                     </p>
                     {subscriptionInfo.subscription_end && (
