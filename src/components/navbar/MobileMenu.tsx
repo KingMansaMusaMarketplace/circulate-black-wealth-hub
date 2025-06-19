@@ -34,7 +34,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
 
   const mainItems = [
     { to: '/', label: 'Home' },
-    { to: '/about', label: 'About' },
+    { to: '/about', label: 'About Us' },
     { to: '/scanner', label: 'QR Scanner' },
     { to: '/loyalty', label: 'Rewards' },
     { to: '/community-impact', label: 'Community Impact' },
