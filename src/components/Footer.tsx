@@ -40,7 +40,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center">
                 <MapPin className="h-4 w-4 mr-2" />
-                <span className="text-blue-100">Building Community Wealth Nationwide</span>
+                <span className="text-blue-100">1000 E. 111th St. Suite 1100, Chicago, Illinois 60628</span>
               </div>
             </div>
           </div>
