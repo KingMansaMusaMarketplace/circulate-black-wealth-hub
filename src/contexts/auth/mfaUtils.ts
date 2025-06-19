@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Factor, MFAChallenge } from './types';
 
 // Get MFA status for a user
-export const getMFAStatus = async (userId: string): Promise<boolean> => {
+export const checkMFAStatus = async (userId?: string): Promise<boolean> => {
   if (!userId) return false;
   
   try {

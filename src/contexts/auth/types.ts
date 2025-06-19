@@ -24,6 +24,8 @@ export interface AuthActions {
   getMFAFactors?: () => Promise<any[]>;
   signIn?: (email: string, password: string) => Promise<any>;
   verifyMFA?: (factorId: string, code: string, challengeId: string) => Promise<any>;
+  updateUserPassword?: (newPassword: string) => Promise<{ success: boolean; error?: any }>;
+  resetPassword?: (email: string) => Promise<{ success: boolean; error?: any }>;
 }
 
 export interface AuthContextType extends AuthState, AuthActions {}

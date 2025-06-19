@@ -3,6 +3,8 @@ import React from 'react';
 import { AuthContext } from './AuthContext';
 import { useAuthState } from './hooks/useAuthState';
 import { AuthActions } from './types';
+import { handlePasswordReset, handleUpdatePassword } from './hooks/authUtils';
+import { toastWrapper } from './hooks/authUtils';
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -49,6 +51,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     verifyMFA: async (factorId: string, code: string, challengeId: string) => {
       // This would be implemented with actual Supabase MFA
       return { error: null };
+    },
+    updateUserPassword: async (newPassword: string) => {
+      try {
+        const result = await handleUpdatePassword(newPassword, toastWrapper);
+        return { success: true };
+      } catch (error) {
+        return { success: false, error };
+      }
+    },
+    resetPassword: async (email: string) => {
+      try {
+        const result = await handlePasswordReset(email, toastWrapper);
+        return { success: true };
+      } catch (error) {
+        return { success: false, error };
+      }
     }
   };
 
