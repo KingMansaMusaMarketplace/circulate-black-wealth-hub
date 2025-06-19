@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import { Navbar } from '@/components/navbar';
-import PageNavigation from '@/components/HowItWorks/PageNavigation';
 import HomePageSections from '@/components/HomePage/HomePageSections';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
@@ -42,32 +41,14 @@ const HomePage = () => {
     }, 2000);
   }, []);
 
-  const navSections = [
-    { id: 'hero', label: 'Overview' },
-    { id: 'social-proof', label: 'Impact' },
-    { id: 'how-it-works', label: 'How It Works' },
-    { id: 'videos', label: 'Videos' },
-    { id: 'circulation-visualization', label: 'Money Flow' },
-    { id: 'benefits', label: 'Benefits' },
-    { id: 'testimonials', label: 'Testimonials' },
-    { id: 'history', label: 'Our Story' },
-    { id: 'faq', label: 'FAQ' },
-    { id: 'cta-section', label: 'Join Us' }
-  ];
-
   return (
     <div className="min-h-screen">
       <Navbar />
       
       {/* Hero Section */}
-      <section id="hero">
-        <Hero />
-      </section>
+      <Hero />
 
-      {/* Page Navigation */}
-      <PageNavigation sections={navSections} />
-
-      {/* All other sections */}
+      {/* All conversion-focused sections */}
       <HomePageSections />
     </div>
   );

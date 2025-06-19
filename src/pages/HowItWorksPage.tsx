@@ -1,9 +1,8 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import HeroSection from '@/components/HowItWorks/HeroSection';
 import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
-import { BenefitsSection } from '@/components/HowItWorks/Benefits';
 import CTASection from '@/components/HowItWorks/CTASection';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
 import CirculationVisualization from '@/components/HowItWorks/CirculationVisualization/CirculationVisualization';
@@ -14,6 +13,10 @@ import VisualDivider from '@/components/HowItWorks/VisualDivider';
 import Footer from '@/components/Footer';
 import { Navbar } from '@/components/navbar';
 import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
+import LazySection from '@/components/common/LazySection';
+import { 
+  LazyInteractiveDemo
+} from '@/components/lazy';
 
 const HowItWorksPage = () => {
   useEffect(() => {
@@ -37,10 +40,10 @@ const HowItWorksPage = () => {
 
   const navSections = [
     { id: 'hero', label: 'Overview' },
+    { id: 'interactive-demo', label: 'Demo' },
     { id: 'how-it-works', label: 'How It Works' },
     { id: 'videos', label: 'Videos' },
     { id: 'circulation-visualization', label: 'Money Flow' },
-    { id: 'benefits', label: 'Benefits' },
     { id: 'testimonials', label: 'Testimonials' },
     { id: 'history', label: 'Our Story' },
     { id: 'faq', label: 'FAQ' },
@@ -71,13 +74,41 @@ const HowItWorksPage = () => {
       <Navbar />
       <HeroSection />
       <PageNavigation sections={navSections} />
+      
+      {/* Interactive Demo Section */}
+      <LazySection threshold={0.3} rootMargin="150px">
+        <section id="interactive-demo">
+          <Suspense fallback={
+            <div className="py-16 bg-gradient-to-br from-gray-50 to-white">
+              <div className="max-w-7xl mx-auto px-4 text-center">
+                <div className="animate-pulse space-y-6">
+                  <div className="h-8 bg-gray-200 rounded w-1/2 mx-auto"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
+                    <div className="space-y-4">
+                      <div className="h-6 bg-gray-200 rounded"></div>
+                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                      <div className="h-32 bg-gray-200 rounded"></div>
+                    </div>
+                    <div className="h-96 bg-gray-200 rounded-3xl"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }>
+            <LazyInteractiveDemo />
+          </Suspense>
+        </section>
+      </LazySection>
+
       <HowItWorksSteps />
+      
       <section id="videos">
         <SponsorshipVideoSection />
       </section>
+      
       <VisualDivider />
       <CirculationVisualization />
-      <BenefitsSection />
       <TestimonialsSection />
       <MansaMusaHistory />
       <FAQSection />
