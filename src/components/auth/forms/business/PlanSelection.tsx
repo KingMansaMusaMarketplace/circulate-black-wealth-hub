@@ -61,7 +61,7 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
         <RadioGroup 
           value={selectedTier} 
           onValueChange={(value) => onTierChange(value as SubscriptionTier)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="space-y-4"
         >
           {businessPlans.map((plan) => (
             <div key={plan.id} className="relative">
@@ -85,35 +85,37 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
                   </Badge>
                 )}
                 
-                {/* Header with icon and title */}
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className={`p-2 rounded-full ${
-                    selectedTier === plan.id ? 'bg-mansablue text-white' : 'bg-gray-100 text-gray-600'
-                  }`}>
-                    {plan.icon}
-                  </div>
+                <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-lg text-left">{plan.name}</h3>
-                    <p className="text-sm text-gray-600 text-left">{plan.description}</p>
-                  </div>
-                </div>
-                
-                {/* Pricing */}
-                <div className="mb-6">
-                  <div className="flex items-baseline space-x-1">
-                    <span className="text-3xl font-bold">${plan.price}</span>
-                    <span className="text-sm text-gray-500">/month</span>
-                  </div>
-                </div>
-                
-                {/* Features */}
-                <div className="space-y-3">
-                  {plan.features.map((feature, index) => (
-                    <div key={index} className="flex items-start space-x-2">
-                      <Check className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-sm text-left">{feature}</span>
+                    {/* Header with icon and title */}
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className={`p-2 rounded-full ${
+                        selectedTier === plan.id ? 'bg-mansablue text-white' : 'bg-gray-100 text-gray-600'
+                      }`}>
+                        {plan.icon}
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg">{plan.name}</h3>
+                        <p className="text-sm text-gray-600">{plan.description}</p>
+                      </div>
                     </div>
-                  ))}
+                    
+                    {/* Features */}
+                    <div className="space-y-2">
+                      {plan.features.map((feature, index) => (
+                        <div key={index} className="flex items-start space-x-2">
+                          <Check className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
+                          <span className="text-sm">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Pricing */}
+                  <div className="text-right ml-6">
+                    <div className="text-3xl font-bold">${plan.price}</div>
+                    <div className="text-sm text-gray-500">/month</div>
+                  </div>
                 </div>
               </Label>
             </div>
