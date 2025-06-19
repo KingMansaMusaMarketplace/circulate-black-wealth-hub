@@ -33,6 +33,7 @@ import HowItWorksPage from "./pages/HowItWorksPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import EducationPage from "./pages/EducationPage";
 import MentorshipPage from "./pages/MentorshipPage";
+import HelpPage from "./pages/HelpPage";
 
 // Add new lazy import
 const AppTestPage = lazy(() => import("./pages/AppTestPage"));
@@ -69,6 +70,7 @@ function App() {
                     <Route path="/education" element={<EducationPage />} />
                     <Route path="/mentorship" element={<MentorshipPage />} />
                     <Route path="/sales-agent" element={<SalesAgentPage />} />
+                    <Route path="/help" element={<HelpPage />} />
                     <Route path="/system-test" element={<SystemTestPage />} />
                     <Route path="/mobile-test" element={<MobileTestPage />} />
                     <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
