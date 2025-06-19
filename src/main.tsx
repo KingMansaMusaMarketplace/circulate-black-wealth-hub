@@ -7,8 +7,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import './index.css';
 
-// Import providers
-import { AuthProvider } from '@/contexts/auth/AuthProvider';
+// Import providers - using the correct AuthProvider
+import AuthProvider from '@/contexts/AuthContext';
 import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 
 // Import pages
