@@ -29,7 +29,7 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
         'Email support',
         '30-day free trial'
       ],
-      icon: <Rocket className="h-5 w-5" />,
+      icon: <Rocket className="h-6 w-6" />,
       popular: false
     },
     {
@@ -44,85 +44,105 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
         'Marketing tools',
         'Priority support'
       ],
-      icon: <Building className="h-5 w-5" />,
+      icon: <Building className="h-6 w-6" />,
       popular: true
     }
   ];
 
   return (
-    <Card>
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl">Choose Your Business Plan</CardTitle>
-        <CardDescription>
+    <div className="w-full">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-3">Choose Your Business Plan</h2>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           Select the plan that best fits your business needs. Both plans include a 30-day free trial.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <RadioGroup 
-          value={selectedTier} 
-          onValueChange={(value) => onTierChange(value as SubscriptionTier)}
-          className="space-y-4"
-        >
-          {businessPlans.map((plan) => (
-            <div key={plan.id} className="relative">
-              <RadioGroupItem 
-                value={plan.id} 
-                id={plan.id} 
-                className="peer sr-only" 
-              />
-              <Label
-                htmlFor={plan.id}
-                className={`relative block p-6 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md ${
-                  selectedTier === plan.id 
-                    ? 'border-mansablue bg-mansablue/5' 
-                    : 'border-gray-200 hover:border-gray-300'
-                } ${plan.popular ? 'ring-2 ring-mansagold' : ''}`}
-              >
+        </p>
+      </div>
+      
+      <RadioGroup 
+        value={selectedTier} 
+        onValueChange={(value) => onTierChange(value as SubscriptionTier)}
+        className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto"
+      >
+        {businessPlans.map((plan) => (
+          <div key={plan.id} className="relative">
+            <RadioGroupItem 
+              value={plan.id} 
+              id={plan.id} 
+              className="peer sr-only" 
+            />
+            <Label
+              htmlFor={plan.id}
+              className={`relative block h-full cursor-pointer transition-all duration-200 ${
+                selectedTier === plan.id 
+                  ? 'transform scale-105' 
+                  : 'hover:transform hover:scale-102'
+              }`}
+            >
+              <Card className={`h-full border-2 transition-all duration-200 ${
+                selectedTier === plan.id 
+                  ? 'border-mansablue shadow-xl shadow-mansablue/20 bg-gradient-to-br from-mansablue/5 to-transparent' 
+                  : 'border-gray-200 hover:border-gray-300 hover:shadow-lg'
+              } ${plan.popular ? 'ring-2 ring-mansagold/50' : ''}`}>
+                
                 {plan.popular && (
-                  <Badge className="absolute -top-3 left-4 bg-mansagold text-mansablue">
-                    <Star className="h-3 w-3 mr-1" />
-                    Most Popular
-                  </Badge>
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                    <Badge className="bg-mansagold text-mansablue font-semibold px-4 py-1 text-sm shadow-lg">
+                      <Star className="h-3 w-3 mr-1" />
+                      Most Popular
+                    </Badge>
+                  </div>
                 )}
                 
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    {/* Header with icon and title */}
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className={`p-2 rounded-full ${
-                        selectedTier === plan.id ? 'bg-mansablue text-white' : 'bg-gray-100 text-gray-600'
-                      }`}>
-                        {plan.icon}
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-lg">{plan.name}</h3>
-                        <p className="text-sm text-gray-600">{plan.description}</p>
-                      </div>
+                <CardHeader className="pb-4">
+                  <div className="flex items-center space-x-4 mb-4">
+                    <div className={`p-3 rounded-xl ${
+                      selectedTier === plan.id 
+                        ? 'bg-mansablue text-white shadow-lg' 
+                        : 'bg-gray-100 text-gray-600'
+                    }`}>
+                      {plan.icon}
                     </div>
-                    
-                    {/* Features */}
-                    <div className="space-y-2">
-                      {plan.features.map((feature, index) => (
-                        <div key={index} className="flex items-start space-x-2">
-                          <Check className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
-                          <span className="text-sm">{feature}</span>
-                        </div>
-                      ))}
+                    <div className="flex-1">
+                      <CardTitle className="text-xl font-bold text-gray-900 mb-1">
+                        {plan.name}
+                      </CardTitle>
+                      <CardDescription className="text-gray-600 text-base">
+                        {plan.description}
+                      </CardDescription>
                     </div>
                   </div>
                   
-                  {/* Pricing */}
-                  <div className="text-right ml-6">
-                    <div className="text-3xl font-bold">${plan.price}</div>
-                    <div className="text-sm text-gray-500">/month</div>
+                  <div className="text-center py-4 border-t border-gray-100">
+                    <div className="flex items-baseline justify-center space-x-1">
+                      <span className="text-4xl font-bold text-gray-900">${plan.price}</span>
+                      <span className="text-lg text-gray-500 font-medium">/month</span>
+                    </div>
                   </div>
-                </div>
-              </Label>
-            </div>
-          ))}
-        </RadioGroup>
-      </CardContent>
-    </Card>
+                </CardHeader>
+                
+                <CardContent className="pt-0">
+                  <div className="space-y-4">
+                    <h4 className="font-semibold text-gray-900 text-sm uppercase tracking-wide border-b border-gray-100 pb-2">
+                      What's Included
+                    </h4>
+                    <ul className="space-y-3">
+                      {plan.features.map((feature, index) => (
+                        <li key={index} className="flex items-start space-x-3">
+                          <div className="flex-shrink-0 mt-0.5">
+                            <Check className="h-4 w-4 text-green-500" />
+                          </div>
+                          <span className="text-gray-700 text-sm leading-relaxed">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            </Label>
+          </div>
+        ))}
+      </RadioGroup>
+    </div>
   );
 };
 
