@@ -34,7 +34,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     },
     setupMFA: async () => {
       // This would be implemented with actual Supabase MFA
-      // Return void instead of string to match the interface
     },
     checkSession: async () => {
       // This would be implemented with actual Supabase session check
