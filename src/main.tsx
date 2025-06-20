@@ -37,26 +37,48 @@ if (!rootElement) {
   throw new Error('Root element not found');
 }
 
+// Safe App wrapper that ensures React is fully initialized
+const SafeApp: React.FC = () => {
+  const [isReady, setIsReady] = React.useState(false);
+  
+  React.useEffect(() => {
+    // Ensure React is fully initialized before rendering providers
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 0);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
+  if (!isReady) {
+    return <div>Loading...</div>;
+  }
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <SubscriptionProvider>
+              <Router>
+                <App />
+                <Toaster />
+              </Router>
+            </SubscriptionProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </HelmetProvider>
+    </QueryClientProvider>
+  );
+};
+
 try {
   const root = ReactDOM.createRoot(rootElement);
   console.log('main.tsx: React root created');
   
   root.render(
     <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <HelmetProvider>
-          <ThemeProvider>
-            <AuthProvider>
-              <SubscriptionProvider>
-                <Router>
-                  <App />
-                  <Toaster />
-                </Router>
-              </SubscriptionProvider>
-            </AuthProvider>
-          </ThemeProvider>
-        </HelmetProvider>
-      </QueryClientProvider>
+      <SafeApp />
     </React.StrictMode>
   );
   console.log('main.tsx: React app rendered successfully');
