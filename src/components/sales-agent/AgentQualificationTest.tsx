@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getTestQuestions, submitTestAttempt, updateApplicationAfterTest } from '@/lib/api/sales-agent-api';
@@ -105,6 +104,7 @@ const AgentQualificationTest: React.FC<AgentQualificationTestProps> = ({ applica
       setIsSubmitting(false);
     }
   };
+  
   
   if (loading) {
     return (
