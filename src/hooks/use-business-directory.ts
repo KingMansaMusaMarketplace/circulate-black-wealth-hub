@@ -1,99 +1,105 @@
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
+import { 
+  fetchBusinesses, 
+  fetchBusinessCategories, 
+  BusinessFilters, 
+  PaginationParams, 
+  BusinessQueryResult
+} from '@/lib/api/directory';
 import { Business } from '@/types/business';
-import { BusinessFilters } from '@/lib/api/directory/types';
 
-interface UseBusinessDirectoryOptions {
+export interface UseBusinessDirectoryOptions {
   initialFilters?: BusinessFilters;
+  initialPage?: number;
   pageSize?: number;
   autoFetch?: boolean;
 }
 
-interface Pagination {
-  page: number;
-  pageSize: number;
-  totalPages: number;
-  totalCount: number;
-}
-
 export function useBusinessDirectory(options: UseBusinessDirectoryOptions = {}) {
-  const { initialFilters = {}, pageSize = 16, autoFetch = true } = options;
-  
   const [businesses, setBusinesses] = useState<Business[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [filters, setFilters] = useState<BusinessFilters>(initialFilters);
-  const [page, setPage] = useState(1);
-
-  // Mock data for now
-  const mockBusinesses: Business[] = [
-    {
-      id: 1,
-      name: "Soul Food Kitchen",
-      description: "Authentic Southern cuisine served with love and tradition",
-      category: "Restaurant",
-      rating: 4.8,
-      reviewCount: 124,
-      discount: "15% off first order",
-      discountValue: 15,
-      distance: "0.3 mi",
-      distanceValue: 0.3,
-      address: "123 Main St",
-      city: "Atlanta",
-      state: "GA",
-      zipCode: "30303",
-      phone: "(404) 555-0101",
-      email: "info@soulfoodkitchen.com",
-      website: "https://soulfoodkitchen.com",
-      lat: 33.7490,
-      lng: -84.3880,
-      imageUrl: "/lovable-uploads/150432cc-c354-44c5-8b52-771f74dfc018.png",
-      imageAlt: "Soul Food Kitchen storefront",
-      isFeatured: true
-    }
-  ];
-
-  const categories = useMemo(() => {
-    return ['All', 'Restaurant', 'Beauty', 'Grocery', 'Technology'];
-  }, []);
-
-  const pagination: Pagination = useMemo(() => {
-    const totalCount = businesses.length;
-    const totalPages = Math.ceil(totalCount / pageSize);
-    return {
-      page,
-      pageSize,
-      totalPages,
-      totalCount
-    };
-  }, [businesses.length, page, pageSize]);
-
-  const updateFilters = (newFilters: Partial<BusinessFilters>) => {
-    setFilters(prev => ({ ...prev, ...newFilters }));
-    setPage(1); // Reset to first page when filters change
-  };
-
-  const refetch = () => {
-    setBusinesses(mockBusinesses);
-  };
-
-  useEffect(() => {
-    if (autoFetch) {
-      setLoading(true);
-      setBusinesses(mockBusinesses);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [filters, setFilters] = useState<BusinessFilters>(options.initialFilters || {});
+  const [pagination, setPagination] = useState<PaginationParams>({
+    page: options.initialPage || 1,
+    pageSize: options.pageSize || 16
+  });
+  
+  // Function to load businesses with current filters and pagination
+  const loadBusinesses = async () => {
+    setLoading(true);
+    try {
+      const result: BusinessQueryResult = await fetchBusinesses(filters, pagination);
+      setBusinesses(result.businesses);
+      setTotalCount(result.totalCount);
+      setTotalPages(result.totalPages);
+      setError(null);
+    } catch (err) {
+      console.error('Error in useBusinessDirectory:', err);
+      setError('Failed to load business directory');
+    } finally {
       setLoading(false);
     }
-  }, [autoFetch]);
+  };
+  
+  // Function to load categories
+  const loadCategories = async () => {
+    try {
+      const categoryList = await fetchBusinessCategories();
+      setCategories(categoryList);
+    } catch (err) {
+      console.error('Error loading categories:', err);
+    }
+  };
+  
+  // Handle filter changes
+  const updateFilters = (newFilters: Partial<BusinessFilters>) => {
+    setFilters(prevFilters => ({ ...prevFilters, ...newFilters }));
+    // Reset to page 1 when filters change
+    setPagination(prev => ({ ...prev, page: 1 }));
+  };
+  
+  // Handle page changes
+  const setPage = (page: number) => {
+    setPagination(prev => ({ ...prev, page }));
+  };
+  
+  // Handle page size changes
+  const setPageSize = (pageSize: number) => {
+    setPagination(prev => ({ ...prev, pageSize, page: 1 }));
+  };
+  
+  // Load businesses when filters or pagination changes
+  useEffect(() => {
+    if (options.autoFetch !== false) {
+      loadBusinesses();
+    }
+  }, [filters, pagination.page, pagination.pageSize]);
+  
+  // Load categories on mount
+  useEffect(() => {
+    loadCategories();
+  }, []);
 
   return {
     businesses,
     loading,
     error,
     categories,
-    pagination,
+    pagination: {
+      page: pagination.page,
+      pageSize: pagination.pageSize,
+      totalPages,
+      totalCount
+    },
     filters,
     updateFilters,
     setPage,
-    refetch
+    setPageSize,
+    refetch: loadBusinesses
   };
 }

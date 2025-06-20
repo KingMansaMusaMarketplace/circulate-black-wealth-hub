@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { 
   Select, 
   SelectContent, 
@@ -32,22 +31,6 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
   filterOptions, 
   onFilterChange 
 }) => {
-  const [isReady, setIsReady] = useState(false);
-
-  // Ensure React is properly initialized before proceeding
-  useEffect(() => {
-    setIsReady(true);
-  }, []);
-
-  // Don't render until React is ready
-  if (!isReady) {
-    return (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4">
-        <div className="text-center text-gray-500">Loading filters...</div>
-      </div>
-    );
-  }
-
   // Use the comprehensive business categories instead of the passed categories
   const allCategories = businessCategories.map(cat => cat.name).sort();
 

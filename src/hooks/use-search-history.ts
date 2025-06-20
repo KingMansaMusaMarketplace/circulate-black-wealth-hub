@@ -1,55 +1,122 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
-interface SearchHistoryItem {
-  term: string;
+export interface SearchHistoryItem {
+  id?: string;
+  user_id: string;
+  search_term: string;
   category?: string;
   location?: string;
-  resultsCount: number;
-  timestamp: Date;
+  results_count: number;
+  searched_at: string;
 }
 
-export function useSearchHistory() {
+export const useSearchHistory = () => {
+  const { user } = useAuth();
   const [searchHistory, setSearchHistory] = useState<SearchHistoryItem[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const addToSearchHistory = (
-    term: string,
-    category?: string,
-    location?: string,
-    resultsCount = 0
-  ) => {
-    const newItem: SearchHistoryItem = {
-      term,
-      category,
-      location,
-      resultsCount,
-      timestamp: new Date()
-    };
+  useEffect(() => {
+    if (user) {
+      loadSearchHistory();
+    } else {
+      setSearchHistory([]);
+    }
+  }, [user]);
 
-    setSearchHistory(prev => [newItem, ...prev.slice(0, 9)]); // Keep last 10 searches
+  const loadSearchHistory = async () => {
+    if (!user) return;
+
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('search_history')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('searched_at', { ascending: false })
+        .limit(20);
+
+      if (error) throw error;
+      
+      setSearchHistory(data || []);
+    } catch (error) {
+      console.error('Error loading search history:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const clearSearchHistory = () => {
-    setSearchHistory([]);
+  const addToSearchHistory = async (
+    searchTerm: string,
+    category?: string,
+    location?: string,
+    resultsCount: number = 0
+  ) => {
+    if (!user || !searchTerm.trim()) return;
+
+    try {
+      const searchItem: Omit<SearchHistoryItem, 'id'> = {
+        user_id: user.id,
+        search_term: searchTerm.trim(),
+        category,
+        location,
+        results_count: resultsCount,
+        searched_at: new Date().toISOString()
+      };
+
+      const { error } = await supabase
+        .from('search_history')
+        .insert(searchItem);
+
+      if (error) throw error;
+
+      // Add to local state
+      setSearchHistory(prev => [
+        { ...searchItem, searched_at: new Date().toISOString() },
+        ...prev.slice(0, 19) // Keep only 20 items
+      ]);
+    } catch (error) {
+      console.error('Error adding to search history:', error);
+    }
+  };
+
+  const clearSearchHistory = async () => {
+    if (!user) return;
+
+    try {
+      const { error } = await supabase
+        .from('search_history')
+        .delete()
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setSearchHistory([]);
+    } catch (error) {
+      console.error('Error clearing search history:', error);
+    }
   };
 
   const getPopularSearches = () => {
-    // Get most frequent search terms
-    const termCounts = searchHistory.reduce((acc, item) => {
-      acc[item.term] = (acc[item.term] || 0) + 1;
+    const searchCounts = searchHistory.reduce((acc, item) => {
+      acc[item.search_term] = (acc[item.search_term] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
 
-    return Object.entries(termCounts)
-      .sort(([,a], [,b]) => b - a)
+    return Object.entries(searchCounts)
+      .sort(([, a], [, b]) => b - a)
       .slice(0, 5)
       .map(([term]) => term);
   };
 
   return {
     searchHistory,
+    loading,
     addToSearchHistory,
     clearSearchHistory,
+    loadSearchHistory,
     getPopularSearches
   };
-}
+};

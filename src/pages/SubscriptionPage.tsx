@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSearchParams } from 'react-router-dom';
@@ -24,12 +23,9 @@ const SubscriptionPage: React.FC = () => {
   
   const currentTier = (subscriptionInfo?.subscription_tier as SubscriptionTier) || 'free';
   
-  // Determine user type based on profile or suggested tier, but limit to customer/business for components
-  const rawUserType = user?.user_metadata?.user_type || 
+  // Determine user type based on profile or suggested tier
+  const userType = user?.user_metadata?.user_type || 
     (suggestedTier === 'business_starter' || suggestedTier === 'business' ? 'business' : 'customer');
-  
-  // Convert to the limited type expected by components
-  const userType: 'customer' | 'business' = rawUserType === 'sales_agent' ? 'customer' : rawUserType as 'customer' | 'business';
 
   return (
     <div className="min-h-screen bg-gray-50">

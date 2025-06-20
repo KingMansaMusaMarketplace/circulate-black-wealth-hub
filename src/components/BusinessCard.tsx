@@ -10,7 +10,7 @@ interface BusinessCardProps {
   category: string;
   rating: number;
   reviewCount: number;
-  discount?: string;
+  discount: string;
   distance?: string;
   address?: string;
   imageUrl?: string;
@@ -24,7 +24,7 @@ const BusinessCard = ({
   category, 
   rating, 
   reviewCount, 
-  discount = "Special offer", 
+  discount, 
   distance, 
   address,
   imageUrl,

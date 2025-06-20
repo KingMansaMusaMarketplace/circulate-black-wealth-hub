@@ -1,48 +1,119 @@
 
-import React, { Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import ErrorBoundary from '@/components/ErrorBoundary';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import { Suspense, lazy } from "react";
+import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Routes, Route } from "react-router-dom";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import AuthProvider from "./contexts/AuthContext";
+import { SubscriptionProvider } from "./contexts/SubscriptionContext";
+import LoadingSpinner from "@/components/ui/loading-spinner";
+import HomePage from "./pages/HomePage";
+import DirectoryPage from "./pages/DirectoryPage";
+import BusinessPage from "./pages/BusinessPage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
+import BusinessSignupPage from "./pages/BusinessSignupPage";
+import CustomerSignupPage from "./pages/CustomerSignupPage";
+import DashboardPage from "./pages/DashboardPage";
+import QRScannerPage from "./pages/QRScannerPage";
+import LoyaltyPage from "./pages/LoyaltyPage";
+import BusinessFormPage from "./pages/BusinessFormPage";
+import CorporateSponsorshipPage from "./pages/CorporateSponsorshipPage";
+import CommunityImpactPage from "./pages/CommunityImpactPage";
+import SystemTestPage from "./pages/SystemTestPage";
+import MobileTestPage from "./pages/MobileTestPage";
+import ComprehensiveTestPage from "./pages/ComprehensiveTestPage";
+import SignupTestPage from "./pages/SignupTestPage";
+import NewPasswordPage from "./pages/NewPasswordPage";
+import PasswordResetRequestPage from "./pages/PasswordResetRequestPage";
+import MobileReadinessTestPage from "./pages/MobileReadinessTestPage";
+import SalesAgentPage from "./pages/SalesAgentPage";
+import CommunityPage from "./pages/CommunityPage";
+import CaseStudiesPage from "./pages/CaseStudiesPage";
+import HowItWorksPage from "./pages/HowItWorksPage";
+import SubscriptionPage from "./pages/SubscriptionPage";
+import EducationPage from "./pages/EducationPage";
+import MentorshipPage from "./pages/MentorshipPage";
+import HelpPage from "./pages/HelpPage";
+import BlogPage from "./pages/BlogPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import CookiePolicyPage from "./pages/CookiePolicyPage";
+import TermsOfServicePage from "./pages/TermsOfServicePage";
+import FAQPage from "./pages/FAQPage";
+import AboutPage from "./pages/AboutPage";
 
-// Import pages with lazy loading to prevent initialization issues
-const DirectoryPage = React.lazy(() => import('@/pages/DirectoryPage'));
-const EnhancedDirectoryPage = React.lazy(() => import('@/pages/EnhancedDirectoryPage'));
-const HBCUTestPage = React.lazy(() => import('@/pages/HBCUTestPage'));
-const Index = React.lazy(() => import('@/pages/Index'));
-const LoginPage = React.lazy(() => import('@/pages/LoginPage'));
-const DashboardPage = React.lazy(() => import('@/pages/DashboardPage'));
+// Add new lazy import
+const AppTestPage = lazy(() => import("./pages/AppTestPage"));
 
-console.log('App.tsx: Starting App component render');
+const queryClient = new QueryClient();
 
-const LoadingFallback = () => (
-  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-    <div className="text-center">
-      <div className="text-2xl font-bold text-mansablue">Loading...</div>
-    </div>
-  </div>
-);
-
-const App: React.FC = () => {
-  console.log('App: Component rendering');
-  
+function App() {
   return (
-    <ErrorBoundary>
-      <TooltipProvider delayDuration={300}>
-        <div className="min-h-screen bg-gray-50">
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/directory" element={<DirectoryPage />} />
-              <Route path="/enhanced-directory" element={<EnhancedDirectoryPage />} />
-              <Route path="/hbcu-test" element={<HBCUTestPage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-            </Routes>
-          </Suspense>
-        </div>
-      </TooltipProvider>
-    </ErrorBoundary>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <SubscriptionProvider>
+            <TooltipProvider>
+              <Toaster />
+              <div className="min-h-screen bg-background font-sans antialiased">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/directory" element={<DirectoryPage />} />
+                  <Route path="/business/:id" element={<BusinessPage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/signup" element={<SignupPage />} />
+                  
+                  {/* Add specific signup routes */}
+                  <Route path="/signup/business" element={<BusinessSignupPage />} />
+                  <Route path="/signup/customer" element={<CustomerSignupPage />} />
+                  
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/scanner" element={<QRScannerPage />} />
+                  <Route path="/loyalty" element={<LoyaltyPage />} />
+                  <Route path="/business-form" element={<BusinessFormPage />} />
+                  <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
+                  <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
+                  <Route path="/subscription" element={<SubscriptionPage />} />
+                  <Route path="/community" element={<CommunityPage />} />
+                  <Route path="/community-impact" element={<CommunityImpactPage />} />
+                  <Route path="/case-studies" element={<CaseStudiesPage />} />
+                  <Route path="/how-it-works" element={<HowItWorksPage />} />
+                  <Route path="/education" element={<EducationPage />} />
+                  <Route path="/mentorship" element={<MentorshipPage />} />
+                  <Route path="/sales-agent" element={<SalesAgentPage />} />
+                  <Route path="/help" element={<HelpPage />} />
+                  <Route path="/blog" element={<BlogPage />} />
+                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                  <Route path="/cookies" element={<CookiePolicyPage />} />
+                  <Route path="/terms" element={<TermsOfServicePage />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/system-test" element={<SystemTestPage />} />
+                  <Route path="/mobile-test" element={<MobileTestPage />} />
+                  <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
+                  <Route path="/signup-test" element={<SignupTestPage />} />
+                  <Route path="/new-password" element={<NewPasswordPage />} />
+                  <Route path="/password-reset-request" element={<PasswordResetRequestPage />} />
+                  <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
+                  
+                  {/* Add new test route */}
+                  <Route 
+                    path="/app-test" 
+                    element={
+                      <Suspense fallback={<LoadingSpinner />}>
+                        <AppTestPage />
+                      </Suspense>
+                    } 
+                  />
+                </Routes>
+              </div>
+            </TooltipProvider>
+          </SubscriptionProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
-};
+}
 
 export default App;

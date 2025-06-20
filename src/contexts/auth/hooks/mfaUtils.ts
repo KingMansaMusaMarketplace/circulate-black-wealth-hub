@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Factor, MFAChallenge } from './types';
 
 // Get MFA status for a user
-export const getMFAStatus = async (userId: string): Promise<boolean> => {
+export const checkMFAStatus = async (userId: string): Promise<boolean> => {
   if (!userId) return false;
   
   try {
@@ -35,9 +35,7 @@ export const setupMFA = async (userId: string): Promise<string> => {
 };
 
 // Get MFA factors for the current user
-export const getMFAFactors = async (userId: string | undefined): Promise<Factor[]> => {
-  if (!userId) return [];
-  
+export const getMFAFactors = async (): Promise<Factor[]> => {
   try {
     const { data, error } = await supabase.auth.mfa.listFactors();
     

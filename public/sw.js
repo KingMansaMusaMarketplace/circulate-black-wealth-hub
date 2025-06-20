@@ -1,5 +1,5 @@
 
-// Service Worker for Mansa Musa Marketplace PWA
+// Service Worker for Circulate Black Wealth Hub PWA
 const CACHE_NAME = 'wealth-hub-cache-v1';
 const urlsToCache = [
   '/',
@@ -8,30 +8,35 @@ const urlsToCache = [
   '/favicon.ico'
 ];
 
+// Check if the app is running in Capacitor
+const isCapacitor = () => {
+  return window.location.protocol === 'capacitor:';
+};
+
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
         return cache.addAll(urlsToCache);
       })
-      .catch(error => {
-        console.log('Cache installation failed:', error);
-      })
   );
 });
 
 self.addEventListener('fetch', event => {
+  // Skip caching for Capacitor requests
+  if (isCapacitor()) {
+    return fetch(event.request);
+  }
+  
   event.respondWith(
     caches.match(event.request)
       .then(response => {
         if (response) {
           return response;
         }
-        
         return fetch(event.request)
           .then(response => {
-            // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
+            if(!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
             
@@ -43,14 +48,6 @@ self.addEventListener('fetch', event => {
               });
               
             return response;
-          })
-          .catch(error => {
-            console.log('Fetch failed for:', event.request.url, error);
-            // Return a fallback response or let the browser handle it
-            return new Response('Network error occurred', {
-              status: 408,
-              statusText: 'Network error'
-            });
           });
       })
   );

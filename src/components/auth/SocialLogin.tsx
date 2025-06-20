@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth';
 
 export interface SocialLoginProps {
   type?: 'signup' | 'login';

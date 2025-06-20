@@ -26,12 +26,12 @@ const Navbar = () => {
             </div>
             
             {/* Desktop Navigation Links */}
-            <NavLinks user={user as any} />
+            <NavLinks user={user} />
           </div>
           
           {/* User Authentication Section */}
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            <UserSection user={user as any} signOut={signOut} />
+            <UserSection user={user} signOut={signOut} />
           </div>
           
           {/* Mobile Menu Button */}
@@ -55,7 +55,7 @@ const Navbar = () => {
       <MobileMenu 
         isOpen={isMenuOpen} 
         onClose={() => setIsMenuOpen(false)} 
-        user={user as any} 
+        user={user} 
         signOut={signOut} 
       />
     </nav>

@@ -1,15 +1,10 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-interface SubscriptionInfo {
-  subscribed: boolean;
-  subscription_tier: string;
-  subscription_end?: string;
-}
+import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
+import { subscriptionService, SubscriptionInfo } from '@/lib/services/subscription-service';
 
 interface SubscriptionContextType {
-  subscription: any;
-  loading: boolean;
   subscriptionInfo: SubscriptionInfo | null;
   isLoading: boolean;
   refreshSubscription: () => Promise<void>;
@@ -26,51 +21,70 @@ export const useSubscription = () => {
   return context;
 };
 
-const SubscriptionProviderComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [subscription, setSubscription] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [subscriptionInfo, setSubscriptionInfo] = useState<SubscriptionInfo | null>(null);
-  const [isInitialized, setIsInitialized] = useState(false);
+interface SubscriptionProviderProps {
+  children: ReactNode;
+}
 
-  useEffect(() => {
-    // Ensure component is properly mounted before proceeding
-    setIsInitialized(true);
-  }, []);
+export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({ children }) => {
+  const { user } = useAuth();
+  const [subscriptionInfo, setSubscriptionInfo] = useState<SubscriptionInfo | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const refreshSubscription = async () => {
-    setLoading(true);
+    if (!user) {
+      setSubscriptionInfo(null);
+      return;
+    }
+
+    setIsLoading(true);
     try {
-      // TODO: Implement actual subscription refresh logic
-      console.log('Refreshing subscription...');
+      const data = await subscriptionService.checkSubscription();
+      setSubscriptionInfo(data);
     } catch (error) {
-      console.error('Error refreshing subscription:', error);
+      console.error('Failed to refresh subscription:', error);
+      toast.error('Failed to update subscription status');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   const openCustomerPortal = async () => {
     try {
-      // TODO: Implement customer portal logic
-      console.log('Opening customer portal...');
+      setIsLoading(true);
+      const { url } = await subscriptionService.createCustomerPortalSession();
+      window.open(url, '_blank');
     } catch (error) {
-      console.error('Error opening customer portal:', error);
+      console.error('Failed to open customer portal:', error);
+      toast.error('Failed to open subscription management portal');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const value = {
-    subscription,
-    loading,
-    subscriptionInfo,
-    isLoading: loading,
-    refreshSubscription,
-    openCustomerPortal,
-  };
+  // Refresh subscription when user changes
+  useEffect(() => {
+    if (user) {
+      refreshSubscription();
+    } else {
+      setSubscriptionInfo(null);
+    }
+    
+    // Set up periodic refresh every 5 minutes
+    const intervalId = setInterval(() => {
+      if (user) {
+        refreshSubscription();
+      }
+    }, 300000); // 5 minutes
+    
+    return () => clearInterval(intervalId);
+  }, [user]);
 
-  // Don't render children until properly initialized
-  if (!isInitialized) {
-    return null;
-  }
+  const value = {
+    subscriptionInfo,
+    isLoading,
+    refreshSubscription,
+    openCustomerPortal
+  };
 
   return (
     <SubscriptionContext.Provider value={value}>
@@ -78,7 +92,3 @@ const SubscriptionProviderComponent: React.FC<{ children: React.ReactNode }> = (
     </SubscriptionContext.Provider>
   );
 };
-
-export const SubscriptionProvider = SubscriptionProviderComponent;
-
-export default SubscriptionProvider;

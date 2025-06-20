@@ -1,3 +1,4 @@
 
-// This file is kept for backward compatibility but redirects to the main auth context
-export { useAuth } from '../../AuthContext';
+export { useAuthState } from './useAuthState';
+export { useMFASetup } from './mfaHooks';
+export type { AuthState, AuthActions } from './types';

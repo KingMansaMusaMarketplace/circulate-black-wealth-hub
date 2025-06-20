@@ -1,36 +1,55 @@
 
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import React, { useEffect } from 'react';
+import Hero from '@/components/Hero';
+import { Navbar } from '@/components/navbar';
+import HomePageSections from '@/components/HomePage/HomePageSections';
+import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
+import { preloadCriticalImages } from '@/utils/imageOptimizer';
 
-console.log('HomePage.tsx: HomePage component loaded');
+const HomePage = () => {
+  useEffect(() => {
+    // Track bundle performance
+    trackBundleMetrics();
+    
+    // Add resource hints for better loading
+    addResourceHints();
+    
+    // Preload critical images
+    const criticalImages = [
+      '/lovable-uploads/hero-image.jpg',
+      '/lovable-uploads/logo.png'
+    ];
+    preloadCriticalImages(criticalImages);
+    
+    // SEO optimizations
+    document.title = 'Mansa Musa Marketplace - Save Money & Support Black-Owned Businesses';
+    
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', 
+      'Join thousands discovering amazing Black-owned businesses while earning rewards and building community wealth. Start FREE today!'
+    );
 
-const HomePage: React.FC = () => {
+    // Preload critical chunks for better UX
+    setTimeout(() => {
+      import('@/pages/DirectoryPage');
+      import('@/pages/LoginPage');
+    }, 2000);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Helmet>
-        <title>Mansa Musa Marketplace</title>
-        <meta name="description" content="Economic empowerment through community marketplace" />
-      </Helmet>
+    <div className="min-h-screen">
+      <Navbar />
       
-      <div className="container mx-auto px-4 py-8">
-        <header className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-mansablue mb-4">
-            Welcome to Mansa Musa Marketplace
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Building economic empowerment through community-driven commerce
-          </p>
-        </header>
+      {/* Hero Section */}
+      <Hero />
 
-        <div className="text-center">
-          <a 
-            href="/login" 
-            className="inline-block bg-mansablue text-white px-6 py-3 rounded-lg hover:bg-mansablue/90 transition-colors"
-          >
-            Get Started
-          </a>
-        </div>
-      </div>
+      {/* All conversion-focused sections */}
+      <HomePageSections />
     </div>
   );
 };

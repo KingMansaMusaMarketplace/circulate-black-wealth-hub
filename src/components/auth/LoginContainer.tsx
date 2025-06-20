@@ -1,5 +1,8 @@
 
 import React from 'react';
+import { motion } from 'framer-motion';
+import { Separator } from '@/components/ui/separator';
+import { BadgeDollarSign, TrendingUp, MapPin } from 'lucide-react';
 
 interface LoginContainerProps {
   children: React.ReactNode;
@@ -7,21 +10,47 @@ interface LoginContainerProps {
 }
 
 const LoginContainer: React.FC<LoginContainerProps> = ({ children, header }) => {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
+
   return (
-    <div className="w-full max-w-md animate-fade-in">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="w-full max-w-md"
+    >
       {header && (
-        <div className="text-center mb-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <motion.div variants={itemVariants} className="text-center mb-6">
           {header}
-        </div>
+        </motion.div>
       )}
 
-      <div 
-        className="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-100 animate-fade-in" 
-        style={{ animationDelay: '0.2s' }}
+      <motion.div
+        variants={itemVariants}
+        className="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-100"
       >
         {children}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

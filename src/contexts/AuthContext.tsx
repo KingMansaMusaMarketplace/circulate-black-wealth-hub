@@ -1,44 +1,24 @@
-
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User as SupabaseUser, Session } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
-
-interface User extends SupabaseUser {
-  user_metadata: {
-    fullName?: string;
-    full_name?: string;
-    name?: string;
-    role?: string;
-    user_type?: 'customer' | 'business' | 'sales_agent';
-    is_admin?: boolean;
-    is_customer?: boolean;
-    is_agent?: boolean;
-    is_hbcu_member?: boolean;
-    avatar_url?: string;
-    avatarUrl?: string;
-  };
-  app_metadata: any;
-  aud: string;
-  created_at: string;
-  email_confirmed_at?: string;
-}
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { createUserProfile } from '@/lib/auth/auth-profile';
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
+  userType: string | null;
   loading: boolean;
-  userType?: 'customer' | 'business' | 'sales_agent';
   authInitialized: boolean;
   databaseInitialized: boolean;
-  signIn: (email: string, password: string) => Promise<{ error?: any; mfaRequired?: boolean; factorId?: string; challengeId?: string; data?: any }>;
-  signUp: (email: string, password: string, metadata?: any) => Promise<{ error?: any; data?: any }>;
+  signIn: (email: string, password: string) => Promise<{ error: any; data?: any }>;
+  signUp: (email: string, password: string, metadata?: object) => Promise<{ error: any; data?: any }>;
   signOut: () => Promise<void>;
+  signInWithProvider: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
   checkSession: () => Promise<boolean>;
-  updateUserPassword?: (newPassword: string) => Promise<{ success: boolean; error?: any }>;
-  getMFAFactors?: () => Promise<any[]>;
-  resetPassword?: (email: string) => Promise<{ success: boolean; error?: any }>;
-  signInWithSocial: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
-  verifyMFA: (factorId: string, code: string, challengeId: string) => Promise<{ success: boolean; error?: any }>;
+  getMFAFactors: () => Promise<any[]>;
+  updateUserPassword: (password: string) => Promise<{ success: boolean; error?: any }>;
+  resetPassword: (email: string) => Promise<{ success: boolean; error?: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -51,97 +31,71 @@ export const useAuth = () => {
   return context;
 };
 
-const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [userType, setUserType] = useState<'customer' | 'business' | 'sales_agent' | undefined>();
   const [authInitialized, setAuthInitialized] = useState(false);
-  const [databaseInitialized] = useState(true);
+  const [databaseInitialized, setDatabaseInitialized] = useState(true); // Assume initialized for now
 
   useEffect(() => {
-    let mounted = true;
-
-    const initAuth = async () => {
-      try {
-        console.log('AuthContext: Initializing auth');
-        
-        // Set up auth state listener first
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-          async (event, currentSession) => {
-            if (!mounted) return;
-            
-            console.log('Auth state changed:', event, !!currentSession);
-            setSession(currentSession);
-            setUser(currentSession?.user as User || null);
-            
-            if (currentSession?.user?.user_metadata?.user_type) {
-              setUserType(currentSession.user.user_metadata.user_type);
-            } else {
-              setUserType(undefined);
-            }
-            
-            setLoading(false);
-            setAuthInitialized(true);
-          }
-        );
-
-        // Check for existing session
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
-        
-        if (!mounted) return;
-        
-        console.log('Initial session check:', !!currentSession);
-        setSession(currentSession);
-        setUser(currentSession?.user as User || null);
-        
-        if (currentSession?.user?.user_metadata?.user_type) {
-          setUserType(currentSession.user.user_metadata.user_type);
-        }
-        
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event: AuthChangeEvent, session) => {
+        console.log('Auth state changed:', event, session?.user?.id);
+        setSession(session);
+        setUser(session?.user ?? null);
         setLoading(false);
         setAuthInitialized(true);
 
-        return () => {
-          subscription.unsubscribe();
-        };
-      } catch (error) {
-        console.error('Error initializing auth:', error);
-        if (mounted) {
-          setLoading(false);
-          setAuthInitialized(true);
+        // Handle user signup completion - check for event string value
+        if (event === 'SIGNED_UP' as AuthChangeEvent && session?.user) {
+          const userMetadata = session.user.user_metadata;
+          console.log('Creating user profile for new user:', userMetadata);
+          
+          try {
+            await createUserProfile(session.user.id, userMetadata);
+            console.log('User profile created successfully');
+          } catch (error) {
+            console.error('Failed to create user profile:', error);
+          }
         }
       }
-    };
+    );
 
-    initAuth();
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setLoading(false);
+      setAuthInitialized(true);
+    });
 
-    return () => {
-      mounted = false;
-    };
+    return () => subscription.unsubscribe();
   }, []);
 
   const signIn = async (email: string, password: string) => {
     try {
-      console.log('Sign in attempt:', email);
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-
+      
       if (error) {
+        toast.error(error.message);
         return { error };
       }
-
-      return { data };
-    } catch (error) {
+      
+      toast.success('Successfully signed in!');
+      return { error: null, data };
+    } catch (error: any) {
+      toast.error(error.message);
       return { error };
     }
   };
 
-  const signUp = async (email: string, password: string, metadata?: any) => {
+  const signUp = async (email: string, password: string, metadata?: object) => {
     try {
-      console.log('Sign up attempt:', email, metadata);
       const redirectUrl = `${window.location.origin}/`;
       
       const { data, error } = await supabase.auth.signUp({
@@ -152,29 +106,56 @@ const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({ childr
           data: metadata
         }
       });
-
+      
       if (error) {
+        toast.error(error.message);
         return { error };
       }
-
-      return { data };
-    } catch (error) {
+      
+      if (data.user && !data.session) {
+        toast.success('Check your email to confirm your account');
+      } else {
+        toast.success('Account created successfully!');
+      }
+      
+      return { error: null, data };
+    } catch (error: any) {
+      toast.error(error.message);
       return { error };
     }
   };
 
   const signOut = async () => {
     try {
-      await supabase.auth.signOut();
-      setUser(null);
-      setSession(null);
-      setUserType(undefined);
-    } catch (error) {
-      console.error('Error signing out:', error);
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success('Successfully signed out');
+      }
+    } catch (error: any) {
+      toast.error(error.message);
     }
   };
 
-  const checkSession = async () => {
+  const signInWithProvider = async (provider: 'google' | 'facebook' | 'github') => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/`
+        }
+      });
+      
+      if (error) {
+        toast.error(error.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const checkSession = async (): Promise<boolean> => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       return !!session;
@@ -184,79 +165,60 @@ const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
-  const updateUserPassword = async (newPassword: string) => {
+  const getMFAFactors = async (): Promise<any[]> => {
     try {
-      const { error } = await supabase.auth.updateUser({
-        password: newPassword
-      });
-      
+      const { data, error } = await supabase.auth.mfa.listFactors();
+      if (error) throw error;
+      return data?.totp || [];
+    } catch (error) {
+      console.error('Error getting MFA factors:', error);
+      return [];
+    }
+  };
+
+  const updateUserPassword = async (password: string): Promise<{ success: boolean; error?: any }> => {
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
       if (error) {
         return { success: false, error };
       }
-      
       return { success: true };
     } catch (error) {
       return { success: false, error };
     }
   };
 
-  const getMFAFactors = async () => {
-    return [];
-  };
-
-  const resetPassword = async (email: string) => {
+  const resetPassword = async (email: string): Promise<{ success: boolean; error?: any }> => {
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email);
-      
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/new-password`
+      });
       if (error) {
         return { success: false, error };
       }
-      
       return { success: true };
     } catch (error) {
       return { success: false, error };
     }
   };
 
-  const signInWithSocial = async (provider: 'google' | 'facebook' | 'github') => {
-    try {
-      await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/`
-        }
-      });
-    } catch (error) {
-      console.error('Error with social sign in:', error);
-    }
-  };
-
-  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
-    try {
-      console.log('Verifying MFA:', { factorId, code, challengeId });
-      return { success: true };
-    } catch (error) {
-      console.error('Error verifying MFA:', error);
-      return { success: false, error };
-    }
-  };
+  const userType = user?.user_metadata?.user_type || user?.user_metadata?.userType || 'customer';
 
   const value = {
     user,
     session,
-    loading,
     userType,
+    loading,
     authInitialized,
     databaseInitialized,
     signIn,
     signUp,
     signOut,
+    signInWithProvider,
     checkSession,
-    updateUserPassword,
     getMFAFactors,
+    updateUserPassword,
     resetPassword,
-    signInWithSocial,
-    verifyMFA
   };
 
   return (
@@ -266,5 +228,4 @@ const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({ childr
   );
 };
 
-export const AuthProvider = AuthProviderComponent;
 export default AuthProvider;
