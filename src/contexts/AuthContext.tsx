@@ -51,33 +51,8 @@ export const useAuth = () => {
   return context;
 };
 
-// Safe class-based component that doesn't use hooks until React is ready
-class SafeAuthProvider extends React.Component<
-  { children: React.ReactNode },
-  { isReady: boolean }
-> {
-  constructor(props: { children: React.ReactNode }) {
-    super(props);
-    this.state = { isReady: false };
-  }
-
-  componentDidMount() {
-    // Use a timeout to ensure React is fully initialized
-    setTimeout(() => {
-      this.setState({ isReady: true });
-    }, 0);
-  }
-
-  render() {
-    if (!this.state.isReady) {
-      return <div>Initializing...</div>;
-    }
-    return <AuthProviderInner>{this.props.children}</AuthProviderInner>;
-  }
-}
-
 // The actual AuthProvider implementation with hooks
-const AuthProviderInner: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
@@ -276,7 +251,6 @@ const AuthProviderInner: React.FC<{ children: React.ReactNode }> = ({ children }
   );
 };
 
-// Export the safe class-based provider
-export const AuthProvider = SafeAuthProvider;
+export const AuthProvider = AuthProviderComponent;
 
 export default AuthProvider;
