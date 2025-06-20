@@ -8,6 +8,7 @@ import NearbyBusinessesFeature from './NearbyBusinessesFeature';
 import { Benefit } from './BenefitCard';
 
 const BenefitsSection = () => {
+  // Initialize all state first
   const [isReady, setIsReady] = useState(false);
   const [activeTab, setActiveTab] = useState<'customers' | 'businesses'>('customers');
   const [expandedBenefit, setExpandedBenefit] = useState<number | null>(null);
@@ -50,6 +51,7 @@ const BenefitsSection = () => {
     );
   }
 
+  // ... keep existing code (customerBenefits and businessBenefits arrays)
   const customerBenefits: Benefit[] = [
     {
       title: 'Save Money',

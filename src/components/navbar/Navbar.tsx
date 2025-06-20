@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const Navbar: React.FC = () => {
@@ -11,15 +11,7 @@ const Navbar: React.FC = () => {
     setIsReady(true);
   }, []);
 
-  // Safely get location only when ready
-  let location;
-  try {
-    location = isReady ? useLocation() : null;
-  } catch {
-    location = null;
-  }
-
-  // Don't render until ready
+  // Don't render until ready - show a simple fallback
   if (!isReady) {
     return (
       <nav className="bg-white shadow-sm border-b">
