@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -15,8 +16,10 @@ interface AuthContextType {
   signUp: (email: string, password: string, metadata?: object) => Promise<{ error: any; data?: any }>;
   signOut: () => Promise<void>;
   signInWithProvider: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
+  signInWithSocial: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
   checkSession: () => Promise<boolean>;
   getMFAFactors: () => Promise<any[]>;
+  verifyMFA: (factorId: string, code: string, challengeId: string) => Promise<{ error: any; success?: boolean }>;
   updateUserPassword: (password: string) => Promise<{ success: boolean; error?: any }>;
   resetPassword: (email: string) => Promise<{ success: boolean; error?: any }>;
 }
@@ -155,6 +158,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  // Alias for signInWithProvider for backward compatibility
+  const signInWithSocial = signInWithProvider;
+
   const checkSession = async (): Promise<boolean> => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -173,6 +179,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
       console.error('Error getting MFA factors:', error);
       return [];
+    }
+  };
+
+  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+    try {
+      const { data, error } = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId,
+        code,
+      });
+      
+      if (error) {
+        return { error, success: false };
+      }
+      
+      return { error: null, success: true };
+    } catch (error) {
+      console.error('Error verifying MFA:', error);
+      return { error, success: false };
     }
   };
 
@@ -215,8 +240,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signUp,
     signOut,
     signInWithProvider,
+    signInWithSocial,
     checkSession,
     getMFAFactors,
+    verifyMFA,
     updateUserPassword,
     resetPassword,
   };
