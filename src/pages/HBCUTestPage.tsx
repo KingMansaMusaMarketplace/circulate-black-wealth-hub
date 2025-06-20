@@ -31,7 +31,7 @@ const HBCUTestPage: React.FC = () => {
             <div className="flex items-center gap-2">
               <span>HBCU Status:</span>
               <Badge variant="secondary">
-                {user?.user_metadata?.is_hbcu_verified ? 'Verified' : 'Not verified'}
+                {user?.user_metadata?.is_hbcu_member ? 'Verified' : 'Not verified'}
               </Badge>
             </div>
 
