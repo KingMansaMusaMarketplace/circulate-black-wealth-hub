@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Share2, Facebook, Twitter, Linkedin, Mail, Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,8 +11,11 @@ import {
 import { 
   Dialog, 
   DialogContent, 
+  DialogDescription,
+  DialogFooter,
   DialogHeader, 
-  DialogTitle 
+  DialogTitle,
+  DialogTrigger
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,11 +23,16 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 interface EnhancedSocialShareProps {
-  url: string;
-  title: string;
-  description: string;
+  url?: string;
+  title?: string;
+  description?: string;
   media?: string;
   className?: string;
+  businessId?: string;
+  businessName?: string;
+  businessDescription?: string;
+  businessImage?: string;
+  showStats?: boolean;
 }
 
 const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({ 
@@ -31,15 +40,25 @@ const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({
   title, 
   description, 
   media,
-  className = ''
+  className = '',
+  businessId,
+  businessName,
+  businessDescription,
+  businessImage,
+  showStats
 }) => {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const encodedUrl = encodeURIComponent(url);
-  const encodedTitle = encodeURIComponent(title);
-  const encodedDescription = encodeURIComponent(description);
+  // Use business props if provided, otherwise fall back to regular props
+  const shareUrl = url || (businessId ? `${window.location.origin}/business/${businessId}` : window.location.href);
+  const shareTitle = title || businessName || 'Check this out!';
+  const shareDescription = description || businessDescription || 'Found something interesting to share';
+
+  const encodedUrl = encodeURIComponent(shareUrl);
+  const encodedTitle = encodeURIComponent(shareTitle);
+  const encodedDescription = encodeURIComponent(shareDescription);
 
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
   const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
@@ -47,7 +66,7 @@ const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({
   const emailShareUrl = `mailto:?subject=${encodedTitle}&body=${encodedDescription}%0D%0A%0D%0ACheck it out: ${encodedUrl}`;
 
   const handleCopyClick = () => {
-    navigator.clipboard.writeText(url);
+    navigator.clipboard.writeText(shareUrl);
     setCopied(true);
     toast.success('Link copied to clipboard!');
     setTimeout(() => {
@@ -108,7 +127,7 @@ const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({
               <Label htmlFor="link" className="text-right">
                 Link
               </Label>
-              <Input id="link" value={url} className="col-span-3" readOnly />
+              <Input id="link" value={shareUrl} className="col-span-3" readOnly />
             </div>
           </div>
           <Button onClick={handleCopyClick} className="w-full">
