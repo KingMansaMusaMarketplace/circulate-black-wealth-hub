@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Separator } from '@/components/ui/separator';
 import { BadgeDollarSign, TrendingUp, MapPin } from 'lucide-react';
@@ -10,6 +10,29 @@ interface LoginContainerProps {
 }
 
 const LoginContainer: React.FC<LoginContainerProps> = ({ children, header }) => {
+  const [isReady, setIsReady] = useState(false);
+
+  // Ensure React is properly initialized before using framer-motion
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  // Don't render framer-motion components until React is ready
+  if (!isReady) {
+    return (
+      <div className="w-full max-w-md">
+        {header && (
+          <div className="text-center mb-6">
+            {header}
+          </div>
+        )}
+        <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-100">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

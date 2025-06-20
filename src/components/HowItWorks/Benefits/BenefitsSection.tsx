@@ -41,7 +41,13 @@ const BenefitsSection = () => {
 
   // Don't render until React is ready
   if (!isReady) {
-    return <div>Loading...</div>;
+    return (
+      <section id="benefits" className="py-16 bg-gray-50 relative">
+        <div className="container-custom px-4">
+          <div className="text-center">Loading...</div>
+        </div>
+      </section>
+    );
   }
 
   const customerBenefits: Benefit[] = [
