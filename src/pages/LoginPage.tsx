@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Navbar } from '@/components/navbar';
+import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer';
 import LoginContainer from '@/components/auth/LoginContainer';
 import LoginForm from '@/components/auth/LoginForm';

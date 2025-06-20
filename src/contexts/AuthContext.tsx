@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User as SupabaseUser, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 
 interface User extends SupabaseUser {
   user_metadata: {
@@ -51,29 +51,34 @@ export const useAuth = () => {
   return context;
 };
 
-// The actual AuthProvider implementation with hooks
 const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [userType, setUserType] = useState<'customer' | 'business' | 'sales_agent' | undefined>();
   const [authInitialized, setAuthInitialized] = useState(false);
-  const [databaseInitialized, setDatabaseInitialized] = useState(true);
+  const [databaseInitialized] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+
     const initAuth = async () => {
       try {
         console.log('AuthContext: Initializing auth');
         
-        // Set up auth state listener
+        // Set up auth state listener first
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
           async (event, currentSession) => {
+            if (!mounted) return;
+            
             console.log('Auth state changed:', event, !!currentSession);
             setSession(currentSession);
             setUser(currentSession?.user as User || null);
             
             if (currentSession?.user?.user_metadata?.user_type) {
               setUserType(currentSession.user.user_metadata.user_type);
+            } else {
+              setUserType(undefined);
             }
             
             setLoading(false);
@@ -83,8 +88,10 @@ const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({ childr
 
         // Check for existing session
         const { data: { session: currentSession } } = await supabase.auth.getSession();
-        console.log('Initial session check:', !!currentSession);
         
+        if (!mounted) return;
+        
+        console.log('Initial session check:', !!currentSession);
         setSession(currentSession);
         setUser(currentSession?.user as User || null);
         
@@ -95,15 +102,23 @@ const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({ childr
         setLoading(false);
         setAuthInitialized(true);
 
-        return () => subscription.unsubscribe();
+        return () => {
+          subscription.unsubscribe();
+        };
       } catch (error) {
         console.error('Error initializing auth:', error);
-        setLoading(false);
-        setAuthInitialized(true);
+        if (mounted) {
+          setLoading(false);
+          setAuthInitialized(true);
+        }
       }
     };
 
     initAuth();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
@@ -252,5 +267,4 @@ const AuthProviderComponent: React.FC<{ children: React.ReactNode }> = ({ childr
 };
 
 export const AuthProvider = AuthProviderComponent;
-
 export default AuthProvider;
