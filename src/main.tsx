@@ -4,12 +4,12 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Toaster } from 'sonner';
 import './index.css';
 
 // Import providers
 import { AuthProvider } from '@/contexts/AuthContext';
 import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
+import { ThemeProvider } from '@/components/ui/theme-provider';
 
 // Import the main App component
 import App from './App';
@@ -43,15 +43,16 @@ try {
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
         <HelmetProvider>
-          <AuthProvider>
-            <SubscriptionProvider>
-              <Router>
-                <App />
-              </Router>
-            </SubscriptionProvider>
-          </AuthProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <SubscriptionProvider>
+                <Router>
+                  <App />
+                </Router>
+              </SubscriptionProvider>
+            </AuthProvider>
+          </ThemeProvider>
         </HelmetProvider>
-        <Toaster />
       </QueryClientProvider>
     </React.StrictMode>
   );
