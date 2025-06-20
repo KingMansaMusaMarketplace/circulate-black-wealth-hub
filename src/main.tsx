@@ -5,6 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import './index.css';
 
 // Import providers
@@ -45,10 +46,12 @@ try {
         <HelmetProvider>
           <AuthProvider>
             <SubscriptionProvider>
-              <Router>
-                <App />
-                <Toaster />
-              </Router>
+              <TooltipProvider>
+                <Router>
+                  <App />
+                  <Toaster />
+                </Router>
+              </TooltipProvider>
             </SubscriptionProvider>
           </AuthProvider>
         </HelmetProvider>

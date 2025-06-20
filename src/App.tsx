@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 // Import pages
 import DirectoryPage from '@/pages/DirectoryPage';
@@ -11,14 +12,16 @@ console.log('App.tsx: Rendering App component');
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Routes>
-        <Route path="/" element={<DirectoryPage />} />
-        <Route path="/directory" element={<DirectoryPage />} />
-        <Route path="/enhanced-directory" element={<EnhancedDirectoryPage />} />
-        <Route path="/hbcu-test" element={<HBCUTestPage />} />
-      </Routes>
-    </div>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gray-50">
+        <Routes>
+          <Route path="/" element={<DirectoryPage />} />
+          <Route path="/directory" element={<DirectoryPage />} />
+          <Route path="/enhanced-directory" element={<EnhancedDirectoryPage />} />
+          <Route path="/hbcu-test" element={<HBCUTestPage />} />
+        </Routes>
+      </div>
+    </ErrorBoundary>
   );
 };
 
