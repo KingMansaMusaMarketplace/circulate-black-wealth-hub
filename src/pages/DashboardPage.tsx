@@ -1,4 +1,3 @@
-
 import React from 'react';
 import DashboardLayout from '@/components/dashboard/layout/DashboardLayout';
 import WelcomeGuide from '@/components/dashboard/WelcomeGuide';
@@ -118,9 +117,15 @@ const DashboardPage = () => {
 
   // Handle refresh functionality
   const handleRefresh = () => {
-    console.log('Refresh button clicked');
-    toast.success('Dashboard refreshed!');
-    window.location.reload();
+    console.log('Refresh button clicked - reloading page');
+    toast.success('Refreshing dashboard...', {
+      duration: 1000,
+    });
+    
+    // Use setTimeout to ensure toast is shown before reload
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   // Ensure userType is properly typed
