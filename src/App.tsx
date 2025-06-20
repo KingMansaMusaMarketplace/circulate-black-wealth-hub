@@ -1,12 +1,6 @@
 
 import { Suspense, lazy } from "react";
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
-import { Helmet, HelmetProvider } from 'react-helmet-async';
-import AuthProvider from "./contexts/AuthContext";
-import { SubscriptionProvider } from "./contexts/SubscriptionContext";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import HomePage from "./pages/HomePage";
 import DirectoryPage from "./pages/DirectoryPage";
@@ -46,73 +40,60 @@ import AboutPage from "./pages/AboutPage";
 // Add new lazy import
 const AppTestPage = lazy(() => import("./pages/AppTestPage"));
 
-const queryClient = new QueryClient();
-
 function App() {
   return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <SubscriptionProvider>
-            <TooltipProvider>
-              <Toaster />
-              <div className="min-h-screen bg-background font-sans antialiased">
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/directory" element={<DirectoryPage />} />
-                  <Route path="/business/:id" element={<BusinessPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/signup" element={<SignupPage />} />
-                  
-                  {/* Add specific signup routes */}
-                  <Route path="/signup/business" element={<BusinessSignupPage />} />
-                  <Route path="/signup/customer" element={<CustomerSignupPage />} />
-                  
-                  <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="/scanner" element={<QRScannerPage />} />
-                  <Route path="/loyalty" element={<LoyaltyPage />} />
-                  <Route path="/business-form" element={<BusinessFormPage />} />
-                  <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
-                  <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
-                  <Route path="/subscription" element={<SubscriptionPage />} />
-                  <Route path="/community" element={<CommunityPage />} />
-                  <Route path="/community-impact" element={<CommunityImpactPage />} />
-                  <Route path="/case-studies" element={<CaseStudiesPage />} />
-                  <Route path="/how-it-works" element={<HowItWorksPage />} />
-                  <Route path="/education" element={<EducationPage />} />
-                  <Route path="/mentorship" element={<MentorshipPage />} />
-                  <Route path="/sales-agent" element={<SalesAgentPage />} />
-                  <Route path="/help" element={<HelpPage />} />
-                  <Route path="/blog" element={<BlogPage />} />
-                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                  <Route path="/cookies" element={<CookiePolicyPage />} />
-                  <Route path="/terms" element={<TermsOfServicePage />} />
-                  <Route path="/faq" element={<FAQPage />} />
-                  <Route path="/system-test" element={<SystemTestPage />} />
-                  <Route path="/mobile-test" element={<MobileTestPage />} />
-                  <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
-                  <Route path="/signup-test" element={<SignupTestPage />} />
-                  <Route path="/new-password" element={<NewPasswordPage />} />
-                  <Route path="/password-reset-request" element={<PasswordResetRequestPage />} />
-                  <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
-                  
-                  {/* Add new test route */}
-                  <Route 
-                    path="/app-test" 
-                    element={
-                      <Suspense fallback={<LoadingSpinner />}>
-                        <AppTestPage />
-                      </Suspense>
-                    } 
-                  />
-                </Routes>
-              </div>
-            </TooltipProvider>
-          </SubscriptionProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
+    <div className="min-h-screen bg-background font-sans antialiased">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/directory" element={<DirectoryPage />} />
+        <Route path="/business/:id" element={<BusinessPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        
+        {/* Add specific signup routes */}
+        <Route path="/signup/business" element={<BusinessSignupPage />} />
+        <Route path="/signup/customer" element={<CustomerSignupPage />} />
+        
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/scanner" element={<QRScannerPage />} />
+        <Route path="/loyalty" element={<LoyaltyPage />} />
+        <Route path="/business-form" element={<BusinessFormPage />} />
+        <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
+        <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
+        <Route path="/subscription" element={<SubscriptionPage />} />
+        <Route path="/community" element={<CommunityPage />} />
+        <Route path="/community-impact" element={<CommunityImpactPage />} />
+        <Route path="/case-studies" element={<CaseStudiesPage />} />
+        <Route path="/how-it-works" element={<HowItWorksPage />} />
+        <Route path="/education" element={<EducationPage />} />
+        <Route path="/mentorship" element={<MentorshipPage />} />
+        <Route path="/sales-agent" element={<SalesAgentPage />} />
+        <Route path="/help" element={<HelpPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/cookies" element={<CookiePolicyPage />} />
+        <Route path="/terms" element={<TermsOfServicePage />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/system-test" element={<SystemTestPage />} />
+        <Route path="/mobile-test" element={<MobileTestPage />} />
+        <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
+        <Route path="/signup-test" element={<SignupTestPage />} />
+        <Route path="/new-password" element={<NewPasswordPage />} />
+        <Route path="/password-reset-request" element={<PasswordResetRequestPage />} />
+        <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
+        
+        {/* Add new test route */}
+        <Route 
+          path="/app-test" 
+          element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <AppTestPage />
+            </Suspense>
+          } 
+        />
+      </Routes>
+    </div>
   );
 }
 
