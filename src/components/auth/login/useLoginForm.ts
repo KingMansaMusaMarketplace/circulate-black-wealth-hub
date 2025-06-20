@@ -11,15 +11,27 @@ interface UseLoginFormProps {
 }
 
 export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [isReady, setIsReady] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showMFAVerification, setShowMFAVerification] = useState(false);
   const [mfaData, setMfaData] = useState<{factorId: string, challengeId: string} | null>(null);
   const [email, setEmailCache] = useState('');
 
+  // Safely get navigation and location only when router context is ready
+  let navigate: any = null;
+  let location: any = null;
+  
+  try {
+    if (isReady) {
+      navigate = useNavigate();
+      location = useLocation();
+    }
+  } catch (error) {
+    console.warn('Router hooks not available yet:', error);
+  }
+
   // Get the redirect path from location state or default to dashboard
-  const from = (location.state as any)?.from || '/dashboard';
+  const from = location?.state?.from || '/dashboard';
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -30,14 +42,21 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
     },
   });
 
+  // Initialize the component safely
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
   // Load remembered email on component mount
   useEffect(() => {
+    if (!isReady) return;
+    
     const rememberedEmail = localStorage.getItem('rememberedEmail');
     if (rememberedEmail) {
       form.setValue('email', rememberedEmail);
       form.setValue('rememberMe', true);
     }
-  }, [form]);
+  }, [form, isReady]);
 
   const handleFormSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
@@ -80,8 +99,13 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
       
       if (result.data?.session) {
         console.log("Login successful, navigating to:", from);
-        // Navigate to the page they were trying to access or dashboard
-        navigate(from, { replace: true });
+        // Navigate only if navigate is available
+        if (navigate) {
+          navigate(from, { replace: true });
+        } else {
+          // Fallback to window.location if navigate is not available
+          window.location.href = from;
+        }
       } else {
         console.warn("Login returned success but no session", result);
         // Handle edge case where login succeeds but no session is returned
