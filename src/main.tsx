@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from 'sonner';
 import './index.css';
 
@@ -46,16 +45,14 @@ try {
       <QueryClientProvider client={queryClient}>
         <HelmetProvider>
           <ThemeProvider>
-            <TooltipProvider>
-              <AuthProvider>
-                <SubscriptionProvider>
-                  <Router>
-                    <App />
-                    <Toaster />
-                  </Router>
-                </SubscriptionProvider>
-              </AuthProvider>
-            </TooltipProvider>
+            <AuthProvider>
+              <SubscriptionProvider>
+                <Router>
+                  <App />
+                  <Toaster />
+                </Router>
+              </SubscriptionProvider>
+            </AuthProvider>
           </ThemeProvider>
         </HelmetProvider>
       </QueryClientProvider>
