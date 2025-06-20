@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface SubscriptionInfo {
   subscribed: boolean;
@@ -26,10 +26,16 @@ export const useSubscription = () => {
   return context;
 };
 
-export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const SubscriptionProviderComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(false);
   const [subscriptionInfo, setSubscriptionInfo] = useState<SubscriptionInfo | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    // Ensure component is properly mounted before proceeding
+    setIsInitialized(true);
+  }, []);
 
   const refreshSubscription = async () => {
     setLoading(true);
@@ -61,11 +67,18 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
     openCustomerPortal,
   };
 
+  // Don't render children until properly initialized
+  if (!isInitialized) {
+    return null;
+  }
+
   return (
     <SubscriptionContext.Provider value={value}>
       {children}
     </SubscriptionContext.Provider>
   );
 };
+
+export const SubscriptionProvider = SubscriptionProviderComponent;
 
 export default SubscriptionProvider;
