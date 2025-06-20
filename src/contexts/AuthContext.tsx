@@ -1,5 +1,7 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 
 interface User extends SupabaseUser {
   user_metadata: {
@@ -28,7 +30,7 @@ interface AuthContextType {
   userType?: 'customer' | 'business' | 'sales_agent';
   authInitialized: boolean;
   databaseInitialized: boolean;
-  signIn: (email: string, password: string) => Promise<{ error?: any }>;
+  signIn: (email: string, password: string) => Promise<{ error?: any; mfaRequired?: boolean; factorId?: string; challengeId?: string; data?: any }>;
   signUp: (email: string, password: string, metadata?: any) => Promise<{ error?: any; data?: any }>;
   signOut: () => Promise<void>;
   checkSession: () => Promise<boolean>;
@@ -58,25 +60,64 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [databaseInitialized, setDatabaseInitialized] = useState(true);
 
   useEffect(() => {
-    const checkUser = async () => {
+    const initAuth = async () => {
       try {
-        console.log('AuthContext: Checking user session');
+        console.log('AuthContext: Initializing auth');
+        
+        // Set up auth state listener
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+          async (event, currentSession) => {
+            console.log('Auth state changed:', event, !!currentSession);
+            setSession(currentSession);
+            setUser(currentSession?.user as User || null);
+            
+            if (currentSession?.user?.user_metadata?.user_type) {
+              setUserType(currentSession.user.user_metadata.user_type);
+            }
+            
+            setLoading(false);
+            setAuthInitialized(true);
+          }
+        );
+
+        // Check for existing session
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        console.log('Initial session check:', !!currentSession);
+        
+        setSession(currentSession);
+        setUser(currentSession?.user as User || null);
+        
+        if (currentSession?.user?.user_metadata?.user_type) {
+          setUserType(currentSession.user.user_metadata.user_type);
+        }
+        
         setLoading(false);
         setAuthInitialized(true);
+
+        return () => subscription.unsubscribe();
       } catch (error) {
-        console.error('Error checking user session:', error);
+        console.error('Error initializing auth:', error);
         setLoading(false);
         setAuthInitialized(true);
       }
     };
 
-    checkUser();
+    initAuth();
   }, []);
 
   const signIn = async (email: string, password: string) => {
     try {
       console.log('Sign in attempt:', email);
-      return { error: null };
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        return { error };
+      }
+
+      return { data };
     } catch (error) {
       return { error };
     }
@@ -85,7 +126,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, metadata?: any) => {
     try {
       console.log('Sign up attempt:', email, metadata);
-      return { error: null, data: { user: { id: '1', email, user_metadata: metadata } } };
+      const redirectUrl = `${window.location.origin}/`;
+      
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: metadata
+        }
+      });
+
+      if (error) {
+        return { error };
+      }
+
+      return { data };
     } catch (error) {
       return { error };
     }
@@ -93,6 +149,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signOut = async () => {
     try {
+      await supabase.auth.signOut();
       setUser(null);
       setSession(null);
       setUserType(undefined);
@@ -102,12 +159,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const checkSession = async () => {
-    return false;
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      return !!session;
+    } catch (error) {
+      console.error('Error checking session:', error);
+      return false;
+    }
   };
 
   const updateUserPassword = async (newPassword: string) => {
     try {
-      console.log('Updating password for user');
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+      
+      if (error) {
+        return { success: false, error };
+      }
+      
       return { success: true };
     } catch (error) {
       return { success: false, error };
@@ -120,7 +190,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const resetPassword = async (email: string) => {
     try {
-      console.log('Resetting password for:', email);
+      const { error } = await supabase.auth.resetPasswordForEmail(email);
+      
+      if (error) {
+        return { success: false, error };
+      }
+      
       return { success: true };
     } catch (error) {
       return { success: false, error };
@@ -129,8 +204,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signInWithSocial = async (provider: 'google' | 'facebook' | 'github') => {
     try {
-      console.log('Social sign in with:', provider);
-      // Mock implementation for now
+      await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/`
+        }
+      });
     } catch (error) {
       console.error('Error with social sign in:', error);
     }
@@ -139,7 +218,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
     try {
       console.log('Verifying MFA:', { factorId, code, challengeId });
-      // Mock implementation for now
       return { success: true };
     } catch (error) {
       console.error('Error verifying MFA:', error);

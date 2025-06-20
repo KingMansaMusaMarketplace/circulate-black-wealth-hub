@@ -1,20 +1,9 @@
 
 import React, { createContext, useContext, useState } from 'react';
 
-interface SubscriptionInfo {
-  subscription_tier: string;
-  status: string;
-  current_period_end?: string;
-  subscription_end?: string;
-  subscribed?: boolean;
-}
-
 interface SubscriptionContextType {
-  currentTier: string;
-  isLoading: boolean;
-  subscriptionInfo: SubscriptionInfo | null;
-  refreshSubscription: () => Promise<void>;
-  openCustomerPortal: () => Promise<void>;
+  subscription: any;
+  loading: boolean;
 }
 
 const SubscriptionContext = createContext<SubscriptionContextType | undefined>(undefined);
@@ -28,28 +17,12 @@ export const useSubscription = () => {
 };
 
 export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [currentTier] = useState('free');
-  const [isLoading] = useState(false);
-  const [subscriptionInfo] = useState<SubscriptionInfo | null>({
-    subscription_tier: 'free',
-    status: 'active',
-    subscribed: false
-  });
-
-  const refreshSubscription = async () => {
-    console.log('Refreshing subscription info');
-  };
-
-  const openCustomerPortal = async () => {
-    console.log('Opening customer portal');
-  };
+  const [subscription, setSubscription] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const value = {
-    currentTier,
-    isLoading,
-    subscriptionInfo,
-    refreshSubscription,
-    openCustomerPortal
+    subscription,
+    loading,
   };
 
   return (
@@ -58,3 +31,5 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
     </SubscriptionContext.Provider>
   );
 };
+
+export default SubscriptionProvider;

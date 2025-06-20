@@ -1,66 +1,70 @@
 
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from '@/lib/supabase';
 
-type ToastProps = {
-  title: string;
-  description: string;
-  variant?: "default" | "destructive";
-};
-
-// Password reset request
 export const requestPasswordReset = async (
   email: string,
-  toast?: (props: ToastProps) => void
+  showToast?: (props: { title: string; description: string; variant?: 'default' | 'destructive' }) => void
 ) => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + '/reset-password',
+      redirectTo: `${window.location.origin}/reset-password`
     });
-    
-    if (error) throw error;
-    
-    toast?.({
-      title: "Password Reset Requested",
-      description: "Check your email for a link to reset your password.",
+
+    if (error) {
+      showToast?.({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive'
+      });
+      return { success: false, error };
+    }
+
+    showToast?.({
+      title: 'Success',
+      description: 'Password reset email sent'
     });
-    
-    return { success: true, error: null };
+
+    return { success: true };
   } catch (error: any) {
-    toast?.({
-      title: "Password Reset Failed",
-      description: error.message || "Failed to request password reset",
-      variant: "destructive"
+    showToast?.({
+      title: 'Error',
+      description: error.message || 'An unexpected error occurred',
+      variant: 'destructive'
     });
-    
     return { success: false, error };
   }
 };
 
-// Update password after reset
 export const updatePassword = async (
   newPassword: string,
-  toast?: (props: ToastProps) => void
+  showToast?: (props: { title: string; description: string; variant?: 'default' | 'destructive' }) => void
 ) => {
   try {
     const { error } = await supabase.auth.updateUser({
       password: newPassword
     });
-    
-    if (error) throw error;
-    
-    toast?.({
-      title: "Password Updated",
-      description: "Your password has been successfully updated.",
+
+    if (error) {
+      showToast?.({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive'
+      });
+      return { success: false, error };
+    }
+
+    showToast?.({
+      title: 'Success',
+      description: 'Password updated successfully'
     });
-    
-    return { success: true, error: null };
+
+    return { success: true };
   } catch (error: any) {
-    toast?.({
-      title: "Password Update Failed",
-      description: error.message || "Failed to update password",
-      variant: "destructive"
+    showToast?.({
+      title: 'Error',
+      description: error.message || 'An unexpected error occurred',
+      variant: 'destructive'
     });
-    
     return { success: false, error };
   }
 };
