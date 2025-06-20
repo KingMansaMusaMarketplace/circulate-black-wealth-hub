@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User as SupabaseUser, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -50,29 +51,32 @@ export const useAuth = () => {
   return context;
 };
 
-// Safe AuthProvider that ensures React is ready before using hooks
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Initialize state with null to prevent hook calls if React isn't ready
-  const [initialized, setInitialized] = useState(false);
-  
-  // Check if React context is available before proceeding
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setInitialized(true);
-    }, 0);
-    
-    return () => clearTimeout(timer);
-  }, []);
-  
-  // Don't render children until React is fully initialized
-  if (!initialized) {
-    return <div>Initializing...</div>;
+// Safe class-based component that doesn't use hooks until React is ready
+class SafeAuthProvider extends React.Component<
+  { children: React.ReactNode },
+  { isReady: boolean }
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { isReady: false };
   }
-  
-  return <AuthProviderInner>{children}</AuthProviderInner>;
-};
 
-// The actual AuthProvider implementation
+  componentDidMount() {
+    // Use a timeout to ensure React is fully initialized
+    setTimeout(() => {
+      this.setState({ isReady: true });
+    }, 0);
+  }
+
+  render() {
+    if (!this.state.isReady) {
+      return <div>Initializing...</div>;
+    }
+    return <AuthProviderInner>{this.props.children}</AuthProviderInner>;
+  }
+}
+
+// The actual AuthProvider implementation with hooks
 const AuthProviderInner: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -271,5 +275,8 @@ const AuthProviderInner: React.FC<{ children: React.ReactNode }> = ({ children }
     </AuthContext.Provider>
   );
 };
+
+// Export the safe class-based provider
+export const AuthProvider = SafeAuthProvider;
 
 export default AuthProvider;
