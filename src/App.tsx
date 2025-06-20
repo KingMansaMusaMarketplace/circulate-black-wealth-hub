@@ -14,7 +14,7 @@ import DashboardPage from '@/pages/DashboardPage';
 console.log('App.tsx: Starting App component render');
 
 const App: React.FC = () => {
-  console.log('App: Component rendering - React version:', React.version);
+  console.log('App: Component rendering');
   
   return (
     <ErrorBoundary>

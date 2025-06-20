@@ -15,7 +15,6 @@ import { ThemeProvider } from '@/components/ui/theme-provider';
 // Import the main App component
 import App from './App';
 
-// Add console log to check if main.tsx is loading
 console.log('main.tsx: Starting application initialization');
 
 // Create a client for React Query
@@ -51,13 +50,13 @@ try {
               <SubscriptionProvider>
                 <Router>
                   <App />
+                  <Toaster />
                 </Router>
               </SubscriptionProvider>
             </AuthProvider>
           </ThemeProvider>
         </HelmetProvider>
       </QueryClientProvider>
-      <Toaster />
     </React.StrictMode>
   );
   console.log('main.tsx: React app rendered successfully');
