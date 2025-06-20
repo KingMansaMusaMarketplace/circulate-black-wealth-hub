@@ -2,6 +2,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 // Import pages
 import DirectoryPage from '@/pages/DirectoryPage';
@@ -18,16 +19,18 @@ const App: React.FC = () => {
   
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gray-50">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/directory" element={<DirectoryPage />} />
-          <Route path="/enhanced-directory" element={<EnhancedDirectoryPage />} />
-          <Route path="/hbcu-test" element={<HBCUTestPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-        </Routes>
-      </div>
+      <TooltipProvider delayDuration={300}>
+        <div className="min-h-screen bg-gray-50">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/directory" element={<DirectoryPage />} />
+            <Route path="/enhanced-directory" element={<EnhancedDirectoryPage />} />
+            <Route path="/hbcu-test" element={<HBCUTestPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+          </Routes>
+        </div>
+      </TooltipProvider>
     </ErrorBoundary>
   );
 };

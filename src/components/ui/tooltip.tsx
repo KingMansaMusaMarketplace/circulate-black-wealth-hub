@@ -4,7 +4,29 @@ import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@/lib/utils"
 
-const TooltipProvider = React.memo(TooltipPrimitive.Provider)
+// Safe wrapper for TooltipProvider that only renders when React is ready
+const SafeTooltipProvider = React.memo(({ children, ...props }: React.ComponentProps<typeof TooltipPrimitive.Provider>) => {
+  const [isReady, setIsReady] = React.useState(false);
+  
+  React.useEffect(() => {
+    setIsReady(true);
+  }, []);
+  
+  if (!isReady) {
+    return <>{children}</>;
+  }
+  
+  return (
+    <TooltipPrimitive.Provider {...props}>
+      {children}
+    </TooltipPrimitive.Provider>
+  );
+});
+
+SafeTooltipProvider.displayName = "SafeTooltipProvider";
+
+// Export the safe version as TooltipProvider
+const TooltipProvider = SafeTooltipProvider;
 
 const Tooltip = TooltipPrimitive.Root
 

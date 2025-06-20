@@ -11,7 +11,6 @@ import './index.css';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 import { ThemeProvider } from '@/components/ui/theme-provider';
-import { TooltipProvider } from '@/components/ui/tooltip';
 
 // Import the main App component
 import App from './App';
@@ -47,16 +46,14 @@ try {
       <QueryClientProvider client={queryClient}>
         <HelmetProvider>
           <ThemeProvider>
-            <TooltipProvider delayDuration={300}>
-              <AuthProvider>
-                <SubscriptionProvider>
-                  <Router>
-                    <App />
-                    <Toaster />
-                  </Router>
-                </SubscriptionProvider>
-              </AuthProvider>
-            </TooltipProvider>
+            <AuthProvider>
+              <SubscriptionProvider>
+                <Router>
+                  <App />
+                  <Toaster />
+                </Router>
+              </SubscriptionProvider>
+            </AuthProvider>
           </ThemeProvider>
         </HelmetProvider>
       </QueryClientProvider>
