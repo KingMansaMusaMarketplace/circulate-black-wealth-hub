@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,6 +6,27 @@ import { Badge } from '@/components/ui/badge';
 import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle } from 'lucide-react';
 
 const Hero = () => {
+  const [isReady, setIsReady] = useState(false);
+
+  // Ensure React is properly initialized before proceeding
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  // Don't render until React is ready
+  if (!isReady) {
+    return (
+      <section className="relative bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue overflow-hidden min-h-screen">
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="relative container mx-auto px-4 py-16">
+          <div className="text-center text-white">
+            <div className="text-4xl font-bold mb-4">Loading...</div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="relative bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue overflow-hidden min-h-screen">
       <div className="absolute inset-0 bg-black/20" />

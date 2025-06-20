@@ -1,5 +1,4 @@
-
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer';
@@ -21,10 +20,40 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { BusinessFilters } from '@/lib/api/directory/types';
 
 const EnhancedDirectoryPage: React.FC = () => {
+  const [isReady, setIsReady] = useState(false);
   const [viewMode, setViewMode] = useState<'recommendations' | 'grid' | 'list' | 'map'>('recommendations');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Ensure React is properly initialized before proceeding
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  // Don't render until React is ready
+  if (!isReady) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <div className="bg-white shadow-sm border-b">
+          <div className="container mx-auto px-4">
+            <div className="flex justify-between items-center h-16">
+              <div className="text-xl font-bold text-mansablue">
+                Mansa Musa Marketplace
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex-grow bg-gray-50 py-8">
+          <div className="container mx-auto px-4">
+            <div className="text-center text-gray-500">Loading directory...</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Now safely use hooks after React is ready
   const isMobile = useIsMobile();
   
   // Hooks for personalization
