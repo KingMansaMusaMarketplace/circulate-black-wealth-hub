@@ -54,11 +54,11 @@ const SearchSuggestions: React.FC<SearchSuggestionsProps> = ({
           <div className="space-y-1">
             {recentSearches.map((search, index) => (
               <button
-                key={`${search.search_term}-${index}`}
-                onClick={() => handleSearchClick(search.search_term)}
+                key={`${search.term}-${index}`}
+                onClick={() => handleSearchClick(search.term)}
                 className="w-full text-left p-2 rounded hover:bg-gray-50 transition-colors"
               >
-                <div className="text-sm">{search.search_term}</div>
+                <div className="text-sm">{search.term}</div>
                 {search.category && (
                   <div className="text-xs text-gray-500 mt-1">
                     in {search.category}
