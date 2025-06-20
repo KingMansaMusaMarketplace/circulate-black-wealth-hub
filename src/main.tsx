@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'sonner';
 import './index.css';
 
 // Import providers
@@ -48,6 +49,7 @@ try {
               <SubscriptionProvider>
                 <Router>
                   <App />
+                  <Toaster />
                 </Router>
               </SubscriptionProvider>
             </AuthProvider>

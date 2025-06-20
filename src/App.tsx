@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Toaster } from 'sonner';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
 // Import pages
@@ -24,7 +23,6 @@ const App: React.FC = () => {
           <Route path="/enhanced-directory" element={<EnhancedDirectoryPage />} />
           <Route path="/hbcu-test" element={<HBCUTestPage />} />
         </Routes>
-        <Toaster />
       </div>
     </ErrorBoundary>
   );
