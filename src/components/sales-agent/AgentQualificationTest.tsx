@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { getTestQuestions, submitTestAttempt, updateApplicationAfterTest } from '@/lib/api/sales-agent-api';
@@ -17,6 +18,7 @@ interface AgentQualificationTestProps {
 
 const AgentQualificationTest: React.FC<AgentQualificationTestProps> = ({ applicationId, onComplete }) => {
   const { user } = useAuth();
+  const [isReady, setIsReady] = useState(false);
   const [loading, setLoading] = useState(true);
   const [questions, setQuestions] = useState<TestQuestion[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -25,7 +27,14 @@ const AgentQualificationTest: React.FC<AgentQualificationTestProps> = ({ applica
   const [testCompleted, setTestCompleted] = useState(false);
   const [results, setResults] = useState<{score: number, passed: boolean}>({score: 0, passed: false});
   
+  // Ensure React is properly initialized before proceeding
   useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isReady) return;
+    
     const loadQuestions = async () => {
       try {
         const data = await getTestQuestions();
@@ -39,7 +48,7 @@ const AgentQualificationTest: React.FC<AgentQualificationTestProps> = ({ applica
     };
     
     loadQuestions();
-  }, []);
+  }, [isReady]);
   
   const handleAnswer = (questionId: string, answer: string) => {
     setAnswers(prev => ({
@@ -105,8 +114,8 @@ const AgentQualificationTest: React.FC<AgentQualificationTestProps> = ({ applica
     }
   };
   
-  
-  if (loading) {
+  // Don't render until React is ready
+  if (!isReady || loading) {
     return (
       <Card className="w-full max-w-2xl mx-auto">
         <CardContent className="pt-6">
