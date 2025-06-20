@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { TooltipProvider } from '@/components/ui/tooltip';
 
 // Import pages
 import DirectoryPage from '@/pages/DirectoryPage';
