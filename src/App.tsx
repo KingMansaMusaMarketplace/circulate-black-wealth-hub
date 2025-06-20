@@ -8,7 +8,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import DirectoryPage from '@/pages/DirectoryPage';
 import EnhancedDirectoryPage from '@/pages/EnhancedDirectoryPage';
 import HBCUTestPage from '@/pages/HBCUTestPage';
-import HomePage from '@/pages/HomePage';
+import Index from '@/pages/Index'; // This is the one with Hero component
 import LoginPage from '@/pages/LoginPage';
 import DashboardPage from '@/pages/DashboardPage';
 
@@ -22,7 +22,7 @@ const App: React.FC = () => {
       <TooltipProvider delayDuration={300}>
         <div className="min-h-screen bg-gray-50">
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<Index />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/directory" element={<DirectoryPage />} />
             <Route path="/enhanced-directory" element={<EnhancedDirectoryPage />} />
