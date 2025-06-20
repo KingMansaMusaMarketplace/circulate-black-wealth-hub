@@ -18,3 +18,16 @@ export interface ToastProps {
   description: string;
   variant?: 'default' | 'destructive';
 }
+
+export interface Factor {
+  id: string;
+  type: string;
+  status: string;
+  friendly_name?: string;
+}
+
+export interface MFAChallenge {
+  id: string;
+  factorId: string;
+  expiresAt: string;
+}
