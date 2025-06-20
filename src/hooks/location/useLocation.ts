@@ -1,166 +1,56 @@
 
-import { useState, useEffect, useCallback } from 'react';
-import { Geolocation, Position } from '@capacitor/geolocation';
-import { useCapacitor } from '@/hooks/use-capacitor';
-import { LocationData, UseLocationOptions, LocationPermissionStatus } from './types';
-import { checkLocationPermission, requestLocationPermission } from './permissions';
-import { getCachedLocation, isCacheValid, cacheLocation, DEFAULT_CACHE_DURATION, clearLocationCache } from './cache';
-import { getFallbackLocation } from './fallback';
+import { useState, useCallback } from 'react';
 
-/**
- * Hook for handling location functionality with native iOS/Android optimizations
- */
-export function useLocation(options: UseLocationOptions = {}) {
+export interface LocationData {
+  lat: number;
+  lng: number;
+  accuracy?: number;
+}
+
+export function useLocation() {
   const [location, setLocation] = useState<LocationData | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [permissionStatus, setPermissionStatus] = useState<LocationPermissionStatus>('prompt');
-  const { isNative, platform } = useCapacitor();
-  
-  // Merge default options with passed options
-  const {
-    cacheDuration = DEFAULT_CACHE_DURATION,
-    enableHighAccuracy = true,
-    timeout = 10000,
-    maximumAge = 0,
-    skipPermissionCheck = false
-  } = options;
-  
-  // Check permission status on mount and when options change
-  useEffect(() => {
-    const checkPermission = async () => {
-      const status = await checkLocationPermission();
-      setPermissionStatus(status);
-    };
-    
-    if (!skipPermissionCheck) {
-      checkPermission();
-    }
-  }, [skipPermissionCheck]);
 
-  // Get the current position using Capacitor's Geolocation API
   const getCurrentPosition = useCallback(async (forceRefresh = false): Promise<LocationData | null> => {
+    if (location && !forceRefresh) {
+      return location;
+    }
+
     setLoading(true);
     setError(null);
-    
+
     try {
-      // Check if we can use cached location
-      if (!forceRefresh) {
-        const cachedLoc = getCachedLocation();
-        if (isCacheValid(cachedLoc, cacheDuration)) {
-          setLocation(cachedLoc);
-          setLoading(false);
-          return cachedLoc;
-        }
-      }
-      
-      // Check for location permission if needed
-      if (!skipPermissionCheck) {
-        const currentPermissionStatus = await checkLocationPermission();
-        setPermissionStatus(currentPermissionStatus);
-        
-        if (currentPermissionStatus !== 'granted') {
-          const granted = await requestLocationPermission();
-          setPermissionStatus(granted ? 'granted' : 'denied');
-          
-          if (!granted) {
-            throw new Error('Location permission denied');
-          }
-        }
-      }
-      
-      // Get current position using Capacitor
-      const geoOptions = {
-        enableHighAccuracy,
-        timeout,
-        maximumAge
-      };
-      
-      const position: Position = await Geolocation.getCurrentPosition(geoOptions);
-      
-      if (!position || !position.coords) {
-        throw new Error('Failed to get position data');
-      }
-      
-      const locationData: LocationData = {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 300000 // 5 minutes
+        });
+      });
+
+      const newLocation: LocationData = {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
-        accuracy: position.coords.accuracy,
-        timestamp: Date.now()
+        accuracy: position.coords.accuracy
       };
-      
-      // Update state and cache the result
-      setLocation(locationData);
-      cacheLocation(locationData);
-      return locationData;
+
+      setLocation(newLocation);
+      return newLocation;
     } catch (err: any) {
-      console.error('Error getting location:', err);
-      
-      // Different error handling for iOS vs Android
-      if (isNative) {
-        if (platform === 'ios') {
-          const iosError = err.message?.includes('denied') 
-            ? 'Please enable location access in your iOS Settings app for Mansa Musa Marketplace'
-            : 'Unable to determine your location';
-          setError(iosError);
-        } else {
-          setError('Location error: ' + (err.message || 'Unknown error'));
-        }
-      } else {
-        setError('Unable to access your location. Please check your browser settings.');
-      }
-      
-      // Try fallback location
-      const fallbackLoc = await getFallbackLocation();
-      if (fallbackLoc) {
-        setLocation(fallbackLoc);
-        return fallbackLoc;
-      }
-      
+      const errorMessage = err.code === 1 ? 'Location access denied' : 'Unable to get location';
+      setError(errorMessage);
+      console.error('Location error:', err);
       return null;
     } finally {
       setLoading(false);
     }
-  }, [cacheDuration, enableHighAccuracy, timeout, maximumAge, skipPermissionCheck, isNative, platform]);
-  
-  // Request location permission explicitly
-  const requestPermission = useCallback(async (): Promise<boolean> => {
-    try {
-      const granted = await requestLocationPermission();
-      if (granted) {
-        setPermissionStatus('granted');
-      } else {
-        setPermissionStatus('denied');
-      }
-      return granted;
-    } catch (error) {
-      console.error('Error requesting permission:', error);
-      return false;
-    }
-  }, []);
-  
-  // Clear location cache
-  const clearCache = useCallback(() => {
-    clearLocationCache();
-    setLocation(null);
-  }, []);
-
-  // Get location on mount if autoGetLocation is true
-  useEffect(() => {
-    // Always check for cached location first
-    const cachedLocation = getCachedLocation();
-    if (isCacheValid(cachedLocation, cacheDuration)) {
-      setLocation(cachedLocation);
-    }
-  }, [cacheDuration]);
+  }, [location]);
 
   return {
     location,
-    loading,
-    error,
-    permissionStatus,
     getCurrentPosition,
-    requestPermission,
-    clearCache
+    loading,
+    error
   };
 }
