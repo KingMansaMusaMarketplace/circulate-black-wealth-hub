@@ -12,6 +12,7 @@ interface User extends SupabaseUser {
     is_admin?: boolean;
     is_customer?: boolean;
     is_agent?: boolean;
+    is_hbcu_member?: boolean;
     avatar_url?: string;
     avatarUrl?: string;
   };
