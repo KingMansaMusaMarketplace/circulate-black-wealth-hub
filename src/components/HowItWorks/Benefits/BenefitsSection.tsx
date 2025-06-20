@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -9,12 +8,20 @@ import NearbyBusinessesFeature from './NearbyBusinessesFeature';
 import { Benefit } from './BenefitCard';
 
 const BenefitsSection = () => {
+  const [isReady, setIsReady] = useState(false);
   const [activeTab, setActiveTab] = useState<'customers' | 'businesses'>('customers');
   const [expandedBenefit, setExpandedBenefit] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Ensure React is properly initialized before proceeding
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
   // Intersection Observer to detect when section enters viewport
   useEffect(() => {
+    if (!isReady) return;
+    
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -30,7 +37,12 @@ const BenefitsSection = () => {
     return () => {
       if (section) observer.unobserve(section);
     };
-  }, []);
+  }, [isReady]);
+
+  // Don't render until React is ready
+  if (!isReady) {
+    return <div>Loading...</div>;
+  }
 
   const customerBenefits: Benefit[] = [
     {

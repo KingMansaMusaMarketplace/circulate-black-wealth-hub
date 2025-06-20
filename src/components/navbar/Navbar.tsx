@@ -1,9 +1,39 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const Navbar: React.FC = () => {
+  const [isReady, setIsReady] = useState(false);
+  
+  // Ensure React and router context are ready
+  useEffect(() => {
+    setIsReady(true);
+  }, []);
+
+  // Safely get location only when ready
+  let location;
+  try {
+    location = isReady ? useLocation() : null;
+  } catch {
+    location = null;
+  }
+
+  // Don't render until ready
+  if (!isReady) {
+    return (
+      <nav className="bg-white shadow-sm border-b">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center h-16">
+            <div className="text-xl font-bold text-mansablue">
+              Mansa Musa Marketplace
+            </div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
   return (
     <nav className="bg-white shadow-sm border-b">
       <div className="container mx-auto px-4">
