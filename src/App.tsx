@@ -7,6 +7,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import DirectoryPage from '@/pages/DirectoryPage';
 import EnhancedDirectoryPage from '@/pages/EnhancedDirectoryPage';
 import HBCUTestPage from '@/pages/HBCUTestPage';
+import HomePage from '@/pages/HomePage';
 
 console.log('App.tsx: Rendering App component');
 
@@ -15,7 +16,7 @@ const App: React.FC = () => {
     <ErrorBoundary>
       <div className="min-h-screen bg-gray-50">
         <Routes>
-          <Route path="/" element={<DirectoryPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/directory" element={<DirectoryPage />} />
           <Route path="/enhanced-directory" element={<EnhancedDirectoryPage />} />
           <Route path="/hbcu-test" element={<HBCUTestPage />} />
