@@ -35,6 +35,8 @@ interface AuthContextType {
   updateUserPassword?: (newPassword: string) => Promise<{ success: boolean; error?: any }>;
   getMFAFactors?: () => Promise<any[]>;
   resetPassword?: (email: string) => Promise<{ success: boolean; error?: any }>;
+  signInWithSocial: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
+  verifyMFA: (factorId: string, code: string, challengeId: string) => Promise<{ success: boolean; error?: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -125,6 +127,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const signInWithSocial = async (provider: 'google' | 'facebook' | 'github') => {
+    try {
+      console.log('Social sign in with:', provider);
+      // Mock implementation for now
+    } catch (error) {
+      console.error('Error with social sign in:', error);
+    }
+  };
+
+  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+    try {
+      console.log('Verifying MFA:', { factorId, code, challengeId });
+      // Mock implementation for now
+      return { success: true };
+    } catch (error) {
+      console.error('Error verifying MFA:', error);
+      return { success: false, error };
+    }
+  };
+
   const value = {
     user,
     session,
@@ -138,7 +160,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     checkSession,
     updateUserPassword,
     getMFAFactors,
-    resetPassword
+    resetPassword,
+    signInWithSocial,
+    verifyMFA
   };
 
   return (

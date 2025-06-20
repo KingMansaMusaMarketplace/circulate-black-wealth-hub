@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { getTestQuestions, submitTestAttempt, updateApplicationAfterTest } from '@/lib/api/sales-agent-api';
 import { TestQuestion } from '@/types/sales-agent';
 import { Button } from '@/components/ui/button';
