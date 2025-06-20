@@ -47,12 +47,12 @@ try {
             <SubscriptionProvider>
               <Router>
                 <App />
-                <Toaster />
               </Router>
             </SubscriptionProvider>
           </AuthProvider>
         </HelmetProvider>
       </QueryClientProvider>
+      <Toaster />
     </React.StrictMode>
   );
   console.log('main.tsx: React app rendered successfully');
