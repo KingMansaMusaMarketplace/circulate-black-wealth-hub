@@ -51,8 +51,8 @@ try {
             </SubscriptionProvider>
           </AuthProvider>
         </HelmetProvider>
+        <Toaster />
       </QueryClientProvider>
-      <Toaster />
     </React.StrictMode>
   );
   console.log('main.tsx: React app rendered successfully');
