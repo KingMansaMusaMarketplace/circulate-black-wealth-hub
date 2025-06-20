@@ -43,20 +43,20 @@ try {
   
   root.render(
     <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <HelmetProvider>
-          <ThemeProvider>
-            <AuthProvider>
-              <SubscriptionProvider>
-                <Router>
+      <Router>
+        <QueryClientProvider client={queryClient}>
+          <HelmetProvider>
+            <ThemeProvider>
+              <AuthProvider>
+                <SubscriptionProvider>
                   <App />
                   <Toaster />
-                </Router>
-              </SubscriptionProvider>
-            </AuthProvider>
-          </ThemeProvider>
-        </HelmetProvider>
-      </QueryClientProvider>
+                </SubscriptionProvider>
+              </AuthProvider>
+            </ThemeProvider>
+          </HelmetProvider>
+        </QueryClientProvider>
+      </Router>
     </React.StrictMode>
   );
   console.log('main.tsx: React app rendered successfully');

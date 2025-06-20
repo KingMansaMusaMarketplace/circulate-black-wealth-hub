@@ -1,31 +1,9 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const Navbar: React.FC = () => {
-  const [isReady, setIsReady] = useState(false);
-  
-  // Ensure React and router context are ready
-  useEffect(() => {
-    setIsReady(true);
-  }, []);
-
-  // Don't render until ready - show a simple fallback
-  if (!isReady) {
-    return (
-      <nav className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center h-16">
-            <div className="text-xl font-bold text-mansablue">
-              Mansa Musa Marketplace
-            </div>
-          </div>
-        </div>
-      </nav>
-    );
-  }
-
   return (
     <nav className="bg-white shadow-sm border-b">
       <div className="container mx-auto px-4">
