@@ -11,10 +11,10 @@ import HomePage from '@/pages/HomePage';
 import LoginPage from '@/pages/LoginPage';
 import DashboardPage from '@/pages/DashboardPage';
 
-console.log('App.tsx: Rendering App component');
+console.log('App.tsx: Starting App component render');
 
 const App: React.FC = () => {
-  console.log('App: Component rendering');
+  console.log('App: Component rendering - React version:', React.version);
   
   return (
     <ErrorBoundary>
