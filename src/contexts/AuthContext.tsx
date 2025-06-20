@@ -23,6 +23,8 @@ interface AuthContextType {
   getMFAFactors: () => Promise<any[]>;
   resetPassword: (email: string) => Promise<any>;
   updateUserPassword: (password: string) => Promise<any>;
+  signInWithSocial: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
+  verifyMFA: (factorId: string, code: string, challengeId: string) => Promise<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -105,6 +107,43 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error) {
       console.error('Error signing up:', error);
       return { error };
+    }
+  };
+
+  const signInWithSocial = async (provider: 'google' | 'facebook' | 'github') => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/`
+        }
+      });
+      
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error('Error signing in with social:', error);
+      throw error;
+    }
+  };
+
+  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+    try {
+      const { data, error } = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId,
+        code
+      });
+      
+      if (error) {
+        return { success: false, error };
+      }
+      
+      return { success: true, data };
+    } catch (error) {
+      console.error('MFA verification error:', error);
+      return { success: false, error };
     }
   };
 
@@ -261,6 +300,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     getMFAFactors,
     resetPassword,
     updateUserPassword,
+    signInWithSocial,
+    verifyMFA,
   };
 
   return (
