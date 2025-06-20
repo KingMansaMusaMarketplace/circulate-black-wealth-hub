@@ -12,16 +12,16 @@ console.log('App.tsx: Rendering App component');
 
 const App: React.FC = () => {
   return (
-    <TooltipProvider>
-      <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
+      <TooltipProvider>
         <Routes>
           <Route path="/" element={<DirectoryPage />} />
           <Route path="/directory" element={<DirectoryPage />} />
           <Route path="/enhanced-directory" element={<EnhancedDirectoryPage />} />
           <Route path="/hbcu-test" element={<HBCUTestPage />} />
         </Routes>
-      </div>
-    </TooltipProvider>
+      </TooltipProvider>
+    </div>
   );
 };
 

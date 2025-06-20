@@ -41,8 +41,8 @@ try {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-      <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+        <HelmetProvider>
           <AuthProvider>
             <SubscriptionProvider>
               <Router>
@@ -51,8 +51,8 @@ try {
               </Router>
             </SubscriptionProvider>
           </AuthProvider>
-        </QueryClientProvider>
-      </HelmetProvider>
+        </HelmetProvider>
+      </QueryClientProvider>
     </React.StrictMode>
   );
   console.log('main.tsx: React app rendered successfully');
