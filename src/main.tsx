@@ -38,7 +38,8 @@ if (!rootElement) {
 }
 
 try {
-  ReactDOM.createRoot(rootElement).render(
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
     <React.StrictMode>
       <HelmetProvider>
         <QueryClientProvider client={queryClient}>
