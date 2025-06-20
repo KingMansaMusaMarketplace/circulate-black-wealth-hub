@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/auth/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import { getFeatureAccess, getTierDisplayName, type SubscriptionTier } from '@/lib/services/subscription-tiers';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';

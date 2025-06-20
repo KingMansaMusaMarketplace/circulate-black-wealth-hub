@@ -1,4 +1,5 @@
 
 // Export the main auth context and provider
-export { default as AuthProvider, useAuth } from '../AuthContext';
-export type { AuthUser } from '../AuthContext';
+export { AuthProvider } from './AuthProvider';
+export { useAuth } from './AuthContext';
+export * from './types';
