@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { format, parseISO, isFuture, isPast } from 'date-fns';
 
