@@ -38,24 +38,35 @@ if (!rootElement) {
   throw new Error('Root element not found');
 }
 
+// Simple app structure without complex nesting
+const AppWithProviders = () => {
+  console.log('AppWithProviders: Rendering');
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <ThemeProvider>
+          <AuthProvider>
+            <SubscriptionProvider>
+              <Router>
+                <App />
+              </Router>
+            </SubscriptionProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </HelmetProvider>
+    </QueryClientProvider>
+  );
+};
+
 try {
   const root = ReactDOM.createRoot(rootElement);
+  console.log('main.tsx: React root created');
+  
   root.render(
     <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <HelmetProvider>
-          <ThemeProvider>
-            <AuthProvider>
-              <SubscriptionProvider>
-                <Router>
-                  <App />
-                  <Toaster />
-                </Router>
-              </SubscriptionProvider>
-            </AuthProvider>
-          </ThemeProvider>
-        </HelmetProvider>
-      </QueryClientProvider>
+      <AppWithProviders />
+      <Toaster />
     </React.StrictMode>
   );
   console.log('main.tsx: React app rendered successfully');
