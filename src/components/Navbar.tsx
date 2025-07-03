@@ -1,4 +1,6 @@
 
 // Re-export the Navbar component from the navbar directory
-export { default as Navbar } from './navbar/Navbar';
-export { default } from './navbar/Navbar';
+import NavbarComponent from './navbar/Navbar';
+
+export { NavbarComponent as Navbar };
+export default NavbarComponent;
