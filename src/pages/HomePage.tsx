@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
-import { Navbar } from '@/components/navbar';
+import Navbar from '@/components/navbar/Navbar';
 import HomePageSections from '@/components/HomePage/HomePageSections';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
