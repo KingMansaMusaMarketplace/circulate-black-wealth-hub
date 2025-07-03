@@ -2,13 +2,13 @@
 # Xcode Setup Checklist for App Store
 
 ## 1. Project Settings
-- [ ] Bundle Identifier: `app.lovable.circulateblackwealthhub`
+- [ ] Bundle Identifier: `com.mansamusamarketplace.app`
 - [ ] Display Name: "Mansa Musa Marketplace"
 - [ ] Version: 1.0.0
 - [ ] Build Number: 1
 
 ## 2. Signing & Capabilities
-- [ ] Apple Developer Team selected
+- [ ] Apple Developer Team selected (Team ID: M7KLSAJR69)
 - [ ] Automatically manage signing enabled
 - [ ] Provisioning profile configured
 - [ ] Required capabilities added:

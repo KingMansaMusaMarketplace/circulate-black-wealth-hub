@@ -3,7 +3,7 @@
 
 ## Basic Information
 - **App Name:** Mansa Musa Marketplace
-- **Bundle ID:** app.lovable.circulateblackwealthhub
+- **Bundle ID:** com.mansamusamarketplace.app
 - **SKU:** mansa-musa-marketplace-2024
 - **Category:** Business
 - **Secondary Category:** Shopping
