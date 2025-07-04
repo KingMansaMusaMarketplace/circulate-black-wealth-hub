@@ -17,6 +17,7 @@ import LoyaltyPage from '@/pages/LoyaltyPage';
 import CommunityImpactPage from '@/pages/CommunityImpactPage';
 import BusinessDetailPage from '@/pages/BusinessDetailPage';
 import ProfilePage from '@/pages/ProfilePage';
+import BlogPage from '@/pages/BlogPage';
 import NotFound from '@/pages/NotFound';
 
 // Import auth components
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/business-form" element={<BusinessFormPage />} />
             <Route path="/community-impact" element={<CommunityImpactPage />} />
+            <Route path="/blog" element={<BlogPage />} />
             
             {/* Protected Routes */}
             <Route path="/scanner" element={
