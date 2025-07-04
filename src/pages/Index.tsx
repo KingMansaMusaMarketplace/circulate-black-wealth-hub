@@ -1,15 +1,10 @@
 
 import React from 'react';
-import { Navbar } from '@/components/navbar';
-import Hero from '../components/Hero';
+import { Navigate } from 'react-router-dom';
 
-const HomePage = () => {
-  return (
-    <div className="min-h-screen">
-      <Navbar />
-      <Hero />
-    </div>
-  );
+// This file redirects to HomePage - it's kept for compatibility
+const Index = () => {
+  return <Navigate to="/" replace />;
 };
 
-export default HomePage;
+export default Index;

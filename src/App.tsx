@@ -1,119 +1,72 @@
 
-import { Suspense, lazy } from "react";
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Routes, Route } from "react-router-dom";
-import { Helmet, HelmetProvider } from 'react-helmet-async';
-import AuthProvider from "./contexts/AuthContext";
-import { SubscriptionProvider } from "./contexts/SubscriptionContext";
-import LoadingSpinner from "@/components/ui/loading-spinner";
-import HomePage from "./pages/HomePage";
-import DirectoryPage from "./pages/DirectoryPage";
-import BusinessPage from "./pages/BusinessPage";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import BusinessSignupPage from "./pages/BusinessSignupPage";
-import CustomerSignupPage from "./pages/CustomerSignupPage";
-import DashboardPage from "./pages/DashboardPage";
-import QRScannerPage from "./pages/QRScannerPage";
-import LoyaltyPage from "./pages/LoyaltyPage";
-import BusinessFormPage from "./pages/BusinessFormPage";
-import CorporateSponsorshipPage from "./pages/CorporateSponsorshipPage";
-import CommunityImpactPage from "./pages/CommunityImpactPage";
-import SystemTestPage from "./pages/SystemTestPage";
-import MobileTestPage from "./pages/MobileTestPage";
-import ComprehensiveTestPage from "./pages/ComprehensiveTestPage";
-import SignupTestPage from "./pages/SignupTestPage";
-import NewPasswordPage from "./pages/NewPasswordPage";
-import PasswordResetRequestPage from "./pages/PasswordResetRequestPage";
-import MobileReadinessTestPage from "./pages/MobileReadinessTestPage";
-import SalesAgentPage from "./pages/SalesAgentPage";
-import CommunityPage from "./pages/CommunityPage";
-import CaseStudiesPage from "./pages/CaseStudiesPage";
-import HowItWorksPage from "./pages/HowItWorksPage";
-import SubscriptionPage from "./pages/SubscriptionPage";
-import EducationPage from "./pages/EducationPage";
-import MentorshipPage from "./pages/MentorshipPage";
-import HelpPage from "./pages/HelpPage";
-import BlogPage from "./pages/BlogPage";
-import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
-import CookiePolicyPage from "./pages/CookiePolicyPage";
-import TermsOfServicePage from "./pages/TermsOfServicePage";
-import FAQPage from "./pages/FAQPage";
-import AboutPage from "./pages/AboutPage";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Toaster } from 'sonner';
+import MobileAppWrapper from '@/components/mobile/MobileAppWrapper';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
-// Add new lazy import
-const AppTestPage = lazy(() => import("./pages/AppTestPage"));
+// Import pages
+import HomePage from '@/pages/HomePage';
+import BusinessDirectoryPage from '@/pages/BusinessDirectoryPage';
+import QRScannerPage from '@/pages/QRScannerPage';
+import LoginPage from '@/pages/LoginPage';
+import SignupPage from '@/pages/SignupPage';
+import DashboardPage from '@/pages/DashboardPage';
+import BusinessFormPage from '@/pages/BusinessFormPage';
+import LoyaltyPage from '@/pages/LoyaltyPage';
+import CommunityImpactPage from '@/pages/CommunityImpactPage';
+import BusinessDetailPage from '@/pages/BusinessDetailPage';
+import ProfilePage from '@/pages/ProfilePage';
+import NotFound from '@/pages/NotFound';
 
-const queryClient = new QueryClient();
+// Import auth components
+import RequireAuth from '@/components/auth/RequireAuth';
 
-function App() {
+const App = () => {
   return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <SubscriptionProvider>
-            <TooltipProvider>
-              <Toaster />
-              <div className="min-h-screen bg-background font-sans antialiased">
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/directory" element={<DirectoryPage />} />
-                  <Route path="/business/:id" element={<BusinessPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/signup" element={<SignupPage />} />
-                  
-                  {/* Add specific signup routes */}
-                  <Route path="/signup/business" element={<BusinessSignupPage />} />
-                  <Route path="/signup/customer" element={<CustomerSignupPage />} />
-                  
-                  <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="/scanner" element={<QRScannerPage />} />
-                  <Route path="/loyalty" element={<LoyaltyPage />} />
-                  <Route path="/business-form" element={<BusinessFormPage />} />
-                  <Route path="/sponsorship" element={<CorporateSponsorshipPage />} />
-                  <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
-                  <Route path="/subscription" element={<SubscriptionPage />} />
-                  <Route path="/community" element={<CommunityPage />} />
-                  <Route path="/community-impact" element={<CommunityImpactPage />} />
-                  <Route path="/case-studies" element={<CaseStudiesPage />} />
-                  <Route path="/how-it-works" element={<HowItWorksPage />} />
-                  <Route path="/education" element={<EducationPage />} />
-                  <Route path="/mentorship" element={<MentorshipPage />} />
-                  <Route path="/sales-agent" element={<SalesAgentPage />} />
-                  <Route path="/help" element={<HelpPage />} />
-                  <Route path="/blog" element={<BlogPage />} />
-                  <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                  <Route path="/cookies" element={<CookiePolicyPage />} />
-                  <Route path="/terms" element={<TermsOfServicePage />} />
-                  <Route path="/faq" element={<FAQPage />} />
-                  <Route path="/system-test" element={<SystemTestPage />} />
-                  <Route path="/mobile-test" element={<MobileTestPage />} />
-                  <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
-                  <Route path="/signup-test" element={<SignupTestPage />} />
-                  <Route path="/new-password" element={<NewPasswordPage />} />
-                  <Route path="/password-reset-request" element={<PasswordResetRequestPage />} />
-                  <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
-                  
-                  {/* Add new test route */}
-                  <Route 
-                    path="/app-test" 
-                    element={
-                      <Suspense fallback={<LoadingSpinner />}>
-                        <AppTestPage />
-                      </Suspense>
-                    } 
-                  />
-                </Routes>
-              </div>
-            </TooltipProvider>
-          </SubscriptionProvider>
-        </AuthProvider>
-      </QueryClientProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <MobileAppWrapper>
+        <div className="App min-h-screen bg-white">
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/directory" element={<BusinessDirectoryPage />} />
+            <Route path="/business/:id" element={<BusinessDetailPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/business-form" element={<BusinessFormPage />} />
+            <Route path="/community-impact" element={<CommunityImpactPage />} />
+            
+            {/* Protected Routes */}
+            <Route path="/scanner" element={
+              <RequireAuth>
+                <QRScannerPage />
+              </RequireAuth>
+            } />
+            <Route path="/dashboard" element={
+              <RequireAuth>
+                <DashboardPage />
+              </RequireAuth>
+            } />
+            <Route path="/loyalty" element={
+              <RequireAuth>
+                <LoyaltyPage />
+              </RequireAuth>
+            } />
+            <Route path="/profile" element={
+              <RequireAuth>
+                <ProfilePage />
+              </RequireAuth>
+            } />
+            
+            {/* 404 Page */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Toaster />
+        </div>
+      </MobileAppWrapper>
+    </ErrorBoundary>
   );
-}
+};
 
 export default App;
