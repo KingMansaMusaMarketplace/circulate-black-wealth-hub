@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
@@ -10,6 +11,7 @@ import BusinessDirectoryPage from '@/pages/BusinessDirectoryPage';
 import QRScannerPage from '@/pages/QRScannerPage';
 import LoginPage from '@/pages/LoginPage';
 import SignupPage from '@/pages/SignupPage';
+import CustomerSignupPage from '@/pages/CustomerSignupPage';
 import DashboardPage from '@/pages/DashboardPage';
 import BusinessFormPage from '@/pages/BusinessFormPage';
 import LoyaltyPage from '@/pages/LoyaltyPage';
@@ -49,6 +51,7 @@ const App = () => {
             <Route path="/business/:id" element={<BusinessDetailPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/signup/customer" element={<CustomerSignupPage />} />
             <Route path="/business-form" element={<BusinessFormPage />} />
             <Route path="/community-impact" element={<CommunityImpactPage />} />
             <Route path="/blog" element={<BlogPage />} />
