@@ -35,6 +35,16 @@ import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
 import MobileReadinessTestPage from '@/pages/MobileReadinessTestPage';
 
+// Import test pages
+import SignupTestPage from '@/pages/SignupTestPage';
+import CommunityImpactTestPage from '@/pages/CommunityImpactTestPage';
+import SystemTestPage from '@/pages/SystemTestPage';
+import ComprehensiveTestPage from '@/pages/ComprehensiveTestPage';
+import CapacitorTestPage from '@/pages/CapacitorTestPage';
+import TestPage from '@/pages/TestPage';
+import HBCUTestPage from '@/pages/HBCUTestPage';
+import AppTestPage from '@/pages/AppTestPage';
+
 // Import auth components
 import RequireAuth from '@/components/auth/RequireAuth';
 
@@ -66,6 +76,16 @@ const App = () => {
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-service" element={<TermsOfServicePage />} />
             <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
+            
+            {/* Test Routes */}
+            <Route path="/test" element={<TestPage />} />
+            <Route path="/test/signup" element={<SignupTestPage />} />
+            <Route path="/test/community-impact" element={<CommunityImpactTestPage />} />
+            <Route path="/test/system" element={<SystemTestPage />} />
+            <Route path="/test/comprehensive" element={<ComprehensiveTestPage />} />
+            <Route path="/test/capacitor" element={<CapacitorTestPage />} />
+            <Route path="/test/hbcu" element={<HBCUTestPage />} />
+            <Route path="/test/app" element={<AppTestPage />} />
             
             {/* Protected Routes */}
             <Route path="/scanner" element={
