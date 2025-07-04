@@ -36,6 +36,17 @@ import ContactPage from '@/pages/ContactPage';
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsOfServicePage from '@/pages/TermsOfServicePage';
 import MobileReadinessTestPage from '@/pages/MobileReadinessTestPage';
+import SignupSuccessPage from '@/pages/SignupSuccessPage';
+
+// Import testing pages
+import TestPage from '@/pages/TestPage';
+import SystemTestPage from '@/pages/SystemTestPage';
+import ComprehensiveTestPage from '@/pages/ComprehensiveTestPage';
+import CapacitorTestPage from '@/pages/CapacitorTestPage';
+import HBCUTestPage from '@/pages/HBCUTestPage';
+import SignupTestPage from '@/pages/SignupTestPage';
+import CommunityImpactTestPage from '@/pages/CommunityImpactTestPage';
+import RegistrationTestPage from '@/pages/RegistrationTestPage';
 
 // Import auth components
 import RequireAuth from '@/components/auth/RequireAuth';
@@ -54,6 +65,7 @@ const App = () => {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/signup/customer" element={<CustomerSignupPage />} />
             <Route path="/signup/business" element={<BusinessSignupPage />} />
+            <Route path="/signup/success" element={<SignupSuccessPage />} />
             <Route path="/business-form" element={<BusinessFormPage />} />
             <Route path="/community-impact" element={<CommunityImpactPage />} />
             <Route path="/blog" element={<BlogPage />} />
@@ -72,6 +84,16 @@ const App = () => {
             <Route path="/terms-of-service" element={<TermsOfServicePage />} />
             <Route path="/terms" element={<Navigate to="/terms-of-service" replace />} />
             <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
+            
+            {/* Testing Routes */}
+            <Route path="/test" element={<TestPage />} />
+            <Route path="/system-test" element={<SystemTestPage />} />
+            <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
+            <Route path="/capacitor-test" element={<CapacitorTestPage />} />
+            <Route path="/hbcu-test" element={<HBCUTestPage />} />
+            <Route path="/signup-test" element={<SignupTestPage />} />
+            <Route path="/community-impact-test" element={<CommunityImpactTestPage />} />
+            <Route path="/registration-test" element={<RegistrationTestPage />} />
             
             {/* Protected Routes */}
             <Route path="/scanner" element={
