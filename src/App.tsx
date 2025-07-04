@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
@@ -66,6 +65,7 @@ const App = () => {
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
             <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+            <Route path="/terms" element={<Navigate to="/terms-of-service" replace />} />
             <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
             
             {/* Protected Routes */}
