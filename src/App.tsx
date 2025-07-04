@@ -20,6 +20,21 @@ import ProfilePage from '@/pages/ProfilePage';
 import BlogPage from '@/pages/BlogPage';
 import NotFound from '@/pages/NotFound';
 
+// Import additional pages
+import AboutUsPage from '@/pages/AboutUsPage';
+import HowItWorksPage from '@/pages/HowItWorksPage';
+import EducationPage from '@/pages/EducationPage';
+import MentorshipPage from '@/pages/MentorshipPage';
+import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
+import SalesAgentPage from '@/pages/SalesAgentPage';
+import SubscriptionPage from '@/pages/SubscriptionPage';
+import HelpCenterPage from '@/pages/HelpCenterPage';
+import FAQPage from '@/pages/FAQPage';
+import ContactPage from '@/pages/ContactPage';
+import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
+import TermsOfServicePage from '@/pages/TermsOfServicePage';
+import MobileReadinessTestPage from '@/pages/MobileReadinessTestPage';
+
 // Import auth components
 import RequireAuth from '@/components/auth/RequireAuth';
 
@@ -38,6 +53,19 @@ const App = () => {
             <Route path="/business-form" element={<BusinessFormPage />} />
             <Route path="/community-impact" element={<CommunityImpactPage />} />
             <Route path="/blog" element={<BlogPage />} />
+            <Route path="/about" element={<AboutUsPage />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
+            <Route path="/education" element={<EducationPage />} />
+            <Route path="/mentorship" element={<MentorshipPage />} />
+            <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
+            <Route path="/sales-agent" element={<SalesAgentPage />} />
+            <Route path="/subscription" element={<SubscriptionPage />} />
+            <Route path="/help" element={<HelpCenterPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+            <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
             
             {/* Protected Routes */}
             <Route path="/scanner" element={
