@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import MobileAppWrapper from '@/components/mobile/MobileAppWrapper';
 import ErrorBoundary from '@/components/ErrorBoundary';
@@ -64,6 +64,7 @@ const App = () => {
             <Route path="/faq" element={<FAQPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
             <Route path="/terms-of-service" element={<TermsOfServicePage />} />
             <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
             
