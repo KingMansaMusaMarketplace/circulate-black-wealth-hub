@@ -1,82 +1,55 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 
 const PrivacyPolicyPage = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>Privacy Policy - Mansa Musa Marketplace</title>
-        <meta name="description" content="Privacy Policy for Mansa Musa Marketplace - Learn how we protect and manage your data." />
-      </Helmet>
-
+    <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="flex-grow py-12">
-        <div className="container-custom">
-          <h1 className="text-3xl font-bold text-mansablue mb-8">Privacy Policy</h1>
+      <div className="container mx-auto px-4 py-16">
+        <h1 className="text-4xl font-bold text-mansablue mb-8">Privacy Policy</h1>
+        <div className="max-w-4xl mx-auto prose prose-lg">
+          <p className="text-gray-600 mb-6">
+            Last updated: {new Date().toLocaleDateString()}
+          </p>
           
-          <div className="prose max-w-full">
-            <p className="text-lg mb-6">Last Updated: May 8, 2025</p>
-            
-            <h2 className="text-xl font-semibold mt-8 mb-4">1. Introduction</h2>
-            <p>
-              Mansa Musa Marketplace ("we", "our", or "us") is committed to protecting your privacy. 
-              This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services.
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">Information We Collect</h2>
+            <p className="text-gray-600 mb-4">
+              We collect information you provide directly to us, such as when you create an account, make a purchase, or contact us for support.
             </p>
-            
-            <h2 className="text-xl font-semibold mt-8 mb-4">2. Information We Collect</h2>
-            <p>
-              We may collect personal information that you voluntarily provide to us when you:
+          </section>
+          
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">How We Use Your Information</h2>
+            <p className="text-gray-600 mb-4">
+              We use the information we collect to provide, maintain, and improve our services, process transactions, and communicate with you.
             </p>
-            <ul className="list-disc pl-6 mb-6">
-              <li>Register for an account</li>
-              <li>Sign up for our newsletter</li>
-              <li>Participate in promotions or surveys</li>
-              <li>Contact us</li>
-              <li>Use our platform's features</li>
-            </ul>
-            
-            <p>The types of information we may collect include:</p>
-            <ul className="list-disc pl-6 mb-6">
-              <li>Contact information (name, email address, phone number)</li>
-              <li>Account credentials</li>
-              <li>Profile information</li>
-              <li>Payment information</li>
-              <li>Transaction history</li>
-              <li>Communications with us</li>
-            </ul>
-            
-            <h2 className="text-xl font-semibold mt-8 mb-4">3. How We Use Your Information</h2>
-            <p>We may use your information to:</p>
-            <ul className="list-disc pl-6 mb-6">
-              <li>Provide, maintain, and improve our services</li>
-              <li>Process transactions and send related information</li>
-              <li>Send administrative messages and updates</li>
-              <li>Respond to your comments and questions</li>
-              <li>Provide customer support</li>
-              <li>Send marketing communications</li>
-              <li>Analyze usage patterns and trends</li>
-            </ul>
-            
-            <h2 className="text-xl font-semibold mt-8 mb-4">4. Privacy Rights</h2>
-            <p>
-              Depending on where you live, you may have certain rights regarding your personal information, 
-              including the right to access, correct, delete, or restrict the use of your personal information.
+          </section>
+          
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">Information Sharing</h2>
+            <p className="text-gray-600 mb-4">
+              We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this policy.
             </p>
-            
-            <h2 className="text-xl font-semibold mt-8 mb-4">5. Contact Us</h2>
-            <p>
-              If you have questions about this Privacy Policy or our practices, please contact us at:
-              <br />
-              <a href="mailto:privacy@mansamusamarketplace.com" className="text-mansablue hover:underline">
-                privacy@mansamusamarketplace.com
-              </a>
+          </section>
+          
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">Data Security</h2>
+            <p className="text-gray-600 mb-4">
+              We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.
             </p>
-          </div>
+          </section>
+          
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
+            <p className="text-gray-600">
+              If you have any questions about this Privacy Policy, please contact us at privacy@mansamusamarketplace.com.
+            </p>
+          </section>
         </div>
-      </main>
+      </div>
       <Footer />
     </div>
   );

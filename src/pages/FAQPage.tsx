@@ -1,30 +1,53 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
-import FAQSection from '@/components/HowItWorks/FAQSection';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const FAQPage = () => {
-  return (
-    <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>FAQ - Mansa Musa Marketplace</title>
-        <meta name="description" content="Frequently asked questions about Mansa Musa Marketplace. Find answers to common questions about our platform." />
-      </Helmet>
+  const faqs = [
+    {
+      question: "What is Mansa Musa Marketplace?",
+      answer: "Mansa Musa Marketplace is a platform that connects consumers with Black-owned businesses, helping to strengthen community wealth through strategic economic circulation."
+    },
+    {
+      question: "How do I sign up?",
+      answer: "You can sign up by clicking the 'Sign Up' button in the top right corner of any page. Choose whether you're a customer or business owner and follow the registration process."
+    },
+    {
+      question: "Is there a fee to use the platform?",
+      answer: "Basic membership is free for customers. Business accounts have subscription plans that provide additional features and visibility."
+    },
+    {
+      question: "How do I find businesses near me?",
+      answer: "Use our directory page to search for businesses by location, category, or keywords. You can also enable location services to find businesses closest to you."
+    },
+    {
+      question: "What are loyalty points?",
+      answer: "Loyalty points are earned when you shop at participating businesses. You can redeem these points for discounts, rewards, and special offers."
+    },
+    {
+      question: "How do I add my business to the platform?",
+      answer: "Sign up as a business owner and complete your business profile. Once verified, your business will be listed in our directory."
+    }
+  ];
 
+  return (
+    <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="flex-grow">
-        <div className="bg-mansablue py-16">
-          <div className="container-custom">
-            <h1 className="text-4xl md:text-5xl font-bold text-white">Frequently Asked Questions</h1>
-            <p className="text-white/80 mt-4 max-w-2xl">
-              Find answers to common questions about our platform and services.
-            </p>
-          </div>
+      <div className="container mx-auto px-4 py-16">
+        <h1 className="text-4xl font-bold text-mansablue mb-8 text-center">Frequently Asked Questions</h1>
+        <div className="max-w-4xl mx-auto">
+          <Accordion type="single" collapsible className="w-full">
+            {faqs.map((faq, index) => (
+              <AccordionItem key={index} value={`item-${index}`}>
+                <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
+                <AccordionContent>{faq.answer}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
-        <FAQSection />
-      </main>
+      </div>
       <Footer />
     </div>
   );

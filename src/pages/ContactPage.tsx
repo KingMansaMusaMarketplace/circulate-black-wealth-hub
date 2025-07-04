@@ -1,30 +1,66 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
-import ContactSection from '@/components/AboutPage/ContactSection';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 const ContactPage = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Helmet>
-        <title>Contact Us - Mansa Musa Marketplace</title>
-        <meta name="description" content="Get in touch with the Mansa Musa Marketplace team. We're here to answer your questions and help you get started." />
-      </Helmet>
-
+    <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="flex-grow">
-        <div className="bg-mansablue py-16">
-          <div className="container-custom">
-            <h1 className="text-4xl md:text-5xl font-bold text-white">Contact Us</h1>
-            <p className="text-white/80 mt-4 max-w-2xl">
-              Have questions or feedback? We'd love to hear from you. Get in touch with our team.
-            </p>
+      <div className="container mx-auto px-4 py-16">
+        <h1 className="text-4xl font-bold text-mansablue mb-8 text-center">Contact Us</h1>
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div>
+              <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
+              <div className="space-y-6">
+                <div className="flex items-center">
+                  <Mail className="h-6 w-6 text-mansablue mr-4" />
+                  <div>
+                    <p className="font-medium">Email</p>
+                    <p className="text-gray-600">support@mansamusamarketplace.com</p>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <Phone className="h-6 w-6 text-mansablue mr-4" />
+                  <div>
+                    <p className="font-medium">Phone</p>
+                    <p className="text-gray-600">(555) 123-4567</p>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <MapPin className="h-6 w-6 text-mansablue mr-4" />
+                  <div>
+                    <p className="font-medium">Address</p>
+                    <p className="text-gray-600">123 Business District<br />Atlanta, GA 30309</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gray-50 p-8 rounded-lg">
+              <h3 className="text-xl font-semibold mb-6">Send us a Message</h3>
+              <form className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Name</label>
+                  <input type="text" className="w-full p-3 border border-gray-300 rounded-md" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Email</label>
+                  <input type="email" className="w-full p-3 border border-gray-300 rounded-md" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Message</label>
+                  <textarea rows={4} className="w-full p-3 border border-gray-300 rounded-md"></textarea>
+                </div>
+                <button type="submit" className="w-full bg-mansablue text-white py-3 rounded-md hover:bg-mansablue-dark transition-colors">
+                  Send Message
+                </button>
+              </form>
+            </div>
           </div>
         </div>
-        <ContactSection />
-      </main>
+      </div>
       <Footer />
     </div>
   );

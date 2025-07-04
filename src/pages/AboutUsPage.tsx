@@ -1,85 +1,37 @@
 
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
-import VideoPlayer from '../components/VideoPlayer';
-import {
-  HeroSection,
-  MissionSection,
-  VisionSection,
-  TeamSection,
-  ImpactMetricsSection,
-  FAQSection,
-  ContactSection,
-  TimelineSection,
-  QuoteSection,
-  AuthorSection,
-} from '../components/AboutPage';
 
 const AboutUsPage = () => {
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>About Us | Mansa Musa Marketplace</title>
-        <meta name="description" content="Learn about our mission, vision, and the team behind Mansa Musa Marketplace" />
-      </Helmet>
-      
       <Navbar />
-
-      {/* Hero Section */}
-      <HeroSection />
-
-      {/* Author Section - Thomas D. Bowling */}
-      <AuthorSection />
-
-      {/* Mission Section */}
-      <MissionSection />
-
-      {/* Mansa Musa Video */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4 inline-block relative">
-              Who was Mansa Musa?
-              <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-yellow-500"></span>
-            </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto mb-8">
-              Learn about the legendary African ruler who inspired our marketplace and represents the pinnacle of economic power coupled with community reinvestment.
-            </p>
-          </div>
-          <div className="max-w-4xl mx-auto">
-            <VideoPlayer 
-              src="https://www.youtube.com/watch?v=6DudveUFGRo" 
-              title="Who was Mansa Musa?" 
-              isYouTube={true}
-              className="shadow-xl"
-            />
+      <div className="container mx-auto px-4 py-16">
+        <h1 className="text-4xl font-bold text-mansablue mb-8">About Mansa Musa Marketplace</h1>
+        <div className="max-w-4xl mx-auto">
+          <p className="text-lg text-gray-600 mb-6">
+            Mansa Musa Marketplace is dedicated to empowering Black-owned businesses and strengthening community wealth through strategic economic circulation.
+          </p>
+          <p className="text-lg text-gray-600 mb-6">
+            Named after Mansa Musa, the legendary African emperor known for his incredible wealth and economic influence, our platform continues his legacy by creating pathways for Black economic empowerment in the modern era.
+          </p>
+          <div className="grid md:grid-cols-2 gap-8 mt-12">
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-semibold mb-4">Our Mission</h3>
+              <p className="text-gray-600">
+                To create a thriving ecosystem where Black-owned businesses can flourish and community members can easily discover and support these enterprises.
+              </p>
+            </div>
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h3 className="text-xl font-semibold mb-4">Our Vision</h3>
+              <p className="text-gray-600">
+                To build the largest network of Black-owned businesses and conscious consumers, creating lasting economic impact in communities nationwide.
+              </p>
+            </div>
           </div>
         </div>
-      </section>
-
-      {/* Vision Section */}
-      <VisionSection />
-
-      {/* Impact Metrics */}
-      <ImpactMetricsSection />
-
-      {/* Team Section */}
-      <TeamSection />
-
-      {/* Quote Section */}
-      <QuoteSection />
-
-      {/* Timeline */}
-      <TimelineSection />
-
-      {/* FAQ Section */}
-      <FAQSection />
-
-      {/* Contact Section */}
-      <ContactSection />
-
+      </div>
       <Footer />
     </div>
   );
