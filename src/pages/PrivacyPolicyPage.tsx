@@ -43,6 +43,14 @@ const PrivacyPolicyPage = () => {
               We collect approximate location data (coarse location) to help you discover nearby Black-owned businesses. We do not collect precise GPS coordinates unless specifically required for a feature you choose to use.
             </p>
 
+            <h3 className="text-xl font-medium mb-3">Payment and Subscription Data</h3>
+            <ul className="text-gray-600 mb-4 ml-6 list-disc">
+              <li><strong>Subscription Information:</strong> Subscription tier, status, billing cycle, and subscription dates</li>
+              <li><strong>Payment Processor Data:</strong> We work with third-party payment processors (Stripe, Apple App Store, Google Play) who handle payment information securely</li>
+              <li><strong>Transaction Records:</strong> Purchase history, refunds, and subscription changes for account management</li>
+              <li><strong>Billing Information:</strong> Stored securely by our payment processors, not directly by us</li>
+            </ul>
+
             <h3 className="text-xl font-medium mb-3">User Content</h3>
             <ul className="text-gray-600 mb-4 ml-6 list-disc">
               <li><strong>Photos and Images:</strong> Business logos, banners, and product images uploaded by business owners</li>
@@ -65,10 +73,34 @@ const PrivacyPolicyPage = () => {
               <li>Provide and maintain our marketplace services</li>
               <li>Facilitate connections between customers and Black-owned businesses</li>
               <li>Process QR code scans and loyalty point transactions</li>
+              <li>Process subscription payments and manage subscription services</li>
+              <li>Send subscription-related notifications and updates</li>
+              <li>Handle subscription renewals, cancellations, and refunds</li>
               <li>Send important service notifications and updates</li>
               <li>Improve app functionality and user experience</li>
               <li>Provide customer support</li>
               <li>Verify business authenticity and maintain marketplace quality</li>
+            </ul>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold mb-4">Payment Processing and Subscription Management</h2>
+            <p className="text-gray-600 mb-4">
+              We use trusted third-party payment processors to handle subscription billing and payments:
+            </p>
+            <ul className="text-gray-600 mb-4 ml-6 list-disc">
+              <li><strong>Stripe:</strong> Processes credit card payments and manages subscription billing for web users</li>
+              <li><strong>Apple App Store:</strong> Handles in-app purchases and subscriptions for iOS users</li>
+              <li><strong>Google Play:</strong> Manages billing for Android app users</li>
+            </ul>
+            <p className="text-gray-600 mb-4">
+              <strong>Subscription Notifications:</strong> We receive automated notifications from payment processors about subscription events (renewals, cancellations, payment failures) to maintain accurate account status and provide seamless service. These notifications help us:
+            </p>
+            <ul className="text-gray-600 mb-4 ml-6 list-disc">
+              <li>Update your subscription status in real-time</li>
+              <li>Provide appropriate access to premium features</li>
+              <li>Send you relevant notifications about your subscription</li>
+              <li>Handle subscription issues promptly</li>
             </ul>
           </section>
           
@@ -80,7 +112,8 @@ const PrivacyPolicyPage = () => {
             <ul className="text-gray-600 mb-4 ml-6 list-disc">
               <li><strong>With Your Consent:</strong> When you explicitly agree to share information</li>
               <li><strong>Business Directory:</strong> Business information is publicly displayed to help customers discover Black-owned businesses</li>
-              <li><strong>Service Providers:</strong> With trusted third-party services (like Supabase for data storage) that help us operate the app</li>
+              <li><strong>Service Providers:</strong> With trusted third-party services (like Supabase for data storage, Stripe for payments) that help us operate the app</li>
+              <li><strong>Payment Processors:</strong> Subscription and payment data is shared with our payment processors (Stripe, Apple, Google) as necessary to process transactions and manage subscriptions</li>
               <li><strong>Legal Requirements:</strong> When required by law or to protect our rights and users' safety</li>
               <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, or asset sales</li>
             </ul>
@@ -90,6 +123,7 @@ const PrivacyPolicyPage = () => {
             <h2 className="text-2xl font-semibold mb-4">Your Privacy Rights and Choices</h2>
             <ul className="text-gray-600 mb-4 ml-6 list-disc">
               <li><strong>Access and Update:</strong> View and update your profile information at any time</li>
+              <li><strong>Subscription Management:</strong> Manage your subscription through our app or directly through your payment provider (Apple App Store, Google Play, or Stripe)</li>
               <li><strong>Location Services:</strong> Control location permissions through your device settings</li>
               <li><strong>Account Deletion:</strong> Request deletion of your account and associated data</li>
               <li><strong>Communication Preferences:</strong> Opt out of non-essential communications</li>
@@ -100,14 +134,14 @@ const PrivacyPolicyPage = () => {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Data Security</h2>
             <p className="text-gray-600 mb-4">
-              We implement industry-standard security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. This includes encryption, secure data transmission, and regular security assessments. However, no method of transmission over the internet is 100% secure.
+              We implement industry-standard security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. This includes encryption, secure data transmission, and regular security assessments. Payment information is secured by our payment processors using industry-standard encryption and security protocols. However, no method of transmission over the internet is 100% secure.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Data Retention</h2>
             <p className="text-gray-600 mb-4">
-              We retain your personal information only for as long as necessary to provide our services, comply with legal obligations, resolve disputes, and enforce our agreements. Business listings may remain active until the business owner requests removal.
+              We retain your personal information only for as long as necessary to provide our services, comply with legal obligations, resolve disputes, and enforce our agreements. Subscription data is retained as long as your account is active and for a reasonable period thereafter for customer service and legal compliance purposes. Business listings may remain active until the business owner requests removal.
             </p>
           </section>
 
@@ -121,7 +155,7 @@ const PrivacyPolicyPage = () => {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Changes to This Privacy Policy</h2>
             <p className="text-gray-600 mb-4">
-              We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the "Last updated" date. Your continued use of our services after any changes constitutes acceptance of the updated policy.
+              We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the "Last updated" date. Significant changes affecting subscription services or payment processing will be communicated via email or in-app notification. Your continued use of our services after any changes constitutes acceptance of the updated policy.
             </p>
           </section>
           
