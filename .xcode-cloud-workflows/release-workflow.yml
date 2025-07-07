@@ -1,0 +1,52 @@
+
+# Release Workflow Configuration
+# Full device matrix testing and TestFlight distribution
+
+name: Release Build
+description: Production-ready build with full testing and distribution
+
+trigger:
+  tags:
+    patterns:
+      - "v*.*.*"
+
+environment:
+  variables:
+    CI_WORKFLOW: "Release"
+    NODE_ENV: "production"
+
+steps:
+  - name: Build
+    scheme: App
+    destination:
+      - "Any iOS Device"
+      - "Any Mac with Apple silicon"
+    configuration: Release
+    
+  - name: Test
+    scheme: App
+    destination:
+      - "iPhone SE 3rd Gen Simulator (16.0)"
+      - "iPhone 13 mini Simulator (15.0)"
+      - "iPhone 14 Simulator (16.0)"
+      - "iPhone 14 Pro Max Simulator (16.0)"
+      - "iPad 9th Gen Simulator (15.0)"
+      - "iPad Air Simulator (16.0)"
+      - "iPad Pro 12.9 Simulator (16.0)"
+    test_plan: FullTestSuite
+    
+  - name: Archive
+    scheme: App
+    destination: "Any iOS Device"
+    configuration: Release
+
+actions:
+  post_build:
+    - distribute_to_testflight:
+        groups: 
+          - "Internal Testing"
+          - "Business Partners"
+        external_testing: false
+    - upload_symbols: true
+    - generate_reports: true
+    - notify_team: true

@@ -1,0 +1,46 @@
+
+# Feature Branch Workflow Configuration
+# Comprehensive testing for pull requests
+
+name: Feature Testing
+description: Comprehensive validation for feature branches
+
+trigger:
+  pull_requests:
+    target_branches:
+      - main
+      - develop
+
+environment:
+  variables:
+    CI_WORKFLOW: "Feature"
+    NODE_ENV: "testing"
+
+steps:
+  - name: Build
+    scheme: App
+    destination:
+      - "iPhone SE 3rd Gen Simulator (16.0)"
+      - "iPhone 14 Simulator (16.0)"
+      - "iPhone 14 Pro Max Simulator (16.0)"
+      - "iPad Air Simulator (16.0)"
+      - "iPad Pro 12.9 Simulator (16.0)"
+    
+  - name: Test
+    scheme: App
+    destination:
+      - "iPhone 14 Simulator (16.0)"
+      - "iPad Air Simulator (16.0)"
+    test_plan: ComprehensiveTests
+    
+  - name: Performance Test
+    scheme: App
+    destination:
+      - "iPhone 14 Simulator (16.0)"
+    test_plan: PerformanceTests
+
+actions:
+  post_build:
+    - upload_logs: true
+    - generate_reports: true
+    - notify_team: true

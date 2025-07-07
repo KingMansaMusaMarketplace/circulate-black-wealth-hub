@@ -1,0 +1,39 @@
+
+# Development Workflow Configuration
+# Quick health checks on every commit to develop branch
+
+name: Development Build
+description: Fast validation build for development commits
+
+trigger:
+  branches:
+    - develop
+  paths:
+    include:
+      - "src/**"
+      - "ios/**"
+      - "package.json"
+      - "capacitor.config.ts"
+
+environment:
+  variables:
+    CI_WORKFLOW: "Development"
+    NODE_ENV: "development"
+
+steps:
+  - name: Build
+    scheme: App
+    destination: 
+      - "iPhone 14 Simulator (16.0)"
+      - "iPad Air Simulator (16.0)"
+    
+  - name: Test
+    scheme: App
+    destination:
+      - "iPhone 14 Simulator (16.0)"
+    test_plan: DevelopmentTests
+    
+actions:
+  post_build:
+    - upload_logs: true
+    - notify_team: true
