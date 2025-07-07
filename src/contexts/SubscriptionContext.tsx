@@ -3,9 +3,10 @@ import React, { createContext, useState, useEffect, useContext, ReactNode } from
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { subscriptionService, SubscriptionInfo } from '@/lib/services/subscription-service';
+import { unifiedSubscriptionService, UnifiedSubscriptionInfo } from '@/lib/services/unified-subscription-service';
 
 interface SubscriptionContextType {
-  subscriptionInfo: SubscriptionInfo | null;
+  subscriptionInfo: UnifiedSubscriptionInfo | null;
   isLoading: boolean;
   refreshSubscription: () => Promise<void>;
   openCustomerPortal: () => Promise<void>;
@@ -27,7 +28,7 @@ interface SubscriptionProviderProps {
 
 export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({ children }) => {
   const { user } = useAuth();
-  const [subscriptionInfo, setSubscriptionInfo] = useState<SubscriptionInfo | null>(null);
+  const [subscriptionInfo, setSubscriptionInfo] = useState<UnifiedSubscriptionInfo | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const refreshSubscription = async () => {
@@ -38,7 +39,7 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({ chil
 
     setIsLoading(true);
     try {
-      const data = await subscriptionService.checkSubscription();
+      const data = await unifiedSubscriptionService.checkAllSubscriptions();
       setSubscriptionInfo(data);
     } catch (error) {
       console.error('Failed to refresh subscription:', error);
@@ -51,8 +52,15 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({ chil
   const openCustomerPortal = async () => {
     try {
       setIsLoading(true);
-      const { url } = await subscriptionService.createCustomerPortalSession();
-      window.open(url, '_blank');
+      
+      // Only open Stripe customer portal if the active subscription is from Stripe
+      if (subscriptionInfo?.source === 'stripe') {
+        const { url } = await subscriptionService.createCustomerPortalSession();
+        window.open(url, '_blank');
+      } else {
+        // For Apple subscriptions, direct users to the App Store
+        toast.info('To manage your App Store subscription, please go to Settings > Apple ID > Subscriptions on your device.');
+      }
     } catch (error) {
       console.error('Failed to open customer portal:', error);
       toast.error('Failed to open subscription management portal');
