@@ -7,6 +7,20 @@ import { Check, Star, Crown, Building, Users, Rocket } from 'lucide-react';
 import { useSubscriptionActions } from './hooks/useSubscriptionActions';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 
+interface PlanData {
+  id: SubscriptionTier;
+  name: string;
+  price: number;
+  period: string;
+  description: string;
+  features: string[];
+  icon: React.ReactElement;
+  buttonText: string;
+  popular: boolean;
+  monthlyEquivalent?: number;
+  savingsText?: string;
+}
+
 interface SubscriptionPlansWithToggleProps {
   currentTier?: SubscriptionTier;
   userType?: 'customer' | 'business';
@@ -19,7 +33,7 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
   const { loading, handleSubscribe, isAuthenticated } = useSubscriptionActions();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
 
-  const customerPlans = {
+  const customerPlans: { monthly: PlanData[]; annual: PlanData[] } = {
     monthly: [
       {
         id: 'free' as SubscriptionTier,
@@ -100,7 +114,7 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
     ]
   };
 
-  const businessPlans = {
+  const businessPlans: { monthly: PlanData[]; annual: PlanData[] } = {
     monthly: [
       {
         id: 'business_starter' as SubscriptionTier,
@@ -196,7 +210,7 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
     return 'outline';
   };
 
-  const getButtonText = (plan: any) => {
+  const getButtonText = (plan: PlanData) => {
     if (currentTier === plan.id) return 'Current Plan';
     if (userType === 'business' && (plan.id.includes('business'))) {
       return 'Start Free Trial';
