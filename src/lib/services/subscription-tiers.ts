@@ -1,5 +1,4 @@
-
-export type SubscriptionTier = 'free' | 'premium' | 'business_starter' | 'business' | 'enterprise';
+export type SubscriptionTier = 'free' | 'premium' | 'premium_annual' | 'business_starter' | 'business_starter_annual' | 'business' | 'business_annual' | 'enterprise';
 
 export interface TierFeatures {
   canScanQR: boolean;
@@ -23,6 +22,8 @@ export interface TierInfo {
   interval: 'month' | 'year';
   features: TierFeatures;
   popular?: boolean;
+  savingsText?: string;
+  monthlyEquivalent?: number;
 }
 
 export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
@@ -51,6 +52,28 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
     description: 'Enhanced features and exclusive access',
     price: 4.99,
     interval: 'month',
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: false,
+      canVerifyBusiness: false,
+      canAccessAnalytics: false,
+      canCreateEvents: false,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+      maxQRCodes: 0
+    }
+  },
+  premium_annual: {
+    displayName: 'Premium Member (Annual)',
+    description: 'Enhanced features, save 20%',
+    price: 47.99,
+    interval: 'year',
+    savingsText: 'Save $12/year',
+    monthlyEquivalent: 4.00,
     popular: true,
     features: {
       canScanQR: true,
@@ -87,11 +110,56 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
       maxQRCodes: 3
     }
   },
+  business_starter_annual: {
+    displayName: 'Starter Business (Annual)',
+    description: 'Small business tools, save 20%',
+    price: 279,
+    interval: 'year',
+    savingsText: 'Save $69/year',
+    monthlyEquivalent: 23.25,
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: true,
+      canVerifyBusiness: true,
+      canAccessAnalytics: true,
+      canCreateEvents: false,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+      maxQRCodes: 3
+    }
+  },
   business: {
     displayName: 'Professional Business',
     description: 'Full business management suite',
     price: 100,
     interval: 'month',
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: true,
+      canVerifyBusiness: true,
+      canAccessAnalytics: true,
+      canCreateEvents: true,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+      maxQRCodes: 50
+    }
+  },
+  business_annual: {
+    displayName: 'Professional Business (Annual)',
+    description: 'Complete suite, save 20%',
+    price: 960,
+    interval: 'year',
+    savingsText: 'Save $240/year',
+    monthlyEquivalent: 80.00,
+    popular: true,
     features: {
       canScanQR: true,
       canEarnPoints: true,

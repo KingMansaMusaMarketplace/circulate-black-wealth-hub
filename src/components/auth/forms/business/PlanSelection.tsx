@@ -21,6 +21,25 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
       id: 'business_starter' as SubscriptionTier,
       name: 'Starter Business',
       price: 29,
+      period: 'month',
+      description: 'Perfect for new and small businesses',
+      features: [
+        'Business profile creation',
+        'Up to 3 QR codes',
+        'Basic analytics',
+        'Email support',
+        '30-day free trial'
+      ],
+      icon: <Rocket className="h-6 w-6" />,
+      popular: false
+    },
+    {
+      id: 'business_starter_annual' as SubscriptionTier,
+      name: 'Starter Business (Annual)',
+      price: 279,
+      period: 'year',
+      monthlyEquivalent: 23.25,
+      savingsText: 'Save $69/year',
       description: 'Perfect for new and small businesses',
       features: [
         'Business profile creation',
@@ -36,6 +55,25 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
       id: 'business' as SubscriptionTier,
       name: 'Professional Business',
       price: 100,
+      period: 'month',
+      description: 'Complete business management suite',
+      features: [
+        'Everything in Starter',
+        'Up to 50 QR codes',
+        'Advanced analytics',
+        'Marketing tools',
+        'Priority support'
+      ],
+      icon: <Building className="h-6 w-6" />,
+      popular: false
+    },
+    {
+      id: 'business_annual' as SubscriptionTier,
+      name: 'Professional Business (Annual)',
+      price: 960,
+      period: 'year',
+      monthlyEquivalent: 80.00,
+      savingsText: 'Save $240/year',
       description: 'Complete business management suite',
       features: [
         'Everything in Starter',
@@ -50,18 +88,23 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
   ];
 
   return (
-    <div className="w-full max-w-5xl mx-auto">
+    <div className="w-full max-w-6xl mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Business Plan</h2>
         <p className="text-lg text-gray-600">
           Select the plan that best fits your business needs. Both plans include a 30-day free trial.
         </p>
+        <div className="mt-4">
+          <Badge className="bg-green-500 text-white px-3 py-1">
+            Save 20% with Annual Plans
+          </Badge>
+        </div>
       </div>
       
       <RadioGroup 
         value={selectedTier} 
         onValueChange={(value) => onTierChange(value as SubscriptionTier)}
-        className="space-y-6"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
         {businessPlans.map((plan) => (
           <div key={plan.id} className="relative">
@@ -112,8 +155,16 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
                     <div className="text-right">
                       <div className="flex items-baseline">
                         <span className="text-3xl font-bold text-gray-900">${plan.price}</span>
-                        <span className="text-sm text-gray-500 ml-1">/month</span>
+                        <span className="text-sm text-gray-500 ml-1">/{plan.period}</span>
                       </div>
+                      {plan.monthlyEquivalent && (
+                        <p className="text-sm text-gray-600 mt-1">
+                          ${plan.monthlyEquivalent}/month
+                        </p>
+                      )}
+                      {plan.savingsText && (
+                        <p className="text-sm text-green-600 mt-1 font-medium">{plan.savingsText}</p>
+                      )}
                     </div>
                   </div>
                 </CardHeader>

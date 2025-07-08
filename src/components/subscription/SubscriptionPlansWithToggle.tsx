@@ -1,0 +1,349 @@
+
+import React, { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Check, Star, Crown, Building, Users, Rocket } from 'lucide-react';
+import { useSubscriptionActions } from './hooks/useSubscriptionActions';
+import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
+
+interface SubscriptionPlansWithToggleProps {
+  currentTier?: SubscriptionTier;
+  userType?: 'customer' | 'business';
+}
+
+const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = ({ 
+  currentTier = 'free', 
+  userType = 'customer' 
+}) => {
+  const { loading, handleSubscribe, isAuthenticated } = useSubscriptionActions();
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
+
+  const customerPlans = {
+    monthly: [
+      {
+        id: 'free' as SubscriptionTier,
+        name: 'Community Member',
+        price: 0,
+        period: 'month',
+        description: 'Perfect for discovering and supporting Black-owned businesses',
+        features: [
+          'Browse complete business directory',
+          'Discover businesses near you',
+          'View detailed business profiles',
+          'Access contact information',
+          'Support community growth'
+        ],
+        icon: <Users className="h-6 w-6" />,
+        buttonText: 'Current Plan',
+        popular: false
+      },
+      {
+        id: 'premium' as SubscriptionTier,
+        name: 'Premium Member',
+        price: 4.99,
+        period: 'month',
+        description: 'Enhanced experience with exclusive savings and rewards',
+        features: [
+          'Everything in Community Member',
+          'Get 5% - 30% discounts at businesses',
+          'Earn loyalty points on purchases',
+          'Redeem points for rewards',
+          'Access exclusive member deals',
+          'Priority customer support',
+          'Early access to new features'
+        ],
+        icon: <Crown className="h-6 w-6" />,
+        buttonText: 'Upgrade to Premium',
+        popular: false
+      }
+    ],
+    annual: [
+      {
+        id: 'free' as SubscriptionTier,
+        name: 'Community Member',
+        price: 0,
+        period: 'month',
+        description: 'Perfect for discovering and supporting Black-owned businesses',
+        features: [
+          'Browse complete business directory',
+          'Discover businesses near you',
+          'View detailed business profiles',
+          'Access contact information',
+          'Support community growth'
+        ],
+        icon: <Users className="h-6 w-6" />,
+        buttonText: 'Current Plan',
+        popular: false
+      },
+      {
+        id: 'premium_annual' as SubscriptionTier,
+        name: 'Premium Member',
+        price: 47.99,
+        period: 'year',
+        monthlyEquivalent: 4.00,
+        savingsText: 'Save $12/year',
+        description: 'Enhanced experience with exclusive savings and rewards',
+        features: [
+          'Everything in Community Member',
+          'Get 5% - 30% discounts at businesses',
+          'Earn loyalty points on purchases',
+          'Redeem points for rewards',
+          'Access exclusive member deals',
+          'Priority customer support',
+          'Early access to new features'
+        ],
+        icon: <Crown className="h-6 w-6" />,
+        buttonText: 'Upgrade to Premium',
+        popular: true
+      }
+    ]
+  };
+
+  const businessPlans = {
+    monthly: [
+      {
+        id: 'business_starter' as SubscriptionTier,
+        name: 'Starter Business',
+        price: 29,
+        period: 'month',
+        description: 'Perfect for new and small businesses getting started',
+        features: [
+          'Business profile creation & management',
+          'Up to 3 QR codes',
+          'Basic analytics dashboard',
+          'Customer loyalty program',
+          'Email support',
+          'Business verification',
+          '30-day free trial'
+        ],
+        icon: <Rocket className="h-6 w-6" />,
+        buttonText: 'Start Free Trial',
+        popular: false
+      },
+      {
+        id: 'business' as SubscriptionTier,
+        name: 'Professional Business',
+        price: 100,
+        period: 'month',
+        description: 'Complete business management and marketing suite',
+        features: [
+          'Everything in Starter Business',
+          'Up to 50 QR codes',
+          'Advanced analytics dashboard',
+          'Marketing tools & promotions',
+          'Event creation & management',
+          'Priority business support',
+          'Advanced customer insights'
+        ],
+        icon: <Building className="h-6 w-6" />,
+        buttonText: 'Start Free Trial',
+        popular: true
+      }
+    ],
+    annual: [
+      {
+        id: 'business_starter_annual' as SubscriptionTier,
+        name: 'Starter Business',
+        price: 279,
+        period: 'year',
+        monthlyEquivalent: 23.25,
+        savingsText: 'Save $69/year',
+        description: 'Perfect for new and small businesses getting started',
+        features: [
+          'Business profile creation & management',
+          'Up to 3 QR codes',
+          'Basic analytics dashboard',
+          'Customer loyalty program',
+          'Email support',
+          'Business verification',
+          '30-day free trial'
+        ],
+        icon: <Rocket className="h-6 w-6" />,
+        buttonText: 'Start Free Trial',
+        popular: false
+      },
+      {
+        id: 'business_annual' as SubscriptionTier,
+        name: 'Professional Business',
+        price: 960,
+        period: 'year',
+        monthlyEquivalent: 80.00,
+        savingsText: 'Save $240/year',
+        description: 'Complete business management and marketing suite',
+        features: [
+          'Everything in Starter Business',
+          'Up to 50 QR codes',
+          'Advanced analytics dashboard',
+          'Marketing tools & promotions',
+          'Event creation & management',
+          'Priority business support',
+          'Advanced customer insights'
+        ],
+        icon: <Building className="h-6 w-6" />,
+        buttonText: 'Start Free Trial',
+        popular: true
+      }
+    ]
+  };
+
+  const plans = userType === 'business' ? businessPlans[billingCycle] : customerPlans[billingCycle];
+
+  const getButtonVariant = (planId: SubscriptionTier) => {
+    if (currentTier === planId) return 'outline';
+    if ((userType === 'customer' && (planId === 'premium' || planId === 'premium_annual')) || 
+        (userType === 'business' && (planId === 'business' || planId === 'business_annual'))) return 'default';
+    return 'outline';
+  };
+
+  const getButtonText = (plan: any) => {
+    if (currentTier === plan.id) return 'Current Plan';
+    if (userType === 'business' && (plan.id.includes('business'))) {
+      return 'Start Free Trial';
+    }
+    return plan.buttonText;
+  };
+
+  const isButtonDisabled = (planId: SubscriptionTier) => {
+    return currentTier === planId || loading === planId;
+  };
+
+  return (
+    <div className="max-w-5xl mx-auto">
+      {/* Billing Toggle */}
+      <div className="flex justify-center mb-8">
+        <div className="bg-gray-100 p-1 rounded-lg flex">
+          <button
+            onClick={() => setBillingCycle('monthly')}
+            className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+              billingCycle === 'monthly'
+                ? 'bg-white text-mansablue shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setBillingCycle('annual')}
+            className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+              billingCycle === 'annual'
+                ? 'bg-white text-mansablue shadow-sm'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Annual
+            <Badge className="ml-2 bg-green-500 text-white text-xs">Save 20%</Badge>
+          </button>
+        </div>
+      </div>
+
+      {/* Plans Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {plans.map((plan) => (
+          <Card 
+            key={plan.id} 
+            className={`relative ${
+              plan.popular 
+                ? 'border-mansagold shadow-lg scale-105' 
+                : currentTier === plan.id 
+                  ? 'border-green-500 bg-green-50/30' 
+                  : 'border-gray-200'
+            }`}
+          >
+            {plan.popular && (
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <Badge className="bg-mansagold text-mansablue font-semibold px-3 py-1">
+                  <Star className="h-3 w-3 mr-1" />
+                  Most Popular
+                </Badge>
+              </div>
+            )}
+
+            {currentTier === plan.id && (
+              <div className="absolute -top-3 right-4">
+                <Badge className="bg-green-500 text-white font-semibold px-3 py-1">
+                  <Check className="h-3 w-3 mr-1" />
+                  Active
+                </Badge>
+              </div>
+            )}
+
+            <CardHeader className="text-center pb-4">
+              <div className={`w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center ${
+                plan.popular 
+                  ? 'bg-mansagold/10 text-mansagold' 
+                  : currentTier === plan.id 
+                    ? 'bg-green-100 text-green-600'
+                    : 'bg-mansablue/10 text-mansablue'
+              }`}>
+                {plan.icon}
+              </div>
+              
+              <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
+              <CardDescription className="text-sm">{plan.description}</CardDescription>
+              
+              <div className="mt-4">
+                <div className="flex items-baseline justify-center">
+                  <span className="text-3xl font-bold">${plan.price}</span>
+                  <span className="text-gray-500 ml-1">/{plan.period}</span>
+                </div>
+                {plan.monthlyEquivalent && (
+                  <p className="text-sm text-gray-600 mt-1">
+                    ${plan.monthlyEquivalent}/month when billed annually
+                  </p>
+                )}
+                {plan.savingsText && (
+                  <p className="text-sm text-green-600 mt-1 font-medium">{plan.savingsText}</p>
+                )}
+                {userType === 'business' && (
+                  <p className="text-sm text-green-600 mt-1 font-medium">30-day free trial</p>
+                )}
+              </div>
+            </CardHeader>
+
+            <CardContent className="space-y-6">
+              <ul className="space-y-3">
+                {plan.features.map((feature, index) => (
+                  <li key={index} className="flex items-start">
+                    <Check className="h-4 w-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-gray-700">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Button
+                className={`w-full ${
+                  plan.popular 
+                    ? 'bg-mansagold hover:bg-mansagold/90 text-mansablue' 
+                    : currentTier === plan.id
+                      ? 'bg-green-500 hover:bg-green-600'
+                      : ''
+                }`}
+                variant={getButtonVariant(plan.id)}
+                onClick={() => handleSubscribe(plan.id)}
+                disabled={isButtonDisabled(plan.id) || !isAuthenticated}
+              >
+                {loading === plan.id ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                    Processing...
+                  </>
+                ) : (
+                  getButtonText(plan)
+                )}
+              </Button>
+
+              {!isAuthenticated && (
+                <p className="text-xs text-center text-gray-500">
+                  Please log in to subscribe
+                </p>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default SubscriptionPlansWithToggle;
