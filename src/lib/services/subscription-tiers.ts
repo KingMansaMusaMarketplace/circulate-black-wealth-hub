@@ -155,10 +155,10 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   business_annual: {
     displayName: 'Professional Business (Annual)',
     description: 'Complete suite, save 20%',
-    price: 960,
+    price: 959,
     interval: 'year',
-    savingsText: 'Save $240/year',
-    monthlyEquivalent: 80.00,
+    savingsText: 'Save $241/year',
+    monthlyEquivalent: 79.92,
     popular: true,
     features: {
       canScanQR: true,

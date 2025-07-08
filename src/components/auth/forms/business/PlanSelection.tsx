@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -70,10 +69,10 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
     {
       id: 'business_annual' as SubscriptionTier,
       name: 'Professional Business (Annual)',
-      price: 960,
+      price: 959,
       period: 'year',
-      monthlyEquivalent: 80.00,
-      savingsText: 'Save $240/year',
+      monthlyEquivalent: 79.92,
+      savingsText: 'Save $241/year',
       description: 'Complete business management suite',
       features: [
         'Everything in Starter',

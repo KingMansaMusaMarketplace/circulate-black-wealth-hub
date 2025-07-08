@@ -180,10 +180,10 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
       {
         id: 'business_annual' as SubscriptionTier,
         name: 'Professional Business',
-        price: 960,
+        price: 959,
         period: 'year',
-        monthlyEquivalent: 80.00,
-        savingsText: 'Save $240/year',
+        monthlyEquivalent: 79.92,
+        savingsText: 'Save $241/year',
         description: 'Complete business management and marketing suite',
         features: [
           'Everything in Starter Business',
