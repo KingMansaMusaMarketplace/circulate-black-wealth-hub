@@ -8,6 +8,7 @@ import { getMediaKitContent } from '../templates/mediaKitTemplate';
 
 export const generatePartnershipGuide = async (): Promise<void> => {
   try {
+    toast.info('Generating Partnership Guide...');
     await generatePDF({
       filename: 'Mansa-Musa-Partnership-Guide.pdf',
       content: getPartnershipGuideContent()
@@ -22,6 +23,7 @@ export const generatePartnershipGuide = async (): Promise<void> => {
 
 export const generateBrandAssets = async (): Promise<void> => {
   try {
+    toast.info('Generating Brand Assets...');
     await generatePDF({
       filename: 'Mansa-Musa-Brand-Assets.pdf',
       content: getBrandAssetsContent()
@@ -36,6 +38,7 @@ export const generateBrandAssets = async (): Promise<void> => {
 
 export const generateImpactReport = async (): Promise<void> => {
   try {
+    toast.info('Generating Impact Report...');
     await generatePDF({
       filename: 'Mansa-Musa-Impact-Report.pdf',
       content: getImpactReportContent()
@@ -50,6 +53,7 @@ export const generateImpactReport = async (): Promise<void> => {
 
 export const generateMediaKit = async (): Promise<void> => {
   try {
+    toast.info('Generating Media Kit...');
     await generatePDF({
       filename: 'Mansa-Musa-Media-Kit.pdf',
       content: getMediaKitContent()

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, LucideIcon } from 'lucide-react';
+import { Loader2, LucideIcon } from 'lucide-react';
 
 interface MediaKitCardProps {
   title: string;
@@ -10,7 +10,7 @@ interface MediaKitCardProps {
   icon: LucideIcon;
   onAction: () => void;
   buttonText: string;
-  isLoading?: boolean;
+  isLoading: boolean;
 }
 
 const MediaKitCard: React.FC<MediaKitCardProps> = ({
@@ -19,25 +19,33 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
   icon: Icon,
   onAction,
   buttonText,
-  isLoading = false
+  isLoading
 }) => {
   return (
-    <Card className="hover:shadow-lg transition-shadow">
-      <CardHeader className="text-center">
-        <Icon className="h-12 w-12 text-mansagold mx-auto mb-4" />
-        <CardTitle className="text-lg">{title}</CardTitle>
-        <CardDescription className="text-sm">
+    <Card className="h-full flex flex-col">
+      <CardHeader className="text-center pb-4">
+        <div className="mx-auto bg-mansablue/10 p-3 rounded-full w-fit mb-3">
+          <Icon className="h-8 w-8 text-mansablue" />
+        </div>
+        <CardTitle className="text-lg font-semibold text-mansablue">{title}</CardTitle>
+        <CardDescription className="text-sm text-gray-600">
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <Button 
-          className="w-full" 
+      <CardContent className="flex-grow flex items-end">
+        <Button
           onClick={onAction}
           disabled={isLoading}
+          className="w-full bg-mansablue hover:bg-mansablue-dark text-white"
         >
-          <Download className="h-4 w-4 mr-2" />
-          {buttonText}
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Generating...
+            </>
+          ) : (
+            buttonText
+          )}
         </Button>
       </CardContent>
     </Card>
