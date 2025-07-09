@@ -19,21 +19,21 @@ const ContactPage = () => {
                   <Mail className="h-6 w-6 text-mansablue mr-4" />
                   <div>
                     <p className="font-medium">Email</p>
-                    <p className="text-gray-600">support@mansamusamarketplace.com</p>
+                    <p className="text-gray-600">contact@mansamusamarketplace.com</p>
                   </div>
                 </div>
                 <div className="flex items-center">
                   <Phone className="h-6 w-6 text-mansablue mr-4" />
                   <div>
                     <p className="font-medium">Phone</p>
-                    <p className="text-gray-600">(555) 123-4567</p>
+                    <p className="text-gray-600">312.709.6006</p>
                   </div>
                 </div>
                 <div className="flex items-center">
                   <MapPin className="h-6 w-6 text-mansablue mr-4" />
                   <div>
                     <p className="font-medium">Address</p>
-                    <p className="text-gray-600">123 Business District<br />Atlanta, GA 30309</p>
+                    <p className="text-gray-600">1000 E. 111th Street, Suite 1100<br />Chicago, Illinois 60628</p>
                   </div>
                 </div>
               </div>
