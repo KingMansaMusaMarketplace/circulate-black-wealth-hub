@@ -5,6 +5,19 @@ import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, MessageCircle } from 'lucide-react';
 
 const ContactSupportCard = () => {
+  const handleEmailClick = () => {
+    window.location.href = 'mailto:contact@mansamusamarketplace.com';
+  };
+
+  const handlePhoneClick = () => {
+    window.location.href = 'tel:+13127096006';
+  };
+
+  const handleLiveChat = () => {
+    // For now, redirect to email - can be updated with actual chat service later
+    window.location.href = 'mailto:contact@mansamusamarketplace.com?subject=Live Chat Support Request';
+  };
+
   return (
     <Card className="lg:col-span-1">
       <CardHeader>
@@ -18,12 +31,12 @@ const ContactSupportCard = () => {
           <Mail className="h-4 w-4 text-mansagold mt-1 flex-shrink-0" />
           <div className="min-w-0 flex-1">
             <p className="font-medium">Email Support</p>
-            <a 
-              href="mailto:contact@mansamusamarketplace.com"
-              className="text-mansablue hover:text-mansablue-dark break-all"
+            <button 
+              onClick={handleEmailClick}
+              className="text-mansablue hover:text-mansablue-dark break-all text-left hover:underline"
             >
               contact@mansamusamarketplace.com
-            </a>
+            </button>
           </div>
         </div>
         
@@ -31,12 +44,12 @@ const ContactSupportCard = () => {
           <Phone className="h-4 w-4 text-mansagold mt-1 flex-shrink-0" />
           <div className="min-w-0 flex-1">
             <p className="font-medium">Phone Support</p>
-            <a 
-              href="tel:+13127096006"
-              className="text-mansablue hover:text-mansablue-dark"
+            <button 
+              onClick={handlePhoneClick}
+              className="text-mansablue hover:text-mansablue-dark hover:underline text-left"
             >
               312.709.6006
-            </a>
+            </button>
             <p className="text-sm text-gray-500">Mon-Fri 9AM-6PM CST</p>
           </div>
         </div>
@@ -52,7 +65,10 @@ const ContactSupportCard = () => {
           </div>
         </div>
         
-        <Button className="w-full mt-4">
+        <Button 
+          className="w-full mt-4 bg-mansablue hover:bg-mansablue-dark"
+          onClick={handleLiveChat}
+        >
           <MessageCircle className="h-4 w-4 mr-2" />
           Start Live Chat
         </Button>
