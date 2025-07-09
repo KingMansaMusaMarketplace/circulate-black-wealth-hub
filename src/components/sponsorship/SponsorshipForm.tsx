@@ -1,194 +1,253 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from '@/components/ui/form';
+import { z } from 'zod';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { CheckCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { subscriptionService } from '@/lib/services/subscription-service';
-import { createSponsorProfile } from '@/lib/api/sponsor-api';
-import { useAuth } from '@/contexts/AuthContext';
-import {
-  ContactInformationSection,
-  CompanyDetailsSection,
-  CompanyAddressSection,
-  SponsorshipDetailsSection
-} from './form-sections';
 
-const formSchema = z.object({
-  // Contact Information
-  contactName: z.string().min(2, { message: 'Contact name must be at least 2 characters.' }),
-  contactTitle: z.string().optional(),
-  email: z.string().email({ message: 'Please enter a valid email address.' }),
-  phone: z.string().min(10, { message: 'Please enter a valid phone number.' }),
-  
-  // Company Details
-  companyName: z.string().min(2, { message: 'Company name must be at least 2 characters.' }),
-  companyWebsite: z.string().url({ message: 'Please enter a valid website URL.' }).optional().or(z.literal('')),
-  industry: z.string().min(1, { message: 'Please select an industry.' }),
-  companySize: z.string().min(1, { message: 'Please select company size.' }),
-  
-  // Company Address
-  companyAddress: z.string().min(5, { message: 'Please enter a complete address.' }),
-  companyCity: z.string().min(2, { message: 'Please enter a valid city.' }),
-  companyState: z.string().min(2, { message: 'Please enter a valid state.' }),
-  companyZipCode: z.string().min(5, { message: 'Please enter a valid ZIP code.' }),
-  
-  // Sponsorship Details
-  sponsorshipTier: z.enum(['silver', 'gold', 'platinum'], {
-    required_error: 'Please select a sponsorship tier.',
-  }),
+const sponsorshipFormSchema = z.object({
+  companyName: z.string().min(2, 'Company name is required'),
+  contactName: z.string().min(2, 'Contact name is required'),
+  email: z.string().email('Valid email is required'),
+  phone: z.string().min(10, 'Phone number is required'),
+  website: z.string().url().optional().or(z.literal('')),
+  sponsorshipTier: z.enum(['silver', 'gold', 'platinum']),
+  industry: z.string().min(2, 'Industry is required'),
+  companySize: z.string().min(1, 'Company size is required'),
   message: z.string().optional(),
 });
 
-const SponsorshipForm = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const { user } = useAuth();
+type SponsorshipFormData = z.infer<typeof sponsorshipFormSchema>;
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      contactName: '',
-      contactTitle: '',
-      email: user?.email || '',
-      phone: '',
-      companyName: '',
-      companyWebsite: '',
-      industry: '',
-      companySize: '',
-      companyAddress: '',
-      companyCity: '',
-      companyState: '',
-      companyZipCode: '',
-      sponsorshipTier: 'silver',
-      message: '',
-    },
+const SponsorshipForm: React.FC = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    reset
+  } = useForm<SponsorshipFormData>({
+    resolver: zodResolver(sponsorshipFormSchema)
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log('Form submission started', values);
+  const sponsorshipTier = watch('sponsorshipTier');
+
+  const onSubmit = async (data: SponsorshipFormData) => {
+    setIsSubmitting(true);
     
     try {
-      setIsLoading(true);
+      // Simulate API call - replace with actual submission
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Check if user is authenticated for database operations
-      if (!user) {
-        toast.error('Please log in to submit a sponsorship application.');
-        return;
-      }
+      console.log('Sponsorship application submitted:', data);
       
-      console.log('Creating sponsor profile...');
-      // First, create the sponsor profile in our database
-      const sponsorProfileResult = await createSponsorProfile({
-        company_name: values.companyName,
-        contact_name: values.contactName,
-        contact_title: values.contactTitle,
-        email: values.email,
-        phone: values.phone,
-        company_address: values.companyAddress,
-        company_city: values.companyCity,
-        company_state: values.companyState,
-        company_zip_code: values.companyZipCode,
-        company_website: values.companyWebsite,
-        industry: values.industry,
-        company_size: values.companySize,
-        sponsorship_tier: values.sponsorshipTier,
-        message: values.message
-      });
-
-      if (!sponsorProfileResult.success) {
-        console.error('Failed to create sponsor profile:', sponsorProfileResult.error);
-        throw new Error('Failed to create sponsor profile');
-      }
-
-      console.log('Sponsor profile created successfully, creating checkout session...');
+      setIsSubmitted(true);
+      toast.success('Thank you! Your sponsorship application has been submitted successfully.');
+      reset();
       
-      // Then create the checkout session
-      const checkoutOptions = {
-        userType: 'corporate' as const,
-        email: values.email,
-        name: values.contactName,
-        companyName: values.companyName,
-        tier: values.sponsorshipTier,
-        phone: values.phone,
-        message: values.message,
-        contactTitle: values.contactTitle,
-        companyAddress: values.companyAddress,
-        companyCity: values.companyCity,
-        companyState: values.companyState,
-        companyZipCode: values.companyZipCode,
-        companyWebsite: values.companyWebsite,
-        industry: values.industry,
-        companySize: values.companySize
-      };
-      
-      const { url } = await subscriptionService.createCheckoutSession(checkoutOptions);
-      
-      console.log('Checkout session created, opening in new tab:', url);
-      
-      // Open checkout in new window
-      window.open(url, '_blank');
-      
-      toast.success('Sponsor profile created! Complete your subscription in the new tab.');
-      
-      // Clear form if successful
-      form.reset();
-      
+      // Reset success state after 5 seconds
+      setTimeout(() => setIsSubmitted(false), 5000);
     } catch (error) {
-      console.error('Sponsorship submission error:', error);
-      
-      // Show more specific error messages
-      if (error instanceof Error) {
-        if (error.message.includes('authentication') || error.message.includes('auth')) {
-          toast.error('Authentication required. Please log in and try again.');
-        } else if (error.message.includes('checkout') || error.message.includes('payment')) {
-          toast.error('Payment setup failed. Please check your information and try again.');
-        } else {
-          toast.error(`Submission failed: ${error.message}`);
-        }
-      } else {
-        toast.error('There was a problem processing your request. Please try again.');
-      }
+      console.error('Submission error:', error);
+      toast.error('Failed to submit application. Please try again.');
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
-  return (
-    <div className="py-16 bg-gray-50" id="sponsorship-form">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Become a Corporate Sponsor</h2>
-            <p className="text-lg text-gray-600">
-              Fill out the form below and our team will contact you to discuss the sponsorship details.
-            </p>
-          </div>
-          
-          <div className="bg-white p-8 rounded-lg shadow-lg">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <ContactInformationSection control={form.control} />
-                <CompanyDetailsSection control={form.control} />
-                <CompanyAddressSection control={form.control} />
-                <SponsorshipDetailsSection control={form.control} />
-                
-                <Button 
-                  type="submit" 
-                  className="w-full bg-mansablue hover:bg-mansablue-dark text-lg py-6" 
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Processing...' : 'Submit Sponsorship Application'}
-                </Button>
-              </form>
-            </Form>
-          </div>
+  if (isSubmitted) {
+    return (
+      <section id="sponsorship-form" className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <Card className="max-w-2xl mx-auto text-center">
+            <CardContent className="pt-8">
+              <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-mansablue mb-4">Application Submitted!</h3>
+              <p className="text-gray-600 mb-6">
+                Thank you for your interest in partnering with us. Our team will review your application 
+                and contact you within 1-2 business days to discuss the next steps.
+              </p>
+              <Button onClick={() => setIsSubmitted(false)}>
+                Submit Another Application
+              </Button>
+            </CardContent>
+          </Card>
         </div>
+      </section>
+    );
+  }
+
+  return (
+    <section id="sponsorship-form" className="py-16 bg-white">
+      <div className="container mx-auto px-4">
+        <Card className="max-w-2xl mx-auto">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold text-mansablue">
+              Partnership Application
+            </CardTitle>
+            <CardDescription>
+              Ready to make an impact? Fill out the form below and we'll be in touch soon.
+            </CardDescription>
+          </CardHeader>
+          
+          <CardContent>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="companyName">Company Name *</Label>
+                  <Input
+                    id="companyName"
+                    {...register('companyName')}
+                    placeholder="Your Company Name"
+                  />
+                  {errors.companyName && (
+                    <p className="text-sm text-red-600 mt-1">{errors.companyName.message}</p>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="contactName">Contact Name *</Label>
+                  <Input
+                    id="contactName"
+                    {...register('contactName')}
+                    placeholder="Your Full Name"
+                  />
+                  {errors.contactName && (
+                    <p className="text-sm text-red-600 mt-1">{errors.contactName.message}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="email">Email Address *</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    {...register('email')}
+                    placeholder="contact@company.com"
+                  />
+                  {errors.email && (
+                    <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="phone">Phone Number *</Label>
+                  <Input
+                    id="phone"
+                    {...register('phone')}
+                    placeholder="(555) 123-4567"
+                  />
+                  {errors.phone && (
+                    <p className="text-sm text-red-600 mt-1">{errors.phone.message}</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="website">Company Website</Label>
+                <Input
+                  id="website"
+                  {...register('website')}
+                  placeholder="https://www.company.com"
+                />
+                {errors.website && (
+                  <p className="text-sm text-red-600 mt-1">{errors.website.message}</p>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="sponsorshipTier">Preferred Sponsorship Tier *</Label>
+                <Select onValueChange={(value) => setValue('sponsorshipTier', value as any)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a sponsorship tier" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="silver">Silver Partner - $2,500/month</SelectItem>
+                    <SelectItem value="gold">Gold Partner - $5,000/month</SelectItem>
+                    <SelectItem value="platinum">Platinum Partner - $10,000/month</SelectItem>
+                  </SelectContent>
+                </Select>
+                {errors.sponsorshipTier && (
+                  <p className="text-sm text-red-600 mt-1">{errors.sponsorshipTier.message}</p>
+                )}
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="industry">Industry *</Label>
+                  <Input
+                    id="industry"
+                    {...register('industry')}
+                    placeholder="e.g., Technology, Finance, Healthcare"
+                  />
+                  {errors.industry && (
+                    <p className="text-sm text-red-600 mt-1">{errors.industry.message}</p>
+                  )}
+                </div>
+                
+                <div>
+                  <Label htmlFor="companySize">Company Size *</Label>
+                  <Select onValueChange={(value) => setValue('companySize', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select company size" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="startup">Startup (1-10 employees)</SelectItem>
+                      <SelectItem value="small">Small (11-50 employees)</SelectItem>
+                      <SelectItem value="medium">Medium (51-200 employees)</SelectItem>
+                      <SelectItem value="large">Large (201-1000 employees)</SelectItem>
+                      <SelectItem value="enterprise">Enterprise (1000+ employees)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {errors.companySize && (
+                    <p className="text-sm text-red-600 mt-1">{errors.companySize.message}</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="message">Additional Message</Label>
+                <Textarea
+                  id="message"
+                  {...register('message')}
+                  placeholder="Tell us about your company's values, community involvement, or specific partnership interests..."
+                  rows={4}
+                />
+              </div>
+
+              <Button 
+                type="submit" 
+                className="w-full bg-mansablue hover:bg-mansablue-dark"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Submitting Application...
+                  </>
+                ) : (
+                  'Submit Partnership Application'
+                )}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
-    </div>
+    </section>
   );
 };
 

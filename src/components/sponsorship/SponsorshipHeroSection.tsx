@@ -1,24 +1,23 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 
 interface SponsorshipHeroSectionProps {
   onContactPartnership: () => void;
 }
 
 const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onContactPartnership }) => {
-  const navigate = useNavigate();
-
   const handleBecomePartner = () => {
     const formElement = document.getElementById('sponsorship-form');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      // If form is not on current page, navigate to sponsorship page
-      navigate('/sponsorship');
-      toast.success('Redirecting to sponsorship form...');
+    }
+  };
+
+  const handleViewTiers = () => {
+    const tiersElement = document.getElementById('sponsorship-tiers');
+    if (tiersElement) {
+      tiersElement.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -32,13 +31,23 @@ const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onConta
           Partner with us to create meaningful economic impact while supporting Black-owned businesses 
           and strengthening communities across the nation.
         </p>
-        <Button 
-          size="lg" 
-          className="bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold"
-          onClick={handleBecomePartner}
-        >
-          Become a Partner
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button 
+            size="lg" 
+            className="bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold"
+            onClick={handleBecomePartner}
+          >
+            Become a Partner
+          </Button>
+          <Button 
+            size="lg" 
+            variant="white"
+            className="font-semibold"
+            onClick={handleViewTiers}
+          >
+            View Sponsorship Tiers
+          </Button>
+        </div>
       </div>
     </div>
   );
