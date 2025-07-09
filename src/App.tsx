@@ -31,6 +31,7 @@ import HowItWorksPage from './pages/HowItWorksPage';
 import EducationPage from './pages/EducationPage';
 import MentorshipPage from './pages/MentorshipPage';
 import LoyaltyPage from './pages/LoyaltyPage';
+import CommunityImpactPage from './pages/CommunityImpactPage';
 
 const queryClient = new QueryClient();
 
@@ -87,8 +88,10 @@ function App() {
                       {/* Fixed Loyalty route */}
                       <Route path="/loyalty" element={<LoyaltyPage />} />
                       
+                      {/* Fixed Community Impact route */}
+                      <Route path="/community-impact" element={<CommunityImpactPage />} />
+                      
                       {/* Missing routes from navbar - redirecting to placeholder for now */}
-                      <Route path="/community-impact" element={<NotFound />} />
                       <Route path="/corporate-sponsorship" element={<NotFound />} />
                       <Route path="/mobile-readiness-test" element={<NotFound />} />
                       
