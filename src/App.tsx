@@ -32,6 +32,7 @@ import EducationPage from './pages/EducationPage';
 import MentorshipPage from './pages/MentorshipPage';
 import LoyaltyPage from './pages/LoyaltyPage';
 import CommunityImpactPage from './pages/CommunityImpactPage';
+import DashboardPage from './pages/DashboardPage';
 
 const queryClient = new QueryClient();
 
@@ -72,6 +73,9 @@ function App() {
                       <Route path="/cookies" element={<CookiePolicyPage />} />
                       <Route path="/testing/signup" element={<SignupTestPage />} />
                       <Route path="/accessibility" element={<AccessibilityPage />} />
+                      
+                      {/* Fixed Dashboard route */}
+                      <Route path="/dashboard" element={<DashboardPage />} />
                       
                       {/* Fixed How It Works route */}
                       <Route path="/how-it-works" element={<HowItWorksPage />} />
