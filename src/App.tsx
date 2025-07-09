@@ -24,6 +24,7 @@ import TermsOfServicePage from './pages/TermsOfServicePage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import CookiePolicyPage from './pages/CookiePolicyPage';
 import BlogPage from './pages/BlogPage';
+import HelpPage from './pages/HelpPage';
 import NotFound from './pages/NotFound';
 import SignupTestPage from './pages/SignupTestPage';
 import AccessibilityPage from "@/pages/AccessibilityPage";
@@ -79,6 +80,7 @@ function App() {
                       <Route path="/privacy" element={<PrivacyPolicyPage />} />
                       <Route path="/cookies" element={<CookiePolicyPage />} />
                       <Route path="/blog" element={<BlogPage />} />
+                      <Route path="/help" element={<HelpPage />} />
                       <Route path="/testing/signup" element={<SignupTestPage />} />
                       <Route path="/accessibility" element={<AccessibilityPage />} />
                       
