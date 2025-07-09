@@ -28,6 +28,7 @@ import SignupTestPage from './pages/SignupTestPage';
 import AccessibilityPage from "@/pages/AccessibilityPage";
 import DirectoryPage from './pages/DirectoryPage';
 import HowItWorksPage from './pages/HowItWorksPage';
+import EducationPage from './pages/EducationPage';
 
 const queryClient = new QueryClient();
 
@@ -72,8 +73,10 @@ function App() {
                       {/* Fixed How It Works route */}
                       <Route path="/how-it-works" element={<HowItWorksPage />} />
                       
+                      {/* Fixed Education route */}
+                      <Route path="/education" element={<EducationPage />} />
+                      
                       {/* Missing routes from navbar - redirecting to placeholder for now */}
-                      <Route path="/education" element={<NotFound />} />
                       <Route path="/mentorship" element={<NotFound />} />
                       <Route path="/scanner" element={<QRScannerPage />} />
                       <Route path="/loyalty" element={<NotFound />} />
