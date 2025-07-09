@@ -68,6 +68,16 @@ function App() {
                       <Route path="/testing/signup" element={<SignupTestPage />} />
                       <Route path="/accessibility" element={<AccessibilityPage />} />
                       
+                      {/* Missing routes from navbar - redirecting to placeholder for now */}
+                      <Route path="/how-it-works" element={<NotFound />} />
+                      <Route path="/education" element={<NotFound />} />
+                      <Route path="/mentorship" element={<NotFound />} />
+                      <Route path="/scanner" element={<QRScannerPage />} />
+                      <Route path="/loyalty" element={<NotFound />} />
+                      <Route path="/community-impact" element={<NotFound />} />
+                      <Route path="/corporate-sponsorship" element={<NotFound />} />
+                      <Route path="/mobile-readiness-test" element={<NotFound />} />
+                      
                       {/* Catch all route for 404 */}
                       <Route path="*" element={<NotFound />} />
                     </Routes>
