@@ -1,130 +1,78 @@
-
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from 'sonner';
-import MobileAppWrapper from '@/components/mobile/MobileAppWrapper';
-import ErrorBoundary from '@/components/ErrorBoundary';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
+import { HelmetProvider } from 'react-helmet-async';
+import "./index.css";
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import BusinessSignupPage from './pages/BusinessSignupPage';
+import ProfilePage from './pages/ProfilePage';
+import SubscriptionPage from './pages/SubscriptionPage';
+import SalesAgentSignupPage from './pages/SalesAgentSignupPage';
+import BusinessProfilePage from './pages/BusinessProfilePage';
+import QRScannerPage from './pages/QRScannerPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import CookiePolicyPage from './pages/CookiePolicyPage';
+import NotFoundPage from './pages/NotFoundPage';
+import TestSignupPage from './pages/TestSignupPage';
+import AccessibilityPage from "@/pages/AccessibilityPage";
 
-// Import pages
-import HomePage from '@/pages/HomePage';
-import BusinessDirectoryPage from '@/pages/BusinessDirectoryPage';
-import QRScannerPage from '@/pages/QRScannerPage';
-import LoginPage from '@/pages/LoginPage';
-import SignupPage from '@/pages/SignupPage';
-import CustomerSignupPage from '@/pages/CustomerSignupPage';
-import BusinessSignupPage from '@/pages/BusinessSignupPage';
-import DashboardPage from '@/pages/DashboardPage';
-import BusinessFormPage from '@/pages/BusinessFormPage';
-import LoyaltyPage from '@/pages/LoyaltyPage';
-import CommunityImpactPage from '@/pages/CommunityImpactPage';
-import BusinessDetailPage from '@/pages/BusinessDetailPage';
-import ProfilePage from '@/pages/ProfilePage';
-import BlogPage from '@/pages/BlogPage';
-import NotFound from '@/pages/NotFound';
+const queryClient = new QueryClient();
 
-// Import additional pages
-import AboutUsPage from '@/pages/AboutUsPage';
-import HowItWorksPage from '@/pages/HowItWorksPage';
-import EducationPage from '@/pages/EducationPage';
-import MentorshipPage from '@/pages/MentorshipPage';
-import CorporateSponsorshipPage from '@/pages/CorporateSponsorshipPage';
-import SalesAgentPage from '@/pages/SalesAgentPage';
-import SubscriptionPage from '@/pages/SubscriptionPage';
-import HelpCenterPage from '@/pages/HelpCenterPage';
-import FAQPage from '@/pages/FAQPage';
-import ContactPage from '@/pages/ContactPage';
-import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
-import TermsOfServicePage from '@/pages/TermsOfServicePage';
-import MobileReadinessTestPage from '@/pages/MobileReadinessTestPage';
-import SignupSuccessPage from '@/pages/SignupSuccessPage';
-
-// Import testing pages
-import TestPage from '@/pages/TestPage';
-import SystemTestPage from '@/pages/SystemTestPage';
-import ComprehensiveTestPage from '@/pages/ComprehensiveTestPage';
-import CapacitorTestPage from '@/pages/CapacitorTestPage';
-import HBCUTestPage from '@/pages/HBCUTestPage';
-import SignupTestPage from '@/pages/SignupTestPage';
-import CommunityImpactTestPage from '@/pages/CommunityImpactTestPage';
-import RegistrationTestPage from '@/pages/RegistrationTestPage';
-
-// Import auth components
-import RequireAuth from '@/components/auth/RequireAuth';
-
-const App = () => {
+function App() {
   return (
-    <ErrorBoundary>
-      <MobileAppWrapper>
-        <div className="App min-h-screen bg-white">
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<HomePage />} />
-            <Route path="/directory" element={<BusinessDirectoryPage />} />
-            <Route path="/business/:id" element={<BusinessDetailPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/signup/customer" element={<CustomerSignupPage />} />
-            <Route path="/signup/business" element={<BusinessSignupPage />} />
-            <Route path="/signup/success" element={<SignupSuccessPage />} />
-            <Route path="/business-form" element={<BusinessFormPage />} />
-            <Route path="/community-impact" element={<CommunityImpactPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/about" element={<AboutUsPage />} />
-            <Route path="/how-it-works" element={<HowItWorksPage />} />
-            <Route path="/education" element={<EducationPage />} />
-            <Route path="/mentorship" element={<MentorshipPage />} />
-            <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
-            <Route path="/sales-agent" element={<SalesAgentPage />} />
-            <Route path="/subscription" element={<SubscriptionPage />} />
-            <Route path="/help" element={<HelpCenterPage />} />
-            <Route path="/faq" element={<FAQPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
-            <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-            <Route path="/terms" element={<Navigate to="/terms-of-service" replace />} />
-            <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
-            
-            {/* Testing Routes */}
-            <Route path="/test" element={<TestPage />} />
-            <Route path="/system-test" element={<SystemTestPage />} />
-            <Route path="/comprehensive-test" element={<ComprehensiveTestPage />} />
-            <Route path="/capacitor-test" element={<CapacitorTestPage />} />
-            <Route path="/hbcu-test" element={<HBCUTestPage />} />
-            <Route path="/signup-test" element={<SignupTestPage />} />
-            <Route path="/community-impact-test" element={<CommunityImpactTestPage />} />
-            <Route path="/registration-test" element={<RegistrationTestPage />} />
-            
-            {/* Protected Routes */}
-            <Route path="/scanner" element={
-              <RequireAuth>
-                <QRScannerPage />
-              </RequireAuth>
-            } />
-            <Route path="/dashboard" element={
-              <RequireAuth>
-                <DashboardPage />
-              </RequireAuth>
-            } />
-            <Route path="/loyalty" element={
-              <RequireAuth>
-                <LoyaltyPage />
-              </RequireAuth>
-            } />
-            <Route path="/profile" element={
-              <RequireAuth>
-                <ProfilePage />
-              </RequireAuth>
-            } />
-            
-            {/* 404 Page */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Toaster />
-        </div>
-      </MobileAppWrapper>
-    </ErrorBoundary>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <SubscriptionProvider>
+            <BrowserRouter>
+              <TooltipProvider>
+                <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
+                  {/* Skip to main content link for keyboard navigation */}
+                  <a href="#main-content" className="skip-link">
+                    Skip to main content
+                  </a>
+                  
+                  <div id="main-content" role="main">
+                    <Routes>
+                      <Route path="/" element={<HomePage />} />
+                      <Route path="/login" element={<LoginPage />} />
+                      <Route path="/signup" element={<SignupPage />} />
+                      <Route path="/business-signup" element={<BusinessSignupPage />} />
+                      <Route path="/profile" element={<ProfilePage />} />
+                      <Route path="/subscription" element={<SubscriptionPage />} />
+                      <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
+                      <Route path="/business/:businessId" element={<BusinessProfilePage />} />
+                      <Route path="/qr-scanner" element={<QRScannerPage />} />
+                      <Route path="/about" element={<AboutPage />} />
+                      <Route path="/contact" element={<ContactPage />} />
+                      <Route path="/terms" element={<TermsOfServicePage />} />
+                      <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                      <Route path="/cookies" element={<CookiePolicyPage />} />
+                      <Route path="/testing/signup" element={<TestSignupPage />} />
+                      <Route path="*" element={<NotFoundPage />} />
+                      <Route path="/accessibility" element={<AccessibilityPage />} />
+                    </Routes>
+                  </div>
+                </div>
+                <Toaster />
+                <Sonner />
+              </TooltipProvider>
+            </BrowserRouter>
+          </SubscriptionProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
-};
+}
 
 export default App;
