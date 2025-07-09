@@ -30,6 +30,7 @@ import DirectoryPage from './pages/DirectoryPage';
 import HowItWorksPage from './pages/HowItWorksPage';
 import EducationPage from './pages/EducationPage';
 import MentorshipPage from './pages/MentorshipPage';
+import LoyaltyPage from './pages/LoyaltyPage';
 
 const queryClient = new QueryClient();
 
@@ -83,8 +84,10 @@ function App() {
                       {/* QR Scanner routes - both /scanner and /qr-scanner should work */}
                       <Route path="/scanner" element={<QRScannerPage />} />
                       
+                      {/* Fixed Loyalty route */}
+                      <Route path="/loyalty" element={<LoyaltyPage />} />
+                      
                       {/* Missing routes from navbar - redirecting to placeholder for now */}
-                      <Route path="/loyalty" element={<NotFound />} />
                       <Route path="/community-impact" element={<NotFound />} />
                       <Route path="/corporate-sponsorship" element={<NotFound />} />
                       <Route path="/mobile-readiness-test" element={<NotFound />} />
