@@ -48,7 +48,11 @@ function App() {
                       <Route path="/" element={<HomePage />} />
                       <Route path="/login" element={<LoginPage />} />
                       <Route path="/signup" element={<SignupPage />} />
+                      
+                      {/* Business signup routes - support both URL patterns */}
                       <Route path="/business-signup" element={<BusinessSignupPage />} />
+                      <Route path="/signup/business" element={<BusinessSignupPage />} />
+                      
                       <Route path="/profile" element={<ProfilePage />} />
                       <Route path="/subscription" element={<SubscriptionPage />} />
                       <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
@@ -61,6 +65,8 @@ function App() {
                       <Route path="/cookies" element={<CookiePolicyPage />} />
                       <Route path="/testing/signup" element={<SignupTestPage />} />
                       <Route path="/accessibility" element={<AccessibilityPage />} />
+                      
+                      {/* Catch all route for 404 */}
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </div>
