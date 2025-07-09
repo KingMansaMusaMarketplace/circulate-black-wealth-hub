@@ -35,6 +35,7 @@ import CommunityImpactPage from './pages/CommunityImpactPage';
 import DashboardPage from './pages/DashboardPage';
 import CorporateSponsorshipPage from './pages/CorporateSponsorshipPage';
 import MobileReadinessTestPage from './pages/MobileReadinessTestPage';
+import BusinessFormPage from './pages/BusinessFormPage';
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,9 @@ function App() {
                       {/* Business signup routes - support both URL patterns */}
                       <Route path="/business-signup" element={<BusinessSignupPage />} />
                       <Route path="/signup/business" element={<BusinessSignupPage />} />
+                      
+                      {/* Business form route */}
+                      <Route path="/business-form" element={<BusinessFormPage />} />
                       
                       <Route path="/profile" element={<ProfilePage />} />
                       <Route path="/subscription" element={<SubscriptionPage />} />
