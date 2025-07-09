@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle, Users, Building, CreditCard } from 'lucide-react';
+import { CheckCircle, Users, Building, CreditCard, TrendingUp } from 'lucide-react';
 import CustomerSignupTab from './CustomerSignupTab';
 import BusinessSignupForm from './BusinessSignupForm';
 import EnhancedPaymentButton from '@/components/payments/EnhancedPaymentButton';
@@ -135,7 +135,7 @@ const EnhancedSignupForm: React.FC = () => {
             
             <TabsContent value="customer" className="w-full">
               <div className="max-w-md mx-auto">
-                <CustomerSignupTab onSuccess={handleSignupSuccess} />
+                <CustomerSignupTab />
               </div>
             </TabsContent>
             
@@ -144,7 +144,6 @@ const EnhancedSignupForm: React.FC = () => {
                 referralCode=""
                 referringAgent={null}
                 onCheckReferralCode={async () => null}
-                onSuccess={handleSignupSuccess}
               />
             </TabsContent>
           </Tabs>
