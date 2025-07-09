@@ -12,7 +12,7 @@ const CookiePolicyPage = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-mansablue mb-4">Cookie Policy</h1>
           <p className="text-lg text-gray-600">
-            Last updated: January 2024
+            Last updated: January 2025
           </p>
         </div>
 
