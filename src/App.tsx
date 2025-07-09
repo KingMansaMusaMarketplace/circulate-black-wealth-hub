@@ -80,8 +80,10 @@ function App() {
                       {/* Fixed Mentorship route */}
                       <Route path="/mentorship" element={<MentorshipPage />} />
                       
-                      {/* Missing routes from navbar - redirecting to placeholder for now */}
+                      {/* QR Scanner routes - both /scanner and /qr-scanner should work */}
                       <Route path="/scanner" element={<QRScannerPage />} />
+                      
+                      {/* Missing routes from navbar - redirecting to placeholder for now */}
                       <Route path="/loyalty" element={<NotFound />} />
                       <Route path="/community-impact" element={<NotFound />} />
                       <Route path="/corporate-sponsorship" element={<NotFound />} />
