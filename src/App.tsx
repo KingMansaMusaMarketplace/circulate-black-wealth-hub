@@ -33,6 +33,7 @@ import MentorshipPage from './pages/MentorshipPage';
 import LoyaltyPage from './pages/LoyaltyPage';
 import CommunityImpactPage from './pages/CommunityImpactPage';
 import DashboardPage from './pages/DashboardPage';
+import CorporateSponsorshipPage from './pages/CorporateSponsorshipPage';
 
 const queryClient = new QueryClient();
 
@@ -95,8 +96,10 @@ function App() {
                       {/* Fixed Community Impact route */}
                       <Route path="/community-impact" element={<CommunityImpactPage />} />
                       
+                      {/* Fixed Corporate Sponsorship route */}
+                      <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
+                      
                       {/* Missing routes from navbar - redirecting to placeholder for now */}
-                      <Route path="/corporate-sponsorship" element={<NotFound />} />
                       <Route path="/mobile-readiness-test" element={<NotFound />} />
                       
                       {/* Catch all route for 404 */}
