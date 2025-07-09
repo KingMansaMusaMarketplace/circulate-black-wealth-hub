@@ -26,6 +26,7 @@ import CookiePolicyPage from './pages/CookiePolicyPage';
 import NotFound from './pages/NotFound';
 import SignupTestPage from './pages/SignupTestPage';
 import AccessibilityPage from "@/pages/AccessibilityPage";
+import DirectoryPage from './pages/DirectoryPage';
 
 const queryClient = new QueryClient();
 
@@ -58,6 +59,7 @@ function App() {
                       <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
                       <Route path="/business/:businessId" element={<BusinessProfilePage />} />
                       <Route path="/qr-scanner" element={<QRScannerPage />} />
+                      <Route path="/directory" element={<DirectoryPage />} />
                       <Route path="/about" element={<AboutPage />} />
                       <Route path="/contact" element={<ContactPage />} />
                       <Route path="/terms" element={<TermsOfServicePage />} />
