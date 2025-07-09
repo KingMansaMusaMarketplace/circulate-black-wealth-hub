@@ -38,6 +38,8 @@ import DashboardPage from './pages/DashboardPage';
 import CorporateSponsorshipPage from './pages/CorporateSponsorshipPage';
 import MobileReadinessTestPage from './pages/MobileReadinessTestPage';
 import BusinessFormPage from './pages/BusinessFormPage';
+import PasswordResetRequestPage from './pages/PasswordResetRequestPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 const queryClient = new QueryClient();
 
@@ -67,6 +69,10 @@ function App() {
                       
                       {/* Business form route */}
                       <Route path="/business-form" element={<BusinessFormPage />} />
+                      
+                      {/* Password reset routes */}
+                      <Route path="/reset-password" element={<PasswordResetRequestPage />} />
+                      <Route path="/password-reset" element={<ResetPasswordPage />} />
                       
                       <Route path="/profile" element={<ProfilePage />} />
                       <Route path="/subscription" element={<SubscriptionPage />} />

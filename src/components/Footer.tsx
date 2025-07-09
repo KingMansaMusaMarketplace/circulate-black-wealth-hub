@@ -1,9 +1,19 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
+  const navigate = useNavigate();
+
+  const handleEmailClick = () => {
+    window.location.href = 'mailto:contact@mansamusamarketplace.com';
+  };
+
+  const handlePhoneClick = () => {
+    window.location.href = 'tel:+1-312-709-6006';
+  };
+
   return (
     <footer className="bg-mansablue-dark text-white py-12">
       <div className="container mx-auto px-4">
@@ -26,21 +36,21 @@ const Footer = () => {
             <div className="space-y-2">
               <div className="flex items-center">
                 <Mail className="h-4 w-4 mr-2" />
-                <a 
-                  href="mailto:contact@mansamusamarketplace.com" 
-                  className="text-blue-100 hover:text-white transition-colors"
+                <button 
+                  onClick={handleEmailClick}
+                  className="text-blue-100 hover:text-white transition-colors hover:underline"
                 >
                   contact@mansamusamarketplace.com
-                </a>
+                </button>
               </div>
               <div className="flex items-center">
                 <Phone className="h-4 w-4 mr-2" />
-                <a 
-                  href="tel:+1-312-709-6006" 
-                  className="text-blue-100 hover:text-white transition-colors"
+                <button 
+                  onClick={handlePhoneClick}
+                  className="text-blue-100 hover:text-white transition-colors hover:underline"
                 >
                   (312) 709-6006
-                </a>
+                </button>
               </div>
               <div className="flex items-center">
                 <MapPin className="h-4 w-4 mr-2" />
@@ -82,12 +92,12 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/signup/business" className="text-blue-100 hover:text-white transition-colors">
+                <Link to="/business-signup" className="text-blue-100 hover:text-white transition-colors">
                   Business Signup
                 </Link>
               </li>
               <li>
-                <Link to="/signup/customer" className="text-blue-100 hover:text-white transition-colors">
+                <Link to="/signup" className="text-blue-100 hover:text-white transition-colors">
                   Customer Signup
                 </Link>
               </li>
@@ -146,9 +156,12 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/faq" className="text-blue-100 hover:text-white transition-colors">
+                <button 
+                  onClick={() => navigate('/help')}
+                  className="text-blue-100 hover:text-white transition-colors hover:underline text-left"
+                >
                   FAQ
-                </Link>
+                </button>
               </li>
               <li>
                 <Link to="/accessibility" className="text-blue-100 hover:text-white transition-colors">
@@ -172,18 +185,34 @@ const Footer = () => {
         {/* Social Media & Copyright */}
         <div className="border-t border-blue-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="flex space-x-4 mb-4 md:mb-0">
-            <a href="#" className="text-blue-100 hover:text-white transition-colors">
+            <button 
+              onClick={() => window.open('https://facebook.com', '_blank')}
+              className="text-blue-100 hover:text-white transition-colors"
+              aria-label="Visit our Facebook page"
+            >
               <Facebook className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-blue-100 hover:text-white transition-colors">
+            </button>
+            <button 
+              onClick={() => window.open('https://twitter.com', '_blank')}
+              className="text-blue-100 hover:text-white transition-colors"
+              aria-label="Visit our Twitter page"
+            >
               <Twitter className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-blue-100 hover:text-white transition-colors">
+            </button>
+            <button 
+              onClick={() => window.open('https://instagram.com', '_blank')}
+              className="text-blue-100 hover:text-white transition-colors"
+              aria-label="Visit our Instagram page"
+            >
               <Instagram className="h-5 w-5" />
-            </a>
-            <a href="#" className="text-blue-100 hover:text-white transition-colors">
+            </button>
+            <button 
+              onClick={() => window.open('https://linkedin.com', '_blank')}
+              className="text-blue-100 hover:text-white transition-colors"
+              aria-label="Visit our LinkedIn page"
+            >
               <Linkedin className="h-5 w-5" />
-            </a>
+            </button>
           </div>
           <p className="text-blue-100 text-sm">
             © 2024 Mansa Musa Marketplace. All rights reserved.

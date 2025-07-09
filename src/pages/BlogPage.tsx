@@ -1,13 +1,18 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { ArrowRight, BookOpen, Clock, User } from 'lucide-react';
+import { toast } from 'sonner';
 
 const BlogPage = () => {
+  const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
+
   const comingSoonPosts = [
     {
       title: "The Economic Impact of Black Dollar Circulation",
@@ -31,6 +36,27 @@ const BlogPage = () => {
       category: "Wealth Building"
     }
   ];
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error('Please enter your email address');
+      return;
+    }
+
+    setIsSubscribing(true);
+    
+    // Simulate newsletter subscription
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast.success('Successfully subscribed to our newsletter!');
+      setEmail('');
+    } catch (error) {
+      toast.error('Failed to subscribe. Please try again.');
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -117,17 +143,24 @@ const BlogPage = () => {
                     Be the first to know when we publish new articles about 
                     economic empowerment and business success.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                    <input
+                  <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                    <Input
                       type="email"
                       placeholder="Enter your email"
-                      className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-mansablue"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="flex-grow"
+                      required
                     />
-                    <Button className="bg-mansablue hover:bg-mansablue-dark text-white">
-                      Subscribe
+                    <Button 
+                      type="submit"
+                      className="bg-mansablue hover:bg-mansablue-dark text-white"
+                      disabled={isSubscribing}
+                    >
+                      {isSubscribing ? 'Subscribing...' : 'Subscribe'}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
-                  </div>
+                  </form>
                 </CardContent>
               </Card>
             </div>
