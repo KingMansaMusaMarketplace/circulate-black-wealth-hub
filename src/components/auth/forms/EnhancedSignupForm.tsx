@@ -13,9 +13,14 @@ const EnhancedSignupForm: React.FC = () => {
   const { user } = useAuth();
   const [selectedTab, setSelectedTab] = useState('customer');
   const [showPayment, setShowPayment] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
 
   const handleSignupSuccess = () => {
-    setShowPayment(true);
+    setSignupSuccess(true);
+    // Show payment options after successful signup
+    setTimeout(() => {
+      setShowPayment(true);
+    }, 2000);
   };
 
   const customerPlans = [
@@ -66,7 +71,8 @@ const EnhancedSignupForm: React.FC = () => {
     }
   ];
 
-  if (showPayment && user) {
+  // Show payment options if user just signed up successfully or if already authenticated
+  if ((showPayment && signupSuccess) || (user && !signupSuccess)) {
     const plans = selectedTab === 'customer' ? customerPlans : businessPlans;
     
     return (
@@ -77,7 +83,10 @@ const EnhancedSignupForm: React.FC = () => {
             <span>Choose Your Plan</span>
           </CardTitle>
           <CardDescription>
-            Select a plan to get the most out of Mansa Musa Marketplace
+            {signupSuccess ? 
+              'Welcome! Select a plan to get the most out of Mansa Musa Marketplace' :
+              'Select a plan to get the most out of Mansa Musa Marketplace'
+            }
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -87,8 +96,8 @@ const EnhancedSignupForm: React.FC = () => {
                 key={plan.tier}
                 userType={selectedTab as 'customer' | 'business'}
                 tier={plan.tier}
-                email={user.email || ''}
-                name={user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'}
+                email={user?.email || 'guest@example.com'}
+                name={user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'}
                 price={plan.price}
                 features={plan.features}
                 onSuccess={() => {
@@ -135,7 +144,7 @@ const EnhancedSignupForm: React.FC = () => {
             
             <TabsContent value="customer" className="w-full">
               <div className="max-w-md mx-auto">
-                <CustomerSignupTab />
+                <CustomerSignupTab onSuccess={handleSignupSuccess} />
               </div>
             </TabsContent>
             
@@ -144,6 +153,7 @@ const EnhancedSignupForm: React.FC = () => {
                 referralCode=""
                 referringAgent={null}
                 onCheckReferralCode={async () => null}
+                onSuccess={handleSignupSuccess}
               />
             </TabsContent>
           </Tabs>

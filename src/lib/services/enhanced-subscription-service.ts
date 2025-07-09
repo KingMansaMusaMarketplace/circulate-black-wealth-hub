@@ -28,14 +28,15 @@ export const enhancedSubscriptionService = {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
-        throw new Error('User must be authenticated to create subscription');
+        // For non-authenticated users, we can still create checkout sessions
+        console.log('No active session, creating guest checkout');
       }
 
       const { data, error } = await supabase.functions.invoke('create-checkout', {
         body: subscriptionData,
-        headers: {
+        headers: session ? {
           Authorization: `Bearer ${session.access_token}`,
-        },
+        } : {},
       });
 
       if (error) {
@@ -48,6 +49,7 @@ export const enhancedSubscriptionService = {
         throw new Error('Payment service did not return a checkout URL');
       }
 
+      console.log('Checkout session created successfully:', data);
       return {
         success: true,
         sessionId: data.sessionId,

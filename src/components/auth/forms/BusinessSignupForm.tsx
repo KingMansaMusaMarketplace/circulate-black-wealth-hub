@@ -3,126 +3,342 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useNavigate } from 'react-router-dom';
-import { useSignupForm } from '../hooks/useSignupForm';
-import { SalesAgent } from '@/types/sales-agent';
-import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
-import PlanSelection from './business/PlanSelection';
-import BusinessInformationForm from './business/BusinessInformationForm';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Loader2, AlertCircle, CheckCircle } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const businessSignupSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email address'),
+  email: z.string().email('Please enter a valid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
-  business_name: z.string().min(2, 'Business name must be at least 2 characters'),
-  business_description: z.string().min(10, 'Description must be at least 10 characters'),
-  business_address: z.string().min(5, 'Address must be at least 5 characters'),
-  phone: z.string().min(10, 'Phone number must be at least 10 characters'),
-  referralCode: z.string().optional(),
-  isHBCUMember: z.boolean().default(false),
-  subscription_tier: z.enum(['business_starter', 'business']).default('business_starter')
+  confirmPassword: z.string(),
+  fullName: z.string().min(2, 'Full name must be at least 2 characters'),
+  businessName: z.string().min(2, 'Business name must be at least 2 characters'),
+  category: z.string().min(1, 'Please select a business category'),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  zipCode: z.string().optional(),
+  website: z.string().optional(),
+  description: z.string().optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
-type BusinessSignupFormValues = z.infer<typeof businessSignupSchema>;
+type BusinessSignupForm = z.infer<typeof businessSignupSchema>;
 
 interface BusinessSignupFormProps {
-  referralCode?: string;
-  referringAgent?: SalesAgent | null;
-  onCheckReferralCode?: (code: string) => Promise<SalesAgent | null>;
+  referralCode: string;
+  referringAgent: any;
+  onCheckReferralCode: (code: string) => Promise<any>;
+  onSuccess?: () => void;
 }
 
-const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
-  referralCode = '',
-  referringAgent,
-  onCheckReferralCode
-}) => {
-  const navigate = useNavigate();
-  const [selectedTier, setSelectedTier] = useState<SubscriptionTier>('business_starter');
-  
-  const {
-    form: signupForm,
-    isLoading,
-    isHBCUMember,
-    onSubmit: handleSignupSubmit,
-    onReferralCodeBlur,
-    handleHBCUStatusChange,
-    handleHBCUFileChange
-  } = useSignupForm();
+const businessCategories = [
+  'Restaurant & Food',
+  'Retail & Shopping',
+  'Beauty & Wellness',
+  'Professional Services',
+  'Technology',
+  'Healthcare',
+  'Education',
+  'Construction',
+  'Real Estate',
+  'Arts & Entertainment',
+  'Finance',
+  'Other'
+];
 
-  const form = useForm<BusinessSignupFormValues>({
-    resolver: zodResolver(businessSignupSchema),
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      business_name: '',
-      business_description: '',
-      business_address: '',
-      phone: '',
-      referralCode: referralCode,
-      isHBCUMember: false,
-      subscription_tier: 'business_starter'
-    }
+const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({ 
+  referralCode, 
+  referringAgent, 
+  onCheckReferralCode,
+  onSuccess 
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    reset
+  } = useForm<BusinessSignupForm>({
+    resolver: zodResolver(businessSignupSchema)
   });
 
-  const onSubmit = async (values: BusinessSignupFormValues) => {
+  const watchCategory = watch('category');
+
+  const onSubmit = async (data: BusinessSignupForm) => {
+    setIsLoading(true);
+    setError(null);
+
     try {
-      const signupData = {
-        ...values,
-        subscription_tier: 'free' as const,
-        user_type: 'business' as const
-      };
+      // First create the user account
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            full_name: data.fullName,
+            phone: data.phone,
+            user_type: 'business'
+          }
+        }
+      });
 
-      const result = await handleSignupSubmit(signupData);
-      
-      if (result?.data?.user) {
-        navigate(`/subscription?tier=${selectedTier}&trial=true`);
+      if (authError) {
+        throw authError;
       }
-    } catch (error) {
-      console.error('Business signup error:', error);
+
+      if (authData.user) {
+        // Create business profile
+        const { error: businessError } = await supabase
+          .from('businesses')
+          .insert({
+            name: data.businessName,
+            business_name: data.businessName,
+            owner_id: authData.user.id,
+            category: data.category,
+            description: data.description,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+            city: data.city,
+            state: data.state,
+            zip_code: data.zipCode,
+            website: data.website,
+          });
+
+        if (businessError) {
+          console.error('Business creation error:', businessError);
+          // Don't throw here as the user account was created successfully
+          toast.error('Account created but business profile needs completion');
+        }
+
+        setSuccess(true);
+        toast.success('Business account created successfully! Please check your email to verify your account.');
+        reset();
+        onSuccess?.();
+      }
+    } catch (err) {
+      console.error('Business signup error:', err);
+      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
+      toast.error('Failed to create business account. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Wrapper to match the expected signature - just call the original function without parameters
-  const handleReferralCodeBlur = async (code: string): Promise<void> => {
-    // The onReferralCodeBlur function from useSignupForm doesn't need parameters
-    // It gets the code directly from the form
-    if (onReferralCodeBlur) {
-      onReferralCodeBlur();
-    }
-  };
-
-  const businessPlans = [
-    { id: 'business_starter', name: 'Starter Business' },
-    { id: 'business', name: 'Professional Business' }
-  ];
-
-  const selectedTierName = businessPlans.find(p => p.id === selectedTier)?.name || 'Starter Business';
+  if (success) {
+    return (
+      <Alert className="border-green-200 bg-green-50">
+        <CheckCircle className="h-4 w-4 text-green-600" />
+        <AlertDescription className="text-green-800">
+          Business account created successfully! Please check your email to verify your account.
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-6 space-y-8">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-mansablue mb-2">Join Mansa Musa Marketplace</h1>
-        <p className="text-gray-600">Start your journey to build wealth in Black communities</p>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-2xl mx-auto">
+      {error && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="fullName">Owner Full Name</Label>
+          <Input
+            id="fullName"
+            {...register('fullName')}
+            disabled={isLoading}
+            placeholder="Enter owner's full name"
+          />
+          {errors.fullName && (
+            <p className="text-sm text-red-600">{errors.fullName.message}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="businessName">Business Name</Label>
+          <Input
+            id="businessName"
+            {...register('businessName')}
+            disabled={isLoading}
+            placeholder="Enter business name"
+          />
+          {errors.businessName && (
+            <p className="text-sm text-red-600">{errors.businessName.message}</p>
+          )}
+        </div>
       </div>
 
-      <PlanSelection
-        selectedTier={selectedTier}
-        onTierChange={setSelectedTier}
-      />
+      <div className="space-y-2">
+        <Label htmlFor="email">Business Email</Label>
+        <Input
+          id="email"
+          type="email"
+          {...register('email')}
+          disabled={isLoading}
+          placeholder="Enter business email"
+        />
+        {errors.email && (
+          <p className="text-sm text-red-600">{errors.email.message}</p>
+        )}
+      </div>
 
-      <BusinessInformationForm
-        form={form}
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        isHBCUMember={isHBCUMember}
-        referringAgent={referringAgent}
-        selectedTierName={selectedTierName}
-        onReferralCodeBlur={handleReferralCodeBlur}
-        onHBCUStatusChange={handleHBCUStatusChange}
-        onHBCUFileChange={handleHBCUFileChange}
-      />
-    </div>
+      <div className="space-y-2">
+        <Label htmlFor="category">Business Category</Label>
+        <Select onValueChange={(value) => setValue('category', value)} value={watchCategory}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select business category" />
+          </SelectTrigger>
+          <SelectContent>
+            {businessCategories.map((category) => (
+              <SelectItem key={category} value={category}>
+                {category}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {errors.category && (
+          <p className="text-sm text-red-600">{errors.category.message}</p>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="phone">Phone</Label>
+          <Input
+            id="phone"
+            type="tel"
+            {...register('phone')}
+            disabled={isLoading}
+            placeholder="Business phone number"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="website">Website (Optional)</Label>
+          <Input
+            id="website"
+            type="url"
+            {...register('website')}
+            disabled={isLoading}
+            placeholder="https://yourbusiness.com"
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="address">Address</Label>
+        <Input
+          id="address"
+          {...register('address')}
+          disabled={isLoading}
+          placeholder="Business address"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="city">City</Label>
+          <Input
+            id="city"
+            {...register('city')}
+            disabled={isLoading}
+            placeholder="City"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="state">State</Label>
+          <Input
+            id="state"
+            {...register('state')}
+            disabled={isLoading}
+            placeholder="State"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="zipCode">ZIP Code</Label>
+          <Input
+            id="zipCode"
+            {...register('zipCode')}
+            disabled={isLoading}
+            placeholder="ZIP Code"
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="description">Business Description</Label>
+        <Textarea
+          id="description"
+          {...register('description')}
+          disabled={isLoading}
+          placeholder="Tell us about your business..."
+          rows={3}
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            type="password"
+            {...register('password')}
+            disabled={isLoading}
+            placeholder="Create a password"
+          />
+          {errors.password && (
+            <p className="text-sm text-red-600">{errors.password.message}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Input
+            id="confirmPassword"
+            type="password"
+            {...register('confirmPassword')}
+            disabled={isLoading}
+            placeholder="Confirm your password"
+          />
+          {errors.confirmPassword && (
+            <p className="text-sm text-red-600">{errors.confirmPassword.message}</p>
+          )}
+        </div>
+      </div>
+
+      <Button type="submit" className="w-full" disabled={isLoading}>
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Creating Business Account...
+          </>
+        ) : (
+          'Create Business Account'
+        )}
+      </Button>
+    </form>
   );
 };
 
