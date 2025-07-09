@@ -40,6 +40,7 @@ import MobileReadinessTestPage from './pages/MobileReadinessTestPage';
 import BusinessFormPage from './pages/BusinessFormPage';
 import PasswordResetRequestPage from './pages/PasswordResetRequestPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
+import FullAppTestPage from './pages/FullAppTestPage';
 
 const queryClient = new QueryClient();
 
@@ -116,6 +117,9 @@ function App() {
                       
                       {/* Fixed Mobile Readiness Test route */}
                       <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
+                      
+                      {/* Full App Test route */}
+                      <Route path="/full-app-test" element={<FullAppTestPage />} />
                       
                       {/* Catch all route for 404 */}
                       <Route path="*" element={<NotFound />} />
