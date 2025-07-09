@@ -173,7 +173,7 @@ const AccessibilityPage: React.FC = () => {
                 </p>
                 <div className="space-y-2">
                   <p className="text-sm">
-                    <strong>Email:</strong> accessibility@mansamusamarketplace.com
+                    <strong>Email:</strong> contact@mansamusamarketplace.com
                   </p>
                   <p className="text-sm">
                     <strong>Response Time:</strong> Within 24 hours
