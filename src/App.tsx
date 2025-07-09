@@ -27,6 +27,7 @@ import NotFound from './pages/NotFound';
 import SignupTestPage from './pages/SignupTestPage';
 import AccessibilityPage from "@/pages/AccessibilityPage";
 import DirectoryPage from './pages/DirectoryPage';
+import HowItWorksPage from './pages/HowItWorksPage';
 
 const queryClient = new QueryClient();
 
@@ -68,8 +69,10 @@ function App() {
                       <Route path="/testing/signup" element={<SignupTestPage />} />
                       <Route path="/accessibility" element={<AccessibilityPage />} />
                       
+                      {/* Fixed How It Works route */}
+                      <Route path="/how-it-works" element={<HowItWorksPage />} />
+                      
                       {/* Missing routes from navbar - redirecting to placeholder for now */}
-                      <Route path="/how-it-works" element={<NotFound />} />
                       <Route path="/education" element={<NotFound />} />
                       <Route path="/mentorship" element={<NotFound />} />
                       <Route path="/scanner" element={<QRScannerPage />} />
