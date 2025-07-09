@@ -29,6 +29,7 @@ import AccessibilityPage from "@/pages/AccessibilityPage";
 import DirectoryPage from './pages/DirectoryPage';
 import HowItWorksPage from './pages/HowItWorksPage';
 import EducationPage from './pages/EducationPage';
+import MentorshipPage from './pages/MentorshipPage';
 
 const queryClient = new QueryClient();
 
@@ -76,8 +77,10 @@ function App() {
                       {/* Fixed Education route */}
                       <Route path="/education" element={<EducationPage />} />
                       
+                      {/* Fixed Mentorship route */}
+                      <Route path="/mentorship" element={<MentorshipPage />} />
+                      
                       {/* Missing routes from navbar - redirecting to placeholder for now */}
-                      <Route path="/mentorship" element={<NotFound />} />
                       <Route path="/scanner" element={<QRScannerPage />} />
                       <Route path="/loyalty" element={<NotFound />} />
                       <Route path="/community-impact" element={<NotFound />} />
