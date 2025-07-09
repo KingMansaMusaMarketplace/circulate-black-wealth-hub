@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -22,8 +23,8 @@ import ContactPage from './pages/ContactPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import CookiePolicyPage from './pages/CookiePolicyPage';
-import NotFoundPage from './pages/NotFoundPage';
-import TestSignupPage from './pages/TestSignupPage';
+import NotFound from './pages/NotFound';
+import SignupTestPage from './pages/SignupTestPage';
 import AccessibilityPage from "@/pages/AccessibilityPage";
 
 const queryClient = new QueryClient();
@@ -58,9 +59,9 @@ function App() {
                       <Route path="/terms" element={<TermsOfServicePage />} />
                       <Route path="/privacy" element={<PrivacyPolicyPage />} />
                       <Route path="/cookies" element={<CookiePolicyPage />} />
-                      <Route path="/testing/signup" element={<TestSignupPage />} />
-                      <Route path="*" element={<NotFoundPage />} />
+                      <Route path="/testing/signup" element={<SignupTestPage />} />
                       <Route path="/accessibility" element={<AccessibilityPage />} />
+                      <Route path="*" element={<NotFound />} />
                     </Routes>
                   </div>
                 </div>
