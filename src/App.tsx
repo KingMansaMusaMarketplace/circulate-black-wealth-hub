@@ -34,6 +34,7 @@ import LoyaltyPage from './pages/LoyaltyPage';
 import CommunityImpactPage from './pages/CommunityImpactPage';
 import DashboardPage from './pages/DashboardPage';
 import CorporateSponsorshipPage from './pages/CorporateSponsorshipPage';
+import MobileReadinessTestPage from './pages/MobileReadinessTestPage';
 
 const queryClient = new QueryClient();
 
@@ -99,8 +100,8 @@ function App() {
                       {/* Fixed Corporate Sponsorship route */}
                       <Route path="/corporate-sponsorship" element={<CorporateSponsorshipPage />} />
                       
-                      {/* Missing routes from navbar - redirecting to placeholder for now */}
-                      <Route path="/mobile-readiness-test" element={<NotFound />} />
+                      {/* Fixed Mobile Readiness Test route */}
+                      <Route path="/mobile-readiness-test" element={<MobileReadinessTestPage />} />
                       
                       {/* Catch all route for 404 */}
                       <Route path="*" element={<NotFound />} />
