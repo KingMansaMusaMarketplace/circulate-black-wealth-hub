@@ -44,6 +44,7 @@ const MapView: React.FC<MapViewProps> = ({ businesses, isVisible = true, onSelec
             nearbyBusinesses={nearbyBusinesses}
             loading={loading}
             error={error}
+            onSelectBusiness={onSelectBusiness}
           >
             <DistanceRanges nearbyBusinesses={nearbyBusinesses} />
             <BusinessList 

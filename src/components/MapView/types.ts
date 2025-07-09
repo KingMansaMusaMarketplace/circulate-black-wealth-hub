@@ -15,4 +15,5 @@ export interface MapContainerProps {
   loading: boolean;
   error: string | null;
   children: React.ReactNode;
+  onSelectBusiness?: (id: number) => void;
 }
