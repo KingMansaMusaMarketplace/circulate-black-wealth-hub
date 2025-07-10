@@ -51,25 +51,25 @@ const visionMetrics = [
 ];
 
 const yearMilestones = {
-  "2024": [
+  "2025": [
     "500+ verified businesses on platform",
     "$5M circulation within communities",
     "Launch in 5 major metropolitan areas",
     "First financial education workshop series"
   ],
-  "2026": [
+  "2027": [
     "10,000+ verified businesses on platform",
     "$50M circulation within communities",
     "Launch mobile payment system",
     "Partner with 3 Black-owned banks"
   ],
-  "2028": [
+  "2029": [
     "50,000+ verified businesses on platform",
     "$500M circulation within communities", 
     "Expand to international markets",
     "Introduce business capital funding program"
   ],
-  "2030": [
+  "2031": [
     "100,000+ verified businesses on platform",
     "$1B+ circulation within communities",
     "Complete financial services ecosystem",
@@ -78,7 +78,7 @@ const yearMilestones = {
 };
 
 const InteractiveVisionTimeline: React.FC = () => {
-  const [activeYear, setActiveYear] = useState<string>("2024");
+  const [activeYear, setActiveYear] = useState<string>("2025");
   
   const calculateProgress = (current: number, goal: number) => {
     return Math.min(100, Math.round((current / goal) * 100));
@@ -101,7 +101,7 @@ const InteractiveVisionTimeline: React.FC = () => {
     <section className="py-20">
       <div className="container-custom">
         <div className="text-center mb-12">
-          <h2 className="heading-md text-mansablue mb-4">Vision 2030</h2>
+          <h2 className="heading-md text-mansablue mb-4">Vision 2031</h2>
           <div className="w-24 h-1 bg-mansagold mx-auto mb-6"></div>
           <div className="flex justify-center items-center gap-2 mb-4">
             <Layers className="h-5 w-5 text-mansagold" />
@@ -192,7 +192,7 @@ const InteractiveVisionTimeline: React.FC = () => {
                             {i + 1}
                           </div>
                           <span className="font-medium">{milestone}</span>
-                          {year === "2024" && (
+                          {year === "2025" && (
                             <div className="ml-auto">
                               <div className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
                                 In Progress
