@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Play, Keyboard, Hand } from 'lucide-react';
 import DemoNavigation from './DemoNavigation';
@@ -11,6 +12,7 @@ import { useDemoInteractions } from './hooks/useDemoInteractions';
 import { useSwipeGestures } from './hooks/useSwipeGestures';
 
 const InteractiveDemo = () => {
+  const navigate = useNavigate();
   const {
     activeDemo,
     isAutoPlaying,
@@ -27,6 +29,10 @@ const InteractiveDemo = () => {
     onSwipeLeft: nextDemo,
     onSwipeRight: prevDemo
   });
+
+  const handleSignUpClick = () => {
+    navigate('/auth');
+  };
 
   return (
     <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
@@ -101,6 +107,7 @@ const InteractiveDemo = () => {
           <Button 
             size="lg" 
             className="bg-mansablue hover:bg-mansablue-dark text-white px-8 py-4"
+            onClick={handleSignUpClick}
           >
             <Play className="w-5 h-5 mr-2" />
             Try It Now - Sign Up Free
