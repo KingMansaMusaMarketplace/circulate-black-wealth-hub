@@ -41,6 +41,7 @@ import BusinessFormPage from './pages/BusinessFormPage';
 import PasswordResetRequestPage from './pages/PasswordResetRequestPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import FullAppTestPage from './pages/FullAppTestPage';
+import AuthPage from './pages/AuthPage';
 
 const queryClient = new QueryClient();
 
@@ -61,6 +62,7 @@ function App() {
                   <div id="main-content" role="main">
                     <Routes>
                       <Route path="/" element={<HomePage />} />
+                      <Route path="/auth" element={<AuthPage />} />
                       <Route path="/login" element={<LoginPage />} />
                       <Route path="/signup" element={<SignupPage />} />
                       
