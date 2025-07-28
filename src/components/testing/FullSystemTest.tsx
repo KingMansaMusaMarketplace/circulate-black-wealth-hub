@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo, useCallback, useMemo } from 'react';
 import { CheckCircle, XCircle, Clock, AlertTriangle, Play, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { usePerformanceOptimization } from '@/hooks/usePerformanceOptimization';
 
 interface TestResult {
   name: string;
@@ -17,15 +18,18 @@ interface TestResult {
   critical: boolean;
 }
 
-const FullSystemTest: React.FC = () => {
+const FullSystemTest: React.FC = memo(() => {
   const { user, signIn, signUp } = useAuth();
   const { subscriptionInfo, refreshSubscription } = useSubscription();
+  const { createOptimizedHandler } = usePerformanceOptimization();
+  
   const [tests, setTests] = useState<TestResult[]>([]);
   const [isRunning, setIsRunning] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentTest, setCurrentTest] = useState<string | null>(null);
 
-  const initialTests: TestResult[] = [
+  // Memoized initial tests to prevent recreation
+  const initialTests: TestResult[] = useMemo(() => [
     { name: 'Supabase Connection', status: 'idle', message: '', critical: true },
     { name: 'Authentication Context', status: 'idle', message: '', critical: true },
     { name: 'Database Access', status: 'idle', message: '', critical: true },
@@ -34,17 +38,18 @@ const FullSystemTest: React.FC = () => {
     { name: 'Mobile Responsiveness', status: 'idle', message: '', critical: false },
     { name: 'Component Loading', status: 'idle', message: '', critical: true },
     { name: 'Network Connectivity', status: 'idle', message: '', critical: true },
-  ];
+  ], []);
 
   useEffect(() => {
     setTests(initialTests);
   }, []);
 
-  const updateTest = (name: string, updates: Partial<TestResult>) => {
+  // Memoized update function
+  const updateTest = useCallback((name: string, updates: Partial<TestResult>) => {
     setTests(prev => prev.map(test => 
       test.name === name ? { ...test, ...updates } : test
     ));
-  };
+  }, []);
 
   const testSupabaseConnection = async () => {
     try {
@@ -397,6 +402,8 @@ const FullSystemTest: React.FC = () => {
       </Card>
     </div>
   );
-};
+});
+
+FullSystemTest.displayName = 'FullSystemTest';
 
 export default FullSystemTest;
