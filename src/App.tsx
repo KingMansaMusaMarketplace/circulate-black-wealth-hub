@@ -41,6 +41,7 @@ import BusinessFormPage from './pages/BusinessFormPage';
 import PasswordResetRequestPage from './pages/PasswordResetRequestPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import FullAppTestPage from './pages/FullAppTestPage';
+import FullSystemTestPage from './pages/FullSystemTestPage';
 import AuthPage from './pages/AuthPage';
 
 const queryClient = new QueryClient();
@@ -122,6 +123,9 @@ function App() {
                       
                       {/* Full App Test route */}
                       <Route path="/full-app-test" element={<FullAppTestPage />} />
+                      
+                      {/* Full System Test route */}
+                      <Route path="/full-system-test" element={<FullSystemTestPage />} />
                       
                       {/* Catch all route for 404 */}
                       <Route path="*" element={<NotFound />} />
