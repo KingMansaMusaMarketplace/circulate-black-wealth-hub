@@ -5,10 +5,11 @@ const config: CapacitorConfig = {
   appId: 'com.mansamusamarketplace.app',
   appName: 'Mansa Musa Marketplace',
   webDir: 'dist',
-  server: {
-    url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
-    cleartext: true
-  },
+  // Production build - remove server config for App Store
+  // server: {
+  //   url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
+  //   cleartext: true
+  // },
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
