@@ -1497,29 +1497,7 @@ export type Database = {
       }
     }
     Views: {
-      admin_verification_queue: {
-        Row: {
-          business_email: string | null
-          business_id: string | null
-          business_name: string | null
-          owner_id: string | null
-          owner_name: string | null
-          ownership_percentage: number | null
-          submitted_at: string | null
-          verification_id: string | null
-          verification_status: string | null
-          verified_at: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "business_verifications_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
+      [_ in never]: never
     }
     Functions: {
       admin_approve_business_verification: {
@@ -1545,6 +1523,21 @@ export type Database = {
       generate_referral_code: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_admin_verification_queue: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          business_email: string
+          business_id: string
+          business_name: string
+          owner_id: string
+          owner_name: string
+          ownership_percentage: number
+          submitted_at: string
+          verification_id: string
+          verification_status: string
+          verified_at: string
+        }[]
       }
       get_business_analytics_summary: {
         Args: { p_business_id: string }

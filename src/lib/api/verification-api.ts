@@ -199,9 +199,7 @@ export const rejectBusinessVerification = async (
 export const getVerificationQueue = async (): Promise<VerificationQueueItem[]> => {
   try {
     const { data, error } = await supabase
-      .from('admin_verification_queue')
-      .select('*')
-      .order('submitted_at', { ascending: true });
+      .rpc('get_admin_verification_queue');
 
     if (error) throw error;
 
