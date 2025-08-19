@@ -771,6 +771,12 @@ export type Database = {
         Row: {
           address: string | null
           avatar_url: string | null
+          business_category: string | null
+          business_description: string | null
+          business_logo_url: string | null
+          business_name: string | null
+          business_website: string | null
+          city: string | null
           created_at: string | null
           email: string | null
           full_name: string | null
@@ -782,6 +788,7 @@ export type Database = {
           phone: string | null
           referral_code: string | null
           referred_by: string | null
+          state: string | null
           subscription_end_date: string | null
           subscription_start_date: string | null
           subscription_status: string | null
@@ -790,10 +797,17 @@ export type Database = {
             | null
           updated_at: string | null
           user_type: string
+          zip_code: string | null
         }
         Insert: {
           address?: string | null
           avatar_url?: string | null
+          business_category?: string | null
+          business_description?: string | null
+          business_logo_url?: string | null
+          business_name?: string | null
+          business_website?: string | null
+          city?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
@@ -805,6 +819,7 @@ export type Database = {
           phone?: string | null
           referral_code?: string | null
           referred_by?: string | null
+          state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
@@ -813,10 +828,17 @@ export type Database = {
             | null
           updated_at?: string | null
           user_type: string
+          zip_code?: string | null
         }
         Update: {
           address?: string | null
           avatar_url?: string | null
+          business_category?: string | null
+          business_description?: string | null
+          business_logo_url?: string | null
+          business_name?: string | null
+          business_website?: string | null
+          city?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
@@ -828,6 +850,7 @@ export type Database = {
           phone?: string | null
           referral_code?: string | null
           referred_by?: string | null
+          state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
           subscription_status?: string | null
@@ -836,6 +859,7 @@ export type Database = {
             | null
           updated_at?: string | null
           user_type?: string
+          zip_code?: string | null
         }
         Relationships: [
           {
