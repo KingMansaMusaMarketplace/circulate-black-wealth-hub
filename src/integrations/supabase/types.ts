@@ -1547,6 +1547,23 @@ export type Database = {
           referral_code: string
         }[]
       }
+      get_application_details: {
+        Args: { application_id: string }
+        Returns: {
+          application_date: string
+          application_status: string
+          email: string
+          full_name: string
+          id: string
+          notes: string
+          phone: string
+          reviewed_at: string
+          reviewed_by: string
+          test_passed: boolean
+          test_score: number
+          user_id: string
+        }[]
+      }
       get_applications_for_review: {
         Args: Record<PropertyKey, never>
         Returns: {
