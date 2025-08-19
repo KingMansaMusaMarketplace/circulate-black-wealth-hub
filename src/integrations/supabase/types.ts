@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -1527,7 +1527,7 @@ export type Database = {
         Returns: undefined
       }
       admin_reject_business_verification: {
-        Args: { verification_id: string; reason: string }
+        Args: { reason: string; verification_id: string }
         Returns: undefined
       }
       calculate_user_impact_metrics: {
