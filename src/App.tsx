@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -35,7 +35,6 @@ import {
   LazySignupTestPage,
   LazyBusinessSignupPage,
   LazyBusinessFormPage,
-  LazyAuthPage,
   LazyLoginPage,
   LazySignupPage,
   LazyPasswordResetRequestPage,
@@ -45,6 +44,9 @@ import {
   LazyFullSystemTestPage,
   LazyAccessibilityPage
 } from './components/LazyComponents';
+
+// Auth page (new)
+const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 
 // Remaining imports for compatibility (will be converted to lazy)
 import SalesAgentSignupPage from './pages/SalesAgentSignupPage';

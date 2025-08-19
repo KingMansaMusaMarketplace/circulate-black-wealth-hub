@@ -1,27 +1,23 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
+import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { createUserProfile } from '@/lib/auth/auth-profile';
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
-  userType: string | null;
   loading: boolean;
+  userType: string | null;
   authInitialized: boolean;
   databaseInitialized: boolean;
+  signUp: (email: string, password: string, userData?: any) => Promise<{ error: any; data?: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any; data?: any }>;
-  signUp: (email: string, password: string, metadata?: object) => Promise<{ error: any; data?: any }>;
-  signOut: () => Promise<void>;
-  signInWithProvider: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
-  signInWithSocial: (provider: 'google' | 'facebook' | 'github') => Promise<void>;
-  checkSession: () => Promise<boolean>;
-  getMFAFactors: () => Promise<any[]>;
-  verifyMFA: (factorId: string, code: string, challengeId: string) => Promise<{ error: any; success?: boolean }>;
-  updateUserPassword: (password: string) => Promise<{ success: boolean; error?: any }>;
-  resetPassword: (email: string) => Promise<{ success: boolean; error?: any }>;
+  signOut: () => Promise<{ error: any }>;
+  updateProfile: (updates: any) => Promise<{ error: any }>;
+  updateUserPassword: (currentPassword: string, newPassword: string) => Promise<{ error: any }>;
+  resetPassword: (email: string) => Promise<{ error: any }>;
+  signInWithSocial: (provider: string) => Promise<{ error: any }>;
+  verifyMFA: (code: string) => Promise<{ error: any }>;
+  getMFAFactors: () => Promise<{ error: any; data?: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -38,221 +34,152 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [authInitialized, setAuthInitialized] = useState(false);
-  const [databaseInitialized, setDatabaseInitialized] = useState(true); // Assume initialized for now
+  const [userType, setUserType] = useState<string | null>(null);
+  const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
-    // Set up auth state listener
+    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event: AuthChangeEvent, session) => {
-        console.log('Auth state changed:', event, session?.user?.id);
+      (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        setLoading(false);
-        setAuthInitialized(true);
-
-        // Handle user signup completion - check for event string value
-        if (event === 'SIGNED_UP' as AuthChangeEvent && session?.user) {
-          const userMetadata = session.user.user_metadata;
-          console.log('Creating user profile for new user:', userMetadata);
-          
-          try {
-            await createUserProfile(session.user.id, userMetadata);
-            console.log('User profile created successfully');
-          } catch (error) {
-            console.error('Failed to create user profile:', error);
-          }
+        
+        // Fetch user profile when authenticated
+        if (session?.user) {
+          setTimeout(() => {
+            fetchUserProfile(session.user.id);
+          }, 0);
+        } else {
+          setUserType(null);
+          setProfile(null);
         }
+        
+        setLoading(false);
       }
     );
 
-    // Get initial session
+    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      
+      if (session?.user) {
+        fetchUserProfile(session.user.id);
+      }
+      
       setLoading(false);
-      setAuthInitialized(true);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const fetchUserProfile = async (userId: string) => {
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
       
-      if (error) {
-        toast.error(error.message);
-        return { error };
+      if (data && !error) {
+        setProfile(data);
+        setUserType(data.user_type);
       }
-      
-      toast.success('Successfully signed in!');
-      return { error: null, data };
-    } catch (error: any) {
-      toast.error(error.message);
-      return { error };
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
     }
   };
 
-  const signUp = async (email: string, password: string, metadata?: object) => {
-    try {
-      const redirectUrl = `${window.location.origin}/`;
-      
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: redirectUrl,
-          data: metadata
-        }
-      });
-      
-      if (error) {
-        toast.error(error.message);
-        return { error };
+  const signUp = async (email: string, password: string, userData?: any) => {
+    const redirectUrl = `${window.location.origin}/`;
+    
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: redirectUrl,
+        data: userData || {}
       }
-      
-      if (data.user && !data.session) {
-        toast.success('Check your email to confirm your account');
-      } else {
-        toast.success('Account created successfully!');
-      }
-      
-      return { error: null, data };
-    } catch (error: any) {
-      toast.error(error.message);
-      return { error };
-    }
+    });
+    
+    return { error, data };
+  };
+
+  const signIn = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    
+    return { error, data };
   };
 
   const signOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success('Successfully signed out');
-      }
-    } catch (error: any) {
-      toast.error(error.message);
-    }
+    const { error } = await supabase.auth.signOut();
+    return { error };
   };
 
-  const signInWithProvider = async (provider: 'google' | 'facebook' | 'github') => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/`
-        }
-      });
-      
-      if (error) {
-        toast.error(error.message);
-      }
-    } catch (error: any) {
-      toast.error(error.message);
+  const updateProfile = async (updates: any) => {
+    if (!user) return { error: 'No user logged in' };
+    
+    const { error } = await supabase
+      .from('profiles')
+      .update(updates)
+      .eq('id', user.id);
+    
+    if (!error && profile) {
+      setProfile({ ...profile, ...updates });
     }
+    
+    return { error };
   };
 
-  // Alias for signInWithProvider for backward compatibility
-  const signInWithSocial = signInWithProvider;
-
-  const checkSession = async (): Promise<boolean> => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      return !!session;
-    } catch (error) {
-      console.error('Error checking session:', error);
-      return false;
-    }
+  const updateUserPassword = async (currentPassword: string, newPassword: string) => {
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword
+    });
+    return { error };
   };
 
-  const getMFAFactors = async (): Promise<any[]> => {
-    try {
-      const { data, error } = await supabase.auth.mfa.listFactors();
-      if (error) throw error;
-      return data?.totp || [];
-    } catch (error) {
-      console.error('Error getting MFA factors:', error);
-      return [];
-    }
+  const resetPassword = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    return { error };
   };
 
-  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
-    try {
-      const { data, error } = await supabase.auth.mfa.verify({
-        factorId,
-        challengeId,
-        code,
-      });
-      
-      if (error) {
-        return { error, success: false };
-      }
-      
-      return { error: null, success: true };
-    } catch (error) {
-      console.error('Error verifying MFA:', error);
-      return { error, success: false };
-    }
+  const signInWithSocial = async (provider: string) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: provider as any
+    });
+    return { error };
   };
 
-  const updateUserPassword = async (password: string): Promise<{ success: boolean; error?: any }> => {
-    try {
-      const { error } = await supabase.auth.updateUser({ password });
-      if (error) {
-        return { success: false, error };
-      }
-      return { success: true };
-    } catch (error) {
-      return { success: false, error };
-    }
+  const verifyMFA = async (code: string) => {
+    // Placeholder for MFA verification
+    return { error: 'MFA not implemented yet' };
   };
 
-  const resetPassword = async (email: string): Promise<{ success: boolean; error?: any }> => {
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/new-password`
-      });
-      if (error) {
-        return { success: false, error };
-      }
-      return { success: true };
-    } catch (error) {
-      return { success: false, error };
-    }
+  const getMFAFactors = async () => {
+    // Placeholder for MFA factors
+    return { error: 'MFA not implemented yet', data: [] };
   };
-
-  const userType = user?.user_metadata?.user_type || user?.user_metadata?.userType || 'customer';
 
   const value = {
     user,
     session,
-    userType,
     loading,
-    authInitialized,
-    databaseInitialized,
-    signIn,
+    userType,
+    authInitialized: !loading,
+    databaseInitialized: true,
     signUp,
+    signIn,
     signOut,
-    signInWithProvider,
-    signInWithSocial,
-    checkSession,
-    getMFAFactors,
-    verifyMFA,
+    updateProfile,
     updateUserPassword,
     resetPassword,
+    signInWithSocial,
+    verifyMFA,
+    getMFAFactors,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
-
-export default AuthProvider;

@@ -1,269 +1,348 @@
-
-import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { toast } from 'sonner';
-import { Loader2, Mail, Lock, User, Building } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
+import { Loader2, Building2, Users, GraduationCap, ArrowLeft } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
-const AuthPage: React.FC = () => {
-  const { user, signUp, signIn } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
-  const [signupForm, setSignupForm] = useState({ 
-    email: '', 
-    password: '', 
+const AuthPage = () => {
+  const [isLogin, setIsLogin] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { signUp, signIn } = useAuth();
+  const { toast } = useToast();
+
+  // Get signup type from URL params
+  const signupType = searchParams.get('type') || 'customer';
+  const businessTier = searchParams.get('tier');
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
     confirmPassword: '',
-    firstName: '',
-    lastName: '',
-    userType: 'customer' as 'customer' | 'business'
+    fullName: '',
+    userType: signupType,
+    businessName: '',
+    businessCategory: '',
+    phone: '',
+    isHbcuMember: false,
   });
 
-  // Redirect if already authenticated
-  if (user) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      const result = await signIn(loginForm.email, loginForm.password);
-      if (result.error) {
-        toast.error('Login Failed', {
-          description: result.error.message
-        });
-      } else {
-        toast.success('Welcome back!');
-      }
-    } catch (error: any) {
-      toast.error('Login Error', {
-        description: error.message
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const handleInputChange = (field: string, value: string | boolean) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (signupForm.password !== signupForm.confirmPassword) {
-      toast.error('Passwords do not match');
-      return;
-    }
-
-    setIsLoading(true);
+    setLoading(true);
 
     try {
-      const metadata = {
-        first_name: signupForm.firstName,
-        last_name: signupForm.lastName,
-        user_type: signupForm.userType
-      };
-
-      const result = await signUp(signupForm.email, signupForm.password, metadata);
-      if (result.error) {
-        toast.error('Signup Failed', {
-          description: result.error.message
-        });
+      if (isLogin) {
+        const { error } = await signIn(formData.email, formData.password);
+        
+        if (error) {
+          toast({
+            title: "Login Failed",
+            description: error.message,
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Welcome back!",
+            description: "You've successfully logged in.",
+          });
+          navigate('/');
+        }
       } else {
-        toast.success('Account created successfully!', {
-          description: 'Please check your email to verify your account.'
-        });
+        // Signup validation
+        if (formData.password !== formData.confirmPassword) {
+          toast({
+            title: "Password Mismatch",
+            description: "Passwords do not match.",
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
+
+        if (formData.userType === 'business' && !formData.businessName) {
+          toast({
+            title: "Business Name Required",
+            description: "Please enter your business name.",
+            variant: "destructive",
+          });
+          setLoading(false);
+          return;
+        }
+
+        const userData = {
+          full_name: formData.fullName,
+          user_type: formData.userType,
+          ...(formData.userType === 'business' && {
+            business_name: formData.businessName,
+            business_category: formData.businessCategory,
+          }),
+          phone: formData.phone,
+          is_hbcu_member: formData.isHbcuMember,
+        };
+
+        const { error } = await signUp(formData.email, formData.password, userData);
+        
+        if (error) {
+          toast({
+            title: "Signup Failed",
+            description: error.message,
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Account Created!",
+            description: "Welcome to Mansa Musa Marketplace! Check your email to verify your account.",
+          });
+          navigate('/');
+        }
       }
-    } catch (error: any) {
-      toast.error('Signup Error', {
-        description: error.message
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
       });
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-mansablue to-mansablue-dark flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <Card className="shadow-2xl">
-          <CardHeader className="text-center space-y-2">
+        {/* Back to Home Button */}
+        <div className="mb-6">
+          <Link to="/">
+            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-mansablue">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Home
+            </Button>
+          </Link>
+        </div>
+
+        {/* Phase 1 Free Banner */}
+        <div className="text-center mb-6">
+          <Badge className="bg-green-500 text-white px-4 py-2 text-sm font-bold rounded-full">
+            🎉 PHASE 1: Everything FREE Until Jan 2026!
+          </Badge>
+        </div>
+
+        <Card className="bg-white/95 backdrop-blur-sm shadow-2xl">
+          <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-mansablue">
-              Mansa Musa Marketplace
+              {isLogin ? 'Welcome Back' : 'Join the Movement'}
             </CardTitle>
             <CardDescription>
-              Join the economic empowerment movement
+              {isLogin 
+                ? 'Sign in to your Mansa Musa Marketplace account'
+                : 'Create your FREE account and start building community wealth'
+              }
             </CardDescription>
+            
+            {!isLogin && (
+              <div className="flex items-center justify-center gap-2 mt-4">
+                {formData.userType === 'customer' && (
+                  <Badge className="bg-green-500 text-white">
+                    <Users className="h-3 w-3 mr-1" />
+                    Customer Account
+                  </Badge>
+                )}
+                {formData.userType === 'business' && (
+                  <Badge className="bg-blue-500 text-white">
+                    <Building2 className="h-3 w-3 mr-1" />
+                    Business Account
+                  </Badge>
+                )}
+              </div>
+            )}
           </CardHeader>
+          
           <CardContent>
-            <Tabs defaultValue="login" className="space-y-4">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="login">Login</TabsTrigger>
-                <TabsTrigger value="signup">Sign Up</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="login">
-                <form onSubmit={handleLogin} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {!isLogin && (
+                <>
                   <div className="space-y-2">
-                    <Label htmlFor="login-email">Email</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="login-email"
-                        type="email"
-                        placeholder="Enter your email"
-                        className="pl-10"
-                        value={loginForm.email}
-                        onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
-                        required
-                      />
-                    </div>
+                    <Label htmlFor="fullName">Full Name</Label>
+                    <Input
+                      id="fullName"
+                      type="text"
+                      value={formData.fullName}
+                      onChange={(e) => handleInputChange('fullName', e.target.value)}
+                      required
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="login-password">Password</Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="login-password"
-                        type="password"
-                        placeholder="Enter your password"
-                        className="pl-10"
-                        value={loginForm.password}
-                        onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <Button type="submit" className="w-full bg-mansablue hover:bg-mansablue-dark" disabled={isLoading}>
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Signing In...
-                      </>
-                    ) : (
-                      'Sign In'
-                    )}
-                  </Button>
-                </form>
-              </TabsContent>
 
-              <TabsContent value="signup">
-                <form onSubmit={handleSignup} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
-                      <div className="relative">
-                        <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <div className="space-y-2">
+                    <Label htmlFor="userType">Account Type</Label>
+                    <Select 
+                      value={formData.userType} 
+                      onValueChange={(value) => handleInputChange('userType', value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select account type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="customer">
+                          <div className="flex items-center">
+                            <Users className="h-4 w-4 mr-2" />
+                            Customer - Browse & Shop
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="business">
+                          <div className="flex items-center">
+                            <Building2 className="h-4 w-4 mr-2" />
+                            Business - List Your Business
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {formData.userType === 'business' && (
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="businessName">Business Name</Label>
                         <Input
-                          id="firstName"
-                          placeholder="First name"
-                          className="pl-10"
-                          value={signupForm.firstName}
-                          onChange={(e) => setSignupForm(prev => ({ ...prev, firstName: e.target.value }))}
+                          id="businessName"
+                          type="text"
+                          value={formData.businessName}
+                          onChange={(e) => handleInputChange('businessName', e.target.value)}
                           required
                         />
                       </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
-                      <Input
-                        id="lastName"
-                        placeholder="Last name"
-                        value={signupForm.lastName}
-                        onChange={(e) => setSignupForm(prev => ({ ...prev, lastName: e.target.value }))}
-                        required
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label>Account Type</Label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button
-                        type="button"
-                        variant={signupForm.userType === 'customer' ? 'default' : 'outline'}
-                        onClick={() => setSignupForm(prev => ({ ...prev, userType: 'customer' }))}
-                        className="h-auto p-3 flex flex-col items-center space-y-1"
-                      >
-                        <User className="h-4 w-4" />
-                        <span className="text-xs">Customer</span>
-                      </Button>
-                      <Button
-                        type="button"
-                        variant={signupForm.userType === 'business' ? 'default' : 'outline'}
-                        onClick={() => setSignupForm(prev => ({ ...prev, userType: 'business' }))}
-                        className="h-auto p-3 flex flex-col items-center space-y-1"
-                      >
-                        <Building className="h-4 w-4" />
-                        <span className="text-xs">Business</span>
-                      </Button>
-                    </div>
-                  </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="businessCategory">Business Category</Label>
+                        <Select 
+                          value={formData.businessCategory} 
+                          onValueChange={(value) => handleInputChange('businessCategory', value)}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Food & Dining">Food & Dining</SelectItem>
+                            <SelectItem value="Beauty & Wellness">Beauty & Wellness</SelectItem>
+                            <SelectItem value="Health & Fitness">Health & Fitness</SelectItem>
+                            <SelectItem value="Professional Services">Professional Services</SelectItem>
+                            <SelectItem value="Retail & Shopping">Retail & Shopping</SelectItem>
+                            <SelectItem value="Art & Entertainment">Art & Entertainment</SelectItem>
+                            <SelectItem value="Education">Education</SelectItem>
+                            <SelectItem value="Technology">Technology</SelectItem>
+                            <SelectItem value="Transportation">Transportation</SelectItem>
+                            <SelectItem value="Finance">Finance</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </>
+                  )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="signup-email">Email</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="signup-email"
-                        type="email"
-                        placeholder="Enter your email"
-                        className="pl-10"
-                        value={signupForm.email}
-                        onChange={(e) => setSignupForm(prev => ({ ...prev, email: e.target.value }))}
-                        required
-                      />
-                    </div>
+                    <Label htmlFor="phone">Phone (Optional)</Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => handleInputChange('phone', e.target.value)}
+                    />
                   </div>
-                  
+                </>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => handleInputChange('password', e.target.value)}
+                  required
+                />
+              </div>
+
+              {!isLogin && (
+                <>
                   <div className="space-y-2">
-                    <Label htmlFor="signup-password">Password</Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="signup-password"
-                        type="password"
-                        placeholder="Create a password"
-                        className="pl-10"
-                        value={signupForm.password}
-                        onChange={(e) => setSignupForm(prev => ({ ...prev, password: e.target.value }))}
-                        required
-                      />
-                    </div>
+                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Input
+                      id="confirmPassword"
+                      type="password"
+                      value={formData.confirmPassword}
+                      onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
+                      required
+                    />
                   </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="confirm-password">Confirm Password</Label>
-                    <div className="relative">
-                      <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                      <Input
-                        id="confirm-password"
-                        type="password"
-                        placeholder="Confirm your password"
-                        className="pl-10"
-                        value={signupForm.confirmPassword}
-                        onChange={(e) => setSignupForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                        required
-                      />
-                    </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="hbcuMember"
+                      checked={formData.isHbcuMember}
+                      onCheckedChange={(checked) => handleInputChange('isHbcuMember', checked as boolean)}
+                    />
+                    <Label htmlFor="hbcuMember" className="text-sm font-medium">
+                      <div className="flex items-center">
+                        <GraduationCap className="h-4 w-4 mr-1" />
+                        I'm an HBCU student/alumni (Extra rewards!)
+                      </div>
+                    </Label>
                   </div>
-                  
-                  <Button type="submit" className="w-full bg-mansagold hover:bg-mansagold/90 text-mansablue" disabled={isLoading}>
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Creating Account...
-                      </>
-                    ) : (
-                      'Create Account'
-                    )}
-                  </Button>
-                </form>
-              </TabsContent>
-            </Tabs>
+                </>
+              )}
+
+              <Button 
+                type="submit" 
+                className="w-full bg-mansablue hover:bg-mansablue-dark text-white"
+                disabled={loading}
+              >
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isLogin ? 'Sign In' : 'Create FREE Account'}
+              </Button>
+
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={() => setIsLogin(!isLogin)}
+                  className="text-sm text-mansablue hover:underline"
+                >
+                  {isLogin 
+                    ? "Don't have an account? Sign up" 
+                    : "Already have an account? Sign in"
+                  }
+                </button>
+              </div>
+
+              {!isLogin && (
+                <div className="text-center text-xs text-gray-500 mt-4">
+                  By creating an account, you agree to our Terms of Service and Privacy Policy.
+                  <br />
+                  <strong>Phase 1: Everything is FREE until January 2026!</strong>
+                </div>
+              )}
+            </form>
           </CardContent>
         </Card>
       </div>
