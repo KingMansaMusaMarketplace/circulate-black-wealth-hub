@@ -1317,6 +1317,39 @@ export type Database = {
         }
         Relationships: []
       }
+      security_audit_log: {
+        Row: {
+          action: string
+          id: string
+          ip_address: unknown | null
+          record_id: string | null
+          table_name: string
+          timestamp: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          id?: string
+          ip_address?: unknown | null
+          record_id?: string | null
+          table_name: string
+          timestamp?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          id?: string
+          ip_address?: unknown | null
+          record_id?: string | null
+          table_name?: string
+          timestamp?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       social_shares: {
         Row: {
           business_id: string
@@ -1547,6 +1580,13 @@ export type Database = {
       generate_referral_code: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_active_referral_codes: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          is_active: boolean
+          referral_code: string
+        }[]
       }
       get_admin_verification_queue: {
         Args: Record<PropertyKey, never>

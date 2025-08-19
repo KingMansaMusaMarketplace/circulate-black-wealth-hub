@@ -149,46 +149,36 @@ export const getSalesAgentByUserId = async (userId: string): Promise<SalesAgent 
 
 export const getSalesAgentByReferralCode = async (referralCode: string): Promise<SalesAgent | null> => {
   try {
-    // Use the secure function that only returns referral codes
+    // Use the secure function that only returns minimal data
     const { data: referralData, error: referralError } = await supabase
-      .rpc('get_agent_referral_codes');
+      .rpc('get_active_referral_codes');
 
     if (referralError) {
-      console.error('Error fetching agent referral codes:', referralError);
+      console.error('Error fetching active referral codes:', referralError);
       return null;
     }
 
-    const agent = referralData?.find(agent => agent.referral_code === referralCode);
+    const agent = referralData?.find((agent: any) => agent.referral_code === referralCode);
     if (!agent) {
+      console.log('No active agent found for referral code:', referralCode);
       return null;
     }
 
-    // Now try to get the full agent data (this will only work if user is the agent themselves due to RLS)
-    const { data, error } = await supabase
-      .from('sales_agents')
-      .select('*')
-      .eq('id', agent.id)
-      .single();
-
-    if (error) {
-      // If we can't get full data due to RLS, return minimal safe data for referral functionality
-      return {
-        id: agent.id,
-        referral_code: agent.referral_code,
-        is_active: agent.is_active,
-        user_id: '', // Don't expose user_id in public context
-        email: '', // Don't expose email
-        full_name: '', // Don't expose full name
-        phone: null, // Don't expose phone
-        commission_rate: null,
-        total_pending: null,
-        total_earned: null,
-        created_at: null,
-        updated_at: null
-      } as SalesAgent;
-    }
-
-    return data as SalesAgent;
+    // Return minimal safe data for referral functionality only
+    return {
+      id: '', // Don't expose internal ID
+      referral_code: agent.referral_code,
+      is_active: agent.is_active,
+      user_id: '', // Don't expose user_id in public context
+      email: '', // Don't expose email
+      full_name: '', // Don't expose full name
+      phone: null, // Don't expose phone
+      commission_rate: 0,
+      total_pending: 0,
+      total_earned: 0,
+      created_at: '',
+      updated_at: ''
+    } as SalesAgent;
   } catch (error: any) {
     console.error('Error fetching sales agent by referral code:', error);
     return null;

@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { logPasswordUpdate } from '@/lib/security/audit-logger';
 import {
   Form,
   FormControl,
@@ -36,7 +38,7 @@ const passwordFormSchema = z.object({
 type PasswordFormValues = z.infer<typeof passwordFormSchema>;
 
 const SecuritySettings = () => {
-  const { updateUserPassword } = useAuth();
+  const { updateUserPassword, user } = useAuth();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   
@@ -53,11 +55,27 @@ const SecuritySettings = () => {
     try {
       setIsLoading(true);
       
-      // In a real implementation, we'd verify the current password first
-      // For now, we'll just update the password directly
+      if (!user?.email) {
+        throw new Error('User email not found');
+      }
+      
+      // Verify current password by attempting to sign in with current credentials
+      const verificationResult = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: data.currentPassword,
+      });
+      
+      if (verificationResult.error) {
+        throw new Error('Current password is incorrect');
+      }
+      
+      // Now update the password
       const result = await updateUserPassword(data.currentPassword, data.newPassword);
       
       if (!result.success) throw new Error(result.error?.message || 'Failed to update password');
+      
+      // Log the password update for security audit
+      await logPasswordUpdate(user.id);
       
       form.reset();
       
