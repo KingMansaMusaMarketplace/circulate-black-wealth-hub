@@ -1547,6 +1547,26 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
+      get_public_businesses: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          id: string
+          is_verified: boolean
+          logo_url: string
+          review_count: number
+          state: string
+          website: string
+          zip_code: string
+        }[]
+      }
       get_public_sales_agents: {
         Args: Record<PropertyKey, never>
         Returns: {
