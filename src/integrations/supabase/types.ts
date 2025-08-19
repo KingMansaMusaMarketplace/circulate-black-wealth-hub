@@ -1843,7 +1843,6 @@ export type Database = {
           p_search_term?: string
         }
         Returns: {
-          address: string
           average_rating: number
           banner_url: string
           business_name: string
@@ -1857,8 +1856,6 @@ export type Database = {
           review_count: number
           state: string
           total_count: number
-          website: string
-          zip_code: string
         }[]
       }
     }
