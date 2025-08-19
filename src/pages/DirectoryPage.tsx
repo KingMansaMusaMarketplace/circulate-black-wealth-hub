@@ -10,8 +10,8 @@ import MultiCityStats from '@/components/directory/MultiCityStats';
 
 // Import the directory components
 import DirectoryHeader from '@/components/directory/DirectoryHeader';
-import DirectoryLoadingState from '@/components/directory/DirectoryErrorState';
-import DirectoryErrorState from '@/components/directory/DirectoryLoadingState';
+import DirectoryLoadingState from '@/components/directory/DirectoryLoadingState';
+import DirectoryErrorState from '@/components/directory/DirectoryErrorState';
 import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
 import ScrollToTopButton from '@/components/directory/ScrollToTopButton';
