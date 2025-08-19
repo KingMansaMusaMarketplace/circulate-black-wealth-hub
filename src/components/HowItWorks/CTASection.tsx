@@ -46,7 +46,7 @@ const CTASection = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             Ready to Join the Movement?
-            <span className="absolute -top-6 -right-6 w-12 h-12 border border-accent/30 rounded-full hidden md:block"></span>
+            <span className="absolute -top-6 -right-6 w-12 h-12 border border-mansagold/30 rounded-full hidden md:block"></span>
           </motion.h2>
           
           <motion.p 
@@ -68,7 +68,7 @@ const CTASection = () => {
             animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.7, delay: 0.8 }}
           >
-            <Check size={16} className="text-accent mr-2" />
+            <Check size={16} className="text-mansagold mr-2" />
             100% FREE during Phase 1. No credit card required. Community first, revenue later.
           </motion.div>
         </motion.div>
