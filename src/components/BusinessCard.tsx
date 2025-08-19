@@ -71,7 +71,7 @@ const BusinessCard = ({
 
   // Create a fallback image using a placeholder service
   const getFallbackImageUrl = () => {
-    return `https://placehold.co/400x250/e5e7eb/6b7280?text=${encodeURIComponent(name)}`;
+    return `https://placehold.co/400x250/f3f4f6/6b7280?text=${encodeURIComponent(name.slice(0, 20))}`;
   };
 
   const getImageUrl = () => {
@@ -90,19 +90,23 @@ const BusinessCard = ({
       )}
       <div ref={imgRef} className="aspect-video bg-gray-100 relative overflow-hidden">
         {!isInView ? (
-          <div className="w-full h-full flex items-center justify-center bg-gray-200">
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
             <div className="flex flex-col items-center">
-              <span className="text-gray-400 text-2xl font-bold mb-1">{name.charAt(0).toUpperCase()}</span>
-              <span className="text-xs text-gray-500">{category}</span>
+              <div className="w-16 h-16 rounded-full bg-mansablue flex items-center justify-center mb-2">
+                <span className="text-white text-2xl font-bold">{name.charAt(0).toUpperCase()}</span>
+              </div>
+              <span className="text-xs text-gray-500 font-medium">{category}</span>
             </div>
           </div>
         ) : (
           <>
             {imgLoading && (
-              <div className="w-full h-full flex items-center justify-center bg-gray-200 animate-pulse absolute inset-0 z-10">
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse absolute inset-0 z-10">
                 <div className="flex flex-col items-center">
-                  <span className="text-gray-400 text-2xl font-bold mb-1">{name.charAt(0).toUpperCase()}</span>
-                  <span className="text-xs text-gray-500">Loading...</span>
+                  <div className="w-12 h-12 rounded-full bg-mansablue/20 flex items-center justify-center mb-2">
+                    <span className="text-mansablue text-xl font-bold">{name.charAt(0).toUpperCase()}</span>
+                  </div>
+                  <span className="text-xs text-gray-500 font-medium">Loading image...</span>
                 </div>
               </div>
             )}
@@ -113,6 +117,7 @@ const BusinessCard = ({
               onError={handleImageError}
               onLoad={handleImageLoad}
               loading="lazy"
+              style={{ minHeight: '200px' }}
             />
           </>
         )}
