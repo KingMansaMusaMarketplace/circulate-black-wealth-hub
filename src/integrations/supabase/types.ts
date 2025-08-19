@@ -1539,6 +1539,14 @@ export type Database = {
           verified_at: string
         }[]
       }
+      get_agent_referral_codes: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: string
+          is_active: boolean
+          referral_code: string
+        }[]
+      }
       get_business_analytics_summary: {
         Args: { p_business_id: string }
         Returns: Json

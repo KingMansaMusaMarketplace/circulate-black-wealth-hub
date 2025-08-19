@@ -149,21 +149,21 @@ export const getSalesAgentByUserId = async (userId: string): Promise<SalesAgent 
 
 export const getSalesAgentByReferralCode = async (referralCode: string): Promise<SalesAgent | null> => {
   try {
-    // First get the agent ID from the public function (limited data)
-    const { data: publicAgents, error: publicError } = await supabase
-      .rpc('get_public_sales_agents');
+    // Use the secure function that only returns referral codes
+    const { data: referralData, error: referralError } = await supabase
+      .rpc('get_agent_referral_codes');
 
-    if (publicError) {
-      console.error('Error fetching public sales agents:', publicError);
+    if (referralError) {
+      console.error('Error fetching agent referral codes:', referralError);
       return null;
     }
 
-    const agent = publicAgents?.find(agent => agent.referral_code === referralCode);
+    const agent = referralData?.find(agent => agent.referral_code === referralCode);
     if (!agent) {
       return null;
     }
 
-    // Now get the full agent data (this will only work if user is the agent themselves due to RLS)
+    // Now try to get the full agent data (this will only work if user is the agent themselves due to RLS)
     const { data, error } = await supabase
       .from('sales_agents')
       .select('*')
@@ -171,12 +171,11 @@ export const getSalesAgentByReferralCode = async (referralCode: string): Promise
       .single();
 
     if (error) {
-      // If we can't get full data due to RLS, return minimal public data
+      // If we can't get full data due to RLS, return minimal safe data for referral functionality
       return {
         id: agent.id,
         referral_code: agent.referral_code,
         is_active: agent.is_active,
-        created_at: agent.created_at,
         user_id: '', // Don't expose user_id in public context
         email: '', // Don't expose email
         full_name: '', // Don't expose full name
@@ -184,6 +183,7 @@ export const getSalesAgentByReferralCode = async (referralCode: string): Promise
         commission_rate: null,
         total_pending: null,
         total_earned: null,
+        created_at: null,
         updated_at: null
       } as SalesAgent;
     }
