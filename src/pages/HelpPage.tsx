@@ -5,6 +5,10 @@ import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 import StillNeedHelpSection from '@/components/help-center/StillNeedHelpSection';
 import ContactSupportCard from '@/components/help-center/ContactSupportCard';
+import GettingStartedFAQ from '@/components/help-center/GettingStartedFAQ';
+import AccountBillingFAQ from '@/components/help-center/AccountBillingFAQ';
+import BusinessFeaturesFAQ from '@/components/help-center/BusinessFeaturesFAQ';
+import FAQSection from '@/components/AboutPage/FAQSection';
 
 const HelpPage = () => {
   return (
@@ -32,6 +36,30 @@ const HelpPage = () => {
                 <StillNeedHelpSection />
               </div>
               <ContactSupportCard />
+            </div>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <FAQSection />
+        
+        {/* Help Center FAQ Components */}
+        <div className="py-16 bg-gray-50">
+          <div className="container-custom">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-mansablue mb-4">Help Center FAQs</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                Find answers to common questions about using our platform.
+              </p>
+            </div>
+            
+            <div className="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+              <GettingStartedFAQ />
+              <AccountBillingFAQ />
+            </div>
+            
+            <div className="mt-8 max-w-3xl mx-auto">
+              <BusinessFeaturesFAQ />
             </div>
           </div>
         </div>
