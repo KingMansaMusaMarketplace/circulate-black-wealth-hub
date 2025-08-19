@@ -1596,6 +1596,34 @@ export type Database = {
         }
         Returns: undefined
       }
+      search_public_businesses: {
+        Args: {
+          p_category?: string
+          p_featured?: boolean
+          p_limit?: number
+          p_min_rating?: number
+          p_offset?: number
+          p_search_term?: string
+        }
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          id: string
+          is_verified: boolean
+          logo_url: string
+          review_count: number
+          state: string
+          total_count: number
+          website: string
+          zip_code: string
+        }[]
+      }
     }
     Enums: {
       hbcu_verification_status: "pending" | "approved" | "rejected"

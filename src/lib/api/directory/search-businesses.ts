@@ -7,10 +7,11 @@ import { mapSupabaseBusinessToBusiness } from './mappers';
 export async function searchBusinesses(term: string): Promise<Business[]> {
   try {
     const { data, error } = await supabase
-      .from('businesses')
-      .select('*')
-      .or(`business_name.ilike.%${term}%,category.ilike.%${term}%,address.ilike.%${term}%`)
-      .limit(20);
+      .rpc('search_public_businesses', {
+        p_search_term: term,
+        p_limit: 20,
+        p_offset: 0
+      });
       
     if (error) {
       console.error('Error searching businesses:', error);

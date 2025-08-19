@@ -11,43 +11,19 @@ export async function fetchBusinesses(
   pagination?: PaginationParams
 ): Promise<BusinessQueryResult> {
   try {
-    let query = supabase
-      .from('businesses')
-      .select('*', { count: 'exact' });
+    // Prepare parameters for the secure function
+    const limit = pagination?.pageSize || 20;
+    const offset = pagination ? (pagination.page - 1) * pagination.pageSize : 0;
     
-    // Apply filters
-    if (filters) {
-      if (filters.category && filters.category !== 'all') {
-        query = query.eq('category', filters.category);
-      }
-      
-      if (filters.minRating && filters.minRating > 0) {
-        query = query.gte('average_rating', filters.minRating);
-      }
-      
-      if (filters.featured) {
-        query = query.eq('is_verified', true);
-      }
-      
-      if (filters.searchTerm && filters.searchTerm.trim() !== '') {
-        const searchTerm = filters.searchTerm.trim().toLowerCase();
-        // Now search in both name and business_name columns for backward compatibility
-        query = query.or(`name.ilike.%${searchTerm}%,business_name.ilike.%${searchTerm}%,category.ilike.%${searchTerm}%,address.ilike.%${searchTerm}%`);
-      }
-    }
-    
-    // Apply pagination
-    if (pagination) {
-      const { page, pageSize } = pagination;
-      const from = (page - 1) * pageSize;
-      const to = from + pageSize - 1;
-      query = query.range(from, to);
-    }
-    
-    // Add sorting
-    query = query.order('is_verified', { ascending: false }).order('created_at', { ascending: false });
-    
-    const { data, error, count } = await query;
+    const { data, error } = await supabase
+      .rpc('search_public_businesses', {
+        p_search_term: filters?.searchTerm || null,
+        p_category: filters?.category || null,
+        p_min_rating: filters?.minRating || null,
+        p_featured: filters?.featured || null,
+        p_limit: limit,
+        p_offset: offset
+      });
     
     if (error) {
       console.error('Error fetching businesses:', error);
@@ -55,8 +31,8 @@ export async function fetchBusinesses(
       return { businesses: [], totalCount: 0, totalPages: 0 };
     }
     
-    // Calculate total pages
-    const totalCount = count || 0;
+    // Get total count from the first row (all rows have same total_count)
+    const totalCount = data.length > 0 ? Number(data[0].total_count) : 0;
     const totalPages = pagination ? Math.ceil(totalCount / pagination.pageSize) : 1;
     
     // Transform Supabase response to our frontend Business type
