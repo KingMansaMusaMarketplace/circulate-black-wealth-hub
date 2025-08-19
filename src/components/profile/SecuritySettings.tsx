@@ -55,7 +55,7 @@ const SecuritySettings = () => {
       
       // In a real implementation, we'd verify the current password first
       // For now, we'll just update the password directly
-      const result = await updateUserPassword(data.newPassword);
+      const result = await updateUserPassword(data.currentPassword, data.newPassword);
       
       if (!result.success) throw new Error(result.error?.message || 'Failed to update password');
       

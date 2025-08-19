@@ -13,11 +13,11 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: any; data?: any }>;
   signOut: () => Promise<{ error: any }>;
   updateProfile: (updates: any) => Promise<{ error: any }>;
-  updateUserPassword: (currentPassword: string, newPassword: string) => Promise<{ error: any }>;
-  resetPassword: (email: string) => Promise<{ error: any }>;
+  updateUserPassword: (currentPassword: string, newPassword: string) => Promise<{ error: any; success?: boolean }>;
+  resetPassword: (email: string) => Promise<{ error: any; success?: boolean }>;
   signInWithSocial: (provider: string) => Promise<{ error: any }>;
-  verifyMFA: (code: string) => Promise<{ error: any }>;
-  getMFAFactors: () => Promise<{ error: any; data?: any }>;
+  verifyMFA: (factorId: string, code: string, challengeId: string) => Promise<{ error: any; success?: boolean }>;
+  getMFAFactors: () => Promise<any[]>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -138,12 +138,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { error } = await supabase.auth.updateUser({
       password: newPassword
     });
-    return { error };
+    return { error, success: !error };
   };
 
   const resetPassword = async (email: string) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email);
-    return { error };
+    return { error, success: !error };
   };
 
   const signInWithSocial = async (provider: string) => {
@@ -153,14 +153,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error };
   };
 
-  const verifyMFA = async (code: string) => {
-    // Placeholder for MFA verification
-    return { error: 'MFA not implemented yet' };
+  const verifyMFA = async (factorId: string, code: string, challengeId: string) => {
+    try {
+      const { data, error } = await supabase.auth.mfa.verify({
+        factorId,
+        challengeId,
+        code
+      });
+      return { error, success: !error, data };
+    } catch (error: any) {
+      return { error, success: false };
+    }
   };
 
   const getMFAFactors = async () => {
-    // Placeholder for MFA factors
-    return { error: 'MFA not implemented yet', data: [] };
+    try {
+      const { data, error } = await supabase.auth.mfa.listFactors();
+      if (error) return [];
+      return data?.totp || [];
+    } catch (error) {
+      return [];
+    }
   };
 
   const value = {

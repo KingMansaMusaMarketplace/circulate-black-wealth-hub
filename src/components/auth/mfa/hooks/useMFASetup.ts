@@ -19,7 +19,7 @@ export const useMFASetup = () => {
     const checkMFAStatus = async () => {
       if (user) {
         const factors = await getMFAFactors();
-        setIsEnrolled(factors.length > 0);
+        setIsEnrolled(factors && factors.length > 0);
       }
     };
 
@@ -103,7 +103,7 @@ export const useMFASetup = () => {
     try {
       const factors = await getMFAFactors();
       
-      if (factors.length > 0) {
+      if (factors && factors.length > 0) {
         const { error } = await supabase.auth.mfa.unenroll({
           factorId: factors[0].id
         });
