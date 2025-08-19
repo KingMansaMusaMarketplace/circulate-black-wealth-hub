@@ -18,25 +18,39 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { BusinessFilters } from '@/lib/api/directory/types';
 import { businessCategories } from '@/data/categories';
+import CitySelector from './directory/CitySelector';
 
 // Export the interface for use in other components
 export interface DirectoryFilterProps {
   categories: string[];
   filterOptions: BusinessFilters;
   onFilterChange: (filters: Partial<BusinessFilters>) => void;
+  selectedCity?: string;
+  onCityChange?: (cityId: string) => void;
+  showCitySelector?: boolean;
 }
 
 const DirectoryFilter: React.FC<DirectoryFilterProps> = ({ 
   categories,
   filterOptions, 
-  onFilterChange 
+  onFilterChange,
+  selectedCity = 'all',
+  onCityChange,
+  showCitySelector = true
 }) => {
   // Use the comprehensive business categories instead of the passed categories
   const allCategories = businessCategories.map(cat => cat.name).sort();
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4 space-y-6">
+    <div className="bg-card rounded-lg shadow-sm border border-border p-4 mb-4 space-y-6">
       <div className="grid grid-cols-1 gap-6">
+        {showCitySelector && onCityChange && (
+          <CitySelector 
+            selectedCity={selectedCity}
+            onCityChange={onCityChange}
+            showBusinessCount={true}
+          />
+        )}
         <div className="space-y-2">
           <div className="flex items-center gap-2">
             <Tag size={16} className="text-mansablue" />
@@ -46,7 +60,7 @@ const DirectoryFilter: React.FC<DirectoryFilterProps> = ({
             value={filterOptions.category || 'all'} 
             onValueChange={(value) => onFilterChange({ category: value === 'all' ? undefined : value })}
           >
-            <SelectTrigger className="w-full bg-white border-gray-200">
+            <SelectTrigger className="w-full bg-background border-border">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent className="max-h-80">

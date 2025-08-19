@@ -5,7 +5,8 @@ import Footer from '@/components/Footer';
 import { useLocation } from '@/hooks/location/useLocation';
 import { businesses } from '@/data/businessData';
 import { BusinessFilters } from '@/lib/api/directory/types';
-import { useDirectorySearch } from '@/hooks/use-directory-search';
+import { useMultiCityDirectory } from '@/hooks/use-multi-city-directory';
+import MultiCityStats from '@/components/directory/MultiCityStats';
 
 // Import the directory components
 import DirectoryHeader from '@/components/directory/DirectoryHeader';
@@ -32,16 +33,19 @@ const DirectoryPage: React.FC = () => {
   // Fetch user location
   const { location, getCurrentPosition, loading: locationLoading } = useLocation();
   
-  // Use the directory search hook with the business data that includes images
+  // Use the multi-city directory hook with the business data
   const {
+    selectedCity,
     searchTerm,
     setSearchTerm,
     filterOptions,
     handleFilterChange,
+    handleCityChange,
     categories,
     filteredBusinesses,
-    mapData
-  } = useDirectorySearch(businesses);
+    mapData,
+    totalBusinesses
+  } = useMultiCityDirectory(businesses);
 
   console.log('DirectoryPage - businesses loaded:', businesses?.length || 0);
   console.log('DirectoryPage - filteredBusinesses:', filteredBusinesses?.length || 0);
@@ -88,19 +92,19 @@ const DirectoryPage: React.FC = () => {
         
         <Navbar />
         
-        <div className="bg-mansablue py-8">
+        <div className="bg-primary py-8">
           <div className="container mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Discover Black-Owned Businesses</h1>
-            <p className="text-white/80 max-w-2xl mx-auto mb-6">
-              Support economic circulation by shopping at verified Black-owned businesses in our community
+            <h1 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">Multi-City Marketplace</h1>
+            <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-6">
+              Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, and Detroit
             </p>
             
             <div className="relative max-w-xl mx-auto">
-              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-500" />
+              <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text" 
-                placeholder="Search for businesses, products, or services..."
-                className="pl-10 h-12 bg-white rounded-lg w-full"
+                placeholder="Search businesses across all cities..."
+                className="pl-10 h-12 bg-background rounded-lg w-full"
                 value={searchTerm || ''}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -108,8 +112,10 @@ const DirectoryPage: React.FC = () => {
           </div>
         </div>
         
-        <div className="flex-grow bg-gray-50 py-8">
+        <div className="flex-grow bg-background py-8">
           <div className="container mx-auto">
+            <MultiCityStats selectedCity={selectedCity} />
+            
             <div className="flex flex-col md:flex-row justify-between items-start gap-6">
               {/* Sidebar Filters */}
               <div className="w-full md:w-1/4">
@@ -118,17 +124,27 @@ const DirectoryPage: React.FC = () => {
                     categories={categories || []}
                     filterOptions={filterOptions}
                     onFilterChange={handleFilterChange}
+                    selectedCity={selectedCity}
+                    onCityChange={handleCityChange}
+                    showCitySelector={true}
                   />
                 </ErrorBoundary>
               </div>
               
               {/* Main Content */}
               <div className="w-full md:w-3/4">
-                <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+                <div className="bg-card rounded-lg shadow-sm p-4 mb-6">
                   <div className="flex flex-col sm:flex-row justify-between items-center">
                     <div className="flex items-center mb-4 sm:mb-0">
-                      <ListFilter className="h-5 w-5 mr-2 text-gray-500" />
-                      <span className="text-gray-700">{filteredBusinesses?.length || 0} businesses found</span>
+                      <ListFilter className="h-5 w-5 mr-2 text-muted-foreground" />
+                      <span className="text-foreground">
+                        {filteredBusinesses?.length || 0} businesses found
+                        {selectedCity !== 'all' && (
+                          <span className="text-muted-foreground ml-2">
+                            in {selectedCity.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                          </span>
+                        )}
+                      </span>
                     </div>
                     
                     <div className="flex items-center space-x-2">
