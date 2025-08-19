@@ -9,8 +9,6 @@ interface BusinessGridViewProps {
 }
 
 const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelectBusiness }) => {
-  console.log('BusinessGridView - Rendering businesses:', businesses.length);
-  console.log('BusinessGridView - Sample business data:', businesses[0]);
   
   if (businesses.length === 0) {
     return (
@@ -23,9 +21,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {businesses.map((business) => {
-        console.log(`BusinessGridView - Business ${business.name} imageUrl:`, business.imageUrl);
-        return (
+      {businesses.map((business) => (
           <div 
             key={business.id} 
             id={`business-${business.id}`} 
@@ -45,8 +41,8 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
               isFeatured={business.isFeatured}
             />
           </div>
-        );
-      })}
+        )
+      )}
     </div>
   );
 };

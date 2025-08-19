@@ -24,7 +24,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
 const DirectoryPage: React.FC = () => {
-  console.log('DirectoryPage - Starting render');
   
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
   const [showFilters, setShowFilters] = useState(false);
@@ -47,9 +46,6 @@ const DirectoryPage: React.FC = () => {
     totalBusinesses
   } = useMultiCityDirectory(businesses);
 
-  console.log('DirectoryPage - businesses loaded:', businesses?.length || 0);
-  console.log('DirectoryPage - filteredBusinesses:', filteredBusinesses?.length || 0);
-  
   // Safety check for data
   if (!businesses || businesses.length === 0) {
     console.error('DirectoryPage - No businesses data available');

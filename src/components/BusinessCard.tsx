@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -33,15 +33,39 @@ const BusinessCard = ({
 }: BusinessCardProps) => {
   const [imgError, setImgError] = useState(false);
   const [imgLoading, setImgLoading] = useState(true);
+  const [isInView, setIsInView] = useState(false);
+  const imgRef = useRef<HTMLDivElement>(null);
+
+  // Intersection Observer for lazy loading
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            observer.disconnect();
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '50px'
+      }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleImageError = () => {
-    console.log(`Image failed to load for ${name}:`, imageUrl);
     setImgError(true);
     setImgLoading(false);
   };
 
   const handleImageLoad = () => {
-    console.log(`Image loaded successfully for ${name}:`, imageUrl);
     setImgLoading(false);
   };
 
@@ -64,23 +88,34 @@ const BusinessCard = ({
           Featured Business
         </div>
       )}
-      <div className="aspect-video bg-gray-100 relative overflow-hidden">
-        {imgLoading && (
-          <div className="w-full h-full flex items-center justify-center bg-gray-200 animate-pulse">
+      <div ref={imgRef} className="aspect-video bg-gray-100 relative overflow-hidden">
+        {!isInView ? (
+          <div className="w-full h-full flex items-center justify-center bg-gray-200">
             <div className="flex flex-col items-center">
               <span className="text-gray-400 text-2xl font-bold mb-1">{name.charAt(0).toUpperCase()}</span>
-              <span className="text-xs text-gray-500">Loading...</span>
+              <span className="text-xs text-gray-500">{category}</span>
             </div>
           </div>
+        ) : (
+          <>
+            {imgLoading && (
+              <div className="w-full h-full flex items-center justify-center bg-gray-200 animate-pulse absolute inset-0 z-10">
+                <div className="flex flex-col items-center">
+                  <span className="text-gray-400 text-2xl font-bold mb-1">{name.charAt(0).toUpperCase()}</span>
+                  <span className="text-xs text-gray-500">Loading...</span>
+                </div>
+              </div>
+            )}
+            <img 
+              src={getImageUrl()} 
+              alt={imageAlt || `${name} business image`}
+              className={`w-full h-full object-cover transition-all duration-500 hover:scale-105 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
+              onError={handleImageError}
+              onLoad={handleImageLoad}
+              loading="lazy"
+            />
+          </>
         )}
-        <img 
-          src={getImageUrl()} 
-          alt={imageAlt || `${name} business image`}
-          className={`w-full h-full object-cover transition-all duration-300 hover:scale-105 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
-          onError={handleImageError}
-          onLoad={handleImageLoad}
-          loading="lazy"
-        />
         <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-mansablue shadow-sm">
           {discount}
         </div>
