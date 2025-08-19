@@ -1,73 +1,85 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle } from 'lucide-react';
+import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle, Zap, Heart } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <section className="relative bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue overflow-hidden min-h-screen">
+    <section className="relative bg-gradient-to-br from-primary via-primary/90 to-primary overflow-hidden min-h-screen">
       <div className="absolute inset-0 bg-black/20" />
       <div className="relative container mx-auto px-4 py-16">
-        {/* Subscription Badges - Mobile Responsive */}
+        {/* Phase 1 Free Growth Banner */}
+        <div className="text-center mb-12">
+          <Badge className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 text-lg font-bold rounded-full mb-4">
+            <Zap className="mr-2 h-5 w-5" />
+            PHASE 1: FREE GROWTH - Everything FREE Until Jan 2026!
+          </Badge>
+          <p className="text-primary-foreground/90 text-sm max-w-2xl mx-auto">
+            We're building critical mass first. All features are 100% FREE for everyone - businesses and customers!
+          </p>
+        </div>
+
+        {/* Free Access Badges */}
         <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
           <Link to="/signup">
             <Badge className="bg-green-500 hover:bg-green-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
               <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              Start FREE - Browse directory, discover businesses, view profiles
+              100% FREE - All Customer Features
             </Badge>
           </Link>
-          <Link to="/subscription">
-            <Badge className="bg-mansagold hover:bg-mansagold-dark text-mansablue px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
-              <Crown className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              Limited Premium Special - $4.99/month (for 1 year)
+          <Link to="/signup?type=business">
+            <Badge className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
+              <Building2 className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
+              100% FREE - All Business Features
             </Badge>
           </Link>
           <Link to="/signup">
-            <Badge className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
-              <GraduationCap className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              FREE Premium for HBCU
+            <Badge className="bg-purple-500 hover:bg-purple-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
+              <Heart className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
+              Community First, Revenue Later
             </Badge>
           </Link>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-20">
-          <div className="text-white">
+          <div className="text-primary-foreground">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6 md:mb-8">
               Save Money &{' '}
               <br className="hidden sm:block" />
               Support{' '}
-              <span className="text-mansagold">Black-Owned Businesses</span>
+              <span className="text-accent">Black-Owned Businesses</span>
             </h1>
             
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 leading-relaxed mb-6 md:mb-8">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-primary-foreground/90 leading-relaxed mb-6 md:mb-8">
               Get 5% - 30% discounts while building community wealth!
             </p>
             
-            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed mb-8 md:mb-12">
-              Join thousands of customers discovering amazing businesses and making every 
-              purchase count toward building generational wealth.
-            </p>
+            <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-xl p-4 mb-6">
+              <p className="text-base sm:text-lg md:text-xl text-primary-foreground leading-relaxed">
+                <strong className="text-green-300">FREE FOR EVERYONE:</strong> Join thousands of customers and businesses 
+                building economic power together. No subscriptions, no fees, just community wealth creation!
+              </p>
+            </div>
 
-            {/* CTA Buttons - Mobile Optimized with better text wrapping */}
+            {/* CTA Buttons - Updated for Free Strategy */}
             <div className="flex flex-col gap-4 mb-8 w-full">
               <Link to="/signup" className="w-full sm:w-auto">
-                <Button className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-4 md:px-6 text-sm sm:text-base md:text-lg rounded-xl w-full sm:w-auto leading-tight">
+                <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold py-3 md:py-4 px-4 md:px-6 text-sm sm:text-base md:text-lg rounded-xl w-full sm:w-auto leading-tight">
                   <span className="text-center">
-                    Start FREE Today
+                    Join FREE Today
                     <br className="sm:hidden" />
                     <span className="hidden sm:inline"> - </span>
-                    Browse, Discover, View Profiles
+                    No Credit Card Required
                   </span>
                 </Button>
               </Link>
               
               <Link to="/directory" className="w-full sm:w-auto">
                 <Button 
-                  variant="white"
-                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap"
+                  variant="outline"
+                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
                 >
                   Browse Directory
                 </Button>
@@ -93,13 +105,13 @@ const Hero = () => {
                     </div>
                     
                     <div className="flex items-center">
-                      <Crown className="h-5 w-5 text-mansagold mr-2" />
-                      <span className="text-sm font-medium">$4.99/month</span>
+                      <Star className="h-5 w-5 text-green-400 mr-2" />
+                      <span className="text-sm font-medium">100% FREE</span>
                     </div>
                     
                     <div className="flex items-center">
                       <Shield className="h-5 w-5 text-blue-400 mr-2" />
-                      <span className="text-sm font-medium">Trusted Network</span>
+                      <span className="text-sm font-medium">Community First</span>
                     </div>
                   </div>
                 </div>
@@ -108,33 +120,36 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Updated Plan Cards Grid - Now includes new business tiers */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 md:gap-6 max-w-7xl mx-auto">
+        {/* Updated Plan Cards Grid - All Free */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
           <Link to="/signup">
-            <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all cursor-pointer">
+            <Card className="bg-green-500/20 backdrop-blur-lg border border-green-400/30 hover:bg-green-500/25 transition-all cursor-pointer">
               <CardContent className="p-4 md:p-6">
                 <div className="text-center">
-                  <Badge variant="secondary" className="bg-green-500/20 text-green-100 mb-3 md:mb-4">
-                    FREE
+                  <Badge className="bg-green-500 text-white mb-3 md:mb-4">
+                    <CheckCircle className="mr-1 h-3 w-3" />
+                    100% FREE
                   </Badge>
-                  <h3 className="text-green-100 font-semibold text-base md:text-lg mb-2 md:mb-3">FREE MEMBERSHIP</h3>
-                  <p className="text-white/90 text-xs md:text-sm">Browse directory, discover businesses, view profiles</p>
+                  <h3 className="text-green-100 font-semibold text-base md:text-lg mb-2 md:mb-3">CUSTOMERS</h3>
+                  <p className="text-primary-foreground/90 text-xs md:text-sm">
+                    Browse directory, get discounts, earn loyalty points, redeem rewards
+                  </p>
                 </div>
               </CardContent>
             </Card>
           </Link>
 
-          <Link to="/subscription">
-            <Card className="bg-mansagold/20 backdrop-blur-lg border border-mansagold/30 hover:bg-mansagold/25 transition-all cursor-pointer">
+          <Link to="/signup?type=business">
+            <Card className="bg-blue-500/20 backdrop-blur-lg border border-blue-400/30 hover:bg-blue-500/25 transition-all cursor-pointer">
               <CardContent className="p-4 md:p-6">
                 <div className="text-center">
-                  <Badge className="bg-mansagold text-mansablue mb-3 md:mb-4">
-                    <Crown className="mr-1 h-3 w-3" />
-                    $4.99/month
+                  <Badge className="bg-blue-500 text-white mb-3 md:mb-4">
+                    <Building2 className="mr-1 h-3 w-3" />
+                    100% FREE
                   </Badge>
-                  <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">PREMIUM</h3>
-                  <p className="text-white/90 text-xs md:text-sm">
-                    Get 5% - 30% discounts, earn points, redeem rewards, exclusive deals
+                  <h3 className="text-blue-200 font-semibold text-base md:text-lg mb-2 md:mb-3">BUSINESSES</h3>
+                  <p className="text-primary-foreground/90 text-xs md:text-sm">
+                    Unlimited QR codes, analytics, customer management, promotions
                   </p>
                 </div>
               </CardContent>
@@ -142,68 +157,57 @@ const Hero = () => {
           </Link>
 
           <Link to="/signup">
-            <Card className="bg-blue-500/20 backdrop-blur-lg border border-blue-400/30 hover:bg-blue-500/25 transition-all cursor-pointer">
-              <CardContent className="p-4 md:p-6">
-                <div className="text-center">
-                  <Badge className="bg-blue-500 text-white mb-3 md:mb-4">
-                    <GraduationCap className="mr-1 h-3 w-3" />
-                    🎓
-                  </Badge>
-                  <h3 className="text-blue-200 font-semibold text-base md:text-lg mb-2 md:mb-3">HBCU STUDENTS</h3>
-                  <p className="text-white/90 text-xs md:text-sm mb-2">Get ALL Premium features FREE!</p>
-                  <p className="text-blue-200 text-xs">Upload student ID during signup</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-
-          <Link to="/signup?type=business&tier=business_starter">
             <Card className="bg-purple-500/20 backdrop-blur-lg border border-purple-400/30 hover:bg-purple-500/25 transition-all cursor-pointer">
               <CardContent className="p-4 md:p-6">
                 <div className="text-center">
                   <Badge className="bg-purple-500 text-white mb-3 md:mb-4">
-                    <QrCode className="mr-1 h-3 w-3" />
-                    $29/month
+                    <GraduationCap className="mr-1 h-3 w-3" />
+                    STUDENTS
                   </Badge>
-                  <h3 className="text-purple-200 font-semibold text-base md:text-lg mb-2 md:mb-3">STARTER BUSINESS</h3>
-                  <p className="text-white/90 text-xs md:text-sm mb-1">Up to 3 QR codes</p>
-                  <p className="text-white/80 text-xs">30-day free trial</p>
+                  <h3 className="text-purple-200 font-semibold text-base md:text-lg mb-2 md:mb-3">HBCU SPECIAL</h3>
+                  <p className="text-primary-foreground/90 text-xs md:text-sm">
+                    Extra rewards, exclusive events, community building
+                  </p>
                 </div>
               </CardContent>
             </Card>
           </Link>
 
-          <Link to="/signup?type=business&tier=business">
-            <Card className="bg-orange-500/20 backdrop-blur-lg border border-orange-400/30 hover:bg-orange-500/25 transition-all cursor-pointer">
+          <Link to="/directory">
+            <Card className="bg-accent/20 backdrop-blur-lg border border-accent/30 hover:bg-accent/25 transition-all cursor-pointer">
               <CardContent className="p-4 md:p-6">
                 <div className="text-center">
-                  <Badge className="bg-orange-500 text-white mb-3 md:mb-4">
-                    <BarChart3 className="mr-1 h-3 w-3" />
-                    $100/month
+                  <Badge className="bg-accent text-accent-foreground mb-3 md:mb-4">
+                    <Users className="mr-1 h-3 w-3" />
+                    EXPLORE
                   </Badge>
-                  <h3 className="text-orange-200 font-semibold text-base md:text-lg mb-2 md:mb-3">PROFESSIONAL BUSINESS</h3>
-                  <p className="text-white/90 text-xs md:text-sm mb-1">Up to 50 QR codes</p>
-                  <p className="text-white/80 text-xs">30-day free trial</p>
+                  <h3 className="text-accent font-semibold text-base md:text-lg mb-2 md:mb-3">BROWSE NOW</h3>
+                  <p className="text-primary-foreground/90 text-xs md:text-sm">
+                    Start exploring businesses across 5 cities today
+                  </p>
                 </div>
               </CardContent>
             </Card>
           </Link>
+        </div>
 
-          <Link to="/signup?type=business">
-            <Card className="bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/15 transition-all cursor-pointer">
-              <CardContent className="p-4 md:p-6">
-                <div className="text-center">
-                  <Badge className="bg-mansagold/80 text-mansablue mb-3 md:mb-4">
-                    <Building2 className="mr-1 h-3 w-3" />
-                    👥
-                  </Badge>
-                  <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">ALL BUSINESS PLANS</h3>
-                  <p className="text-white/90 text-xs md:text-sm mb-1">First month FREE!</p>
-                  <p className="text-white/80 text-xs">Compare all plans</p>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+        {/* Phase 1 Metrics Focus */}
+        <div className="mt-16 text-center">
+          <h3 className="text-xl font-semibold text-primary-foreground mb-4">We're Measuring Success by Community, Not Revenue</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="bg-background/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="text-2xl font-bold text-accent">Business Signups</div>
+              <div className="text-sm text-primary-foreground/80">Growing our network</div>
+            </div>
+            <div className="bg-background/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="text-2xl font-bold text-accent">Customer Transactions</div>
+              <div className="text-sm text-primary-foreground/80">Economic circulation</div>
+            </div>
+            <div className="bg-background/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="text-2xl font-bold text-accent">Repeat Usage</div>
+              <div className="text-sm text-primary-foreground/80">Community engagement</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

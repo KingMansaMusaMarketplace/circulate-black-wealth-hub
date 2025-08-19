@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import Navbar from '@/components/navbar';
 import HomePageSections from '@/components/HomePage/HomePageSections';
+import FreeGrowthBanner from '@/components/FreeGrowthBanner';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
 
@@ -31,7 +32,7 @@ const HomePage = () => {
       document.head.appendChild(metaDescription);
     }
     metaDescription.setAttribute('content', 
-      'Join thousands discovering amazing Black-owned businesses while earning rewards and building community wealth. Start FREE today!'
+      'Join the FREE Mansa Musa Marketplace community! 100% free access for businesses and customers during our growth phase. Build community wealth together!'
     );
 
     // Preload critical chunks for better UX
@@ -47,6 +48,9 @@ const HomePage = () => {
       
       {/* Hero Section */}
       <Hero />
+
+      {/* Free Growth Strategy Banner */}
+      <FreeGrowthBanner />
 
       {/* All conversion-focused sections */}
       <HomePageSections />
