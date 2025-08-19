@@ -57,6 +57,13 @@ export type Database = {
             foreignKeyName: "agent_commissions_sales_agent_id_fkey"
             columns: ["sales_agent_id"]
             isOneToOne: false
+            referencedRelation: "public_sales_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_commissions_sales_agent_id_fkey"
+            columns: ["sales_agent_id"]
+            isOneToOne: false
             referencedRelation: "sales_agents"
             referencedColumns: ["id"]
           },
@@ -842,6 +849,13 @@ export type Database = {
             foreignKeyName: "profiles_referred_by_fkey"
             columns: ["referred_by"]
             isOneToOne: false
+            referencedRelation: "public_sales_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profiles_referred_by_fkey"
+            columns: ["referred_by"]
+            isOneToOne: false
             referencedRelation: "sales_agents"
             referencedColumns: ["id"]
           },
@@ -1040,6 +1054,13 @@ export type Database = {
           subscription_amount?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "referrals_sales_agent_id_fkey"
+            columns: ["sales_agent_id"]
+            isOneToOne: false
+            referencedRelation: "public_sales_agents"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "referrals_sales_agent_id_fkey"
             columns: ["sales_agent_id"]
@@ -1497,7 +1518,27 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      public_sales_agents: {
+        Row: {
+          created_at: string | null
+          id: string | null
+          is_active: boolean | null
+          referral_code: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          referral_code?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string | null
+          is_active?: boolean | null
+          referral_code?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       admin_approve_business_verification: {
