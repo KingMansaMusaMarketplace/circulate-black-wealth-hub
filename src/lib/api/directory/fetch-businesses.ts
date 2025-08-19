@@ -11,7 +11,53 @@ export async function fetchBusinesses(
   pagination?: PaginationParams
 ): Promise<BusinessQueryResult> {
   try {
-    // Prepare parameters for the secure function
+    // Check if user is authenticated - if not, use business_directory view
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      // Use business_directory view for non-authenticated users
+      const limit = pagination?.pageSize || 20;
+      const offset = pagination ? (pagination.page - 1) * pagination.pageSize : 0;
+      
+      let query = supabase
+        .from('business_directory')
+        .select('*');
+      
+      if (filters?.searchTerm) {
+        query = query.or(`business_name.ilike.%${filters.searchTerm}%,category.ilike.%${filters.searchTerm}%`);
+      }
+      
+      if (filters?.category && filters.category !== 'all') {
+        query = query.eq('category', filters.category);
+      }
+      
+      if (filters?.minRating && filters.minRating > 0) {
+        query = query.gte('average_rating', filters.minRating);
+      }
+      
+      if (filters?.featured) {
+        query = query.eq('is_verified', true);
+      }
+      
+      const { data, error, count } = await query
+        .range(offset, offset + limit - 1)
+        .order('is_verified', { ascending: false })
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching businesses from directory:', error);
+        toast.error('Failed to load businesses');
+        return { businesses: [], totalCount: 0, totalPages: 0 };
+      }
+      
+      const totalCount = count || 0;
+      const totalPages = pagination ? Math.ceil(totalCount / pagination.pageSize) : 1;
+      const businesses = data.map(mapSupabaseBusinessToBusiness);
+      
+      return { businesses, totalCount, totalPages };
+    }
+    
+    // Authenticated users can use the RPC function for full functionality
     const limit = pagination?.pageSize || 20;
     const offset = pagination ? (pagination.page - 1) * pagination.pageSize : 0;
     
