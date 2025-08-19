@@ -149,15 +149,43 @@ export const getSalesAgentByUserId = async (userId: string): Promise<SalesAgent 
 
 export const getSalesAgentByReferralCode = async (referralCode: string): Promise<SalesAgent | null> => {
   try {
+    // First get the agent ID from the public function (limited data)
+    const { data: publicAgents, error: publicError } = await supabase
+      .rpc('get_public_sales_agents');
+
+    if (publicError) {
+      console.error('Error fetching public sales agents:', publicError);
+      return null;
+    }
+
+    const agent = publicAgents?.find(agent => agent.referral_code === referralCode);
+    if (!agent) {
+      return null;
+    }
+
+    // Now get the full agent data (this will only work if user is the agent themselves due to RLS)
     const { data, error } = await supabase
       .from('sales_agents')
       .select('*')
-      .eq('referral_code', referralCode)
+      .eq('id', agent.id)
       .single();
 
     if (error) {
-      console.error('Error fetching sales agent by referral code:', error);
-      return null;
+      // If we can't get full data due to RLS, return minimal public data
+      return {
+        id: agent.id,
+        referral_code: agent.referral_code,
+        is_active: agent.is_active,
+        created_at: agent.created_at,
+        user_id: '', // Don't expose user_id in public context
+        email: '', // Don't expose email
+        full_name: '', // Don't expose full name
+        phone: null, // Don't expose phone
+        commission_rate: null,
+        total_pending: null,
+        total_earned: null,
+        updated_at: null
+      } as SalesAgent;
     }
 
     return data as SalesAgent;

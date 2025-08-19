@@ -57,13 +57,6 @@ export type Database = {
             foreignKeyName: "agent_commissions_sales_agent_id_fkey"
             columns: ["sales_agent_id"]
             isOneToOne: false
-            referencedRelation: "public_sales_agents"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "agent_commissions_sales_agent_id_fkey"
-            columns: ["sales_agent_id"]
-            isOneToOne: false
             referencedRelation: "sales_agents"
             referencedColumns: ["id"]
           },
@@ -849,13 +842,6 @@ export type Database = {
             foreignKeyName: "profiles_referred_by_fkey"
             columns: ["referred_by"]
             isOneToOne: false
-            referencedRelation: "public_sales_agents"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profiles_referred_by_fkey"
-            columns: ["referred_by"]
-            isOneToOne: false
             referencedRelation: "sales_agents"
             referencedColumns: ["id"]
           },
@@ -1054,13 +1040,6 @@ export type Database = {
           subscription_amount?: number | null
         }
         Relationships: [
-          {
-            foreignKeyName: "referrals_sales_agent_id_fkey"
-            columns: ["sales_agent_id"]
-            isOneToOne: false
-            referencedRelation: "public_sales_agents"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "referrals_sales_agent_id_fkey"
             columns: ["sales_agent_id"]
@@ -1518,27 +1497,7 @@ export type Database = {
       }
     }
     Views: {
-      public_sales_agents: {
-        Row: {
-          created_at: string | null
-          id: string | null
-          is_active: boolean | null
-          referral_code: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string | null
-          is_active?: boolean | null
-          referral_code?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          id?: string | null
-          is_active?: boolean | null
-          referral_code?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       admin_approve_business_verification: {
@@ -1587,6 +1546,15 @@ export type Database = {
       get_community_impact_summary: {
         Args: Record<PropertyKey, never>
         Returns: Json
+      }
+      get_public_sales_agents: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          id: string
+          is_active: boolean
+          referral_code: string
+        }[]
       }
       get_qr_scan_metrics: {
         Args: { p_business_id: string }
