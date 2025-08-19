@@ -79,7 +79,7 @@ const Hero = () => {
               <Link to="/directory" className="w-full sm:w-auto">
                 <Button 
                   variant="outline"
-                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap border-white text-white hover:bg-white hover:text-mansablue"
+                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap border-mansagold text-mansagold hover:bg-mansagold hover:text-mansablue"
                 >
                   Browse Directory
                 </Button>

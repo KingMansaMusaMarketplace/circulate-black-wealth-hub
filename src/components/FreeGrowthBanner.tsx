@@ -120,7 +120,7 @@ const FreeGrowthBanner = () => {
             </Link>
             
             <Link to="/signup?type=business">
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-green-600 font-bold py-3 px-8 text-lg rounded-xl">
+              <Button variant="outline" className="border-mansagold text-mansagold hover:bg-mansagold hover:text-white font-bold py-3 px-8 text-lg rounded-xl">
                 Join FREE as Business
               </Button>
             </Link>
