@@ -1,33 +1,32 @@
-
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Loading from '@/components/ui/loading';
 
-interface RequireBusinessProps {
+interface RequireAdminProps {
   children: React.ReactNode;
 }
 
-const RequireBusiness: React.FC<RequireBusinessProps> = ({ children }) => {
+const RequireAdmin: React.FC<RequireAdminProps> = ({ children }) => {
   const { user, loading, userRole } = useAuth();
   const location = useLocation();
 
   if (loading) {
-    return <Loading fullScreen text="Checking business access..." />;
+    return <Loading fullScreen text="Checking admin access..." />;
   }
 
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // Check if user has business or admin role
-  if (userRole !== 'business' && userRole !== 'admin') {
+  // Check if user has admin role
+  if (userRole !== 'admin') {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-6">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Business Access Required</h1>
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Admin Access Required</h1>
           <p className="mb-6 text-gray-700">
-            This feature is only available to business accounts. Please upgrade your account or contact support.
+            This area is restricted to administrators only. Please contact support if you believe this is an error.
           </p>
           <button 
             onClick={() => window.history.back()}
@@ -43,4 +42,4 @@ const RequireBusiness: React.FC<RequireBusinessProps> = ({ children }) => {
   return <>{children}</>;
 };
 
-export default RequireBusiness;
+export default RequireAdmin;

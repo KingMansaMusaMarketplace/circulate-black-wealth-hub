@@ -830,6 +830,7 @@ export type Database = {
           phone: string | null
           referral_code: string | null
           referred_by: string | null
+          role: Database["public"]["Enums"]["user_role"]
           state: string | null
           subscription_end_date: string | null
           subscription_start_date: string | null
@@ -861,6 +862,7 @@ export type Database = {
           phone?: string | null
           referral_code?: string | null
           referred_by?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
@@ -892,6 +894,7 @@ export type Database = {
           phone?: string | null
           referral_code?: string | null
           referred_by?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
@@ -1237,6 +1240,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      role_change_audit: {
+        Row: {
+          changed_at: string | null
+          changed_by: string | null
+          id: string
+          new_role: Database["public"]["Enums"]["user_role"]
+          old_role: Database["public"]["Enums"]["user_role"] | null
+          reason: string | null
+          user_id: string
+        }
+        Insert: {
+          changed_at?: string | null
+          changed_by?: string | null
+          id?: string
+          new_role: Database["public"]["Enums"]["user_role"]
+          old_role?: Database["public"]["Enums"]["user_role"] | null
+          reason?: string | null
+          user_id: string
+        }
+        Update: {
+          changed_at?: string | null
+          changed_by?: string | null
+          id?: string
+          new_role?: Database["public"]["Enums"]["user_role"]
+          old_role?: Database["public"]["Enums"]["user_role"] | null
+          reason?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       sales_agent_applications: {
         Row: {
@@ -1700,6 +1733,10 @@ export type Database = {
         Args: { reason: string; verification_id: string }
         Returns: undefined
       }
+      assign_admin_role: {
+        Args: { user_email: string }
+        Returns: undefined
+      }
       calculate_user_impact_metrics: {
         Args: { p_user_id: string }
         Returns: Json
@@ -1817,6 +1854,10 @@ export type Database = {
         Args: { p_business_id: string }
         Returns: Json
       }
+      has_role: {
+        Args: { _role: Database["public"]["Enums"]["user_role"] }
+        Returns: boolean
+      }
       is_admin: {
         Args: Record<PropertyKey, never>
         Returns: boolean
@@ -1862,6 +1903,7 @@ export type Database = {
     Enums: {
       hbcu_verification_status: "pending" | "approved" | "rejected"
       subscription_tier: "free" | "paid" | "business_starter"
+      user_role: "customer" | "business" | "admin" | "sales_agent"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1991,6 +2033,7 @@ export const Constants = {
     Enums: {
       hbcu_verification_status: ["pending", "approved", "rejected"],
       subscription_tier: ["free", "paid", "business_starter"],
+      user_role: ["customer", "business", "admin", "sales_agent"],
     },
   },
 } as const

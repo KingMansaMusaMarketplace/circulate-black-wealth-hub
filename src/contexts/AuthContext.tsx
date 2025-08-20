@@ -7,6 +7,7 @@ interface AuthContextType {
   session: Session | null;
   loading: boolean;
   userType: string | null;
+  userRole: string | null;
   authInitialized: boolean;
   databaseInitialized: boolean;
   signUp: (email: string, password: string, userData?: any) => Promise<{ error: any; data?: any }>;
@@ -35,6 +36,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [userType, setUserType] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
   const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
@@ -51,6 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }, 0);
         } else {
           setUserType(null);
+          setUserRole(null);
           setProfile(null);
         }
         
@@ -84,6 +87,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (data && !error) {
         setProfile(data);
         setUserType(data.user_type);
+        setUserRole(data.role);
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -181,6 +185,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     session,
     loading,
     userType,
+    userRole,
     authInitialized: !loading,
     databaseInitialized: true,
     signUp,

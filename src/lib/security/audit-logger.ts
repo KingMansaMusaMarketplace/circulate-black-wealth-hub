@@ -51,3 +51,20 @@ export const logUnauthorizedAccess = async (tableName: string, attemptedAction: 
     table_name: tableName
   });
 };
+
+export const logRoleChange = async (targetUserId: string, oldRole: string, newRole: string) => {
+  await logSecurityEvent({
+    action: 'role_change',
+    table_name: 'profiles',
+    record_id: targetUserId,
+    user_agent: `Role changed from ${oldRole} to ${newRole}`
+  });
+};
+
+export const logAdminAction = async (action: string, tableName: string, recordId?: string) => {
+  await logSecurityEvent({
+    action: `admin_${action}`,
+    table_name: tableName,
+    record_id: recordId
+  });
+};

@@ -8,7 +8,7 @@ interface RequireCustomerProps {
 }
 
 const RequireCustomer: React.FC<RequireCustomerProps> = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, userRole } = useAuth();
   const location = useLocation();
 
   if (loading) {
@@ -19,8 +19,8 @@ const RequireCustomer: React.FC<RequireCustomerProps> = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  // This is a simplified check - in a real app, you'd verify the user is a customer
-  if (user.user_metadata?.role !== 'customer' && !user.user_metadata?.is_customer) {
+  // Check if user has customer role
+  if (userRole !== 'customer') {
     return <Navigate to="/unauthorized" replace />;
   }
 
