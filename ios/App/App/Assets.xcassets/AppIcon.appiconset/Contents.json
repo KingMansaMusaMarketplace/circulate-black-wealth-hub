@@ -87,6 +87,12 @@
     {
       "filename" : "AppIcon-512.png",
       "idiom" : "ipad",
+      "scale" : "1x",
+      "size" : "76x76"
+    },
+    {
+      "filename" : "AppIcon-512.png",
+      "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
