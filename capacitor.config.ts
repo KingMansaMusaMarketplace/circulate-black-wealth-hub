@@ -52,7 +52,7 @@ const config: CapacitorConfig = {
   },
   ios: {
     contentInset: "always",
-    scheme: "ManaMusa",
+    scheme: "App",
     backgroundColor: "#1B365D",
     preferredContentMode: "mobile",
     statusBarStyle: "dark",
