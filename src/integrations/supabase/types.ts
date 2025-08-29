@@ -62,6 +62,51 @@ export type Database = {
           },
         ]
       }
+      business_access_log: {
+        Row: {
+          access_type: string
+          accessed_at: string | null
+          business_id: string | null
+          id: string
+          ip_address: unknown | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          access_type: string
+          accessed_at?: string | null
+          business_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          access_type?: string
+          accessed_at?: string | null
+          business_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_access_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_access_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_analytics: {
         Row: {
           business_id: string
@@ -1820,6 +1865,23 @@ export type Database = {
       get_community_impact_summary: {
         Args: Record<PropertyKey, never>
         Returns: Json
+      }
+      get_public_business_info: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          id: string
+          is_verified: boolean
+          logo_url: string
+          review_count: number
+          state: string
+        }[]
       }
       get_public_businesses: {
         Args: Record<PropertyKey, never>
