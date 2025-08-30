@@ -11,6 +11,7 @@ import {
 } from '@/lib/auth';
 import { getMFAFactors, createMFAChallenge } from './mfaUtils';
 import { toast } from 'sonner';
+import { secureSignUp, secureSignIn, secureUpdatePassword } from '@/lib/security/auth-security';
 
 // Helper function to wrap toast in the expected format
 export const toastWrapper = (props: ToastProps) => {
@@ -94,13 +95,13 @@ export const enhancedSignIn = async (
 
 export const handleUserSignUp = async (email: string, password: string, metadata?: any, toastFn?: any): Promise<{error?: AuthError, data?: UserResponse}> => {
   console.log("Handling user signup with metadata:", metadata);
-  const result = await handleSignUp(email, password, metadata, toastFn);
+  const result = await secureSignUp(email, password, metadata);
   console.log("Signup result:", result);
   return result as {error?: AuthError, data?: UserResponse};
 };
 
 export const handleUserSignIn = (email: string, password: string, toastFn?: any) => 
-  handleSignIn(email, password, toastFn);
+  secureSignIn(email, password);
 
 export const handleUserSignOut = (toastFn?: any) => 
   handleSignOut(toastFn);
@@ -112,7 +113,7 @@ export const handlePasswordReset = (email: string, toastFn?: any) =>
   requestPasswordReset(email, toastFn);
 
 export const handleUpdatePassword = (newPassword: string, toastFn?: any) => 
-  updatePassword(newPassword, toastFn);
+  secureUpdatePassword(newPassword);
 
 // Check if the session is valid
 export const checkUserSession = async (): Promise<boolean> => {

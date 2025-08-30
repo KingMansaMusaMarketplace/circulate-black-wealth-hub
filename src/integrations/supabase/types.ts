@@ -573,6 +573,33 @@ export type Database = {
           },
         ]
       }
+      failed_auth_attempts: {
+        Row: {
+          attempt_time: string | null
+          email: string | null
+          failure_reason: string | null
+          id: string
+          ip_address: unknown | null
+          user_agent: string | null
+        }
+        Insert: {
+          attempt_time?: string | null
+          email?: string | null
+          failure_reason?: string | null
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+        }
+        Update: {
+          attempt_time?: string | null
+          email?: string | null
+          failure_reason?: string | null
+          id?: string
+          ip_address?: unknown | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       forum_categories: {
         Row: {
           color: string | null
@@ -1917,6 +1944,14 @@ export type Database = {
         Args: { verification_id: string }
         Returns: undefined
       }
+      admin_change_user_role: {
+        Args: {
+          new_role: Database["public"]["Enums"]["user_role"]
+          reason?: string
+          target_user_id: string
+        }
+        Returns: undefined
+      }
       admin_reject_business_verification: {
         Args: { reason: string; verification_id: string }
         Returns: undefined
@@ -1931,6 +1966,10 @@ export type Database = {
       }
       can_access_admin_features: {
         Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      check_business_access_rate_limit: {
+        Args: { user_id_param?: string }
         Returns: boolean
       }
       exec_sql: {
@@ -2103,6 +2142,10 @@ export type Database = {
           state: string
           total_count: number
         }[]
+      }
+      validate_password_complexity: {
+        Args: { password: string }
+        Returns: boolean
       }
     }
     Enums: {
