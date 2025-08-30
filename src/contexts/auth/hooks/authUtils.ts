@@ -11,7 +11,8 @@ import {
 } from '@/lib/auth';
 import { getMFAFactors, createMFAChallenge } from './mfaUtils';
 import { toast } from 'sonner';
-import { secureSignUp, secureSignIn, secureUpdatePassword } from '@/lib/security/auth-security';
+import { validatePasswordComplexity, logFailedAuthAttempt } from '@/lib/security/password-validation';
+import { rateLimiter, rateLimitConfig, createRateLimitKey } from '@/lib/security/rate-limiting';
 
 // Helper function to wrap toast in the expected format
 export const toastWrapper = (props: ToastProps) => {
@@ -94,14 +95,66 @@ export const enhancedSignIn = async (
 };
 
 export const handleUserSignUp = async (email: string, password: string, metadata?: any, toastFn?: any): Promise<{error?: AuthError, data?: UserResponse}> => {
+  // Check rate limiting for signup attempts
+  const rateLimitKey = createRateLimitKey('signup', email);
+  if (!rateLimiter.checkRateLimit(rateLimitKey, rateLimitConfig.authentication.maxAttempts, rateLimitConfig.authentication.windowMs)) {
+    const error = new Error('Too many signup attempts. Please try again later.') as AuthError;
+    if (toastFn) {
+      toastFn({ variant: 'error', message: error.message });
+    }
+    return { error };
+  }
+
+  // Validate password complexity before attempting signup
+  const passwordValidation = validatePasswordComplexity(password);
+  if (!passwordValidation.isValid) {
+    const error = new Error(passwordValidation.errors.join('. ')) as AuthError;
+    if (toastFn) {
+      toastFn({ variant: 'error', message: error.message });
+    }
+    await logFailedAuthAttempt(email, `Signup failed: ${error.message}`);
+    return { error };
+  }
+
   console.log("Handling user signup with metadata:", metadata);
-  const result = await secureSignUp(email, password, metadata);
+  const result = await handleSignUp(email, password, metadata, toastFn);
+  
+  // Log failed signup attempts
+  if (result.error) {
+    await logFailedAuthAttempt(email, `Signup failed: ${result.error.message}`);
+  } else {
+    // Clear rate limit on successful signup
+    rateLimiter.clearRateLimit(rateLimitKey);
+  }
+  
   console.log("Signup result:", result);
   return result as {error?: AuthError, data?: UserResponse};
 };
 
-export const handleUserSignIn = (email: string, password: string, toastFn?: any) => 
-  secureSignIn(email, password);
+export const handleUserSignIn = async (email: string, password: string, toastFn?: any) => {
+  // Check rate limiting for signin attempts
+  const rateLimitKey = createRateLimitKey('signin', email);
+  if (!rateLimiter.checkRateLimit(rateLimitKey, rateLimitConfig.authentication.maxAttempts, rateLimitConfig.authentication.windowMs)) {
+    const error = new Error('Too many login attempts. Please try again later.');
+    if (toastFn) {
+      toastFn({ variant: 'error', message: error.message });
+    }
+    await logFailedAuthAttempt(email, 'Rate limit exceeded');
+    return { error };
+  }
+
+  const result = await handleSignIn(email, password, toastFn);
+  
+  // Log failed signin attempts
+  if (result?.error) {
+    await logFailedAuthAttempt(email, `Signin failed: ${result.error.message}`);
+  } else {
+    // Clear rate limit on successful signin
+    rateLimiter.clearRateLimit(rateLimitKey);
+  }
+  
+  return result;
+};
 
 export const handleUserSignOut = (toastFn?: any) => 
   handleSignOut(toastFn);
@@ -112,8 +165,19 @@ export const handleUserSocialSignIn = (provider: any, toastFn?: any) =>
 export const handlePasswordReset = (email: string, toastFn?: any) => 
   requestPasswordReset(email, toastFn);
 
-export const handleUpdatePassword = (newPassword: string, toastFn?: any) => 
-  secureUpdatePassword(newPassword);
+export const handleUpdatePassword = async (newPassword: string, toastFn?: any) => {
+  // Validate password complexity before update
+  const passwordValidation = validatePasswordComplexity(newPassword);
+  if (!passwordValidation.isValid) {
+    const error = passwordValidation.errors.join('. ');
+    if (toastFn) {
+      toastFn({ variant: 'error', message: error });
+    }
+    return { error: new Error(error) };
+  }
+
+  return await updatePassword(newPassword, toastFn);
+};
 
 // Check if the session is valid
 export const checkUserSession = async (): Promise<boolean> => {

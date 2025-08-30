@@ -2106,6 +2106,15 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
+      log_failed_auth_attempt: {
+        Args: {
+          email_param: string
+          ip_param?: unknown
+          reason_param: string
+          user_agent_param?: string
+        }
+        Returns: undefined
+      }
       process_pending_commissions: {
         Args: Record<PropertyKey, never>
         Returns: undefined

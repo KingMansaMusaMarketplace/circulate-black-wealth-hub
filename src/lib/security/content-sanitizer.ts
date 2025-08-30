@@ -1,73 +1,138 @@
-/**
- * Content sanitization utilities to prevent XSS attacks
- */
+// Content sanitization utilities to prevent XSS attacks
 
-// Basic HTML sanitizer for user-generated content
+/**
+ * Sanitizes HTML content by removing potentially dangerous elements and attributes
+ * This is a basic implementation - for production use, consider using DOMPurify
+ */
 export const sanitizeHtml = (html: string): string => {
-  // Create a temporary div element
+  // Create a temporary div to parse HTML
   const temp = document.createElement('div');
-  temp.textContent = html;
+  temp.innerHTML = html;
+
+  // Remove script tags
+  const scripts = temp.getElementsByTagName('script');
+  for (let i = scripts.length - 1; i >= 0; i--) {
+    scripts[i].remove();
+  }
+
+  // Remove potentially dangerous attributes
+  const allElements = temp.getElementsByTagName('*');
+  for (let i = 0; i < allElements.length; i++) {
+    const element = allElements[i];
+    
+    // Remove dangerous attributes
+    const dangerousAttrs = ['onclick', 'onload', 'onerror', 'onmouseover', 'onfocus', 'onblur', 'javascript:'];
+    dangerousAttrs.forEach(attr => {
+      if (element.hasAttribute(attr)) {
+        element.removeAttribute(attr);
+      }
+    });
+
+    // Remove javascript: protocols from href and src
+    const href = element.getAttribute('href');
+    const src = element.getAttribute('src');
+    
+    if (href && href.toLowerCase().startsWith('javascript:')) {
+      element.removeAttribute('href');
+    }
+    
+    if (src && src.toLowerCase().startsWith('javascript:')) {
+      element.removeAttribute('src');
+    }
+  }
+
   return temp.innerHTML;
 };
 
-// Remove dangerous HTML tags and attributes
-export const stripDangerousTags = (html: string): string => {
-  const dangerousTags = ['script', 'object', 'embed', 'link', 'style', 'iframe', 'form'];
-  const dangerousAttrs = ['onload', 'onerror', 'onclick', 'onmouseover', 'onfocus', 'onblur', 'onchange'];
-  
-  let cleaned = html;
-  
-  // Remove dangerous tags
-  dangerousTags.forEach(tag => {
-    const regex = new RegExp(`<${tag}[^>]*>.*?</${tag}>`, 'gis');
-    cleaned = cleaned.replace(regex, '');
-    const selfClosingRegex = new RegExp(`<${tag}[^>]*/>`, 'gi');
-    cleaned = cleaned.replace(selfClosingRegex, '');
-  });
-  
-  // Remove dangerous attributes
-  dangerousAttrs.forEach(attr => {
-    const regex = new RegExp(`${attr}\\s*=\\s*["'][^"']*["']`, 'gi');
-    cleaned = cleaned.replace(regex, '');
-  });
-  
-  return cleaned;
+/**
+ * Escapes HTML special characters to prevent XSS
+ */
+export const escapeHtml = (text: string): string => {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 };
 
-// Sanitize text content for display
-export const sanitizeText = (text: string): string => {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .replace(/\//g, '&#x2F;');
+/**
+ * Sanitizes user input for display in React components
+ */
+export const sanitizeUserInput = (input: string): string => {
+  if (!input || typeof input !== 'string') {
+    return '';
+  }
+
+  // Remove null bytes and control characters
+  let sanitized = input.replace(/[\x00-\x1F\x7F]/g, '');
+
+  // Escape HTML entities
+  sanitized = escapeHtml(sanitized);
+
+  return sanitized;
 };
 
-// Validate and sanitize URLs
-export const sanitizeUrl = (url: string): string => {
+/**
+ * Validates and sanitizes URLs to prevent malicious redirects
+ */
+export const sanitizeUrl = (url: string): string | null => {
+  if (!url || typeof url !== 'string') {
+    return null;
+  }
+
   try {
-    const parsed = new URL(url);
-    // Only allow http, https, and mailto protocols
-    if (!['http:', 'https:', 'mailto:'].includes(parsed.protocol)) {
-      return '#';
+    const parsedUrl = new URL(url);
+    
+    // Only allow http and https protocols
+    if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+      return null;
     }
-    return parsed.toString();
+
+    // Block localhost and private IPs in production
+    if (process.env.NODE_ENV === 'production') {
+      const hostname = parsedUrl.hostname.toLowerCase();
+      
+      // Block localhost
+      if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        return null;
+      }
+
+      // Block private IP ranges (basic check)
+      if (hostname.startsWith('192.168.') || 
+          hostname.startsWith('10.') || 
+          hostname.match(/^172\.(1[6-9]|2[0-9]|3[0-1])\./)) {
+        return null;
+      }
+    }
+
+    return parsedUrl.toString();
   } catch {
-    return '#';
+    return null;
   }
 };
 
-// Sanitize business description content
-export const sanitizeBusinessDescription = (description: string): string => {
-  // Allow basic formatting but strip dangerous content
-  const cleaned = stripDangerousTags(description);
-  return cleaned;
+/**
+ * Creates a safe props object for dangerouslySetInnerHTML
+ * Only use this when you absolutely need to render HTML content
+ */
+export const createSafeHTML = (html: string) => {
+  return {
+    __html: sanitizeHtml(html)
+  };
 };
 
-// Content Security Policy helper for dynamic content
-export const createSecureContent = (content: string): { __html: string } => {
-  const sanitized = stripDangerousTags(content);
-  return { __html: sanitized };
+/**
+ * Validates that content is safe before using dangerouslySetInnerHTML
+ * Throws an error if content contains potentially dangerous elements
+ */
+export const validateSafeHTML = (html: string): boolean => {
+  const dangerousPatterns = [
+    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+    /javascript:/gi,
+    /on\w+\s*=/gi,
+    /<iframe/gi,
+    /<object/gi,
+    /<embed/gi,
+    /<form/gi
+  ];
+
+  return !dangerousPatterns.some(pattern => pattern.test(html));
 };
