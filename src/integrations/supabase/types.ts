@@ -102,7 +102,7 @@ export type Database = {
             foreignKeyName: "business_access_log_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -151,7 +151,7 @@ export type Database = {
             foreignKeyName: "business_analytics_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -200,7 +200,7 @@ export type Database = {
             foreignKeyName: "business_interactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -273,7 +273,7 @@ export type Database = {
             foreignKeyName: "business_verifications_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -460,7 +460,7 @@ export type Database = {
             foreignKeyName: "community_events_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -836,7 +836,7 @@ export type Database = {
             foreignKeyName: "loyalty_points_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -918,7 +918,7 @@ export type Database = {
             foreignKeyName: "product_images_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -1092,7 +1092,7 @@ export type Database = {
             foreignKeyName: "qr_codes_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -1153,7 +1153,7 @@ export type Database = {
             foreignKeyName: "qr_scans_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -1218,7 +1218,7 @@ export type Database = {
             foreignKeyName: "redeemed_rewards_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -1324,7 +1324,7 @@ export type Database = {
             foreignKeyName: "reviews_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -1385,7 +1385,7 @@ export type Database = {
             foreignKeyName: "rewards_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -1656,7 +1656,7 @@ export type Database = {
             foreignKeyName: "social_shares_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -1798,7 +1798,7 @@ export type Database = {
             foreignKeyName: "transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
+            referencedRelation: "business_directory_secure"
             referencedColumns: ["id"]
           },
           {
@@ -1893,7 +1893,7 @@ export type Database = {
         }
         Relationships: []
       }
-      business_directory_public: {
+      business_directory_secure: {
         Row: {
           average_rating: number | null
           banner_url: string | null
