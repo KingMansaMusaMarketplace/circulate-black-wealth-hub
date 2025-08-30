@@ -1,19 +1,41 @@
-// Content sanitization utilities to prevent XSS attacks
+/**
+ * Content sanitization utilities to prevent XSS attacks
+ */
 
-export const sanitizeHtml = (content: string): string => {
-  // Basic HTML sanitization - remove potentially dangerous elements and attributes
-  const dangerous = /<(script|iframe|object|embed|form|meta|link|style)[^>]*>.*?<\/\1>/gi;
-  const dangerousAttributes = /(on\w+|javascript:|data:text\/html|vbscript:|mocha:|livescript:|expression\()/gi;
-  
-  let sanitized = content
-    .replace(dangerous, '') // Remove dangerous tags
-    .replace(dangerousAttributes, ''); // Remove dangerous attributes
-  
-  return sanitized;
+// Basic HTML sanitizer for user-generated content
+export const sanitizeHtml = (html: string): string => {
+  // Create a temporary div element
+  const temp = document.createElement('div');
+  temp.textContent = html;
+  return temp.innerHTML;
 };
 
+// Remove dangerous HTML tags and attributes
+export const stripDangerousTags = (html: string): string => {
+  const dangerousTags = ['script', 'object', 'embed', 'link', 'style', 'iframe', 'form'];
+  const dangerousAttrs = ['onload', 'onerror', 'onclick', 'onmouseover', 'onfocus', 'onblur', 'onchange'];
+  
+  let cleaned = html;
+  
+  // Remove dangerous tags
+  dangerousTags.forEach(tag => {
+    const regex = new RegExp(`<${tag}[^>]*>.*?</${tag}>`, 'gis');
+    cleaned = cleaned.replace(regex, '');
+    const selfClosingRegex = new RegExp(`<${tag}[^>]*/>`, 'gi');
+    cleaned = cleaned.replace(selfClosingRegex, '');
+  });
+  
+  // Remove dangerous attributes
+  dangerousAttrs.forEach(attr => {
+    const regex = new RegExp(`${attr}\\s*=\\s*["'][^"']*["']`, 'gi');
+    cleaned = cleaned.replace(regex, '');
+  });
+  
+  return cleaned;
+};
+
+// Sanitize text content for display
 export const sanitizeText = (text: string): string => {
-  // Escape HTML entities to prevent XSS
   return text
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -23,37 +45,29 @@ export const sanitizeText = (text: string): string => {
     .replace(/\//g, '&#x2F;');
 };
 
-export const validateImageUrl = (url: string): boolean => {
-  // Validate image URLs to prevent data URLs and script injection
-  const validImagePattern = /^https?:\/\/.*\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i;
-  const dangerousPattern = /(javascript:|data:|vbscript:|on\w+)/i;
-  
-  return validImagePattern.test(url) && !dangerousPattern.test(url);
-};
-
-export const sanitizeBusinessData = (data: any) => {
-  if (typeof data === 'string') {
-    return sanitizeText(data);
-  }
-  
-  if (Array.isArray(data)) {
-    return data.map(sanitizeBusinessData);
-  }
-  
-  if (data && typeof data === 'object') {
-    const sanitized: any = {};
-    for (const [key, value] of Object.entries(data)) {
-      sanitized[key] = sanitizeBusinessData(value);
+// Validate and sanitize URLs
+export const sanitizeUrl = (url: string): string => {
+  try {
+    const parsed = new URL(url);
+    // Only allow http, https, and mailto protocols
+    if (!['http:', 'https:', 'mailto:'].includes(parsed.protocol)) {
+      return '#';
     }
-    return sanitized;
+    return parsed.toString();
+  } catch {
+    return '#';
   }
-  
-  return data;
 };
 
-// Safe component for rendering user content
-export const createSafeHtml = (content: string) => {
-  return {
-    __html: sanitizeHtml(content)
-  };
+// Sanitize business description content
+export const sanitizeBusinessDescription = (description: string): string => {
+  // Allow basic formatting but strip dangerous content
+  const cleaned = stripDangerousTags(description);
+  return cleaned;
+};
+
+// Content Security Policy helper for dynamic content
+export const createSecureContent = (content: string): { __html: string } => {
+  const sanitized = stripDangerousTags(content);
+  return { __html: sanitized };
 };

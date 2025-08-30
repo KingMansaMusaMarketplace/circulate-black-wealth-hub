@@ -68,3 +68,25 @@ export const logAdminAction = async (action: string, tableName: string, recordId
     record_id: recordId
   });
 };
+
+export const logFailedAuthAttempt = async (email: string, reason: string) => {
+  try {
+    await supabase
+      .from('failed_auth_attempts')
+      .insert({
+        email,
+        failure_reason: reason,
+        ip_address: null, // Will be handled by RLS
+        user_agent: navigator.userAgent
+      });
+  } catch (error) {
+    console.error('Failed to log authentication attempt:', error);
+  }
+};
+
+export const logPasswordChangeAttempt = async (successful: boolean) => {
+  await logSecurityEvent({
+    action: successful ? 'password_change_success' : 'password_change_failed',
+    table_name: 'auth.users'
+  });
+};
