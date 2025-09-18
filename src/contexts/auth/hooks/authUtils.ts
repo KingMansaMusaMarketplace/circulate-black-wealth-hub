@@ -11,7 +11,8 @@ import {
 } from '@/lib/auth';
 import { getMFAFactors, createMFAChallenge } from './mfaUtils';
 import { toast } from 'sonner';
-import { validatePasswordComplexity, logFailedAuthAttempt } from '@/lib/security/password-validation';
+import { validatePasswordComplexity } from '@/lib/security/password-validation';
+import { logFailedAuthAttempt } from '@/lib/security/audit-logger';
 import { rateLimiter, rateLimitConfig, createRateLimitKey } from '@/lib/security/rate-limiting';
 
 // Helper function to wrap toast in the expected format

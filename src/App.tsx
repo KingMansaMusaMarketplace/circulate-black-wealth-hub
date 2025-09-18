@@ -42,10 +42,12 @@ import {
   LazyHowItWorksPage,
   LazySystemTestPage,
   LazyFullSystemTestPage,
-  LazyAccessibilityPage
+  LazyAccessibilityPage,
+  LazyCapacitorTestPage,
+  LazyComprehensiveTestPage
 } from './components/LazyComponents';
 
-// Auth page (new)
+// Auth page (new) - import directly since it's not in LazyComponents yet
 const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 
 // Remaining imports for compatibility (will be converted to lazy)
@@ -156,7 +158,11 @@ function App() {
                         {/* System Test route */}
                         <Route path="/system-test" element={<LazySystemTestPage />} />
                         
-                        {/* Testing routes */}
+                        {/* Capacitor Test route */}
+                        <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
+                        
+                        {/* Comprehensive Test route */}
+                        <Route path="/comprehensive-test" element={<LazyComprehensiveTestPage />} />
                         <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
                         <Route path="/signup-test" element={<LazySignupTestPage />} />
                         

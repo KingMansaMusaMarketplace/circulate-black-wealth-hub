@@ -44,6 +44,8 @@ export const LazyHowItWorksPage = lazy(() => import('@/pages/HowItWorksPage'));
 export const LazySystemTestPage = lazy(() => import('@/pages/SystemTestPage'));
 export const LazyFullSystemTestPage = lazy(() => import('@/pages/FullSystemTestPage'));
 export const LazyAccessibilityPage = lazy(() => import('@/pages/AccessibilityPage'));
+export const LazyCapacitorTestPage = lazy(() => import('@/pages/CapacitorTestPage'));
+export const LazyComprehensiveTestPage = lazy(() => import('@/pages/ComprehensiveTestPage'));
 
 // Heavy UI components (lazy loaded)
 export const LazyPerformanceOptimizer = lazy(() => import('@/components/performance/PerformanceOptimizer'));

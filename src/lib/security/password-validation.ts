@@ -71,20 +71,4 @@ export const validatePasswordWithSupabase = async (password: string): Promise<Pa
   }
 };
 
-export const logFailedAuthAttempt = async (
-  email: string,
-  reason: string,
-  ipAddress?: string,
-  userAgent?: string
-) => {
-  try {
-    await supabase.rpc('log_failed_auth_attempt', {
-      email_param: email,
-      reason_param: reason,
-      ip_param: ipAddress,
-      user_agent_param: userAgent || navigator.userAgent
-    });
-  } catch (error) {
-    console.error('Failed to log failed auth attempt:', error);
-  }
-};
+// Remove duplicate - use the one from audit-logger.ts

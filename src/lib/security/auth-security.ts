@@ -1,5 +1,6 @@
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { logFailedAuthAttempt } from './audit-logger';
 
 export interface PasswordValidationResult {
   isValid: boolean;
@@ -58,14 +59,14 @@ export const secureSignUp = async (email: string, password: string, userData?: a
 
     if (error) {
       // Log failed attempt (without password)
-      await logFailedAuthAttempt(email, 'signup_failed', error.message);
+      await logFailedAuthAttempt(email, 'signup_failed');
       toast.error(error.message);
       return { error };
     }
 
     return { data };
   } catch (error: any) {
-    await logFailedAuthAttempt(email, 'signup_error', error.message);
+    await logFailedAuthAttempt(email, 'signup_error');
     toast.error('An unexpected error occurred during sign up');
     return { error };
   }
@@ -81,32 +82,16 @@ export const secureSignIn = async (email: string, password: string) => {
 
     if (error) {
       // Log failed attempt
-      await logFailedAuthAttempt(email, 'signin_failed', error.message);
+      await logFailedAuthAttempt(email, 'signin_failed');
       toast.error(error.message);
       return { error };
     }
 
     return { data };
   } catch (error: any) {
-    await logFailedAuthAttempt(email, 'signin_error', error.message);
+    await logFailedAuthAttempt(email, 'signin_error');
     toast.error('An unexpected error occurred during sign in');
     return { error };
-  }
-};
-
-// Log failed authentication attempts
-const logFailedAuthAttempt = async (email: string, reason: string, details: string) => {
-  try {
-    await supabase
-      .from('failed_auth_attempts')
-      .insert({
-        email,
-        failure_reason: reason,
-        user_agent: navigator.userAgent,
-        // Note: IP address would be added server-side for accuracy
-      });
-  } catch (error) {
-    console.error('Failed to log authentication attempt:', error);
   }
 };
 
