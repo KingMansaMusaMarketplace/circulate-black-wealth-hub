@@ -73,13 +73,16 @@ export const loadAppConfig = async (): Promise<AppConfig> => {
   if (configLoaded) return appConfig;
   
   try {
-    // Use exec_sql to query the app_config table since it's not in the types
+    // Try to query app_config table directly since it may not exist
     const { data, error } = await supabase
-      .rpc('exec_sql', {
-        query: `SELECT * FROM app_config WHERE is_active = true ORDER BY created_at DESC LIMIT 1`
-      }) as { data: AppConfigRow[] | null, error: any };
+      .from('app_config')
+      .select('config_json, is_active, created_at')
+      .eq('is_active', true)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
     
-    if (error || !data || data.length === 0) {
+    if (error || !data) {
       console.warn('Could not load app configuration from database, using defaults');
       configLoaded = true;
       return appConfig;
@@ -87,7 +90,7 @@ export const loadAppConfig = async (): Promise<AppConfig> => {
     
     // Merge database configuration with defaults
     try {
-      const configJson = data[0].config_json;
+      const configJson = data.config_json;
       appConfig = {
         ...defaultConfig,
         ...JSON.parse(configJson || '{}'),

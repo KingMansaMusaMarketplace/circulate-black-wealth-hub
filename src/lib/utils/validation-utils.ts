@@ -20,35 +20,23 @@ export const validateData = async (
   schemaName: string
 ): Promise<ValidationResult> => {
   try {
-    // Use exec_sql instead of direct RPC call
-    const { data: result, error } = await supabase.rpc('exec_sql', {
-      query: `
-        SELECT * FROM validate_input(
-          '${JSON.stringify(data).replace(/'/g, "''")}', 
-          '${schemaName}'
-        )
-      `
+    // Use secure validate_input function
+    const { data: result, error } = await supabase.rpc('validate_input', {
+      input_data: data,
+      schema_name: schemaName
     });
     
     if (error) throw error;
     
-    // Parse the result
-    let validationResult: ValidationResult = { isValid: false };
-    
-    try {
-      if (typeof result === 'string') {
-        const parsedResult = JSON.parse(result);
-        validationResult = {
-          isValid: parsedResult.valid === true,
-          errors: parsedResult.errors
-        };
-      }
-    } catch (parseError) {
-      console.error('Error parsing validation result:', parseError);
-      throw parseError;
+    // The result is already a structured JSONB object
+    if (result) {
+      return {
+        isValid: result.valid === true,
+        errors: result.errors && Array.isArray(result.errors) ? result.errors : undefined
+      };
     }
     
-    return validationResult;
+    return { isValid: false };
   } catch (error) {
     console.error('Validation error:', error);
     return {

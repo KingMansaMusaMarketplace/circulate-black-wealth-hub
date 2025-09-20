@@ -38,9 +38,9 @@ export const checkDatabaseInitialized = async (): Promise<boolean> => {
       return false;
     }
 
-    // Try to call a function that should exist if the database is initialized
-    const { data, error } = await supabase.rpc('exec_sql', {
-      query: "SELECT EXISTS (SELECT 1 FROM pg_proc WHERE proname = 'create_business_qr_code')"
+    // Use secure check_function_exists function
+    const { data, error } = await supabase.rpc('check_function_exists', {
+      function_name: 'create_business_qr_code'
     });
     
     if (error) {
@@ -50,18 +50,8 @@ export const checkDatabaseInitialized = async (): Promise<boolean> => {
     
     console.log("Database initialization check response:", data);
     
-    // Explicitly type the data as any[] first to avoid TypeScript errors
-    const responseData = data as any[];
-    
-    // Check if data exists, is an array, has at least one item, and that item has an 'exists' property
-    if (responseData && Array.isArray(responseData) && responseData.length > 0) {
-      const firstRow = responseData[0];
-      if (firstRow && typeof firstRow === 'object' && 'exists' in firstRow) {
-        return firstRow.exists === true;
-      }
-    }
-    
-    return false;
+    // data is already a boolean from the function
+    return data === true;
   } catch (error) {
     console.error('Error checking database initialization:', error);
     return false;

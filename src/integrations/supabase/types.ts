@@ -1687,6 +1687,14 @@ export type Database = {
         Args: { user_id_param?: string }
         Returns: boolean
       }
+      check_function_exists: {
+        Args: { function_name: string }
+        Returns: boolean
+      }
+      check_rate_limit: {
+        Args: { limit_per_minute?: number; operation_name: string }
+        Returns: boolean
+      }
       exec_sql: {
         Args: { query: string }
         Returns: undefined
@@ -1813,6 +1821,14 @@ export type Database = {
         Args: { p_business_id: string }
         Returns: Json
       }
+      handle_api_error: {
+        Args: {
+          error_details?: Json
+          error_message: string
+          operation_name: string
+        }
+        Returns: Json
+      }
       has_role: {
         Args: { _role: Database["public"]["Enums"]["user_role"] }
         Returns: boolean
@@ -1820,6 +1836,15 @@ export type Database = {
       is_admin: {
         Args: Record<PropertyKey, never>
         Returns: boolean
+      }
+      log_activity: {
+        Args: {
+          activity_details?: Json
+          activity_type: string
+          entity_id: string
+          entity_type: string
+        }
+        Returns: undefined
       }
       log_failed_auth_attempt: {
         Args: {
@@ -1866,6 +1891,10 @@ export type Database = {
           state: string
           total_count: number
         }[]
+      }
+      validate_input: {
+        Args: { input_data: Json; schema_name: string }
+        Returns: Json
       }
       validate_password_complexity: {
         Args: { password: string }
