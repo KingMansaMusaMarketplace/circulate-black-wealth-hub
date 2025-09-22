@@ -73,7 +73,8 @@
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      if ('serviceWorker' in navigator) {
+      // Only register service worker in web environments, not in Capacitor
+      if ('serviceWorker' in navigator && !window.Capacitor) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .then(registration => {

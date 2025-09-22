@@ -6,10 +6,14 @@ import { SplashScreen } from '@capacitor/splash-screen';
  */
 export async function initializeCapacitorPlugins() {
   try {
-    // Hide the splash screen with a fade animation
-    await SplashScreen.hide({
-      fadeOutDuration: 500
-    });
+    // Only hide splash screen if we're in a Capacitor environment
+    if (window?.Capacitor?.isNativePlatform()) {
+      // Hide the splash screen with a fade animation
+      await SplashScreen.hide({
+        fadeOutDuration: 500
+      });
+      console.log('Splash screen hidden');
+    }
     
     console.log('Capacitor plugins initialized');
   } catch (error) {
