@@ -1664,7 +1664,36 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      sales_agent_applications_summary: {
+        Row: {
+          application_date: string | null
+          application_status: string | null
+          id: string | null
+          reviewed_at: string | null
+          test_passed: boolean | null
+          test_score: number | null
+          user_id: string | null
+        }
+        Insert: {
+          application_date?: string | null
+          application_status?: string | null
+          id?: string | null
+          reviewed_at?: string | null
+          test_passed?: boolean | null
+          test_score?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          application_date?: string | null
+          application_status?: string | null
+          id?: string | null
+          reviewed_at?: string | null
+          test_passed?: boolean | null
+          test_score?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       admin_approve_business_verification: {
