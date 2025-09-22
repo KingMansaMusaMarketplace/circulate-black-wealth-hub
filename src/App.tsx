@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
 import { HelmetProvider } from 'react-helmet-async';
+import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -74,6 +75,11 @@ const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading...
 const queryClient = new QueryClient();
 
 function App() {
+  // Initialize Capacitor plugins on app start
+  useEffect(() => {
+    initializeCapacitorPlugins();
+  }, []);
+
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
