@@ -1664,6 +1664,35 @@ export type Database = {
       }
     }
     Views: {
+      business_verifications_admin_summary: {
+        Row: {
+          address_document_status: string | null
+          admin_notes: string | null
+          business_email: string | null
+          business_id: string | null
+          business_name: string | null
+          id: string | null
+          owner_id: string | null
+          owner_name: string | null
+          ownership_document_status: string | null
+          ownership_percentage: number | null
+          registration_document_status: string | null
+          rejection_reason: string | null
+          submitted_at: string | null
+          verification_status: string | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_verifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sales_agent_applications_summary: {
         Row: {
           application_date: string | null
@@ -1872,6 +1901,14 @@ export type Database = {
           option_c: string
           option_d: string
           question: string
+        }[]
+      }
+      get_verification_document_urls: {
+        Args: { verification_id: string }
+        Returns: {
+          address_url: string
+          ownership_url: string
+          registration_url: string
         }[]
       }
       handle_api_error: {
