@@ -1821,6 +1821,18 @@ export type Database = {
         Args: { p_business_id: string }
         Returns: Json
       }
+      get_test_questions_for_user: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          id: string
+          option_a: string
+          option_b: string
+          option_c: string
+          option_d: string
+          question: string
+        }[]
+      }
       handle_api_error: {
         Args: {
           error_details?: Json
@@ -1899,6 +1911,10 @@ export type Database = {
       validate_password_complexity: {
         Args: { password: string }
         Returns: boolean
+      }
+      validate_test_answers: {
+        Args: { answer_data: Json }
+        Returns: Json
       }
     }
     Enums: {

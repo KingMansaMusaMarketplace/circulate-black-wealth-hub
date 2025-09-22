@@ -1,6 +1,6 @@
 
 import { supabase } from '@/lib/supabase';
-import { SalesAgent, SalesAgentApplication, TestQuestion } from '@/types/sales-agent';
+import { SalesAgent, SalesAgentApplication, TestQuestion, SecureTestQuestion, TestValidationResult } from '@/types/sales-agent';
 import { toast } from 'sonner';
 
 export const createSalesAgentApplication = async (applicationData: {
@@ -185,22 +185,37 @@ export const getSalesAgentByReferralCode = async (referralCode: string): Promise
   }
 };
 
-export const getTestQuestions = async (): Promise<TestQuestion[]> => {
+export const getTestQuestions = async (): Promise<SecureTestQuestion[]> => {
   try {
-    const { data, error } = await supabase
-      .from('sales_agent_tests')
-      .select('*')
-      .eq('is_active', true);
+    const { data, error } = await supabase.rpc('get_test_questions_for_user');
 
     if (error) {
       console.error('Error fetching test questions:', error);
       return [];
     }
 
-    return data as TestQuestion[];
+    return data as SecureTestQuestion[];
   } catch (error: any) {
     console.error('Error fetching test questions:', error);
     return [];
+  }
+};
+
+export const validateTestAnswers = async (answers: {[key: string]: string}): Promise<TestValidationResult | null> => {
+  try {
+    const { data, error } = await supabase.rpc('validate_test_answers', {
+      answer_data: answers
+    });
+
+    if (error) {
+      console.error('Error validating test answers:', error);
+      return null;
+    }
+
+    return data as TestValidationResult;
+  } catch (error: any) {
+    console.error('Error validating test answers:', error);
+    return null;
   }
 };
 

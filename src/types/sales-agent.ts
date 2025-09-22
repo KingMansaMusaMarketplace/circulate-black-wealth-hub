@@ -45,6 +45,25 @@ export interface TestQuestion {
   created_at: string;
 }
 
+// Secure version for users taking the test (without correct answers)
+export interface SecureTestQuestion {
+  id: string;
+  question: string;
+  option_a: string;
+  option_b: string;
+  option_c: string;
+  option_d: string;
+  created_at: string;
+}
+
+export interface TestValidationResult {
+  total_questions: number;
+  correct_answers: number;
+  score: number;
+  passed: boolean;
+  passing_score: number;
+}
+
 export interface Referral {
   id: string;
   sales_agent_id: string;

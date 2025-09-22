@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/auth';
-import { getTestQuestions, submitTestAttempt, updateApplicationAfterTest } from '@/lib/api/sales-agent-api';
-import { TestQuestion } from '@/types/sales-agent';
+import { getTestQuestions, validateTestAnswers, submitTestAttempt, updateApplicationAfterTest } from '@/lib/api/sales-agent-api';
+import { SecureTestQuestion } from '@/types/sales-agent';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from 'sonner';
@@ -18,7 +18,7 @@ interface AgentQualificationTestProps {
 const AgentQualificationTest: React.FC<AgentQualificationTestProps> = ({ applicationId, onComplete }) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [questions, setQuestions] = useState<TestQuestion[]>([]);
+  const [questions, setQuestions] = useState<SecureTestQuestion[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<{[key: string]: string}>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,42 +60,44 @@ const AgentQualificationTest: React.FC<AgentQualificationTestProps> = ({ applica
     }
   };
   
-  const calculateScore = () => {
-    let correct = 0;
-    
-    questions.forEach(question => {
-      if (answers[question.id] === question.correct_answer) {
-        correct++;
-      }
-    });
-    
-    const score = Math.round((correct / questions.length) * 100);
-    return {
-      score,
-      passed: score >= 70 // 70% passing threshold
-    };
-  };
-  
   const handleSubmit = async () => {
     if (!user) return;
     
     try {
       setIsSubmitting(true);
       
-      const results = calculateScore();
-      setResults(results);
+      // Validate answers securely on the server side
+      const validationResult = await validateTestAnswers(answers);
       
-      // Submit test attempt
-      await submitTestAttempt({
-        user_id: user.id,
-        score: results.score,
-        passed: results.passed,
-        answers,
-        application_id: applicationId
-      });
+      if (!validationResult) {
+        throw new Error('Failed to validate test answers');
+      }
+      
+      const testResults = {
+        score: validationResult.score,
+        passed: validationResult.passed
+      };
+      
+      setResults(testResults);
+      
+      // Submit test attempt (the validation function already logs this)
+      // But we still call submitTestAttempt for backward compatibility if needed
+      try {
+        await submitTestAttempt({
+          user_id: user.id,
+          score: testResults.score,
+          passed: testResults.passed,
+          answers,
+          application_id: applicationId
+        });
+      } catch (attemptError) {
+        // This might fail since the validation function already logged it
+        // but we don't want to break the flow
+        console.warn('submitTestAttempt failed, but validation was successful:', attemptError);
+      }
       
       setTestCompleted(true);
-      onComplete(results.passed);
+      onComplete(testResults.passed);
       
     } catch (error: any) {
       console.error('Error submitting test:', error);
