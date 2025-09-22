@@ -1263,44 +1263,56 @@ export type Database = {
         Row: {
           application_date: string | null
           application_status: string | null
+          business_experience: string | null
           email: string
           full_name: string
           id: string
+          marketing_ideas: string | null
           notes: string | null
           phone: string | null
           reviewed_at: string | null
           reviewed_by: string | null
           test_passed: boolean | null
           test_score: number | null
-          user_id: string | null
+          updated_at: string | null
+          user_id: string
+          why_join: string | null
         }
         Insert: {
           application_date?: string | null
           application_status?: string | null
+          business_experience?: string | null
           email: string
           full_name: string
           id?: string
+          marketing_ideas?: string | null
           notes?: string | null
           phone?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           test_passed?: boolean | null
           test_score?: number | null
-          user_id?: string | null
+          updated_at?: string | null
+          user_id: string
+          why_join?: string | null
         }
         Update: {
           application_date?: string | null
           application_status?: string | null
+          business_experience?: string | null
           email?: string
           full_name?: string
           id?: string
+          marketing_ideas?: string | null
           notes?: string | null
           phone?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           test_passed?: boolean | null
           test_score?: number | null
-          user_id?: string | null
+          updated_at?: string | null
+          user_id?: string
+          why_join?: string | null
         }
         Relationships: []
       }
