@@ -107,9 +107,9 @@ export const getSalesAgentApplication = async (): Promise<SalesAgentApplication 
       full_name: data.full_name,
       email: data.email,
       phone: data.phone,
-      why_join: '', // These fields are not stored in the current table
-      business_experience: '',
-      marketing_ideas: '',
+      why_join: data.why_join || '',
+      business_experience: data.business_experience || '',
+      marketing_ideas: data.marketing_ideas || '',
       application_status: data.application_status,
       status: data.application_status as 'pending' | 'approved' | 'rejected',
       test_score: data.test_score,
