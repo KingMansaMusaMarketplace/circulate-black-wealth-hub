@@ -45,5 +45,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs your location to show you nearby businesses and process loyalty rewards when you scan QR codes.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app needs your location to show you nearby businesses and process loyalty rewards when you scan QR codes.</string>
 </dict>
 </plist>
