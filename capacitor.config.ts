@@ -64,7 +64,10 @@ const config: CapacitorConfig = {
     scrollEnabled: true,
     webViewAllowsBackForwardNavigationGestures: true,
     minSwipeDistance: 60,
-    cordovaSwiftVersion: "5.0"
+    cordovaSwiftVersion: "5.0",
+    plistValues: {
+      "ITSAppUsesNonExemptEncryption": false
+    }
   },
   android: {
     backgroundColor: "#1B365D",
