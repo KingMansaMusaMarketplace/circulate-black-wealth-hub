@@ -22,4 +22,18 @@ end
 
 post_install do |installer|
   assertDeploymentTarget(installer)
+  
+  # Fix build phase warnings
+  installer.pods_project.targets.each do |target|
+    target.build_phases.each do |build_phase|
+      if build_phase.display_name == "[CP] Embed Pods Frameworks"
+        build_phase.show_env_vars_in_log = '0'
+      end
+    end
+    
+    # Set iOS deployment target to avoid warnings
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
+    end
+  end
 end
