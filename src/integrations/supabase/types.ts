@@ -1693,6 +1693,25 @@ export type Database = {
           },
         ]
       }
+      hbcu_verifications_admin_summary: {
+        Row: {
+          created_at: string | null
+          document_status: string | null
+          document_type: string | null
+          id: string | null
+          rejection_reason: string | null
+          student_email: string | null
+          student_name: string | null
+          updated_at: string | null
+          user_id: string | null
+          verification_status:
+            | Database["public"]["Enums"]["hbcu_verification_status"]
+            | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Relationships: []
+      }
       sales_agent_applications_summary: {
         Row: {
           application_date: string | null
@@ -1841,6 +1860,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
+      get_hbcu_verification_document_url: {
+        Args: { verification_id: string }
+        Returns: string
+      }
       get_public_business_info: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -1902,6 +1925,10 @@ export type Database = {
           option_d: string
           question: string
         }[]
+      }
+      get_user_hbcu_status: {
+        Args: { target_user_id?: string }
+        Returns: Json
       }
       get_verification_document_urls: {
         Args: { verification_id: string }

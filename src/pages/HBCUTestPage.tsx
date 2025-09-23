@@ -41,10 +41,10 @@ const HBCUTestPage: React.FC = () => {
         addTestResult('API Connectivity', false, (error as Error).message);
       }
       
-      // Test 3: Database Connection
+      // Test 3: Database Connection (using secure function)
       try {
-        const { data, error } = await supabase.from('hbcu_verifications').select('count').limit(1);
-        addTestResult('Database Connection', !error, error ? error.message : 'Successfully connected to hbcu_verifications table');
+        const { data, error } = await supabase.rpc('get_user_hbcu_status');
+        addTestResult('Database Connection', !error, error ? error.message : 'Successfully connected to HBCU verification system');
       } catch (error) {
         addTestResult('Database Connection', false, (error as Error).message);
       }
@@ -62,10 +62,10 @@ const HBCUTestPage: React.FC = () => {
       // Test 5: User Verification Status
       if (user) {
         try {
-          const status = await getHBCUVerificationStatus(user.id);
+          const status = await getHBCUVerificationStatus();
           setVerificationStatus(status);
           addTestResult('User Verification Status', true, 
-            status ? `Status: ${status.verification_status}` : 'No verification record found');
+            status ? `Status: ${status.status}` : 'No verification record found');
         } catch (error) {
           addTestResult('User Verification Status', false, (error as Error).message);
         }
@@ -162,8 +162,8 @@ const HBCUTestPage: React.FC = () => {
             <Alert>
               <Info className="h-4 w-4" />
               <AlertDescription>
-                <strong>Current Verification Status:</strong> {verificationStatus.verification_status} 
-                {verificationStatus.document_type && ` (${verificationStatus.document_type})`}
+                <strong>Current Verification Status:</strong> {verificationStatus.status}
+                {verificationStatus.verified_at && ` (Verified: ${new Date(verificationStatus.verified_at).toLocaleDateString()})`}
               </AlertDescription>
             </Alert>
           )}

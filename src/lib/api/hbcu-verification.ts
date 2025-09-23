@@ -83,17 +83,14 @@ export const uploadHBCUVerificationDocument = async (
   }
 };
 
-export const getHBCUVerificationStatus = async (userId: string) => {
+export const getHBCUVerificationStatus = async (userId?: string) => {
   try {
-    console.log('Fetching HBCU verification status for user:', userId);
+    console.log('Fetching HBCU verification status for user:', userId || 'current user');
     
-    const { data, error } = await supabase
-      .from('hbcu_verifications')
-      .select('verification_status, created_at, document_type')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    // Use the secure function that includes proper access control and audit logging
+    const { data, error } = await supabase.rpc('get_user_hbcu_status', 
+      userId ? { target_user_id: userId } : undefined
+    );
 
     if (error) {
       console.error('Error fetching HBCU verification status:', error);
@@ -122,8 +119,8 @@ export const testHBCUVerificationAPI = async () => {
 
     console.log('Current user:', user.id);
 
-    // Test getting verification status
-    const status = await getHBCUVerificationStatus(user.id);
+    // Test getting verification status using secure function
+    const status = await getHBCUVerificationStatus();
     console.log('Current verification status:', status);
 
     // Test storage bucket accessibility
