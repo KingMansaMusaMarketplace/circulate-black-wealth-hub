@@ -66,7 +66,8 @@ const config: CapacitorConfig = {
     minSwipeDistance: 60,
     cordovaSwiftVersion: "5.0",
     plistValues: {
-      "ITSAppUsesNonExemptEncryption": false
+      "ITSAppUsesNonExemptEncryption": false,
+      "GKGameCenterFoundationEnabled": true
     }
   },
   android: {
