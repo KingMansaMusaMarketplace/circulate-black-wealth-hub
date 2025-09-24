@@ -6,6 +6,7 @@ import HomePageSections from '@/components/HomePage/HomePageSections';
 import FreeGrowthBanner from '@/components/FreeGrowthBanner';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
+import { updateMetaTags } from '@/utils/seoUtils';
 
 const HomePage = () => {
   useEffect(() => {
@@ -23,17 +24,11 @@ const HomePage = () => {
     preloadCriticalImages(criticalImages);
     
     // SEO optimizations
-    document.title = 'Mansa Musa Marketplace - Save Money & Support Black-Owned Businesses';
-    
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', 
-      'Join the FREE Mansa Musa Marketplace community! 100% free access for businesses and customers during our growth phase. Build community wealth together!'
-    );
+    updateMetaTags({
+      title: 'Mansa Musa Marketplace - Save Money & Support Black-Owned Businesses',
+      description: 'Join the FREE Mansa Musa Marketplace community! 100% free access for businesses and customers during our growth phase. Build community wealth together!',
+      path: '/'
+    });
 
     // Preload critical chunks for better UX
     setTimeout(() => {
