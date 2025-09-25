@@ -6,6 +6,16 @@ export default {
   darkMode: ["class"],
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    screens: {
+      'xs': '475px',
+      'sm': '640px',
+      'md': '768px',
+      'ipad': '834px',
+      'lg': '1024px',
+      'ipad-pro': '1194px', 
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       fontFamily: {
         sans: ["Inter", ...fontFamily.sans],
