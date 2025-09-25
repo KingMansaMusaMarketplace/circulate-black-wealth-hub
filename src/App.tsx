@@ -55,6 +55,7 @@ const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 import SalesAgentSignupPage from './pages/SalesAgentSignupPage';
 import BusinessProfilePage from './pages/BusinessProfilePage';
 import ContactPage from './pages/ContactPage';
+import SupportPage from './pages/SupportPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import CookiePolicyPage from './pages/CookiePolicyPage';
@@ -120,6 +121,7 @@ function App() {
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         <Route path="/about" element={<LazyAboutPage />} />
                         <Route path="/contact" element={<ContactPage />} />
+                        <Route path="/support" element={<SupportPage />} />
                         <Route path="/terms" element={<TermsOfServicePage />} />
                         <Route path="/privacy" element={<PrivacyPolicyPage />} />
                         <Route path="/cookies" element={<CookiePolicyPage />} />
