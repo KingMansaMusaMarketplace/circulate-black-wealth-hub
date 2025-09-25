@@ -17,42 +17,47 @@ export const createSalesAgentApplication = async (applicationData: {
       throw new Error('User not authenticated');
     }
 
-    const { data, error } = await supabase
-      .from('sales_agent_applications')
-      .insert({
-        user_id: user.id,
-        full_name: applicationData.full_name,
-        email: applicationData.email,
-        phone: applicationData.phone,
-        why_join: applicationData.why_join,
-        business_experience: applicationData.business_experience,
-        marketing_ideas: applicationData.marketing_ideas,
-        application_status: 'pending',
-        test_passed: false
-      })
-      .select()
-      .single();
+    // Use the new secure function to create application with personal data
+    const { data: applicationId, error } = await supabase.rpc('create_sales_agent_application_secure', {
+      p_user_id: user.id,
+      p_full_name: applicationData.full_name,
+      p_email: applicationData.email,
+      p_phone: applicationData.phone,
+      p_why_join: applicationData.why_join,
+      p_business_experience: applicationData.business_experience,
+      p_marketing_ideas: applicationData.marketing_ideas
+    });
 
     if (error) throw error;
 
+    // Fetch the created application (without personal data for security)
+    const { data: appData, error: fetchError } = await supabase
+      .from('sales_agent_applications')
+      .select('*')
+      .eq('id', applicationId)
+      .single();
+
+    if (fetchError) throw fetchError;
+
     // Map the database result to match the SalesAgentApplication type
+    // Note: Personal data will not be included in the response for security
     const application: SalesAgentApplication = {
-      id: data.id,
-      user_id: data.user_id,
-      full_name: data.full_name,
-      email: data.email,
-      phone: data.phone,
-      why_join: applicationData.why_join,
-      business_experience: applicationData.business_experience,
-      marketing_ideas: applicationData.marketing_ideas,
-      application_status: data.application_status,
-      status: data.application_status as 'pending' | 'approved' | 'rejected',
-      test_score: data.test_score,
-      test_passed: data.test_passed,
-      application_date: data.application_date,
-      reviewed_by: data.reviewed_by,
-      reviewed_at: data.reviewed_at,
-      notes: data.notes
+      id: appData.id,
+      user_id: appData.user_id,
+      full_name: applicationData.full_name, // Include from input for immediate UI feedback
+      email: applicationData.email,       // Include from input for immediate UI feedback
+      phone: applicationData.phone,       // Include from input for immediate UI feedback
+      why_join: appData.why_join || '',
+      business_experience: appData.business_experience || '',
+      marketing_ideas: appData.marketing_ideas || '',
+      application_status: appData.application_status,
+      status: appData.application_status as 'pending' | 'approved' | 'rejected',
+      test_score: appData.test_score,
+      test_passed: appData.test_passed,
+      application_date: appData.application_date,
+      reviewed_by: appData.reviewed_by,
+      reviewed_at: appData.reviewed_at,
+      notes: appData.notes
     };
 
     toast.success('Application submitted successfully!');
@@ -70,16 +75,16 @@ export const submitSalesAgentApplication = async (applicationData: {
   email: string;
   phone?: string;
 }): Promise<void> => {
-  const { data, error } = await supabase
-    .from('sales_agent_applications')
-    .insert({
-      user_id: applicationData.user_id,
-      full_name: applicationData.full_name,
-      email: applicationData.email,
-      phone: applicationData.phone,
-      application_status: 'pending',
-      test_passed: false
-    });
+  // Use the new secure function to create application with personal data
+  const { error } = await supabase.rpc('create_sales_agent_application_secure', {
+    p_user_id: applicationData.user_id,
+    p_full_name: applicationData.full_name,
+    p_email: applicationData.email,
+    p_phone: applicationData.phone,
+    p_why_join: null,
+    p_business_experience: null,
+    p_marketing_ideas: null
+  });
 
   if (error) throw error;
 };
@@ -100,13 +105,15 @@ export const getSalesAgentApplication = async (): Promise<SalesAgentApplication 
       throw error;
     }
 
-    // Map the database result to match the SalesAgentApplication type
+    // Note: Personal data (full_name, email, phone) is no longer in this table
+    // For regular users, we return the application without personal data for security
+    // Personal data is only accessible to admins through secure functions
     const application: SalesAgentApplication = {
       id: data.id,
       user_id: data.user_id,
-      full_name: data.full_name,
-      email: data.email,
-      phone: data.phone,
+      full_name: '', // Personal data not accessible to regular users
+      email: '',     // Personal data not accessible to regular users  
+      phone: '',     // Personal data not accessible to regular users
       why_join: data.why_join || '',
       business_experience: data.business_experience || '',
       marketing_ideas: data.marketing_ideas || '',

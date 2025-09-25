@@ -1264,12 +1264,9 @@ export type Database = {
           application_date: string | null
           application_status: string | null
           business_experience: string | null
-          email: string
-          full_name: string
           id: string
           marketing_ideas: string | null
           notes: string | null
-          phone: string | null
           reviewed_at: string | null
           reviewed_by: string | null
           test_passed: boolean | null
@@ -1282,12 +1279,9 @@ export type Database = {
           application_date?: string | null
           application_status?: string | null
           business_experience?: string | null
-          email: string
-          full_name: string
           id?: string
           marketing_ideas?: string | null
           notes?: string | null
-          phone?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           test_passed?: boolean | null
@@ -1300,12 +1294,9 @@ export type Database = {
           application_date?: string | null
           application_status?: string | null
           business_experience?: string | null
-          email?: string
-          full_name?: string
           id?: string
           marketing_ideas?: string | null
           notes?: string | null
-          phone?: string | null
           reviewed_at?: string | null
           reviewed_by?: string | null
           test_passed?: boolean | null
@@ -1315,6 +1306,60 @@ export type Database = {
           why_join?: string | null
         }
         Relationships: []
+      }
+      sales_agent_applications_personal_data: {
+        Row: {
+          application_id: string
+          created_at: string
+          data_hash: string
+          encrypted_email: string
+          encrypted_full_name: string
+          encrypted_phone: string | null
+          id: string
+          last_accessed_at: string | null
+          last_accessed_by: string | null
+          updated_at: string
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          data_hash: string
+          encrypted_email: string
+          encrypted_full_name: string
+          encrypted_phone?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          last_accessed_by?: string | null
+          updated_at?: string
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          data_hash?: string
+          encrypted_email?: string
+          encrypted_full_name?: string
+          encrypted_phone?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          last_accessed_by?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_application_personal_data"
+            columns: ["application_id"]
+            isOneToOne: true
+            referencedRelation: "sales_agent_applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_application_personal_data"
+            columns: ["application_id"]
+            isOneToOne: true
+            referencedRelation: "sales_agent_applications_summary"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       sales_agent_test_attempts: {
         Row: {
@@ -1784,6 +1829,18 @@ export type Database = {
         Args: { limit_per_minute?: number; operation_name: string }
         Returns: boolean
       }
+      create_sales_agent_application_secure: {
+        Args: {
+          p_business_experience?: string
+          p_email: string
+          p_full_name: string
+          p_marketing_ideas?: string
+          p_phone?: string
+          p_user_id: string
+          p_why_join?: string
+        }
+        Returns: string
+      }
       exec_sql: {
         Args: { query: string }
         Returns: undefined
@@ -1839,7 +1896,49 @@ export type Database = {
           user_id: string
         }[]
       }
+      get_application_details_secure: {
+        Args: { p_application_id: string }
+        Returns: {
+          application_date: string
+          application_status: string
+          business_experience: string
+          email: string
+          full_name: string
+          id: string
+          marketing_ideas: string
+          notes: string
+          phone: string
+          reviewed_at: string
+          reviewed_by: string
+          test_passed: boolean
+          test_score: number
+          user_id: string
+          why_join: string
+        }[]
+      }
+      get_application_personal_data_secure: {
+        Args: { p_application_id: string }
+        Returns: {
+          application_id: string
+          decrypted_email: string
+          decrypted_full_name: string
+          decrypted_phone: string
+        }[]
+      }
       get_applications_for_review: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          application_date: string
+          application_status: string
+          id: string
+          notes: string
+          reviewed_at: string
+          reviewed_by: string
+          test_passed: boolean
+          test_score: number
+        }[]
+      }
+      get_applications_for_review_secure: {
         Args: Record<PropertyKey, never>
         Returns: {
           application_date: string
