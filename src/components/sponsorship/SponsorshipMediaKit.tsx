@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { FileText, Award, BarChart3, Share2 } from 'lucide-react';
 import MediaKitCard from './components/MediaKitCard';
+import DocumentPreview from './components/DocumentPreview';
 import {
   generatePartnershipGuide,
   generateBrandAssets,
@@ -9,9 +10,15 @@ import {
   generateMediaKit,
   generateBriefPartnershipOverview
 } from './services/pdfGenerationService';
+import { getBriefPartnershipOverviewContent } from './templates/briefPartnershipOverviewTemplate';
+import { getPartnershipGuideContent } from './templates/partnershipGuideTemplate';
 
 const SponsorshipMediaKit = () => {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [previewDocument, setPreviewDocument] = useState<{
+    title: string;
+    content: string;
+  } | null>(null);
 
   const handlePDFGeneration = async (generatorFunction: () => Promise<void>) => {
     setIsGeneratingPDF(true);
@@ -22,12 +29,17 @@ const SponsorshipMediaKit = () => {
     }
   };
 
+  const handlePreview = (title: string, content: string) => {
+    setPreviewDocument({ title, content });
+  };
+
   const mediaKitItems = [
     {
       title: 'Brief Partnership Overview',
       description: 'Quick 1-page summary of partnership opportunities and benefits',
       icon: FileText,
       action: () => handlePDFGeneration(generateBriefPartnershipOverview),
+      onPreview: () => handlePreview('Brief Partnership Overview', getBriefPartnershipOverviewContent()),
       buttonText: isGeneratingPDF ? 'Generating...' : 'Download Overview'
     },
     {
@@ -35,6 +47,7 @@ const SponsorshipMediaKit = () => {
       description: 'Comprehensive overview of partnership opportunities, benefits, and ROI',
       icon: FileText,
       action: () => handlePDFGeneration(generatePartnershipGuide),
+      onPreview: () => handlePreview('Partnership Guide', getPartnershipGuideContent()),
       buttonText: isGeneratingPDF ? 'Generating...' : 'Download Guide'
     },
     {
@@ -78,11 +91,21 @@ const SponsorshipMediaKit = () => {
               description={item.description}
               icon={item.icon}
               onAction={item.action}
+              onPreview={item.onPreview}
               buttonText={item.buttonText}
               isLoading={isGeneratingPDF}
             />
           ))}
         </div>
+        
+        {previewDocument && (
+          <DocumentPreview
+            isOpen={true}
+            onClose={() => setPreviewDocument(null)}
+            title={previewDocument.title}
+            content={previewDocument.content}
+          />
+        )}
       </div>
     </div>
   );

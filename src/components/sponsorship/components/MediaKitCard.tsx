@@ -2,13 +2,14 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, LucideIcon } from 'lucide-react';
+import { Loader2, LucideIcon, Eye, Download } from 'lucide-react';
 
 interface MediaKitCardProps {
   title: string;
   description: string;
   icon: LucideIcon;
   onAction: () => void;
+  onPreview?: () => void;
   buttonText: string;
   isLoading: boolean;
 }
@@ -18,6 +19,7 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
   description,
   icon: Icon,
   onAction,
+  onPreview,
   buttonText,
   isLoading
 }) => {
@@ -32,7 +34,17 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-grow flex items-end">
+      <CardContent className="flex-grow flex flex-col justify-end space-y-2">
+        {onPreview && (
+          <Button
+            onClick={onPreview}
+            variant="outline"
+            className="w-full border-mansablue text-mansablue hover:bg-mansablue hover:text-white"
+          >
+            <Eye className="mr-2 h-4 w-4" />
+            Read
+          </Button>
+        )}
         <Button
           onClick={onAction}
           disabled={isLoading}
@@ -44,7 +56,10 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
               Generating...
             </>
           ) : (
-            buttonText
+            <>
+              <Download className="mr-2 h-4 w-4" />
+              {buttonText}
+            </>
           )}
         </Button>
       </CardContent>
