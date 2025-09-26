@@ -6,7 +6,8 @@ import {
   generatePartnershipGuide,
   generateBrandAssets,
   generateImpactReport,
-  generateMediaKit
+  generateMediaKit,
+  generateBriefPartnershipOverview
 } from './services/pdfGenerationService';
 
 const SponsorshipMediaKit = () => {
@@ -22,6 +23,13 @@ const SponsorshipMediaKit = () => {
   };
 
   const mediaKitItems = [
+    {
+      title: 'Brief Partnership Overview',
+      description: 'Quick 1-page summary of partnership opportunities and benefits',
+      icon: FileText,
+      action: () => handlePDFGeneration(generateBriefPartnershipOverview),
+      buttonText: isGeneratingPDF ? 'Generating...' : 'Download Overview'
+    },
     {
       title: 'Partnership Guide',
       description: 'Comprehensive overview of partnership opportunities, benefits, and ROI',

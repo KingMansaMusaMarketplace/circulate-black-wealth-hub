@@ -2,6 +2,7 @@
 import { toast } from 'sonner';
 import { generatePDF } from '../utils/pdfGenerator';
 import { getPartnershipGuideContent } from '../templates/partnershipGuideTemplate';
+import { getBriefPartnershipOverviewContent } from '../templates/briefPartnershipOverviewTemplate';
 import { getBrandAssetsContent } from '../templates/brandAssetsTemplate';
 import { getImpactReportContent } from '../templates/impactReportTemplate';
 import { getMediaKitContent } from '../templates/mediaKitTemplate';
@@ -47,6 +48,21 @@ export const generateImpactReport = async (): Promise<void> => {
   } catch (error) {
     console.error('Error generating impact report PDF:', error);
     toast.error('Failed to generate impact report. Please try again.');
+    throw error;
+  }
+};
+
+export const generateBriefPartnershipOverview = async (): Promise<void> => {
+  try {
+    toast.info('Generating Brief Partnership Overview...');
+    await generatePDF({
+      filename: 'Brief-Partnership-Overview.pdf',
+      content: getBriefPartnershipOverviewContent()
+    });
+    toast.success('Brief partnership overview downloaded successfully!');
+  } catch (error) {
+    console.error('Error generating brief partnership overview:', error);
+    toast.error('Failed to generate brief partnership overview. Please try again.');
     throw error;
   }
 };
