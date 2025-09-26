@@ -1,15 +1,30 @@
 // Utility functions for SEO management
 export const BASE_URL = 'https://mansamusamarketplace.com';
 
+// Detect Lovable preview/staging host to avoid indexing
+const isStagingHost = () => {
+  if (typeof window === 'undefined') return false;
+  const h = window.location.hostname || '';
+  return h.includes('lovableproject.com') || h.includes('lovable.app') || h.includes('lovable.dev');
+};
+
+const setRobotsMeta = (value: string) => {
+  let meta = document.querySelector('meta[name="robots"]');
+  if (!meta) {
+    meta = document.createElement('meta');
+    meta.setAttribute('name', 'robots');
+    document.head.appendChild(meta);
+  }
+  meta.setAttribute('content', value);
+};
+
 export const setCanonicalUrl = (path: string = '') => {
   const canonicalUrl = `${BASE_URL}${path}`;
-  
   // Remove existing canonical link
   const existingCanonical = document.querySelector('link[rel="canonical"]');
   if (existingCanonical) {
     existingCanonical.remove();
   }
-  
   // Add new canonical link
   const canonical = document.createElement('link');
   canonical.rel = 'canonical';
@@ -29,6 +44,11 @@ export const updateMetaTags = (data: {
   
   // Update canonical URL
   setCanonicalUrl(path);
+
+  // Set robots to avoid indexing on staging/preview hosts
+  if (typeof window !== 'undefined') {
+    setRobotsMeta(isStagingHost() ? 'noindex, nofollow' : 'index, follow');
+  }
   
   // Update Open Graph tags
   const updateMetaTag = (property: string, content: string) => {
