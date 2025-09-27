@@ -13,7 +13,6 @@ import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { BusinessOnboardingFlow } from "@/components/onboarding/BusinessOnboardingFlow";
 import { CorporateOnboardingFlow } from "@/components/onboarding/CorporateOnboardingFlow";
-import SalesAgentOnboardingFlow from "@/components/onboarding/SalesAgentOnboardingFlow";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -189,7 +188,6 @@ function App() {
                 <OnboardingFlow />
                 <BusinessOnboardingFlow />
                 <CorporateOnboardingFlow />
-                <SalesAgentOnboardingFlow />
                 <Toaster />
                 <Sonner />
               </TooltipProvider>
