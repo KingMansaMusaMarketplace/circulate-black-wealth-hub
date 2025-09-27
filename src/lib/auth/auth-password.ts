@@ -14,10 +14,22 @@ export const requestPasswordReset = async (
 ) => {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin + '/reset-password',
+      redirectTo: window.location.origin + '/password-reset',
     });
     
     if (error) throw error;
+
+    // Send custom styled email via edge function
+    try {
+      await supabase.functions.invoke('send-password-reset', {
+        body: {
+          email: email,
+          resetUrl: `${window.location.origin}/password-reset`,
+        },
+      });
+    } catch (emailError) {
+      console.warn('Custom email failed, but default Supabase email was sent:', emailError);
+    }
     
     toast?.({
       title: "Password Reset Requested",

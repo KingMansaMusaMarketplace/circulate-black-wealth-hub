@@ -1,0 +1,32 @@
+import { lazy } from 'react';
+
+// Lazy load all page components for better performance
+export const LazyAboutPage = lazy(() => import('@/pages/AboutPage'));
+export const LazyDirectoryPage = lazy(() => import('@/pages/DirectoryPage'));
+export const LazyDashboardPage = lazy(() => import('@/pages/DashboardPage'));
+export const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
+export const LazyMentorshipPage = lazy(() => import('@/pages/MentorshipPage'));
+export const LazyLoyaltyPage = lazy(() => import('@/pages/LoyaltyPage'));
+export const LazyCommunityImpactPage = lazy(() => import('@/pages/CommunityImpactPage'));
+export const LazyCorporateSponsorshipPage = lazy(() => import('@/pages/CorporateSponsorshipPage'));
+export const LazyQRScannerPage = lazy(() => import('@/pages/QRScannerPage'));
+export const LazyBusinessDetailPage = lazy(() => import('@/pages/BusinessDetailPage'));
+export const LazySubscriptionPage = lazy(() => import('@/pages/SubscriptionPage'));
+export const LazyStripeTestPage = lazy(() => import('@/pages/StripeTestPage'));
+export const LazyProfilePage = lazy(() => import('@/pages/ProfilePage'));
+export const LazyMobileReadinessTestPage = lazy(() => import('@/pages/MobileReadinessTestPage'));
+export const LazyFullAppTestPage = lazy(() => import('@/pages/FullAppTestPage'));
+export const LazyCommunityImpactTestPage = lazy(() => import('@/pages/CommunityImpactTestPage'));
+export const LazySignupTestPage = lazy(() => import('@/pages/SignupTestPage'));
+export const LazyBusinessSignupPage = lazy(() => import('@/pages/BusinessSignupPage'));
+export const LazyBusinessFormPage = lazy(() => import('@/pages/BusinessFormPage'));
+export const LazyLoginPage = lazy(() => import('@/pages/LoginPage'));
+export const LazySignupPage = lazy(() => import('@/pages/SignupPage'));
+export const LazyPasswordResetRequestPage = lazy(() => import('@/pages/PasswordResetRequestPage'));
+export const LazyResetPasswordPage = lazy(() => import('@/pages/ResetPassword'));
+export const LazyHowItWorksPage = lazy(() => import('@/pages/HowItWorksPage'));
+export const LazySystemTestPage = lazy(() => import('@/pages/SystemTestPage'));
+export const LazyFullSystemTestPage = lazy(() => import('@/pages/FullSystemTestPage'));
+export const LazyAccessibilityPage = lazy(() => import('@/pages/AccessibilityPage'));
+export const LazyCapacitorTestPage = lazy(() => import('@/pages/CapacitorTestPage'));
+export const LazyComprehensiveTestPage = lazy(() => import('@/pages/ComprehensiveTestPage'));
