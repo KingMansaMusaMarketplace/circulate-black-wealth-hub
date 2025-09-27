@@ -5,10 +5,12 @@ import { Navbar } from '@/components/navbar';
 import Footer from '@/components/Footer';
 import LoginContainer from '@/components/auth/LoginContainer';
 import LoginForm from '@/components/auth/LoginForm';
-import { useAuth } from '@/contexts/AuthContext';
+import { secureSignIn } from '@/lib/security/auth-security';
 
 const LoginPage: React.FC = () => {
-  const { signIn } = useAuth();
+  const handleSignIn = async (email: string, password: string) => {
+    return await secureSignIn(email, password);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -20,7 +22,7 @@ const LoginPage: React.FC = () => {
       
       <div className="flex-1 flex items-center justify-center p-4">
         <LoginContainer>
-          <LoginForm onSubmit={signIn} />
+          <LoginForm onSubmit={handleSignIn} />
         </LoginContainer>
       </div>
 

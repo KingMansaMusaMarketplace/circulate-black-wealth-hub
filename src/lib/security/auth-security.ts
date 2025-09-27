@@ -37,72 +37,142 @@ export const validatePasswordComplexity = (password: string): PasswordValidation
   };
 };
 
-// Enhanced sign up with password validation
+// Enhanced sign up with password validation and rate limiting
 export const secureSignUp = async (email: string, password: string, userData?: any) => {
   try {
-    // Validate password complexity first
-    const validation = validatePasswordComplexity(password);
-    if (!validation.isValid) {
-      toast.error(`Password requirements not met:\n${validation.errors.join('\n')}`);
-      return { error: { message: validation.errors.join('. ') } };
+    // Check rate limit first
+    const { data: rateLimitResult } = await supabase.rpc('check_rate_limit_secure', {
+      operation_name: 'signup',
+      max_attempts: 3,
+      window_minutes: 60
+    });
+
+    if (rateLimitResult && !rateLimitResult.allowed) {      
+      return {
+        success: false,
+        error: `Rate limit exceeded. ${rateLimitResult.message}`,
+        rateLimitInfo: rateLimitResult
+      };
     }
 
-    // Proceed with sign up
+    // Validate password complexity
+    const passwordValidation = validatePasswordComplexity(password);
+    if (!passwordValidation.isValid) {
+      return {
+        success: false,
+        error: 'Password does not meet complexity requirements: ' + passwordValidation.errors.join(', ')
+      };
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/`,
-        data: userData
+        data: userData,
+        emailRedirectTo: `${window.location.origin}/email-verified`
       }
     });
 
     if (error) {
-      // Log failed attempt (without password)
-      await logFailedAuthAttempt(email, 'signup_failed');
-      toast.error(error.message);
-      return { error };
+      // Log failed signup attempt with enhanced audit trail
+      await supabase.rpc('log_failed_auth_attempt', {
+        email_param: email,
+        reason_param: error.message,
+        user_agent_param: navigator.userAgent
+      });
+      
+      return { success: false, error: error.message };
     }
 
-    return { data };
+    // Log successful signup activity
+    if (data.user) {
+      await supabase.rpc('log_user_activity', {
+        p_user_id: data.user.id,
+        p_activity_type: 'account_created',
+        p_activity_data: { email, signup_method: 'email_password' }
+      });
+    }
+
+    return { success: true, data };
   } catch (error: any) {
-    await logFailedAuthAttempt(email, 'signup_error');
-    toast.error('An unexpected error occurred during sign up');
-    return { error };
+    return { success: false, error: error.message };
   }
 };
 
-// Enhanced sign in with attempt logging
+// Enhanced sign in with rate limiting and attempt logging
 export const secureSignIn = async (email: string, password: string) => {
   try {
+    // Check rate limit first  
+    const { data: rateLimitResult } = await supabase.rpc('check_rate_limit_secure', {
+      operation_name: 'signin',
+      max_attempts: 5,
+      window_minutes: 15
+    });
+
+    if (rateLimitResult && !rateLimitResult.allowed) {
+      return {
+        success: false,
+        error: `Too many login attempts. ${rateLimitResult.message}`,
+        rateLimitInfo: rateLimitResult
+      };
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
 
     if (error) {
-      // Log failed attempt
-      await logFailedAuthAttempt(email, 'signin_failed');
-      toast.error(error.message);
-      return { error };
+      // Log failed signin attempt with enhanced tracking
+      await supabase.rpc('log_failed_auth_attempt', {
+        email_param: email,
+        reason_param: error.message,
+        user_agent_param: navigator.userAgent
+      });
+      
+      return { success: false, error: error.message };
     }
 
-    return { data };
+    // Log successful signin activity
+    if (data.user) {
+      await supabase.rpc('log_user_activity', {
+        p_user_id: data.user.id,
+        p_activity_type: 'user_signin',
+        p_activity_data: { email, signin_method: 'email_password' }
+      });
+    }
+
+    return { success: true, data };
   } catch (error: any) {
-    await logFailedAuthAttempt(email, 'signin_error');
-    toast.error('An unexpected error occurred during sign in');
-    return { error };
+    return { success: false, error: error.message };
   }
 };
 
-// Enhanced password update with validation
+// Enhanced password update with validation and rate limiting
 export const secureUpdatePassword = async (newPassword: string) => {
   try {
-    // Validate new password
-    const validation = validatePasswordComplexity(newPassword);
-    if (!validation.isValid) {
-      toast.error(`Password requirements not met:\n${validation.errors.join('\n')}`);
-      return { error: { message: validation.errors.join('. ') } };
+    // Check rate limit for password changes
+    const { data: rateLimitResult } = await supabase.rpc('check_rate_limit_secure', {
+      operation_name: 'password_change',
+      max_attempts: 3,
+      window_minutes: 60
+    });
+
+    if (rateLimitResult && !rateLimitResult.allowed) {
+      return {
+        success: false,
+        error: `Rate limit exceeded for password changes. ${rateLimitResult.message}`,
+        rateLimitInfo: rateLimitResult
+      };
+    }
+
+    // Validate password complexity
+    const passwordValidation = validatePasswordComplexity(newPassword);
+    if (!passwordValidation.isValid) {
+      return {
+        success: false,
+        error: 'Password does not meet complexity requirements: ' + passwordValidation.errors.join(', ')
+      };
     }
 
     const { data, error } = await supabase.auth.updateUser({
@@ -110,28 +180,24 @@ export const secureUpdatePassword = async (newPassword: string) => {
     });
 
     if (error) {
-      toast.error(error.message);
-      return { error };
+      return { success: false, error: error.message };
     }
 
-    // Log password update for audit
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      await supabase
-        .from('security_audit_log')
-        .insert({
-          action: 'password_update',
-          table_name: 'auth.users',
-          record_id: user.id,
-          user_id: user.id
-        });
+    // Log password change in security audit with enhanced tracking
+    if (data.user) {
+      await supabase.rpc('log_user_activity', {
+        p_user_id: data.user.id,
+        p_activity_type: 'password_update_success',
+        p_activity_data: { 
+          timestamp: new Date().toISOString(),
+          user_agent: navigator.userAgent
+        }
+      });
     }
 
-    toast.success('Password updated successfully');
-    return { data };
+    return { success: true, data };
   } catch (error: any) {
-    toast.error('An unexpected error occurred updating password');
-    return { error };
+    return { success: false, error: error.message };
   }
 };
 

@@ -6,9 +6,10 @@ export const changeUserRole = async (
   targetUserId: string, 
   newRole: 'admin' | 'customer' | 'business' | 'sales_agent',
   reason?: string
-) => {
+): Promise<{ success: boolean; error?: any }> => {
   try {
-    const { data, error } = await supabase.rpc('admin_change_user_role', {
+    // Use the new secure role management function
+    const { data, error } = await supabase.rpc('secure_change_user_role', {
       target_user_id: targetUserId,
       new_role: newRole,
       reason: reason || 'Admin role change'
@@ -19,11 +20,17 @@ export const changeUserRole = async (
       return { success: false, error };
     }
 
-    toast.success('User role updated successfully');
+    // Check if the function returned an error in the response
+    if (data && !data.success) {
+      toast.error(data.error || 'Failed to change user role');
+      return { success: false, error: data.error };
+    }
+
+    toast.success(`User role changed to ${newRole} successfully. Change logged for audit.`);
     return { success: true };
-  } catch (error: any) {
-    toast.error('An unexpected error occurred');
-    console.error('Role change error:', error);
+  } catch (error) {
+    console.error('Error changing user role:', error);
+    toast.error('An unexpected error occurred while changing user role');
     return { success: false, error };
   }
 };

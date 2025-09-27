@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, AlertCircle, CheckCircle } from 'lucide-react';
+import { secureSignUp } from '@/lib/security/auth-security';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
@@ -86,31 +87,33 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
     setError(null);
 
     try {
-      // First create the user account
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-        options: {
-          data: {
-            full_name: data.fullName,
-            phone: data.phone,
-            user_type: 'business'
-          }
+      // Use secure signup with enhanced validation and rate limiting
+      const result = await secureSignUp(
+        data.email,
+        data.password,
+        {
+          user_type: 'business',
+          full_name: data.fullName,
+          business_name: data.businessName,
+          business_description: data.description,
+          business_category: data.category,
+          phone: data.phone,
+          referral_code: referralCode
         }
-      });
+      );
 
-      if (authError) {
-        throw authError;
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to create account');
       }
 
-      if (authData.user) {
+      if (result.data?.user) {
         // Create business profile
         const { error: businessError } = await supabase
           .from('businesses')
           .insert({
             name: data.businessName,
             business_name: data.businessName,
-            owner_id: authData.user.id,
+            owner_id: result.data.user.id,
             category: data.category,
             description: data.description,
             email: data.email,

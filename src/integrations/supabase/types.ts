@@ -865,6 +865,39 @@ export type Database = {
         }
         Relationships: []
       }
+      personal_data_access_audit: {
+        Row: {
+          access_reason: string | null
+          accessed_at: string | null
+          accessed_by: string
+          data_type: string
+          id: string
+          ip_address: unknown | null
+          target_user_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          access_reason?: string | null
+          accessed_at?: string | null
+          accessed_by: string
+          data_type: string
+          id?: string
+          ip_address?: unknown | null
+          target_user_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          access_reason?: string | null
+          accessed_at?: string | null
+          accessed_by?: string
+          data_type?: string
+          id?: string
+          ip_address?: unknown | null
+          target_user_id?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       product_images: {
         Row: {
           alt_text: string | null
@@ -1146,6 +1179,36 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      rate_limit_log: {
+        Row: {
+          attempt_count: number | null
+          blocked_until: string | null
+          id: string
+          ip_address: unknown | null
+          operation: string
+          user_id: string | null
+          window_start: string | null
+        }
+        Insert: {
+          attempt_count?: number | null
+          blocked_until?: string | null
+          id?: string
+          ip_address?: unknown | null
+          operation: string
+          user_id?: string | null
+          window_start?: string | null
+        }
+        Update: {
+          attempt_count?: number | null
+          blocked_until?: string | null
+          id?: string
+          ip_address?: unknown | null
+          operation?: string
+          user_id?: string | null
+          window_start?: string | null
+        }
+        Relationships: []
       }
       redeemed_rewards: {
         Row: {
@@ -1808,6 +1871,30 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          granted_at: string | null
+          granted_by: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          granted_at?: string | null
+          granted_by?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          granted_at?: string | null
+          granted_by?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       business_verifications_admin_summary: {
@@ -1890,6 +1977,14 @@ export type Database = {
       }
     }
     Functions: {
+      access_personal_data_secure: {
+        Args: {
+          access_reason: string
+          data_type: string
+          target_user_id: string
+        }
+        Returns: Json
+      }
       admin_approve_business_verification: {
         Args: { verification_id: string }
         Returns: undefined
@@ -1929,6 +2024,14 @@ export type Database = {
       check_rate_limit: {
         Args: { limit_per_minute?: number; operation_name: string }
         Returns: boolean
+      }
+      check_rate_limit_secure: {
+        Args: {
+          max_attempts?: number
+          operation_name: string
+          window_minutes?: number
+        }
+        Returns: Json
       }
       create_sales_agent_application_secure: {
         Args: {
@@ -2147,10 +2250,16 @@ export type Database = {
         Returns: Json
       }
       has_role: {
-        Args: { _role: Database["public"]["Enums"]["user_role"] }
+        Args:
+          | { _role: Database["public"]["Enums"]["app_role"]; _user_id: string }
+          | { _role: Database["public"]["Enums"]["user_role"] }
         Returns: boolean
       }
       is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      is_admin_secure: {
         Args: Record<PropertyKey, never>
         Returns: boolean
       }
@@ -2219,6 +2328,14 @@ export type Database = {
           total_count: number
         }[]
       }
+      secure_change_user_role: {
+        Args: {
+          new_role: Database["public"]["Enums"]["app_role"]
+          reason?: string
+          target_user_id: string
+        }
+        Returns: Json
+      }
       validate_input: {
         Args: { input_data: Json; schema_name: string }
         Returns: Json
@@ -2233,6 +2350,7 @@ export type Database = {
       }
     }
     Enums: {
+      app_role: "admin" | "customer" | "business" | "sales_agent"
       hbcu_verification_status: "pending" | "approved" | "rejected"
       subscription_tier: "free" | "paid" | "business_starter"
       user_role: "customer" | "business" | "admin" | "sales_agent"
@@ -2363,6 +2481,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "customer", "business", "sales_agent"],
       hbcu_verification_status: ["pending", "approved", "rejected"],
       subscription_tier: ["free", "paid", "business_starter"],
       user_role: ["customer", "business", "admin", "sales_agent"],
