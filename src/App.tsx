@@ -12,6 +12,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { BusinessOnboardingFlow } from "@/components/onboarding/BusinessOnboardingFlow";
+import { CorporateOnboardingFlow } from "@/components/onboarding/CorporateOnboardingFlow";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -186,6 +187,7 @@ function App() {
                 </div>
                 <OnboardingFlow />
                 <BusinessOnboardingFlow />
+                <CorporateOnboardingFlow />
                 <Toaster />
                 <Sonner />
               </TooltipProvider>
