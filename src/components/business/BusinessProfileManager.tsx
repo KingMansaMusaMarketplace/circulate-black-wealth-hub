@@ -1,24 +1,100 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, BarChart3, QrCode, Settings, Shield } from 'lucide-react';
+import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import BusinessAnalyticsDashboard from './analytics/BusinessAnalyticsDashboard';
 import QRCodeGenerator from './qr-code/QRCodeGenerator';
+import { useBusinessProfile } from '@/hooks/use-business-profile';
+import { saveBusinessProfile } from '@/lib/api/business-api';
+import { useAuth } from '@/contexts/auth';
+import { toast } from 'sonner';
 
 const BusinessProfileManager = () => {
   const [activeTab, setActiveTab] = useState('details');
-  
-  // Mock business profile data
-  const businessProfile = {
-    id: '1',
-    name: 'Soul Food Kitchen',
-    description: 'Authentic Southern cuisine with family recipes',
-    category: 'Restaurant',
-    address: '123 Main St, Atlanta, GA',
-    phone: '(404) 555-1234',
-    website: 'https://soulfoodkitchen.example',
-    email: 'info@soulfoodkitchen.com'
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { profile, loading, updateBusinessProfile } = useBusinessProfile();
+  const { user } = useAuth();
+
+  const [formData, setFormData] = useState({
+    business_name: profile?.business_name || '',
+    description: profile?.description || '',
+    category: profile?.category || 'Restaurant',
+    address: profile?.address || '',
+    city: profile?.city || '',
+    state: profile?.state || '',
+    zip_code: profile?.zip_code || '',
+    phone: profile?.phone || '',
+    email: profile?.email || '',
+    website: profile?.website || ''
+  });
+
+  // Update form data when profile loads
+  React.useEffect(() => {
+    if (profile) {
+      setFormData({
+        business_name: profile.business_name || '',
+        description: profile.description || '',
+        category: profile.category || 'Restaurant',
+        address: profile.address || '',
+        city: profile.city || '',
+        state: profile.state || '',
+        zip_code: profile.zip_code || '',
+        phone: profile.phone || '',
+        email: profile.email || '',
+        website: profile.website || ''
+      });
+    }
+  }, [profile]);
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
+
+  const handleSaveProfile = async () => {
+    if (!user) {
+      toast.error('You must be logged in to save your profile');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const profileData = {
+        ...formData,
+        owner_id: user.id,
+        id: profile?.id
+      };
+
+      const result = await saveBusinessProfile(profileData);
+      
+      if (result.success) {
+        // Reload the profile to get the latest data
+        if (updateBusinessProfile) {
+          await updateBusinessProfile(result.data);
+        }
+      }
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      toast.error('Failed to save profile');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <span className="ml-2 text-muted-foreground">Loading business profile...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -58,64 +134,146 @@ const BusinessProfileManager = () => {
         </TabsList>
 
         <TabsContent value="details" className="mt-6">
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-            <h2 className="text-xl font-bold mb-4">Business Details</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium mb-2">Business Name</label>
-                <input
-                  type="text"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                  defaultValue={businessProfile.name}
-                />
+          <Card>
+            <CardHeader>
+              <CardTitle>Business Details</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {!profile && (
+                <Alert className="mb-6">
+                  <AlertDescription>
+                    Complete your business profile to start attracting customers and unlock all features.
+                  </AlertDescription>
+                </Alert>
+              )}
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="business_name">Business Name *</Label>
+                  <Input
+                    id="business_name"
+                    value={formData.business_name}
+                    onChange={(e) => handleInputChange('business_name', e.target.value)}
+                    placeholder="Enter your business name"
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="category">Category *</Label>
+                  <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Restaurant">Restaurant</SelectItem>
+                      <SelectItem value="Retail">Retail</SelectItem>
+                      <SelectItem value="Services">Services</SelectItem>
+                      <SelectItem value="Beauty">Beauty & Wellness</SelectItem>
+                      <SelectItem value="Technology">Technology</SelectItem>
+                      <SelectItem value="Healthcare">Healthcare</SelectItem>
+                      <SelectItem value="Education">Education</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="md:col-span-2">
+                  <Label htmlFor="description">Business Description *</Label>
+                  <Textarea
+                    id="description"
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    placeholder="Describe your business, products, and services"
+                    rows={4}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="phone">Phone Number *</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    placeholder="(555) 123-4567"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="email">Business Email *</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    placeholder="contact@yourbusiness.com"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="website">Website</Label>
+                  <Input
+                    id="website"
+                    type="url"
+                    value={formData.website}
+                    onChange={(e) => handleInputChange('website', e.target.value)}
+                    placeholder="https://yourbusiness.com"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="address">Street Address *</Label>
+                  <Input
+                    id="address"
+                    value={formData.address}
+                    onChange={(e) => handleInputChange('address', e.target.value)}
+                    placeholder="123 Main Street"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="city">City</Label>
+                  <Input
+                    id="city"
+                    value={formData.city}
+                    onChange={(e) => handleInputChange('city', e.target.value)}
+                    placeholder="Atlanta"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="state">State</Label>
+                  <Input
+                    id="state"
+                    value={formData.state}
+                    onChange={(e) => handleInputChange('state', e.target.value)}
+                    placeholder="GA"
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="zip_code">ZIP Code</Label>
+                  <Input
+                    id="zip_code"
+                    value={formData.zip_code}
+                    onChange={(e) => handleInputChange('zip_code', e.target.value)}
+                    placeholder="30309"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Category</label>
-                <select className="w-full border border-gray-300 rounded-md px-3 py-2">
-                  <option value="Restaurant">Restaurant</option>
-                  <option value="Retail">Retail</option>
-                  <option value="Services">Services</option>
-                  <option value="Beauty">Beauty & Wellness</option>
-                </select>
+              
+              <div className="mt-6">
+                <Button 
+                  onClick={handleSaveProfile}
+                  disabled={isSubmitting}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  {profile ? 'Update Profile' : 'Create Profile'}
+                </Button>
               </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium mb-2">Description</label>
-                <textarea
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 rows-4"
-                  defaultValue={businessProfile.description}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Phone</label>
-                <input
-                  type="tel"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                  defaultValue={businessProfile.phone}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Website</label>
-                <input
-                  type="url"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                  defaultValue={businessProfile.website}
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium mb-2">Address</label>
-                <input
-                  type="text"
-                  className="w-full border border-gray-300 rounded-md px-3 py-2"
-                  defaultValue={businessProfile.address}
-                />
-              </div>
-            </div>
-            <div className="mt-6">
-              <button className="bg-mansablue text-white px-6 py-2 rounded-md hover:bg-mansablue-dark">
-                Save Changes
-              </button>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="images" className="mt-6">
@@ -145,11 +303,35 @@ const BusinessProfileManager = () => {
         </TabsContent>
 
         <TabsContent value="analytics" className="mt-6">
-          <BusinessAnalyticsDashboard businessId={businessProfile.id} />
+          {profile?.id ? (
+            <BusinessAnalyticsDashboard businessId={profile.id} />
+          ) : (
+            <Card>
+              <CardContent className="pt-6">
+                <Alert>
+                  <AlertDescription>
+                    Complete your business profile first to access analytics.
+                  </AlertDescription>
+                </Alert>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="qr-codes" className="mt-6">
-          <QRCodeGenerator businessId={businessProfile.id} />
+          {profile?.id ? (
+            <QRCodeGenerator businessId={profile.id} />
+          ) : (
+            <Card>
+              <CardContent className="pt-6">
+                <Alert>
+                  <AlertDescription>
+                    Complete your business profile first to generate QR codes.
+                  </AlertDescription>
+                </Alert>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
         
         <TabsContent value="verification" className="mt-6">
