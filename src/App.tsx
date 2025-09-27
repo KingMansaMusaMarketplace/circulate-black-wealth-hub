@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Progress } from "@/components/ui/progress";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
+import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { HelmetProvider } from 'react-helmet-async';
 import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
 import "./index.css";
@@ -86,17 +87,18 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <SubscriptionProvider>
-            <BrowserRouter>
-              <TooltipProvider>
-                <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
-                  {/* Skip to main content link for keyboard navigation */}
-                  <a href="#main-content" className="skip-link">
-                    Skip to main content
-                  </a>
-                  
-                  <div id="main-content" role="main">
-                    <Suspense fallback={<LoadingFallback />}>
-                      <Routes>
+            <NativeFeatures>
+              <BrowserRouter>
+                <TooltipProvider>
+                  <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
+                    {/* Skip to main content link for keyboard navigation */}
+                    <a href="#main-content" className="skip-link">
+                      Skip to main content
+                    </a>
+                    
+                    <div id="main-content" role="main">
+                      <Suspense fallback={<LoadingFallback />}>
+                        <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/auth" element={<LazyAuthPage />} />
                         <Route path="/login" element={<LazyLoginPage />} />
@@ -184,6 +186,7 @@ function App() {
                 <Sonner />
               </TooltipProvider>
             </BrowserRouter>
+            </NativeFeatures>
           </SubscriptionProvider>
         </AuthProvider>
       </QueryClientProvider>
