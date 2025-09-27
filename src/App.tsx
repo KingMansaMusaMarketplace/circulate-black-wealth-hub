@@ -10,6 +10,7 @@ import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
 import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { HelmetProvider } from 'react-helmet-async';
 import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
+import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -182,6 +183,7 @@ function App() {
                     </Suspense>
                   </div>
                 </div>
+                <OnboardingFlow />
                 <Toaster />
                 <Sonner />
               </TooltipProvider>

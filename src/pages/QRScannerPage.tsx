@@ -10,6 +10,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import WelcomeTooltip from '@/components/QRCodeScanner/components/WelcomeTooltip';
+import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
+import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
+import { CONTEXTUAL_TIPS } from '@/lib/onboarding-constants';
 
 const QRScannerPage: React.FC = () => {
   const { user, loading: authLoading } = useAuth();
@@ -64,7 +67,24 @@ const QRScannerPage: React.FC = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8 text-center">Scan QR Code</h1>
+        <ContextualTooltip
+          id="qr-scanner-title"
+          title={CONTEXTUAL_TIPS['qr-scanner'].title}
+          tip={CONTEXTUAL_TIPS['qr-scanner'].tip}
+          trigger="auto"
+          delay={1500}
+        >
+          <h1 className="text-3xl font-bold mb-8 text-center">Scan QR Code</h1>
+        </ContextualTooltip>
+        
+        <ProgressiveDisclosure
+          id="qr-scanner-first-time"
+          title="Ready to earn your first points?"
+          message="Point your camera at the QR code displayed at checkout. Make sure the code is well-lit and fits completely within the camera frame for the best results."
+          autoShow={!user}
+          position="top"
+          actionText="Let's Scan!"
+        />
         
         {showLogin ? (
           <Card className="max-w-md mx-auto animate-fade-in">
@@ -83,11 +103,19 @@ const QRScannerPage: React.FC = () => {
             </CardContent>
           </Card>
         ) : (
-          <QRScannerComponent 
-            onScan={handleScan}
-            loading={scanning}
-            scanResult={scanResult}
-          />
+          <ContextualTooltip
+            id="qr-scanner-component"
+            title="QR Code Scanner"
+            tip="Center the QR code in the viewfinder and wait for the beep sound. The scanner works best in good lighting conditions."
+            trigger="hover"
+            position="bottom"
+          >
+            <QRScannerComponent 
+              onScan={handleScan}
+              loading={scanning}
+              scanResult={scanResult}
+            />
+          </ContextualTooltip>
         )}
       </div>
       <WelcomeTooltip />

@@ -22,6 +22,9 @@ import DirectoryFilter from '@/components/DirectoryFilter';
 import MapView from '@/components/MapView';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
+import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
+import { CONTEXTUAL_TIPS } from '@/lib/onboarding-constants';
 
 const DirectoryPage: React.FC = () => {
   
@@ -160,14 +163,21 @@ const DirectoryPage: React.FC = () => {
                         <List className="h-4 w-4 mr-1" />
                         List
                       </Button>
-                      <Button 
-                        variant={viewMode === 'map' ? "default" : "outline"} 
-                        size="sm"
-                        onClick={() => setViewMode('map')}
+                      <ContextualTooltip
+                        id="directory-map-view"
+                        title={CONTEXTUAL_TIPS['directory-map'].title}
+                        tip={CONTEXTUAL_TIPS['directory-map'].tip}
+                        trigger="hover"
                       >
-                        <MapPin className="h-4 w-4 mr-1" />
-                        Map
-                      </Button>
+                        <Button 
+                          variant={viewMode === 'map' ? "default" : "outline"} 
+                          size="sm"
+                          onClick={() => setViewMode('map')}
+                        >
+                          <MapPin className="h-4 w-4 mr-1" />
+                          Map
+                        </Button>
+                      </ContextualTooltip>
                     </div>
                   </div>
                 </div>
@@ -187,9 +197,17 @@ const DirectoryPage: React.FC = () => {
                       />
                     </TabsContent>
                     <TabsContent value="map" className="mt-0">
-                      <div className="h-[600px] rounded-lg overflow-hidden">
-                        <MapView businesses={mapData || []} />
-                      </div>
+                      <ContextualTooltip
+                        id="directory-map-usage"
+                        title="Interactive Map"
+                        tip="Click on any business marker to see details. Use zoom controls to navigate and the search bar to find specific locations."
+                        trigger="auto"
+                        delay={2000}
+                      >
+                        <div className="h-[600px] rounded-lg overflow-hidden">
+                          <MapView businesses={mapData || []} />
+                        </div>
+                      </ContextualTooltip>
                     </TabsContent>
                   </Tabs>
                 </ErrorBoundary>
