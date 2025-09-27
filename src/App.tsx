@@ -56,6 +56,10 @@ import {
 const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 
+// User profile pages
+const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
+const LazyUserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
+
 // Remaining imports for compatibility (will be converted to lazy)
 import RewardsPage from './pages/RewardsPage';
 import QRScannerPage from './pages/QRScannerPage';
@@ -143,8 +147,14 @@ function App() {
                         <Route path="/testing/signup" element={<LazySignupTestPage />} />
                         <Route path="/accessibility" element={<LazyAccessibilityPage />} />
                         
-                        {/* Fixed Dashboard route */}
-                        <Route path="/dashboard" element={<LazyDashboardPage />} />
+                         {/* Fixed Dashboard route */}
+                         <Route path="/dashboard" element={<LazyUserDashboardPage />} />
+                         <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
+                         <Route path="/my-profile" element={<LazyUserProfilePage />} />
+                         <Route path="/user-profile" element={<LazyUserProfilePage />} />
+                         
+                         {/* Business Dashboard route */}
+                         <Route path="/business-dashboard" element={<LazyDashboardPage />} />
                         
                         {/* Fixed How It Works route */}
                         <Route path="/how-it-works" element={<LazyHowItWorksPage />} />

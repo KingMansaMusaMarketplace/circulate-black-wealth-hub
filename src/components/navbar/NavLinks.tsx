@@ -13,6 +13,12 @@ const NavLinks: React.FC = () => {
         Home
       </Link>
       <Link 
+        to="/dashboard" 
+        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
+      >
+        Dashboard
+      </Link>
+      <Link 
         to="/businesses" 
         className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation font-medium"
       >
