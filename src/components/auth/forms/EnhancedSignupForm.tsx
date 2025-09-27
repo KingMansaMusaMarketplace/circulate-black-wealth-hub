@@ -130,81 +130,81 @@ const EnhancedSignupForm: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
       <Card className="w-full">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Join the Movement</CardTitle>
-          <CardDescription>
+        <CardHeader className="text-center px-4 sm:px-6">
+          <CardTitle className="text-xl sm:text-2xl">Join the Movement</CardTitle>
+          <CardDescription className="text-sm sm:text-base">
             Choose your membership type and plan to start supporting Black-owned businesses
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6 max-w-md mx-auto">
-              <TabsTrigger value="customer" className="flex items-center space-x-2">
-                <Users className="h-4 w-4" />
+            <TabsList className="grid w-full grid-cols-2 mb-6 max-w-md mx-auto h-12">
+              <TabsTrigger value="customer" className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+                <Users className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span>Customer</span>
               </TabsTrigger>
-              <TabsTrigger value="business" className="flex items-center space-x-2">
-                <Building className="h-4 w-4" />
+              <TabsTrigger value="business" className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
+                <Building className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span>Business</span>
               </TabsTrigger>
             </TabsList>
             
             <TabsContent value="customer" className="w-full">
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold text-center mb-2">Customer Plans</h3>
-                <p className="text-gray-600 text-center mb-6">Support Black-owned businesses and earn rewards</p>
+              <div className="mb-6 sm:mb-8">
+                <h3 className="text-lg sm:text-xl font-semibold text-center mb-2">Customer Plans</h3>
+                <p className="text-gray-600 text-center mb-4 sm:mb-6 text-sm sm:text-base px-2">Support Black-owned businesses and earn rewards</p>
                 
-                <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
                   {customerPlans.map((plan) => {
                     const IconComponent = plan.icon;
                     return (
                       <Card key={plan.id} className={`relative cursor-pointer transition-all hover:shadow-lg ${
-                        plan.popular ? 'ring-2 ring-mansagold scale-105 mt-8' : 'mt-4'
+                        plan.popular ? 'ring-2 ring-mansagold mt-6 sm:mt-8' : 'mt-2 sm:mt-4'
                       }`}>
                         {plan.popular && (
-                          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
-                            <div className="bg-mansagold text-white px-4 py-1 rounded-full text-sm font-medium">
+                          <div className="absolute -top-4 sm:-top-6 left-1/2 transform -translate-x-1/2 z-10">
+                            <div className="bg-mansagold text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
                               Most Popular
                             </div>
                           </div>
                         )}
                         
-                        <CardHeader className="text-center pb-4">
-                          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-mansablue/10">
-                            <IconComponent className="h-8 w-8 text-mansablue" />
+                        <CardHeader className="text-center pb-3 sm:pb-4 px-4 sm:px-6">
+                          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center bg-mansablue/10">
+                            <IconComponent className="h-6 w-6 sm:h-8 sm:w-8 text-mansablue" />
                           </div>
-                          <CardTitle className="text-xl">{plan.name}</CardTitle>
-                          <CardDescription className="text-sm">{plan.description}</CardDescription>
-                          <div className="mt-4">
-                            <div className="text-lg font-bold text-mansablue">{plan.price}</div>
+                          <CardTitle className="text-lg sm:text-xl">{plan.name}</CardTitle>
+                          <CardDescription className="text-xs sm:text-sm">{plan.description}</CardDescription>
+                          <div className="mt-3 sm:mt-4">
+                            <div className="text-base sm:text-lg font-bold text-mansablue">{plan.price}</div>
                           </div>
                         </CardHeader>
                         
-                        <CardContent>
-                          <ul className="space-y-2 mb-6">
+                        <CardContent className="px-4 sm:px-6">
+                          <ul className="space-y-2 mb-4 sm:mb-6">
                             {plan.features.map((feature, index) => (
-                              <li key={index} className="flex items-center text-sm">
-                                <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-                                {feature}
+                              <li key={index} className="flex items-start text-xs sm:text-sm">
+                                <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                                <span className="leading-tight">{feature}</span>
                               </li>
                             ))}
                           </ul>
                           
                           <Button 
-                            className="w-full text-sm leading-tight py-3 h-auto whitespace-normal" 
+                            className="w-full text-xs sm:text-sm leading-tight py-3 sm:py-4 h-auto whitespace-normal min-h-[3rem] touch-manipulation" 
                             onClick={() => handlePlanSelect(plan.id as any)}
                             disabled={loading !== null}
                             variant={plan.popular ? "default" : "outline"}
                           >
                             {loading && selectedPlan === plan.id ? (
                               <>
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                                <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-current mr-2"></div>
                                 Processing...
                               </>
                             ) : (
-                              <span className="text-center">{plan.buttonText}</span>
+                              <span className="text-center leading-tight">{plan.buttonText}</span>
                             )}
                           </Button>
                         </CardContent>
@@ -216,59 +216,59 @@ const EnhancedSignupForm: React.FC = () => {
             </TabsContent>
             
             <TabsContent value="business" className="w-full">
-              <div className="mb-8">
-                <h3 className="text-xl font-semibold text-center mb-2">Business Plans</h3>
-                <p className="text-gray-600 text-center mb-6">Grow your business and connect with customers</p>
+              <div className="mb-6 sm:mb-8">
+                <h3 className="text-lg sm:text-xl font-semibold text-center mb-2">Business Plans</h3>
+                <p className="text-gray-600 text-center mb-4 sm:mb-6 text-sm sm:text-base px-2">Grow your business and connect with customers</p>
                 
-                <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
                   {businessPlans.map((plan) => {
                     const IconComponent = plan.icon;
                     return (
                       <Card key={plan.id} className={`relative cursor-pointer transition-all hover:shadow-lg ${
-                        plan.popular ? 'ring-2 ring-mansagold scale-105 mt-8' : 'mt-4'
+                        plan.popular ? 'ring-2 ring-mansagold mt-6 sm:mt-8' : 'mt-2 sm:mt-4'
                       }`}>
                         {plan.popular && (
-                          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
-                            <div className="bg-mansagold text-white px-4 py-1 rounded-full text-sm font-medium">
+                          <div className="absolute -top-4 sm:-top-6 left-1/2 transform -translate-x-1/2 z-10">
+                            <div className="bg-mansagold text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
                               Most Popular
                             </div>
                           </div>
                         )}
                         
-                        <CardHeader className="text-center pb-4">
-                          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-mansablue/10">
-                            <IconComponent className="h-8 w-8 text-mansablue" />
+                        <CardHeader className="text-center pb-3 sm:pb-4 px-4 sm:px-6">
+                          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center bg-mansablue/10">
+                            <IconComponent className="h-6 w-6 sm:h-8 sm:w-8 text-mansablue" />
                           </div>
-                          <CardTitle className="text-xl">{plan.name}</CardTitle>
-                          <CardDescription className="text-sm">{plan.description}</CardDescription>
-                          <div className="mt-4">
-                            <div className="text-lg font-bold text-mansablue">{plan.price}</div>
+                          <CardTitle className="text-lg sm:text-xl">{plan.name}</CardTitle>
+                          <CardDescription className="text-xs sm:text-sm">{plan.description}</CardDescription>
+                          <div className="mt-3 sm:mt-4">
+                            <div className="text-base sm:text-lg font-bold text-mansablue">{plan.price}</div>
                           </div>
                         </CardHeader>
                         
-                        <CardContent>
-                          <ul className="space-y-2 mb-6">
+                        <CardContent className="px-4 sm:px-6">
+                          <ul className="space-y-2 mb-4 sm:mb-6">
                             {plan.features.map((feature, index) => (
-                              <li key={index} className="flex items-center text-sm">
-                                <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-                                {feature}
+                              <li key={index} className="flex items-start text-xs sm:text-sm">
+                                <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                                <span className="leading-tight">{feature}</span>
                               </li>
                             ))}
                           </ul>
                           
                           <Button 
-                            className="w-full text-sm leading-tight py-3 h-auto whitespace-normal" 
+                            className="w-full text-xs sm:text-sm leading-tight py-3 sm:py-4 h-auto whitespace-normal min-h-[3rem] touch-manipulation" 
                             onClick={() => handlePlanSelect(plan.id as any)}
                             disabled={loading !== null}
                             variant={plan.popular ? "default" : "outline"}
                           >
                             {loading && selectedPlan === plan.id ? (
                               <>
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                                <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-current mr-2"></div>
                                 Processing...
                               </>
                             ) : (
-                              <span className="text-center">{plan.buttonText}</span>
+                              <span className="text-center leading-tight">{plan.buttonText}</span>
                             )}
                           </Button>
                         </CardContent>
