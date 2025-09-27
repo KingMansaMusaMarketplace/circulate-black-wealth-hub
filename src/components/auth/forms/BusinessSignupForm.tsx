@@ -12,6 +12,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
+import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 
 const businessSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -152,13 +154,23 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-2xl mx-auto">
-      {error && (
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
+    <div className="max-w-2xl mx-auto">
+      <ProgressiveDisclosure
+        id="business-signup-benefits"
+        title="Ready to grow your business?"
+        message="Join thousands of successful Black-owned businesses on our platform. Get discovered by customers actively looking for businesses like yours, build loyalty with rewards, and access detailed analytics to grow your reach."
+        autoShow={true}
+        position="top"
+        actionText="Let's Get Started!"
+      />
+      
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
@@ -245,15 +257,22 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="address">Address</Label>
-        <Input
-          id="address"
-          {...register('address')}
-          disabled={isLoading}
-          placeholder="Business address"
-        />
-      </div>
+      <ContextualTooltip
+        id="business-location-info"
+        title="Location Information"
+        tip="Accurate location details help customers find your business on our map and in local searches. Complete address information improves your visibility to nearby customers."
+        trigger="hover"
+      >
+        <div className="space-y-2">
+          <Label htmlFor="address">Address</Label>
+          <Input
+            id="address"
+            {...register('address')}
+            disabled={isLoading}
+            placeholder="Business address"
+          />
+        </div>
+      </ContextualTooltip>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-2">
@@ -339,6 +358,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         )}
       </Button>
     </form>
+    </div>
   );
 };
 

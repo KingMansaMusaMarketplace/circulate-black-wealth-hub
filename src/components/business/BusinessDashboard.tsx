@@ -6,6 +6,9 @@ import { Button } from '@/components/ui/button';
 import { BarChart3, Users, QrCode, TrendingUp, Settings, Plus } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
+import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
+import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
+import { BUSINESS_CONTEXTUAL_TIPS } from '@/lib/business-onboarding-constants';
 
 const BusinessDashboard = () => {
   const { user } = useAuth();
@@ -28,37 +31,68 @@ const BusinessDashboard = () => {
 
   return (
     <div className="space-y-6">
+      <ProgressiveDisclosure
+        id="business-dashboard-welcome"
+        title="Welcome to Your Business Dashboard!"
+        message="This is your command center for managing your business on Mansa Musa Marketplace. Track customers, monitor QR code scans, and grow your reach in the community."
+        autoShow={!profile}
+        position="top"
+        actionText="Let's Get Started!"
+      />
+      
       {/* Welcome Section */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-mansablue mb-2">
-          Welcome back, {profile?.business_name || user?.user_metadata?.fullName || 'Business Owner'}
-        </h1>
-        <p className="text-gray-600">
-          Manage your business and track your performance
-        </p>
-      </div>
+      <ContextualTooltip
+        id="business-dashboard-overview"
+        title={BUSINESS_CONTEXTUAL_TIPS['business-dashboard'].title}
+        tip={BUSINESS_CONTEXTUAL_TIPS['business-dashboard'].tip}
+        trigger="auto"
+        delay={2000}
+      >
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-mansablue mb-2">
+            Welcome back, {profile?.business_name || user?.user_metadata?.fullName || 'Business Owner'}
+          </h1>
+          <p className="text-gray-600">
+            Manage your business and track your performance
+          </p>
+        </div>
+      </ContextualTooltip>
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <Link to="/business/profile">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardContent className="p-4 text-center">
-              <Settings className="h-8 w-8 mx-auto mb-2 text-mansablue" />
-              <h3 className="font-medium">Manage Profile</h3>
-              <p className="text-sm text-gray-500">Update business info</p>
-            </CardContent>
-          </Card>
-        </Link>
+        <ContextualTooltip
+          id="business-profile-management"
+          title={BUSINESS_CONTEXTUAL_TIPS['business-profile'].title}
+          tip={BUSINESS_CONTEXTUAL_TIPS['business-profile'].tip}
+          trigger="hover"
+        >
+          <Link to="/business/profile">
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+              <CardContent className="p-4 text-center">
+                <Settings className="h-8 w-8 mx-auto mb-2 text-mansablue" />
+                <h3 className="font-medium">Manage Profile</h3>
+                <p className="text-sm text-gray-500">Update business info</p>
+              </CardContent>
+            </Card>
+          </Link>
+        </ContextualTooltip>
 
-        <Link to="/business/qr-codes">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardContent className="p-4 text-center">
-              <QrCode className="h-8 w-8 mx-auto mb-2 text-mansablue" />
-              <h3 className="font-medium">QR Codes</h3>
-              <p className="text-sm text-gray-500">Generate & manage</p>
-            </CardContent>
-          </Card>
-        </Link>
+        <ContextualTooltip
+          id="qr-code-management"
+          title={BUSINESS_CONTEXTUAL_TIPS['qr-code-creation'].title}
+          tip={BUSINESS_CONTEXTUAL_TIPS['qr-code-creation'].tip}
+          trigger="hover"
+        >
+          <Link to="/business/qr-codes">
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+              <CardContent className="p-4 text-center">
+                <QrCode className="h-8 w-8 mx-auto mb-2 text-mansablue" />
+                <h3 className="font-medium">QR Codes</h3>
+                <p className="text-sm text-gray-500">Generate & manage</p>
+              </CardContent>
+            </Card>
+          </Link>
+        </ContextualTooltip>
 
         <Link to="/loyalty">
           <Card className="hover:shadow-lg transition-shadow cursor-pointer">
@@ -80,7 +114,14 @@ const BusinessDashboard = () => {
       </div>
 
       {/* Analytics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <ContextualTooltip
+        id="business-analytics-overview"
+        title={BUSINESS_CONTEXTUAL_TIPS['analytics-overview'].title}
+        tip={BUSINESS_CONTEXTUAL_TIPS['analytics-overview'].tip}
+        trigger="auto"
+        delay={3000}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
@@ -133,6 +174,7 @@ const BusinessDashboard = () => {
           </CardContent>
         </Card>
       </div>
+      </ContextualTooltip>
 
       {/* Recent Activity */}
       <Card>

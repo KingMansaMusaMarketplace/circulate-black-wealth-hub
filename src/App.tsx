@@ -11,6 +11,7 @@ import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { HelmetProvider } from 'react-helmet-async';
 import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
+import { BusinessOnboardingFlow } from "@/components/onboarding/BusinessOnboardingFlow";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -184,6 +185,7 @@ function App() {
                   </div>
                 </div>
                 <OnboardingFlow />
+                <BusinessOnboardingFlow />
                 <Toaster />
                 <Sonner />
               </TooltipProvider>
