@@ -2028,7 +2028,6 @@ export type Database = {
       get_agent_referral_codes: {
         Args: Record<PropertyKey, never>
         Returns: {
-          id: string
           is_active: boolean
           referral_code: string
         }[]
@@ -2200,11 +2199,10 @@ export type Database = {
           referral_code: string
         }[]
       }
-      get_public_sales_agents: {
+      get_public_referral_codes_only: {
         Args: Record<PropertyKey, never>
         Returns: {
           created_at: string
-          id: string
           is_active: boolean
           referral_code: string
         }[]
