@@ -13,6 +13,12 @@ const NavLinks: React.FC = () => {
         Home
       </Link>
       <Link 
+        to="/businesses" 
+        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation font-medium"
+      >
+        Marketplace
+      </Link>
+      <Link 
         to="/about" 
         className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
       >
@@ -31,18 +37,6 @@ const NavLinks: React.FC = () => {
         How It Works
       </Link>
       <Link 
-        to="/education" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        Education
-      </Link>
-      <Link 
-        to="/mentorship" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        Mentorship
-      </Link>
-      <Link 
         to="/scanner" 
         className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
       >
@@ -53,18 +47,6 @@ const NavLinks: React.FC = () => {
         className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
       >
         Rewards
-      </Link>
-      <Link 
-        to="/community-impact" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        Impact
-      </Link>
-      <Link 
-        to="/corporate-sponsorship" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        Sponsors
       </Link>
       
       {/* Add mobile readiness test link for easy access */}
