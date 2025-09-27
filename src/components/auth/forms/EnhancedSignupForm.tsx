@@ -205,7 +205,7 @@ const EnhancedSignupForm: React.FC = () => {
                           </ul>
                           
                           <Button 
-                            className="w-full" 
+                            className="w-full text-sm leading-tight py-3 h-auto whitespace-normal" 
                             onClick={() => handlePlanSelect(plan.id as any)}
                             disabled={loading !== null}
                             variant={plan.popular ? "default" : "outline"}
@@ -216,7 +216,7 @@ const EnhancedSignupForm: React.FC = () => {
                                 Processing...
                               </>
                             ) : (
-                              plan.buttonText
+                              <span className="text-center">{plan.buttonText}</span>
                             )}
                           </Button>
                         </CardContent>
@@ -269,7 +269,7 @@ const EnhancedSignupForm: React.FC = () => {
                           </ul>
                           
                           <Button 
-                            className="w-full" 
+                            className="w-full text-sm leading-tight py-3 h-auto whitespace-normal" 
                             onClick={() => handlePlanSelect(plan.id as any)}
                             disabled={loading !== null}
                             variant={plan.popular ? "default" : "outline"}
@@ -280,7 +280,7 @@ const EnhancedSignupForm: React.FC = () => {
                                 Processing...
                               </>
                             ) : (
-                              plan.buttonText
+                              <span className="text-center">{plan.buttonText}</span>
                             )}
                           </Button>
                         </CardContent>
