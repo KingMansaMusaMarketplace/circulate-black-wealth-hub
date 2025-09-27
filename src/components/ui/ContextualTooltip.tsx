@@ -143,3 +143,5 @@ export const ContextualTooltip: React.FC<ContextualTooltipProps> = ({
     </div>
   );
 };
+
+export default ContextualTooltip;

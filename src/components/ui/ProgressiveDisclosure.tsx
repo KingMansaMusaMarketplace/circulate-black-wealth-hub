@@ -183,3 +183,5 @@ export const ProgressiveDisclosure: React.FC<ProgressiveDisclosureProps> = ({
     </>
   );
 };
+
+export default ProgressiveDisclosure;
