@@ -1,0 +1,11 @@
+{
+  "nodeModulesDir": "auto",
+  "imports": {},
+  "tasks": {
+    "serve": "deno serve --watch --allow-all"
+  },
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window"]
+  }
+}
