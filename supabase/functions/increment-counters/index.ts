@@ -22,10 +22,9 @@ serve(async (req) => {
     const { action, id } = await req.json()
 
     if (action === 'increment_topic_views') {
+      // Use RPC call to increment views_count atomically
       const { error } = await supabaseClient
-        .from('forum_topics')
-        .update({ views_count: supabaseClient.sql`views_count + 1` })
-        .eq('id', id)
+        .rpc('increment_topic_views', { topic_id: id })
 
       if (error) throw error
 
@@ -35,10 +34,9 @@ serve(async (req) => {
     }
 
     if (action === 'increment_event_attendees') {
+      // Use RPC call to increment current_attendees atomically
       const { error } = await supabaseClient
-        .from('community_events')
-        .update({ current_attendees: supabaseClient.sql`current_attendees + 1` })
-        .eq('id', id)
+        .rpc('increment_event_attendees', { event_id: id })
 
       if (error) throw error
 
@@ -52,8 +50,8 @@ serve(async (req) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })
 
-  } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), {
+  } catch (error: any) {
+    return new Response(JSON.stringify({ error: error?.message || 'Unknown error' }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     })

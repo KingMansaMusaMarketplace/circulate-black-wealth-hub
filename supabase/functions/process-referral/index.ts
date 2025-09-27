@@ -11,7 +11,7 @@ const corsHeaders = {
 }
 
 // Helper function to log errors to a table
-async function logError(supabase, error, operation, details = {}) {
+async function logError(supabase: any, error: any, operation: string, details: any = {}) {
   try {
     await supabase
       .from('error_logs')
@@ -97,9 +97,9 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })
-  } catch (error) {
+  } catch (error: any) {
     const processingTime = Date.now() - startTime;
-    console.error(`[${requestId}] Error in process-referral: ${error.message}`);
+    console.error(`[${requestId}] Error in process-referral: ${error?.message || error}`);
     
     // Log error to database if possible
     if (supabaseClient) {
@@ -110,7 +110,7 @@ Deno.serve(async (req) => {
     }
     
     return new Response(JSON.stringify({ 
-      error: error.message,
+      error: error?.message || 'Unknown error',
       request_id: requestId,
       processing_time_ms: processingTime
     }), {

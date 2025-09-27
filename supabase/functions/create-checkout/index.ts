@@ -103,6 +103,16 @@ serve(async (req) => {
       throw new Error(errorMsg);
     }
 
+    // Determine trial period based on subscription type
+    const getTrialPeriod = () => {
+      // Only Premium and Business plans get the extended trial
+      if (userType === 'business' || (userType !== 'corporate' && tier)) {
+        return calculateTrialDays();
+      }
+      // Corporate sponsorships and free tiers get no trial
+      return 0;
+    };
+
     // Create subscription checkout session
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -123,8 +133,7 @@ serve(async (req) => {
         message: message || ''
       },
       subscription_data: {
-        // Calculate days until January 1, 2026
-        trial_period_days: calculateTrialDays(),
+        trial_period_days: getTrialPeriod(),
       },
     });
     
