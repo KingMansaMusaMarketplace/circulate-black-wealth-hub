@@ -128,20 +128,12 @@ export const NativeFeatures: React.FC<NativeFeaturesProps> = ({ children }) => {
     <>
       {children}
       
-      {/* Enhanced Native Status Indicators */}
-      {isCapacitor && (
+      {/* Native Status Indicators - Only show offline status */}
+      {isCapacitor && !isOnline && (
         <div className="fixed top-0 right-0 p-2 z-50">
-          {/* Platform indicator */}
-          <div className="bg-primary/80 text-primary-foreground px-2 py-1 rounded text-xs mb-1">
-            {platform.toUpperCase()} Native
+          <div className="bg-orange-500 text-white px-2 py-1 rounded text-xs">
+            Offline {offlineQueue > 0 && `(${offlineQueue} queued)`}
           </div>
-          
-          {/* Offline indicator with queue */}
-          {!isOnline && (
-            <div className="bg-orange-500 text-white px-2 py-1 rounded text-xs">
-              Offline {offlineQueue > 0 && `(${offlineQueue} queued)`}
-            </div>
-          )}
         </div>
       )}
     </>
