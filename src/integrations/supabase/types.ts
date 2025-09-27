@@ -1546,13 +1546,6 @@ export type Database = {
             referencedRelation: "sales_agent_applications"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "fk_application_personal_data"
-            columns: ["application_id"]
-            isOneToOne: true
-            referencedRelation: "sales_agent_applications_summary"
-            referencedColumns: ["id"]
-          },
         ]
       }
       sales_agent_test_attempts: {
@@ -1927,102 +1920,7 @@ export type Database = {
       }
     }
     Views: {
-      business_verifications_admin_summary: {
-        Row: {
-          address_document_status: string | null
-          admin_notes: string | null
-          business_email: string | null
-          business_id: string | null
-          business_name: string | null
-          id: string | null
-          owner_id: string | null
-          owner_name: string | null
-          ownership_document_status: string | null
-          ownership_percentage: number | null
-          registration_document_status: string | null
-          rejection_reason: string | null
-          submitted_at: string | null
-          verification_status: string | null
-          verified_at: string | null
-          verified_by: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "business_verifications_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      hbcu_verifications_admin_summary: {
-        Row: {
-          created_at: string | null
-          document_status: string | null
-          document_type: string | null
-          id: string | null
-          rejection_reason: string | null
-          student_email: string | null
-          student_name: string | null
-          updated_at: string | null
-          user_id: string | null
-          verification_status:
-            | Database["public"]["Enums"]["hbcu_verification_status"]
-            | null
-          verified_at: string | null
-          verified_by: string | null
-        }
-        Relationships: []
-      }
-      public_referral_codes: {
-        Row: {
-          created_at: string | null
-          is_active: boolean | null
-          referral_code: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          is_active?: boolean | null
-          referral_code?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          is_active?: boolean | null
-          referral_code?: string | null
-        }
-        Relationships: []
-      }
-      sales_agent_applications_summary: {
-        Row: {
-          application_date: string | null
-          application_status: string | null
-          id: string | null
-          reviewed_at: string | null
-          test_passed: boolean | null
-          test_score: number | null
-          user_id: string | null
-        }
-        Insert: {
-          application_date?: string | null
-          application_status?: string | null
-          id?: string | null
-          reviewed_at?: string | null
-          test_passed?: boolean | null
-          test_score?: number | null
-          user_id?: string | null
-        }
-        Update: {
-          application_date?: string | null
-          application_status?: string | null
-          id?: string | null
-          reviewed_at?: string | null
-          test_passed?: boolean | null
-          test_score?: number | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       access_personal_data_secure: {
@@ -2211,6 +2109,27 @@ export type Database = {
         Args: { p_business_id: string }
         Returns: Json
       }
+      get_business_verifications_admin_summary: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          address_document_status: string
+          admin_notes: string
+          business_email: string
+          business_id: string
+          business_name: string
+          id: string
+          owner_id: string
+          owner_name: string
+          ownership_document_status: string
+          ownership_percentage: number
+          registration_document_status: string
+          rejection_reason: string
+          submitted_at: string
+          verification_status: string
+          verified_at: string
+          verified_by: string
+        }[]
+      }
       get_community_impact_summary: {
         Args: Record<PropertyKey, never>
         Returns: Json
@@ -2218,6 +2137,23 @@ export type Database = {
       get_hbcu_verification_document_url: {
         Args: { verification_id: string }
         Returns: string
+      }
+      get_hbcu_verifications_admin_summary: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          document_status: string
+          document_type: string
+          id: string
+          rejection_reason: string
+          student_email: string
+          student_name: string
+          updated_at: string
+          user_id: string
+          verification_status: Database["public"]["Enums"]["hbcu_verification_status"]
+          verified_at: string
+          verified_by: string
+        }[]
       }
       get_public_business_info: {
         Args: Record<PropertyKey, never>
@@ -2256,6 +2192,14 @@ export type Database = {
           zip_code: string
         }[]
       }
+      get_public_referral_codes: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          is_active: boolean
+          referral_code: string
+        }[]
+      }
       get_public_sales_agents: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -2268,6 +2212,18 @@ export type Database = {
       get_qr_scan_metrics: {
         Args: { p_business_id: string }
         Returns: Json
+      }
+      get_sales_agent_applications_summary: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          application_date: string
+          application_status: string
+          id: string
+          reviewed_at: string
+          test_passed: boolean
+          test_score: number
+          user_id: string
+        }[]
       }
       get_security_metrics: {
         Args: Record<PropertyKey, never>
