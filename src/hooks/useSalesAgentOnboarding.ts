@@ -7,9 +7,10 @@ export const useSalesAgentOnboarding = () => {
 
   useEffect(() => {
     const hasCompletedOnboarding = localStorage.getItem(SALES_AGENT_ONBOARDING_STORAGE_KEY);
-    if (!hasCompletedOnboarding) {
-      setShowOnboarding(true);
-    }
+    // Temporarily disabled auto-show to prevent home page overlay
+    // if (!hasCompletedOnboarding) {
+    //   setShowOnboarding(true);
+    // }
   }, []);
 
   const completeOnboarding = () => {

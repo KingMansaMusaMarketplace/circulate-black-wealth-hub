@@ -122,6 +122,6 @@ export const useBusinessOnboarding = () => {
     completeOnboarding,
     skipOnboarding,
     resetOnboarding,
-    shouldShowOnboarding: onboardingState.isFirstVisit && !onboardingState.completed && isBusinessUser
+    shouldShowOnboarding: false // Temporarily disabled to prevent home page overlay
   };
 };

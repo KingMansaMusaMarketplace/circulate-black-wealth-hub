@@ -123,6 +123,6 @@ export const useCorporateOnboarding = () => {
     completeOnboarding,
     skipOnboarding,
     resetOnboarding,
-    shouldShowOnboarding: onboardingState.isFirstVisit && !onboardingState.completed && isCorporateUser
+    shouldShowOnboarding: false // Temporarily disabled to prevent home page overlay
   };
 };

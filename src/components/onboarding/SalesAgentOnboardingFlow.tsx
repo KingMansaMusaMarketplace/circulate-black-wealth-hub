@@ -1,5 +1,4 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
 import { OnboardingStep } from '@/components/onboarding/OnboardingStep';
 import { SALES_AGENT_ONBOARDING_STEPS } from '@/lib/sales-agent-onboarding-constants';
 import { useSalesAgentOnboarding } from '@/hooks/useSalesAgentOnboarding';
@@ -20,24 +19,16 @@ const SalesAgentOnboardingFlow: React.FC = () => {
   const isLastStep = currentStep === SALES_AGENT_ONBOARDING_STEPS.length - 1;
 
   return (
-    <Dialog open={showOnboarding} onOpenChange={() => {}}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader className="sr-only">
-          <h2>Sales Agent Onboarding</h2>
-        </DialogHeader>
-        
-        <OnboardingStep
-          {...currentStepData}
-          stepNumber={currentStep + 1}
-          totalSteps={SALES_AGENT_ONBOARDING_STEPS.length}
-          onNext={nextStep}
-          onPrev={prevStep}
-          onSkip={skipOnboarding}
-          onComplete={completeOnboarding}
-          isLastStep={isLastStep}
-        />
-      </DialogContent>
-    </Dialog>
+    <OnboardingStep
+      {...currentStepData}
+      stepNumber={currentStep + 1}
+      totalSteps={SALES_AGENT_ONBOARDING_STEPS.length}
+      onNext={nextStep}
+      onPrev={prevStep}
+      onSkip={skipOnboarding}
+      onComplete={completeOnboarding}
+      isLastStep={isLastStep}
+    />
   );
 };
 
