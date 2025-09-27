@@ -16,9 +16,21 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({
   title,
   content
 }) => {
-  const stripHtmlStyles = (htmlContent: string) => {
-    return htmlContent
-      .replace(/style="[^"]*"/g, '')
+  const sanitizeAndStyleHtml = (htmlContent: string) => {
+    // Import the secure sanitization function
+    import { sanitizeHtml, validateSafeHTML } from '@/lib/security/content-sanitizer';
+    
+    // First validate that the content is safe
+    if (!validateSafeHTML(htmlContent)) {
+      console.warn('Potentially unsafe HTML content detected and blocked');
+      return '<p className="text-red-500">Content blocked for security reasons</p>';
+    }
+    
+    // Sanitize the HTML content
+    const sanitizedContent = sanitizeHtml(htmlContent);
+    
+    // Apply styling to sanitized content
+    return sanitizedContent
       .replace(/<div/g, '<div className="mb-4"')
       .replace(/<h1/g, '<h1 className="text-3xl font-bold text-primary mb-6"')
       .replace(/<h2/g, '<h2 className="text-2xl font-semibold text-secondary mb-4"')
@@ -39,7 +51,7 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({
           <div 
             className="prose prose-sm max-w-none"
             dangerouslySetInnerHTML={{ 
-              __html: stripHtmlStyles(content)
+              __html: sanitizeAndStyleHtml(content)
             }} 
           />
         </div>
