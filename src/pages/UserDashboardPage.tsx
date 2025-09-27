@@ -19,6 +19,8 @@ import {
   Target
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import LiveActivityWidget from '@/components/realtime/LiveActivityWidget';
+import ActivityFeed from '@/components/realtime/ActivityFeed';
 
 interface DashboardStats {
   totalPoints: number;
@@ -333,60 +335,12 @@ export default function UserDashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Recent Activity */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <History className="h-5 w-5" />
-                <span>Recent Activity</span>
-              </CardTitle>
-              <CardDescription>Your latest points and rewards activity</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {recentActivity.length > 0 ? (
-                <div className="space-y-4">
-                  {recentActivity.map((activity) => (
-                    <div key={activity.id} className="flex items-center space-x-3">
-                      <div className="flex-shrink-0">
-                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                          <QrCode className="h-4 w-4 text-primary" />
-                        </div>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">
-                          Scanned at {activity.business_name}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {new Date(activity.created_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="flex-shrink-0">
-                        <Badge variant="secondary">+{activity.points} pts</Badge>
-                      </div>
-                    </div>
-                  ))}
-                  <div className="pt-2">
-                    <Link to="/rewards">
-                      <Button variant="outline" size="sm" className="w-full">
-                        View All Activity
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-6">
-                  <QrCode className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">No recent activity</p>
-                  <Link to="/scanner">
-                    <Button variant="outline" size="sm" className="mt-2">
-                      Start Scanning
-                    </Button>
-                  </Link>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          {/* Live Activity Widget */}
+          <LiveActivityWidget />
         </div>
+
+        {/* Community Activity Feed */}
+        <ActivityFeed />
 
         {/* Favorite Businesses */}
         {favoriteBusinesses.length > 0 && (

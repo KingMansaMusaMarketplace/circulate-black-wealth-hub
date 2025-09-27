@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { User, Settings, LogOut, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import NotificationCenter from '@/components/notifications/NotificationCenter';
 
 interface UserMenuProps {
   user: any;
@@ -53,7 +54,9 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   }
 
   return (
-    <DropdownMenu>
+    <div className="flex items-center space-x-2">
+      <NotificationCenter />
+      <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
@@ -111,6 +114,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+    </div>
   );
 };
 
