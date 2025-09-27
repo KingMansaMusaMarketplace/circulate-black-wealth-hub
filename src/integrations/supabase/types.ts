@@ -14,6 +14,50 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          activity_data: Json | null
+          activity_type: string
+          business_id: string | null
+          created_at: string | null
+          id: string
+          ip_address: unknown | null
+          points_involved: number | null
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          activity_data?: Json | null
+          activity_type: string
+          business_id?: string | null
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          points_involved?: number | null
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          activity_data?: Json | null
+          activity_type?: string
+          business_id?: string | null
+          created_at?: string | null
+          id?: string
+          ip_address?: unknown | null
+          points_involved?: number | null
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       agent_commissions: {
         Row: {
           amount: number
@@ -763,6 +807,63 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notification_preferences: {
+        Row: {
+          created_at: string | null
+          email_notifications: boolean | null
+          event_reminders: boolean | null
+          id: string
+          location_based: boolean | null
+          loyalty_updates: boolean | null
+          marketing_emails: boolean | null
+          new_businesses: boolean | null
+          point_milestones: boolean | null
+          push_notifications: boolean | null
+          reward_expiry: boolean | null
+          sms_notifications: boolean | null
+          special_offers: boolean | null
+          updated_at: string | null
+          user_id: string
+          weekly_digest: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          email_notifications?: boolean | null
+          event_reminders?: boolean | null
+          id?: string
+          location_based?: boolean | null
+          loyalty_updates?: boolean | null
+          marketing_emails?: boolean | null
+          new_businesses?: boolean | null
+          point_milestones?: boolean | null
+          push_notifications?: boolean | null
+          reward_expiry?: boolean | null
+          sms_notifications?: boolean | null
+          special_offers?: boolean | null
+          updated_at?: string | null
+          user_id: string
+          weekly_digest?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          email_notifications?: boolean | null
+          event_reminders?: boolean | null
+          id?: string
+          location_based?: boolean | null
+          loyalty_updates?: boolean | null
+          marketing_emails?: boolean | null
+          new_businesses?: boolean | null
+          point_milestones?: boolean | null
+          push_notifications?: boolean | null
+          reward_expiry?: boolean | null
+          sms_notifications?: boolean | null
+          special_offers?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+          weekly_digest?: boolean | null
+        }
+        Relationships: []
       }
       product_images: {
         Row: {
@@ -2070,6 +2171,16 @@ export type Database = {
           user_agent_param?: string
         }
         Returns: undefined
+      }
+      log_user_activity: {
+        Args: {
+          p_activity_data?: Json
+          p_activity_type: string
+          p_business_id?: string
+          p_points_involved?: number
+          p_user_id: string
+        }
+        Returns: string
       }
       process_pending_commissions: {
         Args: Record<PropertyKey, never>
