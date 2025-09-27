@@ -54,6 +54,7 @@ import {
 
 // Auth page (new) - import directly since it's not in LazyComponents yet
 const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
+const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 
 // Remaining imports for compatibility (will be converted to lazy)
 import SalesAgentSignupPage from './pages/SalesAgentSignupPage';
@@ -106,6 +107,7 @@ function App() {
                         <Route path="/auth" element={<LazyAuthPage />} />
                         <Route path="/login" element={<LazyLoginPage />} />
                         <Route path="/signup" element={<LazySignupPage />} />
+                        <Route path="/email-verified" element={<LazyEmailVerified />} />
                       
                         {/* Business signup routes - support both URL patterns */}
                         <Route path="/business-signup" element={<LazyBusinessSignupPage />} />

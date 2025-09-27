@@ -13,7 +13,7 @@ export const handleSignUp = async (
       password,
       options: {
         data: metadata,
-        emailRedirectTo: `${window.location.origin}/`
+        emailRedirectTo: `${window.location.origin}/email-verified`
       }
     });
 
@@ -26,9 +26,28 @@ export const handleSignUp = async (
       return { error };
     }
 
+    // Send custom verification email if user was created
+    if (data.user && !data.user.email_confirmed_at) {
+      try {
+        console.log("Sending custom verification email...");
+        await supabase.functions.invoke('send-verification-email', {
+          body: {
+            email: email,
+            confirmationUrl: `${window.location.origin}/email-verified`,
+            userType: (metadata as any)?.user_type || 'customer'
+          },
+        });
+        console.log("Custom verification email sent successfully");
+      } catch (emailError) {
+        console.warn('Custom verification email failed, but Supabase email was sent:', emailError);
+      }
+    }
+
     showToast({
       title: 'Success',
-      description: 'Account created successfully! Please check your email to verify your account.'
+      description: data.user?.email_confirmed_at 
+        ? 'Account created successfully! You can now sign in.'
+        : 'Account created successfully! Please check your email to verify your account.'
     });
 
     return { data };

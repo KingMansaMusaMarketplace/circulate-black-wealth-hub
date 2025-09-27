@@ -1,8 +1,10 @@
-
 project_id = "agoclnqfyinwjxdmjnns"
 
 [functions.increment-counters]
 verify_jwt = true
 
 [functions.send-password-reset]
+verify_jwt = false
+
+[functions.send-verification-email]
 verify_jwt = false
