@@ -106,6 +106,36 @@ export type Database = {
           },
         ]
       }
+      auth_attempt_log: {
+        Row: {
+          attempt_time: string | null
+          email: string | null
+          failure_reason: string | null
+          id: string
+          ip_address: unknown | null
+          success: boolean | null
+          user_agent: string | null
+        }
+        Insert: {
+          attempt_time?: string | null
+          email?: string | null
+          failure_reason?: string | null
+          id?: string
+          ip_address?: unknown | null
+          success?: boolean | null
+          user_agent?: string | null
+        }
+        Update: {
+          attempt_time?: string | null
+          email?: string | null
+          failure_reason?: string | null
+          id?: string
+          ip_address?: unknown | null
+          success?: boolean | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       business_access_log: {
         Row: {
           access_type: string
@@ -1945,6 +1975,24 @@ export type Database = {
         }
         Relationships: []
       }
+      public_referral_codes: {
+        Row: {
+          created_at: string | null
+          is_active: boolean | null
+          referral_code: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          is_active?: boolean | null
+          referral_code?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          is_active?: boolean | null
+          referral_code?: string | null
+        }
+        Relationships: []
+      }
       sales_agent_applications_summary: {
         Row: {
           application_date: string | null
@@ -2012,6 +2060,10 @@ export type Database = {
       can_access_admin_features: {
         Args: Record<PropertyKey, never>
         Returns: boolean
+      }
+      check_auth_rate_limit_secure: {
+        Args: { p_email: string; p_ip?: unknown }
+        Returns: Json
       }
       check_business_access_rate_limit: {
         Args: { user_id_param?: string }
@@ -2215,6 +2267,10 @@ export type Database = {
       }
       get_qr_scan_metrics: {
         Args: { p_business_id: string }
+        Returns: Json
+      }
+      get_security_metrics: {
+        Args: Record<PropertyKey, never>
         Returns: Json
       }
       get_test_questions_for_user: {
