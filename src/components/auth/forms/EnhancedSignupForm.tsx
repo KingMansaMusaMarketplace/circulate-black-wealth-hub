@@ -19,21 +19,9 @@ const EnhancedSignupForm: React.FC = () => {
   const handlePlanSelect = async (plan: 'free' | 'premium' | 'business_starter' | 'business') => {
     setSelectedPlan(plan);
     
-    // For free plans, go straight to account creation
-    if (plan === 'free') {
-      setShowAccountForm(true);
-      return;
-    }
-    
-    // For paid plans, show payment collection notice and redirect to Stripe
-    const tier = plan === 'premium' ? 'premium' : plan;
-    
-    try {
-      await handleSubscribe(tier as any);
-      // After successful payment setup, user will be redirected to success page
-    } catch (error) {
-      console.error('Payment setup failed:', error);
-    }
+    // For all plans, first show account creation form
+    // For paid plans, payment setup will happen after account creation
+    setShowAccountForm(true);
   };
 
   const customerPlans = [
