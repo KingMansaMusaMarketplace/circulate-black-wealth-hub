@@ -57,6 +57,7 @@ const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 
 // Remaining imports for compatibility (will be converted to lazy)
+import RewardsPage from './pages/RewardsPage';
 import QRScannerPage from './pages/QRScannerPage';
 import BusinessDetailPage from './pages/BusinessDetailPage';
 import BusinessDiscoveryPage from './pages/BusinessDiscoveryPage';
@@ -128,6 +129,7 @@ function App() {
                         <Route path="/businesses" element={<BusinessDiscoveryPage />} />
                         <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
                         <Route path="/business/:businessId" element={<BusinessDetailPage />} />
+                        <Route path="/loyalty" element={<RewardsPage />} />
                         <Route path="/scanner" element={<QRScannerPage />} />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         <Route path="/about" element={<LazyAboutPage />} />
