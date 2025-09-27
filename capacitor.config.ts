@@ -2,14 +2,13 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.mansamusamarketplace.app',
-  appName: 'Mansa Musa Marketplace',
+  appId: 'app.lovable.e42355603b6b4780b91c854366c7682f',
+  appName: 'circulate-black-wealth-hub',
   webDir: 'dist',
-  // Production build - remove server config for App Store
-  // server: {
-  //   url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
-  //   cleartext: true
-  // },
+  server: {
+    url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
+    cleartext: true
+  },
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
