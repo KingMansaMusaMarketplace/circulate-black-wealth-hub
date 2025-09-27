@@ -2213,6 +2213,26 @@ export type Database = {
         Args: { p_business_id: string }
         Returns: Json
       }
+      get_safe_business_listings: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          id: string
+          is_verified: boolean
+          logo_url: string
+          review_count: number
+          state: string
+          website: string
+          zip_code: string
+        }[]
+      }
       get_sales_agent_applications_summary: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -2316,6 +2336,31 @@ export type Database = {
         Returns: undefined
       }
       search_public_businesses: {
+        Args: {
+          p_category?: string
+          p_featured?: boolean
+          p_limit?: number
+          p_min_rating?: number
+          p_offset?: number
+          p_search_term?: string
+        }
+        Returns: {
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          id: string
+          is_verified: boolean
+          logo_url: string
+          review_count: number
+          state: string
+          total_count: number
+        }[]
+      }
+      search_safe_businesses: {
         Args: {
           p_category?: string
           p_featured?: boolean
