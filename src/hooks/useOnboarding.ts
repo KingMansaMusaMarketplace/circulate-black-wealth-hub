@@ -113,6 +113,6 @@ export const useOnboarding = () => {
     completeOnboarding,
     skipOnboarding,
     resetOnboarding,
-    shouldShowOnboarding: onboardingState.isFirstVisit && !onboardingState.completed && user
+    shouldShowOnboarding: false // Temporarily disable auto-onboarding to prevent intrusive modal
   };
 };
