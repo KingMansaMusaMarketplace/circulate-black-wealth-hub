@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      account_deletion_requests: {
+        Row: {
+          id: string
+          processed_at: string | null
+          processed_by: string | null
+          reason: string | null
+          requested_at: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          reason?: string | null
+          requested_at?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          reason?: string | null
+          requested_at?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       activity_log: {
         Row: {
           activity_data: Json | null
@@ -1995,6 +2025,10 @@ export type Database = {
         }
         Returns: string
       }
+      delete_user_account_immediate: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
       exec_sql: {
         Args: { query: string }
         Returns: undefined
@@ -2332,6 +2366,10 @@ export type Database = {
           p_metric_value: number
         }
         Returns: undefined
+      }
+      request_account_deletion: {
+        Args: { deletion_reason?: string }
+        Returns: Json
       }
       search_public_businesses: {
         Args: {
