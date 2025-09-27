@@ -9,6 +9,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSalesAgent } from '@/hooks/use-sales-agent';
 import { useSalesAgentTabs } from '@/hooks/use-sales-agent-tabs';
 import AgentContent from '@/components/sales-agent/AgentContent';
+import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
+import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 
 const SalesAgentSignupPage: React.FC = () => {
   const navigate = useNavigate();
@@ -58,6 +60,28 @@ const SalesAgentSignupPage: React.FC = () => {
               onApplicationSubmitted={handleApplicationSubmitted}
               onTestCompleted={handleTestCompleted}
               onStartTest={showTest}
+            />
+            
+            <ContextualTooltip
+              id="signup-application-help"
+              title="Complete Your Application"
+              tip="Take your time filling out the application. Provide accurate information about your business experience and marketing ideas - this helps us approve your application faster."
+              position="top"
+              trigger="auto"
+              delay={2000}
+            >
+              <div />
+            </ContextualTooltip>
+            
+            <ProgressiveDisclosure
+              id="sales-agent-benefits"
+              title="Why Become a Sales Agent?"
+              message="Earn up to 25% commission on business referrals, get access to exclusive marketing materials, and build a sustainable income stream with our growing marketplace."
+              position="bottom"
+              autoShow={true}
+              delay={4000}
+              actionText="Learn Benefits"
+              onDismiss={() => {}}
             />
           </CardContent>
         </Card>

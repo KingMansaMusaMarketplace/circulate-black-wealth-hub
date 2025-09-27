@@ -20,6 +20,8 @@ import {
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
+import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
+import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 
 const SalesAgentDashboardPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -404,6 +406,28 @@ const SalesAgentDashboardPage: React.FC = () => {
             </Card>
           </TabsContent>
         </Tabs>
+        
+        <ContextualTooltip
+          id="dashboard-referral-code"
+          title="Your Referral Code"
+          tip="This is your unique referral code. Share it with businesses and customers to earn commissions when they sign up!"
+          position="top"
+          trigger="auto"
+          delay={3000}
+        >
+          <div />
+        </ContextualTooltip>
+        
+        <ProgressiveDisclosure
+          id="dashboard-earnings-help"
+          title="Maximize Your Earnings"
+          message="Focus on referring businesses for higher commissions (up to 25%), and don't forget about recurring earnings from active subscribers!"
+          position="bottom"
+          autoShow={true}
+          delay={5000}
+          actionText="View Tips"
+          onDismiss={() => {}}
+        />
       </ResponsiveLayout>
     </>
   );
