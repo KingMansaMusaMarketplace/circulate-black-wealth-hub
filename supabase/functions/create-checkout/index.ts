@@ -14,6 +14,17 @@ const logStep = (step: string, details?: any) => {
   console.log(`[CREATE-CHECKOUT] ${step}${detailsStr}`);
 };
 
+// Calculate trial days until January 1, 2026
+const calculateTrialDays = () => {
+  const now = new Date();
+  const jan1_2026 = new Date('2026-01-01T00:00:00Z');
+  const diffTime = jan1_2026.getTime() - now.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  // Ensure minimum 1 day, maximum 365 days for Stripe limits
+  return Math.max(1, Math.min(365, diffDays));
+};
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -112,7 +123,8 @@ serve(async (req) => {
         message: message || ''
       },
       subscription_data: {
-        trial_period_days: userType === 'business' ? 30 : 0, // 30-day trial for business accounts
+        // Calculate days until January 1, 2026
+        trial_period_days: calculateTrialDays(),
       },
     });
     

@@ -49,7 +49,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   premium: {
     displayName: 'Premium Member',
-    description: 'Enhanced features and exclusive access',
+    description: 'Free until Jan 1, 2026, then $4.99/month',
     price: 4.99,
     interval: 'month',
     features: {
@@ -92,7 +92,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   business_starter: {
     displayName: 'Starter Business',
-    description: 'Perfect for new and small businesses',
+    description: 'Free until Jan 1, 2026, then $29/month',
     price: 29,
     interval: 'month',
     features: {
@@ -134,7 +134,7 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   business: {
     displayName: 'Professional Business',
-    description: 'Full business management suite',
+    description: 'Free until Jan 1, 2026, then $100/month',
     price: 100,
     interval: 'month',
     features: {
