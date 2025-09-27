@@ -2,6 +2,7 @@ import React from 'react';
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { sanitizeHtml, validateSafeHTML } from '@/lib/security/content-sanitizer';
 
 interface DocumentPreviewProps {
   isOpen: boolean;
@@ -17,13 +18,10 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({
   content
 }) => {
   const sanitizeAndStyleHtml = (htmlContent: string) => {
-    // Import the secure sanitization function
-    import { sanitizeHtml, validateSafeHTML } from '@/lib/security/content-sanitizer';
-    
     // First validate that the content is safe
     if (!validateSafeHTML(htmlContent)) {
       console.warn('Potentially unsafe HTML content detected and blocked');
-      return '<p className="text-red-500">Content blocked for security reasons</p>';
+      return '<p class="text-red-500">Content blocked for security reasons</p>';
     }
     
     // Sanitize the HTML content
