@@ -173,10 +173,10 @@ const EnhancedSignupForm: React.FC = () => {
                     const IconComponent = plan.icon;
                     return (
                       <Card key={plan.id} className={`relative cursor-pointer transition-all hover:shadow-lg ${
-                        plan.popular ? 'ring-2 ring-mansagold scale-105' : ''
+                        plan.popular ? 'ring-2 ring-mansagold scale-105 mt-8' : 'mt-4'
                       }`}>
                         {plan.popular && (
-                          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
                             <div className="bg-mansagold text-white px-4 py-1 rounded-full text-sm font-medium">
                               Most Popular
                             </div>
@@ -237,10 +237,10 @@ const EnhancedSignupForm: React.FC = () => {
                     const IconComponent = plan.icon;
                     return (
                       <Card key={plan.id} className={`relative cursor-pointer transition-all hover:shadow-lg ${
-                        plan.popular ? 'ring-2 ring-mansagold scale-105' : ''
+                        plan.popular ? 'ring-2 ring-mansagold scale-105 mt-8' : 'mt-4'
                       }`}>
                         {plan.popular && (
-                          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-10">
                             <div className="bg-mansagold text-white px-4 py-1 rounded-full text-sm font-medium">
                               Most Popular
                             </div>
