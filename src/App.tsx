@@ -59,6 +59,7 @@ const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
 const LazyUserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
+const LazyUserSettingsPage = lazy(() => import('@/pages/UserSettingsPage'));
 const LazyBusinessAnalyticsPage = lazy(() => import('@/components/analytics/BusinessAnalyticsDashboard'));
 
 // Remaining imports for compatibility (will be converted to lazy)
@@ -149,10 +150,12 @@ function App() {
                         <Route path="/accessibility" element={<LazyAccessibilityPage />} />
                         
                          {/* Fixed Dashboard route */}
-                         <Route path="/dashboard" element={<LazyUserDashboardPage />} />
-                         <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
-                         <Route path="/my-profile" element={<LazyUserProfilePage />} />
-                         <Route path="/user-profile" element={<LazyUserProfilePage />} />
+                          <Route path="/dashboard" element={<LazyUserDashboardPage />} />
+                          <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
+                          <Route path="/my-profile" element={<LazyUserProfilePage />} />
+                          <Route path="/user-profile" element={<LazyUserProfilePage />} />
+                          <Route path="/settings" element={<LazyUserSettingsPage />} />
+                          <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                          
           <Route path="/business-dashboard" element={<LazyDashboardPage />} />
           <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />

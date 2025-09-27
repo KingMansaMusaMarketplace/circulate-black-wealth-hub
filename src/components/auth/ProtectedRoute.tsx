@@ -22,12 +22,21 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
+  // Enhanced authentication check to prevent loops
   if (requireAuth && !user) {
-    return <Navigate to="/auth" replace />;
+    // Only redirect if we're not already on an auth page
+    const currentPath = window.location.pathname;
+    if (currentPath !== '/auth' && currentPath !== '/login' && currentPath !== '/signup') {
+      return <Navigate to="/auth" replace />;
+    }
   }
 
   if (!requireAuth && user) {
-    return <Navigate to="/" replace />;
+    // Only redirect authenticated users away from auth pages if they're specifically on those pages
+    const currentPath = window.location.pathname;
+    if (currentPath === '/auth' || currentPath === '/login' || currentPath === '/signup') {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return <>{children}</>;
