@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { QRScan } from '@/lib/api/qr-code-api';
 
 export const useLoyaltyHistory = () => {
