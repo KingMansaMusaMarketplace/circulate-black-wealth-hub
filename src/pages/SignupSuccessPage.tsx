@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { CheckCircle, ArrowRight, Info, QrCode, Shield } from 'lucide-react';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import AuthLayout from '@/components/auth/AuthLayout';
 import { Button } from '@/components/ui/button';
 import { subscriptionService } from '@/lib/services/subscription-service';

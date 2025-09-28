@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -71,7 +71,7 @@ interface LiveScanEvent {
 }
 
 const BusinessAnalyticsDashboard: React.FC = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [analytics, setAnalytics] = useState<BusinessAnalytics | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [liveScans, setLiveScans] = useState<LiveScanEvent[]>([]);
@@ -81,10 +81,14 @@ const BusinessAnalyticsDashboard: React.FC = () => {
   const COLORS = ['#d4af37', '#1a1a1a', '#6b7280', '#f59e0b', '#10b981'];
 
   useEffect(() => {
+    if (authLoading) return; // Wait for auth to finish loading
+    
     if (user) {
       fetchBusinessId();
+    } else {
+      setIsLoading(false); // User not authenticated, stop loading
     }
-  }, [user]);
+  }, [user, authLoading]);
 
   useEffect(() => {
     if (businessId) {

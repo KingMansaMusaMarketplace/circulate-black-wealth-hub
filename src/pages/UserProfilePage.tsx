@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -35,7 +35,7 @@ interface UserStats {
 }
 
 export default function UserProfilePage() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [userStats, setUserStats] = useState<UserStats>({
@@ -48,11 +48,15 @@ export default function UserProfilePage() {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
+    if (authLoading) return; // Wait for auth to finish loading
+    
     if (user) {
       fetchUserProfile();
       fetchUserStats();
+    } else {
+      setIsLoading(false); // User not authenticated, stop loading
     }
-  }, [user]);
+  }, [user, authLoading]);
 
   const fetchUserProfile = async () => {
     try {

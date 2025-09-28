@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { toast } from 'sonner';
 
@@ -33,7 +33,7 @@ interface UserPoints {
 }
 
 const RewardsPage = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [rewards, setRewards] = useState<Reward[]>([]);
   const [userPoints, setUserPoints] = useState<UserPoints>({
     totalPoints: 0,
@@ -53,11 +53,15 @@ const RewardsPage = () => {
   ];
 
   useEffect(() => {
+    if (authLoading) return; // Wait for auth to finish loading
+    
     if (user) {
       loadRewards();
       loadUserPoints();
+    } else {
+      setLoading(false); // User not authenticated, stop loading
     }
-  }, [user]);
+  }, [user, authLoading]);
 
   const loadRewards = async () => {
     try {

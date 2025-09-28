@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -32,7 +32,7 @@ const INTEREST_OPTIONS = [
 ];
 
 export const DiscoveryPreferences: React.FC = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { toast } = useToast();
   const [preferences, setPreferences] = useState<DiscoveryPrefs>({
     max_distance: 25,
@@ -45,10 +45,14 @@ export const DiscoveryPreferences: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
+    if (authLoading) return; // Wait for auth to finish loading
+    
     if (user) {
       fetchPreferences();
+    } else {
+      setIsLoading(false); // User not authenticated, stop loading
     }
-  }, [user]);
+  }, [user, authLoading]);
 
   const fetchPreferences = async () => {
     try {

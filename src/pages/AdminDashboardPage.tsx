@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import AdminAnalyticsDashboard from '@/components/admin/AdminAnalyticsDashboard';
 import { Card, CardContent } from '@/components/ui/card';

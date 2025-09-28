@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Shield, AlertTriangle, Users, Lock, Activity, RefreshCw } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface SecurityMetrics {
   failed_auth_attempts_24h: number;
@@ -25,7 +25,7 @@ interface SecurityEvent {
 }
 
 export const SecurityDashboard: React.FC = () => {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [metrics, setMetrics] = useState<SecurityMetrics | null>(null);
   const [events, setEvents] = useState<SecurityEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -76,10 +76,14 @@ export const SecurityDashboard: React.FC = () => {
       setLoading(false);
     };
 
+    if (authLoading) return; // Wait for auth to finish loading
+    
     if (user) {
       loadData();
+    } else {
+      setLoading(false); // User not authenticated, stop loading
     }
-  }, [user]);
+  }, [user, authLoading]);
 
   const getEventSeverity = (action: string): 'default' | 'destructive' | 'secondary' => {
     if (action.includes('failed') || action.includes('unauthorized') || action.includes('exceeded')) {

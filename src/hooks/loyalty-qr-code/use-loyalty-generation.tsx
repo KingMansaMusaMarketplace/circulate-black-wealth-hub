@@ -1,5 +1,5 @@
 
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useQRCode } from '@/hooks/qr-code';
 import { toast } from 'sonner';
 

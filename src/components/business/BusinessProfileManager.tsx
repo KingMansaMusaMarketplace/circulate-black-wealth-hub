@@ -14,7 +14,7 @@ import QRCodeGenerator from './qr-code/QRCodeGenerator';
 import RewardsManager from './rewards/RewardsManager';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { saveBusinessProfile } from '@/lib/api/business-api';
-import { useAuth } from '@/contexts/auth';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 const BusinessProfileManager = () => {

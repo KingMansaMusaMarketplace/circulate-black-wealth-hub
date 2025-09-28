@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { QRCode, QRCodeGenerationParams } from '@/lib/api/qr-code-api';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { generateCustomQrCode } from '@/lib/api/qr-generator';
-import { useAuth } from '@/contexts/auth/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface UseQRCodeGenerationOptions {
   setLoading: (loading: boolean) => void;
