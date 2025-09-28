@@ -50,7 +50,7 @@ interface FavoriteBusiness {
 }
 
 export default function UserDashboardPage() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     totalPoints: 0,
     totalScans: 0,
@@ -65,14 +65,18 @@ export default function UserDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (authLoading) return; // Wait for auth to finish loading
+    
     if (user) {
       Promise.all([
         fetchDashboardStats(),
         fetchRecentActivity(),
         fetchFavoriteBusinesses()
       ]).finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false); // User not authenticated, stop loading
     }
-  }, [user]);
+  }, [user, authLoading]);
 
   const fetchDashboardStats = async () => {
     try {
@@ -218,7 +222,7 @@ export default function UserDashboardPage() {
     return Math.min(Math.max(progress, 0), 100);
   };
 
-  if (isLoading) {
+  if (authLoading || isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
