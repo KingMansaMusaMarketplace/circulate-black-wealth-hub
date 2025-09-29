@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift } from 'lucide-react';
+import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -15,6 +15,7 @@ import RewardsManager from './rewards/RewardsManager';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { saveBusinessProfile } from '@/lib/api/business-api';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAIBusinessDescription } from '@/hooks/use-ai-business-description';
 import { toast } from 'sonner';
 
 const BusinessProfileManager = () => {
@@ -22,6 +23,7 @@ const BusinessProfileManager = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { profile, loading, updateBusinessProfile } = useBusinessProfile();
   const { user } = useAuth();
+  const { generateDescription, isGenerating } = useAIBusinessDescription();
 
   const [formData, setFormData] = useState({
     business_name: profile?.business_name || '',
@@ -56,6 +58,31 @@ const BusinessProfileManager = () => {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleGenerateDescription = async () => {
+    if (!formData.business_name.trim()) {
+      toast.error('Please enter a business name first');
+      return;
+    }
+    
+    if (!formData.category.trim()) {
+      toast.error('Please select a business category first');
+      return;
+    }
+
+    const result = await generateDescription({
+      businessName: formData.business_name,
+      category: formData.category,
+      city: formData.city,
+      state: formData.state,
+      currentDescription: formData.description,
+      businessType: formData.category
+    });
+
+    if (result.success && result.description) {
+      handleInputChange('description', result.description);
+    }
   };
 
   const handleSaveProfile = async () => {
@@ -183,14 +210,36 @@ const BusinessProfileManager = () => {
                 </div>
 
                 <div className="md:col-span-2">
-                  <Label htmlFor="description">Business Description *</Label>
+                  <div className="flex items-center justify-between mb-2">
+                    <Label htmlFor="description">Business Description *</Label>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={handleGenerateDescription}
+                      disabled={isGenerating || !formData.business_name.trim() || !formData.category.trim()}
+                      className="flex items-center gap-2"
+                    >
+                      {isGenerating ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Sparkles className="h-4 w-4" />
+                      )}
+                      {isGenerating ? 'Generating...' : 'AI Generate'}
+                    </Button>
+                  </div>
                   <Textarea
                     id="description"
                     value={formData.description}
                     onChange={(e) => handleInputChange('description', e.target.value)}
-                    placeholder="Describe your business, products, and services"
+                    placeholder="Describe your business, products, and services, or use AI to generate a compelling description"
                     rows={4}
                   />
+                  {!formData.business_name.trim() || !formData.category.trim() ? (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Fill in business name and category to enable AI generation
+                    </p>
+                  ) : null}
                 </div>
 
                 <div>
