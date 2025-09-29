@@ -86,6 +86,7 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ businessId }) => {
       <QRCodeForm 
         onSubmit={handleFormSubmit}
         isLoading={loading}
+        businessId={businessId}
       />
       
       <QRCodePreview 
