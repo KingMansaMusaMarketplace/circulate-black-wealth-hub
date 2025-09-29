@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.generate-business-description]
 verify_jwt = false
+
+[functions.generate-business-insights]
+verify_jwt = false
