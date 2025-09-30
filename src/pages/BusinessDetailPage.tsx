@@ -24,6 +24,8 @@ import { supabase } from '@/integrations/supabase/client';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { BookingForm } from '@/components/booking/BookingForm';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface Business {
   id: string;
@@ -287,34 +289,50 @@ const BusinessDetailPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Main Content */}
             <div className="lg:col-span-2 space-y-6">
-              {/* Description */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>About {business.business_name}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {business.description || 'No description available.'}
-                  </p>
-                </CardContent>
-              </Card>
+              {/* Tabs: About, Book, Reviews */}
+              <Tabs defaultValue="about" className="w-full">
+                <TabsList className="grid w-full grid-cols-3">
+                  <TabsTrigger value="about">About</TabsTrigger>
+                  <TabsTrigger value="book">Book Appointment</TabsTrigger>
+                  <TabsTrigger value="reviews">Reviews ({reviews.length})</TabsTrigger>
+                </TabsList>
 
-              {/* Reviews */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    Reviews ({reviews.length})
-                    {user && (
-                      <Button size="sm">Write a Review</Button>
-                    )}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {reviews.length === 0 ? (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <p>No reviews yet. Be the first to review this business!</p>
-                    </div>
-                  ) : (
+                <TabsContent value="about">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>About {business.business_name}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground leading-relaxed">
+                        {business.description || 'No description available.'}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+
+                <TabsContent value="book">
+                  <BookingForm
+                    businessId={business.id}
+                    businessName={business.business_name}
+                  />
+                </TabsContent>
+
+                <TabsContent value="reviews">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-between">
+                        Reviews ({reviews.length})
+                        {user && (
+                          <Button size="sm">Write a Review</Button>
+                        )}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {reviews.length === 0 ? (
+                        <div className="text-center py-8 text-muted-foreground">
+                          <p>No reviews yet. Be the first to review this business!</p>
+                        </div>
+                      ) : (
                     <div className="space-y-6">
                       {reviews.map((review) => (
                         <div key={review.id}>
@@ -346,6 +364,8 @@ const BusinessDetailPage = () => {
                   )}
                 </CardContent>
               </Card>
+                </TabsContent>
+              </Tabs>
             </div>
 
             {/* Right Column - Contact & Info */}

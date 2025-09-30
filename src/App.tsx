@@ -62,6 +62,7 @@ const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
 const LazyUserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
 const LazyUserSettingsPage = lazy(() => import('@/pages/UserSettingsPage'));
 const LazyBusinessAnalyticsPage = lazy(() => import('@/components/analytics/BusinessAnalyticsDashboard'));
+const LazyCustomerBookingsPage = lazy(() => import('@/pages/CustomerBookingsPage'));
 
 // Remaining imports for compatibility (will be converted to lazy)
 import RewardsPage from './pages/RewardsPage';
@@ -157,6 +158,7 @@ function App() {
                           <Route path="/user-profile" element={<LazyUserProfilePage />} />
                           <Route path="/settings" element={<LazyUserSettingsPage />} />
                           <Route path="/user-settings" element={<LazyUserSettingsPage />} />
+                          <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                          
           <Route path="/business-dashboard" element={<LazyDashboardPage />} />
           <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
