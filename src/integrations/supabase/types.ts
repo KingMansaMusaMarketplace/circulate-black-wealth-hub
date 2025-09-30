@@ -274,6 +274,50 @@ export type Database = {
           },
         ]
       }
+      business_payment_accounts: {
+        Row: {
+          account_status: string
+          business_id: string
+          charges_enabled: boolean | null
+          created_at: string | null
+          id: string
+          payouts_enabled: boolean | null
+          requirements_due: Json | null
+          stripe_account_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          account_status?: string
+          business_id: string
+          charges_enabled?: boolean | null
+          created_at?: string | null
+          id?: string
+          payouts_enabled?: boolean | null
+          requirements_due?: Json | null
+          stripe_account_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          account_status?: string
+          business_id?: string
+          charges_enabled?: boolean | null
+          created_at?: string | null
+          id?: string
+          payouts_enabled?: boolean | null
+          requirements_due?: Json | null
+          stripe_account_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_payment_accounts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_verifications: {
         Row: {
           address_document_url: string | null
@@ -957,6 +1001,81 @@ export type Database = {
           user_agent?: string | null
         }
         Relationships: []
+      }
+      platform_transactions: {
+        Row: {
+          amount_business: number
+          amount_platform_fee: number
+          amount_total: number
+          business_id: string
+          created_at: string | null
+          currency: string | null
+          customer_email: string | null
+          customer_id: string | null
+          customer_name: string | null
+          description: string | null
+          id: string
+          metadata: Json | null
+          platform_fee_percentage: number | null
+          status: string
+          stripe_charge_id: string | null
+          stripe_payment_intent_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          amount_business: number
+          amount_platform_fee: number
+          amount_total: number
+          business_id: string
+          created_at?: string | null
+          currency?: string | null
+          customer_email?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          platform_fee_percentage?: number | null
+          status: string
+          stripe_charge_id?: string | null
+          stripe_payment_intent_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          amount_business?: number
+          amount_platform_fee?: number
+          amount_total?: number
+          business_id?: string
+          created_at?: string | null
+          currency?: string | null
+          customer_email?: string | null
+          customer_id?: string | null
+          customer_name?: string | null
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          platform_fee_percentage?: number | null
+          status?: string
+          stripe_charge_id?: string | null
+          stripe_payment_intent_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       product_images: {
         Row: {
