@@ -29,3 +29,12 @@ verify_jwt = false
 
 [functions.generate-qr-campaign]
 verify_jwt = false
+
+[functions.connect-stripe-account]
+verify_jwt = true
+
+[functions.create-payment-intent]
+verify_jwt = true
+
+[functions.stripe-webhook]
+verify_jwt = false

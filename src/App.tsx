@@ -55,6 +55,7 @@ import {
 // Auth page (new) - import directly since it's not in LazyComponents yet
 const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
+const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -200,6 +201,7 @@ function App() {
                         <Route path="/comprehensive-test" element={<LazyComprehensiveTestPage />} />
                         <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
                         <Route path="/signup-test" element={<LazySignupTestPage />} />
+                        <Route path="/payment-test" element={<LazyPaymentTestPage />} />
                         
                         {/* Catch all route for 404 */}
                         <Route path="*" element={<NotFound />} />
