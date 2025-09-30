@@ -166,6 +166,97 @@ export type Database = {
         }
         Relationships: []
       }
+      bookings: {
+        Row: {
+          amount: number
+          booking_date: string
+          business_amount: number
+          business_id: string
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          created_at: string | null
+          customer_email: string
+          customer_id: string | null
+          customer_name: string
+          customer_phone: string | null
+          duration_minutes: number
+          id: string
+          notes: string | null
+          payment_intent_id: string | null
+          platform_fee: number
+          service_id: string | null
+          status: string | null
+          stripe_charge_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          booking_date: string
+          business_amount: number
+          business_id: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          created_at?: string | null
+          customer_email: string
+          customer_id?: string | null
+          customer_name: string
+          customer_phone?: string | null
+          duration_minutes: number
+          id?: string
+          notes?: string | null
+          payment_intent_id?: string | null
+          platform_fee?: number
+          service_id?: string | null
+          status?: string | null
+          stripe_charge_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          booking_date?: string
+          business_amount?: number
+          business_id?: string
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          created_at?: string | null
+          customer_email?: string
+          customer_id?: string | null
+          customer_name?: string
+          customer_phone?: string | null
+          duration_minutes?: number
+          id?: string
+          notes?: string | null
+          payment_intent_id?: string | null
+          platform_fee?: number
+          service_id?: string | null
+          status?: string | null
+          stripe_charge_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "business_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_access_log: {
         Row: {
           access_type: string
@@ -232,6 +323,44 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "business_analytics_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      business_availability: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          day_of_week: number
+          end_time: string
+          id: string
+          is_available: boolean | null
+          start_time: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          day_of_week: number
+          end_time: string
+          id?: string
+          is_available?: boolean | null
+          start_time: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          day_of_week?: number
+          end_time?: string
+          id?: string
+          is_available?: boolean | null
+          start_time?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_availability_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses"
@@ -313,6 +442,50 @@ export type Database = {
             foreignKeyName: "business_payment_accounts_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      business_services: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          description: string | null
+          duration_minutes: number
+          id: string
+          is_active: boolean | null
+          name: string
+          price: number
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          description?: string | null
+          duration_minutes: number
+          id?: string
+          is_active?: boolean | null
+          name: string
+          price: number
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          description?: string | null
+          duration_minutes?: number
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          price?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_services_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
