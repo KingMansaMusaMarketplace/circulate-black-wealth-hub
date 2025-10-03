@@ -18,7 +18,7 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({
   content
 }) => {
   const sanitizeAndStyleHtml = (htmlContent: string) => {
-    // First validate that the content is safe
+    // Validate that the content is safe
     if (!validateSafeHTML(htmlContent)) {
       console.warn('Potentially unsafe HTML content detected and blocked');
       return '<p class="text-red-500">Content blocked for security reasons</p>';
