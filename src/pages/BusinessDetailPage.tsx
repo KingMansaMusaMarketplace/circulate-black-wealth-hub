@@ -26,6 +26,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { BookingForm } from '@/components/booking/BookingForm';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ReviewForm } from '@/components/reviews/ReviewForm';
+import { ReviewsList } from '@/components/reviews/ReviewsList';
+import { useNavigate } from 'react-router-dom';
 
 interface Business {
   id: string;
@@ -59,6 +62,7 @@ interface Review {
 const BusinessDetailPage = () => {
   const { businessId } = useParams<{ businessId: string }>();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [business, setBusiness] = useState<Business | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
@@ -279,6 +283,15 @@ const BusinessDetailPage = () => {
                     </div>
                   )}
                 </div>
+                
+                {/* Book Now Button */}
+                <Button 
+                  size="lg"
+                  onClick={() => navigate(`/book/${businessId}`)}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  Book Appointment
+                </Button>
               </div>
             </div>
           </div>
@@ -317,53 +330,15 @@ const BusinessDetailPage = () => {
                   />
                 </TabsContent>
 
-                <TabsContent value="reviews">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center justify-between">
-                        Reviews ({reviews.length})
-                        {user && (
-                          <Button size="sm">Write a Review</Button>
-                        )}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      {reviews.length === 0 ? (
-                        <div className="text-center py-8 text-muted-foreground">
-                          <p>No reviews yet. Be the first to review this business!</p>
-                        </div>
-                      ) : (
-                    <div className="space-y-6">
-                      {reviews.map((review) => (
-                        <div key={review.id}>
-                          <div className="flex items-start gap-4">
-                            <Avatar>
-                              <AvatarFallback>
-                                {review.customer_name?.charAt(0).toUpperCase() || 'U'}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="font-medium">{review.customer_name}</span>
-                                <div className="flex items-center gap-1">
-                                  {renderStars(review.rating)}
-                                </div>
-                              </div>
-                              <p className="text-sm text-muted-foreground mb-2">
-                                {new Date(review.created_at).toLocaleDateString()}
-                              </p>
-                              {review.review_text && (
-                                <p className="text-sm">{review.review_text}</p>
-                              )}
-                            </div>
-                          </div>
-                          <Separator className="mt-4" />
-                        </div>
-                      ))}
-                    </div>
+                <TabsContent value="reviews" className="space-y-6">
+                  {user && (
+                    <ReviewForm 
+                      businessId={business.id} 
+                      onSuccess={loadReviews}
+                    />
                   )}
-                </CardContent>
-              </Card>
+                  
+                  <ReviewsList businessId={business.id} />
                 </TabsContent>
               </Tabs>
             </div>

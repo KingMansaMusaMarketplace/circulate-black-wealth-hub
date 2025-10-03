@@ -6,12 +6,14 @@ import { useAuth } from '@/contexts/AuthContext';
 import { DashboardLayout } from '@/components/dashboard';
 import BusinessDashboard from '@/components/business/BusinessDashboard';
 import { Loader2 } from 'lucide-react';
+import { useBusinessProfile } from '@/hooks/use-business-profile';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
+  const { profile, loading: profileLoading } = useBusinessProfile();
 
   // Show loading while auth is initializing
-  if (loading || !authInitialized) {
+  if (loading || !authInitialized || profileLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-mansablue" />
@@ -29,6 +31,17 @@ const BusinessDashboardPage = () => {
     return <Navigate to="/dashboard" replace />;
   }
 
+  if (!profile?.id) {
+    return (
+      <DashboardLayout title="Business Dashboard" icon={null}>
+        <div className="text-center py-12">
+          <p className="text-muted-foreground mb-4">Please complete your business profile first</p>
+          <Navigate to="/business-dashboard" replace />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <>
       <Helmet>
@@ -37,7 +50,7 @@ const BusinessDashboardPage = () => {
       </Helmet>
       
       <DashboardLayout title="Business Dashboard" icon={null}>
-        <BusinessDashboard />
+        <BusinessDashboard businessId={profile.id} />
       </DashboardLayout>
     </>
   );

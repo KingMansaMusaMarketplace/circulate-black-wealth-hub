@@ -1,233 +1,270 @@
-
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { Calendar, DollarSign, TrendingUp, Users, Clock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { BarChart3, Users, QrCode, TrendingUp, Settings, Plus } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import { useBusinessProfile } from '@/hooks/use-business-profile';
-import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
-import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
-import { BUSINESS_CONTEXTUAL_TIPS } from '@/lib/business-onboarding-constants';
+import { supabase } from '@/lib/supabase';
+import { format, startOfMonth, endOfMonth, subMonths, startOfWeek, endOfWeek } from 'date-fns';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
-const BusinessDashboard = () => {
-  const { user } = useAuth();
-  const { profile, loading } = useBusinessProfile();
+interface BusinessDashboardProps {
+  businessId: string;
+}
 
-  const mockData = {
-    totalCustomers: 156,
-    monthlyScans: 342,
-    revenue: 4250,
-    growthRate: 12.5
-  };
+const COLORS = ['#D4AF37', '#10B981', '#3B82F6', '#F59E0B', '#EF4444'];
 
-  if (loading) {
+export default function BusinessDashboard({ businessId }: BusinessDashboardProps) {
+  const { data: stats, isLoading } = useQuery({
+    queryKey: ['business-dashboard-stats', businessId],
+    queryFn: async () => {
+      const now = new Date();
+      const thisMonthStart = startOfMonth(now);
+      const thisMonthEnd = endOfMonth(now);
+      const lastMonthStart = startOfMonth(subMonths(now, 1));
+      const lastMonthEnd = endOfMonth(subMonths(now, 1));
+      const thisWeekStart = startOfWeek(now);
+      const thisWeekEnd = endOfWeek(now);
+
+      // Get this month's bookings
+      const { data: thisMonthBookings, error: thisMonthError } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('business_id', businessId)
+        .gte('booking_date', thisMonthStart.toISOString())
+        .lte('booking_date', thisMonthEnd.toISOString());
+
+      if (thisMonthError) throw thisMonthError;
+
+      // Get last month's bookings
+      const { data: lastMonthBookings, error: lastMonthError } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('business_id', businessId)
+        .gte('booking_date', lastMonthStart.toISOString())
+        .lte('booking_date', lastMonthEnd.toISOString());
+
+      if (lastMonthError) throw lastMonthError;
+
+      // Get this week's bookings
+      const { data: thisWeekBookings, error: thisWeekError } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('business_id', businessId)
+        .gte('booking_date', thisWeekStart.toISOString())
+        .lte('booking_date', thisWeekEnd.toISOString());
+
+      if (thisWeekError) throw thisWeekError;
+
+      // Get popular services
+      const { data: servicesData, error: servicesError } = await supabase
+        .from('bookings')
+        .select('service_id, business_services!service_id(name)')
+        .eq('business_id', businessId)
+        .gte('booking_date', thisMonthStart.toISOString());
+
+      if (servicesError) throw servicesError;
+
+      // Count bookings by service
+      const serviceCounts: Record<string, number> = {};
+      servicesData?.forEach((booking: any) => {
+        const serviceName = booking.business_services?.name || 'Unknown';
+        serviceCounts[serviceName] = (serviceCounts[serviceName] || 0) + 1;
+      });
+
+      const popularServices = Object.entries(serviceCounts)
+        .map(([name, value]) => ({ name, value }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 5);
+
+      // Calculate stats
+      const thisMonthRevenue = thisMonthBookings?.reduce((sum, b) => sum + Number(b.business_amount), 0) || 0;
+      const lastMonthRevenue = lastMonthBookings?.reduce((sum, b) => sum + Number(b.business_amount), 0) || 0;
+      const revenueGrowth = lastMonthRevenue > 0 
+        ? ((thisMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100 
+        : 0;
+
+      const thisMonthCount = thisMonthBookings?.length || 0;
+      const lastMonthCount = lastMonthBookings?.length || 0;
+      const bookingGrowth = lastMonthCount > 0 
+        ? ((thisMonthCount - lastMonthCount) / lastMonthCount) * 100 
+        : 0;
+
+      // Get unique customers this month
+      const uniqueCustomers = new Set(thisMonthBookings?.map(b => b.customer_id)).size;
+
+      // Count bookings by status
+      const statusCounts: Record<string, number> = {};
+      thisMonthBookings?.forEach(booking => {
+        statusCounts[booking.status] = (statusCounts[booking.status] || 0) + 1;
+      });
+
+      const bookingsByStatus = Object.entries(statusCounts)
+        .map(([name, value]) => ({ name, value }));
+
+      // Get daily bookings for the week
+      const dailyBookings = Array.from({ length: 7 }, (_, i) => {
+        const date = new Date(thisWeekStart);
+        date.setDate(date.getDate() + i);
+        const count = thisWeekBookings?.filter(b => 
+          format(new Date(b.booking_date), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+        ).length || 0;
+        return {
+          day: format(date, 'EEE'),
+          bookings: count
+        };
+      });
+
+      return {
+        thisMonthRevenue,
+        revenueGrowth,
+        thisMonthCount,
+        bookingGrowth,
+        uniqueCustomers,
+        popularServices,
+        bookingsByStatus,
+        dailyBookings,
+        thisWeekCount: thisWeekBookings?.length || 0
+      };
+    },
+  });
+
+  if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mansablue"></div>
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <ProgressiveDisclosure
-        id="business-dashboard-welcome"
-        title="Welcome to Your Business Dashboard!"
-        message="This is your command center for managing your business on Mansa Musa Marketplace. Track customers, monitor QR code scans, and grow your reach in the community."
-        autoShow={!profile}
-        position="top"
-        actionText="Let's Get Started!"
-      />
-      
-      {/* Welcome Section */}
-      <ContextualTooltip
-        id="business-dashboard-overview"
-        title={BUSINESS_CONTEXTUAL_TIPS['business-dashboard'].title}
-        tip={BUSINESS_CONTEXTUAL_TIPS['business-dashboard'].tip}
-        trigger="auto"
-        delay={2000}
-      >
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-mansablue mb-2">
-            Welcome back, {profile?.business_name || user?.user_metadata?.fullName || 'Business Owner'}
-          </h1>
-          <p className="text-gray-600">
-            Manage your business and track your performance
-          </p>
-        </div>
-      </ContextualTooltip>
-
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <ContextualTooltip
-          id="business-profile-management"
-          title={BUSINESS_CONTEXTUAL_TIPS['business-profile'].title}
-          tip={BUSINESS_CONTEXTUAL_TIPS['business-profile'].tip}
-          trigger="hover"
-        >
-          <Link to="/business/profile">
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-              <CardContent className="p-4 text-center">
-                <Settings className="h-8 w-8 mx-auto mb-2 text-mansablue" />
-                <h3 className="font-medium">Manage Profile</h3>
-                <p className="text-sm text-gray-500">Update business info</p>
-              </CardContent>
-            </Card>
-          </Link>
-        </ContextualTooltip>
-
-        <ContextualTooltip
-          id="qr-code-management"
-          title={BUSINESS_CONTEXTUAL_TIPS['qr-code-creation'].title}
-          tip={BUSINESS_CONTEXTUAL_TIPS['qr-code-creation'].tip}
-          trigger="hover"
-        >
-          <Link to="/business/qr-codes">
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-              <CardContent className="p-4 text-center">
-                <QrCode className="h-8 w-8 mx-auto mb-2 text-mansablue" />
-                <h3 className="font-medium">QR Codes</h3>
-                <p className="text-sm text-gray-500">Generate & manage</p>
-              </CardContent>
-            </Card>
-          </Link>
-        </ContextualTooltip>
-
-        <Link to="/loyalty">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-            <CardContent className="p-4 text-center">
-              <TrendingUp className="h-8 w-8 mx-auto mb-2 text-mansablue" />
-              <h3 className="font-medium">Loyalty System</h3>
-              <p className="text-sm text-gray-500">View customer points</p>
-            </CardContent>
-          </Card>
-        </Link>
-
-        <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-          <CardContent className="p-4 text-center">
-            <Plus className="h-8 w-8 mx-auto mb-2 text-mansagold" />
-            <h3 className="font-medium">Add Feature</h3>
-            <p className="text-sm text-gray-500">Coming soon</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Analytics Cards */}
-      <ContextualTooltip
-        id="business-analytics-overview"
-        title={BUSINESS_CONTEXTUAL_TIPS['analytics-overview'].title}
-        tip={BUSINESS_CONTEXTUAL_TIPS['analytics-overview'].tip}
-        trigger="auto"
-        delay={3000}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
+            <CardTitle className="text-sm font-medium">This Month Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">${stats?.thisMonthRevenue.toFixed(2)}</div>
+            <p className={`text-xs ${stats?.revenueGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {stats?.revenueGrowth >= 0 ? '+' : ''}{stats?.revenueGrowth.toFixed(1)}% from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">This Month Bookings</CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats?.thisMonthCount}</div>
+            <p className={`text-xs ${stats?.bookingGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {stats?.bookingGrowth >= 0 ? '+' : ''}{stats?.bookingGrowth.toFixed(1)}% from last month
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">This Week</CardTitle>
+            <Clock className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats?.thisWeekCount}</div>
+            <p className="text-xs text-muted-foreground">bookings this week</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Unique Customers</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{mockData.totalCustomers}</div>
-            <p className="text-xs text-muted-foreground">
-              +20% from last month
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">QR Scans</CardTitle>
-            <QrCode className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{mockData.monthlyScans}</div>
-            <p className="text-xs text-muted-foreground">
-              +15% from last month
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Revenue</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">${mockData.revenue}</div>
-            <p className="text-xs text-muted-foreground">
-              +{mockData.growthRate}% from last month
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Growth Rate</CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{mockData.growthRate}%</div>
-            <p className="text-xs text-muted-foreground">
-              Monthly growth
-            </p>
+            <div className="text-2xl font-bold">{stats?.uniqueCustomers}</div>
+            <p className="text-xs text-muted-foreground">this month</p>
           </CardContent>
         </Card>
       </div>
-      </ContextualTooltip>
 
-      {/* Recent Activity */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Weekly Bookings</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={stats?.dailyBookings}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="day" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="bookings" fill="#D4AF37" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Bookings by Status</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={stats?.bookingsByStatus}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={(entry) => `${entry.name}: ${entry.value}`}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {stats?.bookingsByStatus.map((entry: any, index: number) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+
       <Card>
         <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
+          <CardTitle>Popular Services</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <QrCode className="h-4 w-4 text-mansablue" />
-                <span className="text-sm">Customer scanned loyalty QR</span>
+            {stats?.popularServices.map((service: any, index: number) => (
+              <div key={service.name} className="flex items-center">
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-medium">{service.name}</span>
+                    <span className="text-sm text-muted-foreground">{service.value} bookings</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div
+                      className="h-2 rounded-full"
+                      style={{
+                        width: `${(service.value / Math.max(...stats.popularServices.map((s: any) => s.value))) * 100}%`,
+                        backgroundColor: COLORS[index % COLORS.length]
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
-              <span className="text-xs text-muted-foreground">2 minutes ago</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <Users className="h-4 w-4 text-mansagold" />
-                <span className="text-sm">New customer registration</span>
+            ))}
+            {stats?.popularServices.length === 0 && (
+              <div className="text-center text-muted-foreground py-4">
+                No service data available yet
               </div>
-              <span className="text-xs text-muted-foreground">15 minutes ago</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <TrendingUp className="h-4 w-4 text-green-500" />
-                <span className="text-sm">Profile view milestone reached</span>
-              </div>
-              <span className="text-xs text-muted-foreground">1 hour ago</span>
-            </div>
+            )}
           </div>
         </CardContent>
       </Card>
-
-      {/* Business Profile Status */}
-      {!profile && (
-        <Card className="border-orange-200 bg-orange-50">
-          <CardHeader>
-            <CardTitle className="text-orange-800">Complete Your Business Profile</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-orange-700 mb-4">
-              Complete your business profile to unlock all features and improve your visibility.
-            </p>
-            <Link to="/business/profile">
-              <Button className="bg-orange-600 hover:bg-orange-700 text-white">
-                Complete Profile
-              </Button>
-            </Link>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
-};
-
-export default BusinessDashboard;
+}
