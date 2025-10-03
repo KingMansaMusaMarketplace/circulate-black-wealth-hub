@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { App } from '@capacitor/app';
-import { StatusBar } from '@capacitor/status-bar';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { usePushNotifications } from '@/hooks/use-push-notifications';
 import { useOfflineSupport } from '@/hooks/use-offline-support';
 import { useCapacitor } from '@/hooks/use-capacitor';
+import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
+import { useAppLifecycle } from '@/hooks/use-app-lifecycle';
+import { useBackgroundLocation } from '@/hooks/use-background-location';
 import { Geolocation } from '@capacitor/geolocation';
 import { toast } from 'sonner';
 
@@ -16,6 +19,9 @@ export const NativeFeatures: React.FC<NativeFeaturesProps> = ({ children }) => {
   const { sendWelcomeNotification, showLocalNotification } = usePushNotifications();
   const { isOnline, offlineQueue } = useOfflineSupport();
   const { isCapacitor, platform, isNative } = useCapacitor();
+  const haptics = useHapticFeedback();
+  const { appState } = useAppLifecycle();
+  const { isTracking: isLocationTracking } = useBackgroundLocation();
 
   useEffect(() => {
     if (Capacitor.isNativePlatform()) {
@@ -25,10 +31,13 @@ export const NativeFeatures: React.FC<NativeFeaturesProps> = ({ children }) => {
 
   const initializeNativeFeatures = async () => {
     try {
-      // Enhanced status bar configuration
-      await StatusBar.setStyle({ style: 'Dark' as any });
+      // Enhanced status bar configuration with proper typing
+      await StatusBar.setStyle({ style: Style.Dark });
       await StatusBar.setBackgroundColor({ color: '#1B365D' });
       await StatusBar.setOverlaysWebView({ overlay: false });
+      
+      // Add haptic feedback for app launch
+      haptics.light();
 
       // Enhanced app state management
       App.addListener('appStateChange', ({ isActive }) => {
@@ -128,12 +137,26 @@ export const NativeFeatures: React.FC<NativeFeaturesProps> = ({ children }) => {
     <>
       {children}
       
-      {/* Native Status Indicators - Only show offline status */}
-      {isCapacitor && !isOnline && (
-        <div className="fixed top-0 right-0 p-2 z-50">
-          <div className="bg-orange-500 text-white px-2 py-1 rounded text-xs">
-            Offline {offlineQueue > 0 && `(${offlineQueue} queued)`}
-          </div>
+      {/* Native Status Indicators */}
+      {isCapacitor && (
+        <div className="fixed top-0 right-0 p-2 z-50 flex flex-col gap-1">
+          {!isOnline && (
+            <div className="bg-orange-500 text-white px-2 py-1 rounded text-xs flex items-center gap-1">
+              <span className="animate-pulse">●</span>
+              Offline {offlineQueue > 0 && `(${offlineQueue} queued)`}
+            </div>
+          )}
+          {isLocationTracking && (
+            <div className="bg-blue-500 text-white px-2 py-1 rounded text-xs flex items-center gap-1">
+              <span className="animate-pulse">📍</span>
+              Location Active
+            </div>
+          )}
+          {appState === 'background' && (
+            <div className="bg-gray-500 text-white px-2 py-1 rounded text-xs">
+              Background
+            </div>
+          )}
         </div>
       )}
     </>
