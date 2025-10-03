@@ -1,47 +1,70 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import type { BusinessLocation, ParentBusinessAnalytics } from '@/types/multi-location';
 
-export function useMultiLocation(businessId: string | null) {
+export interface BusinessLocation {
+  id: string;
+  business_name: string;
+  location_name: string | null;
+  city: string | null;
+  state: string | null;
+  location_manager_id: string | null;
+  is_verified: boolean;
+  created_at: string;
+}
+
+export interface ParentBusinessAnalytics {
+  total_locations: number;
+  total_transactions: number;
+  total_revenue: number;
+  total_customers: number;
+  total_qr_scans: number;
+  locations_breakdown: Array<{
+    location_id: string;
+    location_name: string;
+    city: string;
+    transaction_count: number;
+    revenue: number;
+  }>;
+}
+
+export function useMultiLocation(businessId: string) {
   const [locations, setLocations] = useState<BusinessLocation[]>([]);
   const [analytics, setAnalytics] = useState<ParentBusinessAnalytics | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const fetchLocations = async () => {
+  useEffect(() => {
     if (!businessId) return;
     
-    setLoading(true);
+    fetchLocations();
+    fetchAnalytics();
+  }, [businessId]);
+
+  const fetchLocations = async () => {
     try {
       const { data, error } = await supabase
         .rpc('get_business_locations', { p_parent_business_id: businessId });
 
       if (error) throw error;
       setLocations(data || []);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error fetching locations:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load business locations',
-        variant: 'destructive',
-      });
-    } finally {
-      setLoading(false);
     }
   };
 
-  const fetchParentAnalytics = async () => {
-    if (!businessId) return;
-    
+  const fetchAnalytics = async () => {
     try {
+      setLoading(true);
       const { data, error } = await supabase
         .rpc('get_parent_business_analytics', { p_parent_business_id: businessId });
 
       if (error) throw error;
       setAnalytics(data);
-    } catch (error: any) {
-      console.error('Error fetching parent analytics:', error);
+    } catch (error) {
+      console.error('Error fetching analytics:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,41 +74,37 @@ export function useMultiLocation(businessId: string | null) {
     city?: string;
     state?: string;
     address?: string;
-    email?: string;
     phone?: string;
   }) => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const { data: profile } = await supabase.auth.getUser();
+      if (!profile.user) throw new Error('Not authenticated');
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('businesses')
         .insert({
           ...locationData,
           parent_business_id: businessId,
           location_type: 'location',
-          owner_id: user.id,
-        })
-        .select()
-        .single();
+          owner_id: profile.user.id,
+        });
 
       if (error) throw error;
 
       toast({
         title: 'Success',
-        description: 'Location created successfully',
+        description: 'Location added successfully',
       });
 
-      fetchLocations();
-      return data;
+      await fetchLocations();
+      await fetchAnalytics();
     } catch (error: any) {
-      console.error('Error creating location:', error);
+      console.error('Error adding location:', error);
       toast({
         title: 'Error',
-        description: error.message || 'Failed to create location',
+        description: error.message || 'Failed to add location',
         variant: 'destructive',
       });
-      throw error;
     }
   };
 
@@ -103,20 +122,18 @@ export function useMultiLocation(businessId: string | null) {
         description: 'Location updated successfully',
       });
 
-      fetchLocations();
+      await fetchLocations();
     } catch (error: any) {
       console.error('Error updating location:', error);
       toast({
         title: 'Error',
-        description: 'Failed to update location',
+        description: error.message || 'Failed to update location',
         variant: 'destructive',
       });
     }
   };
 
   const convertToParent = async () => {
-    if (!businessId) return;
-
     try {
       const { error } = await supabase
         .from('businesses')
@@ -127,24 +144,17 @@ export function useMultiLocation(businessId: string | null) {
 
       toast({
         title: 'Success',
-        description: 'Business converted to parent location',
+        description: 'Business converted to parent account',
       });
     } catch (error: any) {
       console.error('Error converting to parent:', error);
       toast({
         title: 'Error',
-        description: 'Failed to convert business',
+        description: error.message || 'Failed to convert to parent account',
         variant: 'destructive',
       });
     }
   };
-
-  useEffect(() => {
-    if (businessId) {
-      fetchLocations();
-      fetchParentAnalytics();
-    }
-  }, [businessId]);
 
   return {
     locations,
@@ -153,6 +163,9 @@ export function useMultiLocation(businessId: string | null) {
     createLocation,
     updateLocation,
     convertToParent,
-    refetch: fetchLocations,
+    refetch: () => {
+      fetchLocations();
+      fetchAnalytics();
+    },
   };
 }

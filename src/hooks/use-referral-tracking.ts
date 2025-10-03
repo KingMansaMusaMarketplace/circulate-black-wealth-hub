@@ -1,125 +1,150 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import type { EnhancedSalesAgent, ReferralClick } from '@/types/multi-location';
 
-export function useReferralTracking(userId: string | null) {
-  const [agent, setAgent] = useState<EnhancedSalesAgent | null>(null);
-  const [clicks, setClicks] = useState<ReferralClick[]>([]);
-  const [loading, setLoading] = useState(false);
+export interface AgentTier {
+  tier: 'bronze' | 'silver' | 'gold' | 'platinum';
+  commission_rate: number;
+  lifetime_referrals: number;
+  monthly_referrals: number;
+}
+
+export interface ReferralClick {
+  id: string;
+  clicked_at: string;
+  converted: boolean;
+  converted_user_id: string | null;
+  ip_address: string | null;
+}
+
+export function useReferralTracking(salesAgentId?: string) {
+  const [agentTier, setAgentTier] = useState<AgentTier | null>(null);
+  const [referralClicks, setReferralClicks] = useState<ReferralClick[]>([]);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-  const fetchAgentData = async () => {
-    if (!userId) return;
+  useEffect(() => {
+    if (!salesAgentId) return;
+    
+    fetchAgentTier();
+    fetchReferralClicks();
+  }, [salesAgentId]);
 
-    setLoading(true);
+  const fetchAgentTier = async () => {
     try {
       const { data, error } = await supabase
         .from('sales_agents')
-        .select('*')
-        .eq('user_id', userId)
+        .select('tier, commission_rate, lifetime_referrals, monthly_referrals')
+        .eq('id', salesAgentId)
         .single();
 
       if (error) throw error;
-      setAgent(data);
-    } catch (error: any) {
-      console.error('Error fetching agent data:', error);
+      setAgentTier(data);
+    } catch (error) {
+      console.error('Error fetching agent tier:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const fetchReferralClicks = async () => {
-    if (!agent?.id) return;
-
     try {
       const { data, error } = await supabase
         .from('referral_clicks')
         .select('*')
-        .eq('sales_agent_id', agent.id)
-        .order('clicked_at', { ascending: false });
+        .eq('sales_agent_id', salesAgentId)
+        .order('clicked_at', { ascending: false })
+        .limit(100);
 
       if (error) throw error;
-      setClicks(data || []);
-    } catch (error: any) {
+      setReferralClicks(data || []);
+    } catch (error) {
       console.error('Error fetching referral clicks:', error);
     }
   };
 
-  const trackReferralClick = async (referralCode: string) => {
+  const trackReferralClick = async (referralCode: string, ipAddress?: string, userAgent?: string) => {
     try {
-      // Get agent by referral code
-      const { data: agentData, error: agentError } = await supabase
+      const { data: agent } = await supabase
         .from('sales_agents')
         .select('id')
         .eq('referral_code', referralCode)
-        .eq('is_active', true)
         .single();
 
-      if (agentError || !agentData) {
-        console.error('Invalid referral code');
-        return;
-      }
+      if (!agent) return;
 
-      // Track the click
       const { error } = await supabase
         .from('referral_clicks')
         .insert({
-          sales_agent_id: agentData.id,
+          sales_agent_id: agent.id,
           referral_code: referralCode,
-          user_agent: navigator.userAgent,
+          ip_address: ipAddress,
+          user_agent: userAgent,
         });
 
       if (error) throw error;
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error tracking referral click:', error);
     }
   };
 
-  const getConversionRate = () => {
-    if (clicks.length === 0) return 0;
-    const converted = clicks.filter(c => c.converted).length;
-    return ((converted / clicks.length) * 100).toFixed(2);
-  };
+  const convertReferral = async (clickId: string, userId: string) => {
+    try {
+      const { error } = await supabase
+        .from('referral_clicks')
+        .update({
+          converted: true,
+          converted_user_id: userId,
+        })
+        .eq('id', clickId);
 
-  const getTierProgress = () => {
-    if (!agent) return { current: 0, next: 20, percentage: 0, nextTier: 'silver' };
+      if (error) throw error;
 
-    const thresholds = {
-      bronze: { next: 20, nextTier: 'silver' },
-      silver: { next: 50, nextTier: 'gold' },
-      gold: { next: 100, nextTier: 'platinum' },
-      platinum: { next: 100, nextTier: 'platinum' },
-    };
+      toast({
+        title: 'Success',
+        description: 'Referral converted successfully',
+      });
 
-    const tierInfo = thresholds[agent.tier];
-    const percentage = (agent.lifetime_referrals / tierInfo.next) * 100;
-
-    return {
-      current: agent.lifetime_referrals,
-      next: tierInfo.next,
-      percentage: Math.min(percentage, 100),
-      nextTier: tierInfo.nextTier,
-    };
-  };
-
-  useEffect(() => {
-    fetchAgentData();
-  }, [userId]);
-
-  useEffect(() => {
-    if (agent) {
-      fetchReferralClicks();
+      await fetchReferralClicks();
+    } catch (error: any) {
+      console.error('Error converting referral:', error);
+      toast({
+        title: 'Error',
+        description: error.message || 'Failed to convert referral',
+        variant: 'destructive',
+      });
     }
-  }, [agent]);
+  };
+
+  const getTierBadgeColor = (tier: string) => {
+    switch (tier) {
+      case 'platinum': return 'bg-purple-600';
+      case 'gold': return 'bg-yellow-500';
+      case 'silver': return 'bg-gray-400';
+      default: return 'bg-orange-600';
+    }
+  };
+
+  const getTierRequirements = (tier: string) => {
+    switch (tier) {
+      case 'platinum': return { min: 100, rate: 15.0 };
+      case 'gold': return { min: 50, rate: 12.5 };
+      case 'silver': return { min: 20, rate: 11.0 };
+      default: return { min: 0, rate: 10.0 };
+    }
+  };
 
   return {
-    agent,
-    clicks,
+    agentTier,
+    referralClicks,
     loading,
     trackReferralClick,
-    getConversionRate,
-    getTierProgress,
-    refetch: fetchAgentData,
+    convertReferral,
+    getTierBadgeColor,
+    getTierRequirements,
+    refetch: () => {
+      fetchAgentTier();
+      fetchReferralClicks();
+    },
   };
 }
