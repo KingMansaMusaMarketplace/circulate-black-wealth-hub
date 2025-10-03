@@ -4,8 +4,10 @@ import { Tabs, TabsContent } from '@/components/ui/tabs';
 import SmartBusinessRecommendations from '@/components/discovery/SmartBusinessRecommendations';
 import BusinessGridView from './BusinessGridView';
 import BusinessListView from './BusinessListView';
-import MapView from '@/components/MapView';
 import { Business } from '@/types/business';
+
+// Lazy load MapView for better code splitting
+const MapView = React.lazy(() => import('@/components/MapView'));
 
 interface DesktopContentRendererProps {
   viewMode: 'recommendations' | 'grid' | 'list' | 'map';
@@ -69,10 +71,19 @@ const DesktopContentRenderer: React.FC<DesktopContentRendererProps> = ({
       
       <TabsContent value="map" className="mt-0">
         <div className="h-[600px] rounded-lg overflow-hidden">
-          <MapView 
-            businesses={mapData} 
-            onSelectBusiness={onSelectBusiness}
-          />
+          <React.Suspense fallback={
+            <div className="flex items-center justify-center h-full bg-muted">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                <p className="text-sm text-muted-foreground">Loading map...</p>
+              </div>
+            </div>
+          }>
+            <MapView 
+              businesses={mapData} 
+              onSelectBusiness={onSelectBusiness}
+            />
+          </React.Suspense>
         </div>
       </TabsContent>
     </Tabs>

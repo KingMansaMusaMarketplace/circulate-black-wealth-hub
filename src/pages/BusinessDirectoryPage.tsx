@@ -4,9 +4,11 @@ import { Helmet } from 'react-helmet';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer';
 import DirectoryFilter from '@/components/DirectoryFilter';
-import MapView from '@/components/MapView';
 import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
+
+// Lazy load MapView for better code splitting
+const MapView = React.lazy(() => import('@/components/MapView'));
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, MapPin, ListFilter, Grid3X3, List } from 'lucide-react';
@@ -128,7 +130,16 @@ const BusinessDirectoryPage: React.FC = () => {
                 </TabsContent>
                 <TabsContent value="map" className="mt-0">
                   <div className="h-[600px] rounded-lg overflow-hidden">
-                    <MapView businesses={mapViewBusinesses} />
+                    <React.Suspense fallback={
+                      <div className="flex items-center justify-center h-full bg-muted">
+                        <div className="text-center">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                          <p className="text-sm text-muted-foreground">Loading map...</p>
+                        </div>
+                      </div>
+                    }>
+                      <MapView businesses={mapViewBusinesses} />
+                    </React.Suspense>
                   </div>
                 </TabsContent>
               </Tabs>

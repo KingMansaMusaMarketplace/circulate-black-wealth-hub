@@ -24,35 +24,84 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         // Manual chunk splitting for better caching
-        manualChunks: {
+        manualChunks: (id) => {
           // Vendor chunks
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-ui': ['@radix-ui/react-dialog', '@radix-ui/react-popover', '@radix-ui/react-select'],
-          'vendor-query': ['@tanstack/react-query'],
-          'vendor-supabase': ['@supabase/supabase-js'],
+          if (id.includes('node_modules')) {
+            // React ecosystem
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+              return 'vendor-react';
+            }
+            // Radix UI components
+            if (id.includes('@radix-ui')) {
+              return 'vendor-ui';
+            }
+            // React Query
+            if (id.includes('@tanstack/react-query')) {
+              return 'vendor-query';
+            }
+            // Supabase
+            if (id.includes('@supabase')) {
+              return 'vendor-supabase';
+            }
+            // Mapbox - split separately from directory pages
+            if (id.includes('mapbox-gl')) {
+              return 'vendor-mapbox';
+            }
+            // Charts
+            if (id.includes('recharts')) {
+              return 'charts';
+            }
+            // QR Code libraries
+            if (id.includes('html5-qrcode') || id.includes('qrcode')) {
+              return 'qr-code';
+            }
+            // Animations
+            if (id.includes('framer-motion')) {
+              return 'animations';
+            }
+            // PDF generation
+            if (id.includes('html2pdf') || id.includes('jspdf')) {
+              return 'pdf-generation';
+            }
+            // Date utilities
+            if (id.includes('date-fns')) {
+              return 'utils-date';
+            }
+            // File handling
+            if (id.includes('file-saver')) {
+              return 'utils-file';
+            }
+          }
           
-          // Feature chunks
-          'auth-pages': [
-            './src/pages/LoginPage.tsx',
-            './src/pages/SignupPage.tsx',
-            './src/pages/AuthPage.tsx'
-          ],
-          'dashboard-pages': [
-            './src/pages/DashboardPage.tsx',
-            './src/pages/BusinessDashboardPage.tsx',
-            './src/pages/ProfilePage.tsx'
-          ],
-          'directory-pages': [
-            './src/pages/DirectoryPage.tsx',
-            './src/pages/EnhancedDirectoryPage.tsx',
-            './src/pages/BusinessDetailPage.tsx'
-          ],
+          // Split directory pages individually instead of bundling together
+          if (id.includes('src/pages/DirectoryPage.tsx')) {
+            return 'page-directory-basic';
+          }
+          if (id.includes('src/pages/EnhancedDirectoryPage.tsx')) {
+            return 'page-directory-enhanced';
+          }
+          if (id.includes('src/pages/BusinessDetailPage.tsx')) {
+            return 'page-business-detail';
+          }
           
-          // Heavy components
-          'charts': ['recharts'],
-          'qr-code': ['html5-qrcode', 'qrcode'],
-          'animations': ['framer-motion'],
-          'utils': ['date-fns', 'file-saver']
+          // Auth pages
+          if (id.includes('src/pages/LoginPage.tsx') || 
+              id.includes('src/pages/SignupPage.tsx') || 
+              id.includes('src/pages/AuthPage.tsx')) {
+            return 'auth-pages';
+          }
+          
+          // Dashboard pages
+          if (id.includes('src/pages/DashboardPage.tsx') || 
+              id.includes('src/pages/BusinessDashboardPage.tsx') || 
+              id.includes('src/pages/ProfilePage.tsx')) {
+            return 'dashboard-pages';
+          }
+          
+          // Map components - lazy load these
+          if (id.includes('src/components/MapView')) {
+            return 'component-map';
+          }
         },
         // Optimize chunk file names
         chunkFileNames: (chunkInfo) => {

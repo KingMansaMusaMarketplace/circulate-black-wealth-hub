@@ -1,9 +1,11 @@
 
 import React from 'react';
 import SmartBusinessRecommendations from '@/components/discovery/SmartBusinessRecommendations';
-import MapView from '@/components/MapView';
 import MobileBusinessCard from './MobileBusinessCard';
 import { Business } from '@/types/business';
+
+// Lazy load MapView for better code splitting
+const MapView = React.lazy(() => import('@/components/MapView'));
 
 interface MobileContentRendererProps {
   viewMode: 'recommendations' | 'grid' | 'list' | 'map';
@@ -44,10 +46,19 @@ const MobileContentRenderer: React.FC<MobileContentRendererProps> = ({
       
       {viewMode === 'map' && (
         <div className="h-[60vh] mx-4 rounded-lg overflow-hidden">
-          <MapView 
-            businesses={mapData} 
-            onSelectBusiness={onSelectBusiness}
-          />
+          <React.Suspense fallback={
+            <div className="flex items-center justify-center h-full bg-muted">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                <p className="text-sm text-muted-foreground">Loading map...</p>
+              </div>
+            </div>
+          }>
+            <MapView 
+              businesses={mapData} 
+              onSelectBusiness={onSelectBusiness}
+            />
+          </React.Suspense>
         </div>
       )}
       

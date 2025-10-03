@@ -19,8 +19,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, MapPin, ListFilter, Grid3X3, List } from 'lucide-react';
 import DirectoryFilter from '@/components/DirectoryFilter';
-import MapView from '@/components/MapView';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+// Lazy load MapView for better code splitting
+const MapView = React.lazy(() => import('@/components/MapView'));
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
 import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
@@ -205,7 +207,16 @@ const DirectoryPage: React.FC = () => {
                         delay={2000}
                       >
                         <div className="h-[600px] rounded-lg overflow-hidden">
-                          <MapView businesses={mapData || []} />
+                          <React.Suspense fallback={
+                            <div className="flex items-center justify-center h-full bg-muted">
+                              <div className="text-center">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                                <p className="text-sm text-muted-foreground">Loading map...</p>
+                              </div>
+                            </div>
+                          }>
+                            <MapView businesses={mapData || []} />
+                          </React.Suspense>
                         </div>
                       </ContextualTooltip>
                     </TabsContent>
