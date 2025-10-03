@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles } from 'lucide-react';
+import { FileText, Image, BarChart3, QrCode, Settings, Shield, Loader2, Gift, Sparkles, Calendar } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -12,6 +12,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import BusinessAnalyticsDashboard from './analytics/BusinessAnalyticsDashboard';
 import QRCodeGenerator from './qr-code/QRCodeGenerator';
 import RewardsManager from './rewards/RewardsManager';
+import { BusinessServicesContent } from './business-settings';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { saveBusinessProfile } from '@/lib/api/business-api';
 import { useAuth } from '@/contexts/AuthContext';
@@ -134,7 +135,7 @@ const BusinessProfileManager = () => {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-8">
           <TabsTrigger value="details" className="flex items-center gap-2">
             <FileText size={16} />
             Details
@@ -142,6 +143,10 @@ const BusinessProfileManager = () => {
           <TabsTrigger value="images" className="flex items-center gap-2">
             <Image size={16} />
             Images
+          </TabsTrigger>
+          <TabsTrigger value="services" className="flex items-center gap-2">
+            <Calendar size={16} />
+            Services
           </TabsTrigger>
           <TabsTrigger value="analytics" className="flex items-center gap-2">
             <BarChart3 size={16} />
@@ -354,6 +359,10 @@ const BusinessProfileManager = () => {
               </div>
             </div>
           </div>
+        </TabsContent>
+
+        <TabsContent value="services" className="mt-6">
+          <BusinessServicesContent profile={profile} />
         </TabsContent>
 
         <TabsContent value="analytics" className="mt-6">
