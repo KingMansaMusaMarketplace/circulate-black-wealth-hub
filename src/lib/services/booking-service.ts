@@ -87,10 +87,31 @@ export const bookingService = {
 
       if (error) throw error;
 
+      // Send confirmation emails in the background
+      if (data.success && data.booking) {
+        this.sendConfirmationEmails(data.booking.id);
+      }
+
       return data;
     } catch (error) {
       console.error('Error creating booking:', error);
       throw error;
+    }
+  },
+
+  async sendConfirmationEmails(bookingId: string): Promise<void> {
+    try {
+      // Send emails without awaiting to not block the response
+      supabase.functions.invoke('send-booking-confirmation', {
+        body: { bookingId, recipientType: 'customer' }
+      });
+      
+      supabase.functions.invoke('send-booking-confirmation', {
+        body: { bookingId, recipientType: 'business' }
+      });
+    } catch (error) {
+      console.error('Error sending confirmation emails:', error);
+      // Don't throw - email failures shouldn't fail the booking
     }
   },
 
@@ -145,9 +166,28 @@ export const bookingService = {
         .eq('id', bookingId);
 
       if (error) throw error;
+
+      // Send cancellation emails in the background
+      this.sendCancellationEmails(bookingId);
     } catch (error) {
       console.error('Error cancelling booking:', error);
       throw error;
+    }
+  },
+
+  async sendCancellationEmails(bookingId: string): Promise<void> {
+    try {
+      // Send emails without awaiting to not block the response
+      supabase.functions.invoke('send-booking-cancellation', {
+        body: { bookingId, recipientType: 'customer' }
+      });
+      
+      supabase.functions.invoke('send-booking-cancellation', {
+        body: { bookingId, recipientType: 'business' }
+      });
+    } catch (error) {
+      console.error('Error sending cancellation emails:', error);
+      // Don't throw - email failures shouldn't fail the cancellation
     }
   },
 

@@ -18,6 +18,12 @@ verify_jwt = false
 [functions.send-booking-confirmation]
 verify_jwt = false
 
+[functions.send-booking-cancellation]
+verify_jwt = false
+
+[functions.send-booking-reminder]
+verify_jwt = false
+
 [functions.generate-business-description]
 verify_jwt = false
 
