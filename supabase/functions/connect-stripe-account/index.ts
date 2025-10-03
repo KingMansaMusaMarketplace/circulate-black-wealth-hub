@@ -30,7 +30,7 @@ serve(async (req) => {
       throw new Error("User not authenticated");
     }
 
-    const { businessId, refreshUrl, returnUrl } = await req.json();
+    const { businessId, action } = await req.json();
 
     if (!businessId) {
       throw new Error("Business ID is required");
@@ -39,7 +39,7 @@ serve(async (req) => {
     // Check if user owns this business
     const { data: business, error: businessError } = await supabaseClient
       .from("businesses")
-      .select("owner_id")
+      .select("owner_id, business_name, email")
       .eq("id", businessId)
       .single();
 
@@ -51,6 +51,52 @@ serve(async (req) => {
       apiVersion: "2023-10-16",
     });
 
+    if (action === "status") {
+      // Get account status
+      const { data: paymentAccount } = await supabaseClient
+        .from("business_payment_accounts")
+        .select("stripe_account_id, charges_enabled")
+        .eq("business_id", businessId)
+        .single();
+
+      if (!paymentAccount?.stripe_account_id) {
+        return new Response(
+          JSON.stringify({
+            success: true,
+            connected: false,
+          }),
+          {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            status: 200,
+          }
+        );
+      }
+
+      // Fetch latest status from Stripe
+      const account = await stripe.accounts.retrieve(paymentAccount.stripe_account_id);
+      const chargesEnabled = account.charges_enabled || false;
+
+      // Update database with latest status
+      await supabaseClient
+        .from("business_payment_accounts")
+        .update({ charges_enabled: chargesEnabled })
+        .eq("business_id", businessId);
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          connected: true,
+          chargesEnabled,
+          accountId: paymentAccount.stripe_account_id,
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        }
+      );
+    }
+
+    // Default action: create/connect
     // Check if account already exists
     const { data: existingAccount } = await supabaseClient
       .from("business_payment_accounts")
@@ -65,7 +111,7 @@ serve(async (req) => {
       const account = await stripe.accounts.create({
         type: "express",
         country: "US",
-        email: user.email,
+        email: business.email || user.email,
         capabilities: {
           card_payments: { requested: true },
           transfers: { requested: true },
@@ -81,20 +127,21 @@ serve(async (req) => {
         .insert({
           business_id: businessId,
           stripe_account_id: accountId,
-          account_status: "pending",
+          charges_enabled: false,
         });
     }
 
     // Create account link for onboarding
     const accountLink = await stripe.accountLinks.create({
       account: accountId,
-      refresh_url: refreshUrl || `${req.headers.get("origin")}/business/dashboard`,
-      return_url: returnUrl || `${req.headers.get("origin")}/business/dashboard?setup=complete`,
+      refresh_url: `${req.headers.get("origin")}/business-dashboard`,
+      return_url: `${req.headers.get("origin")}/business-dashboard?stripe=success`,
       type: "account_onboarding",
     });
 
     return new Response(
       JSON.stringify({ 
+        success: true,
         url: accountLink.url,
         accountId: accountId 
       }),
