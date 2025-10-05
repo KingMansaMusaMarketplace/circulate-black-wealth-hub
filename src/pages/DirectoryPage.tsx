@@ -50,6 +50,12 @@ const DirectoryPage: React.FC = () => {
   } = useMultiCityDirectory(businesses);
 
   // Safety check for data
+  console.log('DirectoryPage - businesses:', businesses?.length);
+  console.log('DirectoryPage - filteredBusinesses:', filteredBusinesses?.length);
+  console.log('DirectoryPage - selectedCity:', selectedCity);
+  console.log('DirectoryPage - searchTerm:', searchTerm);
+  console.log('DirectoryPage - filterOptions:', filterOptions);
+  
   if (!businesses || businesses.length === 0) {
     console.error('DirectoryPage - No businesses data available');
   }
