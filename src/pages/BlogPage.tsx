@@ -1,8 +1,6 @@
 
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -65,8 +63,6 @@ const BlogPage = () => {
         <meta name="description" content="Read the latest insights, stories, and updates from the Mansa Musa Marketplace community about Black economic empowerment and business success." />
       </Helmet>
 
-      <Navbar />
-      
       <main className="flex-grow">
         {/* Hero Section */}
         <div className="bg-mansablue py-20">
@@ -167,8 +163,6 @@ const BlogPage = () => {
           </div>
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 };

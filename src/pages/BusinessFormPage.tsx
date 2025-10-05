@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import BusinessForm from '@/components/business/BusinessForm';
 
 const BusinessFormPage: React.FC = () => {
@@ -12,8 +10,6 @@ const BusinessFormPage: React.FC = () => {
         <title>Business Registration | Mansa Musa Marketplace</title>
         <meta name="description" content="Register your business with Mansa Musa Marketplace" />
       </Helmet>
-
-      <Navbar />
 
       <main className="flex-1 py-8">
         <div className="container mx-auto px-4">
@@ -28,8 +24,6 @@ const BusinessFormPage: React.FC = () => {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };

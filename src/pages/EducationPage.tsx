@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookOpen, Users, TrendingUp, Award } from 'lucide-react';
 import WorkshopLibrary from '@/components/education/WorkshopLibrary';
@@ -12,13 +10,11 @@ import CertificationPrograms from '@/components/education/CertificationPrograms'
 
 const EducationPage = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <>
       <Helmet>
         <title>Education & Resources - Mansa Musa Marketplace</title>
         <meta name="description" content="Empower yourself with business workshops, financial literacy courses, and educational resources for Black economic empowerment." />
       </Helmet>
-
-      <Navbar />
       
       <main className="flex-grow">
         {/* Hero Section */}
@@ -96,9 +92,7 @@ const EducationPage = () => {
           </div>
         </div>
       </main>
-
-      <Footer />
-    </div>
+    </>
   );
 };
 

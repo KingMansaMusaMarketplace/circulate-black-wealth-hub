@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { HelpSection } from '@/components/help/HelpSection';
 import { BusinessHelpSection } from '@/components/help/BusinessHelpSection';
 import { CorporateHelpSection } from '@/components/help/CorporateHelpSection';
@@ -44,7 +42,6 @@ const HelpPage = () => {
         <meta name="description" content={getMetaDescription()} />
       </Helmet>
 
-      <Navbar />
       <main className="flex-grow py-8">
         <div className="container-custom">
           {isAgent ? (
@@ -58,7 +55,6 @@ const HelpPage = () => {
           )}
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

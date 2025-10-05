@@ -1,7 +1,5 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Mail, Phone, MapPin, MessageCircle, Book, Headphones, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -78,8 +76,6 @@ const SupportPage = () => {
       </Helmet>
       
       <div className="min-h-screen bg-background">
-        <Navbar />
-        
         <main className="container mx-auto px-4 py-16">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-foreground mb-4">Support Center</h1>
@@ -207,8 +203,6 @@ const SupportPage = () => {
             </Card>
           </section>
         </main>
-
-        <Footer />
       </div>
     </>
   );

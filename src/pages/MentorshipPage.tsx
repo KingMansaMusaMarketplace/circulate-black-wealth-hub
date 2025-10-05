@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/Footer';
 import { MentorshipMatchingPage } from '@/components/mentorship';
 
 const MentorshipPage = () => {
@@ -18,9 +16,7 @@ const MentorshipPage = () => {
       </Helmet>
       
       <div className="min-h-screen bg-gray-50">
-        <Navbar />
         <MentorshipMatchingPage />
-        <Footer />
       </div>
     </>
   );

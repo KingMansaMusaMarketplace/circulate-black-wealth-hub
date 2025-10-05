@@ -2,8 +2,6 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
@@ -33,8 +31,6 @@ const BusinessSignupPage: React.FC = () => {
         <title>Business Sign Up | Mansa Musa Marketplace</title>
         <meta name="description" content="Register your business with Mansa Musa Marketplace" />
       </Helmet>
-
-      <Navbar />
       
       <main className="flex-1 py-8">
         <BusinessSignupForm 
@@ -43,8 +39,6 @@ const BusinessSignupPage: React.FC = () => {
           onCheckReferralCode={checkReferralCode}
         />
       </main>
-
-      <Footer />
     </div>
   );
 };

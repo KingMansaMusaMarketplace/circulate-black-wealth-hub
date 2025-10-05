@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 
 const PrivacyPolicyPage = () => {
   return (
@@ -12,7 +10,6 @@ const PrivacyPolicyPage = () => {
         <meta name="description" content="Privacy Policy for Mansa Musa Marketplace - Learn how we collect, use, and protect your data." />
       </Helmet>
 
-      <Navbar />
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold text-mansablue mb-8">Privacy Policy</h1>
         <div className="max-w-4xl mx-auto prose prose-lg">
@@ -178,7 +175,6 @@ const PrivacyPolicyPage = () => {
           </section>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -10,8 +10,6 @@ import TestimonialsSection from '@/components/HowItWorks/TestimonialsSection';
 import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
 import VisualDivider from '@/components/HowItWorks/VisualDivider';
-import Footer from '@/components/Footer';
-import { Navbar } from '@/components/navbar';
 import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
 import LazySection from '@/components/common/LazySection';
 import { 
@@ -71,7 +69,6 @@ const HowItWorksPage = () => {
       exit="exit"
       variants={pageVariants}
     >
-      <Navbar />
       <HeroSection />
       <PageNavigation sections={navSections} />
       
@@ -113,7 +110,6 @@ const HowItWorksPage = () => {
       <MansaMusaHistory />
       <FAQSection />
       <CTASection />
-      <Footer />
     </motion.div>
   );
 };
