@@ -1,67 +1,164 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield } from 'lucide-react';
 
 const NavLinks: React.FC = () => {
   return (
-    <nav className="hidden md:flex items-center space-x-6">
-      <Link 
-        to="/" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        Home
-      </Link>
-      <Link 
-        to="/dashboard" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        Dashboard
-      </Link>
-      <Link 
-        to="/businesses" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation font-medium"
-      >
-        Marketplace
-      </Link>
-      <Link 
-        to="/about" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        About Us
-      </Link>
-      <Link 
-        to="/directory" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        Directory
-      </Link>
-      <Link 
-        to="/how-it-works" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        How It Works
-      </Link>
-      <Link 
-        to="/scanner" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        QR Scanner
-      </Link>
-      <Link 
-        to="/loyalty" 
-        className="text-gray-600 hover:text-mansablue transition-colors touch-manipulation"
-      >
-        Rewards
-      </Link>
-      
-      {/* Add mobile readiness test link for easy access */}
-      <Link to="/mobile-readiness-test">
-        <Button variant="outline" size="sm" className="text-xs touch-manipulation">
-          📱 Mobile Test
-        </Button>
-      </Link>
-    </nav>
+    <NavigationMenu className="hidden md:flex">
+      <NavigationMenuList className="space-x-1">
+        {/* Standalone Links */}
+        <NavigationMenuItem>
+          <Link to="/">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Home
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <Link to="/businesses">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Marketplace
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <Link to="/about">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              About
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+
+        {/* Services Dropdown */}
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 bg-white">
+              <li>
+                <Link to="/education" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">Education</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Financial literacy and business resources
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/mentorship" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">Mentorship</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Connect with experienced entrepreneurs
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/corporate-sponsorship" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">Corporate Sponsors</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Partner with us to support Black businesses
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/sales-agent" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">Sales Agent</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Earn by connecting businesses to our platform
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/scanner" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <Scan className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">QR Scanner</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Scan codes to earn loyalty rewards
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/loyalty" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <Gift className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">Rewards</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    View and redeem your loyalty points
+                  </p>
+                </Link>
+              </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+
+        {/* Resources Dropdown */}
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[300px] gap-3 p-4 bg-white">
+              <li>
+                <Link to="/blog" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">Blog</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Latest news and insights
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/help" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <HelpCircle className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">Help Center</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Get support and answers
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/accessibility" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <Shield className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">Accessibility</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Our commitment to inclusion
+                  </p>
+                </Link>
+              </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 };
 

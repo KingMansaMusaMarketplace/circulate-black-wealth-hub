@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Footer = () => {
             <div className="flex items-center mb-4">
               <div className="w-20 h-20 rounded-full overflow-hidden border-3 border-mansagold/30 mr-4 shadow-lg bg-white/10 backdrop-blur-sm">
                 <img 
-                  src="/lovable-uploads/cf76d32c-f277-43a6-96b6-58dc29f4f21f.png" 
+                  src={mansaMusaLogo} 
                   alt="Mansa Musa Marketplace" 
                   className="w-full h-full object-cover"
                 />
