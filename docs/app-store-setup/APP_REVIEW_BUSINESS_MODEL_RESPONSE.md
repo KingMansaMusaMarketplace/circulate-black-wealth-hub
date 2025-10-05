@@ -22,7 +22,7 @@ Our paid subscriptions are exclusively for:
 - Access partnership opportunities
 - Contribute to economic empowerment initiatives
 
-**Regular customers use the app completely free** - they can discover businesses, earn loyalty points, and redeem rewards without any payment.
+**Regular customers use the app completely free until January 2026** - they can discover businesses, earn loyalty points, and redeem rewards without any payment. This free customer access is funded by business subscription revenue.
 
 ### 2. Where can users purchase the subscriptions that can be accessed in the app?
 
@@ -80,10 +80,12 @@ Each subscription is tied to a single business entity or sponsoring organization
 Our app's mission is to create an economic ecosystem supporting Black-owned businesses. The free customer-facing features (business discovery, loyalty points) are funded by subscription revenue from businesses and sponsors.
 
 **Revenue Model Summary:**
-- Free users (customers): Browse, discover, earn/redeem loyalty points
-- Paid users (businesses/sponsors): Pay for listing, visibility, and analytics tools
-- All iOS payments: Processed through Apple IAP (30% commission to Apple)
-- All web payments: Processed through Stripe for B2B services
+- Customers: 100% FREE until January 2026 (browse, loyalty points, rewards)
+- Businesses: PAY for listing, analytics, visibility
+- iOS: All payments through Apple IAP (30% to Apple)
+- Web: Processed through Stripe for B2B services
+
+**Customer Access:** All customer-facing features are free until at least January 2026. This allows us to build community adoption before considering any premium customer features. Business subscriptions fund the entire platform during this period.
 
 We are fully committed to Apple's guidelines and have implemented proper IAP integration for all iOS purchases.
 

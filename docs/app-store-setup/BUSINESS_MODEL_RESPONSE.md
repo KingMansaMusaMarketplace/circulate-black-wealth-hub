@@ -11,7 +11,7 @@
 - **Business Owners**: Local Black-owned businesses who subscribe to list their businesses, manage QR codes, access analytics, and participate in the loyalty network
 - **Sponsors/Partners**: Companies and organizations that sponsor community events, provide rewards, and support the Black business ecosystem through partnership subscriptions
 
-Regular customers (individuals who scan QR codes and earn loyalty points) use the app completely free and never make any purchases through the app.
+Regular customers (individuals who scan QR codes and earn loyalty points) use the app completely free until January 2026 and never make any purchases through the app. All customer features are funded by business subscription revenue.
 
 #### 2. Where can users purchase the subscriptions that can be accessed in the app?
 
@@ -51,10 +51,10 @@ The following clarifications apply:
 ### Revenue Model Summary
 
 Our revenue comes exclusively from business and sponsor subscriptions. The app serves as a bridge connecting:
-- **Free Users**: Customers earning loyalty points at local businesses
+- **Free Users**: Customers earning loyalty points at local businesses (free until January 2026)
 - **Paying Subscribers**: Businesses and sponsors who pay for premium features and visibility
 
-This creates a sustainable ecosystem where businesses pay to reach customers, while customers get free access to deals and rewards.
+This creates a sustainable ecosystem where businesses pay to reach customers, while customers get free access to deals and rewards. Customer features remain free until at least January 2026, allowing us to build strong community adoption before considering any premium customer offerings.
 
 ### Compliance Statement
 
