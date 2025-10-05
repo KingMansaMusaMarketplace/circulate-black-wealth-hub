@@ -90,7 +90,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
     <>
       <header className={`bg-white shadow-sm z-50 w-full sticky top-0 border-b border-gray-100 ${className}`}>
         <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="flex h-16 items-center justify-between w-full">
+          <div className="flex h-24 items-center justify-between w-full">
             <div className="flex items-center min-w-0 flex-shrink-0">
               <Logo />
               {!isMobile && (
@@ -137,7 +137,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             style={{ touchAction: 'manipulation' }}
           />
           {/* Mobile Menu */}
-          <div className="fixed inset-x-0 top-16 z-50 md:hidden">
+          <div className="fixed inset-x-0 top-24 z-50 md:hidden">
             <MobileMenu onNavigate={closeMobileMenu} />
           </div>
         </>
