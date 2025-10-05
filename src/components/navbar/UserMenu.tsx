@@ -43,11 +43,11 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   if (!user) {
     return (
       <div className="flex items-center gap-2">
-        <Button variant="ghost" asChild>
-          <Link to="/login">Login</Link>
+        <Button variant="ghost" size="lg" asChild>
+          <Link to="/login" className="text-base">Login</Link>
         </Button>
-        <Button asChild>
-          <Link to="/signup">Sign Up</Link>
+        <Button size="lg" asChild>
+          <Link to="/signup" className="text-base">Sign Up</Link>
         </Button>
       </div>
     );

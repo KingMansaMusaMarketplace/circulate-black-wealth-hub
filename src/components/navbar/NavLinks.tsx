@@ -19,7 +19,7 @@ const NavLinks: React.FC = () => {
         {/* Standalone Links */}
         <NavigationMenuItem>
           <Link to="/">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <NavigationMenuLink className={`${navigationMenuTriggerStyle()} text-base`}>
               Home
             </NavigationMenuLink>
           </Link>
@@ -27,7 +27,7 @@ const NavLinks: React.FC = () => {
 
         <NavigationMenuItem>
           <Link to="/businesses">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <NavigationMenuLink className={`${navigationMenuTriggerStyle()} text-base`}>
               Marketplace
             </NavigationMenuLink>
           </Link>
@@ -35,7 +35,7 @@ const NavLinks: React.FC = () => {
 
         <NavigationMenuItem>
           <Link to="/about">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+            <NavigationMenuLink className={`${navigationMenuTriggerStyle()} text-base`}>
               About
             </NavigationMenuLink>
           </Link>
@@ -43,7 +43,7 @@ const NavLinks: React.FC = () => {
 
         {/* Services Dropdown */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="text-base">Services</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-white">
               <li>
@@ -118,7 +118,7 @@ const NavLinks: React.FC = () => {
 
         {/* Resources Dropdown */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="text-base">Resources</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[300px] gap-3 p-4 bg-white">
               <li>
