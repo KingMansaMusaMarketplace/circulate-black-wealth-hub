@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import { 
   HeroSection,
@@ -27,9 +25,7 @@ import MansaMusaVideoSection from '@/components/AboutPage/MansaMusaVideoSection'
 
 const AboutPage = () => {
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <main>
+    <main>
         <HeroSection />
         <AuthorSection />
         <MissionSection />
@@ -51,8 +47,6 @@ const AboutPage = () => {
         <QuoteSection />
         <CTASection />
       </main>
-      <Footer />
-    </div>
   );
 };
 

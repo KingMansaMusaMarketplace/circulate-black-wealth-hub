@@ -1,7 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/Footer';
 import { useLocation } from '@/hooks/location/useLocation';
 import { businesses } from '@/data/businessData';
 import { BusinessFilters } from '@/lib/api/directory/types';
@@ -85,15 +83,12 @@ const DirectoryPage: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <div className="flex flex-col min-h-screen">
-        <Helmet>
-          <title>Business Directory | Mansa Musa Marketplace</title>
-          <meta name="description" content="Find and support Black-owned businesses in your community" />
-        </Helmet>
-        
-        <Navbar />
-        
-        <div className="bg-primary py-8">
+      <Helmet>
+        <title>Business Directory | Mansa Musa Marketplace</title>
+        <meta name="description" content="Find and support Black-owned businesses in your community" />
+      </Helmet>
+      
+      <div className="bg-primary py-8">
           <div className="container mx-auto text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">Multi-City Marketplace</h1>
             <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-6">
@@ -228,8 +223,6 @@ const DirectoryPage: React.FC = () => {
         </div>
         
         <ScrollToTopButton />
-        <Footer />
-      </div>
     </ErrorBoundary>
   );
 };

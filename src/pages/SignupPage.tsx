@@ -1,9 +1,6 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import AuthLayout from '@/components/auth/AuthLayout';
 import LoginContainer from '@/components/auth/LoginContainer';
 import SignupForm from '@/components/auth/SignupForm';
@@ -11,8 +8,6 @@ import SignupForm from '@/components/auth/SignupForm';
 const SignupPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
-      
       <AuthLayout>
         <LoginContainer
           header={
@@ -37,8 +32,6 @@ const SignupPage = () => {
           </div>
         </LoginContainer>
       </AuthLayout>
-      
-      <Footer />
     </div>
   );
 };

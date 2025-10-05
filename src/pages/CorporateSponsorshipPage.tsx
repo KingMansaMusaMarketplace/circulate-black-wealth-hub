@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import SponsorshipMediaKit from '@/components/sponsorship/SponsorshipMediaKit';
 import SponsorshipHeroSection from '@/components/sponsorship/SponsorshipHeroSection';
 import SponsorshipImpactSection from '@/components/sponsorship/SponsorshipImpactSection';
@@ -23,13 +21,11 @@ const CorporateSponsorshipPage: React.FC = () => {
   } = useSponsorshipActions();
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <>
       <Helmet>
         <title>Corporate Sponsorship - Mansa Musa Marketplace</title>
         <meta name="description" content="Partner with Mansa Musa Marketplace to support Black-owned businesses and create meaningful economic impact in communities." />
       </Helmet>
-
-      <Navbar />
       
       <main className="flex-grow">
         <ProgressiveDisclosure
@@ -70,9 +66,7 @@ const CorporateSponsorshipPage: React.FC = () => {
           isGeneratingPDF={isGeneratingPDF}
         />
       </main>
-      
-      <Footer />
-    </div>
+    </>
   );
 };
 
