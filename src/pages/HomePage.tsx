@@ -1,7 +1,6 @@
 
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
-import Navbar from '@/components/navbar';
 import HomePageSections from '@/components/HomePage/HomePageSections';
 import FreeGrowthBanner from '@/components/FreeGrowthBanner';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
@@ -39,8 +38,6 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
-      
       {/* Hero Section */}
       <Hero />
 

@@ -13,6 +13,7 @@ import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { BusinessOnboardingFlow } from "@/components/onboarding/BusinessOnboardingFlow";
 import { CorporateOnboardingFlow } from "@/components/onboarding/CorporateOnboardingFlow";
+import Layout from "@/components/Layout";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -116,7 +117,8 @@ function App() {
                     
                     <div id="main-content" role="main">
                       <Suspense fallback={<LoadingFallback />}>
-                        <Routes>
+                        <Layout>
+                          <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/auth" element={<LazyAuthPage />} />
                         <Route path="/login" element={<LazyLoginPage />} />
@@ -211,7 +213,8 @@ function App() {
                         
                         {/* Catch all route for 404 */}
                         <Route path="*" element={<NotFound />} />
-                      </Routes>
+                          </Routes>
+                        </Layout>
                     </Suspense>
                   </div>
                 </div>
