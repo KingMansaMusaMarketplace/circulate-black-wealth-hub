@@ -5,45 +5,40 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield } from 'lucide-react';
 
 const NavLinks: React.FC = () => {
+  const linkClassName = "text-gray-700 hover:text-mansablue transition-colors font-normal px-3 py-2";
+  const triggerClassName = "text-gray-700 hover:text-mansablue transition-colors font-normal";
+
   return (
     <NavigationMenu className="hidden md:flex">
-      <NavigationMenuList className="space-x-1">
+      <NavigationMenuList className="space-x-2">
         {/* Standalone Links */}
         <NavigationMenuItem>
-          <Link to="/">
-            <NavigationMenuLink className={`${navigationMenuTriggerStyle()} text-base`}>
-              Home
-            </NavigationMenuLink>
+          <Link to="/" className={linkClassName}>
+            Home
           </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/businesses">
-            <NavigationMenuLink className={`${navigationMenuTriggerStyle()} text-base`}>
-              Marketplace
-            </NavigationMenuLink>
+          <Link to="/businesses" className={linkClassName}>
+            Marketplace
           </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/about">
-            <NavigationMenuLink className={`${navigationMenuTriggerStyle()} text-base`}>
-              About
-            </NavigationMenuLink>
+          <Link to="/about" className={linkClassName}>
+            About
           </Link>
         </NavigationMenuItem>
 
         {/* Services Dropdown */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="text-base">Services</NavigationMenuTrigger>
+          <NavigationMenuTrigger className={triggerClassName}>Services</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-white">
               <li>
@@ -118,7 +113,7 @@ const NavLinks: React.FC = () => {
 
         {/* Resources Dropdown */}
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="text-base">Resources</NavigationMenuTrigger>
+          <NavigationMenuTrigger className={triggerClassName}>Resources</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[300px] gap-3 p-4 bg-white">
               <li>

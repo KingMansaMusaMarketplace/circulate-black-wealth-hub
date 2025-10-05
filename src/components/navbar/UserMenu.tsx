@@ -42,12 +42,12 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   // If no user, show login/signup buttons
   if (!user) {
     return (
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="lg" asChild>
-          <Link to="/login" className="text-base">Login</Link>
-        </Button>
-        <Button size="lg" asChild>
-          <Link to="/signup" className="text-base">Sign Up</Link>
+      <div className="flex items-center gap-3">
+        <Link to="/login" className="text-gray-700 hover:text-mansablue transition-colors font-normal px-3 py-2">
+          Login
+        </Link>
+        <Button asChild className="font-normal">
+          <Link to="/signup">Sign Up</Link>
         </Button>
       </div>
     );
