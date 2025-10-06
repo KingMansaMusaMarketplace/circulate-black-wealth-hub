@@ -50,7 +50,8 @@ import {
   LazyFullSystemTestPage,
   LazyAccessibilityPage,
   LazyCapacitorTestPage,
-  LazyComprehensiveTestPage
+  LazyComprehensiveTestPage,
+  LazyFeatureGuidePage
 } from './components/LazyComponents';
 
 // Auth page (new) - import directly since it's not in LazyComponents yet
@@ -171,6 +172,7 @@ function App() {
                         
                         {/* Fixed How It Works route */}
                         <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
+                        <Route path="/features" element={<LazyFeatureGuidePage />} />
                         
                         {/* Fixed Education route */}
                         <Route path="/education" element={<LazyEducationPage />} />

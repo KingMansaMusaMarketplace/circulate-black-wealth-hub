@@ -30,3 +30,4 @@ export const LazyFullSystemTestPage = lazy(() => import('@/pages/FullSystemTestP
 export const LazyAccessibilityPage = lazy(() => import('@/pages/AccessibilityPage'));
 export const LazyCapacitorTestPage = lazy(() => import('@/pages/CapacitorTestPage'));
 export const LazyComprehensiveTestPage = lazy(() => import('@/pages/ComprehensiveTestPage'));
+export const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
