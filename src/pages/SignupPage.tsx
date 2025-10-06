@@ -15,7 +15,7 @@ const SignupPage = () => {
               <div className="w-12 h-12 rounded-full bg-mansablue flex items-center justify-center mx-auto mb-4">
                 <span className="text-white font-spartan font-bold text-xl">M</span>
               </div>
-              <h1 className="text-2xl font-bold text-mansablue-dark">Join the Movement</h1>
+              <h1 className="text-2xl font-bold text-mansablue-dark">Join the Movement 🚀</h1>
               <p className="text-gray-600 mt-1">Create an account to start circulating</p>
             </>
           }
