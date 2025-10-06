@@ -24,6 +24,9 @@ verify_jwt = false
 [functions.send-booking-reminder]
 verify_jwt = false
 
+[functions.send-review-request]
+verify_jwt = false
+
 [functions.generate-business-description]
 verify_jwt = false
 

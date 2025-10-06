@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { bookingService, Booking } from '@/lib/services/booking-service';
+import { ReviewRequestButton } from '@/components/business/bookings/ReviewRequestButton';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -240,6 +241,17 @@ export function BookingsList({ businessId, customerId }: BookingsListProps) {
                   >
                     No Show
                   </Button>
+                </div>
+              )}
+
+              {/* Show review request button for completed bookings */}
+              {businessId && booking.status === 'completed' && (
+                <div className="flex gap-2 pt-2">
+                  <ReviewRequestButton 
+                    bookingId={booking.id}
+                    customerEmail={booking.customer_email}
+                    bookingStatus={booking.status}
+                  />
                 </div>
               )}
             </div>

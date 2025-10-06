@@ -10,6 +10,7 @@ import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FinancialsTab } from '@/components/business/financials/FinancialsTab';
 import { AICoachingTab } from '@/components/business/coaching/AICoachingTab';
+import { ReviewRequestsAnalytics } from '@/components/business/reviews/ReviewRequestsAnalytics';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
@@ -54,9 +55,10 @@ const BusinessDashboardPage = () => {
       
       <DashboardLayout title="Business Dashboard" icon={null}>
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="financials">Financials</TabsTrigger>
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="coaching">AI Coach</TabsTrigger>
           </TabsList>
           
@@ -66,6 +68,10 @@ const BusinessDashboardPage = () => {
           
           <TabsContent value="financials">
             <FinancialsTab businessId={profile.id} />
+          </TabsContent>
+          
+          <TabsContent value="reviews">
+            <ReviewRequestsAnalytics businessId={profile.id} />
           </TabsContent>
           
           <TabsContent value="coaching">

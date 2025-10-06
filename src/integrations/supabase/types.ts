@@ -2164,6 +2164,71 @@ export type Database = {
           },
         ]
       }
+      review_requests: {
+        Row: {
+          booking_id: string
+          business_id: string
+          created_at: string | null
+          customer_email: string
+          customer_id: string
+          id: string
+          review_submitted: boolean | null
+          review_submitted_at: string | null
+          sent_at: string | null
+        }
+        Insert: {
+          booking_id: string
+          business_id: string
+          created_at?: string | null
+          customer_email: string
+          customer_id: string
+          id?: string
+          review_submitted?: boolean | null
+          review_submitted_at?: string | null
+          sent_at?: string | null
+        }
+        Update: {
+          booking_id?: string
+          business_id?: string
+          created_at?: string | null
+          customer_email?: string
+          customer_id?: string
+          id?: string
+          review_submitted?: boolean | null
+          review_submitted_at?: string | null
+          sent_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_requests_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           business_id: string
@@ -3452,6 +3517,10 @@ export type Database = {
           p_user_id: string
         }
         Returns: string
+      }
+      manual_send_review_request: {
+        Args: { p_booking_id: string }
+        Returns: Json
       }
       process_pending_commissions: {
         Args: Record<PropertyKey, never>
