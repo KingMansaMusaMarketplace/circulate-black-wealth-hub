@@ -335,7 +335,7 @@ const FeatureGuidePage = () => {
               ) : (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {filteredFeatures.map((feature) => (
-                    <Card key={feature.id} className="hover:shadow-lg transition-shadow">
+                    <Card key={feature.id} className="hover:shadow-lg transition-shadow border-2 border-red-500">
                       <CardHeader>
                         <div className="flex items-start justify-between mb-3">
                           <div className="p-3 rounded-lg bg-primary/10 text-primary">
