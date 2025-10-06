@@ -50,14 +50,14 @@ import {
   LazyFullSystemTestPage,
   LazyAccessibilityPage,
   LazyCapacitorTestPage,
-  LazyComprehensiveTestPage,
-  LazyFeatureGuidePage
+  LazyComprehensiveTestPage
 } from './components/LazyComponents';
 
 // Auth page (new) - import directly since it's not in LazyComponents yet
 const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
+const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
