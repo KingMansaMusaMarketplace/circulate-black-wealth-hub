@@ -438,6 +438,64 @@ export type Database = {
           },
         ]
       }
+      business_insights: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          description: string
+          id: string
+          insight_type: string
+          metrics: Json | null
+          priority: string | null
+          recommendations: Json | null
+          title: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          description: string
+          id?: string
+          insight_type: string
+          metrics?: Json | null
+          priority?: string | null
+          recommendations?: Json | null
+          title: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          description?: string
+          id?: string
+          insight_type?: string
+          metrics?: Json | null
+          priority?: string | null
+          recommendations?: Json | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_insights_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_insights_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_insights_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_interactions: {
         Row: {
           business_id: string
@@ -998,6 +1056,67 @@ export type Database = {
           },
         ]
       }
+      expenses: {
+        Row: {
+          amount: number
+          business_id: string
+          category: string
+          created_at: string | null
+          description: string | null
+          expense_date: string
+          id: string
+          is_recurring: boolean | null
+          receipt_url: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          business_id: string
+          category: string
+          created_at?: string | null
+          description?: string | null
+          expense_date: string
+          id?: string
+          is_recurring?: boolean | null
+          receipt_url?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          business_id?: string
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          expense_date?: string
+          id?: string
+          is_recurring?: boolean | null
+          receipt_url?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "expenses_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       failed_auth_attempts: {
         Row: {
           attempt_time: string | null
@@ -1223,6 +1342,92 @@ export type Database = {
           verified_by?: string | null
         }
         Relationships: []
+      }
+      invoices: {
+        Row: {
+          amount: number
+          booking_id: string | null
+          business_id: string
+          created_at: string | null
+          customer_email: string
+          customer_name: string
+          due_date: string
+          id: string
+          invoice_number: string
+          line_items: Json | null
+          notes: string | null
+          paid_date: string | null
+          status: string
+          tax_amount: number | null
+          total_amount: number
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          booking_id?: string | null
+          business_id: string
+          created_at?: string | null
+          customer_email: string
+          customer_name: string
+          due_date: string
+          id?: string
+          invoice_number: string
+          line_items?: Json | null
+          notes?: string | null
+          paid_date?: string | null
+          status?: string
+          tax_amount?: number | null
+          total_amount: number
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          booking_id?: string | null
+          business_id?: string
+          created_at?: string | null
+          customer_email?: string
+          customer_name?: string
+          due_date?: string
+          id?: string
+          invoice_number?: string
+          line_items?: Json | null
+          notes?: string | null
+          paid_date?: string | null
+          status?: string
+          tax_amount?: number | null
+          total_amount?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       loyalty_points: {
         Row: {
@@ -2896,6 +3101,10 @@ export type Database = {
       exec_sql: {
         Args: { query: string }
         Returns: undefined
+      }
+      generate_invoice_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       generate_referral_code: {
         Args: Record<PropertyKey, never>
