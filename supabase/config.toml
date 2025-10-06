@@ -30,6 +30,9 @@ verify_jwt = false
 [functions.generate-business-insights]
 verify_jwt = false
 
+[functions.generate-ai-business-insights]
+verify_jwt = true
+
 [functions.generate-recommendations]
 verify_jwt = false
 

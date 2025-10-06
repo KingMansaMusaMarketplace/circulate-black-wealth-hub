@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,6 +7,9 @@ import { DashboardLayout } from '@/components/dashboard';
 import BusinessDashboard from '@/components/business/BusinessDashboard';
 import { Loader2 } from 'lucide-react';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { FinancialsTab } from '@/components/business/financials/FinancialsTab';
+import { AICoachingTab } from '@/components/business/coaching/AICoachingTab';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
@@ -50,7 +53,25 @@ const BusinessDashboardPage = () => {
       </Helmet>
       
       <DashboardLayout title="Business Dashboard" icon={null}>
-        <BusinessDashboard businessId={profile.id} />
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="financials">Financials</TabsTrigger>
+            <TabsTrigger value="coaching">AI Coach</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="overview">
+            <BusinessDashboard businessId={profile.id} />
+          </TabsContent>
+          
+          <TabsContent value="financials">
+            <FinancialsTab businessId={profile.id} />
+          </TabsContent>
+          
+          <TabsContent value="coaching">
+            <AICoachingTab businessId={profile.id} />
+          </TabsContent>
+        </Tabs>
       </DashboardLayout>
     </>
   );
