@@ -16,8 +16,9 @@ const ProfilePage = () => {
   const searchParams = new URLSearchParams(location.search);
   const tab = searchParams.get('tab') || 'profile';
 
-  // Check if the user is an admin (for demo purposes we'll assume it's based on email)
-  const isAdmin = user?.email?.includes('admin') || false;
+  // Check if the user is an admin
+  const { userRole } = useAuth();
+  const isAdmin = userRole === 'admin';
 
   // Handle tab changes
   const handleTabChange = (value: string) => {

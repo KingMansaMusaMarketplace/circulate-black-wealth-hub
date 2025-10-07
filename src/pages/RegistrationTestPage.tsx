@@ -10,8 +10,8 @@ const RegistrationTestPage = () => {
   const { user, userType } = useAuth();
   
   // Only allow access to authenticated administrative users
-  // In a real production app, you should implement proper admin role checking
-  const isAdmin = user && userType === 'business'; // Simplified check - in production use proper role-based auth
+  const { userRole } = useAuth();
+  const isAdmin = user && userRole === 'admin';
   
   if (!user) {
     return <Navigate to="/login" replace />;

@@ -87,7 +87,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (data && !error) {
         setProfile(data);
         setUserType(data.user_type);
-        setUserRole(data.role);
+        
+        // Check roles using the new secure system
+        const { data: hasAdminRole } = await supabase.rpc('has_role', {
+          _user_id: userId,
+          _role: 'admin'
+        });
+        
+        if (hasAdminRole) {
+          setUserRole('admin');
+        } else {
+          // Check other roles as needed
+          const { data: hasModeratorRole } = await supabase.rpc('has_role', {
+            _user_id: userId,
+            _role: 'moderator'
+          });
+          setUserRole(hasModeratorRole ? 'moderator' : 'user');
+        }
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
