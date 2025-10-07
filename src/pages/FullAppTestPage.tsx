@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -424,9 +422,7 @@ const FullAppTestPage: React.FC = () => {
   const pendingCount = tests.filter(t => t.status === 'pending').length;
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      
+    <div className="min-h-screen bg-gray-50">
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-8">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-3xl font-bold mb-2">🔍 Comprehensive App Testing Suite</h1>
@@ -599,8 +595,6 @@ const FullAppTestPage: React.FC = () => {
           </CardContent>
         </Card>
       </main>
-      
-      <Footer />
     </div>
   );
 };

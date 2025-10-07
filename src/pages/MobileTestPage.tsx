@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import PermissionsChecker from '@/components/mobile/PermissionsChecker';
 import { useDeviceDetection } from '@/hooks/use-device-detection';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -57,9 +55,7 @@ const MobileTestPage: React.FC = () => {
         <meta name="description" content="Test mobile app functionality and device capabilities" />
       </Helmet>
 
-      <Navbar />
-      
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-6">Mobile App Test Suite</h1>
         
         {/* Device Information */}
@@ -200,8 +196,6 @@ const MobileTestPage: React.FC = () => {
           </CardContent>
         </Card>
       </main>
-      
-      <Footer />
     </div>
   );
 };

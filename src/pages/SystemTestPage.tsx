@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import SystemHealthTest from '@/components/testing/SystemHealthTest';
 
 const SystemTestPage: React.FC = () => {
@@ -13,9 +11,7 @@ const SystemTestPage: React.FC = () => {
         <meta name="description" content="Test frontend and backend functionality" />
       </Helmet>
 
-      <Navbar />
-      
-      <main className="flex-1 py-8">
+      <main className="py-8">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-mansablue mb-2">System Health Check</h1>
@@ -25,8 +21,6 @@ const SystemTestPage: React.FC = () => {
           <SystemHealthTest />
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };

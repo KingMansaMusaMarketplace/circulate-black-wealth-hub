@@ -1,8 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -334,8 +332,6 @@ const MobileReadinessTestPage: React.FC = () => {
         <meta name="description" content="Complete mobile deployment readiness test" />
       </Helmet>
 
-      <Navbar />
-      
       <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-8">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-3xl font-bold mb-2">Mobile Readiness Test</h1>
@@ -591,8 +587,6 @@ const MobileReadinessTestPage: React.FC = () => {
           </CardContent>
         </Card>
       </main>
-      
-      <Footer />
     </div>
   );
 };

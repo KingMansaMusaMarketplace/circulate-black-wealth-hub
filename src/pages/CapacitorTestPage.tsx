@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { useLocation } from '@/hooks/use-location';
 import {
@@ -25,9 +23,8 @@ const CapacitorTestPage = () => {
   } = useCapacitorTests();
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="flex-grow container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50">
+      <main className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-6">Capacitor Geolocation Test</h1>
         
         <div className="space-y-6">
@@ -57,7 +54,6 @@ const CapacitorTestPage = () => {
           <TroubleshootingGuide />
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

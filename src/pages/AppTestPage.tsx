@@ -1,8 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -470,9 +468,8 @@ const AppTestPage: React.FC = () => {
   const criticalFailures = criticalTests.filter(t => t.status === 'fail').length;
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-grow container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto space-y-6">
           {/* Header */}
           <Card>
@@ -655,7 +652,6 @@ const AppTestPage: React.FC = () => {
           </Card>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
