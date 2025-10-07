@@ -3464,6 +3464,17 @@ export type Database = {
           registration_url: string
         }[]
       }
+      grant_initial_admin: {
+        Args: { target_user_id: string }
+        Returns: undefined
+      }
+      grant_role: {
+        Args: {
+          target_role: Database["public"]["Enums"]["app_role"]
+          target_user_id: string
+        }
+        Returns: undefined
+      }
       handle_api_error: {
         Args: {
           error_details?: Json
@@ -3544,6 +3555,13 @@ export type Database = {
       request_account_deletion: {
         Args: { deletion_reason?: string }
         Returns: Json
+      }
+      revoke_role: {
+        Args: {
+          target_role: Database["public"]["Enums"]["app_role"]
+          target_user_id: string
+        }
+        Returns: undefined
       }
       search_public_businesses: {
         Args: {
