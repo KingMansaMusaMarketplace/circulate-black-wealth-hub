@@ -15,11 +15,7 @@ import {
   Play, 
   Navigation,
   Loader2,
-  ExternalLink,
-  Database,
-  Shield,
-  User,
-  CreditCard
+  Database
 } from 'lucide-react';
 
 interface TestResult {

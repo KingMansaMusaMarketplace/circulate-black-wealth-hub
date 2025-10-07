@@ -18,13 +18,11 @@ import {
   Smartphone,
   QrCode,
   Users,
-  Camera,
-  MapPin,
-  CreditCard,
-  Star,
   Building,
   Globe,
-  ShoppingCart
+  ShoppingCart,
+  CreditCard,
+  Star
 } from 'lucide-react';
 
 interface TestResult {

@@ -29,11 +29,11 @@ const HomePage = () => {
       path: '/'
     });
 
-    // Preload critical chunks for better UX
+    // Preload critical chunks for better UX (reduced delay for faster interactivity)
     setTimeout(() => {
       import('@/pages/DirectoryPage');
       import('@/pages/LoginPage');
-    }, 2000);
+    }, 1000);
   }, []);
 
   return (
