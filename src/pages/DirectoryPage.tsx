@@ -94,7 +94,8 @@ const DirectoryPage: React.FC = () => {
         <meta name="description" content="Find and support Black-owned businesses in your community" />
       </Helmet>
       
-      <div className="bg-primary py-8">
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-primary py-8">
           <div className="container mx-auto text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">Multi-City Marketplace</h1>
             <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-6">
@@ -114,7 +115,7 @@ const DirectoryPage: React.FC = () => {
           </div>
         </div>
         
-        <div className="flex-grow bg-background py-8">
+        <div className="py-8">
           <div className="container mx-auto">
             <MultiCityStats selectedCity={selectedCity} />
             
@@ -229,6 +230,7 @@ const DirectoryPage: React.FC = () => {
         </div>
         
         <ScrollToTopButton />
+      </div>
     </ErrorBoundary>
   );
 };
