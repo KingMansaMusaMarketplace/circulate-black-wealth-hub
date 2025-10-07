@@ -224,18 +224,20 @@ export default function UserDashboardPage() {
 
   if (authLoading || isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="animate-pulse space-y-8">
-            <div className="h-8 bg-muted rounded w-1/4"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-32 bg-muted rounded"></div>
-              ))}
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="h-64 bg-muted rounded"></div>
-              <div className="h-64 bg-muted rounded"></div>
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-6xl mx-auto">
+            <div className="animate-pulse space-y-8">
+              <div className="h-8 bg-gray-300 rounded w-1/4"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-32 bg-gray-300 rounded"></div>
+                ))}
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="h-64 bg-gray-300 rounded"></div>
+                <div className="h-64 bg-gray-300 rounded"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -244,14 +246,15 @@ export default function UserDashboardPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto space-y-8">
-        {/* Welcome Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Welcome back!</h1>
-            <p className="text-muted-foreground">Here's what's happening with your account</p>
-          </div>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto space-y-8">
+          {/* Welcome Header */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Welcome back!</h1>
+              <p className="text-muted-foreground">Here's what's happening with your account</p>
+            </div>
           <div className="flex items-center space-x-2">
             <Badge className={`${getTierColor(stats.currentTier)} text-white`}>
               {stats.currentTier} Member
@@ -425,6 +428,7 @@ export default function UserDashboardPage() {
           </CardContent>
         </Card>
       </div>
+    </div>
     </div>
   );
 }
