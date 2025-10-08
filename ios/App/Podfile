@@ -129,3 +129,43 @@ post_install do |installer|
     end
   end
 end
+
+# Ensure changes occur AFTER CocoaPods integrates the user project
+post_integrate do |installer|
+  # Patch the App user project after integration completes
+  installer.aggregate_targets.each do |aggregate_target|
+    project = aggregate_target.user_project
+
+    # Project-level build setting
+    project.build_configurations.each do |config|
+      config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
+    end
+
+    # Target-level settings + build phase fixes
+    project.targets.each do |t|
+      t.build_configurations.each do |config|
+        config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
+      end
+
+      t.build_phases.each do |phase|
+        next unless phase.respond_to?(:name)
+        case phase.name
+        when "[CP] Embed Pods Frameworks", "[CP] Copy XCFrameworks"
+          # Replace with harmless no-op to avoid reading Pods support scripts
+          phase.shell_script = 'echo "[CP] Phase skipped due to static linkage / sandbox"\nexit 0'
+          phase.input_paths ||= []
+          phase.output_paths ||= []
+          phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_#{phase.name.gsub(' ', '_').downcase}_skipped"
+        when "[CP] Copy Pods Resources"
+          # Keep resources copy but ensure sandbox IO
+          phase.input_paths ||= []
+          phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
+          phase.output_paths ||= []
+          phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
+        end
+      end
+    end
+
+    project.save
+  end
+end
