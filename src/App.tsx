@@ -177,6 +177,7 @@ function App() {
                         
                         <Route path="/profile" element={<LazyProfilePage />} />
                         <Route path="/subscription" element={<LazySubscriptionPage />} />
+                        <Route path="/directory" element={<LazyDirectoryPage />} />
                         <Route path="/businesses" element={<BusinessDiscoveryPage />} />
                         <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
                         <Route path="/business/:businessId" element={<BusinessDetailPage />} />
