@@ -182,7 +182,7 @@ function App() {
                         <Route path="/business/:businessId" element={<BusinessDetailPage />} />
                         <Route path="/loyalty" element={<RewardsPage />} />
                         <Route path="/scanner" element={<QRScannerPage />} />
-                        <Route path="/directory" element={<LazyDirectoryPage />} />
+                        {/* Temporarily disabled to isolate iOS startup crash */}
                         <Route path="/about" element={<LazyAboutPage />} />
                         <Route path="/contact" element={<ContactPage />} />
                         <Route path="/support" element={<SupportPage />} />
