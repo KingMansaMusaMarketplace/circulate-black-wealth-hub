@@ -1,4 +1,3 @@
-
-// Export the main auth context and provider from the consolidated AuthContext
-export { AuthProvider, useAuth } from '../AuthContext';
+// Consolidated auth module exports
+// Note: Import AuthProvider and useAuth from '@/contexts/AuthContext'
 export * from './types';
