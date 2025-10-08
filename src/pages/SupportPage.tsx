@@ -89,16 +89,16 @@ const SupportPage = () => {
             <h2 className="text-2xl font-semibold mb-8 text-center">How Can We Help You?</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {supportOptions.map((option, index) => (
-                <Card key={index} className="text-center">
-                  <CardHeader>
-                    <div className="mx-auto mb-4 text-primary">
+                <Card key={index}>
+                  <CardHeader className="text-center">
+                    <div className="mx-auto mb-4 text-primary flex justify-center">
                       {option.icon}
                     </div>
-                    <CardTitle>{option.title}</CardTitle>
-                    <CardDescription>{option.description}</CardDescription>
+                    <CardTitle className="text-center">{option.title}</CardTitle>
+                    <CardDescription className="text-center">{option.description}</CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <p className="font-medium mb-4">{option.contact}</p>
+                  <CardContent className="text-center space-y-4">
+                    <p className="font-medium text-center break-words">{option.contact}</p>
                     <Button className="w-full">{option.action}</Button>
                   </CardContent>
                 </Card>
