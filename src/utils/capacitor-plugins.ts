@@ -6,18 +6,25 @@ import { SplashScreen } from '@capacitor/splash-screen';
  */
 export async function initializeCapacitorPlugins() {
   try {
-    // Only hide splash screen if we're in a Capacitor environment
+    // Only interact with Capacitor if we're in a native environment
     if (window?.Capacitor?.isNativePlatform()) {
-      // Hide the splash screen with a fade animation
+      // Wait a bit longer before hiding splash to ensure content is ready
+      // This prevents blank page issues on slower devices like iPad
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Hide the splash screen with a smooth fade animation
       await SplashScreen.hide({
         fadeOutDuration: 500
       });
-      console.log('Splash screen hidden');
+      console.log('Splash screen hidden successfully');
     }
     
-    console.log('Capacitor plugins initialized');
+    console.log('Capacitor plugins initialized successfully');
+    return true;
   } catch (error) {
     console.error('Error initializing Capacitor plugins:', error);
+    // Don't throw error - allow app to continue even if splash screen fails
+    return false;
   }
 }
 

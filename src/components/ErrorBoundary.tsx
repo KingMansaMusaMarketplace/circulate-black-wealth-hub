@@ -1,5 +1,7 @@
 
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
+import { AlertCircle } from 'lucide-react';
 
 interface Props {
   children: ReactNode;
@@ -23,23 +25,53 @@ class ErrorBoundary extends Component<Props, State> {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
   }
 
+  private handleReload = () => {
+    window.location.href = '/';
+  };
+
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-          <div className="text-center p-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-4">
-              Something went wrong
-            </h1>
-            <p className="text-gray-600 mb-4">
-              We're sorry, but something unexpected happened.
-            </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-mansablue text-white px-4 py-2 rounded hover:bg-mansablue/90 transition-colors"
-            >
-              Reload Page
-            </button>
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
+          <div className="max-w-md w-full text-center space-y-6">
+            <div className="flex justify-center">
+              <div className="rounded-full bg-destructive/10 p-4">
+                <AlertCircle className="h-12 w-12 text-destructive" />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <h1 className="text-2xl font-bold text-foreground">
+                Something went wrong
+              </h1>
+              <p className="text-muted-foreground">
+                We're sorry, but something unexpected happened. Please try reloading the page.
+              </p>
+            </div>
+
+            {this.state.error && (
+              <details className="text-left">
+                <summary className="text-sm text-muted-foreground cursor-pointer hover:text-foreground">
+                  Error details
+                </summary>
+                <pre className="mt-2 text-xs bg-muted p-3 rounded overflow-auto max-h-40">
+                  {this.state.error.message}
+                </pre>
+              </details>
+            )}
+
+            <div className="space-y-2">
+              <Button onClick={this.handleReload} className="w-full">
+                Reload Application
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => window.location.href = '/support'} 
+                className="w-full"
+              >
+                Contact Support
+              </Button>
+            </div>
           </div>
         </div>
       );

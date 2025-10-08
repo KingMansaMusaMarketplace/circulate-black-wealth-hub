@@ -40,40 +40,66 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
+        if (!isMounted) return;
+        
         setSession(session);
         setUser(session?.user ?? null);
         
         // Fetch user profile when authenticated
         if (session?.user) {
-          setTimeout(() => {
-            fetchUserProfile(session.user.id);
-          }, 0);
+          await fetchUserProfile(session.user.id);
         } else {
           setUserType(null);
           setUserRole(null);
           setProfile(null);
         }
         
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     );
 
     // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        fetchUserProfile(session.user.id);
+    const initializeAuth = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('Error getting session:', error);
+        }
+        
+        if (!isMounted) return;
+        
+        setSession(session);
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          await fetchUserProfile(session.user.id);
+        }
+        
+        if (isMounted) {
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
-      
-      setLoading(false);
-    });
+    };
 
-    return () => subscription.unsubscribe();
+    initializeAuth();
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const fetchUserProfile = async (userId: string) => {
@@ -89,24 +115,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUserType(data.user_type);
         
         // Check roles using the new secure system
-        const { data: hasAdminRole } = await supabase.rpc('has_role', {
-          _user_id: userId,
-          _role: 'admin'
-        });
-        
-        if (hasAdminRole) {
-          setUserRole('admin');
-        } else {
-          // Check other roles as needed
-          const { data: hasModeratorRole } = await supabase.rpc('has_role', {
+        try {
+          const { data: hasAdminRole } = await supabase.rpc('has_role', {
             _user_id: userId,
-            _role: 'moderator'
+            _role: 'admin'
           });
-          setUserRole(hasModeratorRole ? 'moderator' : 'user');
+          
+          if (hasAdminRole) {
+            setUserRole('admin');
+          } else {
+            // Check other roles as needed
+            const { data: hasModeratorRole } = await supabase.rpc('has_role', {
+              _user_id: userId,
+              _role: 'moderator'
+            });
+            setUserRole(hasModeratorRole ? 'moderator' : 'user');
+          }
+        } catch (roleError) {
+          // If role check fails, default to 'user'
+          console.warn('Error checking user roles:', roleError);
+          setUserRole('user');
         }
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
+      // Set defaults to prevent blank page
+      setUserType('customer');
+      setUserRole('user');
     }
   };
 

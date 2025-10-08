@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -14,6 +14,7 @@ import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { BusinessOnboardingFlow } from "@/components/onboarding/BusinessOnboardingFlow";
 import { CorporateOnboardingFlow } from "@/components/onboarding/CorporateOnboardingFlow";
 import Layout from "@/components/Layout";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -97,19 +98,40 @@ const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading...
 const queryClient = new QueryClient();
 
 function App() {
+  const [appReady, setAppReady] = useState(false);
+
   // Initialize Capacitor plugins on app start
   useEffect(() => {
-    initializeCapacitorPlugins();
+    const initializeApp = async () => {
+      try {
+        await initializeCapacitorPlugins();
+        // Add a small delay to ensure smooth transition from splash screen
+        await new Promise(resolve => setTimeout(resolve, 500));
+        setAppReady(true);
+      } catch (error) {
+        console.error('Error initializing app:', error);
+        // Still mark as ready even if there's an error to prevent blank screen
+        setAppReady(true);
+      }
+    };
+    
+    initializeApp();
   }, []);
 
+  // Show loading screen while app initializes (prevents blank page on launch)
+  if (!appReady) {
+    return <LoadingFallback message="Loading Mansa Musa Marketplace..." />;
+  }
+
   return (
-    <HelmetProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <SubscriptionProvider>
-            <NativeFeatures>
-              <BrowserRouter>
-                <TooltipProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <SubscriptionProvider>
+              <NativeFeatures>
+                <BrowserRouter>
+                  <TooltipProvider>
                   <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
                     {/* Skip to main content link for keyboard navigation */}
                     <a href="#main-content" className="skip-link">
@@ -232,6 +254,7 @@ function App() {
         </AuthProvider>
       </QueryClientProvider>
     </HelmetProvider>
+    </ErrorBoundary>
   );
 }
 
