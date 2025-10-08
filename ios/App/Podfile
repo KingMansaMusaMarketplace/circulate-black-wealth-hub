@@ -41,6 +41,8 @@ post_install do |installer|
       config.build_settings['DEFINES_MODULE'] = 'YES'
       # Silence third‑party header warnings introduced in Xcode 16
       config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
+      # Fix sandbox deny messages for CocoaPods build scripts in Xcode 15/16
+      config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
     end
   end
 end
