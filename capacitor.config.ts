@@ -5,10 +5,15 @@ const config: CapacitorConfig = {
   appId: 'app.lovable.e42355603b6b4780b91c854366c7682f',
   appName: 'circulate-black-wealth-hub',
   webDir: 'dist',
+  // IMPORTANT: For App Store production builds, remove the server configuration
+  // The app should load from local dist folder, not external URL
+  // Uncomment the server config below ONLY for local development/testing
+  /*
   server: {
     url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
     cleartext: true
   },
+  */
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
