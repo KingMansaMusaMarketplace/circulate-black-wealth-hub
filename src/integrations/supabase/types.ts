@@ -2431,7 +2431,10 @@ export type Database = {
           encrypted_email: string
           encrypted_full_name: string
           encrypted_phone: string | null
+          encryption_algorithm: string | null
+          encryption_key_id: string | null
           id: string
+          is_encrypted: boolean | null
           last_accessed_at: string | null
           last_accessed_by: string | null
           updated_at: string
@@ -2443,7 +2446,10 @@ export type Database = {
           encrypted_email: string
           encrypted_full_name: string
           encrypted_phone?: string | null
+          encryption_algorithm?: string | null
+          encryption_key_id?: string | null
           id?: string
+          is_encrypted?: boolean | null
           last_accessed_at?: string | null
           last_accessed_by?: string | null
           updated_at?: string
@@ -2455,7 +2461,10 @@ export type Database = {
           encrypted_email?: string
           encrypted_full_name?: string
           encrypted_phone?: string | null
+          encryption_algorithm?: string | null
+          encryption_key_id?: string | null
           id?: string
+          is_encrypted?: boolean | null
           last_accessed_at?: string | null
           last_accessed_by?: string | null
           updated_at?: string
@@ -3147,6 +3156,10 @@ export type Database = {
         }
         Returns: Json
       }
+      cleanup_old_audit_logs: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       create_sales_agent_application_secure: {
         Args: {
           p_business_experience?: string
@@ -3162,10 +3175,6 @@ export type Database = {
       delete_user_account_immediate: {
         Args: Record<PropertyKey, never>
         Returns: Json
-      }
-      exec_sql: {
-        Args: { query: string }
-        Returns: undefined
       }
       generate_invoice_number: {
         Args: Record<PropertyKey, never>
@@ -3555,6 +3564,10 @@ export type Database = {
       request_account_deletion: {
         Args: { deletion_reason?: string }
         Returns: Json
+      }
+      require_mfa_for_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
       }
       revoke_role: {
         Args: {

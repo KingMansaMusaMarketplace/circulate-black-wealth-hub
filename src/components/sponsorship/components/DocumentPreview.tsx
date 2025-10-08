@@ -18,25 +18,19 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({
   content
 }) => {
   const sanitizeAndStyleHtml = (htmlContent: string) => {
-    // Validate that the content is safe
-    if (!validateSafeHTML(htmlContent)) {
-      console.warn('Potentially unsafe HTML content detected and blocked');
+    // SECURITY: Using DOMPurify for comprehensive XSS protection
+    // Validates and sanitizes in one step - no need for separate validation
+    const sanitizedContent = sanitizeHtml(htmlContent);
+    
+    // If content was completely removed by sanitization, show error
+    if (!sanitizedContent.trim()) {
+      console.warn('Content blocked: HTML contained only unsafe elements');
       return '<p class="text-red-500">Content blocked for security reasons</p>';
     }
     
-    // Sanitize the HTML content
-    const sanitizedContent = sanitizeHtml(htmlContent);
-    
-    // Apply styling to sanitized content
-    return sanitizedContent
-      .replace(/<div/g, '<div className="mb-4"')
-      .replace(/<h1/g, '<h1 className="text-3xl font-bold text-primary mb-6"')
-      .replace(/<h2/g, '<h2 className="text-2xl font-semibold text-secondary mb-4"')
-      .replace(/<h3/g, '<h3 className="text-xl font-semibold text-primary mb-3"')
-      .replace(/<h4/g, '<h4 className="text-lg font-medium text-secondary mb-2"')
-      .replace(/<p/g, '<p className="text-foreground mb-3 leading-relaxed"')
-      .replace(/<ul/g, '<ul className="list-disc pl-6 mb-3 space-y-1"')
-      .replace(/<li/g, '<li className="text-foreground"');
+    // DOMPurify already handles all dangerous content, now just add styling
+    // Note: We apply Tailwind classes via CSS rather than manipulating HTML
+    return sanitizedContent;
   };
 
   return (
@@ -46,8 +40,10 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({
           <DialogTitle className="text-2xl text-primary">{title}</DialogTitle>
         </DialogHeader>
         <div className="mt-4">
+          {/* SECURITY: DOMPurify sanitization applied via sanitizeAndStyleHtml */}
+          {/* This is safe to use dangerouslySetInnerHTML because DOMPurify removes all XSS vectors */}
           <div 
-            className="prose prose-sm max-w-none"
+            className="prose prose-sm max-w-none document-preview-content"
             dangerouslySetInnerHTML={{ 
               __html: sanitizeAndStyleHtml(content)
             }} 

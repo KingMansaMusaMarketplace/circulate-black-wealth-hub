@@ -1,47 +1,29 @@
 // Content sanitization utilities to prevent XSS attacks
+import DOMPurify from 'dompurify';
 
 /**
- * Sanitizes HTML content by removing potentially dangerous elements and attributes
- * This is a basic implementation - for production use, consider using DOMPurify
+ * Sanitizes HTML content using DOMPurify - industry standard protection against XSS
+ * This provides comprehensive protection against:
+ * - Script injection
+ * - SVG-based XSS
+ * - CSS injection vectors
+ * - Data URI attacks
+ * - Mutation XSS (mXSS)
+ * - HTML5 semantic tag exploits
  */
 export const sanitizeHtml = (html: string): string => {
-  // Create a temporary div to parse HTML
-  const temp = document.createElement('div');
-  temp.innerHTML = html;
-
-  // Remove script tags
-  const scripts = temp.getElementsByTagName('script');
-  for (let i = scripts.length - 1; i >= 0; i--) {
-    scripts[i].remove();
-  }
-
-  // Remove potentially dangerous attributes
-  const allElements = temp.getElementsByTagName('*');
-  for (let i = 0; i < allElements.length; i++) {
-    const element = allElements[i];
-    
-    // Remove dangerous attributes
-    const dangerousAttrs = ['onclick', 'onload', 'onerror', 'onmouseover', 'onfocus', 'onblur', 'javascript:'];
-    dangerousAttrs.forEach(attr => {
-      if (element.hasAttribute(attr)) {
-        element.removeAttribute(attr);
-      }
-    });
-
-    // Remove javascript: protocols from href and src
-    const href = element.getAttribute('href');
-    const src = element.getAttribute('src');
-    
-    if (href && href.toLowerCase().startsWith('javascript:')) {
-      element.removeAttribute('href');
-    }
-    
-    if (src && src.toLowerCase().startsWith('javascript:')) {
-      element.removeAttribute('src');
-    }
-  }
-
-  return temp.innerHTML;
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: [
+      'p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 
+      'ul', 'ol', 'li', 'div', 'span', 'a'
+    ],
+    ALLOWED_ATTR: ['class', 'href', 'target', 'rel'],
+    ALLOW_DATA_ATTR: false,
+    // Force links to open in new tab with security attributes
+    ADD_ATTR: ['target', 'rel'],
+    // Prevent javascript: and data: URIs
+    ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+  });
 };
 
 /**

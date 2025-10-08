@@ -76,6 +76,8 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 
   return (
     <style
+      // SECURITY: This is safe - only injects CSS variables, no HTML content
+      // CSS custom properties cannot execute scripts or contain XSS vectors
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
           .map(

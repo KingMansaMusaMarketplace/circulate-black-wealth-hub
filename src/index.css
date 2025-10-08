@@ -217,3 +217,40 @@
 .skip-link:focus {
   top: 6px;
 }
+
+/* Security: Styling for sanitized HTML content in DocumentPreview */
+.document-preview-content {
+  /* These styles apply to DOMPurify-sanitized content */
+}
+
+.document-preview-content h1 {
+  @apply text-3xl font-bold text-primary mb-6;
+}
+
+.document-preview-content h2 {
+  @apply text-2xl font-semibold text-secondary mb-4;
+}
+
+.document-preview-content h3 {
+  @apply text-xl font-semibold text-primary mb-3;
+}
+
+.document-preview-content h4 {
+  @apply text-lg font-medium text-secondary mb-2;
+}
+
+.document-preview-content p {
+  @apply text-foreground mb-3 leading-relaxed;
+}
+
+.document-preview-content ul {
+  @apply list-disc pl-6 mb-3 space-y-1;
+}
+
+.document-preview-content li {
+  @apply text-foreground;
+}
+
+.document-preview-content div {
+  @apply mb-4;
+}
