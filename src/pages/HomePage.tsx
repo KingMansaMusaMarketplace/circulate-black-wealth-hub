@@ -31,7 +31,8 @@ const HomePage = () => {
 
     // Preload critical chunks for better UX (reduced delay for faster interactivity)
     setTimeout(() => {
-      import('@/pages/DirectoryPage');
+      // Temporarily disabled to avoid iOS white screen during startup
+      // import('@/pages/DirectoryPage');
       import('@/pages/LoginPage');
     }, 1000);
   }, []);
