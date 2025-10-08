@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles } from 'lucide-react';
+import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones } from 'lucide-react';
 
 const NavLinks: React.FC = () => {
   const linkClassName = "text-gray-700 hover:text-mansablue transition-colors font-normal px-3 py-2";
@@ -135,6 +135,17 @@ const NavLinks: React.FC = () => {
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                     Latest news and insights
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/support" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <Headphones className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">Support</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Contact support and find answers
                   </p>
                 </Link>
               </li>

@@ -157,6 +157,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/support" className="text-blue-100 hover:text-white transition-colors">
+                  Support
+                </Link>
+              </li>
+              <li>
                 <button 
                   onClick={() => navigate('/help')}
                   className="text-blue-100 hover:text-white transition-colors hover:underline text-left"

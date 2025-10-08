@@ -27,6 +27,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
     { to: '/mentorship', label: 'Mentorship' },
     { to: '/how-it-works', label: 'How It Works' },
     { to: '/subscription', label: 'Plans' },
+    { to: '/support', label: 'Support' },
     { to: '/faq', label: 'FAQ' },
     { to: '/help', label: 'Help Center' },
     { to: '/blog', label: 'Blog' },
