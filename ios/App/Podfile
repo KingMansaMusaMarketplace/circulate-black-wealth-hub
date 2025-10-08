@@ -37,13 +37,25 @@ post_install do |installer|
         case phase.name
         when "[CP] Embed Pods Frameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
+          # Ensure sandbox allows reading the frameworks script
+          phase.input_paths ||= []
+          phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
+          # Add an output to stop Xcode's warning
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_frameworks_embedded"
         when "[CP] Copy Pods Resources"
+          # Ensure sandbox allows reading the resources script
+          phase.input_paths ||= []
+          phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
+          # Add an output to stop Xcode's warning
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
         when "[CP] Copy XCFrameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
+          # Ensure sandbox allows reading the xcframeworks script
+          phase.input_paths ||= []
+          phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks.sh"
+          # Add an output to stop Xcode's warning
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_xcframeworks_copied"
         end
