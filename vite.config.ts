@@ -27,8 +27,8 @@ export default defineConfig(({ mode }) => ({
         manualChunks: (id) => {
           // Vendor chunks
           if (id.includes('node_modules')) {
-            // React ecosystem
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router')) {
+            // React ecosystem - include framer-motion with React to ensure proper dependency sharing
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router') || id.includes('framer-motion')) {
               return 'vendor-react';
             }
             // Radix UI components
@@ -54,10 +54,6 @@ export default defineConfig(({ mode }) => ({
             // QR Code libraries
             if (id.includes('html5-qrcode') || id.includes('qrcode')) {
               return 'qr-code';
-            }
-            // Animations
-            if (id.includes('framer-motion')) {
-              return 'animations';
             }
             // PDF generation
             if (id.includes('html2pdf') || id.includes('jspdf')) {
@@ -136,7 +132,8 @@ export default defineConfig(({ mode }) => ({
       'react-dom',
       'react-router-dom',
       '@tanstack/react-query',
-      'lucide-react'
+      'lucide-react',
+      'framer-motion'
     ],
     exclude: [
       // Exclude heavy deps that should be loaded on demand
