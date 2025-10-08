@@ -151,16 +151,10 @@ post_integrate do |installer|
         next unless phase.respond_to?(:name)
         case phase.name
         when "[CP] Embed Pods Frameworks", "[CP] Copy XCFrameworks"
-          # Replace with harmless no-op to avoid reading Pods support scripts
-          phase.shell_script = 'echo "[CP] Phase skipped due to static linkage / sandbox"\nexit 0'
-          phase.input_paths ||= []
-          if phase.name == "[CP] Embed Pods Frameworks"
-            phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
-          elsif phase.name == "[CP] Copy XCFrameworks"
-            phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks.sh"
-          end
-          phase.output_paths ||= []
-          phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_#{phase.name.gsub(' ', '_').downcase}_skipped"
+          # Remove these phases entirely to avoid sandbox script reads (static linkage)
+          t.build_phases.delete(phase)
+          phase.remove_from_project if phase.respond_to?(:remove_from_project)
+          next
         when "[CP] Copy Pods Resources"
           # Keep resources copy but ensure sandbox IO
           phase.input_paths ||= []
