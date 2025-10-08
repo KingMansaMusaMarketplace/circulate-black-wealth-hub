@@ -41,18 +41,16 @@ post_install do |installer|
       t.build_phases.each do |phase|
         next unless phase.respond_to?(:name)
         case phase.name
-        when "[CP] Embed Pods Frameworks"
-          # Remove this phase for static linkage to avoid sandbox script reads
+        when "[CP] Embed Pods Frameworks", "[CP] Copy XCFrameworks"
+          # Remove these phases entirely to avoid sandbox script reads (static linkage)
           t.build_phases.delete(phase)
+          phase.remove_from_project if phase.respond_to?(:remove_from_project)
         when "[CP] Copy Pods Resources"
           # Keep resources copy but ensure IO paths to satisfy sandbox
           phase.input_paths ||= []
           phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
-        when "[CP] Copy XCFrameworks"
-          # Remove this phase for static linkage
-          t.build_phases.delete(phase)
         end
       end
     end
