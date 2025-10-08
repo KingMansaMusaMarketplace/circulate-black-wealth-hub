@@ -123,8 +123,8 @@ export const HelpSection: React.FC = () => {
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="getting-started">Getting Started</TabsTrigger>
-          <TabsTrigger value="earning-rewards">Earning & Rewards</TabsTrigger>
-          <TabsTrigger value="account-privacy">Account & Privacy</TabsTrigger>
+          <TabsTrigger value="earning--rewards">Earning & Rewards</TabsTrigger>
+          <TabsTrigger value="account--privacy">Account & Privacy</TabsTrigger>
           <TabsTrigger value="faq">FAQ</TabsTrigger>
         </TabsList>
 
