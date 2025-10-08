@@ -22,6 +22,9 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     target: 'safari14',
+    modulePreload: {
+      polyfill: true,
+    },
     // Bundle optimization settings
     rollupOptions: {
       output: {
@@ -142,6 +145,9 @@ export default defineConfig(({ mode }) => ({
       'html5-qrcode',
       'html2pdf.js',
       'file-saver'
-    ]
+    ],
+    esbuildOptions: {
+      target: 'safari14'
+    }
   }
 }));
