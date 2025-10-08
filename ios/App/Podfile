@@ -23,11 +23,15 @@ end
 post_install do |installer|
   assertDeploymentTarget(installer)
 
-  # Disable User Script Sandboxing across App + Pods (Xcode 15/16 fix)
-  # 1) App project targets
-  installer.aggregate_targets.each do |aggregate_target|
-    aggregate_target.user_project.targets.each do |t|
-      # Disable script sandboxing and fix CocoaPods script warnings
+  # Global: Disable User Script Sandboxing in all generated projects (App + Pods aggregators)
+  installer.generated_projects.each do |project|
+    # Project-level setting
+    project.build_configurations.each do |config|
+      config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
+    end
+
+    # Target-level settings + patch script phases
+    project.targets.each do |t|
       t.build_configurations.each do |config|
         config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
       end
@@ -37,25 +41,19 @@ post_install do |installer|
         case phase.name
         when "[CP] Embed Pods Frameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
-          # Ensure sandbox allows reading the frameworks script
           phase.input_paths ||= []
           phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
-          # Add an output to stop Xcode's warning
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_frameworks_embedded"
         when "[CP] Copy Pods Resources"
-          # Ensure sandbox allows reading the resources script
           phase.input_paths ||= []
           phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
-          # Add an output to stop Xcode's warning
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
         when "[CP] Copy XCFrameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
-          # Ensure sandbox allows reading the xcframeworks script
           phase.input_paths ||= []
           phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks.sh"
-          # Add an output to stop Xcode's warning
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_xcframeworks_copied"
         end
@@ -63,35 +61,36 @@ post_install do |installer|
     end
   end
 
-  # 2) Pods targets + additional build settings
+  # Pods project: silence warnings + ensure settings
   installer.pods_project.targets.each do |target|
-    # Reduce logs + add outputs to silence Xcode warnings
     target.build_phases.each do |phase|
       next unless phase.respond_to?(:name)
       case phase.name
       when "[CP] Embed Pods Frameworks"
         phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
+        phase.input_paths ||= []
+        phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{target.name}/Pods-#{target.name}-frameworks.sh"
         phase.output_paths ||= []
         phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_frameworks_embedded"
       when "[CP] Copy Pods Resources"
+        phase.input_paths ||= []
+        phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{target.name}/Pods-#{target.name}-resources.sh"
         phase.output_paths ||= []
         phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_resources_copied"
       when "[CP] Copy XCFrameworks"
         phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
+        phase.input_paths ||= []
+        phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{target.name}/Pods-#{target.name}-xcframeworks.sh"
         phase.output_paths ||= []
         phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_xcframeworks_copied"
       end
     end
 
     target.build_configurations.each do |config|
-      # Minimum iOS target
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
-      # Enable Clang modules so @import works
       config.build_settings['CLANG_ENABLE_MODULES'] = 'YES'
       config.build_settings['DEFINES_MODULE'] = 'YES'
-      # Silence third‑party header warnings introduced in Xcode 16
       config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
-      # Fix sandbox deny messages for CocoaPods build scripts in Xcode 15/16
       config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
     end
   end
