@@ -19,6 +19,7 @@ import { useOnboarding } from '@/hooks/useOnboarding';
 
 export const HelpSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState('getting-started');
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const { resetOnboarding } = useOnboarding();
 
   const handleStartTutorial = () => {
@@ -27,6 +28,23 @@ export const HelpSection: React.FC = () => {
     setTimeout(() => {
       window.location.href = '/';
     }, 100);
+  };
+
+  const toggleExpanded = (sectionIndex: number, itemIndex: number) => {
+    const key = `${sectionIndex}-${itemIndex}`;
+    setExpandedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(key)) {
+        newSet.delete(key);
+      } else {
+        newSet.add(key);
+      }
+      return newSet;
+    });
+  };
+
+  const isExpanded = (sectionIndex: number, itemIndex: number) => {
+    return expandedItems.has(`${sectionIndex}-${itemIndex}`);
   };
 
   const getSectionIcon = (title: string) => {
@@ -124,23 +142,58 @@ export const HelpSection: React.FC = () => {
                 </div>
                 
                 <div className="grid gap-4">
-                  {section.items.map((item, itemIndex) => (
-                    <Card key={itemIndex} className="hover:shadow-md transition-shadow">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="flex items-center justify-between">
-                          <span className="text-lg">{item.title}</span>
-                          <Badge variant="secondary">Guide</Badge>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-0">
-                        <p className="text-gray-600 mb-4">{item.description}</p>
-                        <Button variant="outline" size="sm">
-                          Read More
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {section.items.map((item, itemIndex) => {
+                    const expanded = isExpanded(sectionIndex, itemIndex);
+                    return (
+                      <Card key={itemIndex} className="hover:shadow-md transition-shadow">
+                        <CardHeader className="pb-3">
+                          <CardTitle className="flex items-center justify-between">
+                            <span className="text-lg">{item.title}</span>
+                            <Badge variant="secondary">Guide</Badge>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <p className="text-gray-600 mb-4">{item.description}</p>
+                          
+                          {expanded && item.details && (
+                            <div className="prose prose-sm max-w-none mb-4 p-4 bg-gray-50 rounded-lg">
+                              {item.details.split('\n\n').map((paragraph, idx) => {
+                                if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
+                                  return <h3 key={idx} className="text-base font-semibold text-gray-900 mt-4 mb-2">{paragraph.replace(/\*\*/g, '')}</h3>;
+                                } else if (paragraph.startsWith('- ')) {
+                                  return (
+                                    <ul key={idx} className="list-disc list-inside space-y-1 mb-3">
+                                      {paragraph.split('\n').map((line, i) => (
+                                        <li key={i} className="text-gray-700">{line.replace(/^- /, '')}</li>
+                                      ))}
+                                    </ul>
+                                  );
+                                } else if (/^\d+\./.test(paragraph)) {
+                                  return (
+                                    <ol key={idx} className="list-decimal list-inside space-y-1 mb-3">
+                                      {paragraph.split('\n').map((line, i) => (
+                                        <li key={i} className="text-gray-700">{line.replace(/^\d+\.\s*/, '')}</li>
+                                      ))}
+                                    </ol>
+                                  );
+                                }
+                                return <p key={idx} className="text-gray-700 mb-3">{paragraph}</p>;
+                              })}
+                            </div>
+                          )}
+                          
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => toggleExpanded(sectionIndex, itemIndex)}
+                          >
+                            {expanded ? 'Show Less' : 'Read More'}
+                            <ArrowRight className={`w-4 h-4 ml-2 transition-transform ${expanded ? 'rotate-90' : ''}`} />
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               </div>
             </TabsContent>
