@@ -42,27 +42,21 @@ post_install do |installer|
         next unless phase.respond_to?(:name)
         case phase.name
         when "[CP] Embed Pods Frameworks"
-          # On Xcode 15/16 with static linkage, this phase is unnecessary and can trigger sandbox denials.
-          # No-op to avoid reading the Pods support script.
-          phase.shell_script = 'echo "[CP] Skipping embed pods frameworks (static linkage)"\nexit 0'
-          # Keep minimal IO to satisfy Xcode's phase expectations
-          phase.input_paths ||= []
-          phase.output_paths ||= []
-          phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_frameworks_embedded"
+          # Remove this phase for static linkage to avoid sandbox script reads
+          t.build_phases.delete(phase)
         when "[CP] Copy Pods Resources"
+          # Keep resources copy but ensure IO paths to satisfy sandbox
           phase.input_paths ||= []
-          phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
+          phase.input_paths << "${PODS_ROOT}/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
         when "[CP] Copy XCFrameworks"
-          # Also no-op to avoid sandbox reads when not needed with static linkage
-          phase.shell_script = 'echo "[CP] Skipping copy xcframeworks (static linkage)"\nexit 0'
-          phase.input_paths ||= []
-          phase.output_paths ||= []
-          phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_xcframeworks_copied"
+          # Remove this phase for static linkage
+          t.build_phases.delete(phase)
         end
       end
     end
+    project.save
   end
 
   # Generated CocoaPods projects (aggregators): disable sandboxing + patch phases
