@@ -8,15 +8,9 @@ export async function initializeCapacitorPlugins() {
   try {
     // Only interact with Capacitor if we're in a native environment
     if (window?.Capacitor?.isNativePlatform()) {
-      // Wait a bit longer before hiding splash to ensure content is ready
-      // This prevents blank page issues on slower devices like iPad
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
-      // Hide the splash screen with a smooth fade animation
-      await SplashScreen.hide({
-        fadeOutDuration: 500
-      });
-      console.log('Splash screen hidden successfully');
+      // DON'T hide splash screen here - let React tell us when it's ready
+      // This prevents blank page issues on iPad and slower devices
+      console.log('Capacitor detected - splash will be hidden when app is ready');
     }
     
     console.log('Capacitor plugins initialized successfully');
@@ -25,6 +19,24 @@ export async function initializeCapacitorPlugins() {
     console.error('Error initializing Capacitor plugins:', error);
     // Don't throw error - allow app to continue even if splash screen fails
     return false;
+  }
+}
+
+/**
+ * Hide the splash screen - call this when React is fully ready
+ */
+export async function hideSplashScreen() {
+  try {
+    if (window?.Capacitor?.isNativePlatform()) {
+      // Hide the splash screen with a smooth fade animation
+      await SplashScreen.hide({
+        fadeOutDuration: 500
+      });
+      console.log('Splash screen hidden successfully');
+    }
+  } catch (error) {
+    console.error('Error hiding splash screen:', error);
+    // Don't throw - app should continue even if splash screen fails
   }
 }
 

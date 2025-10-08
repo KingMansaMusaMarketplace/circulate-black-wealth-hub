@@ -104,14 +104,30 @@ function App() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
+        // Initialize plugins first (doesn't hide splash)
         await initializeCapacitorPlugins();
-        // Add a small delay to ensure smooth transition from splash screen
-        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Mark as ready immediately - React will render
         setAppReady(true);
+        
+        // Wait for React to fully render, then hide splash
+        // Use requestAnimationFrame to ensure DOM is painted
+        requestAnimationFrame(async () => {
+          await new Promise(resolve => setTimeout(resolve, 100));
+          const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
+          await hideSplashScreen();
+        });
       } catch (error) {
         console.error('Error initializing app:', error);
         // Still mark as ready even if there's an error to prevent blank screen
         setAppReady(true);
+        // Try to hide splash screen anyway
+        try {
+          const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
+          await hideSplashScreen();
+        } catch (splashError) {
+          console.error('Error hiding splash screen:', splashError);
+        }
       }
     };
     
