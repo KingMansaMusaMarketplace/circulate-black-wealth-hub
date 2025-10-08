@@ -182,7 +182,6 @@ function App() {
                         <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
                         <Route path="/business/:businessId" element={<BusinessDetailPage />} />
                         <Route path="/loyalty" element={<RewardsPage />} />
-                        <Route path="/scanner" element={<QRScannerPage />} />
                         {/* Temporarily disabled to isolate iOS startup crash */}
                         <Route path="/about" element={<LazyAboutPage />} />
                         <Route path="/contact" element={<ContactPage />} />
