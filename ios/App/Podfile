@@ -45,6 +45,7 @@ post_install do |installer|
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
           phase.input_paths ||= []
           phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
+          phase.input_paths << "$(SRCROOT)/Pods/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_frameworks_embedded"
         when "[CP] Copy Pods Resources"
