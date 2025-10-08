@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { businesses } from '@/data/businessesData';
 import { 
@@ -58,8 +56,6 @@ const BusinessPage: React.FC = () => {
       </Helmet>
 
       <div className="min-h-screen">
-        <Navbar />
-        
         <main className="container mx-auto px-4 py-8">
           {/* Business Header */}
           <BusinessDetailHeader business={business} />
@@ -85,8 +81,6 @@ const BusinessPage: React.FC = () => {
             </TabsContent>
           </Tabs>
         </main>
-        
-        <Footer />
       </div>
     </>
   );

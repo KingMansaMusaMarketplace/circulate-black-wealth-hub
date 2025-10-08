@@ -1,8 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Building2, Search, Filter, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -49,8 +47,6 @@ const BusinessesPage: React.FC = () => {
         <title>All Businesses | Mansa Musa Marketplace</title>
         <meta name="description" content="Browse all Black-owned businesses in the Mansa Musa Marketplace" />
       </Helmet>
-      
-      <Navbar />
       
       <main className="flex-grow bg-gray-50 py-12">
         <div className="container mx-auto px-4">
@@ -152,8 +148,6 @@ const BusinessesPage: React.FC = () => {
           )}
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 };

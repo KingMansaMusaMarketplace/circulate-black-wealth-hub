@@ -1,13 +1,10 @@
 
 import React from 'react';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Search, Book, MessageCircle, Phone } from 'lucide-react';
 
 const HelpCenterPage = () => {
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold text-mansablue mb-8 text-center">Help Center</h1>
         <div className="max-w-6xl mx-auto">
@@ -54,7 +51,6 @@ const HelpCenterPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

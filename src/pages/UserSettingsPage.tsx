@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { User, Bell, Shield, Trash2 } from 'lucide-react';
@@ -32,8 +30,6 @@ const UserSettingsPage: React.FC = () => {
       </Helmet>
       
       <div className="min-h-screen bg-background">
-        <Navbar />
-        
         <main className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="mb-8">
@@ -141,8 +137,6 @@ const UserSettingsPage: React.FC = () => {
             </Tabs>
           </div>
         </main>
-        
-        <Footer />
       </div>
     </>
   );

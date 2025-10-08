@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import TestimonialsSection from '@/components/TestimonialsSection';
 
 const TestimonialsPage = () => {
@@ -13,7 +11,6 @@ const TestimonialsPage = () => {
         <meta name="description" content="Read success stories and testimonials from businesses and customers using Mansa Musa Marketplace." />
       </Helmet>
 
-      <Navbar />
       <main className="flex-grow">
         <div className="bg-mansablue py-16">
           <div className="container-custom">
@@ -25,7 +22,6 @@ const TestimonialsPage = () => {
         </div>
         <TestimonialsSection />
       </main>
-      <Footer />
     </div>
   );
 };

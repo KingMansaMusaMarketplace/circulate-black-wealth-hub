@@ -1,8 +1,6 @@
 
 import React, { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/Footer';
 import CategoryExploration from '@/components/directory/CategoryExploration';
 import MobileCategoryCarousel from '@/components/directory/MobileCategoryCarousel';
 import SmartFiltering from '@/components/directory/SmartFiltering';
@@ -137,8 +135,6 @@ const EnhancedDirectoryPage: React.FC = () => {
         <meta name="description" content="Discover Black-owned businesses with AI-powered recommendations and smart filtering" />
       </Helmet>
       
-      <Navbar />
-      
       {/* Desktop Hero Section */}
       {!isMobile && (
         <DesktopHeroSection
@@ -265,8 +261,6 @@ const EnhancedDirectoryPage: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 };

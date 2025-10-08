@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,7 +29,6 @@ const ResetPasswordPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
       <div className="flex-grow flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
@@ -102,7 +99,6 @@ const ResetPasswordPage = () => {
           )}
         </Card>
       </div>
-      <Footer />
     </div>
   );
 };

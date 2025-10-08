@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/AuthContext';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import LoginContainer from '@/components/auth/LoginContainer';
 import CustomerSignupTab from '@/components/auth/forms/CustomerSignupTab';
 
@@ -27,8 +25,6 @@ const CustomerSignupPage: React.FC = () => {
         <title>Customer Sign Up | Mansa Musa Marketplace</title>
         <meta name="description" content="Create a customer account on Mansa Musa Marketplace" />
       </Helmet>
-
-      <Navbar />
 
       <main className="flex-1 flex items-center justify-center p-4">
         <LoginContainer 
@@ -54,8 +50,6 @@ const CustomerSignupPage: React.FC = () => {
           </div>
         </LoginContainer>
       </main>
-
-      <Footer />
     </div>
   );
 };

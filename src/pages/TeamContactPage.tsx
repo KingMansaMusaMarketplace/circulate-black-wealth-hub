@@ -1,7 +1,5 @@
 
 import React, { useState } from 'react';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import TeamSection from '@/components/AboutPage/TeamSection';
 import ContactSection from '@/components/AboutPage/ContactSection';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
@@ -36,7 +34,6 @@ const TeamContactPage = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
       <PageNavigation sections={sections} />
       <main>
         <section className="py-16 bg-gradient-to-b from-mansablue/10 to-white">
@@ -88,8 +85,6 @@ const TeamContactPage = () => {
           </motion.button>
         )}
       </AnimatePresence>
-      
-      <Footer />
     </div>
   );
 };

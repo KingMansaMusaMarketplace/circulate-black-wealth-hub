@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const FAQPage = () => {
@@ -34,7 +32,6 @@ const FAQPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
       <div className="container mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold text-mansablue mb-8 text-center">Frequently Asked Questions</h1>
         <div className="max-w-4xl mx-auto">
@@ -48,7 +45,6 @@ const FAQPage = () => {
           </Accordion>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

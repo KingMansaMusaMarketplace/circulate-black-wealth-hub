@@ -1,8 +1,6 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -25,8 +23,6 @@ const AccessibilityPage: React.FC = () => {
         <title>Accessibility | Mansa Musa Marketplace</title>
         <meta name="description" content="Learn about accessibility features and support at Mansa Musa Marketplace. We're committed to making economic empowerment accessible to everyone." />
       </Helmet>
-
-      <Navbar />
 
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
@@ -222,8 +218,6 @@ const AccessibilityPage: React.FC = () => {
           </Card>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

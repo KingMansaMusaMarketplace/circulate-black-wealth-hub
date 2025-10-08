@@ -1,7 +1,5 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import QRCodeScannerV2 from '@/components/QRScannerV2';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -16,11 +14,9 @@ const QRCodeScannerV2Page: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-mansablue" />
         </div>
-        <Footer />
       </div>
     );
   }
@@ -35,8 +31,6 @@ const QRCodeScannerV2Page: React.FC = () => {
         <title>QR Scanner | Mansa Musa Marketplace</title>
         <meta name="description" content="Scan QR codes to earn loyalty points or access special offers" />
       </Helmet>
-
-      <Navbar />
 
       <div className="flex-grow bg-gray-50 py-8">
         <div className="container mx-auto px-4">
@@ -99,8 +93,6 @@ const QRCodeScannerV2Page: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

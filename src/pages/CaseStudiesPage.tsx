@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -65,7 +63,6 @@ const caseStudies = [
 const CaseStudiesPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
       <div className="flex-grow">
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-mansablue to-mansablue-dark text-white py-16">
@@ -211,7 +208,6 @@ const CaseStudiesPage: React.FC = () => {
           </div>
         </section>
       </div>
-      <Footer />
     </div>
   );
 };

@@ -4,8 +4,6 @@ import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSalesAgent } from '@/hooks/use-sales-agent';
 import { useSalesAgentTabs } from '@/hooks/use-sales-agent-tabs';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import GuestView from '@/components/sales-agent/GuestView';
 import AgentContent from '@/components/sales-agent/AgentContent';
 import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
@@ -26,8 +24,6 @@ const SalesAgentPage: React.FC = () => {
       <Helmet>
         <title>Sales Agent Program | Mansa Musa Marketplace</title>
       </Helmet>
-
-      <Navbar />
 
       <main className="bg-gradient-to-b from-blue-50 to-blue-100 py-8">
         <div className="container mx-auto px-4">
@@ -118,8 +114,6 @@ const SalesAgentPage: React.FC = () => {
           )}
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };

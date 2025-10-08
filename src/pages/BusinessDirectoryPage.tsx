@@ -1,8 +1,6 @@
 
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/Footer';
 import DirectoryFilter from '@/components/DirectoryFilter';
 import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
@@ -48,8 +46,6 @@ const BusinessDirectoryPage: React.FC = () => {
         <title>Business Directory | Mansa Musa Marketplace</title>
         <meta name="description" content="Browse Black-owned businesses in the Mansa Musa Marketplace directory" />
       </Helmet>
-      
-      <Navbar />
       
       <div className="bg-mansablue py-8">
         <div className="container mx-auto text-center">
@@ -147,8 +143,6 @@ const BusinessDirectoryPage: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 };

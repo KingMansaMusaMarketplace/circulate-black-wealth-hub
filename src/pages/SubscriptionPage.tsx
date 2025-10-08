@@ -2,8 +2,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useSearchParams } from 'react-router-dom';
-import { Navbar } from '@/components/navbar';
-import Footer from '@/components/Footer';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import SubscriptionPlansWithToggle from '@/components/subscription/SubscriptionPlansWithToggle';
@@ -33,8 +31,6 @@ const SubscriptionPage: React.FC = () => {
       <Helmet>
         <title>Subscription Plans | Mansa Musa Marketplace</title>
       </Helmet>
-
-      <Navbar />
 
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-7xl mx-auto space-y-12">
@@ -78,8 +74,6 @@ const SubscriptionPage: React.FC = () => {
           <SubscriptionFAQ userType={userType} />
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 };
