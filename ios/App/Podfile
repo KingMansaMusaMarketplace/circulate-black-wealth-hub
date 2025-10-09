@@ -45,20 +45,32 @@ post_install do |installer|
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
           phase.input_paths ||= []
           phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
+          phase.input_file_list_paths ||= []
+          phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks-$(CONFIGURATION)-input-files.xcfilelist"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_frameworks_embedded"
+          phase.output_file_list_paths ||= []
+          phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks-$(CONFIGURATION)-output-files.xcfilelist"
         when "[CP] Copy XCFrameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
           phase.input_paths ||= []
           phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks.sh"
+          phase.input_file_list_paths ||= []
+          phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks-$(CONFIGURATION)-input-files.xcfilelist"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_xcframeworks_copied"
+          phase.output_file_list_paths ||= []
+          phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks-$(CONFIGURATION)-output-files.xcfilelist"
         when "[CP] Copy Pods Resources"
           # Keep resources copy but ensure IO paths to satisfy sandbox
           phase.input_paths ||= []
           phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
+          phase.input_file_list_paths ||= []
+          phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources-$(CONFIGURATION)-input-files.xcfilelist"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
+          phase.output_file_list_paths ||= []
+          phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources-$(CONFIGURATION)-output-files.xcfilelist"
         end
       end
     end
@@ -85,19 +97,31 @@ post_install do |installer|
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
           phase.input_paths ||= []
           phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-frameworks.sh"
+          phase.input_file_list_paths ||= []
+          phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-frameworks-$(CONFIGURATION)-input-files.xcfilelist"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_frameworks_embedded"
+          phase.output_file_list_paths ||= []
+          phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-frameworks-$(CONFIGURATION)-output-files.xcfilelist"
         when "[CP] Copy Pods Resources"
           phase.input_paths ||= []
           phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-resources.sh"
+          phase.input_file_list_paths ||= []
+          phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-resources-$(CONFIGURATION)-input-files.xcfilelist"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
+          phase.output_file_list_paths ||= []
+          phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-resources-$(CONFIGURATION)-output-files.xcfilelist"
         when "[CP] Copy XCFrameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
           phase.input_paths ||= []
           phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-xcframeworks.sh"
+          phase.input_file_list_paths ||= []
+          phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-xcframeworks-$(CONFIGURATION)-input-files.xcfilelist"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_xcframeworks_copied"
+          phase.output_file_list_paths ||= []
+          phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-xcframeworks-$(CONFIGURATION)-output-files.xcfilelist"
         end
       end
     end
@@ -108,23 +132,35 @@ post_install do |installer|
     target.build_phases.each do |phase|
       next unless phase.respond_to?(:name)
       case phase.name
-      when "[CP] Embed Pods Frameworks"
-        phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
-        phase.input_paths ||= []
-        phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-frameworks.sh"
-        phase.output_paths ||= []
-        phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_frameworks_embedded"
-      when "[CP] Copy Pods Resources"
-        phase.input_paths ||= []
-        phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-resources.sh"
-        phase.output_paths ||= []
-        phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_resources_copied"
-      when "[CP] Copy XCFrameworks"
-        phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
-        phase.input_paths ||= []
-        phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-xcframeworks.sh"
-        phase.output_paths ||= []
-        phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_xcframeworks_copied"
+       when "[CP] Embed Pods Frameworks"
+         phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
+         phase.input_paths ||= []
+         phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-frameworks.sh"
+         phase.input_file_list_paths ||= []
+         phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-frameworks-$(CONFIGURATION)-input-files.xcfilelist"
+         phase.output_paths ||= []
+         phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_frameworks_embedded"
+         phase.output_file_list_paths ||= []
+         phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-frameworks-$(CONFIGURATION)-output-files.xcfilelist"
+       when "[CP] Copy Pods Resources"
+         phase.input_paths ||= []
+         phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-resources.sh"
+         phase.input_file_list_paths ||= []
+         phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-resources-$(CONFIGURATION)-input-files.xcfilelist"
+         phase.output_paths ||= []
+         phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_resources_copied"
+         phase.output_file_list_paths ||= []
+         phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-resources-$(CONFIGURATION)-output-files.xcfilelist"
+       when "[CP] Copy XCFrameworks"
+         phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
+         phase.input_paths ||= []
+         phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-xcframeworks.sh"
+         phase.input_file_list_paths ||= []
+         phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-xcframeworks-$(CONFIGURATION)-input-files.xcfilelist"
+         phase.output_paths ||= []
+         phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_xcframeworks_copied"
+         phase.output_file_list_paths ||= []
+         phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-xcframeworks-$(CONFIGURATION)-output-files.xcfilelist"
       end
     end
 
@@ -159,25 +195,37 @@ post_integrate do |installer|
         next unless phase.respond_to?(:name)
         case phase.name
         when "[CP] Embed Pods Frameworks"
-          phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
-          phase.input_paths ||= []
-          phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
-          phase.output_paths ||= []
-          phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_frameworks_embedded"
+           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
+           phase.input_paths ||= []
+           phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
+           phase.input_file_list_paths ||= []
+           phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks-$(CONFIGURATION)-input-files.xcfilelist"
+           phase.output_paths ||= []
+           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_frameworks_embedded"
+           phase.output_file_list_paths ||= []
+           phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks-$(CONFIGURATION)-output-files.xcfilelist"
           next
         when "[CP] Copy XCFrameworks"
-          phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
-          phase.input_paths ||= []
-          phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks.sh"
-          phase.output_paths ||= []
-          phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_xcframeworks_copied"
+           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
+           phase.input_paths ||= []
+           phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks.sh"
+           phase.input_file_list_paths ||= []
+           phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks-$(CONFIGURATION)-input-files.xcfilelist"
+           phase.output_paths ||= []
+           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_xcframeworks_copied"
+           phase.output_file_list_paths ||= []
+           phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks-$(CONFIGURATION)-output-files.xcfilelist"
           next
         when "[CP] Copy Pods Resources"
-          # Keep resources copy but ensure sandbox IO
-          phase.input_paths ||= []
-          phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
-          phase.output_paths ||= []
-          phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
+           # Keep resources copy but ensure sandbox IO
+           phase.input_paths ||= []
+           phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
+           phase.input_file_list_paths ||= []
+           phase.input_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources-$(CONFIGURATION)-input-files.xcfilelist"
+           phase.output_paths ||= []
+           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
+           phase.output_file_list_paths ||= []
+           phase.output_file_list_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources-$(CONFIGURATION)-output-files.xcfilelist"
         end
       end
     end
