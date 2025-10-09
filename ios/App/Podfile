@@ -42,9 +42,12 @@ post_install do |installer|
         next unless phase.respond_to?(:name)
         case phase.name
         when "[CP] Embed Pods Frameworks", "[CP] Copy XCFrameworks"
-          # Remove these phases entirely to avoid sandbox script reads (static linkage)
-          t.build_phases.delete(phase)
-          phase.remove_from_project if phase.respond_to?(:remove_from_project)
+          # Turn these into no-ops to avoid sandbox issues
+          phase.shell_script = "echo 'Skipping CocoaPods frameworks/xcframeworks for static linkage'"
+          phase.input_paths = []
+          phase.input_file_list_paths = []
+          phase.output_paths = []
+          phase.output_file_list_paths = []
         when "[CP] Copy Pods Resources"
           # Keep resources copy but ensure IO paths to satisfy sandbox
           phase.input_paths ||= []
@@ -151,9 +154,12 @@ post_integrate do |installer|
         next unless phase.respond_to?(:name)
         case phase.name
         when "[CP] Embed Pods Frameworks", "[CP] Copy XCFrameworks"
-          # Remove these phases entirely to avoid sandbox script reads (static linkage)
-          t.build_phases.delete(phase)
-          phase.remove_from_project if phase.respond_to?(:remove_from_project)
+          # Turn these into no-ops to avoid sandbox issues
+          phase.shell_script = "echo 'Skipping CocoaPods frameworks/xcframeworks for static linkage'"
+          phase.input_paths = []
+          phase.input_file_list_paths = []
+          phase.output_paths = []
+          phase.output_file_list_paths = []
           next
         when "[CP] Copy Pods Resources"
           # Keep resources copy but ensure sandbox IO
