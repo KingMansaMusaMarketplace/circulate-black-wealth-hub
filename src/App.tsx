@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
+import { isCapacitorPlatform } from '@/utils/capacitor-plugins';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -111,15 +112,17 @@ function App() {
         setAppReady(true);
         
         // Wait for React to fully render, then hide splash
-        // Use setTimeout to ensure DOM is fully painted (500ms is safer for iOS)
+        // Use longer timeout for iPad (1000ms) to prevent blank screen
+        const splashDelay = isCapacitorPlatform() ? 1000 : 500;
         setTimeout(async () => {
           try {
             const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
             await hideSplashScreen();
+            console.log('Splash screen hidden after app ready');
           } catch (error) {
             console.error('Failed to hide splash screen:', error);
           }
-        }, 500);
+        }, splashDelay);
       } catch (error) {
         console.error('Error initializing app:', error);
         // Still mark as ready even if there's an error to prevent blank screen
@@ -149,7 +152,101 @@ function App() {
           <AuthProvider>
             <SubscriptionProvider>
               <NativeFeatures>
-                <BrowserRouter>
+                {/* Use HashRouter for Capacitor/native compatibility, BrowserRouter for web */}
+                {isCapacitorPlatform() ? (
+                  <HashRouter>
+                    <TooltipProvider>
+                    <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
+                      {/* Skip to main content link for keyboard navigation */}
+                      <a href="#main-content" className="skip-link">
+                        Skip to main content
+                      </a>
+                      
+                      <div id="main-content" role="main">
+                        <Suspense fallback={<LoadingFallback />}>
+                          <Layout>
+                            <Routes>
+                              <Route path="/" element={<HomePage />} />
+                              <Route path="/auth" element={<LazyAuthPage />} />
+                              <Route path="/login" element={<LazyLoginPage />} />
+                              <Route path="/signup" element={<LazySignupPage />} />
+                              <Route path="/email-verified" element={<LazyEmailVerified />} />
+                            
+                              {/* Business signup routes - support both URL patterns */}
+                              <Route path="/business-signup" element={<LazyBusinessSignupPage />} />
+                              <Route path="/signup/business" element={<LazyBusinessSignupPage />} />
+                              
+                              {/* Business form route */}
+                              <Route path="/business-form" element={<LazyBusinessFormPage />} />
+                              
+                              {/* Password reset routes */}
+                              <Route path="/reset-password" element={<LazyPasswordResetRequestPage />} />
+                              <Route path="/password-reset" element={<LazyResetPasswordPage />} />
+                              
+                              <Route path="/profile" element={<LazyProfilePage />} />
+                              <Route path="/subscription" element={<LazySubscriptionPage />} />
+                              <Route path="/directory" element={<LazyDirectoryPage />} />
+                              <Route path="/businesses" element={<BusinessDiscoveryPage />} />
+                              <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
+                              <Route path="/business/:businessId" element={<BusinessDetailPage />} />
+                              <Route path="/loyalty" element={<RewardsPage />} />
+                              <Route path="/about" element={<LazyAboutPage />} />
+                              <Route path="/contact" element={<ContactPage />} />
+                              <Route path="/support" element={<SupportPage />} />
+                              <Route path="/terms" element={<TermsOfServicePage />} />
+                              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+                              <Route path="/cookies" element={<CookiePolicyPage />} />
+                              <Route path="/blog" element={<BlogPage />} />
+                              <Route path="/help" element={<HelpPage />} />
+                              <Route path="/testing/signup" element={<LazySignupTestPage />} />
+                              <Route path="/accessibility" element={<LazyAccessibilityPage />} />
+                              
+                              <Route path="/dashboard" element={<LazyUserDashboardPage />} />
+                              <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
+                              <Route path="/my-profile" element={<LazyUserProfilePage />} />
+                              <Route path="/user-profile" element={<LazyUserProfilePage />} />
+                              <Route path="/settings" element={<LazyUserSettingsPage />} />
+                              <Route path="/user-settings" element={<LazyUserSettingsPage />} />
+                              <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
+                             
+                              <Route path="/business-dashboard" element={<LazyDashboardPage />} />
+                              <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
+                              <Route path="/business/bookings" element={<LazyBusinessBookingsPage />} />
+                              <Route path="/book/:businessId" element={<LazyBookBusinessPage />} />
+                            
+                              <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
+                              <Route path="/features" element={<LazyFeatureGuidePage />} />
+                              <Route path="/education" element={<LazyEducationPage />} />
+                              <Route path="/mentorship" element={<LazyMentorshipPage />} />
+                              <Route path="/scanner" element={<LazyQRScannerPage />} />
+                              <Route path="/loyalty" element={<LazyLoyaltyPage />} />
+                              <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
+                              <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                              <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                              <Route path="/full-app-test" element={<LazyFullAppTestPage />} />
+                              <Route path="/full-system-test" element={<LazyFullSystemTestPage />} />
+                              <Route path="/system-test" element={<LazySystemTestPage />} />
+                              <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
+                              <Route path="/comprehensive-test" element={<LazyComprehensiveTestPage />} />
+                              <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
+                              <Route path="/signup-test" element={<LazySignupTestPage />} />
+                              <Route path="/payment-test" element={<LazyPaymentTestPage />} />
+                              
+                              <Route path="*" element={<NotFound />} />
+                            </Routes>
+                          </Layout>
+                        </Suspense>
+                      </div>
+                    </div>
+                    <OnboardingFlow />
+                    <BusinessOnboardingFlow />
+                    <CorporateOnboardingFlow />
+                    <Toaster />
+                    <Sonner />
+                  </TooltipProvider>
+                  </HashRouter>
+                ) : (
+                  <BrowserRouter>
                   <TooltipProvider>
                   <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
                     {/* Skip to main content link for keyboard navigation */}
@@ -267,7 +364,8 @@ function App() {
                 <Toaster />
                 <Sonner />
               </TooltipProvider>
-            </BrowserRouter>
+              </BrowserRouter>
+                )}
             </NativeFeatures>
           </SubscriptionProvider>
         </AuthProvider>

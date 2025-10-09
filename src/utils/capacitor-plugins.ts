@@ -11,6 +11,16 @@ export async function initializeCapacitorPlugins() {
       // DON'T hide splash screen here - let React tell us when it's ready
       // This prevents blank page issues on iPad and slower devices
       console.log('Capacitor detected - splash will be hidden when app is ready');
+
+      // Safety fallback: ensure splash never gets stuck on iPad/iOS
+      setTimeout(async () => {
+        try {
+          await SplashScreen.hide({ fadeOutDuration: 500 });
+          console.log('Safety: Splash screen auto-hidden after timeout');
+        } catch (e) {
+          // ignore
+        }
+      }, 3000);
     }
     
     console.log('Capacitor plugins initialized successfully');

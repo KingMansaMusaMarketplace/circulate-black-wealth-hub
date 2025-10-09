@@ -122,6 +122,7 @@ const SupportPage = () => {
       <Helmet>
         <title>Support Center - Mansa Musa Marketplace</title>
         <meta name="description" content="Get help with Mansa Musa Marketplace. Contact our support team, browse FAQs, and find solutions to common issues." />
+        <link rel="canonical" href="https://mansamusamarketplace.com/support" />
       </Helmet>
       
       <div className="min-h-screen bg-background">
