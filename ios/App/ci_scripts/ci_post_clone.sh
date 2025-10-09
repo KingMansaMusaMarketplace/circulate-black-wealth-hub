@@ -10,13 +10,28 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 # Install CocoaPods and Node.js 20 (required by Capacitor CLI >= 7)
 echo "📦 Install CocoaPods and Node.js (20.x)"
 brew install cocoapods || true
-brew install node@20 || true
-brew link --overwrite --force node@20 || true
 
-# Ensure Node 20 is first in PATH on both Intel and Apple Silicon runners
-export PATH="/usr/local/opt/node@20/bin:/opt/homebrew/opt/node@20/bin:$PATH"
-node -v
-npm -v
+# Try to install Node@20, fallback to latest node if specific version fails
+if ! brew install node@20; then
+  echo "⚠️ Failed to install node@20, trying latest Node.js version"
+  brew install node || true
+fi
+
+# Try to link node@20, but continue if it fails
+brew link --overwrite --force node@20 || echo "⚠️ Could not link node@20, continuing with system node"
+
+# Ensure Node is available in PATH (try multiple possible locations)
+export PATH="/usr/local/opt/node@20/bin:/opt/homebrew/opt/node@20/bin:/usr/local/bin:/opt/homebrew/bin:$PATH"
+
+# Verify Node and npm are available, exit if not found
+if ! command -v node &> /dev/null; then
+  echo "❌ Node.js not found. Attempting to install with default homebrew"
+  brew install node
+  export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+fi
+
+echo "✅ Node version: $(node -v)"
+echo "✅ NPM version: $(npm -v)"
 
 # Change to repository root
 cd /Volumes/workspace/repository
