@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useLocation } from '@/hooks/location/useLocation';
 import { businesses } from '@/data/businessData';
 import { BusinessFilters } from '@/lib/api/directory/types';

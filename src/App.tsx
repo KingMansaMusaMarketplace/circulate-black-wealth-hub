@@ -111,12 +111,15 @@ function App() {
         setAppReady(true);
         
         // Wait for React to fully render, then hide splash
-        // Use requestAnimationFrame to ensure DOM is painted
-        requestAnimationFrame(async () => {
-          await new Promise(resolve => setTimeout(resolve, 100));
-          const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
-          await hideSplashScreen();
-        });
+        // Use setTimeout to ensure DOM is fully painted (500ms is safer for iOS)
+        setTimeout(async () => {
+          try {
+            const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
+            await hideSplashScreen();
+          } catch (error) {
+            console.error('Failed to hide splash screen:', error);
+          }
+        }, 500);
       } catch (error) {
         console.error('Error initializing app:', error);
         // Still mark as ready even if there's an error to prevent blank screen
