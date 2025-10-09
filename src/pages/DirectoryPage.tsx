@@ -20,7 +20,7 @@ import DirectoryFilter from '@/components/DirectoryFilter';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Lazy load MapView for better code splitting
-const MapView = React.lazy(() => import('@/components/MapView'));
+const MapView = React.lazy(() => import('@/components/MapView/MapView'));
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
 import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
