@@ -100,8 +100,10 @@ export async function fetchSafeBusinessById(businessId: string): Promise<Busines
       return null;
     }
     
-    // Filter sensitive fields as additional protection and cast to Business type
-    return filterSensitiveBusinessFields(data) as Business;
+    // Since we already selected only safe fields, just filter and cast properly
+    // Cast through unknown first as TypeScript requires
+    const filtered = filterSensitiveBusinessFields(data);
+    return filtered as unknown as Business;
   } catch (error) {
     console.error('Unexpected error in fetchSafeBusinessById:', error);
     return null;
