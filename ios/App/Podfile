@@ -3,8 +3,8 @@ require_relative '../../node_modules/@capacitor/ios/scripts/pods_helpers'
 platform :ios, '14.0'
 use_frameworks! :linkage => :static
 
-# Ensure CocoaPods generates input/output file lists used by Xcode build phases
-install! 'cocoapods', :disable_input_output_paths => false
+# Disable CocoaPods input/output file lists (fixes xcfilelist errors on Xcode 15/16)
+install! 'cocoapods', :disable_input_output_paths => true
 
 def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
@@ -26,10 +26,12 @@ post_install do |installer|
     project = aggregate_target.user_project
     project.build_configurations.each do |config|
       config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
+      config.build_settings['COCOAPODS_DISABLE_INPUT_OUTPUT_PATHS'] = 'YES'
     end
     project.targets.each do |t|
       t.build_configurations.each do |config|
         config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
+        config.build_settings['COCOAPODS_DISABLE_INPUT_OUTPUT_PATHS'] = 'YES'
       end
     end
     project.save
@@ -41,6 +43,7 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['ENABLE_USER_SCRIPT_SANDBOXING'] = 'NO'
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
+      config.build_settings['COCOAPODS_DISABLE_INPUT_OUTPUT_PATHS'] = 'YES'
     end
 
     # Remove duplicate Copy XCFrameworks phases if CocoaPods/previous patches created more than one
