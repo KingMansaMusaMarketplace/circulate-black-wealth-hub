@@ -44,6 +44,7 @@ post_install do |installer|
         when "[CP] Embed Pods Frameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
           phase.always_out_of_date = false if phase.respond_to?(:always_out_of_date)
+          phase.shell_script = 'echo "[CP] Embed Pods Frameworks: skipped (static linkage)"' if phase.respond_to?(:shell_script)
           phase.input_paths ||= []
           phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
           phase.input_file_list_paths ||= []
@@ -98,6 +99,7 @@ post_install do |installer|
         when "[CP] Embed Pods Frameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
           phase.always_out_of_date = false if phase.respond_to?(:always_out_of_date)
+          phase.shell_script = 'echo "[CP] Embed Pods Frameworks: skipped (static linkage)"' if phase.respond_to?(:shell_script)
           phase.input_paths ||= []
           phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-frameworks.sh"
           phase.input_file_list_paths ||= []
@@ -139,6 +141,7 @@ post_install do |installer|
        when "[CP] Embed Pods Frameworks"
          phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
          phase.always_out_of_date = false if phase.respond_to?(:always_out_of_date)
+         phase.shell_script = 'echo "[CP] Embed Pods Frameworks: skipped (static linkage)"' if phase.respond_to?(:shell_script)
          phase.input_paths ||= []
          phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-frameworks.sh"
          phase.input_file_list_paths ||= []
@@ -203,6 +206,7 @@ post_integrate do |installer|
         when "[CP] Embed Pods Frameworks"
            phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
            phase.always_out_of_date = false if phase.respond_to?(:always_out_of_date)
+           phase.shell_script = 'echo "[CP] Embed Pods Frameworks: skipped (static linkage)"' if phase.respond_to?(:shell_script)
            phase.input_paths ||= []
            phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
            phase.input_file_list_paths ||= []
