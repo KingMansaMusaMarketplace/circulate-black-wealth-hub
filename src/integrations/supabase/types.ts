@@ -3331,6 +3331,30 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: Json
       }
+      get_directory_businesses: {
+        Args: { p_limit?: number; p_offset?: number }
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          id: string
+          is_verified: boolean
+          location_name: string
+          location_type: string
+          logo_url: string
+          name: string
+          parent_business_id: string
+          review_count: number
+          state: string
+          website: string
+          zip_code: string
+        }[]
+      }
       get_hbcu_verification_document_url: {
         Args: { verification_id: string }
         Returns: string
