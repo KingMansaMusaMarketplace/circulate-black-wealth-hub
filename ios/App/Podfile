@@ -75,6 +75,13 @@ post_install do |installer|
       copy_phases.drop(1).each { |p| target.build_phases.delete(p) }
     end
 
+    # Remove [CP] Copy XCFrameworks from IONGeolocationLib to avoid duplicate task/filelist bugs
+    if target.name == 'IONGeolocationLib'
+      target.build_phases.select { |p| p.respond_to?(:name) && p.name == "[CP] Copy XCFrameworks" }.each do |p|
+        target.build_phases.delete(p)
+      end
+    end
+
     # Ensure remaining Pods-related phases don't reference XCFileLists or direct IO paths
     target.build_phases.each do |p|
       next unless p.respond_to?(:name)
