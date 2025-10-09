@@ -6,7 +6,7 @@ platform :ios, '14.0'
 use_frameworks! :linkage => :static
 
 # Disable CocoaPods input/output file lists (fixes xcfilelist errors on Xcode 15/16)
-install! 'cocoapods', :disable_input_output_paths => true
+install! 'cocoapods', :disable_input_output_paths => true, :generate_multiple_pod_projects => true, :deterministic_uuids => false
 
 def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
