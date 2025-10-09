@@ -79,18 +79,18 @@ post_install do |installer|
         when "[CP] Embed Pods Frameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
           phase.input_paths ||= []
-          phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-frameworks.sh"
+          phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-frameworks.sh"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_frameworks_embedded"
         when "[CP] Copy Pods Resources"
           phase.input_paths ||= []
-          phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-resources.sh"
+          phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-resources.sh"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_resources_copied"
         when "[CP] Copy XCFrameworks"
           phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
           phase.input_paths ||= []
-          phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{t.name}/Pods-#{t.name}-xcframeworks.sh"
+          phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{t.name}/#{t.name}-xcframeworks.sh"
           phase.output_paths ||= []
           phase.output_paths << "$(DERIVED_FILE_DIR)/#{t.name}_pods_xcframeworks_copied"
         end
@@ -106,18 +106,18 @@ post_install do |installer|
       when "[CP] Embed Pods Frameworks"
         phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
         phase.input_paths ||= []
-        phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{target.name}/Pods-#{target.name}-frameworks.sh"
+        phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-frameworks.sh"
         phase.output_paths ||= []
         phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_frameworks_embedded"
       when "[CP] Copy Pods Resources"
         phase.input_paths ||= []
-        phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{target.name}/Pods-#{target.name}-resources.sh"
+        phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-resources.sh"
         phase.output_paths ||= []
         phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_resources_copied"
       when "[CP] Copy XCFrameworks"
         phase.show_env_vars_in_log = '0' if phase.respond_to?(:show_env_vars_in_log)
         phase.input_paths ||= []
-        phase.input_paths << "$(PODS_ROOT)/Target Support Files/Pods-#{target.name}/Pods-#{target.name}-xcframeworks.sh"
+        phase.input_paths << "$(PODS_ROOT)/Target Support Files/#{target.name}/#{target.name}-xcframeworks.sh"
         phase.output_paths ||= []
         phase.output_paths << "$(DERIVED_FILE_DIR)/#{target.name}_pods_xcframeworks_copied"
       end
