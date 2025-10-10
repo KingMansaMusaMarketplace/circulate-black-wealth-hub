@@ -13,14 +13,15 @@ export async function initializeCapacitorPlugins() {
       console.log('Capacitor detected - splash will be hidden when app is ready');
 
       // Safety fallback: ensure splash never gets stuck on iPad/iOS
+      // Extended to 5000ms to allow for slower devices like iPad
       setTimeout(async () => {
         try {
           await SplashScreen.hide({ fadeOutDuration: 500 });
-          console.log('Safety: Splash screen auto-hidden after timeout');
+          console.log('Safety: Splash screen auto-hidden after 5 second timeout');
         } catch (e) {
-          // ignore
+          console.error('Error in safety splash hide:', e);
         }
-      }, 3000);
+      }, 5000);
     }
     
     console.log('Capacitor plugins initialized successfully');

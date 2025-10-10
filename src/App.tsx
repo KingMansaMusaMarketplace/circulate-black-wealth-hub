@@ -106,35 +106,49 @@ function App() {
   useEffect(() => {
     const initializeApp = async () => {
       try {
+        console.log('Starting app initialization...');
+        
         // Initialize plugins first (doesn't hide splash)
         await initializeCapacitorPlugins();
         
-        // Mark as ready immediately - React will render
+        // Mark as ready - this triggers React to render content
         setAppReady(true);
+        console.log('App marked as ready, content will render now');
         
-        // Wait for React to fully render, then hide splash
-        // Use longer timeout for iPad (1000ms) to prevent blank screen
-        const splashDelay = isCapacitorPlatform() ? 1000 : 500;
+        // Wait for React to fully render content before hiding splash
+        // iPad/iOS needs extra time (2000ms) to ensure content is fully painted
+        // This prevents the blank screen between splash and content
+        const splashDelay = isCapacitorPlatform() ? 2000 : 500;
+        
         setTimeout(async () => {
           try {
-            const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
-            await hideSplashScreen();
-            console.log('Splash screen hidden after app ready');
+            // Use requestAnimationFrame to ensure DOM is painted
+            requestAnimationFrame(async () => {
+              try {
+                const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
+                await hideSplashScreen();
+                console.log('Splash screen hidden - app fully loaded');
+              } catch (error) {
+                console.error('Failed to hide splash screen:', error);
+              }
+            });
           } catch (error) {
-            console.error('Failed to hide splash screen:', error);
+            console.error('Error in splash hide animation frame:', error);
           }
         }, splashDelay);
       } catch (error) {
         console.error('Error initializing app:', error);
         // Still mark as ready even if there's an error to prevent blank screen
         setAppReady(true);
-        // Try to hide splash screen anyway
-        try {
-          const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
-          await hideSplashScreen();
-        } catch (splashError) {
-          console.error('Error hiding splash screen:', splashError);
-        }
+        // Try to hide splash screen anyway after delay
+        setTimeout(async () => {
+          try {
+            const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
+            await hideSplashScreen();
+          } catch (splashError) {
+            console.error('Error hiding splash screen in error handler:', splashError);
+          }
+        }, 2000);
       }
     };
     
@@ -142,9 +156,13 @@ function App() {
   }, []);
 
   // Show loading screen while app initializes (prevents blank page on launch)
+  // This ensures there's always content visible during the initialization phase
   if (!appReady) {
+    console.log('App not ready yet, showing loading screen');
     return <LoadingFallback message="Loading Mansa Musa Marketplace..." />;
   }
+  
+  console.log('App ready, rendering main content');
 
   return (
     <ErrorBoundary>
