@@ -3,7 +3,7 @@ require_relative '../../node_modules/@capacitor/ios/scripts/pods_helpers'
 ENV['COCOAPODS_DISABLE_INPUT_OUTPUT_PATHS'] = 'YES'
 
 platform :ios, '14.0'
-use_frameworks! :linkage => :static
+use_frameworks! :linkage => :dynamic
 
 # Disable CocoaPods input/output file lists (fixes xcfilelist errors on Xcode 15/16)
 install! 'cocoapods', :disable_input_output_paths => true
