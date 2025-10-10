@@ -122,18 +122,31 @@ function App() {
         
         setTimeout(async () => {
           try {
-            // Use requestAnimationFrame to ensure DOM is painted
-            requestAnimationFrame(async () => {
+            const start = performance.now();
+            const maxWait = 5000; // extra safety on slower iPads
+
+            const attemptHide = async () => {
               try {
-                const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
-                await hideSplashScreen();
-                console.log('Splash screen hidden - app fully loaded');
+                const main = document.getElementById('main-content');
+                const painted = !!main && main.childElementCount > 0 && main.getBoundingClientRect().height > 0;
+                const elapsed = performance.now() - start;
+
+                if (painted || elapsed > maxWait) {
+                  const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
+                  await hideSplashScreen();
+                  console.log('Splash screen hidden - app fully loaded (painted:', painted, ', elapsed:', Math.round(elapsed), 'ms)');
+                } else {
+                  requestAnimationFrame(attemptHide);
+                }
               } catch (error) {
-                console.error('Failed to hide splash screen:', error);
+                console.error('Error while attempting to hide splash:', error);
               }
-            });
+            };
+
+            // ensure we wait for at least one frame
+            requestAnimationFrame(attemptHide);
           } catch (error) {
-            console.error('Error in splash hide animation frame:', error);
+            console.error('Error in splash hide paint check:', error);
           }
         }, splashDelay);
       } catch (error) {
