@@ -9,6 +9,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { Loader2, Plus, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import { validateExpense } from '@/lib/validation/financial-validation';
+import { ZodError } from 'zod';
 
 interface ExpensesTrackerProps {
   businessId: string;
@@ -56,12 +58,21 @@ export const ExpensesTracker: React.FC<ExpensesTrackerProps> = ({ businessId }) 
     e.preventDefault();
     
     try {
-      const { error } = await supabase.from('expenses').insert({
+      // SECURITY: Validate all input data before database operation
+      const validatedData = validateExpense({
         business_id: businessId,
-        amount: parseFloat(formData.amount),
+        amount: formData.amount,
         category: formData.category,
-        description: formData.description,
+        description: formData.description || undefined,
         expense_date: formData.expense_date
+      });
+
+      const { error } = await supabase.from('expenses').insert({
+        business_id: validatedData.business_id,
+        amount: validatedData.amount,
+        category: validatedData.category,
+        description: validatedData.description,
+        expense_date: validatedData.expense_date.toISOString().split('T')[0]
       });
 
       if (error) throw error;
@@ -81,11 +92,22 @@ export const ExpensesTracker: React.FC<ExpensesTrackerProps> = ({ businessId }) 
       loadExpenses();
     } catch (error) {
       console.error('Error adding expense:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to add expense',
-        variant: 'destructive'
-      });
+      
+      if (error instanceof ZodError) {
+        // Show specific validation errors
+        const firstError = error.errors[0];
+        toast({
+          title: 'Validation Error',
+          description: firstError.message,
+          variant: 'destructive'
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: 'Failed to add expense',
+          variant: 'destructive'
+        });
+      }
     }
   };
 

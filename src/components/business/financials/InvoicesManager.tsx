@@ -6,6 +6,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { Loader2, FileText, Download, Plus } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import { validateInvoice } from '@/lib/validation/financial-validation';
+import { ZodError } from 'zod';
 
 interface InvoicesManagerProps {
   businessId: string;
@@ -63,24 +65,42 @@ export const InvoicesManager: React.FC<InvoicesManagerProps> = ({ businessId }) 
       // Generate invoices for first booking as example
       const booking = bookings[0];
       const invoiceNumber = `INV-${Date.now()}`;
+      const amount = Number(booking.business_amount || booking.amount);
+      const taxAmount = 0;
+      const totalAmount = amount + taxAmount;
 
-      const { error } = await supabase.from('invoices').insert({
+      // SECURITY: Validate all invoice data before database operation
+      const validatedInvoice = validateInvoice({
         business_id: businessId,
         booking_id: booking.id,
         invoice_number: invoiceNumber,
         customer_name: booking.customer_name,
         customer_email: booking.customer_email,
-        amount: booking.business_amount || booking.amount,
-        tax_amount: 0,
-        total_amount: booking.business_amount || booking.amount,
+        amount,
+        tax_amount: taxAmount,
+        total_amount: totalAmount,
         status: 'pending',
-        due_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        due_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         line_items: [{
           description: `Service on ${format(new Date(booking.booking_date), 'MMM dd, yyyy')}`,
           quantity: 1,
-          unit_price: booking.business_amount || booking.amount,
-          total: booking.business_amount || booking.amount
+          unit_price: amount,
+          total: amount
         }]
+      });
+
+      const { error } = await supabase.from('invoices').insert({
+        business_id: validatedInvoice.business_id,
+        booking_id: validatedInvoice.booking_id,
+        invoice_number: validatedInvoice.invoice_number,
+        customer_name: validatedInvoice.customer_name,
+        customer_email: validatedInvoice.customer_email,
+        amount: validatedInvoice.amount,
+        tax_amount: validatedInvoice.tax_amount,
+        total_amount: validatedInvoice.total_amount,
+        status: validatedInvoice.status,
+        due_date: validatedInvoice.due_date.toISOString(),
+        line_items: validatedInvoice.line_items
       });
 
       if (error) throw error;
@@ -93,11 +113,22 @@ export const InvoicesManager: React.FC<InvoicesManagerProps> = ({ businessId }) 
       loadInvoices();
     } catch (error) {
       console.error('Error generating invoice:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to generate invoice',
-        variant: 'destructive'
-      });
+      
+      if (error instanceof ZodError) {
+        // Show specific validation errors
+        const firstError = error.errors[0];
+        toast({
+          title: 'Validation Error',
+          description: firstError.message,
+          variant: 'destructive'
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: 'Failed to generate invoice',
+          variant: 'destructive'
+        });
+      }
     }
   };
 
