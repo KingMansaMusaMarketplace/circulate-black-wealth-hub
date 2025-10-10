@@ -84,6 +84,7 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import CookiePolicyPage from './pages/CookiePolicyPage';
 import BlogPage from './pages/BlogPage';
 import HelpPage from './pages/HelpPage';
+import AllPagesDirectory from './pages/AllPagesDirectory';
 
 // Loading fallback component
 const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => (
@@ -167,6 +168,7 @@ function App() {
                           <Layout>
                             <Routes>
                               <Route path="/" element={<HomePage />} />
+                              <Route path="/all-pages" element={<AllPagesDirectory />} />
                               <Route path="/auth" element={<LazyAuthPage />} />
                               <Route path="/login" element={<LazyLoginPage />} />
                               <Route path="/signup" element={<LazySignupPage />} />
@@ -259,6 +261,7 @@ function App() {
                         <Layout>
                           <Routes>
                         <Route path="/" element={<HomePage />} />
+                        <Route path="/all-pages" element={<AllPagesDirectory />} />
                         <Route path="/auth" element={<LazyAuthPage />} />
                         <Route path="/login" element={<LazyLoginPage />} />
                         <Route path="/signup" element={<LazySignupPage />} />

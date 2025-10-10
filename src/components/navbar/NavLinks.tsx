@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones } from 'lucide-react';
+import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones, FolderOpen } from 'lucide-react';
 
 const NavLinks: React.FC = () => {
   const linkClassName = "text-gray-700 hover:text-mansablue transition-colors font-normal px-3 py-2";
@@ -116,6 +116,17 @@ const NavLinks: React.FC = () => {
           <NavigationMenuTrigger className={triggerClassName}>Resources</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[300px] gap-3 p-4 bg-white">
+              <li>
+                <Link to="/all-pages" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                  <div className="flex items-center gap-2">
+                    <FolderOpen className="h-4 w-4" />
+                    <div className="text-sm font-medium leading-none">All Pages</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Browse complete directory of pages
+                  </p>
+                </Link>
+              </li>
               <li>
                 <Link to="/features" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                   <div className="flex items-center gap-2">
