@@ -2,7 +2,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.lovable.e42355603b6b4780b91c854366c7682f',
+  appId: 'com.tbowling.mansamusamarketplace',
   appName: 'circulate-black-wealth-hub',
   webDir: 'dist',
   // IMPORTANT: For App Store production builds, remove the server configuration
