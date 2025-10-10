@@ -115,38 +115,16 @@ function App() {
         setAppReady(true);
         console.log('App marked as ready, content will render now');
         
-        // Wait for React to fully render content before hiding splash
-        // iPad/iOS needs extra time (2000ms) to ensure content is fully painted
-        // This prevents the blank screen between splash and content
-        const splashDelay = isCapacitorPlatform() ? 2000 : 500;
+        // Wait for React to render before hiding splash (iPad needs extra time)
+        const splashDelay = isCapacitorPlatform() ? 3000 : 500;
         
         setTimeout(async () => {
           try {
-            const start = performance.now();
-            const maxWait = 5000; // extra safety on slower iPads
-
-            const attemptHide = async () => {
-              try {
-                const main = document.getElementById('main-content');
-                const painted = !!main && main.childElementCount > 0 && main.getBoundingClientRect().height > 0;
-                const elapsed = performance.now() - start;
-
-                if (painted || elapsed > maxWait) {
-                  const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
-                  await hideSplashScreen();
-                  console.log('Splash screen hidden - app fully loaded (painted:', painted, ', elapsed:', Math.round(elapsed), 'ms)');
-                } else {
-                  requestAnimationFrame(attemptHide);
-                }
-              } catch (error) {
-                console.error('Error while attempting to hide splash:', error);
-              }
-            };
-
-            // ensure we wait for at least one frame
-            requestAnimationFrame(attemptHide);
+            const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
+            await hideSplashScreen();
+            console.log('Splash screen hidden after', splashDelay, 'ms delay');
           } catch (error) {
-            console.error('Error in splash hide paint check:', error);
+            console.error('Error hiding splash screen:', error);
           }
         }, splashDelay);
       } catch (error) {
