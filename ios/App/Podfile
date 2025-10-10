@@ -36,28 +36,8 @@ post_install do |installer|
         config.build_settings['COCOAPODS_DISABLE_INPUT_OUTPUT_PATHS'] = 'YES'
       end
 
-      # Remove embedding/copy phases that cause duplicate tasks, and scrub any file lists/IO paths
-      t.build_phases.each do |p|
-        next unless p.respond_to?(:name)
-        if p.name == "[CP] Copy XCFrameworks" || p.name == "Embed Pods Frameworks" || p.name.start_with?("[CP]")
-          # Delete problematic phases entirely
-          if p.name == "[CP] Copy XCFrameworks" || p.name == "Embed Pods Frameworks"
-            t.build_phases.delete(p)
-            next
-          end
-          # For other [CP] phases, scrub file lists and IO paths
-          if p.respond_to?(:input_file_list_paths) && p.respond_to?(:output_file_list_paths)
-            p.input_file_list_paths = []
-            p.output_file_list_paths = []
-          end
-          if p.respond_to?(:input_paths)
-            p.input_paths = []
-          end
-          if p.respond_to?(:output_paths)
-            p.output_paths = []
-          end
-        end
-      end
+      # Keep CocoaPods-managed build phases intact to ensure frameworks are linked properly
+
     end
     project.save
   end
@@ -71,35 +51,11 @@ post_install do |installer|
       config.build_settings['COCOAPODS_DISABLE_INPUT_OUTPUT_PATHS'] = 'YES'
     end
 
-    # Aggressively remove problematic phases to avoid duplicate tasks
-    if target.name == 'IONGeolocationLib'
-      # Remove ALL shell script phases from IONGeolocationLib (eliminates Copy XCFrameworks/filelist usage)
-      target.build_phases.select { |p| p.respond_to?(:shell_script) }.each do |p|
-        target.build_phases.delete(p)
-      end
-    else
-      # Remove XCFrameworks/Embed phases that can generate duplicates
-      target.build_phases.select { |p| p.respond_to?(:name) && ["[CP] Copy XCFrameworks", "Embed Pods Frameworks"].include?(p.name) }.each do |p|
-        target.build_phases.delete(p)
-      end
-    end
+     # Preserve pods build phases (Copy XCFrameworks, Embed, scripts) for proper framework integration
 
-    # Ensure remaining Pods-related phases don't reference XCFileLists or direct IO paths
-    target.build_phases.each do |p|
-      next unless p.respond_to?(:name)
-      if p.name.start_with?("[CP]") || p.name.include?("Pods")
-        if p.respond_to?(:input_file_list_paths) && p.respond_to?(:output_file_list_paths)
-          p.input_file_list_paths = []
-          p.output_file_list_paths = []
-        end
-        if p.respond_to?(:input_paths)
-          p.input_paths = []
-        end
-        if p.respond_to?(:output_paths)
-          p.output_paths = []
-        end
-      end
-    end
+
+     # Do not alter Pods-managed phases to avoid breaking module imports like IONGeolocationLib
+
   end
 
   # Delete any generated .xcfilelist files on disk to prevent Xcode from referencing them
