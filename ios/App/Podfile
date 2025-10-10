@@ -17,6 +17,7 @@ end
 
 target 'App' do
   capacitor_pods
+  pod 'IONGeolocationLib', '~> 1.0'
   # Add your Pods here
 end
 
