@@ -63,6 +63,7 @@ const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
+const LazySponsorDashboardPage = lazy(() => import('@/pages/SponsorDashboardPage'));
 const LazySponsorDashboard = lazy(() => import('@/pages/SponsorDashboard'));
 const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 
@@ -238,7 +239,8 @@ function App() {
                               <Route path="/loyalty" element={<LazyLoyaltyPage />} />
                               <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
                               <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
-                              <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
+                      <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
+                      <Route path="/sponsor-dashboard" element={<LazySponsorDashboardPage />} />
                               <Route path="/sponsor-dashboard" element={<LazySponsorDashboard />} />
                               <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
                               <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
