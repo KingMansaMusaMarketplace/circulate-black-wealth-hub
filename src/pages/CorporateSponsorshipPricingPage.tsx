@@ -179,7 +179,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
 
         {/* Pricing Cards */}
         <section className="container mx-auto px-4 pb-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {tiers.map((tier) => (
               <Card
                 key={tier.tier}
@@ -202,12 +202,12 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                     {tier.icon}
                   </div>
                   <CardTitle className="text-2xl">{tier.name}</CardTitle>
-                  <CardDescription className="text-sm mt-2">
+                  <CardDescription className="text-sm mt-2 min-h-[3rem]">
                     {tier.description}
                   </CardDescription>
-                  <div className="mt-4">
+                  <div className="mt-4 flex items-baseline justify-center gap-1">
                     <span className="text-4xl font-bold">{tier.price}</span>
-                    <span className="text-muted-foreground">/month</span>
+                    <span className="text-muted-foreground text-base">/month</span>
                   </div>
                 </CardHeader>
 
