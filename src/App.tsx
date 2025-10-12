@@ -243,7 +243,6 @@ function App() {
                               <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
                               <Route path="/sponsor-dashboard" element={<LazySponsorDashboardPage />} />
                               <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
-                              <Route path="/sponsor-dashboard" element={<LazySponsorDashboard />} />
                               <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
                               <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
@@ -356,7 +355,8 @@ function App() {
                         {/* Fixed Corporate Sponsorship route */}
                         <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
                         <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
-                        <Route path="/sponsor-dashboard" element={<LazySponsorDashboard />} />
+                        <Route path="/sponsor-dashboard" element={<LazySponsorDashboardPage />} />
+                        <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
                         <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
                         <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
                         <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
