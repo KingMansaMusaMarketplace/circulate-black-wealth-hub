@@ -223,9 +223,12 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
 
                   <Button
                     onClick={() => handleCtaClick(tier.tier)}
-                    className="w-full"
+                    className={cn(
+                      "w-full",
+                      tier.popular && "bg-primary hover:bg-primary/90"
+                    )}
                     size="lg"
-                    variant={tier.popular ? 'default' : 'outline'}
+                    variant="default"
                   >
                     {tier.cta}
                   </Button>
