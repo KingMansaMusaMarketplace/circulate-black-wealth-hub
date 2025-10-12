@@ -73,21 +73,19 @@ serve(async (req) => {
     if (userType === 'corporate' && tier) {
       // Set price based on corporate sponsorship tier
       switch(tier) {
-        case 'silver':
-          priceId = Deno.env.get("STRIPE_SILVER_PRICE_ID");
-          logStep("Using Silver tier price", { priceId });
+        case 'corporate_bronze':
+        case 'bronze':
+          priceId = Deno.env.get("STRIPE_CORPORATE_BRONZE_PRICE_ID");
+          logStep("Using Corporate Bronze tier price", { priceId });
           break;
+        case 'corporate_gold':
         case 'gold':
-          priceId = Deno.env.get("STRIPE_GOLD_PRICE_ID");
-          logStep("Using Gold tier price", { priceId });
-          break;
-        case 'platinum':
-          priceId = Deno.env.get("STRIPE_PLATINUM_PRICE_ID");
-          logStep("Using Platinum tier price", { priceId });
+          priceId = Deno.env.get("STRIPE_CORPORATE_GOLD_PRICE_ID");
+          logStep("Using Corporate Gold tier price", { priceId });
           break;
         default:
-          priceId = Deno.env.get("STRIPE_SILVER_PRICE_ID");
-          logStep("Using default Silver tier price", { priceId });
+          priceId = Deno.env.get("STRIPE_CORPORATE_BRONZE_PRICE_ID");
+          logStep("Using default Corporate Bronze tier price", { priceId });
       }
     } else if (userType === 'business' && tier) {
       // Business tier-based pricing
