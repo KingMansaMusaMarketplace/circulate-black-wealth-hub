@@ -4,8 +4,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useSponsorSubscription } from '@/hooks/useSponsorSubscription';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import { SubscriptionStatus } from '@/components/sponsor/SubscriptionStatus';
-import { CompanyInfoEditor } from '@/components/sponsor/CompanyInfoEditor';
+import { CompanyInfoEditor } from '@/components/sponsors/CompanyInfoEditor';
 import { TierBenefits } from '@/components/sponsor/TierBenefits';
+import { SponsorAnalytics } from '@/components/sponsors/SponsorAnalytics';
 import { CancelSubscriptionDialog } from '@/components/sponsor/CancelSubscriptionDialog';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -126,16 +127,15 @@ export default function SponsorDashboardPage() {
             <SubscriptionStatus subscription={subscription} />
             
             <TierBenefits tier={subscription.tier} />
+            
+            <div>
+              <h2 className="text-2xl font-bold mb-4">Sponsorship Analytics</h2>
+              <SponsorAnalytics subscriptionId={subscription.id} />
+            </div>
           </div>
 
           <div className="space-y-6">
-            <CompanyInfoEditor
-              subscription={subscription}
-              onUpdate={async (updates) => {
-                await updateCompanyInfo.mutateAsync(updates);
-              }}
-              isUpdating={updateCompanyInfo.isPending}
-            />
+            <CompanyInfoEditor subscription={subscription} />
 
             <Card>
               <CardHeader>

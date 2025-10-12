@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import HomePageSections from '@/components/HomePage/HomePageSections';
 import FreeGrowthBanner from '@/components/FreeGrowthBanner';
 import { SponsorBanner } from '@/components/sponsors';
+import { PublicSponsorDisplay } from '@/components/sponsors/PublicSponsorDisplay';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
 import { updateMetaTags } from '@/utils/seoUtils';
@@ -51,6 +52,9 @@ const HomePage = () => {
 
       {/* All conversion-focused sections */}
       <HomePageSections />
+      
+      {/* Public Sponsor Display */}
+      <PublicSponsorDisplay />
     </div>
   );
 };
