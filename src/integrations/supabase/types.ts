@@ -996,12 +996,14 @@ export type Database = {
           current_period_end: string | null
           current_period_start: string | null
           id: string
+          logo_url: string | null
           status: string
           stripe_customer_id: string | null
           stripe_subscription_id: string | null
           tier: string
           updated_at: string
           user_id: string
+          website_url: string | null
         }
         Insert: {
           cancel_at_period_end?: boolean | null
@@ -1010,12 +1012,14 @@ export type Database = {
           current_period_end?: string | null
           current_period_start?: string | null
           id?: string
+          logo_url?: string | null
           status?: string
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
           tier: string
           updated_at?: string
           user_id: string
+          website_url?: string | null
         }
         Update: {
           cancel_at_period_end?: boolean | null
@@ -1024,12 +1028,14 @@ export type Database = {
           current_period_end?: string | null
           current_period_start?: string | null
           id?: string
+          logo_url?: string | null
           status?: string
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
           tier?: string
           updated_at?: string
           user_id?: string
+          website_url?: string | null
         }
         Relationships: []
       }
