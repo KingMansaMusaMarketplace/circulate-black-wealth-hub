@@ -224,7 +224,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   <Button
                     onClick={() => handleCtaClick(tier.tier)}
                     className={cn(
-                      "w-full",
+                      "w-full whitespace-normal h-auto py-3",
                       tier.popular && "bg-primary hover:bg-primary/90"
                     )}
                     size="lg"
