@@ -62,6 +62,8 @@ const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
 const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
+const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
+const LazySponsorDashboard = lazy(() => import('@/pages/SponsorDashboard'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -235,6 +237,8 @@ function App() {
                               <Route path="/loyalty" element={<LazyLoyaltyPage />} />
                               <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
                               <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                              <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
+                              <Route path="/sponsor-dashboard" element={<LazySponsorDashboard />} />
                               <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                               <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
@@ -345,6 +349,8 @@ function App() {
                         
                         {/* Fixed Corporate Sponsorship route */}
                         <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                        <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
+                        <Route path="/sponsor-dashboard" element={<LazySponsorDashboard />} />
                         <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
                         <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                         
