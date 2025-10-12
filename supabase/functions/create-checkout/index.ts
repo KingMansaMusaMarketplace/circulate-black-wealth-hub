@@ -157,8 +157,8 @@ serve(async (req) => {
         },
       ],
       mode: "subscription",
-      success_url: `${req.headers.get("origin")}/signup/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/signup`,
+      success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}&user_type=${userType}`,
+      cancel_url: `${req.headers.get("origin")}/${userType === 'corporate' ? 'corporate-sponsorship' : 'signup'}`,
       metadata: {
         userType,
         email,

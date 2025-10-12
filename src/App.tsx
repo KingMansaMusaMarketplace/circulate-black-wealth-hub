@@ -60,6 +60,8 @@ const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
 const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
+const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
+const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -233,6 +235,8 @@ function App() {
                               <Route path="/loyalty" element={<LazyLoyaltyPage />} />
                               <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
                               <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                              <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
+                              <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                               <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
                               <Route path="/full-app-test" element={<LazyFullAppTestPage />} />
                               <Route path="/full-system-test" element={<LazyFullSystemTestPage />} />
@@ -341,6 +345,8 @@ function App() {
                         
                         {/* Fixed Corporate Sponsorship route */}
                         <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                        <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
+                        <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                         
                         {/* Fixed Mobile Readiness Test route */}
                         <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
