@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, Crown, Sparkles, Star, Zap } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Check, Crown, Sparkles, Star, Zap, Loader2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cn } from '@/lib/utils';
+import { useCorporateCheckout } from '@/hooks/useCorporateCheckout';
 
 interface PricingTier {
   name: string;
@@ -20,6 +24,13 @@ interface PricingTier {
 }
 
 const CorporateSponsorshipPricingPage: React.FC = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<string>('');
+  const [companyName, setCompanyName] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
+  const [websiteUrl, setWebsiteUrl] = useState('');
+  const { startCheckout, isLoading } = useCorporateCheckout();
+
   const tiers: PricingTier[] = [
     {
       name: 'Bronze Partner',
@@ -102,9 +113,23 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
   ];
 
   const handleCtaClick = (tier: string) => {
-    // TODO: Integrate with Stripe Checkout in Step 6
-    console.log(`Starting checkout for ${tier} tier`);
-    alert(`Checkout for ${tier} tier will be available soon!`);
+    setSelectedTier(tier);
+    setIsDialogOpen(true);
+  };
+
+  const handleCheckoutSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!companyName.trim()) {
+      return;
+    }
+
+    await startCheckout({
+      tier: selectedTier,
+      companyName: companyName.trim(),
+      logoUrl: logoUrl.trim() || undefined,
+      websiteUrl: websiteUrl.trim() || undefined,
+    });
   };
 
   return (
@@ -330,6 +355,73 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
             </div>
           </div>
         </section>
+
+        {/* Company Details Dialog */}
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Complete Your Sponsorship</DialogTitle>
+              <DialogDescription>
+                Please provide your company details to proceed with {selectedTier} tier sponsorship.
+              </DialogDescription>
+            </DialogHeader>
+            
+            <form onSubmit={handleCheckoutSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="companyName">
+                  Company Name <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="companyName"
+                  placeholder="Acme Corporation"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="logoUrl">Company Logo URL (optional)</Label>
+                <Input
+                  id="logoUrl"
+                  type="url"
+                  placeholder="https://example.com/logo.png"
+                  value={logoUrl}
+                  onChange={(e) => setLogoUrl(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="websiteUrl">Company Website (optional)</Label>
+                <Input
+                  id="websiteUrl"
+                  type="url"
+                  placeholder="https://example.com"
+                  value={websiteUrl}
+                  onChange={(e) => setWebsiteUrl(e.target.value)}
+                  disabled={isLoading}
+                />
+              </div>
+
+              <DialogFooter className="gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsDialogOpen(false)}
+                  disabled={isLoading}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={isLoading || !companyName.trim()}>
+                  {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Proceed to Checkout
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
     </>
   );
