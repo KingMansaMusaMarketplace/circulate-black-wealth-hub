@@ -54,6 +54,12 @@ verify_jwt = true
 [functions.send-corporate-welcome]
 verify_jwt = false
 
+[functions.calculate-sponsor-impact]
+verify_jwt = false
+
+[functions.update-sponsor-metrics-manual]
+verify_jwt = true
+
 [functions.stripe-webhook]
 verify_jwt = false
 
