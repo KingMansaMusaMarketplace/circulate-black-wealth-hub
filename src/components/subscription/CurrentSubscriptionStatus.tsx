@@ -23,11 +23,14 @@ const CurrentSubscriptionStatus: React.FC<CurrentSubscriptionStatusProps> = ({
       case 'free':
         return 'Community Member';
       case 'business_starter':
+      case 'business_starter_annual':
         return 'Starter Business';
       case 'business':
+      case 'business_annual':
         return 'Professional Business';
-      case 'premium':
-        return 'Premium Member';
+      case 'business_multi_location':
+      case 'business_multi_location_annual':
+        return 'Multi-Location Business';
       case 'enterprise':
         return 'Enterprise';
       default:

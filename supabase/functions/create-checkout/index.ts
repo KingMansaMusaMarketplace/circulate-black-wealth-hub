@@ -89,12 +89,47 @@ serve(async (req) => {
           priceId = Deno.env.get("STRIPE_SILVER_PRICE_ID");
           logStep("Using default Silver tier price", { priceId });
       }
+    } else if (userType === 'business' && tier) {
+      // Business tier-based pricing
+      switch(tier) {
+        case 'business_starter':
+          priceId = Deno.env.get("STRIPE_BUSINESS_STARTER_MONTHLY_PRICE_ID");
+          logStep("Using Business Starter monthly price", { priceId });
+          break;
+        case 'business_starter_annual':
+          priceId = Deno.env.get("STRIPE_BUSINESS_STARTER_ANNUAL_PRICE_ID");
+          logStep("Using Business Starter annual price", { priceId });
+          break;
+        case 'business':
+        case 'business_professional':
+          priceId = Deno.env.get("STRIPE_BUSINESS_PROFESSIONAL_MONTHLY_PRICE_ID");
+          logStep("Using Business Professional monthly price", { priceId });
+          break;
+        case 'business_annual':
+        case 'business_professional_annual':
+          priceId = Deno.env.get("STRIPE_BUSINESS_PROFESSIONAL_ANNUAL_PRICE_ID");
+          logStep("Using Business Professional annual price", { priceId });
+          break;
+        case 'business_multi_location':
+          priceId = Deno.env.get("STRIPE_BUSINESS_MULTI_LOCATION_MONTHLY_PRICE_ID");
+          logStep("Using Multi-Location monthly price", { priceId });
+          break;
+        case 'business_multi_location_annual':
+          priceId = Deno.env.get("STRIPE_BUSINESS_MULTI_LOCATION_ANNUAL_PRICE_ID");
+          logStep("Using Multi-Location annual price", { priceId });
+          break;
+        case 'enterprise':
+          priceId = Deno.env.get("STRIPE_ENTERPRISE_MONTHLY_PRICE_ID");
+          logStep("Using Enterprise monthly price", { priceId });
+          break;
+        default:
+          priceId = Deno.env.get("STRIPE_BUSINESS_STARTER_MONTHLY_PRICE_ID");
+          logStep("Using default Business Starter price", { priceId });
+      }
     } else {
-      // Default pricing for regular business and customer accounts
-      priceId = userType === 'business' 
-        ? Deno.env.get("STRIPE_BUSINESS_PRICE_ID") 
-        : Deno.env.get("STRIPE_CUSTOMER_PRICE_ID");
-      logStep("Using standard price", { userType, priceId });
+      // Customers don't pay - this shouldn't be called for customers
+      logStep("ERROR: Customer accounts are free, no checkout needed", { userType });
+      throw new Error('Customer accounts are free and do not require payment');
     }
     
     if (!priceId) {
@@ -105,11 +140,11 @@ serve(async (req) => {
 
     // Determine trial period based on subscription type
     const getTrialPeriod = () => {
-      // Only Premium and Business plans get the extended trial
-      if (userType === 'business' || (userType !== 'corporate' && tier)) {
-        return calculateTrialDays();
+      // Business plans get 30-day trial
+      if (userType === 'business') {
+        return 30;
       }
-      // Corporate sponsorships and free tiers get no trial
+      // Corporate sponsorships get no trial
       return 0;
     };
 

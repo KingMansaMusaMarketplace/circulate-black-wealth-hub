@@ -22,7 +22,7 @@ Our paid subscriptions are exclusively for:
 - Access partnership opportunities
 - Contribute to economic empowerment initiatives
 
-**Regular customers use the app completely free until January 2026** - they can discover businesses, earn loyalty points, and redeem rewards without any payment. This free customer access is funded by business subscription revenue.
+**Regular customers use the app completely FREE FOREVER** - they can discover businesses, earn loyalty points, and redeem rewards without any payment. There will never be any charges for customer accounts.
 
 ### 2. Where can users purchase the subscriptions that can be accessed in the app?
 
@@ -37,13 +37,15 @@ Our paid subscriptions are exclusively for:
 Users can access the following subscription tiers based on their purchases:
 
 **For Businesses:**
-- **Basic Business ($29.99/month)**: Business listing, basic analytics, loyalty program
-- **Premium Business ($79.99/month)**: Enhanced visibility, priority support, advanced analytics
-- **Enterprise Business ($199.99/month)**: Multiple locations, custom branding, API access
+- **Starter Business ($39/month or $390/year)**: Business profile, 5 QR codes, basic analytics, 30-day trial
+- **Professional Business ($79/month or $790/year)**: Enhanced features, 25 QR codes, advanced analytics, marketing tools, 30-day trial  
+- **Multi-Location Business ($149/month or $1,490/year)**: Unlimited QR codes/locations, dedicated support, API access, 30-day trial
+- **Enterprise Business ($299+/month)**: Custom solutions, SLA guarantees, dedicated success team
 
 **For Sponsors:**
-- **Community Sponsor ($99.99/month)**: Community badge, basic visibility
-- **Corporate Sponsor ($499.99/month)**: Premium placement, full analytics, partnership tools
+- **Silver Sponsor ($2,000/month or $20,000/year)**: Featured logo, 5 premium listings, monthly impact reports
+- **Gold Sponsor ($5,000/month or $50,000/year)**: All Silver benefits plus dedicated manager, co-branded materials
+- **Platinum Sponsor ($10,000/month or $100,000/year)**: All Gold benefits plus executive board seat, 100 listings
 
 All subscription status is verified server-side through our backend, which checks:
 - Apple App Store purchase receipts (for iOS purchases)
@@ -80,12 +82,12 @@ Each subscription is tied to a single business entity or sponsoring organization
 Our app's mission is to create an economic ecosystem supporting Black-owned businesses. The free customer-facing features (business discovery, loyalty points) are funded by subscription revenue from businesses and sponsors.
 
 **Revenue Model Summary:**
-- Customers: 100% FREE until January 2026 (browse, loyalty points, rewards)
-- Businesses: PAY for listing, analytics, visibility
+- Customers: 100% FREE FOREVER (browse, loyalty points, rewards, deals, networking)
+- Businesses: PAY for listing, analytics, QR codes, marketing tools
 - iOS: All payments through Apple IAP (30% to Apple)
 - Web: Processed through Stripe for B2B services
 
-**Customer Access:** All customer-facing features are free until at least January 2026. This allows us to build community adoption before considering any premium customer features. Business subscriptions fund the entire platform during this period.
+**Customer Access:** All customer-facing features are permanently free. Businesses pay for tools and visibility that help them grow. Business subscriptions fund the entire platform.
 
 We are fully committed to Apple's guidelines and have implemented proper IAP integration for all iOS purchases.
 

@@ -13,6 +13,54 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
   const generateQRCode = async (businessId: string, codeType: string, options?: any): Promise<QRCode | null> => {
     setLoading(true);
     try {
+      // Check current QR code count and subscription tier
+      const { data: business, error: businessError } = await supabase
+        .from('businesses')
+        .select('owner_id')
+        .eq('id', businessId)
+        .single();
+
+      if (businessError) throw businessError;
+
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('subscription_tier')
+        .eq('id', business.owner_id)
+        .single();
+
+      if (profileError) throw profileError;
+
+      const tier = profile.subscription_tier;
+
+      // Define QR code limits per tier
+      const tierLimits: Record<string, number> = {
+        business_starter: 5,
+        business_starter_annual: 5,
+        business: 25,
+        business_annual: 25,
+        business_multi_location: -1, // unlimited
+        business_multi_location_annual: -1,
+        enterprise: -1
+      };
+
+      const limit = tierLimits[tier] || 0;
+
+      // Check current count if limit exists
+      if (limit !== -1 && limit > 0) {
+        const { count, error: countError } = await supabase
+          .from('qr_codes')
+          .select('*', { count: 'exact', head: true })
+          .eq('business_id', businessId);
+
+        if (countError) throw countError;
+
+        if (count && count >= limit) {
+          toast.error(`QR code limit reached (${limit}). Upgrade your plan to create more codes.`);
+          setLoading(false);
+          return null;
+        }
+      }
+
       const qrCodeData = {
         business_id: businessId,
         code_type: codeType,

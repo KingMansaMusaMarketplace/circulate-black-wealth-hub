@@ -19,12 +19,12 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
     {
       id: 'business_starter' as SubscriptionTier,
       name: 'Starter Business',
-      price: 29,
+      price: 39,
       period: 'month',
       description: 'Perfect for new and small businesses',
       features: [
         'Business profile creation',
-        'Up to 3 QR codes',
+        'Up to 5 QR codes',
         'Basic analytics',
         'Email support',
         '30-day free trial'
@@ -35,14 +35,14 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
     {
       id: 'business_starter_annual' as SubscriptionTier,
       name: 'Starter Business (Annual)',
-      price: 279,
+      price: 390,
       period: 'year',
-      monthlyEquivalent: 23.25,
-      savingsText: 'Save $69/year',
+      monthlyEquivalent: 32.50,
+      savingsText: 'Save $78/year',
       description: 'Perfect for new and small businesses',
       features: [
         'Business profile creation',
-        'Up to 3 QR codes',
+        'Up to 5 QR codes',
         'Basic analytics',
         'Email support',
         '30-day free trial'
@@ -53,30 +53,30 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
     {
       id: 'business' as SubscriptionTier,
       name: 'Professional Business',
-      price: 100,
+      price: 79,
       period: 'month',
       description: 'Complete business management suite',
       features: [
         'Everything in Starter',
-        'Up to 50 QR codes',
+        'Up to 25 QR codes',
         'Advanced analytics',
         'Marketing tools',
         'Priority support'
       ],
       icon: <Building className="h-6 w-6" />,
-      popular: false
+      popular: true
     },
     {
       id: 'business_annual' as SubscriptionTier,
       name: 'Professional Business (Annual)',
-      price: 959,
+      price: 790,
       period: 'year',
-      monthlyEquivalent: 79.92,
-      savingsText: 'Save $241/year',
+      monthlyEquivalent: 65.83,
+      savingsText: 'Save $158/year',
       description: 'Complete business management suite',
       features: [
         'Everything in Starter',
-        'Up to 50 QR codes',
+        'Up to 25 QR codes',
         'Advanced analytics',
         'Marketing tools',
         'Priority support'
@@ -91,11 +91,11 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Business Plan</h2>
         <p className="text-lg text-gray-600">
-          Select the plan that best fits your business needs. Both plans include a 30-day free trial.
+          Select the plan that best fits your business needs. All plans include a 30-day free trial.
         </p>
         <div className="mt-4">
           <Badge className="bg-green-500 text-white px-3 py-1">
-            Save 20% with Annual Plans
+            Save 17% with Annual Plans
           </Badge>
         </div>
       </div>

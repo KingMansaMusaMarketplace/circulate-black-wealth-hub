@@ -40,36 +40,20 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
         name: 'Community Member',
         price: 0,
         period: 'month',
-        description: 'Perfect for discovering and supporting Black-owned businesses',
+        description: '100% Free Forever - All Features Included',
         features: [
           'Browse complete business directory',
           'Discover businesses near you',
-          'View detailed business profiles',
-          'Access contact information',
-          'Support community growth'
-        ],
-        icon: <Users className="h-6 w-6" />,
-        buttonText: 'Current Plan',
-        popular: false
-      },
-      {
-        id: 'premium' as SubscriptionTier,
-        name: 'Premium Member',
-        price: 4.99,
-        period: 'month',
-        description: 'Enhanced experience with exclusive savings and rewards',
-        features: [
-          'Everything in Community Member',
-          'Get 5% - 30% discounts at businesses',
           'Earn loyalty points on purchases',
           'Redeem points for rewards',
           'Access exclusive member deals',
-          'Priority customer support',
-          'Early access to new features'
+          'Join mentorship programs',
+          'Network with the community',
+          'View detailed business profiles'
         ],
-        icon: <Crown className="h-6 w-6" />,
-        buttonText: 'Upgrade to Premium',
-        popular: false
+        icon: <Users className="h-6 w-6" />,
+        buttonText: 'Current Plan',
+        popular: true
       }
     ],
     annual: [
@@ -78,37 +62,19 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
         name: 'Community Member',
         price: 0,
         period: 'month',
-        description: 'Perfect for discovering and supporting Black-owned businesses',
+        description: '100% Free Forever - All Features Included',
         features: [
           'Browse complete business directory',
           'Discover businesses near you',
-          'View detailed business profiles',
-          'Access contact information',
-          'Support community growth'
-        ],
-        icon: <Users className="h-6 w-6" />,
-        buttonText: 'Current Plan',
-        popular: false
-      },
-      {
-        id: 'premium_annual' as SubscriptionTier,
-        name: 'Premium Member',
-        price: 47.99,
-        period: 'year',
-        monthlyEquivalent: 4.00,
-        savingsText: 'Save $12/year',
-        description: 'Enhanced experience with exclusive savings and rewards',
-        features: [
-          'Everything in Community Member',
-          'Get 5% - 30% discounts at businesses',
           'Earn loyalty points on purchases',
           'Redeem points for rewards',
           'Access exclusive member deals',
-          'Priority customer support',
-          'Early access to new features'
+          'Join mentorship programs',
+          'Network with the community',
+          'View detailed business profiles'
         ],
-        icon: <Crown className="h-6 w-6" />,
-        buttonText: 'Upgrade to Premium',
+        icon: <Users className="h-6 w-6" />,
+        buttonText: 'Current Plan',
         popular: true
       }
     ]
@@ -119,12 +85,12 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
       {
         id: 'business_starter' as SubscriptionTier,
         name: 'Starter Business',
-        price: 29,
+        price: 39,
         period: 'month',
         description: 'Perfect for new and small businesses getting started',
         features: [
           'Business profile creation & management',
-          'Up to 3 QR codes',
+          'Up to 5 QR codes',
           'Basic analytics dashboard',
           'Customer loyalty program',
           'Email support',
@@ -138,12 +104,12 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
       {
         id: 'business' as SubscriptionTier,
         name: 'Professional Business',
-        price: 100,
+        price: 79,
         period: 'month',
         description: 'Complete business management and marketing suite',
         features: [
           'Everything in Starter Business',
-          'Up to 50 QR codes',
+          'Up to 25 QR codes',
           'Advanced analytics dashboard',
           'Marketing tools & promotions',
           'Event creation & management',
@@ -159,14 +125,14 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
       {
         id: 'business_starter_annual' as SubscriptionTier,
         name: 'Starter Business',
-        price: 279,
+        price: 390,
         period: 'year',
-        monthlyEquivalent: 23.25,
-        savingsText: 'Save $69/year',
+        monthlyEquivalent: 32.50,
+        savingsText: 'Save $78/year',
         description: 'Perfect for new and small businesses getting started',
         features: [
           'Business profile creation & management',
-          'Up to 3 QR codes',
+          'Up to 5 QR codes',
           'Basic analytics dashboard',
           'Customer loyalty program',
           'Email support',
@@ -180,14 +146,14 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
       {
         id: 'business_annual' as SubscriptionTier,
         name: 'Professional Business',
-        price: 959,
+        price: 790,
         period: 'year',
-        monthlyEquivalent: 79.92,
-        savingsText: 'Save $241/year',
+        monthlyEquivalent: 65.83,
+        savingsText: 'Save $158/year',
         description: 'Complete business management and marketing suite',
         features: [
           'Everything in Starter Business',
-          'Up to 50 QR codes',
+          'Up to 25 QR codes',
           'Advanced analytics dashboard',
           'Marketing tools & promotions',
           'Event creation & management',
@@ -205,8 +171,7 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
 
   const getButtonVariant = (planId: SubscriptionTier) => {
     if (currentTier === planId) return 'outline';
-    if ((userType === 'customer' && (planId === 'premium' || planId === 'premium_annual')) || 
-        (userType === 'business' && (planId === 'business' || planId === 'business_annual'))) return 'default';
+    if (userType === 'business' && (planId === 'business' || planId === 'business_annual')) return 'default';
     return 'outline';
   };
 
@@ -224,35 +189,37 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
 
   return (
     <div className="max-w-5xl mx-auto">
-      {/* Billing Toggle */}
-      <div className="flex justify-center mb-8">
-        <div className="bg-gray-100 p-1 rounded-lg flex">
-          <button
-            onClick={() => setBillingCycle('monthly')}
-            className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
-              billingCycle === 'monthly'
-                ? 'bg-white text-mansablue shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            Monthly
-          </button>
-          <button
-            onClick={() => setBillingCycle('annual')}
-            className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
-              billingCycle === 'annual'
-                ? 'bg-white text-mansablue shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            Annual
-            <Badge className="ml-2 bg-green-500 text-white text-xs">Save 20%</Badge>
-          </button>
+      {/* Billing Toggle - Only show for business users */}
+      {userType === 'business' && (
+        <div className="flex justify-center mb-8">
+          <div className="bg-gray-100 p-1 rounded-lg flex">
+            <button
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                billingCycle === 'monthly'
+                  ? 'bg-white text-mansablue shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingCycle('annual')}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                billingCycle === 'annual'
+                  ? 'bg-white text-mansablue shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+            >
+              Annual
+              <Badge className="ml-2 bg-green-500 text-white text-xs">Save 17%</Badge>
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Plans Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className={`grid grid-cols-1 ${userType === 'business' ? 'md:grid-cols-2' : 'md:grid-cols-1 max-w-md mx-auto'} gap-8`}>
         {plans.map((plan) => (
           <Card 
             key={plan.id} 

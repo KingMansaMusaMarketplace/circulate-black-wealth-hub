@@ -1,4 +1,4 @@
-export type SubscriptionTier = 'free' | 'premium' | 'premium_annual' | 'business_starter' | 'business_starter_annual' | 'business' | 'business_annual' | 'enterprise';
+export type SubscriptionTier = 'free' | 'business_starter' | 'business_starter_annual' | 'business' | 'business_annual' | 'business_multi_location' | 'business_multi_location_annual' | 'enterprise';
 
 export interface TierFeatures {
   canScanQR: boolean;
@@ -29,62 +29,19 @@ export interface TierInfo {
 export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   free: {
     displayName: 'Community Member',
-    description: 'Basic access to the marketplace',
+    description: '100% Free Forever - All Features Included',
     price: 0,
     interval: 'month',
     features: {
       canScanQR: true,
       canEarnPoints: true,
-      canRedeemRewards: false,
-      canAccessExclusiveDeals: false,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
       canCreateBusiness: false,
       canVerifyBusiness: false,
       canAccessAnalytics: false,
       canCreateEvents: false,
       canAccessPremiumSupport: false,
-      canAccessMentorship: false,
-      canAccessNetworking: false,
-      maxQRCodes: 0
-    }
-  },
-  premium: {
-    displayName: 'Premium Member',
-    description: 'Free until Jan 1, 2026, then $4.99/month',
-    price: 4.99,
-    interval: 'month',
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: false,
-      canVerifyBusiness: false,
-      canAccessAnalytics: false,
-      canCreateEvents: false,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: 0
-    }
-  },
-  premium_annual: {
-    displayName: 'Premium Member (Annual)',
-    description: 'Enhanced features, save 20%',
-    price: 47.99,
-    interval: 'year',
-    savingsText: 'Save $12/year',
-    monthlyEquivalent: 4.00,
-    popular: true,
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: false,
-      canVerifyBusiness: false,
-      canAccessAnalytics: false,
-      canCreateEvents: false,
-      canAccessPremiumSupport: true,
       canAccessMentorship: true,
       canAccessNetworking: true,
       maxQRCodes: 0
@@ -92,8 +49,8 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
   },
   business_starter: {
     displayName: 'Starter Business',
-    description: 'Free until Jan 1, 2026, then $29/month',
-    price: 29,
+    description: 'Perfect for solo entrepreneurs and new businesses',
+    price: 39,
     interval: 'month',
     features: {
       canScanQR: true,
@@ -107,16 +64,16 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
       canAccessPremiumSupport: true,
       canAccessMentorship: true,
       canAccessNetworking: true,
-      maxQRCodes: 3
+      maxQRCodes: 5
     }
   },
   business_starter_annual: {
     displayName: 'Starter Business (Annual)',
-    description: 'Small business tools, save 20%',
-    price: 279,
+    description: 'Perfect for solo entrepreneurs and new businesses',
+    price: 390,
     interval: 'year',
-    savingsText: 'Save $69/year',
-    monthlyEquivalent: 23.25,
+    savingsText: 'Save $78/year',
+    monthlyEquivalent: 32.50,
     features: {
       canScanQR: true,
       canEarnPoints: true,
@@ -129,36 +86,14 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
       canAccessPremiumSupport: true,
       canAccessMentorship: true,
       canAccessNetworking: true,
-      maxQRCodes: 3
+      maxQRCodes: 5
     }
   },
   business: {
     displayName: 'Professional Business',
-    description: 'Free until Jan 1, 2026, then $100/month',
-    price: 100,
+    description: 'Most popular for established businesses',
+    price: 79,
     interval: 'month',
-    features: {
-      canScanQR: true,
-      canEarnPoints: true,
-      canRedeemRewards: true,
-      canAccessExclusiveDeals: true,
-      canCreateBusiness: true,
-      canVerifyBusiness: true,
-      canAccessAnalytics: true,
-      canCreateEvents: true,
-      canAccessPremiumSupport: true,
-      canAccessMentorship: true,
-      canAccessNetworking: true,
-      maxQRCodes: 50
-    }
-  },
-  business_annual: {
-    displayName: 'Professional Business (Annual)',
-    description: 'Complete suite, save 20%',
-    price: 959,
-    interval: 'year',
-    savingsText: 'Save $241/year',
-    monthlyEquivalent: 79.92,
     popular: true,
     features: {
       canScanQR: true,
@@ -172,13 +107,36 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
       canAccessPremiumSupport: true,
       canAccessMentorship: true,
       canAccessNetworking: true,
-      maxQRCodes: 50
+      maxQRCodes: 25
     }
   },
-  enterprise: {
-    displayName: 'Enterprise',
-    description: 'Advanced features for large organizations',
-    price: 500,
+  business_annual: {
+    displayName: 'Professional Business (Annual)',
+    description: 'Most popular for established businesses',
+    price: 790,
+    interval: 'year',
+    savingsText: 'Save $158/year',
+    monthlyEquivalent: 65.83,
+    popular: true,
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: true,
+      canVerifyBusiness: true,
+      canAccessAnalytics: true,
+      canCreateEvents: true,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+      maxQRCodes: 25
+    }
+  },
+  business_multi_location: {
+    displayName: 'Multi-Location Business',
+    description: 'Perfect for franchises and chains',
+    price: 149,
     interval: 'month',
     features: {
       canScanQR: true,
@@ -192,7 +150,49 @@ export const subscriptionTiers: Record<SubscriptionTier, TierInfo> = {
       canAccessPremiumSupport: true,
       canAccessMentorship: true,
       canAccessNetworking: true,
-      maxQRCodes: -1 // unlimited
+      maxQRCodes: -1
+    }
+  },
+  business_multi_location_annual: {
+    displayName: 'Multi-Location Business (Annual)',
+    description: 'Perfect for franchises and chains',
+    price: 1490,
+    interval: 'year',
+    savingsText: 'Save $298/year',
+    monthlyEquivalent: 124.17,
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: true,
+      canVerifyBusiness: true,
+      canAccessAnalytics: true,
+      canCreateEvents: true,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+      maxQRCodes: -1
+    }
+  },
+  enterprise: {
+    displayName: 'Enterprise',
+    description: 'Custom solutions for large organizations',
+    price: 299,
+    interval: 'month',
+    features: {
+      canScanQR: true,
+      canEarnPoints: true,
+      canRedeemRewards: true,
+      canAccessExclusiveDeals: true,
+      canCreateBusiness: true,
+      canVerifyBusiness: true,
+      canAccessAnalytics: true,
+      canCreateEvents: true,
+      canAccessPremiumSupport: true,
+      canAccessMentorship: true,
+      canAccessNetworking: true,
+      maxQRCodes: -1
     }
   }
 };

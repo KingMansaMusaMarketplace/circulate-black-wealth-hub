@@ -24,35 +24,18 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
       name: 'Community Member',
       price: 0,
       period: 'month',
-      description: 'Perfect for discovering and supporting Black-owned businesses',
+      description: '100% Free Forever - All Features Included',
       features: [
         'Browse complete business directory',
         'Discover businesses near you',
-        'View detailed business profiles',
-        'Access contact information',
-        'Support community growth'
-      ],
-      icon: <Users className="h-6 w-6" />,
-      buttonText: 'Current Plan',
-      popular: false
-    },
-    {
-      id: 'premium' as SubscriptionTier,
-      name: 'Premium Member',
-      price: 4.99,
-      period: 'month',
-      description: 'Enhanced experience with exclusive savings and rewards',
-      features: [
-        'Everything in Community Member',
-        'Get 5% - 30% discounts at businesses',
         'Earn loyalty points on purchases',
         'Redeem points for rewards',
         'Access exclusive member deals',
-        'Priority customer support',
-        'Early access to new features'
+        'Join mentorship programs',
+        'Network with the community'
       ],
-      icon: <Crown className="h-6 w-6" />,
-      buttonText: 'Upgrade to Premium',
+      icon: <Users className="h-6 w-6" />,
+      buttonText: 'Current Plan',
       popular: true
     }
   ];
@@ -61,12 +44,12 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
     {
       id: 'business_starter' as SubscriptionTier,
       name: 'Starter Business',
-      price: 29,
+      price: 39,
       period: 'month',
       description: 'Perfect for new and small businesses getting started',
       features: [
         'Business profile creation & management',
-        'Up to 3 QR codes',
+        'Up to 5 QR codes',
         'Basic analytics dashboard',
         'Customer loyalty program',
         'Email support',
@@ -80,12 +63,12 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
     {
       id: 'business' as SubscriptionTier,
       name: 'Professional Business',
-      price: 100,
+      price: 79,
       period: 'month',
       description: 'Complete business management and marketing suite',
       features: [
         'Everything in Starter Business',
-        'Up to 50 QR codes',
+        'Up to 25 QR codes',
         'Advanced analytics dashboard',
         'Marketing tools & promotions',
         'Event creation & management',
@@ -102,8 +85,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
 
   const getButtonVariant = (planId: SubscriptionTier) => {
     if (currentTier === planId) return 'outline';
-    if ((userType === 'customer' && planId === 'premium') || 
-        (userType === 'business' && planId === 'business')) return 'default';
+    if (userType === 'business' && planId === 'business') return 'default';
     return 'outline';
   };
 

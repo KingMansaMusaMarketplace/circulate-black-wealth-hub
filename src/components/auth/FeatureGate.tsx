@@ -20,7 +20,7 @@ const FeatureGate: React.FC<FeatureGateProps> = ({
   feature, 
   children, 
   fallback,
-  requiredTier = 'premium' 
+  requiredTier = 'free' 
 }) => {
   const { user } = useAuth();
   const { subscriptionInfo } = useSubscription();

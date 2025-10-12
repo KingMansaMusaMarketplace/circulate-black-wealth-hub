@@ -37,8 +37,7 @@ const SubscriptionStatusWidget: React.FC = () => {
             <Badge 
               variant={currentTier === 'free' ? 'secondary' : 'default'}
               className={`
-                ${currentTier === 'premium' ? 'bg-purple-500' : ''}
-                ${currentTier === 'business' ? 'bg-blue-500' : ''}
+                ${currentTier.includes('business') ? 'bg-blue-500' : ''}
                 ${currentTier === 'enterprise' ? 'bg-amber-500' : ''}
               `}
             >

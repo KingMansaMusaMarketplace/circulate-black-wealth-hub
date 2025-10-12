@@ -23,7 +23,7 @@ const businessSignupSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
   businessName: z.string().min(2, 'Business name must be at least 2 characters'),
   category: z.string().min(1, 'Please select a business category'),
-  phone: z.string().optional(),
+  phone: z.string().min(10, 'Phone number is required for business accounts'),
   address: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
