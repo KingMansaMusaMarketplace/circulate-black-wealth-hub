@@ -9,13 +9,39 @@ import { TierBenefits } from '@/components/sponsor/TierBenefits';
 import { CancelSubscriptionDialog } from '@/components/sponsor/CancelSubscriptionDialog';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, ArrowLeft, Heart } from 'lucide-react';
+import { Loader2, ArrowLeft, Heart, ExternalLink } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { useState } from 'react';
 
 export default function SponsorDashboardPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { subscription, isLoading, error, updateCompanyInfo } = useSponsorSubscription();
+  const [isLoadingPortal, setIsLoadingPortal] = useState(false);
+
+  const handleManageSubscription = async () => {
+    try {
+      setIsLoadingPortal(true);
+      const { data, error } = await supabase.functions.invoke('create-portal-session', {
+        body: {
+          returnUrl: `${window.location.origin}/sponsor-dashboard`,
+        },
+      });
+
+      if (error) throw error;
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (err: any) {
+      console.error('Error creating portal session:', err);
+      toast.error(err.message || 'Failed to open customer portal');
+    } finally {
+      setIsLoadingPortal(false);
+    }
+  };
 
   if (!user) {
     navigate('/auth');
@@ -115,20 +141,31 @@ export default function SponsorDashboardPage() {
               <CardHeader>
                 <CardTitle>Manage Subscription</CardTitle>
                 <CardDescription>
-                  Update your payment method, view invoices, or cancel your subscription
+                  Update your payment method, view invoices, upgrade/downgrade, or cancel your subscription
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full" disabled>
-                  View Payment History (Coming Soon)
+                <Button 
+                  variant="default" 
+                  className="w-full"
+                  onClick={handleManageSubscription}
+                  disabled={isLoadingPortal || !subscription.stripe_customer_id}
+                >
+                  {isLoadingPortal ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Loading...
+                    </>
+                  ) : (
+                    <>
+                      <ExternalLink className="mr-2 h-4 w-4" />
+                      Manage Subscription & Billing
+                    </>
+                  )}
                 </Button>
-                <Button variant="outline" className="w-full" disabled>
-                  Update Payment Method (Coming Soon)
-                </Button>
-                <CancelSubscriptionDialog
-                  subscriptionId={subscription.stripe_subscription_id || subscription.id}
-                  tierName={subscription.tier}
-                />
+                <p className="text-xs text-muted-foreground text-center">
+                  Access your customer portal to update payment methods, view invoices, upgrade/downgrade tiers, and manage your subscription
+                </p>
               </CardContent>
             </Card>
           </div>

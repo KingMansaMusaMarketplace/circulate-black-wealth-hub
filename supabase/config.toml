@@ -74,3 +74,10 @@ verify_jwt = false
 
 [functions.create-corporate-checkout]
 verify_jwt = true
+
+[functions.create-portal-session]
+verify_jwt = true
+
+[functions.handle-subscription-webhook]
+verify_jwt = false
+
