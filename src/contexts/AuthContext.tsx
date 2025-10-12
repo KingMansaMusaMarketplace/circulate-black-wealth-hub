@@ -190,9 +190,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const updateUserPassword = async (currentPassword: string, newPassword: string) => {
-    const { error } = await supabase.auth.updateUser({
-      password: newPassword
+    if (!user?.email) {
+      return { error: { message: 'User email not found' }, success: false };
+    }
+
+    // First verify current password
+    const { error: verifyError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: currentPassword
     });
+
+    if (verifyError) {
+      return { error: { message: 'Current password incorrect' }, success: false };
+    }
+
+    // Then update
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
     return { error, success: !error };
   };
 
