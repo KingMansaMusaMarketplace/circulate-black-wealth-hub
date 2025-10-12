@@ -988,6 +988,51 @@ export type Database = {
         }
         Relationships: []
       }
+      corporate_subscriptions: {
+        Row: {
+          cancel_at_period_end: boolean | null
+          company_name: string
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          status: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          tier: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancel_at_period_end?: boolean | null
+          company_name: string
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tier: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean | null
+          company_name?: string
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tier?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       email_notifications: {
         Row: {
           content: string
@@ -2683,6 +2728,85 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_benefits: {
+        Row: {
+          benefit_type: string
+          benefit_value: Json | null
+          created_at: string
+          id: string
+          is_active: boolean | null
+          subscription_id: string
+          updated_at: string
+        }
+        Insert: {
+          benefit_type: string
+          benefit_value?: Json | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          subscription_id: string
+          updated_at?: string
+        }
+        Update: {
+          benefit_type?: string
+          benefit_value?: Json | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          subscription_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_benefits_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_impact_metrics: {
+        Row: {
+          businesses_supported: number | null
+          community_reach: number | null
+          created_at: string
+          economic_impact: number | null
+          id: string
+          metric_date: string
+          subscription_id: string
+          total_transactions: number | null
+        }
+        Insert: {
+          businesses_supported?: number | null
+          community_reach?: number | null
+          created_at?: string
+          economic_impact?: number | null
+          id?: string
+          metric_date?: string
+          subscription_id: string
+          total_transactions?: number | null
+        }
+        Update: {
+          businesses_supported?: number | null
+          community_reach?: number | null
+          created_at?: string
+          economic_impact?: number | null
+          id?: string
+          metric_date?: string
+          subscription_id?: string
+          total_transactions?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_impact_metrics_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions"
             referencedColumns: ["id"]
           },
         ]
