@@ -30,20 +30,74 @@ serve(async (req) => {
         const session = event.data.object as Stripe.Checkout.Session;
         const metadata = session.metadata;
 
-        if (!metadata?.user_id || !metadata?.tier) {
-          console.error("Missing metadata in checkout session");
-          break;
+        // Validate required metadata fields
+        if (!metadata?.user_id || !metadata?.tier || !metadata?.company_name) {
+          console.error("Missing required metadata in checkout session:", {
+            has_user_id: !!metadata?.user_id,
+            has_tier: !!metadata?.tier,
+            has_company_name: !!metadata?.company_name
+          });
+          return new Response(
+            JSON.stringify({ error: "Invalid metadata in checkout session" }),
+            { status: 400, headers: { "Content-Type": "application/json" } }
+          );
         }
 
-        // Create or update corporate subscription
+        // Validate user_id format (UUID)
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (!uuidRegex.test(metadata.user_id)) {
+          console.error("Invalid user_id format:", metadata.user_id);
+          return new Response(
+            JSON.stringify({ error: "Invalid user_id format" }),
+            { status: 400, headers: { "Content-Type": "application/json" } }
+          );
+        }
+
+        // Validate tier value
+        const validTiers = ["bronze", "silver", "gold", "platinum"];
+        if (!validTiers.includes(metadata.tier.toLowerCase())) {
+          console.error("Invalid tier value:", metadata.tier);
+          return new Response(
+            JSON.stringify({ error: "Invalid tier value" }),
+            { status: 400, headers: { "Content-Type": "application/json" } }
+          );
+        }
+
+        // Validate company_name length
+        if (metadata.company_name.length > 255 || metadata.company_name.length < 1) {
+          console.error("Invalid company_name length:", metadata.company_name.length);
+          return new Response(
+            JSON.stringify({ error: "Invalid company_name length" }),
+            { status: 400, headers: { "Content-Type": "application/json" } }
+          );
+        }
+
+        // Validate optional URL fields if provided
+        if (metadata.logo_url && metadata.logo_url.length > 2048) {
+          console.error("Logo URL too long");
+          return new Response(
+            JSON.stringify({ error: "Logo URL exceeds maximum length" }),
+            { status: 400, headers: { "Content-Type": "application/json" } }
+          );
+        }
+
+        if (metadata.website_url && metadata.website_url.length > 2048) {
+          console.error("Website URL too long");
+          return new Response(
+            JSON.stringify({ error: "Website URL exceeds maximum length" }),
+            { status: 400, headers: { "Content-Type": "application/json" } }
+          );
+        }
+
+        // Create or update corporate subscription using service role (bypasses RLS)
         const { error: subError } = await supabase
           .from("corporate_subscriptions")
           .upsert({
             user_id: metadata.user_id,
-            tier: metadata.tier,
-            company_name: metadata.company_name,
-            logo_url: metadata.logo_url || null,
-            website_url: metadata.website_url || null,
+            tier: metadata.tier.toLowerCase(),
+            company_name: metadata.company_name.substring(0, 255),
+            logo_url: metadata.logo_url?.substring(0, 2048) || null,
+            website_url: metadata.website_url?.substring(0, 2048) || null,
             stripe_customer_id: session.customer as string,
             stripe_subscription_id: session.subscription as string,
             status: "active",
@@ -55,9 +109,13 @@ serve(async (req) => {
 
         if (subError) {
           console.error("Error creating subscription:", subError);
-        } else {
-          console.log("Corporate subscription created for user:", metadata.user_id);
+          return new Response(
+            JSON.stringify({ error: "Database error creating subscription" }),
+            { status: 500, headers: { "Content-Type": "application/json" } }
+          );
         }
+        
+        console.log("Corporate subscription created for user:", metadata.user_id);
         break;
       }
 
