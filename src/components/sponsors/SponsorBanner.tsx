@@ -14,12 +14,13 @@ export const SponsorBanner: React.FC = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('corporate_subscriptions')
-        .select('company_name, website_url, tier')
+        .select('id, company_name, logo_url, website_url, tier')
         .eq('status', 'active')
         .in('tier', ['platinum', 'gold'])
+        .not('logo_url', 'is', null)
         .order('tier', { ascending: true })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;
@@ -38,31 +39,37 @@ export const SponsorBanner: React.FC = () => {
   }
 
   return (
-    <div className="bg-gradient-to-r from-primary/10 to-primary/5 border-b">
-      <div className="container mx-auto px-4 py-2 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2 text-sm">
-          <span className="font-medium">
-            This platform is powered by {featuredSponsor.company_name}
-          </span>
-          {featuredSponsor.website_url && (
-            <a
-              href={featuredSponsor.website_url}
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="text-primary hover:underline"
-            >
-              Learn more →
-            </a>
-          )}
+    <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border-b">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4 flex-1">
+            <span className="text-sm text-muted-foreground hidden sm:inline">
+              Sponsored by
+            </span>
+            {featuredSponsor.logo_url && (
+              <a
+                href={featuredSponsor.website_url || '#'}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                title={`Visit ${featuredSponsor.company_name}`}
+              >
+                <img
+                  src={featuredSponsor.logo_url}
+                  alt={`${featuredSponsor.company_name} logo`}
+                  className="h-12 w-auto max-w-[180px] object-contain transition-all duration-300 hover:scale-105"
+                />
+              </a>
+            )}
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleDismiss}
+            className="shrink-0"
+          >
+            <X className="h-4 w-4" />
+          </Button>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleDismiss}
-          className="h-6 w-6"
-        >
-          <X className="h-4 w-4" />
-        </Button>
       </div>
     </div>
   );

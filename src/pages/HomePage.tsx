@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import HomePageSections from '@/components/HomePage/HomePageSections';
 import FreeGrowthBanner from '@/components/FreeGrowthBanner';
+import { SponsorBanner } from '@/components/sponsors';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
 import { updateMetaTags } from '@/utils/seoUtils';
@@ -39,6 +40,9 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Sponsor Banner */}
+      <SponsorBanner />
+      
       {/* Hero Section */}
       <Hero />
 

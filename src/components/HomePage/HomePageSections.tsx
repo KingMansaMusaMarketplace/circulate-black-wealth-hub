@@ -5,6 +5,7 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import CTASection from '@/components/CTASection';
 import { BenefitsSection } from '@/components/HowItWorks/Benefits';
 import { SocialProofWidget } from '@/components/social-proof';
+import { SponsorLogoGrid } from '@/components/sponsors';
 import LazySection from '@/components/common/LazySection';
 
 const HomePageSections: React.FC = () => {
@@ -47,6 +48,22 @@ const HomePageSections: React.FC = () => {
       {/* Testimonials Section */}
       <section id="testimonials">
         <TestimonialsSection />
+      </section>
+
+      {/* Corporate Sponsors */}
+      <section className="py-16 bg-muted/50">
+        <div className="container">
+          <h2 className="text-3xl font-bold text-center mb-2">
+            Our Corporate Partners
+          </h2>
+          <p className="text-center text-muted-foreground mb-8">
+            Supporting our mission to build community wealth
+          </p>
+          <SponsorLogoGrid
+            placement="homepage"
+            maxLogos={8}
+          />
+        </div>
       </section>
 
       {/* CTA Section */}

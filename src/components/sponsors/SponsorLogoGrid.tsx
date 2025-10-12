@@ -19,7 +19,14 @@ interface Sponsor {
   website_url?: string;
 }
 
-const tierOrder = { platinum: 1, gold: 2, silver: 3, bronze: 4 };
+const tierOrder = { platinum: 0, gold: 1, silver: 2, bronze: 3 };
+
+const placementTiers = {
+  homepage: ['platinum', 'gold', 'silver', 'bronze'],
+  footer: ['platinum', 'gold', 'silver', 'bronze'],
+  sidebar: ['platinum', 'gold', 'silver'],
+  directory: ['platinum', 'gold', 'silver'],
+};
 
 export const SponsorLogoGrid: React.FC<SponsorLogoGridProps> = ({
   placement,
@@ -33,17 +40,17 @@ export const SponsorLogoGrid: React.FC<SponsorLogoGridProps> = ({
         .from('corporate_subscriptions')
         .select('id, company_name, tier, logo_url, website_url')
         .eq('status', 'active')
-        .order('created_at', { ascending: false });
+        .not('logo_url', 'is', null)
+        .in('tier', placementTiers[placement]);
 
       if (error) throw error;
 
-      // Filter and sort by tier
-      const filtered = (subscriptions || [])
-        .filter((s) => !!s.logo_url)
+      // Sort by tier
+      const sorted = (subscriptions || [])
         .sort((a, b) => tierOrder[a.tier] - tierOrder[b.tier])
         .slice(0, maxLogos) as Sponsor[];
 
-      return filtered;
+      return sorted;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
