@@ -16,7 +16,6 @@ import {
   FAQSection,
   MediaGallerySection,
   ContactSection,
-  CommunityForum,
   PersonalizedRecommendations,
   AccessibilityFeatures,
   GamificationFeatures
@@ -37,7 +36,6 @@ const AboutPage = () => {
         <ImpactMetricsSection />
         <PersonalizedRecommendations />
         <GamificationFeatures />
-        <CommunityForum />
         <MediaGallerySection />
         <TestimonialsSection />
         <AccessibilityFeatures />

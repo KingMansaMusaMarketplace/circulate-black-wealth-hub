@@ -42,28 +42,6 @@ const NavLinks: React.FC = () => {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-white">
               <li>
-                <Link to="/education" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                  <div className="flex items-center gap-2">
-                    <GraduationCap className="h-4 w-4" />
-                    <div className="text-sm font-medium leading-none">Education</div>
-                  </div>
-                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Financial literacy and business resources
-                  </p>
-                </Link>
-              </li>
-              <li>
-                <Link to="/mentorship" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4" />
-                    <div className="text-sm font-medium leading-none">Mentorship</div>
-                  </div>
-                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Connect with experienced entrepreneurs
-                  </p>
-                </Link>
-              </li>
-              <li>
                 <Link to="/sponsor-pricing" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                   <div className="flex items-center gap-2">
                     <Building2 className="h-4 w-4" />

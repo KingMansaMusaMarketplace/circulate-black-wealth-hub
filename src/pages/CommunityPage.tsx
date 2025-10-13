@@ -1,11 +1,10 @@
 
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import CommunityForum from '@/components/community/CommunityForum';
 import CommunityEvents from '@/components/community/CommunityEvents';
 import ActivityFeed from '@/components/community/ActivityFeed';
 import SmartBusinessRecommendations from '@/components/discovery/SmartBusinessRecommendations';
-import { MessageSquare, Calendar, TrendingUp, Activity } from 'lucide-react';
+import { Calendar, TrendingUp, Activity } from 'lucide-react';
 
 const CommunityPage: React.FC = () => {
   return (
@@ -21,7 +20,7 @@ const CommunityPage: React.FC = () => {
 
       <div className="max-w-6xl mx-auto px-6 py-8">
         <Tabs defaultValue="activity" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
+          <TabsList className="grid w-full grid-cols-3 mb-8">
             <TabsTrigger value="activity" className="flex items-center space-x-2">
               <Activity className="h-4 w-4" />
               <span>Activity</span>
@@ -29,10 +28,6 @@ const CommunityPage: React.FC = () => {
             <TabsTrigger value="discover" className="flex items-center space-x-2">
               <TrendingUp className="h-4 w-4" />
               <span>Discover</span>
-            </TabsTrigger>
-            <TabsTrigger value="forum" className="flex items-center space-x-2">
-              <MessageSquare className="h-4 w-4" />
-              <span>Forum</span>
             </TabsTrigger>
             <TabsTrigger value="events" className="flex items-center space-x-2">
               <Calendar className="h-4 w-4" />
@@ -70,11 +65,7 @@ const CommunityPage: React.FC = () => {
           <TabsContent value="discover" className="space-y-6">
             <SmartBusinessRecommendations />
           </TabsContent>
-
-          <TabsContent value="forum" className="space-y-6">
-            <CommunityForum />
-          </TabsContent>
-
+          
           <TabsContent value="events" className="space-y-6">
             <CommunityEvents />
           </TabsContent>

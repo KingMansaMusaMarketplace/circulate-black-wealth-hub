@@ -8,8 +8,6 @@ export { default as Footer } from '@/components/Footer';
 export const LazyAboutPage = lazy(() => import('@/pages/AboutPage'));
 export const LazyDirectoryPage = lazy(() => import('@/pages/DirectoryPage'));
 export const LazyDashboardPage = lazy(() => import('@/pages/DashboardPage'));
-export const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
-export const LazyMentorshipPage = lazy(() => import('@/pages/MentorshipPage'));
 export const LazyLoyaltyPage = lazy(() => import('@/pages/LoyaltyPage'));
 export const LazyCommunityImpactPage = lazy(() => import('@/pages/CommunityImpactPage'));
 export const LazyCorporateSponsorshipPage = lazy(() => import('@/pages/CorporateSponsorshipPage'));
@@ -70,11 +68,6 @@ export const LazyBusinessDashboard = lazy(() => import('@/components/business/Bu
 
 // Payment components (lazy loaded)
 export const LazyEnhancedPaymentButton = lazy(() => import('@/components/payments/EnhancedPaymentButton'));
-export const LazyStripeTestComponent = lazy(() => import('@/components/subscription/StripeTestComponent'));
-
-// Community components (lazy loaded)
-export const LazyCommunityForum = lazy(() => import('@/components/AboutPage/CommunityForum'));
-export const LazyGamificationTabs = lazy(() => import('@/components/AboutPage/Gamification/GamificationTabs'));
 
 // Media components (lazy loaded)
 export const LazyVideoPlayer = lazy(() => import('@/components/VideoPlayer'));

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { 
   Home, Store, BookOpen, Users, Trophy, QrCode, Calendar,
   Building2, TrendingUp, TestTube, HelpCircle, Info, Mail,
-  ShieldCheck, Settings, Handshake, GraduationCap, FileText,
+  ShieldCheck, Settings, Handshake, FileText,
   LogIn, UserPlus, MapPin
 } from 'lucide-react';
 
@@ -16,8 +16,6 @@ const AllPagesDirectory = () => {
     { path: '/how-it-works', name: 'How It Works', icon: BookOpen, category: 'Main' },
     { path: '/about', name: 'About Us', icon: Info, category: 'Main' },
     { path: '/community', name: 'Community Hub', icon: Users, category: 'Main' },
-    { path: '/mentorship', name: 'Mentorship Network', icon: Handshake, category: 'Main' },
-    { path: '/education', name: 'Education Center', icon: GraduationCap, category: 'Main' },
     
     { path: '/login', name: 'Login', icon: LogIn, category: 'Auth' },
     { path: '/signup', name: 'Customer Signup', icon: UserPlus, category: 'Auth' },

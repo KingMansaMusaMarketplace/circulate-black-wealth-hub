@@ -14,7 +14,6 @@ export { default as FAQSection } from './FAQSection';
 export { default as MediaGallerySection } from './MediaGallerySection';
 export { default as ContactSection } from './ContactSection';
 export { default as SuccessStoriesSection } from './SuccessStoriesSection';
-export { default as CommunityForum } from './CommunityForum';
 export { default as PersonalizedRecommendations } from './PersonalizedRecommendations';
 export { default as AccessibilityFeatures } from './AccessibilityFeatures';
 export { default as GamificationFeatures } from './GamificationFeatures';

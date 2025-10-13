@@ -28,8 +28,6 @@ import {
   LazyAboutPage,
   LazyDirectoryPage,
   LazyDashboardPage,
-  LazyEducationPage,
-  LazyMentorshipPage,
   LazyLoyaltyPage,
   LazyCommunityImpactPage,
   LazyCorporateSponsorshipPage,
@@ -248,8 +246,6 @@ function App() {
                             
                               <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
                               <Route path="/features" element={<LazyFeatureGuidePage />} />
-                              <Route path="/education" element={<LazyEducationPage />} />
-                              <Route path="/mentorship" element={<LazyMentorshipPage />} />
                               <Route path="/scanner" element={<LazyQRScannerPage />} />
                               <Route path="/loyalty" element={<LazyLoyaltyPage />} />
                               <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
@@ -351,12 +347,6 @@ function App() {
                         {/* Fixed How It Works route */}
                         <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
                         <Route path="/features" element={<LazyFeatureGuidePage />} />
-                        
-                        {/* Fixed Education route */}
-                        <Route path="/education" element={<LazyEducationPage />} />
-                        
-                        {/* Fixed Mentorship route */}
-                        <Route path="/mentorship" element={<LazyMentorshipPage />} />
                         
                         {/* QR Scanner routes - both /scanner and /qr-scanner should work */}
                         <Route path="/scanner" element={<LazyQRScannerPage />} />
