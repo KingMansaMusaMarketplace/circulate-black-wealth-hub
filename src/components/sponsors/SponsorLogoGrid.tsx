@@ -1,6 +1,5 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useCachedSponsors } from '@/hooks/useCachedSponsors';
 import { SponsorLogo } from './SponsorLogo';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
@@ -33,27 +32,19 @@ export const SponsorLogoGrid: React.FC<SponsorLogoGridProps> = ({
   maxLogos = 12,
   className,
 }) => {
-  const { data: sponsors, isLoading } = useQuery({
-    queryKey: ['active-sponsors', placement],
-    queryFn: async () => {
-      const { data: subscriptions, error } = await supabase
-        .from('corporate_subscriptions')
-        .select('id, company_name, tier, logo_url, website_url')
-        .eq('status', 'active')
-        .not('logo_url', 'is', null)
-        .in('tier', placementTiers[placement]);
+  // Use optimized cached sponsors hook
+  const { data: allSponsors, isLoading } = useCachedSponsors();
 
-      if (error) throw error;
-
-      // Sort by tier
-      const sorted = (subscriptions || [])
-        .sort((a, b) => tierOrder[a.tier] - tierOrder[b.tier])
-        .slice(0, maxLogos) as Sponsor[];
-
-      return sorted;
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-  });
+  // Filter and sort sponsors based on placement
+  const sponsors = React.useMemo(() => {
+    if (!allSponsors) return [];
+    
+    const allowedTiers = placementTiers[placement];
+    return allSponsors
+      .filter(s => s.logo_url && allowedTiers.includes(s.tier))
+      .sort((a, b) => tierOrder[a.tier as keyof typeof tierOrder] - tierOrder[b.tier as keyof typeof tierOrder])
+      .slice(0, maxLogos);
+  }, [allSponsors, placement, maxLogos]);
 
   if (isLoading) {
     return (
@@ -92,7 +83,7 @@ export const SponsorLogoGrid: React.FC<SponsorLogoGridProps> = ({
             logoUrl={sponsor.logo_url!}
             companyName={sponsor.company_name}
             websiteUrl={sponsor.website_url}
-            tier={sponsor.tier}
+            tier={sponsor.tier as 'bronze' | 'silver' | 'gold' | 'platinum'}
             size={getSizeForPlacement()}
           />
         ))}

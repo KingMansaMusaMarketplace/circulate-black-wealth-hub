@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useCachedSponsors } from '@/hooks/useCachedSponsors';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
 import { ExternalLink } from 'lucide-react';
@@ -22,23 +22,8 @@ const tierColors = {
 };
 
 export const PublicSponsorDisplay = () => {
-  const { data: sponsors, isLoading } = useQuery({
-    queryKey: ['public-sponsors'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('corporate_subscriptions')
-        .select('id, tier, company_name, logo_url, website_url, status')
-        .eq('status', 'active')
-        .order('tier');
-
-      if (error) throw error;
-
-      // Sort by tier priority
-      return (data as Sponsor[]).sort(
-        (a, b) => tierOrder[a.tier as keyof typeof tierOrder] - tierOrder[b.tier as keyof typeof tierOrder]
-      );
-    },
-  });
+  // Use optimized cached sponsors hook with automatic 30-minute caching
+  const { data: sponsors, isLoading } = useCachedSponsors();
 
   // Track impressions when sponsors are displayed
   useEffect(() => {

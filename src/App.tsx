@@ -104,7 +104,18 @@ const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading...
   </div>
 );
 
-const queryClient = new QueryClient();
+// Optimized QueryClient configuration for performance
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5 minutes - data stays fresh
+      gcTime: 10 * 60 * 1000, // 10 minutes - garbage collection time (formerly cacheTime)
+      refetchOnWindowFocus: false, // Don't refetch on window focus
+      refetchOnMount: false, // Don't refetch on mount if data exists
+      retry: 1, // Retry failed requests once
+    },
+  },
+});
 
 function App() {
   const [appReady, setAppReady] = useState(false);
