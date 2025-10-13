@@ -21,6 +21,8 @@ import {
 import { Link } from 'react-router-dom';
 import LiveActivityWidget from '@/components/realtime/LiveActivityWidget';
 import ActivityFeed from '@/components/realtime/ActivityFeed';
+import { useOnboardingTour } from '@/hooks/useOnboardingTour';
+import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 
 interface DashboardStats {
   totalPoints: number;
@@ -63,6 +65,7 @@ export default function UserDashboardPage() {
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
   const [favoriteBusinesses, setFavoriteBusinesses] = useState<FavoriteBusiness[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
 
   useEffect(() => {
     if (authLoading) return; // Wait for auth to finish loading
@@ -246,6 +249,7 @@ export default function UserDashboardPage() {
   }
 
   return (
+    <>
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto space-y-8">
@@ -255,7 +259,7 @@ export default function UserDashboardPage() {
               <h1 className="text-3xl font-bold text-foreground">Welcome back!</h1>
               <p className="text-muted-foreground">Here's what's happening with your account</p>
             </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2" data-tour="user-menu">
             <Badge className={`${getTierColor(stats.currentTier)} text-white`}>
               {stats.currentTier} Member
             </Badge>
@@ -263,7 +267,7 @@ export default function UserDashboardPage() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-tour="dashboard-stats">
           <Card>
             <CardContent className="flex items-center p-6">
               <Trophy className="h-8 w-8 text-yellow-500 mr-3" />
@@ -430,5 +434,15 @@ export default function UserDashboardPage() {
       </div>
     </div>
     </div>
+    
+    {shouldShowTour && (
+      <OnboardingTour
+        steps={tourSteps}
+        tourKey={tourKey}
+        onComplete={completeTour}
+        onSkip={skipTour}
+      />
+    )}
+    </>
   );
 }

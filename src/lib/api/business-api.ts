@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
 import { handleApiError, showUserFriendlyError, checkRateLimit, logActivity } from '@/lib/utils/error-utils';
 import { validateRequiredFields, showValidationErrors } from '@/lib/utils/validation-utils';
+import { errorTracker } from '@/utils/error-tracking';
 
 export interface BusinessProfile {
   id?: string;
@@ -43,6 +44,11 @@ export const fetchBusinessProfile = async (ownerId: string): Promise<BusinessPro
     return data;
   } catch (error: any) {
     const loggedError = await handleApiError(error, 'fetchBusinessProfile', { ownerId });
+    errorTracker.logError(error, {
+      component: 'business-api',
+      action: 'fetchBusinessProfile',
+      metadata: { ownerId }
+    }, 'medium');
     console.error('Error fetching business profile:', loggedError);
     return null;
   }
@@ -124,6 +130,11 @@ export const saveBusinessProfile = async (profile: BusinessProfile): Promise<{ s
     return result;
   } catch (error: any) {
     const loggedError = await handleApiError(error, 'saveBusinessProfile', { profileId: profile.id });
+    errorTracker.logError(error, {
+      component: 'business-api',
+      action: 'saveBusinessProfile',
+      metadata: { profileId: profile.id }
+    }, 'high');
     console.error('Error saving business profile:', loggedError);
     showUserFriendlyError(loggedError, 'saving business profile');
     return { success: false, error: loggedError };

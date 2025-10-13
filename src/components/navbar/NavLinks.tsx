@@ -86,7 +86,7 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/scanner" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                <Link to="/scanner" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground" data-tour="qr-scanner">
                   <div className="flex items-center gap-2">
                     <Scan className="h-4 w-4" />
                     <div className="text-sm font-medium leading-none">QR Scanner</div>

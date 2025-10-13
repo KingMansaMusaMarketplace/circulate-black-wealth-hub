@@ -38,7 +38,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
     { to: '/dashboard', label: 'Dashboard' },
     { to: '/businesses', label: 'Marketplace' },
     { to: '/about', label: 'About Us' },
-    { to: '/scanner', label: 'QR Scanner' },
+    { to: '/scanner', label: 'QR Scanner', dataTour: 'qr-scanner' },
     { to: '/loyalty', label: 'Rewards' },
     { to: '/community-impact', label: 'Community Impact' },
     { to: '/contact', label: 'Contact' },
@@ -56,7 +56,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
                 to={item.to}
                 onClick={handleLinkClick}
                 className="block px-3 py-3 text-base font-medium text-gray-700 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
-                style={{ minHeight: '44px' }} // Ensure minimum touch target size
+                style={{ minHeight: '44px' }}
+                data-tour={item.dataTour}
               >
                 {item.label}
               </Link>
@@ -76,7 +77,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
                 to={item.to}
                 onClick={handleLinkClick}
                 className="block px-6 py-3 text-sm text-gray-600 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
-                style={{ minHeight: '44px' }} // Ensure minimum touch target size
+                style={{ minHeight: '44px' }}
               >
                 {item.label}
               </Link>
@@ -96,7 +97,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
                 to={item.to}
                 onClick={handleLinkClick}
                 className="block px-6 py-3 text-sm text-gray-600 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
-                style={{ minHeight: '44px' }} // Ensure minimum touch target size
+                style={{ minHeight: '44px' }}
               >
                 {item.label}
               </Link>

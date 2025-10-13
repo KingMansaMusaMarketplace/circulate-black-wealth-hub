@@ -8,8 +8,12 @@ import { PublicSponsorDisplay } from '@/components/sponsors/PublicSponsorDisplay
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
 import { updateMetaTags } from '@/utils/seoUtils';
+import { useOnboardingTour } from '@/hooks/useOnboardingTour';
+import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 
 const HomePage = () => {
+  const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
+  
   useEffect(() => {
     // Track bundle performance
     trackBundleMetrics();
@@ -40,22 +44,33 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
-      {/* Sponsor Banner */}
-      <SponsorBanner />
-      
-      {/* Hero Section */}
-      <Hero />
+    <>
+      <div className="min-h-screen">
+        {/* Sponsor Banner */}
+        <SponsorBanner />
+        
+        {/* Hero Section */}
+        <Hero />
 
-      {/* Free Growth Strategy Banner */}
-      <FreeGrowthBanner />
+        {/* Free Growth Strategy Banner */}
+        <FreeGrowthBanner />
 
-      {/* All conversion-focused sections */}
-      <HomePageSections />
+        {/* All conversion-focused sections */}
+        <HomePageSections />
+        
+        {/* Public Sponsor Display */}
+        <PublicSponsorDisplay />
+      </div>
       
-      {/* Public Sponsor Display */}
-      <PublicSponsorDisplay />
-    </div>
+      {shouldShowTour && (
+        <OnboardingTour
+          steps={tourSteps}
+          tourKey={tourKey}
+          onComplete={completeTour}
+          onSkip={skipTour}
+        />
+      )}
+    </>
   );
 };
 

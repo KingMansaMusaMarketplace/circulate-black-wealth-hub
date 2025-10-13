@@ -15,7 +15,8 @@ import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { BusinessOnboardingFlow } from "@/components/onboarding/BusinessOnboardingFlow";
 import { CorporateOnboardingFlow } from "@/components/onboarding/CorporateOnboardingFlow";
 import Layout from "@/components/Layout";
-import ErrorBoundary from "@/components/ErrorBoundary";
+import { ErrorBoundary } from "@/components/error-boundary/ErrorBoundary";
+import { RouteErrorBoundary } from "@/components/error-boundary/RouteErrorBoundary";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -194,6 +195,8 @@ function App() {
                         <Suspense fallback={<LoadingFallback />}>
                           <Layout>
                             <Routes>
+                              {/* All routes wrapped with error boundary */}
+                              <Route errorElement={<RouteErrorBoundary />}>
                               <Route path="/" element={<HomePage />} />
                               <Route path="/all-pages" element={<AllPagesDirectory />} />
                               <Route path="/auth" element={<LazyAuthPage />} />
@@ -268,6 +271,7 @@ function App() {
                               <Route path="/payment-test" element={<LazyPaymentTestPage />} />
                               
                               <Route path="*" element={<NotFound />} />
+                              </Route>
                             </Routes>
                           </Layout>
                         </Suspense>

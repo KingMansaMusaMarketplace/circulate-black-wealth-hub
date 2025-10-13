@@ -5,6 +5,8 @@ import { businesses } from '@/data/businessData';
 import { BusinessFilters } from '@/lib/api/directory/types';
 import { useMultiCityDirectory } from '@/hooks/use-multi-city-directory';
 import MultiCityStats from '@/components/directory/MultiCityStats';
+import { useOnboardingTour } from '@/hooks/useOnboardingTour';
+import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 
 // Import the directory components
 import DirectoryHeader from '@/components/directory/DirectoryHeader';
@@ -27,6 +29,7 @@ import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 import { CONTEXTUAL_TIPS } from '@/lib/onboarding-constants';
 
 const DirectoryPage: React.FC = () => {
+  const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
   
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
   const [showFilters, setShowFilters] = useState(false);
@@ -94,6 +97,7 @@ const DirectoryPage: React.FC = () => {
         <meta name="description" content="Find and support Black-owned businesses in your community" />
       </Helmet>
       
+      <>
       <div className="min-h-screen bg-gray-50">
         <div className="bg-primary py-8">
           <div className="container mx-auto text-center">
@@ -102,7 +106,7 @@ const DirectoryPage: React.FC = () => {
               Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, and Detroit
             </p>
             
-            <div className="relative max-w-xl mx-auto">
+            <div className="relative max-w-xl mx-auto" data-tour="search-businesses">
               <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text" 
@@ -189,10 +193,12 @@ const DirectoryPage: React.FC = () => {
                 <ErrorBoundary>
                   <Tabs value={viewMode} onValueChange={(val) => setViewMode(val as 'grid' | 'list' | 'map')}>
                     <TabsContent value="grid" className="mt-0">
-                      <BusinessGridView 
-                        businesses={filteredBusinesses || []} 
-                        onSelectBusiness={handleSelectBusiness} 
-                      />
+                      <div data-tour="business-card">
+                        <BusinessGridView 
+                          businesses={filteredBusinesses || []} 
+                          onSelectBusiness={handleSelectBusiness} 
+                        />
+                      </div>
                     </TabsContent>
                     <TabsContent value="list" className="mt-0">
                       <BusinessListView 
@@ -231,6 +237,16 @@ const DirectoryPage: React.FC = () => {
         
         <ScrollToTopButton />
       </div>
+      
+      {shouldShowTour && (
+        <OnboardingTour
+          steps={tourSteps}
+          tourKey={tourKey}
+          onComplete={completeTour}
+          onSkip={skipTour}
+        />
+      )}
+      </>
     </ErrorBoundary>
   );
 };
