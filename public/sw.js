@@ -1,6 +1,6 @@
 
 // Service Worker for Circulate Black Wealth Hub PWA
-const CACHE_NAME = 'wealth-hub-cache-v2'; // UPDATED: Cache busted to clear old broken cache
+const CACHE_NAME = 'wealth-hub-cache-v3'; // UPDATED: v3 - network-first for navigations to fix blank page
 const urlsToCache = [
   '/',
   '/index.html',
@@ -28,31 +28,39 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
   // Skip caching for Capacitor requests
   if (isCapacitor()) {
-    return fetch(event.request);
+    // Do not intercept; let the network handle it in Capacitor
+    return; 
   }
-  
+
+  const req = event.request;
+
+  // Network-first for navigations (HTML pages)
+  if (req.mode === 'navigate' || (req.method === 'GET' && req.headers.get('accept')?.includes('text/html'))) {
+    event.respondWith(
+      fetch(req)
+        .then(response => {
+          const resClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(req, resClone));
+          return response;
+        })
+        .catch(() => caches.match(req).then(res => res || caches.match('/index.html')))
+    );
+    return;
+  }
+
+  // Cache-first for other assets (CSS/JS/images)
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
+    caches.match(req).then(cached => {
+      if (cached) return cached;
+      return fetch(req).then(response => {
+        if (!response || response.status !== 200 || response.type !== 'basic') {
           return response;
         }
-        return fetch(event.request)
-          .then(response => {
-            if(!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-            
-            const responseToCache = response.clone();
-            
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseToCache);
-              });
-              
-            return response;
-          });
-      })
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(req, responseToCache));
+        return response;
+      });
+    })
   );
 });
 
