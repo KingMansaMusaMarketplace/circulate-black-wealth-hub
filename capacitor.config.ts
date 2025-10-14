@@ -2,8 +2,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.tbowling.mansamusamarketplace',
-  appName: 'circulate-black-wealth-hub',
+  appId: 'com.obamaenergy.wealthhub',
+  appName: 'Mansa Musa Marketplace',
   webDir: 'dist',
   // IMPORTANT: For App Store production builds, remove the server configuration
   // The app should load from local dist folder, not external URL
