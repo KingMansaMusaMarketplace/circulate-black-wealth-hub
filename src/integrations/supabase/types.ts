@@ -3730,6 +3730,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      sanitize_text_input: {
+        Args: { input_text: string; max_length?: number }
+        Returns: string
+      }
       search_public_businesses: {
         Args: {
           p_category?: string
@@ -3803,6 +3807,10 @@ export type Database = {
       validate_test_answers: {
         Args: { answer_data: Json }
         Returns: Json
+      }
+      validate_uuid_input: {
+        Args: { input_uuid: string }
+        Returns: boolean
       }
     }
     Enums: {
