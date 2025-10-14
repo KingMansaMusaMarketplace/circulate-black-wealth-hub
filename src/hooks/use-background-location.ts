@@ -90,17 +90,8 @@ export const useBackgroundLocation = () => {
       await notifyNearbyBusinesses(nearbyBusinesses);
     }
 
-    // Store location history for analytics (last 10 positions)
-    const history = JSON.parse(localStorage.getItem('location_history') || '[]');
-    history.push({
-      lat: position.coords.latitude,
-      lng: position.coords.longitude,
-      timestamp: position.timestamp
-    });
-    
-    // Keep only last 10 positions
-    const recentHistory = history.slice(-10);
-    localStorage.setItem('location_history', JSON.stringify(recentHistory));
+    // Note: Location history is NOT stored locally for privacy compliance (GDPR/CCPA)
+    // If analytics are needed, implement server-side storage with proper encryption and user consent
   };
 
   const checkNearbyBusinesses = async (lat: number, lng: number): Promise<NearbyBusiness[]> => {
