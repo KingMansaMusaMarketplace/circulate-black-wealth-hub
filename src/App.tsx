@@ -119,6 +119,15 @@ const queryClient = new QueryClient({
 function App() {
   const [appReady, setAppReady] = useState(false);
 
+  // Redirect from lovable.app to custom domain
+  useEffect(() => {
+    const hostname = window.location.hostname;
+    if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
+      const newUrl = window.location.href.replace(hostname, 'mansamusamarketplace.com');
+      window.location.replace(newUrl);
+    }
+  }, []);
+
   // Initialize Capacitor plugins on app start
   useEffect(() => {
     const initializeApp = async () => {
