@@ -9,12 +9,10 @@ const config: CapacitorConfig = {
   // The app should load from local dist folder, not external URL
   // For iOS simulator, loading locally is more stable than hot-reload
   // Uncomment the server config below ONLY if you need hot-reload (can be unstable)
-  /*
   server: {
     url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
     cleartext: true
   },
-  */
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
