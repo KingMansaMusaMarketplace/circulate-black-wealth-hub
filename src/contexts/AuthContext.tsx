@@ -103,32 +103,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const fetchUserProfile = async (userId: string) => {
+    // Add timeout to prevent hanging
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Profile fetch timeout')), 2000)
+    );
+
     try {
-      const { data, error } = await supabase
+      const profilePromise = supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
+
+      const { data, error } = await Promise.race([profilePromise, timeoutPromise]) as any;
       
       if (data && !error) {
         setProfile(data);
         setUserType(data.user_type);
         
-        // Check roles using the new secure system
+        // Check roles using the new secure system (with timeout)
         try {
-          const { data: hasAdminRole } = await supabase.rpc('has_role', {
+          const rolePromise = supabase.rpc('has_role', {
             _user_id: userId,
             _role: 'admin'
           });
+
+          const { data: hasAdminRole } = await Promise.race([rolePromise, timeoutPromise]) as any;
           
           if (hasAdminRole) {
             setUserRole('admin');
           } else {
             // Check other roles as needed
-            const { data: hasModeratorRole } = await supabase.rpc('has_role', {
+            const modPromise = supabase.rpc('has_role', {
               _user_id: userId,
               _role: 'moderator'
             });
+            const { data: hasModeratorRole } = await Promise.race([modPromise, timeoutPromise]) as any;
             setUserRole(hasModeratorRole ? 'moderator' : 'user');
           }
         } catch (roleError) {
@@ -136,6 +146,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           console.warn('Error checking user roles:', roleError);
           setUserRole('user');
         }
+      } else {
+        // Set defaults if no profile found
+        setUserType('customer');
+        setUserRole('user');
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
