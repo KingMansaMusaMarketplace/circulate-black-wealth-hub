@@ -120,23 +120,37 @@
         console.error('Unhandled promise rejection:', e.reason);
       });
       
-      // Skip external helper script entirely on native to prevent crashes
-      // Check for Capacitor by looking for capacitor.config in the HTML or native user agent
-      const isNative = navigator.userAgent.includes('Capacitor') || 
-                       document.querySelector('meta[name="capacitor-initial-focus"]') !== null;
-      
-      if (!isNative) {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.gpteng.co/gptengineer.js';
-        script.type = 'module';
-        script.onerror = function() {
-          console.warn('External helper script failed to load (non-critical)');
-        };
-        document.head.appendChild(script);
-        console.log('Loading external helper script (web mode)');
-      } else {
-        console.log('Skipping external helper script (native mode)');
-      }
+      // Robust native detection to decide whether to load external helper script
+      (function() {
+        const cap = (window as any).Capacitor;
+        const isNative = !!(
+          cap && (
+            (typeof cap.isNativePlatform === 'function' && cap.isNativePlatform()) ||
+            (typeof cap.getPlatform === 'function' && (cap.getPlatform() === 'ios' || cap.getPlatform() === 'android'))
+          ) ||
+          window.location.protocol.startsWith('capacitor') ||
+          window.location.protocol.startsWith('app')
+        );
+
+        if (!isNative) {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.gpteng.co/gptengineer.js';
+          script.type = 'module';
+          script.onerror = function() {
+            console.warn('External helper script failed to load (non-critical)');
+          };
+          document.head.appendChild(script);
+          console.log('Loading external helper script (web mode)');
+        } else {
+          console.log('Skipping external helper script (native mode)');
+          // Lightweight on-screen debug hint to help detect early native rendering issues
+          const hint = document.createElement('div');
+          hint.textContent = 'Native detected — booting…';
+          hint.style.cssText = 'position:fixed;bottom:10px;left:10px;padding:6px 10px;border-radius:8px;font-size:12px;background:rgba(0,0,0,0.5);color:#fff;z-index:9999;';
+          document.body.appendChild(hint);
+          setTimeout(() => hint.remove(), 4000);
+        }
+      })();
     </script>
     <script type="module" src="/src/main.tsx"></script>
     <script>
