@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Support | Mansa Musa Marketplace</title>
+    <meta name="description" content="Get help with Mansa Musa Marketplace. Contact support, view FAQs, and find assistance." />
+    <link rel="canonical" href="/support" />
+    <meta name="robots" content="index,follow" />
+    <style>
+      :root {
+        --bg: #0f172a; /* slate-900 */
+        --card: #111827; /* gray-900 */
+        --text: #e5e7eb; /* gray-200 */
+        --muted: #9ca3af; /* gray-400 */
+        --primary: #1B365D; /* brand */
+        --accent: #F5A623; /* brand accent */
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+        background: linear-gradient(180deg, rgba(27,54,93,0.12), rgba(27,54,93,0.04)), #0b1020;
+        color: var(--text);
+      }
+      .container { max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+      .header { text-align: center; margin-bottom: 32px; }
+      .brand {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 56px; height: 56px; border-radius: 9999px;
+        background: radial-gradient(120% 120% at 20% 20%, var(--accent), var(--primary));
+        color: white; font-weight: 800; font-size: 22px; letter-spacing: 0.5px;
+        box-shadow: 0 10px 30px -10px rgba(27,54,93,0.35);
+      }
+      h1 { font-size: 32px; margin: 16px 0 8px; }
+      p.lead { color: var(--muted); margin: 0 auto 8px; max-width: 680px; }
+      .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 28px; }
+      .card { background: rgba(17,24,39,0.85); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 20px; }
+      .card h3 { margin: 0 0 6px; font-size: 18px; }
+      .card p { margin: 0; color: var(--muted); font-size: 14px; }
+      a.button { display: inline-block; margin-top: 12px; background: var(--primary); color: white; text-decoration: none; padding: 10px 14px; border-radius: 10px; font-weight: 600; }
+      .faq { margin-top: 40px; }
+      .faq h2 { font-size: 22px; margin-bottom: 12px; }
+      .faq details { background: rgba(17,24,39,0.7); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 12px 14px; margin: 10px 0; }
+      .faq summary { cursor: pointer; font-weight: 600; }
+      .footer { text-align: center; margin-top: 40px; color: var(--muted); font-size: 14px; }
+      .home { color: #c7d2fe; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="brand" aria-label="Mansa Musa Marketplace">M</div>
+        <h1>Support Center</h1>
+        <p class="lead">We’re here to help. Contact us using the options below or browse quick answers to common questions.</p>
+      </div>
+
+      <div class="cards" aria-label="Support options">
+        <div class="card">
+          <h3>Email Support</h3>
+          <p>support@mansamusamarketplace.com</p>
+          <a class="button" href="mailto:support@mansamusamarketplace.com">Send Email</a>
+        </div>
+        <div class="card">
+          <h3>Phone Support</h3>
+          <p>312-709-6006 (Mon–Fri, 9am–6pm CST)</p>
+          <a class="button" href="tel:+13127096006">Call Now</a>
+        </div>
+        <div class="card">
+          <h3>General Inquiries</h3>
+          <p>contact@mansamusamarketplace.com</p>
+          <a class="button" href="mailto:contact@mansamusamarketplace.com">Email Us</a>
+        </div>
+      </div>
+
+      <div class="faq" aria-label="Frequently Asked Questions">
+        <h2>FAQs</h2>
+        <details>
+          <summary>How do I create an account?</summary>
+          <p>Visit the Sign Up page in our app and follow the prompts. You’ll receive a verification email to complete setup.</p>
+        </details>
+        <details>
+          <summary>How do I reset my password?</summary>
+          <p>Select “Forgot Password” on the login page and follow the instructions sent to your email.</p>
+        </details>
+        <details>
+          <summary>How do I list my business?</summary>
+          <p>Create a Business account and complete your profile. Our team reviews and approves listings within 24–48 hours.</p>
+        </details>
+      </div>
+
+      <p class="footer">© <span id="y"></span> Mansa Musa Marketplace, Inc. • <a class="home" href="/">Go to Homepage</a></p>
+    </div>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  </body>
+</html>
