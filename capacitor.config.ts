@@ -62,7 +62,8 @@ const config: CapacitorConfig = {
     preferredContentMode: "mobile",
     statusBarStyle: "dark",
     preferredStatusBarStyle: "darkContent",
-    limitsNavigationsToAppBoundDomains: true,
+    // Allow external subresources (Supabase, fonts, maps) in WKWebView
+    limitsNavigationsToAppBoundDomains: false,
     handleApplicationNotifications: true,
     allowsLinkPreview: false,
     overrideUserInterfaceStyle: "light",
