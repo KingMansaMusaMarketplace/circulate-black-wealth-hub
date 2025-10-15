@@ -110,7 +110,31 @@
       </div>
     </div>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script>
+      // Global error handler for native crash debugging
+      window.addEventListener('error', function(e) {
+        console.error('Global error captured:', e.error, e.message, e.filename, e.lineno);
+      });
+      
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('Unhandled promise rejection:', e.reason);
+      });
+      
+      // Only load external helper script on web, NOT on native iOS/Android
+      // This external script can cause crashes on native platforms
+      if (!window.Capacitor || !window.Capacitor.isNativePlatform || !window.Capacitor.isNativePlatform()) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.gpteng.co/gptengineer.js';
+        script.type = 'module';
+        script.onerror = function() {
+          console.warn('External helper script failed to load (non-critical)');
+        };
+        document.head.appendChild(script);
+        console.log('Loading external helper script (web mode)');
+      } else {
+        console.log('Skipping external helper script (native mode)');
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
     <script>
       // Only register service worker in web environments, not in Capacitor
