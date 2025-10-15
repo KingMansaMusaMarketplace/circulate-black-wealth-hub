@@ -5,14 +5,12 @@ const config: CapacitorConfig = {
   appId: 'com.obamaenergy.wealthhub',
   appName: 'Mansa Musa Marketplace',
   webDir: 'dist',
-  // IMPORTANT: For App Store production builds, remove the server configuration
-  // The app should load from local dist folder, not external URL
-  // For iOS simulator, loading locally is more stable than hot-reload
-  // Uncomment the server config below ONLY if you need hot-reload (can be unstable)
-  server: {
-    url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
-    cleartext: true
-  },
+  // PRODUCTION BUILD: Server config removed - app loads from local dist folder
+  // For development/testing only, you can uncomment the server config below:
+  // server: {
+  //   url: 'https://www.mansamusamarketplace.com',
+  //   cleartext: false
+  // },
   plugins: {
     SplashScreen: {
       launchShowDuration: 2000,
