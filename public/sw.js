@@ -1,6 +1,6 @@
 
 // Service Worker for Circulate Black Wealth Hub PWA
-const CACHE_NAME = 'wealth-hub-cache-v3'; // UPDATED: v3 - network-first for navigations to fix blank page
+const CACHE_NAME = 'wealth-hub-cache-v4'; // UPDATED: v4 - force refresh to fix forwardRef errors
 const urlsToCache = [
   '/',
   '/index.html',
