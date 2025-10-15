@@ -10,7 +10,8 @@ const urlsToCache = [
 
 // Check if the app is running in Capacitor
 const isCapacitor = () => {
-  return window.location.protocol === 'capacitor:';
+  // Service workers use 'self' not 'window'
+  return self.location.protocol === 'capacitor:';
 };
 
 self.addEventListener('install', event => {
