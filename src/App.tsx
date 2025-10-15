@@ -118,59 +118,80 @@ const queryClient = new QueryClient({
 
 function App() {
   const [appReady, setAppReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Initialize Capacitor plugins on app start
   useEffect(() => {
+    // Fail-safe: always mark ready after 3 seconds no matter what
+    const failsafe = setTimeout(() => {
+      console.warn('FAILSAFE: Forcing app ready after 3s');
+      setAppReady(true);
+    }, 3000);
+
     const initializeApp = async () => {
       try {
-        console.log('Starting app initialization...');
+        console.log('[APP INIT] Starting...');
         
-        // Initialize plugins first (doesn't hide splash)
-        await initializeCapacitorPlugins();
+        // Skip plugin init entirely if not native
+        if (window?.Capacitor?.isNativePlatform?.()) {
+          console.log('[APP INIT] Native platform detected, initializing plugins');
+          await initializeCapacitorPlugins();
+        } else {
+          console.log('[APP INIT] Web platform, skipping native plugins');
+        }
         
-        // Mark as ready - this triggers React to render content
+        // Mark as ready immediately
+        clearTimeout(failsafe);
         setAppReady(true);
-        console.log('App marked as ready, content will render now');
+        console.log('[APP INIT] Ready! Rendering content now');
         
-        // Wait for React to render before hiding splash (iPad needs extra time)
-        const splashDelay = isCapacitorPlatform() ? 3000 : 500;
-        
-        setTimeout(async () => {
-          try {
-            const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
-            await hideSplashScreen();
-            console.log('Splash screen hidden after', splashDelay, 'ms delay');
-          } catch (error) {
-            console.error('Error hiding splash screen:', error);
-          }
-        }, splashDelay);
-      } catch (error) {
-        console.error('Error initializing app:', error);
-        // Still mark as ready even if there's an error to prevent blank screen
-        setAppReady(true);
-        // Try to hide splash screen anyway after delay
-        setTimeout(async () => {
-          try {
-            const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
-            await hideSplashScreen();
-          } catch (splashError) {
-            console.error('Error hiding splash screen in error handler:', splashError);
-          }
-        }, 2000);
+        // Hide splash after render (native only)
+        if (window?.Capacitor?.isNativePlatform?.()) {
+          setTimeout(async () => {
+            try {
+              const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
+              await hideSplashScreen();
+              console.log('[APP INIT] Splash hidden');
+            } catch (err) {
+              console.error('[APP INIT] Splash hide error:', err);
+            }
+          }, 2000);
+        }
+      } catch (err) {
+        console.error('[APP INIT] Fatal error:', err);
+        setError(err instanceof Error ? err.message : String(err));
+        clearTimeout(failsafe);
+        setAppReady(true); // Show error state
       }
     };
     
     initializeApp();
+
+    return () => clearTimeout(failsafe);
   }, []);
 
-  // Show loading screen while app initializes (prevents blank page on launch)
-  // This ensures there's always content visible during the initialization phase
+  // Show error if init failed
+  if (error) {
+    return (
+      <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px',background:'#0b1020',color:'#fff'}}>
+        <div style={{maxWidth:'500px',textAlign:'center'}}>
+          <h2 style={{color:'#f87171',marginBottom:'10px'}}>App Initialization Error</h2>
+          <p style={{fontSize:'14px',opacity:0.8}}>{error}</p>
+          <button onClick={() => window.location.reload()} style={{marginTop:'20px',padding:'10px 20px',background:'#1B365D',border:'none',borderRadius:'8px',color:'#fff',cursor:'pointer'}}>
+            Reload App
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Show loading screen while app initializes
   if (!appReady) {
-    console.log('App not ready yet, showing loading screen');
+    console.log('[APP INIT] Not ready, showing loader');
     return <LoadingFallback message="Loading Mansa Musa Marketplace..." />;
   }
   
-  console.log('App ready, rendering main content');
+  console.log('[APP INIT] Rendering main app');
 
   return (
     <ErrorBoundary>
