@@ -35,8 +35,16 @@ self.addEventListener('fetch', event => {
 
   const req = event.request;
 
+  // Only handle GET requests to avoid Cache API errors for POST/PUT/etc
+  if (req.method !== 'GET') {
+    return; // Let the network handle non-GET requests
+  }
+
+  const url = new URL(req.url);
+  const acceptsHTML = req.headers.get('accept')?.includes('text/html');
+
   // Network-first for navigations (HTML pages)
-  if (req.mode === 'navigate' || (req.method === 'GET' && req.headers.get('accept')?.includes('text/html'))) {
+  if (req.mode === 'navigate' || acceptsHTML) {
     event.respondWith(
       fetch(req)
         .then(response => {
@@ -49,19 +57,50 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Cache-first for other assets (CSS/JS/images)
-  event.respondWith(
-    caches.match(req).then(cached => {
-      if (cached) return cached;
-      return fetch(req).then(response => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
+  const isAsset = url.pathname.startsWith('/assets/');
+  const isJSorCSS = isAsset && (url.pathname.endsWith('.js') || url.pathname.endsWith('.css'));
+  const isImage = /\.(png|jpe?g|gif|svg|webp|ico)$/.test(url.pathname);
+
+  if (isJSorCSS) {
+    // Network-first for JS/CSS to avoid version mismatches after deploys
+    event.respondWith(
+      fetch(req)
+        .then(response => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(req, clone));
           return response;
-        }
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(req, responseToCache));
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
+  }
+
+  if (isImage) {
+    // Cache-first for images
+    event.respondWith(
+      caches.match(req).then(cached => {
+        if (cached) return cached;
+        return fetch(req).then(response => {
+          if (response && response.status === 200 && response.type === 'basic') {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(req, clone));
+          }
+          return response;
+        });
+      })
+    );
+    return;
+  }
+
+  // Default: network-first for other GET requests
+  event.respondWith(
+    fetch(req)
+      .then(response => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(req, clone));
         return response;
-      });
-    })
+      })
+      .catch(() => caches.match(req))
   );
 });
 
