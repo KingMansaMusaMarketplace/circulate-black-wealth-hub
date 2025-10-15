@@ -120,9 +120,12 @@
         console.error('Unhandled promise rejection:', e.reason);
       });
       
-      // Only load external helper script on web, NOT on native iOS/Android
-      // This external script can cause crashes on native platforms
-      if (!window.Capacitor || !window.Capacitor.isNativePlatform || !window.Capacitor.isNativePlatform()) {
+      // Skip external helper script entirely on native to prevent crashes
+      // Check for Capacitor by looking for capacitor.config in the HTML or native user agent
+      const isNative = navigator.userAgent.includes('Capacitor') || 
+                       document.querySelector('meta[name="capacitor-initial-focus"]') !== null;
+      
+      if (!isNative) {
         const script = document.createElement('script');
         script.src = 'https://cdn.gpteng.co/gptengineer.js';
         script.type = 'module';
