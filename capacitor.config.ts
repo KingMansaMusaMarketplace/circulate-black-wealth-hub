@@ -2,7 +2,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.obamaenergy.wealthhub',
+  appId: 'com.mansamusamarketplace.app',
   appName: 'Mansa Musa Marketplace',
   webDir: 'dist',
   // PRODUCTION BUILD: Server config removed - app loads from local dist folder
