@@ -29,7 +29,7 @@ const FreeGrowthBanner = () => {
           </h2>
           
           <p className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8">
-            We're building critical mass with 100% FREE access for everyone until January 2026. 
+            Customers ALWAYS free. Businesses FREE until January 2026. 
             Join the movement to strengthen Black economic power!
           </p>
         </div>
@@ -39,7 +39,7 @@ const FreeGrowthBanner = () => {
             <CardContent className="p-6 text-center">
               <Building2 className="h-12 w-12 text-white mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-2">Businesses</h3>
-              <p className="text-white/80">100% FREE access to all premium features</p>
+              <p className="text-white/80">FREE until Jan 2026 - All premium features included</p>
             </CardContent>
           </Card>
 
@@ -47,7 +47,7 @@ const FreeGrowthBanner = () => {
             <CardContent className="p-6 text-center">
               <Users className="h-12 w-12 text-white mx-auto mb-4" />
               <h3 className="text-xl font-bold mb-2">Customers</h3>
-              <p className="text-white/80">FREE loyalty programs, QR scanning, rewards</p>
+              <p className="text-white/80">ALWAYS FREE - Loyalty programs, QR scanning, rewards</p>
             </CardContent>
           </Card>
 

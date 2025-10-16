@@ -14,7 +14,7 @@ const FAQPage = () => {
     },
     {
       question: "Is there a fee to use the platform?",
-      answer: "Basic membership is free for customers. Business accounts have subscription plans that provide additional features and visibility."
+      answer: "Customers are ALWAYS FREE with full access to loyalty programs, QR scanning, and rewards. Businesses are 100% FREE until January 1, 2026, then will have affordable subscription plans. Corporate sponsorships (for companies wanting to support the platform) are available now starting at $500/month."
     },
     {
       question: "How do I find businesses near me?",

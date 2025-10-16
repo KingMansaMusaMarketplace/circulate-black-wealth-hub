@@ -136,7 +136,7 @@ const AuthPage = () => {
         {/* Phase 1 Free Banner */}
         <div className="text-center mb-6">
           <Badge className="bg-green-500 text-white px-4 py-2 text-sm font-bold rounded-full">
-            🎉 PHASE 1: Everything FREE Until Jan 2026!
+            🎉 Customers ALWAYS FREE! Businesses FREE Until Jan 2026!
           </Badge>
         </div>
 
@@ -339,7 +339,7 @@ const AuthPage = () => {
                 <div className="text-center text-xs text-gray-500 mt-4">
                   By creating an account, you agree to our Terms of Service and Privacy Policy.
                   <br />
-                  <strong>Phase 1: Everything is FREE until January 2026!</strong>
+                  <strong>Customers are ALWAYS FREE! Businesses are FREE until January 1, 2026!</strong>
                 </div>
               )}
             </form>
