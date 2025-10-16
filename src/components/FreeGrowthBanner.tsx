@@ -90,7 +90,7 @@ const FreeGrowthBanner = () => {
           
           <div className="text-center">
             <Link to="/sponsor-pricing">
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-green-600">
+              <Button className="bg-white text-green-600 hover:bg-white/90 font-semibold">
                 View Full Sponsorship Details
               </Button>
             </Link>
