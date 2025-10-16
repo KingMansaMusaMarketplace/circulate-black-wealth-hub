@@ -1,0 +1,37 @@
+# App Store Release Workflow
+# Production builds for TestFlight and App Store submission
+
+name: App Store Release
+description: Production build for App Store distribution only
+
+trigger:
+  branches:
+    - main
+  paths:
+    include:
+      - "src/**"
+      - "ios/**"
+      - "package.json"
+      - "capacitor.config.ts"
+
+environment:
+  variables:
+    CI_WORKFLOW: "AppStore"
+    NODE_ENV: "production"
+
+steps:
+  - name: Build
+    scheme: App
+    destination: 
+      - "Any iOS Device (arm64)"
+    configuration: Release
+    
+actions:
+  post_build:
+    - archive:
+        export_method: app-store
+    - upload_logs: true
+    - testflight:
+        enable: true
+        groups:
+          - "Internal Testing"
