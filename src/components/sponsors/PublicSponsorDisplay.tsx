@@ -48,27 +48,7 @@ export const PublicSponsorDisplay = () => {
     }
   };
 
-  if (isLoading) {
-    return (
-      <section className="py-12 bg-gradient-to-b from-background to-muted/20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-2">Our Sponsors</h2>
-          <p className="text-center text-muted-foreground mb-8">
-            Supporting Black-owned businesses together
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[...Array(4)].map((_, i) => (
-              <Card key={i} className="p-6 animate-pulse">
-                <div className="h-24 bg-muted rounded"></div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (!sponsors || sponsors.length === 0) {
+  if (isLoading || !sponsors || sponsors.length === 0) {
     return null;
   }
 
