@@ -21,49 +21,39 @@ const FreeGrowthBanner = () => {
         <div className="text-center mb-12">
           <Badge className="bg-white text-green-600 px-6 py-3 text-lg font-bold rounded-full mb-6 inline-flex items-center">
             <Zap className="mr-2 h-5 w-5" />
-            PHASE 1: FREE GROWTH STRATEGY
+            PHASE 1: FREE GROWTH - Everything FREE Until Jan 2026!
           </Badge>
           
           <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Community First, Revenue Later
+            We&apos;re building critical mass first. All features are 100% FREE for everyone - businesses and customers!
           </h2>
-          
-          <p className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto mb-8">
-            Customers ALWAYS free. Businesses FREE until January 2026. 
-            Join the movement to strengthen Black economic power!
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <Card className="bg-white/10 backdrop-blur-lg border border-white/20">
-            <CardContent className="p-6 text-center">
-              <Building2 className="h-12 w-12 text-white mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">Businesses</h3>
-              <p className="text-white/80">FREE until Jan 2026 - All premium features included</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-5xl mx-auto">
+          <Card className="bg-white/10 backdrop-blur-lg border-2 border-white/30">
+            <CardContent className="p-8 text-center">
+              <Users className="h-16 w-16 text-white mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-3">✅ Customers</h3>
+              <p className="text-xl font-semibold text-white mb-2">ALWAYS FREE</p>
+              <p className="text-white/80 text-sm">(You never pay - ever!)</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border border-white/20">
-            <CardContent className="p-6 text-center">
-              <Users className="h-12 w-12 text-white mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">Customers</h3>
-              <p className="text-white/80">ALWAYS FREE - Loyalty programs, QR scanning, rewards</p>
+          <Card className="bg-white/10 backdrop-blur-lg border-2 border-white/30">
+            <CardContent className="p-8 text-center">
+              <Building2 className="h-16 w-16 text-white mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-3">✅ Businesses</h3>
+              <p className="text-xl font-semibold text-white mb-2">FREE until Jan 2026</p>
+              <p className="text-white/80 text-sm">(Then affordable paid plans start)</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border border-white/20">
-            <CardContent className="p-6 text-center">
-              <TrendingUp className="h-12 w-12 text-white mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">Growth Focus</h3>
-              <p className="text-white/80">Engagement metrics, not revenue targets</p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/10 backdrop-blur-lg border border-white/20">
-            <CardContent className="p-6 text-center">
-              <Heart className="h-12 w-12 text-white mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">Community</h3>
-              <p className="text-white/80">Building relationships before monetization</p>
+          <Card className="bg-white/10 backdrop-blur-lg border-2 border-white/30">
+            <CardContent className="p-8 text-center">
+              <Heart className="h-16 w-16 text-white mx-auto mb-4" />
+              <h3 className="text-2xl font-bold mb-3">✅ Corporate Sponsors</h3>
+              <p className="text-xl font-semibold text-white mb-2">Available Now</p>
+              <p className="text-white/80 text-sm">(Support the platform - $500+/mo)</p>
             </CardContent>
           </Card>
         </div>
