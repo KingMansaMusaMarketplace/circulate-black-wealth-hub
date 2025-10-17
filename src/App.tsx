@@ -127,18 +127,27 @@ function App() {
       try {
         console.log('[APP INIT] Starting...');
         
-        // Mark as ready immediately for web, no blocking
-        setAppReady(true);
-        console.log('[APP INIT] Ready! Rendering content now');
-        
-        // Initialize native plugins in background (non-blocking)
+        // For native: wait for Capacitor to be ready
         if (window?.Capacitor?.isNativePlatform?.()) {
-          console.log('[APP INIT] Native platform detected, initializing plugins in background');
-          initializeCapacitorPlugins().catch(err => {
-            console.error('[APP INIT] Plugin init error (non-critical):', err);
+          console.log('[APP INIT] Native platform - waiting for Capacitor ready');
+          
+          // Wait for device ready
+          await new Promise<void>((resolve) => {
+            if (document.readyState === 'complete') {
+              resolve();
+            } else {
+              window.addEventListener('load', () => resolve(), { once: true });
+            }
           });
           
-          // Hide splash after render (native only)
+          console.log('[APP INIT] Document loaded, initializing plugins');
+          await initializeCapacitorPlugins();
+          
+          // Now safe to render
+          setAppReady(true);
+          console.log('[APP INIT] Ready! Rendering native app');
+          
+          // Hide splash after a short delay to ensure content rendered
           setTimeout(async () => {
             try {
               const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
@@ -147,7 +156,11 @@ function App() {
             } catch (err) {
               console.error('[APP INIT] Splash hide error:', err);
             }
-          }, 2000);
+          }, 1000);
+        } else {
+          // Web: ready immediately
+          console.log('[APP INIT] Web platform - ready immediately');
+          setAppReady(true);
         }
       } catch (err) {
         console.error('[APP INIT] Fatal error:', err);
