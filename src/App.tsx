@@ -123,31 +123,22 @@ function App() {
 
   // Initialize Capacitor plugins on app start
   useEffect(() => {
-    // Fail-safe: always mark ready after 3 seconds no matter what
-    const failsafe = setTimeout(() => {
-      console.warn('FAILSAFE: Forcing app ready after 3s');
-      setAppReady(true);
-    }, 3000);
-
     const initializeApp = async () => {
       try {
         console.log('[APP INIT] Starting...');
         
-        // Skip plugin init entirely if not native
-        if (window?.Capacitor?.isNativePlatform?.()) {
-          console.log('[APP INIT] Native platform detected, initializing plugins');
-          await initializeCapacitorPlugins();
-        } else {
-          console.log('[APP INIT] Web platform, skipping native plugins');
-        }
-        
-        // Mark as ready immediately
-        clearTimeout(failsafe);
+        // Mark as ready immediately for web, no blocking
         setAppReady(true);
         console.log('[APP INIT] Ready! Rendering content now');
         
-        // Hide splash after render (native only)
+        // Initialize native plugins in background (non-blocking)
         if (window?.Capacitor?.isNativePlatform?.()) {
+          console.log('[APP INIT] Native platform detected, initializing plugins in background');
+          initializeCapacitorPlugins().catch(err => {
+            console.error('[APP INIT] Plugin init error (non-critical):', err);
+          });
+          
+          // Hide splash after render (native only)
           setTimeout(async () => {
             try {
               const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
@@ -161,14 +152,11 @@ function App() {
       } catch (err) {
         console.error('[APP INIT] Fatal error:', err);
         setError(err instanceof Error ? err.message : String(err));
-        clearTimeout(failsafe);
         setAppReady(true); // Show error state
       }
     };
     
     initializeApp();
-
-    return () => clearTimeout(failsafe);
   }, []);
 
   // Show error if init failed
