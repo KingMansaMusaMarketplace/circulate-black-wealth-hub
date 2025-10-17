@@ -127,27 +127,16 @@ function App() {
       try {
         console.log('[APP INIT] Starting...');
         
-        // For native: wait for Capacitor to be ready
+        // Set app ready immediately to prevent blocking
+        setAppReady(true);
+        
+        // For native: initialize plugins in background
         if (window?.Capacitor?.isNativePlatform?.()) {
-          console.log('[APP INIT] Native platform - waiting for Capacitor ready');
-          
-          // Wait for device ready
-          await new Promise<void>((resolve) => {
-            if (document.readyState === 'complete') {
-              resolve();
-            } else {
-              window.addEventListener('load', () => resolve(), { once: true });
-            }
-          });
-          
-          console.log('[APP INIT] Document loaded, initializing plugins');
+          console.log('[APP INIT] Native platform - initializing plugins');
           await initializeCapacitorPlugins();
+          console.log('[APP INIT] Plugins initialized');
           
-          // Now safe to render
-          setAppReady(true);
-          console.log('[APP INIT] Ready! Rendering native app');
-          
-          // Hide splash after a short delay to ensure content rendered
+          // Hide splash after content rendered
           setTimeout(async () => {
             try {
               const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
@@ -156,11 +145,9 @@ function App() {
             } catch (err) {
               console.error('[APP INIT] Splash hide error:', err);
             }
-          }, 1000);
+          }, 500);
         } else {
-          // Web: ready immediately
-          console.log('[APP INIT] Web platform - ready immediately');
-          setAppReady(true);
+          console.log('[APP INIT] Web platform ready');
         }
       } catch (err) {
         console.error('[APP INIT] Fatal error:', err);
