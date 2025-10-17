@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowRight, BookOpen, Clock, User } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 const BlogPage = () => {
   const [email, setEmail] = useState('');
@@ -44,12 +45,41 @@ const BlogPage = () => {
 
     setIsSubscribing(true);
     
-    // Simulate newsletter subscription
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success('Successfully subscribed to our newsletter!');
+      // Insert into email_subscriptions table
+      const { error: insertError } = await supabase
+        .from('email_subscriptions')
+        .insert({ 
+          email,
+          source: 'blog_newsletter'
+        });
+
+      if (insertError) {
+        // Check if already subscribed
+        if (insertError.code === '23505') {
+          toast.success('You are already subscribed!');
+          setEmail('');
+          return;
+        }
+        throw insertError;
+      }
+
+      // Send welcome email
+      const { error: emailError } = await supabase.functions.invoke('send-newsletter-welcome', {
+        body: { email }
+      });
+
+      if (emailError) {
+        console.error('Error sending welcome email:', emailError);
+        // Don't fail the whole process if email fails
+        toast.success('Successfully subscribed! Welcome email will arrive shortly.');
+      } else {
+        toast.success('Successfully subscribed! Check your email for a welcome message.');
+      }
+      
       setEmail('');
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Newsletter subscription error:', error);
       toast.error('Failed to subscribe. Please try again.');
     } finally {
       setIsSubscribing(false);
