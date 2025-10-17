@@ -14,7 +14,8 @@ import {
   Search,
   Heart,
   HelpCircle,
-  BookOpen
+  BookOpen,
+  DollarSign
 } from 'lucide-react';
 
 const SidebarNavigation = () => {
@@ -33,10 +34,11 @@ const SidebarNavigation = () => {
   ];
 
   const businessNavItems = [
-    { name: 'Dashboard', href: '/business/dashboard', icon: Home },
+    { name: 'Dashboard', href: '/business-dashboard', icon: Home },
     { name: 'Profile', href: '/business/profile', icon: Building2 },
+    { name: 'Finances', href: '/business-finances', icon: DollarSign },
+    { name: 'Analytics', href: '/business-analytics', icon: BarChart3 },
     { name: 'QR Codes', href: '/business/qr-codes', icon: QrCode },
-    { name: 'Analytics', href: '/business/analytics', icon: BarChart3 },
     { name: 'Customers', href: '/business/customers', icon: Users },
     { name: 'Directory', href: '/directory', icon: Search },
     { name: 'Education', href: '/education', icon: BookOpen },

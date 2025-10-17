@@ -76,6 +76,7 @@ const LazyBusinessAnalyticsPage = lazy(() => import('@/components/analytics/Busi
 const LazyCustomerBookingsPage = lazy(() => import('@/pages/CustomerBookingsPage'));
 const LazyBusinessBookingsPage = lazy(() => import('@/pages/BusinessBookingsPage'));
 const LazyBookBusinessPage = lazy(() => import('@/pages/BookBusinessPage'));
+const LazyBusinessFinancesPage = lazy(() => import('@/pages/BusinessFinancesPage'));
 
 // Remaining imports for compatibility (will be converted to lazy)
 import RewardsPage from './pages/RewardsPage';
@@ -262,6 +263,7 @@ function App() {
                              
                               <Route path="/business-dashboard" element={<LazyDashboardPage />} />
                               <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
+                              <Route path="/business-finances" element={<LazyBusinessFinancesPage />} />
                               <Route path="/business/bookings" element={<LazyBusinessBookingsPage />} />
                               <Route path="/book/:businessId" element={<LazyBookBusinessPage />} />
                             
@@ -361,8 +363,9 @@ function App() {
                           <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                           <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                          
-          <Route path="/business-dashboard" element={<LazyDashboardPage />} />
-          <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
+                          <Route path="/business-dashboard" element={<LazyDashboardPage />} />
+                          <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
+                          <Route path="/business-finances" element={<LazyBusinessFinancesPage />} />
                           <Route path="/business/bookings" element={<LazyBusinessBookingsPage />} />
                           <Route path="/book/:businessId" element={<LazyBookBusinessPage />} />
                         
