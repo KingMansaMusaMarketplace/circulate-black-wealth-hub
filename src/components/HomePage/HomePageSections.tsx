@@ -7,10 +7,16 @@ import { BenefitsSection } from '@/components/HowItWorks/Benefits';
 import { SocialProofWidget } from '@/components/social-proof';
 import { SponsorLogoGrid } from '@/components/sponsors';
 import LazySection from '@/components/common/LazySection';
+import { ImpactCounter } from './ImpactCounter';
+import { SuccessStories } from './SuccessStories';
+import { NewsletterSignup } from './NewsletterSignup';
 
 const HomePageSections: React.FC = () => {
   return (
     <>
+      {/* Impact Counter */}
+      <ImpactCounter />
+
       {/* Social Proof Section */}
       <section id="social-proof">
         <SocialProofWidget />
@@ -20,6 +26,9 @@ const HomePageSections: React.FC = () => {
       <section id="benefits">
         <BenefitsSection />
       </section>
+
+      {/* Success Stories */}
+      <SuccessStories />
 
       {/* Featured Businesses */}
       <LazySection threshold={0.2} rootMargin="100px">
@@ -65,6 +74,9 @@ const HomePageSections: React.FC = () => {
           />
         </div>
       </section>
+
+      {/* Newsletter Signup */}
+      <NewsletterSignup />
 
       {/* CTA Section */}
       <section id="cta-section">
