@@ -34,7 +34,7 @@ const Loading: React.FC<LoadingProps> = ({
       fullScreen ? "min-h-screen" : "p-8",
       className
     )}>
-      <Loader2 className={cn(sizeClasses[size], "animate-spin text-mansablue")} />
+      <Loader2 className={cn(sizeClasses[size], "text-mansablue")} />
       {text && (
         <p className={cn(textSizeClasses[size], "text-gray-600")}>
           {text}

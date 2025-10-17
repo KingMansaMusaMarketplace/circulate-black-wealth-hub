@@ -22,7 +22,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
     <Button type="submit" className={className} disabled={loading}>
       {loading ? (
         <>
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <Loader2 className="mr-2 h-4 w-4" />
           {loadingText}
         </>
       ) : (

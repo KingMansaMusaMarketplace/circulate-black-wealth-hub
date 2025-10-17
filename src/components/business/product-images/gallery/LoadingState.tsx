@@ -17,7 +17,7 @@ const LoadingState: React.FC<LoadingStateProps> = ({
   if (showSpinner) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin text-mansablue" />
+        <Loader2 className="h-8 w-8 text-mansablue" />
         <span className="ml-2">Loading products...</span>
       </div>
     );
