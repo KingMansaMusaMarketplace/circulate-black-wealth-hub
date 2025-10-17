@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FinancialsTab } from '@/components/business/financials/FinancialsTab';
 import { AICoachingTab } from '@/components/business/coaching/AICoachingTab';
 import { ReviewRequestsAnalytics } from '@/components/business/reviews/ReviewRequestsAnalytics';
+import { BusinessSubscriptionBenefits } from '@/components/business/subscription/BusinessSubscriptionBenefits';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
@@ -55,11 +56,12 @@ const BusinessDashboardPage = () => {
       
       <DashboardLayout title="Business Dashboard" icon={null}>
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="financials">Financials</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="coaching">AI Coach</TabsTrigger>
+            <TabsTrigger value="benefits">Benefits</TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview">
@@ -76,6 +78,10 @@ const BusinessDashboardPage = () => {
           
           <TabsContent value="coaching">
             <AICoachingTab businessId={profile.id} />
+          </TabsContent>
+          
+          <TabsContent value="benefits">
+            <BusinessSubscriptionBenefits />
           </TabsContent>
         </Tabs>
       </DashboardLayout>
