@@ -23,7 +23,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log('Sending newsletter welcome email to:', email);
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <onboarding@resend.dev>",
+      from: "Mansa Musa Marketplace <newsletter@mansamusamarketplace.com>",
       to: [email],
       subject: "Welcome to Mansa Musa Marketplace Newsletter! 🎉",
       html: `
