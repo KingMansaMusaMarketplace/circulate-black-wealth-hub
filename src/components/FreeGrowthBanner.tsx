@@ -11,7 +11,8 @@ import {
   Zap, 
   Target,
   Calendar,
-  BarChart3
+  BarChart3,
+  Check
 } from 'lucide-react';
 
 const FreeGrowthBanner = () => {
@@ -106,14 +107,64 @@ const FreeGrowthBanner = () => {
             </p>
           </div>
           
-          <div className="max-w-md mx-auto bg-white/10 rounded-xl p-6 text-center border border-white/20">
-            <Building2 className="h-12 w-12 text-white mx-auto mb-4" />
-            <h4 className="text-xl font-bold mb-2">Business Plan</h4>
-            <p className="text-4xl font-bold mb-2">$100</p>
-            <p className="text-sm text-white/70 mb-4">per month</p>
-            <p className="text-sm text-white/80">
-              Full access to loyalty programs, QR codes, analytics, and customer engagement tools
-            </p>
+          <div className="max-w-4xl mx-auto bg-white/10 rounded-xl p-8 border border-white/20">
+            <div className="text-center mb-6">
+              <Building2 className="h-12 w-12 text-white mx-auto mb-4" />
+              <h4 className="text-2xl font-bold mb-2">Business Plan</h4>
+              <p className="text-4xl font-bold mb-2">$100</p>
+              <p className="text-sm text-white/70 mb-6">per month</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Premium Business Profile with Verified Badge</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Unlimited QR Codes for Locations & Promotions</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Advanced Analytics & Customer Insights</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Financial Management Tools (P&L, Cash Flow)</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Loyalty Program Management System</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Customer Review Collection & Showcase</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Booking & Appointment System with Payments</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">AI Business Coach for Growth Strategies</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Featured Placement in Search Results</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Professional Invoice & Expense Tracking</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Priority Customer Support</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                <span className="text-sm text-white">Community Impact Tracking Dashboard</span>
+              </div>
+            </div>
           </div>
         </div>
 
