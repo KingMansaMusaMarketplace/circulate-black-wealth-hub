@@ -40,8 +40,11 @@ cd /Volumes/workspace/repository
 echo "📦 Installing npm dependencies"
 # Xcode Cloud maxsockets fix for reliability
 npm config set maxsockets 3
-npm ci
-
+# Prefer reproducible install; fallback to npm install if lock is out of sync
+if ! npm ci; then
+  echo "⚠️ npm ci failed due to lock mismatch. Falling back to npm install..."
+  npm install
+fi
 # Build the web app
 echo "🏗️ Building web app"
 npm run build
