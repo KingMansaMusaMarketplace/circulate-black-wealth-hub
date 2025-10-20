@@ -17,6 +17,7 @@ import {
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { sanitizeUrl } from '@/lib/security/content-sanitizer';
 
 export interface EnhancedSocialShareProps {
   businessId: string;
@@ -73,11 +74,19 @@ const EnhancedSocialShare: React.FC<EnhancedSocialShareProps> = ({
     if (!user) return;
 
     try {
+      // Validate and sanitize the share URL
+      const validatedUrl = sanitizeUrl(shareUrl);
+      if (!validatedUrl) {
+        console.error('Invalid share URL');
+        toast.error('Invalid URL');
+        return;
+      }
+
       await supabase.from('social_shares').insert({
         business_id: businessId,
         platform,
         shared_by: user.id,
-        share_url: shareUrl
+        share_url: validatedUrl
       });
 
       // Record analytics
