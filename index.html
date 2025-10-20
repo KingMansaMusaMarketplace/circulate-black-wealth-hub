@@ -196,16 +196,12 @@
     </script>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Only register service worker in web environments, not in Capacitor
-      if ('serviceWorker' in navigator && !window.Capacitor) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=5')
-            .then(registration => {
-              console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            })
-            .catch(err => {
-              console.log('ServiceWorker registration failed: ', err);
-            });
+      // Unregister any existing service workers to prevent caching issues
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (let registration of registrations) {
+            registration.unregister();
+          }
         });
       }
     </script>
