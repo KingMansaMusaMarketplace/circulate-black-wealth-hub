@@ -31,10 +31,24 @@ if (typeof window !== 'undefined') {
   });
 }
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const rootEl = document.getElementById("root")!;
+const root = ReactDOM.createRoot(rootEl);
+root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
 
-// Splash screen is now handled in App.tsx after React is fully ready
+// Remove the initial static loader injected in index.html after React mounts
+const killInitialLoader = () => {
+  const loader = document.querySelector('.initial-loader') as HTMLElement | null;
+  if (loader && loader.parentElement) {
+    try { loader.parentElement.removeChild(loader); } catch {}
+  }
+};
+
+// Try immediately after paint and once more shortly after to be safe
+requestAnimationFrame(killInitialLoader);
+setTimeout(killInitialLoader, 0);
+setTimeout(killInitialLoader, 600);
+
