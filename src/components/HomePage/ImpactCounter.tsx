@@ -79,10 +79,17 @@ export const ImpactCounter: React.FC = () => {
     return value.toString();
   };
 
+  const hasData = stats.totalBusinesses > 0 || stats.totalTransactions > 0;
+
   if (loading) {
     return (
-      <div className="py-12 bg-white/10 backdrop-blur-sm">
+      <div className="py-16 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm border-y-4 border-white/30">
         <div className="container mx-auto px-4">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              Real-Time Community Impact
+            </h2>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map((i) => (
               <Card key={i} className="bg-white/10 border-white/20 animate-pulse">
@@ -100,15 +107,25 @@ export const ImpactCounter: React.FC = () => {
   }
 
   return (
-    <div className="py-12 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm border-y border-white/20">
+    <div className="py-16 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm border-y-4 border-white/30 shadow-xl">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-            Real-Time Community Impact
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 drop-shadow-lg">
+            🌟 Real-Time Community Impact 🌟
           </h2>
-          <p className="text-white/80 text-sm md:text-base">
-            Together, we're building economic power
+          <p className="text-white/90 text-base md:text-lg font-medium">
+            {hasData 
+              ? "Together, we're building economic power" 
+              : "Be the first to make an impact! Join our growing community."
+            }
           </p>
+          {!hasData && (
+            <div className="mt-4 inline-block bg-yellow-500/20 backdrop-blur-sm border-2 border-yellow-300/50 rounded-lg px-6 py-3">
+              <p className="text-yellow-100 font-semibold text-sm">
+                📊 Impact stats will appear here as the community grows
+              </p>
+            </div>
+          )}
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -177,9 +194,12 @@ export const ImpactCounter: React.FC = () => {
           </Card>
         </div>
 
-        <div className="mt-6 text-center">
-          <p className="text-white/70 text-xs md:text-sm">
-            Updated in real-time • Every transaction strengthens our community
+        <div className="mt-8 text-center">
+          <p className="text-white/90 text-sm md:text-base font-medium drop-shadow">
+            {hasData 
+              ? "Updated in real-time • Every transaction strengthens our community" 
+              : "Start your journey today and watch your impact grow!"
+            }
           </p>
         </div>
       </div>
