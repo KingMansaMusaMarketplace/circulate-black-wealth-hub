@@ -39,16 +39,5 @@ root.render(
   </React.StrictMode>
 );
 
-// Remove the initial static loader injected in index.html after React mounts
-const killInitialLoader = () => {
-  const loader = document.querySelector('.initial-loader') as HTMLElement | null;
-  if (loader && loader.parentElement) {
-    try { loader.parentElement.removeChild(loader); } catch {}
-  }
-};
-
-// Try immediately after paint and once more shortly after to be safe
-requestAnimationFrame(killInitialLoader);
-setTimeout(killInitialLoader, 0);
-setTimeout(killInitialLoader, 600);
+// Static loader removed from index.html - React handles all loading states
 
