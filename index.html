@@ -158,7 +158,7 @@
                 try { localStorage.clear(); sessionStorage.clear(); } catch {}
               } catch (e) { console.warn('clear failed', e); }
               url.searchParams.delete('clear');
-              if (!url.searchParams.has('v')) url.searchParams.set('v', '4');
+              if (!url.searchParams.has('v')) url.searchParams.set('v', '5');
               window.location.replace(url.toString());
             })();
           }
@@ -170,7 +170,7 @@
       // Only register service worker in web environments, not in Capacitor
       if ('serviceWorker' in navigator && !window.Capacitor) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js?v=4')
+          navigator.serviceWorker.register('/sw.js?v=5')
             .then(registration => {
               console.log('ServiceWorker registration successful with scope: ', registration.scope);
             })
