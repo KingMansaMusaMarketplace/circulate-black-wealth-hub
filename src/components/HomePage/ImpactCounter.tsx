@@ -83,7 +83,7 @@ export const ImpactCounter: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="py-16 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm border-y-4 border-white/30">
+      <div className="py-16 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 border-y-4 border-gold/50 shadow-2xl">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
@@ -107,21 +107,21 @@ export const ImpactCounter: React.FC = () => {
   }
 
   return (
-    <div className="py-16 bg-gradient-to-r from-green-500/20 to-blue-500/20 backdrop-blur-sm border-y-4 border-white/30 shadow-xl">
+    <div className="py-16 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 border-y-4 border-gold/50 shadow-2xl">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 drop-shadow-lg">
+          <h2 className="text-3xl md:text-4xl font-bold text-gold mb-3 drop-shadow-lg">
             🌟 Real-Time Community Impact 🌟
           </h2>
-          <p className="text-white/90 text-base md:text-lg font-medium">
+          <p className="text-white text-base md:text-lg font-medium">
             {hasData 
               ? "Together, we're building economic power" 
               : "Be the first to make an impact! Join our growing community."
             }
           </p>
           {!hasData && (
-            <div className="mt-4 inline-block bg-yellow-500/20 backdrop-blur-sm border-2 border-yellow-300/50 rounded-lg px-6 py-3">
-              <p className="text-yellow-100 font-semibold text-sm">
+            <div className="mt-4 inline-block bg-gold/20 backdrop-blur-sm border-2 border-gold/60 rounded-lg px-6 py-3">
+              <p className="text-gold font-bold text-sm">
                 📊 Impact stats will appear here as the community grows
               </p>
             </div>
@@ -129,10 +129,10 @@ export const ImpactCounter: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 hover:bg-white/15 transition-all">
+          <Card className="bg-slate-800/80 backdrop-blur-lg border-gold/30 hover:bg-slate-800/90 transition-all shadow-xl hover:shadow-gold/20 hover:scale-105">
             <CardContent className="p-6 text-center">
               <div className="flex justify-center mb-4">
-                <div className="bg-green-500/20 p-3 rounded-full">
+                <div className="bg-green-500/30 p-3 rounded-full">
                   <Building2 className="h-8 w-8 text-green-300" />
                 </div>
               </div>
@@ -145,10 +145,10 @@ export const ImpactCounter: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 hover:bg-white/15 transition-all">
+          <Card className="bg-slate-800/80 backdrop-blur-lg border-gold/30 hover:bg-slate-800/90 transition-all shadow-xl hover:shadow-gold/20 hover:scale-105">
             <CardContent className="p-6 text-center">
               <div className="flex justify-center mb-4">
-                <div className="bg-blue-500/20 p-3 rounded-full">
+                <div className="bg-blue-500/30 p-3 rounded-full">
                   <Users className="h-8 w-8 text-blue-300" />
                 </div>
               </div>
@@ -161,10 +161,10 @@ export const ImpactCounter: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 hover:bg-white/15 transition-all">
+          <Card className="bg-slate-800/80 backdrop-blur-lg border-gold/30 hover:bg-slate-800/90 transition-all shadow-xl hover:shadow-gold/20 hover:scale-105">
             <CardContent className="p-6 text-center">
               <div className="flex justify-center mb-4">
-                <div className="bg-purple-500/20 p-3 rounded-full">
+                <div className="bg-purple-500/30 p-3 rounded-full">
                   <TrendingUp className="h-8 w-8 text-purple-300" />
                 </div>
               </div>
@@ -177,10 +177,10 @@ export const ImpactCounter: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-white/10 backdrop-blur-lg border-white/20 hover:bg-white/15 transition-all">
+          <Card className="bg-slate-800/80 backdrop-blur-lg border-gold/30 hover:bg-slate-800/90 transition-all shadow-xl hover:shadow-gold/20 hover:scale-105">
             <CardContent className="p-6 text-center">
               <div className="flex justify-center mb-4">
-                <div className="bg-yellow-500/20 p-3 rounded-full">
+                <div className="bg-gold/30 p-3 rounded-full">
                   <DollarSign className="h-8 w-8 text-yellow-300" />
                 </div>
               </div>
@@ -195,10 +195,10 @@ export const ImpactCounter: React.FC = () => {
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-white/90 text-sm md:text-base font-medium drop-shadow">
+          <p className="text-gold/90 text-sm md:text-base font-semibold drop-shadow-lg">
             {hasData 
-              ? "Updated in real-time • Every transaction strengthens our community" 
-              : "Start your journey today and watch your impact grow!"
+              ? "✨ Updated in real-time • Every transaction strengthens our community" 
+              : "✨ Start your journey today and watch your impact grow!"
             }
           </p>
         </div>
