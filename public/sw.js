@@ -1,6 +1,6 @@
 
 // Service Worker for Circulate Black Wealth Hub PWA
-const CACHE_NAME = 'wealth-hub-cache-v4'; // UPDATED: v4 - force refresh to fix forwardRef errors
+const CACHE_NAME = 'wealth-hub-cache-v5'; // UPDATED: v5 - cache bump to prevent stale pages
 const urlsToCache = [
   '/',
   '/index.html',
@@ -46,7 +46,7 @@ self.addEventListener('fetch', event => {
   // Network-first for navigations (HTML pages)
   if (req.mode === 'navigate' || acceptsHTML) {
     event.respondWith(
-      fetch(req)
+      fetch(req, { cache: 'no-store' })
         .then(response => {
           const resClone = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(req, resClone));
