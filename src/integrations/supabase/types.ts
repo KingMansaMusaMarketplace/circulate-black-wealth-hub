@@ -3608,6 +3608,14 @@ export type Database = {
         Args: { user_email: string }
         Returns: undefined
       }
+      award_review_points_secure: {
+        Args: {
+          p_business_id: string
+          p_customer_id: string
+          p_review_id: string
+        }
+        Returns: Json
+      }
       calculate_user_impact_metrics: {
         Args: { p_user_id: string }
         Returns: Json

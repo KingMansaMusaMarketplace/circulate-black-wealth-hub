@@ -63,46 +63,24 @@ export const submitReview = async (
       if (error) throw error;
       result = { success: true, review: data };
       
-      // Award points for leaving a review
-      await supabase.from('transactions').insert({
-        customer_id: customerId,
-        business_id: businessId,
-        points_earned: 25,
-        description: 'Points for submitting a review',
-        transaction_type: 'review'
-      });
-      
-      // Update loyalty points
-      // First check if entry exists
-      const { data: existingPoints } = await supabase
-        .from('loyalty_points')
-        .select('id, points')
-        .eq('customer_id', customerId)
-        .eq('business_id', businessId)
-        .single();
-      
-      if (existingPoints) {
-        // Update existing points
-        await supabase
-          .from('loyalty_points')
-          .update({ 
-            points: existingPoints.points + 25,
-            updated_at: new Date().toISOString() 
-          })
-          .eq('customer_id', customerId)
-          .eq('business_id', businessId);
+      // Award points securely via server-side function
+      const { data: pointsResult, error: pointsError } = await supabase.rpc(
+        'award_review_points_secure',
+        {
+          p_customer_id: customerId,
+          p_business_id: businessId,
+          p_review_id: data.id
+        }
+      );
+
+      if (pointsError) {
+        console.error('Error awarding points:', pointsError);
+      } else if (pointsResult?.success) {
+        toast.success(`Your review has been submitted! You earned ${pointsResult.points_awarded} loyalty points.`);
       } else {
-        // Create new loyalty points entry
-        await supabase
-          .from('loyalty_points')
-          .insert({
-            customer_id: customerId,
-            business_id: businessId,
-            points: 25
-          });
+        // Review submitted but points might have already been awarded
+        toast.success('Your review has been submitted!');
       }
-      
-      toast.success('Your review has been submitted! You earned 25 loyalty points.');
     }
     
     // Update business average rating
