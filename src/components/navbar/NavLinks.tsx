@@ -36,6 +36,12 @@ const NavLinks: React.FC = () => {
           </Link>
         </NavigationMenuItem>
 
+        <NavigationMenuItem>
+          <Link to="/how-it-works" className={linkClassName}>
+            How It Works
+          </Link>
+        </NavigationMenuItem>
+
         {/* Services Dropdown */}
         <NavigationMenuItem>
           <NavigationMenuTrigger className={triggerClassName}>Services</NavigationMenuTrigger>
