@@ -130,22 +130,31 @@ function App() {
         // Set app ready immediately to prevent blocking
         setAppReady(true);
         
-        // For native: initialize plugins in background
+        // For native: hide splash and initialize plugins
         if (window?.Capacitor?.isNativePlatform?.()) {
-          console.log('[APP INIT] Native platform - initializing plugins');
-          await initializeCapacitorPlugins();
-          console.log('[APP INIT] Plugins initialized');
+          console.log('[APP INIT] Native platform detected');
           
-          // Hide splash after content rendered
-          setTimeout(async () => {
+          // CRITICAL: Force-hide splash screen immediately with failsafe
+          const hideSplash = async () => {
             try {
               const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
               await hideSplashScreen();
-              console.log('[APP INIT] Splash hidden');
+              console.log('[APP INIT] Splash hidden successfully');
             } catch (err) {
               console.error('[APP INIT] Splash hide error:', err);
             }
-          }, 500);
+          };
+          
+          // Hide splash immediately
+          hideSplash();
+          
+          // Failsafe: Force hide after 1 second even if first attempt failed
+          setTimeout(hideSplash, 1000);
+          
+          // Initialize plugins in background (don't block on this)
+          initializeCapacitorPlugins()
+            .then(() => console.log('[APP INIT] Plugins initialized'))
+            .catch(err => console.error('[APP INIT] Plugin init error:', err));
         } else {
           console.log('[APP INIT] Web platform ready');
         }
@@ -153,6 +162,15 @@ function App() {
         console.error('[APP INIT] Fatal error:', err);
         setError(err instanceof Error ? err.message : String(err));
         setAppReady(true); // Show error state
+        
+        // Try to hide splash even on error
+        if (window?.Capacitor?.isNativePlatform?.()) {
+          try {
+            import('@/utils/capacitor-plugins').then(({ hideSplashScreen }) => {
+              hideSplashScreen().catch(() => {});
+            });
+          } catch {}
+        }
       }
     };
     
