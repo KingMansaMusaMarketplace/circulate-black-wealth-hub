@@ -12,7 +12,7 @@ import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, Help
 
 const NavLinks: React.FC = () => {
   const linkClassName = "text-gray-700 hover:text-mansablue transition-colors font-bold px-3 py-2";
-  const triggerClassName = "text-gray-700 hover:text-mansablue transition-colors font-bold";
+  const triggerClassName = "text-gray-700 hover:text-mansablue transition-colors font-bold text-base";
 
   return (
     <NavigationMenu className="hidden md:flex">
