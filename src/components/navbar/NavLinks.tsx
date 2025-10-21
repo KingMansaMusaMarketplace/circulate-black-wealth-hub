@@ -11,8 +11,8 @@ import {
 import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones, FolderOpen } from 'lucide-react';
 
 const NavLinks: React.FC = () => {
-  const linkClassName = "text-gray-700 hover:text-mansablue transition-colors font-normal px-3 py-2";
-  const triggerClassName = "text-gray-700 hover:text-mansablue transition-colors font-normal";
+  const linkClassName = "text-gray-700 hover:text-mansablue transition-colors font-bold px-3 py-2";
+  const triggerClassName = "text-gray-700 hover:text-mansablue transition-colors font-bold";
 
   return (
     <NavigationMenu className="hidden md:flex">
