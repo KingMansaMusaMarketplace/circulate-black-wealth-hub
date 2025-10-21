@@ -33,7 +33,7 @@ export default defineConfig(({ mode }) => ({
           // Vendor chunks
           if (id.includes('node_modules')) {
             // React ecosystem - include framer-motion with React to ensure proper dependency sharing
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router') || id.includes('framer-motion')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router') || id.includes('framer-motion') || id.includes('lucide-react')) {
               return 'vendor-react';
             }
             // Radix UI components
