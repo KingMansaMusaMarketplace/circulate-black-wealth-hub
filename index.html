@@ -152,6 +152,32 @@
         } catch {}
       })();
     </script>
+    <script>
+      // Auto-clear cache on first load to fix stale cache issues
+      (function(){
+        try {
+          const CACHE_KEY = 'mansa-cache-cleared-v2';
+          const hasCleared = localStorage.getItem(CACHE_KEY);
+          
+          if (!hasCleared) {
+            (async () => {
+              try {
+                if ('caches' in window) {
+                  const keys = await caches.keys();
+                  await Promise.all(keys.map((k) => caches.delete(k)));
+                }
+                if ('serviceWorker' in navigator) {
+                  const regs = await navigator.serviceWorker.getRegistrations();
+                  await Promise.all(regs.map((r) => r.unregister()));
+                }
+                localStorage.setItem(CACHE_KEY, '1');
+              } catch (e) { console.warn('auto-clear failed', e); }
+              window.location.reload();
+            })();
+          }
+        } catch {}
+      })();
+    </script>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script>
       window.addEventListener('error', function(e) {
