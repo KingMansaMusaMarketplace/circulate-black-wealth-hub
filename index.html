@@ -153,14 +153,15 @@
       })();
     </script>
     <script>
-      // Auto-clear cache on first load to fix stale cache issues
+      // Passive cache clearing - no auto-reload for App Store reviewers
       (function(){
         try {
-          const CACHE_KEY = 'mansa-cache-cleared-v2';
+          const CACHE_KEY = 'mansa-cache-cleared-v3';
           const hasCleared = localStorage.getItem(CACHE_KEY);
           
           if (!hasCleared) {
-            (async () => {
+            // Clear in background without reload - prevents blank screen
+            setTimeout(async () => {
               try {
                 if ('caches' in window) {
                   const keys = await caches.keys();
@@ -171,9 +172,10 @@
                   await Promise.all(regs.map((r) => r.unregister()));
                 }
                 localStorage.setItem(CACHE_KEY, '1');
+                console.log('Background cache clear complete');
               } catch (e) { console.warn('auto-clear failed', e); }
-              window.location.reload();
-            })();
+              // NO RELOAD - let the app load normally
+            }, 100);
           }
         } catch {}
       })();
