@@ -34,11 +34,13 @@ if (typeof window !== 'undefined') {
 const rootEl = document.getElementById("root")!;
 const root = ReactDOM.createRoot(rootEl);
 
+// Hide boot fallback immediately when React starts mounting
+const fb = document.getElementById('boot-fallback');
+if (fb) fb.style.display = 'none';
+
 // Ensure boot fallback overlay is hidden once React mounts
 if (typeof window !== 'undefined') {
   (window as any).__reactMounted = true;
-  const fb = document.getElementById('boot-fallback');
-  if (fb) fb.style.display = 'none';
 }
 
 root.render(
