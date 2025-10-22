@@ -33,11 +33,22 @@ if (typeof window !== 'undefined') {
 
 const rootEl = document.getElementById("root")!;
 const root = ReactDOM.createRoot(rootEl);
+
+// Ensure boot fallback overlay is hidden once React mounts
+if (typeof window !== 'undefined') {
+  (window as any).__reactMounted = true;
+  const fb = document.getElementById('boot-fallback');
+  if (fb) fb.style.display = 'none';
+}
+
 root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
 
-// Static loader removed from index.html - React handles all loading states
-
+// After first paint, hide any lingering boot fallback just in case
+requestAnimationFrame(() => {
+  const fb = document.getElementById('boot-fallback');
+  if (fb) fb.style.display = 'none';
+});
