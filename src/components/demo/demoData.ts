@@ -19,7 +19,7 @@ export const demoSteps: DemoStep[] = [
     id: 'discover',
     title: 'Discover Businesses',
     description: 'Browse our directory of Black-owned businesses near you',
-    image: '/lovable-uploads/b85e3c26-f651-49bd-9e25-c036ba533bd3.png',
+    image: '/lovable-uploads/king-thomas-3.png',
     features: ['Filter by category', 'Search by distance', 'View ratings & reviews']
   },
   {
