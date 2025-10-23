@@ -114,13 +114,19 @@
           const root = document.getElementById('root');
           const fb = document.getElementById('boot-fallback');
           let shown = false;
-          
+          const HIDE = () => { if (fb) fb.style.display = 'none'; };
+
           const show = () => { 
             if (shown) return; 
             shown = true; 
-            fb.style.display = 'flex'; 
+            if (fb) fb.style.display = 'flex'; 
           };
-          
+
+          // Hide loader ASAP if React already mounted
+          if ((window as any).__reactMounted || (root && root.childElementCount > 0)) {
+            HIDE();
+          }
+
           // Show loading screen after 500ms if React hasn't mounted
           setTimeout(() => {
             try { 
@@ -129,9 +135,37 @@
               show(); 
             }
           }, 500);
-          
+
+          // Keep checking every 200ms to hide once React mounts
+          const hideInterval = setInterval(() => {
+            if ((window as any).__reactMounted || (root && root.childElementCount > 0)) {
+              HIDE();
+              clearInterval(hideInterval);
+            }
+          }, 200);
+
+          // Safety net: if app still not mounted after 4s, force refresh once with cache-bust/clear
+          setTimeout(() => {
+            try {
+              if (!((window as any).__reactMounted) && (!root || root.childElementCount === 0)) {
+                const tried = sessionStorage.getItem('boot-retried');
+                if (!tried) {
+                  sessionStorage.setItem('boot-retried', '1');
+                  if (typeof (window as any).__forceRefresh === 'function') {
+                    (window as any).__forceRefresh(true);
+                  } else {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('clear', '1');
+                    url.searchParams.set('v', Date.now().toString());
+                    window.location.replace(url.toString());
+                  }
+                }
+              }
+            } catch {}
+          }, 4000);
+
           // Global helper to force-refresh with optional cache clear
-          window.__forceRefresh = (clear) => {
+          (window as any).__forceRefresh = (clear) => {
             try {
               const url = new URL(window.location.href);
               if (clear) url.searchParams.set('clear', '1');
