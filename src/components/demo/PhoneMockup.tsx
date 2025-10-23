@@ -49,7 +49,6 @@ const PhoneMockup = ({ demoSteps, activeDemo }: PhoneMockupProps) => {
                     src={demoSteps[activeDemo].image}
                     alt={demoSteps[activeDemo].title}
                     className="w-full h-64 object-cover rounded-lg mb-4"
-                    fallbackSrc="/lovable-uploads/463fe82d-8622-41a8-8286-28b3ef9532a4.png"
                   />
                   
                   {/* Demo-specific UI elements */}
