@@ -41,18 +41,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     let isMounted = true;
+    let timeoutId: NodeJS.Timeout;
+
+    // CRITICAL: Force loading to false after 3 seconds to prevent infinite loading on iOS
+    timeoutId = setTimeout(() => {
+      if (isMounted) {
+        console.warn('[AUTH] Timeout reached - forcing loading to false to prevent app hang');
+        setLoading(false);
+      }
+    }, 3000);
 
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (!isMounted) return;
         
+        console.log('[AUTH] Auth state changed:', event);
         setSession(session);
         setUser(session?.user ?? null);
         
         // Fetch user profile when authenticated
         if (session?.user) {
-          await fetchUserProfile(session.user.id);
+          try {
+            await fetchUserProfile(session.user.id);
+          } catch (error) {
+            console.error('[AUTH] Error fetching profile:', error);
+          }
         } else {
           setUserType(null);
           setUserRole(null);
@@ -60,35 +74,55 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
         
         if (isMounted) {
+          clearTimeout(timeoutId);
           setLoading(false);
         }
       }
     );
 
-    // THEN check for existing session
+    // THEN check for existing session with timeout protection
     const initializeAuth = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
+        console.log('[AUTH] Initializing auth...');
+        
+        // Wrap Supabase call with timeout
+        const sessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Session fetch timeout')), 2000)
+        );
+        
+        const { data: { session }, error } = await Promise.race([
+          sessionPromise,
+          timeoutPromise
+        ]) as any;
         
         if (error) {
-          console.error('Error getting session:', error);
+          console.error('[AUTH] Error getting session:', error);
         }
         
         if (!isMounted) return;
         
+        console.log('[AUTH] Session retrieved:', session ? 'Yes' : 'No');
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          await fetchUserProfile(session.user.id);
+          try {
+            await fetchUserProfile(session.user.id);
+          } catch (error) {
+            console.error('[AUTH] Error fetching profile:', error);
+          }
         }
         
         if (isMounted) {
+          clearTimeout(timeoutId);
           setLoading(false);
+          console.log('[AUTH] Initialization complete');
         }
       } catch (error) {
-        console.error('Error initializing auth:', error);
+        console.error('[AUTH] Error initializing auth:', error);
         if (isMounted) {
+          clearTimeout(timeoutId);
           setLoading(false);
         }
       }
@@ -98,6 +132,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return () => {
       isMounted = false;
+      clearTimeout(timeoutId);
       subscription.unsubscribe();
     };
   }, []);

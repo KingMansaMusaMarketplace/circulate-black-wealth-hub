@@ -128,6 +128,7 @@ function App() {
   // Initialize Capacitor plugins on app start
   useEffect(() => {
     console.log('[APP MOUNT] Component mounted, starting initialization');
+    let initTimeoutId: NodeJS.Timeout;
     
     const initializeApp = async () => {
       try {
@@ -135,9 +136,16 @@ function App() {
         console.log('[APP INIT] Environment:', import.meta.env.MODE);
         console.log('[APP INIT] Platform:', window?.Capacitor?.isNativePlatform?.() ? 'Native' : 'Web');
         
+        // CRITICAL: Set a failsafe timeout to ensure app always becomes ready
+        initTimeoutId = setTimeout(() => {
+          console.warn('[APP INIT] FAILSAFE: Force setting appReady to true after 2 seconds');
+          setAppReady(true);
+        }, 2000);
+        
         // Set app ready immediately to prevent blocking
         console.log('[APP INIT] Setting appReady to true');
         setAppReady(true);
+        clearTimeout(initTimeoutId);
         console.log('[APP INIT] appReady state updated');
         
         // For native: hide splash and initialize plugins
@@ -172,6 +180,7 @@ function App() {
         console.error('[APP INIT] Fatal error:', err);
         setError(err instanceof Error ? err.message : String(err));
         setAppReady(true); // Show error state
+        clearTimeout(initTimeoutId);
         
         // Try to hide splash even on error
         if (window?.Capacitor?.isNativePlatform?.()) {
@@ -185,6 +194,10 @@ function App() {
     };
     
     initializeApp();
+    
+    return () => {
+      clearTimeout(initTimeoutId);
+    };
   }, []);
 
   // Show error if init failed
