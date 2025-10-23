@@ -144,25 +144,9 @@
             }
           }, 200);
 
-          // Safety net: if app still not mounted after 4s, force refresh once with cache-bust/clear
-          setTimeout(() => {
-            try {
-              if (!window.__reactMounted && (!root || root.childElementCount === 0)) {
-                const tried = sessionStorage.getItem('boot-retried');
-                if (!tried) {
-                  sessionStorage.setItem('boot-retried', '1');
-                  if (typeof window.__forceRefresh === 'function') {
-                    window.__forceRefresh(true);
-                  } else {
-                    const url = new URL(window.location.href);
-                    url.searchParams.set('clear', '1');
-                    url.searchParams.set('v', Date.now().toString());
-                    window.location.replace(url.toString());
-                  }
-                }
-              }
-            } catch {}
-          }, 4000);
+          // Safety net disabled to prevent reload loops during debugging
+          // Previously: auto-refresh if app failed to mount after 4s
+
 
           // Global helper to force-refresh with optional cache clear
           window.__forceRefresh = (clear) => {
@@ -253,14 +237,8 @@
         );
 
         if (!isNative) {
-          const script = document.createElement('script');
-          script.src = 'https://cdn.gpteng.co/gptengineer.js';
-          script.type = 'module';
-          script.onerror = function() {
-            console.warn('External helper script failed to load (non-critical)');
-          };
-          document.head.appendChild(script);
-          console.log('Loading external helper script (web mode)');
+          // Disabled external helper during debugging to avoid interference
+          console.log('Skipping external helper script (web mode) for stability');
         } else {
           console.log('Skipping external helper script (native mode)');
         }
