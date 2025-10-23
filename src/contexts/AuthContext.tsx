@@ -121,19 +121,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setProfile(data);
         setUserType(data.user_type);
         
-        // Get user role using the new secure function
+        // Get user's primary role using the new secure function
         try {
           const rolePromise = supabase.rpc('get_user_role', {
             user_id_param: userId
           });
 
-          const { data: userRoleData } = await Promise.race([rolePromise, timeoutPromise]) as any;
+          const { data: userRole } = await Promise.race([rolePromise, timeoutPromise]) as any;
           
-          // Map app_role to userRole string
-          setUserRole(userRoleData || 'customer');
+          // Set the role from user_roles table
+          setUserRole(userRole || 'customer');
         } catch (roleError) {
           // If role check fails, default to 'customer'
-          console.warn('Error fetching user role:', roleError);
+          console.warn('Error checking user role:', roleError);
           setUserRole('customer');
         }
       } else {
