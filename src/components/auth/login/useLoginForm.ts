@@ -30,28 +30,12 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
     },
   });
 
-  // Load remembered email on component mount
-  useEffect(() => {
-    const rememberedEmail = localStorage.getItem('rememberedEmail');
-    if (rememberedEmail) {
-      form.setValue('email', rememberedEmail);
-      form.setValue('rememberMe', true);
-    }
-  }, [form]);
-
   const handleFormSubmit = async (values: LoginFormValues) => {
     setIsSubmitting(true);
     console.log("Login form submitted with values:", values);
     
     try {
-      // Save email to localStorage if rememberMe is checked
-      if (values.rememberMe) {
-        localStorage.setItem('rememberedEmail', values.email);
-      } else {
-        localStorage.removeItem('rememberedEmail');
-      }
-      
-      // Cache the email in case we need it for MFA
+      // Cache the email in case we need it for MFA (in memory only, not localStorage)
       setEmailCache(values.email);
       
       console.log("Attempting to sign in with:", values.email);
