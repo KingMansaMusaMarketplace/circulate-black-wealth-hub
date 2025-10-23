@@ -96,6 +96,52 @@
 
   <body>
     <div id="root"></div>
+    <div id="boot-fallback" style="display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;background:#0b1020;color:#fff;text-align:center;padding:24px;">
+      <div style="max-width:560px;">
+        <div style="margin:0 auto 16px;width:40px;height:40px;border:3px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+        <h2 style="margin:0 0 8px;font-size:20px;">Loading Mansa Musa Marketplace</h2>
+        <p style="opacity:0.7;margin:0;font-size:14px;">Please wait...</p>
+      </div>
+    </div>
+    <style>
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <script>
+      (function(){
+        try {
+          const root = document.getElementById('root');
+          const fb = document.getElementById('boot-fallback');
+          let shown = false;
+          
+          const show = () => { 
+            if (shown) return; 
+            shown = true; 
+            fb.style.display = 'flex'; 
+          };
+          
+          // Show loading screen after 500ms if React hasn't mounted
+          setTimeout(() => {
+            try { 
+              if (!root || root.childElementCount === 0) show(); 
+            } catch { 
+              show(); 
+            }
+          }, 500);
+          
+          // Global helper to force-refresh with optional cache clear
+          window.__forceRefresh = (clear) => {
+            try {
+              const url = new URL(window.location.href);
+              if (clear) url.searchParams.set('clear', '1');
+              url.searchParams.set('v', Date.now().toString());
+              window.location.replace(url.toString());
+            } catch { window.location.reload(); }
+          };
+        } catch {}
+      })();
+    </script>
     <script>
       // One-tap cache clear: visit with ?clear=1 to wipe caches + SW before React loads
       (function(){
