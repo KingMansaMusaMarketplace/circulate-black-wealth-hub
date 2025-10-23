@@ -95,14 +95,18 @@ import HelpPage from './pages/HelpPage';
 import AllPagesDirectory from './pages/AllPagesDirectory';
 
 // Loading fallback component
-const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => (
-  <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-    <div className="text-center space-y-4">
-      <p className="text-gray-600">{message}</p>
-      <Progress value={75} className="w-64 mx-auto" />
+const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => {
+  console.log('[LOADING FALLBACK] Showing loading screen:', message);
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center space-y-4">
+        <p className="text-gray-600">{message}</p>
+        <Progress value={75} className="w-64 mx-auto" />
+        <p className="text-xs text-gray-400 mt-4">v2025.01 - {new Date().toISOString()}</p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // Optimized QueryClient configuration for performance
 const queryClient = new QueryClient({
@@ -123,12 +127,18 @@ function App() {
 
   // Initialize Capacitor plugins on app start
   useEffect(() => {
+    console.log('[APP MOUNT] Component mounted, starting initialization');
+    
     const initializeApp = async () => {
       try {
-        console.log('[APP INIT] Starting...');
+        console.log('[APP INIT] Starting initialization...');
+        console.log('[APP INIT] Environment:', import.meta.env.MODE);
+        console.log('[APP INIT] Platform:', window?.Capacitor?.isNativePlatform?.() ? 'Native' : 'Web');
         
         // Set app ready immediately to prevent blocking
+        console.log('[APP INIT] Setting appReady to true');
         setAppReady(true);
+        console.log('[APP INIT] appReady state updated');
         
         // For native: hide splash and initialize plugins
         if (window?.Capacitor?.isNativePlatform?.()) {
