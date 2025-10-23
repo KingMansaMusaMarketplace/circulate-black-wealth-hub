@@ -51,7 +51,7 @@ export type Database = {
           business_id: string | null
           created_at: string | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           points_involved: number | null
           user_agent: string | null
           user_id: string
@@ -62,7 +62,7 @@ export type Database = {
           business_id?: string | null
           created_at?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           points_involved?: number | null
           user_agent?: string | null
           user_id: string
@@ -73,7 +73,7 @@ export type Database = {
           business_id?: string | null
           created_at?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           points_involved?: number | null
           user_agent?: string | null
           user_id?: string
@@ -163,7 +163,7 @@ export type Database = {
           email: string | null
           failure_reason: string | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           success: boolean | null
           user_agent: string | null
         }
@@ -172,7 +172,7 @@ export type Database = {
           email?: string | null
           failure_reason?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           success?: boolean | null
           user_agent?: string | null
         }
@@ -181,7 +181,7 @@ export type Database = {
           email?: string | null
           failure_reason?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           success?: boolean | null
           user_agent?: string | null
         }
@@ -305,7 +305,7 @@ export type Database = {
           accessed_at: string | null
           business_id: string | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           user_agent: string | null
           user_id: string | null
         }
@@ -314,7 +314,7 @@ export type Database = {
           accessed_at?: string | null
           business_id?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           user_agent?: string | null
           user_id?: string | null
         }
@@ -323,7 +323,7 @@ export type Database = {
           accessed_at?: string | null
           business_id?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           user_agent?: string | null
           user_id?: string | null
         }
@@ -1357,7 +1357,7 @@ export type Database = {
           email: string | null
           failure_reason: string | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           user_agent: string | null
         }
         Insert: {
@@ -1365,7 +1365,7 @@ export type Database = {
           email?: string | null
           failure_reason?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           user_agent?: string | null
         }
         Update: {
@@ -1373,7 +1373,7 @@ export type Database = {
           email?: string | null
           failure_reason?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           user_agent?: string | null
         }
         Relationships: []
@@ -1790,7 +1790,7 @@ export type Database = {
           accessed_by: string
           data_type: string
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           target_user_id: string
           user_agent: string | null
         }
@@ -1800,7 +1800,7 @@ export type Database = {
           accessed_by: string
           data_type: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           target_user_id: string
           user_agent?: string | null
         }
@@ -1810,7 +1810,7 @@ export type Database = {
           accessed_by?: string
           data_type?: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           target_user_id?: string
           user_agent?: string | null
         }
@@ -2022,7 +2022,6 @@ export type Database = {
           phone: string | null
           referral_code: string | null
           referred_by: string | null
-          role: Database["public"]["Enums"]["user_role"]
           state: string | null
           subscription_end_date: string | null
           subscription_start_date: string | null
@@ -2054,7 +2053,6 @@ export type Database = {
           phone?: string | null
           referral_code?: string | null
           referred_by?: string | null
-          role?: Database["public"]["Enums"]["user_role"]
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
@@ -2086,7 +2084,6 @@ export type Database = {
           phone?: string | null
           referral_code?: string | null
           referred_by?: string | null
-          role?: Database["public"]["Enums"]["user_role"]
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
@@ -2262,7 +2259,7 @@ export type Database = {
           attempt_count: number | null
           blocked_until: string | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           operation: string
           user_id: string | null
           window_start: string | null
@@ -2271,7 +2268,7 @@ export type Database = {
           attempt_count?: number | null
           blocked_until?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           operation: string
           user_id?: string | null
           window_start?: string | null
@@ -2280,7 +2277,7 @@ export type Database = {
           attempt_count?: number | null
           blocked_until?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           operation?: string
           user_id?: string | null
           window_start?: string | null
@@ -2366,7 +2363,7 @@ export type Database = {
           converted_user_id: string | null
           created_at: string | null
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           referral_code: string
           sales_agent_id: string
           user_agent: string | null
@@ -2377,7 +2374,7 @@ export type Database = {
           converted_user_id?: string | null
           created_at?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           referral_code: string
           sales_agent_id: string
           user_agent?: string | null
@@ -2388,7 +2385,7 @@ export type Database = {
           converted_user_id?: string | null
           created_at?: string | null
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           referral_code?: string
           sales_agent_id?: string
           user_agent?: string | null
@@ -2910,7 +2907,7 @@ export type Database = {
         Row: {
           action: string
           id: string
-          ip_address: unknown | null
+          ip_address: unknown
           record_id: string | null
           table_name: string
           timestamp: string | null
@@ -2920,7 +2917,7 @@ export type Database = {
         Insert: {
           action: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           record_id?: string | null
           table_name: string
           timestamp?: string | null
@@ -2930,7 +2927,7 @@ export type Database = {
         Update: {
           action?: string
           id?: string
-          ip_address?: unknown | null
+          ip_address?: unknown
           record_id?: string | null
           table_name?: string
           timestamp?: string | null
@@ -3604,10 +3601,7 @@ export type Database = {
         Args: { reason: string; verification_id: string }
         Returns: undefined
       }
-      assign_admin_role: {
-        Args: { user_email: string }
-        Returns: undefined
-      }
+      assign_admin_role: { Args: { user_email: string }; Returns: undefined }
       award_review_points_secure: {
         Args: {
           p_business_id: string
@@ -3620,10 +3614,7 @@ export type Database = {
         Args: { p_user_id: string }
         Returns: Json
       }
-      can_access_admin_features: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      can_access_admin_features: { Args: never; Returns: boolean }
       check_auth_rate_limit_secure: {
         Args: { p_email: string; p_ip?: unknown }
         Returns: Json
@@ -3648,10 +3639,7 @@ export type Database = {
         }
         Returns: Json
       }
-      cleanup_old_audit_logs: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      cleanup_old_audit_logs: { Args: never; Returns: undefined }
       create_sales_agent_application_secure: {
         Args: {
           p_business_experience?: string
@@ -3664,31 +3652,22 @@ export type Database = {
         }
         Returns: string
       }
-      delete_user_account_immediate: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
-      generate_invoice_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_referral_code: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      delete_user_account_immediate: { Args: never; Returns: Json }
+      generate_invoice_number: { Args: never; Returns: string }
+      generate_referral_code: { Args: never; Returns: string }
       generate_white_label_api_key: {
         Args: { p_business_id: string }
         Returns: string
       }
       get_active_referral_codes: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           is_active: boolean
           referral_code: string
         }[]
       }
       get_admin_verification_queue: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           business_email: string
           business_id: string
@@ -3703,7 +3682,7 @@ export type Database = {
         }[]
       }
       get_agent_referral_codes: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           is_active: boolean
           referral_code: string
@@ -3756,7 +3735,7 @@ export type Database = {
         }[]
       }
       get_applications_for_review: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           application_date: string
           application_status: string
@@ -3769,7 +3748,7 @@ export type Database = {
         }[]
       }
       get_applications_for_review_secure: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           application_date: string
           application_status: string
@@ -3799,7 +3778,7 @@ export type Database = {
         }[]
       }
       get_business_verifications_admin_summary: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           address_document_status: string
           admin_notes: string
@@ -3819,10 +3798,7 @@ export type Database = {
           verified_by: string
         }[]
       }
-      get_community_impact_summary: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
+      get_community_impact_summary: { Args: never; Returns: Json }
       get_directory_businesses: {
         Args: { p_limit?: number; p_offset?: number }
         Returns: {
@@ -3852,7 +3828,7 @@ export type Database = {
         Returns: string
       }
       get_hbcu_verifications_admin_summary: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           created_at: string
           document_status: string
@@ -3873,7 +3849,7 @@ export type Database = {
         Returns: Json
       }
       get_public_business_info: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           average_rating: number
           banner_url: string
@@ -3890,7 +3866,7 @@ export type Database = {
         }[]
       }
       get_public_businesses: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           address: string
           average_rating: number
@@ -3910,7 +3886,7 @@ export type Database = {
         }[]
       }
       get_public_referral_codes: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           created_at: string
           is_active: boolean
@@ -3918,19 +3894,16 @@ export type Database = {
         }[]
       }
       get_public_referral_codes_only: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           created_at: string
           is_active: boolean
           referral_code: string
         }[]
       }
-      get_qr_scan_metrics: {
-        Args: { p_business_id: string }
-        Returns: Json
-      }
+      get_qr_scan_metrics: { Args: { p_business_id: string }; Returns: Json }
       get_safe_business_listings: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           address: string
           average_rating: number
@@ -3950,7 +3923,7 @@ export type Database = {
         }[]
       }
       get_sales_agent_applications_summary: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           application_date: string
           application_status: string
@@ -3961,12 +3934,9 @@ export type Database = {
           user_id: string
         }[]
       }
-      get_security_metrics: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
+      get_security_metrics: { Args: never; Returns: Json }
       get_test_questions_for_user: {
-        Args: Record<PropertyKey, never>
+        Args: never
         Returns: {
           created_at: string
           id: string
@@ -3977,9 +3947,10 @@ export type Database = {
           question: string
         }[]
       }
-      get_user_hbcu_status: {
-        Args: { target_user_id?: string }
-        Returns: Json
+      get_user_hbcu_status: { Args: { target_user_id?: string }; Returns: Json }
+      get_user_role: {
+        Args: { user_id_param: string }
+        Returns: Database["public"]["Enums"]["app_role"]
       }
       get_verification_document_urls: {
         Args: { verification_id: string }
@@ -4008,20 +3979,20 @@ export type Database = {
         }
         Returns: Json
       }
-      has_role: {
-        Args:
-          | { _role: Database["public"]["Enums"]["app_role"]; _user_id: string }
-          | { _role: Database["public"]["Enums"]["user_role"] }
-        Returns: boolean
-      }
-      is_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      is_admin_secure: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      has_role:
+        | {
+            Args: {
+              _role: Database["public"]["Enums"]["app_role"]
+              _user_id: string
+            }
+            Returns: boolean
+          }
+        | {
+            Args: { _role: Database["public"]["Enums"]["user_role"] }
+            Returns: boolean
+          }
+      is_admin: { Args: never; Returns: boolean }
+      is_admin_secure: { Args: never; Returns: boolean }
       is_business_owner: {
         Args: { _business_id: string; _user_id: string }
         Returns: boolean
@@ -4058,33 +4029,30 @@ export type Database = {
         Args: { p_booking_id: string }
         Returns: Json
       }
-      process_pending_commissions: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      record_business_metric: {
-        Args:
-          | {
+      process_pending_commissions: { Args: never; Returns: undefined }
+      record_business_metric:
+        | {
+            Args: {
+              p_business_id: string
+              p_metric_type: string
+              p_metric_value: number
+            }
+            Returns: undefined
+          }
+        | {
+            Args: {
               p_business_id: string
               p_metadata?: Json
               p_metric_type: string
               p_metric_value: number
             }
-          | {
-              p_business_id: string
-              p_metric_type: string
-              p_metric_value: number
-            }
-        Returns: undefined
-      }
+            Returns: undefined
+          }
       request_account_deletion: {
         Args: { deletion_reason?: string }
         Returns: Json
       }
-      require_mfa_for_admin: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
+      require_mfa_for_admin: { Args: never; Returns: boolean }
       revoke_role: {
         Args: {
           target_role: Database["public"]["Enums"]["app_role"]
@@ -4154,10 +4122,7 @@ export type Database = {
         }
         Returns: Json
       }
-      update_agent_tier: {
-        Args: { p_agent_id: string }
-        Returns: undefined
-      }
+      update_agent_tier: { Args: { p_agent_id: string }; Returns: undefined }
       validate_input: {
         Args: { input_data: Json; schema_name: string }
         Returns: Json
@@ -4166,14 +4131,8 @@ export type Database = {
         Args: { password: string }
         Returns: boolean
       }
-      validate_test_answers: {
-        Args: { answer_data: Json }
-        Returns: Json
-      }
-      validate_uuid_input: {
-        Args: { input_uuid: string }
-        Returns: boolean
-      }
+      validate_test_answers: { Args: { answer_data: Json }; Returns: Json }
+      validate_uuid_input: { Args: { input_uuid: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "customer" | "business" | "sales_agent"

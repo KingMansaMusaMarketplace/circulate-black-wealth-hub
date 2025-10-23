@@ -121,41 +121,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setProfile(data);
         setUserType(data.user_type);
         
-        // Check roles using the new secure system (with timeout)
+        // Get user role using the new secure function
         try {
-          const rolePromise = supabase.rpc('has_role', {
-            _user_id: userId,
-            _role: 'admin'
+          const rolePromise = supabase.rpc('get_user_role', {
+            user_id_param: userId
           });
 
-          const { data: hasAdminRole } = await Promise.race([rolePromise, timeoutPromise]) as any;
+          const { data: userRoleData } = await Promise.race([rolePromise, timeoutPromise]) as any;
           
-          if (hasAdminRole) {
-            setUserRole('admin');
-          } else {
-            // Check other roles as needed
-            const modPromise = supabase.rpc('has_role', {
-              _user_id: userId,
-              _role: 'moderator'
-            });
-            const { data: hasModeratorRole } = await Promise.race([modPromise, timeoutPromise]) as any;
-            setUserRole(hasModeratorRole ? 'moderator' : 'user');
-          }
+          // Map app_role to userRole string
+          setUserRole(userRoleData || 'customer');
         } catch (roleError) {
-          // If role check fails, default to 'user'
-          console.warn('Error checking user roles:', roleError);
-          setUserRole('user');
+          // If role check fails, default to 'customer'
+          console.warn('Error fetching user role:', roleError);
+          setUserRole('customer');
         }
       } else {
         // Set defaults if no profile found
         setUserType('customer');
-        setUserRole('user');
+        setUserRole('customer');
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
       // Set defaults to prevent blank page
       setUserType('customer');
-      setUserRole('user');
+      setUserRole('customer');
     }
   };
 

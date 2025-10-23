@@ -18,7 +18,7 @@ export const useOnboardingTour = () => {
     let steps: TourStep[] = [];
     let key = '';
 
-    if (userRole === 'business_owner') {
+    if (userRole === 'business') {
       steps = businessOwnerTourSteps;
       key = 'business-owner';
     } else if (userRole === 'sales_agent') {
