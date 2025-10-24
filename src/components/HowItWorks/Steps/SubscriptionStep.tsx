@@ -23,8 +23,8 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
         <div className="space-y-4">
           <div className="border border-gray-200 rounded-lg p-4">
             <div className="flex justify-between items-center">
-              <h4 className="font-bold">Customer</h4>
-              <span className="font-bold text-mansablue">Limited Premium Special - $4.99/month (for 1 year)</span>
+              <h4 className="font-bold">Community Member</h4>
+              <span className="font-bold text-mansagold">100% FREE Forever</span>
             </div>
             <ul className="mt-2 space-y-1">
               <li className="text-sm text-gray-600">• Full directory access</li>
@@ -36,16 +36,35 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
           </div>
           
           <div className="border border-gray-200 rounded-lg p-4">
-            <div className="flex justify-between items-center">
-              <h4 className="font-bold">Business</h4>
-              <span className="font-bold text-mansablue">$100/month</span>
+            <div className="flex justify-between items-center mb-2">
+              <h4 className="font-bold">Business Plans</h4>
+              <div className="bg-mansablue text-white px-2 py-1 rounded text-xs font-medium">
+                Most Popular
+              </div>
             </div>
-            <ul className="mt-2 space-y-1">
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold">Starter Business</span>
+                <span className="font-bold text-mansablue">$39/month</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold">Professional Business</span>
+                <span className="font-bold text-mansablue">$79/month</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold">Multi-Location</span>
+                <span className="font-bold text-mansablue">$149/month</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold">Enterprise</span>
+                <span className="font-bold text-mansablue">$299/month</span>
+              </div>
+            </div>
+            <ul className="mt-3 space-y-1 pt-3 border-t border-gray-200">
               <li className="text-sm text-gray-600">• Business listing in directory</li>
               <li className="text-sm text-gray-600">• Customer analytics dashboard</li>
               <li className="text-sm text-gray-600">• QR code generation</li>
-              <li className="text-sm text-gray-600">• Loyalty program management</li>
-              <li className="text-sm text-mansagold font-medium">• First month FREE!</li>
+              <li className="text-sm text-gray-600">• Premium support & mentorship</li>
             </ul>
           </div>
         </div>
