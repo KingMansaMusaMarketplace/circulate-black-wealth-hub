@@ -28,8 +28,11 @@ export default defineConfig(({ mode }) => ({
     // Bundle optimization settings
     rollupOptions: {
       output: {
-        // Use Vite's default chunking to avoid dependency order issues
         chunkFileNames: `assets/[name]-[hash].js`,
+        manualChunks: {
+          // Ensure React is always in vendor chunk with all lazy-loaded components
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+        },
       },
     },
     // Optimize bundle size - only enable terser in production
