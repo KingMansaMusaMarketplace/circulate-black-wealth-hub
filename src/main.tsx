@@ -43,12 +43,8 @@ if (!rootEl) {
 console.log('[MAIN] Creating React root');
 const root = ReactDOM.createRoot(rootEl);
 
-// Hide boot fallback immediately when React starts mounting
-const fb = document.getElementById('boot-fallback');
-if (fb) {
-  console.log('[MAIN] Hiding boot fallback');
-  fb.style.display = 'none';
-}
+// Keep boot fallback visible; React or a readiness event will hide it
+console.log('[MAIN] Preserving boot fallback until app is ready');
 
 // Ensure boot fallback overlay is hidden once React mounts
 if (typeof window !== 'undefined') {
@@ -69,8 +65,15 @@ try {
   throw err;
 }
 
-// After first paint, hide any lingering boot fallback just in case
-requestAnimationFrame(() => {
-  const fb = document.getElementById('boot-fallback');
-  if (fb) fb.style.display = 'none';
-});
+// Defer hiding boot fallback until the app signals readiness or after a timeout safety
+(function() {
+  const hideFallback = () => {
+    const el = document.getElementById('boot-fallback');
+    if (el) {
+      el.style.display = 'none';
+      console.log('[MAIN] Boot fallback hidden');
+    }
+  };
+  window.addEventListener('app:ready', hideFallback, { once: true });
+  setTimeout(hideFallback, 12000);
+})();
