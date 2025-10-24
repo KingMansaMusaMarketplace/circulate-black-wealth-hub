@@ -148,6 +148,10 @@ function App() {
         clearTimeout(initTimeoutId);
         console.log('[APP INIT] appReady state updated');
         
+        // Dispatch app:ready event to hide boot fallback
+        window.dispatchEvent(new Event('app:ready'));
+        console.log('[APP INIT] app:ready event dispatched');
+        
         // For native: hide splash and initialize plugins
         if (window?.Capacitor?.isNativePlatform?.()) {
           console.log('[APP INIT] Native platform detected');
