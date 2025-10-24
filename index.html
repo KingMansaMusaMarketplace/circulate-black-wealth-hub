@@ -92,6 +92,29 @@
   <meta name="twitter:title" content="Mansa Musa Marketplace">
   <meta property="og:description" content="Discover and support Black-owned businesses, earn rewards, and help circulate Black wealth for generational legacy.">
   <meta name="twitter:description" content="Discover and support Black-owned businesses, earn rewards, and help circulate Black wealth for generational legacy.">
+  <!-- Global resilient storage polyfill for iOS WKWebView/private mode -->
+  <script>
+    (function(){
+      try {
+        var testKey = '__ls_test__';
+        localStorage.setItem(testKey, '1');
+        localStorage.removeItem(testKey);
+      } catch (e) {
+        console.warn('[BOOT] localStorage unavailable, applying in-memory polyfill');
+        var memory = {};
+        var safeStorage = {
+          getItem: function(k){ return Object.prototype.hasOwnProperty.call(memory, k) ? memory[k] : null; },
+          setItem: function(k,v){ memory[k] = String(v); },
+          removeItem: function(k){ delete memory[k]; },
+          clear: function(){ memory = {}; },
+          key: function(i){ return Object.keys(memory)[i] || null; },
+          get length(){ return Object.keys(memory).length; }
+        };
+        try { Object.defineProperty(window, 'localStorage', { value: safeStorage }); } catch {}
+        try { Object.defineProperty(window, 'sessionStorage', { value: safeStorage }); } catch {}
+      }
+    })();
+  </script>
 </head>
 
   <body>

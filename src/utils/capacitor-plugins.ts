@@ -55,7 +55,12 @@ export async function hideSplashScreen() {
  * Check if the app is running within a Capacitor container
  */
 export function isCapacitorPlatform(): boolean {
-  return window?.Capacitor?.isNativePlatform() || false;
+  const cap = window?.Capacitor as any;
+  return !!(
+    (cap && typeof cap.isNativePlatform === 'function' && cap.isNativePlatform()) ||
+    (cap && typeof cap.getPlatform === 'function' && (cap.getPlatform() === 'ios' || cap.getPlatform() === 'android')) ||
+    (typeof window !== 'undefined' && (window.location.protocol.startsWith('capacitor') || window.location.protocol.startsWith('app')))
+  );
 }
 
 /**
