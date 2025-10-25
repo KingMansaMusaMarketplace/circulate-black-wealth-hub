@@ -42,14 +42,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     let isMounted = true;
     let timeoutId: NodeJS.Timeout;
+    
+    // iOS-specific logging
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const platform = window?.Capacitor?.isNativePlatform?.() ? 'Native iOS' : 'Web';
+    
+    console.log('[AUTH INIT] Starting authentication initialization');
+    console.log('[AUTH INIT] Platform:', platform);
+    console.log('[AUTH INIT] User Agent:', navigator.userAgent);
+    console.log('[AUTH INIT] Timestamp:', new Date().toISOString());
 
-    // CRITICAL: Force loading to false after 3 seconds to prevent infinite loading on iOS
+    // CRITICAL: Force loading to false after 5 seconds (increased from 3s)
+    // This ensures the app never stays in a loading state indefinitely
     timeoutId = setTimeout(() => {
       if (isMounted) {
-        console.warn('[AUTH] Timeout reached - forcing loading to false to prevent app hang');
+        console.warn('[AUTH INIT] TIMEOUT: Force completing auth initialization after 5 seconds');
+        console.warn('[AUTH INIT] This is a failsafe to prevent infinite loading on iOS');
         setLoading(false);
       }
-    }, 3000);
+    }, 5000);
 
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -57,23 +68,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (!isMounted) return;
         
         console.log('[AUTH] Auth state changed:', event);
+        console.log('[AUTH] Session exists:', !!session);
+        
         setSession(session);
         setUser(session?.user ?? null);
         
         // Fetch user profile when authenticated
         if (session?.user) {
           try {
+            console.log('[AUTH] Fetching user profile for:', session.user.id);
             await fetchUserProfile(session.user.id);
+            console.log('[AUTH] Profile fetch completed successfully');
           } catch (error) {
             console.error('[AUTH] Error fetching profile:', error);
+            // Don't let profile fetch errors prevent app from loading
           }
         } else {
+          console.log('[AUTH] No session - clearing user data');
           setUserType(null);
           setUserRole(null);
           setProfile(null);
         }
         
         if (isMounted) {
+          console.log('[AUTH] Clearing timeout and setting loading to false');
           clearTimeout(timeoutId);
           setLoading(false);
         }
@@ -83,45 +101,73 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // THEN check for existing session with timeout protection
     const initializeAuth = async () => {
       try {
-        console.log('[AUTH] Initializing auth...');
+        console.log('[AUTH INIT] Fetching initial session...');
         
-        // Wrap Supabase call with timeout
+        // Increased timeout from 2s to 4s for slower networks
         const sessionPromise = supabase.auth.getSession();
         const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Session fetch timeout')), 2000)
+          setTimeout(() => {
+            console.warn('[AUTH INIT] Session fetch taking longer than 4 seconds');
+            reject(new Error('Session fetch timeout after 4 seconds'));
+          }, 4000)
         );
         
-        const { data: { session }, error } = await Promise.race([
-          sessionPromise,
-          timeoutPromise
-        ]) as any;
+        let session = null;
+        let error = null;
         
-        if (error) {
-          console.error('[AUTH] Error getting session:', error);
+        try {
+          const result = await Promise.race([
+            sessionPromise,
+            timeoutPromise
+          ]) as any;
+          
+          session = result?.data?.session || null;
+          error = result?.error || null;
+        } catch (timeoutError) {
+          // Timeout occurred - log it but continue gracefully
+          console.warn('[AUTH INIT] Session fetch timed out, continuing without session:', timeoutError);
+          // This is OK - user can still use the app, they'll just need to log in
         }
         
-        if (!isMounted) return;
+        if (error) {
+          console.error('[AUTH INIT] Error getting session:', error);
+          // Log error but don't throw - allow app to continue
+        }
         
-        console.log('[AUTH] Session retrieved:', session ? 'Yes' : 'No');
+        if (!isMounted) {
+          console.log('[AUTH INIT] Component unmounted, aborting initialization');
+          return;
+        }
+        
+        console.log('[AUTH INIT] Session status:', session ? 'Found existing session' : 'No existing session');
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
           try {
+            console.log('[AUTH INIT] Fetching profile for existing session');
             await fetchUserProfile(session.user.id);
-          } catch (error) {
-            console.error('[AUTH] Error fetching profile:', error);
+          } catch (profileError) {
+            console.error('[AUTH INIT] Error fetching profile (non-fatal):', profileError);
+            // Don't let profile errors stop initialization
           }
         }
         
         if (isMounted) {
+          console.log('[AUTH INIT] Initialization complete - clearing timeout');
           clearTimeout(timeoutId);
           setLoading(false);
-          console.log('[AUTH] Initialization complete');
+          console.log('[AUTH INIT] Auth ready at', new Date().toISOString());
         }
       } catch (error) {
-        console.error('[AUTH] Error initializing auth:', error);
+        // Catch any unexpected errors and log them
+        console.error('[AUTH INIT] Unexpected error during initialization:', error);
+        console.error('[AUTH INIT] Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+        
+        // CRITICAL: Always set loading to false even on error
+        // This prevents the app from being stuck in a loading state
         if (isMounted) {
+          console.warn('[AUTH INIT] Setting loading to false due to error');
           clearTimeout(timeoutId);
           setLoading(false);
         }
@@ -131,6 +177,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initializeAuth();
 
     return () => {
+      console.log('[AUTH INIT] Cleanup - unmounting');
       isMounted = false;
       clearTimeout(timeoutId);
       subscription.unsubscribe();
@@ -138,9 +185,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const fetchUserProfile = async (userId: string) => {
-    // Add timeout to prevent hanging
+    console.log('[PROFILE] Fetching profile for user:', userId);
+    
+    // Increased timeout from 2s to 4s for slower networks
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Profile fetch timeout')), 2000)
+      setTimeout(() => {
+        console.warn('[PROFILE] Fetch taking longer than 4 seconds');
+        reject(new Error('Profile fetch timeout after 4 seconds'));
+      }, 4000)
     );
 
     try {

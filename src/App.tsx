@@ -128,6 +128,9 @@ function App() {
   // Initialize Capacitor plugins on app start
   useEffect(() => {
     console.log('[APP MOUNT] Component mounted, starting initialization');
+    console.log('[APP MOUNT] User Agent:', navigator.userAgent);
+    console.log('[APP MOUNT] Timestamp:', new Date().toISOString());
+    
     let initTimeoutId: NodeJS.Timeout;
     
     const initializeApp = async () => {
@@ -135,12 +138,15 @@ function App() {
         console.log('[APP INIT] Starting initialization...');
         console.log('[APP INIT] Environment:', import.meta.env.MODE);
         console.log('[APP INIT] Platform:', window?.Capacitor?.isNativePlatform?.() ? 'Native' : 'Web');
+        console.log('[APP INIT] iOS Device:', /iPad|iPhone|iPod/.test(navigator.userAgent));
         
-        // CRITICAL: Set a failsafe timeout to ensure app always becomes ready
+        // CRITICAL: Increased failsafe timeout from 2s to 3s
+        // This gives more time for auth to initialize before forcing ready state
         initTimeoutId = setTimeout(() => {
-          console.warn('[APP INIT] FAILSAFE: Force setting appReady to true after 2 seconds');
+          console.warn('[APP INIT] FAILSAFE: Force setting appReady to true after 3 seconds');
+          console.warn('[APP INIT] This ensures the app never stays in loading state indefinitely');
           setAppReady(true);
-        }, 2000);
+        }, 3000);
         
         // Set app ready immediately to prevent blocking
         console.log('[APP INIT] Setting appReady to true');
@@ -204,14 +210,36 @@ function App() {
     };
   }, []);
 
-  // Show error if init failed
+  // Show user-friendly error if init failed
   if (error) {
+    console.error('[APP ERROR] Displaying error screen:', error);
     return (
       <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px',background:'#0b1020',color:'#fff'}}>
         <div style={{maxWidth:'500px',textAlign:'center'}}>
-          <h2 style={{color:'#f87171',marginBottom:'10px'}}>App Initialization Error</h2>
-          <p style={{fontSize:'14px',opacity:0.8}}>{error}</p>
-          <button onClick={() => window.location.reload()} style={{marginTop:'20px',padding:'10px 20px',background:'#1B365D',border:'none',borderRadius:'8px',color:'#fff',cursor:'pointer'}}>
+          <h2 style={{color:'#f87171',marginBottom:'16px',fontSize:'20px',fontWeight:'600'}}>Unable to Start App</h2>
+          <p style={{fontSize:'14px',opacity:0.9,marginBottom:'8px',lineHeight:'1.5'}}>
+            The app encountered a problem during startup. This may be due to a network connection issue.
+          </p>
+          <p style={{fontSize:'12px',opacity:0.7,marginBottom:'16px',fontFamily:'monospace',padding:'12px',background:'rgba(255,255,255,0.1)',borderRadius:'6px'}}>
+            {error}
+          </p>
+          <button 
+            onClick={() => {
+              console.log('[APP ERROR] User clicked reload button');
+              window.location.reload();
+            }} 
+            style={{
+              marginTop:'12px',
+              padding:'12px 24px',
+              background:'#1B365D',
+              border:'none',
+              borderRadius:'8px',
+              color:'#fff',
+              cursor:'pointer',
+              fontSize:'14px',
+              fontWeight:'500'
+            }}
+          >
             Reload App
           </button>
         </div>

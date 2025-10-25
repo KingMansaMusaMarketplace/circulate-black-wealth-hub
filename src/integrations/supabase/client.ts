@@ -37,14 +37,29 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       'X-Client-Info': 'mansa-musa-marketplace@1.0.0',
     },
     fetch: (url, options = {}) => {
-      // Add timeout to all Supabase requests to prevent hanging on iOS
+      // Increased timeout from 10s to 15s for slower networks on iOS
+      // This prevents premature aborts that could cause blank screens
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => {
+        console.warn('[SUPABASE] Request timeout after 15 seconds:', url);
+        controller.abort();
+      }, 15000);
+      
+      console.log('[SUPABASE] Fetch request:', url);
       
       return fetch(url, {
         ...options,
         signal: controller.signal,
-      }).finally(() => clearTimeout(timeoutId));
+      })
+        .then(response => {
+          console.log('[SUPABASE] Fetch response:', url, 'Status:', response.status);
+          return response;
+        })
+        .catch(error => {
+          console.error('[SUPABASE] Fetch error:', url, error);
+          throw error;
+        })
+        .finally(() => clearTimeout(timeoutId));
     },
   },
 });
