@@ -68,44 +68,55 @@ export function useQRScanner() {
     setIsScanning(true);
     
     try {
-      // We'll check camera permissions using the browser API directly
-      const hasPermission = await navigator.permissions.query({ name: 'camera' as PermissionName })
-        .then(permission => permission.state === 'granted' || permission.state === 'prompt')
-        .catch(() => true); // Default to true if we can't check
-      
-      if (hasPermission) {
-        // Attempt to get camera stream
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { facingMode: 'environment' } 
-        });
-        
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.play();
+      // First check if camera is available
+      if (!hasCamera) {
+        const granted = await requestCameraPermission();
+        if (!granted) {
+          setIsScanning(false);
+          return;
         }
-        
-        // Simulate scanning for a QR code
-        scannerIntervalRef.current = window.setTimeout(() => {
-          processScannedResult();
-          
-          // Stop the camera stream
-          if (videoRef.current && videoRef.current.srcObject) {
-            const stream = videoRef.current.srcObject as MediaStream;
-            const tracks = stream.getTracks();
-            tracks.forEach(track => track.stop());
-            videoRef.current.srcObject = null;
-          }
-        }, 2000);
-      } else {
-        // If we don't have permission, just simulate the scan
-        setTimeout(processScannedResult, 2000);
       }
-    } catch (error) {
-      console.error("Error accessing camera:", error);
-      setHasCamera(false);
       
-      // Fall back to simulation
-      setTimeout(processScannedResult, 2000);
+      // Attempt to get camera stream with better error handling
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: 'environment',
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        } 
+      });
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+      }
+      
+      // Simulate scanning for a QR code
+      scannerIntervalRef.current = window.setTimeout(() => {
+        processScannedResult();
+        
+        // Stop the camera stream
+        if (videoRef.current && videoRef.current.srcObject) {
+          const stream = videoRef.current.srcObject as MediaStream;
+          const tracks = stream.getTracks();
+          tracks.forEach(track => track.stop());
+          videoRef.current.srcObject = null;
+        }
+      }, 2000);
+    } catch (error: any) {
+      console.error("Error accessing camera:", error);
+      
+      // Provide specific error messages
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        setHasCamera(false);
+      } else if (error.name === 'NotFoundError') {
+        setHasCamera(false);
+      }
+      
+      setIsScanning(false);
+      
+      // Don't fall back to simulation - let user know there's an issue
+      throw error;
     }
   };
   
@@ -145,11 +156,22 @@ export function useQRScanner() {
 
   const requestCameraPermission = async () => {
     try {
-      await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { 
+          facingMode: 'environment',
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        } 
+      });
+      
+      // Stop the stream immediately after getting permission
+      stream.getTracks().forEach(track => track.stop());
+      
       setHasCamera(true);
       return true;
     } catch (error) {
       console.error("Error requesting camera permission:", error);
+      setHasCamera(false);
       return false;
     }
   };

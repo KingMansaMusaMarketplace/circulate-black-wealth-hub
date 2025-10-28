@@ -48,8 +48,8 @@ const QRScannerPage = () => {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: 'environment', // Use back camera
-          width: { ideal: 640 },
-          height: { ideal: 480 }
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
         }
       });
       
@@ -58,11 +58,20 @@ const QRScannerPage = () => {
       
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
+        await videoRef.current.play();
       }
-    } catch (error) {
-      console.error('Camera permission denied:', error);
+    } catch (error: any) {
+      console.error('Camera permission error:', error);
       setHasPermission(false);
-      toast.error('Camera access is required to scan QR codes');
+      
+      // Provide specific error messages
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        toast.error('Camera access denied. Please allow camera access in your device settings.');
+      } else if (error.name === 'NotFoundError') {
+        toast.error('No camera found on this device.');
+      } else {
+        toast.error('Camera access is required to scan QR codes.');
+      }
     }
   };
 

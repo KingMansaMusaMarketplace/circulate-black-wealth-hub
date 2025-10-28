@@ -79,9 +79,10 @@ const BusinessesPage: React.FC = () => {
               <input 
                 type="text" 
                 placeholder="Search businesses by name, category, or location..."
-                className="pl-10 w-full h-12 rounded-lg border border-gray-200 focus:border-mansablue focus:ring-1 focus:ring-mansablue outline-none"
+                className="pl-10 w-full h-12 rounded-lg border border-gray-200 focus:border-mansablue focus:ring-1 focus:ring-mansablue outline-none text-gray-900 bg-white"
                 value={searchTerm}
                 onChange={handleSearch}
+                style={{ WebkitTextFillColor: '#111827', opacity: 1 }}
               />
             </div>
           </div>
