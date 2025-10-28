@@ -221,10 +221,18 @@ const Footer = () => {
             </button>
           </div>
           <div className="text-blue-100 text-sm text-center md:text-left">
-            <p>© 2025 Mansa Musa Marketplace, Inc. All rights reserved.</p>
-            <p className="text-xs mt-1 text-blue-200">
-              Incorporated in Illinois • File #75201745 • Registered Agent: Thomas Bowling
-            </p>
+              <p>© 2025 Mansa Musa Marketplace, Inc. All rights reserved.</p>
+              <p className="text-xs mt-1 text-blue-200">
+                Incorporated in Illinois • File #75201745 • Registered Agent: Thomas Bowling •{' '}
+                <a 
+                  href="https://apps.ilsos.gov/corporatellc/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="underline hover:text-white transition-colors"
+                >
+                  Verify
+                </a>
+              </p>
           </div>
         </div>
       </div>

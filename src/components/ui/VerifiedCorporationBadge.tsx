@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, CheckCircle2 } from 'lucide-react';
+import { Shield, CheckCircle2, ExternalLink } from 'lucide-react';
 
 interface VerifiedCorporationBadgeProps {
   variant?: 'default' | 'compact' | 'detailed';
@@ -52,6 +52,15 @@ const VerifiedCorporationBadge: React.FC<VerifiedCorporationBadgeProps> = ({
                 <span className="text-green-700 ml-2 font-medium">Active</span>
               </div>
             </div>
+            <a
+              href="https://apps.ilsos.gov/corporatellc/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Verify on Illinois Secretary of State Website
+            </a>
           </div>
         </div>
       </div>
