@@ -220,9 +220,12 @@ const Footer = () => {
               <Linkedin className="h-5 w-5" />
             </button>
           </div>
-          <p className="text-blue-100 text-sm">
-            © 2024 Mansa Musa Marketplace. All rights reserved.
-          </p>
+          <div className="text-blue-100 text-sm text-center md:text-left">
+            <p>© 2025 Mansa Musa Marketplace, Inc. All rights reserved.</p>
+            <p className="text-xs mt-1 text-blue-200">
+              Incorporated in Illinois • File #75201745 • Registered Agent: Thomas Bowling
+            </p>
+          </div>
         </div>
       </div>
     </footer>

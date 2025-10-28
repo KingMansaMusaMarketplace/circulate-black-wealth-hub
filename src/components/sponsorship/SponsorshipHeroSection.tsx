@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import VerifiedCorporationBadge from '@/components/ui/VerifiedCorporationBadge';
 
 interface SponsorshipHeroSectionProps {
   onContactPartnership: () => void;
@@ -24,6 +25,9 @@ const SponsorshipHeroSection: React.FC<SponsorshipHeroSectionProps> = ({ onConta
   return (
     <div className="bg-gradient-to-r from-mansablue to-mansablue-dark py-20">
       <div className="container mx-auto px-4 text-center">
+        <div className="flex justify-center mb-6">
+          <VerifiedCorporationBadge variant="compact" className="bg-white/10 border-white/30" />
+        </div>
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
           Corporate Sponsorship
         </h1>

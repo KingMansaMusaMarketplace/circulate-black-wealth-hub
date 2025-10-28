@@ -11,6 +11,7 @@ import { useSponsorshipActions } from '@/hooks/useSponsorshipActions';
 import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
 import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 import { CORPORATE_CONTEXTUAL_TIPS } from '@/lib/corporate-onboarding-constants';
+import VerifiedCorporationBadge from '@/components/ui/VerifiedCorporationBadge';
 
 const CorporateSponsorshipPage: React.FC = () => {
   const {
@@ -59,8 +60,17 @@ const CorporateSponsorshipPage: React.FC = () => {
         </ContextualTooltip>
         
         <SponsorshipForm />
+        
+        <section className="py-12 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <VerifiedCorporationBadge variant="detailed" />
+            </div>
+          </div>
+        </section>
+        
         <SponsorshipMediaKit />
-        <SponsorshipCTASection 
+        <SponsorshipCTASection
           onContactPartnership={handleContactPartnership}
           onDownloadGuide={handleDownloadGuide}
           isGeneratingPDF={isGeneratingPDF}
