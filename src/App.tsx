@@ -474,6 +474,7 @@ function App() {
                         <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
                         <Route path="/signup-test" element={<LazySignupTestPage />} />
                         <Route path="/payment-test" element={<LazyPaymentTestPage />} />
+                        <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
                         <Route path="/refresh" element={<LazyRefreshPage />} />
                         
                         {/* Catch all route for 404 */}
