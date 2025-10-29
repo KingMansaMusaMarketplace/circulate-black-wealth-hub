@@ -14,16 +14,8 @@ import {
   BarChart3,
   Check
 } from 'lucide-react';
-import { useScreenshotMode } from '@/contexts/ScreenshotModeContext';
 
 const FreeGrowthBanner = () => {
-  const { isScreenshotMode } = useScreenshotMode();
-  
-  // Hide entire banner in screenshot mode
-  if (isScreenshotMode) {
-    return null;
-  }
-  
   return (
     <section className="py-16 bg-gradient-to-r from-green-500 via-green-600 to-blue-600 text-white">
       <div className="container mx-auto px-4">

@@ -8,7 +8,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Progress } from "@/components/ui/progress";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
-import { ScreenshotModeProvider } from "@/contexts/ScreenshotModeContext";
 import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { HelmetProvider } from 'react-helmet-async';
 import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
@@ -266,7 +265,6 @@ function App() {
                 {/* Use HashRouter for Capacitor/native compatibility, BrowserRouter for web */}
                 {isCapacitorPlatform() ? (
                   <HashRouter>
-                    <ScreenshotModeProvider>
                     <TooltipProvider>
                     <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
                       {/* Skip to main content link for keyboard navigation */}
@@ -366,11 +364,9 @@ function App() {
                     <Toaster />
                     <Sonner />
                   </TooltipProvider>
-                  </ScreenshotModeProvider>
                   </HashRouter>
                 ) : (
                   <BrowserRouter>
-                  <ScreenshotModeProvider>
                   <TooltipProvider>
                   <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
                     {/* Skip to main content link for keyboard navigation */}
@@ -491,7 +487,6 @@ function App() {
                 <Toaster />
                 <Sonner />
               </TooltipProvider>
-              </ScreenshotModeProvider>
               </BrowserRouter>
                 )}
             </NativeFeatures>
