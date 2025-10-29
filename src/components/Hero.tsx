@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle, Zap, Heart } from 'lucide-react';
+import { useScreenshotMode } from '@/contexts/ScreenshotModeContext';
 
 const Hero = () => {
+  const { isScreenshotMode } = useScreenshotMode();
   return (
     <section className="relative bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue overflow-hidden min-h-screen">
       <div className="absolute inset-0 bg-black/20" />
@@ -56,22 +58,28 @@ const Hero = () => {
               Get 5% - 30% discounts while building community wealth!
             </p>
             
-            <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-xl p-4 mb-6">
-              <p className="text-base sm:text-lg md:text-xl text-white leading-relaxed">
-                <strong className="text-green-300">FREE FOR EVERYONE:</strong> Join thousands of customers and businesses 
-                building economic power together. No subscriptions, no fees, just community wealth creation!
-              </p>
-            </div>
+            {!isScreenshotMode && (
+              <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-xl p-4 mb-6">
+                <p className="text-base sm:text-lg md:text-xl text-white leading-relaxed">
+                  <strong className="text-green-300">FREE FOR EVERYONE:</strong> Join thousands of customers and businesses 
+                  building economic power together. No subscriptions, no fees, just community wealth creation!
+                </p>
+              </div>
+            )}
 
-            {/* CTA Buttons - Updated for Free Strategy */}
+            {/* CTA Buttons */}
             <div className="flex flex-col gap-4 mb-8 w-full">
               <Link to="/signup" className="w-full sm:w-auto">
                 <Button className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-4 md:px-6 text-sm sm:text-base md:text-lg rounded-xl w-full sm:w-auto leading-tight">
                   <span className="text-center">
-                    Join FREE Today
-                    <br className="sm:hidden" />
-                    <span className="hidden sm:inline"> - </span>
-                    No Credit Card Required
+                    {isScreenshotMode ? 'Get Started Today' : 'Join FREE Today'}
+                    {!isScreenshotMode && (
+                      <>
+                        <br className="sm:hidden" />
+                        <span className="hidden sm:inline"> - </span>
+                        No Credit Card Required
+                      </>
+                    )}
                   </span>
                 </Button>
               </Link>

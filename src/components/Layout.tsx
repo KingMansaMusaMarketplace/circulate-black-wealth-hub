@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/Footer';
+import ScreenshotModeToggle from './ScreenshotModeToggle';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -19,7 +20,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const shouldShowLayout = !noLayoutPages.includes(location.pathname);
 
   if (!shouldShowLayout) {
-    return <>{children}</>;
+    return (
+      <>
+        {children}
+        <ScreenshotModeToggle />
+      </>
+    );
   }
 
   return (
@@ -31,6 +37,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         {children}
       </main>
       <Footer />
+      <ScreenshotModeToggle />
     </div>
   );
 };
