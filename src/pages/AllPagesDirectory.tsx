@@ -53,6 +53,7 @@ const AllPagesDirectory = () => {
     { path: '/comprehensive-test', name: 'Comprehensive Test', icon: TestTube, category: 'Testing' },
     { path: '/full-system-test', name: 'Full System Test', icon: TestTube, category: 'Testing' },
     { path: '/capacitor-test', name: 'Capacitor Test', icon: TestTube, category: 'Testing' },
+    { path: '/apple-compliance-test', name: 'Apple App Store Compliance', icon: ShieldCheck, category: 'Testing' },
     
     { path: '/privacy-policy', name: 'Privacy Policy', icon: FileText, category: 'Legal' },
     { path: '/terms-of-service', name: 'Terms of Service', icon: FileText, category: 'Legal' },
