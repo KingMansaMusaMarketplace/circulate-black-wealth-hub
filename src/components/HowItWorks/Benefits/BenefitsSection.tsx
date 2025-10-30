@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import BenefitsHeader from './BenefitsHeader';
 import BenefitsTabSwitcher from './BenefitsTabSwitcher';
 import BenefitsList from './BenefitsList';
@@ -135,14 +136,13 @@ const BenefitsSection = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <Link to="/signup">
-            <motion.div 
-              className="inline-block rounded-lg bg-gradient-to-r from-mansablue to-mansablue-light p-1"
+            <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <button className="bg-white text-mansablue font-medium py-2 px-8 rounded-md hover:bg-transparent hover:text-white transition-all">
+              <Button variant="white" size="lg" className="font-medium">
                 Join Now
-              </button>
+              </Button>
             </motion.div>
           </Link>
         </motion.div>
