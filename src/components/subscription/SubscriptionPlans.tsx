@@ -168,7 +168,7 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
             </ul>
 
             <Button
-              className={`w-full ${
+              className={`w-full cursor-pointer ${
                 plan.popular 
                   ? 'bg-mansagold hover:bg-mansagold/90 text-mansablue' 
                   : currentTier === plan.id
@@ -178,15 +178,18 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
               variant={getButtonVariant(plan.id)}
               onClick={() => handleSubscribe(plan.id)}
               disabled={isButtonDisabled(plan.id) || !isAuthenticated}
+              style={{ touchAction: 'manipulation' }}
             >
-              {loading === plan.id ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
-                  Processing...
-                </>
-              ) : (
-                getButtonText(plan)
-              )}
+              <span className="pointer-events-none">
+                {loading === plan.id ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                    Processing...
+                  </>
+                ) : (
+                  getButtonText(plan)
+                )}
+              </span>
             </Button>
 
             {!isAuthenticated && (

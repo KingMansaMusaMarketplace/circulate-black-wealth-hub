@@ -65,9 +65,12 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-4 mb-8 w-full">
-              <Link to="/signup" className="w-full sm:w-auto">
-                <Button className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-4 md:px-6 text-sm sm:text-base md:text-lg rounded-xl w-full sm:w-auto leading-tight">
-                  <span className="text-center">
+              <Link to="/signup" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
+                <Button 
+                  className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-4 md:px-6 text-sm sm:text-base md:text-lg rounded-xl w-full sm:w-auto leading-tight cursor-pointer"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  <span className="text-center pointer-events-none">
                     Join FREE Today
                     <br className="sm:hidden" />
                     <span className="hidden sm:inline"> - </span>
@@ -76,10 +79,11 @@ const Hero = () => {
                 </Button>
               </Link>
               
-              <Link to="/directory" className="w-full sm:w-auto">
+              <Link to="/directory" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
                 <Button 
                   variant="outline"
-                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap border-mansagold text-mansagold hover:bg-mansagold hover:text-mansablue"
+                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap border-mansagold text-mansagold hover:bg-mansagold hover:text-mansablue cursor-pointer"
+                  style={{ touchAction: 'manipulation' }}
                 >
                   Browse Directory
                 </Button>

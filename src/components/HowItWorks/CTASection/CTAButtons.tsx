@@ -27,32 +27,31 @@ export const CTAButtons: React.FC<CTAButtonsProps> = ({ isVisible }) => {
       transition={{ duration: 0.7, delay: 0.6 }}
     >
       {/* Decorative elements behind buttons */}
-      <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-16 bg-white/5 rounded-full blur-xl hidden md:block"></div>
+      <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-16 bg-white/5 rounded-full blur-xl hidden md:block pointer-events-none"></div>
       
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="relative"
-      >
+      <div className="relative">
         {/* Decorative glow effect */}
-        <div className="absolute inset-0 bg-mansagold/20 rounded-md filter blur-md -z-10"></div>
+        <div className="absolute inset-0 bg-mansagold/20 rounded-md filter blur-md -z-10 pointer-events-none"></div>
         
-        <Button onClick={handleEarlyAccess} className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg group">
-          Get Early Access 
-          <ArrowUp className="ml-2 rotate-45 group-hover:translate-x-1 transition-transform" />
+        <Button 
+          onClick={handleEarlyAccess} 
+          className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg group cursor-pointer transition-transform hover:scale-105 active:scale-95"
+          style={{ touchAction: 'manipulation' }}
+        >
+          <span className="pointer-events-none">Get Early Access</span>
+          <ArrowUp className="ml-2 rotate-45 group-hover:translate-x-1 transition-transform pointer-events-none" />
         </Button>
-      </motion.div>
+      </div>
       
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <Link to="/directory">
-          <Button variant="white" className="px-8 py-6 text-lg">
-            Browse Directory
-          </Button>
-        </Link>
-      </motion.div>
+      <Link to="/directory" style={{ touchAction: 'manipulation' }}>
+        <Button 
+          variant="white" 
+          className="px-8 py-6 text-lg cursor-pointer transition-transform hover:scale-105 active:scale-95"
+          style={{ touchAction: 'manipulation' }}
+        >
+          <span className="pointer-events-none">Browse Directory</span>
+        </Button>
+      </Link>
     </motion.div>
   );
 };
