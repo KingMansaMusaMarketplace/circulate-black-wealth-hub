@@ -142,21 +142,14 @@ Verify that demo account can access:
 
 ---
 
-### 5. ✅ CONFIRMED READY - Guideline 2.3.7: Screenshots with Pricing
+### 5. ✅ COMPLETED - Guideline 2.3.7: Screenshots with Pricing
 **Issue:** Screenshots include pricing references (FREE, discounts, $0)
 
-**Solution Already Implemented:**
+**Solution:**
 - ✅ Screenshot mode feature: `?screenshot=true` parameter
 - ✅ Hides all pricing text automatically
 - ✅ Documentation provided in `docs/app-store-setup/SCREENSHOT_INSTRUCTIONS.md`
-
-**Required Action:**
-Retake ALL screenshots with screenshot mode enabled:
-```
-https://yourdomain.com/?screenshot=true
-https://yourdomain.com/directory?screenshot=true
-https://yourdomain.com/qr-scanner?screenshot=true
-```
+- ✅ All screenshots retaken without pricing references
 
 ---
 
@@ -165,7 +158,7 @@ https://yourdomain.com/qr-scanner?screenshot=true
 ### Critical Fixes (Must Complete)
 - [x] Fix unresponsive buttons on iPad (COMPLETED)
 - [ ] Take new iPad screenshots (2048 x 2732 px)
-- [ ] Retake ALL screenshots with `?screenshot=true` (remove pricing)
+- [x] Retake ALL screenshots with `?screenshot=true` (COMPLETED)
 - [ ] Verify demo account can access Corporate Sponsorship form
 - [ ] Update App Review Notes with detailed native feature descriptions
 
