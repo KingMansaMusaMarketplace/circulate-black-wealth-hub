@@ -47,14 +47,14 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   const fallbackUrl = `https://www.youtube.com/watch?v=${videoId}`;
   
   return (
-    <div className="w-full aspect-video bg-black relative">
+    <div className="w-full aspect-video bg-black relative" style={{ minHeight: '300px' }}>
       {playerReady ? (
         <>
           <iframe
             ref={iframeRef}
             src={embedUrl}
             title="YouTube video player"
-            className="w-full h-full"
+            className="w-full h-full absolute inset-0"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
             allowFullScreen
@@ -62,7 +62,12 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
             style={{ 
               border: 'none',
               outline: 'none',
-              touchAction: 'manipulation'
+              touchAction: 'manipulation',
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              left: 0
             }}
             onError={() => {
               console.error("YouTube iframe failed to load");
