@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { type SubscriptionTier, type TierInfo } from '@/lib/services/subscription-tiers';
 import { tierIcons, tierColors } from '../constants/tierConstants';
 import { TierFeatures } from './TierFeatures';
+import { useScreenshotMode } from '@/hooks/use-screenshot-mode';
 
 interface PlanCardProps {
   tierKey: SubscriptionTier;
@@ -25,6 +26,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({
   const Icon = tierIcons[tierKey];
   const isCurrentTier = currentTier === tierKey;
   const isLoading = loading === tierKey;
+  const isScreenshotMode = useScreenshotMode();
 
   const handleButtonClick = () => {
     console.log('Plan card button clicked for tier:', tierKey);
@@ -66,14 +68,16 @@ export const PlanCard: React.FC<PlanCardProps> = ({
           {tier.description}
         </CardDescription>
         
-        <div className="mt-4">
-          <span className="text-3xl font-bold">
-            ${tier.price}
-          </span>
-          {tier.price > 0 && (
-            <span className="text-gray-500">/{tier.interval}</span>
-          )}
-        </div>
+        {!isScreenshotMode && (
+          <div className="mt-4">
+            <span className="text-3xl font-bold">
+              ${tier.price}
+            </span>
+            {tier.price > 0 && (
+              <span className="text-gray-500">/{tier.interval}</span>
+            )}
+          </div>
+        )}
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -90,7 +94,9 @@ export const PlanCard: React.FC<PlanCardProps> = ({
           onClick={handleButtonClick}
           disabled={isCurrentTier || isLoading}
         >
-          {isLoading ? (
+          {isScreenshotMode ? (
+            'Get Started'
+          ) : isLoading ? (
             'Processing...'
           ) : isCurrentTier ? (
             'Current Plan'

@@ -9,6 +9,7 @@ import { Check, Crown, Sparkles, Star, Zap, Loader2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cn } from '@/lib/utils';
 import { useCorporateCheckout } from '@/hooks/useCorporateCheckout';
+import { useScreenshotMode } from '@/hooks/use-screenshot-mode';
 
 interface PricingTier {
   name: string;
@@ -30,6 +31,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
   const [logoUrl, setLogoUrl] = useState('');
   const [websiteUrl, setWebsiteUrl] = useState('');
   const { startCheckout, isLoading } = useCorporateCheckout();
+  const isScreenshotMode = useScreenshotMode();
 
   const tiers: PricingTier[] = [
     {
@@ -205,10 +207,12 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   <CardDescription className="text-sm mt-2 min-h-[3rem]">
                     {tier.description}
                   </CardDescription>
-                  <div className="mt-4 flex items-baseline justify-center gap-1">
-                    <span className="text-4xl font-bold">{tier.price}</span>
-                    <span className="text-muted-foreground text-base">/month</span>
-                  </div>
+                  {!isScreenshotMode && (
+                    <div className="mt-4 flex items-baseline justify-center gap-1">
+                      <span className="text-4xl font-bold">{tier.price}</span>
+                      <span className="text-muted-foreground text-base">/month</span>
+                    </div>
+                  )}
                 </CardHeader>
 
                 <CardContent className="space-y-6">
@@ -271,7 +275,9 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
               </Card>
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-3xl text-primary">$345K+</CardTitle>
+                  <CardTitle className="text-3xl text-primary">
+                    {isScreenshotMode ? '345K+' : '$345K+'}
+                  </CardTitle>
                   <CardDescription>Economic Impact Generated</CardDescription>
                 </CardHeader>
               </Card>
