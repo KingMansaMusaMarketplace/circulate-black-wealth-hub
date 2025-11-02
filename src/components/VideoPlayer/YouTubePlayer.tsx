@@ -19,6 +19,9 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   onStateChange,
   onError,
 }) => {
+  const isNativeApp = Capacitor.isNativePlatform();
+  
+  // Only use the hook for web browsers, not native apps
   const { videoId, playerReady } = useYouTubePlayer({
     src,
     isPlaying,
@@ -29,7 +32,6 @@ const YouTubePlayer: React.FC<YouTubePlayerProps> = ({
   
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [thumbnailError, setThumbnailError] = useState(false);
-  const isNativeApp = Capacitor.isNativePlatform();
   
   if (!videoId) {
     return <YouTubeErrorState />;
