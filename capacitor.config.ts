@@ -5,11 +5,12 @@ const config: CapacitorConfig = {
   appId: 'com.mansamusamarketplace.app',
   appName: 'Mansa Musa Marketplace',
   webDir: 'dist',
-  // DEVELOPMENT: Server config enabled for testing in simulator
-  server: {
-    url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
-    cleartext: true
-  },
+  // PRODUCTION BUILD: Server config removed - app loads from local dist folder
+  // For development/testing only, you can uncomment the server config below:
+  // server: {
+  //   url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
+  //   cleartext: true
+  // },
   plugins: {
     SplashScreen: {
       launchShowDuration: 0,
