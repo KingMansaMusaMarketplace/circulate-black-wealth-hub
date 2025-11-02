@@ -16,29 +16,41 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
   const [loading, setLoading] = useState<SubscriptionTier | null>(null);
 
   const handleSubscribe = async (tier: SubscriptionTier) => {
-    console.log('Subscribe button clicked for tier:', tier);
-    console.log('Current user from auth context:', user);
+    console.log('[SUBSCRIPTION] Subscribe button clicked for tier:', tier);
+    console.log('[SUBSCRIPTION] Current user from auth context:', user);
+    console.log('[SUBSCRIPTION] User email:', user?.email);
+    console.log('[SUBSCRIPTION] User ID:', user?.id);
+    
+    // Wait briefly for auth state to fully propagate
+    await new Promise(resolve => setTimeout(resolve, 100));
     
     if (!user) {
-      console.log('No user found, showing login prompt');
+      console.log('[SUBSCRIPTION] No user found after check, showing login prompt');
       toast.error('Please log in to subscribe to a plan', {
         description: 'You need to create an account or log in to purchase a subscription.',
         action: {
           label: 'Go to Login',
-          onClick: () => window.location.href = '/login'
+          onClick: () => {
+            // Store intended subscription tier for after login
+            sessionStorage.setItem('pendingSubscription', tier);
+            window.location.href = '/login';
+          }
         }
       });
       return;
     }
 
     if (tier === 'free') {
-      console.log('Free tier selected');
+      console.log('[SUBSCRIPTION] Free tier selected');
       toast.info('You are already on the free plan');
       onPlanSelect?.(tier);
       return;
     }
 
-    console.log('Starting subscription process for:', { tier, userEmail: user.email });
+    // Clear any pending subscription since we're processing now
+    sessionStorage.removeItem('pendingSubscription');
+
+    console.log('[SUBSCRIPTION] Starting subscription process for:', { tier, userEmail: user.email, userId: user.id });
     setLoading(tier);
     
     try {
