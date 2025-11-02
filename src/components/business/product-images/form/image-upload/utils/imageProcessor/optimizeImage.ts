@@ -18,9 +18,13 @@ export const optimizeImage = async (file: File, quality: number = 92, maxWidth: 
         let width = img.width;
         let height = img.height;
         
-        if (width > maxWidth) {
-          const ratio = maxWidth / width;
-          width = maxWidth;
+        // For iPad/mobile, reduce processing load with smaller dimensions
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const effectiveMaxWidth = isMobile ? 1000 : maxWidth;
+        
+        if (width > effectiveMaxWidth) {
+          const ratio = effectiveMaxWidth / width;
+          width = effectiveMaxWidth;
           height = Math.round(height * ratio);
         }
         
@@ -29,15 +33,26 @@ export const optimizeImage = async (file: File, quality: number = 92, maxWidth: 
         canvas.width = width;
         canvas.height = height;
         
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { 
+          alpha: false, // Disable alpha for better performance
+          willReadFrequently: false 
+        });
         if (!ctx) {
           reject(new Error('Could not get canvas context'));
           return;
         }
         
+        // Improve rendering quality
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        
         ctx.drawImage(img, 0, 0, width, height);
         
-        // Convert to WebP for better compression
+        // Use JPEG for faster processing on mobile, WebP for web
+        const outputFormat = isMobile ? 'image/jpeg' : 'image/webp';
+        const adjustedQuality = isMobile ? Math.max(quality - 10, 75) : quality;
+        
+        // Convert to blob
         canvas.toBlob(
           (blob) => {
             if (!blob) {
@@ -50,7 +65,7 @@ export const optimizeImage = async (file: File, quality: number = 92, maxWidth: 
             
             // Create a new file from the blob
             const optimizedFile = new File([blob], file.name, {
-              type: 'image/webp',
+              type: outputFormat,
               lastModified: Date.now()
             });
             
@@ -63,8 +78,8 @@ export const optimizeImage = async (file: File, quality: number = 92, maxWidth: 
               height
             });
           },
-          'image/webp',
-          quality / 100
+          outputFormat,
+          adjustedQuality / 100
         );
       };
       
