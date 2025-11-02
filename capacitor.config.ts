@@ -5,11 +5,12 @@ const config: CapacitorConfig = {
   appId: 'com.mansamusamarketplace.app',
   appName: 'Mansa Musa Marketplace',
   webDir: 'dist',
-  // DEVELOPMENT MODE: Load from Lovable preview for easier simulator testing
-  server: {
-    url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
-    cleartext: true
-  },
+  // LOCAL MODE: Load from bundled assets for instant startup
+  // To re-enable remote loading, uncomment the server block below
+  // server: {
+  //   url: 'https://e4235560-3b6b-4780-b91c-854366c7682f.lovableproject.com?forceHideBadge=true',
+  //   cleartext: true
+  // },
   plugins: {
     SplashScreen: {
       launchShowDuration: 0,
