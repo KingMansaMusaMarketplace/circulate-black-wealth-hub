@@ -47,10 +47,13 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
     setError(null);
 
     try {
+      console.log('[CUSTOMER SIGNUP] Starting signup process...');
+      
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
         options: {
+          emailRedirectTo: `${window.location.origin}/`,
           data: {
             full_name: data.fullName,
             phone: data.phone,
@@ -60,17 +63,47 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
       });
 
       if (authError) {
+        console.error('[CUSTOMER SIGNUP] Signup error:', authError);
         throw authError;
       }
 
       if (authData.user) {
+        console.log('[CUSTOMER SIGNUP] User created successfully:', authData.user.id);
+        
+        // Check if there's a pending subscription from sessionStorage
+        const pendingSubscription = sessionStorage.getItem('pendingSubscription');
+        
         setSuccess(true);
-        toast.success('Account created successfully! Please check your email to verify your account.');
+        
+        if (pendingSubscription) {
+          console.log('[CUSTOMER SIGNUP] Pending subscription found:', pendingSubscription);
+          toast.success('Account created! Redirecting to complete your subscription...', {
+            duration: 2000
+          });
+          
+          // Wait for auth state to propagate
+          setTimeout(() => {
+            sessionStorage.removeItem('pendingSubscription');
+            window.location.href = `/subscription?tier=${pendingSubscription}`;
+          }, 1500);
+        } else {
+          toast.success('Account created successfully!', {
+            description: authData.session ? 'You are now logged in.' : 'Please check your email to verify your account.'
+          });
+          
+          // If user is auto-logged in (session exists), redirect to home
+          if (authData.session) {
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 1500);
+          }
+        }
+        
         reset();
         onSuccess?.();
       }
     } catch (err) {
-      console.error('Signup error:', err);
+      console.error('[CUSTOMER SIGNUP] Signup error:', err);
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
       toast.error('Failed to create account. Please try again.');
     } finally {

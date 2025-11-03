@@ -63,9 +63,27 @@ export const useLoginForm = ({ onSubmit }: UseLoginFormProps) => {
       }
       
       if (result.data?.session) {
-        console.log("Login successful, navigating to:", from);
-        // Navigate to the page they were trying to access or dashboard
-        navigate(from, { replace: true });
+        console.log("Login successful");
+        
+        // Check if there's a pending subscription from sessionStorage
+        const pendingSubscription = sessionStorage.getItem('pendingSubscription');
+        
+        if (pendingSubscription) {
+          console.log("[LOGIN] Pending subscription found:", pendingSubscription);
+          toast.success('Login successful! Redirecting to complete your subscription...', {
+            duration: 2000
+          });
+          
+          // Clear pending subscription and redirect
+          sessionStorage.removeItem('pendingSubscription');
+          setTimeout(() => {
+            window.location.href = `/subscription?tier=${pendingSubscription}`;
+          }, 1000);
+        } else {
+          console.log("Login successful, navigating to:", from);
+          // Navigate to the page they were trying to access or dashboard
+          navigate(from, { replace: true });
+        }
       } else {
         console.warn("Login returned success but no session", result);
         // Handle edge case where login succeeds but no session is returned

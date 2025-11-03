@@ -21,22 +21,39 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
     console.log('[SUBSCRIPTION] User email:', user?.email);
     console.log('[SUBSCRIPTION] User ID:', user?.id);
     
-    // Wait briefly for auth state to fully propagate
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Wait briefly for auth state to fully propagate (increased timeout for iOS)
+    await new Promise(resolve => setTimeout(resolve, 300));
     
     if (!user) {
-      console.log('[SUBSCRIPTION] No user found after check, showing login prompt');
-      toast.error('Please log in to subscribe to a plan', {
-        description: 'You need to create an account or log in to purchase a subscription.',
+      console.log('[SUBSCRIPTION] No user found after check, showing signup/login options');
+      
+      // Store intended subscription tier for after login/signup
+      sessionStorage.setItem('pendingSubscription', tier);
+      
+      toast.error('Account Required', {
+        description: 'Create an account or log in to purchase this subscription.',
+        duration: 6000,
         action: {
-          label: 'Go to Login',
+          label: 'Sign Up',
           onClick: () => {
-            // Store intended subscription tier for after login
-            sessionStorage.setItem('pendingSubscription', tier);
-            window.location.href = '/login';
+            window.location.href = '/signup';
           }
         }
       });
+      
+      // Show a second toast with login option after a delay
+      setTimeout(() => {
+        toast.info('Already have an account?', {
+          duration: 5000,
+          action: {
+            label: 'Log In',
+            onClick: () => {
+              window.location.href = '/login';
+            }
+          }
+        });
+      }, 500);
+      
       return;
     }
 
