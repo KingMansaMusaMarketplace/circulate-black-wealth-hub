@@ -10,6 +10,7 @@ import { preloadCriticalImages } from '@/utils/imageOptimizer';
 import { updateMetaTags } from '@/utils/seoUtils';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
+import { NativeFeaturesPromo } from '@/components/NativeFeaturesPromo';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -51,6 +52,9 @@ const HomePage = () => {
         
         {/* Hero Section */}
         <Hero />
+
+        {/* Native Features Promo for App Store Review */}
+        <NativeFeaturesPromo />
 
         {/* Free Growth Strategy Banner */}
         <FreeGrowthBanner />
