@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { AudioButton } from '@/components/ui/audio-button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle, Zap, Heart } from 'lucide-react';
+import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle, Zap, Heart, Volume2 } from 'lucide-react';
+import { getAudioPath } from '@/utils/audio';
 
 const Hero = () => {
   return (
@@ -79,15 +81,25 @@ const Hero = () => {
                 </Button>
               </Link>
               
-              <Link to="/directory" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
-                <Button 
-                  variant="outline"
-                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap border-mansagold text-mansagold hover:bg-mansagold hover:text-mansablue cursor-pointer"
-                  style={{ touchAction: 'manipulation' }}
+              <div className="flex flex-col sm:flex-row gap-4 w-full">
+                <AudioButton
+                  audioSrc={getAudioPath('blueprint')}
+                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap bg-white/10 text-white border border-white/30 hover:bg-white/20 cursor-pointer"
                 >
-                  Browse Directory
-                </Button>
-              </Link>
+                  <Volume2 className="mr-2 h-5 w-5" />
+                  Hear Our Blueprint
+                </AudioButton>
+                
+                <Link to="/directory" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
+                  <Button 
+                    variant="outline"
+                    className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap border-mansagold text-mansagold hover:bg-mansagold hover:text-mansablue cursor-pointer"
+                    style={{ touchAction: 'manipulation' }}
+                  >
+                    Browse Directory
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
 
