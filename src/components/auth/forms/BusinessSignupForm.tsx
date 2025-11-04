@@ -15,6 +15,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
 import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
+import { businessCategories as businessCategoriesData } from '@/data/categories';
 
 const businessSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -44,20 +45,11 @@ interface BusinessSignupFormProps {
   onSuccess?: () => void;
 }
 
-const businessCategories = [
-  'Restaurant & Food',
-  'Retail & Shopping',
-  'Beauty & Wellness',
-  'Professional Services',
-  'Technology',
-  'Healthcare',
-  'Education',
-  'Construction',
-  'Real Estate',
-  'Arts & Entertainment',
-  'Finance',
-  'Other'
-];
+const categoryOptions = Array.from(
+  new Set(
+    (businessCategoriesData || []).map(c => c.name).filter(Boolean)
+  )
+).sort((a, b) => a.localeCompare(b));
 
 const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({ 
   referralCode, 
@@ -223,8 +215,8 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           <SelectTrigger>
             <SelectValue placeholder="Select business category" />
           </SelectTrigger>
-          <SelectContent>
-            {businessCategories.map((category) => (
+          <SelectContent className="max-h-80 overflow-y-auto z-50 bg-background">
+            {categoryOptions.map((category) => (
               <SelectItem key={category} value={category}>
                 {category}
               </SelectItem>
