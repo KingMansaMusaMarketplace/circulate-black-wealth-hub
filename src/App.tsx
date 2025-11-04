@@ -68,6 +68,7 @@ const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
 const LazyAppleComplianceTestPage = lazy(() => import('@/pages/AppleComplianceTestPage'));
+const LazyNativeFeaturesDemo = lazy(() => import('@/pages/NativeFeaturesDemo'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -351,6 +352,7 @@ function App() {
                               <Route path="/signup-test" element={<LazySignupTestPage />} />
                               <Route path="/payment-test" element={<LazyPaymentTestPage />} />
                               <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
+                              <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                               <Route path="/refresh" element={<LazyRefreshPage />} />
                               
                               <Route path="*" element={<NotFound />} />
@@ -475,6 +477,7 @@ function App() {
                         <Route path="/signup-test" element={<LazySignupTestPage />} />
                         <Route path="/payment-test" element={<LazyPaymentTestPage />} />
                         <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
+                        <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                         <Route path="/refresh" element={<LazyRefreshPage />} />
                         
                         {/* Catch all route for 404 */}
