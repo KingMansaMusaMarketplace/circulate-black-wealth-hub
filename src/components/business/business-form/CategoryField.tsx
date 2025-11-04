@@ -18,10 +18,6 @@ interface CategoryFieldProps {
 const CategoryField: React.FC<CategoryFieldProps> = ({ form, name }) => {
   const [open, setOpen] = useState(false);
 
-  // Debug: Log the number of categories
-  console.log('Total business categories:', businessCategories.length);
-  console.log('Categories:', businessCategories.map(c => c.name));
-
   return (
     <FormField
       control={form.control}
