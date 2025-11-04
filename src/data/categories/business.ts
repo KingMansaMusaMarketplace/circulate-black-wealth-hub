@@ -78,5 +78,47 @@ export const businessCategories: BusinessCategory[] = [
     name: 'Franchise Consulting',
     description: 'Franchise development and consulting',
     icon: '🏢'
+  },
+  {
+    id: 'real-estate-services',
+    name: 'Real Estate Services',
+    description: 'Property management and real estate',
+    icon: '🏘️'
+  },
+  {
+    id: 'insurance-agency',
+    name: 'Insurance Agency',
+    description: 'Insurance products and services',
+    icon: '🛡️'
+  },
+  {
+    id: 'hr-services',
+    name: 'HR Services',
+    description: 'Human resources and staffing',
+    icon: '👥'
+  },
+  {
+    id: 'recruiting',
+    name: 'Recruiting & Staffing',
+    description: 'Employment placement services',
+    icon: '📋'
+  },
+  {
+    id: 'graphic-design',
+    name: 'Graphic Design',
+    description: 'Visual design and branding',
+    icon: '🎨'
+  },
+  {
+    id: 'public-relations',
+    name: 'Public Relations',
+    description: 'Media relations and communication',
+    icon: '📢'
+  },
+  {
+    id: 'translation-business',
+    name: 'Translation & Interpretation',
+    description: 'Language services for businesses',
+    icon: '🌐'
   }
 ];

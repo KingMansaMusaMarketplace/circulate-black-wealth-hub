@@ -64,5 +64,59 @@ export const foodCategories: BusinessCategory[] = [
     name: 'Catering Services',
     description: 'Food service for events',
     icon: '🍽️'
+  },
+  {
+    id: 'food-truck',
+    name: 'Food Trucks',
+    description: 'Mobile food vendors',
+    icon: '🚚'
+  },
+  {
+    id: 'bar',
+    name: 'Bars & Lounges',
+    description: 'Nightlife and beverage service',
+    icon: '🍹'
+  },
+  {
+    id: 'brewery',
+    name: 'Breweries & Distilleries',
+    description: 'Craft beer and spirits',
+    icon: '🍺'
+  },
+  {
+    id: 'juice-bar',
+    name: 'Juice & Smoothie Bars',
+    description: 'Fresh juices and healthy drinks',
+    icon: '🥤'
+  },
+  {
+    id: 'meal-prep',
+    name: 'Meal Prep Services',
+    description: 'Pre-made healthy meal delivery',
+    icon: '🥗'
+  },
+  {
+    id: 'vegan',
+    name: 'Vegan & Vegetarian',
+    description: 'Plant-based dining options',
+    icon: '🥬'
+  },
+  {
+    id: 'soul-food',
+    name: 'Soul Food',
+    description: 'Traditional Southern and African American cuisine',
+    icon: '🍗'
+  },
+  {
+    id: 'caribbean',
+    name: 'Caribbean Cuisine',
+    description: 'Caribbean and island foods',
+    icon: '🌴'
+  },
+  {
+    id: 'african',
+    name: 'African Cuisine',
+    description: 'Traditional African dishes',
+    icon: '🌍'
   }
 ];

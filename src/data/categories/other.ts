@@ -51,6 +51,103 @@ export const otherCategories: BusinessCategory[] = [
     ]
   },
   {
+    id: 'real-estate',
+    name: 'Real Estate',
+    description: 'Property sales, rentals, and management',
+    icon: '🏘️',
+    subcategories: [
+      'Residential Sales',
+      'Commercial Real Estate',
+      'Property Management',
+      'Real Estate Appraisal',
+      'Vacation Rentals',
+      'Rental Properties',
+      'Real Estate Investment'
+    ]
+  },
+  {
+    id: 'event-planning',
+    name: 'Event Planning & Coordination',
+    description: 'Event management and party planning',
+    icon: '🎉',
+    subcategories: [
+      'Wedding Planning',
+      'Corporate Events',
+      'Birthday Parties',
+      'Event Venues',
+      'Catering Coordination',
+      'DJ Services',
+      'Photography Services'
+    ]
+  },
+  {
+    id: 'printing',
+    name: 'Printing Services',
+    description: 'Commercial printing and copying',
+    icon: '🖨️'
+  },
+  {
+    id: 'laundry',
+    name: 'Laundry & Dry Cleaning',
+    description: 'Laundry and garment care services',
+    icon: '🧺'
+  },
+  {
+    id: 'tailoring',
+    name: 'Tailoring & Alterations',
+    description: 'Clothing alterations and custom tailoring',
+    icon: '✂️'
+  },
+  {
+    id: 'shoe-repair',
+    name: 'Shoe Repair',
+    description: 'Footwear repair and restoration',
+    icon: '👞'
+  },
+  {
+    id: 'funeral',
+    name: 'Funeral Services',
+    description: 'Funeral homes and memorial services',
+    icon: '🕊️'
+  },
+  {
+    id: 'insurance',
+    name: 'Insurance Services',
+    description: 'Insurance policies and claims',
+    icon: '🛡️',
+    subcategories: [
+      'Auto Insurance',
+      'Health Insurance',
+      'Home Insurance',
+      'Life Insurance',
+      'Business Insurance'
+    ]
+  },
+  {
+    id: 'childcare',
+    name: 'Childcare Services',
+    description: 'Daycare and babysitting services',
+    icon: '👶'
+  },
+  {
+    id: 'elder-care',
+    name: 'Elder Care Services',
+    description: 'Senior care and assistance',
+    icon: '👴'
+  },
+  {
+    id: 'courier',
+    name: 'Courier & Delivery Services',
+    description: 'Package and document delivery',
+    icon: '📮'
+  },
+  {
+    id: 'translation',
+    name: 'Translation Services',
+    description: 'Language translation and interpretation',
+    icon: '🌐'
+  },
+  {
     id: 'other',
     name: 'Other Services',
     description: 'Miscellaneous and specialized services',

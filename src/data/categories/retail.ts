@@ -60,5 +60,59 @@ export const retailCategories: BusinessCategory[] = [
     name: 'Thrift Stores',
     description: 'Second-hand and vintage items',
     icon: '👗'
+  },
+  {
+    id: 'furniture',
+    name: 'Furniture Stores',
+    description: 'Home and office furniture',
+    icon: '🛋️'
+  },
+  {
+    id: 'florist',
+    name: 'Florists',
+    description: 'Fresh flowers and arrangements',
+    icon: '💐'
+  },
+  {
+    id: 'pet-supplies',
+    name: 'Pet Supply Stores',
+    description: 'Pet food, toys, and accessories',
+    icon: '🐾'
+  },
+  {
+    id: 'sporting-goods',
+    name: 'Sporting Goods',
+    description: 'Sports equipment and gear',
+    icon: '⚽'
+  },
+  {
+    id: 'hardware',
+    name: 'Hardware Stores',
+    description: 'Tools and building supplies',
+    icon: '🔨'
+  },
+  {
+    id: 'office-supplies',
+    name: 'Office Supplies',
+    description: 'Business equipment and stationery',
+    icon: '📎'
+  },
+  {
+    id: 'toy-stores',
+    name: 'Toy Stores',
+    description: 'Children\'s toys and games',
+    icon: '🧸'
+  },
+  {
+    id: 'convenience',
+    name: 'Convenience Stores',
+    description: 'Quick shopping and essentials',
+    icon: '🏪'
+  },
+  {
+    id: 'pharmacy',
+    name: 'Pharmacies',
+    description: 'Prescription medications and health products',
+    icon: '💊'
   }
 ];
