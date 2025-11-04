@@ -46,10 +46,10 @@ const CategoryField: React.FC<CategoryFieldProps> = ({ form, name }) => {
                 </Button>
               </FormControl>
             </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
+            <PopoverContent className="w-full p-0 z-50 bg-background" sideOffset={4}>
               <Command>
                 <CommandInput placeholder="Search categories..." />
-                <CommandList>
+                <CommandList className="max-h-[400px] overflow-y-auto">
                   <CommandEmpty>No category found.</CommandEmpty>
                   <CommandGroup>
                     {businessCategories.map((category) => (
