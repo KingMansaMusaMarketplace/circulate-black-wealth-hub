@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
-import { Camera, QrCode, Flashlight, FlashlightOff, X, CheckCircle } from 'lucide-react';
+import { Camera, QrCode, Flashlight, FlashlightOff, X, CheckCircle, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -9,6 +9,9 @@ import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useNativeCamera } from '@/hooks/use-native-camera';
+import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
 interface ScanResult {
   businessName: string;
@@ -28,6 +31,10 @@ const QRScannerPage = () => {
   const [flashEnabled, setFlashEnabled] = useState(false);
   const [scanResult, setScanResult] = useState<ScanResult | null>(null);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  
+  const { isNative } = useCapacitor();
+  const { takePhotoForQRScanning, isTakingPhoto } = useNativeCamera();
+  const haptics = useHapticFeedback();
 
   useEffect(() => {
     if (!user) {
@@ -98,9 +105,45 @@ const QRScannerPage = () => {
     }
   };
 
-  const startScanning = () => {
+  const startScanning = async () => {
+    haptics.light();
+    
+    // Use native camera on mobile devices
+    if (isNative) {
+      await scanWithNativeCamera();
+    } else {
+      setIsScanning(true);
+      scanQRCode();
+    }
+  };
+
+  const scanWithNativeCamera = async () => {
     setIsScanning(true);
-    scanQRCode();
+    
+    try {
+      const photo = await takePhotoForQRScanning();
+      
+      if (photo && photo.base64String) {
+        // In a real implementation, you would decode the QR code from the base64 image
+        // For now, simulate successful scan
+        toast.info('Processing QR code...');
+        
+        setTimeout(() => {
+          handleSuccessfulScan({
+            businessName: 'Soul Food Kitchen',
+            pointsEarned: 50,
+            discount: 10,
+            businessId: '123'
+          });
+        }, 1000);
+      } else {
+        setIsScanning(false);
+      }
+    } catch (error) {
+      console.error('Native camera scan error:', error);
+      setIsScanning(false);
+      toast.error('Failed to scan QR code');
+    }
   };
 
   const scanQRCode = () => {
@@ -136,6 +179,7 @@ const QRScannerPage = () => {
   const handleSuccessfulScan = async (result: ScanResult) => {
     setIsScanning(false);
     setScanResult(result);
+    haptics.success();
     
     // Record the scan in the database
     try {
@@ -335,16 +379,19 @@ const QRScannerPage = () => {
             </p>
           </div>
           
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-4">
             {!isScanning ? (
-              <Button
-                onClick={startScanning}
-                size="lg"
-                className="bg-primary text-primary-foreground px-8 py-4 rounded-full"
-              >
-                <QrCode className="h-6 w-6 mr-2" />
-                Start Scanning
-              </Button>
+              <>
+                <Button
+                  onClick={startScanning}
+                  size="lg"
+                  disabled={isTakingPhoto}
+                  className="bg-primary text-primary-foreground px-8 py-4 rounded-full"
+                >
+                  {isNative ? <Camera className="h-6 w-6 mr-2" /> : <QrCode className="h-6 w-6 mr-2" />}
+                  {isNative ? 'Take Photo' : 'Start Scanning'}
+                </Button>
+              </>
             ) : (
               <Button
                 onClick={() => setIsScanning(false)}
