@@ -84,7 +84,8 @@ const Hero = () => {
               <div className="flex flex-col sm:flex-row gap-4 w-full">
                 <AudioButton
                   audioSrc={getAudioPath('blueprint')}
-                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap bg-white/10 text-white border border-white/30 hover:bg-white/20 cursor-pointer"
+                  variant="red"
+                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap cursor-pointer"
                 >
                   <Volume2 className="mr-2 h-5 w-5" />
                   Hear Our Blueprint
