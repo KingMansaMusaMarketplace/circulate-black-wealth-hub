@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, Search, User, Menu } from 'lucide-react';
+import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 
 const BottomTabBar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const haptics = useHapticFeedback();
 
   const tabs = [
     { icon: Home, label: 'Home', path: '/' },
@@ -23,7 +25,10 @@ const BottomTabBar: React.FC = () => {
           return (
             <button
               key={tab.path}
-              onClick={() => navigate(tab.path)}
+              onClick={() => {
+                haptics.light();
+                navigate(tab.path);
+              }}
               className="flex flex-col items-center justify-center flex-1 h-full gap-1"
               style={{ minHeight: '44px', minWidth: '44px' }}
             >

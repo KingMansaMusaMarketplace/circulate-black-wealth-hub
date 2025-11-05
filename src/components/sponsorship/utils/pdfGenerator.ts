@@ -1,5 +1,7 @@
 
 import { toast } from 'sonner';
+import { Haptics, NotificationType } from '@capacitor/haptics';
+import { Capacitor } from '@capacitor/core';
 
 interface PDFOptions {
   filename: string;
@@ -49,6 +51,15 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     // Generate and download the PDF
     const pdfModule = html2pdf.default || html2pdf;
     await pdfModule().set(opt).from(element).save();
+    
+    // Trigger success haptic feedback on native platforms
+    if (Capacitor.isNativePlatform()) {
+      try {
+        await Haptics.notification({ type: NotificationType.Success });
+      } catch (error) {
+        console.error('Haptic feedback error:', error);
+      }
+    }
     
     // Clean up
     document.body.removeChild(element);

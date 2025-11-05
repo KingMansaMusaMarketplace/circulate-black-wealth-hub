@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, LucideIcon, Eye, Download } from 'lucide-react';
+import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 
 interface MediaKitCardProps {
   title: string;
@@ -23,6 +24,20 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
   buttonText,
   isLoading
 }) => {
+  const haptics = useHapticFeedback();
+
+  const handleAction = () => {
+    haptics.light();
+    onAction();
+  };
+
+  const handlePreview = () => {
+    if (onPreview) {
+      haptics.light();
+      onPreview();
+    }
+  };
+
   return (
     <Card className="h-full flex flex-col">
       <CardHeader className="text-center pb-4">
@@ -37,7 +52,7 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
       <CardContent className="flex-grow flex flex-col justify-end space-y-2">
         {onPreview && (
           <Button
-            onClick={onPreview}
+            onClick={handlePreview}
             variant="outline"
             className="w-full border-mansablue text-mansablue hover:bg-mansablue hover:text-white"
           >
@@ -46,7 +61,7 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
           </Button>
         )}
         <Button
-          onClick={onAction}
+          onClick={handleAction}
           disabled={isLoading}
           className="w-full bg-mansablue hover:bg-mansablue-dark text-white"
         >

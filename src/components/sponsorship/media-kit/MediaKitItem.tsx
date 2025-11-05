@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
+import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 
 export interface MediaKitItemProps {
   icon: React.ReactNode;
@@ -21,6 +22,13 @@ const MediaKitItem: React.FC<MediaKitItemProps> = ({
   action,
   onDownload
 }) => {
+  const haptics = useHapticFeedback();
+
+  const handleDownload = () => {
+    haptics.light();
+    onDownload(title, action);
+  };
+
   return (
     <div className="flex flex-col items-center text-center p-6 bg-gray-50 rounded-lg shadow-sm h-full">
       <div className="mb-4 bg-white p-3 rounded-full">
@@ -30,7 +38,7 @@ const MediaKitItem: React.FC<MediaKitItemProps> = ({
       <p className="text-gray-600 mb-6 flex-grow">{description}</p>
       <Button 
         className="bg-mansablue hover:bg-mansablue-dark"
-        onClick={() => onDownload(title, action)}
+        onClick={handleDownload}
       >
         <Download className="h-4 w-4 mr-2" />
         {buttonText}
