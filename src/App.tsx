@@ -9,6 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
 import { NativeFeatures } from "@/components/native/NativeFeatures";
+import { NativeFeaturesOnboarding } from "@/components/native/NativeFeaturesOnboarding";
 import { HelmetProvider } from 'react-helmet-async';
 import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
@@ -69,6 +70,7 @@ const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
 const LazyAppleComplianceTestPage = lazy(() => import('@/pages/AppleComplianceTestPage'));
 const LazyNativeFeaturesDemo = lazy(() => import('@/pages/NativeFeaturesDemo'));
+const LazyNativeFeaturesShowcase = lazy(() => import('@/pages/NativeFeaturesShowcase'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -353,6 +355,7 @@ function App() {
                               <Route path="/payment-test" element={<LazyPaymentTestPage />} />
                               <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
                               <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
+                              <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                               <Route path="/refresh" element={<LazyRefreshPage />} />
                               
                               <Route path="*" element={<NotFound />} />
@@ -365,6 +368,7 @@ function App() {
                    <OnboardingFlow />
                     <BusinessOnboardingFlow />
                     <CorporateOnboardingFlow />
+                    <NativeFeaturesOnboarding />
                     <Toaster />
                     <Sonner />
                   </TooltipProvider>
@@ -478,6 +482,7 @@ function App() {
                         <Route path="/payment-test" element={<LazyPaymentTestPage />} />
                         <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
                         <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
+                        <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                         <Route path="/refresh" element={<LazyRefreshPage />} />
                         
                         {/* Catch all route for 404 */}
@@ -490,6 +495,7 @@ function App() {
                 <OnboardingFlow />
                 <BusinessOnboardingFlow />
                 <CorporateOnboardingFlow />
+                <NativeFeaturesOnboarding />
                 <Toaster />
                 <Sonner />
               </TooltipProvider>
