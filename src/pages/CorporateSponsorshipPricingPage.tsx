@@ -5,11 +5,12 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Check, Crown, Sparkles, Star, Zap, Loader2 } from 'lucide-react';
+import { Check, Crown, Sparkles, Star, Zap, Loader2, Share2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cn } from '@/lib/utils';
 import { useCorporateCheckout } from '@/hooks/useCorporateCheckout';
 import { useScreenshotMode } from '@/hooks/use-screenshot-mode';
+import { useNativeShare } from '@/hooks/use-native-share';
 
 interface PricingTier {
   name: string;
@@ -32,6 +33,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
   const [websiteUrl, setWebsiteUrl] = useState('');
   const { startCheckout, isLoading } = useCorporateCheckout();
   const isScreenshotMode = useScreenshotMode();
+  const { shareUrl, isSharing } = useNativeShare();
 
   const tiers: PricingTier[] = [
     {
@@ -134,6 +136,14 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
     });
   };
 
+  const handleShare = async () => {
+    const url = window.location.href;
+    const title = 'Support Black-Owned Businesses - Corporate Sponsorship';
+    const text = 'Partner with us to create real impact! Choose from Bronze, Silver, Gold, or Platinum sponsorship tiers and support economic empowerment.';
+    
+    await shareUrl(url, text, title);
+  };
+
   return (
     <>
       <Helmet>
@@ -163,7 +173,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
             and strengthens communities. Choose a partnership tier that aligns
             with your company's values and budget.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center text-sm text-muted-foreground">
+          <div className="flex flex-wrap gap-4 justify-center text-sm text-muted-foreground mb-6">
             <div className="flex items-center gap-2">
               <Check className="h-4 w-4 text-primary" />
               <span>Tax Deductible</span>
@@ -176,6 +186,17 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
               <Check className="h-4 w-4 text-primary" />
               <span>Transparent Reporting</span>
             </div>
+          </div>
+          <div className="flex justify-center">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleShare}
+              disabled={isSharing}
+            >
+              <Share2 className="mr-2 h-4 w-4" />
+              Share Opportunity
+            </Button>
           </div>
         </section>
 

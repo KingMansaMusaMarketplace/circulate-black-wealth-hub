@@ -2,8 +2,9 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, LucideIcon, Eye, Download } from 'lucide-react';
+import { Loader2, LucideIcon, Eye, Download, Share2 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
+import { useNativeShare } from '@/hooks/use-native-share';
 
 interface MediaKitCardProps {
   title: string;
@@ -13,6 +14,8 @@ interface MediaKitCardProps {
   onPreview?: () => void;
   buttonText: string;
   isLoading: boolean;
+  shareTitle?: string;
+  shareText?: string;
 }
 
 const MediaKitCard: React.FC<MediaKitCardProps> = ({
@@ -22,9 +25,12 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
   onAction,
   onPreview,
   buttonText,
-  isLoading
+  isLoading,
+  shareTitle,
+  shareText
 }) => {
   const haptics = useHapticFeedback();
+  const { shareUrl, isSharing } = useNativeShare();
 
   const handleAction = () => {
     haptics.light();
@@ -36,6 +42,15 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
       haptics.light();
       onPreview();
     }
+  };
+
+  const handleShare = async () => {
+    haptics.light();
+    const url = window.location.origin + '/sponsor-pricing';
+    const text = shareText || `Check out this sponsorship material: ${title}`;
+    const dialogTitle = shareTitle || title;
+    
+    await shareUrl(url, text, dialogTitle);
   };
 
   return (
@@ -60,23 +75,33 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
             Read
           </Button>
         )}
-        <Button
-          onClick={handleAction}
-          disabled={isLoading}
-          className="w-full bg-mansablue hover:bg-mansablue-dark text-white"
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Generating...
-            </>
-          ) : (
-            <>
-              <Download className="mr-2 h-4 w-4" />
-              {buttonText}
-            </>
-          )}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            onClick={handleAction}
+            disabled={isLoading}
+            className="flex-1 bg-mansablue hover:bg-mansablue-dark text-white"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <Download className="mr-2 h-4 w-4" />
+                {buttonText}
+              </>
+            )}
+          </Button>
+          <Button
+            onClick={handleShare}
+            disabled={isSharing || isLoading}
+            variant="outline"
+            className="border-mansablue text-mansablue hover:bg-mansablue hover:text-white"
+          >
+            <Share2 className="h-4 w-4" />
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
