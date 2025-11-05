@@ -3,10 +3,12 @@ import { PushNotifications, Token, PushNotificationSchema, ActionPerformed } fro
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Capacitor } from '@capacitor/core';
 import { toast } from 'sonner';
+import { useHapticFeedback } from './use-haptic-feedback';
 
 export const usePushNotifications = () => {
   const [token, setToken] = useState<string | null>(null);
   const [isRegistered, setIsRegistered] = useState(false);
+  const haptics = useHapticFeedback();
 
   useEffect(() => {
     if (Capacitor.isNativePlatform()) {
@@ -48,6 +50,9 @@ export const usePushNotifications = () => {
       PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
         console.log('Push notification received: ', notification);
         
+        // Trigger haptic feedback
+        haptics.medium();
+        
         // Show local notification if app is in foreground
         if (notification.title && notification.body) {
           showLocalNotification(notification.title, notification.body);
@@ -80,6 +85,9 @@ export const usePushNotifications = () => {
       }
       
       if (permStatus.display === 'granted') {
+        // Trigger haptic feedback
+        haptics.success();
+        
         await LocalNotifications.schedule({
           notifications: [
             {
@@ -122,12 +130,48 @@ export const usePushNotifications = () => {
     );
   };
 
+  const sendSponsorshipNotification = (title: string, message: string) => {
+    showLocalNotification(
+      title,
+      message,
+      { route: '/sponsor-pricing' }
+    );
+  };
+
+  const sendPartnershipUpdateNotification = (partnerName: string, tier: string) => {
+    showLocalNotification(
+      'New Partnership!',
+      `Welcome ${partnerName} as a ${tier} partner! Thank you for supporting Black-owned businesses.`,
+      { route: '/sponsor-pricing' }
+    );
+  };
+
+  const sendImpactReportNotification = (totalImpact: string) => {
+    showLocalNotification(
+      'Monthly Impact Report Available',
+      `Your sponsorship has generated ${totalImpact} in economic impact this month. View your full report.`,
+      { route: '/sponsor-dashboard' }
+    );
+  };
+
+  const sendMilestoneNotification = (milestone: string) => {
+    showLocalNotification(
+      '🎉 Milestone Achieved!',
+      milestone,
+      { route: '/sponsor-dashboard' }
+    );
+  };
+
   return {
     token,
     isRegistered,
     showLocalNotification,
     sendWelcomeNotification,
     sendLoyaltyNotification,
-    sendNewBusinessNotification
+    sendNewBusinessNotification,
+    sendSponsorshipNotification,
+    sendPartnershipUpdateNotification,
+    sendImpactReportNotification,
+    sendMilestoneNotification
   };
 };

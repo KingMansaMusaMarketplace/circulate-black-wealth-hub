@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { useCorporateCheckout } from '@/hooks/useCorporateCheckout';
 import { useScreenshotMode } from '@/hooks/use-screenshot-mode';
 import { useNativeShare } from '@/hooks/use-native-share';
+import NotificationDemo from '@/components/sponsorship/NotificationDemo';
 
 interface PricingTier {
   name: string;
@@ -364,6 +365,9 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
             </div>
           </div>
         </section>
+
+        {/* Notification Demo Section */}
+        <NotificationDemo />
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 py-16 text-center">
