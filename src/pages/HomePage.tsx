@@ -1,17 +1,19 @@
+
 import React, { useEffect } from 'react';
-import NativeHero from '@/components/mobile/NativeHero';
-import NativeFeaturedBusinesses from '@/components/mobile/NativeFeaturedBusinesses';
-import NativeCategories from '@/components/mobile/NativeCategories';
+import Hero from '@/components/Hero';
+import HomePageSections from '@/components/HomePage/HomePageSections';
+import FreeGrowthBanner from '@/components/FreeGrowthBanner';
+import { SponsorBanner } from '@/components/sponsors';
+import { PublicSponsorDisplay } from '@/components/sponsors/PublicSponsorDisplay';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
 import { updateMetaTags } from '@/utils/seoUtils';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
-import { Capacitor } from '@capacitor/core';
+import { NativeFeaturesPromo } from '@/components/NativeFeaturesPromo';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
-  const isNative = Capacitor.isNativePlatform();
   
   useEffect(() => {
     // Track bundle performance
@@ -29,28 +31,39 @@ const HomePage = () => {
     
     // SEO optimizations
     updateMetaTags({
-      title: 'Mansa Musa Marketplace - Discover Black-Owned Businesses',
-      description: 'Support local Black-owned businesses and earn rewards. Join our community building wealth together.',
+      title: 'Mansa Musa Marketplace - Save Money & Support Black-Owned Businesses',
+      description: 'Customers always FREE! Businesses FREE until Jan 2026. Join the Mansa Musa Marketplace community and build wealth together.',
       path: '/'
     });
 
-    // Preload critical chunks for better UX
+    // Preload critical chunks for better UX (reduced delay for faster interactivity)
     setTimeout(() => {
+      // Temporarily disabled to avoid iOS white screen during startup
+      // import('@/pages/DirectoryPage');
       import('@/pages/LoginPage');
     }, 1000);
   }, []);
 
   return (
     <>
-      <div className="min-h-screen bg-background">
-        {/* Native-First Design - Clean, Simple, App-Like */}
-        <NativeHero />
+      <div className="min-h-screen">
+        {/* Sponsor Banner */}
+        <SponsorBanner />
         
-        {/* Categories - Touch-Friendly Grid */}
-        <NativeCategories />
+        {/* Hero Section */}
+        <Hero />
+
+        {/* Native Features Promo for App Store Review */}
+        <NativeFeaturesPromo />
+
+        {/* Free Growth Strategy Banner */}
+        <FreeGrowthBanner />
+
+        {/* All conversion-focused sections */}
+        <HomePageSections />
         
-        {/* Featured Businesses - Horizontal Scroll */}
-        <NativeFeaturedBusinesses />
+        {/* Public Sponsor Display */}
+        <PublicSponsorDisplay />
       </div>
       
       {shouldShowTour && (
