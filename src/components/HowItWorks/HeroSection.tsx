@@ -44,7 +44,8 @@ const HeroSection = () => {
             
             <AudioButton 
               audioSrc={AUDIO_PATHS.blueprint}
-              className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg mb-4 w-full md:w-auto"
+              variant="red"
+              className="px-8 py-6 text-lg mb-4 w-full md:w-auto"
             >
               Hear Our Blueprint
             </AudioButton>
