@@ -8,6 +8,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Progress } from "@/components/ui/progress";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
+import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
+import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { NativeFeaturesOnboarding } from "@/components/native/NativeFeaturesOnboarding";
 import { HelmetProvider } from 'react-helmet-async';
@@ -265,8 +267,10 @@ function App() {
       <HelmetProvider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <SubscriptionProvider>
-              <NativeFeatures>
+            <AnalyticsProvider>
+              <AnalyticsTracker />
+              <SubscriptionProvider>
+                <NativeFeatures>
                 {/* Use HashRouter for Capacitor/native compatibility, BrowserRouter for web */}
                 {isCapacitorPlatform() ? (
                   <HashRouter>
@@ -506,6 +510,7 @@ function App() {
                 )}
             </NativeFeatures>
           </SubscriptionProvider>
+        </AnalyticsProvider>
         </AuthProvider>
       </QueryClientProvider>
     </HelmetProvider>

@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { toast } from 'sonner';
+import { useConversionTracking } from '@/hooks/use-analytics-tracking';
 
 export interface ScanResult {
   businessName: string;
@@ -18,6 +19,7 @@ export function useScannerState() {
   const [scanResult, setScanResult] = useState<any>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const { isNative, platform } = useCapacitor();
+  const { trackQRScanFunnelStart, trackQRScanFunnelComplete } = useConversionTracking();
 
   // Load scan history from local storage on component mount
   useEffect(() => {
@@ -82,9 +84,10 @@ export function useScannerState() {
 
     if (permissionStatus !== 'granted' && !isNative) {
       await requestCameraPermission();
-      if (permissionStatus === 'denied') return; // Fixed comparison here
+      if (permissionStatus === 'denied') return;
     }
 
+    trackQRScanFunnelStart();
     setIsScanning(true);
 
     try {
@@ -107,6 +110,7 @@ export function useScannerState() {
         setScanned(true);
         setIsScanning(false);
         
+        trackQRScanFunnelComplete(mockResult.pointsEarned);
         toast.success(`Earned ${mockResult.pointsEarned} points at ${mockResult.businessName}!`);
       }, 3000);
     } catch (error) {

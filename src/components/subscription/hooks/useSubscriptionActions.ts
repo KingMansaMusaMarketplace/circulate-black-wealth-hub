@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import { toast } from 'sonner';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
+import { useConversionTracking } from '@/hooks/use-analytics-tracking';
 
 interface UseSubscriptionActionsProps {
   onPlanSelect?: (tier: SubscriptionTier) => void;
@@ -13,6 +14,7 @@ interface UseSubscriptionActionsProps {
 export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsProps = {}) => {
   const { user } = useAuth();
   const { refreshSubscription } = useSubscription();
+  const { trackSubscriptionView, trackSubscriptionStart, trackSubscriptionComplete } = useConversionTracking();
   const [loading, setLoading] = useState<SubscriptionTier | null>(null);
 
   const handleSubscribe = async (tier: SubscriptionTier) => {
@@ -59,6 +61,7 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
 
     if (tier === 'free') {
       console.log('[SUBSCRIPTION] Free tier selected');
+      trackSubscriptionView(tier);
       toast.info('You are already on the free plan');
       onPlanSelect?.(tier);
       return;
@@ -68,6 +71,7 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
     sessionStorage.removeItem('pendingSubscription');
 
     console.log('[SUBSCRIPTION] Starting subscription process for:', { tier, userEmail: user.email, userId: user.id });
+    trackSubscriptionStart(tier);
     setLoading(tier);
     
     try {
