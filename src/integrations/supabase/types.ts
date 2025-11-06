@@ -4542,6 +4542,10 @@ export type Database = {
         Returns: Json
       }
       update_agent_tier: { Args: { p_agent_id: string }; Returns: undefined }
+      update_user_streak: {
+        Args: { p_streak_type: string; p_user_id: string }
+        Returns: undefined
+      }
       validate_input: {
         Args: { input_data: Json; schema_name: string }
         Returns: Json

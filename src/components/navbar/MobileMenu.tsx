@@ -37,6 +37,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
     { to: '/', label: 'Home' },
     { to: '/dashboard', label: 'Dashboard' },
     { to: '/businesses', label: 'Marketplace' },
+    { to: '/recommendations', label: 'Discover & Achieve' },
+    { to: '/community-finance', label: 'Community Finance' },
     { to: '/about', label: 'About Us' },
     { to: '/scanner', label: 'QR Scanner', dataTour: 'qr-scanner' },
     { to: '/loyalty', label: 'Rewards' },

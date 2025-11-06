@@ -74,6 +74,8 @@ const LazyAppleComplianceTestPage = lazy(() => import('@/pages/AppleComplianceTe
 const LazyMasterAppleReviewTestPage = lazy(() => import('@/pages/MasterAppleReviewTestPage'));
 const LazyNativeFeaturesDemo = lazy(() => import('@/pages/NativeFeaturesDemo'));
 const LazyNativeFeaturesShowcase = lazy(() => import('@/pages/NativeFeaturesShowcase'));
+const LazyRecommendationsPage = lazy(() => import('@/pages/RecommendationsPage'));
+const LazyCommunityFinancePage = lazy(() => import('@/pages/CommunityFinancePage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -330,6 +332,8 @@ function App() {
                               <Route path="/settings" element={<LazyUserSettingsPage />} />
                               <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                               <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
+                              <Route path="/recommendations" element={<LazyRecommendationsPage />} />
+                              <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                              
                               <Route path="/business-dashboard" element={<LazyDashboardPage />} />
                               <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
@@ -438,6 +442,8 @@ function App() {
                           <Route path="/settings" element={<LazyUserSettingsPage />} />
                           <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                           <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
+                          <Route path="/recommendations" element={<LazyRecommendationsPage />} />
+                          <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                          
                           <Route path="/business-dashboard" element={<LazyDashboardPage />} />
                           <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />

@@ -84,3 +84,6 @@ verify_jwt = false
 [functions.send-newsletter-welcome]
 verify_jwt = false
 
+[functions.generate-ai-recommendations]
+verify_jwt = true
+
