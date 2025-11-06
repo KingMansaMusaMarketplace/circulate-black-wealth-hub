@@ -69,6 +69,7 @@ const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
 const LazyAppleComplianceTestPage = lazy(() => import('@/pages/AppleComplianceTestPage'));
+const LazyMasterAppleReviewTestPage = lazy(() => import('@/pages/MasterAppleReviewTestPage'));
 const LazyNativeFeaturesDemo = lazy(() => import('@/pages/NativeFeaturesDemo'));
 const LazyNativeFeaturesShowcase = lazy(() => import('@/pages/NativeFeaturesShowcase'));
 
@@ -354,6 +355,7 @@ function App() {
                               <Route path="/signup-test" element={<LazySignupTestPage />} />
                               <Route path="/payment-test" element={<LazyPaymentTestPage />} />
                               <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
+                              <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                               <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                               <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                               <Route path="/refresh" element={<LazyRefreshPage />} />
@@ -481,6 +483,7 @@ function App() {
                         <Route path="/signup-test" element={<LazySignupTestPage />} />
                         <Route path="/payment-test" element={<LazyPaymentTestPage />} />
                         <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
+                        <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                         <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                         <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                         <Route path="/refresh" element={<LazyRefreshPage />} />
