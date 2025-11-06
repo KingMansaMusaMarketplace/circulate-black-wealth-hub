@@ -157,6 +157,77 @@ export type Database = {
           },
         ]
       }
+      ai_recommendations: {
+        Row: {
+          business_id: string
+          clicked: boolean | null
+          clicked_at: string | null
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          metadata: Json | null
+          recommendation_reason: string | null
+          recommendation_score: number
+          shown_at: string | null
+          user_id: string
+        }
+        Insert: {
+          business_id: string
+          clicked?: boolean | null
+          clicked_at?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json | null
+          recommendation_reason?: string | null
+          recommendation_score: number
+          shown_at?: string | null
+          user_id: string
+        }
+        Update: {
+          business_id?: string
+          clicked?: boolean | null
+          clicked_at?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          metadata?: Json | null
+          recommendation_reason?: string | null
+          recommendation_score?: number
+          shown_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_recommendations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_recommendations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_recommendations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_recommendations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       auth_attempt_log: {
         Row: {
           attempt_time: string | null
@@ -1131,6 +1202,86 @@ export type Database = {
         }
         Relationships: []
       }
+      community_investments: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          current_amount: number | null
+          description: string | null
+          end_date: string | null
+          equity_offered: number | null
+          goal_amount: number
+          id: string
+          investor_count: number | null
+          min_investment: number | null
+          start_date: string | null
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          current_amount?: number | null
+          description?: string | null
+          end_date?: string | null
+          equity_offered?: number | null
+          goal_amount: number
+          id?: string
+          investor_count?: number | null
+          min_investment?: number | null
+          start_date?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          current_amount?: number | null
+          description?: string | null
+          end_date?: string | null
+          equity_offered?: number | null
+          goal_amount?: number
+          id?: string
+          investor_count?: number | null
+          min_investment?: number | null
+          start_date?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_investments_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "community_investments_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "community_investments_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "community_investments_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       corporate_subscriptions: {
         Row: {
           cancel_at_period_end: boolean | null
@@ -1669,6 +1820,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      leaderboard: {
+        Row: {
+          category: string
+          id: string
+          metadata: Json | null
+          period: string | null
+          rank: number | null
+          score: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          category: string
+          id?: string
+          metadata?: Json | null
+          period?: string | null
+          rank?: number | null
+          score?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: string
+          id?: string
+          metadata?: Json | null
+          period?: string | null
+          rank?: number | null
+          score?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       loyalty_points: {
         Row: {
@@ -2903,6 +3087,101 @@ export type Database = {
         }
         Relationships: []
       }
+      savings_circle_members: {
+        Row: {
+          circle_id: string
+          has_received_payout: boolean | null
+          id: string
+          join_date: string | null
+          payout_date: string | null
+          payout_position: number | null
+          status: string | null
+          total_contributed: number | null
+          user_id: string
+        }
+        Insert: {
+          circle_id: string
+          has_received_payout?: boolean | null
+          id?: string
+          join_date?: string | null
+          payout_date?: string | null
+          payout_position?: number | null
+          status?: string | null
+          total_contributed?: number | null
+          user_id: string
+        }
+        Update: {
+          circle_id?: string
+          has_received_payout?: boolean | null
+          id?: string
+          join_date?: string | null
+          payout_date?: string | null
+          payout_position?: number | null
+          status?: string | null
+          total_contributed?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "savings_circle_members_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "savings_circles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      savings_circles: {
+        Row: {
+          circle_name: string
+          contribution_amount: number
+          created_at: string | null
+          creator_id: string
+          current_members: number | null
+          description: string | null
+          end_date: string | null
+          frequency: string
+          id: string
+          max_members: number | null
+          start_date: string | null
+          status: string | null
+          target_amount: number
+          updated_at: string | null
+        }
+        Insert: {
+          circle_name: string
+          contribution_amount: number
+          created_at?: string | null
+          creator_id: string
+          current_members?: number | null
+          description?: string | null
+          end_date?: string | null
+          frequency: string
+          id?: string
+          max_members?: number | null
+          start_date?: string | null
+          status?: string | null
+          target_amount: number
+          updated_at?: string | null
+        }
+        Update: {
+          circle_name?: string
+          contribution_amount?: number
+          created_at?: string | null
+          creator_id?: string
+          current_members?: number | null
+          description?: string | null
+          end_date?: string | null
+          frequency?: string
+          id?: string
+          max_members?: number | null
+          start_date?: string | null
+          status?: string | null
+          target_amount?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       security_audit_log: {
         Row: {
           action: string
@@ -3306,6 +3585,39 @@ export type Database = {
           },
         ]
       }
+      user_achievements: {
+        Row: {
+          achievement_name: string
+          achievement_type: string
+          description: string | null
+          icon: string | null
+          id: string
+          points_awarded: number | null
+          unlocked_at: string | null
+          user_id: string
+        }
+        Insert: {
+          achievement_name: string
+          achievement_type: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          points_awarded?: number | null
+          unlocked_at?: string | null
+          user_id: string
+        }
+        Update: {
+          achievement_name?: string
+          achievement_type?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          points_awarded?: number | null
+          unlocked_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_discovery_preferences: {
         Row: {
           created_at: string
@@ -3342,6 +3654,80 @@ export type Database = {
         }
         Relationships: []
       }
+      user_investments: {
+        Row: {
+          amount: number
+          equity_percentage: number | null
+          id: string
+          invested_at: string | null
+          investment_id: string
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          equity_percentage?: number | null
+          id?: string
+          invested_at?: string | null
+          investment_id: string
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          equity_percentage?: number | null
+          id?: string
+          invested_at?: string | null
+          investment_id?: string
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_investments_investment_id_fkey"
+            columns: ["investment_id"]
+            isOneToOne: false
+            referencedRelation: "community_investments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_preferences: {
+        Row: {
+          business_type_preference: string[] | null
+          created_at: string | null
+          distance_preference: number | null
+          id: string
+          last_updated: string | null
+          preferred_categories: string[] | null
+          preferred_locations: string[] | null
+          price_range: string | null
+          user_id: string
+        }
+        Insert: {
+          business_type_preference?: string[] | null
+          created_at?: string | null
+          distance_preference?: number | null
+          id?: string
+          last_updated?: string | null
+          preferred_categories?: string[] | null
+          preferred_locations?: string[] | null
+          price_range?: string | null
+          user_id: string
+        }
+        Update: {
+          business_type_preference?: string[] | null
+          created_at?: string | null
+          distance_preference?: number | null
+          id?: string
+          last_updated?: string | null
+          preferred_categories?: string[] | null
+          preferred_locations?: string[] | null
+          price_range?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           granted_at: string | null
@@ -3362,6 +3748,39 @@ export type Database = {
           granted_by?: string | null
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_streaks: {
+        Row: {
+          created_at: string | null
+          current_streak: number | null
+          id: string
+          last_activity_date: string | null
+          longest_streak: number | null
+          streak_type: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_streak?: number | null
+          id?: string
+          last_activity_date?: string | null
+          longest_streak?: number | null
+          streak_type: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          current_streak?: number | null
+          id?: string
+          last_activity_date?: string | null
+          longest_streak?: number | null
+          streak_type?: string
+          updated_at?: string | null
           user_id?: string
         }
         Relationships: []

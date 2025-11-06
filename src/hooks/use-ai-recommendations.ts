@@ -1,77 +1,92 @@
-import { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
-export interface BusinessRecommendation {
-  businessId: string;
-  businessName: string;
-  category: string;
-  matchScore: number;
-  reason: string;
-  expectedExperience: string;
-  recommendationType: 'trending' | 'personalized' | 'nearby' | 'similar' | 'new' | 'seasonal';
-}
-
-export interface AIRecommendations {
-  recommendations: BusinessRecommendation[];
-  summary: string;
-  confidence: number;
-}
-
 export const useAIRecommendations = () => {
-  const [recommendations, setRecommendations] = useState<AIRecommendations | null>(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const generateRecommendations = async (userId?: string) => {
-    if (!userId) {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error('Please log in to get personalized recommendations');
-        return;
+  // Get current user
+  const { data: { user } } = useQuery({
+    queryKey: ['current-user'],
+    queryFn: async () => await supabase.auth.getUser(),
+  }).data || { data: { user: null } };
+
+  // Fetch cached recommendations from database
+  const { data: recommendations, isLoading } = useQuery({
+    queryKey: ['ai-recommendations', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return [];
+
+      const { data, error } = await supabase
+        .from('ai_recommendations')
+        .select(`
+          *,
+          businesses (
+            id,
+            business_name,
+            description,
+            category,
+            city,
+            state,
+            logo_url,
+            average_rating,
+            review_count
+          )
+        `)
+        .eq('user_id', user.id)
+        .gte('expires_at', new Date().toISOString())
+        .order('recommendation_score', { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    },
+    enabled: !!user?.id,
+  });
+
+  // Generate new recommendations
+  const generateMutation = useMutation({
+    mutationFn: async () => {
+      if (!user?.id) {
+        toast.error('Please log in to get recommendations');
+        throw new Error('User not authenticated');
       }
-      userId = user.id;
-    }
 
-    setIsGenerating(true);
-    setError(null);
-
-    try {
-      const { data, error: functionError } = await supabase.functions.invoke('generate-recommendations', {
-        body: { userId }
+      const { data, error } = await supabase.functions.invoke('generate-ai-recommendations', {
+        body: { userId: user.id }
       });
 
-      if (functionError) {
-        throw new Error(functionError.message || 'Failed to generate recommendations');
-      }
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      setRecommendations(data);
-      toast.success('AI recommendations generated successfully!');
+      if (error) throw error;
       return data;
-    } catch (err: any) {
-      const errorMessage = err.message || 'Failed to generate AI recommendations';
-      setError(errorMessage);
-      toast.error(errorMessage);
-      console.error('Error generating AI recommendations:', err);
-    } finally {
-      setIsGenerating(false);
-    }
-  };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['ai-recommendations'] });
+      toast.success('Personalized recommendations generated!');
+    },
+    onError: (error) => {
+      console.error('Error generating recommendations:', error);
+      toast.error('Failed to generate recommendations');
+    },
+  });
 
-  const clearRecommendations = () => {
-    setRecommendations(null);
-    setError(null);
+  // Mark recommendation as clicked
+  const trackClick = async (recommendationId: string) => {
+    if (!user?.id) return;
+
+    await supabase
+      .from('ai_recommendations')
+      .update({
+        clicked: true,
+        clicked_at: new Date().toISOString(),
+        shown_at: new Date().toISOString()
+      })
+      .eq('id', recommendationId);
   };
 
   return {
-    recommendations,
-    isGenerating,
-    error,
-    generateRecommendations,
-    clearRecommendations
+    recommendations: recommendations || [],
+    isLoading,
+    generating: generateMutation.isPending,
+    generateRecommendations: () => generateMutation.mutate(),
+    trackClick,
   };
 };
