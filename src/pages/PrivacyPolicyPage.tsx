@@ -35,9 +35,37 @@ const PrivacyPolicyPage = () => {
               <li><strong>Physical Address:</strong> Business addresses for directory listings and customer addresses for location-based services</li>
             </ul>
 
+            <h3 className="text-xl font-medium mb-3">Camera Access</h3>
+            <p className="text-gray-600 mb-4">
+              We request camera access for the following purposes:
+            </p>
+            <ul className="text-gray-600 mb-4 ml-6 list-disc">
+              <li><strong>QR Code Scanning:</strong> To scan QR codes at participating businesses for loyalty rewards and quick check-ins</li>
+              <li><strong>Photo Upload:</strong> To allow business owners to take and upload photos of their products, services, and storefronts</li>
+              <li><strong>Profile Pictures:</strong> To capture and upload profile images for user and business accounts</li>
+            </ul>
+            <p className="text-gray-600 mb-4">
+              Camera access is only used when you actively choose to scan a QR code or take a photo. We do not access your camera in the background or without your explicit action. You can manage camera permissions in your device settings at any time.
+            </p>
+
             <h3 className="text-xl font-medium mb-3">Location Information</h3>
             <p className="text-gray-600 mb-4">
-              We collect approximate location data (coarse location) to help you discover nearby Black-owned businesses. We do not collect precise GPS coordinates unless specifically required for a feature you choose to use.
+              We collect approximate location data (coarse location) to help you discover nearby Black-owned businesses. We do not collect precise GPS coordinates unless specifically required for a feature you choose to use. Location access can be controlled through your device settings, and you can choose to deny location access while still using most app features.
+            </p>
+
+            <h3 className="text-xl font-medium mb-3">Push Notifications</h3>
+            <p className="text-gray-600 mb-4">
+              With your permission, we send push notifications for:
+            </p>
+            <ul className="text-gray-600 mb-4 ml-6 list-disc">
+              <li><strong>Loyalty Rewards:</strong> Notifications when you earn or redeem rewards at participating businesses</li>
+              <li><strong>Booking Updates:</strong> Reminders and updates about your appointments and reservations</li>
+              <li><strong>Subscription Updates:</strong> Important notifications about your subscription status, renewals, and billing</li>
+              <li><strong>Community Updates:</strong> Optional notifications about new businesses, special offers, and community events</li>
+              <li><strong>Account Security:</strong> Critical alerts about account security and important policy changes</li>
+            </ul>
+            <p className="text-gray-600 mb-4">
+              You can manage notification preferences in your device settings or within the app settings. You can opt out of promotional notifications while still receiving important account and transactional notifications.
             </p>
 
             <h3 className="text-xl font-medium mb-3">Payment and Subscription Data</h3>
@@ -69,6 +97,9 @@ const PrivacyPolicyPage = () => {
             <ul className="text-gray-600 mb-4 ml-6 list-disc">
               <li>Provide and maintain our marketplace services</li>
               <li>Facilitate connections between customers and Black-owned businesses</li>
+              <li>Enable camera access for QR code scanning and photo uploads (only when you choose to use these features)</li>
+              <li>Use location data to help you discover nearby Black-owned businesses</li>
+              <li>Send push notifications for loyalty rewards, bookings, and important updates (with your permission)</li>
               <li>Process QR code scans and loyalty point transactions</li>
               <li>Process subscription payments and manage subscription services</li>
               <li>Send subscription-related notifications and updates</li>
