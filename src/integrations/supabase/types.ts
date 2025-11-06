@@ -1059,6 +1059,76 @@ export type Database = {
           },
         ]
       }
+      challenge_activities: {
+        Row: {
+          activity_type: string
+          activity_value: number
+          challenge_id: string
+          created_at: string | null
+          id: string
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          activity_type: string
+          activity_value: number
+          challenge_id: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          activity_type?: string
+          activity_value?: number
+          challenge_id?: string
+          created_at?: string | null
+          id?: string
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_activities_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "group_challenges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      challenge_participants: {
+        Row: {
+          challenge_id: string
+          contribution_value: number | null
+          id: string
+          joined_at: string | null
+          user_id: string
+        }
+        Insert: {
+          challenge_id: string
+          contribution_value?: number | null
+          id?: string
+          joined_at?: string | null
+          user_id: string
+        }
+        Update: {
+          challenge_id?: string
+          contribution_value?: number | null
+          id?: string
+          joined_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenge_participants_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "group_challenges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       community_aggregate_metrics: {
         Row: {
           created_at: string
@@ -1682,6 +1752,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      group_challenges: {
+        Row: {
+          challenge_type: string
+          created_at: string | null
+          created_by: string | null
+          current_value: number | null
+          description: string
+          end_date: string
+          goal_value: number
+          id: string
+          max_participants: number | null
+          participant_count: number | null
+          reward_points: number
+          start_date: string
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          challenge_type: string
+          created_at?: string | null
+          created_by?: string | null
+          current_value?: number | null
+          description: string
+          end_date: string
+          goal_value: number
+          id?: string
+          max_participants?: number | null
+          participant_count?: number | null
+          reward_points: number
+          start_date?: string
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          challenge_type?: string
+          created_at?: string | null
+          created_by?: string | null
+          current_value?: number | null
+          description?: string
+          end_date?: string
+          goal_value?: number
+          id?: string
+          max_participants?: number | null
+          participant_count?: number | null
+          reward_points?: number
+          start_date?: string
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       hbcu_verifications: {
         Row: {
@@ -4111,6 +4235,7 @@ export type Database = {
         Returns: string
       }
       delete_user_account_immediate: { Args: never; Returns: Json }
+      expire_challenges: { Args: never; Returns: undefined }
       generate_invoice_number: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_white_label_api_key: {
@@ -4455,6 +4580,7 @@ export type Database = {
         Args: { _business_id: string; _user_id: string }
         Returns: boolean
       }
+      join_challenge: { Args: { p_challenge_id: string }; Returns: Json }
       log_activity: {
         Args: {
           activity_details?: Json
@@ -4511,6 +4637,15 @@ export type Database = {
             }
             Returns: undefined
           }
+      record_challenge_activity: {
+        Args: {
+          p_activity_type: string
+          p_activity_value: number
+          p_challenge_id: string
+          p_metadata?: Json
+        }
+        Returns: undefined
+      }
       request_account_deletion: {
         Args: { deletion_reason?: string }
         Returns: Json
