@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CreditCard, Loader2, CheckCircle, AlertCircle, Shield } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { CreditCard, Loader2, CheckCircle, AlertCircle, Shield, Info } from 'lucide-react';
 import { enhancedSubscriptionService } from '@/lib/services/enhanced-subscription-service';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 import { toast } from 'sonner';
 
 interface PaymentButtonProps {
@@ -36,6 +38,12 @@ const EnhancedPaymentButton: React.FC<PaymentButtonProps> = ({
   const handlePayment = async () => {
     if (isCurrentPlan) {
       toast.info('This is your current plan');
+      return;
+    }
+
+    // Check if we should hide Stripe payments (iOS)
+    if (shouldHideStripePayments()) {
+      toast.info('Please visit our website to subscribe');
       return;
     }
 
@@ -139,6 +147,7 @@ const EnhancedPaymentButton: React.FC<PaymentButtonProps> = ({
   };
 
   const isPopularPlan = tier === 'premium' || tier === 'business_pro';
+  const hidePayments = shouldHideStripePayments();
 
   return (
     <div className={`relative space-y-4 p-6 border rounded-lg ${isPopularPlan ? 'border-mansablue shadow-lg' : 'border-gray-200'}`}>
@@ -155,7 +164,7 @@ const EnhancedPaymentButton: React.FC<PaymentButtonProps> = ({
         </div>
         <p className="text-2xl font-bold text-mansablue">{price}</p>
         
-        {tier !== 'free' && (
+        {tier !== 'free' && !hidePayments && (
           <div className="flex items-center text-sm text-gray-600 mt-1">
             <Shield className="h-3 w-3 mr-1" />
             <span>Secure payment with Stripe</span>
@@ -178,19 +187,30 @@ const EnhancedPaymentButton: React.FC<PaymentButtonProps> = ({
         </div>
       )}
       
-      <Button
-        onClick={handlePayment}
-        disabled={loading || isCurrentPlan}
-        variant={getButtonVariant()}
-        className="w-full"
-      >
-        {getButtonContent()}
-      </Button>
-      
-      {tier !== 'free' && (
-        <p className="text-xs text-gray-500 text-center">
-          Cancel anytime. {tier.includes('business') ? '30-day free trial included.' : 'No commitment.'}
-        </p>
+      {!hidePayments ? (
+        <>
+          <Button
+            onClick={handlePayment}
+            disabled={loading || isCurrentPlan}
+            variant={getButtonVariant()}
+            className="w-full"
+          >
+            {getButtonContent()}
+          </Button>
+          
+          {tier !== 'free' && (
+            <p className="text-xs text-gray-500 text-center">
+              Cancel anytime. {tier.includes('business') ? '30-day free trial included.' : 'No commitment.'}
+            </p>
+          )}
+        </>
+      ) : (
+        <Alert>
+          <Info className="h-4 w-4" />
+          <AlertDescription>
+            To subscribe, please visit our website on a desktop or mobile browser.
+          </AlertDescription>
+        </Alert>
       )}
     </div>
   );

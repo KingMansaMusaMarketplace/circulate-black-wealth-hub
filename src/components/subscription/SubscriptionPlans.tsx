@@ -3,9 +3,11 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, Star, Crown, Building, Users, Rocket } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Check, Star, Crown, Building, Users, Rocket, Info } from 'lucide-react';
 import { useSubscriptionActions } from './hooks/useSubscriptionActions';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 interface SubscriptionPlansProps {
   currentTier?: SubscriptionTier;
@@ -101,8 +103,20 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
     return currentTier === planId || loading === planId;
   };
 
+  const hidePayments = shouldHideStripePayments();
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+    <div className="space-y-6">
+      {hidePayments && userType === 'business' && (
+        <Alert>
+          <Info className="h-4 w-4" />
+          <AlertDescription>
+            Business subscriptions are managed through our web platform. Please visit our website to subscribe or manage your subscription.
+          </AlertDescription>
+        </Alert>
+      )}
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
       {plans.map((plan) => (
         <Card 
           key={plan.id} 
@@ -167,39 +181,48 @@ const SubscriptionPlans: React.FC<SubscriptionPlansProps> = ({
               ))}
             </ul>
 
-            <Button
-              className={`w-full cursor-pointer ${
-                plan.popular 
-                  ? 'bg-mansagold hover:bg-mansagold/90 text-mansablue' 
-                  : currentTier === plan.id
-                    ? 'bg-green-500 hover:bg-green-600'
-                    : ''
-              }`}
-              variant={getButtonVariant(plan.id)}
-              onClick={() => handleSubscribe(plan.id)}
-              disabled={isButtonDisabled(plan.id) || !isAuthenticated}
-              style={{ touchAction: 'manipulation' }}
-            >
-              <span className="pointer-events-none">
-                {loading === plan.id ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
-                    Processing...
-                  </>
-                ) : (
-                  getButtonText(plan)
-                )}
-              </span>
-            </Button>
+            {!hidePayments ? (
+              <>
+                <Button
+                  className={`w-full cursor-pointer ${
+                    plan.popular 
+                      ? 'bg-mansagold hover:bg-mansagold/90 text-mansablue' 
+                      : currentTier === plan.id
+                        ? 'bg-green-500 hover:bg-green-600'
+                        : ''
+                  }`}
+                  variant={getButtonVariant(plan.id)}
+                  onClick={() => handleSubscribe(plan.id)}
+                  disabled={isButtonDisabled(plan.id) || !isAuthenticated}
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  <span className="pointer-events-none">
+                    {loading === plan.id ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
+                        Processing...
+                      </>
+                    ) : (
+                      getButtonText(plan)
+                    )}
+                  </span>
+                </Button>
 
-            {!isAuthenticated && (
-              <p className="text-xs text-center text-gray-500">
-                Please log in to subscribe
-              </p>
+                {!isAuthenticated && (
+                  <p className="text-xs text-center text-gray-500">
+                    Please log in to subscribe
+                  </p>
+                )}
+              </>
+            ) : (
+              <div className="text-center text-sm text-gray-600 py-3">
+                Visit our website to subscribe
+              </div>
             )}
           </CardContent>
         </Card>
       ))}
+      </div>
     </div>
   );
 };

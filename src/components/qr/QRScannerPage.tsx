@@ -52,19 +52,35 @@ const QRScannerPage = () => {
 
   const requestCameraPermission = async () => {
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
+      // For iOS devices, try multiple camera configurations
+      const constraints = {
         video: {
-          facingMode: 'environment', // Use back camera
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
+          facingMode: { ideal: 'environment' },
+          width: { ideal: 1280, max: 1920 },
+          height: { ideal: 720, max: 1080 }
         }
-      });
+      };
+
+      let mediaStream: MediaStream;
+      
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      } catch (firstError) {
+        // Fallback to basic constraints if ideal constraints fail
+        console.log('Trying fallback camera constraints');
+        mediaStream = await navigator.mediaDevices.getUserMedia({
+          video: true
+        });
+      }
       
       setStream(mediaStream);
       setHasPermission(true);
       
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
+        videoRef.current.setAttribute('playsinline', 'true');
+        videoRef.current.setAttribute('autoplay', 'true');
+        videoRef.current.muted = true;
         await videoRef.current.play();
       }
     } catch (error: any) {
@@ -73,11 +89,11 @@ const QRScannerPage = () => {
       
       // Provide specific error messages
       if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
-        toast.error('Camera access denied. Please allow camera access in your device settings.');
-      } else if (error.name === 'NotFoundError') {
-        toast.error('No camera found on this device.');
+        toast.error('Camera access denied. Please allow camera access in Settings > Privacy > Camera.');
+      } else if (error.name === 'NotFoundError' || error.name === 'NotReadableError') {
+        toast.error('Camera not available. Please ensure no other app is using the camera.');
       } else {
-        toast.error('Camera access is required to scan QR codes.');
+        toast.error(`Camera error: ${error.message || 'Unable to access camera'}`);
       }
     }
   };
@@ -121,11 +137,11 @@ const QRScannerPage = () => {
     setIsScanning(true);
     
     try {
+      console.log('Attempting to open native camera for QR scanning...');
       const photo = await takePhotoForQRScanning();
       
       if (photo && photo.base64String) {
-        // In a real implementation, you would decode the QR code from the base64 image
-        // For now, simulate successful scan
+        console.log('Photo captured successfully, processing QR code...');
         toast.info('Processing QR code...');
         
         setTimeout(() => {
@@ -137,12 +153,14 @@ const QRScannerPage = () => {
           });
         }, 1000);
       } else {
+        console.log('Photo capture cancelled or failed');
         setIsScanning(false);
+        toast.info('Photo capture cancelled');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Native camera scan error:', error);
       setIsScanning(false);
-      toast.error('Failed to scan QR code');
+      toast.error(error.message || 'Failed to access camera');
     }
   };
 

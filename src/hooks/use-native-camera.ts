@@ -40,21 +40,31 @@ export const useNativeCamera = () => {
     resultType?: CameraResultType;
     source?: CameraSource;
     direction?: CameraDirection;
+    width?: number;
+    height?: number;
+    saveToGallery?: boolean;
   }) => {
     setIsTakingPhoto(true);
     haptics.light();
 
     try {
+      console.log('Checking camera permission...');
       // Check and request permissions if needed
       const currentPermissions = await checkCameraPermission();
+      console.log('Current camera permissions:', currentPermissions);
+      
       if (currentPermissions.camera !== 'granted') {
+        console.log('Camera permission not granted, requesting...');
         const granted = await requestCameraPermission();
         if (!granted) {
+          console.log('Camera permission denied');
+          toast.error('Camera permission is required. Please enable it in Settings > Privacy > Camera.');
           setIsTakingPhoto(false);
           return null;
         }
       }
 
+      console.log('Opening camera with options:', options);
       // Take the photo
       const photo = await Camera.getPhoto({
         quality: options?.quality ?? 90,
@@ -62,17 +72,27 @@ export const useNativeCamera = () => {
         resultType: options?.resultType ?? CameraResultType.Uri,
         source: options?.source ?? CameraSource.Camera,
         direction: options?.direction ?? CameraDirection.Rear,
+        correctOrientation: true,
+        width: options?.width,
+        height: options?.height,
+        saveToGallery: options?.saveToGallery ?? false,
       });
 
+      console.log('Photo captured successfully');
       haptics.success();
       return photo;
     } catch (error: any) {
       console.error('Error taking photo:', error);
       
       // Don't show error if user just cancelled
-      if (error.message !== 'User cancelled photos app') {
+      if (error.message?.includes('User cancelled') || error.message?.includes('cancelled')) {
+        console.log('User cancelled photo');
+        toast.info('Photo cancelled');
+      } else if (error.message?.includes('permission')) {
+        toast.error('Camera permission denied. Please enable it in Settings.');
+      } else {
         haptics.error();
-        toast.error('Failed to take photo');
+        toast.error(`Camera error: ${error.message || 'Failed to take photo'}`);
       }
       
       return null;
