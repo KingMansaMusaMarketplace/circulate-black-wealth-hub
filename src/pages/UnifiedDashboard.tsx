@@ -6,7 +6,7 @@ import { StreakTracker } from '@/components/gamification/StreakTracker';
 import { Leaderboard } from '@/components/gamification/Leaderboard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, TrendingUp, Users, Landmark, Award, Target, Gift } from 'lucide-react';
+import { Sparkles, TrendingUp, Users, Landmark, Award, Target, Gift, Share2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCommunityInvestments, useSavingsCircles } from '@/hooks/use-community-finance';
 
@@ -27,13 +27,22 @@ const UnifiedDashboard: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <div className="container mx-auto px-4 py-8 space-y-8">
         {/* Welcome Header */}
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            {getGreeting()}{user ? `, ${user.email?.split('@')[0]}` : ''}!
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Your personalized hub for community impact and growth
-          </p>
+        <div className="flex items-start justify-between gap-4">
+          <div className="space-y-2">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              {getGreeting()}{user ? `, ${user.email?.split('@')[0]}` : ''}!
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Your personalized hub for community impact and growth
+            </p>
+          </div>
+          <Button
+            onClick={() => navigate('/share-impact')}
+            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+          >
+            <Share2 className="w-4 h-4 mr-2" />
+            Share Impact
+          </Button>
         </div>
 
         {/* Quick Stats Overview */}

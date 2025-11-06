@@ -41,6 +41,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
     { to: '/community-finance', label: 'Community Finance' },
     { to: '/challenges', label: 'Group Challenges' },
     { to: '/referrals', label: 'Earn Rewards 🎁' },
+    { to: '/share-impact', label: 'Share My Impact 📸' },
     { to: '/about', label: 'About Us' },
     { to: '/scanner', label: 'QR Scanner', dataTour: 'qr-scanner' },
     { to: '/loyalty', label: 'Rewards' },
