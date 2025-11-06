@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Progress } from '@/components/ui/progress';
 import { Flame, Calendar } from 'lucide-react';
 import { useGamification } from '@/hooks/use-gamification';
+import { ShareButton } from '@/components/social-share/ShareButton';
+import { generateStreakShareText } from '@/utils/social-share';
 
 export const StreakTracker: React.FC = () => {
   const { streaks } = useGamification();
@@ -12,9 +14,19 @@ export const StreakTracker: React.FC = () => {
   return (
     <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-white">
       <CardHeader>
-        <div className="flex items-center gap-2">
-          <Flame className="w-5 h-5 text-orange-500" />
-          <CardTitle className="text-orange-900">Shopping Streak</CardTitle>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Flame className="w-5 h-5 text-orange-500" />
+            <CardTitle className="text-orange-900">Shopping Streak</CardTitle>
+          </div>
+          {shoppingStreak && shoppingStreak.current_streak > 0 && (
+            <ShareButton
+              data={generateStreakShareText(shoppingStreak)}
+              variant="ghost"
+              size="icon"
+              showLabel={false}
+            />
+          )}
         </div>
         <CardDescription>Keep the momentum going!</CardDescription>
       </CardHeader>

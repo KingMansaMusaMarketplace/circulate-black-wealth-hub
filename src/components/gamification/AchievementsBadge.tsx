@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Trophy, Award, Zap, Target } from 'lucide-react';
 import { useGamification } from '@/hooks/use-gamification';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ShareButton } from '@/components/social-share/ShareButton';
+import { generateAchievementShareText } from '@/utils/social-share';
 
 export const AchievementsBadges: React.FC = () => {
   const { achievements, isLoading } = useGamification();
@@ -60,9 +62,17 @@ export const AchievementsBadges: React.FC = () => {
                   </div>
                   <h4 className="font-semibold text-sm mb-1">{achievement.achievement_name}</h4>
                   <p className="text-xs text-muted-foreground mb-2">{achievement.description}</p>
-                  <Badge variant="secondary" className="text-xs">
-                    +{achievement.points_awarded} pts
-                  </Badge>
+                  <div className="flex items-center justify-center gap-2">
+                    <Badge variant="secondary" className="text-xs">
+                      +{achievement.points_awarded} pts
+                    </Badge>
+                    <ShareButton
+                      data={generateAchievementShareText(achievement)}
+                      variant="ghost"
+                      size="icon"
+                      showLabel={false}
+                    />
+                  </div>
                 </CardContent>
               </Card>
             ))}
