@@ -6,7 +6,7 @@ import { StreakTracker } from '@/components/gamification/StreakTracker';
 import { Leaderboard } from '@/components/gamification/Leaderboard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, TrendingUp, Users, Landmark, Award, Target } from 'lucide-react';
+import { Sparkles, TrendingUp, Users, Landmark, Award, Target, Gift } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCommunityInvestments, useSavingsCircles } from '@/hooks/use-community-finance';
 
@@ -155,6 +155,13 @@ const UnifiedDashboard: React.FC = () => {
                 >
                   <Users className="w-4 h-4" />
                   View Impact
+                </Button>
+                <Button 
+                  onClick={() => navigate('/referrals')}
+                  className="w-full justify-start gap-2 bg-gradient-to-r from-primary to-primary/80 text-white hover:from-primary/90"
+                >
+                  <Gift className="w-4 h-4" />
+                  Earn Rewards
                 </Button>
               </CardContent>
             </Card>

@@ -79,6 +79,7 @@ const LazyRecommendationsPage = lazy(() => import('@/pages/RecommendationsPage')
 const LazyCommunityFinancePage = lazy(() => import('@/pages/CommunityFinancePage'));
 const LazyUnifiedDashboard = lazy(() => import('@/pages/UnifiedDashboard'));
 const LazyGroupChallengesPage = lazy(() => import('@/pages/GroupChallengesPage'));
+const LazyReferralDashboard = lazy(() => import('@/pages/ReferralDashboard'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -338,6 +339,7 @@ function App() {
                               <Route path="/recommendations" element={<LazyRecommendationsPage />} />
                               <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                               <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                              <Route path="/referrals" element={<LazyReferralDashboard />} />
                              
                               <Route path="/business-dashboard" element={<LazyDashboardPage />} />
                               <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
