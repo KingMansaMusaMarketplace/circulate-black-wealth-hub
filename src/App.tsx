@@ -268,12 +268,12 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <AnalyticsProvider>
-              <AnalyticsTracker />
               <SubscriptionProvider>
                 <NativeFeatures>
                 {/* Use HashRouter for Capacitor/native compatibility, BrowserRouter for web */}
                 {isCapacitorPlatform() ? (
                   <HashRouter>
+                    <AnalyticsTracker />
                     <TooltipProvider>
                     <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
                       {/* Skip to main content link for keyboard navigation */}
@@ -381,6 +381,7 @@ function App() {
                   </HashRouter>
                 ) : (
                   <BrowserRouter>
+                    <AnalyticsTracker />
                   <TooltipProvider>
                   <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
                     {/* Skip to main content link for keyboard navigation */}
