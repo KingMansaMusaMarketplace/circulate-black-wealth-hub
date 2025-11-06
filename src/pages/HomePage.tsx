@@ -11,6 +11,7 @@ import { updateMetaTags } from '@/utils/seoUtils';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { NativeFeaturesPromo } from '@/components/NativeFeaturesPromo';
+import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -48,31 +49,45 @@ const HomePage = () => {
     <>
       <div className="min-h-screen">
         {/* Sponsor Banner */}
-        <SponsorBanner />
+        <SectionErrorBoundary sectionName="Sponsor Banner">
+          <SponsorBanner />
+        </SectionErrorBoundary>
         
         {/* Hero Section */}
-        <Hero />
+        <SectionErrorBoundary sectionName="Hero">
+          <Hero />
+        </SectionErrorBoundary>
 
         {/* Native Features Promo for App Store Review */}
-        <NativeFeaturesPromo />
+        <SectionErrorBoundary sectionName="Native Features">
+          <NativeFeaturesPromo />
+        </SectionErrorBoundary>
 
         {/* Free Growth Strategy Banner */}
-        <FreeGrowthBanner />
+        <SectionErrorBoundary sectionName="Growth Banner">
+          <FreeGrowthBanner />
+        </SectionErrorBoundary>
 
         {/* All conversion-focused sections */}
-        <HomePageSections />
+        <SectionErrorBoundary sectionName="Content Sections">
+          <HomePageSections />
+        </SectionErrorBoundary>
         
         {/* Public Sponsor Display */}
-        <PublicSponsorDisplay />
+        <SectionErrorBoundary sectionName="Sponsor Showcase">
+          <PublicSponsorDisplay />
+        </SectionErrorBoundary>
       </div>
       
       {shouldShowTour && (
-        <OnboardingTour
-          steps={tourSteps}
-          tourKey={tourKey}
-          onComplete={completeTour}
-          onSkip={skipTour}
-        />
+        <SectionErrorBoundary sectionName="Onboarding Tour">
+          <OnboardingTour
+            steps={tourSteps}
+            tourKey={tourKey}
+            onComplete={completeTour}
+            onSkip={skipTour}
+          />
+        </SectionErrorBoundary>
       )}
     </>
   );
