@@ -12,6 +12,7 @@ import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
 import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { NativeFeaturesOnboarding } from "@/components/native/NativeFeaturesOnboarding";
+import { AIChatWidget } from "@/components/ai-chat/AIChatWidget";
 import { HelmetProvider } from 'react-helmet-async';
 import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
@@ -76,6 +77,7 @@ const LazyNativeFeaturesDemo = lazy(() => import('@/pages/NativeFeaturesDemo'));
 const LazyNativeFeaturesShowcase = lazy(() => import('@/pages/NativeFeaturesShowcase'));
 const LazyRecommendationsPage = lazy(() => import('@/pages/RecommendationsPage'));
 const LazyCommunityFinancePage = lazy(() => import('@/pages/CommunityFinancePage'));
+const LazyUnifiedDashboard = lazy(() => import('@/pages/UnifiedDashboard'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -325,7 +327,7 @@ function App() {
                               <Route path="/testing/signup" element={<LazySignupTestPage />} />
                               <Route path="/accessibility" element={<LazyAccessibilityPage />} />
                               
-                              <Route path="/dashboard" element={<LazyUserDashboardPage />} />
+                              <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
                               <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
                               <Route path="/my-profile" element={<LazyUserProfilePage />} />
                               <Route path="/user-profile" element={<LazyUserProfilePage />} />
@@ -375,10 +377,11 @@ function App() {
                         </Suspense>
                       </div>
                     </div>
-                   <OnboardingFlow />
+                    <OnboardingFlow />
                     <BusinessOnboardingFlow />
                     <CorporateOnboardingFlow />
                     <NativeFeaturesOnboarding />
+                    <AIChatWidget />
                     <Toaster />
                     <Sonner />
                   </TooltipProvider>
@@ -435,9 +438,9 @@ function App() {
                         <Route path="/accessibility" element={<LazyAccessibilityPage />} />
                         
                          {/* Fixed Dashboard route */}
-                          <Route path="/dashboard" element={<LazyUserDashboardPage />} />
-                          <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
-                          <Route path="/my-profile" element={<LazyUserProfilePage />} />
+                           <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
+                           <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
+                           <Route path="/my-profile" element={<LazyUserProfilePage />} />
                           <Route path="/user-profile" element={<LazyUserProfilePage />} />
                           <Route path="/settings" element={<LazyUserSettingsPage />} />
                           <Route path="/user-settings" element={<LazyUserSettingsPage />} />
@@ -510,6 +513,7 @@ function App() {
                 <BusinessOnboardingFlow />
                 <CorporateOnboardingFlow />
                 <NativeFeaturesOnboarding />
+                <AIChatWidget />
                 <Toaster />
                 <Sonner />
               </TooltipProvider>

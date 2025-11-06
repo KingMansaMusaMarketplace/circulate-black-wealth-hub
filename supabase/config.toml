@@ -87,3 +87,6 @@ verify_jwt = false
 [functions.generate-ai-recommendations]
 verify_jwt = true
 
+[functions.ai-chat]
+verify_jwt = false
+
