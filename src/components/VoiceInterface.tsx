@@ -38,11 +38,15 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
   const speak = async (text: string) => {
     try {
-      // Stop any currently playing audio
+      // Stop any currently playing audio immediately
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.currentTime = 0;
         audioRef.current = null;
       }
+
+      // Wait a brief moment to ensure previous audio is fully stopped
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       onSpeakingChange?.(true);
       
@@ -239,15 +243,17 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   };
 
   const stopRecording = () => {
-    // Stop any playing audio
+    // Forcefully stop any playing audio
     if (audioRef.current) {
       audioRef.current.pause();
+      audioRef.current.currentTime = 0;
       audioRef.current = null;
       onSpeakingChange?.(false);
     }
     
     if (recognitionRef.current) {
       recognitionRef.current.stop();
+      recognitionRef.current = null;
     }
     
     setIsRecording(false);
