@@ -1,10 +1,9 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
 // Process base64 in chunks to prevent memory issues
@@ -39,22 +38,22 @@ function processBase64Chunks(base64String: string, chunkSize = 32768) {
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response('ok', { headers: corsHeaders });
   }
 
   try {
-    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
-    if (!OPENAI_API_KEY) {
-      throw new Error('OPENAI_API_KEY is not set');
-    }
-
     const { audio } = await req.json();
     
     if (!audio) {
       throw new Error('No audio data provided');
     }
 
-    console.log('Processing audio transcription...');
+    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+    if (!OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY not configured');
+    }
+
+    console.log('Transcribing audio...');
 
     // Process audio in chunks
     const binaryAudio = processBase64Chunks(audio);
@@ -65,7 +64,7 @@ serve(async (req) => {
     formData.append('file', blob, 'audio.webm');
     formData.append('model', 'whisper-1');
 
-    // Send to OpenAI Whisper
+    // Send to OpenAI
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
       headers: {
@@ -76,21 +75,12 @@ serve(async (req) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('OpenAI Whisper error:', response.status, errorText);
-      
-      if (response.status === 429) {
-        throw new Error('OpenAI rate limit exceeded. Please wait a moment and try again, or upgrade your OpenAI plan.');
-      } else if (response.status === 401) {
-        throw new Error('Invalid OpenAI API key. Please check your OPENAI_API_KEY secret.');
-      } else if (response.status === 403) {
-        throw new Error('OpenAI API access denied. Your account may not have access to Whisper API.');
-      }
-      
-      throw new Error(`Whisper API error: ${response.status} - ${errorText}`);
+      console.error('OpenAI Whisper API error:', response.status, errorText);
+      throw new Error(`OpenAI API error: ${errorText}`);
     }
 
     const result = await response.json();
-    console.log('Transcription successful');
+    console.log('Transcription successful:', result.text);
 
     return new Response(
       JSON.stringify({ text: result.text }),
@@ -98,7 +88,7 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('Transcription error:', error);
+    console.error('Error in transcribe-audio function:', error);
     return new Response(
       JSON.stringify({ error: error.message }),
       {

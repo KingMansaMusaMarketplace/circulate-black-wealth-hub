@@ -8,21 +8,12 @@ interface VoiceInterfaceProps {
   onSpeakingChange?: (speaking: boolean) => void;
 }
 
-// Extend window type for webkit support
-declare global {
-  interface Window {
-    SpeechRecognition: any;
-    webkitSpeechRecognition: any;
-  }
-}
-
 const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isSupported, setIsSupported] = useState(true);
-  const [interimTranscript, setInterimTranscript] = useState('');
   const [assistantSpeaking, setAssistantSpeaking] = useState(false);
-  const recognitionRef = useRef<any>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const assistantSpeakingRef = useRef(false);
   
@@ -34,17 +25,6 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const markIntroduced = () => {
     sessionStorage.setItem('kayla_introduced', 'true');
   };
-
-  useEffect(() => {
-    // Check if Web Speech API is supported
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      setIsSupported(false);
-      toast.error('Speech recognition not supported', {
-        description: 'Please use Chrome, Edge, or Safari'
-      });
-    }
-  }, []);
 
   useEffect(() => {
     assistantSpeakingRef.current = assistantSpeaking;
@@ -64,11 +44,6 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
       onSpeakingChange?.(true);
       setAssistantSpeaking(true);
-      if (recognitionRef.current) {
-        try { recognitionRef.current.stop(); } catch {}
-        setIsRecording(false);
-        setInterimTranscript('');
-      }
       
       // Use direct fetch for binary audio response
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/text-to-speech`, {
@@ -112,6 +87,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     } catch (error) {
       console.error('Error speaking:', error);
       onSpeakingChange?.(false);
+      setAssistantSpeaking(false);
       toast.error('Speech Error', {
         description: error instanceof Error ? error.message : 'Failed to generate speech'
       });
@@ -127,54 +103,59 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         return;
       }
 
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        throw new Error('Speech recognition not supported in this browser');
-      }
+      // Request microphone access
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      
+      audioChunksRef.current = [];
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
 
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = 'en-US';
-      recognition.maxAlternatives = 3;
-
-      recognition.onstart = () => {
-        setIsRecording(true);
-        setInterimTranscript('');
-        toast.success('Listening...', {
-          description: 'Speak clearly and naturally'
-        });
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          audioChunksRef.current.push(event.data);
+        }
       };
 
-      recognition.onresult = async (event: any) => {
-        if (assistantSpeakingRef.current) {
-          setInterimTranscript('');
-          return;
-        }
-        let finalTranscript = '';
-        let interim = '';
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
         
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript + ' ';
-          } else {
-            interim += transcript;
-          }
-        }
+        // Stop all tracks
+        stream.getTracks().forEach(track => track.stop());
         
-        setInterimTranscript(interim);
-        
-        if (!finalTranscript) return;
-        
-        console.log('You said:', finalTranscript);
-        
-        setIsRecording(false);
-        setInterimTranscript('');
         setIsProcessing(true);
 
         try {
-          // Get AI response using Lovable AI (system prompt handled by edge function)
+          // Convert blob to base64
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(audioBlob);
+          
+          const base64Audio = await new Promise<string>((resolve, reject) => {
+            fileReader.onloadend = () => {
+              const result = fileReader.result as string;
+              resolve(result.split(',')[1]);
+            };
+            fileReader.onerror = reject;
+          });
+
+          // Transcribe audio using OpenAI Whisper
+          const transcriptResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/transcribe-audio`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`
+            },
+            body: JSON.stringify({ audio: base64Audio })
+          });
+
+          if (!transcriptResponse.ok) {
+            const error = await transcriptResponse.json();
+            throw new Error(error.error || 'Transcription failed');
+          }
+
+          const { text: transcript } = await transcriptResponse.json();
+          console.log('You said:', transcript);
+
+          // Get AI response using OpenAI
           const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`, {
             method: 'POST',
             headers: {
@@ -183,7 +164,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
             },
             body: JSON.stringify({
               messages: [
-                { role: 'user', content: finalTranscript.trim() }
+                { role: 'user', content: transcript }
               ]
             })
           });
@@ -191,13 +172,13 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           if (!response.ok) throw new Error('AI response failed');
 
           // Parse streaming response
-          const reader = response.body?.getReader();
+          const streamReader = response.body?.getReader();
           const decoder = new TextDecoder();
           let aiResponse = '';
 
-          if (reader) {
+          if (streamReader) {
             while (true) {
-              const { done, value } = await reader.read();
+              const { done, value } = await streamReader.read();
               if (done) break;
 
               const chunk = decoder.decode(value);
@@ -221,7 +202,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           if (!aiResponse) throw new Error('No AI response received');
 
           console.log('AI response:', aiResponse);
-          speak(aiResponse);
+          await speak(aiResponse);
 
         } catch (error) {
           console.error('Voice assistant error:', error);
@@ -233,37 +214,17 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         }
       };
 
-      recognition.onerror = (event: any) => {
-        console.error('Speech recognition error:', event.error);
-        setIsRecording(false);
-        setIsProcessing(false);
-        
-        if (event.error === 'no-speech') {
-          toast.error('No speech detected', {
-            description: 'Please try again and speak clearly'
-          });
-        } else if (event.error === 'not-allowed') {
-          toast.error('Microphone access denied', {
-            description: 'Please allow microphone access'
-          });
-        } else {
-          toast.error('Speech recognition failed', {
-            description: event.error
-          });
-        }
-      };
-
-      recognition.onend = () => {
-        setIsRecording(false);
-      };
-
-      recognitionRef.current = recognition;
-      recognition.start();
+      mediaRecorder.start();
+      setIsRecording(true);
+      
+      toast.success('Recording...', {
+        description: 'Speak now, then press Stop'
+      });
 
     } catch (error) {
       console.error('Error starting recording:', error);
       toast.error('Failed to start recording', {
-        description: error instanceof Error ? error.message : 'Unknown error'
+        description: error instanceof Error ? error.message : 'Microphone access denied'
       });
     }
   };
@@ -278,29 +239,19 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       setAssistantSpeaking(false);
     }
     
-    if (recognitionRef.current) {
-      recognitionRef.current.stop();
-      recognitionRef.current = null;
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+      mediaRecorderRef.current.stop();
     }
     
     setIsRecording(false);
-    setIsProcessing(false);
-    setInterimTranscript('');
   };
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-50">
-      {isRecording && !assistantSpeaking && interimTranscript && (
-        <div className="bg-background/95 backdrop-blur-sm border border-border rounded-lg px-4 py-2 max-w-md shadow-lg">
-          <p className="text-xs text-muted-foreground mb-1">You're saying:</p>
-          <p className="text-sm text-foreground">{interimTranscript}</p>
-        </div>
-      )}
-      
       {!isRecording ? (
         <Button 
           onClick={assistantSpeaking ? stopRecording : startRecording}
-          disabled={isProcessing || !isSupported}
+          disabled={isProcessing}
           size="lg"
           className="bg-primary hover:bg-primary/90 text-white shadow-lg"
         >
@@ -312,7 +263,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           ) : (
             <>
               <Mic className="mr-2 h-5 w-5" />
-              {assistantSpeaking ? 'Stop Kayla' : (isSupported ? 'Talk to Kayla' : 'Not Supported')}
+              {assistantSpeaking ? 'Stop Kayla' : 'Talk to Kayla'}
             </>
           )}
         </Button>
@@ -324,7 +275,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           className="shadow-lg animate-pulse"
         >
           <MicOff className="mr-2 h-5 w-5" />
-          Stop
+          Stop Recording
         </Button>
       )}
     </div>
