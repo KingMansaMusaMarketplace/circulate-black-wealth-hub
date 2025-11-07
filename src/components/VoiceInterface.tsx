@@ -21,11 +21,19 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSupported, setIsSupported] = useState(true);
   const [interimTranscript, setInterimTranscript] = useState('');
-  const [hasIntroduced, setHasIntroduced] = useState(false);
   const [assistantSpeaking, setAssistantSpeaking] = useState(false);
   const recognitionRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const assistantSpeakingRef = useRef(false);
+  
+  // Check if introduction was already given in this session
+  const hasIntroducedInSession = () => {
+    return sessionStorage.getItem('kayla_introduced') === 'true';
+  };
+  
+  const markIntroduced = () => {
+    sessionStorage.setItem('kayla_introduced', 'true');
+  };
 
   useEffect(() => {
     // Check if Web Speech API is supported
@@ -112,9 +120,9 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
   const startRecording = async () => {
     try {
-      // First time introduction
-      if (!hasIntroduced) {
-        setHasIntroduced(true);
+      // First time introduction (once per session)
+      if (!hasIntroducedInSession()) {
+        markIntroduced();
         await speak("Welcome to Mansa Musa Marketplace. My name is Kayla, how can I help you?");
         return;
       }
