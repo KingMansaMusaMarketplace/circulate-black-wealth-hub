@@ -12,6 +12,7 @@ import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { NativeFeaturesPromo } from '@/components/NativeFeaturesPromo';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
+import VoiceInterface from '@/components/VoiceInterface';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -78,6 +79,11 @@ const HomePage = () => {
           <PublicSponsorDisplay />
         </SectionErrorBoundary>
       </div>
+      
+      {/* Voice Interface */}
+      <SectionErrorBoundary sectionName="Voice Assistant">
+        <VoiceInterface />
+      </SectionErrorBoundary>
       
       {shouldShowTour && (
         <SectionErrorBoundary sectionName="Onboarding Tour">
