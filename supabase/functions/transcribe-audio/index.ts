@@ -49,10 +49,11 @@ serve(async (req) => {
     }
 
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+    const OPENAI_ORG_ID = Deno.env.get('OPENAI_ORG_ID');
+    const OPENAI_PROJECT_ID = Deno.env.get('OPENAI_PROJECT_ID');
     if (!OPENAI_API_KEY) {
       throw new Error('OPENAI_API_KEY not configured');
     }
-
     console.log('Transcribing audio...');
 
     // Process audio in chunks
@@ -64,12 +65,17 @@ serve(async (req) => {
     formData.append('file', blob, 'audio.webm');
     formData.append('model', 'whisper-1');
 
+    // Build headers with optional org/project routing
+    const headers: Record<string, string> = {
+      'Authorization': `Bearer ${OPENAI_API_KEY}`,
+    };
+    if (OPENAI_ORG_ID) headers['OpenAI-Organization'] = OPENAI_ORG_ID;
+    if (OPENAI_PROJECT_ID) headers['OpenAI-Project'] = OPENAI_PROJECT_ID;
+
     // Send to OpenAI
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-      },
+      headers,
       body: formData,
     });
 
