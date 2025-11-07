@@ -31,14 +31,40 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         description: 'Please use Chrome, Edge, or Safari'
       });
     }
+    
+    // Load voices (they may not be immediately available)
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.getVoices();
+    };
   }, []);
 
   const speak = (text: string) => {
     window.speechSynthesis.cancel();
     
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 1.0;
+    
+    // Get available voices and select a more natural one
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoices = voices.filter(voice => 
+      voice.name.includes('Natural') || 
+      voice.name.includes('Premium') ||
+      voice.name.includes('Enhanced') ||
+      voice.name.includes('Samantha') ||
+      voice.name.includes('Google US English') ||
+      (voice.lang.startsWith('en') && voice.localService === false)
+    );
+    
+    if (preferredVoices.length > 0) {
+      utterance.voice = preferredVoices[0];
+    } else if (voices.length > 0) {
+      // Fallback to first English voice
+      const englishVoice = voices.find(v => v.lang.startsWith('en'));
+      if (englishVoice) utterance.voice = englishVoice;
+    }
+    
+    utterance.rate = 0.95; // Slightly slower for clarity
+    utterance.pitch = 1.05; // Slightly higher for friendliness
     utterance.volume = 1.0;
     
     utterance.onstart = () => onSpeakingChange?.(true);
