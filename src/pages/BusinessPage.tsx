@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { businesses } from '@/data/businessesData';
+import { fetchBusinessById } from '@/lib/api/directory/fetch-business-by-id';
+import { Business } from '@/types/business';
 import { 
   BusinessDetailHeader, 
   AboutTab, 
@@ -17,23 +19,36 @@ const BusinessPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState('about');
   const [loading, setLoading] = useState(true);
+  const [business, setBusiness] = useState<Business | null>(null);
   
-  console.log('BusinessPage - URL param id:', id);
-  console.log('BusinessPage - Available businesses:', businesses.length);
-  console.log('BusinessPage - First few business IDs:', businesses.slice(0, 5).map(b => ({ id: b.id, name: b.name })));
-  
-  // Find the business from our data
-  const business = businesses.find(b => b.id === id);
-  console.log('BusinessPage - Found business:', business ? business.name : 'Not found');
-
   useEffect(() => {
-    // Simulate loading
-    setLoading(true);
-    const timer = setTimeout(() => {
+    const loadBusiness = async () => {
+      if (!id) {
+        setLoading(false);
+        return;
+      }
+      
+      setLoading(true);
+      
+      // First try to fetch from database (for UUID format IDs)
+      const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+      
+      if (isUUID) {
+        const dbBusiness = await fetchBusinessById(id);
+        if (dbBusiness) {
+          setBusiness(dbBusiness);
+          setLoading(false);
+          return;
+        }
+      }
+      
+      // Fall back to mock data for simple string IDs
+      const mockBusiness = businesses.find(b => b.id === id);
+      setBusiness(mockBusiness || null);
       setLoading(false);
-    }, 500); // Reduced loading time
-
-    return () => clearTimeout(timer);
+    };
+    
+    loadBusiness();
   }, [id]);
 
   if (loading) {

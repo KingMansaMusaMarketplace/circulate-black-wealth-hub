@@ -5,6 +5,7 @@ import { Business } from '@/types/business';
  * Maps a Supabase business record to our frontend Business type
  */
 export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
+  // Handle both business_name and name columns (name takes precedence if both exist)
   const businessName = supabaseRecord.name || supabaseRecord.business_name || 'Unnamed Business';
   const logoUrl = supabaseRecord.logo_url || '';
   
