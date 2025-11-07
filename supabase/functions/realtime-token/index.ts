@@ -15,19 +15,27 @@ serve(async (req) => {
 
   try {
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+    const OPENAI_ORG_ID = Deno.env.get('OPENAI_ORG_ID');
+    const OPENAI_PROJECT_ID = Deno.env.get('OPENAI_PROJECT_ID');
+    
     if (!OPENAI_API_KEY) {
       throw new Error('OPENAI_API_KEY is not set');
     }
 
     console.log('Requesting ephemeral token from OpenAI...');
 
+    // Build headers with optional org/project routing
+    const headers: Record<string, string> = {
+      "Authorization": `Bearer ${OPENAI_API_KEY}`,
+      "Content-Type": "application/json",
+    };
+    if (OPENAI_ORG_ID) headers['OpenAI-Organization'] = OPENAI_ORG_ID;
+    if (OPENAI_PROJECT_ID) headers['OpenAI-Project'] = OPENAI_PROJECT_ID;
+
     // Request an ephemeral token from OpenAI
     const response = await fetch("https://api.openai.com/v1/realtime/sessions", {
       method: "POST",
-      headers: {
-        "Authorization": `Bearer ${OPENAI_API_KEY}`,
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify({
         model: "gpt-4o-realtime-preview",
         voice: "alloy",
