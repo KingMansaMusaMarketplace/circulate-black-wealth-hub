@@ -44,16 +44,23 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
       onSpeakingChange?.(true);
       
-      const { data, error } = await supabase.functions.invoke('text-to-speech', {
-        body: { text }
+      // Use direct fetch for binary audio response
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/text-to-speech`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`
+        },
+        body: JSON.stringify({ text })
       });
 
-      if (error) {
-        throw error;
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to generate speech');
       }
 
-      // Create an audio element and play the response
-      const audioBlob = new Blob([data], { type: 'audio/mpeg' });
+      // Get audio blob from response
+      const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
@@ -78,7 +85,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       console.error('Error speaking:', error);
       onSpeakingChange?.(false);
       toast.error('Speech Error', {
-        description: 'Failed to generate speech'
+        description: error instanceof Error ? error.message : 'Failed to generate speech'
       });
     }
   };

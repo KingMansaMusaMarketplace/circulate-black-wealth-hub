@@ -66,9 +66,11 @@ serve(async (req) => {
     console.log(`Successfully generated ${audioData.byteLength} bytes of audio`);
 
     return new Response(audioData, {
+      status: 200,
       headers: {
         ...corsHeaders,
         'Content-Type': 'audio/mpeg',
+        'Content-Length': audioData.byteLength.toString(),
       },
     });
   } catch (error) {
