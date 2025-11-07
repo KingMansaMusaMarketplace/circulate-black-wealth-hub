@@ -3,7 +3,7 @@ import { Business } from '@/types/business';
 
 export const legalServicesBusinesses: Business[] = [
   {
-    id: 11,
+    id: '11',
     name: "Sankofa Legal Group",
     description: "Comprehensive legal services with cultural understanding",
     category: "Legal Services",

@@ -3,7 +3,7 @@ import { Business } from '@/types/business';
 
 export const beautyAndWellnessBusinesses: Business[] = [
   {
-    id: 2,
+    id: '2',
     name: "Melanin Beauty Supply",
     description: "Premium beauty products for all skin tones and hair types",
     category: "Beauty & Wellness",
@@ -34,7 +34,7 @@ export const beautyAndWellnessBusinesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 7,
+    id: '7',
     name: "Natural Roots Hair Salon",
     description: "Expert hair care specializing in natural and textured hair",
     category: "Beauty & Wellness",

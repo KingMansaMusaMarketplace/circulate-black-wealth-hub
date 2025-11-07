@@ -7,13 +7,13 @@ import { toast } from 'sonner';
 export interface UserFavorite {
   id: string;
   user_id: string;
-  business_id: number;
+  business_id: string;
   created_at: string;
 }
 
 export const useUserFavorites = () => {
   const { user } = useAuth();
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export const useUserFavorites = () => {
     }
   };
 
-  const addToFavorites = async (businessId: number) => {
+  const addToFavorites = async (businessId: string) => {
     if (!user) {
       toast.error('Please sign in to save favorites');
       return false;
@@ -70,7 +70,7 @@ export const useUserFavorites = () => {
     }
   };
 
-  const removeFromFavorites = async (businessId: number) => {
+  const removeFromFavorites = async (businessId: string) => {
     if (!user) return false;
 
     try {
@@ -92,7 +92,7 @@ export const useUserFavorites = () => {
     }
   };
 
-  const toggleFavorite = async (businessId: number) => {
+  const toggleFavorite = async (businessId: string) => {
     if (favorites.includes(businessId)) {
       return await removeFromFavorites(businessId);
     } else {
@@ -100,7 +100,7 @@ export const useUserFavorites = () => {
     }
   };
 
-  const isFavorite = (businessId: number) => favorites.includes(businessId);
+  const isFavorite = (businessId: string) => favorites.includes(businessId);
 
   return {
     favorites,

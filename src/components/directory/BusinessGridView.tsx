@@ -5,7 +5,7 @@ import BusinessCard from '@/components/BusinessCard';
 
 interface BusinessGridViewProps {
   businesses: Business[];
-  onSelectBusiness: (id: number) => void;
+  onSelectBusiness: (id: string) => void;
 }
 
 const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelectBusiness }) => {

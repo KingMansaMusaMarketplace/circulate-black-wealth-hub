@@ -10,7 +10,7 @@ import { RefreshCcw } from 'lucide-react';
 interface MapViewProps {
   businesses: BusinessLocation[];
   isVisible?: boolean;
-  onSelectBusiness?: (id: number) => void;
+  onSelectBusiness?: (id: string) => void;
 }
 
 const MapView: React.FC<MapViewProps> = ({ businesses, isVisible = true, onSelectBusiness }) => {

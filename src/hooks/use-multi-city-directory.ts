@@ -13,7 +13,7 @@ const generateCityBusinesses = (cityId: string, baseBusinesses: Business[]): Bus
   // Create city-specific variations of businesses
   return baseBusinesses.map((business, index) => ({
     ...business,
-    id: parseInt(`${cityId === 'chicago' ? '1' : cityId === 'houston' ? '2' : cityId === 'washington-dc' ? '3' : '4'}${index.toString().padStart(3, '0')}`),
+    id: `${cityId === 'chicago' ? '1' : cityId === 'houston' ? '2' : cityId === 'washington-dc' ? '3' : '4'}${index.toString().padStart(3, '0')}`,
     city: cityData.name,
     state: cityData.state,
     // Adjust coordinates based on city

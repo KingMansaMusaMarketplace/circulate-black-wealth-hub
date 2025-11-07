@@ -5,7 +5,7 @@ import { MapPin, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface BusinessCardProps {
-  id: number;
+  id: string;
   name: string;
   category: string;
   rating: number;

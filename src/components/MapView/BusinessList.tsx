@@ -6,7 +6,7 @@ import { BusinessLocation } from './types';
 
 interface BusinessListProps {
   nearbyBusinesses?: BusinessLocation[];
-  onSelectBusiness?: (id: number) => void;
+  onSelectBusiness?: (id: string) => void;
 }
 
 const BusinessList: React.FC<BusinessListProps> = ({ nearbyBusinesses = [], onSelectBusiness }) => {

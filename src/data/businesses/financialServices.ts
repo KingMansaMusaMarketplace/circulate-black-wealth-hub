@@ -3,7 +3,7 @@ import { Business } from '@/types/business';
 
 export const financialServicesBusinesses: Business[] = [
   {
-    id: 6,
+    id: '6',
     name: "Heritage Financial Advisors",
     description: "Comprehensive financial planning and investment advisory services",
     category: "Financial Services",

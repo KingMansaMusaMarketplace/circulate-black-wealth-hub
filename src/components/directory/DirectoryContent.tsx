@@ -32,7 +32,7 @@ interface DirectoryContentProps {
   onFilterChange: (filters: Partial<BusinessFilters>) => void;
   onPageChange: (page: number) => void;
   onGetLocation: () => void;
-  onSelectBusiness: (id: number) => void;
+  onSelectBusiness: (id: string) => void;
   setShowFilters: (show: boolean) => void;
   setViewMode: (mode: 'grid' | 'list') => void;
   setShowMap: (show: boolean) => void;

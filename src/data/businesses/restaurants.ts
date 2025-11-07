@@ -3,7 +3,7 @@ import { Business } from '@/types/business';
 
 export const restaurantBusinesses: Business[] = [
   {
-    id: 1,
+    id: '1',
     name: "Soul Food Kitchen",
     description: "Authentic Southern cuisine served with love and tradition",
     category: "Restaurants",
@@ -34,7 +34,7 @@ export const restaurantBusinesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 13,
+    id: '13',
     name: "Diaspora Coffee House",
     description: "Premium coffee and community gathering space",
     category: "Restaurants",

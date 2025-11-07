@@ -56,7 +56,7 @@ const EnhancedDirectoryPage: React.FC = () => {
     autoFetch: true
   });
 
-  const handleSelectBusiness = (id: number) => {
+  const handleSelectBusiness = (id: string) => {
     const business = businesses.find(b => b.id === id);
     if (business) {
       // Scroll to the business card

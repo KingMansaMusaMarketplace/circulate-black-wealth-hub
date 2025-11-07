@@ -5,7 +5,7 @@ import { Heart } from 'lucide-react';
 import { useUserFavorites } from '@/hooks/use-user-favorites';
 
 interface FavoriteButtonProps {
-  businessId: number;
+  businessId: string;
   size?: 'sm' | 'default' | 'lg';
   variant?: 'default' | 'ghost' | 'outline';
 }

@@ -63,7 +63,7 @@ const DirectoryPage: React.FC = () => {
     console.error('DirectoryPage - No businesses data available');
   }
 
-  const handleSelectBusiness = (id: number) => {
+  const handleSelectBusiness = (id: string) => {
     const business = filteredBusinesses.find(b => b.id === id);
     if (business) {
       // Scroll to the business card

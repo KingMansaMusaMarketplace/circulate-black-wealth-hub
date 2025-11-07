@@ -3,7 +3,7 @@ import { Business } from '@/types/business';
 
 export const artAndEntertainmentBusinesses: Business[] = [
   {
-    id: 10,
+    id: '10',
     name: "Cultural Arts Studio",
     description: "Creative arts classes and community cultural events",
     category: "Art & Entertainment",

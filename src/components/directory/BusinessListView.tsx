@@ -5,7 +5,7 @@ import BusinessCard from '@/components/BusinessCard';
 
 interface BusinessListViewProps {
   businesses: Business[];
-  onSelectBusiness: (id: number) => void;
+  onSelectBusiness: (id: string) => void;
 }
 
 const BusinessListView: React.FC<BusinessListViewProps> = ({ businesses, onSelectBusiness }) => {

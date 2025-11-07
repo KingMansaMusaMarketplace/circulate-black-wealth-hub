@@ -35,7 +35,7 @@ const BusinessDirectoryPage: React.FC = () => {
   // Convert businesses to the format expected by MapView
   const mapViewBusinesses: BusinessLocation[] = mapData;
 
-  const handleSelectBusiness = (id: number) => {
+  const handleSelectBusiness = (id: string) => {
     console.log('Selected business:', id);
     // You can add navigation logic here if needed
   };

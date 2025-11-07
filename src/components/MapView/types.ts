@@ -1,6 +1,6 @@
 
 export interface BusinessLocation {
-  id: number;
+  id: string;
   name: string;
   lat: number;
   lng: number;
@@ -15,5 +15,5 @@ export interface MapContainerProps {
   loading: boolean;
   error: string | null;
   children: React.ReactNode;
-  onSelectBusiness?: (id: number) => void;
+  onSelectBusiness?: (id: string) => void;
 }

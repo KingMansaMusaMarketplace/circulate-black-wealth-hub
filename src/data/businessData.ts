@@ -17,7 +17,7 @@ export const businessCategories = [
 // Sample businesses data with production-ready image URLs
 export const businesses: Business[] = [
   {
-    id: 1,
+    id: '1',
     name: "Soulful Kitchen",
     description: "Authentic Southern cuisine served with love and tradition",
     category: "Food & Dining",
@@ -48,7 +48,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 2,
+    id: '2',
     name: "Natural Beauty Spa",
     description: "Rejuvenating spa treatments using natural and organic products",
     category: "Beauty & Wellness",
@@ -79,7 +79,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 3,
+    id: '3',
     name: "Tech Innovations",
     description: "Cutting-edge technology solutions for modern businesses",
     category: "Technology",
@@ -110,7 +110,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 4,
+    id: '4',
     name: "Wellness Center",
     description: "Complete wellness and fitness programs for a healthy lifestyle",
     category: "Health & Fitness",
@@ -141,7 +141,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 5,
+    id: '5',
     name: "Community Bookstore",
     description: "Independent bookstore featuring diverse authors and community events",
     category: "Retail & Shopping",
@@ -172,7 +172,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 6,
+    id: '6',
     name: "Urban Finance",
     description: "Comprehensive financial planning and investment advisory services",
     category: "Finance",
@@ -203,7 +203,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 7,
+    id: '7',
     name: "Creative Arts Studio",
     description: "Creative arts classes and community cultural events",
     category: "Art & Entertainment",
@@ -234,7 +234,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 8,
+    id: '8',
     name: "Heritage Transport",
     description: "Reliable transportation services for the community",
     category: "Transportation",
@@ -265,7 +265,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 9,
+    id: '9',
     name: "Knowledge Academy",
     description: "Educational programs and tutoring services for all ages",
     category: "Education",
@@ -296,7 +296,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 10,
+    id: '10',
     name: "Legal Partners",
     description: "Comprehensive legal services with community focus",
     category: "Professional Services",
@@ -327,7 +327,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 11,
+    id: '11',
     name: "Organic Market",
     description: "Fresh organic produce and sustainable products",
     category: "Retail & Shopping",
@@ -358,7 +358,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 12,
+    id: '12',
     name: "Dapper Styles",
     description: "Professional barbershop and grooming services",
     category: "Beauty & Wellness",
@@ -389,7 +389,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 13,
+    id: '13',
     name: "Soul Food Corner",
     description: "Traditional soul food restaurant with family recipes",
     category: "Food & Dining",
@@ -420,7 +420,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 14,
+    id: '14',
     name: "Digital Solutions",
     description: "IT consulting and digital transformation services",
     category: "Technology",
@@ -451,7 +451,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 15,
+    id: '15',
     name: "Community Health Center",
     description: "Comprehensive healthcare services for the community",
     category: "Health & Fitness",
@@ -482,7 +482,7 @@ export const businesses: Business[] = [
     updatedAt: "2024-01-01T00:00:00Z"
   },
   {
-    id: 16,
+    id: '16',
     name: "Urban Investments",
     description: "Financial investment and wealth management services",
     category: "Finance",

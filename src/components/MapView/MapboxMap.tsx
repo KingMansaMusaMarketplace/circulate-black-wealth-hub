@@ -8,7 +8,7 @@ interface MapboxMapProps {
   apiKey: string;
   userLocation: { lat: number; lng: number } | null;
   businesses: BusinessLocation[];
-  onBusinessClick?: (businessId: number) => void;
+  onBusinessClick?: (businessId: string) => void;
 }
 
 const MapboxMap: React.FC<MapboxMapProps> = ({ 

@@ -20,7 +20,7 @@ export const useSmartRecommendations = (userLocation?: LocationData | null) => {
         // Mock recommendations data
         const mockRecommendations: Business[] = [
           {
-            id: 1,
+            id: '1',
             name: "Soul Food Kitchen",
             description: "Authentic Southern cuisine served with love and tradition",
             category: "Restaurant",
@@ -50,7 +50,7 @@ export const useSmartRecommendations = (userLocation?: LocationData | null) => {
             updatedAt: "2024-01-01T00:00:00Z"
           },
           {
-            id: 2,
+            id: '2',
             name: "Curl & Coil Hair Salon",
             description: "Expert hair care specializing in natural and textured hair",
             category: "Beauty & Wellness",
@@ -80,7 +80,7 @@ export const useSmartRecommendations = (userLocation?: LocationData | null) => {
             updatedAt: "2024-01-01T00:00:00Z"
           },
           {
-            id: 3,
+            id: '3',
             name: "Tech Innovators Inc",
             description: "Cutting-edge technology solutions for modern businesses",
             category: "Technology",

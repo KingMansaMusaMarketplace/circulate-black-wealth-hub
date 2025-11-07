@@ -22,11 +22,8 @@ const BusinessPage: React.FC = () => {
   console.log('BusinessPage - Available businesses:', businesses.length);
   console.log('BusinessPage - First few business IDs:', businesses.slice(0, 5).map(b => ({ id: b.id, name: b.name })));
   
-  const businessId = Number(id);
-  console.log('BusinessPage - Converted businessId:', businessId);
-  
   // Find the business from our data
-  const business = businesses.find(b => b.id === businessId);
+  const business = businesses.find(b => b.id === id);
   console.log('BusinessPage - Found business:', business ? business.name : 'Not found');
 
   useEffect(() => {

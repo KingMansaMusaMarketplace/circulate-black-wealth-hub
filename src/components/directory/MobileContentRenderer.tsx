@@ -12,7 +12,7 @@ interface MobileContentRendererProps {
   location: any;
   businesses: Business[];
   loading: boolean;
-  onSelectBusiness: (id: number) => void;
+  onSelectBusiness: (id: string) => void;
   mapData: any[];
 }
 

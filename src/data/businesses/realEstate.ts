@@ -3,7 +3,7 @@ import { Business } from '@/types/business';
 
 export const realEstateBusinesses: Business[] = [
   {
-    id: 14,
+    id: '14',
     name: "Legacy Real Estate Group",
     description: "Professional real estate services with community focus",
     category: "Real Estate",

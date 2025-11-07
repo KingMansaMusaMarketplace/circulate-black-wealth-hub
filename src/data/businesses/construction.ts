@@ -3,7 +3,7 @@ import { Business } from '@/types/business';
 
 export const constructionBusinesses: Business[] = [
   {
-    id: 12,
+    id: '12',
     name: "Unity Construction LLC",
     description: "Quality construction and renovation services",
     category: "Construction",

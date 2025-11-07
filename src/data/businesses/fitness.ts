@@ -3,7 +3,7 @@ import { Business } from '@/types/business';
 
 export const fitnessBusinesses: Business[] = [
   {
-    id: 15,
+    id: '15',
     name: "Afrocentric Fitness Center",
     description: "Culturally-focused fitness and wellness programs",
     category: "Fitness",
