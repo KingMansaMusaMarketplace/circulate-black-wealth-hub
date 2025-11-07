@@ -77,7 +77,16 @@ serve(async (req) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenAI Whisper error:', response.status, errorText);
-      throw new Error(`Whisper API error: ${response.status}`);
+      
+      if (response.status === 429) {
+        throw new Error('OpenAI rate limit exceeded. Please wait a moment and try again, or upgrade your OpenAI plan.');
+      } else if (response.status === 401) {
+        throw new Error('Invalid OpenAI API key. Please check your OPENAI_API_KEY secret.');
+      } else if (response.status === 403) {
+        throw new Error('OpenAI API access denied. Your account may not have access to Whisper API.');
+      }
+      
+      throw new Error(`Whisper API error: ${response.status} - ${errorText}`);
     }
 
     const result = await response.json();

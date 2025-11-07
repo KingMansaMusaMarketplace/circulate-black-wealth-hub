@@ -63,7 +63,10 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         body: { audio: base64Audio }
       });
 
-      if (transcribeError) throw transcribeError;
+      if (transcribeError) {
+        console.error('Transcription error:', transcribeError);
+        throw new Error(transcribeError.message || 'Transcription failed');
+      }
       if (!transcription?.text) throw new Error('No transcription received');
 
       console.log('You said:', transcription.text);
