@@ -117,7 +117,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         setIsProcessing(true);
 
         try {
-          // Get AI response using Lovable AI
+          // Get AI response using Lovable AI (system prompt handled by edge function)
           const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`, {
             method: 'POST',
             headers: {
@@ -126,7 +126,6 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
             },
             body: JSON.stringify({
               messages: [
-                { role: 'system', content: 'You are a helpful AI assistant. Keep your responses clear, concise, and friendly.' },
                 { role: 'user', content: transcript }
               ]
             })
