@@ -4,6 +4,7 @@ import { Users, Activity, ListChecks, TrendingUp } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import FriendsList from '@/components/network/FriendsList';
 import SocialActivityFeed from '@/components/network/SocialActivityFeed';
+import FriendDiscovery from '@/components/network/FriendDiscovery';
 
 const NetworkPage = () => {
   return (
@@ -70,9 +71,10 @@ const NetworkPage = () => {
           transition={{ delay: 0.2 }}
         >
           <Tabs defaultValue="feed" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="feed">Activity Feed</TabsTrigger>
               <TabsTrigger value="friends">Friends</TabsTrigger>
+              <TabsTrigger value="discover">Discover</TabsTrigger>
               <TabsTrigger value="shopping">Shopping Lists</TabsTrigger>
             </TabsList>
 
@@ -82,6 +84,10 @@ const NetworkPage = () => {
 
             <TabsContent value="friends" className="space-y-6">
               <FriendsList />
+            </TabsContent>
+
+            <TabsContent value="discover" className="space-y-6">
+              <FriendDiscovery />
             </TabsContent>
 
             <TabsContent value="shopping" className="space-y-6">
