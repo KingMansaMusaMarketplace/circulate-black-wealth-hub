@@ -1,6 +1,7 @@
 
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
+import { createSocialActivity } from './social-activity-api';
 
 export interface Transaction {
   id: string;
@@ -129,6 +130,17 @@ export const createTransaction = async (transactionData: Omit<Transaction, 'id' 
       ...data,
       transaction_type: data.transaction_type as 'purchase' | 'scan' | 'redemption' | 'review' | 'referral'
     };
+
+    // Post to social activity feed for purchases
+    if (transactionData.transaction_type === 'purchase' && transactionData.amount) {
+      await createSocialActivity({
+        userId: transactionData.customer_id,
+        activityType: 'purchase',
+        businessId: transactionData.business_id,
+        metadata: { amount: transactionData.amount, description: transactionData.description },
+        isPublic: true
+      });
+    }
 
     toast.success('Transaction recorded successfully!');
     return { success: true, transaction };

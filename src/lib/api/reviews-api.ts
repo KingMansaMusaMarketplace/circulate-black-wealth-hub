@@ -1,6 +1,7 @@
 
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
+import { createSocialActivity } from './social-activity-api';
 
 export interface Review {
   id: string;
@@ -62,6 +63,15 @@ export const submitReview = async (
       
       if (error) throw error;
       result = { success: true, review: data };
+      
+      // Post to social activity feed
+      await createSocialActivity({
+        userId: customerId,
+        activityType: 'review',
+        businessId,
+        metadata: { rating, description: reviewText },
+        isPublic: true
+      });
       
       // Award points securely via server-side function
       const { data: pointsResult, error: pointsError } = await supabase.rpc(

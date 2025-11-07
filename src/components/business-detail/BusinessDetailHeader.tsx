@@ -2,22 +2,16 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { QrCode, MapPin, Phone, Globe, Award, Star, Share2 } from 'lucide-react';
+import { QrCode, MapPin, Star, Share2 } from 'lucide-react';
 import { Business } from '@/types/business';
-import { toast } from 'sonner';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
+import CheckInButton from './CheckInButton';
 
 interface BusinessDetailHeaderProps {
   business: Business;
 }
 
 const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business }) => {
-  const handleCheckIn = () => {
-    toast("Checked In!", {
-      description: `You've successfully checked in at ${business.name} and earned 10 loyalty points!`
-    });
-  };
-
   return (
     <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm mb-8">
       <div className="h-48 bg-gradient-to-r from-mansablue to-mansagold flex items-center justify-center">
@@ -52,15 +46,10 @@ const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business })
           </div>
           
           <div className="flex flex-wrap items-center gap-2">
-            <Button 
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1"
-              onClick={handleCheckIn}
-            >
-              <Award size={16} />
-              Check In
-            </Button>
+            <CheckInButton 
+              businessId={business.id}
+              businessName={business.name}
+            />
             
             <Dialog>
               <DialogTrigger asChild>
