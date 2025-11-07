@@ -1,5 +1,8 @@
 project_id = "agoclnqfyinwjxdmjnns"
 
+[functions.text-to-speech]
+verify_jwt = false
+
 [functions.increment-counters]
 verify_jwt = true
 

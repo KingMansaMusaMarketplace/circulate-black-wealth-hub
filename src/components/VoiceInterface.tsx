@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface VoiceInterfaceProps {
   onSpeakingChange?: (speaking: boolean) => void;
@@ -20,7 +21,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSupported, setIsSupported] = useState(true);
   const recognitionRef = useRef<any>(null);
-  const synthRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     // Check if Web Speech API is supported
@@ -31,48 +32,55 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         description: 'Please use Chrome, Edge, or Safari'
       });
     }
-    
-    // Load voices (they may not be immediately available)
-    window.speechSynthesis.getVoices();
-    window.speechSynthesis.onvoiceschanged = () => {
-      window.speechSynthesis.getVoices();
-    };
   }, []);
 
-  const speak = (text: string) => {
-    window.speechSynthesis.cancel();
-    
-    const utterance = new SpeechSynthesisUtterance(text);
-    
-    // Get available voices and select a more natural one
-    const voices = window.speechSynthesis.getVoices();
-    const preferredVoices = voices.filter(voice => 
-      voice.name.includes('Natural') || 
-      voice.name.includes('Premium') ||
-      voice.name.includes('Enhanced') ||
-      voice.name.includes('Samantha') ||
-      voice.name.includes('Google US English') ||
-      (voice.lang.startsWith('en') && voice.localService === false)
-    );
-    
-    if (preferredVoices.length > 0) {
-      utterance.voice = preferredVoices[0];
-    } else if (voices.length > 0) {
-      // Fallback to first English voice
-      const englishVoice = voices.find(v => v.lang.startsWith('en'));
-      if (englishVoice) utterance.voice = englishVoice;
+  const speak = async (text: string) => {
+    try {
+      // Stop any currently playing audio
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+
+      onSpeakingChange?.(true);
+      
+      const { data, error } = await supabase.functions.invoke('text-to-speech', {
+        body: { text }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Create an audio element and play the response
+      const audioBlob = new Blob([data], { type: 'audio/mpeg' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+      
+      audio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+        audioRef.current = null;
+        onSpeakingChange?.(false);
+      };
+      
+      audio.onerror = () => {
+        URL.revokeObjectURL(audioUrl);
+        audioRef.current = null;
+        onSpeakingChange?.(false);
+        toast.error('Audio Error', {
+          description: 'Failed to play audio response'
+        });
+      };
+      
+      await audio.play();
+    } catch (error) {
+      console.error('Error speaking:', error);
+      onSpeakingChange?.(false);
+      toast.error('Speech Error', {
+        description: 'Failed to generate speech'
+      });
     }
-    
-    utterance.rate = 0.95; // Slightly slower for clarity
-    utterance.pitch = 1.05; // Slightly higher for friendliness
-    utterance.volume = 1.0;
-    
-    utterance.onstart = () => onSpeakingChange?.(true);
-    utterance.onend = () => onSpeakingChange?.(false);
-    utterance.onerror = () => onSpeakingChange?.(false);
-    
-    synthRef.current = utterance;
-    window.speechSynthesis.speak(utterance);
   };
 
   const startRecording = async () => {
