@@ -76,7 +76,9 @@ export class RealtimeChat {
       console.log('Getting ephemeral token...');
       
       // Get ephemeral token from our Supabase Edge Function
-      const { data, error } = await supabase.functions.invoke("realtime-token");
+      const { data, error } = await supabase.functions.invoke("realtime-token", {
+        body: {},
+      });
       
       if (error) {
         console.error('Edge function error:', error);
