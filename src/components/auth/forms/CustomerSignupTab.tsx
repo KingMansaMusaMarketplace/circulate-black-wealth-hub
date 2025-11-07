@@ -17,6 +17,7 @@ const customerSignupSchema = z.object({
   confirmPassword: z.string(),
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
   phone: z.string().optional(),
+  referralCode: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -32,15 +33,55 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [referralCodeInfo, setReferralCodeInfo] = useState<{ valid: boolean; referrerName?: string } | null>(null);
+  const [checkingReferral, setCheckingReferral] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    watch
   } = useForm<CustomerSignupForm>({
     resolver: zodResolver(customerSignupSchema)
   });
+
+  const referralCode = watch('referralCode');
+
+  // Real-time referral code validation
+  React.useEffect(() => {
+    const validateReferralCode = async () => {
+      if (!referralCode || referralCode.trim() === '') {
+        setReferralCodeInfo(null);
+        return;
+      }
+
+      setCheckingReferral(true);
+      try {
+        const { data, error } = await supabase
+          .from('sales_agents')
+          .select('user_id, profiles(full_name)')
+          .eq('referral_code', referralCode.trim())
+          .eq('is_active', true)
+          .single();
+
+        if (error || !data) {
+          setReferralCodeInfo({ valid: false });
+        } else {
+          const referrerName = (data.profiles as any)?.full_name || 'Unknown';
+          setReferralCodeInfo({ valid: true, referrerName });
+        }
+      } catch (err) {
+        console.error('Error validating referral code:', err);
+        setReferralCodeInfo({ valid: false });
+      } finally {
+        setCheckingReferral(false);
+      }
+    };
+
+    const debounceTimer = setTimeout(validateReferralCode, 500);
+    return () => clearTimeout(debounceTimer);
+  }, [referralCode]);
 
   const onSubmit = async (data: CustomerSignupForm) => {
     setIsLoading(true);
@@ -57,7 +98,8 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
           data: {
             full_name: data.fullName,
             phone: data.phone,
-            user_type: 'customer'
+            user_type: 'customer',
+            referral_code: data.referralCode || null
           }
         }
       });
@@ -169,6 +211,35 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
         />
         {errors.phone && (
           <p className="text-sm text-red-600">{errors.phone.message}</p>
+        )}
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="referralCode">
+          Referral Code (Optional)
+          {checkingReferral && <span className="ml-2 text-xs text-gray-500">Checking...</span>}
+        </Label>
+        <Input
+          id="referralCode"
+          {...register('referralCode')}
+          disabled={isLoading}
+          placeholder="Enter referral code"
+          className={
+            referralCodeInfo?.valid === true ? 'border-green-500' :
+            referralCodeInfo?.valid === false ? 'border-red-500' : ''
+          }
+        />
+        {referralCodeInfo?.valid === true && (
+          <p className="text-sm text-green-600 flex items-center gap-1">
+            <CheckCircle className="h-4 w-4" />
+            Referred by {referralCodeInfo.referrerName}
+          </p>
+        )}
+        {referralCodeInfo?.valid === false && (
+          <p className="text-sm text-red-600">Invalid referral code</p>
+        )}
+        {errors.referralCode && (
+          <p className="text-sm text-red-600">{errors.referralCode.message}</p>
         )}
       </div>
 
