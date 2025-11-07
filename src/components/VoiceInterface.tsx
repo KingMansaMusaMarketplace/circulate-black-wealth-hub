@@ -239,9 +239,20 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   };
 
   const stopRecording = () => {
+    // Stop any playing audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+      onSpeakingChange?.(false);
+    }
+    
     if (recognitionRef.current) {
       recognitionRef.current.stop();
     }
+    
+    setIsRecording(false);
+    setIsProcessing(false);
+    setInterimTranscript('');
   };
 
   return (
@@ -267,7 +278,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           ) : (
             <>
               <Mic className="mr-2 h-5 w-5" />
-              {isSupported ? 'Start Recording' : 'Not Supported'}
+              {isSupported ? 'Talk to Kayla' : 'Not Supported'}
             </>
           )}
         </Button>
@@ -279,7 +290,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           className="shadow-lg animate-pulse"
         >
           <MicOff className="mr-2 h-5 w-5" />
-          Listening...
+          Stop
         </Button>
       )}
     </div>
