@@ -22,8 +22,10 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const [isSupported, setIsSupported] = useState(true);
   const [interimTranscript, setInterimTranscript] = useState('');
   const [hasIntroduced, setHasIntroduced] = useState(false);
+  const [assistantSpeaking, setAssistantSpeaking] = useState(false);
   const recognitionRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const assistantSpeakingRef = useRef(false);
 
   useEffect(() => {
     // Check if Web Speech API is supported
@@ -35,6 +37,10 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       });
     }
   }, []);
+
+  useEffect(() => {
+    assistantSpeakingRef.current = assistantSpeaking;
+  }, [assistantSpeaking]);
 
   const speak = async (text: string) => {
     try {
@@ -49,6 +55,12 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       await new Promise(resolve => setTimeout(resolve, 100));
 
       onSpeakingChange?.(true);
+      setAssistantSpeaking(true);
+      if (recognitionRef.current) {
+        try { recognitionRef.current.stop(); } catch {}
+        setIsRecording(false);
+        setInterimTranscript('');
+      }
       
       // Use direct fetch for binary audio response
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/text-to-speech`, {
@@ -74,12 +86,14 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       audio.onended = () => {
         URL.revokeObjectURL(audioUrl);
         audioRef.current = null;
+        setAssistantSpeaking(false);
         onSpeakingChange?.(false);
       };
       
       audio.onerror = () => {
         URL.revokeObjectURL(audioUrl);
         audioRef.current = null;
+        setAssistantSpeaking(false);
         onSpeakingChange?.(false);
         toast.error('Audio Error', {
           description: 'Failed to play audio response'
@@ -125,6 +139,10 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       };
 
       recognition.onresult = async (event: any) => {
+        if (assistantSpeakingRef.current) {
+          setInterimTranscript('');
+          return;
+        }
         let finalTranscript = '';
         let interim = '';
         
@@ -249,6 +267,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       audioRef.current.currentTime = 0;
       audioRef.current = null;
       onSpeakingChange?.(false);
+      setAssistantSpeaking(false);
     }
     
     if (recognitionRef.current) {
@@ -263,7 +282,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-50">
-      {isRecording && interimTranscript && (
+      {isRecording && !assistantSpeaking && interimTranscript && (
         <div className="bg-background/95 backdrop-blur-sm border border-border rounded-lg px-4 py-2 max-w-md shadow-lg">
           <p className="text-xs text-muted-foreground mb-1">You're saying:</p>
           <p className="text-sm text-foreground">{interimTranscript}</p>
@@ -272,7 +291,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       
       {!isRecording ? (
         <Button 
-          onClick={startRecording}
+          onClick={assistantSpeaking ? stopRecording : startRecording}
           disabled={isProcessing || !isSupported}
           size="lg"
           className="bg-primary hover:bg-primary/90 text-white shadow-lg"
@@ -285,7 +304,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           ) : (
             <>
               <Mic className="mr-2 h-5 w-5" />
-              {isSupported ? 'Talk to Kayla' : 'Not Supported'}
+              {assistantSpeaking ? 'Stop Kayla' : (isSupported ? 'Talk to Kayla' : 'Not Supported')}
             </>
           )}
         </Button>
