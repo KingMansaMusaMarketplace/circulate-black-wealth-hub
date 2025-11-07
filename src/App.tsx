@@ -81,6 +81,7 @@ const LazyUnifiedDashboard = lazy(() => import('@/pages/UnifiedDashboard'));
 const LazyGroupChallengesPage = lazy(() => import('@/pages/GroupChallengesPage'));
 const LazyReferralDashboard = lazy(() => import('@/pages/ReferralDashboard'));
 const LazyShareImpactPage = lazy(() => import('@/pages/ShareImpactPage'));
+const LazySocialProofPage = lazy(() => import('@/pages/SocialProofPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -342,6 +343,7 @@ function App() {
                               <Route path="/challenges" element={<LazyGroupChallengesPage />} />
                               <Route path="/referrals" element={<LazyReferralDashboard />} />
                               <Route path="/share-impact" element={<LazyShareImpactPage />} />
+                              <Route path="/social-proof" element={<LazySocialProofPage />} />
                              
                               <Route path="/business-dashboard" element={<LazyDashboardPage />} />
                               <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
@@ -453,7 +455,10 @@ function App() {
                           <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                           <Route path="/recommendations" element={<LazyRecommendationsPage />} />
                           <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
-                          <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                           <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                           <Route path="/referrals" element={<LazyReferralDashboard />} />
+                           <Route path="/share-impact" element={<LazyShareImpactPage />} />
+                           <Route path="/social-proof" element={<LazySocialProofPage />} />
                          
                           <Route path="/business-dashboard" element={<LazyDashboardPage />} />
                           <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
