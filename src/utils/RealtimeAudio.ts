@@ -69,6 +69,20 @@ export class RealtimeChat {
   constructor(private onMessage: (message: any) => void) {
     this.audioEl = document.createElement("audio");
     this.audioEl.autoplay = true;
+    this.audioEl.setAttribute('playsinline', 'true');
+    // Keep element in DOM to satisfy autoplay policies across browsers
+    this.audioEl.style.position = 'fixed';
+    this.audioEl.style.left = '-9999px';
+    this.audioEl.style.width = '0';
+    this.audioEl.style.height = '0';
+    this.audioEl.style.opacity = '0';
+    try {
+      if (!document.body.contains(this.audioEl)) {
+        document.body.appendChild(this.audioEl);
+      }
+    } catch (e) {
+      console.warn('Could not append audio element to DOM:', e);
+    }
   }
 
   async init() {
@@ -98,9 +112,15 @@ export class RealtimeChat {
       this.pc = new RTCPeerConnection();
 
       // Set up remote audio
-      this.pc.ontrack = e => {
+      this.pc.ontrack = async (e) => {
         console.log('Received audio track');
         this.audioEl.srcObject = e.streams[0];
+        try {
+          await this.audioEl.play();
+          console.log('Remote audio playback started');
+        } catch (err) {
+          console.warn('Autoplay blocked, attempting user-gesture resume:', err);
+        }
       };
 
       // Add local audio track
