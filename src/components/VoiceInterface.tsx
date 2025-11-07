@@ -21,6 +21,18 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       onSpeakingChange?.(true);
     } else if (event.type === 'response.audio.done') {
       onSpeakingChange?.(false);
+    } else if (event.type === 'response.done') {
+      // Catch model failures and surface to user
+      const status = event.response?.status;
+      if (status === 'failed') {
+        const err = event.response?.status_details?.error;
+        const msg = err?.message || 'Voice model failed to respond';
+        console.error('Realtime response failed:', err || event);
+        toast.error('Voice assistant error', { description: msg });
+        try { chatRef.current?.disconnect(); } catch {}
+        setIsConnected(false);
+        onSpeakingChange?.(false);
+      }
     } else if (event.type === 'error') {
       console.error('Realtime API error:', event);
       toast.error('An error occurred: ' + (event.error?.message || 'Unknown error'));
