@@ -69,8 +69,11 @@ serve(async (req) => {
     const headers: Record<string, string> = {
       'Authorization': `Bearer ${OPENAI_API_KEY}`,
     };
-    if (OPENAI_ORG_ID) headers['OpenAI-Organization'] = OPENAI_ORG_ID;
-    if (OPENAI_PROJECT_ID) headers['OpenAI-Project'] = OPENAI_PROJECT_ID;
+    const useOrg = OPENAI_ORG_ID && OPENAI_ORG_ID.startsWith('org_');
+    const useProj = OPENAI_PROJECT_ID && OPENAI_PROJECT_ID.startsWith('proj_');
+    if (useOrg) headers['OpenAI-Organization'] = OPENAI_ORG_ID!;
+    if (useProj) headers['OpenAI-Project'] = OPENAI_PROJECT_ID!;
+    console.log('OpenAI routing headers applied:', { org: !!useOrg, project: !!useProj });
 
     // Send to OpenAI
     const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {

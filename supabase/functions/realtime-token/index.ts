@@ -29,8 +29,8 @@ serve(async (req) => {
       "Authorization": `Bearer ${OPENAI_API_KEY}`,
       "Content-Type": "application/json",
     };
-    if (OPENAI_ORG_ID) headers['OpenAI-Organization'] = OPENAI_ORG_ID;
-    if (OPENAI_PROJECT_ID) headers['OpenAI-Project'] = OPENAI_PROJECT_ID;
+    if (OPENAI_ORG_ID && OPENAI_ORG_ID.startsWith('org_')) headers['OpenAI-Organization'] = OPENAI_ORG_ID;
+    if (OPENAI_PROJECT_ID && OPENAI_PROJECT_ID.startsWith('proj_')) headers['OpenAI-Project'] = OPENAI_PROJECT_ID;
 
     // Request an ephemeral token from OpenAI
     const response = await fetch("https://api.openai.com/v1/realtime/sessions", {

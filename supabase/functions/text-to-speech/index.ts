@@ -40,13 +40,16 @@ serve(async (req) => {
       'Content-Type': 'application/json',
     };
 
-    // Include org and project IDs if available
-    if (OPENAI_ORG_ID) {
-      headers['OpenAI-Organization'] = OPENAI_ORG_ID;
+    // Include org and project IDs if valid
+    const useOrg = OPENAI_ORG_ID && OPENAI_ORG_ID.startsWith('org_');
+    const useProj = OPENAI_PROJECT_ID && OPENAI_PROJECT_ID.startsWith('proj_');
+    if (useOrg) {
+      headers['OpenAI-Organization'] = OPENAI_ORG_ID!;
     }
-    if (OPENAI_PROJECT_ID) {
-      headers['OpenAI-Project'] = OPENAI_PROJECT_ID;
+    if (useProj) {
+      headers['OpenAI-Project'] = OPENAI_PROJECT_ID!;
     }
+    console.log('OpenAI routing headers applied (TTS):', { org: !!useOrg, project: !!useProj });
 
     const response = await fetch('https://api.openai.com/v1/audio/speech', {
       method: 'POST',
