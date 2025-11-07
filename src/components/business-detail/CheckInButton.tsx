@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 interface CheckInButtonProps {
-  businessId: string | number;
+  businessId: string;
   businessName: string;
 }
 
@@ -24,7 +24,7 @@ const CheckInButton = ({ businessId, businessName }: CheckInButtonProps) => {
       setChecking(true);
       const success = await checkInAtBusiness(
         user.id,
-        String(businessId),
+        businessId,
         `Checked in at ${businessName}`
       );
 

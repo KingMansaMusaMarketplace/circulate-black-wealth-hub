@@ -4,12 +4,12 @@ import { Business } from '@/types/business';
 import { mapSupabaseBusinessToBusiness } from './mappers';
 
 // Function to fetch a single business by ID
-export async function fetchBusinessById(id: number): Promise<Business | null> {
+export async function fetchBusinessById(id: string): Promise<Business | null> {
   try {
     const { data, error } = await supabase
       .from('businesses')
       .select('*')
-      .eq('id', id.toString()) // Convert number ID to string for Supabase query
+      .eq('id', id)
       .single();
     
     if (error) {
