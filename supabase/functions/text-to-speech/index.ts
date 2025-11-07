@@ -22,6 +22,9 @@ serve(async (req) => {
     }
 
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
+    const OPENAI_ORG_ID = Deno.env.get('OPENAI_ORG_ID');
+    const OPENAI_PROJECT_ID = Deno.env.get('OPENAI_PROJECT_ID');
+
     if (!OPENAI_API_KEY) {
       console.error('OPENAI_API_KEY not configured');
       return new Response(
@@ -32,12 +35,22 @@ serve(async (req) => {
 
     console.log(`Converting text to speech: "${text.substring(0, 50)}..."`);
 
+    const headers: Record<string, string> = {
+      'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      'Content-Type': 'application/json',
+    };
+
+    // Include org and project IDs if available
+    if (OPENAI_ORG_ID) {
+      headers['OpenAI-Organization'] = OPENAI_ORG_ID;
+    }
+    if (OPENAI_PROJECT_ID) {
+      headers['OpenAI-Project'] = OPENAI_PROJECT_ID;
+    }
+
     const response = await fetch('https://api.openai.com/v1/audio/speech', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify({
         model: 'tts-1',
         input: text,
