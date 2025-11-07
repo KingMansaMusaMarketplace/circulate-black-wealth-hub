@@ -43,6 +43,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
     { to: '/referrals', label: 'Earn Rewards 🎁' },
     { to: '/share-impact', label: 'Share My Impact 📸' },
     { to: '/social-proof', label: 'Social Proof 🌟' },
+    { to: '/network', label: 'My Network 👥' },
     { to: '/about', label: 'About Us' },
     { to: '/scanner', label: 'QR Scanner', dataTour: 'qr-scanner' },
     { to: '/loyalty', label: 'Rewards' },

@@ -82,6 +82,7 @@ const LazyGroupChallengesPage = lazy(() => import('@/pages/GroupChallengesPage')
 const LazyReferralDashboard = lazy(() => import('@/pages/ReferralDashboard'));
 const LazyShareImpactPage = lazy(() => import('@/pages/ShareImpactPage'));
 const LazySocialProofPage = lazy(() => import('@/pages/SocialProofPage'));
+const LazyNetworkPage = lazy(() => import('@/pages/NetworkPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -344,6 +345,7 @@ function App() {
                               <Route path="/referrals" element={<LazyReferralDashboard />} />
                               <Route path="/share-impact" element={<LazyShareImpactPage />} />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
+                              <Route path="/network" element={<LazyNetworkPage />} />
                              
                               <Route path="/business-dashboard" element={<LazyDashboardPage />} />
                               <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />
@@ -459,6 +461,7 @@ function App() {
                            <Route path="/referrals" element={<LazyReferralDashboard />} />
                            <Route path="/share-impact" element={<LazyShareImpactPage />} />
                            <Route path="/social-proof" element={<LazySocialProofPage />} />
+                           <Route path="/network" element={<LazyNetworkPage />} />
                          
                           <Route path="/business-dashboard" element={<LazyDashboardPage />} />
                           <Route path="/business-analytics" element={<LazyBusinessAnalyticsPage />} />

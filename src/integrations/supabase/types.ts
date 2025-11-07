@@ -1753,6 +1753,33 @@ export type Database = {
           },
         ]
       }
+      friendships: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          friend_id: string
+          id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          friend_id: string
+          id?: string
+          status: string
+          user_id: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          friend_id?: string
+          id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       group_challenges: {
         Row: {
           challenge_type: string
@@ -3377,6 +3404,199 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      shared_shopping_lists: {
+        Row: {
+          created_at: string
+          creator_id: string
+          description: string | null
+          id: string
+          is_public: boolean | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          creator_id: string
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          creator_id?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      shopping_list_items: {
+        Row: {
+          added_by: string
+          business_id: string
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          id: string
+          is_completed: boolean | null
+          list_id: string
+          notes: string | null
+        }
+        Insert: {
+          added_by: string
+          business_id: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          id?: string
+          is_completed?: boolean | null
+          list_id: string
+          notes?: string | null
+        }
+        Update: {
+          added_by?: string
+          business_id?: string
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          id?: string
+          is_completed?: boolean | null
+          list_id?: string
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shopping_list_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shopping_list_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shopping_list_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shopping_list_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shopping_list_items_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "shared_shopping_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shopping_list_members: {
+        Row: {
+          id: string
+          joined_at: string
+          list_id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          list_id: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          list_id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shopping_list_members_list_id_fkey"
+            columns: ["list_id"]
+            isOneToOne: false
+            referencedRelation: "shared_shopping_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      social_activity_feed: {
+        Row: {
+          activity_type: string
+          business_id: string | null
+          created_at: string
+          id: string
+          is_public: boolean | null
+          metadata: Json | null
+          user_id: string
+        }
+        Insert: {
+          activity_type: string
+          business_id?: string | null
+          created_at?: string
+          id?: string
+          is_public?: boolean | null
+          metadata?: Json | null
+          user_id: string
+        }
+        Update: {
+          activity_type?: string
+          business_id?: string | null
+          created_at?: string
+          id?: string
+          is_public?: boolean | null
+          metadata?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "social_activity_feed_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_activity_feed_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_activity_feed_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_activity_feed_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       social_shares: {
         Row: {
