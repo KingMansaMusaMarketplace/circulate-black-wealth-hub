@@ -263,9 +263,10 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-50">
-      {interimTranscript && (
-        <div className="bg-background/95 backdrop-blur-sm border border-border rounded-lg px-4 py-2 max-w-md">
-          <p className="text-sm text-muted-foreground italic">{interimTranscript}</p>
+      {isRecording && interimTranscript && (
+        <div className="bg-background/95 backdrop-blur-sm border border-border rounded-lg px-4 py-2 max-w-md shadow-lg">
+          <p className="text-xs text-muted-foreground mb-1">You're saying:</p>
+          <p className="text-sm text-foreground">{interimTranscript}</p>
         </div>
       )}
       
@@ -279,7 +280,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           {isProcessing ? (
             <>
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Processing...
+              Kayla is thinking...
             </>
           ) : (
             <>
