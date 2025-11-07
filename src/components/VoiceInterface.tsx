@@ -20,6 +20,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSupported, setIsSupported] = useState(true);
+  const [interimTranscript, setInterimTranscript] = useState('');
   const recognitionRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -98,22 +99,40 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       }
 
       const recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
+      recognition.continuous = true;
+      recognition.interimResults = true;
       recognition.lang = 'en-US';
+      recognition.maxAlternatives = 3;
 
       recognition.onstart = () => {
         setIsRecording(true);
+        setInterimTranscript('');
         toast.success('Listening...', {
-          description: 'Speak now'
+          description: 'Speak clearly and naturally'
         });
       };
 
       recognition.onresult = async (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        console.log('You said:', transcript);
+        let finalTranscript = '';
+        let interim = '';
+        
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript + ' ';
+          } else {
+            interim += transcript;
+          }
+        }
+        
+        setInterimTranscript(interim);
+        
+        if (!finalTranscript) return;
+        
+        console.log('You said:', finalTranscript);
         
         setIsRecording(false);
+        setInterimTranscript('');
         setIsProcessing(true);
 
         try {
@@ -126,7 +145,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
             },
             body: JSON.stringify({
               messages: [
-                { role: 'user', content: transcript }
+                { role: 'user', content: finalTranscript.trim() }
               ]
             })
           });
@@ -219,6 +238,12 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-50">
+      {interimTranscript && (
+        <div className="bg-background/95 backdrop-blur-sm border border-border rounded-lg px-4 py-2 max-w-md">
+          <p className="text-sm text-muted-foreground italic">{interimTranscript}</p>
+        </div>
+      )}
+      
       {!isRecording ? (
         <Button 
           onClick={startRecording}
