@@ -21,6 +21,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSupported, setIsSupported] = useState(true);
   const [interimTranscript, setInterimTranscript] = useState('');
+  const [hasIntroduced, setHasIntroduced] = useState(false);
   const recognitionRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -93,6 +94,13 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
   const startRecording = async () => {
     try {
+      // First time introduction
+      if (!hasIntroduced) {
+        setHasIntroduced(true);
+        await speak("Welcome to Mansa Musa Marketplace. My name is Kayla, how can I help you?");
+        return;
+      }
+
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
         throw new Error('Speech recognition not supported in this browser');
