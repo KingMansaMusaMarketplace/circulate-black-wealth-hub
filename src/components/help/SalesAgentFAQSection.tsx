@@ -9,7 +9,7 @@ const SalesAgentFAQSection: React.FC = () => {
     },
     {
       question: "What commission rates do you offer?",
-      answer: "We offer competitive commission rates: 25% on business referrals and 15% on customer referrals. For recurring subscriptions, you'll continue earning monthly commissions as long as the customer remains active."
+      answer: "Sales agents earn 10-15% commission on business subscriptions only. Individual customer sign-ups do not earn commissions. For recurring business subscriptions, you'll continue earning monthly commissions for 2 years."
     },
     {
       question: "How and when do I get paid?",
@@ -33,7 +33,7 @@ const SalesAgentFAQSection: React.FC = () => {
     },
     {
       question: "Can I refer both businesses and individual customers?",
-      answer: "Yes! You can refer both businesses looking to sell on our platform and individual customers looking to buy. Each type of referral has different commission rates, with business referrals typically earning higher commissions."
+      answer: "Sales agents earn commissions only on business referrals (businesses listing products/services on our platform). Individual customer sign-ups do not earn commissions for sales agents. Focus on connecting with Black-owned businesses to maximize your earnings."
     },
     {
       question: "How do I share my referral code?",

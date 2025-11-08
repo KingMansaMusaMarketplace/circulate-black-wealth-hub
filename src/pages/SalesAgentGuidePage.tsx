@@ -98,15 +98,15 @@ const SalesAgentGuidePage: React.FC = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Customer Referrals */}
+            {/* Business Referrals */}
             <Card className="p-8 bg-white border-2 border-blue-100 hover:border-mansablue transition-all hover:shadow-xl">
               <div className="bg-gradient-to-br from-mansablue to-blue-600 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
                 <Target className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Customer Referrals</h3>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">Business Referrals</h3>
               <div className="text-4xl font-bold text-mansablue mb-4">10-15%</div>
               <p className="text-gray-600 mb-6">
-                Earn recurring monthly commissions on every business subscription you refer. Rates increase as you grow!
+                Earn recurring monthly commissions on every business subscription you refer. Rates increase as you grow! (Business sign-ups only, not individual customers)
               </p>
               <div className="space-y-2">
                 <div className="flex items-center text-sm">
@@ -167,7 +167,7 @@ const SalesAgentGuidePage: React.FC = () => {
               <div className="space-y-2">
                 <div className="flex items-center text-sm">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>Earn on their customer referrals</span>
+                  <span>Earn on their business referrals</span>
                 </div>
                 <div className="flex items-center text-sm">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
@@ -200,7 +200,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <div className="grid md:grid-cols-2 gap-8 mb-8">
               <div>
                 <label className="block text-sm font-semibold mb-2 text-gray-700">
-                  Monthly Customer Referrals
+                  Monthly Business Referrals
                 </label>
                 <Input
                   type="number"
@@ -209,7 +209,7 @@ const SalesAgentGuidePage: React.FC = () => {
                   onChange={(e) => setMonthlyReferrals(Number(e.target.value))}
                   className="text-lg"
                 />
-                <p className="text-xs text-gray-500 mt-1">Average: 3-10 per month</p>
+                <p className="text-xs text-gray-500 mt-1">Average: 3-10 businesses per month</p>
               </div>
               <div>
                 <label className="block text-sm font-semibold mb-2 text-gray-700">
@@ -228,7 +228,7 @@ const SalesAgentGuidePage: React.FC = () => {
 
             <div className="bg-white rounded-lg p-6 space-y-4">
               <div className="flex justify-between items-center pb-3 border-b">
-                <span className="text-gray-600">Customer Commissions (Monthly)</span>
+                <span className="text-gray-600">Business Commissions (Monthly)</span>
                 <span className="text-xl font-bold text-mansablue">${customerEarnings.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b">
@@ -445,7 +445,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <Card className="p-6 bg-white">
               <h3 className="text-lg font-bold mb-2 text-gray-900">How long do I earn commissions?</h3>
               <p className="text-gray-600">
-                You earn recurring commissions for TWO YEARS on every customer referral. That's 24 months of passive income from each business you refer!
+                You earn recurring commissions for TWO YEARS on every business referral. That's 24 months of passive income from each business you refer! Note: Commissions are only for business sign-ups, not individual customers.
               </p>
             </Card>
 
