@@ -8,6 +8,7 @@ import { formatCurrency } from '@/lib/utils';
 import ReferralsList from './ReferralsList';
 import CommissionsList from './CommissionsList';
 import ReferralCode from './ReferralCode';
+import BadgesShowcase from './BadgesShowcase';
 
 const AgentDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -68,9 +69,10 @@ const AgentDashboard: React.FC = () => {
       <ReferralCode referralCode={agent.referral_code} />
 
       <Tabs defaultValue="referrals" className="bg-white p-4 rounded-lg shadow border border-blue-100">
-        <TabsList className="grid grid-cols-4 mb-4 bg-blue-50">
+        <TabsList className="grid grid-cols-5 mb-4 bg-blue-50">
           <TabsTrigger value="referrals" className="data-[state=active]:bg-mansablue data-[state=active]:text-white">Customer Referrals</TabsTrigger>
           <TabsTrigger value="commissions" className="data-[state=active]:bg-mansablue data-[state=active]:text-white">Commissions</TabsTrigger>
+          <TabsTrigger value="achievements" className="data-[state=active]:bg-mansablue data-[state=active]:text-white">Achievements</TabsTrigger>
           <TabsTrigger value="team" className="data-[state=active]:bg-mansablue data-[state=active]:text-white">My Team</TabsTrigger>
           <TabsTrigger value="recruitment" className="data-[state=active]:bg-mansablue data-[state=active]:text-white">Recruitment</TabsTrigger>
         </TabsList>
@@ -79,6 +81,9 @@ const AgentDashboard: React.FC = () => {
         </TabsContent>
         <TabsContent value="commissions">
           <CommissionsList commissions={commissions} />
+        </TabsContent>
+        <TabsContent value="achievements">
+          <BadgesShowcase agentId={agent.id} />
         </TabsContent>
         <TabsContent value="team">
           <Card className="p-6">

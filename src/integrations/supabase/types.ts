@@ -109,6 +109,48 @@ export type Database = {
           },
         ]
       }
+      agent_badges: {
+        Row: {
+          category: Database["public"]["Enums"]["badge_category"]
+          created_at: string | null
+          description: string
+          icon_name: string
+          id: string
+          is_active: boolean | null
+          name: string
+          points: number | null
+          threshold_value: number
+          tier: Database["public"]["Enums"]["badge_tier"]
+          updated_at: string | null
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["badge_category"]
+          created_at?: string | null
+          description: string
+          icon_name: string
+          id?: string
+          is_active?: boolean | null
+          name: string
+          points?: number | null
+          threshold_value: number
+          tier: Database["public"]["Enums"]["badge_tier"]
+          updated_at?: string | null
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["badge_category"]
+          created_at?: string | null
+          description?: string
+          icon_name?: string
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          points?: number | null
+          threshold_value?: number
+          tier?: Database["public"]["Enums"]["badge_tier"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       agent_commissions: {
         Row: {
           amount: number
@@ -150,6 +192,45 @@ export type Database = {
           },
           {
             foreignKeyName: "agent_commissions_sales_agent_id_fkey"
+            columns: ["sales_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_earned_badges: {
+        Row: {
+          badge_id: string
+          earned_at: string | null
+          id: string
+          progress: number | null
+          sales_agent_id: string
+        }
+        Insert: {
+          badge_id: string
+          earned_at?: string | null
+          id?: string
+          progress?: number | null
+          sales_agent_id: string
+        }
+        Update: {
+          badge_id?: string
+          earned_at?: string | null
+          id?: string
+          progress?: number | null
+          sales_agent_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_earned_badges_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "agent_badges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_earned_badges_sales_agent_id_fkey"
             columns: ["sales_agent_id"]
             isOneToOne: false
             referencedRelation: "sales_agents"
@@ -5065,6 +5146,10 @@ export type Database = {
         Returns: Json
       }
       can_access_admin_features: { Args: never; Returns: boolean }
+      check_and_award_badges: {
+        Args: { p_sales_agent_id: string }
+        Returns: undefined
+      }
       check_and_update_agent_tier: {
         Args: { agent_id_param: string }
         Returns: undefined
@@ -5135,6 +5220,23 @@ export type Database = {
           verification_id: string
           verification_status: string
           verified_at: string
+        }[]
+      }
+      get_agent_badges_with_progress: {
+        Args: { p_sales_agent_id: string }
+        Returns: {
+          badge_id: string
+          category: Database["public"]["Enums"]["badge_category"]
+          description: string
+          earned_at: string
+          icon_name: string
+          is_earned: boolean
+          name: string
+          points: number
+          progress: number
+          progress_percentage: number
+          threshold_value: number
+          tier: Database["public"]["Enums"]["badge_tier"]
         }[]
       }
       get_agent_leaderboard: {
@@ -5706,6 +5808,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "customer" | "business" | "sales_agent"
+      badge_category: "referrals" | "earnings" | "recruitment" | "special"
+      badge_tier: "bronze" | "silver" | "gold" | "platinum" | "diamond"
       hbcu_verification_status: "pending" | "approved" | "rejected"
       subscription_tier: "free" | "paid" | "business_starter"
       user_role: "customer" | "business" | "admin" | "sales_agent"
@@ -5837,6 +5941,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "customer", "business", "sales_agent"],
+      badge_category: ["referrals", "earnings", "recruitment", "special"],
+      badge_tier: ["bronze", "silver", "gold", "platinum", "diamond"],
       hbcu_verification_status: ["pending", "approved", "rejected"],
       subscription_tier: ["free", "paid", "business_starter"],
       user_role: ["customer", "business", "admin", "sales_agent"],
