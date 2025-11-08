@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 interface VoiceInterfaceProps {
   onSpeakingChange?: (speaking: boolean) => void;
@@ -68,6 +69,10 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
       
+      // Mobile-specific audio setup
+      audio.setAttribute('playsinline', 'true'); // Prevent fullscreen on iOS
+      audio.preload = 'auto';
+      
       // iOS requires loading before playing
       audio.load();
       
@@ -79,26 +84,38 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         onSpeakingChange?.(false);
       };
       
-      audio.onerror = () => {
+      audio.onerror = (e) => {
+        console.error('Audio error:', e);
         URL.revokeObjectURL(audioUrl);
         audioRef.current = null;
         setAssistantSpeaking(false);
         setProcessingStage(null);
         onSpeakingChange?.(false);
         toast.error('Audio Error', {
-          description: 'Failed to play audio response'
+          description: 'Failed to play audio. Please check your volume.'
         });
       };
       
-      // Handle iOS autoplay restrictions
+      // Handle mobile autoplay restrictions with retry
       try {
-        await audio.play();
-      } catch (playError) {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          await playPromise;
+        }
+      } catch (playError: any) {
         console.error('Audio playback error:', playError);
-        // iOS might block autoplay, inform user
-        toast.error('Audio Playback', {
-          description: 'Please tap to hear the response'
-        });
+        
+        // Try to play again after user interaction
+        if (playError.name === 'NotAllowedError') {
+          toast.error('Tap to Play', {
+            description: 'Tap the button again to hear Kayla\'s response',
+            duration: 5000
+          });
+        } else {
+          toast.error('Playback Failed', {
+            description: 'Unable to play audio. Please check your device settings.'
+          });
+        }
         throw playError;
       }
     } catch (error) {
@@ -106,14 +123,18 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       onSpeakingChange?.(false);
       setAssistantSpeaking(false);
       setProcessingStage(null);
-      toast.error('Speech Error', {
-        description: error instanceof Error ? error.message : 'Failed to generate speech'
-      });
     }
   };
 
   const startRecording = async () => {
     try {
+      // Haptic feedback for mobile
+      try {
+        await Haptics.impact({ style: ImpactStyle.Medium });
+      } catch (e) {
+        // Haptics not available (web or unsupported device)
+      }
+
       // First time introduction (once per session)
       if (!hasIntroducedInSession()) {
         markIntroduced();
@@ -121,28 +142,47 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         return;
       }
 
-      // Request microphone access with iOS-compatible settings
+      // Check for microphone support
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        toast.error('Not Supported', {
+          description: 'Your browser doesn\'t support audio recording'
+        });
+        return;
+      }
+
+      // Request microphone access with mobile-optimized settings
       const stream = await navigator.mediaDevices.getUserMedia({ 
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
-          autoGainControl: true
+          autoGainControl: true,
+          sampleRate: 48000 // Better quality for mobile
         } 
       });
       
       audioChunksRef.current = [];
       
-      // Detect iOS and use compatible MIME type
+      // Detect device and use best compatible MIME type
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isAndroid = /Android/.test(navigator.userAgent);
       let mimeType = 'audio/webm';
       
       if (isIOS) {
-        // iOS Safari doesn't support webm, fall back to mp4
+        // iOS Safari priority: mp4 > wav
         if (MediaRecorder.isTypeSupported('audio/mp4')) {
           mimeType = 'audio/mp4';
         } else if (MediaRecorder.isTypeSupported('audio/wav')) {
           mimeType = 'audio/wav';
         }
+        console.log('iOS detected, using MIME type:', mimeType);
+      } else if (isAndroid) {
+        // Android Chrome usually supports webm
+        if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+          mimeType = 'audio/webm;codecs=opus';
+        } else if (MediaRecorder.isTypeSupported('audio/webm')) {
+          mimeType = 'audio/webm';
+        }
+        console.log('Android detected, using MIME type:', mimeType);
       }
       
       const mediaRecorder = new MediaRecorder(stream, { mimeType });
@@ -263,15 +303,33 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         description: 'Speak now, then press Stop'
       });
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error starting recording:', error);
-      toast.error('Failed to start recording', {
-        description: error instanceof Error ? error.message : 'Microphone access denied'
+      
+      let errorMessage = 'Unable to access microphone';
+      if (error.name === 'NotAllowedError') {
+        errorMessage = 'Microphone permission denied. Please enable it in your device settings.';
+      } else if (error.name === 'NotFoundError') {
+        errorMessage = 'No microphone found on your device';
+      } else if (error.name === 'NotReadableError') {
+        errorMessage = 'Microphone is being used by another app';
+      }
+      
+      toast.error('Recording Error', {
+        description: errorMessage,
+        duration: 5000
       });
     }
   };
 
   const stopRecording = () => {
+    // Haptic feedback for mobile
+    try {
+      Haptics.impact({ style: ImpactStyle.Light });
+    } catch (e) {
+      // Haptics not available
+    }
+
     // Forcefully stop any playing audio
     if (audioRef.current) {
       audioRef.current.pause();
@@ -296,8 +354,13 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           onClick={assistantSpeaking ? stopRecording : startRecording}
           disabled={isProcessing}
           size="lg"
-          className="bg-primary hover:bg-primary/90 text-white shadow-lg touch-target"
-          style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
+          className="bg-primary hover:bg-primary/90 text-white shadow-lg min-w-[200px] min-h-[56px] text-base"
+          style={{ 
+            touchAction: 'manipulation', 
+            WebkitTapHighlightColor: 'transparent',
+            WebkitUserSelect: 'none',
+            userSelect: 'none'
+          }}
         >
           {isProcessing ? (
             <>
@@ -319,8 +382,13 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           onClick={stopRecording}
           size="lg"
           variant="destructive"
-          className="shadow-lg animate-pulse touch-target"
-          style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
+          className="shadow-lg animate-pulse min-w-[200px] min-h-[56px] text-base"
+          style={{ 
+            touchAction: 'manipulation', 
+            WebkitTapHighlightColor: 'transparent',
+            WebkitUserSelect: 'none',
+            userSelect: 'none'
+          }}
         >
           <MicOff className="mr-2 h-5 w-5" />
           Stop Recording
