@@ -83,6 +83,7 @@ const LazyReferralDashboard = lazy(() => import('@/pages/ReferralDashboard'));
 const LazyShareImpactPage = lazy(() => import('@/pages/ShareImpactPage'));
 const LazySocialProofPage = lazy(() => import('@/pages/SocialProofPage'));
 const LazyNetworkPage = lazy(() => import('@/pages/NetworkPage'));
+const LazyLeaderboardPage = lazy(() => import('@/pages/LeaderboardPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -324,6 +325,7 @@ function App() {
                               <Route path="/sales-agent-signup" element={<SalesAgentSignupPage />} />
                               <Route path="/sales-agent-dashboard" element={<SalesAgentDashboardPage />} />
                               <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
+                              <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
                               <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
                               <Route path="/business/:businessId" element={<BusinessDetailPage />} />
                               <Route path="/loyalty" element={<RewardsPage />} />
@@ -442,6 +444,7 @@ function App() {
                         <Route path="/sales-agent-signup" element={<SalesAgentSignupPage />} />
                         <Route path="/sales-agent-dashboard" element={<SalesAgentDashboardPage />} />
                         <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
+                        <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
                         <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
                         <Route path="/business/:businessId" element={<BusinessDetailPage />} />
                         <Route path="/loyalty" element={<RewardsPage />} />

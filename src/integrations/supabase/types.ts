@@ -4915,6 +4915,18 @@ export type Database = {
           verified_at: string
         }[]
       }
+      get_agent_leaderboard: {
+        Args: { p_limit?: number; p_time_period?: string }
+        Returns: {
+          active_referrals: number
+          agent_id: string
+          agent_name: string
+          rank: number
+          referral_code: string
+          tier: string
+          total_referrals: number
+        }[]
+      }
       get_agent_referral_codes: {
         Args: never
         Returns: {
