@@ -399,3 +399,18 @@ export const getRecruitedAgents = async (agentId: string) => {
     return [];
   }
 };
+
+// Get agent tier progress
+export const getAgentTierProgress = async (agentId: string) => {
+  try {
+    const { data, error } = await supabase.rpc('get_agent_tier_progress', {
+      agent_id_param: agentId
+    });
+
+    if (error) throw error;
+    return data?.[0] || null;
+  } catch (error) {
+    console.error('Error fetching tier progress:', error);
+    return null;
+  }
+};

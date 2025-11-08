@@ -4734,6 +4734,10 @@ export type Database = {
         Returns: Json
       }
       can_access_admin_features: { Args: never; Returns: boolean }
+      check_and_update_agent_tier: {
+        Args: { agent_id_param: string }
+        Returns: undefined
+      }
       check_auth_rate_limit_secure: {
         Args: { p_email: string; p_ip?: unknown }
         Returns: Json
@@ -4806,6 +4810,16 @@ export type Database = {
         Returns: {
           is_active: boolean
           referral_code: string
+        }[]
+      }
+      get_agent_tier_progress: {
+        Args: { agent_id_param: string }
+        Returns: {
+          current_referrals: number
+          current_tier: string
+          next_tier: string
+          next_tier_threshold: number
+          progress_percentage: number
         }[]
       }
       get_application_details: {
