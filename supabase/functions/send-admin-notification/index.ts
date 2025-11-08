@@ -5,7 +5,6 @@ import { Resend } from "https://esm.sh/resend@2.0.0";
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-const adminEmail = Deno.env.get("ADMIN_EMAIL")!;
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
@@ -33,6 +32,95 @@ interface AdminNotificationRequest {
   };
 }
 
+/**
+ * Get admin notification preferences from database
+ */
+const getNotificationPreferences = async () => {
+  try {
+    // Get first admin user's preferences (you can modify this to get specific admin)
+    const { data, error } = await supabase
+      .from('admin_notification_preferences')
+      .select('*')
+      .limit(1)
+      .single();
+
+    if (error || !data) {
+      console.log('No preferences found, using defaults');
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error fetching preferences:', error);
+    return null;
+  }
+};
+
+/**
+ * Check if notification should be sent based on preferences
+ */
+const shouldSendNotification = (
+  preferences: any,
+  type: string,
+  milestoneData?: { type: string; value: number }
+): boolean => {
+  if (!preferences) return true; // Default: send all notifications
+
+  // Check if immediate notifications are enabled
+  if (!preferences.send_immediate) return false;
+
+  // Check business verification
+  if (type === 'business_verification_submitted') {
+    return preferences.business_verification_enabled;
+  }
+
+  // Check agent milestone
+  if (type === 'agent_milestone_reached' && milestoneData) {
+    if (!preferences.agent_milestone_enabled) return false;
+
+    const { type: milestoneType, value } = milestoneData;
+
+    // Check referral milestones
+    if (milestoneType.startsWith('referrals_')) {
+      if (!preferences.milestone_referrals_enabled) return false;
+      if (value < preferences.min_referral_milestone) return false;
+    }
+
+    // Check earnings milestones
+    if (milestoneType.startsWith('earnings_')) {
+      if (!preferences.milestone_earnings_enabled) return false;
+      if (value < preferences.min_earnings_milestone) return false;
+    }
+
+    // Check conversion milestones
+    if (milestoneType.startsWith('conversion_')) {
+      if (!preferences.milestone_conversion_enabled) return false;
+      if (value < preferences.min_conversion_milestone) return false;
+    }
+  }
+
+  return true;
+};
+
+/**
+ * Get email recipients from preferences
+ */
+const getRecipients = (preferences: any): string[] => {
+  const adminEmail = Deno.env.get("ADMIN_EMAIL");
+  
+  if (!preferences) {
+    return adminEmail ? [adminEmail] : [];
+  }
+
+  const recipients: string[] = [preferences.notification_email];
+  
+  if (preferences.send_to_multiple_emails && preferences.send_to_multiple_emails.length > 0) {
+    recipients.push(...preferences.send_to_multiple_emails);
+  }
+
+  return recipients.filter(email => email && email.trim() !== '');
+};
+
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -42,6 +130,38 @@ const handler = async (req: Request): Promise<Response> => {
     const { type, data }: AdminNotificationRequest = await req.json();
 
     console.log(`Processing admin notification: ${type}`);
+
+    // Get notification preferences
+    const preferences = await getNotificationPreferences();
+
+    // Check if notification should be sent
+    const milestoneData = type === 'agent_milestone_reached' && data.milestoneType && data.milestoneValue
+      ? { type: data.milestoneType, value: data.milestoneValue }
+      : undefined;
+
+    if (!shouldSendNotification(preferences, type, milestoneData)) {
+      console.log('Notification blocked by preferences');
+      return new Response(JSON.stringify({ 
+        success: true,
+        message: 'Notification blocked by preferences'
+      }), {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
+
+    // Get recipients
+    const recipients = getRecipients(preferences);
+    if (recipients.length === 0) {
+      console.error('No recipients configured');
+      return new Response(JSON.stringify({ 
+        success: false,
+        error: 'No recipients configured'
+      }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
     let subject = "";
     let htmlContent = "";
@@ -233,11 +353,11 @@ const handler = async (req: Request): Promise<Response> => {
         throw new Error(`Unknown notification type: ${type}`);
     }
 
-    console.log(`Sending admin notification to ${adminEmail}`);
+    console.log(`Sending admin notification to ${recipients.join(', ')}`);
     
     const emailResponse = await resend.emails.send({
       from: "Mansa Musa Admin <onboarding@resend.dev>",
-      to: [adminEmail],
+      to: recipients,
       subject: subject,
       html: htmlContent,
     });

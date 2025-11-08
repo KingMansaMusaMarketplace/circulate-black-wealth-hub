@@ -6,9 +6,10 @@ import AdminAnalyticsDashboard from '@/components/admin/AdminAnalyticsDashboard'
 import VerificationQueue from '@/components/admin/verification/VerificationQueue';
 import SalesAgentAnalytics from '@/components/admin/SalesAgentAnalytics';
 import QRCodeMetrics from '@/components/admin/QRCodeMetrics';
+import NotificationPreferences from '@/components/admin/NotificationPreferences';
 import RequireAdmin from '@/components/auth/RequireAdmin';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart3, Users, QrCode, ShieldCheck } from 'lucide-react';
+import { BarChart3, Users, QrCode, ShieldCheck, Settings } from 'lucide-react';
 
 const AdminDashboardPage: React.FC = () => {
   const { user, userType } = useAuth();
@@ -32,7 +33,7 @@ const AdminDashboardPage: React.FC = () => {
           </div>
 
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="overview" className="flex items-center gap-2">
                 <BarChart3 className="h-4 w-4" />
                 Overview
@@ -48,6 +49,10 @@ const AdminDashboardPage: React.FC = () => {
               <TabsTrigger value="qr-metrics" className="flex items-center gap-2">
                 <QrCode className="h-4 w-4" />
                 QR Metrics
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="flex items-center gap-2">
+                <Settings className="h-4 w-4" />
+                Settings
               </TabsTrigger>
             </TabsList>
 
@@ -65,6 +70,10 @@ const AdminDashboardPage: React.FC = () => {
 
             <TabsContent value="qr-metrics" className="space-y-6">
               <QRCodeMetrics />
+            </TabsContent>
+
+            <TabsContent value="settings" className="space-y-6">
+              <NotificationPreferences />
             </TabsContent>
           </Tabs>
         </div>

@@ -109,6 +109,69 @@ export type Database = {
           },
         ]
       }
+      admin_notification_preferences: {
+        Row: {
+          admin_user_id: string
+          agent_milestone_enabled: boolean | null
+          business_verification_enabled: boolean | null
+          created_at: string | null
+          digest_time: string | null
+          id: string
+          milestone_conversion_enabled: boolean | null
+          milestone_earnings_enabled: boolean | null
+          milestone_referrals_enabled: boolean | null
+          min_conversion_milestone: number | null
+          min_earnings_milestone: number | null
+          min_referral_milestone: number | null
+          notification_email: string
+          send_daily_digest: boolean | null
+          send_immediate: boolean | null
+          send_to_multiple_emails: string[] | null
+          send_weekly_digest: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          admin_user_id: string
+          agent_milestone_enabled?: boolean | null
+          business_verification_enabled?: boolean | null
+          created_at?: string | null
+          digest_time?: string | null
+          id?: string
+          milestone_conversion_enabled?: boolean | null
+          milestone_earnings_enabled?: boolean | null
+          milestone_referrals_enabled?: boolean | null
+          min_conversion_milestone?: number | null
+          min_earnings_milestone?: number | null
+          min_referral_milestone?: number | null
+          notification_email: string
+          send_daily_digest?: boolean | null
+          send_immediate?: boolean | null
+          send_to_multiple_emails?: string[] | null
+          send_weekly_digest?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          admin_user_id?: string
+          agent_milestone_enabled?: boolean | null
+          business_verification_enabled?: boolean | null
+          created_at?: string | null
+          digest_time?: string | null
+          id?: string
+          milestone_conversion_enabled?: boolean | null
+          milestone_earnings_enabled?: boolean | null
+          milestone_referrals_enabled?: boolean | null
+          min_conversion_milestone?: number | null
+          min_earnings_milestone?: number | null
+          min_referral_milestone?: number | null
+          notification_email?: string
+          send_daily_digest?: boolean | null
+          send_immediate?: boolean | null
+          send_to_multiple_emails?: string[] | null
+          send_weekly_digest?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       agent_badges: {
         Row: {
           category: Database["public"]["Enums"]["badge_category"]
@@ -5283,6 +5346,35 @@ export type Database = {
           is_active: boolean
           referral_code: string
         }[]
+      }
+      get_admin_notification_preferences: {
+        Args: { p_admin_id: string }
+        Returns: {
+          admin_user_id: string
+          agent_milestone_enabled: boolean | null
+          business_verification_enabled: boolean | null
+          created_at: string | null
+          digest_time: string | null
+          id: string
+          milestone_conversion_enabled: boolean | null
+          milestone_earnings_enabled: boolean | null
+          milestone_referrals_enabled: boolean | null
+          min_conversion_milestone: number | null
+          min_earnings_milestone: number | null
+          min_referral_milestone: number | null
+          notification_email: string
+          send_daily_digest: boolean | null
+          send_immediate: boolean | null
+          send_to_multiple_emails: string[] | null
+          send_weekly_digest: boolean | null
+          updated_at: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "admin_notification_preferences"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       get_admin_verification_queue: {
         Args: never
