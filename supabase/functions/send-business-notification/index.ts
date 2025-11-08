@@ -86,12 +86,16 @@ const handler = async (req: Request): Promise<Response> => {
         break;
     }
 
+    console.log(`Sending ${type} email to ${recipientEmail}`);
+    
     const emailResponse = await resend.emails.send({
       from: "Mansa Musa Marketplace <onboarding@resend.dev>",
       to: [recipientEmail],
       subject: subject,
       html: htmlContent,
     });
+    
+    console.log("Resend API response:", emailResponse);
 
     // Record notification in database
     const { error: dbError } = await supabase
