@@ -1259,6 +1259,73 @@ export type Database = {
           },
         ]
       }
+      commission_payments: {
+        Row: {
+          amount: number
+          batch_id: string | null
+          commission_id: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          paid_at: string | null
+          payment_method: string
+          sales_agent_id: string
+          status: string
+          stripe_payout_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          batch_id?: string | null
+          commission_id?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string
+          sales_agent_id: string
+          status?: string
+          stripe_payout_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          batch_id?: string | null
+          commission_id?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          payment_method?: string
+          sales_agent_id?: string
+          status?: string
+          stripe_payout_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commission_payments_batch_id_fkey"
+            columns: ["batch_id"]
+            isOneToOne: false
+            referencedRelation: "payment_batches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_payments_commission_id_fkey"
+            columns: ["commission_id"]
+            isOneToOne: false
+            referencedRelation: "agent_commissions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_payments_sales_agent_id_fkey"
+            columns: ["sales_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       community_aggregate_metrics: {
         Row: {
           created_at: string
@@ -2284,6 +2351,48 @@ export type Database = {
           title?: string
           type?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      payment_batches: {
+        Row: {
+          batch_number: string
+          created_at: string
+          id: string
+          notes: string | null
+          payment_date: string
+          processed_at: string | null
+          processed_by: string | null
+          status: string
+          total_amount: number
+          total_commissions: number
+          updated_at: string
+        }
+        Insert: {
+          batch_number: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          payment_date: string
+          processed_at?: string | null
+          processed_by?: string | null
+          status?: string
+          total_amount?: number
+          total_commissions?: number
+          updated_at?: string
+        }
+        Update: {
+          batch_number?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          payment_date?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          status?: string
+          total_amount?: number
+          total_commissions?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -4777,6 +4886,7 @@ export type Database = {
       }
       delete_user_account_immediate: { Args: never; Returns: Json }
       expire_challenges: { Args: never; Returns: undefined }
+      generate_batch_number: { Args: never; Returns: string }
       generate_invoice_number: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_white_label_api_key: {
@@ -5175,6 +5285,10 @@ export type Database = {
       }
       process_business_referral: {
         Args: { p_business_id: string; p_referral_code: string }
+        Returns: Json
+      }
+      process_commission_payment: {
+        Args: { p_batch_id?: string; p_commission_id: string }
         Returns: Json
       }
       process_pending_commissions: { Args: never; Returns: undefined }
