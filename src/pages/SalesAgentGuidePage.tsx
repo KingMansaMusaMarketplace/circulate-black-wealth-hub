@@ -445,7 +445,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <Card className="p-6 bg-white">
               <h3 className="text-lg font-bold mb-2 text-gray-900">How long do I earn commissions?</h3>
               <p className="text-gray-600">
-                You earn recurring commissions for as long as your referred business maintains an active subscription. Customer referrals can provide income for years!
+                You earn recurring commissions for TWO YEARS on every customer referral. That's 24 months of passive income from each business you refer!
               </p>
             </Card>
 
