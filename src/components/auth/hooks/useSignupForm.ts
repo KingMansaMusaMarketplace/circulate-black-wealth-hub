@@ -130,10 +130,50 @@ export const useSignupForm = () => {
             const agent = await getSalesAgentByReferralCode(values.referralCode);
             if (agent && agent.id) {
               // Import milestone tracker dynamically to avoid circular dependencies
-              import('@/lib/api/milestone-tracker').then(({ trackAndNotifyMilestones }) => {
-                trackAndNotifyMilestones(agent.id).catch(error => {
+              import('@/lib/api/milestone-tracker').then(async ({ trackAndNotifyMilestones }) => {
+                try {
+                  const milestone = await trackAndNotifyMilestones(agent.id);
+                  
+                  // Send admin notification about milestone (batched if enabled)
+                  if (milestone) {
+                    const { queueBatchedNotification, isBatchingEnabled } = await import('@/lib/api/notification-batcher');
+                    
+                    const batchingEnabled = await isBatchingEnabled();
+                    
+                    if (batchingEnabled) {
+                      // Queue for batching
+                      await queueBatchedNotification({
+                        notificationType: 'agent_milestone',
+                        eventData: {
+                          agentId: agent.id,
+                          agentName: agent.full_name || 'Unknown Agent',
+                          agentEmail: agent.email || '',
+                          milestoneType: milestone.type,
+                          value: milestone.value,
+                          achievedAt: new Date().toISOString(),
+                        },
+                      });
+                    } else {
+                      // Send immediately
+                      const { supabase } = await import('@/lib/supabase');
+                      await supabase.functions.invoke('send-admin-notification', {
+                        body: {
+                          notificationType: 'agent_milestone',
+                          eventData: {
+                            agentId: agent.id,
+                            agentName: agent.full_name || 'Unknown Agent',
+                            agentEmail: agent.email || '',
+                            milestoneType: milestone.type,
+                            value: milestone.value,
+                            achievedAt: new Date().toISOString(),
+                          },
+                        },
+                      });
+                    }
+                  }
+                } catch (error) {
                   console.error('Failed to track milestones:', error);
-                });
+                }
               });
             }
           } catch (conversionError) {

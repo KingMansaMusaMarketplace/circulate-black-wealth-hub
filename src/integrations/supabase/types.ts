@@ -113,13 +113,16 @@ export type Database = {
         Row: {
           admin_user_id: string
           agent_milestone_enabled: boolean | null
+          batch_window_minutes: number | null
           business_verification_enabled: boolean | null
           created_at: string | null
           digest_time: string | null
+          enable_batching: boolean | null
           id: string
           milestone_conversion_enabled: boolean | null
           milestone_earnings_enabled: boolean | null
           milestone_referrals_enabled: boolean | null
+          min_batch_size: number | null
           min_conversion_milestone: number | null
           min_earnings_milestone: number | null
           min_referral_milestone: number | null
@@ -133,13 +136,16 @@ export type Database = {
         Insert: {
           admin_user_id: string
           agent_milestone_enabled?: boolean | null
+          batch_window_minutes?: number | null
           business_verification_enabled?: boolean | null
           created_at?: string | null
           digest_time?: string | null
+          enable_batching?: boolean | null
           id?: string
           milestone_conversion_enabled?: boolean | null
           milestone_earnings_enabled?: boolean | null
           milestone_referrals_enabled?: boolean | null
+          min_batch_size?: number | null
           min_conversion_milestone?: number | null
           min_earnings_milestone?: number | null
           min_referral_milestone?: number | null
@@ -153,13 +159,16 @@ export type Database = {
         Update: {
           admin_user_id?: string
           agent_milestone_enabled?: boolean | null
+          batch_window_minutes?: number | null
           business_verification_enabled?: boolean | null
           created_at?: string | null
           digest_time?: string | null
+          enable_batching?: boolean | null
           id?: string
           milestone_conversion_enabled?: boolean | null
           milestone_earnings_enabled?: boolean | null
           milestone_referrals_enabled?: boolean | null
+          min_batch_size?: number | null
           min_conversion_milestone?: number | null
           min_earnings_milestone?: number | null
           min_referral_milestone?: number | null
@@ -2648,6 +2657,69 @@ export type Database = {
           name?: string
           slug?: string
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      notification_batch_queue: {
+        Row: {
+          batch_id: string | null
+          batch_key: string
+          created_at: string
+          event_data: Json
+          id: string
+          notification_type: string
+          processed_at: string | null
+        }
+        Insert: {
+          batch_id?: string | null
+          batch_key: string
+          created_at?: string
+          event_data: Json
+          id?: string
+          notification_type: string
+          processed_at?: string | null
+        }
+        Update: {
+          batch_id?: string | null
+          batch_key?: string
+          created_at?: string
+          event_data?: Json
+          id?: string
+          notification_type?: string
+          processed_at?: string | null
+        }
+        Relationships: []
+      }
+      notification_batches: {
+        Row: {
+          batch_key: string
+          created_at: string
+          event_count: number
+          events: Json
+          id: string
+          notification_type: string
+          recipients: string[]
+          sent_at: string
+        }
+        Insert: {
+          batch_key: string
+          created_at?: string
+          event_count?: number
+          events?: Json
+          id?: string
+          notification_type: string
+          recipients: string[]
+          sent_at?: string
+        }
+        Update: {
+          batch_key?: string
+          created_at?: string
+          event_count?: number
+          events?: Json
+          id?: string
+          notification_type?: string
+          recipients?: string[]
+          sent_at?: string
         }
         Relationships: []
       }
@@ -5319,6 +5391,7 @@ export type Database = {
         Returns: Json
       }
       cleanup_old_audit_logs: { Args: never; Returns: undefined }
+      cleanup_old_batch_queue: { Args: never; Returns: undefined }
       create_sales_agent_application_secure: {
         Args: {
           p_business_experience?: string
@@ -5352,13 +5425,16 @@ export type Database = {
         Returns: {
           admin_user_id: string
           agent_milestone_enabled: boolean | null
+          batch_window_minutes: number | null
           business_verification_enabled: boolean | null
           created_at: string | null
           digest_time: string | null
+          enable_batching: boolean | null
           id: string
           milestone_conversion_enabled: boolean | null
           milestone_earnings_enabled: boolean | null
           milestone_referrals_enabled: boolean | null
+          min_batch_size: number | null
           min_conversion_milestone: number | null
           min_earnings_milestone: number | null
           min_referral_milestone: number | null

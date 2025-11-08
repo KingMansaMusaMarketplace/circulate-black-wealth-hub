@@ -96,23 +96,49 @@ export const submitVerificationRequest = async (
       .single();
 
     if (!businessError && business) {
-      // Send admin notification about new verification submission
+      // Get owner profile for notification
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('full_name, email')
+        .eq('id', business.owner_id)
+        .single();
+
+      // Send admin notification (batched if enabled)
       try {
-        await supabase.functions.invoke('send-admin-notification', {
-          body: {
-            type: 'business_verification_submitted',
-            data: {
+        const { queueBatchedNotification, isBatchingEnabled } = await import('@/lib/api/notification-batcher');
+        
+        const batchingEnabled = await isBatchingEnabled();
+        
+        if (batchingEnabled) {
+          // Queue for batching
+          await queueBatchedNotification({
+            notificationType: 'business_verification',
+            eventData: {
               businessId: businessId,
               businessName: business.business_name,
-              ownerEmail: business.email,
-              verificationId: verificationData.id
-            }
-          }
-        });
-        console.log('Admin notification sent for business verification');
-      } catch (notificationError) {
-        console.error('Failed to send admin notification:', notificationError);
-        // Don't fail the verification submission if notification fails
+              ownerName: profileData?.full_name || 'Unknown',
+              ownerEmail: profileData?.email || business.email,
+              submittedAt: new Date().toISOString(),
+            },
+          });
+        } else {
+          // Send immediately
+          await supabase.functions.invoke('send-admin-notification', {
+            body: {
+              notificationType: 'business_verification',
+              eventData: {
+                businessId: businessId,
+                businessName: business.business_name,
+                ownerName: profileData?.full_name || 'Unknown',
+                ownerEmail: profileData?.email || business.email,
+                submittedAt: new Date().toISOString(),
+              },
+            },
+          });
+        }
+      } catch (notifError) {
+        console.error('Failed to send admin notification:', notifError);
+        // Don't fail the whole operation if notification fails
       }
     }
 

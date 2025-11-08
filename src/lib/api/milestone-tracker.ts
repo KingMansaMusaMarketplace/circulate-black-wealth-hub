@@ -169,6 +169,7 @@ export const notifyAgentMilestones = async (
 
 /**
  * Track and notify milestone achievement
+ * Returns the first milestone achieved (if any)
  */
 export const trackAndNotifyMilestones = async (
   agentId: string,
@@ -177,10 +178,18 @@ export const trackAndNotifyMilestones = async (
     totalEarned?: number;
     conversionRate?: number;
   }
-): Promise<void> => {
+): Promise<{ type: string; value: number } | null> => {
   const newMilestones = await checkAgentMilestones(agentId, previousStats);
   
   if (newMilestones.length > 0) {
     await notifyAgentMilestones(agentId, newMilestones);
+    // Return first milestone with its current value
+    const firstMilestone = newMilestones[0];
+    return {
+      type: firstMilestone.type,
+      value: firstMilestone.threshold
+    };
   }
+  
+  return null;
 };

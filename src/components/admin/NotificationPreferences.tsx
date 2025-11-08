@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Slider } from '@/components/ui/slider';
 import { Loader2, Bell, Mail, Clock, TrendingUp, DollarSign, Target, Save } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
@@ -27,7 +28,12 @@ const NotificationPreferences: React.FC = () => {
     setLoading(true);
     const prefs = await getAdminNotificationPreferences();
     if (prefs) {
-      setPreferences(prefs);
+      setPreferences({
+        ...prefs,
+        enable_batching: prefs.enable_batching ?? true,
+        batch_window_minutes: prefs.batch_window_minutes ?? 5,
+        min_batch_size: prefs.min_batch_size ?? 2,
+      });
       setAdditionalEmails(prefs.send_to_multiple_emails?.join(', ') || '');
     }
     setLoading(false);
@@ -58,7 +64,10 @@ const NotificationPreferences: React.FC = () => {
       send_weekly_digest: preferences.send_weekly_digest,
       digest_time: preferences.digest_time,
       notification_email: preferences.notification_email,
-      send_to_multiple_emails: emailArray.length > 0 ? emailArray : null
+      send_to_multiple_emails: emailArray.length > 0 ? emailArray : null,
+      enable_batching: preferences.enable_batching ?? true,
+      batch_window_minutes: preferences.batch_window_minutes ?? 5,
+      min_batch_size: preferences.min_batch_size ?? 2,
     };
 
     const success = await updateAdminNotificationPreferences(updates);
@@ -68,7 +77,7 @@ const NotificationPreferences: React.FC = () => {
     setSaving(false);
   };
 
-  const updatePreference = <K extends keyof AdminNotificationPreferences>(
+  const handlePreferenceChange = <K extends keyof AdminNotificationPreferences>(
     key: K,
     value: AdminNotificationPreferences[K]
   ) => {
@@ -134,7 +143,7 @@ const NotificationPreferences: React.FC = () => {
                 id="notification_email"
                 type="email"
                 value={preferences.notification_email}
-                onChange={(e) => updatePreference('notification_email', e.target.value)}
+                onChange={(e) => handlePreferenceChange('notification_email', e.target.value)}
                 placeholder="admin@example.com"
               />
               <p className="text-xs text-muted-foreground">
@@ -167,7 +176,76 @@ const NotificationPreferences: React.FC = () => {
             </CardTitle>
             <CardDescription>Choose when to receive notifications</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
+            <div>
+              <Label className="text-base font-semibold">Notification Batching</Label>
+              <p className="text-sm text-muted-foreground mb-4">
+                Group similar notifications to reduce email volume
+              </p>
+              
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="enable_batching">Enable Smart Batching</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Group similar notifications within a time window
+                    </p>
+                  </div>
+                  <Switch
+                    id="enable_batching"
+                    checked={preferences.enable_batching ?? true}
+                    onCheckedChange={(checked) =>
+                      handlePreferenceChange('enable_batching', checked)
+                    }
+                  />
+                </div>
+
+                {(preferences.enable_batching ?? true) && (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="batch_window_minutes">
+                        Batch Window: {preferences.batch_window_minutes ?? 5} minutes
+                      </Label>
+                      <p className="text-sm text-muted-foreground">
+                        Notifications within this time window will be grouped together
+                      </p>
+                      <Slider
+                        id="batch_window_minutes"
+                        min={1}
+                        max={30}
+                        step={1}
+                        value={[preferences.batch_window_minutes ?? 5]}
+                        onValueChange={(value) =>
+                          handlePreferenceChange('batch_window_minutes', value[0])
+                        }
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="min_batch_size">
+                        Minimum Batch Size: {preferences.min_batch_size ?? 2} events
+                      </Label>
+                      <p className="text-sm text-muted-foreground">
+                        Only batch if this many notifications occur
+                      </p>
+                      <Slider
+                        id="min_batch_size"
+                        min={2}
+                        max={10}
+                        step={1}
+                        value={[preferences.min_batch_size ?? 2]}
+                        onValueChange={(value) =>
+                          handlePreferenceChange('min_batch_size', value[0])
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <Separator />
+
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label>Immediate Notifications</Label>
@@ -177,7 +255,7 @@ const NotificationPreferences: React.FC = () => {
               </div>
               <Switch
                 checked={preferences.send_immediate}
-                onCheckedChange={(checked) => updatePreference('send_immediate', checked)}
+                onCheckedChange={(checked) => handlePreferenceChange('send_immediate', checked)}
               />
             </div>
 
@@ -192,7 +270,7 @@ const NotificationPreferences: React.FC = () => {
               </div>
               <Switch
                 checked={preferences.send_daily_digest}
-                onCheckedChange={(checked) => updatePreference('send_daily_digest', checked)}
+                onCheckedChange={(checked) => handlePreferenceChange('send_daily_digest', checked)}
               />
             </div>
 
@@ -205,7 +283,7 @@ const NotificationPreferences: React.FC = () => {
               </div>
               <Switch
                 checked={preferences.send_weekly_digest}
-                onCheckedChange={(checked) => updatePreference('send_weekly_digest', checked)}
+                onCheckedChange={(checked) => handlePreferenceChange('send_weekly_digest', checked)}
               />
             </div>
 
@@ -216,7 +294,7 @@ const NotificationPreferences: React.FC = () => {
                   id="digest_time"
                   type="time"
                   value={preferences.digest_time}
-                  onChange={(e) => updatePreference('digest_time', e.target.value)}
+                  onChange={(e) => handlePreferenceChange('digest_time', e.target.value)}
                 />
               </div>
             )}
@@ -242,7 +320,7 @@ const NotificationPreferences: React.FC = () => {
               </div>
               <Switch
                 checked={preferences.business_verification_enabled}
-                onCheckedChange={(checked) => updatePreference('business_verification_enabled', checked)}
+                onCheckedChange={(checked) => handlePreferenceChange('business_verification_enabled', checked)}
               />
             </div>
           </div>
@@ -260,7 +338,7 @@ const NotificationPreferences: React.FC = () => {
               </div>
               <Switch
                 checked={preferences.agent_milestone_enabled}
-                onCheckedChange={(checked) => updatePreference('agent_milestone_enabled', checked)}
+                onCheckedChange={(checked) => handlePreferenceChange('agent_milestone_enabled', checked)}
               />
             </div>
 
@@ -280,7 +358,7 @@ const NotificationPreferences: React.FC = () => {
                     </div>
                     <Switch
                       checked={preferences.milestone_referrals_enabled}
-                      onCheckedChange={(checked) => updatePreference('milestone_referrals_enabled', checked)}
+                      onCheckedChange={(checked) => handlePreferenceChange('milestone_referrals_enabled', checked)}
                     />
                   </div>
                   {preferences.milestone_referrals_enabled && (
@@ -293,7 +371,7 @@ const NotificationPreferences: React.FC = () => {
                         type="number"
                         min="1"
                         value={preferences.min_referral_milestone}
-                        onChange={(e) => updatePreference('min_referral_milestone', parseInt(e.target.value) || 1)}
+                        onChange={(e) => handlePreferenceChange('min_referral_milestone', parseInt(e.target.value) || 1)}
                         className="w-32"
                       />
                       <p className="text-xs text-muted-foreground">
@@ -317,7 +395,7 @@ const NotificationPreferences: React.FC = () => {
                     </div>
                     <Switch
                       checked={preferences.milestone_earnings_enabled}
-                      onCheckedChange={(checked) => updatePreference('milestone_earnings_enabled', checked)}
+                      onCheckedChange={(checked) => handlePreferenceChange('milestone_earnings_enabled', checked)}
                     />
                   </div>
                   {preferences.milestone_earnings_enabled && (
@@ -331,7 +409,7 @@ const NotificationPreferences: React.FC = () => {
                         min="0"
                         step="100"
                         value={preferences.min_earnings_milestone}
-                        onChange={(e) => updatePreference('min_earnings_milestone', parseFloat(e.target.value) || 100)}
+                        onChange={(e) => handlePreferenceChange('min_earnings_milestone', parseFloat(e.target.value) || 100)}
                         className="w-32"
                       />
                       <p className="text-xs text-muted-foreground">
@@ -355,7 +433,7 @@ const NotificationPreferences: React.FC = () => {
                     </div>
                     <Switch
                       checked={preferences.milestone_conversion_enabled}
-                      onCheckedChange={(checked) => updatePreference('milestone_conversion_enabled', checked)}
+                      onCheckedChange={(checked) => handlePreferenceChange('milestone_conversion_enabled', checked)}
                     />
                   </div>
                   {preferences.milestone_conversion_enabled && (
@@ -370,7 +448,7 @@ const NotificationPreferences: React.FC = () => {
                         max="100"
                         step="5"
                         value={preferences.min_conversion_milestone}
-                        onChange={(e) => updatePreference('min_conversion_milestone', parseFloat(e.target.value) || 50)}
+                        onChange={(e) => handlePreferenceChange('min_conversion_milestone', parseFloat(e.target.value) || 50)}
                         className="w-32"
                       />
                       <p className="text-xs text-muted-foreground">

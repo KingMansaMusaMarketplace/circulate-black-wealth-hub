@@ -18,6 +18,9 @@ export interface AdminNotificationPreferences {
   digest_time: string;
   notification_email: string;
   send_to_multiple_emails: string[] | null;
+  enable_batching?: boolean;
+  batch_window_minutes?: number;
+  min_batch_size?: number;
   created_at: string;
   updated_at: string;
 }
