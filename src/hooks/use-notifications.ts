@@ -1,102 +1,130 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import { toast } from 'sonner';
+
+interface Notification {
+  id: string;
+  type: string;
+  title: string;
+  message: string;
+  link: string | null;
+  read: boolean;
+  created_at: string;
+  metadata: any;
+}
 
 export const useNotifications = () => {
   const { user } = useAuth();
-  const queryClient = useQueryClient();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch user notifications
-  const { data: notifications, isLoading } = useQuery({
-    queryKey: ['notifications', user?.id],
-    queryFn: async () => {
-      if (!user) return [];
+  // Fetch initial notifications
+  useEffect(() => {
+    if (!user) return;
 
-      const { data, error } = await supabase
+    const fetchNotifications = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('notifications')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(50);
+
+        if (error) throw error;
+
+        setNotifications(data || []);
+        setUnreadCount(data?.filter(n => !n.read).length || 0);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, [user]);
+
+  // Subscribe to real-time notifications
+  useEffect(() => {
+    if (!user) return;
+
+    const channel = supabase
+      .channel('notifications-channel')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+          filter: `user_id=eq.${user.id}`
+        },
+        (payload) => {
+          const newNotification = payload.new as Notification;
+          
+          // Add to notifications list
+          setNotifications(prev => [newNotification, ...prev]);
+          setUnreadCount(prev => prev + 1);
+
+          // Show toast notification
+          toast(newNotification.title, {
+            description: newNotification.message,
+            action: newNotification.link ? {
+              label: 'View',
+              onClick: () => window.location.href = newNotification.link!
+            } : undefined,
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user]);
+
+  const markAsRead = async (notificationId: string) => {
+    try {
+      const { error } = await supabase
         .from('notifications')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(50);
+        .update({ read: true, read_at: new Date().toISOString() })
+        .eq('id', notificationId);
 
       if (error) throw error;
-      return data || [];
-    },
-    enabled: !!user,
-  });
 
-  // Get unread count
-  const unreadCount = notifications?.filter(n => !n.read).length || 0;
-
-  // Mark notification as read
-  const markAsReadMutation = useMutation({
-    mutationFn: async (notificationId: string) => {
-      const { error } = await supabase.rpc('mark_notification_read', {
-        notification_id: notificationId
-      });
-
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
-    },
-    onError: (error) => {
+      setNotifications(prev =>
+        prev.map(n => n.id === notificationId ? { ...n, read: true } : n)
+      );
+      setUnreadCount(prev => Math.max(0, prev - 1));
+    } catch (error) {
       console.error('Error marking notification as read:', error);
-      toast.error('Failed to mark notification as read');
-    },
-  });
+    }
+  };
 
-  // Mark all as read
-  const markAllAsReadMutation = useMutation({
-    mutationFn: async () => {
-      const { error } = await supabase.rpc('mark_all_notifications_read');
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
-      toast.success('All notifications marked as read');
-    },
-    onError: (error) => {
-      console.error('Error marking all as read:', error);
-      toast.error('Failed to mark all as read');
-    },
-  });
-
-  // Create notification (for testing)
-  const createNotificationMutation = useMutation({
-    mutationFn: async (notification: {
-      type: string;
-      title: string;
-      message: string;
-      link?: string;
-      metadata?: any;
-    }) => {
-      if (!user) throw new Error('User not authenticated');
-
-      const { data, error } = await supabase
+  const markAllAsRead = async () => {
+    try {
+      const { error } = await supabase
         .from('notifications')
-        .insert({
-          user_id: user.id,
-          ...notification
-        })
-        .select()
-        .single();
+        .update({ read: true, read_at: new Date().toISOString() })
+        .eq('user_id', user?.id)
+        .eq('read', false);
 
       if (error) throw error;
-      return data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications'] });
-    },
-  });
+
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+      setUnreadCount(0);
+    } catch (error) {
+      console.error('Error marking all notifications as read:', error);
+    }
+  };
 
   return {
-    notifications: notifications || [],
+    notifications,
     unreadCount,
     isLoading,
-    markAsRead: markAsReadMutation.mutate,
-    markAllAsRead: markAllAsReadMutation.mutate,
-    createNotification: createNotificationMutation.mutate,
+    markAsRead,
+    markAllAsRead
   };
 };

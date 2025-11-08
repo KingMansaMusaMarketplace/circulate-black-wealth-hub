@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSalesAgent } from '@/hooks/use-sales-agent';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
+import NotificationBell from '@/components/notifications/NotificationBell';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -151,28 +152,31 @@ const SalesAgentDashboardPage: React.FC = () => {
             </p>
           </div>
           
-          <Card className="w-full sm:w-auto">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium">Your Referral Code</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex items-center gap-2">
-                <code className="text-2xl font-bold bg-muted px-3 py-1 rounded">
-                  {agent.referral_code}
-                </code>
-              </div>
-              <div className="flex gap-2">
-                <Button size="sm" variant="outline" onClick={copyReferralCode}>
-                  <Copy className="h-4 w-4 mr-1" />
-                  Copy Code
-                </Button>
-                <Button size="sm" variant="outline" onClick={copyReferralLink}>
-                  <Share2 className="h-4 w-4 mr-1" />
-                  Copy Link
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <div className="flex items-center gap-2">
+            <NotificationBell />
+            <Card className="w-full sm:w-auto">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium">Your Referral Code</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <code className="text-2xl font-bold bg-muted px-3 py-1 rounded">
+                    {agent.referral_code}
+                  </code>
+                </div>
+                <div className="flex gap-2">
+                  <Button size="sm" variant="outline" onClick={copyReferralCode}>
+                    <Copy className="h-4 w-4 mr-1" />
+                    Copy Code
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={copyReferralLink}>
+                    <Share2 className="h-4 w-4 mr-1" />
+                    Copy Link
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Stats Overview */}

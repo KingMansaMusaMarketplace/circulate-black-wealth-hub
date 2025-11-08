@@ -1,122 +1,112 @@
 import React from 'react';
-import { useNotifications } from '@/hooks/use-notifications';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { 
-  Sparkles, 
-  Award, 
-  Flame, 
-  TrendingUp, 
-  Users, 
-  Bell 
-} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { CheckCheck, Sparkles, DollarSign, TrendingUp, Bell } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import { cn } from '@/lib/utils';
+import { useNotifications } from '@/hooks/use-notifications';
 
 interface NotificationsListProps {
-  onClose: () => void;
+  onClose?: () => void;
 }
 
-export const NotificationsList: React.FC<NotificationsListProps> = ({ onClose }) => {
-  const { notifications, markAsRead, markAllAsRead, isLoading, unreadCount } = useNotifications();
+const NotificationsList: React.FC<NotificationsListProps> = ({ onClose }) => {
   const navigate = useNavigate();
+  const { notifications, isLoading, markAsRead, markAllAsRead, unreadCount } = useNotifications();
 
   const getIcon = (type: string) => {
     switch (type) {
-      case 'recommendation':
-        return <Sparkles className="h-4 w-4 text-primary" />;
-      case 'achievement':
-        return <Award className="h-4 w-4 text-orange-500" />;
-      case 'streak':
-        return <Flame className="h-4 w-4 text-orange-500" />;
-      case 'investment':
-        return <TrendingUp className="h-4 w-4 text-green-500" />;
-      case 'circle':
-        return <Users className="h-4 w-4 text-blue-500" />;
+      case 'new_referral':
+        return <TrendingUp className="h-5 w-5 text-blue-500" />;
+      case 'commission_earned':
+      case 'commission_paid':
+        return <DollarSign className="h-5 w-5 text-green-500" />;
+      case 'tier_upgrade':
+        return <Sparkles className="h-5 w-5 text-purple-500" />;
       default:
-        return <Bell className="h-4 w-4 text-gray-500" />;
+        return <Sparkles className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
   const handleNotificationClick = (notification: any) => {
-    if (!notification.read) {
-      markAsRead(notification.id);
-    }
+    markAsRead(notification.id);
     if (notification.link) {
       navigate(notification.link);
-      onClose();
+      onClose?.();
     }
   };
 
   if (isLoading) {
     return (
       <div className="p-4">
-        <p className="text-sm text-muted-foreground text-center">Loading notifications...</p>
+        <div className="h-32 bg-muted animate-pulse rounded" />
       </div>
     );
   }
 
   return (
-    <div className="w-full">
-      <div className="p-4 flex items-center justify-between">
+    <div className="flex flex-col">
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b">
         <h3 className="font-semibold">Notifications</h3>
         {unreadCount > 0 && (
-          <Button
-            variant="ghost"
+          <Button 
+            variant="ghost" 
             size="sm"
-            onClick={() => markAllAsRead()}
-            className="text-xs"
+            onClick={markAllAsRead}
+            className="h-8"
           >
+            <CheckCheck className="h-4 w-4 mr-1" />
             Mark all read
           </Button>
         )}
       </div>
 
-      <Separator />
-
-      {notifications.length === 0 ? (
-        <div className="p-8 text-center">
-          <Bell className="h-12 w-12 text-muted-foreground mx-auto mb-2 opacity-50" />
-          <p className="text-sm text-muted-foreground">No notifications yet</p>
-        </div>
-      ) : (
-        <ScrollArea className="h-[400px]">
-          <div className="p-2">
+      {/* Notifications List */}
+      <ScrollArea className="h-96">
+        {notifications.length === 0 ? (
+          <div className="p-8 text-center text-muted-foreground">
+            <Bell className="h-12 w-12 mx-auto mb-2 opacity-50" />
+            <p>No notifications yet</p>
+          </div>
+        ) : (
+          <div className="divide-y">
             {notifications.map((notification) => (
               <div
                 key={notification.id}
+                className={`p-4 hover:bg-muted/50 cursor-pointer transition-colors ${
+                  !notification.read ? 'bg-primary/5' : ''
+                }`}
                 onClick={() => handleNotificationClick(notification)}
-                className={cn(
-                  'p-3 rounded-lg mb-2 cursor-pointer transition-colors',
-                  notification.read
-                    ? 'hover:bg-muted/50'
-                    : 'bg-primary/5 hover:bg-primary/10'
-                )}
               >
                 <div className="flex items-start gap-3">
-                  <div className="mt-1">{getIcon(notification.type)}</div>
+                  <div className="mt-0.5">
+                    {getIcon(notification.type)}
+                  </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium line-clamp-1">
-                      {notification.title}
-                    </p>
-                    <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="font-medium text-sm">
+                        {notification.title}
+                      </p>
+                      {!notification.read && (
+                        <div className="h-2 w-2 rounded-full bg-primary flex-shrink-0 mt-1" />
+                      )}
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-1">
                       {notification.message}
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="text-xs text-muted-foreground mt-2">
                       {formatDistanceToNow(new Date(notification.created_at), { addSuffix: true })}
                     </p>
                   </div>
-                  {!notification.read && (
-                    <div className="w-2 h-2 bg-primary rounded-full mt-2" />
-                  )}
                 </div>
               </div>
             ))}
           </div>
-        </ScrollArea>
-      )}
+        )}
+      </ScrollArea>
     </div>
   );
 };
+
+export default NotificationsList;

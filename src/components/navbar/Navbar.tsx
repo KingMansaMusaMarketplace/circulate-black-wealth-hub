@@ -9,7 +9,7 @@ import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserMenu from './UserMenu';
 import MobileMenu from './MobileMenu';
-import { NotificationBell } from '@/components/notifications/NotificationBell';
+import NotificationBell from '@/components/notifications/NotificationBell';
 
 interface NavbarProps {
   className?: string;
