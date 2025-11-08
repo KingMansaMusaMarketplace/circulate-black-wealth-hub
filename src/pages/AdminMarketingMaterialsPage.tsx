@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Edit, Trash2, Download, Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Trash2, Download, Eye, EyeOff, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -19,6 +19,7 @@ import {
 } from '@/lib/api/marketing-materials-api';
 import { MarketingMaterial, MarketingMaterialFormData, MaterialType } from '@/types/marketing-material';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
+import BulkUploadDialog from '@/components/marketing/BulkUploadDialog';
 
 const AdminMarketingMaterialsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const AdminMarketingMaterialsPage: React.FC = () => {
   const [materials, setMaterials] = useState<MarketingMaterial[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [bulkUploadOpen, setBulkUploadOpen] = useState(false);
   const [editingMaterial, setEditingMaterial] = useState<MarketingMaterial | null>(null);
   const [formData, setFormData] = useState<MarketingMaterialFormData>({
     title: '',
@@ -163,10 +165,16 @@ const AdminMarketingMaterialsPage: React.FC = () => {
                 Add, edit, and manage marketing materials for sales agents
               </p>
             </div>
-            <Button onClick={handleNewMaterial}>
-              <Plus className="mr-2 h-4 w-4" />
-              Add Material
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => setBulkUploadOpen(true)} variant="outline">
+                <Upload className="mr-2 h-4 w-4" />
+                Bulk Upload
+              </Button>
+              <Button onClick={handleNewMaterial}>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Material
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -312,6 +320,12 @@ const AdminMarketingMaterialsPage: React.FC = () => {
             </form>
           </DialogContent>
         </Dialog>
+
+        <BulkUploadDialog
+          open={bulkUploadOpen}
+          onOpenChange={setBulkUploadOpen}
+          onSuccess={loadMaterials}
+        />
       </div>
     </ResponsiveLayout>
   );
