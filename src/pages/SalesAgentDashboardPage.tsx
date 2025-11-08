@@ -15,6 +15,9 @@ import EarningsBreakdown from '@/components/sales-agent/dashboard/EarningsBreakd
 import TeamOverview from '@/components/sales-agent/dashboard/TeamOverview';
 import CommissionsTable from '@/components/sales-agent/dashboard/CommissionsTable';
 import TierProgressCard from '@/components/sales-agent/dashboard/TierProgressCard';
+import EarningsChart from '@/components/sales-agent/dashboard/EarningsChart';
+import ReferralsChart from '@/components/sales-agent/dashboard/ReferralsChart';
+import PerformanceMetrics from '@/components/sales-agent/dashboard/PerformanceMetrics';
 import {
   getAgentReferrals,
   getAgentCommissions,
@@ -185,6 +188,11 @@ const SalesAgentDashboardPage: React.FC = () => {
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
+            <PerformanceMetrics 
+              referrals={referrals} 
+              commissions={commissions}
+            />
+            
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <TierProgressCard agentId={agent.id} />
               <div className="lg:col-span-2">
@@ -196,6 +204,16 @@ const SalesAgentDashboardPage: React.FC = () => {
                 />
               </div>
             </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <EarningsChart
+                commissions={commissions}
+                teamOverrides={teamOverrides}
+                recruitmentBonuses={recruitmentBonuses}
+              />
+              <ReferralsChart referrals={referrals} />
+            </div>
+            
             <ReferralsList referrals={referrals.slice(0, 5)} isLoading={isLoadingData} />
             <TeamOverview
               recruitedAgents={recruitedAgents}
