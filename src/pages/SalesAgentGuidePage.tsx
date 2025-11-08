@@ -31,7 +31,10 @@ const SalesAgentGuidePage: React.FC = () => {
   const baseCommissionRate = 0.10; // 10% starting rate
   const customerEarnings = monthlyReferrals * avgSubscription * baseCommissionRate;
   const recruitmentBonus = recruitedAgents * 75;
-  const teamOverride = recruitedAgents * 3 * avgSubscription * 0.075; // Assume each recruited agent gets 3 referrals
+  // Team override is 7.5% of recruited agents' commissions (not their sales)
+  // Assume each recruited agent gets 3 referrals at 10% commission
+  const recruitedAgentsCommissions = recruitedAgents * 3 * avgSubscription * baseCommissionRate;
+  const teamOverride = recruitedAgentsCommissions * 0.075;
   const totalMonthly = customerEarnings + teamOverride;
   const totalWithBonus = totalMonthly + recruitmentBonus;
 
