@@ -2345,6 +2345,141 @@ export type Database = {
         }
         Relationships: []
       }
+      material_categories: {
+        Row: {
+          color: string | null
+          created_at: string | null
+          description: string | null
+          icon: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          color?: string | null
+          created_at?: string | null
+          description?: string | null
+          icon?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      material_category_assignments: {
+        Row: {
+          category_id: string
+          created_at: string | null
+          id: string
+          material_id: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string | null
+          id?: string
+          material_id: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string | null
+          id?: string
+          material_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "material_category_assignments_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "material_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "material_category_assignments_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "marketing_materials"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      material_tag_assignments: {
+        Row: {
+          created_at: string | null
+          id: string
+          material_id: string
+          tag_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          material_id: string
+          tag_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          material_id?: string
+          tag_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "material_tag_assignments_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "marketing_materials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "material_tag_assignments_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "material_tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      material_tags: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          slug: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          slug: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          slug?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       notification_preferences: {
         Row: {
           created_at: string | null
@@ -5214,6 +5349,29 @@ export type Database = {
           silver_downloads: number
           total_downloads: number
           unique_agents: number
+        }[]
+      }
+      get_materials_with_filters: {
+        Args: {
+          p_category_ids?: string[]
+          p_tag_ids?: string[]
+          p_type?: string
+        }
+        Returns: {
+          categories: Json
+          created_at: string
+          description: string
+          dimensions: string
+          download_count: number
+          file_size: number
+          file_url: string
+          id: string
+          is_active: boolean
+          tags: Json
+          thumbnail_url: string
+          title: string
+          type: string
+          updated_at: string
         }[]
       }
       get_parent_business_analytics: {

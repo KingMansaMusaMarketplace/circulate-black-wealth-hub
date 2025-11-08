@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Share2, Image, Mail, MessageSquare, FileText, ArrowLeft } from 'lucide-react';
+import { Download, Share2, Image, Mail, MessageSquare, FileText, ArrowLeft, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { nativeShare, copyToClipboard } from '@/utils/social-share';
@@ -10,6 +12,9 @@ import { getMarketingMaterials } from '@/lib/api/marketing-materials-api';
 import { MarketingMaterial, MaterialType } from '@/types/marketing-material';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { getCategories, getTags, getMaterialsWithFilters } from '@/lib/api/material-categories-api';
+import { MaterialCategory, MaterialTag, MaterialWithCategoriesAndTags } from '@/types/material-category';
+import MaterialFilters from '@/components/marketing/MaterialFilters';
 
 
 const getIconForType = (type: MaterialType) => {
@@ -30,16 +35,45 @@ const getIconForType = (type: MaterialType) => {
 const MarketingMaterialsPage: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<string>('all');
-  const [materials, setMaterials] = useState<MarketingMaterial[]>([]);
+  const [materials, setMaterials] = useState<MaterialWithCategoriesAndTags[]>([]);
+  const [categories, setCategories] = useState<MaterialCategory[]>([]);
+  const [tags, setTags] = useState<MaterialTag[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  useEffect(() => {
+    loadFilters();
+  }, []);
 
   useEffect(() => {
     loadMaterials();
-  }, []);
+  }, [selectedCategories, selectedTags, activeTab]);
+
+  const loadFilters = async () => {
+    try {
+      const [categoriesData, tagsData] = await Promise.all([
+        getCategories(),
+        getTags()
+      ]);
+      setCategories(categoriesData);
+      setTags(tagsData);
+    } catch (error) {
+      console.error('Error loading filters:', error);
+      toast.error('Failed to load filters');
+    }
+  };
 
   const loadMaterials = async () => {
+    setLoading(true);
     try {
-      const data = await getMarketingMaterials();
+      const type = activeTab === 'all' ? undefined : activeTab;
+      const data = await getMaterialsWithFilters(
+        selectedCategories.length > 0 ? selectedCategories : undefined,
+        selectedTags.length > 0 ? selectedTags : undefined,
+        type
+      );
       setMaterials(data);
     } catch (error) {
       console.error('Error loading materials:', error);
@@ -89,6 +123,27 @@ const MarketingMaterialsPage: React.FC = () => {
     }
   };
 
+  const handleCategoryToggle = (categoryId: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(categoryId)
+        ? prev.filter(id => id !== categoryId)
+        : [...prev, categoryId]
+    );
+  };
+
+  const handleTagToggle = (tagId: string) => {
+    setSelectedTags(prev =>
+      prev.includes(tagId)
+        ? prev.filter(id => id !== tagId)
+        : [...prev, tagId]
+    );
+  };
+
+  const handleClearFilters = () => {
+    setSelectedCategories([]);
+    setSelectedTags([]);
+  };
+
   const filterMaterials = (type: string) => {
     if (type === 'all') return materials;
     return materials.filter(m => m.type === type);
@@ -129,6 +184,38 @@ const MarketingMaterialsPage: React.FC = () => {
                 Download promotional content to boost your referral efforts
               </p>
             </div>
+            <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline">
+                  <Filter className="mr-2 h-4 w-4" />
+                  Filters
+                  {(selectedCategories.length > 0 || selectedTags.length > 0) && (
+                    <Badge variant="secondary" className="ml-2">
+                      {selectedCategories.length + selectedTags.length}
+                    </Badge>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>Filter Materials</SheetTitle>
+                  <SheetDescription>
+                    Refine materials by categories and tags
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="mt-6">
+                  <MaterialFilters
+                    categories={categories}
+                    tags={tags}
+                    selectedCategories={selectedCategories}
+                    selectedTags={selectedTags}
+                    onCategoryToggle={handleCategoryToggle}
+                    onTagToggle={handleTagToggle}
+                    onClearFilters={handleClearFilters}
+                  />
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
 
@@ -170,12 +257,36 @@ const MarketingMaterialsPage: React.FC = () => {
                                   {material.dimensions}
                                 </p>
                               )}
-                              <p className="text-xs text-muted-foreground">
-                                {material.download_count} downloads
-                              </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {material.download_count} downloads
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                          {(material.categories.length > 0 || material.tags.length > 0) && (
+                            <div className="flex flex-wrap gap-1 mt-2">
+                              {material.categories.map(cat => (
+                                <Badge
+                                  key={cat.id}
+                                  variant="secondary"
+                                  style={cat.color ? { backgroundColor: cat.color + '20', color: cat.color } : undefined}
+                                  className="text-xs"
+                                >
+                                  {cat.name}
+                                </Badge>
+                              ))}
+                              {material.tags.slice(0, 3).map(tag => (
+                                <Badge key={tag.id} variant="outline" className="text-xs">
+                                  {tag.name}
+                                </Badge>
+                              ))}
+                              {material.tags.length > 3 && (
+                                <Badge variant="outline" className="text-xs">
+                                  +{material.tags.length - 3}
+                                </Badge>
+                              )}
+                            </div>
+                          )}
                       </CardHeader>
                       <CardContent>
                         <CardDescription className="mb-4">
