@@ -20,6 +20,7 @@ import EarningsChart from '@/components/sales-agent/dashboard/EarningsChart';
 import ReferralsChart from '@/components/sales-agent/dashboard/ReferralsChart';
 import PerformanceMetrics from '@/components/sales-agent/dashboard/PerformanceMetrics';
 import PaymentHistory from '@/components/sales-agent/dashboard/PaymentHistory';
+import ExportReports from '@/components/sales-agent/dashboard/ExportReports';
 import {
   getAgentReferrals,
   getAgentCommissions,
@@ -190,12 +191,13 @@ const SalesAgentDashboardPage: React.FC = () => {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="referrals">Referrals</TabsTrigger>
             <TabsTrigger value="team">Team</TabsTrigger>
             <TabsTrigger value="commissions">Commissions</TabsTrigger>
             <TabsTrigger value="payments">Payments</TabsTrigger>
+            <TabsTrigger value="export">Export</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-4">
@@ -251,6 +253,16 @@ const SalesAgentDashboardPage: React.FC = () => {
 
           <TabsContent value="payments">
             <PaymentHistory payments={payments} isLoading={isLoadingData} />
+          </TabsContent>
+
+          <TabsContent value="export">
+            <ExportReports
+              referrals={referrals}
+              commissions={commissions}
+              payments={payments}
+              agentName={agent.full_name}
+              agentCode={agent.referral_code}
+            />
           </TabsContent>
         </Tabs>
       </div>
