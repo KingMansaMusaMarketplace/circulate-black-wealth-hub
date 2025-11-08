@@ -10,6 +10,7 @@ import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import { getMaterialAnalytics, getDownloadTrends, MaterialAnalytics, DownloadTrend } from '@/lib/api/marketing-analytics-api';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { format, subDays } from 'date-fns';
+import { MaterialPerformanceInsights } from '@/components/marketing/MaterialPerformanceInsights';
 
 const COLORS = {
   bronze: '#CD7F32',
@@ -183,6 +184,9 @@ const MarketingAnalyticsPage: React.FC = () => {
             </CardContent>
           </Card>
         </div>
+
+        {/* AI Performance Insights */}
+        <MaterialPerformanceInsights dateRange={parseInt(dateRange)} />
 
         {/* Charts */}
         <Tabs defaultValue="trends" className="space-y-4">
