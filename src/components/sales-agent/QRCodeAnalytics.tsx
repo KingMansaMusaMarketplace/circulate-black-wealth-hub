@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart3, Eye, CheckCircle, TrendingUp, Users } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { BarChart3, Eye, CheckCircle, TrendingUp, Users, Download } from 'lucide-react';
 import { getQRCodeAnalytics, QRCodeAnalytics as QRAnalytics } from '@/lib/api/qr-analytics-api';
+import { exportAnalyticsToCSV } from '@/lib/api/qr-export';
 import { Skeleton } from '@/components/ui/skeleton';
+import { toast } from 'sonner';
 
 interface QRCodeAnalyticsProps {
   referralCode: string;
@@ -24,6 +27,13 @@ const QRCodeAnalytics: React.FC<QRCodeAnalyticsProps> = ({ referralCode }) => {
       fetchAnalytics();
     }
   }, [referralCode]);
+
+  const handleExport = () => {
+    if (analytics) {
+      exportAnalyticsToCSV(analytics, referralCode);
+      toast.success('Analytics exported to CSV');
+    }
+  };
 
   if (loading) {
     return (
@@ -83,10 +93,21 @@ const QRCodeAnalytics: React.FC<QRCodeAnalyticsProps> = ({ referralCode }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <BarChart3 className="h-5 w-5 text-primary" />
-          QR Code Analytics
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-primary" />
+            QR Code Analytics
+          </CardTitle>
+          <Button
+            onClick={handleExport}
+            variant="outline"
+            size="sm"
+            disabled={!analytics || analytics.total_scans === 0}
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Export CSV
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Main Stats Grid */}

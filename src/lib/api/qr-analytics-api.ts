@@ -28,9 +28,9 @@ export interface ScanHeatmapData {
 }
 
 /**
- * Track a QR code scan
+ * Track a QR code scan with optional email notification
  */
-export const trackQRCodeScan = async (referralCode: string): Promise<string | null> => {
+export const trackQRCodeScan = async (referralCode: string, sendNotification: boolean = true): Promise<string | null> => {
   try {
     const { data, error } = await supabase.rpc('track_qr_scan', {
       p_referral_code: referralCode,
@@ -43,7 +43,34 @@ export const trackQRCodeScan = async (referralCode: string): Promise<string | nu
       return null;
     }
 
-    return data;
+    const scanId = data;
+
+    // Send email notification if enabled
+    if (scanId && sendNotification) {
+      try {
+        // Get agent ID from referral code
+        const { data: agent } = await supabase
+          .from('sales_agents')
+          .select('id')
+          .eq('referral_code', referralCode)
+          .single();
+
+        if (agent) {
+          await supabase.functions.invoke('send-qr-scan-notification', {
+            body: {
+              salesAgentId: agent.id,
+              scanId: scanId,
+              notificationType: 'scan'
+            }
+          });
+        }
+      } catch (notifError) {
+        console.error('Error sending scan notification:', notifError);
+        // Don't fail the tracking if notification fails
+      }
+    }
+
+    return scanId;
   } catch (error) {
     console.error('Error tracking QR scan:', error);
     return null;
@@ -160,9 +187,9 @@ export const getQRScanHeatmap = async (salesAgentId: string, days: number = 30):
 };
 
 /**
- * Mark a QR code scan as converted (called after successful signup)
+ * Mark a QR code scan as converted with optional email notification
  */
-export const markQRScanConverted = async (referralCode: string, userId: string): Promise<boolean> => {
+export const markQRScanConverted = async (referralCode: string, userId: string, sendNotification: boolean = true): Promise<boolean> => {
   try {
     const { data, error } = await supabase.rpc('mark_qr_scan_converted', {
       p_referral_code: referralCode,
@@ -172,6 +199,43 @@ export const markQRScanConverted = async (referralCode: string, userId: string):
     if (error) {
       console.error('Error marking QR scan as converted:', error);
       return false;
+    }
+
+    // Send conversion notification if enabled
+    if (data === true && sendNotification) {
+      try {
+        // Get agent and scan details
+        const { data: agent } = await supabase
+          .from('sales_agents')
+          .select('id')
+          .eq('referral_code', referralCode)
+          .single();
+
+        if (agent) {
+          // Get the most recent scan that was just converted
+          const { data: scan } = await supabase
+            .from('qr_code_scans')
+            .select('id')
+            .eq('referral_code', referralCode)
+            .eq('converted', true)
+            .order('converted_at', { ascending: false })
+            .limit(1)
+            .single();
+
+          if (scan) {
+            await supabase.functions.invoke('send-qr-scan-notification', {
+              body: {
+                salesAgentId: agent.id,
+                scanId: scan.id,
+                notificationType: 'conversion'
+              }
+            });
+          }
+        }
+      } catch (notifError) {
+        console.error('Error sending conversion notification:', notifError);
+        // Don't fail the conversion if notification fails
+      }
     }
 
     return data === true;

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { History, CheckCircle2, Clock, Monitor, Smartphone, MapPin, Calendar } from 'lucide-react';
+import { History, CheckCircle2, Clock, Monitor, Smartphone, MapPin, Calendar, Download } from 'lucide-react';
 import { getRecentQRScans, QRCodeScan } from '@/lib/api/qr-analytics-api';
+import { exportScansToCSV } from '@/lib/api/qr-export';
 import { formatDate } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
+import { toast } from 'sonner';
 
 interface QRCodeScanHistoryProps {
   salesAgentId: string;
@@ -146,17 +148,35 @@ const QRCodeScanHistory: React.FC<QRCodeScanHistoryProps> = ({ salesAgentId, lim
     );
   }
 
+  const handleExport = () => {
+    if (scans.length > 0) {
+      exportScansToCSV(scans);
+      toast.success('Scan history exported to CSV');
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <History className="h-5 w-5 text-primary" />
-            Scan History
-          </CardTitle>
-          <Badge variant="secondary">
-            {scans.length} Recent Scan{scans.length !== 1 ? 's' : ''}
-          </Badge>
+          <div className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2">
+              <History className="h-5 w-5 text-primary" />
+              Scan History
+            </CardTitle>
+            <Badge variant="secondary">
+              {scans.length} Recent Scan{scans.length !== 1 ? 's' : ''}
+            </Badge>
+          </div>
+          <Button
+            onClick={handleExport}
+            variant="outline"
+            size="sm"
+            disabled={scans.length === 0}
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Export CSV
+          </Button>
         </div>
       </CardHeader>
       <CardContent>
