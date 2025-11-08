@@ -12,6 +12,12 @@ export interface SalesAgent {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  lifetime_referrals?: number;
+  tier?: string;
+  last_tier_update?: string;
+  recruited_by_agent_id?: string;
+  recruitment_date?: string;
+  team_override_end_date?: string;
 }
 
 export interface SalesAgentApplication {

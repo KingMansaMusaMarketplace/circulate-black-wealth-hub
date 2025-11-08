@@ -100,7 +100,8 @@ import QRScannerPage from './pages/QRScannerPage';
 import BusinessDetailPage from './pages/BusinessDetailPage';
 import BusinessDiscoveryPage from './pages/BusinessDiscoveryPage';
 import SalesAgentSignupPage from './pages/SalesAgentSignupPage';
-import SalesAgentGuidePage from './pages/SalesAgentGuidePage'; 
+import SalesAgentGuidePage from './pages/SalesAgentGuidePage';
+import SalesAgentDashboardPage from './pages/SalesAgentDashboardPage';
 import BusinessProfilePage from './pages/BusinessProfilePage';
 import ContactPage from './pages/ContactPage';
 import SupportPage from './pages/SupportPage';
@@ -321,6 +322,7 @@ function App() {
                               <Route path="/businesses" element={<BusinessDiscoveryPage />} />
                               <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
                               <Route path="/sales-agent-signup" element={<SalesAgentSignupPage />} />
+                              <Route path="/sales-agent-dashboard" element={<SalesAgentDashboardPage />} />
                               <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
                               <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
                               <Route path="/business/:businessId" element={<BusinessDetailPage />} />
@@ -438,6 +440,7 @@ function App() {
                         <Route path="/businesses" element={<BusinessDiscoveryPage />} />
                         <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
                         <Route path="/sales-agent-signup" element={<SalesAgentSignupPage />} />
+                        <Route path="/sales-agent-dashboard" element={<SalesAgentDashboardPage />} />
                         <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
                         <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
                         <Route path="/business/:businessId" element={<BusinessDetailPage />} />
