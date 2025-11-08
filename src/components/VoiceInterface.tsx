@@ -11,6 +11,7 @@ interface VoiceInterfaceProps {
 const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [processingStage, setProcessingStage] = useState<'transcribing' | 'thinking' | 'speaking' | null>(null);
   const [assistantSpeaking, setAssistantSpeaking] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -42,6 +43,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       // Wait a brief moment to ensure previous audio is fully stopped
       await new Promise(resolve => setTimeout(resolve, 100));
 
+      setProcessingStage('speaking');
       onSpeakingChange?.(true);
       setAssistantSpeaking(true);
       
@@ -73,6 +75,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         URL.revokeObjectURL(audioUrl);
         audioRef.current = null;
         setAssistantSpeaking(false);
+        setProcessingStage(null);
         onSpeakingChange?.(false);
       };
       
@@ -80,6 +83,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         URL.revokeObjectURL(audioUrl);
         audioRef.current = null;
         setAssistantSpeaking(false);
+        setProcessingStage(null);
         onSpeakingChange?.(false);
         toast.error('Audio Error', {
           description: 'Failed to play audio response'
@@ -101,6 +105,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       console.error('Error speaking:', error);
       onSpeakingChange?.(false);
       setAssistantSpeaking(false);
+      setProcessingStage(null);
       toast.error('Speech Error', {
         description: error instanceof Error ? error.message : 'Failed to generate speech'
       });
@@ -156,6 +161,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         stream.getTracks().forEach(track => track.stop());
         
         setIsProcessing(true);
+        setProcessingStage('transcribing');
 
         try {
           // Convert blob to base64
@@ -187,6 +193,8 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
           const { text: transcript } = await transcriptResponse.json();
           console.log('You said:', transcript);
+
+          setProcessingStage('thinking');
 
           // Get AI response using OpenAI
           const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`, {
@@ -239,6 +247,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
         } catch (error) {
           console.error('Voice assistant error:', error);
+          setProcessingStage(null);
           toast.error('Voice assistant error', {
             description: error instanceof Error ? error.message : 'Unknown error'
           });
@@ -277,6 +286,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     }
     
     setIsRecording(false);
+    setProcessingStage(null);
   };
 
   return (
@@ -292,7 +302,10 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           {isProcessing ? (
             <>
               <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Kayla is thinking...
+              {processingStage === 'transcribing' && 'Listening...'}
+              {processingStage === 'thinking' && 'Kayla is thinking...'}
+              {processingStage === 'speaking' && 'Kayla is speaking...'}
+              {!processingStage && 'Processing...'}
             </>
           ) : (
             <>
