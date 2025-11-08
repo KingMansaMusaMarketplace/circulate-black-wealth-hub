@@ -74,6 +74,7 @@ export const submitSalesAgentApplication = async (applicationData: {
   full_name: string;
   email: string;
   phone?: string;
+  recruiter_code?: string;
 }): Promise<void> => {
   // Use the new secure function to create application with personal data
   const { error } = await supabase.rpc('create_sales_agent_application_secure', {
@@ -87,6 +88,18 @@ export const submitSalesAgentApplication = async (applicationData: {
   });
 
   if (error) throw error;
+  
+  // If recruiter code provided, store it for later processing when agent is approved
+  if (applicationData.recruiter_code) {
+    const { error: metaError } = await supabase
+      .from('sales_agent_applications')
+      .update({ 
+        notes: `Recruited by agent with code: ${applicationData.recruiter_code}` 
+      })
+      .eq('user_id', applicationData.user_id);
+    
+    if (metaError) console.error('Error storing recruiter code:', metaError);
+  }
 };
 
 export const getSalesAgentApplication = async (): Promise<SalesAgentApplication | null> => {
@@ -320,6 +333,69 @@ export const getAgentCommissions = async (agentId: string) => {
     return data || [];
   } catch (error) {
     console.error('Error fetching agent commissions:', error);
+    return [];
+  }
+};
+
+// Recruitment-related API functions
+export const getRecruitmentBonuses = async (agentId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('agent_recruitment_bonuses')
+      .select('*')
+      .eq('recruiter_agent_id', agentId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching recruitment bonuses:', error);
+    return [];
+  }
+};
+
+export const getTeamOverrides = async (agentId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('agent_team_overrides')
+      .select('*')
+      .eq('recruiter_agent_id', agentId)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching team overrides:', error);
+    return [];
+  }
+};
+
+export const getRecruitedAgents = async (agentId: string) => {
+  try {
+    const { data, error } = await supabase
+      .from('sales_agents')
+      .select('id, full_name, email, referral_code, is_active, recruitment_date, team_override_end_date, total_earned')
+      .eq('recruited_by_agent_id', agentId)
+      .order('recruitment_date', { ascending: false });
+
+    if (error) throw error;
+    
+    // Calculate total referrals for each recruited agent
+    const agentsWithStats = await Promise.all((data || []).map(async (agent) => {
+      const { count } = await supabase
+        .from('referrals')
+        .select('*', { count: 'exact', head: true })
+        .eq('sales_agent_id', agent.id);
+      
+      return {
+        ...agent,
+        total_referrals: count || 0
+      };
+    }));
+
+    return agentsWithStats;
+  } catch (error) {
+    console.error('Error fetching recruited agents:', error);
     return [];
   }
 };

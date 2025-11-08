@@ -60,6 +60,7 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
         full_name: values.full_name,
         email: values.email,
         phone: values.phone,
+        recruiter_code: values.recruiter_code,
       });
       
       toast.success('Your application has been submitted successfully!');
