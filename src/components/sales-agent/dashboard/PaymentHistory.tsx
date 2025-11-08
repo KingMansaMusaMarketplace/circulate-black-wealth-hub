@@ -1,61 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { DollarSign, Calendar, Receipt } from 'lucide-react';
-import { getAgentPayments } from '@/lib/api/payment-api';
+import { DollarSign, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 
-interface PaymentHistoryProps {
-  agentId: string;
+interface Payment {
+  id: string;
+  amount: number;
+  status: string;
+  paid_at: string | null;
+  payment_method: string;
+  batch?: {
+    batch_number: string;
+    payment_date: string;
+  };
+  created_at: string;
 }
 
-const PaymentHistory: React.FC<PaymentHistoryProps> = ({ agentId }) => {
-  const [payments, setPayments] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+interface PaymentHistoryProps {
+  payments: Payment[];
+  isLoading: boolean;
+}
 
-  useEffect(() => {
-    loadPayments();
-  }, [agentId]);
-
-  const loadPayments = async () => {
-    try {
-      const data = await getAgentPayments(agentId);
-      setPayments(data || []);
-    } catch (error) {
-      console.error('Error loading payments:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+const PaymentHistory: React.FC<PaymentHistoryProps> = ({ payments, isLoading }) => {
   const getStatusBadge = (status: string) => {
-    const statusConfig: Record<string, { variant: any; label: string }> = {
-      pending: { variant: 'outline', label: 'Pending' },
-      processing: { variant: 'secondary', label: 'Processing' },
-      completed: { variant: 'default', label: 'Completed' },
-      failed: { variant: 'destructive', label: 'Failed' },
-    };
+    const variants = {
+      completed: 'default',
+      pending: 'secondary',
+      processing: 'outline',
+      failed: 'destructive',
+    } as const;
 
-    const config = statusConfig[status] || statusConfig.pending;
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+    return (
+      <Badge variant={variants[status as keyof typeof variants] || 'secondary'}>
+        {status}
+      </Badge>
+    );
   };
 
   if (isLoading) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Receipt className="h-5 w-5" />
-            Payment History
-          </CardTitle>
+          <CardTitle>Payment History</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-32 bg-muted animate-pulse rounded" />
@@ -64,40 +52,33 @@ const PaymentHistory: React.FC<PaymentHistoryProps> = ({ agentId }) => {
     );
   }
 
-  if (payments.length === 0) {
+  if (!payments || payments.length === 0) {
     return (
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Receipt className="h-5 w-5" />
+            <DollarSign className="h-5 w-5" />
             Payment History
           </CardTitle>
-          <CardDescription>Track your commission payments</CardDescription>
+          <CardDescription>View your commission payment history</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8 text-muted-foreground">
-            No payment history yet
+            No payment history available
           </div>
         </CardContent>
       </Card>
     );
   }
 
-  // Calculate total paid
-  const totalPaid = payments
-    .filter(p => p.status === 'completed')
-    .reduce((sum, p) => sum + parseFloat(p.amount), 0);
-
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Receipt className="h-5 w-5" />
+          <DollarSign className="h-5 w-5" />
           Payment History
         </CardTitle>
-        <CardDescription>
-          Total Paid: <span className="text-primary font-semibold">${totalPaid.toFixed(2)}</span>
-        </CardDescription>
+        <CardDescription>View your commission payment history</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
@@ -108,6 +89,7 @@ const PaymentHistory: React.FC<PaymentHistoryProps> = ({ agentId }) => {
               <TableHead>Amount</TableHead>
               <TableHead>Method</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Paid Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -116,9 +98,7 @@ const PaymentHistory: React.FC<PaymentHistoryProps> = ({ agentId }) => {
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
-                    {payment.paid_at
-                      ? format(new Date(payment.paid_at), 'MMM d, yyyy')
-                      : 'Not paid yet'}
+                    {format(new Date(payment.created_at), 'MMM dd, yyyy')}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -127,13 +107,18 @@ const PaymentHistory: React.FC<PaymentHistoryProps> = ({ agentId }) => {
                   </span>
                 </TableCell>
                 <TableCell>
-                  <div className="flex items-center gap-1 font-semibold text-primary">
-                    <DollarSign className="h-4 w-4" />
-                    {parseFloat(payment.amount).toFixed(2)}
-                  </div>
+                  <span className="font-semibold">${parseFloat(payment.amount.toString()).toFixed(2)}</span>
                 </TableCell>
-                <TableCell className="capitalize">{payment.payment_method}</TableCell>
+                <TableCell>
+                  <span className="capitalize">{payment.payment_method}</span>
+                </TableCell>
                 <TableCell>{getStatusBadge(payment.status)}</TableCell>
+                <TableCell>
+                  {payment.paid_at 
+                    ? format(new Date(payment.paid_at), 'MMM dd, yyyy')
+                    : <span className="text-muted-foreground">-</span>
+                  }
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

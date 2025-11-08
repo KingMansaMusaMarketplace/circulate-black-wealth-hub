@@ -26,6 +26,7 @@ import {
   getRecruitmentBonuses,
   getRecruitedAgents
 } from '@/lib/api/sales-agent-api';
+import { getAgentPayments } from '@/lib/api/payment-api';
 
 const SalesAgentDashboardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const SalesAgentDashboardPage: React.FC = () => {
   const [teamOverrides, setTeamOverrides] = useState<any[]>([]);
   const [recruitmentBonuses, setRecruitmentBonuses] = useState<any[]>([]);
   const [recruitedAgents, setRecruitedAgents] = useState<any[]>([]);
+  const [payments, setPayments] = useState<any[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
   useEffect(() => {
@@ -67,13 +69,15 @@ const SalesAgentDashboardPage: React.FC = () => {
         commissionsData,
         overridesData,
         bonusesData,
-        recruitedData
+        recruitedData,
+        paymentsData
       ] = await Promise.all([
         getAgentReferrals(agent.id),
         getAgentCommissions(agent.id),
         getTeamOverrides(agent.id),
         getRecruitmentBonuses(agent.id),
-        getRecruitedAgents(agent.id)
+        getRecruitedAgents(agent.id),
+        getAgentPayments(agent.id)
       ]);
 
       setReferrals(referralsData || []);
@@ -81,6 +85,7 @@ const SalesAgentDashboardPage: React.FC = () => {
       setTeamOverrides(overridesData || []);
       setRecruitmentBonuses(bonusesData || []);
       setRecruitedAgents(recruitedData || []);
+      setPayments(paymentsData || []);
     } catch (error) {
       console.error('Error loading dashboard data:', error);
       toast.error('Failed to load dashboard data');
@@ -241,7 +246,7 @@ const SalesAgentDashboardPage: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="payments">
-            <PaymentHistory agentId={agent.id} />
+            <PaymentHistory payments={payments} isLoading={isLoadingData} />
           </TabsContent>
         </Tabs>
       </div>
