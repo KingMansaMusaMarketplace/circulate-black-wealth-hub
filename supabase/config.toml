@@ -1,5 +1,8 @@
 project_id = "agoclnqfyinwjxdmjnns"
 
+[functions.send-notification-digest]
+verify_jwt = false
+
 [functions.text-to-speech]
 verify_jwt = false
 
