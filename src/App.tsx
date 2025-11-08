@@ -104,6 +104,7 @@ import SalesAgentSignupPage from './pages/SalesAgentSignupPage';
 import SalesAgentGuidePage from './pages/SalesAgentGuidePage';
 import SalesAgentDashboardPage from './pages/SalesAgentDashboardPage';
 const LazyMarketingMaterialsPage = lazy(() => import('./pages/MarketingMaterialsPage'));
+const LazyAdminMarketingMaterialsPage = lazy(() => import('./pages/AdminMarketingMaterialsPage'));
 import BusinessProfilePage from './pages/BusinessProfilePage';
 import ContactPage from './pages/ContactPage';
 import SupportPage from './pages/SupportPage';
@@ -328,6 +329,7 @@ function App() {
                               <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
                               <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
                               <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
+                              <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
                               <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
                               <Route path="/business/:businessId" element={<BusinessDetailPage />} />
                               <Route path="/loyalty" element={<RewardsPage />} />

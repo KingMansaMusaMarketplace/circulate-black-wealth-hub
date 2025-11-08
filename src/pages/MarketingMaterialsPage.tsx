@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Download, Share2, Image, Mail, MessageSquare, FileText, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,185 +6,102 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { nativeShare, copyToClipboard } from '@/utils/social-share';
+import { getMarketingMaterials, incrementDownloadCount } from '@/lib/api/marketing-materials-api';
+import { MarketingMaterial, MaterialType } from '@/types/marketing-material';
+import { toast } from 'sonner';
 
-interface MarketingMaterial {
-  id: string;
-  title: string;
-  description: string;
-  type: 'banner' | 'social' | 'email' | 'document';
-  icon: typeof Image;
-  downloadUrl?: string;
-  shareText?: string;
-  dimensions?: string;
-}
 
-const marketingMaterials: MarketingMaterial[] = [
-  // Banners
-  {
-    id: 'banner-1',
-    title: 'Hero Banner - Blue',
-    description: 'Main promotional banner with Mansa Musa Marketplace branding',
-    type: 'banner',
-    icon: Image,
-    dimensions: '1200x628px',
-    downloadUrl: '#',
-    shareText: 'Check out Mansa Musa Marketplace - Building Black Economic Power!'
-  },
-  {
-    id: 'banner-2',
-    title: 'Hero Banner - Gold',
-    description: 'Alternative gold-themed promotional banner',
-    type: 'banner',
-    icon: Image,
-    dimensions: '1200x628px',
-    downloadUrl: '#',
-    shareText: 'Join the economic revolution with Mansa Musa Marketplace!'
-  },
-  {
-    id: 'banner-3',
-    title: 'Square Social Banner',
-    description: 'Perfect for Instagram and Facebook posts',
-    type: 'banner',
-    icon: Image,
-    dimensions: '1080x1080px',
-    downloadUrl: '#',
-    shareText: 'Discover Black-owned businesses on Mansa Musa Marketplace'
-  },
-  // Social Templates
-  {
-    id: 'social-1',
-    title: 'Instagram Story Template',
-    description: 'Eye-catching story template with your referral code',
-    type: 'social',
-    icon: MessageSquare,
-    dimensions: '1080x1920px',
-    downloadUrl: '#',
-    shareText: 'Join me on Mansa Musa Marketplace!'
-  },
-  {
-    id: 'social-2',
-    title: 'Facebook Post Template',
-    description: 'Engaging post template for Facebook sharing',
-    type: 'social',
-    icon: MessageSquare,
-    dimensions: '1200x630px',
-    downloadUrl: '#',
-    shareText: 'Support Black businesses with Mansa Musa Marketplace'
-  },
-  {
-    id: 'social-3',
-    title: 'Twitter/X Card',
-    description: 'Twitter card template optimized for engagement',
-    type: 'social',
-    icon: MessageSquare,
-    dimensions: '1200x675px',
-    downloadUrl: '#',
-    shareText: 'Building economic power in the Black community'
-  },
-  {
-    id: 'social-4',
-    title: 'LinkedIn Post',
-    description: 'Professional template for LinkedIn networking',
-    type: 'social',
-    icon: MessageSquare,
-    dimensions: '1200x627px',
-    downloadUrl: '#',
-    shareText: 'Professional networking meets economic empowerment'
-  },
-  // Email Templates
-  {
-    id: 'email-1',
-    title: 'Introduction Email',
-    description: 'Template for introducing businesses to the platform',
-    type: 'email',
-    icon: Mail,
-    downloadUrl: '#',
-    shareText: 'Introduce businesses to Mansa Musa Marketplace'
-  },
-  {
-    id: 'email-2',
-    title: 'Follow-up Email',
-    description: 'Follow-up template for interested prospects',
-    type: 'email',
-    icon: Mail,
-    downloadUrl: '#',
-    shareText: 'Follow up with potential referrals'
-  },
-  {
-    id: 'email-3',
-    title: 'Benefits Overview Email',
-    description: 'Detailed benefits explanation for business owners',
-    type: 'email',
-    icon: Mail,
-    downloadUrl: '#',
-    shareText: 'Share the benefits of joining our marketplace'
-  },
-  // Documents
-  {
-    id: 'doc-1',
-    title: 'One-Page Overview',
-    description: 'Quick reference sheet about the marketplace',
-    type: 'document',
-    icon: FileText,
-    downloadUrl: '#',
-    shareText: 'Learn about Mansa Musa Marketplace'
-  },
-  {
-    id: 'doc-2',
-    title: 'Presentation Deck',
-    description: 'Complete presentation for business pitches',
-    type: 'document',
-    icon: FileText,
-    downloadUrl: '#',
-    shareText: 'Professional pitch deck for referrals'
-  },
-  {
-    id: 'doc-3',
-    title: 'FAQ Sheet',
-    description: 'Frequently asked questions and answers',
-    type: 'document',
-    icon: FileText,
-    downloadUrl: '#',
-    shareText: 'Common questions about joining the marketplace'
+const getIconForType = (type: MaterialType) => {
+  switch (type) {
+    case 'banner':
+      return Image;
+    case 'social':
+      return MessageSquare;
+    case 'email':
+      return Mail;
+    case 'document':
+      return FileText;
+    default:
+      return FileText;
   }
-];
+};
 
 const MarketingMaterialsPage: React.FC = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<string>('all');
+  const [materials, setMaterials] = useState<MarketingMaterial[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleDownload = (material: MarketingMaterial) => {
-    toast({
-      title: "Download Started",
-      description: `${material.title} is being downloaded...`,
-    });
-    // In production, this would trigger actual file download
+  useEffect(() => {
+    loadMaterials();
+  }, []);
+
+  const loadMaterials = async () => {
+    try {
+      const data = await getMarketingMaterials();
+      setMaterials(data);
+    } catch (error) {
+      console.error('Error loading materials:', error);
+      toast.error('Failed to load marketing materials');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDownload = async (material: MarketingMaterial) => {
+    if (!material.file_url) {
+      toast.error('No file available for download');
+      return;
+    }
+
+    try {
+      // Increment download count
+      await incrementDownloadCount(material.id);
+      
+      // Trigger download
+      window.open(material.file_url, '_blank');
+      toast.success(`${material.title} is being downloaded...`);
+      
+      // Reload to update download count
+      loadMaterials();
+    } catch (error) {
+      console.error('Error downloading:', error);
+      toast.error('Failed to download material');
+    }
   };
 
   const handleShare = async (material: MarketingMaterial) => {
     const shareData = {
       title: material.title,
-      text: material.shareText || material.description,
-      url: window.location.origin
+      text: material.description || material.title,
+      url: material.file_url || window.location.origin
     };
 
     const shared = await nativeShare(shareData);
     if (!shared) {
       await copyToClipboard(shareData.url);
-      toast({
-        title: "Link Copied",
-        description: "Share link copied to clipboard",
-      });
+      toast.success('Link copied to clipboard');
     }
   };
 
   const filterMaterials = (type: string) => {
-    if (type === 'all') return marketingMaterials;
-    return marketingMaterials.filter(m => m.type === type);
+    if (type === 'all') return materials;
+    return materials.filter(m => m.type === type);
   };
 
   const filteredMaterials = filterMaterials(activeTab);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -221,54 +138,68 @@ const MarketingMaterialsPage: React.FC = () => {
           </TabsList>
 
           <TabsContent value={activeTab} className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredMaterials.map((material) => {
-                const Icon = material.icon;
-                return (
-                  <Card key={material.id} className="hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className="p-2 bg-primary/10 rounded-lg">
-                            <Icon className="h-6 w-6 text-primary" />
-                          </div>
-                          <div>
-                            <CardTitle className="text-lg">{material.title}</CardTitle>
-                            {material.dimensions && (
-                              <p className="text-xs text-muted-foreground mt-1">
-                                {material.dimensions}
+            {filteredMaterials.length === 0 ? (
+              <Card>
+                <CardContent className="py-12 text-center">
+                  <p className="text-muted-foreground">
+                    No marketing materials available yet. Check back soon!
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredMaterials.map((material) => {
+                  const Icon = getIconForType(material.type);
+                  return (
+                    <Card key={material.id} className="hover:shadow-lg transition-shadow">
+                      <CardHeader>
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center space-x-3">
+                            <div className="p-2 bg-primary/10 rounded-lg">
+                              <Icon className="h-6 w-6 text-primary" />
+                            </div>
+                            <div>
+                              <CardTitle className="text-lg">{material.title}</CardTitle>
+                              {material.dimensions && (
+                                <p className="text-xs text-muted-foreground mt-1">
+                                  {material.dimensions}
+                                </p>
+                              )}
+                              <p className="text-xs text-muted-foreground">
+                                {material.download_count} downloads
                               </p>
-                            )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="mb-4">
-                        {material.description}
-                      </CardDescription>
-                      <div className="flex space-x-2">
-                        <Button
-                          onClick={() => handleDownload(material)}
-                          className="flex-1"
-                          size="sm"
-                        >
-                          <Download className="mr-2 h-4 w-4" />
-                          Download
-                        </Button>
-                        <Button
-                          onClick={() => handleShare(material)}
-                          variant="outline"
-                          size="sm"
-                        >
-                          <Share2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
+                      </CardHeader>
+                      <CardContent>
+                        <CardDescription className="mb-4">
+                          {material.description}
+                        </CardDescription>
+                        <div className="flex space-x-2">
+                          <Button
+                            onClick={() => handleDownload(material)}
+                            className="flex-1"
+                            size="sm"
+                            disabled={!material.file_url}
+                          >
+                            <Download className="mr-2 h-4 w-4" />
+                            Download
+                          </Button>
+                          <Button
+                            onClick={() => handleShare(material)}
+                            variant="outline"
+                            size="sm"
+                          >
+                            <Share2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
           </TabsContent>
         </Tabs>
 

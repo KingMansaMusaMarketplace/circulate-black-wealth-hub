@@ -2258,6 +2258,54 @@ export type Database = {
           },
         ]
       }
+      marketing_materials: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          dimensions: string | null
+          download_count: number | null
+          file_size: number | null
+          file_url: string | null
+          id: string
+          is_active: boolean | null
+          thumbnail_url: string | null
+          title: string
+          type: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          dimensions?: string | null
+          download_count?: number | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          thumbnail_url?: string | null
+          title: string
+          type: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          dimensions?: string | null
+          download_count?: number | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          thumbnail_url?: string | null
+          title?: string
+          type?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       notification_preferences: {
         Row: {
           created_at: string | null
@@ -5251,6 +5299,10 @@ export type Database = {
             Args: { _role: Database["public"]["Enums"]["user_role"] }
             Returns: boolean
           }
+      increment_material_downloads: {
+        Args: { material_id: string }
+        Returns: undefined
+      }
       is_admin: { Args: never; Returns: boolean }
       is_admin_secure: { Args: never; Returns: boolean }
       is_business_owner: {
