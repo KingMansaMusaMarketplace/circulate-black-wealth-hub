@@ -67,7 +67,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-white text-mansablue hover:bg-blue-50 text-lg px-8 py-6"
+                className="bg-mansagold text-mansablue hover:bg-mansagold/90 font-bold text-lg px-8 py-6"
                 onClick={() => navigate('/sales-agent-signup')}
               >
                 Apply Now <ArrowRight className="ml-2" />
@@ -75,7 +75,7 @@ const SalesAgentGuidePage: React.FC = () => {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white text-white hover:bg-white/10 text-lg px-8 py-6"
+                className="border-2 border-white text-white hover:bg-white hover:text-mansablue font-semibold text-lg px-8 py-6 transition-all"
                 onClick={() => document.getElementById('earnings-calculator')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <Calculator className="mr-2" />
@@ -256,7 +256,7 @@ const SalesAgentGuidePage: React.FC = () => {
               </p>
               <Button 
                 size="lg" 
-                className="bg-mansablue hover:bg-blue-700"
+                className="bg-mansablue hover:bg-blue-700 font-bold"
                 onClick={() => navigate('/sales-agent-signup')}
               >
                 Start Earning Today <ArrowRight className="ml-2" />
@@ -410,7 +410,7 @@ const SalesAgentGuidePage: React.FC = () => {
           <div className="mt-10 text-center">
             <Button 
               size="lg" 
-              className="bg-mansablue hover:bg-blue-700 text-lg px-10 py-6"
+              className="bg-mansablue hover:bg-blue-700 text-lg px-10 py-6 font-bold"
               onClick={() => navigate('/sales-agent-signup')}
             >
               Start Your Application <ChevronRight className="ml-2" />
@@ -479,7 +479,7 @@ const SalesAgentGuidePage: React.FC = () => {
           </p>
           <Button 
             size="lg" 
-            className="bg-white text-mansablue hover:bg-blue-50 text-xl px-12 py-8"
+            className="bg-mansagold text-mansablue hover:bg-mansagold/90 font-bold text-xl px-12 py-8 shadow-xl"
             onClick={() => navigate('/sales-agent-signup')}
           >
             Apply Now - It's Free! <ArrowRight className="ml-3" />
