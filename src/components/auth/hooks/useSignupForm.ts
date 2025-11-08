@@ -10,6 +10,7 @@ import { uploadHBCUVerificationDocument } from '@/lib/api/hbcu-verification';
 import { useEmailNotifications } from '@/hooks/use-email-notifications';
 import { SalesAgent } from '@/types/sales-agent';
 import { signupFormSchema, SignupFormValues } from '../schemas/signupFormSchema';
+import { trackQRCodeScan, markQRScanConverted } from '@/lib/api/qr-analytics-api';
 
 export const useSignupForm = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export const useSignupForm = () => {
     },
   });
   
-  // Check for referral code in URL
+  // Check for referral code in URL and track QR scan
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const refCode = params.get('ref');
@@ -40,6 +41,15 @@ export const useSignupForm = () => {
     if (refCode) {
       form.setValue('referralCode', refCode);
       checkReferralCode(refCode);
+      
+      // Track QR code scan when user lands with referral code
+      trackQRCodeScan(refCode).then((scanId) => {
+        if (scanId) {
+          console.log('QR code scan tracked:', scanId);
+        }
+      }).catch((error) => {
+        console.error('Error tracking QR scan:', error);
+      });
     }
   }, []);
   
@@ -109,6 +119,17 @@ export const useSignupForm = () => {
 
       if (result.data?.user) {
         console.log('✅ User created successfully:', result.data.user.id);
+        
+        // Mark QR scan as converted if user signed up with referral code
+        if (values.referralCode) {
+          try {
+            await markQRScanConverted(values.referralCode, result.data.user.id);
+            console.log('✅ QR scan marked as converted');
+          } catch (conversionError) {
+            console.error('❌ Failed to mark QR scan as converted:', conversionError);
+            // Don't block signup for conversion tracking failure
+          }
+        }
         
         // Send welcome email
         try {

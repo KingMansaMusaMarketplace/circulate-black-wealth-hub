@@ -3061,6 +3061,56 @@ export type Database = {
           },
         ]
       }
+      qr_code_scans: {
+        Row: {
+          converted: boolean | null
+          converted_at: string | null
+          converted_user_id: string | null
+          created_at: string
+          id: string
+          ip_address: unknown
+          referral_code: string
+          sales_agent_id: string | null
+          scan_source: string | null
+          scanned_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          converted?: boolean | null
+          converted_at?: string | null
+          converted_user_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: unknown
+          referral_code: string
+          sales_agent_id?: string | null
+          scan_source?: string | null
+          scanned_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          converted?: boolean | null
+          converted_at?: string | null
+          converted_user_id?: string | null
+          created_at?: string
+          id?: string
+          ip_address?: unknown
+          referral_code?: string
+          sales_agent_id?: string | null
+          scan_source?: string | null
+          scanned_at?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qr_code_scans_sales_agent_id_fkey"
+            columns: ["sales_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       qr_codes: {
         Row: {
           business_id: string
@@ -5278,6 +5328,19 @@ export type Database = {
           total_referrals: number
         }[]
       }
+      get_agent_qr_analytics: {
+        Args: { agent_referral_code: string }
+        Returns: {
+          conversion_rate: number
+          conversions_last_30_days: number
+          conversions_last_7_days: number
+          scans_last_30_days: number
+          scans_last_7_days: number
+          total_conversions: number
+          total_scans: number
+          unique_scans: number
+        }[]
+      }
       get_agent_referral_codes: {
         Args: never
         Returns: {
@@ -5717,6 +5780,10 @@ export type Database = {
         Args: { notification_id: string }
         Returns: undefined
       }
+      mark_qr_scan_converted: {
+        Args: { p_referral_code: string; p_user_id: string }
+        Returns: boolean
+      }
       process_business_referral: {
         Args: { p_business_id: string; p_referral_code: string }
         Returns: Json
@@ -5831,6 +5898,14 @@ export type Database = {
       track_material_download: {
         Args: { p_material_id: string; p_user_id: string }
         Returns: undefined
+      }
+      track_qr_scan: {
+        Args: {
+          p_ip_address?: unknown
+          p_referral_code: string
+          p_user_agent?: string
+        }
+        Returns: string
       }
       update_agent_tier: { Args: { p_agent_id: string }; Returns: undefined }
       update_user_streak: {

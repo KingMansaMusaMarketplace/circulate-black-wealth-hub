@@ -11,6 +11,7 @@ import CommissionsList from './CommissionsList';
 import ReferralCode from './ReferralCode';
 import BadgesShowcase from './BadgesShowcase';
 import AgentQRCodeGenerator from './AgentQRCodeGenerator';
+import QRCodeAnalytics from './QRCodeAnalytics';
 
 const AgentDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -72,6 +73,8 @@ const AgentDashboard: React.FC = () => {
         <ReferralCode referralCode={agent.referral_code} />
         <AgentQRCodeGenerator referralCode={agent.referral_code} />
       </div>
+
+      <QRCodeAnalytics referralCode={agent.referral_code} />
       
       {/* Marketing Materials Button */}
       <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
