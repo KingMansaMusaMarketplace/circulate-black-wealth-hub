@@ -4,6 +4,7 @@ import {
   updateAdminNotificationPreferences,
   AdminNotificationPreferences 
 } from '@/lib/api/admin-notification-preferences';
+import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -11,13 +12,15 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
-import { Loader2, Bell, Mail, Clock, TrendingUp, DollarSign, Target, Save } from 'lucide-react';
+import { Loader2, Bell, Mail, Clock, TrendingUp, DollarSign, Target, Save, Play } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { toast } from 'sonner';
 
 const NotificationPreferences: React.FC = () => {
   const [preferences, setPreferences] = useState<AdminNotificationPreferences | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const [additionalEmails, setAdditionalEmails] = useState<string>('');
 
   useEffect(() => {
@@ -83,6 +86,32 @@ const NotificationPreferences: React.FC = () => {
   ) => {
     if (!preferences) return;
     setPreferences({ ...preferences, [key]: value });
+  };
+
+  const handleProcessBatches = async () => {
+    setProcessing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('process-notification-batches', {
+        body: {},
+      });
+
+      if (error) throw error;
+
+      const result = data as { batchesProcessed: number; notificationsProcessed: number };
+      
+      if (result.batchesProcessed === 0 && result.notificationsProcessed === 0) {
+        toast.info('No pending notifications to process');
+      } else {
+        toast.success(
+          `Processed ${result.notificationsProcessed} notification(s) in ${result.batchesProcessed} batch(es)`
+        );
+      }
+    } catch (error: any) {
+      console.error('Error processing batches:', error);
+      toast.error('Failed to process batches: ' + (error.message || 'Unknown error'));
+    } finally {
+      setProcessing(false);
+    }
   };
 
   if (loading) {
@@ -238,6 +267,30 @@ const NotificationPreferences: React.FC = () => {
                           handlePreferenceChange('min_batch_size', value[0])
                         }
                       />
+                    </div>
+
+                    <div className="pt-2">
+                      <Button
+                        onClick={handleProcessBatches}
+                        disabled={processing}
+                        variant="outline"
+                        className="w-full"
+                      >
+                        {processing ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Processing...
+                          </>
+                        ) : (
+                          <>
+                            <Play className="h-4 w-4 mr-2" />
+                            Process Batches Now
+                          </>
+                        )}
+                      </Button>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Manually trigger batch processing to test without waiting for cron
+                      </p>
                     </div>
                   </>
                 )}
