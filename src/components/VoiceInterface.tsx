@@ -66,6 +66,9 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
       
+      // iOS requires loading before playing
+      audio.load();
+      
       audio.onended = () => {
         URL.revokeObjectURL(audioUrl);
         audioRef.current = null;
@@ -83,7 +86,17 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         });
       };
       
-      await audio.play();
+      // Handle iOS autoplay restrictions
+      try {
+        await audio.play();
+      } catch (playError) {
+        console.error('Audio playback error:', playError);
+        // iOS might block autoplay, inform user
+        toast.error('Audio Playback', {
+          description: 'Please tap to hear the response'
+        });
+        throw playError;
+      }
     } catch (error) {
       console.error('Error speaking:', error);
       onSpeakingChange?.(false);
@@ -103,11 +116,31 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         return;
       }
 
-      // Request microphone access
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Request microphone access with iOS-compatible settings
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        } 
+      });
       
       audioChunksRef.current = [];
-      const mediaRecorder = new MediaRecorder(stream);
+      
+      // Detect iOS and use compatible MIME type
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      let mimeType = 'audio/webm';
+      
+      if (isIOS) {
+        // iOS Safari doesn't support webm, fall back to mp4
+        if (MediaRecorder.isTypeSupported('audio/mp4')) {
+          mimeType = 'audio/mp4';
+        } else if (MediaRecorder.isTypeSupported('audio/wav')) {
+          mimeType = 'audio/wav';
+        }
+      }
+      
+      const mediaRecorder = new MediaRecorder(stream, { mimeType });
       mediaRecorderRef.current = mediaRecorder;
 
       mediaRecorder.ondataavailable = (event) => {
@@ -117,7 +150,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       };
 
       mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const audioBlob = new Blob(audioChunksRef.current, { type: mediaRecorder.mimeType });
         
         // Stop all tracks
         stream.getTracks().forEach(track => track.stop());
@@ -253,7 +286,8 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           onClick={assistantSpeaking ? stopRecording : startRecording}
           disabled={isProcessing}
           size="lg"
-          className="bg-primary hover:bg-primary/90 text-white shadow-lg"
+          className="bg-primary hover:bg-primary/90 text-white shadow-lg touch-target"
+          style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
         >
           {isProcessing ? (
             <>
@@ -272,7 +306,8 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           onClick={stopRecording}
           size="lg"
           variant="destructive"
-          className="shadow-lg animate-pulse"
+          className="shadow-lg animate-pulse touch-target"
+          style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
         >
           <MicOff className="mr-2 h-5 w-5" />
           Stop Recording
