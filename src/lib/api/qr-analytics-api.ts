@@ -21,6 +21,12 @@ export interface QRCodeScan {
   user_agent?: string;
 }
 
+export interface ScanHeatmapData {
+  day: number; // 0 = Sunday, 6 = Saturday
+  hour: number; // 0-23
+  count: number;
+}
+
 /**
  * Track a QR code scan
  */
@@ -98,6 +104,57 @@ export const getRecentQRScans = async (salesAgentId: string, limit: number = 10)
     return data || [];
   } catch (error) {
     console.error('Error fetching recent QR scans:', error);
+    return [];
+  }
+};
+
+/**
+ * Get QR code scan heatmap data (day of week x hour of day)
+ */
+export const getQRScanHeatmap = async (salesAgentId: string, days: number = 30): Promise<ScanHeatmapData[]> => {
+  try {
+    // Fetch scans from the last X days
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+
+    const { data, error } = await supabase
+      .from('qr_code_scans')
+      .select('scanned_at')
+      .eq('sales_agent_id', salesAgentId)
+      .gte('scanned_at', cutoffDate.toISOString())
+      .order('scanned_at', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching QR scan heatmap:', error);
+      return [];
+    }
+
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    // Process the data to create a heatmap
+    const heatmapMap = new Map<string, number>();
+
+    data.forEach((scan) => {
+      const date = new Date(scan.scanned_at);
+      const day = date.getDay(); // 0 = Sunday, 6 = Saturday
+      const hour = date.getHours(); // 0-23
+      const key = `${day}-${hour}`;
+
+      heatmapMap.set(key, (heatmapMap.get(key) || 0) + 1);
+    });
+
+    // Convert map to array
+    const heatmapData: ScanHeatmapData[] = [];
+    heatmapMap.forEach((count, key) => {
+      const [day, hour] = key.split('-').map(Number);
+      heatmapData.push({ day, hour, count });
+    });
+
+    return heatmapData;
+  } catch (error) {
+    console.error('Error fetching QR scan heatmap:', error);
     return [];
   }
 };
