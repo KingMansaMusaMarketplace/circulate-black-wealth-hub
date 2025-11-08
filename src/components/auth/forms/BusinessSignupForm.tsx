@@ -16,6 +16,8 @@ import { toast } from 'sonner';
 import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
 import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 import { businessCategories as businessCategoriesData } from '@/data/categories';
+import ReferralCodeInput from '@/components/business/ReferralCodeInput';
+import { processBusinessReferral } from '@/lib/api/referral-tracking-api';
 
 const businessSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -60,6 +62,8 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [enteredReferralCode, setEnteredReferralCode] = useState(referralCode || '');
+  const [isReferralValid, setIsReferralValid] = useState(false);
 
   const {
     register,
@@ -100,7 +104,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
 
       if (result.data?.user) {
         // Create business profile
-        const { error: businessError } = await supabase
+        const { data: businessData, error: businessError } = await supabase
           .from('businesses')
           .insert({
             name: data.businessName,
@@ -115,12 +119,29 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
             state: data.state,
             zip_code: data.zipCode,
             website: data.website,
-          });
+          })
+          .select()
+          .single();
 
         if (businessError) {
           console.error('Business creation error:', businessError);
-          // Don't throw here as the user account was created successfully
           toast.error('Account created but business profile needs completion');
+        } else if (businessData && enteredReferralCode && isReferralValid) {
+          // Process referral tracking if valid referral code was provided
+          try {
+            const referralResult = await processBusinessReferral(
+              businessData.id,
+              enteredReferralCode
+            );
+            
+            if (referralResult.success) {
+              toast.success('Referral tracked! Your sales agent will receive credit.');
+            }
+          } catch (referralError) {
+            console.error('Referral processing error:', referralError);
+            // Don't fail the signup if referral tracking fails
+            toast.warning('Business created but referral tracking failed');
+          }
         }
 
         setSuccess(true);
@@ -311,6 +332,12 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           rows={3}
         />
       </div>
+
+      <ReferralCodeInput
+        value={enteredReferralCode}
+        onChange={setEnteredReferralCode}
+        onValidate={(isValid) => setIsReferralValid(isValid)}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
