@@ -452,7 +452,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <Card className="p-6 bg-white">
               <h3 className="text-lg font-bold mb-2 text-gray-900">Can I recruit other agents?</h3>
               <p className="text-gray-600">
-                Absolutely! You'll earn a $75 bonus for each approved agent you recruit, plus 7.5% override on their commissions for 6 months.
+                Absolutely! You'll earn a $75 bonus for each approved agent you recruit who gets 3 sales, plus 7.5% override on their commissions for 6 months.
               </p>
             </Card>
 
