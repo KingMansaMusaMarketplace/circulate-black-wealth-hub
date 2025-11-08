@@ -162,13 +162,11 @@ function App() {
         console.log('[APP INIT] Platform:', window?.Capacitor?.isNativePlatform?.() ? 'Native' : 'Web');
         console.log('[APP INIT] iOS Device:', /iPad|iPhone|iPod/.test(navigator.userAgent));
         
-        // CRITICAL: Increased failsafe timeout from 2s to 3s
-        // This gives more time for auth to initialize before forcing ready state
+        // Reduced failsafe timeout to 2s for faster startup
         initTimeoutId = setTimeout(() => {
-          console.warn('[APP INIT] FAILSAFE: Force setting appReady to true after 3 seconds');
-          console.warn('[APP INIT] This ensures the app never stays in loading state indefinitely');
+          console.warn('[APP INIT] FAILSAFE: Force setting appReady after 2s');
           setAppReady(true);
-        }, 3000);
+        }, 2000);
         
         // Set app ready immediately to prevent blocking
         console.log('[APP INIT] Setting appReady to true');
