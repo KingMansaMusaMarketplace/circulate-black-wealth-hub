@@ -74,8 +74,7 @@ const SalesAgentGuidePage: React.FC = () => {
               </Button>
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="border-2 border-white text-white hover:bg-white hover:text-mansablue font-semibold text-lg px-8 py-6 transition-all"
+                className="bg-white/20 backdrop-blur-sm border-2 border-white text-white hover:bg-mansagold hover:text-mansablue hover:border-mansagold font-bold text-lg px-8 py-6 transition-all"
                 onClick={() => document.getElementById('earnings-calculator')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <Calculator className="mr-2" />
