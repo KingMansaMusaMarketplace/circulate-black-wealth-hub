@@ -37,6 +37,12 @@ const Hero = () => {
               100% FREE - All Business Features
             </Badge>
           </Link>
+          <Link to="/become-a-sales-agent">
+            <Badge className="bg-orange-500 hover:bg-orange-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse">
+              <TrendingUp className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
+              Earn as Sales Agent - Up to 15%!
+            </Badge>
+          </Link>
           <Link to="/signup">
             <Badge className="bg-purple-500 hover:bg-purple-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
               <Heart className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
