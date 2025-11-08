@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { shouldHideStripePayments } from "@/utils/platform-utils";
 
 interface CheckoutParams {
   tier: string;
@@ -14,6 +15,16 @@ export const useCorporateCheckout = () => {
   const { toast } = useToast();
 
   const startCheckout = async (params: CheckoutParams) => {
+    // Block Stripe payments on iOS (Apple IAP compliance)
+    if (shouldHideStripePayments()) {
+      toast({
+        title: "Not Available",
+        description: "Payment features are not available in the iOS app. Please visit our website to subscribe.",
+        variant: "destructive",
+      });
+      return null;
+    }
+
     try {
       setIsLoading(true);
 

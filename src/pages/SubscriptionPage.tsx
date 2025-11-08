@@ -11,6 +11,7 @@ import CurrentSubscriptionStatus from '@/components/subscription/CurrentSubscrip
 import SubscriptionBenefits from '@/components/subscription/SubscriptionBenefits';
 import SubscriptionFAQ from '@/components/subscription/SubscriptionFAQ';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
+import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
 
 const SubscriptionPage: React.FC = () => {
   const { user } = useAuth();
@@ -32,8 +33,9 @@ const SubscriptionPage: React.FC = () => {
         <title>Subscription Plans | Mansa Musa Marketplace</title>
       </Helmet>
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-7xl mx-auto space-y-12">
+      <IOSPaymentBlocker>
+        <div className="container mx-auto px-4 py-12">
+          <div className="max-w-7xl mx-auto space-y-12">
           {/* Header Section */}
           <SubscriptionPageHeader userType={userType} isTrialMode={isTrialMode} />
 
@@ -110,8 +112,9 @@ const SubscriptionPage: React.FC = () => {
 
           {/* FAQ Section */}
           <SubscriptionFAQ userType={userType} />
+          </div>
         </div>
-      </div>
+      </IOSPaymentBlocker>
     </div>
   );
 };

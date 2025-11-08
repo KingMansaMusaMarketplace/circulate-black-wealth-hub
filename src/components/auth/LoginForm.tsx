@@ -4,6 +4,7 @@ import { Form } from '@/components/ui/form';
 import { LogIn } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { SubmitButton } from './forms/SubmitButton';
+import { sanitizeInput } from '@/lib/security/input-sanitizer';
 
 // Import refactored components
 import { EmailField } from './login/EmailField';

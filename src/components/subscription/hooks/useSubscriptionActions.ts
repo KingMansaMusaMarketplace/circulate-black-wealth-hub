@@ -6,6 +6,7 @@ import { useSubscription } from '@/contexts/SubscriptionContext';
 import { toast } from 'sonner';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 import { useConversionTracking } from '@/hooks/use-analytics-tracking';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 interface UseSubscriptionActionsProps {
   onPlanSelect?: (tier: SubscriptionTier) => void;
@@ -18,6 +19,12 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
   const [loading, setLoading] = useState<SubscriptionTier | null>(null);
 
   const handleSubscribe = async (tier: SubscriptionTier) => {
+    // Block Stripe payments on iOS (Apple IAP compliance)
+    if (shouldHideStripePayments()) {
+      toast.error('Payment features are not available in the iOS app. Please visit our website to subscribe.');
+      return;
+    }
+
     console.log('[SUBSCRIPTION] Subscribe button clicked for tier:', tier);
     console.log('[SUBSCRIPTION] Current user from auth context:', user);
     console.log('[SUBSCRIPTION] User email:', user?.email);

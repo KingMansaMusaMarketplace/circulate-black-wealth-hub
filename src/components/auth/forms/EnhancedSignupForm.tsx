@@ -8,6 +8,8 @@ import CustomerSignupTab from './CustomerSignupTab';
 import BusinessSignupForm from './BusinessSignupForm';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSubscriptionActions } from '@/components/subscription/hooks/useSubscriptionActions';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
+import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
 
 const EnhancedSignupForm: React.FC = () => {
   const { user } = useAuth();
@@ -15,9 +17,15 @@ const EnhancedSignupForm: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('customer');
   const [selectedPlan, setSelectedPlan] = useState<'free' | 'premium' | 'business_starter' | 'business'>('free');
   const [showAccountForm, setShowAccountForm] = useState(false);
+  const hidePayments = shouldHideStripePayments();
 
   const handlePlanSelect = async (plan: 'free' | 'premium' | 'business_starter' | 'business') => {
     setSelectedPlan(plan);
+    
+    // Block paid plans on iOS
+    if (hidePayments && plan !== 'free') {
+      return;
+    }
     
     // For all plans, first show account creation form
     // For paid plans, payment setup will happen after account creation
@@ -280,17 +288,19 @@ const EnhancedSignupForm: React.FC = () => {
             </TabsContent>
           </Tabs>
           
-          {/* Important Notice */}
-          <div className="mt-8">
-            <Alert className="max-w-4xl mx-auto">
-              <CreditCard className="h-4 w-4" />
-              <AlertDescription>
-                <strong>Payment Info Required:</strong> Premium and Business plans require a credit/debit card during signup. 
-                You'll enjoy all features completely FREE until January 1, 2026, then billing begins monthly. 
-                Cancel anytime before then to avoid charges.
-              </AlertDescription>
-            </Alert>
-          </div>
+          {/* Important Notice - Hide on iOS */}
+          {!hidePayments && (
+            <div className="mt-8">
+              <Alert className="max-w-4xl mx-auto">
+                <CreditCard className="h-4 w-4" />
+                <AlertDescription>
+                  <strong>Payment Info Required:</strong> Premium and Business plans require a credit/debit card during signup. 
+                  You'll enjoy all features completely FREE until January 1, 2026, then billing begins monthly. 
+                  Cancel anytime before then to avoid charges.
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
           
           {/* Community Features Preview */}
           <div className="mt-8 p-4 bg-gray-50 rounded-lg max-w-4xl mx-auto">

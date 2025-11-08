@@ -12,6 +12,7 @@ import { useCorporateCheckout } from '@/hooks/useCorporateCheckout';
 import { useScreenshotMode } from '@/hooks/use-screenshot-mode';
 import { useNativeShare } from '@/hooks/use-native-share';
 import NotificationDemo from '@/components/sponsorship/NotificationDemo';
+import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
 
 interface PricingTier {
   name: string;
@@ -146,7 +147,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
   };
 
   return (
-    <>
+    <IOSPaymentBlocker>
       <Helmet>
         <title>Corporate Sponsorship - Support Black-Owned Businesses</title>
         <meta
@@ -457,7 +458,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </>
+    </IOSPaymentBlocker>
   );
 };
 

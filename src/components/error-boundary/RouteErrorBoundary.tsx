@@ -1,95 +1,60 @@
 import React from 'react';
 import { useRouteError, isRouteErrorResponse, useNavigate } from 'react-router-dom';
-import { AlertTriangle, Home, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle, Home, RefreshCw } from 'lucide-react';
 
-/**
- * Route Error Boundary for React Router
- * Catches routing errors and displays appropriate error messages
- */
 export const RouteErrorBoundary: React.FC = () => {
   const error = useRouteError();
   const navigate = useNavigate();
 
-  // Check if it's a route error response (404, 500, etc.)
+  let errorMessage: string;
+  let errorTitle: string;
+
   if (isRouteErrorResponse(error)) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-muted/20">
-        <Card className="w-full max-w-lg">
-          <CardHeader>
-            <div className="flex items-center gap-2 text-destructive mb-2">
-              <AlertTriangle className="h-6 w-6" />
-              <CardTitle>
-                {error.status === 404 ? 'Page Not Found' : `Error ${error.status}`}
-              </CardTitle>
-            </div>
-            <CardDescription>
-              {error.status === 404
-                ? "The page you're looking for doesn't exist."
-                : error.statusText || 'An error occurred while loading this page.'}
-            </CardDescription>
-          </CardHeader>
-
-          <CardContent>
-            {error.data && (
-              <p className="text-sm text-muted-foreground">{error.data}</p>
-            )}
-          </CardContent>
-
-          <CardFooter className="flex gap-2">
-            <Button onClick={() => navigate(-1)} variant="outline">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Go Back
-            </Button>
-            <Button onClick={() => navigate('/')}>
-              <Home className="h-4 w-4 mr-2" />
-              Go Home
-            </Button>
-          </CardFooter>
-        </Card>
-      </div>
-    );
+    errorTitle = `${error.status} ${error.statusText}`;
+    errorMessage = error.data?.message || 'An error occurred while loading this page.';
+  } else if (error instanceof Error) {
+    errorTitle = 'Application Error';
+    errorMessage = error.message;
+  } else {
+    errorTitle = 'Unknown Error';
+    errorMessage = 'Something went wrong. Please try again.';
   }
 
-  // Generic error
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-muted/20">
-      <Card className="w-full max-w-lg">
-        <CardHeader>
-          <div className="flex items-center gap-2 text-destructive mb-2">
-            <AlertTriangle className="h-6 w-6" />
-            <CardTitle>Oops! Something went wrong</CardTitle>
-          </div>
-          <CardDescription>
-            We encountered an unexpected error while loading this page.
-          </CardDescription>
-        </CardHeader>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+      <div className="max-w-md w-full">
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle className="text-lg font-semibold">{errorTitle}</AlertTitle>
+          <AlertDescription className="mt-2">
+            {errorMessage}
+          </AlertDescription>
+        </Alert>
 
-        <CardContent>
-          {process.env.NODE_ENV === 'development' && error instanceof Error && (
-            <div className="p-4 bg-destructive/10 rounded-md">
-              <p className="text-sm font-mono text-destructive">{error.message}</p>
-              {error.stack && (
-                <pre className="mt-2 text-xs overflow-auto max-h-48 text-destructive/80">
-                  {error.stack}
-                </pre>
-              )}
-            </div>
-          )}
-        </CardContent>
-
-        <CardFooter className="flex gap-2">
-          <Button onClick={() => navigate(-1)} variant="outline">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Go Back
+        <div className="flex gap-4 mt-6">
+          <Button
+            onClick={() => window.location.reload()}
+            variant="outline"
+            className="flex-1"
+          >
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Reload Page
           </Button>
-          <Button onClick={() => navigate('/')}>
-            <Home className="h-4 w-4 mr-2" />
+          <Button
+            onClick={() => navigate('/')}
+            className="flex-1"
+          >
+            <Home className="mr-2 h-4 w-4" />
             Go Home
           </Button>
-        </CardFooter>
-      </Card>
+        </div>
+
+        <p className="text-sm text-gray-600 mt-4 text-center">
+          If this problem persists, please contact support.
+        </p>
+      </div>
     </div>
   );
 };
