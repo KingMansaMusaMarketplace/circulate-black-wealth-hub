@@ -335,3 +335,22 @@
   padding-top: env(safe-area-inset-top);
 }
 
+/* iOS-optimized pulse animation using hardware-accelerated transforms */
+@keyframes pulse-ios {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.85;
+  }
+}
+
+.animate-pulse-ios {
+  animation: pulse-ios 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  will-change: transform, opacity;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+

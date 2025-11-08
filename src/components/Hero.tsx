@@ -38,7 +38,7 @@ const Hero = () => {
             </Badge>
           </Link>
           <Link to="/become-a-sales-agent">
-            <Badge className="bg-orange-500 hover:bg-orange-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse">
+            <Badge className="bg-orange-500 hover:bg-orange-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-ios">
               <TrendingUp className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               Earn as Sales Agent - Up to 15%!
             </Badge>
