@@ -156,7 +156,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <notifications@resend.dev>",
+      from: "Mansa Musa Marketplace <notifications@mansamusamarketplace.com>",
       to: [agentEmail],
       subject: subject,
       html: htmlContent,
