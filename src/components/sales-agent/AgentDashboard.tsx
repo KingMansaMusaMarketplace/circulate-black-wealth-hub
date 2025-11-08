@@ -102,7 +102,7 @@ const AgentDashboard: React.FC = () => {
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                   <p className="font-semibold text-sm mb-1 text-gray-700">One-Time Bonus</p>
                   <p className="text-2xl font-bold text-mansablue mb-1">$75</p>
-                  <p className="text-xs text-gray-500">When your recruited agent gets approved</p>
+                  <p className="text-xs text-gray-500">After recruited agent makes 3 business sales</p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow-sm">
                   <p className="font-semibold text-sm mb-1 text-gray-700">Team Override</p>
@@ -119,7 +119,7 @@ const AgentDashboard: React.FC = () => {
               </TabsList>
               <TabsContent value="bonuses">
                 <Card className="p-6 text-center text-gray-500">
-                  <p>No recruitment bonuses yet. Refer other agents to earn $75 bonuses!</p>
+                  <p>No recruitment bonuses yet. Refer other agents to earn $75 bonuses after they make 3 business sales!</p>
                 </Card>
               </TabsContent>
               <TabsContent value="overrides">

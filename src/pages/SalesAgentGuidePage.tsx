@@ -139,7 +139,7 @@ const SalesAgentGuidePage: React.FC = () => {
               <h3 className="text-2xl font-bold mb-3 text-gray-900">Recruitment Bonus</h3>
               <div className="text-4xl font-bold text-green-600 mb-4">$75</div>
               <p className="text-gray-600 mb-6">
-                One-time cash bonus for every agent you recruit who gets approved. Build your team and earn instantly!
+                One-time $75 cash bonus paid after your recruited agent makes 3 business sales. Build your team and earn!
               </p>
               <div className="space-y-2">
                 <div className="flex items-center text-sm">

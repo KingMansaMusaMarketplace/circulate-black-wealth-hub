@@ -12,7 +12,7 @@ const RecruitmentBonusesList: React.FC<RecruitmentBonusesListProps> = ({ bonuses
   if (!bonuses || bonuses.length === 0) {
     return (
       <Card className="p-6 text-center text-muted-foreground">
-        <p>No recruitment bonuses yet. Refer other agents to earn $75 bonuses!</p>
+        <p>No recruitment bonuses yet. Refer other agents to earn $75 bonuses after they make 3 business sales!</p>
       </Card>
     );
   }
