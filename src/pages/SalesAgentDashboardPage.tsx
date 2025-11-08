@@ -8,7 +8,7 @@ import NotificationBell from '@/components/notifications/NotificationBell';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Copy, Share2, Trophy } from 'lucide-react';
+import { Copy, Share2, Trophy, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import DashboardStats from '@/components/sales-agent/dashboard/DashboardStats';
 import ReferralsList from '@/components/sales-agent/dashboard/ReferralsList';
@@ -161,6 +161,14 @@ const SalesAgentDashboardPage: React.FC = () => {
             >
               <Trophy className="h-4 w-4 mr-1" />
               Leaderboard
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/marketing-materials')}
+            >
+              <FileText className="h-4 w-4 mr-1" />
+              Marketing Materials
             </Button>
             <NotificationBell />
             <Card className="w-full sm:w-auto">
