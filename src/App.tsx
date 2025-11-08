@@ -320,6 +320,7 @@ function App() {
                               <Route path="/directory" element={<LazyDirectoryPage />} />
                               <Route path="/businesses" element={<BusinessDiscoveryPage />} />
                               <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
+                              <Route path="/sales-agent-signup" element={<SalesAgentSignupPage />} />
                               <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
                               <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
                               <Route path="/business/:businessId" element={<BusinessDetailPage />} />
@@ -436,6 +437,7 @@ function App() {
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         <Route path="/businesses" element={<BusinessDiscoveryPage />} />
                         <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
+                        <Route path="/sales-agent-signup" element={<SalesAgentSignupPage />} />
                         <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
                         <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
                         <Route path="/business/:businessId" element={<BusinessDetailPage />} />
