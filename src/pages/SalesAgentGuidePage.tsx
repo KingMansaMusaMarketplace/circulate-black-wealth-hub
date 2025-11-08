@@ -165,12 +165,12 @@ const SalesAgentGuidePage: React.FC = () => {
               <h3 className="text-2xl font-bold mb-3 text-gray-900">Team Override</h3>
               <div className="text-4xl font-bold text-purple-600 mb-4">7.5%</div>
               <p className="text-gray-600 mb-6">
-                Earn ongoing commission overrides on your recruited agents' sales for 6 months. True passive income!
+                Earn 7.5% override on your recruited agents' commissions for 6 months. True passive income!
               </p>
               <div className="space-y-2">
                 <div className="flex items-center text-sm">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                  <span>Earn on their business referrals</span>
+                  <span>Earn on their earned commissions</span>
                 </div>
                 <div className="flex items-center text-sm">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />

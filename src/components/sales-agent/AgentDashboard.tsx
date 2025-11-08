@@ -84,7 +84,7 @@ const AgentDashboard: React.FC = () => {
           <Card className="p-6">
             <h3 className="text-lg font-semibold mb-4 text-mansablue">Agents You've Recruited</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Earn 7.5% override commissions on your team's sales for 6 months after recruitment.
+              Earn 7.5% override commissions on your team's earned commissions for 6 months after recruitment.
             </p>
             <div className="text-center text-gray-500 py-8">
               <p>No recruited agents yet. Share your referral code with potential agents!</p>
@@ -124,7 +124,7 @@ const AgentDashboard: React.FC = () => {
               </TabsContent>
               <TabsContent value="overrides">
                 <Card className="p-6 text-center text-gray-500">
-                  <p>No team override commissions yet. Recruit agents and earn 7.5% on their sales for 6 months!</p>
+                  <p>No team override commissions yet. Recruit agents and earn 7.5% on their commissions for 6 months!</p>
                 </Card>
               </TabsContent>
             </Tabs>
