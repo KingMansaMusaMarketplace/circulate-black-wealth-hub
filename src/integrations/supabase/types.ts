@@ -157,6 +157,127 @@ export type Database = {
           },
         ]
       }
+      agent_recruitment_bonuses: {
+        Row: {
+          bonus_amount: number
+          created_at: string
+          earned_date: string
+          id: string
+          paid_date: string | null
+          payment_reference: string | null
+          recruited_agent_id: string
+          recruiter_agent_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          bonus_amount?: number
+          created_at?: string
+          earned_date?: string
+          id?: string
+          paid_date?: string | null
+          payment_reference?: string | null
+          recruited_agent_id: string
+          recruiter_agent_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          bonus_amount?: number
+          created_at?: string
+          earned_date?: string
+          id?: string
+          paid_date?: string | null
+          payment_reference?: string | null
+          recruited_agent_id?: string
+          recruiter_agent_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_recruitment_bonuses_recruited_agent_id_fkey"
+            columns: ["recruited_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_recruitment_bonuses_recruiter_agent_id_fkey"
+            columns: ["recruiter_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_team_overrides: {
+        Row: {
+          base_commission_amount: number
+          created_at: string
+          earned_date: string
+          id: string
+          override_amount: number
+          override_percentage: number
+          paid_date: string | null
+          payment_reference: string | null
+          recruited_agent_id: string
+          recruiter_agent_id: string
+          referral_id: string
+          status: string
+        }
+        Insert: {
+          base_commission_amount: number
+          created_at?: string
+          earned_date?: string
+          id?: string
+          override_amount: number
+          override_percentage?: number
+          paid_date?: string | null
+          payment_reference?: string | null
+          recruited_agent_id: string
+          recruiter_agent_id: string
+          referral_id: string
+          status?: string
+        }
+        Update: {
+          base_commission_amount?: number
+          created_at?: string
+          earned_date?: string
+          id?: string
+          override_amount?: number
+          override_percentage?: number
+          paid_date?: string | null
+          payment_reference?: string | null
+          recruited_agent_id?: string
+          recruiter_agent_id?: string
+          referral_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_team_overrides_recruited_agent_id_fkey"
+            columns: ["recruited_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_team_overrides_recruiter_agent_id_fkey"
+            columns: ["recruiter_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_team_overrides_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ai_recommendations: {
         Row: {
           business_id: string
@@ -3258,7 +3379,10 @@ export type Database = {
           lifetime_referrals: number | null
           monthly_referrals: number | null
           phone: string | null
+          recruited_by_agent_id: string | null
+          recruitment_date: string | null
           referral_code: string
+          team_override_end_date: string | null
           tier: string | null
           total_earned: number | null
           total_pending: number | null
@@ -3276,7 +3400,10 @@ export type Database = {
           lifetime_referrals?: number | null
           monthly_referrals?: number | null
           phone?: string | null
+          recruited_by_agent_id?: string | null
+          recruitment_date?: string | null
           referral_code: string
+          team_override_end_date?: string | null
           tier?: string | null
           total_earned?: number | null
           total_pending?: number | null
@@ -3294,14 +3421,25 @@ export type Database = {
           lifetime_referrals?: number | null
           monthly_referrals?: number | null
           phone?: string | null
+          recruited_by_agent_id?: string | null
+          recruitment_date?: string | null
           referral_code?: string
+          team_override_end_date?: string | null
           tier?: string | null
           total_earned?: number | null
           total_pending?: number | null
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "sales_agents_recruited_by_agent_id_fkey"
+            columns: ["recruited_by_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       savings_circle_members: {
         Row: {
@@ -4576,6 +4714,10 @@ export type Database = {
           p_review_id: string
         }
         Returns: Json
+      }
+      calculate_override_end_date: {
+        Args: { recruitment_date: string }
+        Returns: string
       }
       calculate_team_bonus: { Args: { tier1_points: number }; Returns: number }
       calculate_user_impact_metrics: {
