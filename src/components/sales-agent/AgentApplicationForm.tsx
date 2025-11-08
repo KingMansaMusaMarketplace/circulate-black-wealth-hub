@@ -23,6 +23,7 @@ const formSchema = z.object({
   full_name: z.string().min(3, { message: 'Name must be at least 3 characters long' }),
   email: z.string().email({ message: 'Please enter a valid email address' }),
   phone: z.string().min(10, { message: 'Phone number must be at least 10 characters long' }).optional(),
+  recruiter_code: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -41,6 +42,7 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
       full_name: user?.user_metadata?.name || '',
       email: user?.email || '',
       phone: '',
+      recruiter_code: '',
     },
   });
 
@@ -117,6 +119,22 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
                     <Input placeholder="Enter your phone number" {...field} />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="recruiter_code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Recruiter's Code (optional)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter referral code if recruited by another agent" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                  <p className="text-xs text-gray-500 mt-1">
+                    If another agent referred you, enter their code here. They'll earn bonuses when you're approved!
+                  </p>
                 </FormItem>
               )}
             />
