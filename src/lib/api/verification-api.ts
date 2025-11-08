@@ -72,7 +72,8 @@ export const submitVerificationRequest = async (
   addressDocUrl: string
 ): Promise<{ success: boolean; error?: any }> => {
   try {
-    const { error } = await supabase
+    // Insert verification request
+    const { data: verificationData, error } = await supabase
       .from('business_verifications')
       .insert({
         business_id: businessId,
@@ -81,9 +82,40 @@ export const submitVerificationRequest = async (
         ownership_document_url: ownershipDocUrl,
         address_document_url: addressDocUrl,
         verification_status: 'pending'
-      });
+      })
+      .select()
+      .single();
 
     if (error) throw error;
+
+    // Get business details for notification
+    const { data: business, error: businessError } = await supabase
+      .from('businesses')
+      .select('business_name, email, owner_id')
+      .eq('id', businessId)
+      .single();
+
+    if (!businessError && business) {
+      // Send admin notification about new verification submission
+      try {
+        await supabase.functions.invoke('send-admin-notification', {
+          body: {
+            type: 'business_verification_submitted',
+            data: {
+              businessId: businessId,
+              businessName: business.business_name,
+              ownerEmail: business.email,
+              verificationId: verificationData.id
+            }
+          }
+        });
+        console.log('Admin notification sent for business verification');
+      } catch (notificationError) {
+        console.error('Failed to send admin notification:', notificationError);
+        // Don't fail the verification submission if notification fails
+      }
+    }
+
     return { success: true };
   } catch (error: any) {
     console.error('Error submitting verification request:', error);

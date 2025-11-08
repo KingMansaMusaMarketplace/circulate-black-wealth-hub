@@ -125,6 +125,17 @@ export const useSignupForm = () => {
           try {
             await markQRScanConverted(values.referralCode, result.data.user.id);
             console.log('✅ QR scan marked as converted');
+            
+            // Track agent milestones after conversion
+            const agent = await getSalesAgentByReferralCode(values.referralCode);
+            if (agent && agent.id) {
+              // Import milestone tracker dynamically to avoid circular dependencies
+              import('@/lib/api/milestone-tracker').then(({ trackAndNotifyMilestones }) => {
+                trackAndNotifyMilestones(agent.id).catch(error => {
+                  console.error('Failed to track milestones:', error);
+                });
+              });
+            }
           } catch (conversionError) {
             console.error('❌ Failed to mark QR scan as converted:', conversionError);
             // Don't block signup for conversion tracking failure
