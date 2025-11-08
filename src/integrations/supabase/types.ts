@@ -2363,13 +2363,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "marketing_material_downloads_material_id_fkey"
-            columns: ["material_id"]
-            isOneToOne: false
-            referencedRelation: "marketing_materials"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "marketing_material_downloads_sales_agent_id_fkey"
             columns: ["sales_agent_id"]
             isOneToOne: false
@@ -2380,48 +2373,54 @@ export type Database = {
       }
       marketing_materials: {
         Row: {
+          category: Database["public"]["Enums"]["marketing_material_category"]
           created_at: string | null
           created_by: string | null
           description: string | null
-          dimensions: string | null
           download_count: number | null
+          file_path: string
           file_size: number | null
-          file_url: string | null
+          file_type: string
           id: string
           is_active: boolean | null
-          thumbnail_url: string | null
+          is_featured: boolean | null
+          tags: string[] | null
+          thumbnail_path: string | null
           title: string
-          type: string
           updated_at: string | null
         }
         Insert: {
+          category: Database["public"]["Enums"]["marketing_material_category"]
           created_at?: string | null
           created_by?: string | null
           description?: string | null
-          dimensions?: string | null
           download_count?: number | null
+          file_path: string
           file_size?: number | null
-          file_url?: string | null
+          file_type: string
           id?: string
           is_active?: boolean | null
-          thumbnail_url?: string | null
+          is_featured?: boolean | null
+          tags?: string[] | null
+          thumbnail_path?: string | null
           title: string
-          type: string
           updated_at?: string | null
         }
         Update: {
+          category?: Database["public"]["Enums"]["marketing_material_category"]
           created_at?: string | null
           created_by?: string | null
           description?: string | null
-          dimensions?: string | null
           download_count?: number | null
+          file_path?: string
           file_size?: number | null
-          file_url?: string | null
+          file_type?: string
           id?: string
           is_active?: boolean | null
-          thumbnail_url?: string | null
+          is_featured?: boolean | null
+          tags?: string[] | null
+          thumbnail_path?: string | null
           title?: string
-          type?: string
           updated_at?: string | null
         }
         Relationships: []
@@ -2486,8 +2485,43 @@ export type Database = {
             referencedRelation: "material_categories"
             referencedColumns: ["id"]
           },
+        ]
+      }
+      material_downloads: {
+        Row: {
+          agent_id: string
+          downloaded_at: string | null
+          id: string
+          ip_address: unknown
+          material_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          agent_id: string
+          downloaded_at?: string | null
+          id?: string
+          ip_address?: unknown
+          material_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          agent_id?: string
+          downloaded_at?: string | null
+          id?: string
+          ip_address?: unknown
+          material_id?: string
+          user_agent?: string | null
+        }
+        Relationships: [
           {
-            foreignKeyName: "material_category_assignments_material_id_fkey"
+            foreignKeyName: "material_downloads_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "material_downloads_material_id_fkey"
             columns: ["material_id"]
             isOneToOne: false
             referencedRelation: "marketing_materials"
@@ -2515,13 +2549,6 @@ export type Database = {
           tag_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "material_tag_assignments_material_id_fkey"
-            columns: ["material_id"]
-            isOneToOne: false
-            referencedRelation: "marketing_materials"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "material_tag_assignments_tag_id_fkey"
             columns: ["tag_id"]
@@ -5453,6 +5480,25 @@ export type Database = {
           unique_agents: number
         }[]
       }
+      get_materials_by_category: {
+        Args: {
+          p_category?: Database["public"]["Enums"]["marketing_material_category"]
+        }
+        Returns: {
+          category: Database["public"]["Enums"]["marketing_material_category"]
+          created_at: string
+          description: string
+          download_count: number
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          is_featured: boolean
+          tags: string[]
+          thumbnail_path: string
+          title: string
+        }[]
+      }
       get_materials_with_filters: {
         Args: {
           p_category_ids?: string[]
@@ -5811,6 +5857,14 @@ export type Database = {
       badge_category: "referrals" | "earnings" | "recruitment" | "special"
       badge_tier: "bronze" | "silver" | "gold" | "platinum" | "diamond"
       hbcu_verification_status: "pending" | "approved" | "rejected"
+      marketing_material_category:
+        | "social_media"
+        | "email_templates"
+        | "graphics"
+        | "presentations"
+        | "qr_codes"
+        | "videos"
+        | "documents"
       subscription_tier: "free" | "paid" | "business_starter"
       user_role: "customer" | "business" | "admin" | "sales_agent"
     }
@@ -5944,6 +5998,15 @@ export const Constants = {
       badge_category: ["referrals", "earnings", "recruitment", "special"],
       badge_tier: ["bronze", "silver", "gold", "platinum", "diamond"],
       hbcu_verification_status: ["pending", "approved", "rejected"],
+      marketing_material_category: [
+        "social_media",
+        "email_templates",
+        "graphics",
+        "presentations",
+        "qr_codes",
+        "videos",
+        "documents",
+      ],
       subscription_tier: ["free", "paid", "business_starter"],
       user_role: ["customer", "business", "admin", "sales_agent"],
     },

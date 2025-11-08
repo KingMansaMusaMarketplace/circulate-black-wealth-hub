@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useSalesAgent } from '@/hooks/use-sales-agent';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
 import { formatCurrency } from '@/lib/utils';
 import ReferralsList from './ReferralsList';
 import CommissionsList from './CommissionsList';
@@ -67,6 +68,31 @@ const AgentDashboard: React.FC = () => {
       </div>
 
       <ReferralCode referralCode={agent.referral_code} />
+      
+      {/* Marketing Materials Button */}
+      <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-purple-500 rounded-full">
+                <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="font-semibold text-lg text-foreground">Marketing Materials Library</h3>
+                <p className="text-sm text-muted-foreground">Download social media graphics, email templates, and more</p>
+              </div>
+            </div>
+            <Button 
+              onClick={() => window.location.href = '/marketing-materials'}
+              className="bg-purple-600 hover:bg-purple-700"
+            >
+              Browse Materials
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       <Tabs defaultValue="referrals" className="bg-white p-4 rounded-lg shadow border border-blue-100">
         <TabsList className="grid grid-cols-5 mb-4 bg-blue-50">
