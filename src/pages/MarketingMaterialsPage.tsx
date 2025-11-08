@@ -15,6 +15,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { getCategories, getTags, getMaterialsWithFilters } from '@/lib/api/material-categories-api';
 import { MaterialCategory, MaterialTag, MaterialWithCategoriesAndTags } from '@/types/material-category';
 import MaterialFilters from '@/components/marketing/MaterialFilters';
+import { MaterialRecommendations } from '@/components/marketing/MaterialRecommendations';
 
 
 const getIconForType = (type: MaterialType) => {
@@ -107,6 +108,15 @@ const MarketingMaterialsPage: React.FC = () => {
       console.error('Error downloading:', error);
       toast.error('Failed to download material');
     }
+  };
+
+  const handleDownloadById = async (materialId: string) => {
+    const material = materials.find(m => m.id === materialId);
+    if (!material) {
+      toast.error('Material not found');
+      return;
+    }
+    await handleDownload(material);
   };
 
   const handleShare = async (material: MarketingMaterial) => {
@@ -217,6 +227,11 @@ const MarketingMaterialsPage: React.FC = () => {
               </SheetContent>
             </Sheet>
           </div>
+        </div>
+
+        {/* Recommendations */}
+        <div className="mb-8">
+          <MaterialRecommendations onDownload={handleDownloadById} />
         </div>
 
         {/* Tabs */}
