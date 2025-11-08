@@ -6,9 +6,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { nativeShare, copyToClipboard } from '@/utils/social-share';
-import { getMarketingMaterials, incrementDownloadCount } from '@/lib/api/marketing-materials-api';
+import { getMarketingMaterials } from '@/lib/api/marketing-materials-api';
 import { MarketingMaterial, MaterialType } from '@/types/marketing-material';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 
 const getIconForType = (type: MaterialType) => {
@@ -55,8 +56,12 @@ const MarketingMaterialsPage: React.FC = () => {
     }
 
     try {
-      // Increment download count
-      await incrementDownloadCount(material.id);
+      // Track download with user info
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { trackMaterialDownload } = await import('@/lib/api/marketing-analytics-api');
+        await trackMaterialDownload(material.id, user.id);
+      }
       
       // Trigger download
       window.open(material.file_url, '_blank');

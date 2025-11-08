@@ -129,6 +129,8 @@ export const toggleMaterialStatus = async (id: string, isActive: boolean): Promi
 };
 
 export const incrementDownloadCount = async (id: string): Promise<void> => {
+  // This is deprecated in favor of trackMaterialDownload
+  // Kept for backward compatibility
   const { error } = await supabase.rpc('increment_material_downloads', {
     material_id: id
   });

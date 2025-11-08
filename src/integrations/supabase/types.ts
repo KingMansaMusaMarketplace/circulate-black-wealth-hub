@@ -2258,6 +2258,45 @@ export type Database = {
           },
         ]
       }
+      marketing_material_downloads: {
+        Row: {
+          created_at: string | null
+          downloaded_at: string | null
+          id: string
+          material_id: string
+          sales_agent_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          downloaded_at?: string | null
+          id?: string
+          material_id: string
+          sales_agent_id: string
+        }
+        Update: {
+          created_at?: string | null
+          downloaded_at?: string | null
+          id?: string
+          material_id?: string
+          sales_agent_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "marketing_material_downloads_material_id_fkey"
+            columns: ["material_id"]
+            isOneToOne: false
+            referencedRelation: "marketing_materials"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "marketing_material_downloads_sales_agent_id_fkey"
+            columns: ["sales_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       marketing_materials: {
         Row: {
           created_at: string | null
@@ -5131,6 +5170,17 @@ export type Database = {
           zip_code: string
         }[]
       }
+      get_download_trends: {
+        Args: { p_end_date?: string; p_start_date?: string }
+        Returns: {
+          banner_count: number
+          document_count: number
+          download_count: number
+          download_date: string
+          email_count: number
+          social_count: number
+        }[]
+      }
       get_hbcu_verification_document_url: {
         Args: { verification_id: string }
         Returns: string
@@ -5150,6 +5200,20 @@ export type Database = {
           verification_status: Database["public"]["Enums"]["hbcu_verification_status"]
           verified_at: string
           verified_by: string
+        }[]
+      }
+      get_material_analytics: {
+        Args: { p_end_date?: string; p_start_date?: string }
+        Returns: {
+          bronze_downloads: number
+          gold_downloads: number
+          material_id: string
+          material_title: string
+          material_type: string
+          platinum_downloads: number
+          silver_downloads: number
+          total_downloads: number
+          unique_agents: number
         }[]
       }
       get_parent_business_analytics: {
@@ -5457,6 +5521,10 @@ export type Database = {
           target_user_id: string
         }
         Returns: Json
+      }
+      track_material_download: {
+        Args: { p_material_id: string; p_user_id: string }
+        Returns: undefined
       }
       update_agent_tier: { Args: { p_agent_id: string }; Returns: undefined }
       update_user_streak: {

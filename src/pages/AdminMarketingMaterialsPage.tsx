@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Edit, Trash2, Download, Eye, EyeOff, Upload } from 'lucide-react';
+import { ArrowLeft, Plus, Edit, Trash2, Download, Eye, EyeOff, Upload, BarChart3 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -166,6 +166,10 @@ const AdminMarketingMaterialsPage: React.FC = () => {
               </p>
             </div>
             <div className="flex gap-2">
+              <Button onClick={() => navigate('/admin/marketing-analytics')} variant="outline">
+                <BarChart3 className="mr-2 h-4 w-4" />
+                Analytics
+              </Button>
               <Button onClick={() => setBulkUploadOpen(true)} variant="outline">
                 <Upload className="mr-2 h-4 w-4" />
                 Bulk Upload
