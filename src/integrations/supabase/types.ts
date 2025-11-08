@@ -1019,6 +1019,9 @@ export type Database = {
           phone: string | null
           qr_code_id: string | null
           qr_code_url: string | null
+          referral_code_used: string | null
+          referral_commission_paid: boolean | null
+          referred_at: string | null
           review_count: number | null
           state: string | null
           subscription_end_date: string | null
@@ -1050,6 +1053,9 @@ export type Database = {
           phone?: string | null
           qr_code_id?: string | null
           qr_code_url?: string | null
+          referral_code_used?: string | null
+          referral_commission_paid?: boolean | null
+          referred_at?: string | null
           review_count?: number | null
           state?: string | null
           subscription_end_date?: string | null
@@ -1081,6 +1087,9 @@ export type Database = {
           phone?: string | null
           qr_code_id?: string | null
           qr_code_url?: string | null
+          referral_code_used?: string | null
+          referral_commission_paid?: boolean | null
+          referred_at?: string | null
           review_count?: number | null
           state?: string | null
           subscription_end_date?: string | null
@@ -4888,6 +4897,10 @@ export type Database = {
           state: string
         }[]
       }
+      get_business_referral_info: {
+        Args: { p_business_id: string }
+        Returns: Json
+      }
       get_business_verifications_admin_summary: {
         Args: never
         Returns: {
@@ -5146,6 +5159,10 @@ export type Database = {
         Args: { notification_id: string }
         Returns: undefined
       }
+      process_business_referral: {
+        Args: { p_business_id: string; p_referral_code: string }
+        Returns: Json
+      }
       process_pending_commissions: { Args: never; Returns: undefined }
       process_pending_referrals: { Args: never; Returns: Json }
       record_business_metric:
@@ -5261,6 +5278,10 @@ export type Database = {
       validate_password_complexity: {
         Args: { password: string }
         Returns: boolean
+      }
+      validate_referral_code: {
+        Args: { p_referral_code: string }
+        Returns: Json
       }
       validate_test_answers: { Args: { answer_data: Json }; Returns: Json }
       validate_uuid_input: { Args: { input_uuid: string }; Returns: boolean }
