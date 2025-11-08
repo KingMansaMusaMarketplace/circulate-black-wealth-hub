@@ -2395,7 +2395,9 @@ export type Database = {
           is_hbcu_member: boolean | null
           phone: string | null
           referral_code: string | null
+          referral_tier: number | null
           referred_by: string | null
+          referred_by_agent_id: string | null
           state: string | null
           subscription_end_date: string | null
           subscription_start_date: string | null
@@ -2426,7 +2428,9 @@ export type Database = {
           is_hbcu_member?: boolean | null
           phone?: string | null
           referral_code?: string | null
+          referral_tier?: number | null
           referred_by?: string | null
+          referred_by_agent_id?: string | null
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
@@ -2457,7 +2461,9 @@ export type Database = {
           is_hbcu_member?: boolean | null
           phone?: string | null
           referral_code?: string | null
+          referral_tier?: number | null
           referred_by?: string | null
+          referred_by_agent_id?: string | null
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
@@ -2470,6 +2476,13 @@ export type Database = {
           zip_code?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "profiles_referred_by_agent_id_fkey"
+            columns: ["referred_by_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "profiles_referred_by_fkey"
             columns: ["referred_by"]
@@ -2779,36 +2792,49 @@ export type Database = {
           commission_amount: number | null
           commission_status: string | null
           id: string
+          parent_referral_id: string | null
           payment_date: string | null
           referral_date: string | null
           referred_user_id: string
           referred_user_type: string
           sales_agent_id: string
           subscription_amount: number | null
+          tier: number | null
         }
         Insert: {
           commission_amount?: number | null
           commission_status?: string | null
           id?: string
+          parent_referral_id?: string | null
           payment_date?: string | null
           referral_date?: string | null
           referred_user_id: string
           referred_user_type: string
           sales_agent_id: string
           subscription_amount?: number | null
+          tier?: number | null
         }
         Update: {
           commission_amount?: number | null
           commission_status?: string | null
           id?: string
+          parent_referral_id?: string | null
           payment_date?: string | null
           referral_date?: string | null
           referred_user_id?: string
           referred_user_type?: string
           sales_agent_id?: string
           subscription_amount?: number | null
+          tier?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "referrals_parent_referral_id_fkey"
+            columns: ["parent_referral_id"]
+            isOneToOne: false
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "referrals_sales_agent_id_fkey"
             columns: ["sales_agent_id"]
@@ -4551,6 +4577,7 @@ export type Database = {
         }
         Returns: Json
       }
+      calculate_team_bonus: { Args: { tier1_points: number }; Returns: number }
       calculate_user_impact_metrics: {
         Args: { p_user_id: string }
         Returns: Json
@@ -4978,6 +5005,7 @@ export type Database = {
         Returns: undefined
       }
       process_pending_commissions: { Args: never; Returns: undefined }
+      process_pending_referrals: { Args: never; Returns: Json }
       record_business_metric:
         | {
             Args: {
