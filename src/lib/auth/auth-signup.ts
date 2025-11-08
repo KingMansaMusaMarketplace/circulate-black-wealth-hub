@@ -26,6 +26,44 @@ export const handleSignUp = async (
       return { error };
     }
 
+    // If user signed up with a referral code, create the referral link
+    if (data.user && (metadata as any)?.referral_code) {
+      try {
+        const referralCode = (metadata as any).referral_code;
+        
+        // Get the sales agent by referral code
+        const { data: agentData, error: agentError } = await supabase
+          .from('sales_agents')
+          .select('id, user_id')
+          .eq('referral_code', referralCode)
+          .eq('is_active', true)
+          .single();
+
+        if (!agentError && agentData) {
+          // Update the user's profile with the referred_by_agent_id
+          await supabase
+            .from('profiles')
+            .update({ referred_by_agent_id: agentData.id })
+            .eq('id', data.user.id);
+
+          // Create the referral record
+          await supabase
+            .from('referrals')
+            .insert({
+              sales_agent_id: agentData.id,
+              referred_user_id: data.user.id,
+              referred_user_type: (metadata as any)?.user_type || 'customer',
+              commission_status: 'pending'
+            });
+
+          console.log('Referral chain linked successfully');
+        }
+      } catch (referralError) {
+        console.warn('Failed to link referral chain:', referralError);
+        // Don't block signup if referral linking fails
+      }
+    }
+
     // Send custom verification email if user was created
     if (data.user && !data.user.email_confirmed_at) {
       try {

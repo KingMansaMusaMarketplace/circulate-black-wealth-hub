@@ -74,6 +74,8 @@ export interface Referral {
   commission_amount?: number;
   subscription_amount?: number;
   payment_date?: string;
+  tier?: number; // 1 for direct referrals, 2 for team bonus
+  parent_referral_id?: string; // Links tier 2 referrals to their tier 1 parent
 }
 
 export interface AgentCommission {
