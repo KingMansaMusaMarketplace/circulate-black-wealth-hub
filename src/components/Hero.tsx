@@ -26,13 +26,13 @@ const Hero = () => {
         {/* Free Access Badges */}
         <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
           <Link to="/signup">
-            <Badge className="bg-green-500 hover:bg-green-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
+            <Badge className="bg-gradient-green text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-green">
               <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               100% FREE - All Customer Features
             </Badge>
           </Link>
           <Link to="/signup?type=business">
-            <Badge className="bg-blue-500 hover:bg-blue-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
+            <Badge className="bg-gradient-blue text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-blue">
               <Building2 className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               100% FREE - All Business Features
             </Badge>
@@ -44,7 +44,7 @@ const Hero = () => {
             </Badge>
           </Link>
           <Link to="/signup">
-            <Badge className="bg-purple-500 hover:bg-purple-600 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer">
+            <Badge className="bg-gradient-purple text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-purple">
               <Heart className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               Community First, Revenue Later
             </Badge>
