@@ -14,7 +14,7 @@ const Hero = () => {
       <div className="relative container mx-auto px-4 py-16">
         {/* Phase 1 Free Growth Banner */}
         <div className="text-center mb-12">
-          <Badge className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 text-lg font-bold rounded-full mb-4">
+          <Badge className="bg-gradient-green text-white px-6 py-3 text-lg font-bold rounded-full mb-4 animate-pulse-green">
             <Zap className="mr-2 h-5 w-5" />
             PHASE 1: FREE GROWTH - Everything FREE Until Jan 2026!
           </Badge>
