@@ -1479,6 +1479,103 @@ export type Database = {
           },
         ]
       }
+      commission_transactions: {
+        Row: {
+          booking_id: string | null
+          business_id: string
+          commission_amount: number
+          commission_rate: number
+          created_at: string
+          id: string
+          metadata: Json | null
+          net_commission: number
+          platform_fee: number
+          processed_at: string | null
+          status: string
+          transaction_amount: number
+          transaction_id: string | null
+          transaction_type: string
+          updated_at: string
+        }
+        Insert: {
+          booking_id?: string | null
+          business_id: string
+          commission_amount: number
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          net_commission: number
+          platform_fee: number
+          processed_at?: string | null
+          status?: string
+          transaction_amount: number
+          transaction_id?: string | null
+          transaction_type: string
+          updated_at?: string
+        }
+        Update: {
+          booking_id?: string | null
+          business_id?: string
+          commission_amount?: number
+          commission_rate?: number
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          net_commission?: number
+          platform_fee?: number
+          processed_at?: string | null
+          status?: string
+          transaction_amount?: number
+          transaction_id?: string | null
+          transaction_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commission_transactions_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commission_transactions_transaction_id_fkey"
+            columns: ["transaction_id"]
+            isOneToOne: false
+            referencedRelation: "transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       community_aggregate_metrics: {
         Row: {
           created_at: string
@@ -5348,6 +5445,10 @@ export type Database = {
         }
         Returns: Json
       }
+      calculate_commission: {
+        Args: { p_amount: number; p_commission_rate?: number }
+        Returns: Json
+      }
       calculate_override_end_date: {
         Args: { recruitment_date: string }
         Returns: string
@@ -5757,6 +5858,10 @@ export type Database = {
         Args: { p_parent_business_id: string }
         Returns: Json
       }
+      get_platform_commission_summary: {
+        Args: { p_end_date?: string; p_start_date?: string }
+        Returns: Json
+      }
       get_public_business_info: {
         Args: never
         Returns: {
@@ -5988,6 +6093,16 @@ export type Database = {
           p_metadata?: Json
         }
         Returns: undefined
+      }
+      record_commission: {
+        Args: {
+          p_amount: number
+          p_booking_id: string
+          p_business_id: string
+          p_transaction_id: string
+          p_transaction_type?: string
+        }
+        Returns: string
       }
       request_account_deletion: {
         Args: { deletion_reason?: string }
