@@ -36,30 +36,22 @@ serve(async (req) => {
 
     const {
       businessId,
-      serviceId,
-      bookingDate,
-      customerName,
+      qrCodeId,
+      amount,
+      description,
       customerEmail,
-      customerPhone,
-      notes,
     } = await req.json();
 
-    console.log("Creating booking:", {
+    console.log("Processing QR transaction:", {
       businessId,
-      serviceId,
-      bookingDate,
+      qrCodeId,
+      amount,
       customerEmail,
     });
 
-    // Get service details
-    const { data: service, error: serviceError } = await supabase
-      .from("business_services")
-      .select("*, businesses:business_id(stripe_account_id)")
-      .eq("id", serviceId)
-      .single();
-
-    if (serviceError || !service) {
-      throw new Error("Service not found");
+    // Validate amount
+    if (!amount || amount <= 0) {
+      throw new Error("Invalid transaction amount");
     }
 
     // Get business payment account
@@ -78,9 +70,9 @@ serve(async (req) => {
     }
 
     // Calculate fees with 7.5% commission
-    const amount = Math.round(service.price * 100); // Convert to cents
-    const commission = Math.round(amount * (COMMISSION_RATE / 100));
-    const businessAmount = amount - commission;
+    const amountInCents = Math.round(amount * 100); // Convert to cents
+    const commission = Math.round(amountInCents * (COMMISSION_RATE / 100));
+    const businessAmount = amountInCents - commission;
 
     // Initialize Stripe
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
@@ -89,7 +81,7 @@ serve(async (req) => {
 
     // Create payment intent with 7.5% commission
     const paymentIntent = await stripe.paymentIntents.create({
-      amount,
+      amount: amountInCents,
       currency: "usd",
       application_fee_amount: commission,
       transfer_data: {
@@ -97,71 +89,94 @@ serve(async (req) => {
       },
       metadata: {
         businessId,
-        serviceId,
-        bookingDate,
+        qrCodeId: qrCodeId || "direct",
         customerId: user.id,
         commissionRate: COMMISSION_RATE.toString(),
+        transactionType: "qr_scan",
       },
-      description: `Booking: ${service.name}`,
-      receipt_email: customerEmail,
+      description: description || "QR Code Transaction",
+      receipt_email: customerEmail || user.email,
     });
 
-    // Create booking record
-    const { data: booking, error: bookingError } = await supabase
-      .from("bookings")
+    // Record QR scan if qrCodeId provided
+    let qrScanId = null;
+    if (qrCodeId) {
+      const { data: qrScan, error: scanError } = await supabase
+        .from("qr_scans")
+        .insert({
+          qr_code_id: qrCodeId,
+          customer_id: user.id,
+          business_id: businessId,
+          scan_date: new Date().toISOString(),
+          points_awarded: 0, // Will be updated after successful payment
+        })
+        .select()
+        .single();
+
+      if (!scanError && qrScan) {
+        qrScanId = qrScan.id;
+      }
+    }
+
+    // Create transaction record
+    const { data: transaction, error: transactionError } = await supabase
+      .from("transactions")
       .insert({
         business_id: businessId,
         customer_id: user.id,
-        service_id: serviceId,
-        booking_date: bookingDate,
-        duration_minutes: service.duration_minutes,
-        amount: service.price,
-        platform_fee: commission / 100,
-        business_amount: businessAmount / 100,
-        status: "pending",
-        payment_intent_id: paymentIntent.id,
-        customer_name: customerName,
-        customer_email: customerEmail,
-        customer_phone: customerPhone,
-        notes,
+        amount: amount,
+        points_earned: Math.floor(amount * 10), // 10 points per dollar
+        description: description || "QR Code Purchase",
+        transaction_type: "qr_scan",
+        metadata: {
+          payment_intent_id: paymentIntent.id,
+          qr_code_id: qrCodeId,
+          qr_scan_id: qrScanId,
+          commission_rate: COMMISSION_RATE,
+        }
       })
       .select()
       .single();
 
-    if (bookingError) {
-      console.error("Booking creation error:", bookingError);
-      throw bookingError;
+    if (transactionError) {
+      console.error("Transaction creation error:", transactionError);
+      throw transactionError;
     }
 
-    console.log("Booking created successfully:", booking.id);
+    console.log("Transaction created successfully:", transaction.id);
 
     // Record commission transaction
     try {
       const { error: commissionError } = await supabase.rpc('record_commission', {
-        p_transaction_id: null, // Will be populated when payment completes
-        p_booking_id: booking.id,
+        p_transaction_id: transaction.id,
+        p_booking_id: null,
         p_business_id: businessId,
-        p_amount: service.price,
-        p_transaction_type: 'booking'
+        p_amount: amount,
+        p_transaction_type: 'qr_scan'
       });
 
       if (commissionError) {
         console.error("Commission recording error:", commissionError);
-        // Don't fail the booking, just log the error
+        // Don't fail the transaction, just log the error
       } else {
-        console.log("Commission recorded for booking:", booking.id);
+        console.log("Commission recorded for transaction:", transaction.id);
       }
     } catch (commError) {
       console.error("Failed to record commission:", commError);
-      // Continue with booking creation even if commission recording fails
+      // Continue even if commission recording fails
     }
 
     return new Response(
       JSON.stringify({
         success: true,
-        booking,
+        transaction,
         clientSecret: paymentIntent.client_secret,
         paymentIntentId: paymentIntent.id,
+        commission: {
+          rate: COMMISSION_RATE,
+          amount: commission / 100,
+          businessReceives: businessAmount / 100,
+        }
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -169,7 +184,7 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error("Error creating booking:", error);
+    console.error("Error processing QR transaction:", error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     return new Response(
       JSON.stringify({
