@@ -4,9 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { DollarSign, TrendingDown, Receipt, Calendar } from 'lucide-react';
+import { DollarSign, TrendingDown, Receipt, Calendar, Download } from 'lucide-react';
 import { format } from 'date-fns';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 interface CommissionTransaction {
   id: string;
@@ -30,12 +33,25 @@ export const BusinessCommissionReport = ({ businessId }: BusinessCommissionRepor
   const [transactions, setTransactions] = useState<CommissionTransaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d' | 'all'>('30d');
+  const [businessName, setBusinessName] = useState('');
+  const [exporting, setExporting] = useState(false);
   const { toast } = useToast();
 
   const loadCommissionData = async () => {
     try {
       setLoading(true);
       
+      // Fetch business name
+      const { data: businessData } = await supabase
+        .from('businesses')
+        .select('business_name')
+        .eq('id', businessId)
+        .single();
+      
+      if (businessData) {
+        setBusinessName(businessData.business_name);
+      }
+
       let query = supabase
         .from('commission_transactions')
         .select('*')
@@ -87,6 +103,144 @@ export const BusinessCommissionReport = ({ businessId }: BusinessCommissionRepor
     ? transactions.reduce((sum, t) => sum + Number(t.commission_rate), 0) / transactions.length 
     : 0;
 
+  const exportToPDF = async () => {
+    try {
+      setExporting(true);
+      const doc = new jsPDF();
+      
+      // Header
+      doc.setFontSize(20);
+      doc.setTextColor(102, 126, 234);
+      doc.text('Commission Report', 14, 20);
+      
+      doc.setFontSize(12);
+      doc.setTextColor(0, 0, 0);
+      doc.text(businessName || 'Business Report', 14, 28);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(100, 100, 100);
+      const periodText = timeRange === 'all' ? 'All Time' : `Last ${timeRange}`;
+      doc.text(`Period: ${periodText}`, 14, 34);
+      doc.text(`Generated: ${format(new Date(), 'MMM dd, yyyy')}`, 14, 40);
+
+      // Summary Section
+      doc.setFontSize(14);
+      doc.setTextColor(0, 0, 0);
+      doc.text('Summary', 14, 52);
+      
+      const summaryData = [
+        ['Total Revenue', formatCurrency(totalVolume)],
+        ['Platform Commission (7.5%)', formatCurrency(totalCommissionPaid)],
+        ['Stripe Processing Fees', formatCurrency(totalStripeFees)],
+        ['Net Revenue (You Received)', formatCurrency(totalReceived)],
+        ['Total Transactions', transactions.length.toString()],
+        ['Average Commission Rate', `${avgCommissionRate.toFixed(1)}%`]
+      ];
+
+      autoTable(doc, {
+        startY: 56,
+        head: [['Metric', 'Value']],
+        body: summaryData,
+        theme: 'grid',
+        headStyles: { fillColor: [102, 126, 234] },
+        margin: { left: 14, right: 14 }
+      });
+
+      // Fee Breakdown Section
+      const finalY = (doc as any).lastAutoTable.finalY || 56;
+      doc.setFontSize(14);
+      doc.text('Fee Breakdown', 14, finalY + 12);
+
+      const breakdownData = [
+        ['Gross Revenue', formatCurrency(totalVolume), '100%'],
+        ['Platform Commission', `-${formatCurrency(totalCommissionPaid)}`, `${totalVolume > 0 ? ((totalCommissionPaid / totalVolume) * 100).toFixed(2) : 0}%`],
+        ['Stripe Fees', `-${formatCurrency(totalStripeFees)}`, `${totalVolume > 0 ? ((totalStripeFees / totalVolume) * 100).toFixed(2) : 0}%`],
+        ['Net Revenue', formatCurrency(totalReceived), `${totalVolume > 0 ? ((totalReceived / totalVolume) * 100).toFixed(2) : 0}%`]
+      ];
+
+      autoTable(doc, {
+        startY: finalY + 16,
+        head: [['Description', 'Amount', 'Percentage']],
+        body: breakdownData,
+        theme: 'striped',
+        headStyles: { fillColor: [102, 126, 234] },
+        margin: { left: 14, right: 14 }
+      });
+
+      // Transactions Section
+      if (transactions.length > 0) {
+        const finalY2 = (doc as any).lastAutoTable.finalY || finalY + 16;
+        doc.addPage();
+        doc.setFontSize(14);
+        doc.text('Transaction History', 14, 20);
+
+        const transactionData = transactions.map(t => {
+          const youReceived = Number(t.transaction_amount) - Number(t.commission_amount) - Number(t.platform_fee);
+          return [
+            format(new Date(t.created_at), 'MMM dd, yyyy'),
+            t.transaction_type.replace('_', ' '),
+            formatCurrency(Number(t.transaction_amount)),
+            formatCurrency(Number(t.commission_amount)),
+            formatCurrency(Number(t.platform_fee)),
+            formatCurrency(youReceived),
+            t.status
+          ];
+        });
+
+        autoTable(doc, {
+          startY: 26,
+          head: [['Date', 'Type', 'Amount', 'Commission', 'Stripe Fee', 'You Received', 'Status']],
+          body: transactionData,
+          theme: 'striped',
+          headStyles: { fillColor: [102, 126, 234], fontSize: 8 },
+          bodyStyles: { fontSize: 7 },
+          margin: { left: 14, right: 14 },
+          columnStyles: {
+            0: { cellWidth: 25 },
+            1: { cellWidth: 20 },
+            2: { cellWidth: 22 },
+            3: { cellWidth: 22 },
+            4: { cellWidth: 22 },
+            5: { cellWidth: 25 },
+            6: { cellWidth: 20 }
+          }
+        });
+      }
+
+      // Footer
+      const pageCount = doc.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text(
+          `Page ${i} of ${pageCount}`,
+          doc.internal.pageSize.getWidth() / 2,
+          doc.internal.pageSize.getHeight() - 10,
+          { align: 'center' }
+        );
+      }
+
+      // Save PDF
+      const fileName = `commission-report-${businessName.replace(/\s+/g, '-').toLowerCase()}-${format(new Date(), 'yyyy-MM-dd')}.pdf`;
+      doc.save(fileName);
+
+      toast({
+        title: 'Success',
+        description: 'Commission report exported successfully'
+      });
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to export PDF',
+        variant: 'destructive'
+      });
+    } finally {
+      setExporting(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -97,20 +251,32 @@ export const BusinessCommissionReport = ({ businessId }: BusinessCommissionRepor
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-3xl font-bold">Commission Reports</h2>
           <p className="text-muted-foreground">Track platform fees and transaction costs</p>
         </div>
         
-        <Tabs value={timeRange} onValueChange={(v) => setTimeRange(v as any)}>
-          <TabsList>
-            <TabsTrigger value="7d">7 Days</TabsTrigger>
-            <TabsTrigger value="30d">30 Days</TabsTrigger>
-            <TabsTrigger value="90d">90 Days</TabsTrigger>
-            <TabsTrigger value="all">All Time</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button 
+            onClick={exportToPDF} 
+            disabled={exporting || transactions.length === 0}
+            variant="outline"
+            className="gap-2"
+          >
+            <Download className="h-4 w-4" />
+            {exporting ? 'Exporting...' : 'Export PDF'}
+          </Button>
+          
+          <Tabs value={timeRange} onValueChange={(v) => setTimeRange(v as any)}>
+            <TabsList>
+              <TabsTrigger value="7d">7 Days</TabsTrigger>
+              <TabsTrigger value="30d">30 Days</TabsTrigger>
+              <TabsTrigger value="90d">90 Days</TabsTrigger>
+              <TabsTrigger value="all">All Time</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       {/* Summary Cards */}
