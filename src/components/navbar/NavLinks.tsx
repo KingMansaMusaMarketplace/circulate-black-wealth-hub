@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones, FolderOpen } from 'lucide-react';
+import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones, FolderOpen, Heart } from 'lucide-react';
 
 const NavLinks: React.FC = () => {
   const linkClassName = "text-gray-700 hover:text-mansablue transition-colors font-bold px-3 py-2";
@@ -45,6 +45,13 @@ const NavLinks: React.FC = () => {
         <NavigationMenuItem>
           <Link to="/recommendations" className={linkClassName}>
             Discover
+          </Link>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <Link to="/impact" className={`${linkClassName} flex items-center gap-1.5`}>
+            <Heart className="h-4 w-4" />
+            My Impact
           </Link>
         </NavigationMenuItem>
 

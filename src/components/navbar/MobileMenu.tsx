@@ -38,6 +38,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
     { to: '/dashboard', label: 'Dashboard' },
     { to: '/businesses', label: 'Marketplace' },
     { to: '/recommendations', label: 'Discover & Achieve' },
+    { to: '/impact', label: '❤️ My Impact' },
     { to: '/community-finance', label: 'Community Finance' },
     { to: '/challenges', label: 'Group Challenges' },
     { to: '/referrals', label: 'Earn Rewards 🎁' },
