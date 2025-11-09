@@ -114,3 +114,6 @@ verify_jwt = true
 [functions.analyze-material-performance]
 verify_jwt = true
 
+[functions.ai-recommendations]
+verify_jwt = false
+

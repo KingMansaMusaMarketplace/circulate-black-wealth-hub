@@ -13,6 +13,7 @@ import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { NativeFeaturesPromo } from '@/components/NativeFeaturesPromo';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import VoiceInterface from '@/components/VoiceInterface';
+import { SmartRecommendations } from '@/components/SmartRecommendations';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -67,6 +68,13 @@ const HomePage = () => {
         {/* Free Growth Strategy Banner */}
         <SectionErrorBoundary sectionName="Growth Banner">
           <FreeGrowthBanner />
+        </SectionErrorBoundary>
+
+        {/* AI-Powered Smart Recommendations */}
+        <SectionErrorBoundary sectionName="Smart Recommendations">
+          <div className="container mx-auto px-4 py-12">
+            <SmartRecommendations />
+          </div>
         </SectionErrorBoundary>
 
         {/* All conversion-focused sections */}
