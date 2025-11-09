@@ -340,16 +340,18 @@
   0%, 100% {
     transform: scale(1) translateZ(0);
     opacity: 1;
+    box-shadow: 0 4px 14px 0 rgba(255, 107, 0, 0.4);
   }
   50% {
     transform: scale(1.08) translateZ(0);
     opacity: 0.75;
+    box-shadow: 0 8px 24px 0 rgba(255, 107, 0, 0.7), 0 0 32px 0 rgba(255, 107, 0, 0.5);
   }
 }
 
 .animate-pulse-ios {
   animation: pulse-ios 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  will-change: transform, opacity;
+  will-change: transform, opacity, box-shadow;
   -webkit-transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
