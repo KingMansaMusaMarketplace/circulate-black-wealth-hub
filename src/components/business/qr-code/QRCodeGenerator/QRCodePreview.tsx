@@ -37,12 +37,17 @@ const QRCodePreview: React.FC<QRCodePreviewProps> = ({
       <CardContent className="space-y-4">
         <div className="flex justify-center">
           {qrCode?.qr_image_url ? (
-            <div className="w-64 h-64 border rounded-lg overflow-hidden">
-              <img 
-                src={qrCode.qr_image_url} 
-                alt="Generated QR Code"
-                className="w-full h-full object-contain"
-              />
+            <div className="space-y-2">
+              <div className="w-64 h-64 border rounded-lg overflow-hidden">
+                <img 
+                  src={qrCode.qr_image_url} 
+                  alt="Generated QR Code"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-medium text-foreground">Mansa Musa Marketplace, Inc.</p>
+              </div>
             </div>
           ) : (
             <div className="w-64 h-64 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
