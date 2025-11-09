@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import PaymentCalculator from '@/components/business/PaymentCalculator';
 import BusinessFAQ from '@/components/business/BusinessFAQ';
+import VideoPlayer from '@/components/VideoPlayer';
 import { 
   Smartphone, 
   QrCode, 
@@ -12,7 +13,8 @@ import {
   TrendingUp,
   Users,
   Zap,
-  ArrowRight
+  ArrowRight,
+  PlayCircle
 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
@@ -157,6 +159,50 @@ const HowItWorksPage = () => {
                 <CheckCircle2 className="h-5 w-5" />
                 Total Time: ~45 Seconds ⚡
               </div>
+            </div>
+          </div>
+
+          {/* Video Tutorial Section */}
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <PlayCircle className="h-8 w-8 text-primary" />
+                <h2 className="text-3xl font-bold">Watch It In Action</h2>
+              </div>
+              <p className="text-muted-foreground">
+                See a real customer scanning and completing a payment in under 60 seconds
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <Card className="overflow-hidden">
+                <CardContent className="p-0">
+                  <VideoPlayer
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    title="Customer QR Payment Flow Tutorial - Step by Step"
+                    isYouTube={true}
+                    description="Watch a real-time demonstration of a customer using the MMM QR code payment system at a restaurant. This tutorial shows every step from scanning the QR code to receiving the payment confirmation and loyalty points."
+                  />
+                </CardContent>
+              </Card>
+              
+              <Card className="mt-4 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900">
+                <CardContent className="pt-6">
+                  <div className="flex items-start gap-3">
+                    <PlayCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+                    <div className="space-y-2 text-sm">
+                      <p className="font-semibold text-blue-900 dark:text-blue-100">
+                        Replace with Your Screen Recording
+                      </p>
+                      <p className="text-blue-800 dark:text-blue-200">
+                        Record a screen capture showing the complete payment flow from your test account. 
+                        Include voiceover explaining: scanning → login → payment entry → confirmation → loyalty points.
+                        Upload to YouTube and replace the video URL in the code.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
 
