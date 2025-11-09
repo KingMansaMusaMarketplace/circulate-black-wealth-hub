@@ -358,7 +358,7 @@
   transform: translateZ(0);
 }
 
-/* Animated gradient for sales agent badge */
+/* Animated gradient for sales agent badge - Mobile optimized */
 @keyframes gradient-shift {
   0% {
     background-position: 0% 50%;
@@ -381,6 +381,12 @@
   );
   background-size: 400% 400%;
   animation: gradient-shift 3s ease infinite;
+  /* Mobile performance optimizations */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: background-position;
 }
 
 .bg-gradient-sales:hover {
@@ -392,5 +398,12 @@
     hsl(25 95% 58%)
   );
   background-size: 400% 400%;
+}
+
+/* Reduce animation complexity on lower-end devices */
+@media (prefers-reduced-motion: no-preference) and (hover: none) {
+  .bg-gradient-sales {
+    animation: gradient-shift 4s ease infinite;
+  }
 }
 
