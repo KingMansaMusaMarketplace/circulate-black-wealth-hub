@@ -358,3 +358,39 @@
   transform: translateZ(0);
 }
 
+/* Animated gradient for sales agent badge */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-gradient-sales {
+  background: linear-gradient(
+    270deg,
+    hsl(25 95% 53%),
+    hsl(16 90% 48%),
+    hsl(45 93% 47%),
+    hsl(25 95% 53%)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.bg-gradient-sales:hover {
+  background: linear-gradient(
+    270deg,
+    hsl(25 95% 58%),
+    hsl(16 90% 53%),
+    hsl(45 93% 52%),
+    hsl(25 95% 58%)
+  );
+  background-size: 400% 400%;
+}
+
