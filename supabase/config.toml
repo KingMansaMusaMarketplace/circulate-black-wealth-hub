@@ -1,5 +1,8 @@
 project_id = "agoclnqfyinwjxdmjnns"
 
+[functions.generate-branded-qr]
+verify_jwt = false
+
 [functions.process-notification-batches]
 verify_jwt = false
 
