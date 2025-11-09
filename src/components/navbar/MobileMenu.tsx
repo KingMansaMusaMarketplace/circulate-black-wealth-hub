@@ -18,6 +18,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
   const businessItems = [
     { to: '/directory', label: 'Business Directory' },
     { to: '/signup?type=business', label: 'Business Signup' },
+    { to: '/business/how-it-works', label: 'How Payments Work' },
     { to: '/corporate-sponsorship', label: 'Sponsorship' },
     { to: '/sales-agent', label: 'Sales Agent Program' },
   ];

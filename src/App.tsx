@@ -87,6 +87,7 @@ const LazyLeaderboardPage = lazy(() => import('@/pages/LeaderboardPage'));
 const LazyImpactPage = lazy(() => import('@/pages/ImpactPage'));
 const LazyCommissionsPage = lazy(() => import('@/pages/admin/CommissionsPage'));
 const LazyCommissionReportsPage = lazy(() => import('@/pages/business/CommissionReportsPage'));
+const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWorksPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -360,8 +361,9 @@ function App() {
                               <Route path="/referrals" element={<LazyReferralDashboard />} />
                               <Route path="/share-impact" element={<LazyShareImpactPage />} />
               <Route path="/impact" element={<LazyImpactPage />} />
-              <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
-              <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
+                              <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
+                              <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
+                              <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
                               <Route path="/network" element={<LazyNetworkPage />} />
                              
