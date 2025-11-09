@@ -438,7 +438,7 @@
 /* Shimmer effect for badges */
 @keyframes shimmer-sweep {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-100%) translateZ(0);
     opacity: 0;
   }
   20% {
@@ -451,7 +451,7 @@
     opacity: 0.6;
   }
   100% {
-    transform: translateX(100%);
+    transform: translateX(100%) translateZ(0);
     opacity: 0;
   }
 }
@@ -459,6 +459,7 @@
 .badge-shimmer {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .badge-shimmer::after {
@@ -479,6 +480,25 @@
   pointer-events: none;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+/* Mobile optimizations for badges */
+@media (hover: none) and (pointer: coarse) {
+  /* Slower, more battery-friendly animations on touch devices */
+  .badge-shimmer::after {
+    animation: shimmer-sweep 4s ease-in-out infinite;
+  }
+  
+  .animate-pulse-ios,
+  .animate-pulse-green,
+  .animate-pulse-blue,
+  .animate-pulse-purple {
+    /* Slightly reduce pulse intensity on mobile */
+    animation-duration: 2s;
+  }
 }
 
 /* Animated gradient for sales agent badge - Mobile optimized */
