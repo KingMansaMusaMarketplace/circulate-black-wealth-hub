@@ -457,6 +457,9 @@ function App() {
                         <Route path="/sales-agent-dashboard" element={<SalesAgentDashboardPage />} />
                         <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
                         <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
+                        <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
+                        <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
+                        <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
                         <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
                         <Route path="/business/:businessId" element={<BusinessDetailPage />} />
                         <Route path="/loyalty" element={<RewardsPage />} />
