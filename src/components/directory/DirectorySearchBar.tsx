@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, SlidersHorizontal, Grid, List, Map, Navigation, Loader2, X } from 'lucide-react';
+import { Search, SlidersHorizontal, Grid, List, Map, Navigation, Loader2, X, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -66,6 +66,8 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
     onSearchChange('');
     setShowSearchResults(false);
   };
+
+  const isNaturalLanguage = searchTerm.trim().split(/\s+/).length > 2;
   
   // Handle clicking outside to close search results
   useEffect(() => {
@@ -93,11 +95,20 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <Input
               type="text"
-              placeholder="Search by business name, category, or location"
+              placeholder="Try 'soul food near me' or 'brunch spots downtown'"
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
               className="pl-10 bg-gray-50 pr-10"
             />
+            {isNaturalLanguage && (
+              <Badge 
+                variant="secondary" 
+                className="absolute right-12 top-1/2 transform -translate-y-1/2 text-xs gap-1"
+              >
+                <Sparkles className="h-3 w-3" />
+                AI
+              </Badge>
+            )}
             {searchTerm && (
               <Button
                 variant="ghost" 

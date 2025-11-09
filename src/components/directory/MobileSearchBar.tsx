@@ -12,7 +12,8 @@ import {
   Map,
   X,
   Loader2,
-  Settings
+  Settings,
+  Sparkles
 } from 'lucide-react';
 import {
   Sheet,
@@ -71,6 +72,8 @@ const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
     setShowSuggestions(false);
   };
 
+  const isNaturalLanguage = searchTerm.trim().split(/\s+/).length > 2;
+
   return (
     <div className="bg-white border-b border-gray-200 sticky top-16 z-40 md:hidden">
       {/* Main Search Row */}
@@ -80,18 +83,29 @@ const MobileSearchBar: React.FC<MobileSearchBarProps> = ({
             <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
             <Popover open={showSuggestions} onOpenChange={setShowSuggestions}>
               <PopoverTrigger asChild>
-                <Input
-                  type="text"
-                  placeholder="Search businesses..."
-                  className="pl-10 h-12 text-base rounded-lg"
-                  value={searchTerm}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                  onFocus={() => {
-                    setIsSearchFocused(true);
-                    setShowSuggestions(true);
-                  }}
-                  onBlur={() => setIsSearchFocused(false)}
-                />
+                <div className="relative">
+                  <Input
+                    type="text"
+                    placeholder="Try 'soul food near me'"
+                    className="pl-10 h-12 text-base rounded-lg pr-20"
+                    value={searchTerm}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                    onFocus={() => {
+                      setIsSearchFocused(true);
+                      setShowSuggestions(true);
+                    }}
+                    onBlur={() => setIsSearchFocused(false)}
+                  />
+                  {isNaturalLanguage && (
+                    <Badge 
+                      variant="secondary" 
+                      className="absolute right-12 top-1/2 transform -translate-y-1/2 text-xs gap-1"
+                    >
+                      <Sparkles className="h-3 w-3" />
+                      AI
+                    </Badge>
+                  )}
+                </div>
               </PopoverTrigger>
               <PopoverContent 
                 className="w-full p-0 mt-1" 

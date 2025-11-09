@@ -120,3 +120,6 @@ verify_jwt = false
 [functions.generate-impact-report]
 verify_jwt = false
 
+[functions.parse-search-query]
+verify_jwt = false
+

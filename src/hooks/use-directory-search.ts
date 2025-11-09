@@ -4,6 +4,8 @@ import { Business } from '@/types/business';
 import { BusinessFilters } from '@/lib/api/directory/types';
 import { calculateDistance } from '@/lib/api/directory/utils';
 
+export type { BusinessFilters as FilterOptions };
+
 export function useDirectorySearch(businesses: Business[]) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterOptions, setFilterOptions] = useState<BusinessFilters>({
