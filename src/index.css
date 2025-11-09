@@ -435,6 +435,103 @@
   transform: translateZ(0);
 }
 
+/* Kayla voice button styles */
+@keyframes gradient-shift-kayla {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulse-kayla-idle {
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4), 0 0 48px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    transform: scale(1.05) translateZ(0);
+    box-shadow: 0 12px 48px rgba(139, 92, 246, 0.6), 0 0 64px rgba(59, 130, 246, 0.5);
+  }
+}
+
+@keyframes pulse-kayla-active {
+  0%, 100% {
+    transform: scale(1) translateZ(0);
+    box-shadow: 0 8px 32px rgba(239, 68, 68, 0.5), 0 0 48px rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    transform: scale(1.08) translateZ(0);
+    box-shadow: 0 12px 48px rgba(239, 68, 68, 0.7), 0 0 64px rgba(239, 68, 68, 0.6);
+  }
+}
+
+@keyframes mic-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+.kayla-button-idle {
+  background: linear-gradient(
+    135deg,
+    hsl(258 90% 66%),
+    hsl(217 91% 60%),
+    hsl(280 87% 65%),
+    hsl(258 90% 66%)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift-kayla 3s ease infinite, pulse-kayla-idle 2s ease-in-out infinite;
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform, box-shadow, background-position;
+}
+
+.kayla-button-active {
+  background: linear-gradient(
+    135deg,
+    hsl(0 84% 60%),
+    hsl(345 83% 47%),
+    hsl(0 72% 51%),
+    hsl(0 84% 60%)
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift-kayla 2s ease infinite, pulse-kayla-active 1s ease-in-out infinite;
+  border-radius: 9999px;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform, box-shadow, background-position;
+}
+
+.kayla-mic-icon {
+  animation: mic-pulse 1.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Mobile optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .kayla-button-idle,
+  .kayla-button-active {
+    animation-duration: 3s, 2.5s;
+  }
+}
+
 /* Shimmer effect for badges */
 @keyframes shimmer-sweep {
   0% {

@@ -354,7 +354,11 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           onClick={assistantSpeaking ? stopRecording : startRecording}
           disabled={isProcessing}
           size="lg"
-          className="bg-primary hover:bg-primary/90 text-white shadow-lg min-w-[200px] min-h-[56px] text-base"
+          className={`${
+            isProcessing 
+              ? 'kayla-button-idle opacity-80 cursor-not-allowed' 
+              : 'kayla-button-idle hover:opacity-90'
+          } text-white font-semibold shadow-2xl min-w-[240px] min-h-[64px] text-lg transition-opacity`}
           style={{ 
             touchAction: 'manipulation', 
             WebkitTapHighlightColor: 'transparent',
@@ -364,16 +368,20 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         >
           {isProcessing ? (
             <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              {processingStage === 'transcribing' && 'Listening...'}
-              {processingStage === 'thinking' && 'Kayla is thinking...'}
-              {processingStage === 'speaking' && 'Kayla is speaking...'}
-              {!processingStage && 'Processing...'}
+              <Loader2 className="mr-3 h-6 w-6 animate-spin" />
+              <span className="font-medium">
+                {processingStage === 'transcribing' && 'Listening...'}
+                {processingStage === 'thinking' && 'Kayla is thinking...'}
+                {processingStage === 'speaking' && 'Kayla is speaking...'}
+                {!processingStage && 'Processing...'}
+              </span>
             </>
           ) : (
             <>
-              <Mic className="mr-2 h-5 w-5" />
-              {assistantSpeaking ? 'Stop Kayla' : 'Talk to Kayla'}
+              <Mic className={`mr-3 h-6 w-6 ${!assistantSpeaking && 'kayla-mic-icon'}`} />
+              <span className="font-medium">
+                {assistantSpeaking ? 'Stop Kayla' : 'Talk to Kayla'}
+              </span>
             </>
           )}
         </Button>
@@ -381,8 +389,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         <Button 
           onClick={stopRecording}
           size="lg"
-          variant="destructive"
-          className="shadow-lg animate-pulse min-w-[200px] min-h-[56px] text-base"
+          className="kayla-button-active text-white font-semibold shadow-2xl min-w-[240px] min-h-[64px] text-lg"
           style={{ 
             touchAction: 'manipulation', 
             WebkitTapHighlightColor: 'transparent',
@@ -390,8 +397,8 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
             userSelect: 'none'
           }}
         >
-          <MicOff className="mr-2 h-5 w-5" />
-          Stop Recording
+          <MicOff className="mr-3 h-6 w-6 kayla-mic-icon" />
+          <span className="font-medium">Stop Recording</span>
         </Button>
       )}
     </div>
