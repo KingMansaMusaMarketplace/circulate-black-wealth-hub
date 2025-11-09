@@ -18,6 +18,8 @@ import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 import { businessCategories as businessCategoriesData } from '@/data/categories';
 import ReferralCodeInput from '@/components/business/ReferralCodeInput';
 import { processBusinessReferral } from '@/lib/api/referral-tracking-api';
+import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
+import { Progress } from '@/components/ui/progress';
 
 const businessSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -77,6 +79,15 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   });
 
   const watchCategory = watch('category');
+  const watchPassword = watch('password');
+
+  // Calculate form completion percentage
+  const formFields = ['fullName', 'businessName', 'email', 'category', 'phone', 'password', 'confirmPassword'];
+  const completedFields = formFields.filter(field => {
+    const value = watch(field as any);
+    return value && value.toString().length > 0;
+  }).length;
+  const completionPercentage = Math.round((completedFields / formFields.length) * 100);
 
   const onSubmit = async (data: BusinessSignupForm) => {
     setIsLoading(true);
@@ -179,6 +190,17 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         position="top"
         actionText="Let's Get Started!"
       />
+
+      {/* Progress Indicator */}
+      {completionPercentage > 0 && completionPercentage < 100 && (
+        <div className="space-y-2">
+          <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">Form Completion</span>
+            <span className="font-medium">{completionPercentage}%</span>
+          </div>
+          <Progress value={completionPercentage} className="h-2" />
+        </div>
+      )}
       
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {error && (
@@ -352,6 +374,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
           {errors.password && (
             <p className="text-sm text-red-600">{errors.password.message}</p>
           )}
+          <PasswordStrengthIndicator password={watchPassword || ''} />
         </div>
 
         <div className="space-y-2">

@@ -3,9 +3,12 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import QRCodeForm from './QRCodeGenerator/QRCodeForm';
 import QRCodePreview from './QRCodeGenerator/QRCodePreview';
+import { QRCodeCustomizer, QRCustomization } from './QRCodeCustomizer';
 import { useQRCode } from '@/hooks/qr-code';
 import { QRCode } from '@/lib/api/qr-code-api';
 import { toast } from 'sonner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Settings, Palette } from 'lucide-react';
 
 interface QRCodeGeneratorProps {
   businessId?: string;
@@ -13,6 +16,13 @@ interface QRCodeGeneratorProps {
 
 const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ businessId }) => {
   const [currentQRCode, setCurrentQRCode] = useState<QRCode | null>(null);
+  const [customization, setCustomization] = useState<QRCustomization>({
+    colorDark: '#003F7F',
+    colorLight: '#FFFFFF',
+    logoSize: 25,
+    cornerStyle: 'rounded',
+    frameStyle: 'simple'
+  });
   const { generateQRCode, loading } = useQRCode();
 
   const handleFormSubmit = async (values: any) => {
@@ -82,20 +92,51 @@ const QRCodeGenerator: React.FC<QRCodeGeneratorProps> = ({ businessId }) => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <QRCodeForm 
-        onSubmit={handleFormSubmit}
-        isLoading={loading}
-        businessId={businessId}
-      />
-      
-      <QRCodePreview 
-        qrCode={currentQRCode}
-        onDownload={handleDownload}
-        onCopy={handleCopy}
-        onRegenerate={handleRegenerate}
-        isLoading={loading}
-      />
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>QR Code Generator</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="settings" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="settings" className="flex items-center gap-2">
+                <Settings className="h-4 w-4" />
+                Settings
+              </TabsTrigger>
+              <TabsTrigger value="style" className="flex items-center gap-2">
+                <Palette className="h-4 w-4" />
+                Style
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="settings" className="mt-6">
+              <QRCodeForm 
+                onSubmit={handleFormSubmit} 
+                isLoading={loading}
+                businessId={businessId}
+              />
+            </TabsContent>
+
+            <TabsContent value="style" className="mt-6">
+              <QRCodeCustomizer 
+                customization={customization}
+                onChange={setCustomization}
+              />
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+
+      {currentQRCode && (
+        <QRCodePreview
+          qrCode={currentQRCode}
+          onDownload={handleDownload}
+          onCopy={handleCopy}
+          onRegenerate={handleRegenerate}
+          isLoading={loading}
+        />
+      )}
     </div>
   );
 };
