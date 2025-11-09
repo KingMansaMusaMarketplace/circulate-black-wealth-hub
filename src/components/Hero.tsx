@@ -14,7 +14,7 @@ const Hero = () => {
       <div className="relative container mx-auto px-4 py-16">
         {/* Phase 1 Free Growth Banner */}
         <div className="text-center mb-12">
-          <Badge className="bg-gradient-green text-white px-6 py-3 text-lg font-bold rounded-full mb-4 animate-pulse-green">
+          <Badge className="bg-gradient-green text-white px-6 py-3 text-lg font-bold rounded-full mb-4 animate-pulse-green badge-shimmer">
             <Zap className="mr-2 h-5 w-5" />
             PHASE 1: FREE GROWTH - Everything FREE Until Jan 2026!
           </Badge>
@@ -26,25 +26,25 @@ const Hero = () => {
         {/* Free Access Badges */}
         <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
           <Link to="/signup">
-            <Badge className="bg-gradient-green text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-green">
+            <Badge className="bg-gradient-green text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-green badge-shimmer">
               <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               100% FREE - All Customer Features
             </Badge>
           </Link>
           <Link to="/signup?type=business">
-            <Badge className="bg-gradient-blue text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-blue">
+            <Badge className="bg-gradient-blue text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-blue badge-shimmer">
               <Building2 className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               100% FREE - All Business Features
             </Badge>
           </Link>
           <Link to="/become-a-sales-agent">
-            <Badge className="bg-gradient-sales text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-ios">
+            <Badge className="bg-gradient-sales text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-ios badge-shimmer">
               <TrendingUp className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               Earn as Sales Agent - Up to 15%!
             </Badge>
           </Link>
           <Link to="/signup">
-            <Badge className="bg-gradient-purple text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-purple">
+            <Badge className="bg-gradient-purple text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-purple badge-shimmer">
               <Heart className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               Community First, Revenue Later
             </Badge>
