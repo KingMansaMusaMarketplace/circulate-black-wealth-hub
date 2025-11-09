@@ -19,6 +19,12 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const assistantSpeakingRef = useRef(false);
   
+  // Conversation history to maintain context
+  const [conversationHistory, setConversationHistory] = useState<Array<{ role: string; content: string }>>(() => {
+    const saved = sessionStorage.getItem('kayla_conversation');
+    return saved ? JSON.parse(saved) : [];
+  });
+  
   // Check if introduction was already given in this session
   const hasIntroducedInSession = () => {
     return sessionStorage.getItem('kayla_introduced') === 'true';
@@ -236,7 +242,10 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
           setProcessingStage('thinking');
 
-          // Get AI response using OpenAI
+          // Add user message to conversation history
+          const newHistory = [...conversationHistory, { role: 'user', content: transcript }];
+          
+          // Get AI response using OpenAI with full conversation history
           const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`, {
             method: 'POST',
             headers: {
@@ -244,9 +253,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
               'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`
             },
             body: JSON.stringify({
-              messages: [
-                { role: 'user', content: transcript }
-              ]
+              messages: newHistory
             })
           });
 
@@ -283,6 +290,12 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           if (!aiResponse) throw new Error('No AI response received');
 
           console.log('AI response:', aiResponse);
+          
+          // Update conversation history with AI response
+          const updatedHistory = [...newHistory, { role: 'assistant', content: aiResponse }];
+          setConversationHistory(updatedHistory);
+          sessionStorage.setItem('kayla_conversation', JSON.stringify(updatedHistory));
+          
           await speak(aiResponse);
 
         } catch (error) {
