@@ -338,19 +338,23 @@
 /* iOS-optimized pulse animation using hardware-accelerated transforms */
 @keyframes pulse-ios {
   0%, 100% {
-    transform: scale(1);
+    transform: scale(1) translateZ(0);
     opacity: 1;
   }
   50% {
-    transform: scale(1.05);
-    opacity: 0.85;
+    transform: scale(1.08) translateZ(0);
+    opacity: 0.75;
   }
 }
 
 .animate-pulse-ios {
-  animation: pulse-ios 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation: pulse-ios 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   will-change: transform, opacity;
   -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
   transform: translateZ(0);
 }
 
