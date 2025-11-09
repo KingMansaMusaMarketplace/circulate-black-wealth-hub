@@ -54,9 +54,10 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
       let qrImageUrl = '';
       try {
         qrImageUrl = await generateCustomQrCode(JSON.stringify(qrData), {
-          color: '#0F2876', // mansablue color
+          color: '#1a1a1a',
           backgroundColor: '#FFFFFF',
-          size: 400
+          size: 512,
+          useBranding: true // Explicitly enable MMM logo branding
         });
       } catch (error) {
         console.error('Error generating QR code image:', error);
@@ -133,9 +134,10 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
       let qrImageUrl = '';
       try {
         qrImageUrl = await generateCustomQrCode(JSON.stringify(qrData), {
-          color: '#0F2876', // mansablue color
+          color: '#1a1a1a',
           backgroundColor: '#FFFFFF',
-          size: 400
+          size: 512,
+          useBranding: true // Explicitly enable MMM logo branding
         });
       } catch (error) {
         // Fallback to a simple QR code generator API

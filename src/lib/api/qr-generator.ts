@@ -61,19 +61,19 @@ export const generateCustomQrCode = async (data: string, options?: QRCodeOptions
       logo.src = mansaMusaLogo;
     });
 
-    // Calculate logo size (20% of QR code size, but maintain aspect ratio)
-    const logoSize = size * 0.2;
+    // Calculate logo size (25% of QR code size for better visibility)
+    const logoSize = size * 0.25;
     const logoX = (size - logoSize) / 2;
-    const logoY = size * 0.1; // Position near the top
+    const logoY = (size - logoSize) / 2; // Center the logo
 
-    // Draw white background circle for logo
-    const logoCircleRadius = logoSize * 0.6;
+    // Draw white background circle for logo (slightly larger for better contrast)
+    const logoCircleRadius = logoSize * 0.65;
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
-    ctx.arc(size / 2, logoY + logoSize / 2, logoCircleRadius, 0, Math.PI * 2);
+    ctx.arc(size / 2, size / 2, logoCircleRadius, 0, Math.PI * 2);
     ctx.fill();
 
-    // Draw logo
+    // Draw logo centered
     ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
 
     // Return the final branded QR code
