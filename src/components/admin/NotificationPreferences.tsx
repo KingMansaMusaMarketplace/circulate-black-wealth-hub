@@ -12,9 +12,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
-import { Loader2, Bell, Mail, Clock, TrendingUp, DollarSign, Target, Save, Play } from 'lucide-react';
+import { Loader2, Bell, Mail, Clock, TrendingUp, DollarSign, Target, Save, Play, Eye } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
+import { BatchPreviewModal } from './BatchPreviewModal';
 
 const NotificationPreferences: React.FC = () => {
   const [preferences, setPreferences] = useState<AdminNotificationPreferences | null>(null);
@@ -22,6 +23,7 @@ const NotificationPreferences: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [additionalEmails, setAdditionalEmails] = useState<string>('');
+  const [previewModalOpen, setPreviewModalOpen] = useState(false);
 
   useEffect(() => {
     loadPreferences();
@@ -269,7 +271,19 @@ const NotificationPreferences: React.FC = () => {
                       />
                     </div>
 
-                    <div className="pt-2">
+                    <div className="pt-2 space-y-2">
+                      <Button
+                        onClick={() => setPreviewModalOpen(true)}
+                        variant="outline"
+                        className="w-full"
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        Preview Pending Batches
+                      </Button>
+                      <p className="text-xs text-muted-foreground">
+                        Review and approve/reject pending notifications before they're sent
+                      </p>
+
                       <Button
                         onClick={handleProcessBatches}
                         disabled={processing}
@@ -284,11 +298,11 @@ const NotificationPreferences: React.FC = () => {
                         ) : (
                           <>
                             <Play className="h-4 w-4 mr-2" />
-                            Process Batches Now
+                            Process All Batches Now
                           </>
                         )}
                       </Button>
-                      <p className="text-xs text-muted-foreground mt-2">
+                      <p className="text-xs text-muted-foreground">
                         Manually trigger batch processing to test without waiting for cron
                       </p>
                     </div>
@@ -544,6 +558,11 @@ const NotificationPreferences: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+
+      <BatchPreviewModal 
+        open={previewModalOpen} 
+        onOpenChange={setPreviewModalOpen}
+      />
     </div>
   );
 };

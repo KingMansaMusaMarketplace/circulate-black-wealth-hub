@@ -22,7 +22,8 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    console.log("Processing notification batches...");
+    const { batchKey } = await req.json().catch(() => ({}));
+    console.log("Processing notification batches...", batchKey ? `for batch: ${batchKey}` : 'for all batches');
 
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -53,13 +54,22 @@ const handler = async (req: Request): Promise<Response> => {
     const minBatchSize = preferences[0]?.min_batch_size || 2;
     const cutoffTime = new Date(Date.now() - batchWindowMinutes * 60 * 1000);
 
-    // Get unprocessed notifications older than cutoff time
-    const { data: queuedNotifications, error: queueError } = await supabase
+    // Get unprocessed notifications (specific batch or older than cutoff time)
+    let query = supabase
       .from('notification_batch_queue')
       .select('*')
       .is('processed_at', null)
-      .lt('created_at', cutoffTime.toISOString())
       .order('created_at', { ascending: true });
+    
+    if (batchKey) {
+      // Process specific batch regardless of cutoff time
+      query = query.eq('batch_key', batchKey);
+    } else {
+      // Process all batches older than cutoff time
+      query = query.lt('created_at', cutoffTime.toISOString());
+    }
+    
+    const { data: queuedNotifications, error: queueError } = await query;
 
     if (queueError) {
       console.error('Error fetching queued notifications:', queueError);
