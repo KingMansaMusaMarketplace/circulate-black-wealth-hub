@@ -86,6 +86,7 @@ const LazyNetworkPage = lazy(() => import('@/pages/NetworkPage'));
 const LazyLeaderboardPage = lazy(() => import('@/pages/LeaderboardPage'));
 const LazyImpactPage = lazy(() => import('@/pages/ImpactPage'));
 const LazyCommissionsPage = lazy(() => import('@/pages/admin/CommissionsPage'));
+const LazyCommissionReportsPage = lazy(() => import('@/pages/business/CommissionReportsPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -360,6 +361,7 @@ function App() {
                               <Route path="/share-impact" element={<LazyShareImpactPage />} />
               <Route path="/impact" element={<LazyImpactPage />} />
               <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
+              <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
                               <Route path="/network" element={<LazyNetworkPage />} />
                              
