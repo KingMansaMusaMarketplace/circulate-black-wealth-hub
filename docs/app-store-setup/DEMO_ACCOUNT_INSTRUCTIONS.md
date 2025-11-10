@@ -1,8 +1,8 @@
 # Demo Account Setup for Apple App Review
 
 ## 📋 Account Credentials
-- **Email:** testuser@example.com
-- **Password:** TestPass123!
+- **Email:** demo@mansamusa.com
+- **Password:** Demo123!
 
 ## 🚀 Quick Setup Instructions
 
@@ -12,8 +12,8 @@
 2. Navigate to **Authentication** → **Users**
 3. Click **Add User** (or **Invite**)
 4. Fill in:
-   - **Email:** testuser@example.com
-   - **Password:** TestPass123!
+   - **Email:** demo@mansamusa.com
+   - **Password:** Demo123!
    - ✅ **Auto Confirm User:** YES (important!)
 5. Click **Create User**
 6. **COPY THE USER ID** that was generated (you'll need it in Step 2)
@@ -32,8 +32,8 @@
 ### Step 3: Verify Setup
 
 1. Try logging in with the demo credentials:
-   - Email: testuser@example.com
-   - Password: TestPass123!
+   - Email: demo@mansamusa.com
+   - Password: Demo123!
 
 2. You should see:
    - ✅ Complete business profile: "Mansa Musa Demo Restaurant"
@@ -90,8 +90,8 @@
 
 ### If login fails:
 1. Check that "Auto Confirm User" was enabled in Step 1
-2. Verify email address is exactly: testuser@example.com
-3. Ensure password is exactly: TestPass123! (case-sensitive)
+2. Verify email address is exactly: demo@mansamusa.com
+3. Ensure password is exactly: Demo123! (case-sensitive)
 
 ### If data is missing:
 1. Verify you replaced 'YOUR_USER_ID_HERE' with the actual UUID
@@ -109,13 +109,13 @@ Once setup is complete, update your App Store Connect submission:
 
 1. Go to **App Information** → **Review Information**
 2. Update demo account credentials:
-   - **Username:** testuser@example.com
-   - **Password:** TestPass123!
+   - **Username:** demo@mansamusa.com
+   - **Password:** Demo123!
 3. Add review notes:
    ```
    DEMO ACCOUNT FULL ACCESS:
-   - Email: testuser@example.com
-   - Password: TestPass123!
+   - Email: demo@mansamusa.com
+   - Password: Demo123!
    
    This account has:
    - Complete business profile with verified status

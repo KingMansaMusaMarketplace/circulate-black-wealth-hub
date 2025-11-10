@@ -25,10 +25,10 @@ const DemoAccountCard: React.FC = () => {
               <div className="flex items-center justify-between bg-white rounded-lg p-2">
                 <div className="flex-1">
                   <div className="text-xs text-gray-500">Email</div>
-                  <div className="text-sm font-mono text-gray-900">testuser@example.com</div>
+                  <div className="text-sm font-mono text-gray-900">demo@mansamusa.com</div>
                 </div>
                 <button
-                  onClick={() => copyToClipboard('testuser@example.com', 'email')}
+                  onClick={() => copyToClipboard('demo@mansamusa.com', 'email')}
                   className="ml-2 p-2 hover:bg-gray-100 rounded transition-colors"
                   aria-label="Copy email"
                 >
@@ -42,10 +42,10 @@ const DemoAccountCard: React.FC = () => {
               <div className="flex items-center justify-between bg-white rounded-lg p-2">
                 <div className="flex-1">
                   <div className="text-xs text-gray-500">Password</div>
-                  <div className="text-sm font-mono text-gray-900">TestPass123!</div>
+                  <div className="text-sm font-mono text-gray-900">Demo123!</div>
                 </div>
                 <button
-                  onClick={() => copyToClipboard('TestPass123!', 'password')}
+                  onClick={() => copyToClipboard('Demo123!', 'password')}
                   className="ml-2 p-2 hover:bg-gray-100 rounded transition-colors"
                   aria-label="Copy password"
                 >
