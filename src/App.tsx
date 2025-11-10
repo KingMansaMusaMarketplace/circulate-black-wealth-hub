@@ -88,6 +88,7 @@ const LazyImpactPage = lazy(() => import('@/pages/ImpactPage'));
 const LazyCommissionsPage = lazy(() => import('@/pages/admin/CommissionsPage'));
 const LazyCommissionReportsPage = lazy(() => import('@/pages/business/CommissionReportsPage'));
 const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWorksPage'));
+const LazyButtonTestPage = lazy(() => import('@/pages/ButtonTestPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -399,6 +400,7 @@ function App() {
                               <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                               <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                               <Route path="/refresh" element={<LazyRefreshPage />} />
+                              <Route path="/button-test" element={<LazyButtonTestPage />} />
                               
                               <Route path="*" element={<NotFound />} />
                               </Route>
@@ -544,6 +546,7 @@ function App() {
                         <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                         <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                         <Route path="/refresh" element={<LazyRefreshPage />} />
+                        <Route path="/button-test" element={<LazyButtonTestPage />} />
                         
                         {/* Catch all route for 404 */}
                         <Route path="*" element={<NotFound />} />
