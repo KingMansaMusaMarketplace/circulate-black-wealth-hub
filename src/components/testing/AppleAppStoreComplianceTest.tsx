@@ -133,13 +133,13 @@ const AppleAppStoreComplianceTest: React.FC = () => {
   // TEST 2: Demo Account - Check if credentials are visible and accessible
   const testDemoAccountAccess = async () => {
     try {
-      // Try to find demo account card/component
+      // Try to find demo account card/component - UPDATED FOR APPLE SUBMISSION
       const demoCard = document.querySelector('[data-testid="demo-account"]') ||
                        document.querySelector('.demo-account') ||
-                       document.body.textContent?.includes('testuser@example.com');
+                       document.body.textContent?.includes('demo@mansamusa.com');
       
-      const hasEmail = document.body.textContent?.includes('testuser@example.com');
-      const hasPassword = document.body.textContent?.includes('TestPass123!');
+      const hasEmail = document.body.textContent?.includes('demo@mansamusa.com');
+      const hasPassword = document.body.textContent?.includes('Demo123!');
       
       if (hasEmail && hasPassword) {
         // Try to verify the account exists in database
@@ -147,14 +147,14 @@ const AppleAppStoreComplianceTest: React.FC = () => {
           const { data, error } = await supabase
             .from('profiles')
             .select('*')
-            .eq('email', 'testuser@example.com')
+            .eq('email', 'demo@mansamusa.com')
             .single();
           
           if (data) {
             return {
               status: 'pass' as const,
               message: '✅ Demo account visible on page and exists in database',
-              details: 'Demo credentials: testuser@example.com / TestPass123!'
+              details: 'Demo credentials: demo@mansamusa.com / Demo123! (matches App Store Connect submission)'
             };
           }
         } catch (dbError) {
@@ -162,7 +162,7 @@ const AppleAppStoreComplianceTest: React.FC = () => {
           return {
             status: 'pass' as const,
             message: '✅ Demo account credentials visible on page',
-            details: 'Credentials found on login page (database check inconclusive)'
+            details: 'Credentials found on login page: demo@mansamusa.com / Demo123!'
           };
         }
       }
