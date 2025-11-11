@@ -27,6 +27,10 @@ const FAQPage = () => {
     {
       question: "How do I add my business to the platform?",
       answer: "Sign up as a business owner and complete your business profile. Once verified, your business will be listed in our directory."
+    },
+    {
+      question: "Can non-Black individuals sign up as customers and business owners?",
+      answer: "Absolutely YES! Everyone is welcome. As a customer, you'll get access to unique businesses, earn loyalty rewards, receive exclusive discounts, and track your economic impact. As a business owner, you'll gain visibility, marketing tools, community partnerships, and access to a motivated customer base committed to supporting businesses in our ecosystem."
     }
   ];
 

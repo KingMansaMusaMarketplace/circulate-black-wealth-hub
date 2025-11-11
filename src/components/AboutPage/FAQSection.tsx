@@ -27,8 +27,8 @@ const FAQSection = () => {
       answer: "40% of our transaction fees are reinvested directly into community development programs, business grants, and financial literacy initiatives. Another 35% goes to platform development and expansion to serve more communities."
     },
     {
-      question: "Can non-Black consumers use the marketplace?",
-      answer: "Absolutely! The marketplace is open to all consumers who want to support Black-owned businesses and participate in economic empowerment. Our loyalty systems reward all participants who help circulate dollars within the ecosystem."
+      question: "Can non-Black individuals sign up as customers and business owners?",
+      answer: "Absolutely YES! The marketplace welcomes everyone. As a customer, you'll enjoy: • Access to unique Black-owned businesses and products • Loyalty rewards and exclusive discounts • Community event invitations • Impact tracking to see your economic contribution. As a business owner (of any background), you'll benefit from: • Access to a motivated customer base • Marketing and visibility tools • Community partnerships and networking • Support for businesses committed to economic empowerment."
     }
   ];
 
