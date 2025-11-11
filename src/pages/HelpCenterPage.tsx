@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Search, Book, MessageCircle, Phone } from 'lucide-react';
-
+import { Button } from '@/components/ui/button';
 const HelpCenterPage = () => {
   return (
     <div className="min-h-screen bg-white">
@@ -24,30 +23,30 @@ const HelpCenterPage = () => {
               <Book className="h-12 w-12 text-mansablue mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Documentation</h3>
               <p className="text-gray-600 mb-4">Browse our comprehensive guides and tutorials</p>
-              <button className="text-mansablue font-medium hover:underline">View Docs</button>
+              <Button variant="link" className="text-mansablue font-medium">View Docs</Button>
             </div>
             
             <div className="bg-gray-50 p-6 rounded-lg text-center">
               <MessageCircle className="h-12 w-12 text-mansablue mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Community</h3>
               <p className="text-gray-600 mb-4">Connect with other users and get answers</p>
-              <button className="text-mansablue font-medium hover:underline">Join Community</button>
+              <Button variant="link" className="text-mansablue font-medium">Join Community</Button>
             </div>
             
             <div className="bg-gray-50 p-6 rounded-lg text-center">
               <Phone className="h-12 w-12 text-mansablue mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Support</h3>
               <p className="text-gray-600 mb-4">Get direct help from our support team</p>
-              <button className="text-mansablue font-medium hover:underline">Contact Support</button>
+              <Button variant="link" className="text-mansablue font-medium">Contact Support</Button>
             </div>
           </div>
           
           <div className="bg-mansablue text-white p-8 rounded-lg text-center">
             <h2 className="text-2xl font-semibold mb-4">Still Need Help?</h2>
             <p className="mb-6">Our support team is here to help you succeed</p>
-            <button className="bg-white text-mansablue px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+            <Button variant="white" size="lg">
               Contact Support
-            </button>
+            </Button>
           </div>
         </div>
       </div>
