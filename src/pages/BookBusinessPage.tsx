@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase';
 import { BookingForm } from '@/components/booking/BookingForm';
 import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import { Helmet } from 'react-helmet-async';
+import Loading from '@/components/ui/loading';
 
 export default function BookBusinessPage() {
   const { businessId } = useParams<{ businessId: string }>();
@@ -47,10 +48,7 @@ export default function BookBusinessPage() {
     return (
       <ResponsiveLayout>
         <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading...</p>
-          </div>
+          <Loading text="Loading booking details..." />
         </div>
       </ResponsiveLayout>
     );

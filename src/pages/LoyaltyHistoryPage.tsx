@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from 'sonner';
 import LoyaltyHistory from '@/components/loyalty/LoyaltyHistory';
 import RewardsTab from '@/components/loyalty/RewardsTab';
+import Loading from '@/components/ui/loading';
 
 const LoyaltyHistoryPage = () => {
   const { user, loading } = useAuth();
@@ -168,9 +169,7 @@ const LoyaltyHistoryPage = () => {
   if (loading) {
     return (
       <DashboardLayout title="Loyalty History" location="">
-        <div className="flex justify-center items-center h-64">
-          <p>Loading...</p>
-        </div>
+        <Loading text="Loading loyalty history..." />
       </DashboardLayout>
     );
   }

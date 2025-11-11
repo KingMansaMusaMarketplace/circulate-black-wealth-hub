@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import LoyaltyHistory from '@/components/loyalty/LoyaltyHistory';
 import RewardsTab from '@/components/loyalty/RewardsTab';
 import { useLoyaltyRewards } from '@/hooks/loyalty-qr-code/use-loyalty-rewards';
+import Loading from '@/components/ui/loading';
 
 const LoyaltyPage = () => {
   const { user, loading } = useAuth();
@@ -171,9 +172,7 @@ const LoyaltyPage = () => {
   if (loading) {
     return (
       <DashboardLayout title="Loyalty History" location="">
-        <div className="flex justify-center items-center h-64">
-          <p>Loading...</p>
-        </div>
+        <Loading text="Loading loyalty rewards..." />
       </DashboardLayout>
     );
   }
