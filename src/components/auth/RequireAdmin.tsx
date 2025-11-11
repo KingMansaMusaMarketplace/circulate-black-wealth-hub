@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Loading from '@/components/ui/loading';
+import { Button } from '@/components/ui/button';
 
 interface RequireAdminProps {
   children: React.ReactNode;
@@ -28,12 +29,12 @@ const RequireAdmin: React.FC<RequireAdminProps> = ({ children }) => {
           <p className="mb-6 text-gray-700">
             This area is restricted to administrators only. Please contact support if you believe this is an error.
           </p>
-          <button 
+          <Button 
             onClick={() => window.history.back()}
-            className="px-4 py-2 bg-mansablue text-white rounded hover:bg-opacity-90 transition-colors mr-2"
+            className="bg-mansablue text-white hover:bg-mansablue-dark"
           >
             Go Back
-          </button>
+          </Button>
         </div>
       </div>
     );

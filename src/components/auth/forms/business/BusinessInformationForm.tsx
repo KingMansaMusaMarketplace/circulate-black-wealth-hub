@@ -202,7 +202,7 @@ const BusinessInformationForm: React.FC<BusinessInformationFormProps> = ({
             <div className="border-t pt-6">
               <Button 
                 type="submit" 
-                className="w-full bg-mansablue hover:bg-mansablue-dark text-white py-6 text-lg font-semibold"
+                className="w-full bg-mansablue text-white hover:bg-mansablue-dark py-6 text-lg font-semibold"
                 disabled={isLoading}
               >
                 {isLoading ? (

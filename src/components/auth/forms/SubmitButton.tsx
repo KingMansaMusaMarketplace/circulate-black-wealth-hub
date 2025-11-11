@@ -15,7 +15,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = ({
   loading, 
   text, 
   loadingText = "Creating Account...",
-  className = "w-full bg-mansablue",
+  className = "w-full bg-mansablue text-white hover:bg-mansablue-dark",
   icon
 }) => {
   return (

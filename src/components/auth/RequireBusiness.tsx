@@ -3,6 +3,7 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Loading from '@/components/ui/loading';
+import { Button } from '@/components/ui/button';
 
 interface RequireBusinessProps {
   children: React.ReactNode;
@@ -29,12 +30,12 @@ const RequireBusiness: React.FC<RequireBusinessProps> = ({ children }) => {
           <p className="mb-6 text-gray-700">
             This feature is only available to business accounts. Please upgrade your account or contact support.
           </p>
-          <button 
+          <Button 
             onClick={() => window.history.back()}
-            className="px-4 py-2 bg-mansablue text-white rounded hover:bg-opacity-90 transition-colors mr-2"
+            className="bg-mansablue text-white hover:bg-mansablue-dark"
           >
             Go Back
-          </button>
+          </Button>
         </div>
       </div>
     );
