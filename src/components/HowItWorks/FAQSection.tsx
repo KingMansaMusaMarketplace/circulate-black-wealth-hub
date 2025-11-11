@@ -52,6 +52,10 @@ const FAQSection = () => {
     {
       question: "What happens if a business closes or leaves the platform?",
       answer: "If a business closes or leaves the platform, we'll notify members who have earned points with that business. Typically, you'll have a grace period to redeem any accumulated points before they expire. We also work to connect members with similar businesses in the area."
+    },
+    {
+      question: "Can non-Black individuals sign up as customers and business owners?",
+      answer: "Absolutely YES! Everyone is welcome. As a customer, you'll get access to unique businesses, earn loyalty rewards, receive exclusive discounts, and track your economic impact. As a business owner, you'll gain visibility, marketing tools, community partnerships, and access to a motivated customer base committed to supporting businesses in our ecosystem."
     }
   ];
 
