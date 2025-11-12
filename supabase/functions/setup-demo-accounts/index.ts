@@ -8,7 +8,7 @@ const corsHeaders = {
 interface DemoUser {
   email: string;
   password: string;
-  role: string;
+  user_type: string;
   fullName: string;
 }
 
@@ -36,13 +36,13 @@ Deno.serve(async (req) => {
       {
         email: 'customer.demo@mansamusa.com',
         password: 'CustomerDemo123!',
-        role: 'customer',
+        user_type: 'customer',
         fullName: 'Demo Customer'
       },
       {
         email: 'demo@mansamusa.com',
         password: 'Demo123!',
-        role: 'business',
+        user_type: 'business',
         fullName: 'Demo Business Owner'
       }
     ];
@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
 
       if (existingUser) {
         console.log(`User ${demoUser.email} already exists`);
-        createdUsers[demoUser.role] = existingUser;
+        createdUsers[demoUser.user_type] = existingUser;
       } else {
         console.log(`Creating user ${demoUser.email}`);
         const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
@@ -68,7 +68,7 @@ Deno.serve(async (req) => {
           email_confirm: true,
           user_metadata: {
             full_name: demoUser.fullName,
-            role: demoUser.role
+            user_type: demoUser.user_type
           }
         });
 
@@ -77,17 +77,17 @@ Deno.serve(async (req) => {
           throw createError;
         }
 
-        createdUsers[demoUser.role] = newUser.user;
+        createdUsers[demoUser.user_type] = newUser.user;
       }
 
       // Create or update profile
       const { error: profileError } = await supabaseAdmin
         .from('profiles')
         .upsert({
-          id: createdUsers[demoUser.role].id,
+          id: createdUsers[demoUser.user_type].id,
           email: demoUser.email,
           full_name: demoUser.fullName,
-          role: demoUser.role,
+          user_type: demoUser.user_type,
           updated_at: new Date().toISOString()
         }, {
           onConflict: 'id'
