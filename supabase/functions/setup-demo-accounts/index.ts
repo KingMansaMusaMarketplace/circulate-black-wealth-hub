@@ -137,7 +137,7 @@ Deno.serve(async (req) => {
           is_verified: true,
           average_rating: 4.8,
           review_count: 127,
-          location_type: 'single'
+          location_type: 'independent'
         })
         .eq('id', businessId);
     } else {
@@ -160,7 +160,7 @@ Deno.serve(async (req) => {
           is_verified: true,
           average_rating: 4.8,
           review_count: 127,
-          location_type: 'single'
+          location_type: 'independent'
         })
         .select()
         .single();
