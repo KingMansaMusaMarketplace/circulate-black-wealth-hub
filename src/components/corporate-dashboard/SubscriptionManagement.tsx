@@ -5,6 +5,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { CreditCard, AlertTriangle, Download } from 'lucide-react';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 interface SubscriptionManagementProps {
   subscription: {
@@ -19,6 +20,7 @@ interface SubscriptionManagementProps {
 
 const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ subscription, onUpdate }) => {
   const [loading, setLoading] = useState(false);
+  const hidePayments = shouldHideStripePayments();
 
   const handleCancelSubscription = async () => {
     setLoading(true);
@@ -86,9 +88,15 @@ const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ subscri
                 </p>
               </div>
             </div>
-            <Button variant="outline" onClick={handleManageBilling}>
-              Manage Billing
-            </Button>
+            {hidePayments ? (
+              <div className="text-sm text-muted-foreground">
+                Billing management is available on our website. In-app purchases only on iOS.
+              </div>
+            ) : (
+              <Button variant="outline" onClick={handleManageBilling}>
+                Manage Billing
+              </Button>
+            )}
           </div>
 
           <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -101,9 +109,15 @@ const SubscriptionManagement: React.FC<SubscriptionManagementProps> = ({ subscri
                 </p>
               </div>
             </div>
-            <Button variant="outline" onClick={handleManageBilling}>
-              View Invoices
-            </Button>
+            {hidePayments ? (
+              <div className="text-sm text-muted-foreground">
+                View invoices on our website. In-app purchases only on iOS.
+              </div>
+            ) : (
+              <Button variant="outline" onClick={handleManageBilling}>
+                View Invoices
+              </Button>
+            )}
           </div>
         </CardContent>
       </Card>
