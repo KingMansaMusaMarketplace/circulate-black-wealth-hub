@@ -91,6 +91,7 @@ const LazyCommissionsPage = lazy(() => import('@/pages/admin/CommissionsPage'));
 const LazyCommissionReportsPage = lazy(() => import('@/pages/business/CommissionReportsPage'));
 const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWorksPage'));
 const LazyButtonTestPage = lazy(() => import('@/pages/ButtonTestPage'));
+const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -406,6 +407,7 @@ function App() {
                               <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                               <Route path="/refresh" element={<LazyRefreshPage />} />
                               <Route path="/button-test" element={<LazyButtonTestPage />} />
+                              <Route path="/email-copy" element={<LazyEmailCopyPage />} />
                               
                               <Route path="*" element={<NotFound />} />
                               </Route>
@@ -555,6 +557,7 @@ function App() {
                         <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                         <Route path="/refresh" element={<LazyRefreshPage />} />
                         <Route path="/button-test" element={<LazyButtonTestPage />} />
+                        <Route path="/email-copy" element={<LazyEmailCopyPage />} />
                         
                         {/* Catch all route for 404 */}
                         <Route path="*" element={<NotFound />} />
