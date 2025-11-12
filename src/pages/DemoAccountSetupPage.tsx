@@ -12,13 +12,13 @@ const DemoAccountSetupPage: React.FC = () => {
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const verifyDemoAccount = async () => {
+  const setupDemoAccounts = async () => {
     setLoading(true);
     setError(null);
     setResult(null);
 
     try {
-      const { data, error: functionError } = await supabase.functions.invoke('verify-demo-account');
+      const { data, error: functionError } = await supabase.functions.invoke('setup-demo-accounts');
 
       if (functionError) {
         throw functionError;
@@ -26,8 +26,8 @@ const DemoAccountSetupPage: React.FC = () => {
 
       setResult(data);
     } catch (err: any) {
-      console.error('Demo account verification error:', err);
-      setError(err.message || 'Failed to verify demo account');
+      console.error('Demo accounts setup error:', err);
+      setError(err.message || 'Failed to setup demo accounts');
     } finally {
       setLoading(false);
     }
@@ -42,9 +42,9 @@ const DemoAccountSetupPage: React.FC = () => {
 
       <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white py-12 shadow-lg">
         <div className="max-w-4xl mx-auto px-6">
-          <h1 className="text-4xl font-bold mb-3">🍎 Demo Account Setup for Apple Review</h1>
+          <h1 className="text-4xl font-bold mb-3">🍎 Demo Accounts Setup for Apple Review</h1>
           <p className="text-blue-100 text-lg">
-            Verify and create the demo account for App Store Connect submission
+            Create both customer and business demo accounts with complete sample data
           </p>
         </div>
       </div>
@@ -65,14 +65,14 @@ const DemoAccountSetupPage: React.FC = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Verify Demo Account</CardTitle>
+              <CardTitle>Setup Demo Accounts</CardTitle>
               <CardDescription>
-                Click the button below to verify that the demo account exists in Supabase with the correct credentials
+                Create both customer and business demo accounts with complete sample data for Apple reviewers
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Button
-                onClick={verifyDemoAccount}
+                onClick={setupDemoAccounts}
                 disabled={loading}
                 className="w-full"
                 size="lg"
@@ -80,12 +80,12 @@ const DemoAccountSetupPage: React.FC = () => {
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Verifying Demo Account...
+                    Setting up demo accounts...
                   </>
                 ) : (
                   <>
                     <CheckCircle className="mr-2 h-5 w-5" />
-                    Verify / Create Demo Account
+                    Setup Demo Accounts & Sample Data
                   </>
                 )}
               </Button>
@@ -97,24 +97,28 @@ const DemoAccountSetupPage: React.FC = () => {
                 </Alert>
               )}
 
-              {result && (
-                <Alert variant={result.success ? "default" : "destructive"}>
-                  {result.success ? (
-                    <CheckCircle className="h-4 w-4 text-green-600" />
-                  ) : (
-                    <AlertCircle className="h-4 w-4" />
-                  )}
+              {result && result.success && (
+                <Alert className="bg-green-50 border-green-200">
+                  <CheckCircle className="h-4 w-4 text-green-600" />
                   <AlertDescription>
-                    <div className="space-y-2">
-                      <p className="font-semibold">{result.message}</p>
-                      {result.userId && (
-                        <p className="text-sm text-muted-foreground">User ID: {result.userId}</p>
-                      )}
-                      {result.exists ? (
-                        <p className="text-sm text-green-700">✅ Demo account exists and is ready</p>
-                      ) : (
-                        <p className="text-sm text-blue-700">✨ Demo account was created successfully</p>
-                      )}
+                    <div className="space-y-3">
+                      <p className="font-semibold text-green-800">{result.message}</p>
+                      
+                      <div className="space-y-2 text-sm">
+                        <div className="bg-white p-3 rounded border border-green-200">
+                          <p className="font-semibold text-green-900">👤 Customer Account:</p>
+                          <p className="text-green-800">Email: {result.accounts?.customer?.email}</p>
+                          <p className="text-green-800">Password: {result.accounts?.customer?.password}</p>
+                        </div>
+                        
+                        <div className="bg-white p-3 rounded border border-green-200">
+                          <p className="font-semibold text-green-900">🏢 Business Account:</p>
+                          <p className="text-green-800">Email: {result.accounts?.business?.email}</p>
+                          <p className="text-green-800">Password: {result.accounts?.business?.password}</p>
+                        </div>
+                      </div>
+                      
+                      <p className="text-sm text-green-700">✅ All sample data created successfully</p>
                     </div>
                   </AlertDescription>
                 </Alert>
@@ -124,28 +128,28 @@ const DemoAccountSetupPage: React.FC = () => {
 
           <Card className="bg-blue-50 border-blue-200">
             <CardHeader>
-              <CardTitle className="text-blue-900">What This Does</CardTitle>
+              <CardTitle className="text-blue-900">What This Creates</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-blue-800">
               <div className="flex items-start gap-3">
                 <User className="h-5 w-5 mt-0.5 text-blue-600" />
                 <div>
-                  <p className="font-semibold">Checks for existing demo user</p>
-                  <p className="text-blue-700">Searches Supabase auth for demo@mansamusa.com</p>
+                  <p className="font-semibold">Customer Demo Account</p>
+                  <p className="text-blue-700">customer.demo@mansamusa.com with loyalty points, favorites, and transaction history</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Key className="h-5 w-5 mt-0.5 text-blue-600" />
                 <div>
-                  <p className="font-semibold">Creates account if missing</p>
-                  <p className="text-blue-700">Sets password to Demo123! and email_confirmed to true</p>
+                  <p className="font-semibold">Business Demo Account</p>
+                  <p className="text-blue-700">demo@mansamusa.com with complete restaurant profile and QR codes</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Mail className="h-5 w-5 mt-0.5 text-blue-600" />
                 <div>
-                  <p className="font-semibold">Creates profile data</p>
-                  <p className="text-blue-700">Ensures the demo user has a business profile in the database</p>
+                  <p className="font-semibold">Sample Data</p>
+                  <p className="text-blue-700">Business analytics, hours, reviews, and 30 days of metrics</p>
                 </div>
               </div>
             </CardContent>
@@ -156,11 +160,11 @@ const DemoAccountSetupPage: React.FC = () => {
               <CardTitle>Next Steps</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
-              <p>1. ✅ Click "Verify / Create Demo Account" button above</p>
-              <p>2. ✅ Confirm the demo account exists in Supabase</p>
-              <p>3. ✅ Test login with demo@mansamusa.com / Demo123!</p>
-              <p>4. ✅ Update App Store Connect with these exact credentials</p>
-              <p>5. ✅ Verify DemoAccountCard is visible on the login page</p>
+              <p>1. ✅ Click "Setup Demo Accounts & Sample Data" button above</p>
+              <p>2. ✅ Test customer account: customer.demo@mansamusa.com / CustomerDemo123!</p>
+              <p>3. ✅ Test business account: demo@mansamusa.com / Demo123!</p>
+              <p>4. ✅ Update App Store Connect with both credentials</p>
+              <p>5. ✅ Use text from docs/app-store-setup/APP_STORE_CONNECT_SUBMISSION_TEXT.md</p>
             </CardContent>
           </Card>
         </div>
