@@ -36,7 +36,7 @@ const EnhancedSignupForm: React.FC = () => {
     {
       id: 'free',
       name: 'Community Member',
-      price: 'Free Forever',
+      price: hidePayments ? 'Free Forever' : 'Free Forever',
       description: 'Perfect for getting started',
       features: [
         'Browse complete business directory',
@@ -51,7 +51,7 @@ const EnhancedSignupForm: React.FC = () => {
     {
       id: 'premium',
       name: 'Premium Member',
-      price: 'Free until Jan 2026, then $4.99/month',
+      price: hidePayments ? 'Free Forever' : 'Free until Jan 2026, then $4.99/month',
       description: 'Enhanced features and exclusive access',
       features: [
         'Everything in Community',
@@ -61,7 +61,7 @@ const EnhancedSignupForm: React.FC = () => {
         'Advanced search filters'
       ],
       icon: Crown,
-      buttonText: 'Get Premium (Free until 2026)',
+      buttonText: hidePayments ? 'Get Premium' : 'Get Premium (Free until 2026)',
       popular: true
     }
   ];
@@ -70,7 +70,7 @@ const EnhancedSignupForm: React.FC = () => {
     {
       id: 'business_starter',
       name: 'Starter Business',
-      price: 'Free until Jan 2026, then $29/month',
+      price: hidePayments ? 'Free to Use' : 'Free until Jan 2026, then $29/month',
       description: 'Perfect for small businesses',
       features: [
         'Business profile listing',
@@ -80,13 +80,13 @@ const EnhancedSignupForm: React.FC = () => {
         'Business verification'
       ],
       icon: Building,
-      buttonText: 'Start Business (Free until 2026)',
+      buttonText: hidePayments ? 'Start Business' : 'Start Business (Free until 2026)',
       popular: false
     },
     {
       id: 'business',
       name: 'Professional Business',
-      price: 'Free until Jan 2026, then $100/month',
+      price: hidePayments ? 'Free to Use' : 'Free until Jan 2026, then $100/month',
       description: 'Complete business management suite',
       features: [
         'Everything in Starter',
@@ -96,7 +96,7 @@ const EnhancedSignupForm: React.FC = () => {
         'Priority support'
       ],
       icon: Zap,
-      buttonText: 'Get Professional (Free until 2026)',
+      buttonText: hidePayments ? 'Get Professional' : 'Get Professional (Free until 2026)',
       popular: true
     }
   ];
