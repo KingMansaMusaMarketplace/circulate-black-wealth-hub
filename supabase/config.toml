@@ -132,3 +132,6 @@ verify_jwt = true
 [functions.send-commission-report]
 verify_jwt = false
 
+[functions.verify-demo-account]
+verify_jwt = false
+

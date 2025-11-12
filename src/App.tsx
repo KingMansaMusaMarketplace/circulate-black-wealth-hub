@@ -74,6 +74,7 @@ const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
 const LazyAppleComplianceTestPage = lazy(() => import('@/pages/AppleComplianceTestPage'));
 const LazyPreSubmissionChecklistPage = lazy(() => import('@/pages/PreSubmissionChecklistPage'));
 const LazyMasterAppleReviewTestPage = lazy(() => import('@/pages/MasterAppleReviewTestPage'));
+const LazyDemoAccountSetupPage = lazy(() => import('@/pages/DemoAccountSetupPage'));
 const LazyNativeFeaturesDemo = lazy(() => import('@/pages/NativeFeaturesDemo'));
 const LazyNativeFeaturesShowcase = lazy(() => import('@/pages/NativeFeaturesShowcase'));
 const LazyRecommendationsPage = lazy(() => import('@/pages/RecommendationsPage'));
@@ -400,6 +401,7 @@ function App() {
                               <Route path="/apple-compliance" element={<LazyAppleComplianceTestPage />} />
                               <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
                               <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
+                              <Route path="/demo-account-setup" element={<LazyDemoAccountSetupPage />} />
                               <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                               <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                               <Route path="/refresh" element={<LazyRefreshPage />} />
@@ -548,6 +550,7 @@ function App() {
                         <Route path="/apple-compliance" element={<LazyAppleComplianceTestPage />} />
                         <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
                         <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
+                        <Route path="/demo-account-setup" element={<LazyDemoAccountSetupPage />} />
                         <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
                         <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
                         <Route path="/refresh" element={<LazyRefreshPage />} />
