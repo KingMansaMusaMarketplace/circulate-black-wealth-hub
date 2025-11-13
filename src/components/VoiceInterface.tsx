@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Mic, MicOff, Loader2 } from 'lucide-react';
+import { Mic, MicOff, Loader2, Volume2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
@@ -14,6 +14,8 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStage, setProcessingStage] = useState<'transcribing' | 'thinking' | 'speaking' | null>(null);
   const [assistantSpeaking, setAssistantSpeaking] = useState(false);
+  const [pendingAudio, setPendingAudio] = useState<HTMLAudioElement | null>(null);
+  const [showPlayButton, setShowPlayButton] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -111,12 +113,20 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       } catch (playError: any) {
         console.error('Audio playback error:', playError);
         
-        // Try to play again after user interaction
+        // If autoplay is blocked, save the audio and show play button
         if (playError.name === 'NotAllowedError') {
-          toast.error('Tap to Play', {
-            description: 'Tap the button again to hear Kayla\'s response',
-            duration: 5000
+          setPendingAudio(audio);
+          setShowPlayButton(true);
+          setProcessingStage(null);
+          setAssistantSpeaking(false);
+          setIsProcessing(false);
+          onSpeakingChange?.(false);
+          
+          toast.info('Response Ready', {
+            description: 'Tap "Play Response" to hear Kayla',
+            duration: 4000
           });
+          return; // Don't throw error, just wait for user interaction
         } else {
           toast.error('Playback Failed', {
             description: 'Unable to play audio. Please check your device settings.'
@@ -360,8 +370,53 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     setProcessingStage(null);
   };
 
+  const playPendingAudio = async () => {
+    if (!pendingAudio) return;
+    
+    try {
+      await Haptics.impact({ style: ImpactStyle.Light });
+    } catch (e) {
+      // Haptics not available
+    }
+    
+    setShowPlayButton(false);
+    setProcessingStage('speaking');
+    setAssistantSpeaking(true);
+    onSpeakingChange?.(true);
+    
+    try {
+      await pendingAudio.play();
+      setPendingAudio(null);
+    } catch (error) {
+      console.error('Failed to play pending audio:', error);
+      toast.error('Playback Error', {
+        description: 'Unable to play audio response'
+      });
+      setProcessingStage(null);
+      setAssistantSpeaking(false);
+      onSpeakingChange?.(false);
+    }
+  };
+
   return (
     <div className="fixed bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-50">
+      {showPlayButton && pendingAudio && (
+        <Button 
+          onClick={playPendingAudio}
+          size="lg"
+          className="kayla-button-idle hover:opacity-90 text-white font-semibold shadow-2xl min-w-[240px] min-h-[64px] text-lg animate-pulse"
+          style={{ 
+            touchAction: 'manipulation', 
+            WebkitTapHighlightColor: 'transparent',
+            WebkitUserSelect: 'none',
+            userSelect: 'none'
+          }}
+        >
+          <Volume2 className="mr-3 h-6 w-6" />
+          <span className="font-medium">🎧 Tap to Hear Kayla</span>
+        </Button>
+      )}
+      
       {!isRecording ? (
         <Button 
           onClick={assistantSpeaking ? stopRecording : startRecording}
