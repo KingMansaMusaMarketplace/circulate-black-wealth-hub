@@ -11,16 +11,16 @@ import CountUpNumber from '@/components/animations/CountUpNumber';
 
 const Hero = () => {
   return (
-    <section className="relative bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue overflow-hidden min-h-screen">
-      {/* Enhanced Background with Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(251,191,36,0.15),transparent_60%)] animate-pulse-slow" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(59,130,246,0.2),transparent_60%)] animate-pulse-slow" style={{ animationDelay: '1s' }} />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.08),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40" />
+    <section className="relative bg-gradient-to-br from-[#001a33] via-[#00152b] to-[#001024] overflow-hidden min-h-screen">
+      {/* Enhanced Background with Pattern - Subtler overlays */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(251,191,36,0.08),transparent_60%)] animate-pulse-slow" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(59,130,246,0.1),transparent_60%)] animate-pulse-slow" style={{ animationDelay: '1s' }} />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.04),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
       {/* Floating decorative elements */}
-      <div className="absolute top-20 left-10 w-2 h-2 bg-mansagold/40 rounded-full animate-bounce-subtle" />
-      <div className="absolute top-40 right-20 w-3 h-3 bg-blue-400/30 rounded-full animate-bounce-subtle" style={{ animationDelay: '0.5s' }} />
-      <div className="absolute bottom-32 left-1/4 w-2 h-2 bg-mansagold/50 rounded-full animate-bounce-subtle" style={{ animationDelay: '1s' }} />
+      <div className="absolute top-20 left-10 w-2 h-2 bg-mansagold/30 rounded-full animate-bounce-subtle" />
+      <div className="absolute top-40 right-20 w-3 h-3 bg-blue-400/20 rounded-full animate-bounce-subtle" style={{ animationDelay: '0.5s' }} />
+      <div className="absolute bottom-32 left-1/4 w-2 h-2 bg-mansagold/30 rounded-full animate-bounce-subtle" style={{ animationDelay: '1s' }} />
       <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
         {/* Phase 1 Free Growth Banner */}
         <div className="text-center mb-12">
