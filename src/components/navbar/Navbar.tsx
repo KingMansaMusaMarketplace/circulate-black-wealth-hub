@@ -89,7 +89,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
 
   return (
     <>
-      <header className={`bg-white shadow-sm z-50 w-full sticky top-0 border-b border-gray-100 ${className}`}>
+      <header className={`bg-background/80 backdrop-blur-lg shadow-sm z-50 w-full sticky top-0 border-b border-border/50 transition-all duration-300 ${className}`}>
         <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="flex h-24 items-center justify-between w-full">
             <div className="flex items-center min-w-0 flex-shrink-0">
@@ -109,13 +109,13 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                   variant="ghost" 
                   size="icon" 
                   onClick={toggleMobileMenu} 
-                  className="md:hidden relative z-50 touch-manipulation"
+                  className="md:hidden relative z-50 touch-manipulation hover:bg-accent/50"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   data-mobile-menu-trigger
                   style={{ minHeight: '44px', minWidth: '44px' }} // Ensure minimum touch target
                 >
                   {mobileMenuOpen ? (
-                    <X className="h-6 w-6" />
+                    <X className="h-6 w-6 transition-transform rotate-90" />
                   ) : (
                     <Menu className="h-6 w-6" />
                   )}
@@ -135,12 +135,12 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         <>
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden animate-fade-in"
             onClick={closeMobileMenu}
             style={{ touchAction: 'manipulation' }}
           />
           {/* Mobile Menu */}
-          <div className="fixed inset-x-0 top-24 z-50 md:hidden">
+          <div className="fixed inset-x-0 top-24 z-50 md:hidden animate-slide-in-from-top">
             <MobileMenu onNavigate={closeMobileMenu} />
           </div>
         </>
