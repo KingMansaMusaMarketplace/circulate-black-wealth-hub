@@ -3,9 +3,12 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
 const Footer = () => {
   const navigate = useNavigate();
+  const { platform } = useCapacitor();
+  const isIOS = platform === 'ios';
 
   const handleEmailClick = () => {
     window.location.href = 'mailto:contact@mansamusamarketplace.com';
@@ -92,11 +95,13 @@ const Footer = () => {
                   Impact
                 </Link>
               </li>
-              <li>
-                <Link to="/business-signup" className="text-blue-100 hover:text-white transition-colors">
-                  Business Signup
-                </Link>
-              </li>
+              {!isIOS && (
+                <li>
+                  <Link to="/business-signup" className="text-blue-100 hover:text-white transition-colors">
+                    Business Signup
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to="/business/how-it-works" className="text-blue-100 hover:text-white transition-colors">
                   How Payments Work

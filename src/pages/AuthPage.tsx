@@ -10,6 +10,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Building2, Users, GraduationCap, ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -18,9 +19,13 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const { signUp, signIn } = useAuth();
   const { toast } = useToast();
+  const { platform } = useCapacitor();
+  
+  // Detect if running on iOS
+  const isIOS = platform === 'ios';
 
-  // Get signup type from URL params
-  const signupType = searchParams.get('type') || 'customer';
+  // Get signup type from URL params - force customer on iOS
+  const signupType = isIOS ? 'customer' : (searchParams.get('type') || 'customer');
   const businessTier = searchParams.get('tier');
 
   const [formData, setFormData] = useState({
@@ -185,31 +190,33 @@ const AuthPage = () => {
                     />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="userType">Account Type</Label>
-                    <Select 
-                      value={formData.userType} 
-                      onValueChange={(value) => handleInputChange('userType', value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select account type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="customer">
-                          <div className="flex items-center">
-                            <Users className="h-4 w-4 mr-2" />
-                            Customer - Browse & Shop
-                          </div>
-                        </SelectItem>
-                        <SelectItem value="business">
-                          <div className="flex items-center">
-                            <Building2 className="h-4 w-4 mr-2" />
-                            Business - List Your Business
-                          </div>
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  {!isIOS && (
+                    <div className="space-y-2">
+                      <Label htmlFor="userType">Account Type</Label>
+                      <Select 
+                        value={formData.userType} 
+                        onValueChange={(value) => handleInputChange('userType', value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select account type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="customer">
+                            <div className="flex items-center">
+                              <Users className="h-4 w-4 mr-2" />
+                              Customer - Browse & Shop
+                            </div>
+                          </SelectItem>
+                          <SelectItem value="business">
+                            <div className="flex items-center">
+                              <Building2 className="h-4 w-4 mr-2" />
+                              Business - List Your Business
+                            </div>
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
 
                   {formData.userType === 'business' && (
                     <>

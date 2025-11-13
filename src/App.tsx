@@ -21,6 +21,7 @@ import { CorporateOnboardingFlow } from "@/components/onboarding/CorporateOnboar
 import Layout from "@/components/Layout";
 import { ErrorBoundary } from "@/components/error-boundary/ErrorBoundary";
 import { RouteErrorBoundary } from "@/components/error-boundary/RouteErrorBoundary";
+import IOSProtectedRoute from "@/components/routing/IOSProtectedRoute";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -61,6 +62,7 @@ import {
 // Auth page (new) - import directly since it's not in LazyComponents yet
 const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
+const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
 const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
 const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
@@ -315,19 +317,39 @@ function App() {
                               <Route path="/signup" element={<LazySignupPage />} />
                               <Route path="/email-verified" element={<LazyEmailVerified />} />
                             
-                              {/* Business signup routes - support both URL patterns */}
-                              <Route path="/business-signup" element={<LazyBusinessSignupPage />} />
-                              <Route path="/signup/business" element={<LazyBusinessSignupPage />} />
+                              {/* iOS Blocked Page */}
+                              <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
+                            
+                              {/* Business signup routes - iOS protected */}
+                              <Route path="/business-signup" element={
+                                <IOSProtectedRoute>
+                                  <LazyBusinessSignupPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/signup/business" element={
+                                <IOSProtectedRoute>
+                                  <LazyBusinessSignupPage />
+                                </IOSProtectedRoute>
+                              } />
                               
-                              {/* Business form route */}
-                              <Route path="/business-form" element={<LazyBusinessFormPage />} />
+                              {/* Business form route - iOS protected */}
+                              <Route path="/business-form" element={
+                                <IOSProtectedRoute>
+                                  <LazyBusinessFormPage />
+                                </IOSProtectedRoute>
+                              } />
                               
                               {/* Password reset routes */}
                               <Route path="/reset-password" element={<LazyPasswordResetRequestPage />} />
                               <Route path="/password-reset" element={<LazyResetPasswordPage />} />
                               
                               <Route path="/profile" element={<LazyProfilePage />} />
-                              <Route path="/subscription" element={<LazySubscriptionPage />} />
+                              {/* Subscription route - iOS protected */}
+                              <Route path="/subscription" element={
+                                <IOSProtectedRoute>
+                                  <LazySubscriptionPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
                               <Route path="/businesses" element={<BusinessDiscoveryPage />} />
                               <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
@@ -446,19 +468,39 @@ function App() {
                         <Route path="/signup" element={<LazySignupPage />} />
                         <Route path="/email-verified" element={<LazyEmailVerified />} />
                       
-                        {/* Business signup routes - support both URL patterns */}
-                        <Route path="/business-signup" element={<LazyBusinessSignupPage />} />
-                        <Route path="/signup/business" element={<LazyBusinessSignupPage />} />
+                        {/* iOS Blocked Page */}
+                        <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
+                      
+                        {/* Business signup routes - iOS protected */}
+                        <Route path="/business-signup" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessSignupPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/signup/business" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessSignupPage />
+                          </IOSProtectedRoute>
+                        } />
                         
-                        {/* Business form route */}
-                        <Route path="/business-form" element={<LazyBusinessFormPage />} />
+                        {/* Business form route - iOS protected */}
+                        <Route path="/business-form" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessFormPage />
+                          </IOSProtectedRoute>
+                        } />
                         
                         {/* Password reset routes */}
                         <Route path="/reset-password" element={<LazyPasswordResetRequestPage />} />
                         <Route path="/password-reset" element={<LazyResetPasswordPage />} />
                         
                         <Route path="/profile" element={<LazyProfilePage />} />
-                        <Route path="/subscription" element={<LazySubscriptionPage />} />
+                        {/* Subscription route - iOS protected */}
+                        <Route path="/subscription" element={
+                          <IOSProtectedRoute>
+                            <LazySubscriptionPage />
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         <Route path="/businesses" element={<BusinessDiscoveryPage />} />
                         <Route path="/sales-agent" element={<SalesAgentSignupPage />} />

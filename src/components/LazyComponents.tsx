@@ -19,6 +19,7 @@ export const LazyFullAppTestPage = lazy(() => import('@/pages/FullAppTestPage'))
 export const LazyCommunityImpactTestPage = lazy(() => import('@/pages/CommunityImpactTestPage'));
 export const LazySignupTestPage = lazy(() => import('@/pages/SignupTestPage'));
 export const LazyBusinessSignupPage = lazy(() => import('@/pages/BusinessSignupPage'));
+export const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
 export const LazyBusinessFormPage = lazy(() => import('@/pages/BusinessFormPage'));
 export const LazyLoginPage = lazy(() => import('@/pages/LoginPage'));
 export const LazySignupPage = lazy(() => import('@/pages/SignupPage'));
