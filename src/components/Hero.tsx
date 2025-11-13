@@ -59,11 +59,13 @@ const Hero = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
           <ScrollReveal delay={0.1}>
             <div className="text-white">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[1.1] tracking-tight mb-8 md:mb-10">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[1.1] tracking-tight mb-8 md:mb-10">
               Save Money &{' '}
               <br className="hidden sm:block" />
               Support{' '}
-              <span className="bg-gradient-gold bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(251,191,36,0.3)]">Black-Owned Businesses</span>
+              <span className="inline-block bg-gradient-to-r from-[#F5B942] via-[#F5C962] to-[#F5B942] bg-clip-text text-transparent font-extrabold">
+                Black-Owned Businesses
+              </span>
             </h1>
             
             <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/95 leading-relaxed mb-8 md:mb-10 font-body font-medium animate-fade-in [animation-delay:200ms]">
