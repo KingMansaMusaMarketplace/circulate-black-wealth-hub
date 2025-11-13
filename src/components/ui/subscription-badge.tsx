@@ -21,7 +21,7 @@ const SubscriptionBadge: React.FC<SubscriptionBadgeProps> = ({ tier, className }
 
   return (
     <Badge 
-      className={`flex items-center gap-1 bg-gradient-to-r from-amber-500 to-orange-600 text-white ${className}`}
+      className={`flex items-center gap-1 gradient-gold text-white shadow-md ${className}`}
     >
       <Crown className="h-3 w-3" />
       {getTierDisplayName(tier)}

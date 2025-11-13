@@ -14,7 +14,7 @@ const ResultCard: React.FC<ResultCardProps> = ({
   titleColor = 'text-gray-900' 
 }) => {
   return (
-    <Card className="w-full max-w-md mx-auto animate-fade-in-up">
+    <Card className="w-full max-w-md mx-auto animate-fade-in-up glass-card">
       <CardHeader className="pb-2 pt-6">
         <CardTitle className={`text-center text-xl ${titleColor}`}>
           {title}

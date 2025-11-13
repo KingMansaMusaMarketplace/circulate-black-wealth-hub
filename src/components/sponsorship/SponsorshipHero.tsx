@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button';
 
 const SponsorshipHero = () => {
   return (
-    <div className="bg-gradient-to-r from-mansablue to-mansablue-dark text-white">
-      <div className="container mx-auto px-4 py-16 md:py-24">
+    <div className="gradient-primary text-white relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-mansagold/10 to-transparent"></div>
+      <div className="container mx-auto px-4 py-16 md:py-24 relative z-10">
         <div className="max-w-3xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Corporate Sponsorship Program</h1>
           <p className="text-xl md:text-2xl mb-8 text-white/90">

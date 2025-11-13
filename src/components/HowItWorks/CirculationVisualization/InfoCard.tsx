@@ -26,7 +26,7 @@ const InfoCard = ({ number, title, description, isVisible, delay }: InfoCardProp
 
   return (
     <motion.div
-      className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 hover:shadow-md transition-shadow"
+      className="glass-card rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
       variants={cardVariants}
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
@@ -38,7 +38,7 @@ const InfoCard = ({ number, title, description, isVisible, delay }: InfoCardProp
         <ArrowRight className="ml-3 text-mansagold" size={16} />
       </div>
       <h3 className="font-bold text-lg text-mansablue mb-2">{title}</h3>
-      <p className="text-gray-600">{description}</p>
+      <p className="text-muted-foreground">{description}</p>
     </motion.div>
   );
 };

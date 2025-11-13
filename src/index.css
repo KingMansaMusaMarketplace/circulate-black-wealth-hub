@@ -37,6 +37,17 @@
     --mansablue-dark: 210 100% 15%;
     --mansagold: 45 100% 50%;
     --mansagold-dark: 45 100% 40%;
+    
+    /* Glass Morphism */
+    --glass-bg: 255 255 255 / 0.7;
+    --glass-border: 255 255 255 / 0.2;
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(210 100% 15%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(45 100% 40%) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(280 87% 55%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 14.3% 95.9%) 100%);
   }
 
   .dark {
@@ -64,6 +75,17 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    
+    /* Glass Morphism - Dark Mode */
+    --glass-bg: 31 38 135 / 0.4;
+    --glass-border: 255 255 255 / 0.1;
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    /* Gradients - Dark Mode */
+    --gradient-primary: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(210 100% 15%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(45 100% 40%) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(280 87% 55%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(224 71.4% 4.1%) 0%, hsl(215 27.9% 16.9%) 100%);
   }
 }
 
@@ -127,6 +149,40 @@
   /* Card with smooth shadow transition */
   .card-interactive {
     @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+  
+  /* Glass Morphism Effects */
+  .glass {
+    background: rgba(var(--glass-bg));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--glass-border));
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-card {
+    background: rgba(var(--glass-bg));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(var(--glass-border));
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Gradient Backgrounds */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-gold {
+    background: var(--gradient-gold);
+  }
+
+  .gradient-premium {
+    background: var(--gradient-premium);
+  }
+
+  .gradient-subtle {
+    background: var(--gradient-subtle);
   }
 }
 

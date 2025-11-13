@@ -63,6 +63,16 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        glass: {
+          DEFAULT: "rgba(var(--glass-bg))",
+          border: "rgba(var(--glass-border))",
+        },
+      },
+      backgroundImage: {
+        'gradient-primary': 'var(--gradient-primary)',
+        'gradient-gold': 'var(--gradient-gold)',
+        'gradient-premium': 'var(--gradient-premium)',
+        'gradient-subtle': 'var(--gradient-subtle)',
       },
       keyframes: {
         "accordion-down": {

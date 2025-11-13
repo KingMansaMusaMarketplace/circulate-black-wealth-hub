@@ -24,7 +24,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
         {description && <meta name="description" content={description} />}
       </Helmet>
       
-      <main className="flex-grow bg-gray-50 py-8">
+      <main className="flex-grow gradient-subtle py-8">
         <div className={`container mx-auto px-4 ${containerClassName}`}>
           {children}
         </div>
