@@ -69,16 +69,18 @@ const EarningsChart: React.FC<EarningsChartProps> = ({
 
   if (chartData.length === 0) {
     return (
-      <Card>
+      <Card className="glass-card border-border/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-xl font-display font-semibold text-foreground">
+            <TrendingUp className="h-5 w-5 text-primary/60" />
             Earnings Trend
           </CardTitle>
-          <CardDescription>Track your earnings over time</CardDescription>
+          <CardDescription className="font-body text-muted-foreground">
+            Track your earnings over time
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+          <div className="flex items-center justify-center h-[300px] text-muted-foreground font-body">
             No earnings data available yet
           </div>
         </CardContent>
@@ -87,25 +89,27 @@ const EarningsChart: React.FC<EarningsChartProps> = ({
   }
 
   return (
-    <Card>
+    <Card className="glass-card border-border/50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <TrendingUp className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-xl font-display font-semibold text-foreground">
+          <TrendingUp className="h-5 w-5 text-primary/60" />
           Earnings Trend
         </CardTitle>
-        <CardDescription>Track your earnings over time by category</CardDescription>
+        <CardDescription className="font-body text-muted-foreground">
+          Track your earnings over time by category
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+            <CartesianGrid strokeDasharray="3 3" className="stroke-border/30" />
             <XAxis 
               dataKey="month" 
-              className="text-xs"
+              className="text-xs font-body"
               tick={{ fill: 'hsl(var(--muted-foreground))' }}
             />
             <YAxis 
-              className="text-xs"
+              className="text-xs font-body"
               tick={{ fill: 'hsl(var(--muted-foreground))' }}
               tickFormatter={(value) => `$${value}`}
             />
@@ -113,31 +117,39 @@ const EarningsChart: React.FC<EarningsChartProps> = ({
               contentStyle={{ 
                 backgroundColor: 'hsl(var(--background))',
                 border: '1px solid hsl(var(--border))',
-                borderRadius: '6px'
+                borderRadius: '8px',
+                backdropFilter: 'blur(16px)',
+                fontFamily: 'var(--font-body)'
               }}
               formatter={(value: number) => `$${value.toFixed(2)}`}
             />
-            <Legend />
+            <Legend wrapperStyle={{ fontFamily: 'var(--font-body)' }} />
             <Line 
               type="monotone" 
               dataKey="direct" 
-              stroke="hsl(var(--primary))" 
+              stroke="hsl(142 76% 36%)" 
               name="Direct Commissions"
-              strokeWidth={2}
+              strokeWidth={3}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
             />
             <Line 
               type="monotone" 
               dataKey="overrides" 
-              stroke="hsl(var(--chart-2))" 
+              stroke="hsl(221 83% 53%)" 
               name="Team Overrides"
-              strokeWidth={2}
+              strokeWidth={3}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
             />
             <Line 
               type="monotone" 
               dataKey="bonuses" 
-              stroke="hsl(var(--chart-3))" 
+              stroke="hsl(271 91% 65%)" 
               name="Recruitment Bonuses"
-              strokeWidth={2}
+              strokeWidth={3}
+              dot={{ r: 4 }}
+              activeDot={{ r: 6 }}
             />
           </LineChart>
         </ResponsiveContainer>

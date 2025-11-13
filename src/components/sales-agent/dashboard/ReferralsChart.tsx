@@ -29,16 +29,18 @@ const ReferralsChart: React.FC<ReferralsChartProps> = ({ referrals }) => {
 
   if (chartData.length === 0) {
     return (
-      <Card>
+      <Card className="glass-card border-border/50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-xl font-display font-semibold text-foreground">
+            <Users className="h-5 w-5 text-primary/60" />
             Referrals by Month
           </CardTitle>
-          <CardDescription>Track your referral activity</CardDescription>
+          <CardDescription className="font-body text-muted-foreground">
+            Track your referral activity
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center justify-center h-[300px] text-muted-foreground">
+          <div className="flex items-center justify-center h-[300px] text-muted-foreground font-body">
             No referral data available yet
           </div>
         </CardContent>
@@ -47,25 +49,27 @@ const ReferralsChart: React.FC<ReferralsChartProps> = ({ referrals }) => {
   }
 
   return (
-    <Card>
+    <Card className="glass-card border-border/50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Users className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-xl font-display font-semibold text-foreground">
+          <Users className="h-5 w-5 text-primary/60" />
           Referrals by Month
         </CardTitle>
-        <CardDescription>Track your monthly referral performance</CardDescription>
+        <CardDescription className="font-body text-muted-foreground">
+          Track your monthly referral performance
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+            <CartesianGrid strokeDasharray="3 3" className="stroke-border/30" />
             <XAxis 
               dataKey="month" 
-              className="text-xs"
+              className="text-xs font-body"
               tick={{ fill: 'hsl(var(--muted-foreground))' }}
             />
             <YAxis 
-              className="text-xs"
+              className="text-xs font-body"
               tick={{ fill: 'hsl(var(--muted-foreground))' }}
               allowDecimals={false}
             />
@@ -73,7 +77,9 @@ const ReferralsChart: React.FC<ReferralsChartProps> = ({ referrals }) => {
               contentStyle={{ 
                 backgroundColor: 'hsl(var(--background))',
                 border: '1px solid hsl(var(--border))',
-                borderRadius: '6px'
+                borderRadius: '8px',
+                backdropFilter: 'blur(16px)',
+                fontFamily: 'var(--font-body)'
               }}
               formatter={(value: number) => [`${value} referrals`, 'Count']}
             />
