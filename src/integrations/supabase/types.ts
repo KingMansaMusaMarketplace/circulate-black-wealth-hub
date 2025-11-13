@@ -2319,6 +2319,59 @@ export type Database = {
         }
         Relationships: []
       }
+      fraud_prevention_actions: {
+        Row: {
+          action_details: Json | null
+          action_type: string
+          alert_id: string
+          auto_triggered: boolean | null
+          created_at: string | null
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          reversal_reason: string | null
+          reversed_at: string | null
+          reversed_by: string | null
+          triggered_by: string | null
+        }
+        Insert: {
+          action_details?: Json | null
+          action_type: string
+          alert_id: string
+          auto_triggered?: boolean | null
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          reversal_reason?: string | null
+          reversed_at?: string | null
+          reversed_by?: string | null
+          triggered_by?: string | null
+        }
+        Update: {
+          action_details?: Json | null
+          action_type?: string
+          alert_id?: string
+          auto_triggered?: boolean | null
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          reversal_reason?: string | null
+          reversed_at?: string | null
+          reversed_by?: string | null
+          triggered_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fraud_prevention_actions_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "fraud_alerts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       friendships: {
         Row: {
           accepted_at: string | null
@@ -3891,7 +3944,9 @@ export type Database = {
           business_id: string
           created_at: string | null
           customer_id: string
+          flag_reason: string | null
           id: string
+          is_flagged: boolean | null
           is_verified: boolean | null
           rating: number
           review_text: string | null
@@ -3901,7 +3956,9 @@ export type Database = {
           business_id: string
           created_at?: string | null
           customer_id: string
+          flag_reason?: string | null
           id?: string
+          is_flagged?: boolean | null
           is_verified?: boolean | null
           rating: number
           review_text?: string | null
@@ -3911,7 +3968,9 @@ export type Database = {
           business_id?: string
           created_at?: string | null
           customer_id?: string
+          flag_reason?: string | null
           id?: string
+          is_flagged?: boolean | null
           is_verified?: boolean | null
           rating?: number
           review_text?: string | null

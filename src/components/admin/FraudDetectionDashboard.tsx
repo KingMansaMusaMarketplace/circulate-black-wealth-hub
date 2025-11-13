@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useFraudDetection, FraudAlert } from '@/hooks/use-fraud-detection';
+import { useFraudPrevention } from '@/hooks/use-fraud-prevention';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,11 +8,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Shield, AlertTriangle, CheckCircle, XCircle, Clock, Eye, Loader2, Play } from 'lucide-react';
+import { Shield, AlertTriangle, CheckCircle, XCircle, Clock, Eye, Loader2, Play, ShieldCheck, Ban } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import { FraudPreventionActionsTable } from './FraudPreventionActionsTable';
 
 export const FraudDetectionDashboard = () => {
   const { alerts, alertStats, isLoading, isRunningAnalysis, runAnalysis, updateAlertStatus } = useFraudDetection();
+  const { actionStats } = useFraudPrevention();
   const [selectedAlert, setSelectedAlert] = useState<FraudAlert | null>(null);
   const [resolutionNotes, setResolutionNotes] = useState('');
   const [newStatus, setNewStatus] = useState<FraudAlert['status']>('investigating');
@@ -96,7 +99,7 @@ export const FraudDetectionDashboard = () => {
       </div>
 
       {/* Alert Statistics */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-8">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Alerts</CardTitle>
@@ -154,6 +157,28 @@ export const FraudDetectionDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{alertStats.low}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-blue-200 bg-blue-50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Auto-Blocked</CardTitle>
+            <ShieldCheck className="h-4 w-4 text-blue-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-blue-600">{actionStats.auto_triggered}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-green-200 bg-green-50">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Prevented</CardTitle>
+            <Ban className="h-4 w-4 text-green-600" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">
+              {actionStats.qr_disabled + actionStats.accounts_restricted}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -272,6 +297,9 @@ export const FraudDetectionDashboard = () => {
           </TabsContent>
         ))}
       </Tabs>
+
+      {/* Prevention Actions */}
+      <FraudPreventionActionsTable />
     </div>
   );
 };

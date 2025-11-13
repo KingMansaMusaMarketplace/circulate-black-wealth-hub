@@ -1,8 +1,9 @@
 import { useFraudDetection } from '@/hooks/use-fraud-detection';
+import { useFraudPrevention } from '@/hooks/use-fraud-prevention';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Shield, AlertTriangle, CheckCircle, Loader2 } from 'lucide-react';
+import { Shield, AlertTriangle, CheckCircle, Loader2, ShieldCheck } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 interface FraudAlertsWidgetProps {
@@ -11,6 +12,7 @@ interface FraudAlertsWidgetProps {
 
 export const FraudAlertsWidget = ({ businessId }: FraudAlertsWidgetProps) => {
   const { alerts, isLoading, alertStats } = useFraudDetection(businessId);
+  const { actionStats } = useFraudPrevention();
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -88,14 +90,20 @@ export const FraudAlertsWidget = ({ businessId }: FraudAlertsWidgetProps) => {
           </p>
         )}
 
-        <div className="grid grid-cols-3 gap-2 pt-4 border-t">
+        <div className="grid grid-cols-4 gap-2 pt-4 border-t">
           <div className="text-center">
             <div className="text-2xl font-bold">{alertStats.total}</div>
-            <div className="text-xs text-muted-foreground">Total</div>
+            <div className="text-xs text-muted-foreground">Alerts</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-orange-600">{alertStats.critical + alertStats.high}</div>
-            <div className="text-xs text-muted-foreground">High Priority</div>
+            <div className="text-xs text-muted-foreground">Critical</div>
+          </div>
+          <div className="text-center">
+            <div className="text-2xl font-bold text-blue-600">
+              <ShieldCheck className="h-6 w-6 inline" />
+            </div>
+            <div className="text-xs text-muted-foreground">{actionStats.auto_triggered} Auto-Blocked</div>
           </div>
           <div className="text-center">
             <div className="text-2xl font-bold text-green-600">
