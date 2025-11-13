@@ -13,6 +13,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '@/components/animations/ScrollReveal';
+import CountUpNumber from '@/components/animations/CountUpNumber';
 
 const DashboardPage = () => {
   const { userType, user } = useAuth();
@@ -128,168 +130,197 @@ const DashboardPage = () => {
 
   return (
     <DashboardLayout title="Dashboard" icon={<Home className="mr-2 h-6 w-6" />}>
-      <div className="space-y-6">
-        {/* Compact Header Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              Welcome back, {user?.user_metadata?.fullName || user?.email?.split('@')[0] || 'Friend'}!
-            </h1>
-            <p className="text-gray-600 text-sm">Here's your community impact overview</p>
+      <div className="space-y-8">
+        {/* Enhanced Header Section */}
+        <ScrollReveal delay={0.1}>
+          <div className="glass-card backdrop-blur-xl rounded-2xl shadow-xl p-6 md:p-8 border border-border/30">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div>
+                <h1 className="font-display text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
+                  Welcome back, {user?.user_metadata?.fullName || user?.email?.split('@')[0] || 'Friend'}!
+                </h1>
+                <p className="font-body text-muted-foreground">Here's your community impact overview</p>
+              </div>
+              <div className="flex gap-2">
+                <Badge variant="outline" className="bg-gradient-gold/10 text-mansagold border-mansagold/30 font-semibold">
+                  Active Member
+                </Badge>
+                <Button onClick={handleRefresh} variant="outline" size="sm" className="shadow-sm">
+                  <RefreshCw className="h-4 w-4 mr-1" />
+                  Refresh
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 text-xs">
-              Active Member
-            </Badge>
-            <Button onClick={handleRefresh} variant="outline" size="sm">
-              <RefreshCw className="h-3 w-3 mr-1" />
-              Refresh
-            </Button>
-          </div>
-        </div>
+        </ScrollReveal>
 
-        {/* Compact Quick Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {/* Quick Stats with animations */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {quickStats.map((stat, index) => (
-            <Card key={index} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="text-xs font-medium text-gray-600 mb-1">{stat.title}</p>
-                    <p className="text-lg font-bold text-gray-900">{stat.value}</p>
-                    <p className={`text-xs ${stat.color} flex items-center`}>
-                      <TrendingUp className="h-3 w-3 mr-1" />
-                      {stat.change}
-                    </p>
+            <ScrollReveal key={index} delay={0.1 + index * 0.05}>
+              <Card className="glass-card hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border-border/30">
+                <CardContent className="p-5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <p className="font-body text-xs font-medium text-muted-foreground mb-2">{stat.title}</p>
+                      <p className="font-display text-2xl font-bold text-foreground">
+                        {stat.title.includes('Points') || stat.title.includes('Impact') ? (
+                          <CountUpNumber end={parseInt(stat.value.replace(/[^0-9]/g, ''))} prefix={stat.value.includes('$') ? '$' : ''} suffix={stat.value.includes(',') ? '' : ''} duration={2000} />
+                        ) : (
+                          stat.value
+                        )}
+                      </p>
+                      <p className={`font-body text-xs ${stat.color} flex items-center mt-1`}>
+                        <TrendingUp className="h-3 w-3 mr-1" />
+                        {stat.change}
+                      </p>
+                    </div>
+                    <div className={`p-3 rounded-xl ${stat.bgColor} shadow-sm`}>
+                      <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                    </div>
                   </div>
-                  <div className={`p-2 rounded-full ${stat.bgColor}`}>
-                    <stat.icon className={`h-4 w-4 ${stat.color}`} />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           ))}
         </div>
 
-        {/* Compact Quick Actions */}
-        <Card className="bg-gradient-to-r from-mansablue to-mansablue-dark text-white">
-          <CardContent className="p-4">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
-              <div>
-                <h3 className="text-lg font-semibold text-white">Quick Actions</h3>
-                <p className="text-blue-100 text-sm">Start earning points today</p>
+        {/* Enhanced Quick Actions */}
+        <ScrollReveal delay={0.3}>
+          <Card className="glass-card bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue text-white border-border/30 shadow-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.1),transparent_70%)]" />
+            <CardContent className="p-6 relative z-10">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <div>
+                  <h3 className="font-display text-2xl font-bold text-white mb-2">Quick Actions</h3>
+                  <p className="font-body text-white/80">Start earning points today</p>
+                </div>
+                <div className="flex items-center gap-2 glass-card bg-white/10 px-3 py-2 rounded-full">
+                  <Zap className="h-4 w-4 text-mansagold" />
+                  <span className="font-body text-sm">Ready to go!</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1 text-blue-100">
-                <Zap className="h-4 w-4" />
-                <span className="text-sm">Ready to go!</span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <Link to="/scanner">
+                  <Button className="w-full bg-white text-mansablue hover:bg-gray-50 font-semibold py-6 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all">
+                    Scan QR Code
+                  </Button>
+                </Link>
+                <Link to="/directory">
+                  <Button className="w-full bg-gradient-gold text-mansablue-dark hover:opacity-90 font-semibold py-6 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all">
+                    Find Businesses
+                  </Button>
+                </Link>
+                <Link to="/loyalty">
+                  <Button className="w-full glass-card bg-white/10 text-white hover:bg-white/20 border-2 border-white/20 font-semibold py-6 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all">
+                    View Rewards
+                  </Button>
+                </Link>
               </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Link to="/scanner">
-                <Button className="w-full bg-white text-mansablue hover:bg-gray-100 text-sm py-2">
-                  Scan QR Code
-                </Button>
-              </Link>
-              <Link to="/directory">
-                <Button className="w-full bg-mansagold text-mansablue hover:bg-mansagold/90 text-sm py-2">
-                  Find Businesses
-                </Button>
-              </Link>
-              <Link to="/loyalty">
-                <Button className="w-full bg-white/10 text-white hover:bg-white/20 border border-white/20 text-sm py-2">
-                  View Rewards
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </ScrollReveal>
 
-        {/* Main Content Grid - More Compact */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column */}
-          <div className="lg:col-span-2 space-y-4">
-            <WelcomeGuide userType={validUserType} />
-            <CirculationImpact metrics={impactMetrics} />
+          <div className="lg:col-span-2 space-y-6">
+            <ScrollReveal delay={0.4}>
+              <WelcomeGuide userType={validUserType} />
+            </ScrollReveal>
+            <ScrollReveal delay={0.5}>
+              <CirculationImpact metrics={impactMetrics} />
+            </ScrollReveal>
             
-            {/* Compact Community Highlights */}
-            <Card>
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="flex items-center text-lg">
-                    <Users className="h-4 w-4 mr-2 text-mansablue" />
-                    Community Updates
-                  </CardTitle>
-                  <Badge variant="secondary" className="text-xs">Live</Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-start space-x-3 p-2 bg-blue-50 rounded-lg">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 text-sm">New Business Added</p>
-                    <p className="text-xs text-gray-600">Urban Threads Boutique joined</p>
-                    <p className="text-xs text-gray-500">2 hours ago</p>
+            {/* Enhanced Community Highlights */}
+            <ScrollReveal delay={0.6}>
+              <Card className="glass-card border-border/30 shadow-xl">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="font-display flex items-center text-xl">
+                      <Users className="h-5 w-5 mr-2 text-mansablue" />
+                      Community Updates
+                    </CardTitle>
+                    <Badge variant="secondary" className="bg-green-500/10 text-green-600 border-green-500/30">Live</Badge>
                   </div>
-                </div>
-                <div className="flex items-start space-x-3 p-2 bg-green-50 rounded-lg">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 text-sm">Community Milestone</p>
-                    <p className="text-xs text-gray-600">$50K+ circulated this month!</p>
-                    <p className="text-xs text-gray-500">5 hours ago</p>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-start space-x-4 p-4 glass-card bg-blue-500/5 rounded-xl border border-blue-500/10">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-display font-semibold text-foreground">New Business Added</p>
+                      <p className="font-body text-sm text-muted-foreground">Urban Threads Boutique joined</p>
+                      <p className="font-body text-xs text-muted-foreground mt-1">2 hours ago</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start space-x-3 p-2 bg-purple-50 rounded-lg">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 text-sm">Special Offer</p>
-                    <p className="text-xs text-gray-600">Double points weekend</p>
-                    <p className="text-xs text-gray-500">1 day ago</p>
+                  <div className="flex items-start space-x-4 p-4 glass-card bg-green-500/5 rounded-xl border border-green-500/10">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-display font-semibold text-foreground">Community Milestone</p>
+                      <p className="font-body text-sm text-muted-foreground">$50K+ circulated this month!</p>
+                      <p className="font-body text-xs text-muted-foreground mt-1">5 hours ago</p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <div className="flex items-start space-x-4 p-4 glass-card bg-purple-500/5 rounded-xl border border-purple-500/10">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-display font-semibold text-foreground">Special Offer</p>
+                      <p className="font-body text-sm text-muted-foreground">Double points weekend</p>
+                      <p className="font-body text-xs text-muted-foreground mt-1">1 day ago</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           </div>
           
-          {/* Right Column - Compact Sidebar */}
-          <div className="space-y-4">
-            <MiniLoyaltyWidget />
-            <NearbyBusinesses businesses={nearbyBusinessesList} />
+          {/* Right Column - Enhanced Sidebar */}
+          <div className="space-y-6">
+            <ScrollReveal delay={0.4}>
+              <MiniLoyaltyWidget />
+            </ScrollReveal>
+            <ScrollReveal delay={0.5}>
+              <NearbyBusinesses businesses={nearbyBusinessesList} />
+            </ScrollReveal>
             
-            {/* Compact Goals */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center">
-                  <Target className="h-4 w-4 mr-2 text-mansablue" />
-                  Monthly Goals
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600">Visit 5 new businesses</span>
-                    <span className="font-medium">3/5</span>
+            {/* Enhanced Goals */}
+            <ScrollReveal delay={0.6}>
+              <Card className="glass-card border-border/30 shadow-xl">
+                <CardHeader className="pb-4">
+                  <CardTitle className="font-display text-lg flex items-center">
+                    <Target className="h-5 w-5 mr-2 text-mansablue" />
+                    Monthly Goals
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div>
+                    <div className="flex justify-between font-body text-sm mb-2">
+                      <span className="text-muted-foreground">Visit 5 new businesses</span>
+                      <span className="font-bold text-foreground">3/5</span>
+                    </div>
+                    <div className="w-full glass-card h-3 rounded-full overflow-hidden">
+                      <div className="bg-gradient-to-r from-mansablue to-mansablue-light h-3 rounded-full transition-all duration-500" style={{ width: '60%' }}></div>
+                    </div>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-mansablue h-2 rounded-full" style={{ width: '60%' }}></div>
+                  <div>
+                    <div className="flex justify-between font-body text-sm mb-2">
+                      <span className="text-muted-foreground">Earn 500 points</span>
+                      <span className="font-bold text-foreground">450/500</span>
+                    </div>
+                    <div className="w-full glass-card h-3 rounded-full overflow-hidden">
+                      <div className="bg-gradient-gold h-3 rounded-full transition-all duration-500" style={{ width: '90%' }}></div>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600">Earn 500 points</span>
-                    <span className="font-medium">450/500</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-mansagold h-2 rounded-full" style={{ width: '90%' }}></div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           </div>
         </div>
 
-        {/* Compact Recent Activity */}
-        <RecentActivity activities={recentActivities} />
+        {/* Recent Activity */}
+        <ScrollReveal delay={0.7}>
+          <RecentActivity activities={recentActivities} />
+        </ScrollReveal>
       </div>
     </DashboardLayout>
   );
