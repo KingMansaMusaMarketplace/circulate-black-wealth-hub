@@ -21,7 +21,9 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const toggleMobileMenu = () => {
+  const toggleMobileMenu = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
@@ -57,13 +59,16 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
       }
     };
 
-    // Add both click and touch events for better mobile support
-    document.addEventListener('click', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside, { passive: true });
+    // Delay attaching listeners to prevent the opening click from immediately closing the menu
+    const timeoutId = setTimeout(() => {
+      document.addEventListener('click', handleClickOutside);
+      document.addEventListener('touchend', handleClickOutside, { passive: true });
+    }, 100);
     
     return () => {
+      clearTimeout(timeoutId);
       document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('touchend', handleClickOutside);
     };
   }, [mobileMenuOpen]);
 
@@ -108,7 +113,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  onClick={toggleMobileMenu} 
+                  onClick={toggleMobileMenu}
                   className="md:hidden relative z-50 touch-manipulation hover:bg-accent/50"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   data-mobile-menu-trigger
