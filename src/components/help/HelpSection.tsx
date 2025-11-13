@@ -207,12 +207,13 @@ export const HelpSection: React.FC = () => {
       </Tabs>
 
       {/* Contact Banner */}
-      <Card className="bg-gradient-to-r from-mansablue to-mansagold text-white">
-        <CardContent className="p-8 text-center">
+      <Card className="relative overflow-hidden bg-gradient-to-r from-mansablue via-mansablue/90 to-mansagold/80 text-white">
+        <div className="absolute inset-0 bg-black/30 pointer-events-none" aria-hidden="true" />
+        <CardContent className="relative p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">
             Need More Help?
           </h2>
-          <p className="text-white/90 mb-6 max-w-2xl mx-auto">
+          <p className="text-white mb-6 max-w-2xl mx-auto drop-shadow">
             Our support team is available to help with any questions or issues you might have. 
             We typically respond within 24 hours.
           </p>
