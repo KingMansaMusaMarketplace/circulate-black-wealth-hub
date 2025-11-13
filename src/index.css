@@ -98,6 +98,38 @@
   }
 }
 
+/* Custom Animation Utilities */
+@layer utilities {
+  /* Animation delay utilities */
+  [style*="animation-delay"] {
+    animation-fill-mode: both;
+  }
+  
+  /* Smooth hover lift effect */
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-lift:hover {
+    @apply -translate-y-1 shadow-lg;
+  }
+  
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-mansablue to-mansagold;
+  }
+  
+  /* Button with smooth scale */
+  .btn-scale {
+    @apply transition-transform duration-200 active:scale-95;
+  }
+  
+  /* Card with smooth shadow transition */
+  .card-interactive {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+}
+
 /* Accessibility: Support for larger text */
 @media (min-resolution: 2dppx) {
   body {

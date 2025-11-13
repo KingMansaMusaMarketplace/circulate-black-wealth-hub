@@ -22,8 +22,14 @@ const SmartBusinessRecommendations: React.FC<SmartBusinessRecommendationsProps> 
       <RecommendationsHeader />
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {recommendations.map((business) => (
-          <BusinessRecommendationCard key={business.id} business={business} />
+        {recommendations.map((business, index) => (
+          <div 
+            key={business.id}
+            className="animate-fade-in-up"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <BusinessRecommendationCard business={business} />
+          </div>
         ))}
       </div>
       

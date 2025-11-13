@@ -52,19 +52,19 @@ const Hero = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-20">
-          <div className="text-white">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6 md:mb-8">
+          <div className="text-white animate-fade-in-up">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-bold leading-tight mb-6 md:mb-8">
               Save Money &{' '}
               <br className="hidden sm:block" />
               Support{' '}
               <span className="text-mansagold">Black-Owned Businesses</span>
             </h1>
             
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 leading-relaxed mb-6 md:mb-8">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 leading-relaxed mb-6 md:mb-8 animate-fade-in [animation-delay:200ms]">
               Get 5% - 30% discounts while building community wealth!
             </p>
             
-            <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-xl p-4 mb-6">
+            <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-xl p-4 mb-6 animate-scale-in [animation-delay:400ms]">
               <p className="text-base sm:text-lg md:text-xl text-white leading-relaxed">
                 <strong className="text-green-300">FREE FOR EVERYONE:</strong> Join thousands of customers and businesses 
                 building economic power together. No subscriptions, no fees, just community wealth creation!
@@ -72,10 +72,10 @@ const Hero = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-4 mb-8 w-full">
+            <div className="flex flex-col gap-4 mb-8 w-full animate-fade-in [animation-delay:600ms]">
               <Link to="/signup" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
                 <Button 
-                  className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-4 md:px-6 text-sm sm:text-base md:text-lg rounded-xl w-full sm:w-auto leading-tight cursor-pointer"
+                  className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-4 md:px-6 text-sm sm:text-base md:text-lg rounded-xl w-full sm:w-auto leading-tight cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
                   style={{ touchAction: 'manipulation' }}
                 >
                   <span className="text-center pointer-events-none">
