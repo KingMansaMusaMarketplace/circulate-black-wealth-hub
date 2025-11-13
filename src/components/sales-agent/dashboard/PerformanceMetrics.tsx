@@ -33,26 +33,26 @@ const MetricCard: React.FC<MetricCardProps> = ({
   const getTrendColor = () => {
     switch (trend) {
       case 'up':
-        return 'text-green-500';
+        return 'text-green-500 dark:text-green-400';
       case 'down':
-        return 'text-red-500';
+        return 'text-red-500 dark:text-red-400';
       default:
         return 'text-muted-foreground';
     }
   };
 
   return (
-    <Card>
+    <Card className="glass-card hover-lift border-border/50 group">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
+        <CardTitle className="text-sm font-body font-medium text-muted-foreground">
           {title}
         </CardTitle>
-        {icon}
+        <span className="transition-transform group-hover:scale-110">{icon}</span>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
+        <div className="text-3xl font-display font-bold text-foreground">{value}</div>
         {trend && trendValue && (
-          <div className={`flex items-center gap-1 text-xs mt-1 ${getTrendColor()}`}>
+          <div className={`flex items-center gap-1 text-xs mt-1 font-body ${getTrendColor()}`}>
             {getTrendIcon()}
             <span>{trendValue}</span>
             <span className="text-muted-foreground">vs last month</span>
@@ -133,7 +133,7 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
   const metrics = calculateMetrics();
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 lg:gap-6 md:grid-cols-2 lg:grid-cols-4">
       <MetricCard
         title="This Month's Referrals"
         value={metrics.currentMonthReferrals}
