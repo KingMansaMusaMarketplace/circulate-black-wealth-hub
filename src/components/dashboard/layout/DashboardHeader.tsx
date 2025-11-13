@@ -14,17 +14,18 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   setMobileNavOpen
 }) => {
   return (
-    <div className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-white border-b border-gray-200 px-4 py-3">
+    <div className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-lg border-b border-border px-4 py-3 safe-top">
       <div className="flex justify-between items-center">
-        <Link to="/" className="font-bold text-xl text-mansablue">
+        <Link to="/" className="font-display font-bold text-xl text-primary">
           Mansa Musa
         </Link>
         <Button 
           variant="ghost" 
           size="icon"
           onClick={() => setMobileNavOpen(!mobileNavOpen)}
+          className="h-10 w-10 touch-manipulation"
         >
-          {mobileNavOpen ? <X /> : <Menu />}
+          {mobileNavOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
       </div>
     </div>

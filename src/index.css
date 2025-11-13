@@ -192,6 +192,33 @@
   .gradient-subtle {
     background: var(--gradient-subtle);
   }
+  
+  /* Mobile Safe Areas */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  .pb-safe {
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+  }
+  
+  /* Touch Optimization */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 /* Accessibility: Support for larger text */

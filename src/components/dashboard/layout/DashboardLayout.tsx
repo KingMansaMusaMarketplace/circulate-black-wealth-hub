@@ -39,27 +39,30 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* Sidebar */}
       <Sidebar 
         user={user} 
-        mobileNavOpen={mobileNavOpen} 
+        mobileNavOpen={mobileNavOpen}
+        setMobileNavOpen={setMobileNavOpen}
       />
 
       {/* Main content */}
       <div className={cn(
-        "flex-1 lg:ml-64 pt-4",
+        "flex-1 lg:ml-64 pt-4 pb-8",
         mobileNavOpen ? "lg:mr-0" : "mr-0",
       )}>
-        <main className="px-4 sm:px-6 lg:px-8 mt-10 lg:mt-0">
+        <main className="px-4 sm:px-6 lg:px-8 mt-16 lg:mt-0 pb-safe">
           {/* Page header */}
           <PageHeader title={title} icon={icon} location={location} />
           
           {/* Page content */}
-          {children}
+          <div className="space-y-6 lg:space-y-8">
+            {children}
+          </div>
         </main>
       </div>
       
       {/* Mobile nav backdrop */}
       {mobileNavOpen && (
         <div 
-          className="fixed inset-0 bg-gray-600 bg-opacity-50 z-10 lg:hidden"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-10 lg:hidden animate-fade-in"
           onClick={() => setMobileNavOpen(false)}
         />
       )}
