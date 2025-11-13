@@ -60,6 +60,22 @@ import {
   LazyComprehensiveTestPage
 } from './components/LazyComponents';
 
+// Additional lazy loaded pages (defined directly for performance)
+const LazyRewardsPage = lazy(() => import('@/pages/RewardsPage'));
+const LazyBusinessDiscoveryPage = lazy(() => import('@/pages/BusinessDiscoveryPage'));
+const LazySalesAgentSignupPage = lazy(() => import('@/pages/SalesAgentSignupPage'));
+const LazySalesAgentGuidePage = lazy(() => import('@/pages/SalesAgentGuidePage'));
+const LazySalesAgentDashboardPage = lazy(() => import('@/pages/SalesAgentDashboardPage'));
+const LazyBusinessProfilePage = lazy(() => import('@/pages/BusinessProfilePage'));
+const LazyContactPage = lazy(() => import('@/pages/ContactPage'));
+const LazySupportPage = lazy(() => import('@/pages/SupportPage'));
+const LazyTermsOfServicePage = lazy(() => import('@/pages/TermsOfServicePage'));
+const LazyPrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
+const LazyCookiePolicyPage = lazy(() => import('@/pages/CookiePolicyPage'));
+const LazyBlogPage = lazy(() => import('@/pages/BlogPage'));
+const LazyHelpPage = lazy(() => import('@/pages/HelpPage'));
+const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));
+
 // Auth page (new) - import directly since it's not in LazyComponents yet
 const LazyAuthPage = lazy(() => import('@/pages/AuthPage'));
 const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
@@ -108,26 +124,10 @@ const LazyBusinessBookingsPage = lazy(() => import('@/pages/BusinessBookingsPage
 const LazyBookBusinessPage = lazy(() => import('@/pages/BookBusinessPage'));
 const LazyBusinessFinancesPage = lazy(() => import('@/pages/BusinessFinancesPage'));
 
-// Remaining imports for compatibility (will be converted to lazy)
-import RewardsPage from './pages/RewardsPage';
-import QRScannerPage from './pages/QRScannerPage';
-import BusinessDetailPage from './pages/BusinessDetailPage';
-import BusinessDiscoveryPage from './pages/BusinessDiscoveryPage';
-import SalesAgentSignupPage from './pages/SalesAgentSignupPage';
-import SalesAgentGuidePage from './pages/SalesAgentGuidePage';
-import SalesAgentDashboardPage from './pages/SalesAgentDashboardPage';
+// Lazy load marketing pages
 const LazyMarketingMaterialsPage = lazy(() => import('./pages/MarketingMaterialsPage'));
 const LazyAdminMarketingMaterialsPage = lazy(() => import('./pages/AdminMarketingMaterialsPage'));
 const LazyMarketingAnalyticsPage = lazy(() => import('./pages/MarketingAnalyticsPage'));
-import BusinessProfilePage from './pages/BusinessProfilePage';
-import ContactPage from './pages/ContactPage';
-import SupportPage from './pages/SupportPage';
-import TermsOfServicePage from './pages/TermsOfServicePage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import CookiePolicyPage from './pages/CookiePolicyPage';
-import BlogPage from './pages/BlogPage';
-import HelpPage from './pages/HelpPage';
-import AllPagesDirectory from './pages/AllPagesDirectory';
 
 // Loading fallback component
 const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => {
@@ -315,7 +315,7 @@ function App() {
                               {/* All routes wrapped with error boundary */}
                               <Route errorElement={<RouteErrorBoundary />}>
                               <Route path="/" element={<HomePage />} />
-                              <Route path="/all-pages" element={<AllPagesDirectory />} />
+                              <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                               <Route path="/auth" element={<LazyAuthPage />} />
                               <Route path="/login" element={<LazyLoginPage />} />
                               <Route path="/signup" element={<LazySignupPage />} />
@@ -355,26 +355,26 @@ function App() {
                                 </IOSProtectedRoute>
                               } />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
-                              <Route path="/businesses" element={<BusinessDiscoveryPage />} />
-                              <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
-                              <Route path="/sales-agent-signup" element={<SalesAgentSignupPage />} />
-                              <Route path="/sales-agent-dashboard" element={<SalesAgentDashboardPage />} />
-                              <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
+                              <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
+                              <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
+                              <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
+                              <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
+                              <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
                               <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
                               <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                               <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
                               <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
-                              <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
-                              <Route path="/business/:businessId" element={<BusinessDetailPage />} />
-                              <Route path="/loyalty" element={<RewardsPage />} />
+                              <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
+                              <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
+                              <Route path="/loyalty" element={<LazyRewardsPage />} />
                               <Route path="/about" element={<LazyAboutPage />} />
-                              <Route path="/contact" element={<ContactPage />} />
-                              <Route path="/support" element={<SupportPage />} />
-                              <Route path="/terms" element={<TermsOfServicePage />} />
-                              <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                              <Route path="/cookies" element={<CookiePolicyPage />} />
-                              <Route path="/blog" element={<BlogPage />} />
-                              <Route path="/help" element={<HelpPage />} />
+                              <Route path="/contact" element={<LazyContactPage />} />
+                              <Route path="/support" element={<LazySupportPage />} />
+                              <Route path="/terms" element={<LazyTermsOfServicePage />} />
+                              <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
+                              <Route path="/cookies" element={<LazyCookiePolicyPage />} />
+                              <Route path="/blog" element={<LazyBlogPage />} />
+                              <Route path="/help" element={<LazyHelpPage />} />
                               <Route path="/testing/signup" element={<LazySignupTestPage />} />
                               <Route path="/accessibility" element={<LazyAccessibilityPage />} />
                               
@@ -469,7 +469,7 @@ function App() {
                         <Layout>
                           <Routes>
                         <Route path="/" element={<HomePage />} />
-                        <Route path="/all-pages" element={<AllPagesDirectory />} />
+                        <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         <Route path="/auth" element={<LazyAuthPage />} />
                         <Route path="/login" element={<LazyLoginPage />} />
                         <Route path="/signup" element={<LazySignupPage />} />
@@ -509,27 +509,27 @@ function App() {
                           </IOSProtectedRoute>
                         } />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
-                        <Route path="/businesses" element={<BusinessDiscoveryPage />} />
-                        <Route path="/sales-agent" element={<SalesAgentSignupPage />} />
-                        <Route path="/sales-agent-signup" element={<SalesAgentSignupPage />} />
-                        <Route path="/sales-agent-dashboard" element={<SalesAgentDashboardPage />} />
-                        <Route path="/sales-agent-guide" element={<SalesAgentGuidePage />} />
+                        <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
+                        <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
+                        <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
+                        <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
+                        <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
                         <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
                         <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                         <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
                         <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
-                        <Route path="/become-a-sales-agent" element={<SalesAgentGuidePage />} />
-                        <Route path="/business/:businessId" element={<BusinessDetailPage />} />
-                        <Route path="/loyalty" element={<RewardsPage />} />
+                        <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
+                        <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
+                        <Route path="/loyalty" element={<LazyRewardsPage />} />
                         {/* Temporarily disabled to isolate iOS startup crash */}
                         <Route path="/about" element={<LazyAboutPage />} />
-                        <Route path="/contact" element={<ContactPage />} />
-                        <Route path="/support" element={<SupportPage />} />
-                        <Route path="/terms" element={<TermsOfServicePage />} />
-                        <Route path="/privacy" element={<PrivacyPolicyPage />} />
-                        <Route path="/cookies" element={<CookiePolicyPage />} />
-                        <Route path="/blog" element={<BlogPage />} />
-                        <Route path="/help" element={<HelpPage />} />
+                        <Route path="/contact" element={<LazyContactPage />} />
+                        <Route path="/support" element={<LazySupportPage />} />
+                        <Route path="/terms" element={<LazyTermsOfServicePage />} />
+                        <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
+                        <Route path="/cookies" element={<LazyCookiePolicyPage />} />
+                        <Route path="/blog" element={<LazyBlogPage />} />
+                        <Route path="/help" element={<LazyHelpPage />} />
                         <Route path="/testing/signup" element={<LazySignupTestPage />} />
                         <Route path="/accessibility" element={<LazyAccessibilityPage />} />
                         

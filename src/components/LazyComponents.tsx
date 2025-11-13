@@ -32,3 +32,19 @@ export const LazyAccessibilityPage = lazy(() => import('@/pages/AccessibilityPag
 export const LazyCapacitorTestPage = lazy(() => import('@/pages/CapacitorTestPage'));
 export const LazyComprehensiveTestPage = lazy(() => import('@/pages/ComprehensiveTestPage'));
 export const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
+
+// Additional lazy loaded pages
+export const LazyRewardsPage = lazy(() => import('@/pages/RewardsPage'));
+export const LazyBusinessDiscoveryPage = lazy(() => import('@/pages/BusinessDiscoveryPage'));
+export const LazySalesAgentSignupPage = lazy(() => import('@/pages/SalesAgentSignupPage'));
+export const LazySalesAgentGuidePage = lazy(() => import('@/pages/SalesAgentGuidePage'));
+export const LazySalesAgentDashboardPage = lazy(() => import('@/pages/SalesAgentDashboardPage'));
+export const LazyBusinessProfilePage = lazy(() => import('@/pages/BusinessProfilePage'));
+export const LazyContactPage = lazy(() => import('@/pages/ContactPage'));
+export const LazySupportPage = lazy(() => import('@/pages/SupportPage'));
+export const LazyTermsOfServicePage = lazy(() => import('@/pages/TermsOfServicePage'));
+export const LazyPrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
+export const LazyCookiePolicyPage = lazy(() => import('@/pages/CookiePolicyPage'));
+export const LazyBlogPage = lazy(() => import('@/pages/BlogPage'));
+export const LazyHelpPage = lazy(() => import('@/pages/HelpPage'));
+export const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));

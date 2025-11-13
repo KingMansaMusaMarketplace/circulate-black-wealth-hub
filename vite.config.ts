@@ -31,7 +31,10 @@ export default defineConfig(({ mode }) => ({
         chunkFileNames: `assets/[name]-[hash].js`,
         manualChunks: {
           // Ensure React is always in vendor chunk with all lazy-loaded components
-          vendor: ['react', 'react-dom', 'react-router-dom'],
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'ui-vendor': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu', '@radix-ui/react-tabs'],
+          'query-vendor': ['@tanstack/react-query'],
+          'supabase': ['@supabase/supabase-js'],
         },
       },
     },
@@ -42,6 +45,10 @@ export default defineConfig(({ mode }) => ({
         compress: {
           drop_console: true,
           drop_debugger: true,
+          pure_funcs: ['console.log', 'console.info'],
+        },
+        mangle: {
+          safari10: true,
         },
       },
     }),
