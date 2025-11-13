@@ -35,19 +35,23 @@
     /* Custom color tokens */
     --mansablue: 210 100% 20%;
     --mansablue-dark: 210 100% 15%;
-    --mansagold: 45 100% 50%;
-    --mansagold-dark: 45 100% 40%;
+    --mansagold: 45 95% 52%;
+    --mansagold-dark: 45 90% 45%;
     
     /* Glass Morphism */
-    --glass-bg: 255 255 255 / 0.7;
-    --glass-border: 255 255 255 / 0.2;
-    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    --glass-bg: 255 255 255 / 0.08;
+    --glass-border: 255 255 255 / 0.15;
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
     
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(210 100% 15%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(45 100% 40%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 95% 58%) 0%, hsl(45 90% 48%) 100%);
     --gradient-premium: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(280 87% 55%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 14.3% 95.9%) 100%);
+    
+    /* Shadows */
+    --shadow-premium: 0 20px 60px -15px rgba(0, 0, 0, 0.3);
+    --shadow-gold: 0 10px 40px -10px rgba(251, 191, 36, 0.4);
   }
 
   .dark {
@@ -77,15 +81,19 @@
     --chart-5: 340 75% 55%;
     
     /* Glass Morphism - Dark Mode */
-    --glass-bg: 31 38 135 / 0.4;
+    --glass-bg: 0 0 0 / 0.4;
     --glass-border: 255 255 255 / 0.1;
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
     
     /* Gradients - Dark Mode */
     --gradient-primary: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(210 100% 15%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(45 100% 40%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 95% 58%) 0%, hsl(45 90% 48%) 100%);
     --gradient-premium: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(280 87% 55%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(224 71.4% 4.1%) 0%, hsl(215 27.9% 16.9%) 100%);
+    
+    /* Shadows - Dark Mode */
+    --shadow-premium: 0 20px 60px -15px rgba(0, 0, 0, 0.6);
+    --shadow-gold: 0 10px 40px -10px rgba(251, 191, 36, 0.3);
   }
 }
 
@@ -200,7 +208,9 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'League Spartan', system-ui, -apple-system, sans-serif;
+    font-family: 'Poppins', 'DM Sans', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 

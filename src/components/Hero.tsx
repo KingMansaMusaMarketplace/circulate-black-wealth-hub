@@ -10,8 +10,11 @@ import { getAudioPath } from '@/utils/audio';
 const Hero = () => {
   return (
     <section className="relative bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue overflow-hidden min-h-screen">
-      <div className="absolute inset-0 bg-black/20" />
-      <div className="relative container mx-auto px-4 py-16">
+      {/* Enhanced Background with Pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(251,191,36,0.1),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.15),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />
+      <div className="relative container mx-auto px-4 py-16 md:py-20 lg:py-24">
         {/* Phase 1 Free Growth Banner */}
         <div className="text-center mb-12">
           <Badge className="bg-gradient-green text-white px-6 py-3 text-lg font-bold rounded-full mb-4 animate-pulse-green badge-shimmer">
@@ -51,31 +54,32 @@ const Hero = () => {
           </Link>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center mb-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
           <div className="text-white animate-fade-in-up">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-bold leading-tight mb-6 md:mb-8">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[1.1] tracking-tight mb-8 md:mb-10">
               Save Money &{' '}
               <br className="hidden sm:block" />
               Support{' '}
-              <span className="text-mansagold">Black-Owned Businesses</span>
+              <span className="bg-gradient-gold bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(251,191,36,0.3)]">Black-Owned Businesses</span>
             </h1>
             
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white/90 leading-relaxed mb-6 md:mb-8 animate-fade-in [animation-delay:200ms]">
+            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/95 leading-relaxed mb-8 md:mb-10 font-body font-medium animate-fade-in [animation-delay:200ms]">
               Get 5% - 30% discounts while building community wealth!
             </p>
             
-            <div className="bg-green-500/20 backdrop-blur-sm border border-green-400/30 rounded-xl p-4 mb-6 animate-scale-in [animation-delay:400ms]">
-              <p className="text-base sm:text-lg md:text-xl text-white leading-relaxed">
-                <strong className="text-green-300">FREE FOR EVERYONE:</strong> Join thousands of customers and businesses 
+            <div className="glass-card bg-green-500/10 border-green-400/20 rounded-2xl p-6 mb-8 animate-scale-in [animation-delay:400ms] shadow-xl">
+              <p className="text-lg sm:text-xl md:text-2xl text-white leading-relaxed font-body">
+                <strong className="text-green-300 font-bold">FREE FOR EVERYONE:</strong> Join thousands of customers and businesses 
                 building economic power together. No subscriptions, no fees, just community wealth creation!
               </p>
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-4 mb-8 w-full animate-fade-in [animation-delay:600ms]">
+            <div className="flex flex-col gap-5 mb-10 w-full animate-fade-in [animation-delay:600ms]">
               <Link to="/signup" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
                 <Button 
-                  className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-bold py-3 md:py-4 px-4 md:px-6 text-sm sm:text-base md:text-lg rounded-xl w-full sm:w-auto leading-tight cursor-pointer transition-all hover:scale-105 hover:shadow-lg"
+                  size="lg"
+                  className="gradient-gold text-mansablue-dark font-bold text-base sm:text-lg md:text-xl rounded-2xl w-full sm:w-auto leading-tight cursor-pointer shadow-[0_0_30px_rgba(251,191,36,0.4)] hover:shadow-[0_0_40px_rgba(251,191,36,0.6)] border-2 border-mansagold-light/20"
                   style={{ touchAction: 'manipulation' }}
                 >
                   <span className="text-center pointer-events-none">
@@ -87,11 +91,11 @@ const Hero = () => {
                 </Button>
               </Link>
               
-              <div className="flex flex-col sm:flex-row gap-4 w-full">
+              <div className="flex flex-col sm:flex-row gap-5 w-full">
                 <AudioButton
                   audioSrc={getAudioPath('blueprint')}
                   variant="red"
-                  className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap cursor-pointer"
+                  className="py-4 px-8 text-lg rounded-2xl w-full sm:w-auto whitespace-nowrap cursor-pointer shadow-lg hover:shadow-xl"
                 >
                   <Volume2 className="mr-2 h-5 w-5" />
                   Hear Our Blueprint
@@ -100,7 +104,8 @@ const Hero = () => {
                 <Link to="/directory" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
                   <Button 
                     variant="outline"
-                    className="py-3 md:py-4 px-6 md:px-8 text-base md:text-lg rounded-xl w-full sm:w-auto whitespace-nowrap border-mansagold text-mansagold hover:bg-mansagold hover:text-mansablue cursor-pointer"
+                    size="lg"
+                    className="text-lg rounded-2xl w-full sm:w-auto whitespace-nowrap border-mansagold/50 text-mansagold hover:bg-mansagold hover:text-mansablue-dark cursor-pointer backdrop-blur-sm"
                     style={{ touchAction: 'manipulation' }}
                   >
                     Browse Directory
@@ -112,7 +117,10 @@ const Hero = () => {
 
           <div className="flex justify-center lg:justify-end">
             <div className="relative max-w-lg w-full">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              {/* Glow effect behind image */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-mansagold/20 via-transparent to-blue-500/20 rounded-3xl blur-2xl"></div>
+              
+              <div className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.3)] ring-2 ring-white/10">
                 <img 
                   src="/lovable-uploads/487f9aac-a3ad-4b28-8d90-3fd25a3a689b.png" 
                   alt="Professional business woman working on laptop"
@@ -120,21 +128,21 @@ const Hero = () => {
                 />
                 
                 {/* Overlay with key benefits */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                  <div className="text-white space-y-3">
+                <div className="absolute bottom-0 left-0 right-0 glass-card bg-gradient-to-t from-black/90 via-black/60 to-transparent p-8">
+                  <div className="text-white space-y-4">
                     <div className="flex items-center">
-                      <TrendingUp className="h-5 w-5 text-green-400 mr-2" />
-                      <span className="text-sm font-medium">5% - 30% Discounts</span>
+                      <TrendingUp className="h-6 w-6 text-green-400 mr-3" />
+                      <span className="text-base font-semibold font-body">5% - 30% Discounts</span>
                     </div>
                     
                     <div className="flex items-center">
-                      <Star className="h-5 w-5 text-green-400 mr-2" />
-                      <span className="text-sm font-medium">100% FREE</span>
+                      <Star className="h-6 w-6 text-green-400 mr-3" />
+                      <span className="text-base font-semibold font-body">100% FREE</span>
                     </div>
                     
                     <div className="flex items-center">
-                      <Shield className="h-5 w-5 text-blue-400 mr-2" />
-                      <span className="text-sm font-medium">Community First</span>
+                      <Shield className="h-6 w-6 text-blue-400 mr-3" />
+                      <span className="text-base font-semibold font-body">Community First</span>
                     </div>
                   </div>
                 </div>
@@ -144,17 +152,17 @@ const Hero = () => {
         </div>
 
         {/* Updated Plan Cards Grid - All Free */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto">
           <Link to="/signup">
-            <Card className="bg-green-500/20 backdrop-blur-lg border border-green-400/30 hover:bg-green-500/25 transition-all cursor-pointer">
-              <CardContent className="p-4 md:p-6">
+            <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+              <CardContent className="p-6 md:p-8">
                 <div className="text-center">
-                  <Badge className="bg-green-500 text-white mb-3 md:mb-4">
-                    <CheckCircle className="mr-1 h-3 w-3" />
+                  <Badge className="bg-green-500 text-white mb-4 shadow-md">
+                    <CheckCircle className="mr-1.5 h-4 w-4" />
                     100% FREE
                   </Badge>
-                  <h3 className="text-green-100 font-semibold text-base md:text-lg mb-2 md:mb-3">CUSTOMERS</h3>
-                  <p className="text-white/90 text-xs md:text-sm">
+                  <h3 className="text-green-100 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">CUSTOMERS</h3>
+                  <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
                     Browse directory, get discounts, earn loyalty points, redeem rewards
                   </p>
                 </div>
@@ -163,15 +171,15 @@ const Hero = () => {
           </Link>
 
           <Link to="/signup?type=business">
-            <Card className="bg-blue-500/20 backdrop-blur-lg border border-blue-400/30 hover:bg-blue-500/25 transition-all cursor-pointer">
-              <CardContent className="p-4 md:p-6">
+            <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+              <CardContent className="p-6 md:p-8">
                 <div className="text-center">
-                  <Badge className="bg-blue-500 text-white mb-3 md:mb-4">
-                    <Building2 className="mr-1 h-3 w-3" />
+                  <Badge className="bg-blue-500 text-white mb-4 shadow-md">
+                    <Building2 className="mr-1.5 h-4 w-4" />
                     100% FREE
                   </Badge>
-                  <h3 className="text-blue-200 font-semibold text-base md:text-lg mb-2 md:mb-3">BUSINESSES</h3>
-                  <p className="text-white/90 text-xs md:text-sm">
+                  <h3 className="text-blue-200 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">BUSINESSES</h3>
+                  <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
                     Unlimited QR codes, analytics, customer management, promotions
                   </p>
                 </div>
@@ -180,15 +188,15 @@ const Hero = () => {
           </Link>
 
           <Link to="/signup">
-            <Card className="bg-purple-500/20 backdrop-blur-lg border border-purple-400/30 hover:bg-purple-500/25 transition-all cursor-pointer">
-              <CardContent className="p-4 md:p-6">
+            <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+              <CardContent className="p-6 md:p-8">
                 <div className="text-center">
-                  <Badge className="bg-purple-500 text-white mb-3 md:mb-4">
-                    <GraduationCap className="mr-1 h-3 w-3" />
+                  <Badge className="bg-purple-500 text-white mb-4 shadow-md">
+                    <GraduationCap className="mr-1.5 h-4 w-4" />
                     STUDENTS
                   </Badge>
-                  <h3 className="text-purple-200 font-semibold text-base md:text-lg mb-2 md:mb-3">HBCU SPECIAL</h3>
-                  <p className="text-white/90 text-xs md:text-sm">
+                  <h3 className="text-purple-200 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">HBCU SPECIAL</h3>
+                  <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
                     Extra rewards, exclusive events, community building
                   </p>
                 </div>
@@ -197,15 +205,15 @@ const Hero = () => {
           </Link>
 
           <Link to="/directory">
-            <Card className="bg-mansagold/20 backdrop-blur-lg border border-mansagold/30 hover:bg-mansagold/25 transition-all cursor-pointer">
-              <CardContent className="p-4 md:p-6">
+            <Card className="glass-card bg-mansagold/15 border-mansagold/30 hover:bg-mansagold/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+              <CardContent className="p-6 md:p-8">
                 <div className="text-center">
-                  <Badge className="bg-mansagold text-mansablue mb-3 md:mb-4">
-                    <Users className="mr-1 h-3 w-3" />
+                  <Badge className="gradient-gold text-mansablue-dark mb-4 shadow-md">
+                    <Users className="mr-1.5 h-4 w-4" />
                     EXPLORE
                   </Badge>
-                  <h3 className="text-mansagold font-semibold text-base md:text-lg mb-2 md:mb-3">BROWSE NOW</h3>
-                  <p className="text-white/90 text-xs md:text-sm">
+                  <h3 className="text-mansagold font-bold text-lg md:text-xl mb-3 font-display tracking-tight">BROWSE NOW</h3>
+                  <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
                     Start exploring businesses across 5 cities today
                   </p>
                 </div>
@@ -215,20 +223,20 @@ const Hero = () => {
         </div>
 
         {/* Phase 1 Metrics Focus */}
-        <div className="mt-16 text-center">
-          <h3 className="text-xl font-semibold text-white mb-4">We're Measuring Success by Community, Not Revenue</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <div className="text-2xl font-bold text-mansagold">Business Signups</div>
-              <div className="text-sm text-white/80">Growing our network</div>
+        <div className="mt-24 text-center">
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 font-display">We're Measuring Success by Community, Not Revenue</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Business Signups</div>
+              <div className="text-base text-white/90 font-body">Growing our network</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <div className="text-2xl font-bold text-mansagold">Customer Transactions</div>
-              <div className="text-sm text-white/80">Economic circulation</div>
+            <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Customer Transactions</div>
+              <div className="text-base text-white/90 font-body">Economic circulation</div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <div className="text-2xl font-bold text-mansagold">Repeat Usage</div>
-              <div className="text-sm text-white/80">Community engagement</div>
+            <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
+              <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Repeat Usage</div>
+              <div className="text-base text-white/90 font-body">Community engagement</div>
             </div>
           </div>
         </div>

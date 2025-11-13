@@ -18,10 +18,24 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", ...fontFamily.sans],
-        display: ["Plus Jakarta Sans", "Inter", ...fontFamily.sans],
+        sans: ["Poppins", "Inter", ...fontFamily.sans],
+        body: ["DM Sans", "Inter", ...fontFamily.sans],
+        display: ["Poppins", "Inter", ...fontFamily.sans],
         montserrat: ["Montserrat", "sans-serif"],
         spartan: ["League Spartan", "sans-serif"],
+      },
+      letterSpacing: {
+        tighter: '-0.05em',
+        tight: '-0.025em',
+        normal: '0',
+        wide: '0.025em',
+        wider: '0.05em',
+        widest: '0.1em',
+      },
+      spacing: {
+        '18': '4.5rem',
+        '22': '5.5rem',
+        '30': '7.5rem',
       },
       colors: {
         border: "hsl(var(--border))",
