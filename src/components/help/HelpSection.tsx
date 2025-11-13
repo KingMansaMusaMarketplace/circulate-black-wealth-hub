@@ -212,7 +212,7 @@ export const HelpSection: React.FC = () => {
           <h2 className="text-2xl font-bold mb-4">
             Need More Help?
           </h2>
-          <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+          <p className="text-white/90 mb-6 max-w-2xl mx-auto">
             Our support team is available to help with any questions or issues you might have. 
             We typically respond within 24 hours.
           </p>
