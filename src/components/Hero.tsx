@@ -21,9 +21,9 @@ const Hero = () => {
       <div className="absolute top-20 left-10 w-2 h-2 bg-mansagold/30 rounded-full animate-bounce-subtle" />
       <div className="absolute top-40 right-20 w-3 h-3 bg-blue-400/20 rounded-full animate-bounce-subtle" style={{ animationDelay: '0.5s' }} />
       <div className="absolute bottom-32 left-1/4 w-2 h-2 bg-mansagold/30 rounded-full animate-bounce-subtle" style={{ animationDelay: '1s' }} />
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 lg:py-32">
         {/* Phase 1 Free Growth Banner */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16 md:mb-20">
           <Badge className="bg-gradient-green text-white px-6 py-3 text-lg font-bold rounded-full mb-4 animate-pulse-green badge-shimmer">
             <Zap className="mr-2 h-5 w-5" />
             PHASE 1: FREE GROWTH - Everything FREE Until Jan 2026!
@@ -34,7 +34,7 @@ const Hero = () => {
         </div>
 
         {/* Free Access Badges */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-16">
+        <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 mb-20 md:mb-24">
           <Link to="/signup">
             <Badge className="bg-gradient-green text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-green badge-shimmer">
               <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
@@ -61,10 +61,10 @@ const Hero = () => {
           </Link>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 xl:gap-32 items-center mb-32 md:mb-40">
           <ScrollReveal delay={0.1}>
             <div className="text-white">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[1.1] tracking-tight mb-8 md:mb-10">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[1.1] tracking-tight mb-10 md:mb-12">
               Save Money &{' '}
               <br className="hidden sm:block" />
               Support{' '}
@@ -73,11 +73,11 @@ const Hero = () => {
               </span>
             </h1>
             
-            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/95 leading-relaxed mb-8 md:mb-10 font-body font-medium animate-fade-in [animation-delay:200ms]">
+            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/95 leading-relaxed mb-10 md:mb-12 font-body font-medium animate-fade-in [animation-delay:200ms]">
               Get 5% - 30% discounts while building community wealth!
             </p>
             
-            <div className="glass-card bg-green-500/10 border-green-400/20 rounded-2xl p-6 mb-8 animate-scale-in [animation-delay:400ms] shadow-xl">
+            <div className="glass-card bg-green-500/10 border-green-400/20 rounded-2xl p-6 md:p-8 mb-10 md:mb-12 animate-scale-in [animation-delay:400ms] shadow-xl">
               <p className="text-lg sm:text-xl md:text-2xl text-white leading-relaxed font-body">
                 <strong className="text-green-300 font-bold">FREE FOR EVERYONE:</strong> Join thousands of customers and businesses 
                 building economic power together. No subscriptions, no fees, just community wealth creation!
@@ -85,7 +85,7 @@ const Hero = () => {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-5 mb-10 w-full animate-fade-in [animation-delay:600ms]">
+            <div className="flex flex-col gap-6 mb-12 w-full animate-fade-in [animation-delay:600ms]">
               <Link to="/signup" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
                 <Button 
                   size="lg"
@@ -101,14 +101,14 @@ const Hero = () => {
                 </Button>
               </Link>
               
-              <div className="flex flex-col sm:flex-row gap-5 w-full">
+              <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full">
                 <AudioButton
                   audioSrc={getAudioPath('blueprint')}
                   variant="red"
-                  className="py-4 px-8 text-lg rounded-2xl w-full sm:w-auto whitespace-nowrap cursor-pointer shadow-lg hover:shadow-xl"
+                  className="py-5 px-10 text-lg md:text-xl rounded-2xl w-full sm:w-auto whitespace-nowrap cursor-pointer shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 font-bold"
                 >
-                  <Volume2 className="mr-2 h-5 w-5" />
-                  Hear Our Blueprint
+                  <Volume2 className="mr-3 h-6 w-6" />
+                  🎧 Talk to Kayla
                 </AudioButton>
                 
                 <Link to="/directory" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
@@ -165,11 +165,11 @@ const Hero = () => {
         </div>
 
         {/* Updated Plan Cards Grid - All Free */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10 max-w-7xl mx-auto px-4">
           <ScrollReveal delay={0.1}>
             <Link to="/signup">
-              <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 group">
-              <CardContent className="p-6 md:p-8">
+              <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 group h-full">
+              <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
                 <div className="text-center">
                   <Badge className="bg-green-500 text-white mb-4 shadow-md">
                     <CheckCircle className="mr-1.5 h-4 w-4" />
@@ -187,8 +187,8 @@ const Hero = () => {
 
           <ScrollReveal delay={0.2}>
             <Link to="/signup?type=business">
-              <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 group">
-              <CardContent className="p-6 md:p-8">
+              <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 group h-full">
+              <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
                 <div className="text-center">
                   <Badge className="bg-blue-500 text-white mb-4 shadow-md">
                     <Building2 className="mr-1.5 h-4 w-4" />
@@ -206,8 +206,8 @@ const Hero = () => {
 
           <ScrollReveal delay={0.3}>
             <Link to="/signup">
-              <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 group">
-              <CardContent className="p-6 md:p-8">
+              <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 group h-full">
+              <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
                 <div className="text-center">
                   <Badge className="bg-purple-500 text-white mb-4 shadow-md">
                     <GraduationCap className="mr-1.5 h-4 w-4" />
@@ -225,8 +225,8 @@ const Hero = () => {
 
           <ScrollReveal delay={0.4}>
             <Link to="/directory">
-              <Card className="glass-card bg-mansagold/15 border-mansagold/30 hover:bg-mansagold/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-mansagold/30 group">
-              <CardContent className="p-6 md:p-8">
+              <Card className="glass-card bg-mansagold/15 border-mansagold/30 hover:bg-mansagold/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-mansagold/30 group h-full">
+              <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
                 <div className="text-center">
                   <Badge className="gradient-gold text-mansablue-dark mb-4 shadow-md">
                     <Users className="mr-1.5 h-4 w-4" />
@@ -244,13 +244,13 @@ const Hero = () => {
         </div>
 
         {/* Phase 1 Metrics Focus */}
-        <div className="mt-24 text-center">
+        <div className="mt-32 md:mt-40 text-center">
           <ScrollReveal delay={0.2}>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 font-display">We're Measuring Success by Community, Not Revenue</h3>
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-12 md:mb-16 font-display">We're Measuring Success by Community, Not Revenue</h3>
           </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 lg:gap-12 max-w-6xl mx-auto px-4">
             <ScrollReveal delay={0.3}>
-              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 hover-glow-gold transition-all duration-300">
+              <div className="glass-card bg-white/10 rounded-2xl p-10 md:p-12 hover:scale-105 hover-glow-gold transition-all duration-300">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
                   <CountUpNumber end={300} suffix="+" duration={2500} />
                 </div>
@@ -258,7 +258,7 @@ const Hero = () => {
               </div>
             </ScrollReveal>
             <ScrollReveal delay={0.4}>
-              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 hover-glow-gold transition-all duration-300">
+              <div className="glass-card bg-white/10 rounded-2xl p-10 md:p-12 hover:scale-105 hover-glow-gold transition-all duration-300">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
                   <CountUpNumber end={5000} suffix="+" duration={2500} />
                 </div>
@@ -266,7 +266,7 @@ const Hero = () => {
               </div>
             </ScrollReveal>
             <ScrollReveal delay={0.5}>
-              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 hover-glow-gold transition-all duration-300">
+              <div className="glass-card bg-white/10 rounded-2xl p-10 md:p-12 hover:scale-105 hover-glow-gold transition-all duration-300">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
                   <CountUpNumber end={85} suffix="%" duration={2500} />
                 </div>
