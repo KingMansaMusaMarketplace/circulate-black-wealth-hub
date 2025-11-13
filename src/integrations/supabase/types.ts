@@ -2200,6 +2200,125 @@ export type Database = {
           },
         ]
       }
+      fraud_alerts: {
+        Row: {
+          ai_confidence_score: number | null
+          alert_type: string
+          business_id: string | null
+          created_at: string | null
+          description: string
+          evidence: Json
+          id: string
+          investigated_at: string | null
+          investigated_by: string | null
+          related_entity_id: string | null
+          related_entity_type: string | null
+          resolution_notes: string | null
+          severity: string
+          status: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          ai_confidence_score?: number | null
+          alert_type: string
+          business_id?: string | null
+          created_at?: string | null
+          description: string
+          evidence: Json
+          id?: string
+          investigated_at?: string | null
+          investigated_by?: string | null
+          related_entity_id?: string | null
+          related_entity_type?: string | null
+          resolution_notes?: string | null
+          severity: string
+          status?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          ai_confidence_score?: number | null
+          alert_type?: string
+          business_id?: string | null
+          created_at?: string | null
+          description?: string
+          evidence?: Json
+          id?: string
+          investigated_at?: string | null
+          investigated_by?: string | null
+          related_entity_id?: string | null
+          related_entity_type?: string | null
+          resolution_notes?: string | null
+          severity?: string
+          status?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fraud_alerts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fraud_alerts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fraud_alerts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fraud_alerts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fraud_detection_logs: {
+        Row: {
+          alerts_generated: number | null
+          analysis_duration_ms: number | null
+          analysis_type: string
+          business_id: string | null
+          created_at: string | null
+          id: string
+          patterns_analyzed: Json
+          user_id: string | null
+        }
+        Insert: {
+          alerts_generated?: number | null
+          analysis_duration_ms?: number | null
+          analysis_type: string
+          business_id?: string | null
+          created_at?: string | null
+          id?: string
+          patterns_analyzed: Json
+          user_id?: string | null
+        }
+        Update: {
+          alerts_generated?: number | null
+          analysis_duration_ms?: number | null
+          analysis_type?: string
+          business_id?: string | null
+          created_at?: string | null
+          id?: string
+          patterns_analyzed?: Json
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       friendships: {
         Row: {
           accepted_at: string | null
@@ -5505,6 +5624,7 @@ export type Database = {
         }
         Returns: string
       }
+      delete_user_account: { Args: { user_id: string }; Returns: undefined }
       delete_user_account_immediate: { Args: never; Returns: Json }
       expire_challenges: { Args: never; Returns: undefined }
       generate_batch_number: { Args: never; Returns: string }
@@ -6009,6 +6129,7 @@ export type Database = {
         Args: { material_id: string }
         Returns: undefined
       }
+      insert_fraud_alerts_batch: { Args: { alerts: Json[] }; Returns: number }
       is_admin: { Args: never; Returns: boolean }
       is_admin_secure: { Args: never; Returns: boolean }
       is_business_owner: {

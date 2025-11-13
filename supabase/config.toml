@@ -126,6 +126,9 @@ verify_jwt = false
 [functions.parse-search-query]
 verify_jwt = false
 
+[functions.detect-fraud]
+verify_jwt = true
+
 [functions.process-qr-transaction]
 verify_jwt = true
 
