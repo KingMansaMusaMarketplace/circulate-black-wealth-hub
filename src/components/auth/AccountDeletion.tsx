@@ -27,75 +27,52 @@ const AccountDeletion: React.FC = () => {
   const { toast } = useToast();
   const { signOut } = useAuth();
 
-  const handleRequestDeletion = async () => {
+  const handleDeleteAccount = async () => {
     try {
       setIsDeleting(true);
       
-      const { data, error } = await supabase.rpc('request_account_deletion', {
-        deletion_reason: reason || null
+      // Get the current session
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        throw new Error('No active session');
+      }
+
+      // Call the edge function to delete the account
+      const { data, error } = await supabase.functions.invoke('delete-account', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
       });
 
       if (error) {
         throw error;
       }
 
-      const result = typeof data === 'string' ? JSON.parse(data) : data;
-      
-      if (result.error) {
-        throw new Error(result.error);
-      }
-
-      toast({
-        title: 'Account Deletion Requested',
-        description: 'Your account deletion request has been submitted. You will receive an email confirmation shortly.'
-      });
-
-      setReason('');
-      setShowConfirmDialog(false);
-    } catch (error: any) {
-      toast({
-        title: 'Error',
-        description: error.message || 'Failed to request account deletion',
-        variant: 'destructive'
-      });
-    } finally {
-      setIsDeleting(false);
-    }
-  };
-
-  const handleImmediateDeletion = async () => {
-    try {
-      setIsDeleting(true);
-      
-      const { data, error } = await supabase.rpc('delete_user_account_immediate');
-
-      if (error) {
-        throw error;
-      }
-
-      const result = typeof data === 'string' ? JSON.parse(data) : data;
-      
-      if (result.error) {
-        throw new Error(result.error);
+      if (data?.error) {
+        throw new Error(data.error);
       }
 
       toast({
         title: 'Account Deleted',
-        description: 'Your account has been permanently deleted. You will now be signed out.'
+        description: 'Your account has been permanently deleted. You will now be signed out.',
       });
 
       // Sign out after successful deletion
       setTimeout(() => {
         signOut();
+        window.location.href = '/';
       }, 2000);
     } catch (error: any) {
+      console.error('Account deletion error:', error);
       toast({
         title: 'Error',
-        description: error.message || 'Failed to delete account',
-        variant: 'destructive'
+        description: error.message || 'Failed to delete account. Please try again.',
+        variant: 'destructive',
       });
     } finally {
       setIsDeleting(false);
+      setShowConfirmDialog(false);
     }
   };
 
@@ -126,7 +103,7 @@ const AccountDeletion: React.FC = () => {
 
         <Separator />
 
-        {/* Deletion Options */}
+        {/* Account Deletion */}
         <div className="space-y-4">
           <div>
             <Label htmlFor="deletion-reason" className="text-sm font-medium">
@@ -147,77 +124,58 @@ const AccountDeletion: React.FC = () => {
             )}
           </div>
 
-          <div className="space-y-3">
-            {/* Request Deletion (24-hour delay) */}
-            <div className="p-4 border rounded-lg">
-              <h4 className="font-medium mb-2">Option 1: Request Account Deletion</h4>
-              <p className="text-sm text-muted-foreground mb-3">
-                Submit a deletion request. Your account will be deleted within 24-48 hours after review. 
-                You'll receive an email confirmation.
-              </p>
-              <Button 
-                variant="destructive" 
-                onClick={handleRequestDeletion}
-                disabled={isDeleting}
-                className="w-full"
-              >
-                {isDeleting ? 'Submitting Request...' : 'Request Account Deletion'}
-              </Button>
-            </div>
-
-            {/* Immediate Deletion */}
-            <div className="p-4 border border-destructive/20 rounded-lg">
-              <h4 className="font-medium mb-2 text-destructive">Option 2: Delete Immediately</h4>
-              <p className="text-sm text-muted-foreground mb-3">
-                <strong>Warning:</strong> This will immediately and permanently delete your account. 
-                This action cannot be undone or recovered.
-              </p>
-              
-              <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
-                <AlertDialogTrigger asChild>
-                  <Button 
-                    variant="destructive" 
-                    className="w-full"
+          {/* Delete Account Button */}
+          <div className="p-4 border border-destructive/20 rounded-lg">
+            <h4 className="font-medium mb-2 text-destructive">Permanently Delete Account</h4>
+            <p className="text-sm text-muted-foreground mb-3">
+              <strong>Warning:</strong> This will immediately and permanently delete your account. 
+              This action cannot be undone or recovered.
+            </p>
+            
+            <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+              <AlertDialogTrigger asChild>
+                <Button 
+                  variant="destructive" 
+                  className="w-full"
+                  disabled={isDeleting}
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Delete My Account
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="flex items-center gap-2 text-destructive">
+                    <AlertTriangle className="h-5 w-5" />
+                    Confirm Account Deletion
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you absolutely sure you want to delete your account? This will permanently 
+                    remove all your data including:
+                    <br /><br />
+                    • Profile and personal information
+                    <br />
+                    • All transaction history and loyalty points
+                    <br />
+                    • Business listings and reviews
+                    <br />
+                    • All uploaded content
+                    <br /><br />
+                    <strong>This action cannot be undone.</strong>
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+                  <AlertDialogAction 
+                    onClick={handleDeleteAccount}
                     disabled={isDeleting}
+                    className="bg-destructive hover:bg-destructive/90"
                   >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Delete Account Immediately
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle className="flex items-center gap-2 text-destructive">
-                      <AlertTriangle className="h-5 w-5" />
-                      Confirm Account Deletion
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Are you absolutely sure you want to delete your account? This will permanently 
-                      remove all your data including:
-                      <br /><br />
-                      • Profile and personal information
-                      <br />
-                      • All transaction history and loyalty points
-                      <br />
-                      • Business listings and reviews
-                      <br />
-                      • All uploaded content
-                      <br /><br />
-                      <strong>This action cannot be undone.</strong>
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
-                    <AlertDialogAction 
-                      onClick={handleImmediateDeletion}
-                      disabled={isDeleting}
-                      className="bg-destructive hover:bg-destructive/90"
-                    >
-                      {isDeleting ? 'Deleting...' : 'Yes, Delete My Account'}
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
+                    {isDeleting ? 'Deleting...' : 'Yes, Delete My Account'}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
 
