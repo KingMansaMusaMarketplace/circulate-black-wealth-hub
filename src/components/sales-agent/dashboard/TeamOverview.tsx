@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Users, TrendingUp, Calendar } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Users, TrendingUp, Calendar, UserPlus } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface RecruitedAgent {
@@ -30,13 +31,17 @@ const TeamOverview: React.FC<TeamOverviewProps> = ({
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="glass-card border-border/50">
         <CardHeader>
-          <CardTitle>Your Team</CardTitle>
-          <CardDescription>Loading team data...</CardDescription>
+          <CardTitle className="text-xl font-display font-semibold text-foreground">
+            Your Team
+          </CardTitle>
+          <CardDescription className="font-body text-muted-foreground">
+            Loading team data...
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-40 bg-gray-100 animate-pulse rounded" />
+          <div className="h-40 bg-muted/30 animate-pulse rounded-lg shimmer" />
         </CardContent>
       </Card>
     );
@@ -44,18 +49,30 @@ const TeamOverview: React.FC<TeamOverviewProps> = ({
 
   if (recruitedAgents.length === 0) {
     return (
-      <Card>
+      <Card className="glass-card border-border/50">
         <CardHeader>
-          <CardTitle>Your Team</CardTitle>
-          <CardDescription>Recruit agents to build your team</CardDescription>
+          <CardTitle className="text-xl font-display font-semibold text-foreground">
+            Your Team
+          </CardTitle>
+          <CardDescription className="font-body text-muted-foreground">
+            Recruit agents to build your team
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8 text-muted-foreground">
-            <Users className="h-12 w-12 mx-auto mb-3 opacity-50" />
-            <p className="mb-2">No team members yet</p>
-            <p className="text-sm">
-              Share your recruiter code when inviting new agents to earn $75 bonuses and 7.5% overrides!
-            </p>
+          <div className="text-center py-12 space-y-4">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-muted/30 mb-2">
+              <Users className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <div className="space-y-2">
+              <p className="font-body text-foreground font-medium">No team members yet</p>
+              <p className="text-sm text-muted-foreground font-body max-w-md mx-auto">
+                Share your recruiter code when inviting new agents to earn $75 bonuses and 7.5% overrides!
+              </p>
+            </div>
+            <Button className="gap-2 mt-4">
+              <UserPlus className="h-4 w-4" />
+              Invite Agents
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -63,10 +80,12 @@ const TeamOverview: React.FC<TeamOverviewProps> = ({
   }
 
   return (
-    <Card>
+    <Card className="glass-card border-border/50">
       <CardHeader>
-        <CardTitle>Your Team</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-xl font-display font-semibold text-foreground">
+          Your Team
+        </CardTitle>
+        <CardDescription className="font-body text-muted-foreground">
           {recruitedAgents.length} agent{recruitedAgents.length !== 1 ? 's' : ''} • $
           {totalTeamOverrides.toFixed(2)} in overrides
         </CardDescription>
@@ -85,14 +104,14 @@ const TeamOverview: React.FC<TeamOverviewProps> = ({
             return (
               <div
                 key={agent.id}
-                className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent/50 transition-colors"
+                className="flex items-center justify-between p-4 border border-border/50 rounded-lg hover:bg-muted/20 transition-all hover-lift group"
               >
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
-                    <h4 className="font-medium">{agent.full_name}</h4>
-                    <Badge variant="outline">{agent.referral_code}</Badge>
+                    <h4 className="font-display font-semibold text-foreground">{agent.full_name}</h4>
+                    <Badge variant="outline" className="font-body">{agent.referral_code}</Badge>
                   </div>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground font-body">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
                       Joined {format(new Date(agent.created_at), 'MMM yyyy')}
@@ -104,10 +123,10 @@ const TeamOverview: React.FC<TeamOverviewProps> = ({
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-lg font-bold text-purple-600">
+                  <div className="text-lg font-display font-bold text-purple-600 dark:text-purple-400">
                     ${agentOverrideTotal.toFixed(2)}
                   </div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-xs text-muted-foreground font-body">
                     Your overrides
                   </div>
                 </div>
