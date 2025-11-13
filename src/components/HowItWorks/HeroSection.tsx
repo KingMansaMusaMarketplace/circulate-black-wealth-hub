@@ -25,9 +25,9 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />
       
       <div className="container-custom px-4 relative z-10">
-        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           <ScrollReveal delay={0.1}>
-            <div className="md:w-1/2 text-white mb-8 md:mb-0">
+            <div className="lg:w-2/5 text-white mb-8 lg:mb-0">
             
               <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
                 How <span className="bg-gradient-gold bg-clip-text text-transparent">Mansa Musa</span> Works
@@ -69,8 +69,8 @@ const HeroSection = () => {
           </ScrollReveal>
           
           <ScrollReveal delay={0.2} y={50}>
-            <div className="md:w-1/2 flex justify-center md:justify-end">
-              <div className="relative w-full">
+            <div className="lg:w-3/5 flex justify-center lg:justify-end">
+              <div className="relative w-full scale-125 lg:scale-150 origin-center">
                 {/* Glow effect */}
                 <div className="absolute inset-0 bg-gradient-primary blur-3xl opacity-20 rounded-3xl"></div>
                 
