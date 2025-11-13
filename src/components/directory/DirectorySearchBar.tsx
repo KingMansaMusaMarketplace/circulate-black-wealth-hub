@@ -9,6 +9,7 @@ import { searchBusinesses } from '@/lib/api/directory-api';
 import { Business } from '@/types/business';
 import { useNavigate } from 'react-router-dom';
 import { useDebounce } from '@/hooks/use-debounce';
+import { useSemanticSearch } from '@/hooks/use-semantic-search';
 
 interface DirectorySearchBarProps {
   searchTerm: string;
@@ -38,14 +39,40 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
   const [searchResults, setSearchResults] = useState<Business[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const { parseSearchQuery, isParsing } = useSemanticSearch();
   
-  // Search as you type
+  // Detect if query is natural language (more than 2 words)
+  const isNaturalLanguageQuery = debouncedSearchTerm.trim().split(/\s+/).length > 2;
+  
+  // Search as you type with semantic search support
   useEffect(() => {
     const performSearch = async () => {
       if (debouncedSearchTerm.length >= 2) {
         setIsSearching(true);
         try {
-          const results = await searchBusinesses(debouncedSearchTerm);
+          let results: Business[];
+          
+          // Use semantic search for natural language queries
+          if (isNaturalLanguageQuery) {
+            const parsed = await parseSearchQuery(debouncedSearchTerm, null);
+            
+            if (parsed) {
+              // Use semantic filters
+              results = await searchBusinesses(parsed.searchTerm, {
+                category: parsed.category,
+                minRating: parsed.rating,
+                distance: parsed.distance,
+                discount: parsed.discount
+              });
+            } else {
+              // Fallback to basic search
+              results = await searchBusinesses(debouncedSearchTerm);
+            }
+          } else {
+            // Basic keyword search
+            results = await searchBusinesses(debouncedSearchTerm);
+          }
+          
           setSearchResults(results);
           setShowSearchResults(true);
         } catch (error) {
@@ -59,15 +86,13 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
     };
     
     performSearch();
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, isNaturalLanguageQuery, parseSearchQuery, userLocation]);
 
   // Handle clearing search
   const handleClearSearch = () => {
     onSearchChange('');
     setShowSearchResults(false);
   };
-
-  const isNaturalLanguage = searchTerm.trim().split(/\s+/).length > 2;
   
   // Handle clicking outside to close search results
   useEffect(() => {
@@ -100,10 +125,11 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
               onChange={(e) => onSearchChange(e.target.value)}
               className="pl-10 bg-gray-50 pr-10"
             />
-            {isNaturalLanguage && (
+            {isNaturalLanguageQuery && (
               <Badge 
                 variant="secondary" 
                 className="absolute right-12 top-1/2 transform -translate-y-1/2 text-xs gap-1"
+                title="AI-powered semantic search active"
               >
                 <Sparkles className="h-3 w-3" />
                 AI
@@ -170,7 +196,7 @@ const DirectorySearchBar: React.FC<DirectorySearchBarProps> = ({
               </div>
             )}
             
-            {isSearching && (
+            {(isSearching || isParsing) && (
               <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
                 <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
               </div>
