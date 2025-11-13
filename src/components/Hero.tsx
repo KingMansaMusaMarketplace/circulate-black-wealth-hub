@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle, Zap, Heart, Volume2 } from 'lucide-react';
 import { getAudioPath } from '@/utils/audio';
+import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const Hero = () => {
   return (
@@ -55,8 +56,9 @@ const Hero = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
-          <div className="text-white animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[1.1] tracking-tight mb-8 md:mb-10">
+          <ScrollReveal delay={0.1}>
+            <div className="text-white">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[1.1] tracking-tight mb-8 md:mb-10">
               Save Money &{' '}
               <br className="hidden sm:block" />
               Support{' '}
@@ -111,11 +113,13 @@ const Hero = () => {
                     Browse Directory
                   </Button>
                 </Link>
+                </div>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
-          <div className="flex justify-center lg:justify-end">
+          <ScrollReveal delay={0.2} y={50}>
+            <div className="flex justify-center lg:justify-end">
             <div className="relative max-w-lg w-full">
               {/* Glow effect behind image */}
               <div className="absolute -inset-4 bg-gradient-to-r from-mansagold/20 via-transparent to-blue-500/20 rounded-3xl blur-2xl"></div>
@@ -148,13 +152,15 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
+          </ScrollReveal>
         </div>
 
         {/* Updated Plan Cards Grid - All Free */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto">
-          <Link to="/signup">
-            <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+          <ScrollReveal delay={0.1}>
+            <Link to="/signup">
+              <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
               <CardContent className="p-6 md:p-8">
                 <div className="text-center">
                   <Badge className="bg-green-500 text-white mb-4 shadow-md">
@@ -169,9 +175,11 @@ const Hero = () => {
               </CardContent>
             </Card>
           </Link>
+          </ScrollReveal>
 
-          <Link to="/signup?type=business">
-            <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+          <ScrollReveal delay={0.2}>
+            <Link to="/signup?type=business">
+              <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
               <CardContent className="p-6 md:p-8">
                 <div className="text-center">
                   <Badge className="bg-blue-500 text-white mb-4 shadow-md">
@@ -186,9 +194,11 @@ const Hero = () => {
               </CardContent>
             </Card>
           </Link>
+          </ScrollReveal>
 
-          <Link to="/signup">
-            <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+          <ScrollReveal delay={0.3}>
+            <Link to="/signup">
+              <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
               <CardContent className="p-6 md:p-8">
                 <div className="text-center">
                   <Badge className="bg-purple-500 text-white mb-4 shadow-md">
@@ -203,9 +213,11 @@ const Hero = () => {
               </CardContent>
             </Card>
           </Link>
+          </ScrollReveal>
 
-          <Link to="/directory">
-            <Card className="glass-card bg-mansagold/15 border-mansagold/30 hover:bg-mansagold/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+          <ScrollReveal delay={0.4}>
+            <Link to="/directory">
+              <Card className="glass-card bg-mansagold/15 border-mansagold/30 hover:bg-mansagold/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
               <CardContent className="p-6 md:p-8">
                 <div className="text-center">
                   <Badge className="gradient-gold text-mansablue-dark mb-4 shadow-md">
@@ -220,24 +232,33 @@ const Hero = () => {
               </CardContent>
             </Card>
           </Link>
+          </ScrollReveal>
         </div>
 
         {/* Phase 1 Metrics Focus */}
         <div className="mt-24 text-center">
-          <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 font-display">We're Measuring Success by Community, Not Revenue</h3>
+          <ScrollReveal delay={0.2}>
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 font-display">We're Measuring Success by Community, Not Revenue</h3>
+          </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
-              <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Business Signups</div>
-              <div className="text-base text-white/90 font-body">Growing our network</div>
-            </div>
-            <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
-              <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Customer Transactions</div>
-              <div className="text-base text-white/90 font-body">Economic circulation</div>
-            </div>
-            <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
-              <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Repeat Usage</div>
-              <div className="text-base text-white/90 font-body">Community engagement</div>
-            </div>
+            <ScrollReveal delay={0.3}>
+              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Business Signups</div>
+                <div className="text-base text-white/90 font-body">Growing our network</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.4}>
+              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Customer Transactions</div>
+                <div className="text-base text-white/90 font-body">Economic circulation</div>
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={0.5}>
+              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Repeat Usage</div>
+                <div className="text-base text-white/90 font-body">Community engagement</div>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>
