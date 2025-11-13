@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle, Zap, Heart, Volume2 } from 'lucide-react';
 import { getAudioPath } from '@/utils/audio';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import CountUpNumber from '@/components/animations/CountUpNumber';
 
 const Hero = () => {
   return (
@@ -243,20 +244,26 @@ const Hero = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <ScrollReveal delay={0.3}>
               <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Business Signups</div>
-                <div className="text-base text-white/90 font-body">Growing our network</div>
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
+                  <CountUpNumber end={300} suffix="+" duration={2500} />
+                </div>
+                <div className="text-base text-white/90 font-body">Business Signups</div>
               </div>
             </ScrollReveal>
             <ScrollReveal delay={0.4}>
               <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Customer Transactions</div>
-                <div className="text-base text-white/90 font-body">Economic circulation</div>
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
+                  <CountUpNumber end={5000} suffix="+" duration={2500} />
+                </div>
+                <div className="text-base text-white/90 font-body">Customer Transactions</div>
               </div>
             </ScrollReveal>
             <ScrollReveal delay={0.5}>
               <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">Repeat Usage</div>
-                <div className="text-base text-white/90 font-body">Community engagement</div>
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
+                  <CountUpNumber end={85} suffix="%" duration={2500} />
+                </div>
+                <div className="text-base text-white/90 font-body">Repeat Usage</div>
               </div>
             </ScrollReveal>
           </div>

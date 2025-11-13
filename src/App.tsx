@@ -22,6 +22,7 @@ import Layout from "@/components/Layout";
 import { ErrorBoundary } from "@/components/error-boundary/ErrorBoundary";
 import { RouteErrorBoundary } from "@/components/error-boundary/RouteErrorBoundary";
 import IOSProtectedRoute from "@/components/routing/IOSProtectedRoute";
+import FloatingNav from "@/components/navigation/FloatingNav";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -307,6 +308,7 @@ function App() {
                       </a>
                       
                       <div id="main-content" role="main">
+                        <FloatingNav />
                         <Suspense fallback={<LoadingFallback />}>
                           <Layout>
                             <Routes>
@@ -462,6 +464,7 @@ function App() {
                     </a>
                     
                     <div id="main-content" role="main">
+                      <FloatingNav />
                       <Suspense fallback={<LoadingFallback />}>
                         <Layout>
                           <Routes>
