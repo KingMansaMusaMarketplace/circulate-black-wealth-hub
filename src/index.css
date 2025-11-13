@@ -35,8 +35,8 @@
     /* Custom color tokens */
     --mansablue: 210 100% 20%;
     --mansablue-dark: 210 100% 15%;
-    --mansagold: 45 95% 52%;
-    --mansagold-dark: 45 90% 45%;
+    --mansagold: 45 100% 60%;
+    --mansagold-dark: 45 95% 50%;
     
     /* Glass Morphism */
     --glass-bg: 255 255 255 / 0.08;
@@ -45,13 +45,13 @@
     
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(210 100% 15%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(45 95% 58%) 0%, hsl(45 90% 48%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 100% 65%) 0%, hsl(45 100% 55%) 50%, hsl(45 100% 65%) 100%);
     --gradient-premium: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(280 87% 55%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 14.3% 95.9%) 100%);
     
     /* Shadows */
     --shadow-premium: 0 20px 60px -15px rgba(0, 0, 0, 0.3);
-    --shadow-gold: 0 10px 40px -10px rgba(251, 191, 36, 0.4);
+    --shadow-gold: 0 10px 40px -10px rgba(251, 191, 36, 0.6);
   }
 
   .dark {
@@ -154,6 +154,13 @@
     background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 20px rgba(251, 191, 36, 0.5));
+    animation: shimmer-text 3s ease-in-out infinite;
+  }
+  
+  @keyframes shimmer-text {
+    0%, 100% { filter: drop-shadow(0 4px 20px rgba(251, 191, 36, 0.5)); }
+    50% { filter: drop-shadow(0 4px 30px rgba(251, 191, 36, 0.8)); }
   }
 
   /* Button with smooth scale */
@@ -164,6 +171,25 @@
   /* Card with smooth shadow transition */
   .card-interactive {
     @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+  
+  /* Enhanced hover effects */
+  .hover-glow-gold {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-glow-gold:hover {
+    box-shadow: 0 0 30px hsl(var(--mansagold) / 0.6), 0 0 60px hsl(var(--mansagold) / 0.3);
+    transform: translateY(-2px) scale(1.02);
+  }
+  
+  .hover-glow-blue {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-glow-blue:hover {
+    box-shadow: 0 0 30px hsl(210 100% 50% / 0.5), 0 0 60px hsl(210 100% 50% / 0.25);
+    transform: translateY(-2px);
   }
   
   /* Glass Morphism Effects */

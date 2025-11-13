@@ -13,10 +13,15 @@ const Hero = () => {
   return (
     <section className="relative bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue overflow-hidden min-h-screen">
       {/* Enhanced Background with Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(251,191,36,0.1),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.15),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />
-      <div className="relative container mx-auto px-4 py-16 md:py-20 lg:py-24">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(251,191,36,0.15),transparent_60%)] animate-pulse-slow" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(59,130,246,0.2),transparent_60%)] animate-pulse-slow" style={{ animationDelay: '1s' }} />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.08),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-40" />
+      {/* Floating decorative elements */}
+      <div className="absolute top-20 left-10 w-2 h-2 bg-mansagold/40 rounded-full animate-bounce-subtle" />
+      <div className="absolute top-40 right-20 w-3 h-3 bg-blue-400/30 rounded-full animate-bounce-subtle" style={{ animationDelay: '0.5s' }} />
+      <div className="absolute bottom-32 left-1/4 w-2 h-2 bg-mansagold/50 rounded-full animate-bounce-subtle" style={{ animationDelay: '1s' }} />
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 lg:py-28">
         {/* Phase 1 Free Growth Banner */}
         <div className="text-center mb-12">
           <Badge className="bg-gradient-green text-white px-6 py-3 text-lg font-bold rounded-full mb-4 animate-pulse-green badge-shimmer">
@@ -63,7 +68,7 @@ const Hero = () => {
               Save Money &{' '}
               <br className="hidden sm:block" />
               Support{' '}
-              <span className="inline-block text-gradient-gold font-extrabold drop-shadow-[0_2px_10px_rgba(251,191,36,0.3)]">
+              <span className="inline-block text-gradient-gold font-extrabold">
                 Black-Owned Businesses
               </span>
             </h1>
@@ -84,7 +89,7 @@ const Hero = () => {
               <Link to="/signup" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
                 <Button 
                   size="lg"
-                  className="gradient-gold text-mansablue-dark font-bold text-base sm:text-lg md:text-xl rounded-2xl w-full sm:w-auto leading-tight cursor-pointer shadow-[0_0_30px_rgba(251,191,36,0.4)] hover:shadow-[0_0_40px_rgba(251,191,36,0.6)] border-2 border-mansagold-light/20"
+                  className="gradient-gold text-mansablue-dark font-bold text-base sm:text-lg md:text-xl rounded-2xl w-full sm:w-auto leading-tight cursor-pointer hover-glow-gold border-2 border-mansagold-light/30"
                   style={{ touchAction: 'manipulation' }}
                 >
                   <span className="text-center pointer-events-none">
@@ -110,7 +115,7 @@ const Hero = () => {
                   <Button 
                     variant="outline"
                     size="lg"
-                    className="text-lg rounded-2xl w-full sm:w-auto whitespace-nowrap border-mansagold/50 text-mansagold hover:bg-mansagold hover:text-mansablue-dark cursor-pointer backdrop-blur-sm"
+                    className="text-lg rounded-2xl w-full sm:w-auto whitespace-nowrap border-mansagold/60 text-mansagold hover:bg-mansagold hover:text-mansablue-dark cursor-pointer backdrop-blur-sm hover-glow-gold transition-all duration-300"
                     style={{ touchAction: 'manipulation' }}
                   >
                     Browse Directory
@@ -163,7 +168,7 @@ const Hero = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-7xl mx-auto">
           <ScrollReveal delay={0.1}>
             <Link to="/signup">
-              <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+              <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 group">
               <CardContent className="p-6 md:p-8">
                 <div className="text-center">
                   <Badge className="bg-green-500 text-white mb-4 shadow-md">
@@ -182,7 +187,7 @@ const Hero = () => {
 
           <ScrollReveal delay={0.2}>
             <Link to="/signup?type=business">
-              <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+              <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 group">
               <CardContent className="p-6 md:p-8">
                 <div className="text-center">
                   <Badge className="bg-blue-500 text-white mb-4 shadow-md">
@@ -201,7 +206,7 @@ const Hero = () => {
 
           <ScrollReveal delay={0.3}>
             <Link to="/signup">
-              <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+              <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 group">
               <CardContent className="p-6 md:p-8">
                 <div className="text-center">
                   <Badge className="bg-purple-500 text-white mb-4 shadow-md">
@@ -220,7 +225,7 @@ const Hero = () => {
 
           <ScrollReveal delay={0.4}>
             <Link to="/directory">
-              <Card className="glass-card bg-mansagold/15 border-mansagold/30 hover:bg-mansagold/25 transition-all cursor-pointer hover:scale-[1.03] hover:shadow-xl group">
+              <Card className="glass-card bg-mansagold/15 border-mansagold/30 hover:bg-mansagold/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-mansagold/30 group">
               <CardContent className="p-6 md:p-8">
                 <div className="text-center">
                   <Badge className="gradient-gold text-mansablue-dark mb-4 shadow-md">
@@ -245,7 +250,7 @@ const Hero = () => {
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <ScrollReveal delay={0.3}>
-              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
+              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 hover-glow-gold transition-all duration-300">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
                   <CountUpNumber end={300} suffix="+" duration={2500} />
                 </div>
@@ -253,7 +258,7 @@ const Hero = () => {
               </div>
             </ScrollReveal>
             <ScrollReveal delay={0.4}>
-              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
+              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 hover-glow-gold transition-all duration-300">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
                   <CountUpNumber end={5000} suffix="+" duration={2500} />
                 </div>
@@ -261,7 +266,7 @@ const Hero = () => {
               </div>
             </ScrollReveal>
             <ScrollReveal delay={0.5}>
-              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 transition-transform">
+              <div className="glass-card bg-white/10 rounded-2xl p-8 hover:scale-105 hover-glow-gold transition-all duration-300">
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
                   <CountUpNumber end={85} suffix="%" duration={2500} />
                 </div>
