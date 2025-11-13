@@ -144,11 +144,18 @@
     @apply -translate-y-1 shadow-lg;
   }
   
-  /* Text gradient */
+  /* Text gradients */
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-mansablue to-mansagold;
   }
-  
+  .text-gradient-gold {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
   /* Button with smooth scale */
   .btn-scale {
     @apply transition-transform duration-200 active:scale-95;

@@ -63,7 +63,7 @@ const Hero = () => {
               Save Money &{' '}
               <br className="hidden sm:block" />
               Support{' '}
-              <span className="inline-block bg-gradient-to-r from-[#F5B942] via-[#F5C962] to-[#F5B942] bg-clip-text text-transparent font-extrabold">
+              <span className="inline-block text-gradient-gold font-extrabold drop-shadow-[0_2px_10px_rgba(251,191,36,0.3)]">
                 Black-Owned Businesses
               </span>
             </h1>
