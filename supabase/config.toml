@@ -129,6 +129,9 @@ verify_jwt = false
 [functions.detect-fraud]
 verify_jwt = true
 
+[functions.analyze-review-sentiment]
+verify_jwt = false
+
 [functions.process-qr-transaction]
 verify_jwt = true
 

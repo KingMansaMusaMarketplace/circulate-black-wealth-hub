@@ -1004,6 +1004,89 @@ export type Database = {
           },
         ]
       }
+      business_sentiment_trends: {
+        Row: {
+          ai_insights: string | null
+          average_sentiment_score: number | null
+          business_id: string
+          created_at: string | null
+          id: string
+          negative_count: number | null
+          neutral_count: number | null
+          period_end: string
+          period_start: string
+          positive_count: number | null
+          recurring_complaints: Json | null
+          top_negative_themes: Json | null
+          top_positive_themes: Json | null
+          total_reviews: number | null
+          urgent_issues_count: number | null
+        }
+        Insert: {
+          ai_insights?: string | null
+          average_sentiment_score?: number | null
+          business_id: string
+          created_at?: string | null
+          id?: string
+          negative_count?: number | null
+          neutral_count?: number | null
+          period_end: string
+          period_start: string
+          positive_count?: number | null
+          recurring_complaints?: Json | null
+          top_negative_themes?: Json | null
+          top_positive_themes?: Json | null
+          total_reviews?: number | null
+          urgent_issues_count?: number | null
+        }
+        Update: {
+          ai_insights?: string | null
+          average_sentiment_score?: number | null
+          business_id?: string
+          created_at?: string | null
+          id?: string
+          negative_count?: number | null
+          neutral_count?: number | null
+          period_end?: string
+          period_start?: string
+          positive_count?: number | null
+          recurring_complaints?: Json | null
+          top_negative_themes?: Json | null
+          top_positive_themes?: Json | null
+          total_reviews?: number | null
+          urgent_issues_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_sentiment_trends_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_sentiment_trends_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_sentiment_trends_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_sentiment_trends_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_services: {
         Row: {
           business_id: string
@@ -3939,6 +4022,90 @@ export type Database = {
           },
         ]
       }
+      review_sentiment_analysis: {
+        Row: {
+          ai_summary: string | null
+          business_id: string
+          confidence_score: number
+          created_at: string | null
+          emotions: Json | null
+          extracted_topics: Json | null
+          id: string
+          key_themes: Json | null
+          review_id: string
+          sentiment: string
+          sentiment_score: number
+          updated_at: string | null
+          urgency_level: string | null
+        }
+        Insert: {
+          ai_summary?: string | null
+          business_id: string
+          confidence_score: number
+          created_at?: string | null
+          emotions?: Json | null
+          extracted_topics?: Json | null
+          id?: string
+          key_themes?: Json | null
+          review_id: string
+          sentiment: string
+          sentiment_score: number
+          updated_at?: string | null
+          urgency_level?: string | null
+        }
+        Update: {
+          ai_summary?: string | null
+          business_id?: string
+          confidence_score?: number
+          created_at?: string | null
+          emotions?: Json | null
+          extracted_topics?: Json | null
+          id?: string
+          key_themes?: Json | null
+          review_id?: string
+          sentiment?: string
+          sentiment_score?: number
+          updated_at?: string | null
+          urgency_level?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "review_sentiment_analysis_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_sentiment_analysis_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_sentiment_analysis_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_sentiment_analysis_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "review_sentiment_analysis_review_id_fkey"
+            columns: ["review_id"]
+            isOneToOne: false
+            referencedRelation: "reviews"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           business_id: string
@@ -6371,6 +6538,10 @@ export type Database = {
         Returns: string
       }
       update_agent_tier: { Args: { p_agent_id: string }; Returns: undefined }
+      update_sentiment_trends: {
+        Args: { p_business_id: string; p_period_days?: number }
+        Returns: Json
+      }
       update_user_streak: {
         Args: { p_streak_type: string; p_user_id: string }
         Returns: undefined

@@ -95,6 +95,7 @@ const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWork
 const LazyButtonTestPage = lazy(() => import('@/pages/ButtonTestPage'));
 const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
+const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -390,6 +391,7 @@ function App() {
               <Route path="/impact" element={<LazyImpactPage />} />
                               <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
                               <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
+                              <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                               <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
