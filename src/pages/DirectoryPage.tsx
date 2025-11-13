@@ -98,20 +98,28 @@ const DirectoryPage: React.FC = () => {
       </Helmet>
       
       <>
-      <div className="min-h-screen bg-gray-50">
-        <div className="bg-primary py-8">
-          <div className="container mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">Multi-City Marketplace</h1>
-            <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-6">
+      <div className="min-h-screen bg-gradient-subtle">
+        {/* Enhanced Header */}
+        <div className="bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue py-16 md:py-20 relative overflow-hidden">
+          {/* Background effects */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(251,191,36,0.1),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.15),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />
+          
+          <div className="container mx-auto text-center relative z-10 px-4">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
+              Multi-City <span className="bg-gradient-gold bg-clip-text text-transparent">Marketplace</span>
+            </h1>
+            <p className="font-body text-lg sm:text-xl text-white/90 leading-relaxed max-w-2xl mx-auto mb-8">
               Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, and Detroit
             </p>
             
             <div className="relative max-w-xl mx-auto" data-tour="search-businesses">
-              <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text" 
                 placeholder="Search businesses across all cities..."
-                className="pl-10 h-12 bg-background rounded-lg w-full"
+                className="pl-12 h-14 glass-card border-white/20 rounded-2xl w-full text-base font-body shadow-2xl"
                 value={searchTerm || ''}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -119,46 +127,49 @@ const DirectoryPage: React.FC = () => {
           </div>
         </div>
         
-        <div className="py-8">
-          <div className="container mx-auto">
+        <div className="py-12">
+          <div className="container mx-auto px-4">
             <MultiCityStats selectedCity={selectedCity} />
             
-            <div className="flex flex-col md:flex-row justify-between items-start gap-6">
+            <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mt-8">
               {/* Sidebar Filters */}
-              <div className="w-full md:w-1/4">
-                <ErrorBoundary>
-                  <DirectoryFilter 
-                    categories={categories || []}
-                    filterOptions={filterOptions}
-                    onFilterChange={handleFilterChange}
-                    selectedCity={selectedCity}
-                    onCityChange={handleCityChange}
-                    showCitySelector={true}
-                  />
-                </ErrorBoundary>
+              <div className="w-full lg:w-1/4">
+                <div className="sticky top-24">
+                  <ErrorBoundary>
+                    <DirectoryFilter 
+                      categories={categories || []}
+                      filterOptions={filterOptions}
+                      onFilterChange={handleFilterChange}
+                      selectedCity={selectedCity}
+                      onCityChange={handleCityChange}
+                      showCitySelector={true}
+                    />
+                  </ErrorBoundary>
+                </div>
               </div>
               
               {/* Main Content */}
-              <div className="w-full md:w-3/4">
-                <div className="bg-card rounded-lg shadow-sm p-4 mb-6">
-                  <div className="flex flex-col sm:flex-row justify-between items-center">
-                    <div className="flex items-center mb-4 sm:mb-0">
+              <div className="w-full lg:w-3/4">
+                <div className="glass-card backdrop-blur-xl rounded-2xl shadow-xl p-6 mb-8 border border-border/30">
+                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div className="flex items-center">
                       <ListFilter className="h-5 w-5 mr-2 text-muted-foreground" />
-                      <span className="text-foreground">
+                      <span className="font-body text-foreground font-semibold">
                         {filteredBusinesses?.length || 0} businesses found
                         {selectedCity !== 'all' && (
-                          <span className="text-muted-foreground ml-2">
+                          <span className="text-muted-foreground ml-2 font-normal">
                             in {selectedCity.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                           </span>
                         )}
                       </span>
                     </div>
                     
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center gap-2">
                       <Button 
                         variant={viewMode === 'grid' ? "default" : "outline"} 
                         size="sm"
                         onClick={() => setViewMode('grid')}
+                        className="shadow-sm"
                       >
                         <Grid3X3 className="h-4 w-4 mr-1" />
                         Grid
@@ -167,6 +178,7 @@ const DirectoryPage: React.FC = () => {
                         variant={viewMode === 'list' ? "default" : "outline"} 
                         size="sm"
                         onClick={() => setViewMode('list')}
+                        className="shadow-sm"
                       >
                         <List className="h-4 w-4 mr-1" />
                         List
@@ -181,6 +193,7 @@ const DirectoryPage: React.FC = () => {
                           variant={viewMode === 'map' ? "default" : "outline"} 
                           size="sm"
                           onClick={() => setViewMode('map')}
+                          className="shadow-sm"
                         >
                           <MapPin className="h-4 w-4 mr-1" />
                           Map

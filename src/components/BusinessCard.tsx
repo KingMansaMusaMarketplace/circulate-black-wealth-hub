@@ -82,13 +82,13 @@ const BusinessCard = ({
   };
 
   return (
-    <div className={`border rounded-xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-lg ${isFeatured ? 'border-mansagold shadow-md' : 'border-gray-200'}`}>
+    <div className={`glass-card border rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] ${isFeatured ? 'border-mansagold/50 shadow-lg' : 'border-border/30'}`}>
       {isFeatured && (
-        <div className="bg-mansagold text-white text-xs font-medium px-3 py-1 text-center">
+        <div className="bg-gradient-gold text-mansablue-dark text-xs font-bold px-3 py-1.5 text-center">
           Featured Business
         </div>
       )}
-      <div ref={imgRef} className="aspect-video bg-gray-100 relative overflow-hidden">
+      <div ref={imgRef} className="aspect-video bg-gradient-subtle relative overflow-hidden">
         {!isInView ? (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
             <div className="flex flex-col items-center">
@@ -113,7 +113,7 @@ const BusinessCard = ({
             <img 
               src={getImageUrl()} 
               alt={imageAlt || `${name} business image`}
-              className={`w-full h-full object-cover transition-all duration-500 hover:scale-105 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
+              className={`w-full h-full object-cover transition-all duration-700 hover:scale-110 ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
               onError={handleImageError}
               onLoad={handleImageLoad}
               loading="lazy"
@@ -121,35 +121,35 @@ const BusinessCard = ({
             />
           </>
         )}
-        <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium text-mansablue shadow-sm">
+        <div className="absolute top-2 right-2 glass-card backdrop-blur-xl rounded-full px-3 py-1.5 text-xs font-bold bg-gradient-gold text-mansablue-dark shadow-lg border border-mansagold/30">
           {discount}
         </div>
       </div>
-      <div className="p-4 flex flex-col flex-grow">
-        <h3 className="font-bold text-lg mb-1 text-gray-900">{name}</h3>
-        <p className="text-gray-500 text-sm mb-2">{category}</p>
+      <div className="p-5 flex flex-col flex-grow">
+        <h3 className="font-display font-bold text-xl mb-1 text-foreground">{name}</h3>
+        <p className="font-body text-muted-foreground text-sm mb-3">{category}</p>
         
         {address && (
-          <div className="flex items-center text-gray-500 text-xs mb-3">
-            <MapPin size={14} className="mr-1 flex-shrink-0" />
-            <span className="truncate">{address}</span>
+          <div className="flex items-center text-muted-foreground text-xs mb-4">
+            <MapPin size={14} className="mr-1.5 flex-shrink-0" />
+            <span className="truncate font-body">{address}</span>
           </div>
         )}
         
-        <div className="flex items-center mb-3">
+        <div className="flex items-center mb-4">
           <div className="flex text-mansagold">
             {[...Array(5)].map((_, i) => (
               <Star 
                 key={i}
-                size={14} 
+                size={16} 
                 className={i < Math.floor(rating) ? 'fill-mansagold text-mansagold' : 'text-gray-300'} 
               />
             ))}
           </div>
-          <p className="ml-1 text-xs text-gray-500">{rating} ({reviewCount} reviews)</p>
+          <p className="ml-2 text-xs text-muted-foreground font-body">{rating} ({reviewCount})</p>
           
           {distance && (
-            <div className="ml-auto text-xs bg-gray-100 px-2 py-0.5 rounded-full">
+            <div className="ml-auto text-xs glass-card px-2.5 py-1 rounded-full font-semibold">
               {distance}
             </div>
           )}
@@ -157,7 +157,11 @@ const BusinessCard = ({
         
         <div className="mt-auto">
           <Link to={`/business/${id}`} className="w-full">
-            <Button variant="outline" size="sm" className="w-full border-mansablue text-mansablue hover:bg-mansablue hover:text-white transition-colors">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="w-full border-2 hover:bg-mansablue hover:text-white hover:border-mansablue transition-all shadow-sm font-semibold"
+            >
               View Business
             </Button>
           </Link>
