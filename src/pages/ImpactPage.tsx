@@ -13,8 +13,8 @@ const ImpactPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#001a33] via-[#00152b] to-[#001024]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24">
         <ImpactDashboard />
       </div>
     </div>

@@ -546,6 +546,7 @@ function App() {
                            <Route path="/challenges" element={<LazyGroupChallengesPage />} />
                            <Route path="/referrals" element={<LazyReferralDashboard />} />
                            <Route path="/share-impact" element={<LazyShareImpactPage />} />
+                           <Route path="/impact" element={<LazyImpactPage />} />
                            <Route path="/social-proof" element={<LazySocialProofPage />} />
                            <Route path="/network" element={<LazyNetworkPage />} />
                          
