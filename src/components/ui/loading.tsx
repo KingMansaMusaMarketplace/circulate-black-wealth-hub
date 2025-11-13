@@ -30,13 +30,25 @@ const Loading: React.FC<LoadingProps> = ({
 
   const content = (
     <div className={cn(
-      "flex flex-col items-center justify-center space-y-2",
-      fullScreen ? "min-h-screen" : "p-8",
+      "flex flex-col items-center justify-center gap-4",
+      fullScreen ? "min-h-screen bg-gradient-to-br from-background via-background to-primary/5" : "p-8",
+      "animate-fade-in",
       className
     )}>
-      <Loader2 className={cn(sizeClasses[size], "text-mansablue")} />
+      <div className="relative">
+        <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse" />
+        <Loader2 className={cn(
+          sizeClasses[size], 
+          "text-primary animate-spin relative z-10",
+          "drop-shadow-glow"
+        )} />
+      </div>
       {text && (
-        <p className={cn(textSizeClasses[size], "text-gray-600")}>
+        <p className={cn(
+          textSizeClasses[size], 
+          "text-muted-foreground font-body",
+          "animate-pulse"
+        )}>
           {text}
         </p>
       )}
