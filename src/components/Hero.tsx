@@ -140,7 +140,7 @@ const Hero = () => {
                 />
                 
                 {/* Overlay with key benefits */}
-                <div className="absolute bottom-0 left-0 right-0 glass-card bg-gradient-to-t from-black/90 via-black/60 to-transparent p-8">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-8">
                   <div className="text-white space-y-4">
                     <div className="flex items-center">
                       <TrendingUp className="h-6 w-6 text-green-400 mr-3" />
