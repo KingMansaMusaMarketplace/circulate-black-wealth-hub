@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { AudioButton } from '@/components/ui/audio-button';
 import { AUDIO_PATHS } from '@/utils/audio';
 import { Link } from 'react-router-dom';
+import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const HeroSection = () => {
   const scrollToNextSection = () => {
@@ -17,77 +18,86 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="bg-gradient-to-b from-mansablue to-mansablue-dark py-16 md:py-20 relative">
-      {/* Background decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-40 h-40 rounded-full bg-white/5 blur-3xl"></div>
-        <div className="absolute top-40 right-20 w-72 h-72 rounded-full bg-mansagold/10 blur-3xl"></div>
-        <div className="absolute bottom-10 left-1/4 w-56 h-56 rounded-full bg-white/5 blur-3xl"></div>
-        
-        {/* Small decorative circles */}
-        <div className="absolute top-32 right-1/4 w-6 h-6 rounded-full bg-mansagold/30"></div>
-        <div className="absolute bottom-40 left-32 w-4 h-4 rounded-full bg-white/20"></div>
-        <div className="absolute top-1/2 right-16 w-3 h-3 rounded-full bg-mansagold/20"></div>
-      </div>
+    <section className="bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue py-20 md:py-28 relative overflow-hidden">
+      {/* Enhanced Background with radial gradients */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(251,191,36,0.1),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.15),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />
       
-      <div className="container-custom px-4">
-        <div className="flex flex-col md:flex-row items-center">
-          <div className="md:w-1/2 text-white mb-8 md:mb-0 relative">
-            {/* Small decorative element */}
-            <div className="absolute -top-6 -left-6 w-12 h-12 rounded-full border border-mansagold/30 hidden md:block"></div>
+      <div className="container-custom px-4 relative z-10">
+        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+          <ScrollReveal delay={0.1}>
+            <div className="md:w-1/2 text-white mb-8 md:mb-0">
             
-            <h1 className="heading-lg mb-5">How Mansa Musa Marketplace Works</h1>
-            <p className="text-white/80 text-lg mb-6 max-w-xl">
-              We're building more than an app — we're creating infrastructure for Black wealth circulation.
-              Here's how you can be part of this economic movement.
-            </p>
-            
-            <AudioButton 
-              audioSrc={AUDIO_PATHS.blueprint}
-              variant="red"
-              className="px-8 py-6 text-lg mb-4 w-full md:w-auto"
-            >
-              Hear Our Blueprint
-            </AudioButton>
-            
-            <div className="flex flex-wrap gap-4 relative z-20">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+                How <span className="bg-gradient-gold bg-clip-text text-transparent">Mansa Musa</span> Works
+              </h1>
+              <p className="font-body text-lg sm:text-xl text-white/90 leading-relaxed mb-8 max-w-xl">
+                We're building more than an app — we're creating infrastructure for Black wealth circulation.
+                Here's how you can be part of this economic movement.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                <AudioButton 
+                  audioSrc={AUDIO_PATHS.blueprint}
+                  variant="red"
+                  size="lg"
+                  className="w-full sm:w-auto shadow-lg hover:shadow-xl"
+                >
+                  Hear Our Blueprint
+                </AudioButton>
+                
+                <Button 
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto font-semibold border-2 border-white/30 text-white hover:bg-white/10 shadow-lg"
+                  onClick={scrollToNextSection}
+                >
+                  Learn More
+                </Button>
+              </div>
+              
               <Link to="/signup">
-                <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-white relative z-10">
-                  Join Now
+                <Button 
+                  size="lg" 
+                  className="w-full sm:w-auto bg-gradient-gold text-mansablue-dark hover:opacity-90 font-semibold shadow-2xl hover:shadow-mansagold/50 border-2 border-mansagold-light/30"
+                >
+                  Join Free Today
                 </Button>
               </Link>
-              <Button variant="white" size="lg" className="relative z-10" onClick={scrollToNextSection}>
-                Learn More
-              </Button>
             </div>
-          </div>
-          <div className="md:w-1/2 flex justify-center md:justify-end">
-            {/* Image with Black women on bed with laptop */}
-            <div className="relative z-10">
-              {/* Decorative background elements */}
-              <div className="absolute -top-4 -left-4 w-full h-full bg-mansagold/20 rounded-xl"></div>
-              <div className="absolute -bottom-4 -right-4 w-full h-full bg-mansablue-light/30 rounded-xl"></div>
-              
-              <div className="bg-white rounded-xl shadow-xl p-4 rotate-3 transform hover:rotate-0 transition-transform duration-300 relative z-10">
-                <div className="bg-gray-50 rounded-lg p-2">
-                  <div className="aspect-[4/3] w-full">
-                    <img 
-                      src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" 
-                      alt="Black women sitting on a bed using a laptop" 
-                      className="w-full h-full rounded object-cover"
-                    />
-                  </div>
-                  <div className="mt-2 p-2 border-t border-gray-100">
-                    <div className="h-4 bg-gray-200 rounded-full w-3/4 mb-2"></div>
-                    <div className="h-3 bg-gray-200 rounded-full w-1/2"></div>
+          </ScrollReveal>
+          
+          <ScrollReveal delay={0.2} y={50}>
+            <div className="md:w-1/2 flex justify-center md:justify-end">
+              <div className="relative max-w-lg w-full">
+                {/* Glow effect */}
+                <div className="absolute inset-0 bg-gradient-primary blur-3xl opacity-20 rounded-3xl"></div>
+                
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+                  <img 
+                    src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80" 
+                    alt="Community members using the Mansa Musa Marketplace" 
+                    className="w-full h-auto object-cover"
+                  />
+                  
+                  {/* Glass overlay badge */}
+                  <div className="absolute bottom-4 left-4 right-4 glass-card backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-2xl">
+                    <div className="flex items-center justify-between text-white">
+                      <div>
+                        <div className="font-display font-bold text-2xl bg-gradient-gold bg-clip-text text-transparent">10,000+</div>
+                        <div className="font-body text-sm text-white/90">Active Users</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-display font-bold text-2xl text-green-400">100%</div>
+                        <div className="font-body text-sm text-white/90">FREE</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="absolute -bottom-4 -left-4 bg-mansagold text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold z-20">
-                Join 10,000+ users today!
-              </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
 

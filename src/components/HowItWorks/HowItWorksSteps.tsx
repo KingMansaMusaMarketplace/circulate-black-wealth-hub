@@ -7,6 +7,7 @@ import {
   DiscoveryStep, 
   ScanAndSaveStep 
 } from './Steps';
+import ScrollReveal from '@/components/animations/ScrollReveal';
 
 const HowItWorksSteps = () => {
   const [activeStep, setActiveStep] = useState<number | null>(null);
@@ -78,43 +79,63 @@ const HowItWorksSteps = () => {
   };
   
   return (
-    <section id="how-it-works" className="py-16 bg-white">
-      <div className="container-custom">
+    <section id="how-it-works" className="py-20 bg-gradient-subtle relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.05),transparent_70%)]" />
+      
+      <div className="container-custom relative z-10">
+        <ScrollReveal delay={0.1}>
+          <div className="text-center mb-16">
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+              How It <span className="bg-gradient-gold bg-clip-text text-transparent">Works</span>
+            </h2>
+            <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+              Three simple steps to start supporting Black-owned businesses and building community wealth
+            </p>
+          </div>
+        </ScrollReveal>
+
         {/* Featured YouTube Video Section */}
         <StepVideo isVisible={isVisible} />
 
         <motion.div 
-          className="space-y-16"
+          className="space-y-16 mt-16"
           variants={containerVariants}
           initial="hidden"
           animate={isVisible ? "visible" : "hidden"}
         >
-          <StepItem 
-            step={steps[0]} 
-            index={0} 
-            activeStep={activeStep} 
-            setActiveStep={setActiveStep}
-          >
-            <SubscriptionStep isHovered={activeStep === 0} />
-          </StepItem>
+          <ScrollReveal delay={0.2}>
+            <StepItem 
+              step={steps[0]} 
+              index={0} 
+              activeStep={activeStep} 
+              setActiveStep={setActiveStep}
+            >
+              <SubscriptionStep isHovered={activeStep === 0} />
+            </StepItem>
+          </ScrollReveal>
           
-          <StepItem 
-            step={steps[1]} 
-            index={1} 
-            activeStep={activeStep} 
-            setActiveStep={setActiveStep}
-          >
-            <DiscoveryStep isHovered={activeStep === 1} />
-          </StepItem>
+          <ScrollReveal delay={0.3}>
+            <StepItem 
+              step={steps[1]} 
+              index={1} 
+              activeStep={activeStep} 
+              setActiveStep={setActiveStep}
+            >
+              <DiscoveryStep isHovered={activeStep === 1} />
+            </StepItem>
+          </ScrollReveal>
           
-          <StepItem 
-            step={steps[2]} 
-            index={2} 
-            activeStep={activeStep} 
-            setActiveStep={setActiveStep}
-          >
-            <ScanAndSaveStep isHovered={activeStep === 2} />
-          </StepItem>
+          <ScrollReveal delay={0.4}>
+            <StepItem 
+              step={steps[2]} 
+              index={2} 
+              activeStep={activeStep} 
+              setActiveStep={setActiveStep}
+            >
+              <ScanAndSaveStep isHovered={activeStep === 2} />
+            </StepItem>
+          </ScrollReveal>
         </motion.div>
       </div>
     </section>
