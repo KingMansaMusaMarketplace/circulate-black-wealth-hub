@@ -40,9 +40,10 @@ Thomas D. Bowling is the inventor, Founder & Chief Architect of Economic Infrast
 1. **QR Code Check-ins** - Scan QR codes at businesses to earn 25 points + 15% discount
 2. **Business Directory** - Find Black-owned businesses by category and location
 3. **Rewards** - Earn points, unlock achievements, track streaks, climb leaderboards
-4. **Savings Circles (Susu)** - Join traditional rotating savings groups
-5. **Community Investments** - Invest in local Black-owned businesses
-6. **AI Recommendations** - Get personalized business suggestions
+4. **Booking System** - Schedule appointments and services with Black-owned businesses directly through the platform
+5. **Savings Circles (Susu)** - Join traditional rotating savings groups
+6. **Community Investments** - Invest in local Black-owned businesses
+7. **AI Recommendations** - Get personalized business suggestions
 
 **User Types:**
 - **Customers** - Browse businesses, scan QR codes, earn rewards
@@ -61,6 +62,8 @@ Thomas D. Bowling is the inventor, Founder & Chief Architect of Economic Infrast
 - How to scan QR codes
 - Finding businesses nearby
 - Understanding points and rewards
+- Booking appointments with businesses
+- Managing bookings (view, cancel, reschedule)
 - Joining savings circles
 - Business registration
 - Sponsorship opportunities
