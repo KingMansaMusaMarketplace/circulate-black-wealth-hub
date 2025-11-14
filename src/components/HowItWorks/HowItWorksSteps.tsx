@@ -35,7 +35,7 @@ const HowItWorksSteps = () => {
     {
       number: '01',
       title: 'Subscribe',
-      description: 'Join for just $4.99/month and unlock the full directory of Black-owned businesses.',
+      description: 'Join and unlock the full directory of Black-owned businesses.',
       details: [
         'Access to full business listings',
         'QR code scanning functionality',
