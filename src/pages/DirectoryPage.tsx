@@ -120,6 +120,7 @@ const DirectoryPage: React.FC = () => {
                 type="text" 
                 placeholder="Search businesses across all cities..."
                 className="pl-12 h-14 glass-card border-white/20 rounded-2xl w-full text-base font-body shadow-2xl"
+                style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
                 value={searchTerm || ''}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />

@@ -60,6 +60,7 @@ const BusinessDirectoryPage: React.FC = () => {
               type="text" 
               placeholder="Search for businesses, products, or services..."
               className="pl-10 h-12 bg-white rounded-lg w-full"
+              style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />

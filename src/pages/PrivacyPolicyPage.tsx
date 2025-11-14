@@ -119,7 +119,6 @@ const PrivacyPolicyPage = () => {
             <ul className="text-gray-600 mb-4 ml-6 list-disc">
               <li><strong>Stripe:</strong> Processes credit card payments and manages subscription billing for web users</li>
               <li><strong>Apple App Store:</strong> Handles in-app purchases and subscriptions for iOS users</li>
-              <li><strong>Google Play:</strong> Manages billing for Android app users</li>
             </ul>
             <p className="text-gray-600 mb-4">
               <strong>Subscription Notifications:</strong> We receive automated notifications from payment processors about subscription events (renewals, cancellations, payment failures) to maintain accurate account status and provide seamless service. These notifications help us:

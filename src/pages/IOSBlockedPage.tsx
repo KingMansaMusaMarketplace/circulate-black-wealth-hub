@@ -21,23 +21,28 @@ const IOSBlockedPage: React.FC = () => {
             <div className="mx-auto mb-4 w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center">
               <AlertTriangle className="h-6 w-6 text-yellow-600" />
             </div>
-            <CardTitle className="text-xl">Feature Not Available</CardTitle>
+            <CardTitle className="text-xl">Feature Not Available on iOS</CardTitle>
             <CardDescription>
-              This feature is currently not available on the iOS app due to App Store guidelines.
+              Business registration and subscription features are not available in the iOS app per Apple App Store guidelines (3.1.1).
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground text-center">
-              To access business registration and subscription features, please visit our website at{' '}
-              <a 
-                href="https://mansamusamarketplace.com" 
-                className="text-primary hover:underline font-medium"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                mansamusamarketplace.com
-              </a>
-            </p>
+            <div className="space-y-3 text-sm text-muted-foreground">
+              <p className="text-center">
+                <strong>Businesses with active subscriptions</strong> can still use all app features including analytics, bookings, and customer management.
+              </p>
+              <p className="text-center">
+                To register a new business or manage subscriptions, please visit our website at{' '}
+                <a 
+                  href="https://mansamusamarketplace.com" 
+                  className="text-primary hover:underline font-medium"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  mansamusamarketplace.com
+                </a>
+              </p>
+            </div>
             
             <Button 
               onClick={() => navigate('/')}
