@@ -103,7 +103,7 @@ const SupportPage = () => {
         },
         {
           question: "Camera/QR scanner not working",
-          answer: "Ensure camera permissions are enabled in your device settings. On iOS: Settings > Safari > Camera. On Android: Settings > Apps > Permissions. Restart the app after granting permissions."
+          answer: "Ensure camera permissions are enabled in your device settings. On iOS: Settings > Safari > Camera. Restart the app after granting permissions."
         },
         {
           question: "Location services issues",

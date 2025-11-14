@@ -14,6 +14,7 @@ const HelpCenterPage = () => {
                 type="text" 
                 placeholder="Search for help..." 
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-mansablue"
+                style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
               />
             </div>
           </div>

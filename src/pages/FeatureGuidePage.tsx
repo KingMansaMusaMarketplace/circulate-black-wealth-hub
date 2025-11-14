@@ -294,6 +294,7 @@ const FeatureGuidePage = () => {
                 <Input
                   type="text"
                   placeholder="Search features... (e.g., 'QR code', 'analytics', 'reviews')"
+                  style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10 h-12 text-lg"
