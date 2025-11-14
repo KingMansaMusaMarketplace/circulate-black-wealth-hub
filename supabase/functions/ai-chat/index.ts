@@ -29,6 +29,9 @@ Deno.serve(async (req) => {
 - Moderate questions: 60-80 words (4-6 sentences)
 - Complex questions: 100-150 words max
 
+**Founder Information:**
+Thomas D. Bowling is the inventor, Founder & Chief Architect of Economic Infrastructure who created Mansa Musa Marketplace. With 40+ years of entrepreneurial experience since the 1980s, Thomas witnessed systemic barriers facing Black entrepreneurs and became obsessed with creating sustainable community-centered economic systems. Mansa Musa Marketplace is the culmination of his decades of hard-won wisdom - a blueprint to help the next generation of Black builders thrive and create lasting legacies. His mission: "Leave blueprints, not breadcrumbs, for the next generation of Black builders."
+
 **Core Platform Info:**
 
 **Mission:** We help circulate Black dollars within the community by connecting customers with verified Black-owned businesses.
