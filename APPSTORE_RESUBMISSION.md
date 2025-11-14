@@ -20,16 +20,24 @@
 
 ## Fixes Implemented (November 14, 2025) - COMPLETE iOS COMPLIANCE
 
-### 1. In-App Purchase Compliance (Guideline 3.1.1) - OPTION B IMPLEMENTED
+### 1. In-App Purchase Compliance (Guideline 3.1.1) - COMPREHENSIVE BLOCKING
 
-**Solution:** Removed all subscription/payment features from iOS app per Apple's guidelines.
+**Solution:** Removed all subscription/payment features and pricing information from iOS app per Apple's guidelines.
 
 #### Changes Made:
 - **Route Protection Added:**
   - `/subscription` - iOS users redirected to `/ios-blocked`
-  - `/business-signup` - Already protected, verified working
-  - `/business-form` - Already protected, verified working
+  - `/business-signup` - iOS users redirected to `/ios-blocked`  
+  - `/business-form` - iOS users redirected to `/ios-blocked`
+  - `/stripe-test` - iOS users redirected to `/ios-blocked`
 
+- **Pricing Information Removed:**
+  - `EnhancedSignupForm` - Removed "$4.99/month" and "$100/month" from tier pricing
+  - `CustomerSignupForm` - Removed "$4.99/month" subscription price mention
+  - `PaymentNotice` - Removed "$100/month subscription fee" text
+  - `BusinessSubscriptionBenefits` - Removed "$100/month" from description
+  - `HowItWorksSteps` - Removed "$4.99/month" from subscribe step
+  
 - **Component-Level Blocking:**
   - `SubscriptionPage` wrapped in `IOSPaymentBlocker`
   - `StripeTestPage` wrapped in `IOSPaymentBlocker`
@@ -53,6 +61,7 @@
 **User-Facing Changes:**
 - ✅ Removed Google Play billing reference from Privacy Policy
 - ✅ Removed Android permission instructions from Support page
+- ✅ Removed "iOS/Android" reference from Native Features Showcase page
 - ✅ Kept only iOS-specific help content
 
 **Technical Code Preserved (Not Visible to Reviewers):**
@@ -93,9 +102,11 @@ style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
 - [ ] **Search field test:** Type in Business Directory search - text should be visible
 - [ ] **iOS blocking test:** Try to access `/subscription` - should redirect to blocked page
 - [ ] **iOS blocking test:** Try to access `/business-signup` - should redirect to blocked page
+- [ ] **Pricing text test:** Verify NO pricing text visible anywhere ($4.99, $10, $100/month should not appear)
+- [ ] **Signup flow test:** Check signup forms - no subscription prices should be displayed
 - [ ] **Existing subscriber test:** Login with subscribed business account - verify full feature access
 - [ ] **Free user test:** Browse businesses, scan QR codes, check loyalty features - all should work
-- [ ] **No Android mentions:** Review support page, privacy policy - no Android text visible
+- [ ] **No Android mentions:** Review support page, privacy policy, native features page - no Android text visible
 
 ### App Store Metadata Check:
 - [ ] Screenshots contain NO pricing text (use screenshot mode)
@@ -111,14 +122,17 @@ RESOLVED - All Three Issues (November 14, 2025):
 
 1. GUIDELINE 3.1.1 - In-App Purchase Compliance ✅
    - Subscription features completely removed from iOS app
+   - ALL pricing information removed ($4.99/month, $10/month, $100/month references)
    - iOS users can browse businesses, earn loyalty points, scan QR codes (all free)
    - Business subscriptions are B2B services (marketplace listing, analytics)
    - Existing subscribed businesses retain full feature access
    - New subscriptions only via web platform (Stripe) per App Store guidelines
    - No Stripe checkout, no payment buttons, no subscription management on iOS
+   - No pricing text visible anywhere in iOS app
 
 2. GUIDELINE 2.3.10 - Platform References ✅
    - Removed all user-facing Android/Google Play references
+   - Removed "iOS/Android" text from Native Features Showcase
    - Privacy Policy updated to show only iOS and web payment methods
    - Support documentation now iOS-focused
    - App is single-platform (iOS) with no competing platform mentions

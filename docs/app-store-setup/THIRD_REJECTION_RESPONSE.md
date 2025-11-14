@@ -10,12 +10,13 @@ Thank you for your detailed feedback. We have addressed all three issues from th
 
 ## 1. Guideline 3.1.1 - In-App Purchase Compliance ✅ RESOLVED
 
-We have **completely removed** all subscription and payment features from the iOS app to ensure full compliance with Apple's IAP guidelines.
+We have **completely removed** all subscription, payment features, AND pricing information from the iOS app to ensure full compliance with Apple's IAP guidelines.
 
 **Changes Implemented:**
 - Removed all Stripe checkout flows from iOS
 - Blocked subscription management pages on iOS (redirects to informational page)
 - Blocked business registration flows on iOS (redirects to web)
+- Removed ALL pricing text: no "$4.99/month", no "$10/month", no "$100/month" anywhere in iOS app
 - No payment buttons, no subscription upgrade prompts, no external payment links
 
 **How the App Works Now:**
@@ -24,7 +25,7 @@ We have **completely removed** all subscription and payment features from the iO
 - **New Business Subscriptions:** Must be purchased at mansamusamarketplace.com via Stripe (not accessible on iOS)
 
 **Business Model Clarification:**
-Our subscriptions are B2B services (business marketplace listings and analytics tools), not digital content consumed on iOS. However, to ensure compliance, we have removed ALL subscription purchase capabilities from the iOS app per guideline 3.1.1.
+Our subscriptions are B2B services (business marketplace listings and analytics tools), not digital content consumed on iOS. However, to ensure compliance, we have removed ALL subscription purchase capabilities AND pricing information from the iOS app per guideline 3.1.1.
 
 ---
 
@@ -35,6 +36,7 @@ We have removed all user-facing references to Android and Google Play from the a
 **Changes Made:**
 - Removed "Google Play" billing reference from Privacy Policy
 - Removed Android-specific instructions from Support page
+- Removed "iOS/Android" text from Native Features Showcase page
 - Updated help documentation to be iOS-only
 - App now presents as iOS-native with no competing platform mentions
 
@@ -68,7 +70,7 @@ We identified and fixed the placeholder text visibility issue on iPad Air (5th g
 ## Summary
 
 All three guideline violations have been resolved:
-- ✅ No IAP violations - all payments removed from iOS
+- ✅ No IAP violations - all payments AND pricing removed from iOS
 - ✅ No Android references - iOS-only experience
 - ✅ Search field works - placeholder text visible on iPad
 

@@ -97,7 +97,7 @@ export const BusinessSubscriptionBenefits: React.FC = () => {
       <CardHeader>
         <CardTitle className="text-2xl">Your Business Subscription Benefits</CardTitle>
         <CardDescription>
-          Everything included in your $100/month business membership
+          Everything included in your business membership
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">

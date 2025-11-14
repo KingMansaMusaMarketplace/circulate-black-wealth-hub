@@ -338,7 +338,7 @@ const NativeFeaturesShowcase = () => {
             <p>✅ <strong>Geolocation:</strong> Grant location permission to see high-accuracy coordinates</p>
             <p>✅ <strong>Background Location:</strong> Enable to receive notifications when near businesses</p>
             <p>✅ <strong>Notifications:</strong> Check notification center after testing</p>
-            <p>✅ <strong>Native Share:</strong> See iOS/Android native share sheet</p>
+            <p>✅ <strong>Native Share:</strong> See native share sheet</p>
             <p>✅ <strong>Offline Support:</strong> Turn on airplane mode and try browsing</p>
             <p>✅ <strong>App Lifecycle:</strong> Background the app for 5+ minutes, then return</p>
           </CardContent>

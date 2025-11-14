@@ -51,7 +51,7 @@ const EnhancedSignupForm: React.FC = () => {
     {
       id: 'premium',
       name: 'Premium Member',
-      price: hidePayments ? 'Free Forever' : 'Free until Jan 2026, then $4.99/month',
+      price: hidePayments ? 'Free Forever' : 'Free until Jan 2026',
       description: 'Enhanced features and exclusive access',
       features: [
         'Everything in Community',
@@ -86,7 +86,7 @@ const EnhancedSignupForm: React.FC = () => {
     {
       id: 'business',
       name: 'Professional Business',
-      price: hidePayments ? 'Free to Use' : 'Free until Jan 2026, then $100/month',
+      price: hidePayments ? 'Free to Use' : 'Free until Jan 2026',
       description: 'Complete business management suite',
       features: [
         'Everything in Starter',
