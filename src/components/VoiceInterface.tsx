@@ -63,7 +63,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`
         },
-        body: JSON.stringify({ text })
+        body: JSON.stringify({ text, voice: 'shimmer' })
       });
 
       if (!response.ok) {
