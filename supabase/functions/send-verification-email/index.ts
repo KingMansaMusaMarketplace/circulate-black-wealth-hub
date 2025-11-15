@@ -27,7 +27,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending verification email to:", email);
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <onboarding@resend.dev>",
+      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
       to: [email],
       subject: "Verify Your Email - Welcome to Mansa Musa Marketplace!",
       html: `

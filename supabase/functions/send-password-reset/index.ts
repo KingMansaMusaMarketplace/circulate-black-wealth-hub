@@ -26,7 +26,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Sending password reset email to:", email);
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <onboarding@resend.dev>",
+      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
       to: [email],
       subject: "Reset Your Password - Mansa Musa Marketplace",
       html: `

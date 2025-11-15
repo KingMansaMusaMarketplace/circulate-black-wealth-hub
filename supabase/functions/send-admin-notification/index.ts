@@ -356,7 +356,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Sending admin notification to ${recipients.join(', ')}`);
     
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Admin <onboarding@resend.dev>",
+      from: "Mansa Musa Admin <admin@mansamusamarketplace.com>",
       to: recipients,
       subject: subject,
       html: htmlContent,

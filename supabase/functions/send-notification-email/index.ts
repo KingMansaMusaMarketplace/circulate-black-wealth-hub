@@ -64,7 +64,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send notification email
     const emailResponse = await resend.emails.send({
-      from: 'Mansa Musa Marketplace <notifications@resend.dev>',
+      from: 'Mansa Musa Marketplace <notifications@mansamusamarketplace.com>',
       to: [notificationRequest.email],
       subject: notificationRequest.subject,
       html,

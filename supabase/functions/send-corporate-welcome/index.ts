@@ -46,7 +46,7 @@ const handler = async (req: Request): Promise<Response> => {
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <onboarding@resend.dev>",
+      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
       to: [email],
       subject: `Welcome to Mansa Musa Corporate Partnership - ${tier.toUpperCase()} Tier`,
       html: `

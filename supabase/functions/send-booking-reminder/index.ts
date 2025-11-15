@@ -84,7 +84,7 @@ const handler = async (req: Request): Promise<Response> => {
         });
 
         const emailResponse = await resend.emails.send({
-          from: "Mansa Musa <onboarding@resend.dev>",
+          from: "Mansa Musa Marketplace <bookings@mansamusamarketplace.com>",
           to: [booking.customer_email],
           subject: `Reminder: Appointment with ${booking.business.business_name} in ${hoursUntil} hours`,
           html: emailHtml,
