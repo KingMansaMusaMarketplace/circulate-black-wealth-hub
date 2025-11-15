@@ -57,7 +57,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send welcome email
     const emailResponse = await resend.emails.send({
-      from: 'Mansa Musa Marketplace <welcome@resend.dev>',
+      from: 'Mansa Musa Marketplace <welcome@mansamusamarketplace.com>',
       to: [email],
       subject: `Welcome to Mansa Musa Marketplace, ${fullName}! 🎉`,
       html,

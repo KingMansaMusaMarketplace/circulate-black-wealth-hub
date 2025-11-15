@@ -203,7 +203,7 @@ const handler = async (req: Request): Promise<Response> => {
 
         // Send email
         const emailResponse = await resend.emails.send({
-          from: "Mansa Musa Marketplace <onboarding@resend.dev>",
+          from: "Mansa Musa Marketplace <reports@mansamusamarketplace.com>",
           to: [business.email],
           subject: `📊 Your Commission Report for ${monthName}`,
           html: emailHtml,
