@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Search, MapPin, ListFilter, Grid3X3, List } from 'lucide-react';
 import DirectoryFilter from '@/components/DirectoryFilter';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { CompareButton } from '@/components/business/comparison/CompareButton';
 
 // Lazy load MapView for better code splitting
 const MapView = React.lazy(() => import('@/components/MapView/MapView'));
@@ -27,6 +28,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
 import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 import { CONTEXTUAL_TIPS } from '@/lib/onboarding-constants';
+import { SmartDiscoveryWidget } from '@/components/discovery/SmartDiscoveryWidget';
 
 const DirectoryPage: React.FC = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -134,8 +136,8 @@ const DirectoryPage: React.FC = () => {
             
             <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mt-8">
               {/* Sidebar Filters */}
-              <div className="w-full lg:w-1/4">
-                <div className="sticky top-24">
+              <div className="w-full lg:w-1/4 space-y-6">
+                <div className="sticky top-24 space-y-6">
                   <ErrorBoundary>
                     <DirectoryFilter 
                       categories={categories || []}
@@ -145,6 +147,9 @@ const DirectoryPage: React.FC = () => {
                       onCityChange={handleCityChange}
                       showCitySelector={true}
                     />
+                  </ErrorBoundary>
+                  <ErrorBoundary>
+                    <SmartDiscoveryWidget businesses={filteredBusinesses} />
                   </ErrorBoundary>
                 </div>
               </div>
@@ -165,7 +170,8 @@ const DirectoryPage: React.FC = () => {
                       </span>
                     </div>
                     
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <CompareButton businesses={filteredBusinesses} />
                       <Button 
                         variant={viewMode === 'grid' ? "default" : "outline"} 
                         size="sm"

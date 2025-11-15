@@ -14,6 +14,7 @@ import { NativeFeaturesPromo } from '@/components/NativeFeaturesPromo';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import VoiceInterface from '@/components/VoiceInterface';
 import { SmartRecommendations } from '@/components/SmartRecommendations';
+import { ContextualRecommendations } from '@/components/discovery/ContextualRecommendations';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -73,7 +74,14 @@ const HomePage = () => {
         {/* AI-Powered Smart Recommendations */}
         <SectionErrorBoundary sectionName="Smart Recommendations">
           <div className="container mx-auto px-4 py-12">
-            <SmartRecommendations />
+            <div className="grid lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <SmartRecommendations />
+              </div>
+              <div>
+                <ContextualRecommendations />
+              </div>
+            </div>
           </div>
         </SectionErrorBoundary>
 
