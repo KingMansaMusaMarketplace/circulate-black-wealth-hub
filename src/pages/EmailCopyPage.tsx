@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, Mail, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const EmailCopyPage = () => {
@@ -34,25 +34,77 @@ With gratitude and respect,
   };
 
   return (
-    <div className="min-h-screen bg-white p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-6 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-black">Email Reply to Anton</h1>
-          <Button onClick={handleCopy} className="gap-2">
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-            {copied ? "Copied!" : "Copy to Clipboard"}
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20 p-8 relative overflow-hidden">
+      {/* Animated Background Orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-400/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-40 right-20 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-40 right-10 w-64 h-64 bg-cyan-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
+      </div>
+
+      <div className="max-w-4xl mx-auto relative z-10">
+        {/* Header */}
+        <div className="mb-8 text-center animate-fade-in">
+          <div className="flex items-center justify-center mb-6">
+            <div className="bg-gradient-to-br from-purple-600 via-pink-600 to-blue-600 rounded-full p-6 shadow-2xl animate-pulse border-4 border-white/30">
+              <Mail className="w-16 h-16 text-white drop-shadow-lg" />
+            </div>
+          </div>
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent drop-shadow-sm">
+            Email Reply to Anton
+          </h1>
+          <p className="text-lg font-medium bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
+            Your submission email ready to send ✨
+          </p>
+        </div>
+
+        {/* Copy Button */}
+        <div className="flex justify-center mb-6">
+          <Button 
+            onClick={handleCopy} 
+            className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white text-xl px-12 py-8 shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.5)] hover:scale-110 transition-all border-4 border-white/30 font-bold gap-3"
+          >
+            {copied ? (
+              <>
+                <Check className="w-7 h-7 animate-pulse" />
+                ✅ Copied!
+              </>
+            ) : (
+              <>
+                <Copy className="w-7 h-7" />
+                📋 Copy to Clipboard
+              </>
+            )}
           </Button>
         </div>
         
-        <div className="bg-white border-2 border-gray-300 rounded-lg p-8">
-          <pre className="whitespace-pre-wrap font-sans text-black text-base leading-relaxed">
-            {emailText}
-          </pre>
+        {/* Email Content Card */}
+        <div className="bg-gradient-to-br from-white via-purple-50 to-pink-50 dark:from-gray-800 dark:via-purple-900/30 dark:to-pink-900/30 border-0 shadow-2xl rounded-2xl p-10 hover:shadow-[0_0_60px_rgba(168,85,247,0.4)] transition-all group">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-pink-400/10 to-blue-400/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl pointer-events-none" />
+          
+          <div className="relative z-10 space-y-4">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl shadow-lg">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Email Content
+              </span>
+            </div>
+            
+            <pre className="whitespace-pre-wrap font-sans text-gray-800 dark:text-gray-200 text-lg leading-relaxed p-6 bg-white/50 dark:bg-gray-900/50 rounded-xl border-2 border-purple-200/50 shadow-inner">
+              {emailText}
+            </pre>
+          </div>
         </div>
 
-        <p className="mt-4 text-gray-600 text-sm">
-          Click the "Copy to Clipboard" button above or select all the text and copy it manually.
-        </p>
+        {/* Help Text */}
+        <div className="mt-6 text-center">
+          <p className="text-base font-medium bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            💡 Click the "Copy to Clipboard" button above or select all the text and copy it manually
+          </p>
+        </div>
       </div>
     </div>
   );
