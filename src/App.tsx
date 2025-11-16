@@ -103,6 +103,7 @@ const LazyDemoAccountSetupPage = lazy(() => import('@/pages/DemoAccountSetupPage
 const LazyNativeFeaturesDemo = lazy(() => import('@/pages/NativeFeaturesDemo'));
 const LazyNativeFeaturesShowcase = lazy(() => import('@/pages/NativeFeaturesShowcase'));
 const LazyRecommendationsPage = lazy(() => import('@/pages/RecommendationsPage'));
+const LazyCommunityPage = lazy(() => import('@/pages/CommunityPage'));
 const LazyCommunityFinancePage = lazy(() => import('@/pages/CommunityFinancePage'));
 const LazyUnifiedDashboard = lazy(() => import('@/pages/UnifiedDashboard'));
 const LazyGroupChallengesPage = lazy(() => import('@/pages/GroupChallengesPage'));
@@ -396,6 +397,7 @@ function App() {
                               <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                               <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                               <Route path="/recommendations" element={<LazyRecommendationsPage />} />
+                              <Route path="/community" element={<LazyCommunityPage />} />
                               <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                               <Route path="/challenges" element={<LazyGroupChallengesPage />} />
                               <Route path="/referrals" element={<LazyReferralDashboard />} />
@@ -576,6 +578,7 @@ function App() {
                           <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                           <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
                           <Route path="/recommendations" element={<LazyRecommendationsPage />} />
+                          <Route path="/community" element={<LazyCommunityPage />} />
                           <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                            <Route path="/challenges" element={<LazyGroupChallengesPage />} />
                            <Route path="/referrals" element={<LazyReferralDashboard />} />
