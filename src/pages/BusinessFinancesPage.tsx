@@ -144,29 +144,62 @@ const BusinessFinancesPage: React.FC = () => {
 
   if (loading) {
     return (
-      <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
-        <div className="space-y-6">
-          <Skeleton className="h-32 w-full" />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Skeleton className="h-40" />
-            <Skeleton className="h-40" />
-            <Skeleton className="h-40" />
-          </div>
-          <Skeleton className="h-96 w-full" />
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-green-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-teal-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
-      </DashboardLayout>
+
+        <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
+          <div className="space-y-6 relative z-10">
+            <Skeleton className="h-32 w-full" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Skeleton className="h-40" />
+              <Skeleton className="h-40" />
+              <Skeleton className="h-40" />
+            </div>
+            <Skeleton className="h-96 w-full" />
+          </div>
+        </DashboardLayout>
+      </div>
     );
   }
 
   if (!financialData) {
     return (
-      <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
-        <Card>
-          <CardContent className="p-8 text-center">
-            <p className="text-muted-foreground">No financial data available yet</p>
-          </CardContent>
-        </Card>
-      </DashboardLayout>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-green-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-teal-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
+          <div className="relative z-10">
+            {/* Enhanced Empty State */}
+            <div className="mb-10 animate-fade-in">
+              <div className="relative inline-block w-full">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-400/30 via-emerald-400/30 to-teal-400/30 rounded-3xl blur-2xl"></div>
+                <Card className="relative bg-white/95 backdrop-blur-sm shadow-2xl border-0">
+                  <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"></div>
+                  <CardContent className="p-12 text-center">
+                    <DollarSign className="w-20 h-20 mx-auto mb-6 text-emerald-600" />
+                    <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                      No Financial Data Yet 💰
+                    </h3>
+                    <p className="text-gray-600 text-lg">
+                      Start tracking your revenue and expenses to see beautiful financial insights here! 📊✨
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </DashboardLayout>
+      </div>
     );
   }
 
