@@ -11,10 +11,11 @@ const EnhancedSignupForm: React.FC = () => {
   if (selectedTab) {
     return (
       <div className="w-full max-w-2xl mx-auto animate-fade-in">
-        <Card className="border-border/40 shadow-xl backdrop-blur-sm bg-card/95">
-          <CardHeader className="text-center space-y-3 pb-8">
-            <CardTitle className="text-3xl font-bold">Create Your Account</CardTitle>
-            <CardDescription className="text-base">Complete your registration to get started</CardDescription>
+        <Card className="border-0 bg-white/95 backdrop-blur-sm shadow-2xl overflow-hidden">
+          <div className="h-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
+          <CardHeader className="text-center space-y-4 pb-8 bg-gradient-to-br from-blue-50/50 to-purple-50/50">
+            <CardTitle className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Create Your Account</CardTitle>
+            <CardDescription className="text-lg text-gray-700 font-medium">Complete your registration to get started 🎉</CardDescription>
           </CardHeader>
           <CardContent className="px-8">
             {selectedTab === 'customer' ? (
@@ -29,7 +30,12 @@ const EnhancedSignupForm: React.FC = () => {
             )}
             
             <div className="mt-8 text-center">
-              <Button variant="outline" size="lg" onClick={() => setSelectedTab(null)} className="gap-2">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                onClick={() => setSelectedTab(null)} 
+                className="gap-2 border-2 border-purple-300 text-purple-600 hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 hover:text-white hover:border-transparent transition-all duration-300"
+              >
                 ← Back to Options
               </Button>
             </div>
@@ -43,60 +49,66 @@ const EnhancedSignupForm: React.FC = () => {
     <div className="w-full max-w-5xl mx-auto">
       <div className="grid gap-6 md:grid-cols-2">
         <Card 
-          className="relative cursor-pointer transition-all duration-500 hover:shadow-2xl group hover:-translate-y-2 border-2 border-mansablue/30 hover:border-mansablue backdrop-blur-sm bg-gradient-to-br from-card via-card to-mansablue/5 overflow-hidden"
+          className="relative cursor-pointer transition-all duration-500 hover:shadow-2xl group hover:-translate-y-3 border-0 bg-white/95 backdrop-blur-sm overflow-hidden"
           onClick={() => setSelectedTab('customer')}
         >
+          {/* Colorful top border */}
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500"></div>
+          
           {/* Animated gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-mansablue/20 via-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-cyan-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-mansablue/10 rounded-full blur-3xl group-hover:bg-mansablue/20 transition-colors duration-500" />
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/20 transition-colors duration-500" />
+          <div className="absolute top-0 right-0 w-40 h-40 bg-blue-400/20 rounded-full blur-3xl group-hover:bg-blue-400/40 transition-colors duration-500" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-400/20 rounded-full blur-2xl group-hover:bg-purple-400/40 transition-colors duration-500" />
           
           <div className="relative text-center p-10 space-y-6">
-            <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-mansablue to-purple-600 text-white flex items-center justify-center mx-auto shadow-lg shadow-mansablue/50 group-hover:shadow-2xl group-hover:shadow-mansablue/60 group-hover:scale-110 transition-all duration-300">
-              <Users className="h-14 w-14" />
+            <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-blue-500 via-purple-500 to-cyan-500 text-white flex items-center justify-center mx-auto shadow-xl shadow-blue-500/50 group-hover:shadow-2xl group-hover:shadow-purple-500/60 group-hover:scale-110 transition-all duration-300">
+              <Users className="h-16 w-16" />
             </div>
             <div className="space-y-4">
-              <h3 className="text-3xl font-bold bg-gradient-to-r from-foreground to-mansablue bg-clip-text text-transparent group-hover:from-mansablue group-hover:to-purple-600 transition-all duration-300">I'm a Customer</h3>
-              <p className="text-muted-foreground text-base leading-relaxed px-2">
-                Support Black-owned businesses, earn rewards, and discover amazing local spots
+              <h3 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent group-hover:scale-105 transition-all duration-300">I'm a Customer</h3>
+              <p className="text-gray-700 text-base leading-relaxed px-2 font-medium">
+                Support Black-owned businesses, earn rewards, and discover amazing local spots 🎁
               </p>
             </div>
             <div className="pt-4">
-              <div className="inline-flex items-center gap-2 text-base font-semibold text-mansablue group-hover:text-purple-600 group-hover:gap-3 transition-all">
+              <div className="inline-flex items-center gap-2 text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent group-hover:gap-4 transition-all">
                 Get Started
-                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
               </div>
             </div>
           </div>
         </Card>
 
         <Card 
-          className="relative cursor-pointer transition-all duration-500 hover:shadow-2xl group hover:-translate-y-2 border-2 border-mansagold/30 hover:border-mansagold backdrop-blur-sm bg-gradient-to-br from-card via-card to-mansagold/5 overflow-hidden"
+          className="relative cursor-pointer transition-all duration-500 hover:shadow-2xl group hover:-translate-y-3 border-0 bg-white/95 backdrop-blur-sm overflow-hidden"
           onClick={() => setSelectedTab('business')}
         >
+          {/* Colorful top border */}
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-yellow-500 via-orange-500 to-pink-500"></div>
+          
           {/* Animated gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-mansagold/20 via-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-orange-400/20 to-pink-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           
           {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-mansagold/10 rounded-full blur-3xl group-hover:bg-mansagold/20 transition-colors duration-500" />
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition-colors duration-500" />
+          <div className="absolute top-0 right-0 w-40 h-40 bg-yellow-400/20 rounded-full blur-3xl group-hover:bg-yellow-400/40 transition-colors duration-500" />
+          <div className="absolute bottom-0 left-0 w-32 h-32 bg-orange-400/20 rounded-full blur-2xl group-hover:bg-orange-400/40 transition-colors duration-500" />
           
           <div className="relative text-center p-10 space-y-6">
-            <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-mansagold to-amber-500 text-white flex items-center justify-center mx-auto shadow-lg shadow-mansagold/50 group-hover:shadow-2xl group-hover:shadow-mansagold/60 group-hover:scale-110 transition-all duration-300">
-              <Building className="h-14 w-14" />
+            <div className="w-32 h-32 rounded-3xl bg-gradient-to-br from-yellow-500 via-orange-500 to-pink-500 text-white flex items-center justify-center mx-auto shadow-xl shadow-yellow-500/50 group-hover:shadow-2xl group-hover:shadow-orange-500/60 group-hover:scale-110 transition-all duration-300">
+              <Building className="h-16 w-16" />
             </div>
             <div className="space-y-4">
-              <h3 className="text-3xl font-bold bg-gradient-to-r from-foreground to-mansagold bg-clip-text text-transparent group-hover:from-mansagold group-hover:to-amber-500 transition-all duration-300">I'm a Business</h3>
-              <p className="text-muted-foreground text-base leading-relaxed px-2">
-                List your business, connect with customers, and grow your community presence
+              <h3 className="text-3xl font-bold bg-gradient-to-r from-yellow-600 via-orange-600 to-pink-600 bg-clip-text text-transparent group-hover:scale-105 transition-all duration-300">I'm a Business</h3>
+              <p className="text-gray-700 text-base leading-relaxed px-2 font-medium">
+                List your business, connect with customers, and grow your community presence 🚀
               </p>
             </div>
             <div className="pt-4">
-              <div className="inline-flex items-center gap-2 text-base font-semibold text-mansagold group-hover:text-amber-500 group-hover:gap-3 transition-all">
+              <div className="inline-flex items-center gap-2 text-lg font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent group-hover:gap-4 transition-all">
                 Get Started
-                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
               </div>
             </div>
           </div>
