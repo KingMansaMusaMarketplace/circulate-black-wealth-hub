@@ -273,31 +273,32 @@ const FeatureGuidePage = () => {
         <meta name="description" content="Comprehensive guide to all Mansa Musa Marketplace features for consumers, businesses, and community impact tracking." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-primary/10 via-primary/5 to-background border-b">
-          <div className="container-custom py-16">
-            <div className="max-w-3xl mx-auto text-center space-y-6">
-              <Badge variant="secondary" className="mb-4">
-                Complete Feature Guide
+        <section className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 border-b shadow-2xl">
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+          <div className="container-custom py-20 relative z-10">
+            <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in">
+              <Badge className="mb-4 bg-white/20 text-white border-white/30 backdrop-blur-sm px-6 py-2 text-base font-bold">
+                ✨ Complete Feature Guide
               </Badge>
-              <h1 className="heading-xl">
-                Everything You Can Do with <span className="text-primary">Mansa Musa Marketplace</span>
+              <h1 className="text-6xl font-bold text-white drop-shadow-2xl">
+                Everything You Can Do with <span className="bg-gradient-to-r from-yellow-200 to-orange-200 bg-clip-text text-transparent">Mansa Musa Marketplace</span>
               </h1>
-              <p className="text-xl text-muted-foreground">
-                Discover powerful features for consumers, business owners, and community impact tracking.
+              <p className="text-xl text-white/90 font-medium drop-shadow-lg">
+                Discover powerful features for consumers, business owners, and community impact tracking. 🚀
               </p>
               
               {/* Search Bar */}
               <div className="relative max-w-2xl mx-auto mt-8">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-600 h-6 w-6 z-10" />
                 <Input
                   type="text"
                   placeholder="Search features... (e.g., 'QR code', 'analytics', 'reviews')"
                   style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 h-12 text-lg"
+                  className="pl-14 h-14 text-lg bg-white shadow-2xl border-2 border-white/50 rounded-2xl focus:ring-4 focus:ring-purple-300 font-medium"
                 />
               </div>
             </div>
@@ -306,95 +307,146 @@ const FeatureGuidePage = () => {
 
         {/* Features Content */}
         <section className="container-custom py-12">
-          <Tabs value={activeCategory} onValueChange={(value) => setActiveCategory(value as any)} className="space-y-8">
-            <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4">
-              <TabsTrigger value="all">
+          <Tabs value={activeCategory} onValueChange={(value) => setActiveCategory(value as any)} className="space-y-8 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-4 p-2 bg-white shadow-xl rounded-2xl border-2 border-purple-200">
+              <TabsTrigger 
+                value="all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white font-bold rounded-xl transition-all"
+              >
                 All Features
-                <Badge variant="secondary" className="ml-2">{features.length}</Badge>
+                <Badge variant="secondary" className="ml-2 bg-purple-100 text-purple-700 font-bold">{features.length}</Badge>
               </TabsTrigger>
-              <TabsTrigger value="consumer">
-                For Consumers
-                <Badge variant="secondary" className="ml-2">{getCategoryCount('consumer')}</Badge>
+              <TabsTrigger 
+                value="consumer"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-cyan-600 data-[state=active]:text-white font-bold rounded-xl transition-all"
+              >
+                Consumers
+                <Badge variant="secondary" className="ml-2 bg-blue-100 text-blue-700 font-bold">{getCategoryCount('consumer')}</Badge>
               </TabsTrigger>
-              <TabsTrigger value="business">
-                For Businesses
-                <Badge variant="secondary" className="ml-2">{getCategoryCount('business')}</Badge>
+              <TabsTrigger 
+                value="business"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-bold rounded-xl transition-all"
+              >
+                Businesses
+                <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700 font-bold">{getCategoryCount('business')}</Badge>
               </TabsTrigger>
-              <TabsTrigger value="impact">
-                Community Impact
-                <Badge variant="secondary" className="ml-2">{getCategoryCount('impact')}</Badge>
+              <TabsTrigger 
+                value="impact"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-amber-600 data-[state=active]:text-white font-bold rounded-xl transition-all"
+              >
+                Impact
+                <Badge variant="secondary" className="ml-2 bg-orange-100 text-orange-700 font-bold">{getCategoryCount('impact')}</Badge>
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value={activeCategory} className="space-y-6">
               {filteredFeatures.length === 0 ? (
-                <Card>
-                  <CardContent className="py-12 text-center">
-                    <p className="text-muted-foreground">No features found matching your search.</p>
+                <Card className="bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200 shadow-lg">
+                  <CardContent className="py-16 text-center">
+                    <div className="inline-block p-4 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full mb-4">
+                      <Search className="h-12 w-12 text-gray-500" />
+                    </div>
+                    <p className="text-gray-600 text-lg font-medium">No features found matching your search. 🔍</p>
                   </CardContent>
                 </Card>
               ) : (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredFeatures.map((feature) => (
-                    <Card key={feature.id} className="hover:shadow-lg transition-shadow border-2 border-red-500">
-                      <CardHeader>
-                        <div className="flex items-start justify-between mb-3">
-                          <div className="p-3 rounded-lg bg-primary/10 text-primary">
-                            {feature.icon}
-                          </div>
-                          {feature.tags.includes('new') && (
-                            <Badge variant="default">New</Badge>
-                          )}
-                        </div>
-                        <CardTitle className="text-xl">{feature.title}</CardTitle>
-                        <CardDescription className="text-base">{feature.description}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        {/* Benefits */}
-                        <div>
-                          <h4 className="font-semibold mb-2 flex items-center text-sm">
-                            <CheckCircle2 className="h-4 w-4 mr-2 text-green-600" />
-                            Key Benefits
-                          </h4>
-                          <ul className="space-y-1">
-                            {feature.benefits.map((benefit, idx) => (
-                              <li key={idx} className="text-sm text-muted-foreground flex items-start">
-                                <span className="text-primary mr-2">•</span>
-                                {benefit}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                  {filteredFeatures.map((feature, index) => {
+                    const getCategoryGradient = (category: string) => {
+                      switch (category) {
+                        case 'consumer':
+                          return 'from-blue-50 to-cyan-50 border-blue-200 hover:shadow-blue-200';
+                        case 'business':
+                          return 'from-green-50 to-emerald-50 border-green-200 hover:shadow-green-200';
+                        case 'impact':
+                          return 'from-orange-50 to-amber-50 border-orange-200 hover:shadow-orange-200';
+                        default:
+                          return 'from-purple-50 to-pink-50 border-purple-200 hover:shadow-purple-200';
+                      }
+                    };
 
-                        {/* How to Use */}
-                        {feature.howToUse && (
+                    const getIconGradient = (category: string) => {
+                      switch (category) {
+                        case 'consumer':
+                          return 'from-blue-500 to-cyan-500';
+                        case 'business':
+                          return 'from-green-500 to-emerald-500';
+                        case 'impact':
+                          return 'from-orange-500 to-amber-500';
+                        default:
+                          return 'from-purple-500 to-pink-500';
+                      }
+                    };
+
+                    return (
+                      <Card 
+                        key={feature.id} 
+                        className={`bg-gradient-to-br ${getCategoryGradient(feature.category)} hover:shadow-2xl transition-all border-2 animate-fade-in`}
+                        style={{ animationDelay: `${index * 0.05}s` }}
+                      >
+                        <CardHeader>
+                          <div className="flex items-start justify-between mb-3">
+                            <div className={`p-3 rounded-xl bg-gradient-to-br ${getIconGradient(feature.category)} text-white shadow-lg`}>
+                              {feature.icon}
+                            </div>
+                            {feature.tags.includes('new') && (
+                              <Badge className="bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold shadow-md">✨ New</Badge>
+                            )}
+                          </div>
+                          <CardTitle className="text-xl font-bold">{feature.title}</CardTitle>
+                          <CardDescription className="text-base font-medium">{feature.description}</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          {/* Benefits */}
                           <div>
-                            <h4 className="font-semibold mb-2 flex items-center text-sm">
-                              <Clock className="h-4 w-4 mr-2 text-blue-600" />
-                              How to Use
+                            <h4 className="font-bold mb-3 flex items-center text-sm">
+                              <div className="p-1.5 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full mr-2">
+                                <CheckCircle2 className="h-3 w-3 text-white" />
+                              </div>
+                              Key Benefits
                             </h4>
-                            <ol className="space-y-1">
-                              {feature.howToUse.map((step, idx) => (
-                                <li key={idx} className="text-sm text-muted-foreground flex items-start">
-                                  <span className="text-primary mr-2 font-semibold">{idx + 1}.</span>
-                                  {step}
+                            <ul className="space-y-2">
+                              {feature.benefits.map((benefit, idx) => (
+                                <li key={idx} className="text-sm font-medium flex items-start p-2 bg-white/60 rounded-lg">
+                                  <span className="text-green-600 mr-2 font-bold">✓</span>
+                                  {benefit}
                                 </li>
                               ))}
-                            </ol>
+                            </ul>
                           </div>
-                        )}
 
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-2 pt-2">
-                          {feature.tags.map((tag) => (
-                            <Badge key={tag} variant="outline" className="text-xs">
-                              {tag}
-                            </Badge>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                          {/* How to Use */}
+                          {feature.howToUse && (
+                            <div>
+                              <h4 className="font-bold mb-3 flex items-center text-sm">
+                                <div className="p-1.5 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full mr-2">
+                                  <Clock className="h-3 w-3 text-white" />
+                                </div>
+                                How to Use
+                              </h4>
+                              <ol className="space-y-2">
+                                {feature.howToUse.map((step, idx) => (
+                                  <li key={idx} className="text-sm font-medium flex items-start p-2 bg-white/60 rounded-lg">
+                                    <span className="bg-gradient-to-br from-blue-500 to-indigo-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 flex-shrink-0">{idx + 1}</span>
+                                    {step}
+                                  </li>
+                                ))}
+                              </ol>
+                            </div>
+                          )}
+
+                          {/* Tags */}
+                          <div className="flex flex-wrap gap-2 pt-2">
+                            {feature.tags.map((tag) => (
+                              <Badge key={tag} className="text-xs font-semibold bg-white/70">
+                                #{tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               )}
             </TabsContent>
@@ -402,19 +454,28 @@ const FeatureGuidePage = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-primary/5 border-y py-16">
-          <div className="container-custom">
-            <div className="max-w-3xl mx-auto text-center space-y-6">
-              <h2 className="heading-lg">Ready to Get Started?</h2>
-              <p className="text-lg text-muted-foreground">
+        <section className="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 border-y shadow-2xl py-20">
+          <div className="absolute inset-0 bg-black/20" />
+          <div className="container-custom relative z-10">
+            <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in">
+              <h2 className="text-5xl font-bold text-white drop-shadow-2xl">Ready to Get Started? 🚀</h2>
+              <p className="text-xl text-white/90 font-medium drop-shadow-lg">
                 Join thousands of consumers and business owners building economic power in Black communities.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Button size="lg" onClick={() => navigate('/signup')}>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+                <Button 
+                  size="lg" 
+                  onClick={() => navigate('/signup')}
+                  className="bg-white text-indigo-600 hover:bg-white/90 font-bold shadow-2xl hover:shadow-white/50 transition-all text-lg px-8 py-6"
+                >
                   Sign Up as Consumer
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button size="lg" variant="outline" onClick={() => navigate('/business-signup')}>
+                <Button 
+                  size="lg" 
+                  onClick={() => navigate('/business-signup')}
+                  className="bg-gradient-to-r from-yellow-400 to-orange-400 text-indigo-900 hover:from-yellow-300 hover:to-orange-300 font-bold shadow-2xl hover:shadow-orange-400/50 transition-all text-lg px-8 py-6 border-2 border-yellow-200"
+                >
                   Register Your Business
                   <Store className="ml-2 h-5 w-5" />
                 </Button>
@@ -424,21 +485,35 @@ const FeatureGuidePage = () => {
         </section>
 
         {/* Help Section */}
-        <section className="container-custom py-16">
-          <div className="max-w-3xl mx-auto text-center space-y-4">
-            <MessageSquare className="h-12 w-12 mx-auto text-muted-foreground" />
-            <h2 className="heading-md">Still Have Questions?</h2>
-            <p className="text-muted-foreground">
-              Check out our FAQ page or contact our support team for personalized assistance.
-            </p>
-            <div className="flex gap-4 justify-center pt-4">
-              <Button variant="outline" onClick={() => navigate('/help')}>
-                Visit FAQ
-              </Button>
-              <Button variant="outline" onClick={() => navigate('/support')}>
-                Contact Support
-              </Button>
-            </div>
+        <section className="container-custom py-20">
+          <div className="max-w-3xl mx-auto">
+            <Card className="bg-gradient-to-br from-teal-50 to-cyan-50 border-teal-200 shadow-2xl">
+              <CardContent className="text-center space-y-6 p-12">
+                <div className="inline-block p-4 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full mb-4">
+                  <MessageSquare className="h-12 w-12 text-white" />
+                </div>
+                <h2 className="text-4xl font-bold bg-gradient-to-r from-teal-700 to-cyan-700 bg-clip-text text-transparent">
+                  Still Have Questions? 💬
+                </h2>
+                <p className="text-teal-800 text-lg font-medium">
+                  Check out our FAQ page or contact our support team for personalized assistance.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+                  <Button 
+                    onClick={() => navigate('/help')}
+                    className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold shadow-lg hover:shadow-xl transition-all"
+                  >
+                    Visit FAQ
+                  </Button>
+                  <Button 
+                    onClick={() => navigate('/support')}
+                    className="bg-white text-teal-600 hover:bg-teal-50 font-bold border-2 border-teal-600 shadow-lg hover:shadow-xl transition-all"
+                  >
+                    Contact Support
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </section>
       </div>
