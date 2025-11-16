@@ -181,26 +181,32 @@ const MarketingMaterialsPage: React.FC = () => {
           <Button
             variant="ghost"
             onClick={() => navigate('/sales-agent-dashboard')}
-            className="mb-4"
+            className="mb-4 hover:bg-primary/10"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Dashboard
           </Button>
           
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-4xl font-bold text-foreground mb-2">Marketing Materials Hub</h1>
-              <p className="text-muted-foreground text-lg">
-                Download promotional content to boost your referral efforts
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-mansablue via-primary to-mansagold p-8 mb-6 shadow-xl">
+            <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+            <div className="relative">
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent mb-3">
+                📚 Marketing Materials Hub
+              </h1>
+              <p className="text-white/90 text-xl font-medium">
+                Download promotional content to boost your referral efforts 🚀
               </p>
             </div>
+          </div>
+          
+          <div className="flex items-center justify-between">
             <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline">
-                  <Filter className="mr-2 h-4 w-4" />
+                <Button variant="outline" className="border-primary/30 hover:bg-gradient-to-r hover:from-primary/10 hover:to-mansablue/10">
+                  <Filter className="mr-2 h-4 w-4 text-primary" />
                   Filters
                   {(selectedCategories.length > 0 || selectedTags.length > 0) && (
-                    <Badge variant="secondary" className="ml-2">
+                    <Badge className="ml-2 bg-gradient-to-r from-mansablue to-primary text-white">
                       {selectedCategories.length + selectedTags.length}
                     </Badge>
                   )}
@@ -236,20 +242,23 @@ const MarketingMaterialsPage: React.FC = () => {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-8">
-            <TabsTrigger value="all">All Materials</TabsTrigger>
-            <TabsTrigger value="banner">Banners</TabsTrigger>
-            <TabsTrigger value="social">Social Media</TabsTrigger>
-            <TabsTrigger value="email">Email Templates</TabsTrigger>
-            <TabsTrigger value="document">Documents</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5 mb-8 bg-gradient-to-r from-primary/10 via-mansagold/10 to-mansablue/10 p-1">
+            <TabsTrigger value="all" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">All Materials</TabsTrigger>
+            <TabsTrigger value="banner" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-pink-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Banners</TabsTrigger>
+            <TabsTrigger value="social" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white">Social Media</TabsTrigger>
+            <TabsTrigger value="email" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-500 data-[state=active]:text-white">Email Templates</TabsTrigger>
+            <TabsTrigger value="document" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-500 data-[state=active]:text-white">Documents</TabsTrigger>
           </TabsList>
 
           <TabsContent value={activeTab} className="mt-0">
             {filteredMaterials.length === 0 ? (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <p className="text-muted-foreground">
-                    No marketing materials available yet. Check back soon!
+              <Card className="bg-gradient-to-br from-primary/5 via-mansagold/5 to-mansablue/5 border-2 border-primary/20">
+                <CardContent className="py-16 text-center">
+                  <div className="inline-block p-4 bg-gradient-to-br from-mansablue/20 to-primary/20 rounded-full mb-4">
+                    <FileText className="h-16 w-16 text-primary" />
+                  </div>
+                  <p className="text-lg font-medium bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
+                    No marketing materials available yet. Check back soon! 🎨
                   </p>
                 </CardContent>
               </Card>
@@ -257,13 +266,31 @@ const MarketingMaterialsPage: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredMaterials.map((material) => {
                   const Icon = getIconForType(material.type);
+                  const getTypeGradient = (type: MaterialType) => {
+                    switch (type) {
+                      case 'banner': return 'from-pink-500/20 to-purple-500/20 border-pink-300';
+                      case 'social': return 'from-blue-500/20 to-cyan-500/20 border-blue-300';
+                      case 'email': return 'from-mansagold/20 to-amber-500/20 border-mansagold';
+                      case 'document': return 'from-green-500/20 to-emerald-500/20 border-green-300';
+                      default: return 'from-primary/20 to-mansablue/20 border-primary/30';
+                    }
+                  };
+                  const getIconGradient = (type: MaterialType) => {
+                    switch (type) {
+                      case 'banner': return 'bg-gradient-to-br from-pink-500 to-purple-500';
+                      case 'social': return 'bg-gradient-to-br from-blue-500 to-cyan-500';
+                      case 'email': return 'bg-gradient-to-br from-mansagold to-amber-500';
+                      case 'document': return 'bg-gradient-to-br from-green-500 to-emerald-500';
+                      default: return 'bg-gradient-to-br from-mansablue to-primary';
+                    }
+                  };
                   return (
-                    <Card key={material.id} className="hover:shadow-lg transition-shadow">
+                    <Card key={material.id} className={`hover:shadow-xl transition-all hover:scale-105 border-2 bg-gradient-to-br ${getTypeGradient(material.type)}`}>
                       <CardHeader>
                         <div className="flex items-start justify-between">
                           <div className="flex items-center space-x-3">
-                            <div className="p-2 bg-primary/10 rounded-lg">
-                              <Icon className="h-6 w-6 text-primary" />
+                            <div className={`p-3 rounded-xl ${getIconGradient(material.type)} shadow-lg`}>
+                              <Icon className="h-6 w-6 text-white" />
                             </div>
                             <div>
                               <CardTitle className="text-lg">{material.title}</CardTitle>
@@ -310,7 +337,7 @@ const MarketingMaterialsPage: React.FC = () => {
                         <div className="flex space-x-2">
                           <Button
                             onClick={() => handleDownload(material)}
-                            className="flex-1"
+                            className="flex-1 bg-gradient-to-r from-mansablue to-primary hover:from-mansablue/90 hover:to-primary/90"
                             size="sm"
                             disabled={!material.file_url}
                           >
@@ -321,6 +348,7 @@ const MarketingMaterialsPage: React.FC = () => {
                             onClick={() => handleShare(material)}
                             variant="outline"
                             size="sm"
+                            className="border-primary/30 hover:bg-primary/10"
                           >
                             <Share2 className="h-4 w-4" />
                           </Button>
@@ -335,26 +363,43 @@ const MarketingMaterialsPage: React.FC = () => {
         </Tabs>
 
         {/* Usage Tips */}
-        <Card className="mt-8 bg-primary/5 border-primary/20">
-          <CardHeader>
-            <CardTitle className="text-xl">Marketing Tips</CardTitle>
+        <Card className="mt-8 bg-gradient-to-br from-mansagold/10 via-primary/10 to-mansablue/10 border-2 border-primary/20 shadow-lg">
+          <CardHeader className="border-b border-primary/10 bg-gradient-to-r from-primary/5 to-mansablue/5">
+            <CardTitle className="text-2xl bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent flex items-center gap-2">
+              💡 Marketing Tips
+            </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <p className="text-sm text-muted-foreground">
-              • <strong>Personalize your outreach:</strong> Add your referral code to all shared materials
-            </p>
-            <p className="text-sm text-muted-foreground">
-              • <strong>Use social proof:</strong> Share success stories and testimonials
-            </p>
-            <p className="text-sm text-muted-foreground">
-              • <strong>Be consistent:</strong> Post regularly across all platforms
-            </p>
-            <p className="text-sm text-muted-foreground">
-              • <strong>Track results:</strong> Monitor which materials drive the most referrals
-            </p>
-            <p className="text-sm text-muted-foreground">
-              • <strong>Engage authentically:</strong> Share your genuine passion for economic empowerment
-            </p>
+          <CardContent className="space-y-3 pt-6">
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/20 dark:to-cyan-950/20 border border-blue-200/50">
+              <span className="text-2xl">🎯</span>
+              <p className="text-sm">
+                <strong className="text-foreground">Personalize your outreach:</strong> <span className="text-muted-foreground">Add your referral code to all shared materials</span>
+              </p>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200/50">
+              <span className="text-2xl">⭐</span>
+              <p className="text-sm">
+                <strong className="text-foreground">Use social proof:</strong> <span className="text-muted-foreground">Share success stories and testimonials</span>
+              </p>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/20 dark:to-pink-950/20 border border-purple-200/50">
+              <span className="text-2xl">📅</span>
+              <p className="text-sm">
+                <strong className="text-foreground">Be consistent:</strong> <span className="text-muted-foreground">Post regularly across all platforms</span>
+              </p>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-950/20 dark:to-yellow-950/20 border border-amber-200/50">
+              <span className="text-2xl">📊</span>
+              <p className="text-sm">
+                <strong className="text-foreground">Track results:</strong> <span className="text-muted-foreground">Monitor which materials drive the most referrals</span>
+              </p>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-gradient-to-r from-rose-50 to-red-50 dark:from-rose-950/20 dark:to-red-950/20 border border-rose-200/50">
+              <span className="text-2xl">💚</span>
+              <p className="text-sm">
+                <strong className="text-foreground">Engage authentically:</strong> <span className="text-muted-foreground">Share your genuine passion for economic empowerment</span>
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
