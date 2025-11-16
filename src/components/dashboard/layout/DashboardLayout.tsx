@@ -45,15 +45,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
       {/* Main content */}
       <div className={cn(
-        "flex-1 lg:ml-64 pt-4 pb-8",
+        "flex-1 lg:ml-64 pt-2 pb-6",
         mobileNavOpen ? "lg:mr-0" : "mr-0",
       )}>
-        <main className="px-4 sm:px-6 lg:px-8 mt-4 pb-safe">
+        <main className="px-4 sm:px-6 lg:px-8 pt-14 lg:pt-0">
           {/* Page header */}
           <PageHeader title={title} icon={icon} location={location} />
           
           {/* Page content */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {children}
           </div>
         </main>
