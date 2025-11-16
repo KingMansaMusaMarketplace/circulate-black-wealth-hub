@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
@@ -26,7 +26,7 @@ const BusinessSignupPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden flex flex-col justify-center py-12">
+    <div className="min-h-screen relative flex flex-col justify-center py-12">
       <Helmet>
         <title>Business Sign Up | Mansa Musa Marketplace</title>
         <meta name="description" content="Register your business with Mansa Musa Marketplace" />
@@ -59,8 +59,8 @@ const BusinessSignupPage: React.FC = () => {
                   <p className="text-sm text-muted-foreground">Learn how our QR payment system works for your business</p>
                 </div>
               </div>
-              <a 
-                href="/business/how-it-works" 
+              <Link 
+                to="/business/how-it-works" 
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-mansagold to-amber-500 text-white rounded-xl hover:shadow-lg hover:shadow-mansagold/50 transition-all font-semibold hover:scale-105"
               >
                 See How It Works
@@ -68,7 +68,7 @@ const BusinessSignupPage: React.FC = () => {
                   <path d="M5 12h14"/>
                   <path d="m12 5 7 7-7 7"/>
                 </svg>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
