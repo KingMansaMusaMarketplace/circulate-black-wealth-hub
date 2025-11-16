@@ -83,13 +83,29 @@ const CorporateDashboardPage: React.FC = () => {
         <meta name="description" content="Manage your corporate sponsorship and track your community impact." />
       </Helmet>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Corporate Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back, {subscription.company_name}! Track your impact and manage your sponsorship.
-          </p>
+      <div className="min-h-screen bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-violet-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-fuchsia-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-purple-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
+
+        <div className="container mx-auto px-4 py-8 relative z-10">
+          {/* Enhanced Header */}
+          <div className="mb-8 animate-fade-in">
+            <div className="relative inline-block">
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-400/30 via-fuchsia-400/30 to-purple-400/30 rounded-2xl blur-xl"></div>
+              <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
+                <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-purple-600 bg-clip-text text-transparent">
+                  Corporate <span className="text-yellow-500">Dashboard</span> 🏢
+                </h1>
+                <p className="text-gray-700 text-lg font-medium">
+                  Welcome back, {subscription.company_name}! Track your impact and manage your sponsorship ✨
+                </p>
+              </div>
+            </div>
+          </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4 lg:w-auto">
@@ -173,6 +189,7 @@ const CorporateDashboardPage: React.FC = () => {
             />
           </TabsContent>
         </Tabs>
+        </div>
       </div>
     </>
   );

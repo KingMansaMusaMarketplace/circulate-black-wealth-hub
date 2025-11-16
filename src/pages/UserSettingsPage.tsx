@@ -29,14 +29,29 @@ const UserSettingsPage: React.FC = () => {
         />
       </Helmet>
       
-      <div className="min-h-screen bg-background">
-        <main className="container mx-auto px-4 py-8">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-indigo-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-purple-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-pink-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        <main className="container mx-auto px-4 py-8 relative z-10">
           <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-foreground mb-2">Account Settings</h1>
-              <p className="text-muted-foreground">
-                Manage your account preferences, privacy settings, and data.
-              </p>
+            {/* Enhanced Header */}
+            <div className="mb-8 animate-fade-in">
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-400/30 via-purple-400/30 to-pink-400/30 rounded-2xl blur-xl"></div>
+                <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
+                  <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    Account <span className="text-yellow-500">Settings</span> ⚙️
+                  </h1>
+                  <p className="text-gray-700 text-lg font-medium">
+                    Manage your account preferences, privacy settings, and data ✨
+                  </p>
+                </div>
+              </div>
             </div>
 
             <Tabs defaultValue="profile" className="space-y-6">

@@ -94,83 +94,102 @@ export default function SponsorDashboardPage() {
   }
 
   return (
-    <ResponsiveLayout>
-      <Helmet>
-        <title>Sponsor Dashboard | Mansa Musa Marketplace</title>
-        <meta name="description" content="Manage your corporate sponsorship" />
-      </Helmet>
-
-      <div className="max-w-6xl mx-auto py-8 px-4">
-        <div className="mb-8">
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/')}
-            className="mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Button>
-
-          <div className="flex items-center gap-3">
-            <Heart className="w-8 h-8 text-primary" />
-            <div>
-              <h1 className="text-3xl font-bold">Sponsor Dashboard</h1>
-              <p className="text-muted-foreground">
-                Manage your corporate sponsorship and company information
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="space-y-6">
-            <SubscriptionStatus subscription={subscription} />
-            
-            <TierBenefits tier={subscription.tier} />
-            
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Sponsorship Analytics</h2>
-              <SponsorAnalytics subscriptionId={subscription.id} />
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <CompanyInfoEditor subscription={subscription} />
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Manage Subscription</CardTitle>
-                <CardDescription>
-                  Update your payment method, view invoices, upgrade/downgrade, or cancel your subscription
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button 
-                  variant="default" 
-                  className="w-full"
-                  onClick={handleManageSubscription}
-                  disabled={isLoadingPortal || !subscription.stripe_customer_id}
-                >
-                  {isLoadingPortal ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Loading...
-                    </>
-                  ) : (
-                    <>
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Manage Subscription & Billing
-                    </>
-                  )}
-                </Button>
-                <p className="text-xs text-muted-foreground text-center">
-                  Access your customer portal to update payment methods, view invoices, upgrade/downgrade tiers, and manage your subscription
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-red-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-rose-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-pink-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
-    </ResponsiveLayout>
+
+      <ResponsiveLayout>
+        <Helmet>
+          <title>Sponsor Dashboard | Mansa Musa Marketplace</title>
+          <meta name="description" content="Manage your corporate sponsorship" />
+        </Helmet>
+
+        <div className="max-w-6xl mx-auto py-8 px-4 relative z-10">
+          <div className="mb-8">
+            <Button
+              variant="ghost"
+              onClick={() => navigate('/')}
+              className="mb-4"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+
+            {/* Enhanced Header */}
+            <div className="animate-fade-in">
+              <div className="relative inline-block w-full">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-400/30 via-rose-400/30 to-pink-400/30 rounded-2xl blur-xl"></div>
+                <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
+                   <div className="flex items-center gap-3">
+                    <Heart className="w-12 h-12 text-red-600" />
+                    <div>
+                      <h1 className="text-4xl font-bold mb-1 bg-gradient-to-r from-red-600 via-rose-600 to-pink-600 bg-clip-text text-transparent">
+                        Sponsor <span className="text-yellow-500">Dashboard</span> ❤️
+                      </h1>
+                      <p className="text-gray-700 text-lg font-medium">
+                        Track your impact and manage your sponsorship ✨
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="space-y-6">
+              <SubscriptionStatus subscription={subscription} />
+              
+              <TierBenefits tier={subscription.tier} />
+              
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Sponsorship Analytics</h2>
+                <SponsorAnalytics subscriptionId={subscription.id} />
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <CompanyInfoEditor subscription={subscription} />
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Manage Subscription</CardTitle>
+                  <CardDescription>
+                    Update your payment method, view invoices, upgrade/downgrade, or cancel your subscription
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button 
+                    variant="default" 
+                    className="w-full"
+                    onClick={handleManageSubscription}
+                    disabled={isLoadingPortal || !subscription.stripe_customer_id}
+                  >
+                    {isLoadingPortal ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Loading...
+                      </>
+                    ) : (
+                      <>
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Manage Subscription & Billing
+                      </>
+                    )}
+                  </Button>
+                  <p className="text-xs text-muted-foreground text-center">
+                    Access your customer portal to update payment methods, view invoices, upgrade/downgrade tiers, and manage your subscription
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </ResponsiveLayout>
+    </div>
   );
 }

@@ -54,7 +54,15 @@ const BusinessDashboardPage = () => {
         <meta name="description" content="Manage your business profile, analytics, and engagement tools" />
       </Helmet>
       
-      <DashboardLayout title="Business Dashboard" icon={null}>
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-emerald-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-teal-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-cyan-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        <DashboardLayout title="Business Dashboard" icon={null}>
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -84,7 +92,8 @@ const BusinessDashboardPage = () => {
             <BusinessSubscriptionBenefits />
           </TabsContent>
         </Tabs>
-      </DashboardLayout>
+        </DashboardLayout>
+      </div>
     </>
   );
 };
