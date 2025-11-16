@@ -6,11 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Plus, Trash2 } from 'lucide-react';
+import { Loader2, Plus, Trash2, Download } from 'lucide-react';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { validateExpense } from '@/lib/validation/financial-validation';
 import { ZodError } from 'zod';
+import { exportExpensesToPDF, exportToCSV } from '@/lib/utils/export-utils';
 
 interface ExpensesTrackerProps {
   businessId: string;
@@ -147,18 +148,47 @@ export const ExpensesTracker: React.FC<ExpensesTrackerProps> = ({ businessId }) 
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h3 className="text-2xl font-bold">Expense Tracker</h3>
           <p className="text-muted-foreground">Track your business expenses</p>
         </div>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Add Expense
-            </Button>
-          </DialogTrigger>
+        <div className="flex gap-2">
+          {expenses.length > 0 && (
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => exportExpensesToPDF(expenses, 'Business')}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                PDF
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const columns = [
+                    { key: 'expense_date', label: 'Date' },
+                    { key: 'category', label: 'Category' },
+                    { key: 'description', label: 'Description' },
+                    { key: 'amount', label: 'Amount' },
+                  ];
+                  exportToCSV(expenses, 'expenses', columns);
+                }}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                CSV
+              </Button>
+            </>
+          )}
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Expense
+              </Button>
+            </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Add New Expense</DialogTitle>
@@ -215,7 +245,8 @@ export const ExpensesTracker: React.FC<ExpensesTrackerProps> = ({ businessId }) 
               <Button type="submit" className="w-full">Add Expense</Button>
             </form>
           </DialogContent>
-        </Dialog>
+          </Dialog>
+        </div>
       </div>
 
       <Card>

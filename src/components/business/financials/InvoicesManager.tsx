@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { validateInvoice } from '@/lib/validation/financial-validation';
 import { ZodError } from 'zod';
+import { exportInvoiceToPDF } from '@/lib/utils/export-utils';
 
 interface InvoicesManagerProps {
   businessId: string;
@@ -196,10 +197,10 @@ export const InvoicesManager: React.FC<InvoicesManagerProps> = ({ businessId }) 
                   </div>
                   <div className="text-right">
                     <p className="text-2xl font-bold">${Number(invoice.total_amount).toFixed(2)}</p>
-                    <Button variant="outline" size="sm" className="mt-2">
-                      <Download className="mr-2 h-4 w-4" />
-                      Download
-                    </Button>
+                  <Button variant="outline" size="sm" onClick={() => exportInvoiceToPDF(invoice)}>
+                    <Download className="mr-2 h-4 w-4" />
+                    Download
+                  </Button>
                   </div>
                 </div>
               </CardContent>

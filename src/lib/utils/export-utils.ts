@@ -269,3 +269,164 @@ export const exportToPDF = (data: ExportData, options: ExportOptions) => {
   // Save PDF
   doc.save(`sales_report_${format(new Date(), 'yyyy-MM-dd')}.pdf`);
 };
+
+/**
+ * Export expenses to PDF
+ */
+export const exportExpensesToPDF = (expenses: any[], businessName: string) => {
+  const doc = new jsPDF();
+  
+  doc.setFontSize(18);
+  doc.text('Expenses Report', 14, 20);
+  doc.setFontSize(12);
+  doc.text(businessName, 14, 28);
+  doc.setFontSize(10);
+  doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 35);
+
+  const tableData = expenses.map(expense => [
+    new Date(expense.expense_date).toLocaleDateString(),
+    expense.category,
+    expense.description || '-',
+    `$${Number(expense.amount).toFixed(2)}`
+  ]);
+
+  autoTable(doc, {
+    startY: 40,
+    head: [['Date', 'Category', 'Description', 'Amount']],
+    body: tableData,
+    theme: 'striped',
+    headStyles: { fillColor: [59, 130, 246] },
+  });
+
+  const totalAmount = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
+  const finalY = (doc as any).lastAutoTable.finalY || 40;
+  doc.setFontSize(12);
+  doc.text(`Total: $${totalAmount.toFixed(2)}`, 14, finalY + 10);
+
+  doc.save(`expenses-report-${Date.now()}.pdf`);
+};
+
+/**
+ * Export invoice to PDF
+ */
+export const exportInvoiceToPDF = (invoice: any) => {
+  const doc = new jsPDF();
+  
+  // Header
+  doc.setFontSize(24);
+  doc.text('INVOICE', 14, 20);
+  
+  // Invoice details
+  doc.setFontSize(10);
+  doc.text(`Invoice #: ${invoice.invoice_number}`, 14, 35);
+  doc.text(`Date: ${new Date(invoice.issue_date).toLocaleDateString()}`, 14, 42);
+  doc.text(`Due Date: ${new Date(invoice.due_date).toLocaleDateString()}`, 14, 49);
+  
+  // Customer details
+  doc.setFontSize(12);
+  doc.text('Bill To:', 14, 62);
+  doc.setFontSize(10);
+  doc.text(invoice.customer_name, 14, 69);
+  doc.text(invoice.customer_email, 14, 76);
+  
+  // Line items
+  const lineItems = invoice.line_items || [];
+  const tableData = lineItems.map((item: any) => [
+    item.description,
+    item.quantity.toString(),
+    `$${Number(item.unit_price).toFixed(2)}`,
+    `$${Number(item.total).toFixed(2)}`
+  ]);
+
+  autoTable(doc, {
+    startY: 90,
+    head: [['Description', 'Quantity', 'Unit Price', 'Total']],
+    body: tableData,
+    theme: 'striped',
+    headStyles: { fillColor: [59, 130, 246] },
+  });
+
+  // Totals
+  const finalY = (doc as any).lastAutoTable.finalY || 90;
+  doc.setFontSize(10);
+  
+  const rightX = 150;
+  let currentY = finalY + 10;
+  
+  if (invoice.subtotal) {
+    doc.text(`Subtotal: $${Number(invoice.subtotal).toFixed(2)}`, rightX, currentY);
+    currentY += 7;
+  }
+  
+  if (invoice.tax_rate && invoice.tax_rate > 0) {
+    doc.text(`Tax (${invoice.tax_rate}%): $${Number(invoice.tax_amount).toFixed(2)}`, rightX, currentY);
+    currentY += 7;
+  }
+  
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'bold');
+  doc.text(`Total: $${Number(invoice.total_amount).toFixed(2)}`, rightX, currentY);
+  
+  if (invoice.notes) {
+    doc.setFontSize(10);
+    doc.setFont(undefined, 'normal');
+    doc.text('Notes:', 14, currentY + 15);
+    doc.text(invoice.notes, 14, currentY + 22, { maxWidth: 180 });
+  }
+
+  doc.save(`invoice-${invoice.invoice_number}.pdf`);
+};
+
+/**
+ * Export P&L Report to PDF
+ */
+export const exportPLReportToPDF = (plData: any, businessName: string, period: string) => {
+  const doc = new jsPDF();
+  
+  doc.setFontSize(18);
+  doc.text('Profit & Loss Report', 14, 20);
+  doc.setFontSize(12);
+  doc.text(businessName, 14, 28);
+  doc.setFontSize(10);
+  doc.text(`Period: ${period}`, 14, 35);
+  doc.text(`Generated: ${new Date().toLocaleDateString()}`, 14, 42);
+
+  // Summary
+  doc.setFontSize(12);
+  let y = 55;
+  doc.text('Summary', 14, y);
+  y += 10;
+  
+  doc.setFontSize(10);
+  doc.text(`Total Revenue: $${plData.totalRevenue.toFixed(2)}`, 20, y);
+  y += 7;
+  doc.text(`Total Expenses: $${plData.totalExpenses.toFixed(2)}`, 20, y);
+  y += 7;
+  doc.text(`Net Profit: $${plData.netProfit.toFixed(2)}`, 20, y);
+  y += 7;
+  doc.text(`Profit Margin: ${plData.profitMargin.toFixed(2)}%`, 20, y);
+  y += 15;
+
+  // Expense breakdown
+  if (plData.expensesByCategory && plData.expensesByCategory.length > 0) {
+    doc.setFontSize(12);
+    doc.text('Expenses by Category', 14, y);
+    y += 10;
+
+    const tableData = plData.expensesByCategory.map((cat: any) => [
+      cat.name,
+      `$${Number(cat.value).toFixed(2)}`
+    ]);
+
+    autoTable(doc, {
+      startY: y,
+      head: [['Category', 'Amount']],
+      body: tableData,
+      theme: 'striped',
+      headStyles: { fillColor: [59, 130, 246] },
+    });
+  }
+
+  doc.save(`pl-report-${Date.now()}.pdf`);
+};
+

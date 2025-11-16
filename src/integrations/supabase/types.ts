@@ -1152,6 +1152,65 @@ export type Database = {
           },
         ]
       }
+      business_tax_rates: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          id: string
+          is_default: boolean | null
+          tax_name: string
+          tax_rate: number
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          id?: string
+          is_default?: boolean | null
+          tax_name: string
+          tax_rate: number
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          id?: string
+          is_default?: boolean | null
+          tax_name?: string
+          tax_rate?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_tax_rates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_tax_rates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_tax_rates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_tax_rates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_verifications: {
         Row: {
           address_document_url: string | null
@@ -2129,6 +2188,71 @@ export type Database = {
         }
         Relationships: []
       }
+      financial_audit_log: {
+        Row: {
+          action: string
+          business_id: string
+          created_at: string | null
+          entity_id: string
+          entity_type: string
+          id: string
+          new_values: Json | null
+          old_values: Json | null
+          user_id: string
+        }
+        Insert: {
+          action: string
+          business_id: string
+          created_at?: string | null
+          entity_id: string
+          entity_type: string
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          user_id: string
+        }
+        Update: {
+          action?: string
+          business_id?: string
+          created_at?: string | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+          new_values?: Json | null
+          old_values?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "financial_audit_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "financial_audit_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "financial_audit_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "financial_audit_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forum_categories: {
         Row: {
           color: string | null
@@ -2596,7 +2720,9 @@ export type Database = {
           notes: string | null
           paid_date: string | null
           status: string
+          subtotal: number | null
           tax_amount: number | null
+          tax_rate: number | null
           total_amount: number
           updated_at: string | null
         }
@@ -2614,7 +2740,9 @@ export type Database = {
           notes?: string | null
           paid_date?: string | null
           status?: string
+          subtotal?: number | null
           tax_amount?: number | null
+          tax_rate?: number | null
           total_amount: number
           updated_at?: string | null
         }
@@ -2632,7 +2760,9 @@ export type Database = {
           notes?: string | null
           paid_date?: string | null
           status?: string
+          subtotal?: number | null
           tax_amount?: number | null
+          tax_rate?: number | null
           total_amount?: number
           updated_at?: string | null
         }
@@ -3776,6 +3906,92 @@ export type Database = {
           window_start?: string | null
         }
         Relationships: []
+      }
+      recurring_invoices: {
+        Row: {
+          business_id: string
+          created_at: string | null
+          customer_email: string
+          customer_name: string
+          frequency: string
+          id: string
+          is_active: boolean | null
+          last_generated_at: string | null
+          line_items: Json
+          next_invoice_date: string
+          notes: string | null
+          subtotal: number
+          tax_amount: number | null
+          tax_rate: number | null
+          total_amount: number
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          created_at?: string | null
+          customer_email: string
+          customer_name: string
+          frequency: string
+          id?: string
+          is_active?: boolean | null
+          last_generated_at?: string | null
+          line_items: Json
+          next_invoice_date: string
+          notes?: string | null
+          subtotal: number
+          tax_amount?: number | null
+          tax_rate?: number | null
+          total_amount: number
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          created_at?: string | null
+          customer_email?: string
+          customer_name?: string
+          frequency?: string
+          id?: string
+          is_active?: boolean | null
+          last_generated_at?: string | null
+          line_items?: Json
+          next_invoice_date?: string
+          notes?: string | null
+          subtotal?: number
+          tax_amount?: number | null
+          tax_rate?: number | null
+          total_amount?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recurring_invoices_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_invoices_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_invoices_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_invoices_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       redeemed_rewards: {
         Row: {
