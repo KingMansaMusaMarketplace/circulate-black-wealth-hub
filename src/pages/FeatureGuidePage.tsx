@@ -298,7 +298,7 @@ const FeatureGuidePage = () => {
                   style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-14 h-14 text-lg bg-white shadow-2xl border-2 border-white/50 rounded-2xl focus:ring-4 focus:ring-purple-300 font-medium"
+                  className="pl-14 h-16 text-2xl bg-white shadow-2xl border-2 border-white/50 rounded-2xl focus:ring-4 focus:ring-purple-300 font-semibold placeholder:text-xl"
                 />
               </div>
             </div>
