@@ -139,80 +139,105 @@ const EnhancedSignupForm: React.FC = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-      <Card className="w-full">
-        <CardHeader className="text-center px-4 sm:px-6">
-          <CardTitle className="text-xl sm:text-2xl">Join the Movement</CardTitle>
-          <CardDescription className="text-sm sm:text-base">
+      <Card className="w-full border-2 shadow-xl bg-card">
+        <CardHeader className="text-center px-4 sm:px-6 pb-4">
+          <CardTitle className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+            Join the Movement
+          </CardTitle>
+          <CardDescription className="text-sm sm:text-base mt-2">
             Choose your membership type and plan to start supporting Black-owned businesses
           </CardDescription>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
           <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6 max-w-md mx-auto h-12">
-              <TabsTrigger value="customer" className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
-                <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+            <TabsList className="grid w-full grid-cols-2 mb-8 max-w-md mx-auto h-14 bg-muted/50 p-1">
+              <TabsTrigger 
+                value="customer" 
+                className="flex items-center justify-center space-x-2 text-sm sm:text-base font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all"
+              >
+                <Users className="h-4 w-4 sm:h-5 sm:w-5" />
                 <span>Customer</span>
               </TabsTrigger>
-              <TabsTrigger value="business" className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm">
-                <Building className="h-3 w-3 sm:h-4 sm:w-4" />
+              <TabsTrigger 
+                value="business" 
+                className="flex items-center justify-center space-x-2 text-sm sm:text-base font-medium data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-md transition-all"
+              >
+                <Building className="h-4 w-4 sm:h-5 sm:w-5" />
                 <span>Business</span>
               </TabsTrigger>
             </TabsList>
             
             <TabsContent value="customer" className="w-full">
               <div className="mb-6 sm:mb-8">
-                <h3 className="text-lg sm:text-xl font-semibold text-center mb-2">Customer Plans</h3>
-                <p className="text-gray-600 text-center mb-4 sm:mb-6 text-sm sm:text-base px-2">Support Black-owned businesses and earn rewards</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-center mb-2 text-foreground">Customer Plans</h3>
+                <p className="text-muted-foreground text-center mb-6 sm:mb-8 text-sm sm:text-base px-2">
+                  Support Black-owned businesses and earn rewards
+                </p>
                 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
                   {customerPlans.map((plan) => {
                     const IconComponent = plan.icon;
                     return (
-                      <Card key={plan.id} className={`relative cursor-pointer transition-all hover:shadow-lg ${
-                        plan.popular ? 'ring-2 ring-mansagold mt-6 sm:mt-8' : 'mt-2 sm:mt-4'
-                      }`}>
+                      <Card 
+                        key={plan.id} 
+                        className={`relative cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 ${
+                          plan.popular 
+                            ? 'border-primary bg-gradient-to-br from-primary/5 to-transparent ring-2 ring-primary/20 mt-8 sm:mt-10' 
+                            : 'border-border hover:border-primary/50 mt-2 sm:mt-4 bg-card'
+                        }`}
+                      >
                         {plan.popular && (
-                          <div className="absolute -top-4 sm:-top-6 left-1/2 transform -translate-x-1/2 z-10">
-                            <div className="bg-mansagold text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
-                              Most Popular
+                          <div className="absolute -top-5 sm:-top-6 left-1/2 transform -translate-x-1/2 z-10">
+                            <div className="bg-gradient-to-r from-amber-400 to-amber-500 text-white px-4 sm:px-6 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-lg">
+                              ⭐ Most Popular
                             </div>
                           </div>
                         )}
                         
-                        <CardHeader className="text-center pb-3 sm:pb-4 px-4 sm:px-6">
-                          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center bg-mansablue/10">
-                            <IconComponent className="h-6 w-6 sm:h-8 sm:w-8 text-mansablue" />
+                        <CardHeader className="text-center pb-4 sm:pb-6 px-4 sm:px-6">
+                          <div className={`w-14 h-14 sm:w-20 sm:h-20 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center shadow-md ${
+                            plan.popular 
+                              ? 'bg-gradient-to-br from-primary to-primary/70' 
+                              : 'bg-primary/10'
+                          }`}>
+                            <IconComponent className={`h-6 w-6 sm:h-10 sm:w-10 ${
+                              plan.popular ? 'text-primary-foreground' : 'text-primary'
+                            }`} />
                           </div>
-                          <CardTitle className="text-lg sm:text-xl">{plan.name}</CardTitle>
-                          <CardDescription className="text-xs sm:text-sm">{plan.description}</CardDescription>
-                          <div className="mt-3 sm:mt-4">
-                            <div className="text-base sm:text-lg font-bold text-mansablue">{plan.price}</div>
+                          <CardTitle className="text-xl sm:text-2xl mb-3 font-bold">{plan.name}</CardTitle>
+                          <div className={`text-2xl sm:text-3xl font-bold mb-2 ${
+                            plan.popular ? 'bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent' : 'text-foreground'
+                          }`}>
+                            {plan.price}
                           </div>
+                          <CardDescription className="text-sm mt-2">{plan.description}</CardDescription>
                         </CardHeader>
                         
                         <CardContent className="px-4 sm:px-6">
-                          <ul className="space-y-2 mb-4 sm:mb-6">
+                          <ul className="space-y-3 mb-6 sm:mb-8">
                             {plan.features.map((feature, index) => (
-                              <li key={index} className="flex items-start text-xs sm:text-sm">
-                                <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                                <span className="leading-tight">{feature}</span>
+                              <li key={index} className="flex items-start text-sm sm:text-base">
+                                <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
+                                <span className="leading-relaxed text-muted-foreground">{feature}</span>
                               </li>
                             ))}
                           </ul>
                           
                           <Button 
-                            className="w-full text-xs sm:text-sm leading-tight py-3 sm:py-4 h-auto whitespace-normal min-h-[3rem] touch-manipulation" 
+                            className={`w-full text-sm sm:text-base font-semibold py-4 sm:py-6 h-auto shadow-md hover:shadow-lg transition-all ${
+                              plan.popular ? 'bg-gradient-to-r from-primary to-primary/80' : ''
+                            }`}
                             onClick={() => handlePlanSelect(plan.id as any)}
                             disabled={loading !== null}
                             variant={plan.popular ? "default" : "outline"}
                           >
                             {loading && selectedPlan === plan.id ? (
                               <>
-                                <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-current mr-2"></div>
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
                                 Processing...
                               </>
                             ) : (
-                              <span className="text-center leading-tight">{plan.buttonText}</span>
+                              <span>{plan.buttonText}</span>
                             )}
                           </Button>
                         </CardContent>
@@ -225,58 +250,75 @@ const EnhancedSignupForm: React.FC = () => {
             
             <TabsContent value="business" className="w-full">
               <div className="mb-6 sm:mb-8">
-                <h3 className="text-lg sm:text-xl font-semibold text-center mb-2">Business Plans</h3>
-                <p className="text-gray-600 text-center mb-4 sm:mb-6 text-sm sm:text-base px-2">Grow your business and connect with customers</p>
+                <h3 className="text-xl sm:text-2xl font-bold text-center mb-2 text-foreground">Business Plans</h3>
+                <p className="text-muted-foreground text-center mb-6 sm:mb-8 text-sm sm:text-base px-2">
+                  Grow your business and connect with customers
+                </p>
                 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
                   {businessPlans.map((plan) => {
                     const IconComponent = plan.icon;
                     return (
-                      <Card key={plan.id} className={`relative cursor-pointer transition-all hover:shadow-lg ${
-                        plan.popular ? 'ring-2 ring-mansagold mt-6 sm:mt-8' : 'mt-2 sm:mt-4'
-                      }`}>
+                      <Card 
+                        key={plan.id} 
+                        className={`relative cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl border-2 ${
+                          plan.popular 
+                            ? 'border-primary bg-gradient-to-br from-primary/5 to-transparent ring-2 ring-primary/20 mt-8 sm:mt-10' 
+                            : 'border-border hover:border-primary/50 mt-2 sm:mt-4 bg-card'
+                        }`}
+                      >
                         {plan.popular && (
-                          <div className="absolute -top-4 sm:-top-6 left-1/2 transform -translate-x-1/2 z-10">
-                            <div className="bg-mansagold text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-medium">
-                              Most Popular
+                          <div className="absolute -top-5 sm:-top-6 left-1/2 transform -translate-x-1/2 z-10">
+                            <div className="bg-gradient-to-r from-amber-400 to-amber-500 text-white px-4 sm:px-6 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-lg">
+                              ⭐ Most Popular
                             </div>
                           </div>
                         )}
                         
-                        <CardHeader className="text-center pb-3 sm:pb-4 px-4 sm:px-6">
-                          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center bg-mansablue/10">
-                            <IconComponent className="h-6 w-6 sm:h-8 sm:w-8 text-mansablue" />
+                        <CardHeader className="text-center pb-4 sm:pb-6 px-4 sm:px-6">
+                          <div className={`w-14 h-14 sm:w-20 sm:h-20 rounded-full mx-auto mb-4 sm:mb-6 flex items-center justify-center shadow-md ${
+                            plan.popular 
+                              ? 'bg-gradient-to-br from-primary to-primary/70' 
+                              : 'bg-primary/10'
+                          }`}>
+                            <IconComponent className={`h-6 w-6 sm:h-10 sm:w-10 ${
+                              plan.popular ? 'text-primary-foreground' : 'text-primary'
+                            }`} />
                           </div>
-                          <CardTitle className="text-lg sm:text-xl">{plan.name}</CardTitle>
-                          <CardDescription className="text-xs sm:text-sm">{plan.description}</CardDescription>
-                          <div className="mt-3 sm:mt-4">
-                            <div className="text-base sm:text-lg font-bold text-mansablue">{plan.price}</div>
+                          <CardTitle className="text-xl sm:text-2xl mb-3 font-bold">{plan.name}</CardTitle>
+                          <div className={`text-2xl sm:text-3xl font-bold mb-2 ${
+                            plan.popular ? 'bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent' : 'text-foreground'
+                          }`}>
+                            {plan.price}
                           </div>
+                          <CardDescription className="text-sm mt-2">{plan.description}</CardDescription>
                         </CardHeader>
                         
                         <CardContent className="px-4 sm:px-6">
-                          <ul className="space-y-2 mb-4 sm:mb-6">
+                          <ul className="space-y-3 mb-6 sm:mb-8">
                             {plan.features.map((feature, index) => (
-                              <li key={index} className="flex items-start text-xs sm:text-sm">
-                                <CheckCircle className="h-3 w-3 sm:h-4 sm:w-4 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                                <span className="leading-tight">{feature}</span>
+                              <li key={index} className="flex items-start text-sm sm:text-base">
+                                <CheckCircle className="h-5 w-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
+                                <span className="leading-relaxed text-muted-foreground">{feature}</span>
                               </li>
                             ))}
                           </ul>
                           
                           <Button 
-                            className="w-full text-xs sm:text-sm leading-tight py-3 sm:py-4 h-auto whitespace-normal min-h-[3rem] touch-manipulation" 
+                            className={`w-full text-sm sm:text-base font-semibold py-4 sm:py-6 h-auto shadow-md hover:shadow-lg transition-all ${
+                              plan.popular ? 'bg-gradient-to-r from-primary to-primary/80' : ''
+                            }`}
                             onClick={() => handlePlanSelect(plan.id as any)}
                             disabled={loading !== null}
                             variant={plan.popular ? "default" : "outline"}
                           >
                             {loading && selectedPlan === plan.id ? (
                               <>
-                                <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-current mr-2"></div>
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
                                 Processing...
                               </>
                             ) : (
-                              <span className="text-center leading-tight">{plan.buttonText}</span>
+                              <span>{plan.buttonText}</span>
                             )}
                           </Button>
                         </CardContent>
