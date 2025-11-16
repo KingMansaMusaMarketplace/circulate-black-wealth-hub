@@ -14,10 +14,6 @@ const FloatingNav = () => {
   const authPages = ['/login', '/signup', '/business-signup', '/password-reset-request', '/reset-password'];
   const isAuthPage = authPages.includes(location.pathname);
 
-  if (isAuthPage) {
-    return null;
-  }
-
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -46,6 +42,11 @@ const FloatingNav = () => {
     { path: '/directory', label: 'Directory', icon: Building2 },
     { path: '/how-it-works', label: 'How It Works', icon: Users },
   ];
+
+  // Return null after all hooks are called
+  if (isAuthPage) {
+    return null;
+  }
 
   return (
     <AnimatePresence>
