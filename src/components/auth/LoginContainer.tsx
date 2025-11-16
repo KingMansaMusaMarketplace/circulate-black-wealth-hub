@@ -45,13 +45,13 @@ const LoginContainer: React.FC<LoginContainerProps> = ({ children, header }) => 
       )}
 
       <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-mansablue/20 to-mansagold/20 rounded-3xl blur-xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-400/30 via-purple-400/30 to-pink-400/30 rounded-3xl blur-2xl" />
         <motion.div
           variants={itemVariants}
-          className="relative bg-card/95 backdrop-blur-sm border-2 border-border/40 shadow-xl rounded-3xl overflow-hidden p-6 md:p-8"
+          className="relative bg-white/95 backdrop-blur-sm border-0 shadow-2xl rounded-3xl overflow-hidden p-6 md:p-8"
         >
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-purple-600 to-mansagold" />
-          <div className="relative pt-2">
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600" />
+          <div className="relative pt-4">
             {children}
           </div>
         </motion.div>
