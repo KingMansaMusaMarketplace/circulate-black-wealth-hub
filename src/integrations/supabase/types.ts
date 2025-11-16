@@ -532,6 +532,190 @@ export type Database = {
         }
         Relationships: []
       }
+      bank_accounts: {
+        Row: {
+          account_name: string
+          account_number_last4: string | null
+          account_type: string
+          bank_name: string | null
+          business_id: string
+          created_at: string | null
+          currency: string | null
+          current_balance: number | null
+          id: string
+          is_active: boolean | null
+          opening_balance: number | null
+          opening_balance_date: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          account_name: string
+          account_number_last4?: string | null
+          account_type: string
+          bank_name?: string | null
+          business_id: string
+          created_at?: string | null
+          currency?: string | null
+          current_balance?: number | null
+          id?: string
+          is_active?: boolean | null
+          opening_balance?: number | null
+          opening_balance_date?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          account_name?: string
+          account_number_last4?: string | null
+          account_type?: string
+          bank_name?: string | null
+          business_id?: string
+          created_at?: string | null
+          currency?: string | null
+          current_balance?: number | null
+          id?: string
+          is_active?: boolean | null
+          opening_balance?: number | null
+          opening_balance_date?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bank_accounts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_accounts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_accounts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_accounts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bank_transactions: {
+        Row: {
+          amount: number
+          bank_account_id: string
+          business_id: string
+          category: string | null
+          created_at: string | null
+          description: string
+          id: string
+          is_reconciled: boolean | null
+          matched_expense_id: string | null
+          matched_invoice_id: string | null
+          notes: string | null
+          reconciled_at: string | null
+          reconciled_by: string | null
+          transaction_date: string
+          transaction_type: string
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          bank_account_id: string
+          business_id: string
+          category?: string | null
+          created_at?: string | null
+          description: string
+          id?: string
+          is_reconciled?: boolean | null
+          matched_expense_id?: string | null
+          matched_invoice_id?: string | null
+          notes?: string | null
+          reconciled_at?: string | null
+          reconciled_by?: string | null
+          transaction_date: string
+          transaction_type: string
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          bank_account_id?: string
+          business_id?: string
+          category?: string | null
+          created_at?: string | null
+          description?: string
+          id?: string
+          is_reconciled?: boolean | null
+          matched_expense_id?: string | null
+          matched_invoice_id?: string | null
+          notes?: string | null
+          reconciled_at?: string | null
+          reconciled_by?: string | null
+          transaction_date?: string
+          transaction_type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bank_transactions_bank_account_id_fkey"
+            columns: ["bank_account_id"]
+            isOneToOne: false
+            referencedRelation: "bank_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_matched_expense_id_fkey"
+            columns: ["matched_expense_id"]
+            isOneToOne: false
+            referencedRelation: "expenses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_matched_invoice_id_fkey"
+            columns: ["matched_invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bookings: {
         Row: {
           amount: number
@@ -640,6 +824,77 @@ export type Database = {
             columns: ["service_id"]
             isOneToOne: false
             referencedRelation: "business_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      budgets: {
+        Row: {
+          amount: number
+          budget_name: string
+          business_id: string
+          category: string
+          created_at: string | null
+          end_date: string
+          id: string
+          is_active: boolean | null
+          period_type: string
+          start_date: string
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          budget_name: string
+          business_id: string
+          category: string
+          created_at?: string | null
+          end_date: string
+          id?: string
+          is_active?: boolean | null
+          period_type: string
+          start_date: string
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          budget_name?: string
+          business_id?: string
+          category?: string
+          created_at?: string | null
+          end_date?: string
+          id?: string
+          is_active?: boolean | null
+          period_type?: string
+          start_date?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "budgets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "budgets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "budgets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "budgets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
             referencedColumns: ["id"]
           },
         ]
@@ -2246,6 +2501,95 @@ export type Database = {
           },
           {
             foreignKeyName: "financial_audit_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fixed_assets: {
+        Row: {
+          accumulated_depreciation: number | null
+          asset_category: string
+          asset_name: string
+          business_id: string
+          created_at: string | null
+          current_book_value: number | null
+          depreciation_method: string
+          disposal_date: string | null
+          disposal_value: number | null
+          id: string
+          is_disposed: boolean | null
+          notes: string | null
+          purchase_date: string
+          purchase_price: number
+          salvage_value: number | null
+          updated_at: string | null
+          useful_life_years: number
+        }
+        Insert: {
+          accumulated_depreciation?: number | null
+          asset_category: string
+          asset_name: string
+          business_id: string
+          created_at?: string | null
+          current_book_value?: number | null
+          depreciation_method: string
+          disposal_date?: string | null
+          disposal_value?: number | null
+          id?: string
+          is_disposed?: boolean | null
+          notes?: string | null
+          purchase_date: string
+          purchase_price: number
+          salvage_value?: number | null
+          updated_at?: string | null
+          useful_life_years: number
+        }
+        Update: {
+          accumulated_depreciation?: number | null
+          asset_category?: string
+          asset_name?: string
+          business_id?: string
+          created_at?: string | null
+          current_book_value?: number | null
+          depreciation_method?: string
+          disposal_date?: string | null
+          disposal_value?: number | null
+          id?: string
+          is_disposed?: boolean | null
+          notes?: string | null
+          purchase_date?: string
+          purchase_price?: number
+          salvage_value?: number | null
+          updated_at?: string | null
+          useful_life_years?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fixed_assets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fixed_assets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fixed_assets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fixed_assets_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_full_details"
@@ -6005,6 +6349,10 @@ export type Database = {
           p_review_id: string
         }
         Returns: Json
+      }
+      calculate_asset_depreciation: {
+        Args: { p_as_of_date?: string; p_asset_id: string }
+        Returns: number
       }
       calculate_commission: {
         Args: { p_amount: number; p_commission_rate?: number }
