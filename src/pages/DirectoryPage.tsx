@@ -100,42 +100,54 @@ const DirectoryPage: React.FC = () => {
       </Helmet>
       
       <>
-      <div className="min-h-screen bg-gradient-subtle">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-purple-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-pink-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
         {/* Enhanced Header */}
-        <div className="bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue py-16 md:py-20 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 py-16 md:py-24 relative overflow-hidden">
           {/* Background effects */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(251,191,36,0.1),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.15),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent_50%)]" />
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"></div>
           
-          <div className="container mx-auto text-center relative z-10 px-4">
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4">
-              Multi-City <span className="bg-gradient-gold bg-clip-text text-transparent">Marketplace</span>
+          <div className="container mx-auto text-center relative z-10 px-4 animate-fade-in">
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
+              Multi-City <span className="text-yellow-300">Marketplace</span> 🌆
             </h1>
-            <p className="font-body text-lg sm:text-xl text-white/90 leading-relaxed max-w-2xl mx-auto mb-8">
+            <p className="font-body text-xl sm:text-2xl text-white/95 leading-relaxed max-w-3xl mx-auto mb-10 font-medium">
               Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, and Detroit
             </p>
             
-            <div className="relative max-w-xl mx-auto" data-tour="search-businesses">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
-              <Input
-                type="text" 
-                placeholder="Search businesses across all cities..."
-                className="pl-12 h-14 glass-card rounded-2xl w-full text-xl md:text-2xl font-body shadow-2xl bg-background/10 text-primary-foreground placeholder:text-primary-foreground/70 border border-primary-foreground/30 focus-visible:ring-offset-0"
-                value={searchTerm || ''}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+            <div className="relative max-w-2xl mx-auto" data-tour="search-businesses">
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-orange-400/30 to-pink-400/30 rounded-3xl blur-xl"></div>
+              <div className="relative">
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-purple-600" />
+                <Input
+                  type="text" 
+                  placeholder="Search businesses across all cities... 🔍"
+                  className="pl-14 h-16 rounded-3xl w-full text-xl md:text-2xl font-body shadow-2xl bg-white text-gray-900 placeholder:text-gray-500 border-0 focus-visible:ring-4 focus-visible:ring-purple-500/50"
+                  value={searchTerm || ''}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
             </div>
           </div>
         </div>
         
-        <div className="py-12">
+        <div className="py-12 relative z-10">
           <div className="container mx-auto px-4">
-            <MultiCityStats selectedCity={selectedCity} />
+            <div className="animate-fade-in">
+              <MultiCityStats selectedCity={selectedCity} />
+            </div>
             
             <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mt-8">
               {/* Sidebar Filters */}
-              <div className="w-full lg:w-1/4 space-y-6">
+              <div className="w-full lg:w-1/4 space-y-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
                 <div className="sticky top-24 space-y-6">
                   <ErrorBoundary>
                     <DirectoryFilter 
@@ -154,15 +166,18 @@ const DirectoryPage: React.FC = () => {
               </div>
               
               {/* Main Content */}
-              <div className="w-full lg:w-3/4">
-                <div className="glass-card backdrop-blur-xl rounded-2xl shadow-xl p-6 mb-8 border border-border/30">
-                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <div className="flex items-center">
-                      <ListFilter className="h-5 w-5 mr-2 text-muted-foreground" />
-                      <span className="font-body text-foreground font-semibold">
-                        {filteredBusinesses?.length || 0} businesses found
+              <div className="w-full lg:w-3/4 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-pink-400/20 rounded-3xl blur-xl"></div>
+                  <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-6 mb-8 border-0 overflow-hidden">
+                    <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+                    <div className="pt-2 flex flex-col sm:flex-row justify-between items-center gap-4">
+                      <div className="flex items-center">
+                        <ListFilter className="h-6 w-6 mr-2 text-purple-600" />
+                        <span className="font-body text-gray-900 font-bold text-lg">
+                          {filteredBusinesses?.length || 0} businesses found 🎯
                         {selectedCity !== 'all' && (
-                          <span className="text-muted-foreground ml-2 font-normal">
+                          <span className="text-gray-600 ml-2 font-normal">
                             in {selectedCity.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                           </span>
                         )}
@@ -175,7 +190,7 @@ const DirectoryPage: React.FC = () => {
                         variant={viewMode === 'grid' ? "default" : "outline"} 
                         size="sm"
                         onClick={() => setViewMode('grid')}
-                        className="shadow-sm"
+                        className="shadow-sm bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-0"
                       >
                         <Grid3X3 className="h-4 w-4 mr-1" />
                         Grid
@@ -184,7 +199,7 @@ const DirectoryPage: React.FC = () => {
                         variant={viewMode === 'list' ? "default" : "outline"} 
                         size="sm"
                         onClick={() => setViewMode('list')}
-                        className="shadow-sm"
+                        className="shadow-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0"
                       >
                         <List className="h-4 w-4 mr-1" />
                         List
@@ -199,7 +214,7 @@ const DirectoryPage: React.FC = () => {
                           variant={viewMode === 'map' ? "default" : "outline"} 
                           size="sm"
                           onClick={() => setViewMode('map')}
-                          className="shadow-sm"
+                          className="shadow-sm bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white border-0"
                         >
                           <MapPin className="h-4 w-4 mr-1" />
                           Map
