@@ -164,29 +164,29 @@ const BusinessDiscoveryPage = () => {
                 <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
                   <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex-1 relative">
-                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-600 h-6 w-6" />
+                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-600 h-7 w-7" />
                       <Input
                         placeholder="Search businesses, categories, or locations... 🔍"
                         style={{ WebkitTextFillColor: '#111827', opacity: 1 }}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-14 h-14 rounded-2xl text-lg border-2 border-purple-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20"
+                        className="pl-14 h-16 rounded-2xl text-xl border-2 border-purple-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 font-medium"
                       />
                     </div>
                     <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                      <SelectTrigger className="w-full md:w-52 h-14 rounded-2xl border-2 border-purple-200 text-lg font-medium">
+                      <SelectTrigger className="w-full md:w-56 h-16 rounded-2xl border-2 border-purple-200 text-xl font-semibold">
                         <SelectValue placeholder="Category" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-white z-50">
                         {categories.map(category => (
-                          <SelectItem key={category} value={category}>
+                          <SelectItem key={category} value={category} className="text-lg">
                             {category === 'all' ? 'All Categories' : category}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-                    <Button className="h-14 px-8 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 hover:from-purple-600 hover:to-rose-600 text-white rounded-2xl shadow-xl border-0 text-lg font-semibold">
-                      <Search className="h-5 w-5 mr-2" />
+                    <Button className="h-16 px-10 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 hover:from-purple-600 hover:to-rose-600 text-white rounded-2xl shadow-xl border-0 text-xl font-bold">
+                      <Search className="h-6 w-6 mr-2" />
                       Search
                     </Button>
                   </div>
