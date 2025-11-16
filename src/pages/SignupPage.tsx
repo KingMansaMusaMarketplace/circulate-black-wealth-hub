@@ -9,8 +9,12 @@ const SignupPage = () => {
   return (
     <div className="min-h-screen relative overflow-hidden flex flex-col justify-center py-12">
       {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-mansablue/5 via-background to-mansagold/5" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-mansablue/10 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 via-background to-mansagold/10" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-500/20 via-transparent to-transparent" />
+      
+      {/* Decorative elements */}
+      <div className="absolute top-20 right-20 w-72 h-72 bg-mansagold/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       
       <div className="relative z-10 w-full px-4">
         <div className="max-w-7xl mx-auto">
