@@ -178,24 +178,170 @@ const BusinessFinancesPage: React.FC = () => {
         </div>
 
         <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
-          <div className="relative z-10">
-            {/* Enhanced Empty State */}
-            <div className="mb-10 animate-fade-in">
+          <div className="relative z-10 space-y-8">
+            {/* Enhanced Empty State Header */}
+            <div className="animate-fade-in">
               <div className="relative inline-block w-full">
                 <div className="absolute inset-0 bg-gradient-to-r from-green-400/30 via-emerald-400/30 to-teal-400/30 rounded-3xl blur-2xl"></div>
                 <Card className="relative bg-white/95 backdrop-blur-sm shadow-2xl border-0">
                   <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"></div>
                   <CardContent className="p-12 text-center">
                     <DollarSign className="w-20 h-20 mx-auto mb-6 text-emerald-600" />
-                    <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                      No Financial Data Yet 💰
+                    <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                      Welcome to Your Financial Dashboard! 💰
                     </h3>
-                    <p className="text-gray-600 text-lg">
-                      Start tracking your revenue and expenses to see beautiful financial insights here! 📊✨
+                    <p className="text-gray-600 text-lg mb-4">
+                      Start tracking your revenue and expenses to see beautiful financial insights! 📊✨
                     </p>
                   </CardContent>
                 </Card>
               </div>
+            </div>
+
+            {/* Quick Action Cards */}
+            <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Quick Actions 🎯</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 group-hover:from-blue-400/20 group-hover:to-cyan-400/20 transition-all"></div>
+                  <CardContent className="p-6 relative z-10 text-center">
+                    <Receipt className="w-12 h-12 mx-auto mb-3 text-blue-600" />
+                    <h4 className="font-bold text-lg mb-2">Record Revenue 💵</h4>
+                    <p className="text-sm text-gray-600">Add your first sale or booking</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 to-rose-400/10 group-hover:from-red-400/20 group-hover:to-rose-400/20 transition-all"></div>
+                  <CardContent className="p-6 relative z-10 text-center">
+                    <TrendingDown className="w-12 h-12 mx-auto mb-3 text-red-600" />
+                    <h4 className="font-bold text-lg mb-2">Log Expense 📉</h4>
+                    <p className="text-sm text-gray-600">Track business costs</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 to-pink-400/10 group-hover:from-purple-400/20 group-hover:to-pink-400/20 transition-all"></div>
+                  <CardContent className="p-6 relative z-10 text-center">
+                    <FileText className="w-12 h-12 mx-auto mb-3 text-purple-600" />
+                    <h4 className="font-bold text-lg mb-2">Create Invoice 📄</h4>
+                    <p className="text-sm text-gray-600">Set up billing</p>
+                  </CardContent>
+                </Card>
+
+                <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-400/10 group-hover:from-yellow-400/20 group-hover:to-orange-400/20 transition-all"></div>
+                  <CardContent className="p-6 relative z-10 text-center">
+                    <DollarSign className="w-12 h-12 mx-auto mb-3 text-yellow-600" />
+                    <h4 className="font-bold text-lg mb-2">Connect Stripe 💳</h4>
+                    <p className="text-sm text-gray-600">Link payment processor</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Two Column Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Getting Started Checklist */}
+              <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                <h3 className="text-2xl font-bold mb-4 text-gray-800">Getting Started ✅</h3>
+                <Card className="border-0 shadow-xl">
+                  <CardContent className="p-6 space-y-4">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
+                      <div className="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center">
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      </div>
+                      <span className="text-gray-700 font-medium">Set up your business profile</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
+                      <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
+                      <span className="text-gray-700">Record your first transaction</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
+                      <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
+                      <span className="text-gray-700">Add expense categories</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
+                      <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
+                      <span className="text-gray-700">Configure tax settings</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
+                      <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
+                      <span className="text-gray-700">Connect payment methods</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Financial Tips Widget */}
+              <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                <h3 className="text-2xl font-bold mb-4 text-gray-800">Financial Tips 💡</h3>
+                <Card className="border-0 shadow-xl bg-gradient-to-br from-amber-50 to-yellow-50">
+                  <CardContent className="p-6 space-y-4">
+                    <div className="p-4 rounded-lg bg-white/80 backdrop-blur-sm border-l-4 border-amber-500">
+                      <p className="text-gray-800 font-medium">💰 Track every expense, no matter how small</p>
+                      <p className="text-sm text-gray-600 mt-2">Small expenses add up quickly. Recording everything helps you understand true costs.</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-white/80 backdrop-blur-sm border-l-4 border-emerald-500">
+                      <p className="text-gray-800 font-medium">📊 Review your finances weekly</p>
+                      <p className="text-sm text-gray-600 mt-2">Regular check-ins help you spot trends and make timely adjustments.</p>
+                    </div>
+                    <div className="p-4 rounded-lg bg-white/80 backdrop-blur-sm border-l-4 border-blue-500">
+                      <p className="text-gray-800 font-medium">🎯 Aim for 20%+ profit margins</p>
+                      <p className="text-sm text-gray-600 mt-2">Healthy margins ensure business sustainability and growth.</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Financial Health Preview */}
+            <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800">Preview: What You'll See 📊</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card className="border-0 shadow-xl">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Cash Flow Chart 💸</CardTitle>
+                    <CardDescription>Track money in vs. money out</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-48 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center">
+                      <div className="text-center">
+                        <PieChart className="w-16 h-16 mx-auto mb-2 text-emerald-600" />
+                        <p className="text-sm text-gray-600">Sample chart appears here</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-0 shadow-xl">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Expense Breakdown 📉</CardTitle>
+                    <CardDescription>See where your money goes</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-48 bg-gradient-to-br from-red-100 to-rose-100 rounded-lg flex items-center justify-center">
+                      <div className="text-center">
+                        <PieChart className="w-16 h-16 mx-auto mb-2 text-red-600" />
+                        <p className="text-sm text-gray-600">Category breakdown appears here</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Demo Mode Toggle */}
+            <div className="animate-fade-in text-center" style={{ animationDelay: '0.5s' }}>
+              <Card className="border-0 shadow-xl bg-gradient-to-r from-purple-50 to-pink-50 inline-block">
+                <CardContent className="p-6">
+                  <h4 className="text-xl font-bold mb-3 text-gray-800">Want to explore? 🎭</h4>
+                  <p className="text-gray-600 mb-4">Try the dashboard with sample data to see all features in action!</p>
+                  <button className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:shadow-xl transition-all transform hover:scale-105">
+                    Show Demo Data ✨
+                  </button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </DashboardLayout>
