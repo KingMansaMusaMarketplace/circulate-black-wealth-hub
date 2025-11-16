@@ -56,7 +56,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
   return (
     <div className="w-full" data-mobile-menu>
       <Card className="mx-4 mt-2 shadow-lg bg-white border border-gray-200">
-        <CardContent className="p-4 max-h-[80vh] overflow-y-auto">
+        <CardContent className="p-4 h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
           <nav className="space-y-2">
             {/* Main Navigation */}
             {mainItems.map((item) => (
