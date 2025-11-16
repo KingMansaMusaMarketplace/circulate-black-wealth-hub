@@ -16,11 +16,12 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 interface FinancialsTabProps {
   businessId: string;
+  defaultTab?: string;
 }
 
-export const FinancialsTab: React.FC<FinancialsTabProps> = ({ businessId }) => {
+export const FinancialsTab: React.FC<FinancialsTabProps> = ({ businessId, defaultTab = 'pl-reports' }) => {
   return (
-    <Tabs defaultValue="pl-reports" className="w-full">
+    <Tabs defaultValue={defaultTab} className="w-full">
       <ScrollArea className="w-full whitespace-nowrap">
         <TabsList className="inline-flex w-auto">
           <TabsTrigger value="pl-reports">P&L</TabsTrigger>

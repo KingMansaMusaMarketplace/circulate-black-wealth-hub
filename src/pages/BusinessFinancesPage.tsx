@@ -12,6 +12,9 @@ import ExpenseCategoriesChart from '@/components/business/finances/ExpenseCatego
 import RevenueTrendsChart from '@/components/business/finances/RevenueTrendsChart';
 import InvoiceStatusTracker from '@/components/business/finances/InvoiceStatusTracker';
 import { Skeleton } from '@/components/ui/skeleton';
+import { FinancialsTab } from '@/components/business/financials/FinancialsTab';
+import { Building2, Calculator, TrendingUp as TrendingUpIcon, Wallet, BookOpen, Repeat, Shield, FileBarChart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface FinancialData {
   totalRevenue: number;
@@ -32,6 +35,7 @@ const BusinessFinancesPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [financialData, setFinancialData] = useState<FinancialData | null>(null);
   const [businessId, setBusinessId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('overview');
 
   useEffect(() => {
     loadFinancialData();
@@ -201,42 +205,177 @@ const BusinessFinancesPage: React.FC = () => {
             {/* Quick Action Cards */}
             <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
               <h3 className="text-2xl font-bold mb-4 text-gray-800">Quick Actions 🎯</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <Button
+                  onClick={() => setActiveTab('invoices')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 group-hover:from-blue-400/20 group-hover:to-cyan-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <Receipt className="w-12 h-12 mx-auto mb-3 text-blue-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Create Invoice 📄</h4>
+                      <p className="text-sm text-gray-600">Set up billing</p>
+                    </CardContent>
+                  </Card>
+                </Button>
+
+                <Button
+                  onClick={() => setActiveTab('expenses')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 to-rose-400/10 group-hover:from-red-400/20 group-hover:to-rose-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <TrendingDown className="w-12 h-12 mx-auto mb-3 text-red-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Log Expense 📉</h4>
+                      <p className="text-sm text-gray-600">Track business costs</p>
+                    </CardContent>
+                  </Card>
+                </Button>
+
+                <Button
+                  onClick={() => setActiveTab('reconciliation')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 to-pink-400/10 group-hover:from-purple-400/20 group-hover:to-pink-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <Building2 className="w-12 h-12 mx-auto mb-3 text-purple-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Bank Reconciliation 🏦</h4>
+                      <p className="text-sm text-gray-600">Match transactions</p>
+                    </CardContent>
+                  </Card>
+                </Button>
+
+                <Button
+                  onClick={() => setActiveTab('budget')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-400/10 group-hover:from-yellow-400/20 group-hover:to-orange-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <Calculator className="w-12 h-12 mx-auto mb-3 text-yellow-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Budget Planning 💰</h4>
+                      <p className="text-sm text-gray-600">Set spending limits</p>
+                    </CardContent>
+                  </Card>
+                </Button>
+              </div>
+
+              {/* Additional Action Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 group-hover:from-blue-400/20 group-hover:to-cyan-400/20 transition-all"></div>
-                  <CardContent className="p-6 relative z-10 text-center">
-                    <Receipt className="w-12 h-12 mx-auto mb-3 text-blue-600" />
-                    <h4 className="font-bold text-lg mb-2">Record Revenue 💵</h4>
-                    <p className="text-sm text-gray-600">Add your first sale or booking</p>
-                  </CardContent>
-                </Card>
+                <Button
+                  onClick={() => setActiveTab('pl-reports')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 to-emerald-400/10 group-hover:from-green-400/20 group-hover:to-emerald-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <TrendingUpIcon className="w-12 h-12 mx-auto mb-3 text-green-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">P&L Reports 📊</h4>
+                      <p className="text-sm text-gray-600">Profit & loss analysis</p>
+                    </CardContent>
+                  </Card>
+                </Button>
 
-                <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 to-rose-400/10 group-hover:from-red-400/20 group-hover:to-rose-400/20 transition-all"></div>
-                  <CardContent className="p-6 relative z-10 text-center">
-                    <TrendingDown className="w-12 h-12 mx-auto mb-3 text-red-600" />
-                    <h4 className="font-bold text-lg mb-2">Log Expense 📉</h4>
-                    <p className="text-sm text-gray-600">Track business costs</p>
-                  </CardContent>
-                </Card>
+                <Button
+                  onClick={() => setActiveTab('cashflow')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 to-blue-400/10 group-hover:from-cyan-400/20 group-hover:to-blue-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <Wallet className="w-12 h-12 mx-auto mb-3 text-cyan-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Cash Flow 💸</h4>
+                      <p className="text-sm text-gray-600">Monitor liquidity</p>
+                    </CardContent>
+                  </Card>
+                </Button>
 
-                <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 to-pink-400/10 group-hover:from-purple-400/20 group-hover:to-pink-400/20 transition-all"></div>
-                  <CardContent className="p-6 relative z-10 text-center">
-                    <FileText className="w-12 h-12 mx-auto mb-3 text-purple-600" />
-                    <h4 className="font-bold text-lg mb-2">Create Invoice 📄</h4>
-                    <p className="text-sm text-gray-600">Set up billing</p>
-                  </CardContent>
-                </Card>
+                <Button
+                  onClick={() => setActiveTab('balance-sheet')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-400/10 to-purple-400/10 group-hover:from-indigo-400/20 group-hover:to-purple-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <BookOpen className="w-12 h-12 mx-auto mb-3 text-indigo-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Balance Sheet 📚</h4>
+                      <p className="text-sm text-gray-600">Assets & liabilities</p>
+                    </CardContent>
+                  </Card>
+                </Button>
 
-                <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-400/10 group-hover:from-yellow-400/20 group-hover:to-orange-400/20 transition-all"></div>
-                  <CardContent className="p-6 relative z-10 text-center">
-                    <DollarSign className="w-12 h-12 mx-auto mb-3 text-yellow-600" />
-                    <h4 className="font-bold text-lg mb-2">Connect Stripe 💳</h4>
-                    <p className="text-sm text-gray-600">Link payment processor</p>
-                  </CardContent>
-                </Card>
+                <Button
+                  onClick={() => setActiveTab('taxes')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-400/10 group-hover:from-amber-400/20 group-hover:to-yellow-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <Shield className="w-12 h-12 mx-auto mb-3 text-amber-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Tax Settings 🛡️</h4>
+                      <p className="text-sm text-gray-600">Manage tax rates</p>
+                    </CardContent>
+                  </Card>
+                </Button>
+
+                <Button
+                  onClick={() => setActiveTab('receivables')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-400/10 to-pink-400/10 group-hover:from-rose-400/20 group-hover:to-pink-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <FileText className="w-12 h-12 mx-auto mb-3 text-rose-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Accounts Receivable 💳</h4>
+                      <p className="text-sm text-gray-600">Track outstanding payments</p>
+                    </CardContent>
+                  </Card>
+                </Button>
+
+                <Button
+                  onClick={() => setActiveTab('recurring')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-teal-400/10 to-cyan-400/10 group-hover:from-teal-400/20 group-hover:to-cyan-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <Repeat className="w-12 h-12 mx-auto mb-3 text-teal-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Recurring Invoices 🔄</h4>
+                      <p className="text-sm text-gray-600">Automate billing</p>
+                    </CardContent>
+                  </Card>
+                </Button>
+
+                <Button
+                  onClick={() => setActiveTab('assets')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-violet-400/10 to-purple-400/10 group-hover:from-violet-400/20 group-hover:to-purple-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <Building2 className="w-12 h-12 mx-auto mb-3 text-violet-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Fixed Assets 🏢</h4>
+                      <p className="text-sm text-gray-600">Manage property & equipment</p>
+                    </CardContent>
+                  </Card>
+                </Button>
+
+                <Button
+                  onClick={() => setActiveTab('audit')}
+                  className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
+                >
+                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-400/10 to-gray-400/10 group-hover:from-slate-400/20 group-hover:to-gray-400/20 transition-all"></div>
+                    <CardContent className="p-6 relative z-10 text-center">
+                      <FileBarChart className="w-12 h-12 mx-auto mb-3 text-slate-600" />
+                      <h4 className="font-bold text-lg mb-2 text-gray-900">Audit Log 📝</h4>
+                      <p className="text-sm text-gray-600">Track all changes</p>
+                    </CardContent>
+                  </Card>
+                </Button>
               </div>
             </div>
 
@@ -429,7 +568,7 @@ const BusinessFinancesPage: React.FC = () => {
           </div>
 
         {/* Tabs for Different Views */}
-        <Tabs defaultValue="overview" className="space-y-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="cash-flow">Cash Flow</TabsTrigger>
@@ -439,7 +578,13 @@ const BusinessFinancesPage: React.FC = () => {
 
           <TabsContent value="overview" className="space-y-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <ProfitLossCard data={financialData} />
+              <ProfitLossCard 
+                data={{
+                  totalRevenue: financialData.totalRevenue,
+                  totalExpenses: financialData.totalExpenses,
+                  netProfit: financialData.netProfit
+                }}
+              />
               <RevenueTrendsChart data={financialData.monthlyRevenue} />
             </div>
           </TabsContent>
@@ -480,6 +625,38 @@ const BusinessFinancesPage: React.FC = () => {
               stats={financialData.invoiceStats}
               businessId={businessId}
             />
+          </TabsContent>
+
+          {/* Full Accounting System Tabs */}
+          <TabsContent value="pl-reports">
+            <FinancialsTab businessId={businessId} defaultTab="pl-reports" />
+          </TabsContent>
+          <TabsContent value="balance-sheet">
+            <FinancialsTab businessId={businessId} defaultTab="balance-sheet" />
+          </TabsContent>
+          <TabsContent value="cashflow">
+            <FinancialsTab businessId={businessId} defaultTab="cashflow" />
+          </TabsContent>
+          <TabsContent value="reconciliation">
+            <FinancialsTab businessId={businessId} defaultTab="reconciliation" />
+          </TabsContent>
+          <TabsContent value="budget">
+            <FinancialsTab businessId={businessId} defaultTab="budget" />
+          </TabsContent>
+          <TabsContent value="taxes">
+            <FinancialsTab businessId={businessId} defaultTab="taxes" />
+          </TabsContent>
+          <TabsContent value="receivables">
+            <FinancialsTab businessId={businessId} defaultTab="receivables" />
+          </TabsContent>
+          <TabsContent value="recurring">
+            <FinancialsTab businessId={businessId} defaultTab="recurring" />
+          </TabsContent>
+          <TabsContent value="assets">
+            <FinancialsTab businessId={businessId} defaultTab="assets" />
+          </TabsContent>
+          <TabsContent value="audit">
+            <FinancialsTab businessId={businessId} defaultTab="audit" />
           </TabsContent>
         </Tabs>
         </div>
