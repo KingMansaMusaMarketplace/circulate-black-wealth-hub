@@ -82,6 +82,7 @@ const LazyEmailVerified = lazy(() => import('@/pages/EmailVerified'));
 const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
 const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
 const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
+const LazyAppTestPage = lazy(() => import('@/pages/AppTestPage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
@@ -638,6 +639,9 @@ function App() {
                         
                         {/* Fixed Mobile Readiness Test route */}
                         <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                        
+                        {/* App Functionality Test route */}
+                        <Route path="/app-functionality-test" element={<LazyAppTestPage />} />
                         
                         {/* Full App Test route */}
                         <Route path="/full-app-test" element={<LazyFullAppTestPage />} />
