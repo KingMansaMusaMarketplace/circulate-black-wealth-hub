@@ -47,44 +47,58 @@ const NativeFeaturesDemo: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-pink-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-blue-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </div>
+
       <Helmet>
         <title>Native Features Demo | Mansa Musa Marketplace</title>
         <meta name="description" content="Demonstration of native iOS/Android features" />
       </Helmet>
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-mansablue to-blue-700 text-white py-12 shadow-lg">
-        <div className="max-w-5xl mx-auto px-6">
-          <h1 className="text-4xl font-bold mb-3">📱 Native Features Demo</h1>
-          <p className="text-blue-100 text-lg mb-4">
-            Testing robust native functionality for App Store compliance
+      <div className="relative bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white py-16 shadow-2xl animate-fade-in">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10"></div>
+        <div className="max-w-5xl mx-auto px-6 relative z-10">
+          <h1 className="text-5xl font-bold mb-4 animate-scale-in">📱 Native Features Demo</h1>
+          <p className="text-white/90 text-xl mb-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            Experience cutting-edge native functionality ✨
           </p>
-          <div className="flex gap-2 flex-wrap">
-            <Badge variant={isNative ? "default" : "secondary"} className="text-sm">
+          <div className="flex gap-3 flex-wrap animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <Badge 
+              variant={isNative ? "default" : "secondary"} 
+              className={`text-sm px-4 py-2 ${isNative ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-500'} shadow-lg transition-all hover:scale-105`}
+            >
               {isNative ? '✅ Native Platform' : '🌐 Web Platform'}
             </Badge>
-            <Badge variant="outline" className="text-sm text-white border-white">
+            <Badge variant="outline" className="text-sm px-4 py-2 text-white border-white/50 hover:bg-white/10 transition-all hover:scale-105 shadow-lg">
               Platform: {platform}
             </Badge>
-            <Badge variant="outline" className="text-sm text-white border-white">
+            <Badge variant="outline" className="text-sm px-4 py-2 text-white border-white/50 hover:bg-white/10 transition-all hover:scale-105 shadow-lg">
               App State: {appState}
             </Badge>
           </div>
         </div>
       </div>
 
-      <main className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+      <main className="max-w-5xl mx-auto px-6 py-10 space-y-8 relative z-10">
         
         {/* Environment Info */}
-        <Card>
+        <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-sm animate-fade-in hover:shadow-3xl transition-all duration-300">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500"></div>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Smartphone className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-3 text-2xl">
+              <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg">
+                <Smartphone className="w-6 h-6 text-white" />
+              </div>
               Environment Information
             </CardTitle>
-            <CardDescription>
-              Current platform and native capabilities
+            <CardDescription className="text-base">
+              Current platform and native capabilities 🚀
             </CardDescription>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-4">
