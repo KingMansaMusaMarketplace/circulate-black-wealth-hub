@@ -126,65 +126,85 @@ const GroupChallengesPage: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Group Challenges</h1>
-        <p className="text-muted-foreground">
-          Join forces with the community to achieve collective goals and earn rewards
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50 to-red-50 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-orange-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-rose-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-red-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
-      <Tabs defaultValue="all" className="w-full">
-        <TabsList className="grid w-full md:w-auto grid-cols-2">
-          <TabsTrigger value="all" className="gap-2">
-            <Target className="w-4 h-4" />
-            All Challenges
-          </TabsTrigger>
-          <TabsTrigger value="mine" className="gap-2">
-            <Users className="w-4 h-4" />
-            My Challenges ({myChallenges?.length || 0})
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="all" className="mt-6">
-          {challenges && challenges.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {challenges.map((challenge) => {
-                const isParticipating = myChallenges?.some(
-                  (mc: any) => mc.challenge_id === challenge.id
-                );
-                return renderChallengeCard(challenge, isParticipating);
-              })}
+      <div className="container mx-auto px-4 py-12 relative z-10">
+        {/* Enhanced Header */}
+        <div className="mb-10 animate-fade-in">
+          <div className="relative inline-block">
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-400/30 via-rose-400/30 to-red-400/30 rounded-3xl blur-2xl"></div>
+            <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-0 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-500 via-rose-500 to-red-500"></div>
+              <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-orange-600 via-rose-600 to-red-600 bg-clip-text text-transparent pt-2">
+                Group <span className="text-yellow-500">Challenges</span> 🏆
+              </h1>
+              <p className="text-gray-700 text-xl font-medium">
+                Join forces with the community to achieve collective goals and earn rewards 🎯
+              </p>
             </div>
-          ) : (
-            <Card>
-              <CardContent className="p-12 text-center">
-                <Trophy className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">No active challenges at the moment</p>
-                <p className="text-sm text-muted-foreground mt-2">Check back soon for new opportunities!</p>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
+          </div>
+        </div>
 
-        <TabsContent value="mine" className="mt-6">
-          {myChallenges && myChallenges.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {myChallenges.map((participant: any) =>
-                renderChallengeCard(participant.group_challenges, true)
+        <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList className="grid w-full md:w-auto grid-cols-2">
+              <TabsTrigger value="all" className="gap-2">
+                <Target className="w-4 h-4" />
+                All Challenges
+              </TabsTrigger>
+              <TabsTrigger value="mine" className="gap-2">
+                <Users className="w-4 h-4" />
+                My Challenges ({myChallenges?.length || 0})
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="all" className="mt-6">
+              {challenges && challenges.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {challenges.map((challenge) => {
+                    const isParticipating = myChallenges?.some(
+                      (mc: any) => mc.challenge_id === challenge.id
+                    );
+                    return renderChallengeCard(challenge, isParticipating);
+                  })}
+                </div>
+              ) : (
+                <Card>
+                  <CardContent className="p-12 text-center">
+                    <Trophy className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-muted-foreground">No active challenges at the moment</p>
+                    <p className="text-sm text-muted-foreground mt-2">Check back soon for new opportunities!</p>
+                  </CardContent>
+                </Card>
               )}
-            </div>
-          ) : (
-            <Card>
-              <CardContent className="p-12 text-center">
-                <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">You haven't joined any challenges yet</p>
-                <p className="text-sm text-muted-foreground mt-2">Browse all challenges to get started!</p>
-              </CardContent>
-            </Card>
-          )}
-        </TabsContent>
-      </Tabs>
+            </TabsContent>
+
+            <TabsContent value="mine" className="mt-6">
+              {myChallenges && myChallenges.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {myChallenges.map((participant: any) =>
+                    renderChallengeCard(participant.group_challenges, true)
+                  )}
+                </div>
+              ) : (
+                <Card>
+                  <CardContent className="p-12 text-center">
+                    <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-muted-foreground">You haven't joined any challenges yet</p>
+                    <p className="text-sm text-muted-foreground mt-2">Browse all challenges to get started!</p>
+                  </CardContent>
+                </Card>
+              )}
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
     </div>
   );
 };
