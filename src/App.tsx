@@ -582,6 +582,9 @@ function App() {
                           <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                            <Route path="/challenges" element={<LazyGroupChallengesPage />} />
                            <Route path="/referrals" element={<LazyReferralDashboard />} />
+                           <Route path="/customers" element={<LazyCustomersPage />} />
+                           <Route path="/customers/new" element={<LazyNewCustomerPage />} />
+                           <Route path="/customers/:customerId" element={<LazyCustomerDetailPage />} />
                            <Route path="/share-impact" element={<LazyShareImpactPage />} />
                            <Route path="/impact" element={<LazyImpactPage />} />
                            <Route path="/social-proof" element={<LazySocialProofPage />} />
