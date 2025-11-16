@@ -175,49 +175,79 @@ const BusinessFinancesPage: React.FC = () => {
     : 0;
 
   return (
-    <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
-      <div className="space-y-6">
-        {/* Header with Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Total Revenue</CardDescription>
-              <CardTitle className="text-3xl text-green-600 flex items-center">
-                <TrendingUp className="h-6 w-6 mr-2" />
-                ${financialData.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">From completed bookings</p>
-            </CardContent>
-          </Card>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-green-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-teal-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </div>
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Total Expenses</CardDescription>
-              <CardTitle className="text-3xl text-red-600 flex items-center">
-                <TrendingDown className="h-6 w-6 mr-2" />
-                ${financialData.totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">Business operating costs</p>
-            </CardContent>
-          </Card>
+      <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
+        <div className="space-y-6 relative z-10">
+          {/* Enhanced Header */}
+          <div className="mb-10 animate-fade-in">
+            <div className="relative inline-block w-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-400/30 via-emerald-400/30 to-teal-400/30 rounded-3xl blur-2xl"></div>
+              <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-0 overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"></div>
+                <div className="pt-2">
+                  <h2 className="text-4xl font-bold mb-3 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                    Business <span className="text-yellow-500">Finances</span> 💰
+                  </h2>
+                  <p className="text-gray-700 text-lg font-medium">
+                    Track your revenue, expenses, and financial health 📊
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardDescription>Net Profit</CardDescription>
-              <CardTitle className={`text-3xl flex items-center ${financialData.netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                <DollarSign className="h-6 w-6 mr-2" />
-                ${Math.abs(financialData.netProfit).toLocaleString('en-US', { minimumFractionDigits: 2 })}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">Profit margin: {profitMargin}%</p>
-            </CardContent>
-          </Card>
-        </div>
+          <div className="space-y-6">
+          {/* Header with Key Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+            <Card className="relative overflow-hidden border-0 shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 to-emerald-400/10"></div>
+              <CardHeader className="pb-2 relative z-10">
+                <CardDescription className="text-gray-600 font-medium">Total Revenue 💵</CardDescription>
+                <CardTitle className="text-3xl text-green-600 flex items-center font-bold">
+                  <TrendingUp className="h-6 w-6 mr-2" />
+                  ${financialData.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <p className="text-sm text-gray-600 font-medium">From completed bookings</p>
+              </CardContent>
+            </Card>
+
+            <Card className="relative overflow-hidden border-0 shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 to-rose-400/10"></div>
+              <CardHeader className="pb-2 relative z-10">
+                <CardDescription className="text-gray-600 font-medium">Total Expenses 📉</CardDescription>
+                <CardTitle className="text-3xl text-red-600 flex items-center font-bold">
+                  <TrendingDown className="h-6 w-6 mr-2" />
+                  ${financialData.totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <p className="text-sm text-gray-600 font-medium">Business operating costs</p>
+              </CardContent>
+            </Card>
+
+            <Card className="relative overflow-hidden border-0 shadow-xl">
+              <div className={`absolute inset-0 bg-gradient-to-br ${financialData.netProfit >= 0 ? 'from-emerald-400/10 to-teal-400/10' : 'from-red-400/10 to-orange-400/10'}`}></div>
+              <CardHeader className="pb-2 relative z-10">
+                <CardDescription className="text-gray-600 font-medium">Net Profit 💎</CardDescription>
+                <CardTitle className={`text-3xl flex items-center font-bold ${financialData.netProfit >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                  <DollarSign className="h-6 w-6 mr-2" />
+                  ${Math.abs(financialData.netProfit).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="relative z-10">
+                <p className="text-sm text-gray-600 font-medium">Profit margin: {profitMargin}%</p>
+              </CardContent>
+            </Card>
+          </div>
 
         {/* Tabs for Different Views */}
         <Tabs defaultValue="overview" className="space-y-4">
@@ -273,8 +303,10 @@ const BusinessFinancesPage: React.FC = () => {
             />
           </TabsContent>
         </Tabs>
-      </div>
-    </DashboardLayout>
+        </div>
+        </div>
+      </DashboardLayout>
+    </div>
   );
 };
 
