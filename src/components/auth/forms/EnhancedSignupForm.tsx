@@ -40,7 +40,7 @@ const EnhancedSignupForm: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto space-y-8 animate-fade-in">
+    <div className="w-full max-w-[108rem] mx-auto space-y-8 animate-fade-in">
       <div className="grid gap-8 md:grid-cols-2">
         <Card 
           className="relative cursor-pointer transition-all duration-500 hover:shadow-2xl group hover:-translate-y-2 border-2 hover:border-mansablue/60 p-12"
