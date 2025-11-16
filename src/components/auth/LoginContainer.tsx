@@ -46,7 +46,7 @@ const LoginContainer: React.FC<LoginContainerProps> = ({ children, header }) => 
 
       <motion.div
         variants={itemVariants}
-        className="glass-card p-6 md:p-8 rounded-lg shadow-lg"
+        className="bg-card text-card-foreground border border-border/50 p-6 md:p-8 rounded-lg shadow-lg"
       >
         {children}
       </motion.div>

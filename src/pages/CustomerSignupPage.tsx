@@ -33,8 +33,8 @@ const CustomerSignupPage: React.FC = () => {
               <div className="w-12 h-12 rounded-full bg-mansablue flex items-center justify-center mx-auto mb-4">
                 <span className="text-white font-spartan font-bold text-xl">M</span>
               </div>
-              <h1 className="text-2xl font-bold text-mansablue-dark">Create Your Account</h1>
-              <p className="text-gray-600 mt-1">Join our community of conscious consumers</p>
+              <h1 className="text-2xl font-bold text-foreground">Create Your Account</h1>
+              <p className="text-muted-foreground mt-1">Join our community of conscious consumers</p>
             </>
           }
         >
@@ -43,7 +43,7 @@ const CustomerSignupPage: React.FC = () => {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <a href="/login" className="text-mansablue hover:underline font-medium">
+              <a href="/login" className="text-primary hover:underline font-medium">
                 Log in
               </a>
             </p>
