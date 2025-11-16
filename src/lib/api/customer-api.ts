@@ -162,3 +162,221 @@ export const getCustomerFavoriteBusinesses = async (userId: string) => {
     return [];
   }
 };
+
+// ========== CRM FUNCTIONS ==========
+
+export interface Customer {
+  id: string;
+  business_id: string;
+  first_name: string;
+  last_name: string;
+  email?: string;
+  phone?: string;
+  company?: string;
+  job_title?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zip_code?: string;
+  country?: string;
+  customer_status: 'lead' | 'active' | 'inactive' | 'vip';
+  lifecycle_stage: 'lead' | 'prospect' | 'customer' | 'evangelist' | 'churned';
+  source?: string;
+  lifetime_value: number;
+  total_purchases: number;
+  last_purchase_date?: string;
+  last_contact_date?: string;
+  next_followup_date?: string;
+  birthday?: string;
+  anniversary?: string;
+  notes?: string;
+  custom_fields?: Record<string, any>;
+  created_at: string;
+  updated_at: string;
+  created_by?: string;
+  tags?: CustomerTag[];
+}
+
+export interface CustomerInteraction {
+  id: string;
+  customer_id: string;
+  business_id: string;
+  interaction_type: 'call' | 'email' | 'meeting' | 'note' | 'purchase' | 'support' | 'other';
+  subject: string;
+  description?: string;
+  interaction_date: string;
+  duration_minutes?: number;
+  outcome?: string;
+  followup_required: boolean;
+  followup_date?: string;
+  created_by?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CustomerTag {
+  id: string;
+  customer_id: string;
+  tag: string;
+  created_at: string;
+}
+
+// Get all customers for a business
+export const getCustomers = async (businessId: string) => {
+  const { data, error } = await supabase
+    .from('customers')
+    .select(`
+      *,
+      tags:customer_tags(*)
+    `)
+    .eq('business_id', businessId)
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  return data as Customer[];
+};
+
+// Get single customer with full details
+export const getCustomer = async (customerId: string) => {
+  const { data, error } = await supabase
+    .from('customers')
+    .select(`
+      *,
+      tags:customer_tags(*)
+    `)
+    .eq('id', customerId)
+    .single();
+
+  if (error) throw error;
+  return data as Customer;
+};
+
+// Create customer
+export const createCustomer = async (customer: Omit<Customer, 'id' | 'created_at' | 'updated_at' | 'lifetime_value' | 'total_purchases'>) => {
+  const { data, error } = await supabase
+    .from('customers')
+    .insert(customer)
+    .select()
+    .single();
+
+  if (error) throw error;
+  toast.success('Customer created successfully!');
+  return data as Customer;
+};
+
+// Update customer
+export const updateCustomer = async (customerId: string, updates: Partial<Customer>) => {
+  const { data, error } = await supabase
+    .from('customers')
+    .update(updates)
+    .eq('id', customerId)
+    .select()
+    .single();
+
+  if (error) throw error;
+  toast.success('Customer updated successfully!');
+  return data as Customer;
+};
+
+// Delete customer
+export const deleteCustomer = async (customerId: string) => {
+  const { error } = await supabase
+    .from('customers')
+    .delete()
+    .eq('id', customerId);
+
+  if (error) throw error;
+  toast.success('Customer deleted successfully!');
+};
+
+// Get customer interactions
+export const getCustomerInteractions = async (customerId: string) => {
+  const { data, error } = await supabase
+    .from('customer_interactions')
+    .select('*')
+    .eq('customer_id', customerId)
+    .order('interaction_date', { ascending: false });
+
+  if (error) throw error;
+  return data as CustomerInteraction[];
+};
+
+// Create interaction
+export const createInteraction = async (interaction: Omit<CustomerInteraction, 'id' | 'created_at' | 'updated_at'>) => {
+  const { data, error } = await supabase
+    .from('customer_interactions')
+    .insert(interaction)
+    .select()
+    .single();
+
+  if (error) throw error;
+  
+  // Update last_contact_date on customer
+  await supabase
+    .from('customers')
+    .update({ last_contact_date: interaction.interaction_date })
+    .eq('id', interaction.customer_id);
+
+  toast.success('Interaction logged successfully!');
+  return data as CustomerInteraction;
+};
+
+// Add tag to customer
+export const addCustomerTag = async (customerId: string, tag: string) => {
+  const { data, error } = await supabase
+    .from('customer_tags')
+    .insert({ customer_id: customerId, tag })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data as CustomerTag;
+};
+
+// Remove tag from customer
+export const removeCustomerTag = async (tagId: string) => {
+  const { error } = await supabase
+    .from('customer_tags')
+    .delete()
+    .eq('id', tagId);
+
+  if (error) throw error;
+};
+
+// Get customer purchase history (from invoices)
+export const getCustomerPurchaseHistory = async (customerId: string) => {
+  const { data, error } = await supabase
+    .from('invoices')
+    .select('*')
+    .eq('customer_id', customerId)
+    .order('invoice_date', { ascending: false});
+
+  if (error) throw error;
+  return data;
+};
+
+// Get CRM analytics
+export const getCRMAnalytics = async (businessId: string) => {
+  const { data: customers, error } = await supabase
+    .from('customers')
+    .select('*')
+    .eq('business_id', businessId);
+
+  if (error) throw error;
+
+  const totalCustomers = customers?.length || 0;
+  const activeCustomers = customers?.filter(c => c.customer_status === 'active').length || 0;
+  const vipCustomers = customers?.filter(c => c.customer_status === 'vip').length || 0;
+  const leads = customers?.filter(c => c.lifecycle_stage === 'lead').length || 0;
+  const totalLifetimeValue = customers?.reduce((sum, c) => sum + (parseFloat(c.lifetime_value as any) || 0), 0) || 0;
+  const avgLifetimeValue = totalCustomers > 0 ? totalLifetimeValue / totalCustomers : 0;
+
+  return {
+    totalCustomers,
+    activeCustomers,
+    vipCustomers,
+    leads,
+    totalLifetimeValue,
+    avgLifetimeValue
+  };
+};
