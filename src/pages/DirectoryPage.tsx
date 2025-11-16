@@ -121,7 +121,7 @@ const DirectoryPage: React.FC = () => {
               <Input
                 type="text" 
                 placeholder="Search businesses across all cities..."
-                className="pl-12 h-14 glass-card rounded-2xl w-full text-lg font-body shadow-2xl bg-background/10 text-primary-foreground placeholder:text-primary-foreground/70 border border-primary-foreground/30 focus-visible:ring-offset-0"
+                className="pl-12 h-14 glass-card rounded-2xl w-full text-xl md:text-2xl font-body shadow-2xl bg-background/10 text-primary-foreground placeholder:text-primary-foreground/70 border border-primary-foreground/30 focus-visible:ring-offset-0"
                 value={searchTerm || ''}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
