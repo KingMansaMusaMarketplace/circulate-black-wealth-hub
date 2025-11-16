@@ -107,77 +107,111 @@ export default function CustomersPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto p-6 space-y-6">
-        <Skeleton className="h-12 w-64" />
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {[...Array(4)].map((_, i) => (
-            <Skeleton key={i} className="h-32" />
-          ))}
+      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-rose-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         </div>
-        <Skeleton className="h-96" />
+        <div className="container mx-auto p-6 space-y-6 relative z-10">
+          <Skeleton className="h-12 w-64 rounded-3xl" />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {[...Array(4)].map((_, i) => (
+              <Skeleton key={i} className="h-32 rounded-3xl" />
+            ))}
+          </div>
+          <Skeleton className="h-96 rounded-3xl" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Customer Relationship Management</h1>
-          <p className="text-muted-foreground">Manage and track all your customer relationships</p>
-        </div>
-        <Button onClick={() => navigate('/customers/new')} className="gap-2">
-          <Plus className="h-4 w-4" />
-          Add Customer
-        </Button>
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-rose-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-red-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
+
+      <div className="container mx-auto p-6 space-y-6 relative z-10">
+        {/* Enhanced Header */}
+        <div className="mb-10 animate-fade-in">
+          <div className="relative inline-block w-full">
+            <div className="absolute inset-0 bg-gradient-to-r from-pink-400/30 via-rose-400/30 to-red-400/30 rounded-3xl blur-2xl"></div>
+            <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-0 overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-500 via-rose-500 to-red-500"></div>
+              <div className="flex items-center justify-between pt-2">
+                <div>
+                  <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-pink-600 via-rose-600 to-red-600 bg-clip-text text-transparent">
+                    Customer <span className="text-yellow-500">Relationship</span> Management 💼
+                  </h1>
+                  <p className="text-gray-700 text-xl font-medium">
+                    Manage and track all your customer relationships 🎯
+                  </p>
+                </div>
+                <Button onClick={() => navigate('/customers/new')} className="gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg">
+                  <Plus className="h-4 w-4" />
+                  Add Customer
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
 
       {/* Analytics Cards */}
       {analytics && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <Card className="border-pink-200 bg-gradient-to-br from-pink-50 to-pink-100/50 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total Customers</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-pink-700">Total Customers</CardTitle>
+              <div className="p-2 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full">
+                <Users className="h-4 w-4 text-white" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{analytics.totalCustomers}</div>
-              <p className="text-xs text-muted-foreground">
+              <div className="text-2xl font-bold text-pink-900">{analytics.totalCustomers}</div>
+              <p className="text-xs text-pink-600">
                 {analytics.activeCustomers} active
               </p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100/50 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">VIP Customers</CardTitle>
-              <Star className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-yellow-700">VIP Customers</CardTitle>
+              <div className="p-2 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full">
+                <Star className="h-4 w-4 text-white" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{analytics.vipCustomers}</div>
-              <p className="text-xs text-muted-foreground">Premium tier</p>
+              <div className="text-2xl font-bold text-yellow-900">{analytics.vipCustomers}</div>
+              <p className="text-xs text-yellow-600">Premium tier</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100/50 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Active Leads</CardTitle>
-              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-blue-700">Active Leads</CardTitle>
+              <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full">
+                <TrendingUp className="h-4 w-4 text-white" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{analytics.leads}</div>
-              <p className="text-xs text-muted-foreground">In pipeline</p>
+              <div className="text-2xl font-bold text-blue-900">{analytics.leads}</div>
+              <p className="text-xs text-blue-600">In pipeline</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50 to-emerald-100/50 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Total LTV</CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
+              <CardTitle className="text-sm font-medium text-emerald-700">Total LTV</CardTitle>
+              <div className="p-2 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full">
+                <DollarSign className="h-4 w-4 text-white" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
+              <div className="text-2xl font-bold text-emerald-900">
                 ${analytics.totalLifetimeValue.toFixed(2)}
               </div>
               <p className="text-xs text-muted-foreground">
@@ -304,6 +338,7 @@ export default function CustomersPage() {
           </Table>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }
