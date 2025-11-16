@@ -231,14 +231,14 @@ export const HelpSection: React.FC = () => {
 
       {/* Contact Banner */}
       <Card className="relative overflow-hidden border-2 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white border-indigo-200 hover:shadow-xl transition-all">
-        <div className="absolute inset-0 bg-white/10 backdrop-blur-sm pointer-events-none" aria-hidden="true" />
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-none" aria-hidden="true" />
         <CardContent className="relative p-8 text-center">
           <div className="inline-block mb-4">
             <div className="p-3 bg-white/20 rounded-full backdrop-blur-sm">
               <HelpCircle className="h-12 w-12 text-yellow-300" />
             </div>
           </div>
-          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
+          <h2 className="text-3xl font-bold mb-4 text-white drop-shadow-lg">
             Need More Help? 🤔
           </h2>
           <p className="text-white/90 mb-6 max-w-2xl mx-auto text-lg drop-shadow font-medium">
@@ -253,8 +253,7 @@ export const HelpSection: React.FC = () => {
               Send us a Message
             </Button>
             <Button 
-              variant="outline" 
-              className="border-2 border-white text-white hover:bg-white hover:text-indigo-600 font-bold"
+              className="bg-white text-indigo-600 hover:bg-white/90 font-bold shadow-lg"
               onClick={() => window.location.href = 'mailto:support@mansamusamarketplace.com'}
             >
               Email Support
