@@ -117,12 +117,11 @@ const DirectoryPage: React.FC = () => {
             </p>
             
             <div className="relative max-w-xl mx-auto" data-tour="search-businesses">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
               <Input
                 type="text" 
                 placeholder="Search businesses across all cities..."
-                className="pl-12 h-14 glass-card border-white/20 rounded-2xl w-full text-base font-body shadow-2xl"
-                style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
+                className="pl-12 h-14 glass-card rounded-2xl w-full text-base font-body shadow-2xl bg-background/10 text-primary-foreground placeholder:text-primary-foreground/70 border border-primary-foreground/30 focus-visible:ring-offset-0"
                 value={searchTerm || ''}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
