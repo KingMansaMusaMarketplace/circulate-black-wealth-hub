@@ -145,7 +145,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             style={{ touchAction: 'manipulation' }}
           />
           {/* Mobile Menu */}
-          <div className="fixed inset-x-0 top-24 z-50 md:hidden animate-slide-in-from-top">
+          <div className="fixed inset-x-0 top-24 bottom-0 z-50 md:hidden animate-slide-in-from-top overflow-y-auto overscroll-contain" data-mobile-menu>
             <MobileMenu onNavigate={closeMobileMenu} />
           </div>
         </>
