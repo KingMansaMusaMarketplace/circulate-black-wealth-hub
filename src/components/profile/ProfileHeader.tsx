@@ -19,8 +19,8 @@ const ProfileHeader = () => {
   };
 
   return (
-    <Card className="mb-4">
-      <CardHeader className="pb-3">
+    <Card className="mb-2">
+      <CardHeader className="pb-2">
         <div className="flex items-center space-x-4">
           <Avatar className="h-16 w-16">
             <AvatarImage src={user?.user_metadata?.avatarUrl || ''} alt="Profile" />
@@ -36,7 +36,7 @@ const ProfileHeader = () => {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-2">
         <div className="text-sm text-muted-foreground">
           <p>Member since: {user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</p>
           <p>Email: {user?.email || 'N/A'}</p>

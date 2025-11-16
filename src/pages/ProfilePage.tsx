@@ -29,14 +29,14 @@ const ProfilePage = () => {
 
   return (
     <DashboardLayout title="Account Settings">
-      <div className="space-y-4">
+      <div className="space-y-3">
         <ProfileHeader />
         
         <Tabs 
           defaultValue={tab} 
           value={tab} 
           onValueChange={handleTabChange}
-          className="space-y-4"
+          className="space-y-3"
         >
           <TabsList className="grid grid-cols-3 w-full max-w-md">
             <TabsTrigger value="profile">Profile</TabsTrigger>
@@ -44,16 +44,16 @@ const ProfilePage = () => {
             {isAdmin && <TabsTrigger value="health">System Health</TabsTrigger>}
           </TabsList>
           
-          <TabsContent value="profile" className="space-y-4">
+          <TabsContent value="profile" className="space-y-3 mt-3">
             <ProfileForm />
           </TabsContent>
           
-          <TabsContent value="security" className="space-y-4">
+          <TabsContent value="security" className="space-y-3 mt-3">
             <SecuritySettings />
           </TabsContent>
           
           {isAdmin && (
-            <TabsContent value="health" className="space-y-4">
+            <TabsContent value="health" className="space-y-3 mt-3">
               <SystemHealthSettings />
             </TabsContent>
           )}
