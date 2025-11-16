@@ -88,17 +88,19 @@ const NativeFeaturesDemo: React.FC = () => {
       <main className="max-w-5xl mx-auto px-6 py-10 space-y-8 relative z-10">
         
         {/* Environment Info */}
-        <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-sm animate-fade-in hover:shadow-3xl transition-all duration-300">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500"></div>
-          <CardHeader>
+        <Card className="border-0 shadow-2xl bg-gradient-to-br from-white via-purple-50 to-pink-50 backdrop-blur-sm animate-fade-in hover:shadow-3xl hover:scale-[1.02] transition-all duration-300">
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 animate-pulse"></div>
+          <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-3 text-2xl">
-              <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg">
-                <Smartphone className="w-6 h-6 text-white" />
+              <div className="p-3 bg-gradient-to-br from-purple-600 via-purple-500 to-pink-500 rounded-xl shadow-lg animate-pulse">
+                <Smartphone className="w-7 h-7 text-white" />
               </div>
-              Environment Information
+              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Environment Information
+              </span>
             </CardTitle>
-            <CardDescription className="text-base">
-              Current platform and native capabilities 🚀
+            <CardDescription className="text-base ml-14">
+              Current platform and native capabilities 🚀✨
             </CardDescription>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-4">
