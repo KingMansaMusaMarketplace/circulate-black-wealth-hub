@@ -76,19 +76,12 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
-      // Prevent iOS bounce scroll
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
     } else {
       document.body.style.overflow = 'unset';
-      document.body.style.position = 'unset';
-      document.body.style.width = 'unset';
     }
 
     return () => {
       document.body.style.overflow = 'unset';
-      document.body.style.position = 'unset';
-      document.body.style.width = 'unset';
     };
   }, [mobileMenuOpen]);
 
