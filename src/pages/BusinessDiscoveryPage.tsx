@@ -133,49 +133,63 @@ const BusinessDiscoveryPage = () => {
         <meta name="description" content="Find and support amazing Black-owned businesses in your community. Browse restaurants, services, retail stores and more." />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-20 w-[32rem] h-[32rem] bg-pink-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-rose-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
-          <div className="container mx-auto px-4 py-12">
-            <div className="text-center mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Discover Amazing Black-Owned Businesses
+        <div className="bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent_50%)]" />
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"></div>
+          
+          <div className="container mx-auto px-4 py-16 relative z-10">
+            <div className="text-center mb-10 animate-fade-in">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
+                Discover Amazing <span className="text-yellow-300">Black-Owned</span> Businesses
               </h1>
-              <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto">
-                Support your community while finding incredible services, products, and experiences
+              <p className="text-2xl text-white/95 max-w-2xl mx-auto font-medium">
+                Support your community while finding incredible services, products, and experiences 🌟
               </p>
             </div>
 
             {/* Search Bar */}
             <div className="max-w-4xl mx-auto">
-              <div className="bg-background rounded-lg p-6 shadow-lg">
-                <div className="flex flex-col md:flex-row gap-4">
-                  <div className="flex-1 relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-                    <Input
-                      placeholder="Search businesses, categories, or locations..."
-                      style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pl-10"
-                    />
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-orange-400/30 to-pink-400/30 rounded-3xl blur-xl"></div>
+                <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex-1 relative">
+                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-600 h-6 w-6" />
+                      <Input
+                        placeholder="Search businesses, categories, or locations... 🔍"
+                        style={{ WebkitTextFillColor: '#111827', opacity: 1 }}
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="pl-14 h-14 rounded-2xl text-lg border-2 border-purple-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20"
+                      />
+                    </div>
+                    <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                      <SelectTrigger className="w-full md:w-52 h-14 rounded-2xl border-2 border-purple-200 text-lg font-medium">
+                        <SelectValue placeholder="Category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map(category => (
+                          <SelectItem key={category} value={category}>
+                            {category === 'all' ? 'All Categories' : category}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <Button className="h-14 px-8 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 hover:from-purple-600 hover:to-rose-600 text-white rounded-2xl shadow-xl border-0 text-lg font-semibold">
+                      <Search className="h-5 w-5 mr-2" />
+                      Search
+                    </Button>
                   </div>
-                  <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger className="w-full md:w-48">
-                      <SelectValue placeholder="Category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categories.map(category => (
-                        <SelectItem key={category} value={category}>
-                          {category === 'all' ? 'All Categories' : category}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Button className="bg-primary hover:bg-primary/90">
-                    <Search className="h-4 w-4 mr-2" />
-                    Search
-                  </Button>
                 </div>
               </div>
             </div>
@@ -183,14 +197,15 @@ const BusinessDiscoveryPage = () => {
         </div>
 
         {/* Filters & Controls */}
-        <div className="border-b bg-background/95 backdrop-blur sticky top-0 z-40">
-          <div className="container mx-auto px-4 py-4">
+        <div className="border-b bg-white/95 backdrop-blur sticky top-0 z-40 shadow-lg relative">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500"></div>
+          <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <Filter className="h-4 w-4 text-muted-foreground" />
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-3">
+                  <Filter className="h-5 w-5 text-purple-600" />
                   <Select value={selectedRating} onValueChange={setSelectedRating}>
-                    <SelectTrigger className="w-32">
+                    <SelectTrigger className="w-36 border-2 border-purple-200 font-medium">
                       <SelectValue placeholder="Rating" />
                     </SelectTrigger>
                     <SelectContent>
@@ -202,10 +217,10 @@ const BusinessDiscoveryPage = () => {
                   </Select>
                 </div>
                 
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Sort:</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-medium text-gray-700">Sort:</span>
                   <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-36">
+                    <SelectTrigger className="w-40 border-2 border-purple-200 font-medium">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -218,26 +233,26 @@ const BusinessDiscoveryPage = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-muted-foreground">
-                  {filteredBusinesses.length} businesses found
+              <div className="flex items-center gap-6">
+                <span className="text-sm font-bold text-gray-900">
+                  {filteredBusinesses.length} businesses found 🎯
                 </span>
-                <div className="flex items-center border rounded-lg p-1">
+                <div className="flex items-center border-2 border-purple-200 rounded-xl p-1 bg-purple-50">
                   <Button
                     variant={viewMode === 'grid' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('grid')}
-                    className="h-8 w-8 p-0"
+                    className={`h-10 w-10 p-0 rounded-lg ${viewMode === 'grid' ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600' : ''}`}
                   >
-                    <Grid className="h-4 w-4" />
+                    <Grid className="h-5 w-5" />
                   </Button>
                   <Button
                     variant={viewMode === 'list' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('list')}
-                    className="h-8 w-8 p-0"
+                    className={`h-10 w-10 p-0 rounded-lg ${viewMode === 'list' ? 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600' : ''}`}
                   >
-                    <List className="h-4 w-4" />
+                    <List className="h-5 w-5" />
                   </Button>
                 </div>
               </div>
@@ -246,22 +261,25 @@ const BusinessDiscoveryPage = () => {
         </div>
 
         {/* Business Listings */}
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-12 relative z-10">
           {filteredBusinesses.length === 0 ? (
-            <div className="text-center py-12">
-              <Alert className="max-w-md mx-auto">
-                <AlertDescription>
-                  {businesses.length === 0 
-                    ? "No businesses have joined yet. Be the first to list your business!"
-                    : "No businesses match your search criteria. Try adjusting your filters."
-                  }
-                </AlertDescription>
-              </Alert>
+            <div className="text-center py-16">
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/30 via-pink-400/30 to-rose-400/30 rounded-3xl blur-xl"></div>
+                <Alert className="max-w-md mx-auto bg-white/95 backdrop-blur-sm border-2 border-purple-200 relative shadow-xl">
+                  <AlertDescription className="text-lg text-gray-700">
+                    {businesses.length === 0 
+                      ? "No businesses have joined yet. Be the first to list your business! 🚀"
+                      : "No businesses match your search criteria. Try adjusting your filters. 🔍"
+                    }
+                  </AlertDescription>
+                </Alert>
+              </div>
             </div>
           ) : (
             <div className={viewMode === 'grid' 
-              ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6' 
-              : 'space-y-4'
+              ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in' 
+              : 'space-y-4 animate-fade-in'
             }>
               {filteredBusinesses.map((business) => (
                 <BusinessCard 
