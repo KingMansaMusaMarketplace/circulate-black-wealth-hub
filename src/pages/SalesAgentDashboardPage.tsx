@@ -137,13 +137,21 @@ const SalesAgentDashboardPage: React.FC = () => {
     .reduce((sum, b) => sum + parseFloat(b.bonus_amount), 0);
 
   return (
-    <ResponsiveLayout title="Agent Dashboard">
-      <Helmet>
-        <title>Sales Agent Dashboard | Mansa Musa Marketplace</title>
-        <meta name="description" content="Manage your sales agent account and track your earnings" />
-      </Helmet>
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-amber-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-orange-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 right-1/4 w-72 h-72 bg-yellow-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </div>
 
-      <div className="max-w-7xl mx-auto space-y-6">
+      <ResponsiveLayout title="Agent Dashboard">
+        <Helmet>
+          <title>Sales Agent Dashboard | Mansa Musa Marketplace</title>
+          <meta name="description" content="Manage your sales agent account and track your earnings" />
+        </Helmet>
+
+        <div className="max-w-7xl mx-auto space-y-6 relative z-10">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
@@ -281,8 +289,9 @@ const SalesAgentDashboardPage: React.FC = () => {
             />
           </TabsContent>
         </Tabs>
-      </div>
-    </ResponsiveLayout>
+        </div>
+      </ResponsiveLayout>
+    </div>
   );
 };
 
