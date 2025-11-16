@@ -91,6 +91,7 @@ const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
 const LazyFeatureDiscoveryPage = lazy(() => import('@/components/onboarding/FeatureDiscovery'));
+const LazyCustomersPage = lazy(() => import('@/pages/CustomersPage'));
 const LazyAppleComplianceTestPage = lazy(() => import('@/pages/AppleComplianceTestPage'));
 const LazyPreSubmissionChecklistPage = lazy(() => import('@/pages/PreSubmissionChecklistPage'));
 const LazyMasterAppleReviewTestPage = lazy(() => import('@/pages/MasterAppleReviewTestPage'));
@@ -391,6 +392,7 @@ function App() {
                               <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                               <Route path="/challenges" element={<LazyGroupChallengesPage />} />
                               <Route path="/referrals" element={<LazyReferralDashboard />} />
+                              <Route path="/customers" element={<LazyCustomersPage />} />
                               <Route path="/share-impact" element={<LazyShareImpactPage />} />
               <Route path="/impact" element={<LazyImpactPage />} />
                               <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
