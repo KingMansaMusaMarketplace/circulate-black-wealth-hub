@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -270,7 +271,7 @@ const AccessibilityFeatures = () => {
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-500">
               We are continuously working to improve our accessibility features. If you have suggestions or encounter any issues, please{" "}
-              <a href="/contact" className="text-mansablue hover:underline">contact us</a>.
+              <Link to="/contact" className="text-mansablue hover:underline">contact us</Link>.
             </p>
           </div>
         </div>
