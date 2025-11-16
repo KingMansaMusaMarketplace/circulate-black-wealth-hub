@@ -19,7 +19,7 @@ const ProfileHeader = () => {
   };
 
   return (
-    <Card className="mb-6">
+    <Card className="mb-4">
       <CardHeader className="pb-3">
         <div className="flex items-center space-x-4">
           <Avatar className="h-16 w-16">

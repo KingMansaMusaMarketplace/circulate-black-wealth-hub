@@ -29,7 +29,7 @@ const ProfilePage = () => {
 
   return (
     <DashboardLayout title="Account Settings">
-      <div className="space-y-6">
+      <div className="space-y-4">
         <ProfileHeader />
         
         <Tabs 
@@ -44,16 +44,16 @@ const ProfilePage = () => {
             {isAdmin && <TabsTrigger value="health">System Health</TabsTrigger>}
           </TabsList>
           
-          <TabsContent value="profile" className="space-y-6">
+          <TabsContent value="profile" className="space-y-4">
             <ProfileForm />
           </TabsContent>
           
-          <TabsContent value="security" className="space-y-6">
+          <TabsContent value="security" className="space-y-4">
             <SecuritySettings />
           </TabsContent>
           
           {isAdmin && (
-            <TabsContent value="health" className="space-y-6">
+            <TabsContent value="health" className="space-y-4">
               <SystemHealthSettings />
             </TabsContent>
           )}
