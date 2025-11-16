@@ -29,39 +29,35 @@ const ProfilePage = () => {
 
   return (
     <DashboardLayout title="Account Settings">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6">Account Settings</h1>
-        
+      <div className="space-y-6">
         <ProfileHeader />
         
-        <div className="mt-8">
-          <Tabs 
-            defaultValue={tab} 
-            value={tab} 
-            onValueChange={handleTabChange}
-            className="space-y-4"
-          >
-            <TabsList className="grid grid-cols-3 w-full max-w-md">
-              <TabsTrigger value="profile">Profile</TabsTrigger>
-              <TabsTrigger value="security">Security</TabsTrigger>
-              {isAdmin && <TabsTrigger value="health">System Health</TabsTrigger>}
-            </TabsList>
-            
-            <TabsContent value="profile" className="space-y-6">
-              <ProfileForm />
+        <Tabs 
+          defaultValue={tab} 
+          value={tab} 
+          onValueChange={handleTabChange}
+          className="space-y-4"
+        >
+          <TabsList className="grid grid-cols-3 w-full max-w-md">
+            <TabsTrigger value="profile">Profile</TabsTrigger>
+            <TabsTrigger value="security">Security</TabsTrigger>
+            {isAdmin && <TabsTrigger value="health">System Health</TabsTrigger>}
+          </TabsList>
+          
+          <TabsContent value="profile" className="space-y-6">
+            <ProfileForm />
+          </TabsContent>
+          
+          <TabsContent value="security" className="space-y-6">
+            <SecuritySettings />
+          </TabsContent>
+          
+          {isAdmin && (
+            <TabsContent value="health" className="space-y-6">
+              <SystemHealthSettings />
             </TabsContent>
-            
-            <TabsContent value="security" className="space-y-6">
-              <SecuritySettings />
-            </TabsContent>
-            
-            {isAdmin && (
-              <TabsContent value="health" className="space-y-6">
-                <SystemHealthSettings />
-              </TabsContent>
-            )}
-          </Tabs>
-        </div>
+          )}
+        </Tabs>
       </div>
     </DashboardLayout>
   );
