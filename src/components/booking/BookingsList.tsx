@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { Calendar, Clock, DollarSign, X, CheckCircle, XCircle } from 'lucide-react';
+import { Calendar, Clock, DollarSign, X, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -86,23 +86,37 @@ export function BookingsList({ businessId, customerId }: BookingsListProps) {
   };
 
   const getStatusBadge = (status: Booking['status']) => {
-    const variants: Record<Booking['status'], { variant: any; label: string }> = {
-      pending: { variant: 'secondary', label: 'Pending' },
-      confirmed: { variant: 'default', label: 'Confirmed' },
-      completed: { variant: 'default', label: 'Completed' },
-      cancelled: { variant: 'destructive', label: 'Cancelled' },
-      no_show: { variant: 'destructive', label: 'No Show' },
+    const variants: Record<Booking['status'], { variant: any; label: string; gradient: string }> = {
+      pending: { variant: 'secondary', label: 'Pending', gradient: 'from-yellow-50 to-yellow-100/50 border-yellow-200' },
+      confirmed: { variant: 'default', label: 'Confirmed', gradient: 'from-blue-50 to-blue-100/50 border-blue-200' },
+      completed: { variant: 'default', label: 'Completed', gradient: 'from-green-50 to-green-100/50 border-green-200' },
+      cancelled: { variant: 'destructive', label: 'Cancelled', gradient: 'from-red-50 to-red-100/50 border-red-200' },
+      no_show: { variant: 'destructive', label: 'No Show', gradient: 'from-gray-50 to-gray-100/50 border-gray-200' },
     };
 
     const config = variants[status];
     return <Badge variant={config.variant}>{config.label}</Badge>;
   };
 
+  const getCardGradient = (status: Booking['status']) => {
+    const variants: Record<Booking['status'], string> = {
+      pending: 'from-yellow-50 to-yellow-100/50 border-yellow-200',
+      confirmed: 'from-blue-50 to-blue-100/50 border-blue-200',
+      completed: 'from-green-50 to-green-100/50 border-green-200',
+      cancelled: 'from-red-50 to-red-100/50 border-red-200',
+      no_show: 'from-gray-50 to-gray-100/50 border-gray-200',
+    };
+    return variants[status];
+  };
+
   if (loading) {
     return (
-      <Card>
+      <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100/50 shadow-lg">
         <CardContent className="pt-6">
-          <div className="text-center">Loading bookings...</div>
+          <div className="text-center text-blue-700 font-medium">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2 text-blue-500" />
+            Loading bookings...
+          </div>
         </CardContent>
       </Card>
     );
@@ -110,10 +124,12 @@ export function BookingsList({ businessId, customerId }: BookingsListProps) {
 
   if (bookings.length === 0) {
     return (
-      <Card>
+      <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100/50 shadow-lg">
         <CardContent className="pt-6">
-          <div className="text-center text-muted-foreground">
-            No bookings found.
+          <div className="text-center">
+            <Calendar className="w-16 h-16 mx-auto mb-4 text-purple-500" />
+            <p className="text-purple-700 font-medium">No bookings found.</p>
+            <p className="text-purple-600 text-sm mt-2">Your bookings will appear here once customers make appointments.</p>
           </div>
         </CardContent>
       </Card>
@@ -123,7 +139,7 @@ export function BookingsList({ businessId, customerId }: BookingsListProps) {
   return (
     <div className="space-y-4">
       {bookings.map((booking: any) => (
-        <Card key={booking.id}>
+        <Card key={booking.id} className={`bg-gradient-to-br ${getCardGradient(booking.status)} shadow-lg hover:shadow-xl transition-shadow`}>
           <CardHeader>
             <div className="flex items-start justify-between">
               <div>
