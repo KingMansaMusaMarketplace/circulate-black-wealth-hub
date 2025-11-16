@@ -40,24 +40,24 @@ const EnhancedSignupForm: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-8 animate-fade-in">
-      <div className="grid gap-6 md:grid-cols-2">
+    <div className="w-full max-w-6xl mx-auto space-y-8 animate-fade-in">
+      <div className="grid gap-8 md:grid-cols-2">
         <Card 
-          className="relative cursor-pointer transition-all duration-500 hover:shadow-2xl group hover:-translate-y-2 border-2 hover:border-mansablue/60 p-8"
+          className="relative cursor-pointer transition-all duration-500 hover:shadow-2xl group hover:-translate-y-2 border-2 hover:border-mansablue/60 p-12"
           onClick={() => setSelectedTab('customer')}
         >
-          <div className="text-center space-y-6">
-            <div className="w-24 h-24 rounded-3xl bg-gradient-primary text-white flex items-center justify-center mx-auto shadow-xl group-hover:scale-110 transition-transform duration-300">
-              <Users className="h-12 w-12" />
+          <div className="text-center space-y-9">
+            <div className="w-36 h-36 rounded-3xl bg-gradient-primary text-white flex items-center justify-center mx-auto shadow-xl group-hover:scale-110 transition-transform duration-300">
+              <Users className="h-18 w-18" />
             </div>
             <div>
-              <h3 className="text-3xl font-bold mb-3 group-hover:text-mansablue transition-colors">I'm a Customer</h3>
-              <p className="text-muted-foreground text-base leading-relaxed">
+              <h3 className="text-4xl font-bold mb-4 group-hover:text-mansablue transition-colors">I'm a Customer</h3>
+              <p className="text-muted-foreground text-lg leading-relaxed">
                 Support Black-owned businesses, earn rewards, and discover amazing local spots
               </p>
             </div>
-            <div className="pt-4">
-              <div className="inline-flex items-center gap-2 text-sm font-semibold text-mansablue">
+            <div className="pt-6">
+              <div className="inline-flex items-center gap-2 text-base font-semibold text-mansablue">
                 Get Started
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </div>
@@ -66,21 +66,21 @@ const EnhancedSignupForm: React.FC = () => {
         </Card>
 
         <Card 
-          className="relative cursor-pointer transition-all duration-500 hover:shadow-2xl group hover:-translate-y-2 border-2 hover:border-mansablue/60 p-8"
+          className="relative cursor-pointer transition-all duration-500 hover:shadow-2xl group hover:-translate-y-2 border-2 hover:border-mansablue/60 p-12"
           onClick={() => setSelectedTab('business')}
         >
-          <div className="text-center space-y-6">
-            <div className="w-24 h-24 rounded-3xl bg-gradient-primary text-white flex items-center justify-center mx-auto shadow-xl group-hover:scale-110 transition-transform duration-300">
-              <Building className="h-12 w-12" />
+          <div className="text-center space-y-9">
+            <div className="w-36 h-36 rounded-3xl bg-gradient-primary text-white flex items-center justify-center mx-auto shadow-xl group-hover:scale-110 transition-transform duration-300">
+              <Building className="h-18 w-18" />
             </div>
             <div>
-              <h3 className="text-3xl font-bold mb-3 group-hover:text-mansablue transition-colors">I'm a Business</h3>
-              <p className="text-muted-foreground text-base leading-relaxed">
+              <h3 className="text-4xl font-bold mb-4 group-hover:text-mansablue transition-colors">I'm a Business</h3>
+              <p className="text-muted-foreground text-lg leading-relaxed">
                 List your business, connect with customers, and grow your community presence
               </p>
             </div>
-            <div className="pt-4">
-              <div className="inline-flex items-center gap-2 text-sm font-semibold text-mansablue">
+            <div className="pt-6">
+              <div className="inline-flex items-center gap-2 text-base font-semibold text-mansablue">
                 Get Started
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </div>
