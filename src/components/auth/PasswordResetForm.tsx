@@ -43,8 +43,11 @@ const PasswordResetForm: React.FC = () => {
 
   if (isSubmitted) {
     return (
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader className="text-center">
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-mansablue/20 to-mansagold/20 rounded-3xl blur-xl" />
+        <Card className="relative bg-card/95 backdrop-blur-sm border-2 border-border/40 shadow-xl rounded-3xl overflow-hidden w-full max-w-md mx-auto">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-purple-600 to-mansagold" />
+        <CardHeader className="text-center pt-8">
           <div className="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
             <Mail className="w-6 h-6 text-green-600" />
           </div>
@@ -76,13 +79,17 @@ const PasswordResetForm: React.FC = () => {
             </Link>
           </div>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
     );
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
+    <div className="relative">
+      <div className="absolute inset-0 bg-gradient-to-br from-mansablue/20 to-mansagold/20 rounded-3xl blur-xl" />
+      <Card className="relative bg-card/95 backdrop-blur-sm border-2 border-border/40 shadow-xl rounded-3xl overflow-hidden w-full max-w-md mx-auto">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-purple-600 to-mansagold" />
+      <CardHeader className="pt-8">
         <CardTitle className="text-2xl text-center text-mansablue">
           Reset Your Password
         </CardTitle>
@@ -124,7 +131,8 @@ const PasswordResetForm: React.FC = () => {
           </div>
         </form>
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 };
 

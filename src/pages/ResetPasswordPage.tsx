@@ -28,10 +28,22 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex-grow flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
+    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+      {/* Animated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 via-background to-mansagold/10" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-purple-500/20 via-transparent to-transparent" />
+      
+      {/* Decorative elements */}
+      <div className="absolute top-20 right-20 w-72 h-72 bg-mansagold/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+
+      <div className="relative z-10 flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-md animate-fade-in">
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-mansablue/20 to-mansagold/20 rounded-3xl blur-xl" />
+        <Card className="relative bg-card/95 backdrop-blur-sm border-2 border-border/40 shadow-xl rounded-3xl overflow-hidden w-full">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-purple-600 to-mansagold" />
+              <CardHeader className="text-center pt-8">
             <CardTitle className="text-2xl font-bold text-mansablue">
               Reset Your Password
             </CardTitle>
@@ -97,7 +109,9 @@ const ResetPasswordPage = () => {
               </div>
             </form>
           )}
-        </Card>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
