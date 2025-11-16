@@ -90,6 +90,7 @@ const LazySponsorDashboard = lazy(() => import('@/pages/SponsorDashboard'));
 const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
 const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
+const LazyFeatureDiscoveryPage = lazy(() => import('@/components/onboarding/FeatureDiscovery'));
 const LazyAppleComplianceTestPage = lazy(() => import('@/pages/AppleComplianceTestPage'));
 const LazyPreSubmissionChecklistPage = lazy(() => import('@/pages/PreSubmissionChecklistPage'));
 const LazyMasterAppleReviewTestPage = lazy(() => import('@/pages/MasterAppleReviewTestPage'));
@@ -379,6 +380,7 @@ function App() {
                               <Route path="/accessibility" element={<LazyAccessibilityPage />} />
                               
                               <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
+                              <Route path="/features" element={<LazyFeatureDiscoveryPage />} />
                               <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
                               <Route path="/my-profile" element={<LazyUserProfilePage />} />
                               <Route path="/user-profile" element={<LazyUserProfilePage />} />
