@@ -95,77 +95,94 @@ const BlogPage = () => {
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="bg-mansablue py-20">
-          <div className="container mx-auto px-4">
+        <div className="relative overflow-hidden bg-gradient-to-br from-purple-600 via-primary to-pink-600 text-white py-20">
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+          <div className="container mx-auto px-4 relative">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 bg-mansagold rounded-full flex items-center justify-center">
-                  <BookOpen className="h-8 w-8 text-mansablue" />
+                <div className="p-4 bg-white/10 rounded-full backdrop-blur-sm animate-bounce-subtle">
+                  <BookOpen className="h-12 w-12 text-yellow-300" />
                 </div>
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Mansa Musa Marketplace Blog
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
+                Mansa Musa Marketplace Blog 📚
               </h1>
-              <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+              <p className="text-xl text-white/90 max-w-2xl mx-auto font-medium">
                 Stories, insights, and updates from our community of entrepreneurs 
-                and supporters building Black economic empowerment.
+                and supporters building Black economic empowerment ✨
               </p>
             </div>
           </div>
         </div>
         
         {/* Coming Soon Section */}
-        <div className="py-20 bg-gray-50">
+        <div className="py-20 bg-background">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-mansablue mb-4">Coming Soon</h2>
-                <p className="text-gray-600 max-w-2xl mx-auto">
+                <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 via-primary to-pink-600 bg-clip-text text-transparent mb-4">
+                  Coming Soon 🚀
+                </h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
                   We're preparing valuable content about economic empowerment, 
                   business success stories, and community impact. Stay tuned!
                 </p>
               </div>
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                {comingSoonPosts.map((post, index) => (
-                  <Card key={index} className="border-mansagold/20 hover:border-mansagold/40 transition-colors">
-                    <CardHeader>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-semibold text-mansagold bg-mansagold/10 px-2 py-1 rounded">
-                          {post.category}
-                        </span>
-                        <span className="text-xs text-gray-500">Coming Soon</span>
-                      </div>
-                      <CardTitle className="text-lg text-mansablue-dark">
-                        {post.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-gray-600 text-sm mb-4">
-                        {post.excerpt}
-                      </p>
-                      <div className="flex items-center justify-between text-xs text-gray-500">
-                        <div className="flex items-center">
-                          <User className="h-3 w-3 mr-1" />
-                          {post.author}
+                {comingSoonPosts.map((post, index) => {
+                  const gradients = [
+                    { card: 'from-blue-50 via-cyan-50 to-blue-50', border: 'border-blue-200', badge: 'from-blue-500 to-cyan-600', text: 'text-blue-700' },
+                    { card: 'from-green-50 via-emerald-50 to-green-50', border: 'border-green-200', badge: 'from-green-500 to-emerald-600', text: 'text-green-700' },
+                    { card: 'from-purple-50 via-pink-50 to-purple-50', border: 'border-purple-200', badge: 'from-purple-500 to-pink-600', text: 'text-purple-700' }
+                  ];
+                  const style = gradients[index % gradients.length];
+                  
+                  return (
+                    <Card key={index} className={`border-2 bg-gradient-to-br ${style.card} ${style.border} hover:shadow-xl transition-all hover:scale-105`}>
+                      <CardHeader>
+                        <div className="flex items-center justify-between mb-3">
+                          <span className={`text-xs font-bold text-white bg-gradient-to-r ${style.badge} px-3 py-1.5 rounded-full shadow-lg`}>
+                            {post.category}
+                          </span>
+                          <span className="text-xs font-semibold text-orange-600 bg-orange-100 px-2 py-1 rounded-full">Coming Soon</span>
                         </div>
-                        <div className="flex items-center">
-                          <Clock className="h-3 w-3 mr-1" />
-                          {post.readTime}
+                        <CardTitle className={`text-lg ${style.text} font-bold`}>
+                          {post.title}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-foreground/80 text-sm mb-4 leading-relaxed">
+                          {post.excerpt}
+                        </p>
+                        <div className="flex items-center justify-between text-xs text-foreground/60">
+                          <div className="flex items-center gap-1 font-medium">
+                            <User className="h-3 w-3" />
+                            {post.author}
+                          </div>
+                          <div className="flex items-center gap-1 font-medium">
+                            <Clock className="h-3 w-3" />
+                            {post.readTime}
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
 
               {/* Newsletter Signup */}
-              <Card className="bg-white border-mansagold/20">
+              <Card className="border-2 bg-gradient-to-br from-indigo-50 via-blue-50 to-indigo-50 border-indigo-200 hover:shadow-xl transition-all">
                 <CardContent className="p-8 text-center">
-                  <h3 className="text-2xl font-bold text-mansablue mb-4">
-                    Stay Updated
+                  <div className="inline-block mb-4">
+                    <div className="p-3 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl shadow-lg">
+                      <BookOpen className="h-8 w-8 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="text-3xl font-bold bg-gradient-to-r from-indigo-700 via-blue-700 to-indigo-700 bg-clip-text text-transparent mb-4">
+                    Stay Updated 📬
                   </h3>
-                  <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                  <p className="text-foreground/80 mb-6 max-w-md mx-auto text-lg">
                     Be the first to know when we publish new articles about 
                     economic empowerment and business success.
                   </p>
@@ -175,12 +192,12 @@ const BlogPage = () => {
                       placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="flex-grow"
+                      className="flex-grow border-2 border-indigo-200 focus:border-indigo-500"
                       required
                     />
                     <Button 
                       type="submit"
-                      className="bg-mansablue hover:bg-mansablue-dark text-white"
+                      className="bg-gradient-to-r from-indigo-500 to-blue-600 hover:opacity-90 text-white font-semibold shadow-lg"
                       disabled={isSubscribing}
                     >
                       {isSubscribing ? 'Subscribing...' : 'Subscribe'}
