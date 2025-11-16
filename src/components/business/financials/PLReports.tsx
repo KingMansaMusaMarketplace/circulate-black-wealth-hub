@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, TrendingUp, TrendingDown } from 'lucide-react';
+import { Loader2, TrendingUp, TrendingDown, Download } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { DateRangeFilter } from './DateRangeFilter';
+import { exportPLReportToPDF, exportToCSV } from '@/lib/utils/export-utils';
 
 interface PLReportsProps {
   businessId: string;
@@ -11,31 +14,36 @@ interface PLReportsProps {
 
 export const PLReports: React.FC<PLReportsProps> = ({ businessId }) => {
   const [loading, setLoading] = useState(true);
-  const [period, setPeriod] = useState<'month' | 'quarter' | 'year'>('month');
+  const [period, setPeriod] = useState<'month' | 'quarter' | 'year' | 'custom'>('month');
   const [plData, setPlData] = useState<any>(null);
+  const [startDate, setStartDate] = useState<Date | undefined>();
+  const [endDate, setEndDate] = useState<Date | undefined>();
 
   useEffect(() => {
     loadPLData();
-  }, [businessId, period]);
+  }, [businessId, period, startDate, endDate]);
 
   const loadPLData = async () => {
     setLoading(true);
     try {
-      const startDate = getStartDate(period);
+      const dateStart = period === 'custom' && startDate ? startDate : getStartDate(period);
+      const dateEnd = period === 'custom' && endDate ? endDate : new Date();
       
       // Fetch revenue from bookings
       const { data: bookings } = await supabase
         .from('bookings')
         .select('amount, booking_date, status')
         .eq('business_id', businessId)
-        .gte('booking_date', startDate.toISOString());
+        .gte('booking_date', dateStart.toISOString())
+        .lte('booking_date', dateEnd.toISOString());
 
       // Fetch expenses
       const { data: expenses } = await supabase
         .from('expenses')
         .select('amount, expense_date, category')
         .eq('business_id', businessId)
-        .gte('expense_date', startDate.toISOString().split('T')[0]);
+        .gte('expense_date', dateStart.toISOString().split('T')[0])
+        .lte('expense_date', dateEnd.toISOString().split('T')[0]);
 
       const totalRevenue = bookings?.filter(b => b.status === 'completed')
         .reduce((sum, b) => sum + Number(b.amount), 0) || 0;
@@ -127,22 +135,46 @@ export const PLReports: React.FC<PLReportsProps> = ({ businessId }) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h3 className="text-2xl font-bold">Profit & Loss Report</h3>
           <p className="text-muted-foreground">Track your business financial performance</p>
         </div>
-        <Select value={period} onValueChange={(value: any) => setPeriod(value)}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="month">This Month</SelectItem>
-            <SelectItem value="quarter">This Quarter</SelectItem>
-            <SelectItem value="year">This Year</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => exportPLReportToPDF(plData, 'Business', period)}
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Export PDF
+          </Button>
+          <Select value={period} onValueChange={(value: any) => setPeriod(value)}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="month">This Month</SelectItem>
+              <SelectItem value="quarter">This Quarter</SelectItem>
+              <SelectItem value="year">This Year</SelectItem>
+              <SelectItem value="custom">Custom Range</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
+
+      {period === 'custom' && (
+        <Card>
+          <CardContent className="pt-6">
+            <DateRangeFilter
+              startDate={startDate}
+              endDate={endDate}
+              onStartDateChange={setStartDate}
+              onEndDateChange={setEndDate}
+            />
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
