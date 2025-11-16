@@ -6,9 +6,10 @@ import { StreakTracker } from '@/components/gamification/StreakTracker';
 import { Leaderboard } from '@/components/gamification/Leaderboard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, TrendingUp, Users, Landmark, Award, Target, Gift, Share2 } from 'lucide-react';
+import { Sparkles, TrendingUp, Users, Landmark, Award, Target, Gift, Share2, Lightbulb } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useCommunityInvestments, useSavingsCircles } from '@/hooks/use-community-finance';
+import { BusinessFeaturesTour } from '@/components/onboarding/BusinessFeaturesTour';
 
 const UnifiedDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -25,6 +26,7 @@ const UnifiedDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <BusinessFeaturesTour />
       <div className="container mx-auto px-4 py-8 space-y-8">
         {/* Welcome Header */}
         <div className="flex items-start justify-between gap-4">
@@ -36,13 +38,24 @@ const UnifiedDashboard: React.FC = () => {
               Your personalized hub for community impact and growth
             </p>
           </div>
-          <Button
-            onClick={() => navigate('/share-impact')}
-            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
-          >
-            <Share2 className="w-4 h-4 mr-2" />
-            Share Impact
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => navigate('/features')}
+              variant="outline"
+              className="border-primary/20"
+              data-tour="features-btn"
+            >
+              <Lightbulb className="w-4 h-4 mr-2" />
+              Discover Features
+            </Button>
+            <Button
+              onClick={() => navigate('/share-impact')}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
+            >
+              <Share2 className="w-4 h-4 mr-2" />
+              Share Impact
+            </Button>
+          </div>
         </div>
 
         {/* Quick Stats Overview */}
