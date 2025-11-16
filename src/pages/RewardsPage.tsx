@@ -46,10 +46,10 @@ const RewardsPage = () => {
   const [redeeming, setRedeeming] = useState<string | null>(null);
 
   const tiers = [
-    { name: 'Bronze', min: 0, max: 499, color: 'bg-amber-600', benefits: ['5% bonus points', 'Basic rewards access'] },
-    { name: 'Silver', min: 500, max: 1999, color: 'bg-gray-400', benefits: ['10% bonus points', 'Premium rewards access'] },
-    { name: 'Gold', min: 2000, max: 4999, color: 'bg-yellow-500', benefits: ['15% bonus points', 'Exclusive rewards', 'Early access'] },
-    { name: 'Platinum', min: 5000, max: Infinity, color: 'bg-purple-600', benefits: ['20% bonus points', 'VIP experiences', 'Personal concierge'] }
+    { name: 'Bronze', min: 0, max: 499, color: 'bg-gradient-to-r from-amber-600 to-orange-600', textColor: 'text-amber-600', benefits: ['5% bonus points', 'Basic rewards access'], icon: '🥉' },
+    { name: 'Silver', min: 500, max: 1999, color: 'bg-gradient-to-r from-gray-400 to-gray-600', textColor: 'text-gray-500', benefits: ['10% bonus points', 'Premium rewards access'], icon: '🥈' },
+    { name: 'Gold', min: 2000, max: 4999, color: 'bg-gradient-to-r from-mansagold to-yellow-400', textColor: 'text-mansagold', benefits: ['15% bonus points', 'Exclusive rewards', 'Early access'], icon: '🥇' },
+    { name: 'Platinum', min: 5000, max: Infinity, color: 'bg-gradient-to-r from-purple-600 to-pink-600', textColor: 'text-purple-600', benefits: ['20% bonus points', 'VIP experiences', 'Personal concierge'], icon: '💎' }
   ];
 
   useEffect(() => {
@@ -157,7 +157,10 @@ const RewardsPage = () => {
 
       if (error) throw error;
 
-      toast.success(`Successfully redeemed ${reward.title}!`);
+      toast.success(`🎉 Successfully redeemed ${reward.title}!`, {
+        description: `You spent ${reward.points_cost} points. Check your email for redemption details.`,
+        duration: 5000,
+      });
       
       // Reload user points to reflect the redemption
       await loadUserPoints();
@@ -206,54 +209,73 @@ const RewardsPage = () => {
 
       <div className="min-h-screen bg-background">
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground">
-          <div className="container mx-auto px-4 py-12">
+        <div className="relative overflow-hidden bg-gradient-to-br from-mansablue via-primary to-mansagold text-white">
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+          <div className="container mx-auto px-4 py-12 relative">
             <div className="text-center mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Rewards & Points
+              <div className="inline-block mb-4">
+                <div className="p-4 bg-white/10 rounded-full backdrop-blur-sm animate-bounce-subtle">
+                  <Gift className="h-16 w-16 text-mansagold" />
+                </div>
+              </div>
+              <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent">
+                Rewards & Points 🎁
               </h1>
-              <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto">
-                Earn points by supporting Black-owned businesses and unlock exclusive rewards
+              <p className="text-xl text-white/90 max-w-2xl mx-auto font-medium">
+                Earn points by supporting Black-owned businesses and unlock exclusive rewards ✨
               </p>
             </div>
 
             {/* Points Summary Card */}
-            <Card className="max-w-4xl mx-auto bg-white/10 backdrop-blur border-white/20">
+            <Card className="max-w-4xl mx-auto bg-white/95 backdrop-blur border-2 border-white/30 shadow-2xl">
               <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Available Points */}
-                  <div className="text-center">
+                  <div className="text-center p-4 rounded-xl bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
                     <div className="flex items-center justify-center mb-2">
-                      <Zap className="h-8 w-8 mr-2" />
-                      <span className="text-3xl font-bold">{userPoints.availablePoints}</span>
+                      <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full">
+                        <Zap className="h-6 w-6 text-white" />
+                      </div>
                     </div>
-                    <p className="text-primary-foreground/80">Available Points</p>
+                    <span className="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent block">
+                      {userPoints.availablePoints}
+                    </span>
+                    <p className="text-green-700 font-semibold mt-1">Available Points</p>
                   </div>
 
                   {/* Tier Status */}
-                  <div className="text-center">
+                  <div className="text-center p-4 rounded-xl bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
                     <div className="flex items-center justify-center mb-2">
-                      <Trophy className="h-8 w-8 mr-2" />
-                      <span className="text-3xl font-bold">{userPoints.tierLevel}</span>
+                      <div className={`p-2 ${currentTier.color} rounded-full shadow-lg`}>
+                        <Trophy className="h-6 w-6 text-white" />
+                      </div>
                     </div>
-                    <p className="text-primary-foreground/80">Current Tier</p>
+                    <span className="text-2xl mb-1 block">{currentTier.icon}</span>
+                    <span className={`text-3xl font-bold ${currentTier.textColor} block`}>
+                      {userPoints.tierLevel}
+                    </span>
+                    <p className="text-purple-700 font-semibold mt-1">Current Tier</p>
                     {userPoints.nextTierPoints > 0 && (
-                      <div className="mt-2">
-                        <Progress value={progressToNextTier} className="h-2 bg-white/20" />
-                        <p className="text-sm text-primary-foreground/70 mt-1">
-                          {userPoints.nextTierPoints} points to next tier
+                      <div className="mt-3">
+                        <Progress value={progressToNextTier} className="h-3 bg-purple-200" />
+                        <p className="text-sm text-purple-600 font-medium mt-1">
+                          {userPoints.nextTierPoints} pts to next tier
                         </p>
                       </div>
                     )}
                   </div>
 
                   {/* Lifetime Earned */}
-                  <div className="text-center">
+                  <div className="text-center p-4 rounded-xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200">
                     <div className="flex items-center justify-center mb-2">
-                      <Star className="h-8 w-8 mr-2" />
-                      <span className="text-3xl font-bold">{userPoints.totalPoints}</span>
+                      <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-full">
+                        <Star className="h-6 w-6 text-white" />
+                      </div>
                     </div>
-                    <p className="text-primary-foreground/80">Lifetime Earned</p>
+                    <span className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent block">
+                      {userPoints.totalPoints}
+                    </span>
+                    <p className="text-blue-700 font-semibold mt-1">Lifetime Earned</p>
                   </div>
                 </div>
               </CardContent>
@@ -263,19 +285,18 @@ const RewardsPage = () => {
 
         {/* Tier Benefits */}
         <div className="container mx-auto px-4 py-8">
-          <Card className="mb-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Trophy className="h-5 w-5" />
-                Your {userPoints.tierLevel} Benefits
+          <Card className="mb-8 bg-gradient-to-br from-primary/5 via-mansagold/5 to-mansablue/5 border-2 border-primary/20">
+            <CardHeader className="border-b border-primary/10">
+              <CardTitle className="text-center text-2xl bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
+                {currentTier.icon} Your {currentTier.name} Tier Benefits
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {currentTier.benefits?.map((benefit, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-500" />
-                    <span className="text-sm">{benefit}</span>
+                  <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white border border-primary/10">
+                    <CheckCircle className="h-5 w-5 text-green-600 shrink-0" />
+                    <span className="font-medium">{benefit}</span>
                   </div>
                 ))}
               </div>
@@ -284,10 +305,16 @@ const RewardsPage = () => {
 
           {/* Rewards Catalog */}
           <Tabs defaultValue="all" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="all">All Rewards</TabsTrigger>
-              <TabsTrigger value="global">Global Rewards</TabsTrigger>
-              <TabsTrigger value="business">Business Rewards</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3 mb-8 bg-gradient-to-r from-primary/10 via-mansagold/10 to-mansablue/10 p-1">
+              <TabsTrigger value="all" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">
+                🎯 All Rewards
+              </TabsTrigger>
+              <TabsTrigger value="global" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-mansagold data-[state=active]:text-white">
+                🌍 Global
+              </TabsTrigger>
+              <TabsTrigger value="business" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-500 data-[state=active]:text-white">
+                🏪 Business Exclusive
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="all" className="space-y-6">
@@ -334,11 +361,15 @@ const RewardsPage = () => {
           </Tabs>
 
           {rewards.length === 0 && (
-            <div className="text-center py-12">
-              <Gift className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-xl font-semibold mb-2">No Rewards Available</h3>
-              <p className="text-muted-foreground">
-                Check back later for exciting rewards from our partner businesses!
+            <div className="text-center py-16">
+              <div className="inline-block p-6 bg-gradient-to-br from-primary/10 to-mansagold/10 rounded-full mb-4">
+                <Gift className="h-20 w-20 text-primary" />
+              </div>
+              <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
+                No Rewards Available Yet
+              </h3>
+              <p className="text-muted-foreground text-lg">
+                Check back later for exciting rewards from our partner businesses! 🎁
               </p>
             </div>
           )}
@@ -359,22 +390,30 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
   const canAfford = userPoints >= reward.points_cost;
 
   return (
-    <Card className={`hover:shadow-lg transition-shadow ${!canAfford ? 'opacity-60' : ''}`}>
+    <Card className={`hover:shadow-xl transition-all hover:scale-105 border-2 ${!canAfford ? 'opacity-60 grayscale' : 'bg-gradient-to-br from-white via-primary/5 to-mansablue/5 border-primary/20'}`}>
       {reward.image_url && (
-        <div className="aspect-video overflow-hidden rounded-t-lg">
+        <div className="aspect-video overflow-hidden rounded-t-lg relative">
           <img 
             src={reward.image_url} 
             alt={reward.title}
             className="w-full h-full object-cover"
           />
+          {!canAfford && (
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+              <span className="text-white font-bold text-lg">🔒 Need More Points</span>
+            </div>
+          )}
         </div>
       )}
       
       <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-2">
           <CardTitle className="text-lg line-clamp-2">{reward.title}</CardTitle>
-          <Badge variant={reward.is_global ? 'default' : 'secondary'} className="ml-2">
-            {reward.is_global ? 'Global' : reward.business_name}
+          <Badge 
+            variant={reward.is_global ? 'default' : 'secondary'} 
+            className={reward.is_global ? 'bg-gradient-to-r from-mansablue to-primary text-white' : 'bg-gradient-to-r from-mansagold to-amber-500 text-white'}
+          >
+            {reward.is_global ? '🌍 Global' : `🏪 ${reward.business_name}`}
           </Badge>
         </div>
       </CardHeader>
@@ -384,17 +423,18 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
           {reward.description}
         </p>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            <Star className="h-4 w-4 text-yellow-500" />
-            <span className="font-semibold">{reward.points_cost} points</span>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-1 px-3 py-2 rounded-lg bg-gradient-to-r from-yellow-50 to-amber-50 border border-yellow-200">
+            <Star className="h-5 w-5 text-yellow-500" />
+            <span className="font-bold text-yellow-700">{reward.points_cost}</span>
+            <span className="text-xs text-yellow-600">points</span>
           </div>
           
           <Button
             onClick={onRedeem}
             disabled={!canAfford || isRedeeming}
             size="sm"
-            className="shrink-0"
+            className={canAfford ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white' : ''}
           >
             {isRedeeming ? (
               <>
@@ -402,9 +442,9 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, userPoints, isRedeeming
                 Redeeming...
               </>
             ) : canAfford ? (
-              'Redeem'
+              <>✨ Redeem Now</>
             ) : (
-              'Need More Points'
+              '🔒 Locked'
             )}
           </Button>
         </div>
