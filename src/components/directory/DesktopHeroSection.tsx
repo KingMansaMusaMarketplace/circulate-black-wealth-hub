@@ -37,11 +37,11 @@ const DesktopHeroSection: React.FC<DesktopHeroSectionProps> = ({
         </p>
         
         <div className="relative max-w-xl mx-auto mb-6">
-          <Search className="absolute left-3 top-3 h-5 w-5 text-gray-500" />
+          <Search className="absolute left-3 top-3 h-5 w-5 text-primary-foreground/70" />
           <Input
             type="text" 
             placeholder="Search businesses, categories, or locations..."
-            className="pl-10 h-12 bg-white rounded-lg w-full text-lg"
+            className="pl-10 h-12 w-full text-lg rounded-lg bg-background/10 text-primary-foreground placeholder:text-primary-foreground/70 border border-primary-foreground/30 focus-visible:ring-offset-0"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
           />
