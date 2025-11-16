@@ -222,6 +222,7 @@ const DirectoryPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
+                </div>
                 
                 <ErrorBoundary>
                   <Tabs value={viewMode} onValueChange={(val) => setViewMode(val as 'grid' | 'list' | 'map')}>
