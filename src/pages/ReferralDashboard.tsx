@@ -90,11 +90,13 @@ const ReferralDashboard: React.FC = () => {
         </div>
 
         {/* Referral Link Card */}
-        <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+        <Card className="border-blue-200 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 shadow-xl">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Gift className="w-5 h-5 text-primary" />
-              Your Referral Link
+              <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg">
+                <Gift className="w-5 h-5 text-white" />
+              </div>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Your Referral Link</span>
             </CardTitle>
             <CardDescription>
               Share this link with friends to earn rewards
@@ -128,58 +130,58 @@ const ReferralDashboard: React.FC = () => {
         </Card>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100/50 shadow-lg hover:shadow-xl transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <Users className="w-6 h-6 text-primary" />
+                <div className="p-3 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full shadow-md">
+                  <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Total Referrals</p>
-                  <p className="text-2xl font-bold">{stats?.total_referrals || 0}</p>
+                  <p className="text-sm text-purple-700 font-medium">Total Referrals</p>
+                  <p className="text-2xl font-bold text-purple-900">{stats?.total_referrals || 0}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-green-200 bg-gradient-to-br from-green-50 to-green-100/50 shadow-lg hover:shadow-xl transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-green-100 rounded-full">
-                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                <div className="p-3 bg-gradient-to-br from-green-500 to-green-600 rounded-full shadow-md">
+                  <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Successful</p>
-                  <p className="text-2xl font-bold">{stats?.successful_referrals || 0}</p>
+                  <p className="text-sm text-green-700 font-medium">Successful</p>
+                  <p className="text-2xl font-bold text-green-900">{stats?.successful_referrals || 0}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-orange-200 bg-gradient-to-br from-orange-50 to-orange-100/50 shadow-lg hover:shadow-xl transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-orange-100 rounded-full">
-                  <Sparkles className="w-6 h-6 text-orange-600" />
+                <div className="p-3 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full shadow-md">
+                  <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Points Earned</p>
-                  <p className="text-2xl font-bold">{stats?.total_points_earned || 0}</p>
+                  <p className="text-sm text-orange-700 font-medium">Points Earned</p>
+                  <p className="text-2xl font-bold text-orange-900">{stats?.total_points_earned || 0}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50 to-emerald-100/50 shadow-lg hover:shadow-xl transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-green-100 rounded-full">
-                  <DollarSign className="w-6 h-6 text-green-600" />
+                <div className="p-3 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full shadow-md">
+                  <DollarSign className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Cash Earned</p>
-                  <p className="text-2xl font-bold">${stats?.total_cash_earned || 0}</p>
+                  <p className="text-sm text-emerald-700 font-medium">Cash Earned</p>
+                  <p className="text-2xl font-bold text-emerald-900">${stats?.total_cash_earned || 0}</p>
                 </div>
               </div>
             </CardContent>
