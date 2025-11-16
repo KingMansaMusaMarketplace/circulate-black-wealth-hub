@@ -39,6 +39,10 @@ const AdminMarketingMaterialsPage: React.FC = () => {
 
   useEffect(() => {
     if (userRole !== 'admin') {
+      toast.error('Access Denied', {
+        description: 'You need administrator privileges to access this page. Please contact an admin if you believe you should have access.',
+        duration: 5000,
+      });
       navigate('/');
       return;
     }
