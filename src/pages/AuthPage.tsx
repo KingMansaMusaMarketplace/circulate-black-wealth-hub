@@ -145,12 +145,12 @@ const AuthPage = () => {
           </Badge>
         </div>
 
-        <Card className="bg-white/95 backdrop-blur-sm shadow-2xl">
+        <Card className="bg-white shadow-2xl border-0">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold text-mansablue mb-2">
+            <CardTitle className="text-3xl font-bold text-gray-900 mb-2">
               {isLogin ? 'Welcome Back' : 'Join the Movement'}
             </CardTitle>
-            <CardDescription className="text-base text-foreground/80">
+            <CardDescription className="text-base text-gray-700">
               {isLogin 
                 ? 'Sign in to your Mansa Musa Marketplace account'
                 : 'Create your FREE account and start building community wealth'
@@ -180,7 +180,7 @@ const AuthPage = () => {
               {!isLogin && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="fullName" className="text-foreground font-medium">Full Name</Label>
+                    <Label htmlFor="fullName" className="text-gray-900 font-medium">Full Name</Label>
                     <Input
                       id="fullName"
                       type="text"
@@ -192,7 +192,7 @@ const AuthPage = () => {
 
                   {!isIOS && (
                     <div className="space-y-2">
-                      <Label htmlFor="userType" className="text-foreground font-medium">Account Type</Label>
+                      <Label htmlFor="userType" className="text-gray-900 font-medium">Account Type</Label>
                       <Select 
                         value={formData.userType} 
                         onValueChange={(value) => handleInputChange('userType', value)}
@@ -221,7 +221,7 @@ const AuthPage = () => {
                   {formData.userType === 'business' && (
                     <>
                       <div className="space-y-2">
-                        <Label htmlFor="businessName" className="text-foreground font-medium">Business Name</Label>
+                        <Label htmlFor="businessName" className="text-gray-900 font-medium">Business Name</Label>
                         <Input
                           id="businessName"
                           type="text"
@@ -232,7 +232,7 @@ const AuthPage = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="businessCategory" className="text-foreground font-medium">Business Category</Label>
+                        <Label htmlFor="businessCategory" className="text-gray-900 font-medium">Business Category</Label>
                         <Select 
                           value={formData.businessCategory} 
                           onValueChange={(value) => handleInputChange('businessCategory', value)}
@@ -258,7 +258,7 @@ const AuthPage = () => {
                   )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-foreground font-medium">Phone (Optional)</Label>
+                    <Label htmlFor="phone" className="text-gray-900 font-medium">Phone (Optional)</Label>
                     <Input
                       id="phone"
                       type="tel"
@@ -270,7 +270,7 @@ const AuthPage = () => {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-foreground font-medium">Email</Label>
+                <Label htmlFor="email" className="text-gray-900 font-medium">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -281,7 +281,7 @@ const AuthPage = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-foreground font-medium">Password</Label>
+                <Label htmlFor="password" className="text-gray-900 font-medium">Password</Label>
                 <Input
                   id="password"
                   type="password"
@@ -294,7 +294,7 @@ const AuthPage = () => {
               {!isLogin && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword" className="text-foreground font-medium">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword" className="text-gray-900 font-medium">Confirm Password</Label>
                     <Input
                       id="confirmPassword"
                       type="password"
@@ -310,7 +310,7 @@ const AuthPage = () => {
                       checked={formData.isHbcuMember}
                       onCheckedChange={(checked) => handleInputChange('isHbcuMember', checked as boolean)}
                     />
-                    <Label htmlFor="hbcuMember" className="text-sm font-medium text-foreground">
+                    <Label htmlFor="hbcuMember" className="text-sm font-medium text-gray-900">
                       <div className="flex items-center">
                         <GraduationCap className="h-4 w-4 mr-1" />
                         I'm an HBCU student/alumni (Extra rewards!)
@@ -343,10 +343,10 @@ const AuthPage = () => {
               </div>
 
               {!isLogin && (
-                <div className="text-center text-xs text-foreground/70 mt-4">
+                <div className="text-center text-xs text-gray-600 mt-4">
                   By creating an account, you agree to our Terms of Service and Privacy Policy.
                   <br />
-                  <strong className="text-foreground">Customers are ALWAYS FREE! Businesses are FREE until January 1, 2026!</strong>
+                  <strong className="text-gray-900">Customers are ALWAYS FREE! Businesses are FREE until January 1, 2026!</strong>
                 </div>
               )}
             </form>
