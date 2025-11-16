@@ -126,94 +126,154 @@ const SupportPage = () => {
       </Helmet>
       
       <div className="min-h-screen bg-background">
-        <main className="container mx-auto px-4 py-16">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-foreground mb-4">Support Center</h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              We're here to help you make the most of Mansa Musa Marketplace. Find answers to common questions or get in touch with our support team.
-            </p>
+        {/* Hero Section */}
+        <div className="relative overflow-hidden bg-gradient-to-br from-purple-600 via-primary to-blue-600 text-white">
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+          <div className="container mx-auto px-4 py-16 relative">
+            <div className="text-center max-w-3xl mx-auto">
+              <div className="inline-block mb-6">
+                <div className="p-4 bg-white/10 rounded-full backdrop-blur-sm animate-bounce-subtle">
+                  <Headphones className="h-16 w-16 text-yellow-300" />
+                </div>
+              </div>
+              <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
+                Support Center 🎧
+              </h1>
+              <p className="text-xl text-white/90 font-medium">
+                We're here to help you make the most of Mansa Musa Marketplace ✨
+              </p>
+            </div>
           </div>
+        </div>
+
+        <main className="container mx-auto px-4 py-16">
 
           {/* Support Options */}
           <section className="mb-16">
-            <h2 className="text-2xl font-semibold mb-8 text-center">How Can We Help You?</h2>
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-primary to-blue-600 bg-clip-text text-transparent mb-8 text-center">
+              How Can We Help You? 💬
+            </h2>
             <div className="grid md:grid-cols-3 gap-6">
-              {supportOptions.map((option, index) => (
-                <Card key={index}>
-                  <CardHeader className="text-center">
-                    <div className="mx-auto mb-4 text-primary flex justify-center">
-                      {option.icon}
-                    </div>
-                    <CardTitle className="text-center">{option.title}</CardTitle>
-                    <CardDescription className="text-center">{option.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="text-center space-y-4">
-                    <p className="font-medium text-center break-words">{option.contact}</p>
-                    <Button className="w-full">{option.action}</Button>
-                  </CardContent>
-                </Card>
-              ))}
+              {supportOptions.map((option, index) => {
+                const gradients = [
+                  'from-blue-50 via-cyan-50 to-blue-50 border-blue-200',
+                  'from-green-50 via-emerald-50 to-green-50 border-green-200',
+                  'from-purple-50 via-pink-50 to-purple-50 border-purple-200'
+                ];
+                const iconBgs = [
+                  'from-blue-500 to-cyan-600',
+                  'from-green-500 to-emerald-600',
+                  'from-purple-500 to-pink-600'
+                ];
+                const textColors = [
+                  'text-blue-700',
+                  'text-green-700',
+                  'text-purple-700'
+                ];
+                return (
+                  <Card key={index} className={`hover:shadow-xl transition-all hover:scale-105 border-2 bg-gradient-to-br ${gradients[index]}`}>
+                    <CardHeader className="text-center">
+                      <div className={`mx-auto mb-4 p-3 bg-gradient-to-br ${iconBgs[index]} rounded-xl shadow-lg flex justify-center w-fit`}>
+                        {React.cloneElement(option.icon as React.ReactElement, { className: "h-6 w-6 text-white" })}
+                      </div>
+                      <CardTitle className={`text-center ${textColors[index]}`}>{option.title}</CardTitle>
+                      <CardDescription className="text-center">{option.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="text-center space-y-4">
+                      <p className={`font-semibold text-center break-words ${textColors[index]}`}>{option.contact}</p>
+                      <Button className={`w-full bg-gradient-to-r ${iconBgs[index]} hover:opacity-90 text-white font-semibold shadow-lg`}>
+                        {option.action}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </section>
 
           {/* FAQ Categories */}
           <section className="mb-16">
-            <h2 className="text-2xl font-semibold mb-8 text-center">Frequently Asked Questions</h2>
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 via-primary to-blue-600 bg-clip-text text-transparent mb-8 text-center">
+              Frequently Asked Questions 📚
+            </h2>
             <div className="grid md:grid-cols-2 gap-8">
-              {faqCategories.map((category, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Book className="h-5 w-5 text-primary" />
-                      {category.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Accordion type="single" collapsible className="w-full">
-                      {category.faqs.map((faq, qIndex) => (
-                        <AccordionItem key={qIndex} value={`item-${index}-${qIndex}`}>
-                          <AccordionTrigger className="text-left text-sm font-medium hover:text-primary">
-                            {faq.question}
-                          </AccordionTrigger>
-                          <AccordionContent className="text-sm text-muted-foreground">
-                            {faq.answer}
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
-                  </CardContent>
-                </Card>
-              ))}
+              {faqCategories.map((category, index) => {
+                const cardGradients = [
+                  'from-orange-50 via-yellow-50 to-orange-50 border-orange-200',
+                  'from-teal-50 via-cyan-50 to-teal-50 border-teal-200',
+                  'from-rose-50 via-pink-50 to-rose-50 border-rose-200',
+                  'from-indigo-50 via-purple-50 to-indigo-50 border-indigo-200'
+                ];
+                const iconColors = [
+                  'text-orange-600',
+                  'text-teal-600',
+                  'text-rose-600',
+                  'text-indigo-600'
+                ];
+                return (
+                  <Card key={index} className={`hover:shadow-xl transition-all border-2 bg-gradient-to-br ${cardGradients[index]}`}>
+                    <CardHeader>
+                      <CardTitle className={`flex items-center gap-2 font-bold ${iconColors[index]}`}>
+                        <Book className={`h-5 w-5 ${iconColors[index]}`} />
+                        {category.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <Accordion type="single" collapsible className="w-full">
+                        {category.faqs.map((faq, qIndex) => (
+                          <AccordionItem key={qIndex} value={`item-${index}-${qIndex}`}>
+                            <AccordionTrigger className="text-left text-sm font-semibold hover:text-primary">
+                              {faq.question}
+                            </AccordionTrigger>
+                            <AccordionContent className="text-sm text-foreground/80">
+                              {faq.answer}
+                            </AccordionContent>
+                          </AccordionItem>
+                        ))}
+                      </Accordion>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </section>
 
           {/* System Status */}
           <section className="mb-16">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Headphones className="h-5 w-5 text-primary" />
-                  System Status & Service Hours
+            <Card className="border-2 bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 border-green-200 hover:shadow-xl transition-all">
+              <CardHeader className="bg-gradient-to-r from-green-100/50 to-emerald-100/50 border-b border-green-200">
+                <CardTitle className="flex items-center gap-2 text-green-700 font-bold">
+                  <Headphones className="h-6 w-6 text-green-600" />
+                  System Status & Service Hours ⏰
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-semibold mb-3 flex items-center gap-2">
-                      <Clock className="h-4 w-4" />
+                  <div className="bg-white/50 p-4 rounded-lg border border-green-200">
+                    <h4 className="font-bold mb-3 flex items-center gap-2 text-green-700">
+                      <Clock className="h-5 w-5 text-green-600" />
                       Support Hours
                     </h4>
-                    <ul className="space-y-1 text-sm">
-                      <li><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM CST</li>
-                      <li><strong>Saturday:</strong> 10:00 AM - 4:00 PM CST</li>
-                      <li><strong>Sunday:</strong> Closed</li>
+                    <ul className="space-y-2 text-sm">
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                        <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM CST
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                        <strong>Saturday:</strong> 10:00 AM - 4:00 PM CST
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full"></span>
+                        <strong>Sunday:</strong> Closed
+                      </li>
                     </ul>
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-3">Current System Status</h4>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-sm">All systems operational</span>
+                  <div className="bg-white/50 p-4 rounded-lg border border-green-200">
+                    <h4 className="font-bold mb-3 text-green-700">Current System Status</h4>
+                    <div className="flex items-center gap-3 p-3 bg-green-100 rounded-lg">
+                      <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50"></div>
+                      <span className="text-sm font-semibold text-green-700">All systems operational ✅</span>
                     </div>
                   </div>
                 </div>
@@ -223,30 +283,34 @@ const SupportPage = () => {
 
           {/* Contact Information */}
           <section>
-            <Card>
-              <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
-                <CardDescription>
+            <Card className="border-2 bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 border-blue-200 hover:shadow-xl transition-all">
+              <CardHeader className="bg-gradient-to-r from-blue-100/50 to-indigo-100/50 border-b border-blue-200">
+                <CardTitle className="text-blue-700 font-bold">Contact Information 📍</CardTitle>
+                <CardDescription className="text-blue-600/80">
                   Other ways to reach us
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 text-primary mt-0.5" />
+                  <div className="flex items-start gap-4 p-4 bg-white/50 rounded-lg border border-blue-200 hover:shadow-md transition-all">
+                    <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg shadow-lg">
+                      <MapPin className="h-5 w-5 text-white" />
+                    </div>
                     <div>
-                      <p className="font-medium">Mailing Address</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-bold text-blue-700 mb-1">Mailing Address</p>
+                      <p className="text-sm text-foreground/80 font-medium">
                         1000 E. 111th Street, Suite 1100<br />
                         Chicago, Illinois 60628
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Mail className="h-5 w-5 text-primary mt-0.5" />
+                  <div className="flex items-start gap-4 p-4 bg-white/50 rounded-lg border border-blue-200 hover:shadow-md transition-all">
+                    <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg shadow-lg">
+                      <Mail className="h-5 w-5 text-white" />
+                    </div>
                     <div>
-                      <p className="font-medium">General Inquiries</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="font-bold text-blue-700 mb-1">General Inquiries</p>
+                      <p className="text-sm text-foreground/80 font-medium break-words">
                         contact@mansamusamarketplace.com
                       </p>
                     </div>
