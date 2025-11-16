@@ -48,12 +48,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         "flex-1 lg:ml-64 pt-4 pb-8",
         mobileNavOpen ? "lg:mr-0" : "mr-0",
       )}>
-        <main className="px-4 sm:px-6 lg:px-8 mt-16 lg:mt-0 pb-safe">
+        <main className="px-4 sm:px-6 lg:px-8 mt-4 pb-safe">
           {/* Page header */}
           <PageHeader title={title} icon={icon} location={location} />
           
           {/* Page content */}
-          <div className="space-y-6 lg:space-y-8">
+          <div className="space-y-4">
             {children}
           </div>
         </main>
