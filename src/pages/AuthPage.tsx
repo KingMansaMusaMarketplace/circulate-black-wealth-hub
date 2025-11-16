@@ -126,12 +126,19 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-pink-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </div>
+
+      <div className="w-full max-w-md relative z-10 animate-fade-in">
         {/* Back to Home Button */}
         <div className="mb-6">
           <Link to="/">
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-mansablue">
+            <Button variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-lg hover:shadow-xl">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Button>
@@ -139,18 +146,22 @@ const AuthPage = () => {
         </div>
 
         {/* Phase 1 Free Banner */}
-        <div className="text-center mb-6">
-          <Badge className="bg-green-500 text-white px-4 py-2 text-sm font-bold rounded-full">
+        <div className="text-center mb-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <Badge className="bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white px-6 py-3 text-sm font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
             🎉 Customers ALWAYS FREE! Businesses FREE Until Jan 2026!
           </Badge>
         </div>
 
-        <Card className="bg-white shadow-2xl border-0">
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold text-gray-900 mb-2">
+        <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-0 overflow-hidden animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          {/* Colorful top border */}
+          <div className="h-2 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600"></div>
+          
+          <CardHeader className="text-center relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 -z-10"></div>
+            <CardTitle className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
               {isLogin ? 'Welcome Back' : 'Join the Movement'}
             </CardTitle>
-            <CardDescription className="text-base text-gray-700">
+            <CardDescription className="text-lg text-gray-700 font-medium">
               {isLogin 
                 ? 'Sign in to your Mansa Musa Marketplace account'
                 : 'Create your FREE account and start building community wealth'
@@ -160,13 +171,13 @@ const AuthPage = () => {
             {!isLogin && (
               <div className="flex items-center justify-center gap-2 mt-4">
                 {formData.userType === 'customer' && (
-                  <Badge className="bg-green-500 text-white">
+                  <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1.5 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
                     <Users className="h-3 w-3 mr-1" />
                     Customer Account
                   </Badge>
                 )}
                 {formData.userType === 'business' && (
-                  <Badge className="bg-blue-500 text-white">
+                  <Badge className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-3 py-1.5 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105">
                     <Building2 className="h-3 w-3 mr-1" />
                     Business Account
                   </Badge>
@@ -180,24 +191,31 @@ const AuthPage = () => {
               {!isLogin && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="fullName" className="text-gray-900 font-medium">Full Name</Label>
+                    <Label htmlFor="fullName" className="text-gray-900 font-semibold flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></span>
+                      Full Name
+                    </Label>
                     <Input
                       id="fullName"
                       type="text"
                       value={formData.fullName}
                       onChange={(e) => handleInputChange('fullName', e.target.value)}
                       required
+                      className="border-2 focus:border-purple-500"
                     />
                   </div>
 
                   {!isIOS && (
                     <div className="space-y-2">
-                      <Label htmlFor="userType" className="text-gray-900 font-medium">Account Type</Label>
+                      <Label htmlFor="userType" className="text-gray-900 font-semibold flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500"></span>
+                        Account Type
+                      </Label>
                       <Select 
                         value={formData.userType} 
                         onValueChange={(value) => handleInputChange('userType', value)}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="border-2 focus:border-purple-500">
                           <SelectValue placeholder="Select account type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -221,23 +239,30 @@ const AuthPage = () => {
                   {formData.userType === 'business' && (
                     <>
                       <div className="space-y-2">
-                        <Label htmlFor="businessName" className="text-gray-900 font-medium">Business Name</Label>
+                        <Label htmlFor="businessName" className="text-gray-900 font-semibold flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"></span>
+                          Business Name
+                        </Label>
                         <Input
                           id="businessName"
                           type="text"
                           value={formData.businessName}
                           onChange={(e) => handleInputChange('businessName', e.target.value)}
                           required
+                          className="border-2 focus:border-cyan-500"
                         />
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="businessCategory" className="text-gray-900 font-medium">Business Category</Label>
+                        <Label htmlFor="businessCategory" className="text-gray-900 font-semibold flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500"></span>
+                          Business Category
+                        </Label>
                         <Select 
                           value={formData.businessCategory} 
                           onValueChange={(value) => handleInputChange('businessCategory', value)}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger className="border-2 focus:border-cyan-500">
                             <SelectValue placeholder="Select category" />
                           </SelectTrigger>
                           <SelectContent>
@@ -258,62 +283,79 @@ const AuthPage = () => {
                   )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-gray-900 font-medium">Phone (Optional)</Label>
+                    <Label htmlFor="phone" className="text-gray-900 font-semibold flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-gradient-to-r from-teal-500 to-green-500"></span>
+                      Phone (Optional)
+                    </Label>
                     <Input
                       id="phone"
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
+                      className="border-2 focus:border-purple-500"
                     />
                   </div>
                 </>
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-gray-900 font-medium">Email</Label>
+                <Label htmlFor="email" className="text-gray-900 font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></span>
+                  Email
+                </Label>
                 <Input
                   id="email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
                   required
+                  className="border-2 focus:border-purple-500"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-gray-900 font-medium">Password</Label>
+                <Label htmlFor="password" className="text-gray-900 font-semibold flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></span>
+                  Password
+                </Label>
                 <Input
                   id="password"
                   type="password"
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
                   required
+                  className="border-2 focus:border-purple-500"
                 />
               </div>
 
               {!isLogin && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword" className="text-gray-900 font-medium">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword" className="text-gray-900 font-semibold flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-gradient-to-r from-pink-500 to-rose-500"></span>
+                      Confirm Password
+                    </Label>
                     <Input
                       id="confirmPassword"
                       type="password"
                       value={formData.confirmPassword}
                       onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
                       required
+                      className="border-2 focus:border-purple-500"
                     />
                   </div>
 
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
                     <Checkbox
                       id="hbcuMember"
                       checked={formData.isHbcuMember}
                       onCheckedChange={(checked) => handleInputChange('isHbcuMember', checked as boolean)}
+                      className="border-2 border-yellow-500 data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-yellow-500 data-[state=checked]:to-orange-500"
                     />
-                    <Label htmlFor="hbcuMember" className="text-sm font-medium text-gray-900">
+                    <Label htmlFor="hbcuMember" className="text-sm font-semibold text-gray-900 cursor-pointer">
                       <div className="flex items-center">
-                        <GraduationCap className="h-4 w-4 mr-1" />
-                        I'm an HBCU student/alumni (Extra rewards!)
+                        <GraduationCap className="h-5 w-5 mr-2 text-yellow-600" />
+                        I'm an HBCU student/alumni (Extra rewards! 🎓)
                       </div>
                     </Label>
                   </div>
@@ -322,10 +364,10 @@ const AuthPage = () => {
 
               <Button 
                 type="submit" 
-                className="w-full bg-mansablue hover:bg-mansablue-dark text-white"
+                className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
                 disabled={loading}
               >
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                 {isLogin ? 'Sign In' : 'Create FREE Account'}
               </Button>
 
@@ -333,7 +375,7 @@ const AuthPage = () => {
                 <button
                   type="button"
                   onClick={() => setIsLogin(!isLogin)}
-                  className="text-sm text-mansablue hover:underline"
+                  className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
                 >
                   {isLogin 
                     ? "Don't have an account? Sign up" 
@@ -343,10 +385,10 @@ const AuthPage = () => {
               </div>
 
               {!isLogin && (
-                <div className="text-center text-xs text-gray-600 mt-4">
+                <div className="text-center text-xs text-gray-600 mt-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
                   By creating an account, you agree to our Terms of Service and Privacy Policy.
                   <br />
-                  <strong className="text-gray-900">Customers are ALWAYS FREE! Businesses are FREE until January 1, 2026!</strong>
+                  <strong className="text-green-700 font-bold">Customers are ALWAYS FREE! Businesses are FREE until January 1, 2026!</strong>
                 </div>
               )}
             </form>
