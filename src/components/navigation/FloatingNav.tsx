@@ -10,6 +10,14 @@ const FloatingNav = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  // Don't show FloatingNav on auth pages
+  const authPages = ['/login', '/signup', '/business-signup', '/password-reset-request', '/reset-password'];
+  const isAuthPage = authPages.includes(location.pathname);
+
+  if (isAuthPage) {
+    return null;
+  }
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
