@@ -33,39 +33,54 @@ const LeaderboardPage: React.FC = () => {
   const getRankIcon = (rank: number) => {
     switch (rank) {
       case 1:
-        return <Trophy className="h-6 w-6 text-yellow-500" />;
+        return (
+          <div className="relative">
+            <Trophy className="h-8 w-8 text-mansagold animate-bounce-subtle drop-shadow-lg" />
+            <div className="absolute inset-0 animate-pulse bg-mansagold/20 rounded-full blur-xl"></div>
+          </div>
+        );
       case 2:
-        return <Medal className="h-6 w-6 text-gray-400" />;
+        return (
+          <div className="relative">
+            <Medal className="h-7 w-7 text-gray-400 drop-shadow-md" />
+            <div className="absolute inset-0 bg-gray-300/20 rounded-full blur-lg"></div>
+          </div>
+        );
       case 3:
-        return <Award className="h-6 w-6 text-amber-600" />;
+        return (
+          <div className="relative">
+            <Award className="h-7 w-7 text-amber-600 drop-shadow-md" />
+            <div className="absolute inset-0 bg-amber-400/20 rounded-full blur-lg"></div>
+          </div>
+        );
       default:
-        return <span className="text-2xl font-bold text-muted-foreground">#{rank}</span>;
+        return <span className="text-2xl font-bold bg-gradient-to-br from-primary to-mansablue bg-clip-text text-transparent">#{rank}</span>;
     }
   };
 
   const getTierColor = (tier: string) => {
     switch (tier?.toLowerCase()) {
       case 'platinum':
-        return 'bg-purple-100 text-purple-700 border-purple-300';
+        return 'bg-gradient-to-r from-purple-500 to-pink-500 text-white border-purple-400 shadow-lg shadow-purple-200';
       case 'gold':
-        return 'bg-yellow-100 text-yellow-700 border-yellow-300';
+        return 'bg-gradient-to-r from-mansagold to-yellow-400 text-white border-mansagold-dark shadow-lg shadow-mansagold/30';
       case 'silver':
-        return 'bg-gray-100 text-gray-700 border-gray-300';
+        return 'bg-gradient-to-r from-gray-400 to-gray-500 text-white border-gray-400 shadow-lg shadow-gray-200';
       default:
-        return 'bg-amber-100 text-amber-700 border-amber-300';
+        return 'bg-gradient-to-r from-amber-500 to-orange-500 text-white border-amber-400 shadow-lg shadow-amber-200';
     }
   };
 
   const getRankCardClass = (rank: number) => {
     switch (rank) {
       case 1:
-        return 'border-2 border-yellow-500 bg-yellow-50/50';
+        return 'border-2 border-mansagold bg-gradient-to-br from-mansagold/10 via-yellow-50 to-mansagold/5 shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30';
       case 2:
-        return 'border-2 border-gray-400 bg-gray-50/50';
+        return 'border-2 border-gray-400 bg-gradient-to-br from-gray-100 via-gray-50 to-white shadow-lg shadow-gray-200 hover:shadow-xl';
       case 3:
-        return 'border-2 border-amber-600 bg-amber-50/50';
+        return 'border-2 border-amber-500 bg-gradient-to-br from-amber-100 via-orange-50 to-amber-50 shadow-lg shadow-amber-200 hover:shadow-xl';
       default:
-        return '';
+        return 'border border-primary/20 bg-gradient-to-br from-background via-primary/5 to-mansablue/5 hover:shadow-md hover:border-primary/40';
     }
   };
 
@@ -104,42 +119,55 @@ const LeaderboardPage: React.FC = () => {
 
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <TrendingUp className="h-8 w-8 text-primary" />
-            <h1 className="text-4xl font-bold">Agent Leaderboard</h1>
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-mansablue via-primary to-mansagold p-8 text-white shadow-xl">
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+          <div className="relative text-center space-y-3">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className="p-3 bg-white/10 rounded-full backdrop-blur-sm">
+                <Trophy className="h-10 w-10 text-mansagold animate-bounce-subtle" />
+              </div>
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent">
+                Agent Leaderboard
+              </h1>
+            </div>
+            <p className="text-xl text-white/90 font-medium">
+              🏆 Celebrating our top performing sales agents 🌟
+            </p>
           </div>
-          <p className="text-lg text-muted-foreground">
-            Celebrating our top performing sales agents
-          </p>
         </div>
 
         {/* Time Period Filter */}
-        <Card>
+        <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-mansagold/5 to-mansablue/5">
           <CardHeader>
-            <CardTitle className="text-center">Leaderboard Period</CardTitle>
+            <CardTitle className="text-center text-2xl bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
+              📅 Leaderboard Period
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Tabs value={timePeriod} onValueChange={(value) => setTimePeriod(value as TimePeriod)}>
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="all_time">All Time</TabsTrigger>
-                <TabsTrigger value="yearly">This Year</TabsTrigger>
-                <TabsTrigger value="quarterly">This Quarter</TabsTrigger>
-                <TabsTrigger value="monthly">This Month</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-4 bg-gradient-to-r from-primary/10 via-mansagold/10 to-mansablue/10">
+                <TabsTrigger value="all_time" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">All Time</TabsTrigger>
+                <TabsTrigger value="yearly" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-mansagold data-[state=active]:text-white">This Year</TabsTrigger>
+                <TabsTrigger value="quarterly" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-mansablue data-[state=active]:text-white">This Quarter</TabsTrigger>
+                <TabsTrigger value="monthly" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-mansagold data-[state=active]:text-white">This Month</TabsTrigger>
               </TabsList>
             </Tabs>
           </CardContent>
         </Card>
 
         {/* Leaderboard */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Trophy className="h-5 w-5" />
-              Top Performers - {getTimePeriodLabel()}
+        <Card className="border-2 border-mansablue/20 shadow-xl">
+          <CardHeader className="bg-gradient-to-r from-mansablue/5 via-primary/5 to-mansagold/5 border-b border-primary/10">
+            <CardTitle className="flex items-center gap-3 text-2xl">
+              <div className="p-2 bg-gradient-to-br from-mansablue to-primary rounded-lg">
+                <Trophy className="h-6 w-6 text-white" />
+              </div>
+              <span className="bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
+                Top Performers - {getTimePeriodLabel()}
+              </span>
             </CardTitle>
-            <CardDescription>
-              Ranked by total referrals and active subscriptions
+            <CardDescription className="text-base">
+              🎯 Ranked by total referrals and active subscriptions
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -185,19 +213,19 @@ const LeaderboardPage: React.FC = () => {
 
                     {/* Stats */}
                     <div className="flex gap-6 text-center">
-                      <div>
-                        <p className="text-2xl font-bold text-primary">
+                      <div className="bg-gradient-to-br from-mansablue/10 to-primary/10 px-4 py-3 rounded-lg border border-primary/20">
+                        <p className="text-3xl font-bold bg-gradient-to-r from-mansablue to-primary bg-clip-text text-transparent">
                           {entry.total_referrals}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-muted-foreground font-semibold">
                           Total Referrals
                         </p>
                       </div>
-                      <div>
-                        <p className="text-2xl font-bold text-green-600">
+                      <div className="bg-gradient-to-br from-green-100 to-emerald-100 px-4 py-3 rounded-lg border border-green-300">
+                        <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
                           {entry.active_referrals}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-green-700 font-semibold">
                           Active
                         </p>
                       </div>
@@ -210,7 +238,7 @@ const LeaderboardPage: React.FC = () => {
         </Card>
 
         {/* Info Card */}
-        <Card className="bg-primary/5">
+        <Card className="bg-gradient-to-br from-mansagold/10 via-primary/10 to-mansablue/10 border-2 border-primary/20">
           <CardContent className="pt-6">
             <div className="space-y-3">
               <h3 className="font-semibold flex items-center gap-2">
