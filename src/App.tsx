@@ -83,6 +83,7 @@ const LazyIOSBlockedPage = lazy(() => import('@/pages/IOSBlockedPage'));
 const LazyPaymentTestPage = lazy(() => import('@/pages/PaymentTestPage'));
 const LazyFeatureGuidePage = lazy(() => import('@/pages/FeatureGuidePage'));
 const LazyAppTestPage = lazy(() => import('@/pages/AppTestPage'));
+const LazyErrorPage = lazy(() => import('@/pages/ErrorPage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
@@ -325,6 +326,9 @@ function App() {
                               <Route path="/login" element={<LazyLoginPage />} />
                               <Route path="/signup" element={<LazySignupPage />} />
                               <Route path="/email-verified" element={<LazyEmailVerified />} />
+                            
+                              {/* Error Page */}
+                              <Route path="/error" element={<LazyErrorPage />} />
                             
                               {/* iOS Blocked Page */}
                               <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
