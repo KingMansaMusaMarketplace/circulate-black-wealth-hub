@@ -141,41 +141,41 @@ const NativeFeaturesDemo: React.FC = () => {
                 onClick={() => runFeatureTest('haptics', async () => {
                   await haptics.light();
                 })}
-                variant="outline"
+                className="bg-gradient-to-r from-sky-400 to-blue-500 hover:from-sky-500 hover:to-blue-600 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Light Impact
+                💨 Light Impact
               </Button>
               <Button 
                 onClick={() => runFeatureTest('haptics', async () => {
                   await haptics.medium();
                 })}
-                variant="outline"
+                className="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Medium Impact
+                ⚡ Medium Impact
               </Button>
               <Button 
                 onClick={() => runFeatureTest('haptics', async () => {
                   await haptics.heavy();
                 })}
-                variant="outline"
+                className="bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Heavy Impact
+                💥 Heavy Impact
               </Button>
               <Button 
                 onClick={() => runFeatureTest('haptics', async () => {
                   await haptics.success();
                 })}
-                variant="outline"
+                className="bg-gradient-to-r from-emerald-400 to-green-500 hover:from-emerald-500 hover:to-green-600 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Success
+                ✅ Success
               </Button>
               <Button 
                 onClick={() => runFeatureTest('haptics', async () => {
                   await haptics.error();
                 })}
-                variant="outline"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Error
+                ❌ Error
               </Button>
             </div>
           </CardContent>
@@ -199,16 +199,17 @@ const NativeFeaturesDemo: React.FC = () => {
                 onClick={() => runFeatureTest('share', async () => {
                   await shareBusiness('Demo Business', '123');
                 })}
+                className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Share Business
+                🏪 Share Business
               </Button>
               <Button 
                 onClick={() => runFeatureTest('share', async () => {
                   await shareAppInvite('DEMO123');
                 })}
-                variant="outline"
+                className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Share App Invite
+                🎁 Share App Invite
               </Button>
             </div>
           </CardContent>
@@ -232,16 +233,17 @@ const NativeFeaturesDemo: React.FC = () => {
                 onClick={() => runFeatureTest('notifications', async () => {
                   sendWelcomeNotification();
                 })}
+                className="bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Welcome Notification
+                👋 Welcome Notification
               </Button>
               <Button 
                 onClick={() => runFeatureTest('notifications', async () => {
                   sendLoyaltyNotification(100);
                 })}
-                variant="outline"
+                className="bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Loyalty Points (+100)
+                ⭐ Loyalty Points (+100)
               </Button>
               <Button 
                 onClick={() => runFeatureTest('notifications', async () => {
@@ -250,9 +252,9 @@ const NativeFeaturesDemo: React.FC = () => {
                     'Get 20% off at businesses near you today!'
                   );
                 })}
-                variant="outline"
+                className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Promotional Alert
+                🎉 Promotional Alert
               </Button>
             </div>
           </CardContent>
@@ -306,9 +308,9 @@ const NativeFeaturesDemo: React.FC = () => {
                   // Test is successful if tracking is enabled
                   if (!isTracking) throw new Error('Location tracking not active');
                 })}
-                className="w-full"
+                className="w-full bg-gradient-to-r from-lime-500 to-green-600 hover:from-lime-600 hover:to-green-700 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Verify Location Tracking
+                📍 Verify Location Tracking
               </Button>
             </div>
           </CardContent>
@@ -349,9 +351,9 @@ const NativeFeaturesDemo: React.FC = () => {
                 onClick={() => runFeatureTest('offline', async () => {
                   queueAction({ type: 'test', data: { test: true } });
                 })}
-                className="w-full"
+                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white border-0 shadow-lg hover:shadow-xl transition-all hover:scale-105"
               >
-                Queue Test Action
+                🔄 Queue Test Action
               </Button>
             </div>
           </CardContent>
