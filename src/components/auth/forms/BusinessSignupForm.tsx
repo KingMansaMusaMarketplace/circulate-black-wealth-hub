@@ -171,17 +171,29 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
 
   if (success) {
     return (
-      <Alert className="border-green-200 bg-green-50">
-        <CheckCircle className="h-4 w-4 text-green-600" />
-        <AlertDescription className="text-green-800">
-          Business account created successfully! Please check your email to verify your account.
-        </AlertDescription>
-      </Alert>
+      <div className="max-w-2xl mx-auto">
+        <Alert className="border-0 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 p-0.5 shadow-xl">
+          <div className="bg-white rounded-lg p-6 flex items-start gap-4">
+            <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg">
+              <CheckCircle className="h-6 w-6 text-white" />
+            </div>
+            <AlertDescription className="text-gray-800 font-medium text-base">
+              <strong className="text-green-700 text-lg block mb-2">🎉 Business account created successfully!</strong>
+              Please check your email to verify your account and get started.
+            </AlertDescription>
+          </div>
+        </Alert>
+      </div>
     );
   }
 
   return (
     <div className="max-w-2xl mx-auto">
+      <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/30 via-orange-400/30 to-amber-400/30 rounded-3xl blur-2xl" />
+        <div className="relative bg-white/95 backdrop-blur-sm border-0 shadow-2xl rounded-3xl overflow-hidden p-6 md:p-8">
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-yellow-500 via-orange-500 to-amber-500" />
+          <div className="relative pt-4">
       <ProgressiveDisclosure
         id="business-signup-benefits"
         title="Ready to grow your business?"
@@ -193,31 +205,37 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
 
       {/* Progress Indicator */}
       {completionPercentage > 0 && completionPercentage < 100 && (
-        <div className="space-y-2">
+        <div className="space-y-2 mb-6">
           <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Form Completion</span>
-            <span className="font-medium">{completionPercentage}%</span>
+            <span className="text-gray-700 font-semibold">Form Completion</span>
+            <span className="font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">{completionPercentage}%</span>
           </div>
-          <Progress value={completionPercentage} className="h-2" />
+          <Progress value={completionPercentage} className="h-3" />
         </div>
       )}
       
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {error && (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>{error}</AlertDescription>
+          <Alert className="border-0 bg-gradient-to-r from-red-500 to-orange-500 p-0.5">
+            <div className="bg-white rounded-lg p-4 flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+              <AlertDescription className="text-gray-800 font-medium">{error}</AlertDescription>
+            </div>
           </Alert>
         )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="fullName">Owner Full Name</Label>
+          <Label htmlFor="fullName" className="text-gray-900 font-semibold flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500"></span>
+            Owner Full Name
+          </Label>
           <Input
             id="fullName"
             {...register('fullName')}
             disabled={isLoading}
             placeholder="Enter owner's full name"
+            className="border-2 focus:border-orange-500"
           />
           {errors.fullName && (
             <p className="text-sm text-red-600">{errors.fullName.message}</p>
@@ -225,12 +243,16 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="businessName">Business Name</Label>
+          <Label htmlFor="businessName" className="text-gray-900 font-semibold flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-orange-500 to-amber-500"></span>
+            Business Name
+          </Label>
           <Input
             id="businessName"
             {...register('businessName')}
             disabled={isLoading}
             placeholder="Enter business name"
+            className="border-2 focus:border-orange-500"
           />
           {errors.businessName && (
             <p className="text-sm text-red-600">{errors.businessName.message}</p>
@@ -239,13 +261,17 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email">Business Email</Label>
+        <Label htmlFor="email" className="text-gray-900 font-semibold flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500"></span>
+          Business Email
+        </Label>
         <Input
           id="email"
           type="email"
           {...register('email')}
           disabled={isLoading}
           placeholder="Enter business email"
+          className="border-2 focus:border-orange-500"
         />
         {errors.email && (
           <p className="text-sm text-red-600">{errors.email.message}</p>
@@ -253,9 +279,12 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="category">Business Category</Label>
+        <Label htmlFor="category" className="text-gray-900 font-semibold flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500"></span>
+          Business Category
+        </Label>
         <Select onValueChange={(value) => setValue('category', value)} value={watchCategory}>
-          <SelectTrigger>
+          <SelectTrigger className="border-2 focus:border-orange-500">
             <SelectValue placeholder="Select business category" />
           </SelectTrigger>
           <SelectContent className="max-h-80 overflow-y-auto z-50 bg-background">
@@ -273,24 +302,32 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="phone">Phone</Label>
+          <Label htmlFor="phone" className="text-gray-900 font-semibold flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500"></span>
+            Phone
+          </Label>
           <Input
             id="phone"
             type="tel"
             {...register('phone')}
             disabled={isLoading}
             placeholder="Business phone number"
+            className="border-2 focus:border-orange-500"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="website">Website (Optional)</Label>
+          <Label htmlFor="website" className="text-gray-900 font-semibold flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500"></span>
+            Website (Optional)
+          </Label>
           <Input
             id="website"
             type="url"
             {...register('website')}
             disabled={isLoading}
             placeholder="https://yourbusiness.com"
+            className="border-2 focus:border-orange-500"
           />
         </div>
       </div>
@@ -392,17 +429,24 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         </div>
       </div>
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      <Button 
+        type="submit" 
+        className="w-full bg-gradient-to-r from-yellow-500 via-orange-500 to-amber-500 hover:from-yellow-600 hover:via-orange-600 hover:to-amber-600 text-white font-bold py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]" 
+        disabled={isLoading}
+      >
         {isLoading ? (
           <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
             Creating Business Account...
           </>
         ) : (
-          'Create Business Account'
+          'Create Business Account 🚀'
         )}
       </Button>
     </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
