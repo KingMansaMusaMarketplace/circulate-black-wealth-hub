@@ -30,6 +30,24 @@ const ProfilePage = () => {
   return (
     <DashboardLayout title="Account Settings">
       <div className="space-y-3">
+        {/* Decorative Banner */}
+        <div className="relative overflow-hidden rounded-2xl h-32 mb-4">
+          {/* Gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-mansablue via-purple-600 to-mansagold" />
+          
+          {/* Animated decorative elements */}
+          <div className="absolute top-4 right-10 w-24 h-24 bg-white/10 rounded-full blur-2xl animate-pulse" />
+          <div className="absolute bottom-4 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          
+          {/* Content overlay */}
+          <div className="relative h-full flex items-center px-8">
+            <div className="text-white">
+              <h2 className="text-2xl font-bold mb-1">Manage Your Account</h2>
+              <p className="text-white/90 text-sm">Update your profile, security settings, and preferences</p>
+            </div>
+          </div>
+        </div>
+
         <ProfileHeader />
         
         <Tabs 
