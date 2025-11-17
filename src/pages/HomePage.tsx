@@ -15,6 +15,7 @@ import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBo
 import VoiceInterface from '@/components/VoiceInterface';
 import { SmartRecommendations } from '@/components/SmartRecommendations';
 import { ContextualRecommendations } from '@/components/discovery/ContextualRecommendations';
+import ShareButton from '@/components/ShareButton';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -139,6 +140,11 @@ const HomePage = () => {
           />
         </SectionErrorBoundary>
       )}
+      
+      {/* Floating Share Button */}
+      <SectionErrorBoundary sectionName="Share Button">
+        <ShareButton />
+      </SectionErrorBoundary>
     </>
   );
 };
