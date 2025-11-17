@@ -41,25 +41,38 @@ const BusinessDirectoryPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 -z-10"></div>
+      
+      {/* Floating orbs */}
+      <div className="absolute top-20 right-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-indigo-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-purple-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      
       <Helmet>
         <title>Business Directory | Mansa Musa Marketplace</title>
         <meta name="description" content="Browse Black-owned businesses in the Mansa Musa Marketplace directory" />
       </Helmet>
       
-      <div className="bg-mansablue py-8">
-        <div className="container mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Discover Black-Owned Businesses</h1>
-          <p className="text-white/80 max-w-2xl mx-auto mb-6">
+      <div className="relative z-10 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 py-12 shadow-2xl">
+        <div className="container mx-auto text-center relative">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+          
+          <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 animate-fade-in relative z-10">
+            Discover Black-Owned Businesses
+          </h1>
+          <p className="text-white/90 text-lg max-w-2xl mx-auto mb-6 relative z-10">
             Support economic circulation by shopping at verified Black-owned businesses in our community
           </p>
           
-          <div className="relative max-w-xl mx-auto">
-            <Search className="absolute left-3 top-3 h-5 w-5 text-gray-500" />
+          <div className="relative max-w-xl mx-auto z-10">
+            <Search className="absolute left-3 top-3 h-5 w-5 text-indigo-500" />
             <Input
               type="text" 
               placeholder="Search for businesses, products, or services..."
-              className="pl-10 h-12 bg-white rounded-lg w-full"
+              className="pl-10 h-12 bg-white/95 backdrop-blur-sm rounded-xl w-full border-2 border-white/50 shadow-2xl focus:border-indigo-400 focus:ring-4 focus:ring-indigo-200/50"
               style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -68,7 +81,7 @@ const BusinessDirectoryPage: React.FC = () => {
         </div>
       </div>
       
-      <div className="flex-grow bg-gray-50 py-8">
+      <div className="flex-grow relative z-10 py-8">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start gap-6">
             {/* Sidebar Filters */}
@@ -82,7 +95,7 @@ const BusinessDirectoryPage: React.FC = () => {
             
             {/* Main Content */}
             <div className="w-full md:w-3/4">
-              <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-xl p-4 mb-6 border border-indigo-100">
                 <div className="flex flex-col sm:flex-row justify-between items-center">
                   <div className="flex items-center mb-4 sm:mb-0">
                     <ListFilter className="h-5 w-5 mr-2 text-gray-500" />
