@@ -77,8 +77,15 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+        <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-amber-400/20 to-orange-400/20 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 rounded-full bg-gradient-to-br from-rose-400/20 to-pink-400/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-br from-orange-400/10 to-rose-400/10 blur-3xl"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <div className="text-center mb-16">
           <motion.div
@@ -87,26 +94,26 @@ const TestimonialsSection = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-extrabold text-gray-900 mb-4">
+            <h2 className="text-4xl font-extrabold bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 bg-clip-text text-transparent mb-4">
               Real Stories, Real Impact
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+            <p className="text-xl font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-3xl mx-auto mb-8">
               See how businesses and customers are thriving together in our marketplace
             </p>
             
             {/* Quick Stats */}
             <div className="flex flex-wrap justify-center gap-6 mb-8">
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
+              <div className="flex items-center gap-2 bg-gradient-to-br from-green-50 to-emerald-50 px-4 py-2 rounded-full shadow-lg border-2 border-green-200">
                 <TrendingUp className="w-5 h-5 text-green-600" />
-                <span className="text-sm font-medium">Avg. 35% Revenue Increase</span>
+                <span className="text-sm font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Avg. 35% Revenue Increase</span>
               </div>
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                <Users className="w-5 h-5 text-mansablue" />
-                <span className="text-sm font-medium">Building to 1M Members</span>
+              <div className="flex items-center gap-2 bg-gradient-to-br from-blue-50 to-indigo-50 px-4 py-2 rounded-full shadow-lg border-2 border-blue-200">
+                <Users className="w-5 h-5 text-blue-600" />
+                <span className="text-sm font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Building to 1M Members</span>
               </div>
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
-                <Award className="w-5 h-5 text-mansagold" />
-                <span className="text-sm font-medium">4.9/5 Satisfaction</span>
+              <div className="flex items-center gap-2 bg-gradient-to-br from-amber-50 to-orange-50 px-4 py-2 rounded-full shadow-lg border-2 border-amber-200">
+                <Award className="w-5 h-5 text-amber-600" />
+                <span className="text-sm font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">4.9/5 Satisfaction</span>
               </div>
             </div>
           </motion.div>
@@ -122,20 +129,20 @@ const TestimonialsSection = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full border bg-white hover:shadow-lg transition-shadow duration-300">
+              <Card className="h-full border-2 border-orange-200 bg-gradient-to-br from-white via-orange-50 to-rose-50 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
                 <CardContent className="p-6">
                   {/* Header with Avatar and Badge */}
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-start gap-3">
-                      <Avatar className="h-12 w-12">
+                      <Avatar className="h-12 w-12 ring-2 ring-orange-300 ring-offset-2">
                         <AvatarImage src={testimonial.image} alt={testimonial.author} />
-                        <AvatarFallback className="bg-mansablue text-white">
+                        <AvatarFallback className="bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold">
                           {testimonial.avatar}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-semibold text-gray-900">{testimonial.author}</p>
-                        <p className="text-sm text-gray-600">{testimonial.role}</p>
+                        <p className="font-bold bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">{testimonial.author}</p>
+                        <p className="text-sm text-gray-700 font-medium">{testimonial.role}</p>
                         {testimonial.location && (
                           <p className="text-xs text-gray-500">{testimonial.location}</p>
                         )}
@@ -143,7 +150,9 @@ const TestimonialsSection = () => {
                     </div>
                     <Badge 
                       variant="secondary"
-                      className={testimonial.type === 'business' ? 'bg-mansagold/10 text-mansagold' : 'bg-mansablue/10 text-mansablue'}
+                      className={testimonial.type === 'business' 
+                        ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white border-none shadow-lg' 
+                        : 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-none shadow-lg'}
                     >
                       {testimonial.type === 'business' ? 'Business' : 'Customer'}
                     </Badge>
@@ -152,21 +161,21 @@ const TestimonialsSection = () => {
                   {/* Rating */}
                   <div className="flex items-center gap-1 mb-4">
                     {[1,2,3,4,5].map(i => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-500" />
                     ))}
                   </div>
 
                   {/* Content */}
-                  <blockquote className="text-gray-700 italic mb-4 leading-relaxed">
+                  <blockquote className="text-gray-800 italic mb-4 leading-relaxed font-medium border-l-4 border-gradient-to-b from-orange-400 to-rose-400 pl-4">
                     "{testimonial.content}"
                   </blockquote>
 
                   {/* Metrics */}
                   {testimonial.type === 'business' && testimonial.metrics && (
-                    <div className="bg-green-50 rounded-lg p-3 border border-green-200">
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-3 border-2 border-green-300 shadow-md">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-green-700">{testimonial.metrics.metric}</span>
-                        <span className="text-lg font-bold text-green-800">
+                        <span className="text-sm font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">{testimonial.metrics.metric}</span>
+                        <span className="text-lg font-extrabold bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">
                           +{testimonial.metrics.increase}
                         </span>
                       </div>
@@ -174,14 +183,14 @@ const TestimonialsSection = () => {
                   )}
 
                   {testimonial.type === 'customer' && testimonial.points && (
-                    <div className="bg-mansablue/5 rounded-lg p-3 border border-mansablue/20">
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-3 border-2 border-blue-300 shadow-md">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-mansablue">Points Earned</span>
-                        <span className="font-bold text-mansablue">{testimonial.points}</span>
+                        <span className="font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Points Earned</span>
+                        <span className="font-extrabold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">{testimonial.points}</span>
                       </div>
                       <div className="flex items-center justify-between text-sm mt-1">
-                        <span className="text-green-700">Money Saved</span>
-                        <span className="font-bold text-green-800">{testimonial.saved}</span>
+                        <span className="font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Money Saved</span>
+                        <span className="font-extrabold bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">{testimonial.saved}</span>
                       </div>
                     </div>
                   )}
@@ -199,14 +208,14 @@ const TestimonialsSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <p className="text-lg text-gray-600 mb-6">
+          <p className="text-lg font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent mb-6">
             Ready to help us build a 1 million member community?
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-mansablue text-white px-8 py-3 rounded-lg font-semibold hover:bg-mansablue-dark transition-colors">
+            <button className="bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 text-white px-8 py-3 rounded-lg font-bold hover:from-amber-700 hover:via-orange-700 hover:to-rose-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
               Start Your Journey
             </button>
-            <button className="border border-mansablue text-mansablue px-8 py-3 rounded-lg font-semibold hover:bg-mansablue/5 transition-colors">
+            <button className="border-2 border-orange-500 bg-white text-orange-600 px-8 py-3 rounded-lg font-bold hover:bg-gradient-to-r hover:from-orange-50 hover:to-rose-50 transition-all shadow-md hover:shadow-lg">
               List Your Business
             </button>
           </div>
