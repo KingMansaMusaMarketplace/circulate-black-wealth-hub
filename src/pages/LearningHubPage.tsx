@@ -76,39 +76,48 @@ const LearningHubPage = () => {
         <meta name="description" content="Educational resources for financial empowerment, business growth, and building Black wealth through community support." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-emerald-50 dark:from-gray-900 dark:via-blue-950 dark:to-purple-950">
+      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 via-blue-100 to-teal-100 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950">
         {/* Hero Section */}
         <section className="relative py-20 px-4 overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 left-10 w-72 h-72 bg-purple-400/30 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-400/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-            <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+            <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-pink-400 to-purple-400 opacity-40 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-blue-400 to-cyan-400 opacity-40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-gradient-to-br from-emerald-400 to-teal-400 opacity-30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+            <div className="absolute top-40 right-1/4 w-64 h-64 bg-gradient-to-br from-yellow-400 to-orange-400 opacity-30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
+            
+            {/* Floating Shapes */}
+            <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+            <div className="absolute top-3/4 right-1/3 w-6 h-6 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.8s' }} />
+            <div className="absolute bottom-1/3 left-1/2 w-5 h-5 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '1.2s' }} />
           </div>
           
           <div className="container-custom mx-auto relative z-10">
             <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-emerald-500/20 backdrop-blur-sm border border-white/20 rounded-full mb-6 shadow-lg">
-                <GraduationCap className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-                <span className="text-sm font-semibold bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-600 bg-clip-text text-transparent">Empowerment Through Education</span>
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500/30 via-purple-500/30 via-blue-500/30 to-emerald-500/30 backdrop-blur-sm border-2 border-white/30 rounded-full mb-6 shadow-xl animate-pulse">
+                <GraduationCap className="h-6 w-6 text-purple-700 dark:text-purple-300 animate-bounce" />
+                <span className="text-sm font-bold bg-gradient-to-r from-pink-600 via-purple-600 via-blue-600 to-emerald-600 bg-clip-text text-transparent">✨ Empowerment Through Education ✨</span>
               </div>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-600 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 animate-fade-in">
+                <span className="bg-gradient-to-r from-pink-600 via-purple-600 via-blue-600 to-emerald-600 bg-clip-text text-transparent drop-shadow-lg">
                   Learning Hub
                 </span>
               </h1>
               <p className="text-xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
                 Access resources, guides, and knowledge to build wealth, grow your business, and strengthen our community through economic empowerment.
               </p>
-              <div className="flex flex-wrap justify-center gap-3">
-                <div className="px-4 py-2 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-full border border-purple-200 dark:border-purple-800">
-                  <span className="text-sm font-medium text-purple-700 dark:text-purple-300">💰 Financial Growth</span>
+              <div className="flex flex-wrap justify-center gap-3 animate-fade-in">
+                <div className="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 backdrop-blur-sm rounded-full border-2 border-emerald-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
+                  <span className="text-sm font-bold text-white">💰 Financial Growth</span>
                 </div>
-                <div className="px-4 py-2 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-full border border-blue-200 dark:border-blue-800">
-                  <span className="text-sm font-medium text-blue-700 dark:text-blue-300">📈 Business Success</span>
+                <div className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 backdrop-blur-sm rounded-full border-2 border-purple-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
+                  <span className="text-sm font-bold text-white">📈 Business Success</span>
                 </div>
-                <div className="px-4 py-2 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-full border border-emerald-200 dark:border-emerald-800">
-                  <span className="text-sm font-medium text-emerald-700 dark:text-emerald-300">🤝 Community Power</span>
+                <div className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 backdrop-blur-sm rounded-full border-2 border-blue-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
+                  <span className="text-sm font-bold text-white">🤝 Community Power</span>
+                </div>
+                <div className="px-5 py-2.5 bg-gradient-to-r from-orange-500 to-red-500 backdrop-blur-sm rounded-full border-2 border-orange-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
+                  <span className="text-sm font-bold text-white">🌟 Impact Maker</span>
                 </div>
               </div>
             </div>
@@ -160,38 +169,40 @@ const LearningHubPage = () => {
             </div>
 
             {/* Call to Action */}
-            <Card className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-blue-600 to-emerald-600 border-none shadow-2xl">
+            <Card className="relative overflow-hidden bg-gradient-to-r from-pink-600 via-purple-600 via-blue-600 to-teal-600 border-none shadow-2xl">
               {/* Animated Background Pattern */}
               <div className="absolute inset-0 opacity-20">
                 <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzR2Mi1oMnYtMmgtMnptMCA0djJoMnYtMmgtMnptLTItMnYyaDJ2LTJoLTJ6bTAtMnYyaDJ2LTJoLTJ6bS0yIDJ2Mmgydi0yaC0yeiIvPjwvZz48L2c+PC9zdmc+')] animate-pulse" />
               </div>
               
               {/* Decorative Orbs */}
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/20 rounded-full blur-3xl" />
-              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-pink-400 to-yellow-400 opacity-30 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-gradient-to-br from-blue-400 to-purple-400 opacity-30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+              <div className="absolute top-1/2 right-1/4 w-48 h-48 bg-gradient-to-br from-emerald-400 to-teal-400 opacity-25 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '0.5s' }} />
               
               <CardContent className="relative z-10 py-16 px-6">
                 <div className="max-w-3xl mx-auto text-center">
-                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-sm rounded-full mb-6 shadow-lg border border-white/30">
-                    <Sparkles className="h-5 w-5 text-yellow-300 animate-pulse" />
-                    <span className="text-sm font-bold text-white">Start Your Journey Today</span>
+                  <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-yellow-400/30 to-orange-400/30 backdrop-blur-sm rounded-full mb-6 shadow-xl border-2 border-yellow-300/50">
+                    <Sparkles className="h-6 w-6 text-yellow-200 animate-spin" style={{ animationDuration: '3s' }} />
+                    <span className="text-sm font-black text-white">✨ Start Your Journey Today ✨</span>
+                    <Sparkles className="h-6 w-6 text-yellow-200 animate-spin" style={{ animationDuration: '3s', animationDirection: 'reverse' }} />
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 drop-shadow-lg">
+                  <h2 className="text-4xl md:text-5xl font-black text-white mb-6 drop-shadow-2xl">
                     Ready to Build Wealth & Empower Your Community?
                   </h2>
-                  <p className="text-xl text-white/95 mb-10 leading-relaxed drop-shadow">
-                    Join thousands of entrepreneurs and community members learning, growing, and prospering together through economic empowerment.
+                  <p className="text-xl text-white mb-10 leading-relaxed drop-shadow-lg font-medium">
+                    Join thousands of entrepreneurs and community members learning, growing, and prospering together through economic empowerment. 🚀
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button asChild size="lg" className="bg-white hover:bg-gray-100 text-purple-700 font-bold shadow-xl hover:shadow-2xl transition-all hover:scale-105 border-2 border-white/50">
+                    <Button asChild size="lg" className="bg-gradient-to-r from-white to-gray-100 hover:from-gray-50 hover:to-white text-purple-700 font-black shadow-2xl hover:shadow-3xl transition-all hover:scale-110 border-4 border-white/50 text-lg">
                       <Link to="/directory">
-                        <Building2 className="mr-2 h-5 w-5" />
+                        <Building2 className="mr-2 h-6 w-6" />
                         Explore Businesses
                       </Link>
                     </Button>
-                    <Button asChild size="lg" className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold shadow-xl hover:shadow-2xl transition-all hover:scale-105 border-2 border-yellow-300/50">
+                    <Button asChild size="lg" className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 text-white font-black shadow-2xl hover:shadow-3xl transition-all hover:scale-110 border-4 border-yellow-300/50 text-lg">
                       <Link to="/how-it-works">
-                        <Heart className="mr-2 h-5 w-5" />
+                        <Heart className="mr-2 h-6 w-6 animate-pulse" />
                         Learn How It Works
                       </Link>
                     </Button>
@@ -203,35 +214,49 @@ const LearningHubPage = () => {
         </section>
 
         {/* Additional Resources */}
-        <section className="py-12 px-4 bg-muted/30">
-          <div className="container-custom mx-auto">
+        <section className="py-16 px-4 relative overflow-hidden">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-r from-pink-50 via-purple-50 to-blue-50 dark:from-gray-900 dark:via-purple-900/30 dark:to-blue-900/30" />
+          
+          <div className="container-custom mx-auto relative z-10">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-center mb-8">More Ways to Learn & Grow</h2>
+              <div className="text-center mb-12">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  More Ways to Learn & Grow
+                </h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300">Discover additional resources to accelerate your journey</p>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Link to="/community" className="group">
-                  <Card className="h-full hover:shadow-lg transition-all duration-300 hover:border-mansagold/50">
-                    <CardContent className="p-6 text-center">
-                      <Users className="h-10 w-10 text-mansagold mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                      <h3 className="font-semibold mb-2">Join the Community</h3>
-                      <p className="text-sm text-muted-foreground">Connect with other members</p>
+                  <Card className="h-full hover:shadow-2xl transition-all duration-300 border-2 border-purple-300 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 hover:scale-105 hover:rotate-1">
+                    <CardContent className="p-8 text-center">
+                      <div className="p-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all shadow-lg">
+                        <Users className="h-10 w-10 text-white" />
+                      </div>
+                      <h3 className="font-bold text-xl mb-2 text-purple-700 dark:text-purple-300">Join the Community</h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">Connect with other members</p>
                     </CardContent>
                   </Card>
                 </Link>
                 <Link to="/impact" className="group">
-                  <Card className="h-full hover:shadow-lg transition-all duration-300 hover:border-mansagold/50">
-                    <CardContent className="p-6 text-center">
-                      <Heart className="h-10 w-10 text-mansagold mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                      <h3 className="font-semibold mb-2">Track Your Impact</h3>
-                      <p className="text-sm text-muted-foreground">See your community contribution</p>
+                  <Card className="h-full hover:shadow-2xl transition-all duration-300 border-2 border-blue-300 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 hover:scale-105 hover:rotate-1">
+                    <CardContent className="p-8 text-center">
+                      <div className="p-4 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all shadow-lg">
+                        <Heart className="h-10 w-10 text-white" />
+                      </div>
+                      <h3 className="font-bold text-xl mb-2 text-blue-700 dark:text-blue-300">Track Your Impact</h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">See your community contribution</p>
                     </CardContent>
                   </Card>
                 </Link>
                 <Link to="/help" className="group">
-                  <Card className="h-full hover:shadow-lg transition-all duration-300 hover:border-mansagold/50">
-                    <CardContent className="p-6 text-center">
-                      <BookOpen className="h-10 w-10 text-mansagold mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                      <h3 className="font-semibold mb-2">Get Support</h3>
-                      <p className="text-sm text-muted-foreground">Find answers to your questions</p>
+                  <Card className="h-full hover:shadow-2xl transition-all duration-300 border-2 border-emerald-300 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 hover:scale-105 hover:rotate-1">
+                    <CardContent className="p-8 text-center">
+                      <div className="p-4 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl w-fit mx-auto mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all shadow-lg">
+                        <BookOpen className="h-10 w-10 text-white" />
+                      </div>
+                      <h3 className="font-bold text-xl mb-2 text-emerald-700 dark:text-emerald-300">Get Support</h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-300 font-medium">Find answers to your questions</p>
                     </CardContent>
                   </Card>
                 </Link>
