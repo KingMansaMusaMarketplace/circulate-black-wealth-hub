@@ -63,69 +63,71 @@ export const HelpSection: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-primary to-purple-600 text-white rounded-2xl p-12">
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white rounded-2xl p-12 border border-white/10">
         <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+        {/* Animated glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-mansagold/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
         <div className="relative text-center">
           <div className="inline-block mb-6">
-            <div className="p-4 bg-white/10 rounded-full backdrop-blur-sm animate-bounce-subtle">
-              <HelpCircle className="h-16 w-16 text-yellow-300" />
+            <div className="p-4 bg-mansagold/20 rounded-full backdrop-blur-xl animate-bounce-subtle border border-mansagold/30">
+              <HelpCircle className="h-16 w-16 text-mansagold" />
             </div>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
             Help & Support Center 🆘
           </h1>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto font-medium">
+          <p className="text-xl text-blue-100/90 max-w-2xl mx-auto font-medium">
             Get the help you need to make the most of Mansa Musa Marketplace ✨
           </p>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <Card className="border-2 bg-gradient-to-br from-purple-50 via-pink-50 to-purple-50 border-purple-200 hover:shadow-xl transition-all">
+      <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/30 hover:shadow-xl hover:shadow-mansagold/10 transition-all">
         <CardContent className="p-6">
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-700 via-pink-600 to-purple-700 bg-clip-text text-transparent mb-6">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent mb-6">
             Quick Actions 🚀
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Button
               onClick={handleStartTutorial}
               variant="outline"
-              className="flex items-center gap-3 h-auto p-5 justify-start hover:shadow-lg hover:scale-105 transition-all border-2 bg-gradient-to-br from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 border-blue-200"
+              className="flex items-center gap-3 h-auto p-5 justify-start bg-slate-900/60 border-white/10 hover:border-mansablue hover:shadow-lg hover:shadow-mansablue/20 hover:scale-105 transition-all text-white"
             >
-              <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg shadow-lg">
+              <div className="p-2 bg-gradient-to-br from-mansablue to-blue-600 rounded-lg shadow-lg">
                 <Play className="w-5 h-5 text-white" />
               </div>
               <div className="text-left">
-                <div className="font-bold text-blue-700">Take the Tour</div>
-                <div className="text-sm text-blue-600/80">Interactive walkthrough</div>
+                <div className="font-bold text-white">Take the Tour</div>
+                <div className="text-sm text-blue-300/70">Interactive walkthrough</div>
               </div>
             </Button>
             
             <Button
               onClick={() => setActiveTab('faq')}
               variant="outline"
-              className="flex items-center gap-3 h-auto p-5 justify-start hover:shadow-lg hover:scale-105 transition-all border-2 bg-gradient-to-br from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100 border-orange-200"
+              className="flex items-center gap-3 h-auto p-5 justify-start bg-slate-900/60 border-white/10 hover:border-mansagold hover:shadow-lg hover:shadow-mansagold/20 hover:scale-105 transition-all text-white"
             >
-              <div className="p-2 bg-gradient-to-br from-orange-500 to-amber-600 rounded-lg shadow-lg">
-                <MessageCircle className="w-5 h-5 text-white" />
+              <div className="p-2 bg-gradient-to-br from-mansagold to-amber-500 rounded-lg shadow-lg">
+                <MessageCircle className="w-5 h-5 text-slate-900" />
               </div>
               <div className="text-left">
-                <div className="font-bold text-orange-700">Browse FAQ</div>
-                <div className="text-sm text-orange-600/80">Common questions</div>
+                <div className="font-bold text-white">Browse FAQ</div>
+                <div className="text-sm text-blue-300/70">Common questions</div>
               </div>
             </Button>
             
             <Button
               onClick={() => window.location.href = '/contact'}
               variant="outline"
-              className="flex items-center gap-3 h-auto p-5 justify-start hover:shadow-lg hover:scale-105 transition-all border-2 bg-gradient-to-br from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 border-green-200"
+              className="flex items-center gap-3 h-auto p-5 justify-start bg-slate-900/60 border-white/10 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/20 hover:scale-105 transition-all text-white"
             >
-              <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg shadow-lg">
+              <div className="p-2 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg shadow-lg">
                 <HelpCircle className="w-5 h-5 text-white" />
               </div>
               <div className="text-left">
-                <div className="font-bold text-green-700">Contact Support</div>
-                <div className="text-sm text-green-600/80">Get personalized help</div>
+                <div className="font-bold text-white">Contact Support</div>
+                <div className="text-sm text-blue-300/70">Get personalized help</div>
               </div>
             </Button>
           </div>
@@ -134,11 +136,11 @@ export const HelpSection: React.FC = () => {
 
       {/* Main Content */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4 bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 p-1">
-          <TabsTrigger value="getting-started" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-600 data-[state=active]:text-white font-semibold">Getting Started</TabsTrigger>
-          <TabsTrigger value="earning--rewards" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-amber-600 data-[state=active]:text-white font-semibold">Earning & Rewards</TabsTrigger>
-          <TabsTrigger value="account--privacy" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-semibold">Account & Privacy</TabsTrigger>
-          <TabsTrigger value="faq" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-600 data-[state=active]:text-white font-semibold">FAQ</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4 bg-slate-800/60 backdrop-blur-xl border border-white/10 p-1">
+          <TabsTrigger value="getting-started" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white font-semibold text-blue-200">Getting Started</TabsTrigger>
+          <TabsTrigger value="earning--rewards" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-500 data-[state=active]:text-slate-900 font-semibold text-blue-200">Earning & Rewards</TabsTrigger>
+          <TabsTrigger value="account--privacy" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-blue-700 data-[state=active]:text-white font-semibold text-blue-200">Account & Privacy</TabsTrigger>
+          <TabsTrigger value="faq" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-600 data-[state=active]:text-slate-900 font-semibold text-blue-200">FAQ</TabsTrigger>
         </TabsList>
 
         {/* Help sections */}
@@ -147,16 +149,16 @@ export const HelpSection: React.FC = () => {
           const Icon = getSectionIcon(section.title);
           
           const sectionColors = [
-            { card: 'from-blue-50 via-cyan-50 to-blue-50', border: 'border-blue-200', text: 'text-blue-700', icon: 'from-blue-500 to-cyan-600' },
-            { card: 'from-orange-50 via-amber-50 to-orange-50', border: 'border-orange-200', text: 'text-orange-700', icon: 'from-orange-500 to-amber-600' },
-            { card: 'from-green-50 via-emerald-50 to-green-50', border: 'border-green-200', text: 'text-green-700', icon: 'from-green-500 to-emerald-600' }
+            { card: 'from-slate-900/60 via-blue-900/60 to-slate-900/60', border: 'border-mansablue/30', text: 'text-white', icon: 'from-mansablue to-blue-600', badge: 'from-mansablue to-blue-600' },
+            { card: 'from-slate-900/60 via-amber-900/20 to-slate-900/60', border: 'border-mansagold/30', text: 'text-white', icon: 'from-mansagold to-amber-500', badge: 'from-mansagold to-amber-500' },
+            { card: 'from-slate-900/60 via-blue-900/40 to-slate-900/60', border: 'border-blue-500/30', text: 'text-white', icon: 'from-blue-600 to-blue-700', badge: 'from-blue-600 to-blue-700' }
           ];
           const sectionColor = sectionColors[sectionIndex % sectionColors.length];
           
           return (
             <TabsContent key={sectionIndex} value={tabValue} className="mt-6">
               <div className="space-y-4">
-                <div className="flex items-center gap-4 mb-6 p-4 bg-gradient-to-r from-white to-gray-50 rounded-xl border-2 border-gray-200">
+                <div className="flex items-center gap-4 mb-6 p-4 bg-slate-800/60 backdrop-blur-xl rounded-xl border border-white/10">
                   <div className={`p-3 bg-gradient-to-br ${sectionColor.icon} rounded-xl shadow-lg`}>
                     <Icon className="w-6 h-6 text-white" />
                   </div>
@@ -168,18 +170,18 @@ export const HelpSection: React.FC = () => {
                     const expanded = isExpanded(sectionIndex, itemIndex);
                     const itemColor = sectionColors[itemIndex % sectionColors.length];
                     return (
-                      <Card key={itemIndex} className={`hover:shadow-xl transition-all hover:scale-[1.02] border-2 bg-gradient-to-br ${itemColor.card} ${itemColor.border}`}>
+                      <Card key={itemIndex} className={`bg-slate-800/60 backdrop-blur-xl hover:shadow-xl hover:shadow-${itemColor.icon.split(' ')[0].replace('from-', '')}/20 transition-all hover:scale-[1.02] border ${itemColor.border}`}>
                         <CardHeader className="pb-3">
                           <CardTitle className="flex items-center justify-between">
                             <span className={`text-lg font-bold ${itemColor.text}`}>{item.title}</span>
-                            <Badge className={`bg-gradient-to-r ${itemColor.icon} text-white shadow-lg`}>Guide</Badge>
+                            <Badge className={`bg-gradient-to-r ${itemColor.badge} text-white shadow-lg`}>Guide</Badge>
                           </CardTitle>
                         </CardHeader>
                         <CardContent className="pt-0">
-                          <p className="text-foreground/80 mb-4 leading-relaxed">{item.description}</p>
+                          <p className="text-blue-200/70 mb-4 leading-relaxed">{item.description}</p>
                           
                           {expanded && item.details && (
-                            <div className="prose prose-sm max-w-none mb-4 p-4 bg-white/70 rounded-lg border border-gray-200">
+                            <div className="prose prose-sm max-w-none mb-4 p-4 bg-slate-900/80 rounded-lg border border-white/10">
                               {item.details.split('\n\n').map((paragraph, idx) => {
                                 if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
                                   return <h3 key={idx} className={`text-base font-bold ${itemColor.text} mt-4 mb-2`}>{paragraph.replace(/\*\*/g, '')}</h3>;
@@ -187,7 +189,7 @@ export const HelpSection: React.FC = () => {
                                   return (
                                     <ul key={idx} className="list-disc list-inside space-y-1 mb-3">
                                       {paragraph.split('\n').map((line, i) => (
-                                        <li key={i} className="text-foreground/80">{line.replace(/^- /, '')}</li>
+                                        <li key={i} className="text-blue-200/70">{line.replace(/^- /, '')}</li>
                                       ))}
                                     </ul>
                                   );
@@ -195,12 +197,12 @@ export const HelpSection: React.FC = () => {
                                   return (
                                     <ol key={idx} className="list-decimal list-inside space-y-1 mb-3">
                                       {paragraph.split('\n').map((line, i) => (
-                                        <li key={i} className="text-foreground/80">{line.replace(/^\d+\.\s*/, '')}</li>
+                                        <li key={i} className="text-blue-200/70">{line.replace(/^\d+\.\s*/, '')}</li>
                                       ))}
                                     </ol>
                                   );
                                 }
-                                return <p key={idx} className="text-foreground/80 mb-3">{paragraph}</p>;
+                                return <p key={idx} className="text-blue-200/70 mb-3">{paragraph}</p>;
                               })}
                             </div>
                           )}
@@ -230,30 +232,32 @@ export const HelpSection: React.FC = () => {
       </Tabs>
 
       {/* Contact Banner */}
-      <Card className="relative overflow-hidden border-2 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white border-indigo-200 hover:shadow-xl transition-all">
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-none" aria-hidden="true" />
+      <Card className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white border border-white/10 hover:shadow-xl hover:shadow-mansagold/20 transition-all">
+        <div className="absolute inset-0 bg-white/5 backdrop-blur-sm pointer-events-none" aria-hidden="true" />
+        {/* Animated glow */}
+        <div className="absolute -top-20 -right-20 w-64 h-64 bg-gradient-to-br from-mansagold/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
         <CardContent className="relative p-8 text-center">
           <div className="inline-block mb-4">
-            <div className="p-3 bg-white/20 rounded-full backdrop-blur-sm">
-              <HelpCircle className="h-12 w-12 text-yellow-300" />
+            <div className="p-3 bg-mansagold/20 rounded-full backdrop-blur-xl border border-mansagold/30">
+              <HelpCircle className="h-12 w-12 text-mansagold" />
             </div>
           </div>
-          <h2 className="text-3xl font-bold mb-4 text-white drop-shadow-lg">
+          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
             Need More Help? 🤔
           </h2>
-          <p className="text-white/90 mb-6 max-w-2xl mx-auto text-lg drop-shadow font-medium">
+          <p className="text-blue-100/90 mb-6 max-w-2xl mx-auto text-lg font-medium">
             Our support team is available to help with any questions or issues you might have. 
             We typically respond within 24 hours ⚡
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
-              className="bg-white text-indigo-600 hover:bg-white/90 font-bold shadow-lg"
+              className="bg-gradient-to-r from-mansagold to-amber-500 hover:from-amber-500 hover:to-mansagold text-slate-900 font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
               onClick={() => window.location.href = '/contact'}
             >
               Send us a Message
             </Button>
             <Button 
-              className="bg-white text-indigo-600 hover:bg-white/90 font-bold shadow-lg"
+              className="bg-gradient-to-r from-mansablue to-blue-600 hover:from-blue-600 hover:to-mansablue text-white font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
               onClick={() => window.location.href = 'mailto:support@mansamusamarketplace.com'}
             >
               Email Support
