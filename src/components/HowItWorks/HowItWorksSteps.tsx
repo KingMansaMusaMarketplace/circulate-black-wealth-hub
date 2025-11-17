@@ -79,17 +79,17 @@ const HowItWorksSteps = () => {
   };
   
   return (
-    <section id="how-it-works" className="py-20 bg-gradient-subtle relative overflow-hidden">
+    <section id="how-it-works" className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-amber-50 relative overflow-hidden">
       {/* Background pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.05),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.1),transparent_70%)]" />
       
       <div className="container-custom relative z-10">
         <ScrollReveal delay={0.1}>
           <div className="text-center mb-16">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-              How It <span className="bg-gradient-gold bg-clip-text text-transparent">Works</span>
+            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent">
+              How It <span className="bg-gradient-to-r from-mansagold via-amber-500 to-orange-500 bg-clip-text text-transparent">Works</span>
             </h2>
-            <p className="font-body text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="font-body text-lg font-semibold bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto">
               Three simple steps to start supporting Black-owned businesses and building community wealth
             </p>
           </div>
