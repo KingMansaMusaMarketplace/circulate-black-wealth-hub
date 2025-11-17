@@ -67,7 +67,7 @@ const ShareButton: React.FC = () => {
       initial={{ opacity: 0, x: 100 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: 1, duration: 0.5 }}
-      className="fixed right-4 md:right-8 bottom-24 md:bottom-28 z-50"
+      className="fixed left-1/2 -translate-x-1/2 bottom-24 md:bottom-28 z-50"
     >
       <Button
         onClick={handleShare}
