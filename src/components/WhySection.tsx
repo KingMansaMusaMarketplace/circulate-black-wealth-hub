@@ -23,7 +23,7 @@ const WhySection = () => {
       icon: Heart,
       title: "Cultural Preservation",
       description: "Support businesses that celebrate and preserve Black culture and heritage.",
-      stat: "10K+ Members"
+      stat: "Goal: 1M Members"
     },
     {
       icon: DollarSign,

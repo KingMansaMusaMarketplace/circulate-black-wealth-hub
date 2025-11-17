@@ -102,7 +102,7 @@ const TestimonialsSection = () => {
               </div>
               <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
                 <Users className="w-5 h-5 text-mansablue" />
-                <span className="text-sm font-medium">12,500+ Happy Members</span>
+                <span className="text-sm font-medium">Building to 1M Members</span>
               </div>
               <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm">
                 <Award className="w-5 h-5 text-mansagold" />
@@ -200,7 +200,7 @@ const TestimonialsSection = () => {
           viewport={{ once: true }}
         >
           <p className="text-lg text-gray-600 mb-6">
-            Ready to join thousands of satisfied members?
+            Ready to help us build a 1 million member community?
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button className="bg-mansablue text-white px-8 py-3 rounded-lg font-semibold hover:bg-mansablue-dark transition-colors">

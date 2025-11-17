@@ -12,7 +12,7 @@ const visionMetrics = [
     id: "businesses",
     label: "Businesses Onboarded",
     icon: <Building className="h-5 w-5" />,
-    current: 175,
+    current: 25,
     goal: 100000,
     description: "Black-owned businesses empowered globally through our platform",
     unit: "",
@@ -22,7 +22,7 @@ const visionMetrics = [
     id: "circulation",
     label: "Dollars Circulated",
     icon: <DollarSign className="h-5 w-5" />,
-    current: 2400000, // $2.4M
+    current: 50000, // $50K
     goal: 1000000000, // $1B
     description: "Circulated within Black communities through intentional spending",
     unit: "$",
@@ -30,11 +30,11 @@ const visionMetrics = [
   },
   {
     id: "users",
-    label: "Active Users",
+    label: "Growing Our Community",
     icon: <Users className="h-5 w-5" />,
-    current: 15000,
-    goal: 5000000,
-    description: "Users actively participating in the ecosystem",
+    current: 0,
+    goal: 1000000,
+    description: "Help us reach 1 million members building wealth together",
     unit: "",
     color: "bg-green-500"
   },

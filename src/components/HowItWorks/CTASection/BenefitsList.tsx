@@ -13,8 +13,8 @@ export const BenefitsList: React.FC<BenefitsListProps> = ({ isVisible, controls 
   const benefits = [
     {
       icon: <Users className="h-5 w-5" />,
-      text: "Join 10,000+ members",
-      tooltip: "Be part of the fastest-growing Black economic movement"
+      text: "Help us reach 1M members",
+      tooltip: "Be part of building the Black economic movement"
     },
     {
       icon: <Star className="h-5 w-5" />,

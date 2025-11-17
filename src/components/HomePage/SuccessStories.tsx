@@ -39,9 +39,9 @@ const successStories: SuccessStory[] = [
     ownerName: 'Jasmine Williams',
     businessType: 'Beauty Salon',
     image: '/lovable-uploads/business-owner-2.jpg',
-    testimonial: 'The free trial period gave me time to build a real customer base before any costs kicked in. Now I have 200+ loyal clients who love the rewards program. Best decision I ever made!',
+    testimonial: 'The free trial period gave me time to build a real customer base before any costs kicked in. Now I have a growing loyal client base who love the rewards program. Best decision I ever made!',
     stats: [
-      { label: 'Active Members', value: '200+', icon: <Users className="h-4 w-4" /> },
+      { label: 'Growing Members', value: 'Building', icon: <Users className="h-4 w-4" /> },
       { label: 'Monthly Bookings', value: '+180%', icon: <TrendingUp className="h-4 w-4" /> },
       { label: 'Customer Rating', value: '4.9★', icon: <Star className="h-4 w-4" /> }
     ],

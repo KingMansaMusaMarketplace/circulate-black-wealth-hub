@@ -124,7 +124,7 @@ const TestimonialsSection = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <p className="text-white">
-            Join our community of <span className="font-bold">10,000+ subscribers</span> and discover the benefits yourself.
+            Help us reach <span className="font-bold">1 million members</span> building wealth together.
           </p>
         </motion.div>
       </div>
