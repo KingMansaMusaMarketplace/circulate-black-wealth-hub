@@ -17,9 +17,9 @@ const LearningHubPage = () => {
         "Creating Multiple Income Streams",
         "Estate Planning & Wealth Transfer"
       ],
-      gradient: "from-emerald-500/20 via-teal-500/20 to-cyan-500/20",
-      iconColor: "text-emerald-600",
-      accentColor: "border-emerald-500/50",
+      gradient: "from-mansablue/20 via-blue-600/20 to-blue-800/20",
+      iconColor: "text-mansablue",
+      accentColor: "border-mansablue/50",
       comingSoon: false
     },
     {
@@ -32,9 +32,9 @@ const LearningHubPage = () => {
         "Scaling Your Business",
         "Building a Strong Brand"
       ],
-      gradient: "from-purple-500/20 via-pink-500/20 to-rose-500/20",
-      iconColor: "text-purple-600",
-      accentColor: "border-purple-500/50",
+      gradient: "from-blue-600/20 via-blue-700/20 to-blue-900/20",
+      iconColor: "text-blue-700",
+      accentColor: "border-blue-600/50",
       comingSoon: false
     },
     {
@@ -47,9 +47,9 @@ const LearningHubPage = () => {
         "Supporting Local vs Corporate Businesses",
         "Building Generational Wealth Together"
       ],
-      gradient: "from-amber-500/20 via-orange-500/20 to-red-500/20",
-      iconColor: "text-amber-600",
-      accentColor: "border-amber-500/50",
+      gradient: "from-mansagold/20 via-amber-500/20 to-amber-600/20",
+      iconColor: "text-mansagold",
+      accentColor: "border-mansagold/50",
       comingSoon: false
     },
     {
@@ -62,9 +62,9 @@ const LearningHubPage = () => {
         "Finding the Best Black-Owned Businesses",
         "Earning & Redeeming Loyalty Points"
       ],
-      gradient: "from-blue-500/20 via-indigo-500/20 to-violet-500/20",
-      iconColor: "text-blue-600",
-      accentColor: "border-blue-500/50",
+      gradient: "from-amber-500/20 via-mansagold/20 to-amber-700/20",
+      iconColor: "text-amber-600",
+      accentColor: "border-amber-500/50",
       comingSoon: false
     }
   ];
@@ -76,30 +76,30 @@ const LearningHubPage = () => {
         <meta name="description" content="Educational resources for financial empowerment, business growth, and building Black wealth through community support." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 via-blue-100 to-teal-100 dark:from-gray-900 dark:via-purple-950 dark:to-blue-950">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-amber-50 dark:from-gray-900 dark:via-blue-950 dark:to-amber-950">
         {/* Hero Section */}
         <section className="relative py-20 px-4 overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-pink-400 to-purple-400 opacity-40 rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-blue-400 to-cyan-400 opacity-40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-            <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-gradient-to-br from-emerald-400 to-teal-400 opacity-30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-            <div className="absolute top-40 right-1/4 w-64 h-64 bg-gradient-to-br from-yellow-400 to-orange-400 opacity-30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
+            <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-mansagold/30 to-amber-500/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-gradient-to-br from-blue-600/20 to-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+            <div className="absolute top-40 right-1/4 w-64 h-64 bg-gradient-to-br from-mansagold/25 to-amber-600/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
             
             {/* Floating Shapes */}
-            <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-            <div className="absolute top-3/4 right-1/3 w-6 h-6 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.8s' }} />
-            <div className="absolute bottom-1/3 left-1/2 w-5 h-5 bg-emerald-500 rounded-full animate-bounce" style={{ animationDelay: '1.2s' }} />
+            <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-mansablue rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+            <div className="absolute top-3/4 right-1/3 w-6 h-6 bg-mansagold rounded-full animate-bounce" style={{ animationDelay: '0.8s' }} />
+            <div className="absolute bottom-1/3 left-1/2 w-5 h-5 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '1.2s' }} />
           </div>
           
           <div className="container-custom mx-auto relative z-10">
             <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500/30 via-purple-500/30 via-blue-500/30 to-emerald-500/30 backdrop-blur-sm border-2 border-white/30 rounded-full mb-6 shadow-xl animate-pulse">
-                <GraduationCap className="h-6 w-6 text-purple-700 dark:text-purple-300 animate-bounce" />
-                <span className="text-sm font-bold bg-gradient-to-r from-pink-600 via-purple-600 via-blue-600 to-emerald-600 bg-clip-text text-transparent">✨ Empowerment Through Education ✨</span>
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-mansablue/30 via-blue-600/30 to-mansagold/30 backdrop-blur-sm border-2 border-white/30 rounded-full mb-6 shadow-xl animate-pulse">
+                <GraduationCap className="h-6 w-6 text-mansablue dark:text-blue-300 animate-bounce" />
+                <span className="text-sm font-bold bg-gradient-to-r from-mansablue via-blue-700 to-mansagold bg-clip-text text-transparent">✨ Empowerment Through Education ✨</span>
               </div>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 animate-fade-in">
-                <span className="bg-gradient-to-r from-pink-600 via-purple-600 via-blue-600 to-emerald-600 bg-clip-text text-transparent drop-shadow-lg">
+                <span className="bg-gradient-to-r from-mansablue via-blue-700 to-mansagold bg-clip-text text-transparent drop-shadow-lg">
                   Learning Hub
                 </span>
               </h1>
@@ -107,16 +107,16 @@ const LearningHubPage = () => {
                 Access resources, guides, and knowledge to build wealth, grow your business, and strengthen our community through economic empowerment.
               </p>
               <div className="flex flex-wrap justify-center gap-3 animate-fade-in">
-                <div className="px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 backdrop-blur-sm rounded-full border-2 border-emerald-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
+                <div className="px-5 py-2.5 bg-gradient-to-r from-mansablue to-blue-700 backdrop-blur-sm rounded-full border-2 border-blue-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
                   <span className="text-sm font-bold text-white">💰 Financial Growth</span>
                 </div>
-                <div className="px-5 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 backdrop-blur-sm rounded-full border-2 border-purple-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
+                <div className="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-800 backdrop-blur-sm rounded-full border-2 border-blue-400 shadow-lg hover:scale-110 transition-transform cursor-pointer">
                   <span className="text-sm font-bold text-white">📈 Business Success</span>
                 </div>
-                <div className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-cyan-500 backdrop-blur-sm rounded-full border-2 border-blue-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
+                <div className="px-5 py-2.5 bg-gradient-to-r from-mansagold to-amber-600 backdrop-blur-sm rounded-full border-2 border-amber-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
                   <span className="text-sm font-bold text-white">🤝 Community Power</span>
                 </div>
-                <div className="px-5 py-2.5 bg-gradient-to-r from-orange-500 to-red-500 backdrop-blur-sm rounded-full border-2 border-orange-300 shadow-lg hover:scale-110 transition-transform cursor-pointer">
+                <div className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-mansagold backdrop-blur-sm rounded-full border-2 border-amber-400 shadow-lg hover:scale-110 transition-transform cursor-pointer">
                   <span className="text-sm font-bold text-white">🌟 Impact Maker</span>
                 </div>
               </div>
