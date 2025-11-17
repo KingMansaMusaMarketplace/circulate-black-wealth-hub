@@ -273,17 +273,28 @@ const FeatureGuidePage = () => {
         <meta name="description" content="Comprehensive guide to all Mansa Musa Marketplace features for consumers, businesses, and community impact tracking." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+      <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-mansagold-light/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-mansablue-light/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-mansagold/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+          
+          {/* Grid overlay for modern effect */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+        </div>
+
         {/* Hero Section */}
-        <section className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 border-b shadow-2xl">
-          <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+        <section className="relative overflow-hidden bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light border-b border-mansagold/20 shadow-2xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-mansagold/10 via-transparent to-mansagold/10"></div>
           <div className="container-custom py-20 relative z-10">
             <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in">
-              <Badge className="mb-4 bg-white/20 text-white border-white/30 backdrop-blur-sm px-6 py-2 text-base font-bold">
+              <Badge className="mb-4 bg-mansagold/20 text-mansagold-light border-mansagold/30 backdrop-blur-sm px-6 py-2 text-base font-bold shadow-lg shadow-mansagold/20">
                 ✨ Complete Feature Guide
               </Badge>
-              <h1 className="text-6xl font-bold text-white drop-shadow-2xl">
-                Everything You Can Do with <span className="bg-gradient-to-r from-yellow-200 to-orange-200 bg-clip-text text-transparent">Mansa Musa Marketplace</span>
+              <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-2xl">
+                Everything You Can Do with <span className="bg-gradient-to-r from-mansagold via-mansagold-light to-white bg-clip-text text-transparent">Mansa Musa Marketplace</span>
               </h1>
               <p className="text-xl text-white/90 font-medium drop-shadow-lg">
                 Discover powerful features for consumers, business owners, and community impact tracking. 🚀
@@ -291,14 +302,14 @@ const FeatureGuidePage = () => {
               
               {/* Search Bar */}
               <div className="relative max-w-2xl mx-auto mt-8">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-600 h-6 w-6 z-10" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-mansagold h-6 w-6 z-10" />
                 <Input
                   type="text"
                   placeholder="Search features... (e.g., 'QR code', 'analytics', 'reviews')"
                   style={{ WebkitTextFillColor: 'inherit', opacity: 1 }}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-14 h-16 text-2xl bg-white shadow-2xl border-2 border-white/50 rounded-2xl focus:ring-4 focus:ring-purple-300 font-semibold placeholder:text-xl"
+                  className="pl-14 h-16 text-lg md:text-xl bg-white/95 backdrop-blur-xl shadow-2xl shadow-mansagold/20 border-2 border-mansagold/20 rounded-2xl focus:ring-4 focus:ring-mansagold/30 font-semibold placeholder:text-base md:placeholder:text-lg text-foreground"
                 />
               </div>
             </div>
@@ -306,47 +317,47 @@ const FeatureGuidePage = () => {
         </section>
 
         {/* Features Content */}
-        <section className="container-custom py-12">
+        <section className="container-custom py-12 relative z-10">
           <Tabs value={activeCategory} onValueChange={(value) => setActiveCategory(value as any)} className="space-y-8 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-4 p-2 bg-white shadow-xl rounded-2xl border-2 border-purple-200">
+            <TabsList className="grid w-full max-w-3xl mx-auto grid-cols-4 p-2 bg-white/95 backdrop-blur-xl shadow-2xl shadow-mansagold/10 rounded-2xl border-2 border-mansagold/20">
               <TabsTrigger 
                 value="all"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white font-bold rounded-xl transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue-dark data-[state=active]:to-mansablue data-[state=active]:text-white font-bold rounded-xl transition-all hover:bg-mansagold/5"
               >
                 All Features
-                <Badge variant="secondary" className="ml-2 bg-purple-100 text-purple-700 font-bold">{features.length}</Badge>
+                <Badge variant="secondary" className="ml-2 bg-mansablue/10 text-mansablue font-bold">{features.length}</Badge>
               </TabsTrigger>
               <TabsTrigger 
                 value="consumer"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-cyan-600 data-[state=active]:text-white font-bold rounded-xl transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold-dark data-[state=active]:to-mansagold data-[state=active]:text-mansablue font-bold rounded-xl transition-all hover:bg-mansagold/5"
               >
                 Consumers
-                <Badge variant="secondary" className="ml-2 bg-blue-100 text-blue-700 font-bold">{getCategoryCount('consumer')}</Badge>
+                <Badge variant="secondary" className="ml-2 bg-mansagold/10 text-mansagold-dark font-bold">{getCategoryCount('consumer')}</Badge>
               </TabsTrigger>
               <TabsTrigger 
                 value="business"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 data-[state=active]:text-white font-bold rounded-xl transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-mansablue-light data-[state=active]:text-white font-bold rounded-xl transition-all hover:bg-mansablue/5"
               >
                 Businesses
-                <Badge variant="secondary" className="ml-2 bg-green-100 text-green-700 font-bold">{getCategoryCount('business')}</Badge>
+                <Badge variant="secondary" className="ml-2 bg-mansablue/10 text-mansablue font-bold">{getCategoryCount('business')}</Badge>
               </TabsTrigger>
               <TabsTrigger 
                 value="impact"
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-amber-600 data-[state=active]:text-white font-bold rounded-xl transition-all"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-mansagold-light data-[state=active]:text-mansablue-dark font-bold rounded-xl transition-all hover:bg-mansagold/5"
               >
                 Impact
-                <Badge variant="secondary" className="ml-2 bg-orange-100 text-orange-700 font-bold">{getCategoryCount('impact')}</Badge>
+                <Badge variant="secondary" className="ml-2 bg-mansagold/10 text-mansagold-dark font-bold">{getCategoryCount('impact')}</Badge>
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value={activeCategory} className="space-y-6">
               {filteredFeatures.length === 0 ? (
-                <Card className="bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200 shadow-lg">
+                <Card className="bg-white/95 backdrop-blur-xl border-mansagold/20 shadow-lg">
                   <CardContent className="py-16 text-center">
-                    <div className="inline-block p-4 bg-gradient-to-br from-gray-200 to-gray-300 rounded-full mb-4">
-                      <Search className="h-12 w-12 text-gray-500" />
+                    <div className="inline-block p-4 bg-gradient-to-br from-mansablue/10 to-mansagold/10 rounded-full mb-4">
+                      <Search className="h-12 w-12 text-mansablue" />
                     </div>
-                    <p className="text-gray-600 text-lg font-medium">No features found matching your search. 🔍</p>
+                    <p className="text-foreground/80 text-lg font-medium">No features found matching your search. 🔍</p>
                   </CardContent>
                 </Card>
               ) : (
@@ -355,52 +366,55 @@ const FeatureGuidePage = () => {
                     const getCategoryGradient = (category: string) => {
                       switch (category) {
                         case 'consumer':
-                          return 'from-blue-50 to-cyan-50 border-blue-200 hover:shadow-blue-200';
+                          return 'from-mansagold/5 to-mansagold-light/10 border-mansagold/20 hover:shadow-mansagold/20';
                         case 'business':
-                          return 'from-green-50 to-emerald-50 border-green-200 hover:shadow-green-200';
+                          return 'from-mansablue/5 to-mansablue-light/10 border-mansablue/20 hover:shadow-mansablue/20';
                         case 'impact':
-                          return 'from-orange-50 to-amber-50 border-orange-200 hover:shadow-orange-200';
+                          return 'from-mansagold/10 to-mansablue/5 border-mansagold/20 hover:shadow-mansagold/20';
                         default:
-                          return 'from-purple-50 to-pink-50 border-purple-200 hover:shadow-purple-200';
+                          return 'from-mansablue/5 to-mansagold/5 border-mansagold/20 hover:shadow-mansagold/20';
                       }
                     };
 
                     const getIconGradient = (category: string) => {
                       switch (category) {
                         case 'consumer':
-                          return 'from-blue-500 to-cyan-500';
+                          return 'from-mansagold-dark to-mansagold';
                         case 'business':
-                          return 'from-green-500 to-emerald-500';
+                          return 'from-mansablue-dark to-mansablue';
                         case 'impact':
-                          return 'from-orange-500 to-amber-500';
+                          return 'from-mansagold to-mansablue';
                         default:
-                          return 'from-purple-500 to-pink-500';
+                          return 'from-mansablue to-mansagold';
                       }
                     };
 
                     return (
                       <Card 
                         key={feature.id} 
-                        className={`bg-gradient-to-br ${getCategoryGradient(feature.category)} hover:shadow-2xl transition-all border-2 animate-fade-in`}
+                        className={`bg-white/95 backdrop-blur-xl bg-gradient-to-br ${getCategoryGradient(feature.category)} hover:shadow-2xl transition-all duration-300 border-2 animate-fade-in hover:scale-[1.02] group relative overflow-hidden`}
                         style={{ animationDelay: `${index * 0.05}s` }}
                       >
-                        <CardHeader>
+                        {/* Shimmer effect on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                        
+                        <CardHeader className="relative">
                           <div className="flex items-start justify-between mb-3">
-                            <div className={`p-3 rounded-xl bg-gradient-to-br ${getIconGradient(feature.category)} text-white shadow-lg`}>
+                            <div className={`p-3 rounded-xl bg-gradient-to-br ${getIconGradient(feature.category)} text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                               {feature.icon}
                             </div>
                             {feature.tags.includes('new') && (
-                              <Badge className="bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold shadow-md">✨ New</Badge>
+                              <Badge className="bg-gradient-to-r from-mansagold-dark to-mansagold text-mansablue-dark font-bold shadow-md">✨ New</Badge>
                             )}
                           </div>
-                          <CardTitle className="text-xl font-bold">{feature.title}</CardTitle>
-                          <CardDescription className="text-base font-medium">{feature.description}</CardDescription>
+                          <CardTitle className="text-xl font-bold text-foreground">{feature.title}</CardTitle>
+                          <CardDescription className="text-base font-medium text-foreground/80">{feature.description}</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-4">
+                        <CardContent className="space-y-4 relative">
                           {/* Benefits */}
                           <div>
-                            <h4 className="font-bold mb-3 flex items-center text-sm">
-                              <div className="p-1.5 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full mr-2">
+                            <h4 className="font-bold mb-3 flex items-center text-sm text-foreground">
+                              <div className="p-1.5 bg-gradient-to-br from-mansagold-dark to-mansagold rounded-full mr-2">
                                 <CheckCircle2 className="h-3 w-3 text-white" />
                               </div>
                               Key Benefits
@@ -408,7 +422,7 @@ const FeatureGuidePage = () => {
                             <ul className="space-y-2">
                               {feature.benefits.map((benefit, idx) => (
                                 <li key={idx} className="text-sm font-medium flex items-start p-2 bg-white/60 rounded-lg">
-                                  <span className="text-green-600 mr-2 font-bold">✓</span>
+                                  <span className="text-mansagold mr-2 font-bold">✓</span>
                                   {benefit}
                                 </li>
                               ))}
@@ -418,8 +432,8 @@ const FeatureGuidePage = () => {
                           {/* How to Use */}
                           {feature.howToUse && (
                             <div>
-                              <h4 className="font-bold mb-3 flex items-center text-sm">
-                                <div className="p-1.5 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full mr-2">
+                              <h4 className="font-bold mb-3 flex items-center text-sm text-foreground">
+                                <div className="p-1.5 bg-gradient-to-br from-mansablue-dark to-mansablue rounded-full mr-2">
                                   <Clock className="h-3 w-3 text-white" />
                                 </div>
                                 How to Use
@@ -427,7 +441,7 @@ const FeatureGuidePage = () => {
                               <ol className="space-y-2">
                                 {feature.howToUse.map((step, idx) => (
                                   <li key={idx} className="text-sm font-medium flex items-start p-2 bg-white/60 rounded-lg">
-                                    <span className="bg-gradient-to-br from-blue-500 to-indigo-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 flex-shrink-0">{idx + 1}</span>
+                                    <span className="bg-gradient-to-br from-mansablue-dark to-mansablue text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-2 flex-shrink-0">{idx + 1}</span>
                                     {step}
                                   </li>
                                 ))}
@@ -438,7 +452,7 @@ const FeatureGuidePage = () => {
                           {/* Tags */}
                           <div className="flex flex-wrap gap-2 pt-2">
                             {feature.tags.map((tag) => (
-                              <Badge key={tag} className="text-xs font-semibold bg-white/70">
+                              <Badge key={tag} className="text-xs font-semibold bg-white/70 border-mansagold/30 text-foreground">
                                 #{tag}
                               </Badge>
                             ))}
@@ -454,11 +468,11 @@ const FeatureGuidePage = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 border-y shadow-2xl py-20">
-          <div className="absolute inset-0 bg-black/20" />
+        <section className="relative overflow-hidden bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light border-y border-mansagold/20 shadow-2xl py-20">
+          <div className="absolute inset-0 bg-gradient-to-br from-mansagold/10 via-transparent to-mansagold/10" />
           <div className="container-custom relative z-10">
             <div className="max-w-3xl mx-auto text-center space-y-6 animate-fade-in">
-              <h2 className="text-5xl font-bold text-white drop-shadow-2xl">Ready to Get Started? 🚀</h2>
+              <h2 className="text-4xl md:text-5xl font-bold text-white drop-shadow-2xl">Ready to Get Started? 🚀</h2>
               <p className="text-xl text-white/90 font-medium drop-shadow-lg">
                 Join thousands of consumers and business owners building economic power in Black communities.
               </p>
@@ -466,7 +480,7 @@ const FeatureGuidePage = () => {
                 <Button 
                   size="lg" 
                   onClick={() => navigate('/signup')}
-                  className="bg-white text-indigo-600 hover:bg-white/90 font-bold shadow-2xl hover:shadow-white/50 transition-all text-lg px-8 py-6"
+                  className="bg-mansagold hover:bg-mansagold-light text-mansablue-dark font-bold shadow-2xl shadow-mansagold/30 hover:shadow-mansagold/50 transition-all text-lg px-8 py-6 hover:scale-105"
                 >
                   Sign Up as Consumer
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -474,7 +488,7 @@ const FeatureGuidePage = () => {
                 <Button 
                   size="lg" 
                   onClick={() => navigate('/business-signup')}
-                  className="bg-gradient-to-r from-yellow-400 to-orange-400 text-indigo-900 hover:from-yellow-300 hover:to-orange-300 font-bold shadow-2xl hover:shadow-orange-400/50 transition-all text-lg px-8 py-6 border-2 border-yellow-200"
+                  className="bg-white/10 text-white hover:bg-mansagold/20 border-2 border-mansagold backdrop-blur-sm font-bold shadow-2xl hover:shadow-mansagold/50 transition-all text-lg px-8 py-6 hover:scale-105"
                 >
                   Register Your Business
                   <Store className="ml-2 h-5 w-5" />
@@ -485,29 +499,32 @@ const FeatureGuidePage = () => {
         </section>
 
         {/* Help Section */}
-        <section className="container-custom py-20">
+        <section className="container-custom py-20 relative z-10">
           <div className="max-w-3xl mx-auto">
-            <Card className="bg-gradient-to-br from-teal-50 to-cyan-50 border-teal-200 shadow-2xl">
-              <CardContent className="text-center space-y-6 p-12">
-                <div className="inline-block p-4 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full mb-4">
+            <Card className="bg-white/95 backdrop-blur-xl border-2 border-mansagold/20 shadow-2xl relative overflow-hidden group">
+              {/* Shimmer effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-mansagold/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              
+              <CardContent className="text-center space-y-6 p-12 relative">
+                <div className="inline-block p-4 bg-gradient-to-br from-mansablue-dark to-mansablue rounded-full mb-4 shadow-lg shadow-mansablue/30">
                   <MessageSquare className="h-12 w-12 text-white" />
                 </div>
-                <h2 className="text-4xl font-bold bg-gradient-to-r from-teal-700 to-cyan-700 bg-clip-text text-transparent">
+                <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light bg-clip-text text-transparent">
                   Still Have Questions? 💬
                 </h2>
-                <p className="text-teal-800 text-lg font-medium">
+                <p className="text-foreground/80 text-lg font-medium">
                   Check out our FAQ page or contact our support team for personalized assistance.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
                   <Button 
                     onClick={() => navigate('/help')}
-                    className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-bold shadow-lg hover:shadow-xl transition-all"
+                    className="bg-gradient-to-r from-mansablue-dark to-mansablue hover:from-mansablue hover:to-mansablue-light text-white font-bold shadow-lg hover:shadow-xl transition-all hover:scale-105"
                   >
                     Visit FAQ
                   </Button>
                   <Button 
                     onClick={() => navigate('/support')}
-                    className="bg-white text-teal-600 hover:bg-teal-50 font-bold border-2 border-teal-600 shadow-lg hover:shadow-xl transition-all"
+                    className="bg-white text-mansablue hover:bg-mansablue/5 font-bold border-2 border-mansablue shadow-lg hover:shadow-xl transition-all hover:scale-105"
                   >
                     Contact Support
                   </Button>
