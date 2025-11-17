@@ -109,11 +109,12 @@ const BusinessDirectoryPage: React.FC = () => {
                       onClick={() => setView('grid')}
                       className={view === 'grid' 
                         ? 'bg-indigo-600 hover:bg-indigo-700 text-white border-transparent'
-                        : ''}
+                        : 'text-indigo-700'}
                       aria-label="Grid view"
+                      aria-pressed={view === 'grid'}
                     >
-                      <Grid3X3 className={view === 'grid' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1'} />
-                      <span className={view === 'grid' ? 'text-white font-medium' : 'font-medium'}>Grid</span>
+                      <Grid3X3 className={view === 'grid' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1 text-indigo-700'} />
+                      <span className={view === 'grid' ? 'text-white font-medium' : 'text-indigo-700 font-medium'}>Grid</span>
                     </Button>
                     <Button 
                       variant={view === 'list' ? "default" : "white"}
@@ -121,11 +122,12 @@ const BusinessDirectoryPage: React.FC = () => {
                       onClick={() => setView('list')}
                       className={view === 'list' 
                         ? 'bg-indigo-600 hover:bg-indigo-700 text-white border-transparent'
-                        : ''}
+                        : 'text-indigo-700'}
                       aria-label="List view"
+                      aria-pressed={view === 'list'}
                     >
-                      <List className={view === 'list' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1'} />
-                      <span className={view === 'list' ? 'text-white font-medium' : 'font-medium'}>List</span>
+                      <List className={view === 'list' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1 text-indigo-700'} />
+                      <span className={view === 'list' ? 'text-white font-medium' : 'text-indigo-700 font-medium'}>List</span>
                     </Button>
                     <Button 
                       variant={view === 'map' ? "default" : "white"}
@@ -133,11 +135,12 @@ const BusinessDirectoryPage: React.FC = () => {
                       onClick={() => setView('map')}
                       className={view === 'map' 
                         ? 'bg-indigo-600 hover:bg-indigo-700 text-white border-transparent'
-                        : ''}
+                        : 'text-indigo-700'}
                       aria-label="Map view"
+                      aria-pressed={view === 'map'}
                     >
-                      <MapPin className={view === 'map' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1'} />
-                      <span className={view === 'map' ? 'text-white font-medium' : 'font-medium'}>Map</span>
+                      <MapPin className={view === 'map' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1 text-indigo-700'} />
+                      <span className={view === 'map' ? 'text-white font-medium' : 'text-indigo-700 font-medium'}>Map</span>
                     </Button>
                   </div>
                 </div>
