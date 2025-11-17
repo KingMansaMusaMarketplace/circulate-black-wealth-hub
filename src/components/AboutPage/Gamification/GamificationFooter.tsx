@@ -7,7 +7,7 @@ const GamificationFooter = () => {
   return (
     <div className="mt-12 text-center">
       <Link to="/signup">
-        <Button size="lg" className="bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 hover:from-rose-700 hover:via-pink-700 hover:to-purple-700 text-white px-12 py-7 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 rounded-xl">
+        <Button size="lg" className="bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 hover:from-amber-600 hover:via-yellow-600 hover:to-yellow-700 text-white px-12 py-7 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 rounded-xl">
           Start Earning Rewards
         </Button>
       </Link>

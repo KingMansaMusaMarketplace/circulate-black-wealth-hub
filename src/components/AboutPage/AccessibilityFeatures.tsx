@@ -64,21 +64,21 @@ const AccessibilityFeatures = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
       {/* Animated decorative elements */}
-      <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-green-400/20 to-emerald-400/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-br from-teal-400/20 to-cyan-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+      <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/15 to-blue-500/15 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-br from-mansagold/15 to-amber-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
       
       <div className="container-custom relative z-10">
         <div className="text-center mb-12">
           <h2 className="heading-md mb-4">
-            <span className="bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">Accessibility </span>
-            <span className="bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 bg-clip-text text-transparent">Options</span>
+            <span className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent">Accessibility </span>
+            <span className="bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 bg-clip-text text-transparent">Options</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 mx-auto mb-6 rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-mansablue via-blue-600 to-mansagold mx-auto mb-6 rounded-full"></div>
           <div className="flex justify-center items-center gap-3 mb-4">
-            <Accessibility className="h-7 w-7 text-emerald-600 animate-pulse" />
-            <p className="text-xl font-bold bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
+            <Accessibility className="h-7 w-7 text-mansablue animate-pulse" />
+            <p className="text-xl font-bold bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent">
               Making Our Platform Inclusive For All
             </p>
           </div>
@@ -89,34 +89,34 @@ const AccessibilityFeatures = () => {
         
         <div className="max-w-3xl mx-auto">
           <Card className="border-2 border-emerald-200 bg-white/80 backdrop-blur-sm shadow-2xl">
-            <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-mansablue-light/20">
               <CardTitle className="flex items-center">
                 <Accessibility className="mr-2 h-6 w-6 text-emerald-600" />
-                <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">
                   Accessibility Settings
                 </span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="text" value={activeTab} onValueChange={setActiveTab}>
-                <TabsList className="grid grid-cols-3 mb-8 bg-white/80 backdrop-blur-sm p-2 rounded-xl border-2 border-emerald-200">
+                <TabsList className="grid grid-cols-3 mb-8 bg-white/80 backdrop-blur-sm p-2 rounded-xl border-2 border-blue-200">
                   <TabsTrigger 
                     value="text" 
-                    className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-500 data-[state=active]:text-white rounded-lg font-bold transition-all duration-300"
+                    className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-700 data-[state=active]:text-white rounded-lg font-bold transition-all duration-300"
                   >
                     <Type className="h-5 w-5" />
                     <span className="hidden sm:inline">Text</span>
                   </TabsTrigger>
                   <TabsTrigger 
                     value="display" 
-                    className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-teal-500 data-[state=active]:text-white rounded-lg font-bold transition-all duration-300"
+                    className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-blue-700 data-[state=active]:text-white rounded-lg font-bold transition-all duration-300"
                   >
                     <Contrast className="h-5 w-5" />
                     <span className="hidden sm:inline">Display</span>
                   </TabsTrigger>
                   <TabsTrigger 
                     value="navigation" 
-                    className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white rounded-lg font-bold transition-all duration-300"
+                    className="flex items-center gap-2 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-600 data-[state=active]:text-white rounded-lg font-bold transition-all duration-300"
                   >
                     <MousePointer className="h-5 w-5" />
                     <span className="hidden sm:inline">Navigation</span>
@@ -282,7 +282,7 @@ const AccessibilityFeatures = () => {
                   Reset to Default
                 </Button>
                 <Button 
-                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold px-8 py-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                  className="bg-gradient-to-r from-mansagold to-amber-600 hover:from-amber-600 hover:to-yellow-600 text-white font-bold px-8 py-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                   onClick={saveSettings}
                 >
                   <Save className="mr-2 h-5 w-5" />
@@ -293,9 +293,9 @@ const AccessibilityFeatures = () => {
           </Card>
           
           <div className="mt-8 text-center">
-            <p className="text-sm text-gray-700 font-medium bg-white/60 backdrop-blur-sm inline-block px-6 py-3 rounded-full border border-emerald-200">
+            <p className="text-sm text-gray-700 font-medium bg-white/60 backdrop-blur-sm inline-block px-6 py-3 rounded-full border border-blue-200">
               ♿ We are continuously working to improve our accessibility features. If you have suggestions or encounter any issues, please{" "}
-              <Link to="/contact" className="text-emerald-600 hover:text-emerald-700 font-bold hover:underline">contact us</Link>.
+              <Link to="/contact" className="text-mansablue hover:text-blue-700 font-bold hover:underline">contact us</Link>.
             </p>
           </div>
         </div>

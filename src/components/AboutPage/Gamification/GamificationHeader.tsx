@@ -6,13 +6,13 @@ const GamificationHeader = () => {
   return (
     <div className="text-center mb-12">
       <h2 className="heading-md mb-4">
-        <span className="bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">Earn While </span>
-        <span className="bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 bg-clip-text text-transparent">You Support</span>
+        <span className="bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 bg-clip-text text-transparent">Earn While </span>
+        <span className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent">You Support</span>
       </h2>
-      <div className="w-24 h-1 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 mx-auto mb-6 rounded-full"></div>
+      <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-6 rounded-full"></div>
       <div className="flex justify-center items-center gap-3 mb-4">
-        <Gamepad className="h-7 w-7 text-pink-600 animate-pulse" />
-        <p className="text-xl font-bold bg-gradient-to-r from-rose-600 via-pink-600 to-fuchsia-600 bg-clip-text text-transparent">
+        <Gamepad className="h-7 w-7 text-mansagold animate-pulse" />
+        <p className="text-xl font-bold bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 bg-clip-text text-transparent">
           Making Economic Empowerment Fun
         </p>
       </div>

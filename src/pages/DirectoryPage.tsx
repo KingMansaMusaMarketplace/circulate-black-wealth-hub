@@ -99,33 +99,33 @@ const DirectoryPage: React.FC = () => {
         <meta name="description" content="Find and support Black-owned businesses in your community" />
       </Helmet>
       
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-purple-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-pink-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-10 left-10 w-96 h-96 bg-mansablue/15 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-blue-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
 
         {/* Enhanced Header */}
-        <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 py-16 md:py-24 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-mansablue via-blue-700 to-blue-800 py-16 md:py-24 relative overflow-hidden">
           {/* Background effects */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent_50%)]" />
-          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"></div>
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500"></div>
           
           <div className="container mx-auto text-center relative z-10 px-4 animate-fade-in">
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
-              Multi-City <span className="text-yellow-300">Marketplace</span> 🌆
+              Multi-City <span className="text-mansagold">Marketplace</span> 🌆
             </h1>
             <p className="font-body text-xl sm:text-2xl text-white/95 leading-relaxed max-w-3xl mx-auto mb-10 font-medium">
               Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, and Detroit
             </p>
             
             <div className="relative max-w-2xl mx-auto" data-tour="search-businesses">
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-orange-400/30 to-pink-400/30 rounded-3xl blur-xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-mansagold/30 via-amber-500/30 to-yellow-400/30 rounded-3xl blur-xl"></div>
               <div className="relative">
-                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-purple-600" />
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-mansablue" />
                 <Input
                   type="text" 
                   placeholder="Search businesses across all cities... 🔍"
