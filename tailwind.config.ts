@@ -44,11 +44,14 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         mansablue: "hsl(var(--mansablue))",
-        "mansablue-light": "hsl(210 100% 55%)",
+        "mansablue-light": "hsl(var(--mansablue-light))",
         "mansablue-dark": "hsl(var(--mansablue-dark))",
         mansagold: "hsl(var(--mansagold))",
-        "mansagold-light": "hsl(45 90% 80%)",
+        "mansagold-light": "hsl(var(--mansagold-light))",
         "mansagold-dark": "hsl(var(--mansagold-dark))",
+        "text-on-blue": "hsl(var(--text-on-blue))",
+        "text-on-gold": "hsl(var(--text-on-gold))",
+        "text-on-light": "hsl(var(--text-on-light))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -87,6 +90,7 @@ export default {
         'gradient-gold': 'var(--gradient-gold)',
         'gradient-premium': 'var(--gradient-premium)',
         'gradient-subtle': 'var(--gradient-subtle)',
+        'gradient-blue-gold': 'var(--gradient-blue-gold)',
       },
       keyframes: {
         "accordion-down": {

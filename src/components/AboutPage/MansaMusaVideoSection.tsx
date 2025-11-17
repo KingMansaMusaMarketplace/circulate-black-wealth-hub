@@ -12,16 +12,16 @@ const MansaMusaVideoSection = () => {
       
       <div className="container-custom relative z-10">
         <div className="text-center mb-8">
-          <h2 className="heading-md mb-4 inline-block relative bg-gradient-to-r from-white via-amber-50 to-yellow-50 bg-clip-text text-transparent">
+          <h2 className="heading-md mb-4 inline-block relative text-white drop-shadow-lg">
             Who was Mansa Musa?
-            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-white via-amber-200 to-yellow-200"></span>
+            <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-white/80 shadow-md"></span>
           </h2>
-          <p className="text-white/90 max-w-3xl mx-auto mb-8 text-lg font-medium">
+          <p className="text-white drop-shadow-md max-w-3xl mx-auto mb-8 text-lg font-medium">
             Learn about the legendary African ruler who inspired our marketplace and represents the pinnacle of economic power coupled with community reinvestment.
           </p>
         </div>
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border-2 border-white/20 shadow-2xl">
+          <div className="bg-white/15 backdrop-blur-md rounded-2xl p-4 border-2 border-white/30 shadow-2xl">
             <VideoPlayer 
               src="https://www.youtube.com/watch?v=6DudveUFGRo" 
               title="Who was Mansa Musa?" 
