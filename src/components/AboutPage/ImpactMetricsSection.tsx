@@ -20,7 +20,7 @@ const ImpactMetricsSection = () => {
         <div className="text-center mb-12">
           <h2 className="heading-md mb-4">
             <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">Our Goals for </span>
-            <span className="bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">2025</span>
+            <span className="bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">2026</span>
             <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent"> with your help</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 mx-auto mb-6 rounded-full"></div>
@@ -57,7 +57,7 @@ const ImpactMetricsSection = () => {
           <div className="grid md:grid-cols-2 gap-8">
             <div>
               <h3 className="text-2xl font-bold bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
-                Looking Forward: 2025 Goals
+                Looking Forward: 2026 Goals
               </h3>
               <ul className="space-y-4">
                 {[
