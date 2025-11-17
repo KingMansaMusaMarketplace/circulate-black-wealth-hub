@@ -107,7 +107,9 @@ const BusinessDirectoryPage: React.FC = () => {
                       variant={view === 'grid' ? "default" : "outline"} 
                       size="sm"
                       onClick={() => setView('grid')}
-                      className={view === 'grid' ? 'bg-indigo-600 hover:bg-indigo-700' : 'border-indigo-300 text-indigo-700 bg-white hover:bg-indigo-50 hover:border-indigo-400'}
+                      className={view === 'grid' 
+                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                        : 'border-indigo-300 !text-indigo-700 bg-white hover:bg-indigo-50 hover:border-indigo-400'}
                     >
                       <Grid3X3 className="h-4 w-4 mr-1" />
                       Grid
@@ -116,7 +118,9 @@ const BusinessDirectoryPage: React.FC = () => {
                       variant={view === 'list' ? "default" : "outline"} 
                       size="sm"
                       onClick={() => setView('list')}
-                      className={view === 'list' ? 'bg-indigo-600 hover:bg-indigo-700' : 'border-indigo-300 text-indigo-700 bg-white hover:bg-indigo-50 hover:border-indigo-400'}
+                      className={view === 'list' 
+                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                        : 'border-indigo-300 !text-indigo-700 bg-white hover:bg-indigo-50 hover:border-indigo-400'}
                     >
                       <List className="h-4 w-4 mr-1" />
                       List
@@ -125,7 +129,9 @@ const BusinessDirectoryPage: React.FC = () => {
                       variant={view === 'map' ? "default" : "outline"} 
                       size="sm"
                       onClick={() => setView('map')}
-                      className={view === 'map' ? 'bg-indigo-600 hover:bg-indigo-700' : 'border-indigo-300 text-indigo-700 bg-white hover:bg-indigo-50 hover:border-indigo-400'}
+                      className={view === 'map' 
+                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                        : 'border-indigo-300 !text-indigo-700 bg-white hover:bg-indigo-50 hover:border-indigo-400'}
                     >
                       <MapPin className="h-4 w-4 mr-1" />
                       Map
