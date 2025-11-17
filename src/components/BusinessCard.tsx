@@ -82,10 +82,10 @@ const BusinessCard = ({
   };
 
   return (
-    <div className={`glass-card border rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] ${isFeatured ? 'border-mansagold/50 shadow-lg' : 'border-border/30'}`}>
+    <div className={`glass-card border rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] ${isFeatured ? 'border-2 border-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 shadow-2xl bg-gradient-to-br from-white via-yellow-50 to-orange-50' : 'border-indigo-200/40 hover:border-indigo-300/60 bg-white/80 backdrop-blur-sm'}`}>
       {isFeatured && (
-        <div className="bg-gradient-gold text-mansablue-dark text-xs font-bold px-3 py-1.5 text-center">
-          Featured Business
+        <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 text-white text-xs font-bold px-3 py-2 text-center shadow-lg">
+          ✨ Featured Business ✨
         </div>
       )}
       <div ref={imgRef} className="aspect-video bg-gradient-subtle relative overflow-hidden">
@@ -121,7 +121,7 @@ const BusinessCard = ({
             />
           </>
         )}
-        <div className="absolute top-2 right-2 glass-card backdrop-blur-xl rounded-full px-3 py-1.5 text-xs font-bold bg-gradient-gold text-mansablue-dark shadow-lg border border-mansagold/30">
+        <div className="absolute top-2 right-2 glass-card backdrop-blur-xl rounded-full px-3 py-2 text-xs font-bold bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white shadow-2xl border-2 border-white/30">
           {discount}
         </div>
       </div>
@@ -160,7 +160,7 @@ const BusinessCard = ({
             <Button 
               variant="outline" 
               size="sm" 
-              className="w-full border-2 hover:bg-mansablue hover:text-white hover:border-mansablue transition-all shadow-sm font-semibold"
+              className="w-full border-2 border-indigo-300 text-indigo-600 hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-600 hover:text-white hover:border-transparent hover:shadow-xl transition-all shadow-sm font-semibold"
             >
               View Business
             </Button>

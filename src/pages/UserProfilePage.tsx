@@ -172,67 +172,81 @@ export default function UserProfilePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="flex items-center space-x-4">
-          <Avatar className="h-20 w-20">
-            <AvatarImage src={profile.avatar_url} />
-            <AvatarFallback className="text-xl">
-              {profile.full_name?.charAt(0) || 'U'}
-            </AvatarFallback>
-          </Avatar>
-          <div className="space-y-1">
-            <h1 className="text-3xl font-bold">{profile.full_name || 'User'}</h1>
-            <p className="text-muted-foreground">{profile.email}</p>
-            <div className="flex items-center space-x-2">
-              <Badge variant="secondary">{profile.subscription_tier}</Badge>
-              <Badge variant={profile.subscription_status === 'active' ? 'default' : 'outline'}>
-                {profile.subscription_status}
-              </Badge>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-cyan-50 via-blue-50 to-indigo-50 -z-10"></div>
+      
+      {/* Floating orbs */}
+      <div className="absolute top-20 right-20 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-blue-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-indigo-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      
+      <div className="container mx-auto px-4 py-8 relative z-10">
+        <div className="max-w-4xl mx-auto space-y-8">
+          {/* Enhanced Header */}
+          <div className="bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+            
+            <div className="flex items-center space-x-4 relative z-10">
+              <Avatar className="h-24 w-24 border-4 border-white/30 shadow-2xl">
+                <AvatarImage src={profile.avatar_url} />
+                <AvatarFallback className="text-2xl bg-white/20 text-white backdrop-blur-sm">
+                  {profile.full_name?.charAt(0) || 'U'}
+                </AvatarFallback>
+              </Avatar>
+              <div className="space-y-1">
+                <h1 className="text-4xl font-bold text-white animate-fade-in">{profile.full_name || 'User'}</h1>
+                <p className="text-white/90 text-lg">{profile.email}</p>
+                <div className="flex items-center space-x-2">
+                  <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm">{profile.subscription_tier}</Badge>
+                  <Badge className={profile.subscription_status === 'active' ? 'bg-green-500/30 text-white border-green-400/50 backdrop-blur-sm' : 'bg-white/20 text-white border-white/30 backdrop-blur-sm'}>
+                    {profile.subscription_status}
+                  </Badge>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card>
-            <CardContent className="flex items-center p-6">
-              <Trophy className="h-8 w-8 text-primary mr-3" />
-              <div>
-                <p className="text-2xl font-bold">{userStats.total_points}</p>
-                <p className="text-sm text-muted-foreground">Total Points</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex items-center p-6">
-              <History className="h-8 w-8 text-blue-500 mr-3" />
-              <div>
-                <p className="text-2xl font-bold">{userStats.total_scans}</p>
-                <p className="text-sm text-muted-foreground">QR Scans</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex items-center p-6">
-              <MapPin className="h-8 w-8 text-green-500 mr-3" />
-              <div>
-                <p className="text-2xl font-bold">{userStats.businesses_visited}</p>
-                <p className="text-sm text-muted-foreground">Businesses Visited</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex items-center p-6">
-              <Star className="h-8 w-8 text-yellow-500 mr-3" />
-              <div>
-                <p className="text-2xl font-bold">{userStats.rewards_redeemed}</p>
-                <p className="text-sm text-muted-foreground">Rewards Redeemed</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          {/* Enhanced Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <Card className="bg-gradient-to-br from-white via-purple-50 to-pink-50 border-purple-200/50 hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <CardContent className="flex items-center p-6">
+                <Trophy className="h-10 w-10 text-purple-600 mr-3" />
+                <div>
+                  <p className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{userStats.total_points}</p>
+                  <p className="text-sm text-gray-700 font-medium">Total Points</p>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-white via-blue-50 to-cyan-50 border-blue-200/50 hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <CardContent className="flex items-center p-6">
+                <History className="h-10 w-10 text-blue-600 mr-3" />
+                <div>
+                  <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{userStats.total_scans}</p>
+                  <p className="text-sm text-gray-700 font-medium">QR Scans</p>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-white via-green-50 to-emerald-50 border-green-200/50 hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <CardContent className="flex items-center p-6">
+                <MapPin className="h-10 w-10 text-green-600 mr-3" />
+                <div>
+                  <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">{userStats.businesses_visited}</p>
+                  <p className="text-sm text-gray-700 font-medium">Businesses Visited</p>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-white via-yellow-50 to-orange-50 border-yellow-200/50 hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <CardContent className="flex items-center p-6">
+                <Star className="h-10 w-10 text-yellow-600 mr-3" />
+                <div>
+                  <p className="text-3xl font-bold bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">{userStats.rewards_redeemed}</p>
+                  <p className="text-sm text-gray-700 font-medium">Rewards Redeemed</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
         {/* Profile Management */}
         <Tabs defaultValue="profile" className="space-y-6">
@@ -329,6 +343,7 @@ export default function UserProfilePage() {
             <NotificationSettings />
           </TabsContent>
         </Tabs>
+        </div>
       </div>
     </div>
   );
