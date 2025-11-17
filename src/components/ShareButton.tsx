@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const ShareButton: React.FC = () => {
   const [copied, setCopied] = useState(false);
   
-  const shareUrl = window.location.origin;
+  const shareUrl = "https://www.mansamusamarketplace.com";
   const shareTitle = "Join Mansa Musa Marketplace";
   const shareText = "Check out Mansa Musa Marketplace - join me in building Black wealth together! Help us reach 1 million members. 💪";
 
