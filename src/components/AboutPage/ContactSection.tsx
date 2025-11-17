@@ -13,13 +13,13 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="py-12 lg:py-16 bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         {/* Large blurred backgrounds with animation */}
-        <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-violet-400/20 to-purple-400/20 blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-80 h-80 rounded-full bg-gradient-to-br from-fuchsia-400/20 to-pink-400/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-br from-rose-400/10 to-amber-400/10 blur-3xl"></div>
+        <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-mansablue/15 to-blue-500/15 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 rounded-full bg-gradient-to-br from-mansagold/15 to-amber-500/15 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-br from-blue-400/10 to-amber-400/10 blur-3xl"></div>
         
         {/* Subtle pattern */}
         <div className="absolute inset-0 opacity-5">
@@ -41,8 +41,8 @@ const ContactSection = () => {
           variants={variants}
           className="text-center mb-10 relative"
         >
-          <h2 className="heading-md bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 bg-clip-text text-transparent mb-3">Contact Us</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 mx-auto mb-5 shadow-lg shadow-fuchsia-500/50"></div>
+          <h2 className="heading-md bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent mb-3">Contact Us</h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-5 shadow-lg shadow-mansagold/50"></div>
           <p className="text-lg font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto px-4">
             Have questions or want to learn more? Reach out to us and we'll respond as soon as possible.
           </p>
@@ -53,8 +53,8 @@ const ContactSection = () => {
             <ContactInfo />
             
             {/* Add decorative elements */}
-            <div className="mt-8 p-4 bg-gradient-to-br from-white via-violet-50 to-fuchsia-50 rounded-lg border-2 border-violet-200 shadow-lg">
-              <h3 className="text-sm font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent mb-2">Office Hours</h3>
+            <div className="mt-8 p-4 bg-gradient-to-br from-white via-blue-50 to-amber-50 rounded-lg border-2 border-blue-200 shadow-lg">
+              <h3 className="text-sm font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent mb-2">Office Hours</h3>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex justify-between">
                   <span>Monday - Friday</span>

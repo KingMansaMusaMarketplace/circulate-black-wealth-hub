@@ -4,7 +4,7 @@ import { Users, TrendingUp, Award } from 'lucide-react';
 
 const SponsorshipImpactSection: React.FC = () => {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center text-mansablue mb-12">
           The Impact of Your Partnership

@@ -67,9 +67,9 @@ const HomePage = () => {
           <div className="relative -mt-20 z-10 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
               <div className="relative overflow-hidden rounded-3xl h-40 shadow-2xl">
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600" />
-                <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-yellow-400/20 to-transparent rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-cyan-400/20 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute inset-0 bg-gradient-to-r from-mansablue via-blue-700 to-blue-800" />
+                <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-mansagold/20 to-transparent rounded-full blur-3xl animate-pulse" />
+                <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-amber-500/20 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '0.5s' }} />
                 <div className="relative h-full flex items-center justify-between px-6 sm:px-8">
                   <div className="text-white z-10">
