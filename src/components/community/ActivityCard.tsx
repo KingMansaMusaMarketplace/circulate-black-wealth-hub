@@ -32,15 +32,15 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onLike }) => {
   const getActivityBadgeColor = (type: ActivityItem['type']) => {
     switch (type) {
       case 'qr_scan':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-500/20 text-green-300 border-green-500/30';
       case 'business_review':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
       case 'milestone':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
       case 'community_post':
-        return 'bg-orange-100 text-orange-800';
+        return 'bg-orange-500/20 text-orange-300 border-orange-500/30';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-slate-500/20 text-slate-300 border-slate-500/30';
     }
   };
 
@@ -60,16 +60,16 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onLike }) => {
   };
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
+    <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/30 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/10">
       <CardContent className="p-4">
         <div className="flex space-x-3">
-          <Avatar className="h-10 w-10">
+          <Avatar className="h-10 w-10 border-2 border-white/10">
             <AvatarImage 
               src={activity.user_avatar} 
               alt={activity.user_name}
               className="object-cover"
             />
-            <AvatarFallback className="bg-mansablue text-white">
+            <AvatarFallback className="bg-gradient-to-br from-mansablue to-blue-600 text-white">
               {activity.user_name.split(' ').map(n => n[0]).join('')}
             </AvatarFallback>
           </Avatar>
@@ -77,47 +77,55 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, onLike }) => {
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2">
-                <h4 className="font-medium text-gray-900">{activity.user_name}</h4>
+                <h4 className="font-medium text-white">{activity.user_name}</h4>
                 <Badge 
                   variant="secondary" 
-                  className={`text-xs ${getActivityBadgeColor(activity.type)}`}
+                  className={`text-xs border ${getActivityBadgeColor(activity.type)}`}
                 >
                   {getActivityIcon(activity.type)}
                   <span className="ml-1">{getActivityLabel(activity.type)}</span>
                 </Badge>
               </div>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-blue-200/50">
                 {formatDistanceToNow(new Date(activity.timestamp), { addSuffix: true })}
               </span>
             </div>
             
             {activity.business_name && (
-              <p className="text-sm text-mansablue font-medium mb-1">
+              <p className="text-sm bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent font-medium mb-1">
                 @ {activity.business_name}
               </p>
             )}
             
-            <p className="text-gray-700 text-sm mb-3">{activity.content}</p>
+            <p className="text-blue-100/90 text-sm mb-3">{activity.content}</p>
             
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => onLike(activity.id)}
-                className={`text-xs ${activity.isLiked ? 'text-red-500' : 'text-gray-500'}`}
+                className={`text-xs ${activity.isLiked ? 'text-red-400' : 'text-blue-200/70'} hover:text-white`}
               >
                 <Heart 
-                  className={`h-4 w-4 mr-1 ${activity.isLiked ? 'fill-current' : ''}`} 
+                  className={`h-4 w-4 mr-1 ${activity.isLiked ? 'fill-current' : ''}`}
                 />
                 {activity.likes}
               </Button>
               
-              <Button variant="ghost" size="sm" className="text-xs text-gray-500">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-xs text-blue-200/70 hover:text-white"
+              >
                 <MessageCircle className="h-4 w-4 mr-1" />
                 {activity.comments}
               </Button>
               
-              <Button variant="ghost" size="sm" className="text-xs text-gray-500">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-xs text-blue-200/70 hover:text-white"
+              >
                 <Share2 className="h-4 w-4 mr-1" />
                 Share
               </Button>

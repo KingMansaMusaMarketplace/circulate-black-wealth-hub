@@ -219,29 +219,29 @@ const CommunityEvents: React.FC = () => {
           </div>
 
           <div className="space-y-2 mb-4">
-            <div className="flex items-center text-sm text-gray-600">
-              <Calendar className="h-4 w-4 mr-2" />
+            <div className="flex items-center text-sm text-blue-200/70">
+              <Calendar className="h-4 w-4 mr-2 text-mansagold" />
               <span>{format(eventDate, 'PPP')}</span>
-              <Clock className="h-4 w-4 ml-4 mr-2" />
+              <Clock className="h-4 w-4 ml-4 mr-2 text-mansagold" />
               <span>{format(eventDate, 'p')}</span>
             </div>
             
-            <div className="flex items-center text-sm text-gray-600">
+            <div className="flex items-center text-sm text-blue-200/70">
               {event.is_virtual ? (
                 <>
-                  <Video className="h-4 w-4 mr-2" />
+                  <Video className="h-4 w-4 mr-2 text-mansagold" />
                   <span>Virtual Event</span>
                 </>
               ) : (
                 <>
-                  <MapPin className="h-4 w-4 mr-2" />
+                  <MapPin className="h-4 w-4 mr-2 text-mansagold" />
                   <span>{event.location}</span>
                 </>
               )}
             </div>
             
-            <div className="flex items-center text-sm text-gray-600">
-              <Users className="h-4 w-4 mr-2" />
+            <div className="flex items-center text-sm text-blue-200/70">
+              <Users className="h-4 w-4 mr-2 text-mansagold" />
               <span>
                 {event.current_attendees} attending
                 {event.max_attendees && ` / ${event.max_attendees} max`}
@@ -250,7 +250,7 @@ const CommunityEvents: React.FC = () => {
           </div>
 
           <div className="flex justify-between items-center">
-            <div className="flex items-center text-sm text-gray-500">
+            <div className="flex items-center text-sm text-blue-200/50">
               <span>Organized by {event.organizer_name}</span>
               {event.business_name && (
                 <span className="ml-2">• {event.business_name}</span>
@@ -262,7 +262,7 @@ const CommunityEvents: React.FC = () => {
                 size="sm"
                 onClick={() => joinEvent(event.id)}
                 disabled={isFull}
-                className={isFull ? 'opacity-50 cursor-not-allowed' : ''}
+                className={isFull ? 'opacity-50 cursor-not-allowed bg-slate-700 text-blue-200/50' : 'bg-gradient-to-r from-mansagold to-amber-400 hover:from-amber-400 hover:to-mansagold text-white shadow-md shadow-mansagold/30'}
               >
                 {isFull ? 'Event Full' : 'Join Event'}
               </Button>
@@ -274,25 +274,25 @@ const CommunityEvents: React.FC = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Community Events</h1>
-          <p className="text-gray-600 mt-2">Connect, learn, and grow together at local events</p>
+          <h1 className="text-3xl font-bold text-white">Community Events</h1>
+          <p className="text-blue-100/90 mt-2">Connect, learn, and grow together at local events</p>
         </div>
         
         {user && (
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-mansablue hover:bg-mansablue-dark">
+              <Button className="bg-gradient-to-r from-mansablue to-blue-600 hover:from-blue-600 hover:to-mansablue text-white shadow-lg shadow-mansablue/30">
                 <Plus className="h-4 w-4 mr-2" />
                 Create Event
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl">
+            <DialogContent className="max-w-2xl bg-slate-900 border-white/10 text-white">
               <DialogHeader>
-                <DialogTitle>Create Community Event</DialogTitle>
+                <DialogTitle className="text-white">Create Community Event</DialogTitle>
               </DialogHeader>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(createEvent)} className="space-y-4">
@@ -414,11 +414,11 @@ const CommunityEvents: React.FC = () => {
       {loading ? (
         <div className="grid gap-4">
           {[1, 2, 3].map((i) => (
-            <Card key={i} className="animate-pulse">
+            <Card key={i} className="animate-pulse bg-slate-800/40 border-white/10">
               <CardContent className="p-6">
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-3"></div>
-                <div className="h-3 bg-gray-200 rounded w-1/2 mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                <div className="h-4 bg-slate-700/50 rounded w-3/4 mb-3"></div>
+                <div className="h-3 bg-slate-700/50 rounded w-1/2 mb-2"></div>
+                <div className="h-3 bg-slate-700/50 rounded w-2/3"></div>
               </CardContent>
             </Card>
           ))}
@@ -429,15 +429,18 @@ const CommunityEvents: React.FC = () => {
             upcomingEvents.length > 0 ? (
               upcomingEvents.map(renderEventCard)
             ) : (
-              <Card>
+              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10">
                 <CardContent className="p-12 text-center">
-                  <Calendar className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No upcoming events</h3>
-                  <p className="text-gray-600 mb-4">
+                  <Calendar className="h-12 w-12 mx-auto text-mansagold mb-4" />
+                  <h3 className="text-lg font-medium text-white mb-2">No upcoming events</h3>
+                  <p className="text-blue-200/70 mb-4">
                     Be the first to create a community event!
                   </p>
                   {user && (
-                    <Button onClick={() => setIsCreateDialogOpen(true)}>
+                    <Button 
+                      onClick={() => setIsCreateDialogOpen(true)}
+                      className="bg-gradient-to-r from-mansagold to-amber-400 hover:from-amber-400 hover:to-mansagold text-white"
+                    >
                       Create Event
                     </Button>
                   )}
@@ -448,11 +451,11 @@ const CommunityEvents: React.FC = () => {
             pastEvents.length > 0 ? (
               pastEvents.map(renderEventCard)
             ) : (
-              <Card>
+              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10">
                 <CardContent className="p-12 text-center">
-                  <Clock className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No past events</h3>
-                  <p className="text-gray-600">
+                  <Clock className="h-12 w-12 mx-auto text-mansagold mb-4" />
+                  <h3 className="text-lg font-medium text-white mb-2">No past events</h3>
+                  <p className="text-blue-200/70">
                     Past events will appear here once they're completed.
                   </p>
                 </CardContent>
