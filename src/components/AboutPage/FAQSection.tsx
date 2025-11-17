@@ -33,24 +33,30 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="container-custom">
+    <section className="py-20 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+        <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-indigo-400/20 to-purple-400/20 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 rounded-full bg-gradient-to-br from-purple-400/20 to-pink-400/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+      
+      <div className="container-custom relative">
         <div className="text-center mb-12">
-          <h2 className="heading-md text-mansablue mb-4">Frequently Asked Questions</h2>
-          <div className="w-24 h-1 bg-mansagold mx-auto mb-6"></div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <h2 className="heading-md bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">Frequently Asked Questions</h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 mx-auto mb-6 shadow-lg shadow-purple-500/50"></div>
+          <p className="text-lg font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto">
             Common questions about our mission, operations, and impact.
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-xl border-2 border-purple-200">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-b border-gray-200">
-                <AccordionTrigger className="text-left font-medium text-mansablue-dark hover:text-mansablue py-4">
+              <AccordionItem key={index} value={`item-${index}`} className="border-b-2 border-purple-100">
+                <AccordionTrigger className="text-left font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent hover:from-purple-600 hover:to-pink-600 py-4 transition-all">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 pb-4">
+                <AccordionContent className="text-gray-700 pb-4 leading-relaxed">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -58,10 +64,10 @@ const FAQSection = () => {
           </Accordion>
 
           <div className="mt-12 text-center">
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-700 text-lg mb-4">
               Have more questions about our platform or mission?
             </p>
-            <Link to="/team-contact" className="text-mansablue font-medium hover:underline">
+            <Link to="/team-contact" className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent font-bold hover:from-purple-600 hover:to-pink-600 transition-all">
               Contact our team for more information →
             </Link>
           </div>
