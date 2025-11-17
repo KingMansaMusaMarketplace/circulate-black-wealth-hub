@@ -29,15 +29,15 @@ const DemoNavigation = ({
 
   return (
     <div className="flex justify-center mb-8">
-      <div className="flex space-x-2 bg-white rounded-lg p-1 shadow-sm border">
+      <div className="flex space-x-2 bg-white/90 backdrop-blur-md rounded-xl p-2 shadow-lg border-2 border-gradient-to-r from-purple-200 to-blue-200">
         {demoSteps.map((step, index) => (
           <button
             key={step.id}
             onClick={() => handleStepClick(index)}
-            className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${
               activeDemo === index
-                ? 'bg-mansablue text-white shadow-sm'
-                : 'text-gray-600 hover:text-mansablue'
+                ? 'bg-gradient-to-r from-mansagold via-amber-500 to-orange-500 text-white shadow-md scale-105'
+                : 'text-gray-600 hover:text-mansagold hover:bg-amber-50'
             }`}
           >
             {step.title}
