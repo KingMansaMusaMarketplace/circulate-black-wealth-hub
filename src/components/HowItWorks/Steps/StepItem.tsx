@@ -41,7 +41,7 @@ const StepItem: React.FC<StepItemProps> = ({
       onMouseLeave={() => setActiveStep(null)}
       className={`flex flex-col ${index % 2 === 1 ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center`}
     >
-      <div className="md:w-1/2 bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border-2 border-purple-200 hover:border-purple-400 transition-all duration-300">
+      <div className="md:w-1/2 bg-slate-800/60 backdrop-blur-xl rounded-2xl p-8 shadow-lg border border-white/10 hover:border-mansagold/50 transition-all duration-300">
         <div className="mb-4 flex items-center">
           <motion.span 
             className="text-6xl mr-4"
@@ -50,16 +50,16 @@ const StepItem: React.FC<StepItemProps> = ({
           >
             {step.icon}
           </motion.span>
-          <span className="text-3xl font-extrabold bg-gradient-to-r from-mansagold via-amber-500 to-orange-500 bg-clip-text text-transparent">{step.number}</span>
+          <span className="text-3xl font-extrabold bg-gradient-to-r from-mansagold via-amber-400 to-amber-500 bg-clip-text text-transparent">{step.number}</span>
         </div>
-        <h2 className="heading-md mb-4 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent font-extrabold">{step.title}</h2>
-        <p className="text-gray-700 text-lg mb-6 font-medium">{step.description}</p>
+        <h2 className="heading-md mb-4 text-white font-extrabold">{step.title}</h2>
+        <p className="text-blue-100/90 text-lg mb-6 font-medium">{step.description}</p>
         
         <div className="space-y-3">
           {step.details.map((detail, i) => (
             <div key={i} className="flex items-start group">
-              <CheckCircle2 className="h-5 w-5 text-amber-500 mr-3 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
-              <span className="text-gray-700 font-medium">{detail}</span>
+              <CheckCircle2 className="h-5 w-5 text-mansagold mr-3 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
+              <span className="text-blue-200/70 font-medium">{detail}</span>
             </div>
           ))}
         </div>

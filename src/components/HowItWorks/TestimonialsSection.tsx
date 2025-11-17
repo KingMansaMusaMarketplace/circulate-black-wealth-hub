@@ -52,11 +52,11 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section id="testimonials" className="py-20 bg-mansablue relative overflow-hidden">
+    <section id="testimonials" className="py-20 bg-slate-900/40 backdrop-blur-sm relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-20 left-10 w-40 h-40 rounded-full bg-white/5 blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-60 h-60 rounded-full bg-mansagold/10 blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-40 h-40 rounded-full bg-mansablue/20 blur-3xl"></div>
+        <div className="absolute bottom-20 right-20 w-60 h-60 rounded-full bg-mansagold/20 blur-3xl"></div>
       </div>
       
       <div className="container-custom relative z-10">
@@ -67,7 +67,7 @@ const TestimonialsSection = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className="heading-lg text-white mb-4">From Our Community</h2>
-          <p className="text-white/80 max-w-2xl mx-auto">
+          <p className="text-blue-100/90 max-w-2xl mx-auto">
             Discover why members and businesses are joining the movement.
           </p>
         </motion.div>
@@ -81,7 +81,7 @@ const TestimonialsSection = () => {
           >
             {/* Main testimonial */}
             <motion.div 
-              className="bg-white rounded-2xl shadow-xl p-8 relative"
+              className="bg-slate-800/60 backdrop-blur-xl rounded-2xl shadow-xl p-8 relative border border-white/10"
               initial={{ scale: 0.95, opacity: 0 }}
               animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
