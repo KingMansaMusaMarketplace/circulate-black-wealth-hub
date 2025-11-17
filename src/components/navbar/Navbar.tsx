@@ -88,31 +88,35 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
 
   return (
     <>
-      <header className={`bg-background/80 backdrop-blur-lg shadow-sm z-50 w-full sticky top-0 border-b border-border/50 transition-all duration-300 ${className}`}>
+      <header className={`bg-gradient-to-r from-background via-background to-background/95 backdrop-blur-xl shadow-lg z-50 w-full sticky top-0 border-b border-border/30 transition-all duration-300 ${className}`}>
         <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="flex h-24 items-center justify-between w-full">
+          <div className="flex h-16 items-center justify-between w-full gap-4">
             <div className="flex items-center min-w-0 flex-shrink-0">
               <Logo />
               {!isMobile && (
-                <div className="ml-12 hidden md:block">
+                <div className="ml-8 hidden md:block">
                   <NavLinks />
                 </div>
               )}
             </div>
             
-            <div className="flex items-center gap-2 flex-shrink-0">
-              {user && !isMobile && <NotificationBell />}
+            <div className="flex items-center gap-3 flex-shrink-0">
+              {user && !isMobile && (
+                <div className="transition-all duration-300 hover:scale-105">
+                  <NotificationBell />
+                </div>
+              )}
               
               {isMobile && (
                 <Button 
                   variant="ghost" 
                   size="icon" 
                   onClick={toggleMobileMenu}
-                  className="md:hidden relative z-50 touch-manipulation hover:bg-accent/50"
+                  className="md:hidden relative z-50 touch-manipulation hover:bg-accent/80 transition-all duration-300 hover:scale-105 rounded-lg"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   data-mobile-menu-trigger
                   style={{ 
-                    minHeight: '44px', 
+                    minHeight: '44px',
                     minWidth: '44px',
                     touchAction: 'manipulation',
                     WebkitTapHighlightColor: 'transparent'

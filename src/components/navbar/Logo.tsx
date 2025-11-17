@@ -4,15 +4,15 @@ import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
 
 const Logo: React.FC = () => {
   return (
-    <Link to="/" className="flex items-center space-x-3 group">
-      <div className="w-20 h-20 rounded-full overflow-hidden border-3 border-mansagold/30 shadow-lg bg-white/10 backdrop-blur-sm transition-transform duration-300 group-hover:scale-[1.4] group-hover:shadow-xl">
+    <Link to="/" className="flex items-center gap-3 group">
+      <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-mansagold/30 shadow-md bg-white/10 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:border-mansagold/50 group-hover:shadow-lg">
         <img 
           src={mansaMusaLogo} 
           alt="Mansa Musa Marketplace" 
           className="w-full h-full object-cover"
         />
       </div>
-      <span className="text-2xl font-bold text-mansablue transition-colors group-hover:text-mansagold">Mansa Musa Marketplace</span>
+      <span className="text-xl font-bold text-foreground transition-colors duration-300 group-hover:text-mansagold">Mansa Musa Marketplace</span>
     </Link>
   );
 };
