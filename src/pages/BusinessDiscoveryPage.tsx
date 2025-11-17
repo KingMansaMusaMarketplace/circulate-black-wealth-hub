@@ -133,59 +133,65 @@ const BusinessDiscoveryPage = () => {
         <meta name="description" content="Find and support amazing Black-owned businesses in your community. Browse restaurants, services, retail stores and more." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-rose-50 relative overflow-hidden">
-        {/* Animated background elements */}
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Modern dark gradient mesh background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" />
+        
+        {/* Animated gradient orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-[32rem] h-[32rem] bg-pink-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-rose-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-20 right-20 w-[32rem] h-[32rem] bg-gradient-to-tl from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 right-1/3 w-72 h-72 bg-gradient-to-tr from-blue-700/25 to-mansablue/25 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
         </div>
 
+        {/* Subtle grid overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
+
         {/* Hero Section */}
-        <div className="bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 text-white relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent_50%)]" />
-          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400"></div>
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-mansablue via-blue-800 to-slate-900" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(251,191,36,0.15),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(59,130,246,0.15),transparent_50%)]" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-mansablue via-mansagold to-mansablue bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite]"></div>
           
           <div className="container mx-auto px-4 py-16 relative z-10">
             <div className="text-center mb-10 animate-fade-in">
               <h1 className="text-5xl md:text-6xl font-bold mb-6 drop-shadow-lg">
-                Discover Amazing <span className="text-yellow-300">Black-Owned</span> Businesses
+                Discover Amazing <span className="text-transparent bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text">Black-Owned</span> Businesses
               </h1>
-              <p className="text-2xl text-white/95 max-w-2xl mx-auto font-medium">
+              <p className="text-2xl text-slate-200 max-w-2xl mx-auto font-medium">
                 Support your community while finding incredible services, products, and experiences 🌟
               </p>
             </div>
 
             {/* Search Bar */}
             <div className="max-w-4xl mx-auto">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-orange-400/30 to-pink-400/30 rounded-3xl blur-xl"></div>
-                <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl">
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-mansablue via-mansagold to-mansablue rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-1000 animate-pulse"></div>
+                <div className="relative bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border border-white/10">
                   <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex-1 relative">
-                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-600 h-7 w-7" />
+                      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-400 h-7 w-7" />
                       <Input
                         placeholder="Search businesses, categories, or locations... 🔍"
-                        style={{ WebkitTextFillColor: '#111827', opacity: 1 }}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-14 h-16 rounded-2xl text-xl border-2 border-purple-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/20 font-medium"
+                        className="pl-14 h-16 rounded-2xl text-xl bg-slate-700/50 border-white/10 text-white placeholder:text-slate-400 focus:border-mansablue/50 focus:ring-2 focus:ring-mansablue/20 font-medium"
                       />
                     </div>
                     <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                      <SelectTrigger className="w-full md:w-56 h-16 rounded-2xl border-2 border-purple-200 text-xl font-semibold">
+                      <SelectTrigger className="w-full md:w-56 h-16 rounded-2xl bg-slate-700/50 border-white/10 text-white text-xl font-semibold hover:bg-slate-700/70 transition-colors">
                         <SelectValue placeholder="Category" />
                       </SelectTrigger>
-                      <SelectContent className="bg-white z-50">
+                      <SelectContent className="bg-slate-800 border-white/10 text-white z-50">
                         {categories.map(category => (
-                          <SelectItem key={category} value={category} className="text-lg">
+                          <SelectItem key={category} value={category} className="text-lg hover:bg-slate-700 focus:bg-slate-700 text-white">
                             {category === 'all' ? 'All Categories' : category}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-                    <Button className="h-16 px-10 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 hover:from-purple-600 hover:to-rose-600 text-white rounded-2xl shadow-xl border-0 text-xl font-bold">
+                    <Button className="h-16 px-10 bg-gradient-to-r from-mansablue via-blue-600 to-mansagold hover:from-mansablue hover:via-blue-700 hover:to-mansagold text-white rounded-2xl shadow-[0_0_30px_rgba(251,191,36,0.3)] hover:shadow-[0_0_40px_rgba(251,191,36,0.5)] border-0 text-xl font-bold transition-all duration-500 overflow-hidden group/btn relative before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700">
                       <Search className="h-6 w-6 mr-2" />
                       Search
                     </Button>
@@ -197,52 +203,52 @@ const BusinessDiscoveryPage = () => {
         </div>
 
         {/* Filters & Controls */}
-        <div className="border-b bg-white/95 backdrop-blur sticky top-0 z-40 shadow-lg relative">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500"></div>
+        <div className="border-b border-white/10 bg-gradient-to-r from-slate-800/95 to-slate-900/95 backdrop-blur-xl sticky top-0 z-40 shadow-lg relative">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-mansagold to-mansablue bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite]"></div>
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-6">
                 <div className="flex items-center gap-3">
-                  <Filter className="h-5 w-5 text-purple-600" />
+                  <Filter className="h-5 w-5 text-blue-400" />
                   <Select value={selectedRating} onValueChange={setSelectedRating}>
-                    <SelectTrigger className="w-36 border-2 border-purple-200 font-medium">
+                    <SelectTrigger className="w-36 bg-slate-700/50 border-white/10 text-white font-medium hover:bg-slate-700/70 transition-colors">
                       <SelectValue placeholder="Rating" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Ratings</SelectItem>
-                      <SelectItem value="4">4+ Stars</SelectItem>
-                      <SelectItem value="3">3+ Stars</SelectItem>
-                      <SelectItem value="2">2+ Stars</SelectItem>
+                    <SelectContent className="bg-slate-800 border-white/10 text-white">
+                      <SelectItem value="all" className="hover:bg-slate-700 focus:bg-slate-700 text-white">All Ratings</SelectItem>
+                      <SelectItem value="4" className="hover:bg-slate-700 focus:bg-slate-700 text-white">4+ Stars</SelectItem>
+                      <SelectItem value="3" className="hover:bg-slate-700 focus:bg-slate-700 text-white">3+ Stars</SelectItem>
+                      <SelectItem value="2" className="hover:bg-slate-700 focus:bg-slate-700 text-white">2+ Stars</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-gray-700">Sort:</span>
+                  <span className="text-sm font-medium text-slate-300">Sort:</span>
                   <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-40 border-2 border-purple-200 font-medium">
+                    <SelectTrigger className="w-40 bg-slate-700/50 border-white/10 text-white font-medium hover:bg-slate-700/70 transition-colors">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="newest">Newest</SelectItem>
-                      <SelectItem value="rating">Highest Rating</SelectItem>
-                      <SelectItem value="reviews">Most Reviews</SelectItem>
-                      <SelectItem value="verified">Verified First</SelectItem>
+                    <SelectContent className="bg-slate-800 border-white/10 text-white">
+                      <SelectItem value="newest" className="hover:bg-slate-700 focus:bg-slate-700 text-white">Newest</SelectItem>
+                      <SelectItem value="rating" className="hover:bg-slate-700 focus:bg-slate-700 text-white">Highest Rating</SelectItem>
+                      <SelectItem value="reviews" className="hover:bg-slate-700 focus:bg-slate-700 text-white">Most Reviews</SelectItem>
+                      <SelectItem value="verified" className="hover:bg-slate-700 focus:bg-slate-700 text-white">Verified First</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
               <div className="flex items-center gap-6">
-                <span className="text-sm font-bold text-gray-900">
+                <span className="text-sm font-bold text-transparent bg-gradient-to-r from-blue-300 to-amber-300 bg-clip-text">
                   {filteredBusinesses.length} businesses found 🎯
                 </span>
-                <div className="flex items-center border-2 border-purple-200 rounded-xl p-1 bg-purple-50">
+                <div className="flex items-center border border-white/10 rounded-xl p-1 bg-slate-700/30">
                   <Button
                     variant={viewMode === 'grid' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('grid')}
-                    className={`h-10 w-10 p-0 rounded-lg ${viewMode === 'grid' ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600' : ''}`}
+                    className={`h-10 w-10 p-0 rounded-lg transition-all duration-300 ${viewMode === 'grid' ? 'bg-gradient-to-r from-mansablue to-blue-600 hover:from-mansablue hover:to-blue-700 shadow-lg shadow-mansablue/30' : 'hover:bg-slate-700/50 text-slate-400'}`}
                   >
                     <Grid className="h-5 w-5" />
                   </Button>
@@ -250,7 +256,7 @@ const BusinessDiscoveryPage = () => {
                     variant={viewMode === 'list' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('list')}
-                    className={`h-10 w-10 p-0 rounded-lg ${viewMode === 'list' ? 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600' : ''}`}
+                    className={`h-10 w-10 p-0 rounded-lg transition-all duration-300 ${viewMode === 'list' ? 'bg-gradient-to-r from-mansagold to-amber-600 hover:from-mansagold hover:to-amber-700 shadow-lg shadow-mansagold/30' : 'hover:bg-slate-700/50 text-slate-400'}`}
                   >
                     <List className="h-5 w-5" />
                   </Button>
@@ -264,10 +270,10 @@ const BusinessDiscoveryPage = () => {
         <div className="container mx-auto px-4 py-12 relative z-10">
           {filteredBusinesses.length === 0 ? (
             <div className="text-center py-16">
-              <div className="relative inline-block">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-400/30 via-pink-400/30 to-rose-400/30 rounded-3xl blur-xl"></div>
-                <Alert className="max-w-md mx-auto bg-white/95 backdrop-blur-sm border-2 border-purple-200 relative shadow-xl">
-                  <AlertDescription className="text-lg text-gray-700">
+              <div className="relative inline-block group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-mansablue via-mansagold to-mansablue rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-1000"></div>
+                <Alert className="max-w-md mx-auto bg-gradient-to-br from-slate-800/95 to-slate-900/95 backdrop-blur-xl border border-white/10 relative shadow-2xl">
+                  <AlertDescription className="text-lg text-slate-200">
                     {businesses.length === 0 
                       ? "No businesses have joined yet. Be the first to list your business! 🚀"
                       : "No businesses match your search criteria. Try adjusting your filters. 🔍"
