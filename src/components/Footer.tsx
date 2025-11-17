@@ -55,9 +55,9 @@ const Footer = () => {
                   (312) 709-6006
                 </button>
               </div>
-              <div className="flex items-center">
-                <MapPin className="h-4 w-4 mr-2 text-mansagold" />
-                <div className="text-foreground/70">
+              <div className="flex items-center group cursor-pointer" onClick={() => window.open('https://www.google.com/maps/search/?api=1&query=1000+E.+111th+St.+Suite+1100+Chicago+Illinois+60628', '_blank')}>
+                <MapPin className="h-4 w-4 mr-2 text-mansagold transition-transform duration-300 group-hover:scale-110" />
+                <div className="text-foreground/70 group-hover:text-mansagold transition-all duration-300">
                   <div>1000 E. 111th St. Suite 1100</div>
                   <div>Chicago, Illinois 60628</div>
                 </div>
