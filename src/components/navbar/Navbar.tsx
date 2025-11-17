@@ -24,7 +24,8 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const toggleMobileMenu = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setMobileMenuOpen(!mobileMenuOpen);
+    console.log('Toggling mobile menu:', !mobileMenuOpen);
+    setMobileMenuOpen(prev => !prev);
   };
 
   const closeMobileMenu = () => {
@@ -59,16 +60,16 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
       }
     };
 
-    // Delay attaching listeners to prevent the opening click from immediately closing the menu
+    // Increased delay for iOS touch event handling
     const timeoutId = setTimeout(() => {
       document.addEventListener('click', handleClickOutside);
-      document.addEventListener('touchend', handleClickOutside, { passive: true });
-    }, 100);
+      document.addEventListener('touchstart', handleClickOutside, { passive: true });
+    }, 300);
     
     return () => {
       clearTimeout(timeoutId);
       document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('touchend', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
     };
   }, [mobileMenuOpen]);
 
@@ -110,7 +111,12 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                   className="md:hidden relative z-50 touch-manipulation hover:bg-accent/50"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   data-mobile-menu-trigger
-                  style={{ minHeight: '44px', minWidth: '44px' }} // Ensure minimum touch target
+                  style={{ 
+                    minHeight: '44px', 
+                    minWidth: '44px',
+                    touchAction: 'manipulation',
+                    WebkitTapHighlightColor: 'transparent'
+                  }}
                 >
                   {mobileMenuOpen ? (
                     <X className="h-6 w-6 transition-transform rotate-90" />
