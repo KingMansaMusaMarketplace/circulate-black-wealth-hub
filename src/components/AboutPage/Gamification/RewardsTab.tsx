@@ -42,10 +42,10 @@ const RewardsTab = () => {
             </h3>
             <ul className="space-y-3">
               {[
-                { points: '10 points', text: 'for each business visit', color: 'from-emerald-500 to-teal-500' },
-                { points: '1 point', text: 'for each dollar spent', color: 'from-blue-500 to-cyan-500' },
+                { points: '10 points', text: 'for each business visit', color: 'from-mansablue to-blue-700' },
+                { points: '1 point', text: 'for each dollar spent', color: 'from-blue-600 to-blue-800' },
                 { points: '25 points', text: 'for each review submitted', color: 'from-purple-500 to-pink-500' },
-                { points: '50 points', text: 'for referring a friend', color: 'from-amber-500 to-orange-500' }
+                { points: '50 points', text: 'for referring a friend', color: 'from-mansagold to-amber-600' }
               ].map((item, idx) => (
                 <li key={idx} className="flex items-center space-x-3 group">
                   <div className={`p-2 bg-gradient-to-r ${item.color} rounded-full group-hover:scale-110 transition-transform`}>
@@ -117,9 +117,9 @@ const RewardsTab = () => {
           </div>
         </div>
         
-        <Card className="border-2 border-green-200 bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300">
+        <Card className="border-2 border-mansablue/30 bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300">
           <CardContent className="p-6">
-            <h3 className="font-bold text-xl mb-2 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+            <h3 className="font-bold text-xl mb-2 bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">
               Milestone Rewards
             </h3>
             <p className="text-gray-600 text-sm mb-5 font-medium">
@@ -127,22 +127,22 @@ const RewardsTab = () => {
             </p>
             
             <div className="space-y-3">
-              <div className="flex justify-between items-center p-4 border-2 border-green-200 rounded-xl bg-green-50 hover:scale-105 transition-transform">
+              <div className="flex justify-between items-center p-4 border-2 border-mansablue/30 rounded-xl bg-blue-50 hover:scale-105 transition-transform">
                 <div>
                   <div className="font-bold text-gray-800">First Purchase</div>
                   <div className="text-sm text-gray-600 font-medium">Make your first purchase</div>
                 </div>
-                <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold px-4 py-1 shadow-md">
+                <Badge className="bg-gradient-to-r from-mansablue to-blue-700 text-white font-bold px-4 py-1 shadow-md">
                   ✓ Completed
                 </Badge>
               </div>
               
-              <div className="flex justify-between items-center p-4 border-2 border-green-200 rounded-xl bg-green-50 hover:scale-105 transition-transform">
+              <div className="flex justify-between items-center p-4 border-2 border-mansablue/30 rounded-xl bg-blue-50 hover:scale-105 transition-transform">
                 <div>
                   <div className="font-bold text-gray-800">5 Different Businesses</div>
                   <div className="text-sm text-gray-600 font-medium">Visit 5 different businesses</div>
                 </div>
-                <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold px-4 py-1 shadow-md">
+                <Badge className="bg-gradient-to-r from-mansablue to-blue-700 text-white font-bold px-4 py-1 shadow-md">
                   ✓ Completed
                 </Badge>
               </div>
