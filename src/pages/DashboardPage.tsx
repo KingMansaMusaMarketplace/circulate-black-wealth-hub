@@ -82,15 +82,16 @@ const DashboardPage = () => {
     }
   ];
 
-  // Quick stats for the overview cards
+  // Quick stats for the overview cards with vibrant gradients
   const quickStats = [
     {
       title: "Points Earned",
       value: "2,450",
       change: "+12%",
       icon: TrendingUp,
-      color: "text-green-600",
-      bgColor: "bg-green-50"
+      color: "text-emerald-600",
+      bgGradient: "bg-gradient-to-br from-emerald-500 to-teal-500",
+      iconColor: "text-white"
     },
     {
       title: "Businesses Visited",
@@ -98,7 +99,8 @@ const DashboardPage = () => {
       change: "+5",
       icon: MapPin,
       color: "text-blue-600",
-      bgColor: "bg-blue-50"
+      bgGradient: "bg-gradient-to-br from-blue-500 to-indigo-600",
+      iconColor: "text-white"
     },
     {
       title: "Rewards Available",
@@ -106,7 +108,8 @@ const DashboardPage = () => {
       change: "New",
       icon: Gift,
       color: "text-purple-600",
-      bgColor: "bg-purple-50"
+      bgGradient: "bg-gradient-to-br from-purple-500 to-pink-500",
+      iconColor: "text-white"
     },
     {
       title: "Community Impact",
@@ -114,7 +117,8 @@ const DashboardPage = () => {
       change: "+$180",
       icon: Users,
       color: "text-orange-600",
-      bgColor: "bg-orange-50"
+      bgGradient: "bg-gradient-to-br from-orange-500 to-red-500",
+      iconColor: "text-white"
     }
   ];
 
@@ -131,15 +135,24 @@ const DashboardPage = () => {
   return (
     <DashboardLayout title="Dashboard" icon={<Home className="mr-2 h-6 w-6" />}>
       <div className="space-y-8">
-        {/* Decorative Banner */}
-        <div className="relative overflow-hidden rounded-2xl h-32 mb-4">
-          <div className="absolute inset-0 bg-gradient-premium" />
-          <div className="absolute top-4 right-10 w-24 h-24 bg-white/10 rounded-full blur-2xl animate-pulse" />
-          <div className="absolute bottom-4 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="relative h-full flex items-center px-8">
-            <div className="text-white">
-              <h2 className="text-2xl font-bold mb-1">Welcome Back!</h2>
-              <p className="text-white/90 text-sm">Track your impact and discover new opportunities</p>
+        {/* Decorative Banner with vibrant gradient */}
+        <div className="relative overflow-hidden rounded-3xl h-40 mb-4 shadow-2xl">
+          <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-yellow-400/20 to-transparent rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-cyan-400/20 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '0.5s' }} />
+          <div className="relative h-full flex items-center justify-between px-8">
+            <div className="text-white z-10">
+              <h2 className="text-3xl font-bold mb-2 drop-shadow-lg">Welcome Back! 👋</h2>
+              <p className="text-white/95 text-base drop-shadow">Track your impact and discover new opportunities</p>
+            </div>
+            <div className="hidden lg:flex items-center space-x-3 z-10">
+              <div className="flex -space-x-2">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 border-2 border-white shadow-lg" />
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 border-2 border-white shadow-lg" />
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 border-2 border-white shadow-lg" />
+              </div>
+              <p className="text-white/90 text-sm font-semibold">+2.4K members</p>
             </div>
           </div>
         </div>
@@ -167,29 +180,32 @@ const DashboardPage = () => {
           </div>
         </ScrollReveal>
 
-        {/* Quick Stats with animations */}
+        {/* Quick Stats with vibrant gradients and animations */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {quickStats.map((stat, index) => (
             <ScrollReveal key={index} delay={0.1 + index * 0.05}>
-              <Card className="glass-card hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border-border/30">
-                <CardContent className="p-5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <p className="font-body text-xs font-medium text-muted-foreground mb-2">{stat.title}</p>
-                      <p className="font-display text-2xl font-bold text-foreground">
+              <Card className="relative overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] border-0">
+                <div className={`absolute inset-0 ${stat.bgGradient} opacity-10`} />
+                <CardContent className="relative p-5">
+                  <div className="flex flex-col space-y-3">
+                    <div className="flex items-center justify-between">
+                      <p className="font-body text-xs font-semibold text-muted-foreground uppercase tracking-wider">{stat.title}</p>
+                      <div className={`p-2.5 rounded-xl ${stat.bgGradient} shadow-lg`}>
+                        <stat.icon className={`h-4 w-4 ${stat.iconColor}`} />
+                      </div>
+                    </div>
+                    <div>
+                      <p className="font-display text-3xl font-bold text-foreground mb-1">
                         {stat.title.includes('Points') || stat.title.includes('Impact') ? (
                           <CountUpNumber end={parseInt(stat.value.replace(/[^0-9]/g, ''))} prefix={stat.value.includes('$') ? '$' : ''} suffix={stat.value.includes(',') ? '' : ''} duration={2000} />
                         ) : (
                           stat.value
                         )}
                       </p>
-                      <p className={`font-body text-xs ${stat.color} flex items-center mt-1`}>
-                        <TrendingUp className="h-3 w-3 mr-1" />
+                      <p className={`font-body text-sm font-semibold ${stat.color} flex items-center`}>
+                        <TrendingUp className="h-4 w-4 mr-1" />
                         {stat.change}
                       </p>
-                    </div>
-                    <div className={`p-3 rounded-xl ${stat.bgColor} shadow-sm`}>
-                      <stat.icon className={`h-5 w-5 ${stat.color}`} />
                     </div>
                   </div>
                 </CardContent>
@@ -200,8 +216,10 @@ const DashboardPage = () => {
 
         {/* Enhanced Quick Actions */}
         <ScrollReveal delay={0.3}>
-          <Card className="glass-card bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue text-white border-border/30 shadow-2xl overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.1),transparent_70%)]" />
+          <Card className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white border-0 shadow-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(251,191,36,0.2),transparent_50%)]" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-mansagold/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full blur-2xl" />
             <CardContent className="p-6 relative z-10">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <div>
