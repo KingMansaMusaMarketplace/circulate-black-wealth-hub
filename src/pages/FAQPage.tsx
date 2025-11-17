@@ -35,15 +35,37 @@ const FAQPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="container mx-auto px-4 py-16">
-        <h1 className="text-4xl font-bold text-mansablue mb-8 text-center">Frequently Asked Questions</h1>
-        <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-amber-50 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+      
+      <div className="container mx-auto px-4 py-16 relative z-10">
+        {/* Header Banner */}
+        <div className="bg-gradient-to-r from-mansablue via-blue-700 to-blue-800 rounded-3xl p-8 mb-12 shadow-2xl relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400"></div>
+          <div className="relative z-10">
+            <h1 className="text-4xl md:text-5xl font-bold text-white text-center drop-shadow-lg mb-3">
+              Frequently Asked <span className="text-mansagold">Questions</span>
+            </h1>
+            <p className="text-white/90 text-center text-lg drop-shadow-md">
+              Find answers to common questions about Mansa Musa Marketplace
+            </p>
+          </div>
+        </div>
+        <div className="max-w-4xl mx-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-mansablue/20">
           <Accordion type="single" collapsible className="w-full">
             {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-                <AccordionContent>{faq.answer}</AccordionContent>
+              <AccordionItem key={index} value={`item-${index}`} className="border-b border-mansablue/20">
+                <AccordionTrigger className="text-left text-mansablue hover:text-blue-700 font-semibold">
+                  {faq.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-gray-700">
+                  {faq.answer}
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
