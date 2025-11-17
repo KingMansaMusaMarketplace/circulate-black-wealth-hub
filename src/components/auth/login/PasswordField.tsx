@@ -29,18 +29,19 @@ export const PasswordField: React.FC<PasswordFieldProps> = ({ form }) => {
       name="password"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Password</FormLabel>
+          <FormLabel className="text-slate-200">Password</FormLabel>
           <div className="relative">
             <FormControl>
               <Input 
                 type={showPassword ? "text" : "password"} 
                 placeholder="••••••••" 
-                {...field} 
+                {...field}
+                className="bg-slate-800/50 border-white/10 text-white placeholder:text-slate-500 focus:border-mansablue/50 focus:ring-mansablue/20"
               />
             </FormControl>
             <button
               type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors"
               onClick={togglePasswordVisibility}
             >
               {showPassword ? (

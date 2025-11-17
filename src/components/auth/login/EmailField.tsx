@@ -22,9 +22,13 @@ export const EmailField: React.FC<EmailFieldProps> = ({ form }) => {
       name="email"
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Email</FormLabel>
+          <FormLabel className="text-slate-200">Email</FormLabel>
           <FormControl>
-            <Input placeholder="Enter your email" {...field} />
+            <Input 
+              placeholder="Enter your email" 
+              {...field}
+              className="bg-slate-800/50 border-white/10 text-white placeholder:text-slate-500 focus:border-mansablue/50 focus:ring-mansablue/20"
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

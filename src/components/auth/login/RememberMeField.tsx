@@ -22,10 +22,11 @@ export const RememberMeField: React.FC<RememberMeFieldProps> = ({ form }) => {
               id="rememberMe" 
               checked={field.value}
               onCheckedChange={field.onChange}
+              className="border-white/20 data-[state=checked]:bg-mansablue data-[state=checked]:border-mansablue"
             />
             <label 
               htmlFor="rememberMe" 
-              className="text-sm text-gray-600 cursor-pointer"
+              className="text-sm text-slate-300 cursor-pointer hover:text-white transition-colors"
             >
               Remember me
             </label>
@@ -34,7 +35,7 @@ export const RememberMeField: React.FC<RememberMeFieldProps> = ({ form }) => {
       />
       <Link 
         to="/reset-password"
-        className="text-sm text-mansablue hover:text-mansagold transition-colors"
+        className="text-sm text-mansagold hover:text-amber-300 transition-colors font-medium"
       >
         Forgot password?
       </Link>
