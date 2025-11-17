@@ -189,19 +189,23 @@ const DirectoryPage: React.FC = () => {
                         variant={viewMode === 'grid' ? "default" : "outline"} 
                         size="sm"
                         onClick={() => setViewMode('grid')}
-                        className="shadow-sm bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white border-0"
+                        className={`shadow-sm border-0 ${viewMode === 'grid' ? 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white' : 'text-indigo-700'}`}
+                        aria-label="Grid view"
+                        aria-pressed={viewMode === 'grid'}
                       >
-                        <Grid3X3 className="h-4 w-4 mr-1" />
-                        Grid
+                        <Grid3X3 className={`h-4 w-4 mr-1 ${viewMode === 'grid' ? 'text-white' : 'text-indigo-700'}`} />
+                        <span className={`${viewMode === 'grid' ? 'text-white' : 'text-indigo-700'}`}>Grid</span>
                       </Button>
                       <Button 
                         variant={viewMode === 'list' ? "default" : "outline"} 
                         size="sm"
                         onClick={() => setViewMode('list')}
-                        className="shadow-sm bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-0"
+                        className={`shadow-sm border-0 ${viewMode === 'list' ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white' : 'text-indigo-700'}`}
+                        aria-label="List view"
+                        aria-pressed={viewMode === 'list'}
                       >
-                        <List className="h-4 w-4 mr-1" />
-                        List
+                        <List className={`h-4 w-4 mr-1 ${viewMode === 'list' ? 'text-white' : 'text-indigo-700'}`} />
+                        <span className={`${viewMode === 'list' ? 'text-white' : 'text-indigo-700'}`}>List</span>
                       </Button>
                       <ContextualTooltip
                         id="directory-map-view"
