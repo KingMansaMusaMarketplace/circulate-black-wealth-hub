@@ -214,20 +214,6 @@ const Footer = () => {
             >
               <Twitter className="h-6 w-6" />
             </button>
-            <button 
-              onClick={() => window.open('https://instagram.com', '_blank')}
-              className="text-foreground/70 hover:text-mansagold transition-all duration-300 hover:scale-110 hover:rotate-6"
-              aria-label="Visit our Instagram page"
-            >
-              <Instagram className="h-6 w-6" />
-            </button>
-            <button 
-              onClick={() => window.open('https://linkedin.com', '_blank')}
-              className="text-foreground/70 hover:text-mansagold transition-all duration-300 hover:scale-110 hover:rotate-6"
-              aria-label="Visit our LinkedIn page"
-            >
-              <Linkedin className="h-6 w-6" />
-            </button>
           </div>
           <div className="text-foreground/70 text-sm text-center md:text-right">
               <p className="font-semibold text-foreground">© 2025 Mansa Musa Marketplace, Inc. All rights reserved.</p>
