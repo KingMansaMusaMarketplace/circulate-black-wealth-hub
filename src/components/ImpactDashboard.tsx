@@ -87,20 +87,21 @@ export const ImpactDashboard = () => {
 
   if (!user) {
     return (
-      <Card className="w-full glass-card bg-white/10 border-white/20">
-        <CardHeader className="text-center py-12">
-          <div className="mx-auto h-16 w-16 rounded-full bg-gradient-to-br from-mansagold to-mansagold-dark flex items-center justify-center mb-6">
-            <Heart className="h-8 w-8 text-white" />
+      <Card className="w-full relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-white/10 overflow-hidden group">
+        <div className="absolute -inset-1 bg-gradient-to-r from-mansablue via-mansagold to-mansablue rounded-lg blur-xl opacity-75 group-hover:opacity-100 transition duration-1000 animate-pulse" />
+        <CardHeader className="text-center py-12 relative z-10">
+          <div className="mx-auto h-16 w-16 rounded-full bg-gradient-to-br from-mansagold to-amber-600 flex items-center justify-center mb-6 shadow-lg shadow-mansagold/50 animate-pulse">
+            <Heart className="h-8 w-8 text-white fill-white" />
           </div>
-          <CardTitle className="text-3xl font-bold text-white mb-3">Track Your Impact</CardTitle>
-          <CardDescription className="text-lg text-white/80">
+          <CardTitle className="text-3xl font-bold text-transparent bg-gradient-to-r from-blue-300 via-white to-amber-300 bg-clip-text mb-3">Track Your Impact</CardTitle>
+          <CardDescription className="text-lg text-slate-300">
             Sign in to see how you're building Black wealth and circulating money within the community
           </CardDescription>
           <div className="mt-8 flex gap-4 justify-center">
-            <Button size="lg" className="gradient-gold text-mansablue-dark hover-glow-gold font-bold">
+            <Button size="lg" className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold hover:from-amber-600 hover:via-amber-500 hover:to-amber-600 text-slate-900 font-bold shadow-[0_0_30px_rgba(251,191,36,0.4)]">
               Sign In
             </Button>
-            <Button size="lg" variant="outline" className="border-white/40 text-white hover:bg-white/10">
+            <Button size="lg" variant="outline" className="border-white/20 bg-slate-700/30 text-white hover:bg-slate-700/50">
               Learn More
             </Button>
           </div>
@@ -112,10 +113,10 @@ export const ImpactDashboard = () => {
   if (isLoading) {
     return (
       <div className="w-full space-y-6">
-        <Card className="animate-pulse glass-card bg-white/10 border-white/20">
+        <Card className="animate-pulse relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-xl border border-white/10">
           <CardHeader>
-            <div className="h-8 bg-white/20 rounded w-1/3" />
-            <div className="h-5 bg-white/20 rounded w-2/3 mt-3" />
+            <div className="h-8 bg-white/10 rounded w-1/3" />
+            <div className="h-5 bg-white/10 rounded w-2/3 mt-3" />
           </CardHeader>
           <CardContent>
             <div className="h-40 bg-white/20 rounded" />
@@ -128,11 +129,12 @@ export const ImpactDashboard = () => {
   if (!report) return null;
 
   const StatCard = ({ icon: Icon, label, value, trend }: any) => (
-    <Card className="glass-card bg-white/10 border-white/20 hover:scale-105 hover-glow-gold transition-all duration-300">
-      <CardContent className="pt-6">
+    <Card className="group relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-sm border border-white/10 hover:border-white/20 hover:shadow-[0_8px_30px_rgba(59,130,246,0.3)] transition-all duration-500 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-mansablue/5 to-mansagold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <CardContent className="pt-6 relative z-10">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-sm text-white/70">{label}</p>
+            <p className="text-sm text-slate-400">{label}</p>
             <p className="text-3xl font-bold text-white">{value}</p>
             {trend && (
               <p className="text-xs text-green-400 flex items-center gap-1">
@@ -141,7 +143,7 @@ export const ImpactDashboard = () => {
               </p>
             )}
           </div>
-          <div className="h-14 w-14 rounded-full bg-gradient-to-br from-mansagold/30 to-mansagold-dark/30 flex items-center justify-center">
+          <div className="h-14 w-14 rounded-full bg-gradient-to-br from-mansagold/30 to-amber-600/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
             <Icon className="h-7 w-7 text-mansagold" />
           </div>
         </div>
@@ -154,20 +156,20 @@ export const ImpactDashboard = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
         <div className="flex items-center gap-4">
-          <div className="h-16 w-16 rounded-full bg-gradient-to-br from-mansagold to-mansagold-dark flex items-center justify-center animate-pulse-slow shadow-lg shadow-mansagold/50">
+          <div className="h-16 w-16 rounded-full bg-gradient-to-br from-mansagold to-amber-600 flex items-center justify-center shadow-lg shadow-mansagold/50 animate-pulse">
             <Heart className="h-8 w-8 text-white fill-white" />
           </div>
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">Your Impact Story</h1>
-            <p className="text-lg text-white/80">Building Black wealth, one transaction at a time</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-gradient-to-r from-blue-300 via-white to-amber-300 bg-clip-text mb-2">Your Impact Story</h1>
+            <p className="text-lg text-slate-300">Building Black wealth, one transaction at a time</p>
           </div>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" size="lg" onClick={shareImpact} className="border-white/40 text-white hover:bg-white/10 hover-glow-gold">
+          <Button variant="outline" size="lg" onClick={shareImpact} className="border-white/20 bg-slate-700/30 text-white hover:bg-slate-700/50 hover:border-mansagold/50 transition-all duration-300">
             <Share2 className="h-5 w-5 mr-2" />
             Share
           </Button>
-          <Button variant="outline" size="lg" className="border-white/40 text-white hover:bg-white/10 hover-glow-gold">
+          <Button variant="outline" size="lg" className="border-white/20 bg-slate-700/30 text-white hover:bg-slate-700/50 hover:border-mansablue/50 transition-all duration-300">
             <Download className="h-5 w-5 mr-2" />
             Export
           </Button>
@@ -176,23 +178,25 @@ export const ImpactDashboard = () => {
 
       {/* Period Selector */}
       <Tabs value={period} onValueChange={(v) => setPeriod(v as any)} className="w-full">
-        <TabsList className="grid w-full max-w-md grid-cols-3 bg-white/10 border border-white/20">
-          <TabsTrigger value="week" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue-dark">This Week</TabsTrigger>
-          <TabsTrigger value="month" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue-dark">This Month</TabsTrigger>
-          <TabsTrigger value="year" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue-dark">This Year</TabsTrigger>
+        <TabsList className="grid w-full max-w-md grid-cols-3 bg-slate-800/50 border border-white/10 backdrop-blur-sm">
+          <TabsTrigger value="week" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white text-slate-300">This Week</TabsTrigger>
+          <TabsTrigger value="month" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white text-slate-300">This Month</TabsTrigger>
+          <TabsTrigger value="year" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white text-slate-300">This Year</TabsTrigger>
         </TabsList>
 
         <TabsContent value={period} className="space-y-6 mt-6">
           {/* AI-Generated Impact Story */}
-          <Card className="glass-card bg-gradient-to-br from-mansagold/20 to-white/10 border-mansagold/30 hover:scale-[1.02] transition-all duration-300 hover-glow-gold">
-            <CardHeader>
+          <Card className="group relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-sm border border-white/10 overflow-hidden">
+            <div className="absolute -inset-1 bg-gradient-to-r from-mansagold/30 via-amber-500/30 to-mansagold/30 rounded-lg blur-xl opacity-0 group-hover:opacity-75 transition duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-br from-mansagold/5 to-amber-600/5" />
+            <CardHeader className="relative z-10">
               <div className="flex items-center gap-3">
                 <Sparkles className="h-6 w-6 text-mansagold animate-pulse" />
-                <CardTitle className="text-2xl text-white">Your Impact Story</CardTitle>
+                <CardTitle className="text-2xl text-transparent bg-gradient-to-r from-amber-300 to-mansagold bg-clip-text">Your Impact Story</CardTitle>
               </div>
             </CardHeader>
-            <CardContent>
-              <p className="text-lg leading-relaxed whitespace-pre-line text-white/90">
+            <CardContent className="relative z-10">
+              <p className="text-lg leading-relaxed whitespace-pre-line text-slate-200">
                 {report.story}
               </p>
             </CardContent>
@@ -200,7 +204,7 @@ export const ImpactDashboard = () => {
 
           {/* Personal Stats Grid */}
           <div>
-            <h2 className="text-2xl font-semibold mb-6 text-white">Your Personal Impact</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-transparent bg-gradient-to-r from-blue-300 to-white bg-clip-text">Your Personal Impact</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatCard
                 icon={DollarSign}
@@ -231,7 +235,7 @@ export const ImpactDashboard = () => {
 
           {/* Community Impact */}
           <div>
-            <h2 className="text-2xl font-semibold mb-6 text-white">Community Collective Power</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-transparent bg-gradient-to-r from-amber-300 to-white bg-clip-text">Community Collective Power</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatCard
                 icon={DollarSign}
@@ -259,17 +263,18 @@ export const ImpactDashboard = () => {
 
           {/* Businesses You've Supported */}
           {report.stats.businesses.length > 0 && (
-            <Card className="glass-card bg-white/10 border-white/20">
-              <CardHeader>
-                <CardTitle className="text-2xl text-white">Businesses You've Empowered</CardTitle>
-                <CardDescription className="text-lg text-white/70">These Black-owned businesses are thriving because of you</CardDescription>
+            <Card className="relative bg-gradient-to-br from-slate-800/90 to-slate-900/90 backdrop-blur-sm border border-white/10 overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-r from-mansablue/5 to-mansagold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardHeader className="relative z-10">
+                <CardTitle className="text-2xl text-transparent bg-gradient-to-r from-blue-300 to-amber-300 bg-clip-text">Businesses You've Empowered</CardTitle>
+                <CardDescription className="text-lg text-slate-400">These Black-owned businesses are thriving because of you</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="relative z-10">
                 <div className="flex flex-wrap gap-3">
                   {report.stats.businesses.map((business) => (
-                    <Badge key={business.id} variant="secondary" className="px-4 py-2 text-base bg-mansagold/20 text-white border border-mansagold/30 hover:bg-mansagold/30 transition-colors">
+                    <Badge key={business.id} variant="secondary" className="px-4 py-2 text-base bg-gradient-to-r from-slate-700/50 to-slate-800/50 text-white border border-white/10 hover:border-mansagold/50 hover:from-mansagold/20 hover:to-amber-600/20 transition-all duration-300">
                       {business.business_name}
-                      <span className="text-sm text-white/60 ml-2">• {business.category}</span>
+                      <span className="text-sm text-slate-400 ml-2">• {business.category}</span>
                     </Badge>
                   ))}
                 </div>
