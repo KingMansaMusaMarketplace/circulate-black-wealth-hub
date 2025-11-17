@@ -81,7 +81,7 @@ const HomePage = () => {
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 border-2 border-white shadow-lg" />
                       <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 border-2 border-white shadow-lg" />
                     </div>
-                    <p className="text-white/90 text-sm font-semibold">+2.4K members</p>
+                    <p className="text-white/90 text-sm font-semibold">Goal: 1M Members</p>
                   </div>
                 </div>
               </div>

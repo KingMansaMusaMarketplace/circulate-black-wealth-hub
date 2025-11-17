@@ -85,8 +85,8 @@ const HeroSection = () => {
                   <div className="absolute bottom-4 left-4 right-4 glass-card backdrop-blur-xl p-4 rounded-2xl border border-white/20 shadow-2xl">
                     <div className="flex items-center justify-between text-white">
                       <div>
-                        <div className="font-display font-bold text-2xl bg-gradient-gold bg-clip-text text-transparent">10,000+</div>
-                        <div className="font-body text-sm text-white/90">Active Users</div>
+                        <div className="font-display font-bold text-2xl bg-gradient-gold bg-clip-text text-transparent">1M Goal</div>
+                        <div className="font-body text-sm text-white/90">Join the Mission</div>
                       </div>
                       <div className="text-right">
                         <div className="font-display font-bold text-2xl text-green-400">100%</div>

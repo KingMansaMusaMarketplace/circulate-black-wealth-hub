@@ -12,7 +12,7 @@ const CTASection = () => {
           Ready to Start Circulating Wealth?
         </h2>
         <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-          Join thousands of community members supporting Black-owned businesses and creating economic impact.
+          Join our mission to reach 1 million members supporting Black-owned businesses and creating economic impact.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
