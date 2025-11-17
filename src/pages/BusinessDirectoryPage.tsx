@@ -104,40 +104,40 @@ const BusinessDirectoryPage: React.FC = () => {
                   
                   <div className="flex items-center space-x-2">
                     <Button 
-                      variant={view === 'grid' ? "default" : "outline"} 
+                      variant={view === 'grid' ? "default" : "white"}
                       size="sm"
                       onClick={() => setView('grid')}
                       className={view === 'grid' 
-                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                        : 'border-indigo-300 bg-white text-indigo-700 hover:bg-indigo-50 hover:border-indigo-400'}
+                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white border-transparent'
+                        : ''}
                       aria-label="Grid view"
                     >
-                      <Grid3X3 className={view === 'grid' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1 text-indigo-700'} />
-                      <span className={view === 'grid' ? 'text-white font-medium' : 'text-indigo-700 font-medium'}>Grid</span>
+                      <Grid3X3 className={view === 'grid' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1'} />
+                      <span className={view === 'grid' ? 'text-white font-medium' : 'font-medium'}>Grid</span>
                     </Button>
                     <Button 
-                      variant={view === 'list' ? "default" : "outline"} 
+                      variant={view === 'list' ? "default" : "white"}
                       size="sm"
                       onClick={() => setView('list')}
                       className={view === 'list' 
-                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                        : 'border-indigo-300 bg-white text-indigo-700 hover:bg-indigo-50 hover:border-indigo-400'}
+                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white border-transparent'
+                        : ''}
                       aria-label="List view"
                     >
-                      <List className={view === 'list' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1 text-indigo-700'} />
-                      <span className={view === 'list' ? 'text-white font-medium' : 'text-indigo-700 font-medium'}>List</span>
+                      <List className={view === 'list' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1'} />
+                      <span className={view === 'list' ? 'text-white font-medium' : 'font-medium'}>List</span>
                     </Button>
                     <Button 
-                      variant={view === 'map' ? "default" : "outline"} 
+                      variant={view === 'map' ? "default" : "white"}
                       size="sm"
                       onClick={() => setView('map')}
                       className={view === 'map' 
-                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                        : 'border-indigo-300 bg-white text-indigo-700 hover:bg-indigo-50 hover:border-indigo-400'}
+                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white border-transparent'
+                        : ''}
                       aria-label="Map view"
                     >
-                      <MapPin className={view === 'map' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1 text-indigo-700'} />
-                      <span className={view === 'map' ? 'text-white font-medium' : 'text-indigo-700 font-medium'}>Map</span>
+                      <MapPin className={view === 'map' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1'} />
+                      <span className={view === 'map' ? 'text-white font-medium' : 'font-medium'}>Map</span>
                     </Button>
                   </div>
                 </div>
