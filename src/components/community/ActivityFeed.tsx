@@ -58,7 +58,7 @@ const ActivityFeed: React.FC<ActivityFeedProps> = ({
 
   return (
     <div className={`space-y-4 ${className}`}>
-      {showHeader && <h3 className="text-lg font-semibold text-mansablue">Community Activity</h3>}
+      {showHeader && <h3 className="text-lg font-semibold text-white">Community Activity</h3>}
       
       {activities.map((activity) => (
         <ActivityCard 
