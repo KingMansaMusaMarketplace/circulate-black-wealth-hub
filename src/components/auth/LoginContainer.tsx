@@ -44,13 +44,22 @@ const LoginContainer: React.FC<LoginContainerProps> = ({ children, header }) => 
         </motion.div>
       )}
 
-      <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-mansablue/30 via-blue-600/30 to-mansagold/30 rounded-3xl blur-2xl" />
+      <div className="relative group">
+        {/* Animated glow effect */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-mansablue via-blue-600 to-mansagold rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-1000 animate-pulse" />
+        
+        {/* Secondary subtle glow */}
+        <div className="absolute inset-0 bg-gradient-to-br from-mansagold/20 via-transparent to-mansablue/20 rounded-3xl blur-2xl" />
+        
         <motion.div
           variants={itemVariants}
-          className="relative bg-white/95 backdrop-blur-sm border-0 shadow-2xl rounded-3xl overflow-hidden p-6 md:p-8"
+          className="relative bg-gradient-to-br from-slate-900/95 to-slate-800/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-3xl overflow-hidden p-6 md:p-8"
         >
-          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-mansablue via-blue-700 to-mansagold" />
+          {/* Top accent bar with shimmer effect */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-mansagold to-mansablue bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite]" />
+          
+          {/* Corner accent */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-mansagold/20 to-transparent rounded-bl-full" />
           <div className="relative pt-4">
             {children}
           </div>

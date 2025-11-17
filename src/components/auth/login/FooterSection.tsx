@@ -11,7 +11,7 @@ export const FooterSection: React.FC = () => {
 
   return (
     <>
-      <Separator className="my-4" />
+      <Separator className="my-4 bg-white/10" />
       
       <motion.div 
         className="text-center space-y-3"
@@ -20,11 +20,11 @@ export const FooterSection: React.FC = () => {
         transition={{ delay: 0.2 }}
       >
         <div className="space-y-2">
-          <p className="text-gray-700">
+          <p className="text-slate-300">
             Don't have an account?{' '}
             <Link
               to="/signup"
-              className="text-mansablue hover:text-mansagold transition-colors duration-300 font-semibold"
+              className="text-mansagold hover:text-amber-300 transition-colors duration-300 font-semibold"
             >
               Sign up
             </Link>
@@ -32,7 +32,7 @@ export const FooterSection: React.FC = () => {
           
           <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
             <DialogTrigger asChild>
-              <button className="text-sm text-gray-600 hover:text-mansablue transition-colors duration-300 font-medium">
+              <button className="text-sm text-slate-400 hover:text-mansablue transition-colors duration-300 font-medium">
                 Forgot your password?
               </button>
             </DialogTrigger>
@@ -42,7 +42,7 @@ export const FooterSection: React.FC = () => {
           </Dialog>
         </div>
         
-        <p className="text-xs text-gray-600">
+        <p className="text-xs text-slate-500">
           By signing in, you're joining a movement to circulate wealth in the Black community.
         </p>
       </motion.div>
