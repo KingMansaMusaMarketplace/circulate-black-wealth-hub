@@ -65,8 +65,8 @@ const PageNavigation = ({ sections, offset = -100 }: PageNavigationProps) => {
 
   return (
     <nav className={cn(
-      "sticky top-[72px] z-40 transition-all duration-300",
-      scrolled ? "bg-white shadow-md" : "bg-white/90 backdrop-blur-md"
+      "sticky top-[72px] z-40 transition-all duration-300 border-b",
+      scrolled ? "bg-slate-900/95 backdrop-blur-xl shadow-lg shadow-mansablue/20 border-white/10" : "bg-slate-900/80 backdrop-blur-md border-white/5"
     )}>
       <div className="container-custom px-4">
         <div className="overflow-x-auto scrollbar-none py-1">
@@ -83,8 +83,8 @@ const PageNavigation = ({ sections, offset = -100 }: PageNavigationProps) => {
                 className={cn(
                   "px-3 py-2 text-sm font-medium rounded-md whitespace-nowrap transition-all duration-200 relative",
                   activeSection === section.id
-                    ? "text-mansablue"
-                    : "text-gray-600 hover:text-mansablue hover:bg-gray-50"
+                    ? "text-white bg-mansablue/20"
+                    : "text-blue-200/70 hover:text-white hover:bg-slate-800/50"
                 )}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
@@ -92,7 +92,7 @@ const PageNavigation = ({ sections, offset = -100 }: PageNavigationProps) => {
                 {section.label}
                 {activeSection === section.id && (
                   <motion.div 
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-mansagold"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-mansagold to-amber-400"
                     layoutId="activeSection"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />

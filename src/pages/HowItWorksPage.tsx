@@ -63,36 +63,46 @@ const HowItWorksPage = () => {
 
   return (
     <motion.div 
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden"
       initial="initial"
       animate="animate"
       exit="exit"
       variants={pageVariants}
     >
-      <HeroSection />
-      <PageNavigation sections={navSections} />
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-gradient-to-br from-blue-700/20 to-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      </div>
+
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
+      <div className="relative z-10">
+        <HeroSection />
+        <PageNavigation sections={navSections} />
       
       {/* Interactive Demo Section */}
-      <LazySection threshold={0.3} rootMargin="150px">
-        <section id="interactive-demo">
-          <Suspense fallback={
-            <div className="py-16 bg-gradient-to-br from-gray-50 to-white">
-              <div className="max-w-7xl mx-auto px-4 text-center">
-                <div className="animate-pulse space-y-6">
-                  <div className="h-8 bg-gray-200 rounded w-1/2 mx-auto"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
-                    <div className="space-y-4">
-                      <div className="h-6 bg-gray-200 rounded"></div>
-                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                      <div className="h-32 bg-gray-200 rounded"></div>
+        <LazySection threshold={0.3} rootMargin="150px">
+          <section id="interactive-demo">
+            <Suspense fallback={
+              <div className="py-16 bg-slate-900/40 backdrop-blur-sm">
+                <div className="max-w-7xl mx-auto px-4 text-center">
+                  <div className="animate-pulse space-y-6">
+                    <div className="h-8 bg-slate-700/50 rounded w-1/2 mx-auto"></div>
+                    <div className="h-4 bg-slate-700/50 rounded w-3/4 mx-auto"></div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
+                      <div className="space-y-4">
+                        <div className="h-6 bg-slate-700/50 rounded"></div>
+                        <div className="h-4 bg-slate-700/50 rounded w-3/4"></div>
+                        <div className="h-32 bg-slate-700/50 rounded"></div>
+                      </div>
+                      <div className="h-96 bg-slate-700/50 rounded-3xl"></div>
                     </div>
-                    <div className="h-96 bg-gray-200 rounded-3xl"></div>
                   </div>
                 </div>
               </div>
-            </div>
-          }>
+            }>
             <LazyInteractiveDemo />
           </Suspense>
         </section>
@@ -104,12 +114,13 @@ const HowItWorksPage = () => {
         <SponsorshipVideoSection />
       </section>
       
-      <VisualDivider />
-      <CirculationVisualization />
-      <TestimonialsSection />
-      <MansaMusaHistory />
-      <FAQSection />
-      <CTASection />
+        <VisualDivider />
+        <CirculationVisualization />
+        <TestimonialsSection />
+        <MansaMusaHistory />
+        <FAQSection />
+        <CTASection />
+      </div>
     </motion.div>
   );
 };
