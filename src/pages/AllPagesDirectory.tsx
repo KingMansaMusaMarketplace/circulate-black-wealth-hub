@@ -16,48 +16,41 @@ const AllPagesDirectory = () => {
     { path: '/how-it-works', name: 'How It Works', icon: BookOpen, category: 'Main' },
     { path: '/about', name: 'About Us', icon: Info, category: 'Main' },
     { path: '/community', name: 'Community Hub', icon: Users, category: 'Main' },
+    { path: '/blog', name: 'Blog', icon: BookOpen, category: 'Main' },
     
     { path: '/login', name: 'Login', icon: LogIn, category: 'Auth' },
     { path: '/signup', name: 'Customer Signup', icon: UserPlus, category: 'Auth' },
     { path: '/business-signup', name: 'Business Signup', icon: Building2, category: 'Auth' },
-    { path: '/password-reset-request', name: 'Password Reset', icon: ShieldCheck, category: 'Auth' },
+    { path: '/reset-password', name: 'Password Reset', icon: ShieldCheck, category: 'Auth' },
     
     { path: '/dashboard', name: 'Dashboard', icon: Settings, category: 'User' },
     { path: '/profile', name: 'Profile Settings', icon: Settings, category: 'User' },
     { path: '/loyalty', name: 'Loyalty Program', icon: Trophy, category: 'User' },
-    { path: '/customer-bookings', name: 'My Bookings', icon: Calendar, category: 'User' },
+    { path: '/customer/bookings', name: 'My Bookings', icon: Calendar, category: 'User' },
     
     { path: '/business-dashboard', name: 'Business Dashboard', icon: Building2, category: 'Business' },
-    { path: '/business-profile', name: 'Business Profile', icon: Building2, category: 'Business' },
     { path: '/business-form', name: 'Register Business', icon: Building2, category: 'Business' },
-    { path: '/qr-generator', name: 'QR Code Generator', icon: QrCode, category: 'Business' },
-    { path: '/business-bookings', name: 'Bookings Management', icon: Calendar, category: 'Business' },
+    { path: '/business/how-it-works', name: 'Business How It Works', icon: BookOpen, category: 'Business' },
     
-    { path: '/sponsorship', name: 'Corporate Sponsorship', icon: Handshake, category: 'Corporate' },
+    { path: '/corporate-sponsorship', name: 'Corporate Sponsorship', icon: Handshake, category: 'Corporate' },
     { path: '/community-impact', name: 'Community Impact', icon: TrendingUp, category: 'Analytics' },
-    { path: '/economic-impact', name: 'Economic Impact', icon: TrendingUp, category: 'Analytics' },
+    { path: '/impact', name: 'Impact Dashboard', icon: TrendingUp, category: 'Analytics' },
     
-    { path: '/qr-scanner', name: 'QR Scanner', icon: QrCode, category: 'Tools' },
-    { path: '/qr-scanner-v2', name: 'QR Scanner V2', icon: QrCode, category: 'Tools' },
+    { path: '/scanner', name: 'QR Scanner', icon: QrCode, category: 'Tools' },
     
     { path: '/help', name: 'Help Center', icon: HelpCircle, category: 'Support' },
-    { path: '/faq', name: 'FAQ', icon: HelpCircle, category: 'Support' },
     { path: '/contact', name: 'Contact Us', icon: Mail, category: 'Support' },
-    
-    { path: '/admin', name: 'Admin Panel', icon: ShieldCheck, category: 'Admin' },
-    { path: '/admin-dashboard', name: 'Admin Dashboard', icon: ShieldCheck, category: 'Admin' },
-    { path: '/admin-verification', name: 'Business Verification', icon: ShieldCheck, category: 'Admin' },
+    { path: '/support', name: 'Support', icon: HelpCircle, category: 'Support' },
     
     { path: '/system-test', name: 'System Test', icon: TestTube, category: 'Testing' },
-    { path: '/mobile-test', name: 'Mobile Test', icon: TestTube, category: 'Testing' },
     { path: '/comprehensive-test', name: 'Comprehensive Test', icon: TestTube, category: 'Testing' },
     { path: '/full-system-test', name: 'Full System Test', icon: TestTube, category: 'Testing' },
     { path: '/capacitor-test', name: 'Capacitor Test', icon: TestTube, category: 'Testing' },
     { path: '/apple-compliance-test', name: 'Apple App Store Compliance', icon: ShieldCheck, category: 'Testing' },
     
-    { path: '/privacy-policy', name: 'Privacy Policy', icon: FileText, category: 'Legal' },
-    { path: '/terms-of-service', name: 'Terms of Service', icon: FileText, category: 'Legal' },
-    { path: '/cookie-policy', name: 'Cookie Policy', icon: FileText, category: 'Legal' },
+    { path: '/privacy', name: 'Privacy Policy', icon: FileText, category: 'Legal' },
+    { path: '/terms', name: 'Terms of Service', icon: FileText, category: 'Legal' },
+    { path: '/cookies', name: 'Cookie Policy', icon: FileText, category: 'Legal' },
   ];
 
   const categories = Array.from(new Set(pages.map(p => p.category)));
