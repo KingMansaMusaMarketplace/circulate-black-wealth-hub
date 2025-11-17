@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 
 const GamificationFooter = () => {
   return (
-    <div className="mt-10 text-center">
+    <div className="mt-12 text-center">
       <Link to="/signup">
-        <Button className="bg-mansablue hover:bg-mansablue-dark text-white px-6 py-2">
+        <Button size="lg" className="bg-gradient-to-r from-rose-600 via-pink-600 to-purple-600 hover:from-rose-700 hover:via-pink-700 hover:to-purple-700 text-white px-12 py-7 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-110 transition-all duration-300 rounded-xl">
           Start Earning Rewards
         </Button>
       </Link>
-      <p className="mt-3 text-sm text-gray-500">
-        Join the movement and get rewarded for supporting Black-owned businesses
+      <p className="text-gray-700 font-medium mt-6 bg-white/60 backdrop-blur-sm inline-block px-6 py-3 rounded-full border border-pink-200">
+        🎮 Join the movement and get rewarded for supporting Black-owned businesses
       </p>
     </div>
   );
