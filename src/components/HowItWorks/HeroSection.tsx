@@ -69,8 +69,8 @@ const HeroSection = () => {
           </ScrollReveal>
           
           <ScrollReveal delay={0.2} y={50}>
-            <div className="lg:w-3/5 flex justify-center lg:justify-end">
-              <div className="relative w-full scale-125 lg:scale-150 origin-center">
+            <div className="lg:w-2/3 flex justify-center lg:justify-end">
+              <div className="relative w-full scale-150 lg:scale-[1.8] origin-center">
                 {/* Glow effect */}
                 <div className="absolute inset-0 bg-gradient-primary blur-3xl opacity-20 rounded-3xl"></div>
                 
