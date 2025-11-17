@@ -28,18 +28,21 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({
 
   return (
     <motion.div variants={itemVariants}>
-      <Card className="card-hover border-mansagold/10 overflow-hidden h-full">
-        <div className="bg-mansablue p-6 text-center">
-          <div className="w-20 h-20 rounded-full bg-white mx-auto mb-4 flex items-center justify-center overflow-hidden">
-            <Avatar className="w-20 h-20">
+      <Card className="card-hover border-2 border-transparent bg-white/80 backdrop-blur-sm overflow-hidden h-full hover:border-purple-300 hover:shadow-xl transition-all duration-300">
+        <div className="bg-gradient-to-br from-cyan-600 via-blue-600 to-purple-600 p-6 text-center relative overflow-hidden">
+          {/* Decorative gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/20"></div>
+          
+          <div className="relative z-10 w-24 h-24 rounded-full bg-white mx-auto mb-4 flex items-center justify-center overflow-hidden shadow-lg ring-4 ring-white/50">
+            <Avatar className="w-24 h-24">
               <AvatarImage src={member.avatarImage} alt={member.name} className="object-cover" />
-              <AvatarFallback className="text-mansablue font-spartan font-bold text-2xl bg-white">
+              <AvatarFallback className="text-transparent bg-gradient-to-br from-purple-600 to-pink-600 bg-clip-text font-spartan font-bold text-2xl">
                 {member.image}
               </AvatarFallback>
             </Avatar>
           </div>
-          <h3 className="text-white font-bold text-lg">{member.name}</h3>
-          <p className="text-white/70 text-sm">{member.role}</p>
+          <h3 className="text-white font-bold text-xl relative z-10 drop-shadow-md">{member.name}</h3>
+          <p className="text-white/90 text-sm font-medium relative z-10">{member.role}</p>
         </div>
         <CardContent className="p-6 flex flex-col h-full">
           <p className="text-gray-600 text-sm mb-4 flex-1">{member.bio}</p>
