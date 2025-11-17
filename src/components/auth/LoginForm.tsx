@@ -54,7 +54,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             loading={isSubmitting}
             text="Sign In"
             loadingText="Signing in..."
-            className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] mt-2"
+            className="w-full bg-gradient-to-r from-mansablue via-blue-700 to-mansagold hover:from-blue-800 hover:via-blue-900 hover:to-amber-700 text-white font-bold py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] mt-2"
             icon={<LogIn className="h-5 w-5" />}
           />
           
