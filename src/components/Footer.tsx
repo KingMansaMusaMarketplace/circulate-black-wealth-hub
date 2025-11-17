@@ -33,7 +33,7 @@ const Footer = () => {
                 />
               </div>
             </div>
-            <p className="text-foreground/70 mb-4 max-w-md leading-relaxed">
+            <p className="text-mansagold mb-4 max-w-md leading-relaxed font-medium">
               Empowering Black-owned businesses and building community wealth through every purchase.
             </p>
             <div className="space-y-2">
