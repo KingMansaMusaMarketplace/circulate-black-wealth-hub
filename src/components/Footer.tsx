@@ -32,7 +32,6 @@ const Footer = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-xl font-bold transition-colors duration-300 group-hover:text-mansagold">Mansa Musa Marketplace</h3>
             </div>
             <p className="text-foreground/70 mb-4 max-w-md leading-relaxed">
               Empowering Black-owned businesses and building community wealth through every purchase.
