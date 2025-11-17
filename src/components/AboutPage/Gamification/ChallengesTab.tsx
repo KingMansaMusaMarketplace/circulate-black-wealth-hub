@@ -6,119 +6,97 @@ import { Progress } from '@/components/ui/progress';
 import { Star, Trophy } from 'lucide-react';
 
 const ChallengesTab = () => {
+  const currentChallenges = [
+    { title: 'Weekend Explorer', desc: 'Visit 3 different Black-owned businesses this weekend', progress: 33, current: '1/3', timeLeft: '2 days left', reward: '100 bonus points', badge: 'Active', badgeColor: 'bg-emerald-500', gradient: 'from-emerald-500 to-teal-500' },
+    { title: 'Foodie Tour', desc: 'Visit 5 different Black-owned restaurants this month', progress: 60, current: '3/5', timeLeft: '12 days left', reward: '$15 gift card', badge: 'Active', badgeColor: 'bg-blue-500', gradient: 'from-blue-500 to-cyan-500' },
+    { title: 'Circulation Champion', desc: 'Spend a total of $200 at Black-owned businesses within 7 days', progress: 62.5, current: '$125/$200', timeLeft: '3 days left', reward: '250 bonus points + exclusive badge', badge: 'Special', badgeColor: 'bg-amber-500', gradient: 'from-amber-500 to-orange-500' }
+  ];
+
   return (
     <div className="grid md:grid-cols-2 gap-6">
-      <Card>
-        <CardHeader className="pb-3">
+      <Card className="border-2 border-rose-200 bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300">
+        <CardHeader className="pb-3 bg-gradient-to-r from-rose-50 to-pink-50">
           <CardTitle className="flex items-center">
-            <Star className="mr-2 h-5 w-5 text-mansagold" />
-            Current Challenges
+            <Star className="mr-2 h-6 w-6 text-rose-600" />
+            <span className="bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
+              Current Challenges
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="border rounded-lg p-4">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="font-bold text-lg">Weekend Explorer</h4>
-                <Badge>Active</Badge>
-              </div>
-              <p className="text-gray-600 mb-3">
-                Visit 3 different Black-owned businesses this weekend
-              </p>
-              <div className="space-y-2 mb-4">
-                <div className="flex justify-between text-sm">
-                  <span>Progress: 1/3 completed</span>
-                  <span>2 days left</span>
+            {currentChallenges.map((challenge, idx) => (
+              <div key={idx} className={`border-2 border-${idx === 2 ? 'amber' : idx === 1 ? 'blue' : 'emerald'}-200 rounded-xl p-5 bg-gradient-to-br from-white to-${idx === 2 ? 'amber' : idx === 1 ? 'blue' : 'emerald'}-50 hover:scale-105 transition-all duration-300 shadow-md`}>
+                <div className="flex justify-between items-center mb-3">
+                  <h4 className={`font-bold text-lg bg-gradient-to-r ${challenge.gradient} bg-clip-text text-transparent`}>
+                    {challenge.title}
+                  </h4>
+                  <Badge className={`${challenge.badgeColor} text-white font-bold px-3 py-1 shadow-md`}>
+                    {challenge.badge}
+                  </Badge>
                 </div>
-                <Progress value={33} className="h-2" />
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                <div className="font-medium">Reward:</div>
-                <div className="font-bold text-mansablue">100 bonus points</div>
-              </div>
-            </div>
-            
-            <div className="border rounded-lg p-4">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="font-bold text-lg">Foodie Tour</h4>
-                <Badge>Active</Badge>
-              </div>
-              <p className="text-gray-600 mb-3">
-                Visit 5 different Black-owned restaurants this month
-              </p>
-              <div className="space-y-2 mb-4">
-                <div className="flex justify-between text-sm">
-                  <span>Progress: 3/5 completed</span>
-                  <span>12 days left</span>
+                <p className="text-gray-700 mb-4 font-medium">
+                  {challenge.desc}
+                </p>
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between text-sm font-bold text-gray-700">
+                    <span>Progress: {challenge.current} completed</span>
+                    <span>{challenge.timeLeft}</span>
+                  </div>
+                  <Progress value={challenge.progress} className="h-3 bg-white" />
                 </div>
-                <Progress value={60} className="h-2" />
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                <div className="font-medium">Reward:</div>
-                <div className="font-bold text-mansablue">$15 gift card</div>
-              </div>
-            </div>
-            
-            <div className="border rounded-lg p-4">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="font-bold text-lg">Circulation Champion</h4>
-                <Badge className="bg-amber-500">Special</Badge>
-              </div>
-              <p className="text-gray-600 mb-3">
-                Spend a total of $200 at Black-owned businesses within 7 days
-              </p>
-              <div className="space-y-2 mb-4">
-                <div className="flex justify-between text-sm">
-                  <span>Progress: $125/$200</span>
-                  <span>3 days left</span>
+                <div className="flex justify-between items-center text-sm">
+                  <div className="font-bold text-gray-700">Reward:</div>
+                  <div className={`font-bold bg-gradient-to-r ${challenge.gradient} bg-clip-text text-transparent`}>
+                    {challenge.reward}
+                  </div>
                 </div>
-                <Progress value={62.5} className="h-2" />
               </div>
-              <div className="flex justify-between items-center text-sm">
-                <div className="font-medium">Reward:</div>
-                <div className="font-bold text-mansablue">250 bonus points + exclusive badge</div>
-              </div>
-            </div>
+            ))}
           </div>
         </CardContent>
       </Card>
       
-      <Card>
-        <CardHeader className="pb-3">
+      <Card className="border-2 border-purple-200 bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300">
+        <CardHeader className="pb-3 bg-gradient-to-r from-purple-50 to-fuchsia-50">
           <CardTitle className="flex items-center">
-            <Trophy className="mr-2 h-5 w-5 text-mansagold" />
-            Community Challenges
+            <Trophy className="mr-2 h-6 w-6 text-purple-600" />
+            <span className="bg-gradient-to-r from-purple-600 to-fuchsia-600 bg-clip-text text-transparent">
+              Community Challenges
+            </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-5">
-            <div className="bg-mansablue text-white p-5 rounded-lg">
-              <h3 className="text-xl font-bold mb-2">72-Hour Challenge</h3>
-              <p className="text-white/80 mb-4">
+            <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white p-6 rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300">
+              <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
+                ⚡ 72-Hour Challenge
+              </h3>
+              <p className="text-white/90 mb-5 font-medium">
                 Our community goal is to reach $100,000 in total circulation within 72 hours!
               </p>
               
-              <div className="space-y-2 mb-4">
-                <div className="flex justify-between text-sm">
+              <div className="space-y-2 mb-5 bg-white/10 backdrop-blur-sm p-4 rounded-xl">
+                <div className="flex justify-between text-sm font-bold">
                   <span>Community Progress: $78,492/$100,000</span>
                   <span>24 hours left</span>
                 </div>
-                <div className="h-4 bg-white/20 rounded-full overflow-hidden">
+                <div className="h-4 bg-white/20 rounded-full overflow-hidden shadow-inner">
                   <div 
-                    className="h-full bg-mansagold" 
+                    className="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 shadow-lg animate-pulse" 
                     style={{ width: '78%' }}
                   ></div>
                 </div>
               </div>
               
-              <div className="space-y-1 mb-4">
-                <div className="text-sm font-medium">Your Contribution:</div>
-                <div className="text-2xl font-bold">$325</div>
+              <div className="space-y-1 mb-5">
+                <div className="text-sm font-bold">Your Contribution:</div>
+                <div className="text-4xl font-bold">$325</div>
               </div>
               
-              <div className="bg-white/10 p-3 rounded-lg">
-                <div className="font-medium mb-1">Community Reward:</div>
-                <p className="text-sm">
+              <div className="bg-white/20 backdrop-blur-sm p-4 rounded-xl border border-white/40">
+                <div className="font-bold mb-2 text-lg">🎁 Community Reward:</div>
+                <p className="text-sm font-medium">
                   When we reach our goal, 5% of the total will be donated to 
                   Black youth entrepreneurship programs!
                 </p>
@@ -126,25 +104,31 @@ const ChallengesTab = () => {
             </div>
             
             <div>
-              <h3 className="font-bold text-lg mb-3">Upcoming Challenges</h3>
+              <h3 className="font-bold text-xl mb-4 bg-gradient-to-r from-purple-600 to-fuchsia-600 bg-clip-text text-transparent">
+                Upcoming Challenges
+              </h3>
               
               <div className="space-y-3">
-                <div className="border p-3 rounded-lg">
-                  <div className="flex justify-between">
-                    <h4 className="font-medium">Juneteenth Celebration</h4>
-                    <Badge variant="outline">Starts in 2 weeks</Badge>
+                <div className="border-2 border-purple-200 p-4 rounded-xl bg-gradient-to-br from-white to-purple-50 hover:scale-105 transition-all duration-300 shadow-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <h4 className="font-bold text-gray-800">Juneteenth Celebration</h4>
+                    <Badge variant="outline" className="border-purple-500 text-purple-700 font-bold">
+                      Starts in 2 weeks
+                    </Badge>
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-700 font-medium">
                     Special challenges and double points during Juneteenth weekend
                   </p>
                 </div>
                 
-                <div className="border p-3 rounded-lg">
-                  <div className="flex justify-between">
-                    <h4 className="font-medium">Back to School</h4>
-                    <Badge variant="outline">Starts in 6 weeks</Badge>
+                <div className="border-2 border-fuchsia-200 p-4 rounded-xl bg-gradient-to-br from-white to-fuchsia-50 hover:scale-105 transition-all duration-300 shadow-md">
+                  <div className="flex justify-between items-center mb-2">
+                    <h4 className="font-bold text-gray-800">Back to School</h4>
+                    <Badge variant="outline" className="border-fuchsia-500 text-fuchsia-700 font-bold">
+                      Starts in 6 weeks
+                    </Badge>
                   </div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-700 font-medium">
                     Support Black-owned businesses for back-to-school shopping
                   </p>
                 </div>
