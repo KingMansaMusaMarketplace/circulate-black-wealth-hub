@@ -13,16 +13,18 @@ const CirculationVisualization = () => {
   const animationStep = useAnimationStep({ isVisible });
 
   return (
-    <section id="circulation-visualization" className="py-6 bg-white">
+    <section id="circulation-visualization" className="py-12 bg-gradient-to-br from-blue-50 via-purple-50 to-amber-50">
       <div className="container-custom">
         <motion.div 
-          className="text-center mb-6"
+          className="text-center mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="heading-lg text-mansablue mb-1">See The Money Flow</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <h2 className="heading-lg mb-4 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent font-extrabold">
+            See The Money Flow
+          </h2>
+          <p className="text-lg font-semibold bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto">
             When you spend at Black-owned businesses, your money circulates in the community multiple times, creating a stronger economic foundation.
           </p>
         </motion.div>
@@ -36,7 +38,7 @@ const CirculationVisualization = () => {
           />
           
           {/* Information Cards */}
-          <div className="grid md:grid-cols-3 gap-3 mt-4">
+          <div className="grid md:grid-cols-3 gap-4 mt-8">
             <InfoCard 
               number="1"
               title="Members Spend"

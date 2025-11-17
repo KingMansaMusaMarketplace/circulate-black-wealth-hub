@@ -21,19 +21,21 @@ const CirculationStats = ({ isVisible }: CirculationStatsProps) => {
 
   return (
     <motion.div 
-      className="mt-6 bg-gray-50 rounded-xl p-4 text-center"
+      className="mt-8 bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 rounded-2xl p-8 text-center border-2 border-amber-200 shadow-lg"
       variants={statsVariants}
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
     >
-      <p className="text-lg text-gray-700 mb-1">
-        <strong className="text-mansablue">The Dollar Multiplier Effect:</strong> A dollar spent at a Black-owned business stays in the community for...
+      <p className="text-xl font-bold mb-3 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+        <strong>The Dollar Multiplier Effect:</strong> A dollar spent at a Black-owned business stays in the community for...
       </p>
-      <p className="text-4xl font-bold text-mansagold mb-2">6 Hours</p>
-      <p className="text-gray-500">Compared to 28+ days in other communities</p>
-      <div className="flex justify-center mt-3">
-        <div className="bg-mansablue px-4 py-1 rounded-full text-sm text-white">
-          <span className="font-bold">Our Goal:</span> Increase to 6+ Days
+      <p className="text-5xl font-extrabold bg-gradient-to-r from-mansagold via-amber-500 to-orange-500 bg-clip-text text-transparent mb-3 drop-shadow-sm">
+        6 Hours
+      </p>
+      <p className="text-lg text-gray-700 font-semibold mb-4">Compared to 28+ days in other communities</p>
+      <div className="flex justify-center mt-4">
+        <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 px-6 py-3 rounded-full text-sm text-white font-bold shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105">
+          <span>Our Goal:</span> Increase to 6+ Days
         </div>
       </div>
     </motion.div>
