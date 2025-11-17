@@ -81,37 +81,37 @@ const AccessibilityPage: React.FC = () => {
             <CardContent>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-blue-100 to-cyan-100 rounded-lg border border-blue-200 hover:shadow-md transition-all">
-                    <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex-shrink-0">
+                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-mansablue/10 to-blue-100 rounded-lg border border-mansablue/30 hover:shadow-md transition-all">
+                    <div className="p-2 bg-gradient-to-br from-mansablue to-blue-700 rounded-lg flex-shrink-0">
                       <Eye className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-blue-900 mb-1">VoiceOver Support 👁️</h3>
-                      <p className="text-blue-700 text-sm">
+                      <h3 className="font-bold text-mansablue mb-1">VoiceOver Support 👁️</h3>
+                      <p className="text-gray-700 text-sm">
                         Full screen reader compatibility for browsing businesses, scanning QR codes, and managing your account.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-green-100 to-emerald-100 rounded-lg border border-green-200 hover:shadow-md transition-all">
-                    <div className="p-2 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex-shrink-0">
+                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-blue-100 to-mansablue/10 rounded-lg border border-blue-300 hover:shadow-md transition-all">
+                    <div className="p-2 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex-shrink-0">
                       <Mic className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-green-900 mb-1">Voice Control 🎤</h3>
-                      <p className="text-green-700 text-sm">
+                      <h3 className="font-bold text-blue-800 mb-1">Voice Control 🎤</h3>
+                      <p className="text-gray-700 text-sm">
                         Navigate and interact with our app using voice commands. All buttons and controls respond to voice input.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-orange-100 to-amber-100 rounded-lg border border-orange-200 hover:shadow-md transition-all">
-                    <div className="p-2 bg-gradient-to-br from-orange-500 to-amber-500 rounded-lg flex-shrink-0">
+                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-amber-100 to-mansagold/10 rounded-lg border border-amber-300 hover:shadow-md transition-all">
+                    <div className="p-2 bg-gradient-to-br from-mansagold to-amber-600 rounded-lg flex-shrink-0">
                       <Type className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-orange-900 mb-1">Large Text Support 📝</h3>
-                      <p className="text-orange-700 text-sm">
+                      <h3 className="font-bold text-amber-800 mb-1">Large Text Support 📝</h3>
+                      <p className="text-gray-700 text-sm">
                         All text scales automatically with your device's text size settings for improved readability.
                       </p>
                     </div>
@@ -119,25 +119,25 @@ const AccessibilityPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-lg border border-indigo-200 hover:shadow-md transition-all">
-                    <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg flex-shrink-0">
+                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-blue-100 to-slate-100 rounded-lg border border-blue-300 hover:shadow-md transition-all">
+                    <div className="p-2 bg-gradient-to-br from-blue-600 to-slate-700 rounded-lg flex-shrink-0">
                       <Moon className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-indigo-900 mb-1">Dark Interface 🌙</h3>
-                      <p className="text-indigo-700 text-sm">
+                      <h3 className="font-bold text-blue-900 mb-1">Dark Interface 🌙</h3>
+                      <p className="text-gray-700 text-sm">
                         Automatic support for system dark mode preferences to reduce eye strain.
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-pink-100 to-rose-100 rounded-lg border border-pink-200 hover:shadow-md transition-all">
-                    <div className="p-2 bg-gradient-to-br from-pink-500 to-rose-500 rounded-lg flex-shrink-0">
+                  <div className="flex items-start space-x-3 p-4 bg-gradient-to-r from-mansagold/10 to-amber-100 rounded-lg border border-amber-300 hover:shadow-md transition-all">
+                    <div className="p-2 bg-gradient-to-br from-mansagold to-amber-600 rounded-lg flex-shrink-0">
                       <Contrast className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-pink-900 mb-1">Sufficient Contrast 🎨</h3>
-                      <p className="text-pink-700 text-sm">
+                      <h3 className="font-bold text-amber-900 mb-1">Sufficient Contrast 🎨</h3>
+                      <p className="text-gray-700 text-sm">
                         Our design meets WCAG contrast guidelines for enhanced visibility and readability.
                       </p>
                     </div>
@@ -207,24 +207,24 @@ const AccessibilityPage: React.FC = () => {
 
           {/* Contact and Feedback */}
           <div className="grid md:grid-cols-2 gap-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 shadow-lg hover:shadow-xl transition-all">
+            <Card className="bg-gradient-to-br from-mansablue/10 to-blue-100 border-mansablue/30 shadow-lg hover:shadow-xl transition-all">
               <CardHeader>
                 <CardTitle className="text-xl flex items-center gap-2">
-                  <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg">
+                  <div className="p-2 bg-gradient-to-br from-mansablue to-blue-700 rounded-lg">
                     <Mail className="h-5 w-5 text-white" />
                   </div>
-                  <span className="bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent font-bold">
+                  <span className="bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent font-bold">
                     Need Help? 💬
                   </span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-blue-800 mb-4 font-medium">
+                <p className="text-gray-700 mb-4 font-medium">
                   If you need assistance using our accessibility features or encounter any barriers, we're here to help.
                 </p>
                 <div className="space-y-3">
-                  <div className="p-3 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg border border-blue-200">
-                    <p className="text-sm text-blue-900">
+                  <div className="p-3 bg-gradient-to-r from-blue-100 to-mansablue/10 rounded-lg border border-blue-300">
+                    <p className="text-sm text-gray-700">
                       <strong className="text-blue-700">📧 Email:</strong> contact@mansamusamarketplace.com
                     </p>
                   </div>
