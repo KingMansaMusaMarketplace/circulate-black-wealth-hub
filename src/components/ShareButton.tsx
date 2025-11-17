@@ -64,8 +64,8 @@ const ShareButton: React.FC = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ delay: 1, duration: 0.5 }}
       className="fixed left-1/2 -translate-x-1/2 bottom-24 md:bottom-28 z-50"
     >
