@@ -98,66 +98,87 @@ const InteractiveVisionTimeline: React.FC = () => {
   };
 
   return (
-    <section className="py-20">
+    <section className="py-20 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">
       <div className="container-custom">
         <div className="text-center mb-12">
-          <h2 className="heading-md text-mansablue mb-4">Vision 2031</h2>
-          <div className="w-24 h-1 bg-mansagold mx-auto mb-6"></div>
+          <h2 className="heading-md mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent font-extrabold">Vision 2031</h2>
+          <div className="w-28 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 mx-auto mb-6 rounded-full shadow-md"></div>
           <div className="flex justify-center items-center gap-2 mb-4">
-            <Layers className="h-5 w-5 text-mansagold" />
-            <p className="text-lg font-medium text-mansablue-dark">Our Progress Toward Economic Infrastructure</p>
+            <Layers className="h-6 w-6 text-purple-500" />
+            <p className="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Our Progress Toward Economic Infrastructure</p>
           </div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-700 max-w-2xl mx-auto font-medium">
             Track our journey towards creating sustainable economic infrastructure and circulation in Black communities.
           </p>
         </div>
         
         {/* Current Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-16">
-          {visionMetrics.map((metric) => (
-            <Card key={metric.id} className="border-mansagold/20 hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center">
-                    <div className="p-2 rounded-full bg-mansablue/10 mr-3">
-                      {metric.icon}
+          {visionMetrics.map((metric, index) => {
+            const gradients = [
+              'from-blue-500 to-cyan-500',
+              'from-amber-500 to-orange-500', 
+              'from-green-500 to-emerald-500',
+              'from-purple-500 to-pink-500'
+            ];
+            const borderColors = [
+              'border-blue-300 hover:border-blue-500',
+              'border-amber-300 hover:border-amber-500',
+              'border-green-300 hover:border-green-500',
+              'border-purple-300 hover:border-purple-500'
+            ];
+            return (
+              <Card key={metric.id} className={`border-2 ${borderColors[index]} hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm`}>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center">
+                      <div className={`p-3 rounded-full bg-gradient-to-br ${gradients[index]} shadow-md`}>
+                        <div className="text-white">{metric.icon}</div>
+                      </div>
+                      <h3 className="font-bold ml-3 text-gray-800">{metric.label}</h3>
                     </div>
-                    <h3 className="font-bold">{metric.label}</h3>
+                    <span className={`text-xs font-bold bg-gradient-to-r ${gradients[index]} text-white px-3 py-1.5 rounded-full shadow-sm`}>
+                      {calculateProgress(metric.current, metric.goal)}%
+                    </span>
                   </div>
-                  <span className="text-xs font-medium text-mansablue bg-mansablue/10 px-2 py-1 rounded-full">
-                    {calculateProgress(metric.current, metric.goal)}%
-                  </span>
-                </div>
-                
-                <div className="mb-2">
-                  <Progress 
-                    value={calculateProgress(metric.current, metric.goal)} 
-                    className={cn("h-2", metric.color)}
-                  />
-                </div>
-                
-                <div className="flex justify-between text-sm text-gray-500">
-                  <div>Current: <span className="font-bold text-mansablue">{metric.unit}{formatNumber(metric.current)}</span></div>
-                  <div>Goal: <span className="font-bold text-mansablue-dark">{metric.unit}{formatNumber(metric.goal)}</span></div>
-                </div>
-                
-                <p className="mt-4 text-sm text-gray-600">
-                  {metric.description}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
+                  
+                  <div className="mb-3">
+                    <Progress 
+                      value={calculateProgress(metric.current, metric.goal)} 
+                      className={cn("h-3 rounded-full overflow-hidden bg-gray-200")}
+                      style={{
+                        background: `linear-gradient(to right, ${gradients[index].split(' ').map(c => c.replace('from-', '').replace('to-', '')).join(', ')})`
+                      }}
+                    />
+                  </div>
+                  
+                  <div className="flex justify-between text-sm font-medium mb-4">
+                    <div>Current: <span className={`font-extrabold bg-gradient-to-r ${gradients[index]} bg-clip-text text-transparent`}>{metric.unit}{formatNumber(metric.current)}</span></div>
+                    <div>Goal: <span className="font-extrabold text-gray-700">{metric.unit}{formatNumber(metric.goal)}</span></div>
+                  </div>
+                  
+                  <p className="text-sm text-gray-600 font-medium leading-relaxed">
+                    {metric.description}
+                  </p>
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
         
         {/* Year-based milestone tabs */}
-        <Card className="border-mansagold/20">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-bold text-center mb-6">Milestone Timeline</h3>
+        <Card className="border-2 border-purple-200 hover:border-purple-400 shadow-xl transition-all duration-300 bg-white/90 backdrop-blur-sm">
+          <CardContent className="p-8">
+            <h3 className="text-2xl font-extrabold text-center mb-8 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Milestone Timeline</h3>
             
             <Tabs value={activeYear} onValueChange={setActiveYear}>
-              <TabsList className="w-full justify-between mb-8">
+              <TabsList className="w-full justify-between mb-10 bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 p-1 rounded-xl">
                 {Object.keys(yearMilestones).map((year) => (
-                  <TabsTrigger key={year} value={year} className="flex-1">
+                  <TabsTrigger 
+                    key={year} 
+                    value={year} 
+                    className="flex-1 data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-500 data-[state=active]:to-purple-600 data-[state=active]:text-white font-bold text-lg rounded-lg transition-all duration-300"
+                  >
                     {year}
                   </TabsTrigger>
                 ))}
@@ -172,35 +193,43 @@ const InteractiveVisionTimeline: React.FC = () => {
                     transition={{ duration: 0.3 }}
                     className="space-y-6"
                   >
-                    <div className="text-center mb-4">
-                      <h3 className="text-2xl font-bold text-mansablue">{year} Milestones</h3>
-                      <p className="text-gray-500">
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-extrabold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{year} Milestones</h3>
+                      <p className="text-gray-600 font-medium mt-2">
                         Our targets for building economic infrastructure by {year}
                       </p>
                     </div>
                     
                     <ul className="space-y-4">
-                      {milestones.map((milestone, i) => (
-                        <motion.li 
-                          key={i}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.1 }}
-                          className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg"
-                        >
-                          <div className="h-8 w-8 rounded-full bg-mansablue text-white flex items-center justify-center">
-                            {i + 1}
-                          </div>
-                          <span className="font-medium">{milestone}</span>
-                          {year === "2025" && (
-                            <div className="ml-auto">
-                              <div className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
-                                In Progress
-                              </div>
+                      {milestones.map((milestone, i) => {
+                        const gradients = [
+                          'from-blue-500 to-cyan-500',
+                          'from-amber-500 to-orange-500',
+                          'from-green-500 to-emerald-500',
+                          'from-purple-500 to-pink-500'
+                        ];
+                        return (
+                          <motion.li 
+                            key={i}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: i * 0.1 }}
+                            className="flex items-center gap-4 p-5 bg-gradient-to-r from-white to-purple-50 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-purple-100 hover:border-purple-300"
+                          >
+                            <div className={`h-10 w-10 rounded-full bg-gradient-to-br ${gradients[i % gradients.length]} text-white flex items-center justify-center font-bold shadow-md`}>
+                              {i + 1}
                             </div>
-                          )}
-                        </motion.li>
-                      ))}
+                            <span className="font-semibold text-gray-800 flex-1">{milestone}</span>
+                            {year === "2025" && (
+                              <div className="ml-auto">
+                                <div className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+                                  In Progress
+                                </div>
+                              </div>
+                            )}
+                          </motion.li>
+                        );
+                      })}
                     </ul>
                   </motion.div>
                 </TabsContent>
