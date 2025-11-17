@@ -32,7 +32,7 @@ const NavLinks: React.FC = () => {
 
         <NavigationMenuItem>
           <Link to="/impact" className={`${linkClassName} flex items-center gap-1.5`}>
-            <Heart className="h-4 w-4" />
+            <Heart className="h-4 w-4 text-red-500 fill-red-500" />
             My Impact
           </Link>
         </NavigationMenuItem>
