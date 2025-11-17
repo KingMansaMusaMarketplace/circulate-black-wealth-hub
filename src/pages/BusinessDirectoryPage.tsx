@@ -109,7 +109,7 @@ const BusinessDirectoryPage: React.FC = () => {
                       onClick={() => setView('grid')}
                       className={view === 'grid' 
                         ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                        : 'border-indigo-300 bg-white hover:bg-indigo-50 hover:border-indigo-400'}
+                        : 'border-indigo-300 bg-white text-indigo-700 hover:bg-indigo-50 hover:border-indigo-400'}
                       aria-label="Grid view"
                     >
                       <Grid3X3 className={view === 'grid' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1 text-indigo-700'} />
@@ -121,7 +121,7 @@ const BusinessDirectoryPage: React.FC = () => {
                       onClick={() => setView('list')}
                       className={view === 'list' 
                         ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                        : 'border-indigo-300 bg-white hover:bg-indigo-50 hover:border-indigo-400'}
+                        : 'border-indigo-300 bg-white text-indigo-700 hover:bg-indigo-50 hover:border-indigo-400'}
                       aria-label="List view"
                     >
                       <List className={view === 'list' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1 text-indigo-700'} />
@@ -133,7 +133,7 @@ const BusinessDirectoryPage: React.FC = () => {
                       onClick={() => setView('map')}
                       className={view === 'map' 
                         ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
-                        : 'border-indigo-300 bg-white hover:bg-indigo-50 hover:border-indigo-400'}
+                        : 'border-indigo-300 bg-white text-indigo-700 hover:bg-indigo-50 hover:border-indigo-400'}
                       aria-label="Map view"
                     >
                       <MapPin className={view === 'map' ? 'h-4 w-4 mr-1 text-white' : 'h-4 w-4 mr-1 text-indigo-700'} />
