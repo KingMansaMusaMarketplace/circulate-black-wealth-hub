@@ -12,23 +12,41 @@ const ShareButton: React.FC = () => {
   const shareText = "Check out Mansa Musa Marketplace - join me in building Black wealth together! Help us reach 1 million members. 💪";
 
   const handleShare = async () => {
+    console.log('Share button clicked');
+    
     // Check if Web Share API is available (mobile devices)
     if (navigator.share) {
+      console.log('Using Web Share API');
       try {
         await navigator.share({
           title: shareTitle,
           text: shareText,
           url: shareUrl,
         });
+        console.log('Share successful');
         toast.success('Thanks for sharing! 🎉');
       } catch (error) {
+        console.error('Share error:', error);
         // User cancelled the share, no error needed
         if (error instanceof Error && error.name !== 'AbortError') {
-          console.error('Error sharing:', error);
+          // If share fails, try clipboard fallback
+          try {
+            await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
+            setCopied(true);
+            toast.success('Link copied! Share with your community 💙');
+            
+            setTimeout(() => {
+              setCopied(false);
+            }, 2000);
+          } catch (clipboardError) {
+            console.error('Clipboard fallback failed:', clipboardError);
+            toast.error('Failed to share. Please try again.');
+          }
         }
       }
     } else {
       // Fallback for desktop: copy to clipboard
+      console.log('Using clipboard fallback');
       try {
         await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
         setCopied(true);
