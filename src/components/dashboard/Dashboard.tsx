@@ -59,27 +59,41 @@ const Dashboard: React.FC = () => {
   const validUserType: 'customer' | 'business' = userType === 'business' ? 'business' : 'customer';
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6">
-      {/* Welcome Section */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-mansablue mb-2">
-          Welcome back, {user?.user_metadata?.fullName || user?.email}
-        </h1>
-        <p className="text-gray-600">
-          Continue building wealth in the Black community
-        </p>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 -z-10"></div>
+      
+      {/* Floating orbs */}
+      <div className="absolute top-20 right-20 w-72 h-72 bg-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 left-20 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-orange-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      
+      <div className="container mx-auto px-4 py-6 space-y-6 relative z-10">
+      {/* Welcome Section - Enhanced */}
+      <div className="mb-8 bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+        
+        <div className="relative z-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 animate-fade-in">
+            Welcome back, {user?.user_metadata?.fullName || user?.email}
+          </h1>
+          <p className="text-white/90 text-lg">
+            Continue building wealth in the Black community
+          </p>
+        </div>
       </div>
 
-      {/* Quick Actions */}
+      {/* Quick Actions - Enhanced */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <Link to="/scanner">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer bg-gradient-to-br from-white via-purple-50 to-pink-50 border-purple-200/50">
             <CardHeader>
-              <CardTitle className="text-lg">Scan QR Code</CardTitle>
-              <CardDescription>Earn points at Black-owned businesses</CardDescription>
+              <CardTitle className="text-lg bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Scan QR Code</CardTitle>
+              <CardDescription className="text-gray-700">Earn points at Black-owned businesses</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full">
+              <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
                 Start Scanning
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -88,13 +102,13 @@ const Dashboard: React.FC = () => {
         </Link>
 
         <Link to="/directory">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer bg-gradient-to-br from-white via-pink-50 to-orange-50 border-pink-200/50">
             <CardHeader>
-              <CardTitle className="text-lg">Find Businesses</CardTitle>
-              <CardDescription>Discover nearby Black-owned businesses</CardDescription>
+              <CardTitle className="text-lg bg-gradient-to-r from-pink-600 to-orange-600 bg-clip-text text-transparent">Find Businesses</CardTitle>
+              <CardDescription className="text-gray-700">Discover nearby Black-owned businesses</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full border-pink-300 text-pink-600 hover:bg-pink-50">
                 Explore Directory
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -103,13 +117,13 @@ const Dashboard: React.FC = () => {
         </Link>
 
         <Link to="/loyalty">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card className="hover:shadow-2xl hover:scale-105 transition-all duration-300 cursor-pointer bg-gradient-to-br from-white via-orange-50 to-yellow-50 border-orange-200/50">
             <CardHeader>
-              <CardTitle className="text-lg">View Rewards</CardTitle>
-              <CardDescription>Check your loyalty points and rewards</CardDescription>
+              <CardTitle className="text-lg bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent">View Rewards</CardTitle>
+              <CardDescription className="text-gray-700">Check your loyalty points and rewards</CardDescription>
             </CardHeader>
             <CardContent>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full border-orange-300 text-orange-600 hover:bg-orange-50">
                 My Rewards
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -142,6 +156,7 @@ const Dashboard: React.FC = () => {
           
           <RecentActivity activities={sampleActivities} />
         </div>
+      </div>
       </div>
     </div>
   );
