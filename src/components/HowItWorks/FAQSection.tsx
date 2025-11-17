@@ -60,7 +60,7 @@ const FAQSection = () => {
   ];
 
   return (
-    <section id="faq" className="py-16 bg-gradient-to-br from-purple-50 via-blue-50 to-amber-50">
+    <section id="faq" className="py-16 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50">
       <div className="container-custom">
         <motion.div 
           className="text-center mb-10"
@@ -68,7 +68,7 @@ const FAQSection = () => {
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="heading-lg mb-4 bg-gradient-to-r from-purple-600 via-blue-600 to-mansablue bg-clip-text text-transparent font-extrabold">
+          <h2 className="heading-lg mb-4 bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent font-extrabold">
             Frequently Asked Questions
           </h2>
           <p className="text-lg font-semibold bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto">

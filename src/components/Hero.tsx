@@ -54,7 +54,7 @@ const Hero = () => {
             </Badge>
           </Link>
           <Link to="/signup">
-            <Badge className="bg-gradient-purple text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-purple badge-shimmer">
+            <Badge className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse shadow-lg badge-shimmer">
               <Heart className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               Community First, Revenue Later
             </Badge>

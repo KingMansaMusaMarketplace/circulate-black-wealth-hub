@@ -67,7 +67,7 @@ const FAQSection = () => {
             <p className="text-gray-700 text-lg mb-4">
               Have more questions about our platform or mission?
             </p>
-            <Link to="/team-contact" className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent font-bold hover:from-purple-600 hover:to-pink-600 transition-all">
+            <Link to="/team-contact" className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent font-bold hover:from-blue-700 hover:to-mansagold transition-all">
               Contact our team for more information →
             </Link>
           </div>

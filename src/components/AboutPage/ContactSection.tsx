@@ -85,7 +85,7 @@ const ContactSection = () => {
             transition={{ delay: 0.3 }}
           >
             <p className="text-gray-700 text-lg">
-              Need immediate assistance? <Button variant="link" className="p-0 h-auto bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent font-semibold">Schedule a call with our team</Button>
+              Need immediate assistance? <Button variant="link" className="p-0 h-auto bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent font-semibold">Schedule a call with our team</Button>
             </p>
           </motion.div>
         </div>
