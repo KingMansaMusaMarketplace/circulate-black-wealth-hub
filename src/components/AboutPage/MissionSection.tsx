@@ -5,29 +5,29 @@ import { Layers } from 'lucide-react';
 
 const MissionSection = () => {
   return (
-    <section className="py-20">
+    <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
       <div className="container-custom">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="heading-md text-mansablue mb-6 relative">
+            <h2 className="heading-md mb-6 relative bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent font-extrabold">
               Mission Statement
-              <span className="absolute bottom-0 left-0 w-16 h-1 bg-mansagold"></span>
+              <span className="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full"></span>
             </h2>
-            <p className="text-gray-700 text-lg mb-6">
+            <p className="text-gray-700 text-lg mb-6 font-medium leading-relaxed">
               To build, protect, and expand the Black economic ecosystem through intentional 
               consumer behavior, loyalty rewards, and strategic digital infrastructure.
             </p>
             
-            <Card className="border-mansagold/20">
-              <CardHeader className="bg-gradient-to-r from-mansablue/5 to-mansablue/10 pb-2">
-                <CardTitle className="text-xl text-mansablue-dark">Why It Matters</CardTitle>
+            <Card className="border-2 border-purple-200 hover:border-purple-400 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <CardHeader className="bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-cyan-500/10 pb-3">
+                <CardTitle className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Why It Matters</CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <p className="text-gray-700 mb-4">
+                <p className="text-gray-700 mb-4 font-medium">
                   Today, the Black dollar circulates within our community for less than six hours, compared to 
                   28+ days in other groups.
                 </p>
-                <p className="text-gray-700 font-medium">
+                <p className="text-gray-700 font-bold">
                   Without structural intervention, this cycle of leakage continues — weakening every generation's 
                   economic potential.
                 </p>
@@ -35,56 +35,56 @@ const MissionSection = () => {
             </Card>
           </div>
           
-          <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
-            <div className="bg-mansablue p-8">
+          <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border-2 border-gradient-to-br from-purple-200 to-blue-200">
+            <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 p-8">
               <h3 className="text-xl font-bold text-white mb-4 flex items-center">
                 <Layers className="mr-2" /> Key Strategic Pillars
               </h3>
             </div>
-            <div className="p-8">
+            <div className="p-8 bg-gradient-to-br from-white to-purple-50">
               <ul className="space-y-6">
-                <li className="flex">
-                  <div className="bg-mansagold/20 text-mansagold rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
+                <li className="flex group">
+                  <div className="bg-gradient-to-br from-amber-400 to-orange-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 flex-shrink-0 font-bold shadow-md group-hover:scale-110 transition-transform duration-300">
                     1
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg mb-1">Circulation Infrastructure</h4>
-                    <p className="text-gray-600">
+                    <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Circulation Infrastructure</h4>
+                    <p className="text-gray-700 font-medium">
                       Build the digital bridges necessary to support intentional economic behavior.
                     </p>
                   </div>
                 </li>
                 
-                <li className="flex">
-                  <div className="bg-mansagold/20 text-mansagold rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
+                <li className="flex group">
+                  <div className="bg-gradient-to-br from-blue-500 to-cyan-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 flex-shrink-0 font-bold shadow-md group-hover:scale-110 transition-transform duration-300">
                     2
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg mb-1">Consumer Empowerment</h4>
-                    <p className="text-gray-600">
+                    <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">Consumer Empowerment</h4>
+                    <p className="text-gray-700 font-medium">
                       Turn spending into investing by rewarding loyalty to Black-owned businesses.
                     </p>
                   </div>
                 </li>
                 
-                <li className="flex">
-                  <div className="bg-mansagold/20 text-mansagold rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
+                <li className="flex group">
+                  <div className="bg-gradient-to-br from-purple-500 to-pink-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 flex-shrink-0 font-bold shadow-md group-hover:scale-110 transition-transform duration-300">
                     3
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg mb-1">Merchant Empowerment</h4>
-                    <p className="text-gray-600">
+                    <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Merchant Empowerment</h4>
+                    <p className="text-gray-700 font-medium">
                       Provide Black-owned businesses with visibility, loyalty programs, and direct new customer pipelines.
                     </p>
                   </div>
                 </li>
                 
-                <li className="flex">
-                  <div className="bg-mansagold/20 text-mansagold rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
+                <li className="flex group">
+                  <div className="bg-gradient-to-br from-green-500 to-emerald-500 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4 flex-shrink-0 font-bold shadow-md group-hover:scale-110 transition-transform duration-300">
                     4
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg mb-1">Data Ownership</h4>
+                    <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Data Ownership</h4>
                     <p className="text-gray-600">
                       Ensure that the community owns its own economic behavioral data — not outside platforms.
                     </p>
