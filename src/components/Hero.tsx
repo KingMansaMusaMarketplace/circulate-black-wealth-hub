@@ -108,7 +108,7 @@ const Hero = () => {
                   className="py-5 px-10 text-lg md:text-xl rounded-2xl w-full sm:w-auto whitespace-nowrap cursor-pointer shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 font-bold"
                 >
                   <Volume2 className="mr-3 h-6 w-6" />
-                  🎧 Talk to Kayla
+                  Introduction - 30 mins
                 </AudioButton>
                 
                 <Link to="/directory" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
