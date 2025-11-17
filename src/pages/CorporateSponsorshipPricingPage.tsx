@@ -160,42 +160,52 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-slate-50 to-amber-50">
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-gradient-to-br from-blue-700/20 to-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        {/* Subtle grid overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
+
         {/* Hero Section */}
-        <section className="container mx-auto px-4 py-16 text-center">
-          <Badge className="mb-4 bg-gradient-to-r from-mansablue to-blue-700 text-white border-0">
+        <section className="container mx-auto px-4 py-16 text-center relative z-10">
+          <Badge className="mb-4 bg-gradient-to-r from-mansablue to-blue-600 text-white border-0 shadow-lg shadow-mansablue/20">
             Corporate Sponsorship
           </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white animate-fade-in-up">
             Partner With Us to{' '}
-            <span className="bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Create Real Impact</span>
+            <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Create Real Impact</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-blue-100/90 max-w-3xl mx-auto mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             Your corporate sponsorship directly supports Black-owned businesses
             and strengthens communities. Choose a partnership tier that aligns
             with your company's values and budget.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center text-sm text-gray-600 mb-6">
-            <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-mansablue" />
+          <div className="flex flex-wrap gap-4 justify-center text-sm text-blue-200/70 mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="flex items-center gap-2 bg-slate-800/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+              <Check className="h-4 w-4 text-mansagold" />
               <span>Tax Deductible</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-mansablue" />
+            <div className="flex items-center gap-2 bg-slate-800/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+              <Check className="h-4 w-4 text-mansagold" />
               <span>Real-Time Impact Metrics</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-mansablue" />
+            <div className="flex items-center gap-2 bg-slate-800/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+              <Check className="h-4 w-4 text-mansagold" />
               <span>Transparent Reporting</span>
             </div>
           </div>
-          <div className="flex justify-center">
+          <div className="flex justify-center animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <Button
               variant="outline"
               size="lg"
               onClick={handleShare}
               disabled={isSharing}
-              className="border-mansablue/30 text-mansablue hover:bg-mansablue/10"
+              className="border-mansagold/30 bg-slate-800/60 backdrop-blur-xl text-white hover:bg-mansablue/20 hover:border-mansagold"
             >
               <Share2 className="mr-2 h-4 w-4" />
               Share Opportunity
@@ -204,37 +214,45 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         </section>
 
         {/* Pricing Cards */}
-        <section className="container mx-auto px-4 pb-16">
+        <section className="container mx-auto px-4 pb-16 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
-            {tiers.map((tier) => (
+            {tiers.map((tier, idx) => (
               <Card
                 key={tier.tier}
                 className={cn(
-                  'relative transition-all duration-300 hover:shadow-lg',
-                  tier.borderClass,
-                  tier.popular && 'ring-2 ring-primary shadow-xl scale-105'
+                  'relative transition-all duration-500 hover:shadow-2xl hover:shadow-mansablue/20 hover:-translate-y-2 bg-slate-800/60 backdrop-blur-xl border-white/10 animate-fade-in-up',
+                  tier.popular && 'ring-2 ring-mansagold shadow-2xl shadow-mansagold/20 scale-105'
                 )}
+                style={{ animationDelay: `${idx * 0.1}s` }}
               >
                 {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-gradient-to-r from-mansagold to-amber-600 text-white shadow-lg border-0">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                    <Badge className="bg-gradient-to-r from-mansagold to-amber-600 text-white shadow-lg shadow-mansagold/30 border-0 animate-pulse">
                       Most Popular
                     </Badge>
                   </div>
                 )}
 
+                {/* Gradient decoration */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-50"></div>
+
                 <CardHeader className="text-center">
-                  <div className={cn('w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center', tier.iconBg)}>
+                  <div className={cn('w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center backdrop-blur-sm', 
+                    tier.tier === 'bronze' && 'bg-amber-500/20 text-amber-400',
+                    tier.tier === 'silver' && 'bg-slate-400/20 text-slate-300',
+                    tier.tier === 'gold' && 'bg-mansagold/20 text-mansagold',
+                    tier.tier === 'platinum' && 'bg-mansablue/20 text-blue-400'
+                  )}>
                     {tier.icon}
                   </div>
-                  <CardTitle className="text-2xl">{tier.name}</CardTitle>
-                  <CardDescription className="text-sm mt-2 min-h-[3rem]">
+                  <CardTitle className="text-2xl text-white">{tier.name}</CardTitle>
+                  <CardDescription className="text-sm mt-2 min-h-[3rem] text-blue-200/70">
                     {tier.description}
                   </CardDescription>
                   {!isScreenshotMode && (
                     <div className="mt-4 flex items-baseline justify-center gap-1">
-                      <span className="text-4xl font-bold">{tier.price}</span>
-                      <span className="text-muted-foreground text-base">/month</span>
+                      <span className="text-4xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">{tier.price}</span>
+                      <span className="text-blue-300/60 text-base">/month</span>
                     </div>
                   )}
                 </CardHeader>
@@ -242,8 +260,8 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                 <CardContent className="space-y-6">
                   <ul className="space-y-3">
                     {tier.features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm">
-                        <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                      <li key={index} className="flex items-start gap-2 text-sm text-blue-100/90">
+                        <Check className="h-4 w-4 text-mansagold shrink-0 mt-0.5" />
                         <span>{feature}</span>
                       </li>
                     ))}
@@ -252,11 +270,13 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   <Button
                     onClick={() => handleCtaClick(tier.tier)}
                     className={cn(
-                      "w-full whitespace-normal h-auto py-3",
-                      tier.popular && "bg-gradient-to-r from-mansagold to-amber-600 hover:from-amber-600 hover:to-mansagold text-white border-0"
+                      "w-full whitespace-normal h-auto py-3 transition-all duration-300",
+                      tier.popular 
+                        ? "bg-gradient-to-r from-mansagold to-amber-600 hover:from-amber-600 hover:to-mansagold text-white border-0 shadow-lg shadow-mansagold/30" 
+                        : "bg-slate-700/50 border-white/10 text-white hover:bg-mansablue hover:border-mansagold"
                     )}
                     size="lg"
-                    variant="default"
+                    variant={tier.popular ? "default" : "outline"}
                   >
                     {tier.cta}
                   </Button>
@@ -267,42 +287,42 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         </section>
 
         {/* Impact Section */}
-        <section className="container mx-auto px-4 py-16 border-t border-mansablue/20">
+        <section className="container mx-auto px-4 py-16 border-t border-white/10 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6">
-              Your Impact, <span className="bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Measured</span>
+            <h2 className="text-3xl font-bold mb-6 text-white">
+              Your Impact, <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Measured</span>
             </h2>
-            <p className="text-lg text-gray-600 mb-12">
+            <p className="text-lg text-blue-100/90 mb-12">
               Every corporate sponsor receives real-time access to their
               dedicated impact dashboard, tracking the tangible difference your
               sponsorship makes.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card className="border-mansablue/20">
+              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
                 <CardHeader>
-                  <CardTitle className="text-3xl text-mansablue">25+</CardTitle>
-                  <CardDescription>Businesses Supported</CardDescription>
+                  <CardTitle className="text-3xl bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">25+</CardTitle>
+                  <CardDescription className="text-blue-200/70">Businesses Supported</CardDescription>
                 </CardHeader>
               </Card>
-              <Card className="border-mansablue/20">
+              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
                 <CardHeader>
-                  <CardTitle className="text-3xl text-mansablue">150+</CardTitle>
-                  <CardDescription>Transactions Facilitated</CardDescription>
+                  <CardTitle className="text-3xl bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">150+</CardTitle>
+                  <CardDescription className="text-blue-200/70">Transactions Facilitated</CardDescription>
                 </CardHeader>
               </Card>
-              <Card className="border-mansablue/20">
+              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
                 <CardHeader>
-                  <CardTitle className="text-3xl text-mansablue">1,500+</CardTitle>
-                  <CardDescription>Community Members Reached</CardDescription>
+                  <CardTitle className="text-3xl bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">1,500+</CardTitle>
+                  <CardDescription className="text-blue-200/70">Community Members Reached</CardDescription>
                 </CardHeader>
               </Card>
-              <Card className="border-mansablue/20">
+              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
                 <CardHeader>
-                  <CardTitle className="text-3xl bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">
+                  <CardTitle className="text-3xl bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
                     {isScreenshotMode ? '345K+' : '$345K+'}
                   </CardTitle>
-                  <CardDescription>Economic Impact Generated</CardDescription>
+                  <CardDescription className="text-blue-200/70">Economic Impact Generated</CardDescription>
                 </CardHeader>
               </Card>
             </div>
@@ -310,56 +330,56 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         </section>
 
         {/* Benefits Section */}
-        <section className="container mx-auto px-4 py-16 bg-blue-50/50">
+        <section className="container mx-auto px-4 py-16 relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12">
-              Why Become a <span className="bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Corporate Sponsor?</span>
+            <h2 className="text-3xl font-bold text-center mb-12 text-white">
+              Why Become a <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Corporate Sponsor?</span>
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Measurable Impact</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
+                <h3 className="text-xl font-semibold text-white">Measurable Impact</h3>
+                <p className="text-blue-200/70">
                   Track exactly how your sponsorship supports Black-owned
                   businesses with real-time metrics and transparent reporting.
                 </p>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Brand Visibility</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
+                <h3 className="text-xl font-semibold text-white">Brand Visibility</h3>
+                <p className="text-blue-200/70">
                   Increase your brand awareness among socially conscious
                   consumers who value corporate responsibility.
                 </p>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Tax Benefits</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
+                <h3 className="text-xl font-semibold text-white">Tax Benefits</h3>
+                <p className="text-blue-200/70">
                   Your sponsorship is tax-deductible. We provide all necessary
                   documentation for your records.
                 </p>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Community Building</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
+                <h3 className="text-xl font-semibold text-white">Community Building</h3>
+                <p className="text-blue-200/70">
                   Join a network of forward-thinking companies committed to
                   economic empowerment and social justice.
                 </p>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">ESG Alignment</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
+                <h3 className="text-xl font-semibold text-white">ESG Alignment</h3>
+                <p className="text-blue-200/70">
                   Strengthen your Environmental, Social, and Governance (ESG)
                   initiatives with quantifiable social impact.
                 </p>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold">Positive PR</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
+                <h3 className="text-xl font-semibold text-white">Positive PR</h3>
+                <p className="text-blue-200/70">
                   Generate positive press coverage and social media engagement
                   through authentic community support.
                 </p>
@@ -372,20 +392,29 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         <NotificationDemo />
 
         {/* CTA Section */}
-        <section className="container mx-auto px-4 py-16 text-center">
-          <div className="max-w-2xl mx-auto space-y-6">
-            <h2 className="text-3xl font-bold">
-              Ready to Make an <span className="text-primary">Impact?</span>
+        <section className="container mx-auto px-4 py-16 text-center relative z-10">
+          <div className="max-w-2xl mx-auto space-y-6 bg-slate-800/60 backdrop-blur-xl p-8 rounded-2xl border border-white/10">
+            <h2 className="text-3xl font-bold text-white">
+              Ready to Make an <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Impact?</span>
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-blue-100/90">
               Join leading companies in supporting economic empowerment and
               community development. Have questions? Our team is here to help.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" onClick={() => handleCtaClick('platinum')}>
+              <Button 
+                size="lg" 
+                onClick={() => handleCtaClick('platinum')}
+                className="bg-gradient-to-r from-mansagold to-amber-600 hover:from-amber-600 hover:to-mansagold text-white border-0 shadow-lg shadow-mansagold/30"
+              >
                 Become a Sponsor
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                asChild
+                className="border-mansablue/50 bg-slate-700/50 text-white hover:bg-mansablue hover:border-mansagold"
+              >
                 <a href="/contact">Contact Us</a>
               </Button>
             </div>
@@ -394,10 +423,10 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
 
         {/* Company Details Dialog */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="sm:max-w-md">
+          <DialogContent className="sm:max-w-md bg-slate-900 border-white/10 text-white">
             <DialogHeader>
-              <DialogTitle>Complete Your Sponsorship</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="text-white">Complete Your Sponsorship</DialogTitle>
+              <DialogDescription className="text-blue-200/70">
                 Please provide your company details to proceed with {selectedTier} tier sponsorship.
               </DialogDescription>
             </DialogHeader>
