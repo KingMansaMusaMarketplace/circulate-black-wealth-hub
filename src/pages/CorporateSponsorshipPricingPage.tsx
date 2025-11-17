@@ -44,8 +44,8 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
       price: '$500',
       description: 'Perfect for small businesses looking to support the community',
       icon: <Star className="h-6 w-6" />,
-      borderClass: 'border-orange-200 hover:border-orange-300',
-      iconBg: 'bg-orange-100 text-orange-700',
+      borderClass: 'border-amber-300 hover:border-amber-400',
+      iconBg: 'bg-amber-100 text-amber-700',
       features: [
         'Logo in website footer',
         'Monthly impact reports',
@@ -61,8 +61,8 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
       price: '$1,500',
       description: 'Enhanced visibility for growing organizations',
       icon: <Sparkles className="h-6 w-6" />,
-      borderClass: 'border-gray-300 hover:border-gray-400',
-      iconBg: 'bg-gray-100 text-gray-700',
+      borderClass: 'border-slate-300 hover:border-slate-400',
+      iconBg: 'bg-slate-100 text-slate-700',
       features: [
         'All Bronze benefits',
         'Logo in business directory',
@@ -80,8 +80,8 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
       description: 'Maximum impact for committed corporate partners',
       icon: <Crown className="h-6 w-6" />,
       popular: true,
-      borderClass: 'border-yellow-300 hover:border-yellow-400',
-      iconBg: 'bg-yellow-100 text-yellow-700',
+      borderClass: 'border-mansagold hover:border-amber-500',
+      iconBg: 'bg-mansagold/20 text-mansagold',
       features: [
         'All Silver benefits',
         'Logo on homepage & sidebar',
@@ -100,8 +100,8 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
       price: '$15,000',
       description: 'Premier partnership with maximum visibility and impact',
       icon: <Zap className="h-6 w-6" />,
-      borderClass: 'border-purple-300 hover:border-purple-400',
-      iconBg: 'bg-purple-100 text-purple-700',
+      borderClass: 'border-mansablue hover:border-blue-700',
+      iconBg: 'bg-mansablue/20 text-mansablue',
       features: [
         'All Gold benefits',
         'Top banner placement',
@@ -160,32 +160,32 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 via-slate-50 to-amber-50">
         {/* Hero Section */}
         <section className="container mx-auto px-4 py-16 text-center">
-          <Badge className="mb-4" variant="secondary">
+          <Badge className="mb-4 bg-gradient-to-r from-mansablue to-blue-700 text-white border-0">
             Corporate Sponsorship
           </Badge>
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Partner With Us to{' '}
-            <span className="text-primary">Create Real Impact</span>
+            <span className="bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Create Real Impact</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
             Your corporate sponsorship directly supports Black-owned businesses
             and strengthens communities. Choose a partnership tier that aligns
             with your company's values and budget.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center text-sm text-muted-foreground mb-6">
+          <div className="flex flex-wrap gap-4 justify-center text-sm text-gray-600 mb-6">
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-primary" />
+              <Check className="h-4 w-4 text-mansablue" />
               <span>Tax Deductible</span>
             </div>
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-primary" />
+              <Check className="h-4 w-4 text-mansablue" />
               <span>Real-Time Impact Metrics</span>
             </div>
             <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-primary" />
+              <Check className="h-4 w-4 text-mansablue" />
               <span>Transparent Reporting</span>
             </div>
           </div>
@@ -195,6 +195,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
               size="lg"
               onClick={handleShare}
               disabled={isSharing}
+              className="border-mansablue/30 text-mansablue hover:bg-mansablue/10"
             >
               <Share2 className="mr-2 h-4 w-4" />
               Share Opportunity
@@ -216,7 +217,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
               >
                 {tier.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-primary text-primary-foreground shadow-lg">
+                    <Badge className="bg-gradient-to-r from-mansagold to-amber-600 text-white shadow-lg border-0">
                       Most Popular
                     </Badge>
                   </div>
@@ -252,7 +253,7 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                     onClick={() => handleCtaClick(tier.tier)}
                     className={cn(
                       "w-full whitespace-normal h-auto py-3",
-                      tier.popular && "bg-primary hover:bg-primary/90"
+                      tier.popular && "bg-gradient-to-r from-mansagold to-amber-600 hover:from-amber-600 hover:to-mansagold text-white border-0"
                     )}
                     size="lg"
                     variant="default"
@@ -266,39 +267,39 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         </section>
 
         {/* Impact Section */}
-        <section className="container mx-auto px-4 py-16 border-t">
+        <section className="container mx-auto px-4 py-16 border-t border-mansablue/20">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold mb-6">
-              Your Impact, <span className="text-primary">Measured</span>
+              Your Impact, <span className="bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Measured</span>
             </h2>
-            <p className="text-lg text-muted-foreground mb-12">
+            <p className="text-lg text-gray-600 mb-12">
               Every corporate sponsor receives real-time access to their
               dedicated impact dashboard, tracking the tangible difference your
               sponsorship makes.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card>
+              <Card className="border-mansablue/20">
                 <CardHeader>
-                  <CardTitle className="text-3xl text-primary">25+</CardTitle>
+                  <CardTitle className="text-3xl text-mansablue">25+</CardTitle>
                   <CardDescription>Businesses Supported</CardDescription>
                 </CardHeader>
               </Card>
-              <Card>
+              <Card className="border-mansablue/20">
                 <CardHeader>
-                  <CardTitle className="text-3xl text-primary">150+</CardTitle>
+                  <CardTitle className="text-3xl text-mansablue">150+</CardTitle>
                   <CardDescription>Transactions Facilitated</CardDescription>
                 </CardHeader>
               </Card>
-              <Card>
+              <Card className="border-mansablue/20">
                 <CardHeader>
-                  <CardTitle className="text-3xl text-primary">1,500+</CardTitle>
+                  <CardTitle className="text-3xl text-mansablue">1,500+</CardTitle>
                   <CardDescription>Community Members Reached</CardDescription>
                 </CardHeader>
               </Card>
-              <Card>
+              <Card className="border-mansablue/20">
                 <CardHeader>
-                  <CardTitle className="text-3xl text-primary">
+                  <CardTitle className="text-3xl bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">
                     {isScreenshotMode ? '345K+' : '$345K+'}
                   </CardTitle>
                   <CardDescription>Economic Impact Generated</CardDescription>
@@ -309,10 +310,10 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         </section>
 
         {/* Benefits Section */}
-        <section className="container mx-auto px-4 py-16 bg-muted/30">
+        <section className="container mx-auto px-4 py-16 bg-blue-50/50">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-12">
-              Why Become a <span className="text-primary">Corporate Sponsor?</span>
+              Why Become a <span className="bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Corporate Sponsor?</span>
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
