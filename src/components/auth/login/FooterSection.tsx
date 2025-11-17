@@ -24,7 +24,7 @@ export const FooterSection: React.FC = () => {
             Don't have an account?{' '}
             <Link
               to="/signup"
-              className="text-mansablue hover:text-mansagold transition-colors font-medium"
+              className="text-mansablue hover:text-mansagold transition-colors duration-300 font-medium"
             >
               Sign up
             </Link>
@@ -32,7 +32,7 @@ export const FooterSection: React.FC = () => {
           
           <Dialog open={showResetDialog} onOpenChange={setShowResetDialog}>
             <DialogTrigger asChild>
-              <button className="text-sm text-gray-500 hover:text-mansablue transition-colors">
+              <button className="text-sm text-gray-500 hover:text-mansablue transition-colors duration-300">
                 Forgot your password?
               </button>
             </DialogTrigger>

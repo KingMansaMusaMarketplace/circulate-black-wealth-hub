@@ -41,14 +41,14 @@ const successStories = [
 
 const SuccessStoriesSection = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
+    <section className="py-20 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50">
       <div className="container-custom">
         <div className="text-center mb-12">
-          <h2 className="heading-md mb-4 bg-gradient-to-r from-amber-600 via-orange-600 to-red-600 bg-clip-text text-transparent font-extrabold">Success Stories</h2>
-          <div className="w-28 h-1 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 mx-auto mb-6 rounded-full shadow-md"></div>
+          <h2 className="heading-md mb-4 bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent font-extrabold">Success Stories</h2>
+          <div className="w-28 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-6 rounded-full shadow-md"></div>
           <div className="flex justify-center items-center gap-2 mb-4">
-            <Award className="h-6 w-6 text-orange-500" />
-            <p className="text-lg font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">Real Impact, Real Stories</p>
+            <Award className="h-6 w-6 text-mansagold" />
+            <p className="text-lg font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">Real Impact, Real Stories</p>
           </div>
           <p className="text-gray-700 max-w-2xl mx-auto font-medium">
             Hear from business owners who are experiencing the power of intentional economic circulation through our platform.
@@ -58,14 +58,14 @@ const SuccessStoriesSection = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {successStories.map((story, index) => {
             const gradients = [
-              'from-blue-500 to-cyan-500',
-              'from-purple-500 to-pink-500',
-              'from-green-500 to-emerald-500'
+              'from-mansablue to-blue-700',
+              'from-mansagold to-amber-600',
+              'from-blue-600 to-blue-800'
             ];
             const borderColors = [
-              'border-blue-300 hover:border-blue-500',
-              'border-purple-300 hover:border-purple-500',
-              'border-green-300 hover:border-green-500'
+              'border-blue-300 hover:border-mansablue',
+              'border-amber-300 hover:border-mansagold',
+              'border-blue-300 hover:border-blue-600'
             ];
             return (
               <motion.div

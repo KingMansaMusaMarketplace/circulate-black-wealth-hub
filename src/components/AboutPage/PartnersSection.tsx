@@ -30,18 +30,18 @@ const PartnersSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-teal-600 via-cyan-600 to-blue-600 text-white relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-mansablue-dark via-blue-800 to-blue-900 text-white relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-cyan-400/20 to-blue-400/20 blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-80 h-80 rounded-full bg-gradient-to-br from-teal-400/20 to-emerald-400/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-br from-blue-400/10 to-purple-400/10 blur-3xl"></div>
+        <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-mansagold/20 to-amber-500/20 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-br from-blue-400/10 to-mansablue/10 blur-3xl"></div>
       </div>
       
       <div className="container-custom relative">
         <div className="text-center mb-12">
-          <h2 className="heading-md bg-gradient-to-r from-yellow-200 via-amber-200 to-orange-200 bg-clip-text text-transparent mb-4">Our Strategic Partners</h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 mx-auto mb-6 shadow-lg shadow-amber-400/50"></div>
+          <h2 className="heading-md bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent mb-4">Our Strategic Partners</h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-6 shadow-lg shadow-mansagold/50"></div>
           <p className="text-white/90 max-w-2xl mx-auto text-lg font-medium">
             Building economic infrastructure requires collaboration. These organizations support our mission.
           </p>
@@ -50,10 +50,10 @@ const PartnersSection = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {partners.map((partner, index) => {
             const gradients = [
-              'from-rose-500 to-pink-600',
-              'from-purple-500 to-indigo-600',
-              'from-emerald-500 to-teal-600',
-              'from-amber-500 to-orange-600'
+              'from-mansagold to-amber-600',
+              'from-mansablue to-blue-700',
+              'from-blue-600 to-blue-800',
+              'from-amber-500 to-yellow-600'
             ];
             const gradient = gradients[index % gradients.length];
             

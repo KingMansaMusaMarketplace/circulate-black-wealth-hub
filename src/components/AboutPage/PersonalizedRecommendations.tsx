@@ -43,27 +43,27 @@ const recommendedBusinesses = [
 
 const PersonalizedRecommendations = () => {
   const businessGradients = [
-    'from-violet-600 via-purple-600 to-fuchsia-600',
-    'from-rose-600 via-pink-600 to-fuchsia-600',
-    'from-amber-600 via-orange-600 to-red-600'
+    'from-mansablue via-blue-600 to-blue-700',
+    'from-mansagold via-amber-500 to-yellow-500',
+    'from-blue-600 via-blue-700 to-blue-800'
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
       {/* Animated decorative elements */}
-      <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-violet-400/20 to-fuchsia-400/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-pink-400/20 to-rose-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-mansablue/15 to-blue-500/15 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-mansagold/15 to-amber-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
       
       <div className="container-custom relative z-10">
         <div className="text-center mb-12">
           <h2 className="heading-md mb-4">
-            <span className="bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 bg-clip-text text-transparent">Personalized </span>
-            <span className="bg-gradient-to-r from-pink-600 via-rose-600 to-red-600 bg-clip-text text-transparent">For You</span>
+            <span className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent">Personalized </span>
+            <span className="bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 bg-clip-text text-transparent">For You</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 mx-auto mb-6 rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-6 rounded-full"></div>
           <div className="flex justify-center items-center gap-2 mb-4">
-            <Star className="h-6 w-6 fill-amber-400 text-amber-400 animate-pulse" />
-            <p className="text-xl font-bold bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 bg-clip-text text-transparent">
+            <Star className="h-6 w-6 fill-mansagold text-mansagold animate-pulse" />
+            <p className="text-xl font-bold bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent">
               Tailored Business Recommendations
             </p>
           </div>
