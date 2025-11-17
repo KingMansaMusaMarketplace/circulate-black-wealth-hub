@@ -120,6 +120,7 @@ const LazyButtonTestPage = lazy(() => import('@/pages/ButtonTestPage'));
 const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
 const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
+const LazyLearningHubPage = lazy(() => import('@/pages/LearningHubPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -385,6 +386,7 @@ function App() {
                               <Route path="/cookies" element={<LazyCookiePolicyPage />} />
                               <Route path="/blog" element={<LazyBlogPage />} />
                               <Route path="/help" element={<LazyHelpPage />} />
+                              <Route path="/learning-hub" element={<LazyLearningHubPage />} />
                               <Route path="/testing/signup" element={<LazySignupTestPage />} />
                               <Route path="/accessibility" element={<LazyAccessibilityPage />} />
                               
@@ -566,6 +568,7 @@ function App() {
                         <Route path="/cookies" element={<LazyCookiePolicyPage />} />
                         <Route path="/blog" element={<LazyBlogPage />} />
                         <Route path="/help" element={<LazyHelpPage />} />
+                        <Route path="/learning-hub" element={<LazyLearningHubPage />} />
                         <Route path="/testing/signup" element={<LazySignupTestPage />} />
                         <Route path="/accessibility" element={<LazyAccessibilityPage />} />
                         
