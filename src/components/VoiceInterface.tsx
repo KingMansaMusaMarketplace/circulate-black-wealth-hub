@@ -448,7 +448,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
             <>
               <Mic className={`mr-3 h-6 w-6 ${!assistantSpeaking && 'kayla-mic-icon'}`} />
               <span className="font-medium">
-                {assistantSpeaking ? 'Stop Kayla' : 'Talk to Kayla'}
+                {assistantSpeaking ? 'Stop Kayla' : 'Ask Kayla'}
               </span>
             </>
           )}
