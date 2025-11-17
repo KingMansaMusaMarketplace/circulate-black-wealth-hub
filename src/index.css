@@ -32,22 +32,30 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
-    /* Custom color tokens */
+    /* Custom color tokens - Enhanced for accessibility */
     --mansablue: 210 100% 20%;
     --mansablue-dark: 210 100% 15%;
-    --mansagold: 45 100% 60%;
-    --mansagold-dark: 45 95% 50%;
+    --mansablue-light: 210 100% 55%;
+    --mansagold: 45 100% 50%;
+    --mansagold-dark: 45 100% 40%;
+    --mansagold-light: 45 100% 70%;
+    
+    /* Text colors for high contrast on gradients */
+    --text-on-blue: 0 0% 100%;
+    --text-on-gold: 210 100% 15%;
+    --text-on-light: 224 71.4% 4.1%;
     
     /* Glass Morphism */
     --glass-bg: 255 255 255 / 0.08;
     --glass-border: 255 255 255 / 0.15;
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
     
-    /* Gradients */
+    /* Gradients - Enhanced for readability */
     --gradient-primary: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(210 100% 15%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(45 100% 65%) 0%, hsl(45 100% 55%) 50%, hsl(45 100% 65%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 100% 55%) 0%, hsl(45 100% 45%) 50%, hsl(45 100% 55%) 100%);
     --gradient-premium: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(280 87% 55%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 14.3% 95.9%) 100%);
+    --gradient-blue-gold: linear-gradient(135deg, hsl(210 100% 25%) 0%, hsl(210 100% 20%) 50%, hsl(45 100% 45%) 100%);
     
     /* Shadows */
     --shadow-premium: 0 20px 60px -15px rgba(0, 0, 0, 0.3);
@@ -80,16 +88,30 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     
+    /* Dark mode color adjustments for better contrast */
+    --mansablue: 210 100% 30%;
+    --mansablue-dark: 210 100% 20%;
+    --mansablue-light: 210 100% 65%;
+    --mansagold: 45 100% 60%;
+    --mansagold-dark: 45 100% 50%;
+    --mansagold-light: 45 100% 75%;
+    
+    /* Text colors for high contrast in dark mode */
+    --text-on-blue: 0 0% 100%;
+    --text-on-gold: 224 71.4% 4.1%;
+    --text-on-light: 210 20% 98%;
+    
     /* Glass Morphism - Dark Mode */
     --glass-bg: 0 0 0 / 0.4;
     --glass-border: 255 255 255 / 0.1;
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
     
-    /* Gradients - Dark Mode */
-    --gradient-primary: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(210 100% 15%) 100%);
-    --gradient-gold: linear-gradient(135deg, hsl(45 95% 58%) 0%, hsl(45 90% 48%) 100%);
-    --gradient-premium: linear-gradient(135deg, hsl(210 100% 20%) 0%, hsl(280 87% 55%) 100%);
+    /* Gradients - Dark Mode - Brighter for better contrast */
+    --gradient-primary: linear-gradient(135deg, hsl(210 100% 30%) 0%, hsl(210 100% 25%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(45 100% 60%) 0%, hsl(45 100% 50%) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(210 100% 30%) 0%, hsl(280 87% 60%) 100%);
     --gradient-subtle: linear-gradient(180deg, hsl(224 71.4% 4.1%) 0%, hsl(215 27.9% 16.9%) 100%);
+    --gradient-blue-gold: linear-gradient(135deg, hsl(210 100% 35%) 0%, hsl(210 100% 30%) 50%, hsl(45 100% 55%) 100%);
     
     /* Shadows - Dark Mode */
     --shadow-premium: 0 20px 60px -15px rgba(0, 0, 0, 0.6);
@@ -175,6 +197,28 @@
   /* Card with smooth shadow transition */
   .card-interactive {
     @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+  
+  /* High contrast text for gradient backgrounds */
+  .text-contrast-on-gradient {
+    @apply drop-shadow-md;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Accessible text on blue backgrounds */
+  .text-accessible-on-blue {
+    @apply text-white drop-shadow-sm;
+  }
+  
+  /* Accessible text on gold backgrounds */
+  .text-accessible-on-gold {
+    @apply text-mansablue-dark drop-shadow-sm;
+  }
+  
+  /* Enhanced readability for gradient text */
+  .gradient-text-readable {
+    @apply bg-clip-text text-transparent;
+    -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.1);
   }
   
   /* Enhanced hover effects */
