@@ -131,6 +131,19 @@ const DashboardPage = () => {
   return (
     <DashboardLayout title="Dashboard" icon={<Home className="mr-2 h-6 w-6" />}>
       <div className="space-y-8">
+        {/* Decorative Banner */}
+        <div className="relative overflow-hidden rounded-2xl h-32 mb-4">
+          <div className="absolute inset-0 bg-gradient-premium" />
+          <div className="absolute top-4 right-10 w-24 h-24 bg-white/10 rounded-full blur-2xl animate-pulse" />
+          <div className="absolute bottom-4 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="relative h-full flex items-center px-8">
+            <div className="text-white">
+              <h2 className="text-2xl font-bold mb-1">Welcome Back!</h2>
+              <p className="text-white/90 text-sm">Track your impact and discover new opportunities</p>
+            </div>
+          </div>
+        </div>
+
         {/* Enhanced Header Section */}
         <ScrollReveal delay={0.1}>
           <div className="glass-card backdrop-blur-xl rounded-2xl shadow-xl p-6 md:p-8 border border-border/30">

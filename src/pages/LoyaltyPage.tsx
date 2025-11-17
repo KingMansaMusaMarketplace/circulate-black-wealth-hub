@@ -187,7 +187,21 @@ const LoyaltyPage = () => {
       title="Loyalty Program" 
       icon={<Award className="mr-2 h-5 w-5" />}
     >
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <div className="space-y-6">
+        {/* Decorative Banner */}
+        <div className="relative overflow-hidden rounded-2xl h-32">
+          <div className="absolute inset-0 bg-gradient-gold" />
+          <div className="absolute top-4 right-10 w-24 h-24 bg-white/10 rounded-full blur-2xl animate-pulse" />
+          <div className="absolute bottom-4 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="relative h-full flex items-center px-8">
+            <div className="text-white">
+              <h2 className="text-2xl font-bold mb-1">Your Rewards</h2>
+              <p className="text-white/90 text-sm">Earn points and redeem exclusive rewards</p>
+            </div>
+          </div>
+        </div>
+        
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid grid-cols-2 mb-8">
           <TabsTrigger value="history">History</TabsTrigger>
           <TabsTrigger value="rewards">Redeem Rewards</TabsTrigger>
@@ -205,6 +219,7 @@ const LoyaltyPage = () => {
           />
         </TabsContent>
       </Tabs>
+      </div>
     </DashboardLayout>
   );
 };

@@ -10,7 +10,22 @@ const CommunityImpactPage: React.FC = () => {
       title="Community Impact" 
       icon={<TrendingUp className="h-6 w-6" />}
     >
-      <CommunityImpactDashboard />
+      <div className="space-y-6">
+        {/* Decorative Banner */}
+        <div className="relative overflow-hidden rounded-2xl h-32">
+          <div className="absolute inset-0 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600" />
+          <div className="absolute top-4 right-10 w-24 h-24 bg-white/10 rounded-full blur-2xl animate-pulse" />
+          <div className="absolute bottom-4 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="relative h-full flex items-center px-8">
+            <div className="text-white">
+              <h2 className="text-2xl font-bold mb-1">Community Impact</h2>
+              <p className="text-white/90 text-sm">See how your support builds community wealth</p>
+            </div>
+          </div>
+        </div>
+        
+        <CommunityImpactDashboard />
+      </div>
     </DashboardLayout>
   );
 };
