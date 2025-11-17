@@ -6,18 +6,18 @@ import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-16 md:py-20 relative overflow-hidden">
+    <section className="bg-gradient-to-br from-mansablue-dark via-blue-900 to-mansablue py-16 md:py-20 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         {/* Large blurred circles for depth */}
-        <div className="absolute top-20 left-10 w-80 h-80 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-20 left-10 w-80 h-80 rounded-full bg-gradient-to-br from-mansagold/15 to-amber-500/15 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
         
         {/* Smaller decorative elements */}
         <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 flex space-x-20">
-          <div className="w-3 h-3 rounded-full bg-amber-400/60 animate-pulse"></div>
-          <div className="w-3 h-3 rounded-full bg-purple-400/60 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-          <div className="w-3 h-3 rounded-full bg-pink-400/60 animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="w-3 h-3 rounded-full bg-mansagold/60 animate-pulse"></div>
+          <div className="w-3 h-3 rounded-full bg-blue-400/60 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+          <div className="w-3 h-3 rounded-full bg-amber-400/60 animate-pulse" style={{ animationDelay: '1s' }}></div>
         </div>
         
         <div className="absolute bottom-10 left-10 opacity-30">
@@ -48,7 +48,7 @@ const HeroSection = () => {
       <div className="container-custom px-4">
         <div className="max-w-3xl mx-auto text-center relative">
           {/* Small decorative element above heading */}
-          <div className="w-24 h-1 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 mx-auto mb-8 rounded-full shadow-lg"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-8 rounded-full shadow-lg"></div>
           
           <h1 className="heading-lg text-white mb-6 bg-gradient-to-r from-white via-amber-100 to-white bg-clip-text text-transparent animate-fade-in">
             Building the Future of Black Wealth Circulation
@@ -58,14 +58,14 @@ const HeroSection = () => {
             Black dollars intentionally, systemically, and sustainably across generations.
             
             {/* Small decorative element */}
-            <span className="absolute -right-4 -top-4 w-10 h-10 border-2 border-amber-400/50 rounded-full hidden md:block animate-pulse"></span>
+            <span className="absolute -right-4 -top-4 w-10 h-10 border-2 border-mansagold/50 rounded-full hidden md:block animate-pulse"></span>
           </p>
           <div className="flex justify-center relative">
             {/* Subtle glow effect under button */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-16 bg-gradient-to-r from-amber-500/40 to-orange-500/40 rounded-full blur-xl"></div>
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-16 bg-gradient-to-r from-mansagold/40 to-amber-500/40 rounded-full blur-xl"></div>
             
             <Link to="/how-it-works">
-              <Button className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 hover:from-amber-600 hover:via-orange-600 hover:to-red-600 text-white px-10 py-7 text-lg font-bold group relative z-10 shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 hover:scale-105">
+              <Button className="bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 hover:from-amber-600 hover:via-yellow-600 hover:to-yellow-700 text-white px-10 py-7 text-lg font-bold group relative z-10 shadow-2xl hover:shadow-mansagold/50 transition-all duration-300 hover:scale-105">
                 Learn How It Works
                 <ArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
               </Button>

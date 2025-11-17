@@ -18,7 +18,7 @@ import {
 
 const AccessibilityPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50">
       <Helmet>
         <title>Accessibility | Mansa Musa Marketplace</title>
         <meta name="description" content="Learn about accessibility features and support at Mansa Musa Marketplace. We're committed to making economic empowerment accessible to everyone." />
@@ -27,7 +27,7 @@ const AccessibilityPage: React.FC = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-3xl shadow-2xl p-12 mb-12 animate-fade-in">
+          <div className="relative overflow-hidden bg-gradient-to-r from-mansablue via-blue-700 to-blue-800 rounded-3xl shadow-2xl p-12 mb-12 animate-fade-in">
             <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
             <div className="relative z-10 text-center">
               <div className="flex justify-center mb-6">
@@ -45,13 +45,13 @@ const AccessibilityPage: React.FC = () => {
           </div>
 
           {/* Our Commitment */}
-          <Card className="mb-8 bg-gradient-to-br from-cyan-50 to-blue-50 border-cyan-200 shadow-lg hover:shadow-xl transition-all animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <Card className="mb-8 bg-gradient-to-br from-blue-50 to-mansablue-light/20 border-blue-200 shadow-lg hover:shadow-xl transition-all animate-fade-in" style={{ animationDelay: '0.1s' }}>
             <CardHeader>
               <CardTitle className="text-3xl flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg">
+                <div className="p-2 bg-gradient-to-br from-mansablue to-blue-700 rounded-lg">
                   <Accessibility className="h-6 w-6 text-white" />
                 </div>
-                <span className="bg-gradient-to-r from-cyan-700 to-blue-700 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">
                   Our Commitment
                 </span>
               </CardTitle>
@@ -67,13 +67,13 @@ const AccessibilityPage: React.FC = () => {
           </Card>
 
           {/* Supported Features */}
-          <Card className="mb-8 bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 shadow-lg hover:shadow-xl transition-all animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <Card className="mb-8 bg-gradient-to-br from-amber-50 to-mansagold/10 border-amber-200 shadow-lg hover:shadow-xl transition-all animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <CardHeader>
               <CardTitle className="text-3xl flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg">
+                <div className="p-2 bg-gradient-to-br from-mansagold to-amber-600 rounded-lg">
                   <Type className="h-6 w-6 text-white" />
                 </div>
-                <span className="bg-gradient-to-r from-purple-700 to-pink-700 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">
                   Supported Accessibility Features
                 </span>
               </CardTitle>

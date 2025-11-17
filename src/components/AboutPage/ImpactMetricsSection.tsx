@@ -5,25 +5,25 @@ import { TrendingUp, Users, Calendar } from 'lucide-react';
 
 const ImpactMetricsSection = () => {
   const metricColors = [
-    { gradient: 'from-emerald-600 via-teal-600 to-cyan-600', iconBg: 'from-emerald-500/20 to-cyan-500/20', border: 'emerald-300' },
-    { gradient: 'from-blue-600 via-indigo-600 to-purple-600', iconBg: 'from-blue-500/20 to-purple-500/20', border: 'blue-300' },
-    { gradient: 'from-orange-600 via-red-600 to-pink-600', iconBg: 'from-orange-500/20 to-pink-500/20', border: 'orange-300' }
+    { gradient: 'from-mansagold via-amber-500 to-yellow-500', iconBg: 'from-mansagold/20 to-amber-500/20', border: 'amber-300' },
+    { gradient: 'from-mansablue via-blue-600 to-blue-700', iconBg: 'from-blue-500/20 to-mansablue/20', border: 'blue-300' },
+    { gradient: 'from-blue-600 via-mansablue to-blue-800', iconBg: 'from-blue-500/20 to-blue-700/20', border: 'blue-400' }
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
       {/* Decorative elements */}
-      <div className="absolute top-10 left-10 w-80 h-80 bg-gradient-to-br from-emerald-400/20 to-teal-400/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-10 right-10 w-72 h-72 bg-gradient-to-br from-cyan-400/20 to-blue-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
+      <div className="absolute top-10 left-10 w-80 h-80 bg-gradient-to-br from-mansablue/15 to-blue-500/15 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-10 right-10 w-72 h-72 bg-gradient-to-br from-mansagold/15 to-amber-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
       
       <div className="container-custom relative z-10">
         <div className="text-center mb-12">
           <h2 className="heading-md mb-4">
-            <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent">Our Goals for </span>
-            <span className="bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600 bg-clip-text text-transparent">2026</span>
-            <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent"> with your help</span>
+            <span className="bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 bg-clip-text text-transparent">Our Goals for </span>
+            <span className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent">2026</span>
+            <span className="bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 bg-clip-text text-transparent"> with your help</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 mx-auto mb-6 rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-mansablue via-blue-600 to-mansagold mx-auto mb-6 rounded-full"></div>
           <p className="text-lg bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto font-medium">
             We measure our success by the economic impact we create within Black communities.
           </p>

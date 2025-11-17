@@ -5,22 +5,22 @@ import { Layers } from 'lucide-react';
 
 const MissionSection = () => {
   return (
-    <section className="py-20 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+    <section className="py-20 bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50">
       <div className="container-custom">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="heading-md mb-6 relative bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 bg-clip-text text-transparent font-extrabold">
+            <h2 className="heading-md mb-6 relative bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent font-extrabold">
               Mission Statement
-              <span className="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full"></span>
+              <span className="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-mansagold to-amber-500 rounded-full"></span>
             </h2>
             <p className="text-gray-700 text-lg mb-6 font-medium leading-relaxed">
               To build, protect, and expand the Black economic ecosystem through intentional 
               consumer behavior, loyalty rewards, and strategic digital infrastructure.
             </p>
             
-            <Card className="border-2 border-purple-200 hover:border-purple-400 transition-all duration-300 shadow-lg hover:shadow-xl">
-              <CardHeader className="bg-gradient-to-r from-purple-500/10 via-blue-500/10 to-cyan-500/10 pb-3">
-                <CardTitle className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Why It Matters</CardTitle>
+            <Card className="border-2 border-blue-200 hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <CardHeader className="bg-gradient-to-r from-blue-500/10 via-mansablue/10 to-blue-600/10 pb-3">
+                <CardTitle className="text-xl font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">Why It Matters</CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
                 <p className="text-gray-700 mb-4 font-medium">

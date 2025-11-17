@@ -14,11 +14,11 @@ const ChallengesTab = () => {
 
   return (
     <div className="grid md:grid-cols-2 gap-6">
-      <Card className="border-2 border-rose-200 bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300">
-        <CardHeader className="pb-3 bg-gradient-to-r from-rose-50 to-pink-50">
+      <Card className="border-2 border-amber-200 bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300">
+        <CardHeader className="pb-3 bg-gradient-to-r from-amber-50 to-yellow-50">
           <CardTitle className="flex items-center">
-            <Star className="mr-2 h-6 w-6 text-rose-600" />
-            <span className="bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
+            <Star className="mr-2 h-6 w-6 text-mansagold" />
+            <span className="bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">
               Current Challenges
             </span>
           </CardTitle>
@@ -57,18 +57,18 @@ const ChallengesTab = () => {
         </CardContent>
       </Card>
       
-      <Card className="border-2 border-purple-200 bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300">
-        <CardHeader className="pb-3 bg-gradient-to-r from-purple-50 to-fuchsia-50">
+      <Card className="border-2 border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300">
+        <CardHeader className="pb-3 bg-gradient-to-r from-blue-50 to-mansablue-light/20">
           <CardTitle className="flex items-center">
-            <Trophy className="mr-2 h-6 w-6 text-purple-600" />
-            <span className="bg-gradient-to-r from-purple-600 to-fuchsia-600 bg-clip-text text-transparent">
+            <Trophy className="mr-2 h-6 w-6 text-mansablue" />
+            <span className="bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">
               Community Challenges
             </span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-5">
-            <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white p-6 rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300">
+            <div className="bg-gradient-to-br from-mansablue via-blue-700 to-blue-800 text-white p-6 rounded-2xl shadow-2xl hover:scale-105 transition-all duration-300">
               <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
                 ⚡ 72-Hour Challenge
               </h3>
@@ -83,7 +83,7 @@ const ChallengesTab = () => {
                 </div>
                 <div className="h-4 bg-white/20 rounded-full overflow-hidden shadow-inner">
                   <div 
-                    className="h-full bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 shadow-lg animate-pulse" 
+                    className="h-full bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 shadow-lg animate-pulse"
                     style={{ width: '78%' }}
                   ></div>
                 </div>
@@ -104,15 +104,15 @@ const ChallengesTab = () => {
             </div>
             
             <div>
-              <h3 className="font-bold text-xl mb-4 bg-gradient-to-r from-purple-600 to-fuchsia-600 bg-clip-text text-transparent">
+              <h3 className="font-bold text-xl mb-4 bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">
                 Upcoming Challenges
               </h3>
               
               <div className="space-y-3">
-                <div className="border-2 border-purple-200 p-4 rounded-xl bg-gradient-to-br from-white to-purple-50 hover:scale-105 transition-all duration-300 shadow-md">
+                <div className="border-2 border-blue-200 p-4 rounded-xl bg-gradient-to-br from-white to-blue-50 hover:scale-105 transition-all duration-300 shadow-md">
                   <div className="flex justify-between items-center mb-2">
                     <h4 className="font-bold text-gray-800">Juneteenth Celebration</h4>
-                    <Badge variant="outline" className="border-purple-500 text-purple-700 font-bold">
+                    <Badge variant="outline" className="border-mansablue text-mansablue font-bold">
                       Starts in 2 weeks
                     </Badge>
                   </div>
@@ -121,10 +121,10 @@ const ChallengesTab = () => {
                   </p>
                 </div>
                 
-                <div className="border-2 border-fuchsia-200 p-4 rounded-xl bg-gradient-to-br from-white to-fuchsia-50 hover:scale-105 transition-all duration-300 shadow-md">
+                <div className="border-2 border-amber-200 p-4 rounded-xl bg-gradient-to-br from-white to-amber-50 hover:scale-105 transition-all duration-300 shadow-md">
                   <div className="flex justify-between items-center mb-2">
                     <h4 className="font-bold text-gray-800">Back to School</h4>
-                    <Badge variant="outline" className="border-fuchsia-500 text-fuchsia-700 font-bold">
+                    <Badge variant="outline" className="border-mansagold text-mansagold font-bold">
                       Starts in 6 weeks
                     </Badge>
                   </div>

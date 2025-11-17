@@ -15,10 +15,10 @@ const BadgesTab = () => {
   ];
 
   return (
-    <Card className="border-2 border-purple-200 bg-white/80 backdrop-blur-sm">
+    <Card className="border-2 border-blue-200 bg-white/80 backdrop-blur-sm">
       <CardContent className="p-8">
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 bg-clip-text text-transparent mb-2">
+          <h3 className="text-2xl font-bold bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent mb-2">
             Your Achievement Badges
           </h3>
           <p className="text-gray-700 font-medium">
@@ -50,7 +50,7 @@ const BadgesTab = () => {
           </p>
           <Button 
             variant="outline" 
-            className="border-2 border-purple-500 text-purple-700 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 hover:text-white hover:border-transparent font-bold px-8 py-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+            className="border-2 border-mansablue text-mansablue hover:bg-gradient-to-r hover:from-mansablue hover:to-blue-700 hover:text-white hover:border-transparent font-bold px-8 py-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
             View All Badges
           </Button>
