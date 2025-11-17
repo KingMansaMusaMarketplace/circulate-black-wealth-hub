@@ -38,10 +38,10 @@ const InteractiveDemo = () => {
     <section className="py-16 bg-gradient-to-br from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl mb-4">
+          <h2 className="text-3xl font-extrabold sm:text-5xl mb-6 bg-gradient-to-r from-mansagold via-amber-500 to-orange-500 bg-clip-text text-transparent animate-fade-in">
             See How It Works
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6">
+          <p className="text-xl sm:text-2xl font-semibold bg-gradient-to-r from-mansablue via-purple-600 to-mansablue-dark bg-clip-text text-transparent max-w-3xl mx-auto mb-6 animate-fade-in">
             Experience the Mansa Musa Marketplace through our interactive demo
           </p>
           
