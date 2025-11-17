@@ -13,12 +13,13 @@ const ContactSection = () => {
   };
 
   return (
-    <section className="py-12 lg:py-16 bg-gray-50 relative">
+    <section className="py-12 lg:py-16 bg-gradient-to-br from-violet-50 via-fuchsia-50 to-pink-50 relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-        {/* Large blurred backgrounds */}
-        <div className="absolute top-20 right-20 w-64 h-64 rounded-full bg-mansablue/5 blur-xl"></div>
-        <div className="absolute bottom-20 left-20 w-72 h-72 rounded-full bg-mansagold/5 blur-xl"></div>
+        {/* Large blurred backgrounds with animation */}
+        <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-gradient-to-br from-violet-400/20 to-purple-400/20 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-80 h-80 rounded-full bg-gradient-to-br from-fuchsia-400/20 to-pink-400/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gradient-to-br from-rose-400/10 to-amber-400/10 blur-3xl"></div>
         
         {/* Subtle pattern */}
         <div className="absolute inset-0 opacity-5">
@@ -40,9 +41,9 @@ const ContactSection = () => {
           variants={variants}
           className="text-center mb-10 relative"
         >
-          <h2 className="heading-md text-mansablue mb-3">Contact Us</h2>
-          <div className="w-24 h-1 bg-mansagold mx-auto mb-5"></div>
-          <p className="text-gray-600 max-w-2xl mx-auto px-4">
+          <h2 className="heading-md bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 bg-clip-text text-transparent mb-3">Contact Us</h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-pink-500 mx-auto mb-5 shadow-lg shadow-fuchsia-500/50"></div>
+          <p className="text-lg font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto px-4">
             Have questions or want to learn more? Reach out to us and we'll respond as soon as possible.
           </p>
         </motion.div>
@@ -52,8 +53,8 @@ const ContactSection = () => {
             <ContactInfo />
             
             {/* Add decorative elements */}
-            <div className="mt-8 p-4 bg-white rounded-lg border border-gray-100 shadow-sm">
-              <h3 className="text-sm font-medium text-gray-900 mb-2">Office Hours</h3>
+            <div className="mt-8 p-4 bg-gradient-to-br from-white via-violet-50 to-fuchsia-50 rounded-lg border-2 border-violet-200 shadow-lg">
+              <h3 className="text-sm font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent mb-2">Office Hours</h3>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex justify-between">
                   <span>Monday - Friday</span>
@@ -83,8 +84,8 @@ const ContactSection = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            <p className="text-gray-600">
-              Need immediate assistance? <Button variant="link" className="p-0 h-auto text-mansablue">Schedule a call with our team</Button>
+            <p className="text-gray-700 text-lg">
+              Need immediate assistance? <Button variant="link" className="p-0 h-auto bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent font-semibold">Schedule a call with our team</Button>
             </p>
           </motion.div>
         </div>
