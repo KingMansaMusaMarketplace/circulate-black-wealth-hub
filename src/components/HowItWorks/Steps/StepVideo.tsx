@@ -15,7 +15,9 @@ const StepVideo: React.FC<StepVideoProps> = ({ isVisible }) => {
       transition={{ duration: 0.6, delay: 0.1 }}
       className="mb-16 max-w-3xl mx-auto space-y-8"
     >
-      <h3 className="heading-sm text-center mb-6 text-mansablue-dark">See How It Works</h3>
+      <h3 className="heading-sm text-center mb-6 bg-gradient-to-r from-mansagold via-amber-500 to-orange-500 bg-clip-text text-transparent font-extrabold animate-fade-in">
+        See How It Works
+      </h3>
       
       {/* First Video - Mansa Musa Benefits Explained */}
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">
