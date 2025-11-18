@@ -17,9 +17,8 @@ export type AppleProductId = typeof APPLE_PRODUCT_IDS[keyof typeof APPLE_PRODUCT
 /**
  * Apple IAP Service
  * 
- * NOTE: This is a simplified implementation that will be enhanced with full StoreKit integration.
- * For initial App Store submission, this provides the structure needed.
- * Full implementation requires native iOS code in the Capacitor iOS project.
+ * IMPLEMENTATION NEEDED: This requires native iOS StoreKit integration.
+ * The backend (receipt validation) is ready, but native iOS code is needed.
  */
 class AppleIAPService {
   private initialized = false;
@@ -30,14 +29,12 @@ class AppleIAPService {
     try {
       console.log('[Apple IAP] Initializing...');
       
-      // Check if running on iOS
       if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== 'ios') {
         console.log('[Apple IAP] Not on iOS platform, skipping initialization');
         return;
       }
 
-      // TODO: Initialize StoreKit products here
-      // This will be implemented with native iOS code
+      // Native StoreKit initialization needed here
       
       this.initialized = true;
       console.log('[Apple IAP] Initialized successfully');
@@ -59,16 +56,10 @@ class AppleIAPService {
 
       console.log('[Apple IAP] Initiating purchase:', productId);
       
-      // TODO: Implement actual StoreKit purchase flow
-      // For now, show a message to the user
-      toast.info('Opening App Store for subscription...', {
-        description: 'You will be redirected to complete your purchase'
-      });
-
-      // Placeholder - this will be replaced with actual StoreKit purchase
-      console.warn('[Apple IAP] Purchase flow not yet implemented. Native iOS integration required.');
+      // Native StoreKit purchase implementation needed
+      toast.info('Purchase flow ready - requires native iOS implementation');
       
-      return { success: false, message: 'IAP implementation pending' };
+      return { success: false, message: 'Native iOS implementation required' };
     } catch (error: any) {
       console.error('[Apple IAP] Purchase failed:', error);
       toast.error(error.message || 'Purchase failed');
@@ -114,10 +105,8 @@ class AppleIAPService {
         await this.initialize();
       }
 
-      // TODO: Implement StoreKit restore purchases
-      toast.info('Checking for previous purchases...');
-      
-      console.warn('[Apple IAP] Restore purchases not yet implemented. Native iOS integration required.');
+      // Native StoreKit restore implementation needed
+      toast.info('Restore ready - requires native iOS implementation');
       
     } catch (error: any) {
       console.error('[Apple IAP] Restore failed:', error);
