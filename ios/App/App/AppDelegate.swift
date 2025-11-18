@@ -8,6 +8,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Register the IAP plugin
+        let bridge = CapacitorBridge.shared
+        bridge?.registerPluginInstance(IAPPlugin())
+        
         return true
     }
 
