@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { subscriptionService } from '@/lib/services/subscription-service';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
+import { useCapacitor } from '@/hooks/use-capacitor';
 import { toast } from 'sonner';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 import { useConversionTracking } from '@/hooks/use-analytics-tracking';
-import { shouldHideStripePayments } from '@/utils/platform-utils';
+import { appleIAPService, APPLE_PRODUCT_IDS } from '@/lib/services/apple-iap-service';
 
 interface UseSubscriptionActionsProps {
   onPlanSelect?: (tier: SubscriptionTier) => void;
@@ -15,28 +16,22 @@ interface UseSubscriptionActionsProps {
 export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsProps = {}) => {
   const { user } = useAuth();
   const { refreshSubscription } = useSubscription();
+  const { platform } = useCapacitor();
   const { trackSubscriptionView, trackSubscriptionStart, trackSubscriptionComplete } = useConversionTracking();
   const [loading, setLoading] = useState<SubscriptionTier | null>(null);
 
-  const handleSubscribe = async (tier: SubscriptionTier) => {
-    // Block Stripe payments on iOS (Apple IAP compliance)
-    if (shouldHideStripePayments()) {
-      toast.error('Payment features are not available in the iOS app. Please visit our website to subscribe.');
-      return;
-    }
+  const isIOS = platform === 'ios';
 
+  const handleSubscribe = async (tier: SubscriptionTier) => {
     console.log('[SUBSCRIPTION] Subscribe button clicked for tier:', tier);
-    console.log('[SUBSCRIPTION] Current user from auth context:', user);
-    console.log('[SUBSCRIPTION] User email:', user?.email);
-    console.log('[SUBSCRIPTION] User ID:', user?.id);
+    console.log('[SUBSCRIPTION] Platform:', platform, 'isIOS:', isIOS);
+    console.log('[SUBSCRIPTION] Current user:', user);
     
-    // Wait briefly for auth state to fully propagate (increased timeout for iOS)
+    // Wait briefly for auth state to fully propagate
     await new Promise(resolve => setTimeout(resolve, 300));
     
     if (!user) {
-      console.log('[SUBSCRIPTION] No user found after check, showing signup/login options');
-      
-      // Store intended subscription tier for after login/signup
+      console.log('[SUBSCRIPTION] No user found, showing signup/login options');
       sessionStorage.setItem('pendingSubscription', tier);
       
       toast.error('Account Required', {
@@ -50,7 +45,6 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
         }
       });
       
-      // Show a second toast with login option after a delay
       setTimeout(() => {
         toast.info('Already have an account?', {
           duration: 5000,
@@ -74,39 +68,56 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
       return;
     }
 
-    // Clear any pending subscription since we're processing now
     sessionStorage.removeItem('pendingSubscription');
 
-    console.log('[SUBSCRIPTION] Starting subscription process for:', { tier, userEmail: user.email, userId: user.id });
+    console.log('[SUBSCRIPTION] Starting subscription process');
     trackSubscriptionStart(tier);
     setLoading(tier);
     
     try {
-      // Map tier to appropriate userType for the checkout session
+      // iOS: Use Apple IAP
+      if (isIOS) {
+        console.log('[SUBSCRIPTION] Using Apple IAP for iOS');
+        
+        const productIdMap: Record<string, string> = {
+          'premium': APPLE_PRODUCT_IDS.PREMIUM,
+          'business': APPLE_PRODUCT_IDS.BUSINESS_BASIC,
+          'enterprise': APPLE_PRODUCT_IDS.BUSINESS_ENTERPRISE,
+        };
+
+        const productId = productIdMap[tier];
+        if (!productId) {
+          toast.error('This subscription tier is not available on iOS');
+          return;
+        }
+
+        await appleIAPService.purchase(productId as any);
+        
+        setTimeout(() => {
+          refreshSubscription();
+        }, 2000);
+        
+        onPlanSelect?.(tier);
+        return;
+      }
+
+      // Web: Use Stripe
+      console.log('[SUBSCRIPTION] Using Stripe for web');
       const userType = (tier === 'business' || tier === 'enterprise') ? 'business' : 'customer';
       
-      console.log('Creating checkout session with params:', {
+      const checkoutData = await subscriptionService.createCheckoutSession({
         userType,
         email: user.email || '',
         name: user.user_metadata?.full_name || user.user_metadata?.name || 'User',
-        tier: tier,
+        tier,
       });
       
-      const checkoutData = await subscriptionService.createCheckoutSession({
-        userType: userType,
-        email: user.email || '',
-        name: user.user_metadata?.full_name || user.user_metadata?.name || 'User',
-        tier: tier,
-      });
-      
-      console.log('Checkout session created successfully:', checkoutData);
+      console.log('Checkout session created:', checkoutData);
       
       if (checkoutData.url) {
-        // Open checkout in new tab
         console.log('Opening checkout URL in new tab');
         window.open(checkoutData.url, '_blank');
         
-        // Refresh subscription after a delay to check for updates
         setTimeout(() => {
           console.log('Refreshing subscription status');
           refreshSubscription();
@@ -118,7 +129,7 @@ export const useSubscriptionActions = ({ onPlanSelect }: UseSubscriptionActionsP
         throw new Error('No checkout URL received');
       }
     } catch (error) {
-      console.error('Error creating checkout session:', error);
+      console.error('Error in subscription flow:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to start subscription process';
       toast.error(`Subscription error: ${errorMessage}`);
     } finally {

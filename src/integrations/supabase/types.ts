@@ -502,6 +502,63 @@ export type Database = {
           },
         ]
       }
+      apple_subscriptions: {
+        Row: {
+          auto_renew_status: boolean | null
+          cancellation_date: string | null
+          created_at: string
+          environment: string
+          expires_date: string | null
+          id: string
+          is_in_intro_offer_period: boolean | null
+          is_trial_period: boolean | null
+          original_transaction_id: string
+          product_id: string
+          purchase_date: string
+          receipt_data: string
+          status: string
+          transaction_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          auto_renew_status?: boolean | null
+          cancellation_date?: string | null
+          created_at?: string
+          environment: string
+          expires_date?: string | null
+          id?: string
+          is_in_intro_offer_period?: boolean | null
+          is_trial_period?: boolean | null
+          original_transaction_id: string
+          product_id: string
+          purchase_date: string
+          receipt_data: string
+          status?: string
+          transaction_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          auto_renew_status?: boolean | null
+          cancellation_date?: string | null
+          created_at?: string
+          environment?: string
+          expires_date?: string | null
+          id?: string
+          is_in_intro_offer_period?: boolean | null
+          is_trial_period?: boolean | null
+          original_transaction_id?: string
+          product_id?: string
+          purchase_date?: string
+          receipt_data?: string
+          status?: string
+          transaction_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       auth_attempt_log: {
         Row: {
           attempt_time: string | null
