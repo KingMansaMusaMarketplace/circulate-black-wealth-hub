@@ -102,7 +102,7 @@ const SalesAgentGuidePage: React.FC = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Business Referrals */}
-            <Card className="p-8 bg-white shadow-2xl border-2 border-mansagold/30 hover:shadow-mansagold/20 transition-all rounded-2xl">
+            <Card className="p-8 !bg-white shadow-2xl border-2 border-mansagold/30 hover:shadow-mansagold/20 transition-all rounded-2xl">
               <div className="bg-gradient-to-br from-mansablue-dark to-mansablue w-16 h-16 rounded-xl flex items-center justify-center mb-6">
                 <Target className="w-8 h-8 text-white" />
               </div>
