@@ -15,7 +15,8 @@ const NavigationMenu = React.forwardRef<
       "relative z-10 flex max-w-max flex-1 items-center justify-center",
       className
     )}
-    delayDuration={500}
+    delayDuration={200}
+    skipDelayDuration={1000}
     {...props}
   >
     {children}
