@@ -48,7 +48,7 @@ export const AchievementsBadges: React.FC = () => {
           <CardTitle className="text-white">Your Achievements</CardTitle>
         </div>
         <CardDescription className="text-blue-200/70">
-          {achievements?.length || 0} achievements unlocked
+          {achievements?.length || 0} achievements earned
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -81,7 +81,7 @@ export const AchievementsBadges: React.FC = () => {
           <div className="text-center py-8">
             <Trophy className="w-12 h-12 text-blue-300/30 mx-auto mb-4" />
             <p className="text-blue-200/70">
-              No achievements yet. Start shopping to unlock rewards!
+              No achievements yet. Start making purchases to earn rewards!
             </p>
           </div>
         )}

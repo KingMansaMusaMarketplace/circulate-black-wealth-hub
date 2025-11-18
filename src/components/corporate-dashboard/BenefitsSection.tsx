@@ -66,7 +66,7 @@ const BenefitsSection: React.FC<BenefitsSectionProps> = ({ tier }) => {
               <CardTitle>Upgrade to Gold</CardTitle>
             </div>
             <CardDescription>
-              Unlock premium benefits and maximize your impact
+              Access premium partnership services and maximize your impact
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -59,7 +59,7 @@ const WelcomeTooltip: React.FC = () => {
             <Coins className="h-3 w-3 text-amber-600" />
           </div>
           <p className="text-xs text-gray-700">
-            <span className="font-medium">Redeem Rewards:</span> Collect enough points to unlock special discounts and exclusive offers
+            <span className="font-medium">Redeem Rewards:</span> Collect enough points to receive special discounts and exclusive offers on products and services
           </p>
         </div>
         

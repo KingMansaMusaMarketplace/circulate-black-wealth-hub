@@ -65,8 +65,8 @@ const RewardsCatalog: React.FC<RewardsCatalogProps> = ({ availablePoints = 0, on
     },
     {
       id: 4,
-      title: "VIP Status",
-      description: "Unlock VIP status across all participating businesses",
+      title: "VIP Membership",
+      description: "Get VIP membership status with special benefits at all participating businesses",
       pointsCost: 500,
       icon: <Sparkles className="h-5 w-5" />,
       isPopular: true

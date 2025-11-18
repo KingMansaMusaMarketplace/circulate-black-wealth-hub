@@ -30,7 +30,7 @@ const SocialActivityFeed = () => {
       case 'check_in':
         return `checked in at ${activity.businesses?.business_name}`;
       case 'achievement':
-        return `unlocked "${activity.metadata.achievement_name}"`;
+        return `earned "${activity.metadata.achievement_name}"`;
       case 'business_support':
         return `supported ${activity.businesses?.business_name}`;
       default:

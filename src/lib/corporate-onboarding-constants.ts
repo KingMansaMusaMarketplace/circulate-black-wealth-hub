@@ -75,8 +75,8 @@ export const CORPORATE_ONBOARDING_STEPS: CorporateOnboardingStep[] = [
   },
   {
     id: 'partnership-benefits',
-    title: 'Unlock Exclusive Partnership Benefits',
-    description: 'Beyond sponsorship, access unique opportunities to engage directly with our community and business network.',
+    title: 'Access Exclusive Partnership Services',
+    description: 'Beyond sponsorship, purchase access to unique services and opportunities to engage directly with our community and business network.',
     illustration: Users,
     features: [
       'First access to partnership opportunities with growing businesses',
@@ -180,6 +180,6 @@ export const CORPORATE_CONTEXTUAL_TIPS = {
   },
   'sponsorship-tiers': {
     title: 'Sponsorship Investment',
-    tip: 'Higher tiers unlock exclusive benefits like co-branding, executive networking, and priority partnership opportunities with high-growth businesses.'
+    tip: 'Higher tiers provide access to exclusive partnership services like co-branding, executive networking, and priority partnership opportunities with high-growth businesses.'
   }
 };

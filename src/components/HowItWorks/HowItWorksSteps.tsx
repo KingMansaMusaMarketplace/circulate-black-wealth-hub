@@ -34,8 +34,8 @@ const HowItWorksSteps = () => {
   const steps = [
     {
       number: '01',
-      title: 'Subscribe',
-      description: 'Join and unlock the full directory of Black-owned businesses.',
+      title: 'Sign Up',
+      description: 'Join to browse the complete directory of Black-owned businesses.',
       details: [
         'Access to full business listings',
         'QR code scanning functionality',

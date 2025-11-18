@@ -77,7 +77,7 @@ export const generateAchievementShareText = (achievement: {
   points_awarded: number;
 }) => {
   return {
-    title: `🎉 Achievement Unlocked: ${achievement.achievement_name}!`,
+    title: `🎉 Achievement Earned: ${achievement.achievement_name}!`,
     text: `I just earned ${achievement.points_awarded} points on Mansa Musa Marketplace for ${achievement.achievement_name}! Join me in supporting Black-owned businesses.`,
     url: window.location.origin,
   };

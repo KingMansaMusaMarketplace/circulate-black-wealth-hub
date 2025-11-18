@@ -222,7 +222,7 @@ const RewardsPage = () => {
                 Rewards & Points 🎁
               </h1>
               <p className="text-xl text-white/90 max-w-2xl mx-auto font-medium">
-                Earn points by supporting Black-owned businesses and unlock exclusive rewards ✨
+                Earn points by making purchases at Black-owned businesses and redeem for exclusive rewards on products and services ✨
               </p>
             </div>
 

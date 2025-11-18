@@ -106,7 +106,7 @@ export const BUSINESS_FAQ_ITEMS = [
   },
   {
     question: 'How much does it cost to list my business?',
-    answer: 'Basic listing is free! Premium features and verification are available with our business subscription plans starting at $29/month.'
+    answer: 'Basic listing is free! Advanced marketplace tools and business verification services are available with our business plans starting at $29/month.'
   },
   {
     question: 'How do customers find my business?',

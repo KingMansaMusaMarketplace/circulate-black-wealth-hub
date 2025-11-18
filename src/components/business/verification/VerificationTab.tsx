@@ -83,9 +83,9 @@ const VerificationTab: React.FC = () => {
               <div className="flex gap-3">
                 <div className="bg-mansablue text-white p-2 rounded-full h-8 w-8 flex items-center justify-center">3</div>
                 <div>
-                  <h3 className="font-medium">Access to Premium Features</h3>
+                  <h3 className="font-medium">Access to Business Tools</h3>
                   <p className="text-sm text-muted-foreground">
-                    Unlock additional platform features available only to verified businesses.
+                    Gain access to advanced marketplace tools and services available for verified businesses.
                   </p>
                 </div>
               </div>

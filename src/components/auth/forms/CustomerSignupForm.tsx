@@ -152,16 +152,16 @@ export const CustomerSignupForm: React.FC<CustomerSignupFormProps> = ({
           
           {!shouldHideStripePayments() && (
             <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-              <h4 className="text-sm font-medium text-blue-900 mb-2">🚀 Want More? Upgrade Later:</h4>
+              <h4 className="text-sm font-medium text-blue-900 mb-2">🚀 Want More Services?</h4>
               <ul className="text-xs text-blue-700 space-y-1">
-                <li>• Premium features available</li>
-                <li>• Get 5% - 30% discounts at businesses</li>
-                <li>• Earn and redeem loyalty points</li>
-                <li>• Access exclusive member deals</li>
+                <li>• Additional marketplace services available</li>
+                <li>• Get 5% - 30% discounts on purchases at businesses</li>
+                <li>• Earn and redeem loyalty points on products and services</li>
+                <li>• Access exclusive member deals and offers</li>
                 <li>• Priority customer support</li>
               </ul>
               <p className="text-xs text-blue-600 mt-2 font-medium">
-                Start free now - upgrade anytime!
+                Start free now - purchase services anytime!
               </p>
             </div>
           )}
