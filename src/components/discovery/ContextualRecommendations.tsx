@@ -38,7 +38,7 @@ export const ContextualRecommendations: React.FC<ContextualRecommendationsProps>
     suggestions.push("Highly rated local favorites");
 
     setRecommendations(suggestions);
-  }, [currentCategory, currentLocation, recentlyViewed]);
+  }, [currentCategory, currentLocation, recentlyViewed.length]);
 
   if (recommendations.length === 0) return null;
 
