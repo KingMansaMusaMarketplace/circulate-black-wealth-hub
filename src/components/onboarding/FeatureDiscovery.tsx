@@ -49,12 +49,12 @@ export const FeatureDiscovery: React.FC = () => {
       <div className="container mx-auto px-4 py-16 max-w-7xl relative z-10">
         <ScrollReveal>
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-mansagold/20 via-mansablue/20 to-mansagold/20 backdrop-blur-sm px-6 py-3 rounded-full mb-6 border border-mansagold/30 animate-shimmer bg-[length:200%_100%]">
-              <Sparkles className="h-5 w-5 text-mansagold" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Discover All Features</span>
+            <div className="inline-flex items-center gap-2 bg-mansagold/20 backdrop-blur-sm px-6 py-3 rounded-full mb-6 border border-mansagold/50">
+              <Sparkles className="h-5 w-5 text-mansagold-dark" />
+              <span className="text-sm font-bold text-mansablue-dark">Discover All Features</span>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-mansablue via-mansablue-dark to-mansagold bg-clip-text text-transparent">Business Management Made Simple</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">Everything you need to run and grow your business, all in one place.</p>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-mansablue-dark">Business Management Made Simple</h1>
+            <p className="text-xl text-foreground/80 max-w-3xl mx-auto leading-relaxed">Everything you need to run and grow your business, all in one place.</p>
           </div>
         </ScrollReveal>
 
@@ -81,8 +81,8 @@ export const FeatureDiscovery: React.FC = () => {
                     </div>
                     <Badge className={feature.category === 'core' ? 'bg-gradient-to-r from-mansablue/20 to-mansablue/10 text-mansablue border border-mansablue/30' : feature.category === 'financial' ? 'bg-gradient-to-r from-mansagold/20 to-mansagold/10 text-mansagold-dark border border-mansagold/30' : 'bg-gradient-to-r from-purple-500/20 to-purple-400/10 text-purple-700 border border-purple-400/30'}>{feature.category}</Badge>
                   </div>
-                  <CardTitle className="text-xl font-bold group-hover:bg-gradient-to-r group-hover:from-mansablue group-hover:to-mansagold group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">{feature.title}</CardTitle>
-                  <CardDescription className="text-base text-muted-foreground leading-relaxed">{feature.description}</CardDescription>
+                  <CardTitle className="text-xl font-bold text-foreground group-hover:text-mansablue transition-all duration-300">{feature.title}</CardTitle>
+                  <CardDescription className="text-base text-foreground/70 leading-relaxed">{feature.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="relative z-10">
                   <Button variant="ghost" className="w-full group-hover:bg-gradient-to-r group-hover:from-mansablue group-hover:to-mansablue-dark group-hover:text-white font-semibold transition-all duration-300 group/btn">Explore Feature <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" /></Button>
