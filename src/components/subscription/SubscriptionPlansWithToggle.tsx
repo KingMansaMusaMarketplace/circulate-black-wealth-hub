@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Check, Star, Crown, Building, Users, Rocket } from 'lucide-react';
 import { useSubscriptionActions } from './hooks/useSubscriptionActions';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 interface PlanData {
   id: SubscriptionTier;
@@ -32,6 +33,12 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
 }) => {
   const { loading, handleSubscribe, isAuthenticated } = useSubscriptionActions();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
+  const isIOS = shouldHideStripePayments();
+
+  // On iOS, don't show subscription plans
+  if (isIOS) {
+    return null;
+  }
 
   const customerPlans: { monthly: PlanData[]; annual: PlanData[] } = {
     monthly: [

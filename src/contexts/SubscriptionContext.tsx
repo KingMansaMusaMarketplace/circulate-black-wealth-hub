@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { subscriptionService, SubscriptionInfo } from '@/lib/services/subscription-service';
 import { unifiedSubscriptionService, UnifiedSubscriptionInfo } from '@/lib/services/unified-subscription-service';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 interface SubscriptionContextType {
   subscriptionInfo: UnifiedSubscriptionInfo | null;
@@ -34,6 +35,19 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({ chil
   const refreshSubscription = async () => {
     if (!user) {
       setSubscriptionInfo(null);
+      return;
+    }
+
+    // On iOS, always return free subscription without API calls
+    if (shouldHideStripePayments()) {
+      setSubscriptionInfo({
+        isActive: false,
+        tier: 'free',
+        status: null as any,
+        source: 'unknown',
+        subscription_tier: 'free',
+        subscribed: false
+      });
       return;
     }
 
