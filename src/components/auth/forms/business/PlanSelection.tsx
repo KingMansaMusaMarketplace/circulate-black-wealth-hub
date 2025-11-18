@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { Rocket, Building, Star, Check } from 'lucide-react';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 interface PlanSelectionProps {
   selectedTier: SubscriptionTier;
@@ -15,6 +16,60 @@ const PlanSelection: React.FC<PlanSelectionProps> = ({
   selectedTier,
   onTierChange
 }) => {
+  const isIOS = shouldHideStripePayments();
+
+  // On iOS, automatically select free tier
+  useEffect(() => {
+    if (isIOS && selectedTier !== 'free') {
+      onTierChange('free');
+    }
+  }, [isIOS, selectedTier, onTierChange]);
+
+  // On iOS, don't show plan selection - just show a message
+  if (isIOS) {
+    return (
+      <div className="w-full max-w-4xl mx-auto">
+        <Card className="border-2 border-green-200 bg-green-50">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl text-gray-900">Business Registration</CardTitle>
+            <CardDescription className="text-gray-700">
+              Complete your business profile to get started
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="bg-white rounded-lg p-6 text-center space-y-4">
+              <div className="text-4xl">✨</div>
+              <h3 className="text-xl font-semibold text-gray-900">
+                Full Platform Access Included
+              </h3>
+              <p className="text-gray-700">
+                Create your business profile and start connecting with customers at no cost.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 text-left">
+                <div className="flex items-start gap-3">
+                  <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm text-gray-700">Complete business profile</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm text-gray-700">Customer loyalty program</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm text-gray-700">Basic analytics access</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Check className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                  <span className="text-sm text-gray-700">Community engagement</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   const businessPlans = [
     {
       id: 'business_starter' as SubscriptionTier,
