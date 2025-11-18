@@ -64,7 +64,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <p className="text-xl md:text-2xl mb-4 text-white/90">
               Earn up to 15% commissions + $75 recruitment bonuses + 7.5% team overrides
             </p>
-            <p className="text-lg text-blue-200 mb-8 max-w-3xl mx-auto">
+            <p className="text-lg text-white/90 mb-8 max-w-3xl mx-auto">
               Join the Mansa Musa Marketplace Sales Agent Program and get paid to connect Black-owned businesses with customers who want to support them.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -95,7 +95,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <h2 className="text-4xl font-extrabold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent mb-4">
               Three Ways to Earn
             </h2>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-white/90">
               Maximize your income with our multi-tier compensation structure
             </p>
           </div>
@@ -158,25 +158,25 @@ const SalesAgentGuidePage: React.FC = () => {
             </Card>
 
             {/* Team Override */}
-            <Card className="p-8 bg-white/95 backdrop-blur-xl border-2 border-mansablue/20 hover:shadow-2xl hover:shadow-mansablue/20 transition-all rounded-2xl">
+            <Card className="p-8 !bg-white shadow-2xl border-2 border-mansablue/30 hover:shadow-mansablue/20 transition-all rounded-2xl">
               <div className="bg-gradient-to-br from-mansablue-dark to-mansablue w-16 h-16 rounded-xl flex items-center justify-center mb-6">
                 <Users className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Team Override</h3>
+              <h3 className="text-2xl font-bold mb-3 text-foreground">Team Override</h3>
               <div className="text-4xl font-bold text-mansablue mb-4">7.5%</div>
-              <p className="text-gray-600 mb-6">
+              <p className="text-foreground/80 mb-6">
                 Earn 7.5% override on your recruited agents' commissions for 6 months. True passive income!
               </p>
               <div className="space-y-2">
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Earn on their earned commissions</span>
                 </div>
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>6-month override period</span>
                 </div>
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Compounds as team grows</span>
                 </div>
@@ -231,23 +231,23 @@ const SalesAgentGuidePage: React.FC = () => {
 
             <div className="bg-white rounded-lg p-6 space-y-4">
               <div className="flex justify-between items-center pb-3 border-b">
-                <span className="text-gray-600">Business Commissions (Monthly)</span>
+                <span className="text-foreground/70">Business Commissions (Monthly)</span>
                 <span className="text-xl font-bold text-mansablue">${customerEarnings.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b">
-                <span className="text-gray-600">Team Override (Monthly)</span>
+                <span className="text-foreground/70">Team Override (Monthly)</span>
                 <span className="text-xl font-bold text-purple-600">${teamOverride.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b">
-                <span className="text-gray-600">Recruitment Bonuses (One-time)</span>
+                <span className="text-foreground/70">Recruitment Bonuses (One-time)</span>
                 <span className="text-xl font-bold text-green-600">${recruitmentBonus.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center pt-4 border-t-2 border-mansablue">
-                <span className="text-lg font-bold text-gray-900">Monthly Recurring Income</span>
+                <span className="text-lg font-bold text-foreground">Monthly Recurring Income</span>
                 <span className="text-3xl font-bold text-mansablue">${totalMonthly.toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600">First Month Total (with bonuses)</span>
+                <span className="text-sm text-foreground/70">First Month Total (with bonuses)</span>
                 <span className="text-xl font-semibold text-green-600">${totalWithBonus.toFixed(2)}</span>
               </div>
             </div>
@@ -275,7 +275,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <h2 className="text-4xl font-extrabold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent mb-4">
               Real Success Stories
             </h2>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-white/90">
               See what's possible when you join our program
             </p>
           </div>
@@ -348,7 +348,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <h2 className="text-4xl font-extrabold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent mb-4">
               Simple Application Process
             </h2>
-            <p className="text-xl text-white/80">
+            <p className="text-xl text-white/90">
               Get started in 3 easy steps
             </p>
           </div>
@@ -486,7 +486,7 @@ const SalesAgentGuidePage: React.FC = () => {
           >
             Apply Now - It's Free! <ArrowRight className="ml-3" />
           </Button>
-          <p className="mt-6 text-blue-200">
+          <p className="mt-6 text-white/90">
             No fees. No quotas. Just unlimited earning potential.
           </p>
         </div>
