@@ -39,18 +39,18 @@ const SalesAgentGuidePage: React.FC = () => {
   const totalWithBonus = totalMonthly + recruitmentBonus;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light">
       <Helmet>
         <title>Become a Sales Agent - Mansa Musa Marketplace</title>
         <meta name="description" content="Join the Mansa Musa Marketplace Sales Agent Program. Earn competitive commissions, recruitment bonuses, and team overrides. Build your own sales empire!" />
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-mansablue via-blue-600 to-blue-800 text-white py-20 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
+      <section className="relative text-white py-20 px-4 overflow-hidden">
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-mansagold/40 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-mansagold/30 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+      </div>
         
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
@@ -58,10 +58,10 @@ const SalesAgentGuidePage: React.FC = () => {
               <Star className="w-3 h-3 mr-1" />
               Unlimited Earning Potential
             </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            <h1 className="text-5xl md:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-mansagold-light to-white">
               Build Your Sales Empire
             </h1>
-            <p className="text-xl md:text-2xl mb-4 text-blue-100">
+            <p className="text-xl md:text-2xl mb-4 text-white/90">
               Earn up to 15% commissions + $75 recruitment bonuses + 7.5% team overrides
             </p>
             <p className="text-lg text-blue-200 mb-8 max-w-3xl mx-auto">
@@ -70,14 +70,14 @@ const SalesAgentGuidePage: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-mansagold text-mansablue hover:bg-mansagold/90 font-bold text-lg px-8 py-6"
+                className="bg-gradient-to-r from-mansagold-dark to-mansagold hover:from-mansagold hover:to-mansagold-light text-mansablue-dark font-bold text-lg px-8 py-6 shadow-xl shadow-mansagold/30 hover:shadow-2xl"
                 onClick={() => navigate('/sales-agent-signup')}
               >
                 Apply Now <ArrowRight className="ml-2" />
               </Button>
               <Button 
                 size="lg" 
-                className="bg-white/20 backdrop-blur-sm border-2 border-white text-white hover:bg-mansagold hover:text-mansablue hover:border-mansagold font-bold text-lg px-8 py-6 transition-all"
+                className="bg-white/20 backdrop-blur-sm border-2 border-white/60 text-white hover:bg-white/30 hover:text-white font-bold text-lg px-8 py-6 transition-all"
                 onClick={() => document.getElementById('earnings-calculator')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 <Calculator className="mr-2" />
@@ -89,21 +89,22 @@ const SalesAgentGuidePage: React.FC = () => {
       </section>
 
       {/* Three Revenue Streams */}
-      <section className="py-16 px-4 bg-gradient-to-b from-blue-50 to-white">
+      <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-extrabold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent mb-4">
               Three Ways to Earn
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-white/80">
               Maximize your income with our multi-tier compensation structure
+            </p>
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Business Referrals */}
-            <Card className="p-8 bg-white border-2 border-blue-100 hover:border-mansablue transition-all hover:shadow-xl">
-              <div className="bg-gradient-to-br from-mansablue to-blue-600 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+            <Card className="p-8 bg-white/95 backdrop-blur-xl border-2 border-mansagold/20 hover:shadow-2xl hover:shadow-mansagold/20 transition-all rounded-2xl">
+              <div className="bg-gradient-to-br from-mansablue-dark to-mansablue w-16 h-16 rounded-xl flex items-center justify-center mb-6">
                 <Target className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-2xl font-bold mb-3 text-gray-900">Business Referrals</h3>
@@ -132,12 +133,12 @@ const SalesAgentGuidePage: React.FC = () => {
             </Card>
 
             {/* Recruitment Bonuses */}
-            <Card className="p-8 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 hover:border-green-400 transition-all hover:shadow-xl">
-              <div className="bg-gradient-to-br from-green-500 to-emerald-600 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+            <Card className="p-8 bg-white/95 backdrop-blur-xl border-2 border-mansagold/20 hover:shadow-2xl hover:shadow-mansagold/20 transition-all rounded-2xl">
+              <div className="bg-gradient-to-br from-mansagold-dark to-mansagold w-16 h-16 rounded-xl flex items-center justify-center mb-6">
                 <Gift className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-2xl font-bold mb-3 text-gray-900">Recruitment Bonus</h3>
-              <div className="text-4xl font-bold text-green-600 mb-4">$75</div>
+              <div className="text-4xl font-bold text-mansagold mb-4">$75</div>
               <p className="text-gray-600 mb-6">
                 One-time $75 cash bonus paid after your recruited agent makes 3 business sales. Build your team and earn!
               </p>
@@ -158,12 +159,12 @@ const SalesAgentGuidePage: React.FC = () => {
             </Card>
 
             {/* Team Override */}
-            <Card className="p-8 bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 hover:border-purple-400 transition-all hover:shadow-xl">
-              <div className="bg-gradient-to-br from-purple-500 to-pink-600 w-16 h-16 rounded-xl flex items-center justify-center mb-6">
+            <Card className="p-8 bg-white/95 backdrop-blur-xl border-2 border-mansablue/20 hover:shadow-2xl hover:shadow-mansablue/20 transition-all rounded-2xl">
+              <div className="bg-gradient-to-br from-mansablue-dark to-mansablue w-16 h-16 rounded-xl flex items-center justify-center mb-6">
                 <Users className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-2xl font-bold mb-3 text-gray-900">Team Override</h3>
-              <div className="text-4xl font-bold text-purple-600 mb-4">7.5%</div>
+              <div className="text-4xl font-bold text-mansablue mb-4">7.5%</div>
               <p className="text-gray-600 mb-6">
                 Earn 7.5% override on your recruited agents' commissions for 6 months. True passive income!
               </p>
@@ -187,15 +188,15 @@ const SalesAgentGuidePage: React.FC = () => {
       </section>
 
       {/* Earnings Calculator */}
-      <section id="earnings-calculator" className="py-16 px-4 bg-white">
+      <section id="earnings-calculator" className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <Card className="p-8 bg-gradient-to-br from-mansablue/5 to-blue-50 border-2 border-mansablue/20">
+          <Card className="p-8 bg-white/95 backdrop-blur-xl border-2 border-mansagold/20 rounded-2xl shadow-2xl">
             <div className="text-center mb-8">
               <Calculator className="w-12 h-12 text-mansablue mx-auto mb-4" />
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              <h2 className="text-3xl font-extrabold bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light bg-clip-text text-transparent mb-2">
                 Calculate Your Potential Earnings
               </h2>
-              <p className="text-gray-600">
+              <p className="text-foreground/70">
                 See how much you could earn as a MMM Sales Agent
               </p>
             </div>
@@ -258,7 +259,7 @@ const SalesAgentGuidePage: React.FC = () => {
               </p>
               <Button 
                 size="lg" 
-                className="bg-mansablue hover:bg-blue-700 font-bold"
+                className="bg-gradient-to-r from-mansagold-dark to-mansagold hover:from-mansagold hover:to-mansagold-light text-mansablue-dark font-semibold shadow-xl shadow-mansagold/30 hover:shadow-2xl hover:shadow-mansagold/50 transition-all duration-300"
                 onClick={() => navigate('/sales-agent-signup')}
               >
                 Start Earning Today <ArrowRight className="ml-2" />
@@ -269,19 +270,20 @@ const SalesAgentGuidePage: React.FC = () => {
       </section>
 
       {/* Success Stories */}
-      <section className="py-16 px-4 bg-gradient-to-b from-white to-blue-50">
+      <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-extrabold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent mb-4">
               Real Success Stories
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-white/80">
               See what's possible when you join our program
+            </p>
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-6 bg-white hover:shadow-xl transition-shadow">
+            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansablue/10 hover:shadow-2xl transition-shadow rounded-2xl">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-mansablue to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
                   S
@@ -412,7 +414,7 @@ const SalesAgentGuidePage: React.FC = () => {
           <div className="mt-10 text-center">
             <Button 
               size="lg" 
-              className="bg-mansablue hover:bg-blue-700 text-lg px-10 py-6 font-bold"
+              className="bg-gradient-to-r from-mansablue-dark to-mansablue hover:from-mansablue hover:to-mansablue-light text-white text-lg px-10 py-6 font-bold shadow-xl shadow-mansablue/30 hover:shadow-2xl"
               onClick={() => navigate('/sales-agent-signup')}
             >
               Start Your Application <ChevronRight className="ml-2" />
@@ -422,37 +424,37 @@ const SalesAgentGuidePage: React.FC = () => {
       </section>
 
       {/* FAQs */}
-      <section className="py-16 px-4 bg-gradient-to-b from-white to-blue-50">
+      <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-extrabold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent mb-4">
               Frequently Asked Questions
             </h2>
           </div>
 
           <div className="space-y-4">
-            <Card className="p-6 bg-white">
+            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansagold/10 rounded-2xl">
               <h3 className="text-lg font-bold mb-2 text-gray-900">How do I get paid?</h3>
               <p className="text-gray-600">
                 Commissions are paid monthly via direct deposit or PayPal. You'll receive payment for all approved commissions from the previous month.
               </p>
             </Card>
 
-            <Card className="p-6 bg-white">
+            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansagold/10 rounded-2xl">
               <h3 className="text-lg font-bold mb-2 text-gray-900">Is there a monthly fee?</h3>
               <p className="text-gray-600">
                 No! There are zero fees to become a sales agent. We only succeed when you succeed.
               </p>
             </Card>
 
-            <Card className="p-6 bg-white">
+            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansagold/10 rounded-2xl">
               <h3 className="text-lg font-bold mb-2 text-gray-900">How long do I earn commissions?</h3>
               <p className="text-gray-600">
                 You earn recurring commissions for TWO YEARS on every business referral. That's 24 months of passive income from each business you refer! Note: Commissions are only for business sign-ups, not individual customers.
               </p>
             </Card>
 
-            <Card className="p-6 bg-white">
+            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansagold/10 rounded-2xl">
               <h3 className="text-lg font-bold mb-2 text-gray-900">Can I recruit other agents?</h3>
               <p className="text-gray-600">
                 Absolutely! You'll earn a $75 bonus for each approved agent you recruit who gets 3 sales, plus 7.5% override on their commissions for 6 months.
@@ -470,18 +472,18 @@ const SalesAgentGuidePage: React.FC = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-20 px-4 bg-gradient-to-br from-mansablue via-blue-600 to-blue-800 text-white">
+      <section className="py-20 px-4 bg-gradient-to-br from-mansagold-dark via-mansagold to-mansagold-light text-mansablue-dark">
         <div className="max-w-4xl mx-auto text-center">
           <Rocket className="w-16 h-16 mx-auto mb-6" />
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to Build Your Sales Empire?
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-xl mb-8 text-mansablue-dark/90">
             Join hundreds of agents already earning with Mansa Musa Marketplace
           </p>
           <Button 
             size="lg" 
-            className="bg-mansagold text-mansablue hover:bg-mansagold/90 font-bold text-xl px-12 py-8 shadow-xl"
+            className="bg-white text-mansablue-dark hover:bg-white/90 font-bold text-xl px-12 py-8 shadow-xl"
             onClick={() => navigate('/sales-agent-signup')}
           >
             Apply Now - It's Free! <ArrowRight className="ml-3" />
