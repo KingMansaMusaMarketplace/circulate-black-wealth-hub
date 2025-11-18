@@ -88,6 +88,7 @@ const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboard
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
 const LazySponsorDashboardPage = lazy(() => import('@/pages/SponsorDashboardPage'));
+const LazyTestDataPopulator = lazy(() => import('@/pages/TestDataPopulator'));
 const LazySponsorDashboard = lazy(() => import('@/pages/SponsorDashboard'));
 const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
@@ -379,6 +380,7 @@ function App() {
                               <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                               <Route path="/loyalty" element={<LazyRewardsPage />} />
                               <Route path="/about" element={<LazyAboutPage />} />
+                              <Route path="/test-data-populator" element={<LazyTestDataPopulator />} />
                               <Route path="/contact" element={<LazyContactPage />} />
                               <Route path="/support" element={<LazySupportPage />} />
                               <Route path="/terms" element={<LazyTermsOfServicePage />} />
@@ -561,6 +563,7 @@ function App() {
                         <Route path="/loyalty" element={<LazyRewardsPage />} />
                         {/* Temporarily disabled to isolate iOS startup crash */}
                         <Route path="/about" element={<LazyAboutPage />} />
+                        <Route path="/test-data-populator" element={<LazyTestDataPopulator />} />
                         <Route path="/contact" element={<LazyContactPage />} />
                         <Route path="/support" element={<LazySupportPage />} />
                         <Route path="/terms" element={<LazyTermsOfServicePage />} />
