@@ -197,7 +197,7 @@ const BusinessProfileManager = () => {
               {!profile && (
                 <Alert className="mb-6">
                   <AlertDescription>
-                    Complete your business profile to start attracting customers and unlock all features.
+                    Complete your business profile to start attracting customers and access all marketplace tools.
                   </AlertDescription>
                 </Alert>
               )}

@@ -20,8 +20,8 @@ const StripeTestPage: React.FC = () => {
             Stripe Payment System Test
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Use this page to test the Stripe payment integration, checkout flows, 
-            and subscription management features.
+            Test marketplace service payments, business listing purchases, 
+            and booking system integration. All payments are for physical goods, services, and marketplace tools.
           </p>
         </div>
 

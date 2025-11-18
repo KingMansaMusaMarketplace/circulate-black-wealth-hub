@@ -16,15 +16,16 @@ const SponsorshipPage: React.FC = () => {
 
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-mansablue mb-6 text-center">
-          Corporate Sponsorship
+          Corporate Partnership Program
         </h1>
         <p className="text-gray-600 text-center max-w-2xl mx-auto">
-          Partner with us to create meaningful economic impact while supporting Black-owned businesses 
-          and strengthening communities across the nation.
+          Purchase corporate partnership services to support Black-owned businesses, 
+          gain visibility in our marketplace, and access exclusive partnership benefits including 
+          co-branding opportunities, networking events, and business development resources.
         </p>
         <div className="mt-8 text-center">
           <p className="text-gray-600">
-            Sponsorship program details coming soon...
+            Partnership service packages available soon. Contact us for enterprise pricing and custom solutions.
           </p>
         </div>
       </div>

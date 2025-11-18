@@ -37,17 +37,17 @@ const HowItWorks = () => {
 
           <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <CircleDollarSign className="h-12 w-12 text-mansablue" />
-            <h3 className="mt-5 text-lg font-medium text-gray-900">Earn Points</h3>
+            <h3 className="mt-5 text-lg font-medium text-gray-900">Shop & Earn Points</h3>
             <p className="mt-2 text-base text-gray-500">
-              Build points with each visit, purchase, or social share.
+              Make purchases at businesses, scan QR codes, and earn loyalty points with every transaction.
             </p>
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
             <CircleCheck className="h-12 w-12 text-mansablue" />
-            <h3 className="mt-5 text-lg font-medium text-gray-900">Redeem Rewards</h3>
+            <h3 className="mt-5 text-lg font-medium text-gray-900">Redeem at Businesses</h3>
             <p className="mt-2 text-base text-gray-500">
-              Use points for discounts, free items, or special offers.
+              Use your earned points for discounts on products, services, and special offers at participating locations.
             </p>
           </div>
         </div>
