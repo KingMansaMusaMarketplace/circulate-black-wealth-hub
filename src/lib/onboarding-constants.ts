@@ -44,7 +44,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'qr-scanning',
     title: 'Scan QR Codes to Earn',
-    description: 'Use our QR scanner when you visit participating businesses to earn points and unlock rewards.',
+    description: 'Use our QR scanner when you visit participating businesses to earn points and redeem rewards on products and services.',
     illustration: QrCode,
     features: [
       'Scan QR codes at checkout to earn points',

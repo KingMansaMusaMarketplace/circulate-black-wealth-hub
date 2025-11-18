@@ -72,7 +72,7 @@ const BadgesShowcase: React.FC<BadgesShowcaseProps> = ({ agentId }) => {
               Achievement Badges
             </CardTitle>
             <CardDescription>
-              Track your progress and unlock achievements
+              Track your progress and earn achievements
             </CardDescription>
           </div>
           <div className="text-right">
@@ -100,7 +100,7 @@ const BadgesShowcase: React.FC<BadgesShowcaseProps> = ({ agentId }) => {
             {earnedBadges.length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">
                 <Award className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No badges earned yet. Keep working to unlock your first achievement!</p>
+                <p>No badges earned yet. Keep working to earn your first achievement!</p>
               </div>
             ) : (
               Object.entries(getBadgesByCategory(earnedBadges)).map(([category, categoryBadges]) => (

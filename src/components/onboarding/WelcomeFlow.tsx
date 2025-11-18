@@ -104,9 +104,9 @@ const customerSteps: OnboardingStep[] = [
       description: 'The more you support Black-owned businesses, the more rewards you earn. It\'s our way of saying thank you!',
       features: [
         'Earn points for QR code scans and purchases',
-        'Redeem points for discounts and special offers',
+        'Redeem points for discounts and special offers on products and services',
         'Get exclusive access to member-only deals',
-        'Unlock premium rewards as you reach higher tiers'
+        'Receive premium rewards and benefits as you reach higher tiers'
       ],
       tips: [
         'Check your points balance regularly',

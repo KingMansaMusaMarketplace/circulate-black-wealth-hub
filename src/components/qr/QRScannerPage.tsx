@@ -316,7 +316,7 @@ const QRScannerPage = () => {
     <>
       <Helmet>
         <title>QR Scanner | Mansa Musa Marketplace</title>
-        <meta name="description" content="Scan QR codes at Black-owned businesses to earn points and unlock rewards" />
+        <meta name="description" content="Scan QR codes at Black-owned businesses to earn loyalty points and redeem rewards on products and services" />
       </Helmet>
 
       <div className="min-h-screen bg-black relative">

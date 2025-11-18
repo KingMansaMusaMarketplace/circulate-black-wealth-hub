@@ -187,7 +187,7 @@ const PrivacyPolicyPage = () => {
               <p className="text-foreground/80"><strong>Subscription Notifications:</strong> We receive automated notifications from payment processors about subscription events (renewals, cancellations, payment failures) to maintain accurate account status and provide seamless service. These notifications help us:</p>
               <ul className="text-foreground/80 space-y-2 ml-6 list-disc">
                 <li>Update your subscription status in real-time</li>
-                <li>Provide appropriate access to premium features</li>
+                <li>Provide appropriate access to marketplace services and tools</li>
                 <li>Send you relevant notifications about your subscription</li>
                 <li>Handle subscription issues promptly</li>
               </ul>
