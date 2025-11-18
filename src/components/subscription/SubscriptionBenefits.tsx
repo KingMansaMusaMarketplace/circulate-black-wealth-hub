@@ -39,12 +39,12 @@ const SubscriptionBenefits: React.FC<SubscriptionBenefitsProps> = ({ userType })
           <Crown className="h-8 w-8 text-green-600" />
         </div>
         <h3 className="text-xl font-semibold">
-          {userType === 'business' ? 'Advanced Tools' : 'Unlock Rewards'}
+          {userType === 'business' ? 'Business Tools & Services' : 'Earn Rewards'}
         </h3>
         <p className="text-gray-600">
           {userType === 'business' 
-            ? 'Get access to analytics, QR codes, and marketing tools'
-            : 'Get exclusive access to deals, events, and networking'
+            ? 'Analytics, QR codes, booking system, and marketing tools for your business'
+            : 'Earn points with purchases, redeem at businesses, access deals and events'
           }
         </p>
       </div>

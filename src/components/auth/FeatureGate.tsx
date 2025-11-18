@@ -59,27 +59,27 @@ const FeatureGate: React.FC<FeatureGateProps> = ({
         <div className="mx-auto mb-2 w-12 h-12 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 flex items-center justify-center">
           <Crown className="h-6 w-6 text-white" />
         </div>
-        <CardTitle className="text-amber-800">Premium Feature</CardTitle>
+        <CardTitle className="text-amber-800">Business Service Required</CardTitle>
         <CardDescription className="text-amber-700">
-          Upgrade to {getTierDisplayName(requiredTier)} to unlock this feature
+          Purchase {getTierDisplayName(requiredTier)} marketplace services to access this tool
         </CardDescription>
       </CardHeader>
       <CardContent className="text-center space-y-4">
         <div className="flex items-center justify-center gap-2 text-sm text-amber-600">
           <Lock className="h-4 w-4" />
-          <span>This feature requires a {getTierDisplayName(requiredTier)} subscription</span>
+          <span>This tool requires {getTierDisplayName(requiredTier)} marketplace services</span>
         </div>
         <div className="flex gap-2">
           <Link to="/subscription" className="flex-1">
             <Button variant="outline" className="w-full">
-              View Plans
+              View Services
             </Button>
           </Link>
           <Button 
             onClick={handleUpgrade}
             className="flex-1 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700"
           >
-            Upgrade Now
+            Purchase Service
           </Button>
         </div>
       </CardContent>
