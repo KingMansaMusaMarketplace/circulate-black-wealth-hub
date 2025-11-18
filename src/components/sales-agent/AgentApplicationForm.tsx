@@ -74,10 +74,13 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-white border-mansablue/10 shadow-lg hover:shadow-mansablue/5 transition-all">
-      <CardHeader className="border-b border-mansablue/10 bg-gradient-to-r from-mansablue/5 to-blue-50">
-        <CardTitle className="text-mansablue">Sales Agent Application</CardTitle>
-        <CardDescription>
+    <Card className="w-full max-w-2xl mx-auto bg-white/95 backdrop-blur-xl border-2 border-mansagold/20 shadow-2xl hover:shadow-mansagold/30 transition-all duration-300 overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-mansagold-dark via-mansagold to-mansagold-light animate-pulse" />
+      <CardHeader className="border-b border-mansagold/20 bg-gradient-to-r from-mansagold/5 via-mansablue/5 to-mansagold/5 relative">
+        <CardTitle className="text-2xl bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light bg-clip-text text-transparent">
+          Sales Agent Application
+        </CardTitle>
+        <CardDescription className="text-foreground/70">
           Apply to become a Mansa Musa Marketplace sales agent and earn commissions on referrals.
         </CardDescription>
       </CardHeader>
@@ -139,13 +142,17 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
                 </FormItem>
               )}
             />
-            <Button type="submit" disabled={isSubmitting} className="w-full bg-mansablue hover:bg-mansablue-dark">
+            <Button 
+              type="submit" 
+              disabled={isSubmitting} 
+              className="w-full bg-gradient-to-r from-mansagold-dark to-mansagold hover:from-mansagold hover:to-mansagold-light text-mansablue-dark font-semibold shadow-xl shadow-mansagold/30 hover:shadow-2xl hover:shadow-mansagold/50 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
               {isSubmitting ? 'Submitting...' : 'Submit Application'}
             </Button>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex justify-center text-sm text-gray-500 border-t border-mansablue/10 bg-gradient-to-r from-mansablue/5 to-blue-50">
+      <CardFooter className="flex justify-center text-sm text-foreground/70 border-t border-mansagold/20 bg-gradient-to-r from-mansagold/5 via-mansablue/5 to-mansagold/5">
         After submission, you'll need to complete a qualification test.
       </CardFooter>
     </Card>

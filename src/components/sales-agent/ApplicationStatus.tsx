@@ -72,27 +72,36 @@ const ApplicationStatus: React.FC<ApplicationStatusProps> = ({ application, onSt
   const status = getStatusUI();
 
   return (
-    <Card className="w-full max-w-md mx-auto bg-white border-mansablue/10 shadow-md">
-      <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
-        <CardTitle className="text-mansablue">Application Status</CardTitle>
-        <CardDescription>
+    <Card className="w-full max-w-2xl mx-auto bg-white/95 backdrop-blur-xl border-2 border-mansagold/20 shadow-2xl overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-mansagold-dark via-mansagold to-mansagold-light animate-pulse" />
+      <CardHeader className="bg-gradient-to-r from-mansagold/5 via-mansablue/5 to-mansagold/5 border-b border-mansagold/20">
+        <CardTitle className="text-2xl bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light bg-clip-text text-transparent">
+          Application Status
+        </CardTitle>
+        <CardDescription className="text-foreground/70">
           Track the status of your sales agent application
         </CardDescription>
       </CardHeader>
-      <CardContent className="pt-6">
-        <div className="flex flex-col items-center text-center space-y-4">
-          {status.icon}
-          <h3 className="text-xl font-semibold text-mansablue">{status.title}</h3>
-          <p>{status.description}</p>
+      <CardContent className="pt-8">
+        <div className="flex flex-col items-center text-center space-y-6">
+          <div className="p-4 rounded-full bg-gradient-to-br from-mansagold/10 to-mansablue/10 animate-pulse">
+            {status.icon}
+          </div>
+          <h3 className="text-2xl font-bold bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light bg-clip-text text-transparent">
+            {status.title}
+          </h3>
+          <p className="text-foreground/80 text-lg">{status.description}</p>
           
           {status.details && (
-            <p className="text-sm text-gray-500">{status.details}</p>
+            <p className="text-sm text-foreground/60 bg-gradient-to-r from-mansagold/5 via-mansablue/5 to-mansagold/5 px-6 py-3 rounded-xl border border-mansagold/20">
+              {status.details}
+            </p>
           )}
           
           {status.action && (
             <button
               onClick={status.action.onClick}
-              className="mt-4 px-4 py-2 bg-mansablue hover:bg-mansablue-dark text-white rounded-md transition-colors"
+              className="mt-4 px-8 py-4 bg-gradient-to-r from-mansagold-dark to-mansagold hover:from-mansagold hover:to-mansagold-light text-mansablue-dark font-semibold rounded-xl shadow-xl shadow-mansagold/30 hover:shadow-2xl hover:shadow-mansagold/50 transition-all duration-300 hover:scale-105"
             >
               {status.action.label}
             </button>
