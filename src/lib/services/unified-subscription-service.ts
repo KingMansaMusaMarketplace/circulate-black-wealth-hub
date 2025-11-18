@@ -26,68 +26,54 @@ export const unifiedSubscriptionService = {
         throw new Error('User not authenticated');
       }
 
-      // Check Stripe subscription first
+      console.log('[Unified Subscription] Checking all subscription sources for user:', user.id);
+
+      // Check Stripe subscription (web purchases)
       const stripeSubscription = await subscriptionService.checkSubscription();
       
-      // Check Apple subscription from our database
+      // Check Apple subscriptions (iOS purchases)
       const { data: appleSubscription } = await supabase
-        .from('subscribers')
+        .from('apple_subscriptions')
         .select('*')
         .eq('user_id', user.id)
-        .eq('subscription_source', 'apple')
-        .single();
+        .eq('status', 'active')
+        .gte('expires_date', new Date().toISOString())
+        .order('expires_date', { ascending: false })
+        .limit(1)
+        .maybeSingle();
 
-      // Check Apple sandbox subscription
-      const { data: appleSandboxSubscription } = await supabase
-        .from('subscribers')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('subscription_source', 'apple_sandbox')
-        .single();
-
-      // Determine the active subscription
-      let activeSubscription: UnifiedSubscriptionInfo;
-
+      // Priority: Stripe > Apple
       if (stripeSubscription.subscribed) {
-        activeSubscription = {
+        console.log('[Unified Subscription] Active Stripe subscription found');
+        return {
           ...stripeSubscription,
           source: 'stripe'
         };
-      } else if (appleSubscription?.subscribed) {
-        activeSubscription = {
+      }
+
+      if (appleSubscription && new Date(appleSubscription.expires_date) > new Date()) {
+        console.log('[Unified Subscription] Active Apple subscription found');
+        return {
           isActive: true,
           tier: 'premium',
           status: 'active',
           source: 'apple',
           subscribed: true,
-          subscription_tier: appleSubscription.subscription_tier || 'premium',
-          subscription_end: appleSubscription.subscription_end,
-          autoRenewEnabled: appleSubscription.auto_renew_enabled
-        };
-      } else if (appleSandboxSubscription?.subscribed) {
-        activeSubscription = {
-          isActive: true,
-          tier: 'premium',
-          status: 'active',
-          source: 'apple',
-          subscribed: true,
-          subscription_tier: appleSandboxSubscription.subscription_tier || 'premium',
-          subscription_end: appleSandboxSubscription.subscription_end,
-          autoRenewEnabled: appleSandboxSubscription.auto_renew_enabled,
-          isSandbox: true
-        };
-      } else {
-        activeSubscription = {
-          isActive: false,
-          tier: 'free',
-          status: 'canceled',
-          source: 'unknown',
-          subscribed: false,
-          subscription_tier: 'free'
+          subscription_tier: this.mapAppleProductToTier(appleSubscription.product_id),
+          subscription_end: appleSubscription.expires_date,
+          autoRenewEnabled: appleSubscription.auto_renew_status
         };
       }
 
-      return activeSubscription;
+      console.log('[Unified Subscription] No active subscription found');
+      return {
+        isActive: false,
+        tier: 'free',
+        status: 'canceled',
+        source: 'unknown',
+        subscribed: false,
+        subscription_tier: 'free'
+      };
     } catch (error) {
       console.error('Error checking unified subscriptions:', error);
       return {
@@ -99,6 +85,18 @@ export const unifiedSubscriptionService = {
         subscription_tier: 'free'
       };
     }
+  },
+
+  mapAppleProductToTier(productId: string): 'free' | 'premium' | 'business' | 'enterprise' {
+    const productMap: Record<string, 'free' | 'premium' | 'business' | 'enterprise'> = {
+      'com.mansamusa.premium.monthly': 'premium',
+      'com.mansamusa.business.basic.monthly': 'business',
+      'com.mansamusa.business.premium.monthly': 'business',
+      'com.mansamusa.business.enterprise.monthly': 'enterprise',
+      'com.mansamusa.sponsor.community.monthly': 'premium',
+      'com.mansamusa.sponsor.corporate.monthly': 'enterprise',
+    };
+    return productMap[productId] || 'premium';
   },
 
   async refreshSubscriptionStatus(): Promise<void> {
