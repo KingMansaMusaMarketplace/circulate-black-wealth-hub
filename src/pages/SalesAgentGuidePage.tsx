@@ -102,29 +102,29 @@ const SalesAgentGuidePage: React.FC = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Business Referrals */}
-            <Card className="p-8 bg-white/95 backdrop-blur-xl border-2 border-mansagold/20 hover:shadow-2xl hover:shadow-mansagold/20 transition-all rounded-2xl">
+            <Card className="p-8 bg-white shadow-2xl border-2 border-mansagold/30 hover:shadow-mansagold/20 transition-all rounded-2xl">
               <div className="bg-gradient-to-br from-mansablue-dark to-mansablue w-16 h-16 rounded-xl flex items-center justify-center mb-6">
                 <Target className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Business Referrals</h3>
+              <h3 className="text-2xl font-bold mb-3 text-foreground">Business Referrals</h3>
               <div className="text-4xl font-bold text-mansablue mb-4">10-15%</div>
-              <p className="text-gray-600 mb-6">
+              <p className="text-foreground/80 mb-6">
                 Earn recurring monthly commissions on every business subscription you refer. Rates increase as you grow! (Business sign-ups only, not individual customers)
               </p>
               <div className="space-y-2">
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Bronze: 10% commission</span>
                 </div>
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Silver: 11% (20+ referrals)</span>
                 </div>
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Gold: 12.5% (50+ referrals)</span>
                 </div>
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Platinum: 15% (100+ referrals)</span>
                 </div>
@@ -132,25 +132,25 @@ const SalesAgentGuidePage: React.FC = () => {
             </Card>
 
             {/* Recruitment Bonuses */}
-            <Card className="p-8 bg-white/95 backdrop-blur-xl border-2 border-mansagold/20 hover:shadow-2xl hover:shadow-mansagold/20 transition-all rounded-2xl">
+            <Card className="p-8 bg-white shadow-2xl border-2 border-mansagold/30 hover:shadow-mansagold/20 transition-all rounded-2xl">
               <div className="bg-gradient-to-br from-mansagold-dark to-mansagold w-16 h-16 rounded-xl flex items-center justify-center mb-6">
-                <Gift className="w-8 h-8 text-white" />
+                <Gift className="w-8 h-8 text-mansablue-dark" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Recruitment Bonus</h3>
+              <h3 className="text-2xl font-bold mb-3 text-foreground">Recruitment Bonus</h3>
               <div className="text-4xl font-bold text-mansagold mb-4">$75</div>
-              <p className="text-gray-600 mb-6">
+              <p className="text-foreground/80 mb-6">
                 One-time $75 cash bonus paid after your recruited agent makes 3 business sales. Build your team and earn!
               </p>
               <div className="space-y-2">
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Recruit 5 agents = $375</span>
                 </div>
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Recruit 10 agents = $750</span>
                 </div>
-                <div className="flex items-center text-sm">
+                <div className="flex items-center text-sm text-foreground">
                   <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                   <span>Recruit 20 agents = $1,500</span>
                 </div>
@@ -189,7 +189,7 @@ const SalesAgentGuidePage: React.FC = () => {
       {/* Earnings Calculator */}
       <section id="earnings-calculator" className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <Card className="p-8 bg-white/95 backdrop-blur-xl border-2 border-mansagold/20 rounded-2xl shadow-2xl">
+          <Card className="p-8 bg-white shadow-2xl border-2 border-mansagold/30 rounded-2xl">
             <div className="text-center mb-8">
               <Calculator className="w-12 h-12 text-mansablue mx-auto mb-4" />
               <h2 className="text-3xl font-extrabold bg-gradient-to-r from-mansablue-dark via-mansablue to-mansablue-light bg-clip-text text-transparent mb-2">
@@ -281,17 +281,17 @@ const SalesAgentGuidePage: React.FC = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansablue/10 hover:shadow-2xl transition-shadow rounded-2xl">
+            <Card className="p-6 bg-white shadow-xl border-2 border-mansablue/20 hover:shadow-2xl transition-shadow rounded-2xl">
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-mansablue to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
                   S
                 </div>
                 <div className="ml-3">
-                  <p className="font-semibold">Sarah M.</p>
-                  <p className="text-sm text-gray-500">Gold Agent - 6 months</p>
+                  <p className="font-semibold text-foreground">Sarah M.</p>
+                  <p className="text-sm text-foreground/60">Gold Agent - 6 months</p>
                 </div>
               </div>
-              <p className="text-gray-600 mb-4">
+              <p className="text-foreground/80 mb-4">
                 "I started with 5 referrals per month. Now I'm at 60+ and earning $3,750/month in commissions alone. The recruitment bonuses were game-changing!"
               </p>
               <div className="flex items-center text-mansablue font-semibold">
@@ -300,39 +300,39 @@ const SalesAgentGuidePage: React.FC = () => {
               </div>
             </Card>
 
-            <Card className="p-6 bg-white hover:shadow-xl transition-shadow">
+            <Card className="p-6 bg-white shadow-xl hover:shadow-2xl transition-shadow rounded-2xl">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-12 h-12 bg-gradient-to-br from-mansagold-dark to-mansagold rounded-full flex items-center justify-center text-mansablue-dark font-bold text-xl">
                   M
                 </div>
                 <div className="ml-3">
-                  <p className="font-semibold">Marcus J.</p>
-                  <p className="text-sm text-gray-500">Platinum Agent - 1 year</p>
+                  <p className="font-semibold text-foreground">Marcus J.</p>
+                  <p className="text-sm text-foreground/60">Platinum Agent - 1 year</p>
                 </div>
               </div>
-              <p className="text-gray-600 mb-4">
+              <p className="text-foreground/80 mb-4">
                 "Building my team was the best decision. I recruited 8 agents and now earn overrides on all their sales. It's true passive income!"
               </p>
-              <div className="flex items-center text-green-600 font-semibold">
+              <div className="flex items-center text-mansagold font-semibold">
                 <Users className="w-4 h-4 mr-2" />
                 $1,200/month from team
               </div>
             </Card>
 
-            <Card className="p-6 bg-white hover:shadow-xl transition-shadow">
+            <Card className="p-6 bg-white shadow-xl hover:shadow-2xl transition-shadow rounded-2xl">
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
+                <div className="w-12 h-12 bg-gradient-to-br from-mansablue-dark to-mansablue rounded-full flex items-center justify-center text-white font-bold text-xl">
                   T
                 </div>
                 <div className="ml-3">
-                  <p className="font-semibold">Tamika R.</p>
-                  <p className="text-sm text-gray-500">Silver Agent - 3 months</p>
+                  <p className="font-semibold text-foreground">Tamika R.</p>
+                  <p className="text-sm text-foreground/60">Silver Agent - 3 months</p>
                 </div>
               </div>
-              <p className="text-gray-600 mb-4">
+              <p className="text-foreground/80 mb-4">
                 "Just hit Silver tier! The tiered commission structure motivates me to keep growing. Already planning for Gold!"
               </p>
-              <div className="flex items-center text-purple-600 font-semibold">
+              <div className="flex items-center text-mansablue font-semibold">
                 <Award className="w-4 h-4 mr-2" />
                 11% commission rate
               </div>
@@ -354,17 +354,17 @@ const SalesAgentGuidePage: React.FC = () => {
           </div>
 
           <div className="space-y-6">
-            <Card className="p-6 bg-white/95 backdrop-blur-xl border-l-4 border-mansablue rounded-2xl">
+            <Card className="p-6 bg-white shadow-xl border-l-4 border-mansablue rounded-2xl">
               <div className="flex items-start">
                 <div className="bg-gradient-to-br from-mansablue-dark to-mansablue text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
                   1
                 </div>
                 <div className="ml-6 flex-1">
-                  <h3 className="text-xl font-bold mb-2 text-gray-900">Submit Application</h3>
-                  <p className="text-gray-600 mb-3">
+                  <h3 className="text-xl font-bold mb-2 text-foreground">Submit Application</h3>
+                  <p className="text-foreground/80 mb-3">
                     Fill out our quick application form with your contact info. Takes less than 2 minutes!
                   </p>
-                  <div className="flex items-center text-sm text-gray-500">
+                  <div className="flex items-center text-sm text-foreground/60">
                     <Clock className="w-4 h-4 mr-2" />
                     <span>2 minutes</span>
                   </div>
@@ -372,17 +372,17 @@ const SalesAgentGuidePage: React.FC = () => {
               </div>
             </Card>
 
-            <Card className="p-6 bg-white/95 backdrop-blur-xl border-l-4 border-mansagold rounded-2xl">
+            <Card className="p-6 bg-white shadow-xl border-l-4 border-mansagold rounded-2xl">
               <div className="flex items-start">
                 <div className="bg-gradient-to-br from-mansagold-dark to-mansagold text-mansablue-dark w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
                   2
                 </div>
                 <div className="ml-6 flex-1">
-                  <h3 className="text-xl font-bold mb-2 text-gray-900">Pass Qualification Test</h3>
-                  <p className="text-gray-600 mb-3">
+                  <h3 className="text-xl font-bold mb-2 text-foreground">Pass Qualification Test</h3>
+                  <p className="text-foreground/80 mb-3">
                     Complete a short test about our platform and Black-owned businesses. Shows you're ready to succeed!
                   </p>
-                  <div className="flex items-center text-sm text-gray-500">
+                  <div className="flex items-center text-sm text-foreground/60">
                     <Clock className="w-4 h-4 mr-2" />
                     <span>15 minutes</span>
                   </div>
@@ -390,17 +390,17 @@ const SalesAgentGuidePage: React.FC = () => {
               </div>
             </Card>
 
-            <Card className="p-6 bg-white/95 backdrop-blur-xl border-l-4 border-mansablue rounded-2xl">
+            <Card className="p-6 bg-white shadow-xl border-l-4 border-mansablue rounded-2xl">
               <div className="flex items-start">
                 <div className="bg-gradient-to-br from-mansablue-dark to-mansablue text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
                   3
                 </div>
                 <div className="ml-6 flex-1">
-                  <h3 className="text-xl font-bold mb-2 text-gray-900">Get Approved & Start Earning</h3>
-                  <p className="text-gray-600 mb-3">
+                  <h3 className="text-xl font-bold mb-2 text-foreground">Get Approved & Start Earning</h3>
+                  <p className="text-foreground/80 mb-3">
                     Once approved, you'll get your unique referral code and access to your agent dashboard. Start earning immediately!
                   </p>
-                  <div className="flex items-center text-sm text-gray-500">
+                  <div className="flex items-center text-sm text-foreground/60">
                     <Rocket className="w-4 h-4 mr-2" />
                     <span>Same day approval</span>
                   </div>
@@ -431,37 +431,37 @@ const SalesAgentGuidePage: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansagold/10 rounded-2xl">
-              <h3 className="text-lg font-bold mb-2 text-gray-900">How do I get paid?</h3>
-              <p className="text-gray-600">
+            <Card className="p-6 bg-white shadow-xl border-2 border-mansagold/20 rounded-2xl">
+              <h3 className="text-lg font-bold mb-2 text-foreground">How do I get paid?</h3>
+              <p className="text-foreground/80">
                 Commissions are paid monthly via direct deposit or PayPal. You'll receive payment for all approved commissions from the previous month.
               </p>
             </Card>
 
-            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansagold/10 rounded-2xl">
-              <h3 className="text-lg font-bold mb-2 text-gray-900">Is there a monthly fee?</h3>
-              <p className="text-gray-600">
+            <Card className="p-6 bg-white shadow-xl border-2 border-mansagold/20 rounded-2xl">
+              <h3 className="text-lg font-bold mb-2 text-foreground">Is there a monthly fee?</h3>
+              <p className="text-foreground/80">
                 No! There are zero fees to become a sales agent. We only succeed when you succeed.
               </p>
             </Card>
 
-            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansagold/10 rounded-2xl">
-              <h3 className="text-lg font-bold mb-2 text-gray-900">How long do I earn commissions?</h3>
-              <p className="text-gray-600">
+            <Card className="p-6 bg-white shadow-xl border-2 border-mansagold/20 rounded-2xl">
+              <h3 className="text-lg font-bold mb-2 text-foreground">How long do I earn commissions?</h3>
+              <p className="text-foreground/80">
                 You earn recurring commissions for TWO YEARS on every business referral. That's 24 months of passive income from each business you refer! Note: Commissions are only for business sign-ups, not individual customers.
               </p>
             </Card>
 
-            <Card className="p-6 bg-white/95 backdrop-blur-xl border-2 border-mansagold/10 rounded-2xl">
-              <h3 className="text-lg font-bold mb-2 text-gray-900">Can I recruit other agents?</h3>
-              <p className="text-gray-600">
+            <Card className="p-6 bg-white shadow-xl border-2 border-mansagold/20 rounded-2xl">
+              <h3 className="text-lg font-bold mb-2 text-foreground">Can I recruit other agents?</h3>
+              <p className="text-foreground/80">
                 Absolutely! You'll earn a $75 bonus for each approved agent you recruit who gets 3 sales, plus 7.5% override on their commissions for 6 months.
               </p>
             </Card>
 
-            <Card className="p-6 bg-white">
-              <h3 className="text-lg font-bold mb-2 text-gray-900">What support do I get?</h3>
-              <p className="text-gray-600">
+            <Card className="p-6 bg-white shadow-xl border-2 border-mansagold/20 rounded-2xl">
+              <h3 className="text-lg font-bold mb-2 text-foreground">What support do I get?</h3>
+              <p className="text-foreground/80">
                 You'll get access to marketing materials, training resources, and a dedicated agent dashboard. Plus ongoing support from our team!
               </p>
             </Card>
