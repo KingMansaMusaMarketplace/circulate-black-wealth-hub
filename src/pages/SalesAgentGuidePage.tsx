@@ -98,7 +98,6 @@ const SalesAgentGuidePage: React.FC = () => {
             <p className="text-xl text-white/80">
               Maximize your income with our multi-tier compensation structure
             </p>
-            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -279,7 +278,6 @@ const SalesAgentGuidePage: React.FC = () => {
             <p className="text-xl text-white/80">
               See what's possible when you join our program
             </p>
-            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -344,21 +342,21 @@ const SalesAgentGuidePage: React.FC = () => {
       </section>
 
       {/* Application Process */}
-      <section className="py-16 px-4 bg-white">
+      <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-extrabold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent mb-4">
               Simple Application Process
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-white/80">
               Get started in 3 easy steps
             </p>
           </div>
 
           <div className="space-y-6">
-            <Card className="p-6 bg-gradient-to-r from-blue-50 to-white border-l-4 border-mansablue">
+            <Card className="p-6 bg-white/95 backdrop-blur-xl border-l-4 border-mansablue rounded-2xl">
               <div className="flex items-start">
-                <div className="bg-mansablue text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
+                <div className="bg-gradient-to-br from-mansablue-dark to-mansablue text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
                   1
                 </div>
                 <div className="ml-6 flex-1">
@@ -374,9 +372,9 @@ const SalesAgentGuidePage: React.FC = () => {
               </div>
             </Card>
 
-            <Card className="p-6 bg-gradient-to-r from-blue-50 to-white border-l-4 border-green-500">
+            <Card className="p-6 bg-white/95 backdrop-blur-xl border-l-4 border-mansagold rounded-2xl">
               <div className="flex items-start">
-                <div className="bg-green-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
+                <div className="bg-gradient-to-br from-mansagold-dark to-mansagold text-mansablue-dark w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
                   2
                 </div>
                 <div className="ml-6 flex-1">
@@ -392,9 +390,9 @@ const SalesAgentGuidePage: React.FC = () => {
               </div>
             </Card>
 
-            <Card className="p-6 bg-gradient-to-r from-blue-50 to-white border-l-4 border-purple-500">
+            <Card className="p-6 bg-white/95 backdrop-blur-xl border-l-4 border-mansablue rounded-2xl">
               <div className="flex items-start">
-                <div className="bg-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
+                <div className="bg-gradient-to-br from-mansablue-dark to-mansablue text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">
                   3
                 </div>
                 <div className="ml-6 flex-1">
