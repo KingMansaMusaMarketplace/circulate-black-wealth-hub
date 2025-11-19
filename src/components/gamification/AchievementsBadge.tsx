@@ -25,14 +25,14 @@ export const AchievementsBadges: React.FC = () => {
 
   if (isLoading) {
     return (
-      <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10">
+      <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl">
         <CardHeader>
-          <Skeleton className="h-6 w-32 bg-slate-700" />
+          <Skeleton className="h-6 w-32" />
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-24 w-full bg-slate-700" />
+              <Skeleton key={i} className="h-24 w-full" />
             ))}
           </div>
         </CardContent>
@@ -41,29 +41,34 @@ export const AchievementsBadges: React.FC = () => {
   }
 
   return (
-    <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10">
-      <CardHeader>
+    <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl overflow-hidden">
+      <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-mansablue/10 to-transparent rounded-full blur-2xl" />
+      <CardHeader className="relative z-10">
         <div className="flex items-center gap-2">
-          <Trophy className="w-5 h-5 text-mansagold" />
-          <CardTitle className="text-white">Your Achievements</CardTitle>
+          <div className="p-2 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-lg">
+            <Trophy className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <CardTitle className="text-xl bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Your Achievements</CardTitle>
+            <CardDescription>
+              {achievements?.length || 0} achievements earned
+            </CardDescription>
+          </div>
         </div>
-        <CardDescription className="text-blue-200/70">
-          {achievements?.length || 0} achievements earned
-        </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="relative z-10">
         {achievements && achievements.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {achievements.map((achievement) => (
-              <Card key={achievement.id} className="bg-slate-900/60 border-mansagold/30 hover:border-mansagold hover:shadow-lg hover:shadow-mansagold/20 transition-all">
+              <Card key={achievement.id} className="bg-white dark:bg-gray-900 border-2 border-border hover:border-mansagold/40 hover:shadow-lg transition-all duration-300 group">
                 <CardContent className="p-4 text-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-mansagold/20 to-amber-500/20 border border-mansagold/30 rounded-full flex items-center justify-center mx-auto mb-2">
-                    <span className="text-mansagold">{getIcon(achievement.achievement_type)}</span>
+                  <div className="w-12 h-12 bg-gradient-to-br from-mansagold to-amber-600 rounded-full flex items-center justify-center mx-auto mb-2 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <span className="text-white">{getIcon(achievement.achievement_type)}</span>
                   </div>
-                  <h4 className="font-semibold text-sm mb-1 text-white">{achievement.achievement_name}</h4>
-                  <p className="text-xs text-blue-300/60 mb-2">{achievement.description}</p>
+                  <h4 className="font-semibold text-sm mb-1 text-foreground">{achievement.achievement_name}</h4>
+                  <p className="text-xs text-muted-foreground mb-2">{achievement.description}</p>
                   <div className="flex items-center justify-center gap-2">
-                    <Badge variant="secondary" className="text-xs bg-mansablue/30 text-blue-200 border-mansablue/50">
+                    <Badge className="text-xs bg-gradient-to-r from-mansablue/10 to-mansagold/10 text-foreground border border-mansablue/20">
                       +{achievement.points_awarded} pts
                     </Badge>
                     <ShareButton
@@ -79,8 +84,8 @@ export const AchievementsBadges: React.FC = () => {
           </div>
         ) : (
           <div className="text-center py-8">
-            <Trophy className="w-12 h-12 text-blue-300/30 mx-auto mb-4" />
-            <p className="text-blue-200/70">
+            <Trophy className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
+            <p className="text-muted-foreground">
               No achievements yet. Start making purchases to earn rewards!
             </p>
           </div>
