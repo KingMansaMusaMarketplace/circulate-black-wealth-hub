@@ -75,6 +75,7 @@ const EducationPage: React.FC = () => {
     <ResponsiveLayout
       title="Education Center"
       description="Learn, grow, and succeed with our comprehensive business education resources"
+      useSubtleBackground={false}
     >
       <Helmet>
         <title>Education Center | Mansa Musa Marketplace</title>
