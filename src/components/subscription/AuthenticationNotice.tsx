@@ -7,15 +7,15 @@ import { Link } from 'react-router-dom';
 
 const AuthenticationNotice: React.FC = () => {
   return (
-    <Card className="max-w-2xl mx-auto border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50">
+    <Card className="max-w-2xl mx-auto border-white/10 bg-slate-900/70 backdrop-blur-xl">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-amber-800">
+        <CardTitle className="flex items-center gap-2 text-mansagold">
           <Lock className="h-5 w-5" />
-          Login Required
+          <span className="text-slate-100">Login Required</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-amber-700 mb-4">
+        <p className="text-slate-300 mb-4">
           To subscribe to a plan, you need to create an account or log in first.
         </p>
         <div className="flex gap-3">
@@ -23,7 +23,9 @@ const AuthenticationNotice: React.FC = () => {
             <Button className="w-full">Login</Button>
           </Link>
           <Link to="/signup" className="flex-1">
-            <Button variant="outline" className="w-full">Sign Up</Button>
+            <Button variant="outline" className="w-full border-white/30 text-slate-100 hover:bg-slate-800/80">
+              Sign Up
+            </Button>
           </Link>
         </div>
       </CardContent>
