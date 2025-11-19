@@ -150,21 +150,21 @@ const UnifiedDashboard: React.FC = () => {
             <Leaderboard />
 
             {/* Quick Actions */}
-            <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl overflow-hidden">
+            <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-mansagold/10 to-transparent rounded-full blur-2xl" />
               <CardHeader className="relative z-10">
                 <CardTitle className="flex items-center gap-2 text-xl">
-                  <div className="p-2 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-lg">
+                  <div className="p-2 bg-gradient-to-br from-mansablue to-blue-600 rounded-lg">
                     <Target className="w-5 h-5 text-white" />
                   </div>
-                  <span className="bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">Quick Actions</span>
+                  <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Quick Actions</span>
                 </CardTitle>
-                <CardDescription>Explore community features</CardDescription>
+                <CardDescription className="text-slate-400">Explore community features</CardDescription>
               </CardHeader>
               <CardContent className="space-y-3 relative z-10">
                 <Button 
                   onClick={() => navigate('/challenges')}
-                  className="w-full justify-start gap-2 hover:bg-mansablue/5 hover:border-mansablue/30 transition-all duration-300"
+                  className="w-full justify-start gap-2 text-white border-white/20 hover:bg-mansablue/10 hover:border-mansablue/30 transition-all duration-300"
                   variant="outline"
                 >
                   <Target className="w-4 h-4" />
@@ -172,7 +172,7 @@ const UnifiedDashboard: React.FC = () => {
                 </Button>
                 <Button 
                   onClick={() => navigate('/community-finance')}
-                  className="w-full justify-start gap-2 hover:bg-mansagold/5 hover:border-mansagold/30 transition-all duration-300"
+                  className="w-full justify-start gap-2 text-white border-white/20 hover:bg-mansagold/10 hover:border-mansagold/30 transition-all duration-300"
                   variant="outline"
                 >
                   <Landmark className="w-4 h-4" />
@@ -180,7 +180,7 @@ const UnifiedDashboard: React.FC = () => {
                 </Button>
                 <Button 
                   onClick={() => navigate('/businesses')}
-                  className="w-full justify-start gap-2 hover:bg-mansablue/5 hover:border-mansablue/30 transition-all duration-300"
+                  className="w-full justify-start gap-2 text-white border-white/20 hover:bg-mansablue/10 hover:border-mansablue/30 transition-all duration-300"
                   variant="outline"
                 >
                   <Sparkles className="w-4 h-4" />
@@ -188,7 +188,7 @@ const UnifiedDashboard: React.FC = () => {
                 </Button>
                 <Button 
                   onClick={() => navigate('/community-impact')}
-                  className="w-full justify-start gap-2 hover:bg-mansagold/5 hover:border-mansagold/30 transition-all duration-300"
+                  className="w-full justify-start gap-2 text-white border-white/20 hover:bg-mansagold/10 hover:border-mansagold/30 transition-all duration-300"
                   variant="outline"
                 >
                   <Users className="w-4 h-4" />
@@ -196,7 +196,7 @@ const UnifiedDashboard: React.FC = () => {
                 </Button>
                 <Button 
                   onClick={() => navigate('/referrals')}
-                  className="w-full justify-start gap-2 bg-gradient-to-r from-mansablue to-mansagold hover:from-mansablue-dark hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+                  className="w-full justify-start gap-2 bg-gradient-to-r from-mansablue to-mansagold hover:from-mansablue/90 hover:to-mansagold/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
                 >
                   <Gift className="w-4 h-4" />
                   Earn Rewards
