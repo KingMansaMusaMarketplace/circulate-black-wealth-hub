@@ -89,7 +89,7 @@ const FeaturesPage = () => {
             </motion.h1>
 
             <motion.p
-              className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto"
+              className="text-xl md:text-2xl text-white max-w-3xl mx-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
