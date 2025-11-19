@@ -194,25 +194,25 @@ export default function FullAppTest() {
   const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
       case 'passed':
-        return <CheckCircle className="w-5 h-5 text-green-600" />;
+        return <CheckCircle className="w-5 h-5 text-green-400" />;
       case 'failed':
-        return <XCircle className="w-5 h-5 text-red-600" />;
+        return <XCircle className="w-5 h-5 text-red-400" />;
       case 'running':
-        return <Loader2 className="w-5 h-5 animate-spin text-blue-600" />;
+        return <Loader2 className="w-5 h-5 animate-spin text-blue-400" />;
       case 'warning':
-        return <AlertCircle className="w-5 h-5 text-yellow-600" />;
+        return <AlertCircle className="w-5 h-5 text-yellow-400" />;
       default:
-        return <div className="w-5 h-5 rounded-full border-2 border-muted" />;
+        return <div className="w-5 h-5 rounded-full border-2 border-slate-500" />;
     }
   };
 
   const getStatusColor = (status: TestResult['status']) => {
     switch (status) {
-      case 'passed': return 'bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800';
-      case 'failed': return 'bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800';
-      case 'running': return 'bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800';
-      case 'warning': return 'bg-yellow-50 dark:bg-yellow-950 border-yellow-200 dark:border-yellow-800';
-      default: return 'bg-muted border-muted';
+      case 'passed': return 'bg-green-500/10 border-green-500/30';
+      case 'failed': return 'bg-red-500/10 border-red-500/30';
+      case 'running': return 'bg-blue-500/10 border-blue-500/30';
+      case 'warning': return 'bg-yellow-500/10 border-yellow-500/30';
+      default: return 'bg-slate-800/40 border-white/10';
     }
   };
 
@@ -221,14 +221,24 @@ export default function FullAppTest() {
   const running = tests.filter(t => t.status === 'running').length;
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <Card>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
+
+      <div className="container mx-auto p-6 max-w-6xl relative z-10">
+      <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-white">
             <Play className="w-6 h-6" />
             Full Application Test Suite
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-slate-300">
             Comprehensive test of all critical functionality for Apple Connect submission
           </CardDescription>
         </CardHeader>
@@ -236,28 +246,28 @@ export default function FullAppTest() {
           {/* Summary Stats */}
           {tests.length > 0 && (
             <div className="grid grid-cols-4 gap-4">
-              <Card>
+              <Card className="border border-white/10 bg-slate-800/40 backdrop-blur-sm">
                 <CardContent className="pt-6">
-                  <div className="text-2xl font-bold">{tests.length}</div>
-                  <div className="text-sm text-muted-foreground">Total Tests</div>
+                  <div className="text-2xl font-bold text-white">{tests.length}</div>
+                  <div className="text-sm text-slate-400">Total Tests</div>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="border border-green-500/30 bg-green-500/10 backdrop-blur-sm">
                 <CardContent className="pt-6">
-                  <div className="text-2xl font-bold text-green-600">{passed}</div>
-                  <div className="text-sm text-muted-foreground">Passed</div>
+                  <div className="text-2xl font-bold text-green-400">{passed}</div>
+                  <div className="text-sm text-slate-400">Passed</div>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="border border-red-500/30 bg-red-500/10 backdrop-blur-sm">
                 <CardContent className="pt-6">
-                  <div className="text-2xl font-bold text-red-600">{failed}</div>
-                  <div className="text-sm text-muted-foreground">Failed</div>
+                  <div className="text-2xl font-bold text-red-400">{failed}</div>
+                  <div className="text-sm text-slate-400">Failed</div>
                 </CardContent>
               </Card>
-              <Card>
+              <Card className="border border-blue-500/30 bg-blue-500/10 backdrop-blur-sm">
                 <CardContent className="pt-6">
-                  <div className="text-2xl font-bold text-blue-600">{running}</div>
-                  <div className="text-sm text-muted-foreground">Running</div>
+                  <div className="text-2xl font-bold text-blue-400">{running}</div>
+                  <div className="text-sm text-slate-400">Running</div>
                 </CardContent>
               </Card>
             </div>
@@ -267,7 +277,7 @@ export default function FullAppTest() {
           <Button 
             onClick={runAllTests} 
             disabled={isRunning}
-            className="w-full"
+            className="w-full bg-gradient-to-r from-mansablue to-mansagold hover:from-mansablue/90 hover:to-mansagold/90 text-white"
             size="lg"
           >
             {isRunning ? (
@@ -286,16 +296,16 @@ export default function FullAppTest() {
           {/* Test Results */}
           {tests.length > 0 && (
             <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Test Results</h3>
+              <h3 className="font-semibold text-lg text-white">Test Results</h3>
               {tests.map((test, index) => (
-                <Card key={index} className={getStatusColor(test.status)}>
+                <Card key={index} className={`${getStatusColor(test.status)} backdrop-blur-sm`}>
                   <CardContent className="pt-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3 flex-1">
                         {getStatusIcon(test.status)}
                         <div className="flex-1">
-                          <div className="font-medium">{test.name}</div>
-                          <div className="text-sm text-muted-foreground">{test.message}</div>
+                          <div className="font-medium text-white">{test.name}</div>
+                          <div className="text-sm text-slate-400">{test.message}</div>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
@@ -319,15 +329,15 @@ export default function FullAppTest() {
 
           {/* Recommendations */}
           {tests.length > 0 && failed > 0 && (
-            <Card className="border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-950">
+            <Card className="border-yellow-500/30 bg-yellow-500/10 backdrop-blur-sm">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
+                  <AlertCircle className="w-5 h-5 text-yellow-400 mt-0.5" />
                   <div className="flex-1">
-                    <h4 className="font-semibold text-yellow-900 dark:text-yellow-100 mb-2">
+                    <h4 className="font-semibold text-yellow-400 mb-2">
                       Action Required
                     </h4>
-                    <div className="space-y-2 text-sm text-yellow-800 dark:text-yellow-200">
+                    <div className="space-y-2 text-sm text-yellow-200">
                       {tests.filter(t => t.status === 'failed').map(t => t.message).includes('No businesses found') && (
                         <p>• Run the Test Data Populator at <a href="/test-data-populator" className="underline">/test-data-populator</a></p>
                       )}
@@ -343,15 +353,15 @@ export default function FullAppTest() {
 
           {/* Success Message */}
           {tests.length > 0 && failed === 0 && tests.every(t => t.status !== 'running') && (
-            <Card className="border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-950">
+            <Card className="border-green-500/30 bg-green-500/10 backdrop-blur-sm">
               <CardContent className="pt-6">
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+                  <CheckCircle className="w-5 h-5 text-green-400 mt-0.5" />
                   <div className="flex-1">
-                    <h4 className="font-semibold text-green-900 dark:text-green-100 mb-2">
+                    <h4 className="font-semibold text-green-400 mb-2">
                       All Tests Passed! ✅
                     </h4>
-                    <p className="text-sm text-green-800 dark:text-green-200">
+                    <p className="text-sm text-green-200">
                       Your app is ready for Apple Connect submission. All critical functionality is working correctly.
                     </p>
                   </div>
@@ -361,6 +371,7 @@ export default function FullAppTest() {
           )}
         </CardContent>
       </Card>
+    </div>
     </div>
   );
 }
