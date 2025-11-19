@@ -104,7 +104,7 @@ const SubscriptionPage: React.FC = () => {
   return (
     <div className="min-h-screen relative">
       {/* Animated Background */}
-      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 overflow-hidden">
+      <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-mansablue/30 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
@@ -116,7 +116,7 @@ const SubscriptionPage: React.FC = () => {
       </Helmet>
 
       <IOSPaymentBlocker>
-        <div className="container mx-auto px-4 py-12">
+        <div className="relative z-10 container mx-auto px-4 py-12">
           <div className="max-w-7xl mx-auto space-y-12">
           {/* Header Section */}
           <SubscriptionPageHeader userType={userType} isTrialMode={isTrialMode} />
