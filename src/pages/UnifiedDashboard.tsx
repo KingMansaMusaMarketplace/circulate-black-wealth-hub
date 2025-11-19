@@ -51,7 +51,7 @@ const UnifiedDashboard: React.FC = () => {
             <Button
               onClick={() => navigate('/features')}
               variant="outline"
-              className="border-mansablue/30 hover:border-mansablue hover:bg-mansablue/5 transition-all duration-300"
+              className="border-white/20 text-white hover:border-mansablue hover:bg-mansablue/10 transition-all duration-300"
               data-tour="features-btn"
             >
               <Lightbulb className="w-4 h-4 mr-2" />
@@ -59,7 +59,7 @@ const UnifiedDashboard: React.FC = () => {
             </Button>
             <Button
               onClick={() => navigate('/share-impact')}
-              className="bg-gradient-to-r from-mansablue to-mansagold hover:from-mansablue-dark hover:to-amber-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              className="bg-gradient-to-r from-mansablue to-mansagold hover:from-mansablue/90 hover:to-mansagold/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
               <Share2 className="w-4 h-4 mr-2" />
               Share Impact
