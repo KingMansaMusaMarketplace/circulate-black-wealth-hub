@@ -8,6 +8,7 @@ interface ResponsiveLayoutProps {
   description?: string;
   className?: string;
   containerClassName?: string;
+  useSubtleBackground?: boolean;
 }
 
 const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
@@ -15,7 +16,8 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
   title,
   description,
   className = '',
-  containerClassName = ''
+  containerClassName = '',
+  useSubtleBackground = true,
 }) => {
   return (
     <div className={`flex flex-col min-h-screen ${className}`}>
@@ -24,7 +26,7 @@ const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = ({
         {description && <meta name="description" content={description} />}
       </Helmet>
       
-      <main className="flex-grow gradient-subtle py-8">
+      <main className={`flex-grow ${useSubtleBackground ? 'gradient-subtle' : ''} py-8`}>
         <div className={`container mx-auto px-4 ${containerClassName}`}>
           {children}
         </div>
