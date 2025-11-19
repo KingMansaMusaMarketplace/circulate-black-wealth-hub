@@ -28,43 +28,43 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
-      {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 via-background to-mansagold/10" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-purple-500/20 via-transparent to-transparent" />
-      
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-20 w-72 h-72 bg-mansagold/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden flex flex-col">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-10 w-96 h-96 bg-mansablue/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-mansagold/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]"></div>
+      </div>
 
       <div className="relative z-10 flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md animate-fade-in">
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-br from-mansablue/20 to-mansagold/20 rounded-3xl blur-xl" />
-        <Card className="relative bg-card/95 backdrop-blur-sm border-2 border-border/40 shadow-xl rounded-3xl overflow-hidden w-full">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-purple-600 to-mansagold" />
+        <Card className="relative border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl rounded-3xl overflow-hidden w-full">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-blue-500 to-mansagold" />
               <CardHeader className="text-center pt-8">
-            <CardTitle className="text-2xl font-bold text-mansablue">
+            <CardTitle className="text-2xl font-bold text-white">
               Reset Your Password
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-slate-300">
               Enter your email address and we'll send you a link to reset your password
             </CardDescription>
           </CardHeader>
           
           {isRequestSent ? (
             <CardContent className="text-center py-6">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 mb-4">
-                <Mail className="h-6 w-6 text-green-600" />
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-500/20 border border-green-500/30 mb-4">
+                <Mail className="h-6 w-6 text-green-400" />
               </div>
-              <h3 className="text-lg font-medium text-gray-900">Check your email</h3>
-              <p className="mt-2 text-gray-500">
+              <h3 className="text-lg font-medium text-white">Check your email</h3>
+              <p className="mt-2 text-slate-300">
                 We've sent a password reset link to {email}
               </p>
               <Button 
                 onClick={() => navigate('/login')} 
                 variant="link" 
-                className="mt-4 text-mansablue"
+                className="mt-4 text-mansagold hover:text-amber-400"
               >
                 Back to login
               </Button>
@@ -73,7 +73,7 @@ const ResetPasswordPage = () => {
             <form onSubmit={handleSubmit}>
               <CardContent className="space-y-4">
                 <div className="space-y-1">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="email" className="block text-sm font-medium text-slate-300">
                     Email address
                   </label>
                   <Input
@@ -92,7 +92,7 @@ const ResetPasswordPage = () => {
               <CardFooter>
                 <Button 
                   type="submit" 
-                  className="w-full bg-mansablue hover:bg-mansablue-dark"
+                  className="w-full bg-gradient-to-r from-mansablue via-blue-500 to-mansagold hover:from-blue-600 hover:via-blue-600 hover:to-amber-500"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Sending..." : "Send Reset Link"}
@@ -102,7 +102,7 @@ const ResetPasswordPage = () => {
                 <Button 
                   onClick={() => navigate('/login')} 
                   variant="link" 
-                  className="text-mansablue"
+                  className="text-mansagold hover:text-amber-400"
                 >
                   Back to login
                 </Button>
