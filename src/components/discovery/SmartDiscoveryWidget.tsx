@@ -47,17 +47,17 @@ export const SmartDiscoveryWidget: React.FC<SmartDiscoveryWidgetProps> = ({ busi
 
   const getTrendColor = (trend: string) => {
     switch (trend) {
-      case 'hot': return 'bg-red-500/10 text-red-700 border-red-500/20';
-      case 'new': return 'bg-blue-500/10 text-blue-700 border-blue-500/20';
-      default: return 'bg-green-500/10 text-green-700 border-green-500/20';
+      case 'hot': return 'bg-red-500/20 text-red-300 border-red-500/30';
+      case 'new': return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+      default: return 'bg-green-500/20 text-green-300 border-green-500/30';
     }
   };
 
   return (
-    <Card className="border-primary/20">
+    <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-base">
-          <Zap className="h-4 w-4 text-primary" />
+        <CardTitle className="flex items-center gap-2 text-base text-transparent bg-clip-text bg-gradient-to-r from-mansagold to-yellow-400">
+          <Zap className="h-4 w-4 text-mansagold" />
           Trending Now
         </CardTitle>
       </CardHeader>
@@ -65,15 +65,15 @@ export const SmartDiscoveryWidget: React.FC<SmartDiscoveryWidgetProps> = ({ busi
         {trendingBusinesses.map((business) => (
           <div
             key={business.id}
-            className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer"
+            className="flex items-center justify-between p-2 rounded-lg hover:bg-slate-700/40 transition-colors cursor-pointer"
             onClick={() => window.location.href = `/business/${business.id}`}
           >
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{business.name}</p>
-              <p className="text-xs text-muted-foreground truncate">{business.category}</p>
+              <p className="text-sm font-medium truncate text-white">{business.name}</p>
+              <p className="text-xs text-slate-400 truncate">{business.category}</p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">{business.metric}</span>
+              <span className="text-xs text-slate-300">{business.metric}</span>
               <Badge 
                 variant="outline" 
                 className={`${getTrendColor(business.trend)} text-xs px-2 py-0.5`}
