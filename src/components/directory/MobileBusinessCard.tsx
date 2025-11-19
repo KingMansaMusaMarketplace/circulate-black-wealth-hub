@@ -26,7 +26,7 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
   onSelect
 }) => {
   return (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer" onClick={onSelect}>
+    <Card className="overflow-hidden hover:shadow-md transition-shadow cursor-pointer border border-white/10 bg-slate-800/60 backdrop-blur-xl" onClick={onSelect}>
       <div className="flex h-32">
         {/* Image Section */}
         <div className="w-32 flex-shrink-0 relative">
@@ -56,32 +56,32 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
         {/* Content Section */}
         <CardContent className="flex-1 p-3 flex flex-col justify-between">
           <div>
-            <h3 className="font-semibold text-sm leading-tight mb-1 line-clamp-2">
+            <h3 className="font-semibold text-sm leading-tight mb-1 line-clamp-2 text-white">
               {name}
             </h3>
-            <p className="text-xs text-gray-600 mb-2">{category}</p>
+            <p className="text-xs text-slate-300 mb-2">{category}</p>
             
             <div className="flex items-center gap-3 mb-2">
               <div className="flex items-center gap-1">
                 <Star className="h-3 w-3 text-mansagold fill-current" />
-                <span className="text-xs font-medium">{rating}</span>
-                <span className="text-xs text-gray-500">({reviewCount})</span>
+                <span className="text-xs font-medium text-white">{rating}</span>
+                <span className="text-xs text-slate-400">({reviewCount})</span>
               </div>
               
               {distance && (
                 <div className="flex items-center gap-1">
-                  <MapPin className="h-3 w-3 text-gray-500" />
-                  <span className="text-xs text-gray-600">{distance}</span>
+                  <MapPin className="h-3 w-3 text-slate-400" />
+                  <span className="text-xs text-slate-300">{distance}</span>
                 </div>
               )}
             </div>
           </div>
           
           <div className="flex items-center justify-between">
-            <p className="text-xs text-gray-500 truncate flex-1 mr-2">
+            <p className="text-xs text-slate-400 truncate flex-1 mr-2">
               {address}
             </p>
-            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+            <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-white hover:text-mansagold">
               <ExternalLink className="h-3 w-3" />
             </Button>
           </div>

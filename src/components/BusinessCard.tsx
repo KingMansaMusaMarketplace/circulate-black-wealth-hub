@@ -82,7 +82,7 @@ const BusinessCard = ({
   };
 
   return (
-    <div className={`glass-card border rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] ${isFeatured ? 'border-2 border-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 shadow-2xl bg-gradient-to-br from-white via-yellow-50 to-orange-50' : 'border-indigo-200/40 hover:border-indigo-300/60 bg-white/80 backdrop-blur-sm'}`}>
+    <div className={`glass-card border rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-2xl hover:scale-[1.03] ${isFeatured ? 'border-2 border-gradient-to-r from-mansagold via-yellow-400 to-mansagold shadow-2xl bg-gradient-to-br from-slate-800/60 via-blue-900/40 to-slate-800/60 backdrop-blur-xl' : 'border-white/10 hover:border-mansagold/40 bg-slate-800/60 backdrop-blur-xl'}`}>
       {isFeatured && (
         <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 text-white text-xs font-bold px-3 py-2 text-center shadow-lg">
           ✨ Featured Business ✨
@@ -126,11 +126,11 @@ const BusinessCard = ({
         </div>
       </div>
       <div className="p-5 flex flex-col flex-grow">
-        <h3 className="font-display font-bold text-xl mb-1 text-foreground">{name}</h3>
-        <p className="font-body text-muted-foreground text-sm mb-3">{category}</p>
+        <h3 className="font-display font-bold text-xl mb-1 text-white">{name}</h3>
+        <p className="font-body text-slate-300 text-sm mb-3">{category}</p>
         
         {address && (
-          <div className="flex items-center text-muted-foreground text-xs mb-4">
+          <div className="flex items-center text-slate-400 text-xs mb-4">
             <MapPin size={14} className="mr-1.5 flex-shrink-0" />
             <span className="truncate font-body">{address}</span>
           </div>
@@ -142,14 +142,14 @@ const BusinessCard = ({
               <Star 
                 key={i}
                 size={16} 
-                className={i < Math.floor(rating) ? 'fill-mansagold text-mansagold' : 'text-gray-300'} 
+                className={i < Math.floor(rating) ? 'fill-mansagold text-mansagold' : 'text-slate-600'} 
               />
             ))}
           </div>
-          <p className="ml-2 text-xs text-muted-foreground font-body">{rating} ({reviewCount})</p>
+          <p className="ml-2 text-xs text-slate-300 font-body">{rating} ({reviewCount})</p>
           
           {distance && (
-            <div className="ml-auto text-xs glass-card px-2.5 py-1 rounded-full font-semibold">
+            <div className="ml-auto text-xs glass-card px-2.5 py-1 rounded-full font-semibold text-white bg-slate-700/60 border border-white/10">
               {distance}
             </div>
           )}
@@ -160,7 +160,7 @@ const BusinessCard = ({
             <Button 
               variant="outline" 
               size="sm" 
-              className="w-full border-2 border-indigo-300 text-indigo-600 hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-600 hover:text-white hover:border-transparent hover:shadow-xl transition-all shadow-sm font-semibold"
+              className="w-full border-white/20 bg-gradient-to-r from-mansablue to-blue-600 hover:from-blue-700 hover:to-mansablue text-white shadow-md hover:shadow-lg transition-all duration-200 font-semibold"
             >
               View Business
             </Button>
