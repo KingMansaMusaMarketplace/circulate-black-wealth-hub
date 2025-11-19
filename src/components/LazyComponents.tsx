@@ -4,8 +4,6 @@ import { lazy } from 'react';
 export const LazyAboutPage = lazy(() => import('@/pages/AboutPage'));
 export const LazyDirectoryPage = lazy(() => import('@/pages/DirectoryPage'));
 export const LazyDashboardPage = lazy(() => import('@/pages/DashboardPage'));
-export const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
-export const LazyMentorshipPage = lazy(() => import('@/pages/MentorshipPage'));
 export const LazyLoyaltyPage = lazy(() => import('@/pages/LoyaltyPage'));
 export const LazyCommunityImpactPage = lazy(() => import('@/pages/CommunityImpactPage'));
 export const LazyCorporateSponsorshipPage = lazy(() => import('@/pages/CorporateSponsorshipPage'));
