@@ -10,7 +10,6 @@ import { preloadCriticalImages } from '@/utils/imageOptimizer';
 import { updateMetaTags } from '@/utils/seoUtils';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
-import { NativeFeaturesPromo } from '@/components/NativeFeaturesPromo';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import VoiceInterface from '@/components/VoiceInterface';
 import { SmartRecommendations } from '@/components/SmartRecommendations';
@@ -88,11 +87,6 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-        </SectionErrorBoundary>
-
-        {/* Native Features Promo for App Store Review */}
-        <SectionErrorBoundary sectionName="Native Features">
-          <NativeFeaturesPromo />
         </SectionErrorBoundary>
 
         {/* Free Growth Strategy Banner */}

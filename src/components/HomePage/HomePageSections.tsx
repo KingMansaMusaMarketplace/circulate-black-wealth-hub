@@ -1,15 +1,9 @@
 
 import React, { Suspense } from 'react';
 import FeaturedBusinesses from '@/components/FeaturedBusinesses';
-import TestimonialsSection from '@/components/TestimonialsSection';
 import CTASection from '@/components/CTASection';
-import { BenefitsSection } from '@/components/HowItWorks/Benefits';
-import { SocialProofWidget } from '@/components/social-proof';
-import { SponsorLogoGrid } from '@/components/sponsors';
 import LazySection from '@/components/common/LazySection';
 import { ImpactCounter } from './ImpactCounter';
-import { SuccessStories } from './SuccessStories';
-import { NewsletterSignup } from './NewsletterSignup';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 
 const HomePageSections: React.FC = () => {
@@ -20,26 +14,7 @@ const HomePageSections: React.FC = () => {
         <ImpactCounter />
       </SectionErrorBoundary>
 
-      {/* Social Proof Section */}
-      <SectionErrorBoundary sectionName="Social Proof">
-        <section id="social-proof">
-          <SocialProofWidget />
-        </section>
-      </SectionErrorBoundary>
-
-      {/* Benefits Section */}
-      <SectionErrorBoundary sectionName="Benefits">
-        <section id="benefits">
-          <BenefitsSection />
-        </section>
-      </SectionErrorBoundary>
-
-      {/* Success Stories */}
-      <SectionErrorBoundary sectionName="Success Stories">
-        <SuccessStories />
-      </SectionErrorBoundary>
-
-      {/* Featured Businesses */}
+      {/* Featured Businesses - Limited to 6 */}
       <SectionErrorBoundary sectionName="Featured Businesses">
         <LazySection threshold={0.2} rootMargin="100px">
           <Suspense fallback={
@@ -60,39 +35,9 @@ const HomePageSections: React.FC = () => {
               </div>
             </div>
           }>
-            <FeaturedBusinesses />
+            <FeaturedBusinesses limit={6} />
           </Suspense>
         </LazySection>
-      </SectionErrorBoundary>
-
-      {/* Testimonials Section */}
-      <SectionErrorBoundary sectionName="Testimonials">
-        <section id="testimonials">
-          <TestimonialsSection />
-        </section>
-      </SectionErrorBoundary>
-
-      {/* Corporate Sponsors */}
-      <SectionErrorBoundary sectionName="Corporate Sponsors">
-        <section className="py-16 bg-muted/50">
-          <div className="container">
-            <h2 className="text-3xl font-bold text-center mb-2">
-              Our Corporate Partners
-            </h2>
-            <p className="text-center text-muted-foreground mb-8">
-              Supporting our mission to build community wealth
-            </p>
-            <SponsorLogoGrid
-              placement="homepage"
-              maxLogos={8}
-            />
-          </div>
-        </section>
-      </SectionErrorBoundary>
-
-      {/* Newsletter Signup */}
-      <SectionErrorBoundary sectionName="Newsletter">
-        <NewsletterSignup />
       </SectionErrorBoundary>
 
       {/* CTA Section */}

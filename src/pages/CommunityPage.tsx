@@ -4,7 +4,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import CommunityEvents from '@/components/community/CommunityEvents';
 import ActivityFeed from '@/components/community/ActivityFeed';
 import SmartBusinessRecommendations from '@/components/discovery/SmartBusinessRecommendations';
-import { Calendar, TrendingUp, Activity } from 'lucide-react';
+import TestimonialsSection from '@/components/TestimonialsSection';
+import { SuccessStories } from '@/components/HomePage/SuccessStories';
+import { Calendar, TrendingUp, Activity, Award } from 'lucide-react';
 
 const CommunityPage: React.FC = () => {
   return (
@@ -45,7 +47,7 @@ const CommunityPage: React.FC = () => {
       <div className="relative z-10 max-w-6xl mx-auto px-6 pb-12">
         <Tabs defaultValue="activity" className="w-full">
           <div className="relative mb-8">
-            <TabsList className="relative grid w-full grid-cols-3 bg-slate-800/60 backdrop-blur-xl border border-white/10 p-2 rounded-2xl shadow-lg">
+            <TabsList className="relative grid w-full grid-cols-4 bg-slate-800/60 backdrop-blur-xl border border-white/10 p-2 rounded-2xl shadow-lg">
               <TabsTrigger value="activity" className="flex items-center gap-2 text-blue-200/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white rounded-xl transition-all hover:text-white">
                 <Activity className="h-4 w-4" />
                 <span>Activity</span>
@@ -53,6 +55,10 @@ const CommunityPage: React.FC = () => {
               <TabsTrigger value="discover" className="flex items-center gap-2 text-blue-200/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white rounded-xl transition-all hover:text-white">
                 <TrendingUp className="h-4 w-4" />
                 <span>Discover</span>
+              </TabsTrigger>
+              <TabsTrigger value="stories" className="flex items-center gap-2 text-blue-200/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white rounded-xl transition-all hover:text-white">
+                <Award className="h-4 w-4" />
+                <span>Stories</span>
               </TabsTrigger>
               <TabsTrigger value="events" className="flex items-center gap-2 text-blue-200/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white rounded-xl transition-all hover:text-white">
                 <Calendar className="h-4 w-4" />
@@ -92,6 +98,15 @@ const CommunityPage: React.FC = () => {
 
           <TabsContent value="discover" className="space-y-6 animate-fade-in">
             <SmartBusinessRecommendations />
+          </TabsContent>
+          
+          <TabsContent value="stories" className="space-y-8 animate-fade-in">
+            <div className="space-y-8">
+              <SuccessStories />
+              <div className="bg-slate-800/60 backdrop-blur-xl rounded-2xl p-8 border border-white/10">
+                <TestimonialsSection />
+              </div>
+            </div>
           </TabsContent>
           
           <TabsContent value="events" className="space-y-6 animate-fade-in">
