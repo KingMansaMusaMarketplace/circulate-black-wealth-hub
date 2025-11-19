@@ -422,25 +422,25 @@ const AppTestPage: React.FC = () => {
   const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
       case 'pass':
-        return <CheckCircle className="h-5 w-5 text-green-600" />;
+        return <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />;
       case 'fail':
-        return <XCircle className="h-5 w-5 text-red-600" />;
+        return <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />;
       case 'warning':
-        return <AlertTriangle className="h-5 w-5 text-yellow-600" />;
+        return <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />;
       case 'running':
-        return <Loader2 className="h-5 w-5 text-blue-500 animate-spin" />;
+        return <Loader2 className="h-5 w-5 text-mansablue animate-spin" />;
       default:
-        return <div className="h-5 w-5 rounded-full bg-gray-300" />;
+        return <div className="h-5 w-5 rounded-full bg-gray-300 dark:bg-gray-600" />;
     }
   };
 
   const getStatusBadge = (status: TestResult['status']) => {
     const variants = {
-      pass: 'bg-green-100 text-green-800',
-      fail: 'bg-red-100 text-red-800',
-      warning: 'bg-yellow-100 text-yellow-800',
-      running: 'bg-blue-100 text-blue-800',
-      pending: 'bg-gray-100 text-gray-800'
+      pass: 'bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-700 dark:text-green-400 border border-green-500/20',
+      fail: 'bg-gradient-to-r from-red-500/10 to-rose-500/10 text-red-700 dark:text-red-400 border border-red-500/20',
+      warning: 'bg-gradient-to-r from-yellow-500/10 to-amber-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/20',
+      running: 'bg-gradient-to-r from-mansablue/10 to-mansagold/10 text-mansablue border border-mansablue/20',
+      pending: 'bg-gradient-to-r from-gray-500/10 to-slate-500/10 text-gray-700 dark:text-gray-400 border border-gray-500/20'
     };
     
     return (
@@ -464,73 +464,95 @@ const AppTestPage: React.FC = () => {
   const criticalFailures = criticalTests.filter(t => t.status === 'fail').length;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
+
+      <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-6xl mx-auto space-y-6">
           {/* Header */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Database className="h-5 w-5" />
-                Frontend & Backend System Test
-              </CardTitle>
-              <CardDescription>
+          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-mansagold/10 to-transparent rounded-full blur-3xl" />
+            <CardHeader className="relative z-10">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-3 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-xl shadow-lg">
+                  <Database className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">
+                  System Diagnostics
+                </CardTitle>
+              </div>
+              <CardDescription className="text-base">
                 Comprehensive testing of frontend components and backend services
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
+            <CardContent className="relative z-10">
+              <div className="space-y-6">
                 <Button 
                   onClick={runAllTests} 
                   disabled={isRunning}
-                  className="w-full"
+                  className="w-full bg-gradient-to-r from-mansablue to-mansablue-dark hover:from-mansablue-dark hover:to-mansablue text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
                   size="lg"
                 >
                   {isRunning ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                       Running Tests...
                     </>
                   ) : (
                     <>
-                      <Play className="mr-2 h-4 w-4" />
+                      <Play className="mr-2 h-5 w-5" />
                       Run All Tests
                     </>
                   )}
                 </Button>
 
                 {isRunning && (
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Progress</span>
-                      <span>{Math.round(progress)}%</span>
+                  <div className="space-y-3 p-4 bg-gradient-to-br from-mansablue/5 to-transparent rounded-xl border border-mansablue/20">
+                    <div className="flex justify-between text-sm font-medium">
+                      <span className="text-foreground">Progress</span>
+                      <span className="text-mansagold">{Math.round(progress)}%</span>
                     </div>
-                    <Progress value={progress} className="w-full" />
+                    <div className="relative">
+                      <Progress value={progress} className="w-full h-3 bg-gray-200 [&>div]:bg-gradient-to-r [&>div]:from-mansablue [&>div]:to-mansagold" />
+                    </div>
                     {currentTest && (
-                      <p className="text-sm text-gray-600">Currently testing: {currentTest}</p>
+                      <p className="text-sm text-muted-foreground flex items-center gap-2">
+                        <Loader2 className="h-4 w-4 animate-spin text-mansablue" />
+                        Currently testing: <span className="font-semibold text-foreground">{currentTest}</span>
+                      </p>
                     )}
                   </div>
                 )}
 
                 {tests.some(t => t.status !== 'pending') && (
-                  <div className="grid grid-cols-4 gap-4 mt-6">
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-green-600">{passCount}</div>
-                      <div className="text-sm text-gray-600">Passed</div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                    <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 rounded-xl border border-green-200 dark:border-green-800 shadow-sm">
+                      <div className="text-3xl font-bold text-green-600 dark:text-green-400">{passCount}</div>
+                      <div className="text-sm font-medium text-green-700 dark:text-green-300">Passed</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-red-600">{failCount}</div>
-                      <div className="text-sm text-gray-600">Failed</div>
+                    <div className="text-center p-4 bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-950 dark:to-rose-950 rounded-xl border border-red-200 dark:border-red-800 shadow-sm">
+                      <div className="text-3xl font-bold text-red-600 dark:text-red-400">{failCount}</div>
+                      <div className="text-sm font-medium text-red-700 dark:text-red-300">Failed</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-2xl font-bold text-yellow-600">{warningCount}</div>
-                      <div className="text-sm text-gray-600">Warnings</div>
+                    <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950 dark:to-amber-950 rounded-xl border border-yellow-200 dark:border-yellow-800 shadow-sm">
+                      <div className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{warningCount}</div>
+                      <div className="text-sm font-medium text-yellow-700 dark:text-yellow-300">Warnings</div>
                     </div>
-                    <div className="text-center">
-                      <div className={`text-2xl font-bold ${criticalFailures > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                    <div className={`text-center p-4 bg-gradient-to-br rounded-xl border shadow-sm ${
+                      criticalFailures > 0 
+                        ? 'from-red-50 to-rose-50 dark:from-red-950 dark:to-rose-950 border-red-200 dark:border-red-800' 
+                        : 'from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-200 dark:border-green-800'
+                    }`}>
+                      <div className={`text-3xl font-bold ${criticalFailures > 0 ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
                         {criticalFailures}
                       </div>
-                      <div className="text-sm text-gray-600">Critical Issues</div>
+                      <div className={`text-sm font-medium ${criticalFailures > 0 ? 'text-red-700 dark:text-red-300' : 'text-green-700 dark:text-green-300'}`}>
+                        Critical Issues
+                      </div>
                     </div>
                   </div>
                 )}
@@ -539,31 +561,46 @@ const AppTestPage: React.FC = () => {
           </Card>
 
           {/* Backend Tests */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Database className="h-5 w-5" />
-                Backend Tests
-              </CardTitle>
-              <CardDescription>Database, APIs, and server-side functionality</CardDescription>
+          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl overflow-hidden">
+            <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-mansablue/10 to-transparent rounded-full blur-3xl" />
+            <CardHeader className="relative z-10">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-lg">
+                  <Database className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <CardTitle className="text-2xl bg-gradient-to-r from-mansablue to-mansablue-dark bg-clip-text text-transparent">
+                    Backend Tests
+                  </CardTitle>
+                  <CardDescription>Database, APIs, and server-side functionality</CardDescription>
+                </div>
+              </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative z-10">
               <div className="space-y-3">
                 {backendTests.map((test, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
-                    <div className="flex items-center gap-3 flex-grow">
+                  <div 
+                    key={index} 
+                    className="group relative flex items-center justify-between p-4 border-2 border-border rounded-xl hover:border-mansablue/40 bg-white dark:bg-gray-900 transition-all duration-300 hover:shadow-lg hover:scale-[1.01]"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-mansablue/5 to-transparent opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-300" />
+                    <div className="flex items-center gap-3 flex-grow relative z-10">
                       {getStatusIcon(test.status)}
                       <div className="flex-grow">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{test.name}</span>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-semibold text-foreground">{test.name}</span>
                           {test.critical && (
-                            <Badge variant="destructive" className="text-xs">Critical</Badge>
+                            <Badge className="bg-red-500/10 text-red-600 border-red-500/20 text-xs px-2 py-0.5">
+                              Critical
+                            </Badge>
                           )}
                         </div>
-                        <p className="text-sm text-gray-600">{test.message}</p>
+                        <p className="text-sm text-muted-foreground">{test.message}</p>
                       </div>
                     </div>
-                    {getStatusBadge(test.status)}
+                    <div className="relative z-10">
+                      {getStatusBadge(test.status)}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -571,31 +608,46 @@ const AppTestPage: React.FC = () => {
           </Card>
 
           {/* Frontend Tests */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Navigation className="h-5 w-5" />
-                Frontend Tests
-              </CardTitle>
-              <CardDescription>React components, UI, and client-side functionality</CardDescription>
+          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-mansagold/10 to-transparent rounded-full blur-3xl" />
+            <CardHeader className="relative z-10">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-gradient-to-br from-mansagold to-amber-600 rounded-lg">
+                  <Navigation className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <CardTitle className="text-2xl bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">
+                    Frontend Tests
+                  </CardTitle>
+                  <CardDescription>React components, UI, and client-side functionality</CardDescription>
+                </div>
+              </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative z-10">
               <div className="space-y-3">
                 {frontendTests.map((test, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
-                    <div className="flex items-center gap-3 flex-grow">
+                  <div 
+                    key={index} 
+                    className="group relative flex items-center justify-between p-4 border-2 border-border rounded-xl hover:border-mansagold/40 bg-white dark:bg-gray-900 transition-all duration-300 hover:shadow-lg hover:scale-[1.01]"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-mansagold/5 to-transparent opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-300" />
+                    <div className="flex items-center gap-3 flex-grow relative z-10">
                       {getStatusIcon(test.status)}
                       <div className="flex-grow">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{test.name}</span>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-semibold text-foreground">{test.name}</span>
                           {test.critical && (
-                            <Badge variant="destructive" className="text-xs">Critical</Badge>
+                            <Badge className="bg-red-500/10 text-red-600 border-red-500/20 text-xs px-2 py-0.5">
+                              Critical
+                            </Badge>
                           )}
                         </div>
-                        <p className="text-sm text-gray-600">{test.message}</p>
+                        <p className="text-sm text-muted-foreground">{test.message}</p>
                       </div>
                     </div>
-                    {getStatusBadge(test.status)}
+                    <div className="relative z-10">
+                      {getStatusBadge(test.status)}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -603,46 +655,88 @@ const AppTestPage: React.FC = () => {
           </Card>
 
           {/* System Information */}
-          <Card>
+          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl">
             <CardHeader>
-              <CardTitle>System Information</CardTitle>
+              <CardTitle className="text-xl bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">
+                System Information
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <strong>User Status:</strong> {user ? `Logged in as ${user.email}` : 'Not logged in'}
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-3 bg-gradient-to-br from-mansablue/5 to-transparent rounded-lg border border-mansablue/20">
+                  <span className="text-sm font-semibold text-muted-foreground">User Status</span>
+                  <p className="text-foreground font-medium mt-1">
+                    {user ? `Logged in as ${user.email}` : 'Not logged in'}
+                  </p>
                 </div>
-                <div>
-                  <strong>User Type:</strong> {user?.user_metadata?.user_type || 'N/A'}
+                <div className="p-3 bg-gradient-to-br from-mansagold/5 to-transparent rounded-lg border border-mansagold/20">
+                  <span className="text-sm font-semibold text-muted-foreground">User Type</span>
+                  <p className="text-foreground font-medium mt-1">{user?.user_metadata?.user_type || 'N/A'}</p>
                 </div>
-                <div>
-                  <strong>Current Page:</strong> {window.location.pathname}
+                <div className="p-3 bg-gradient-to-br from-mansablue/5 to-transparent rounded-lg border border-mansablue/20">
+                  <span className="text-sm font-semibold text-muted-foreground">Current Page</span>
+                  <p className="text-foreground font-medium mt-1">{window.location.pathname}</p>
                 </div>
-                <div>
-                  <strong>Environment:</strong> {import.meta.env.MODE || 'development'}
+                <div className="p-3 bg-gradient-to-br from-mansagold/5 to-transparent rounded-lg border border-mansagold/20">
+                  <span className="text-sm font-semibold text-muted-foreground">Environment</span>
+                  <p className="text-foreground font-medium mt-1">{import.meta.env.MODE || 'development'}</p>
                 </div>
-                <div>
-                  <strong>React Version:</strong> {React.version}
+                <div className="p-3 bg-gradient-to-br from-mansablue/5 to-transparent rounded-lg border border-mansablue/20">
+                  <span className="text-sm font-semibold text-muted-foreground">React Version</span>
+                  <p className="text-foreground font-medium mt-1">{React.version}</p>
                 </div>
-                <div>
-                  <strong>Browser:</strong> {navigator.userAgent.split(' ')[0]}
+                <div className="p-3 bg-gradient-to-br from-mansagold/5 to-transparent rounded-lg border border-mansagold/20">
+                  <span className="text-sm font-semibold text-muted-foreground">Browser</span>
+                  <p className="text-foreground font-medium mt-1">{navigator.userAgent.split(' ')[0]}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Test Instructions */}
-          <Card>
+          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl">
             <CardHeader>
-              <CardTitle>Test Instructions</CardTitle>
+              <CardTitle className="text-xl bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">
+                Test Instructions
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2 text-sm text-gray-600">
-                <p>• <strong>Backend Tests:</strong> Check database connectivity, API endpoints, and server functionality</p>
-                <p>• <strong>Frontend Tests:</strong> Verify React components, navigation, and user interface</p>
-                <p>• <strong>Critical Tests:</strong> Essential functionality that must work for the app to function</p>
-                <p>• <strong>Warning Status:</strong> Functionality works but may have minor issues</p>
-                <p>• <strong>Failure Status:</strong> Critical issues that need immediate attention</p>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-mansablue/5 to-transparent rounded-lg border-l-4 border-mansablue">
+                  <Database className="h-5 w-5 text-mansablue mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">Backend Tests</p>
+                    <p className="text-sm text-muted-foreground">Check database connectivity, API endpoints, and server functionality</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-mansagold/5 to-transparent rounded-lg border-l-4 border-mansagold">
+                  <Navigation className="h-5 w-5 text-mansagold mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">Frontend Tests</p>
+                    <p className="text-sm text-muted-foreground">Verify React components, navigation, and user interface</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-red-500/5 to-transparent rounded-lg border-l-4 border-red-500">
+                  <AlertTriangle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">Critical Tests</p>
+                    <p className="text-sm text-muted-foreground">Essential functionality that must work for the app to function</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-yellow-500/5 to-transparent rounded-lg border-l-4 border-yellow-500">
+                  <AlertTriangle className="h-5 w-5 text-yellow-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">Warning Status</p>
+                    <p className="text-sm text-muted-foreground">Functionality works but may have minor issues</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-red-500/5 to-transparent rounded-lg border-l-4 border-red-500">
+                  <XCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">Failure Status</p>
+                    <p className="text-sm text-muted-foreground">Critical issues that need immediate attention</p>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
