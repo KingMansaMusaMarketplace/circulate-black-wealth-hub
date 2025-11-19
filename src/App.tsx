@@ -61,6 +61,7 @@ import {
 } from './components/LazyComponents';
 
 // Additional lazy loaded pages (defined directly for performance)
+const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
 const LazyRewardsPage = lazy(() => import('@/pages/RewardsPage'));
 const LazyBusinessDiscoveryPage = lazy(() => import('@/pages/BusinessDiscoveryPage'));
 const LazySalesAgentSignupPage = lazy(() => import('@/pages/SalesAgentSignupPage'));
@@ -448,6 +449,7 @@ function App() {
                             
                               <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
                               <Route path="/features" element={<LazyFeatureGuidePage />} />
+                              <Route path="/education" element={<LazyEducationPage />} />
                               <Route path="/scanner" element={<LazyQRScannerPage />} />
                               <Route path="/loyalty" element={<LazyLoyaltyPage />} />
                               <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
