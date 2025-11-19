@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { BookOpen, TrendingUp, DollarSign, Users, Target, Award, PlayCircle, FileText, ChevronRight } from 'lucide-react';
 
 const EducationPage: React.FC = () => {
+  // Dark theme education page with animated gradient orbs
   const courses = [
     {
       title: 'Business Fundamentals',
