@@ -99,37 +99,38 @@ const DirectoryPage: React.FC = () => {
         <meta name="description" content="Find and support Black-owned businesses in your community" />
       </Helmet>
       
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-mansablue-light/10 to-amber-50 relative overflow-hidden">
-        {/* Animated background elements */}
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+        {/* Animated gradient orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-96 h-96 bg-mansablue/15 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-blue-500/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-10 left-10 w-96 h-96 bg-mansablue/30 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-mansagold/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]"></div>
         </div>
 
         {/* Enhanced Header */}
-        <div className="bg-gradient-to-br from-mansablue via-blue-700 to-blue-800 py-16 md:py-24 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 py-16 md:py-24 relative overflow-hidden border-b border-white/10">
           {/* Background effects */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.15),transparent_50%)]" />
-          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.05),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.08),transparent_50%)]" />
+          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-mansablue via-blue-500 to-mansagold"></div>
           
           <div className="container mx-auto text-center relative z-10 px-4 animate-fade-in">
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
-              Multi-City <span className="text-mansagold">Marketplace</span> 🌆
+              Multi-City <span className="bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent">Marketplace</span> 🌆
             </h1>
-            <p className="font-body text-xl sm:text-2xl text-white/95 leading-relaxed max-w-3xl mx-auto mb-10 font-medium">
+            <p className="font-body text-xl sm:text-2xl text-slate-300 leading-relaxed max-w-3xl mx-auto mb-10 font-medium">
               Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, and Detroit
             </p>
             
             <div className="relative max-w-2xl mx-auto" data-tour="search-businesses">
-              <div className="absolute inset-0 bg-gradient-to-r from-mansagold/30 via-amber-500/30 to-yellow-400/30 rounded-3xl blur-xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-mansablue/30 via-blue-500/30 to-mansagold/30 rounded-3xl blur-xl"></div>
               <div className="relative">
-                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-mansablue" />
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-6 w-6 text-mansagold" />
                 <Input
                   type="text" 
                   placeholder="Search businesses across all cities... 🔍"
-                  className="pl-14 h-16 rounded-3xl w-full text-xl md:text-2xl font-body shadow-2xl bg-white text-gray-900 placeholder:text-gray-500 border-0 focus-visible:ring-4 focus-visible:ring-purple-500/50"
+                  className="pl-14 h-16 rounded-3xl w-full text-xl md:text-2xl font-body shadow-2xl bg-slate-800/60 border border-white/10 text-white placeholder:text-slate-400 focus-visible:ring-4 focus-visible:ring-mansagold/50"
                   value={searchTerm || ''}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -167,16 +168,16 @@ const DirectoryPage: React.FC = () => {
               {/* Main Content */}
               <div className="w-full lg:w-3/4 animate-fade-in" style={{ animationDelay: '0.2s' }}>
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-pink-400/20 rounded-3xl blur-xl"></div>
-                  <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-6 mb-8 border-0 overflow-hidden">
-                    <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-mansablue/20 via-blue-500/20 to-mansagold/20 rounded-3xl blur-xl"></div>
+                  <div className="relative border border-white/10 bg-slate-800/60 backdrop-blur-xl rounded-3xl shadow-2xl p-6 mb-8 overflow-hidden">
+                    <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-mansablue via-blue-500 to-mansagold"></div>
                     <div className="pt-2 flex flex-col sm:flex-row justify-between items-center gap-4">
                       <div className="flex items-center">
-                        <ListFilter className="h-6 w-6 mr-2 text-purple-600" />
-                        <span className="font-body text-gray-900 font-bold text-lg">
+                        <ListFilter className="h-6 w-6 mr-2 text-mansagold" />
+                        <span className="font-body text-white font-bold text-lg">
                           {filteredBusinesses?.length || 0} businesses found 🎯
                         {selectedCity !== 'all' && (
-                          <span className="text-gray-600 ml-2 font-normal">
+                          <span className="text-slate-300 ml-2 font-normal">
                             in {selectedCity.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                           </span>
                         )}
@@ -189,23 +190,23 @@ const DirectoryPage: React.FC = () => {
                         variant={viewMode === 'grid' ? "default" : "outline"} 
                         size="sm"
                         onClick={() => setViewMode('grid')}
-                        className={`shadow-sm border-0 ${viewMode === 'grid' ? 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white' : 'text-indigo-700'}`}
+                        className={`shadow-sm ${viewMode === 'grid' ? 'bg-gradient-to-r from-mansablue to-blue-500 hover:from-blue-600 hover:to-blue-600 text-white border-0' : 'border-white/10 text-slate-300 hover:bg-white/10'}`}
                         aria-label="Grid view"
                         aria-pressed={viewMode === 'grid'}
                       >
-                        <Grid3X3 className={`h-4 w-4 mr-1 ${viewMode === 'grid' ? 'text-white' : 'text-indigo-700'}`} />
-                        <span className={`${viewMode === 'grid' ? 'text-white' : 'text-indigo-700'}`}>Grid</span>
+                        <Grid3X3 className={`h-4 w-4 mr-1`} />
+                        <span>Grid</span>
                       </Button>
                       <Button 
                         variant={viewMode === 'list' ? "default" : "outline"} 
                         size="sm"
                         onClick={() => setViewMode('list')}
-                        className={`shadow-sm border-0 ${viewMode === 'list' ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white' : 'text-indigo-700'}`}
+                        className={`shadow-sm ${viewMode === 'list' ? 'bg-gradient-to-r from-blue-500 to-mansagold hover:from-blue-600 hover:to-amber-500 text-white border-0' : 'border-white/10 text-slate-300 hover:bg-white/10'}`}
                         aria-label="List view"
                         aria-pressed={viewMode === 'list'}
                       >
-                        <List className={`h-4 w-4 mr-1 ${viewMode === 'list' ? 'text-white' : 'text-indigo-700'}`} />
-                        <span className={`${viewMode === 'list' ? 'text-white' : 'text-indigo-700'}`}>List</span>
+                        <List className={`h-4 w-4 mr-1`} />
+                        <span>List</span>
                       </Button>
                       <ContextualTooltip
                         id="directory-map-view"
@@ -217,7 +218,7 @@ const DirectoryPage: React.FC = () => {
                           variant={viewMode === 'map' ? "default" : "outline"} 
                           size="sm"
                           onClick={() => setViewMode('map')}
-                          className="shadow-sm bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white border-0"
+                          className={`shadow-sm ${viewMode === 'map' ? 'bg-gradient-to-r from-mansagold to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white border-0' : 'border-white/10 text-slate-300 hover:bg-white/10'}`}
                         >
                           <MapPin className="h-4 w-4 mr-1" />
                           Map
