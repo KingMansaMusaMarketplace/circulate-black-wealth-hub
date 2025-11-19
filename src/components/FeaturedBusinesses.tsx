@@ -9,11 +9,11 @@ import { businesses } from '@/data/businessData';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 
-const FeaturedBusinesses = () => {
-  // Get the first 3 featured businesses from our business data
+const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
+  // Get the first N featured businesses from our business data
   const featuredBusinesses = businesses
     .filter(business => business.isFeatured)
-    .slice(0, 3)
+    .slice(0, limit)
     .map(business => ({
       id: business.id,
       name: business.name,
@@ -27,11 +27,11 @@ const FeaturedBusinesses = () => {
     }));
 
   // If we don't have enough featured businesses, fill with regular ones
-  const allDisplayBusinesses = featuredBusinesses.length >= 3 
+  const allDisplayBusinesses = featuredBusinesses.length >= limit 
     ? featuredBusinesses 
     : [
         ...featuredBusinesses,
-        ...businesses.slice(0, 3 - featuredBusinesses.length).map(business => ({
+        ...businesses.slice(0, limit - featuredBusinesses.length).map(business => ({
           id: business.id,
           name: business.name,
           category: business.category,
@@ -56,7 +56,7 @@ const FeaturedBusinesses = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
+        <div className={`grid gap-6 mb-10 ${allDisplayBusinesses.length <= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
           {allDisplayBusinesses.map((business) => (
             <Card key={business.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
