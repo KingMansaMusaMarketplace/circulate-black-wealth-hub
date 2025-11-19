@@ -7,8 +7,8 @@ const RecommendationsHeader: React.FC = () => {
   return (
     <>
       <div className="flex justify-between items-center animate-slide-in-right">
-        <h2 className="text-2xl font-display font-bold text-mansablue">Recommended For You</h2>
-        <Button variant="link" className="text-mansablue hover:scale-105 transition-transform">
+        <h2 className="text-2xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-r from-mansagold to-yellow-400">Recommended For You</h2>
+        <Button variant="link" className="text-white hover:text-mansagold hover:scale-105 transition-transform">
           View All
         </Button>
       </div>
@@ -19,7 +19,7 @@ const RecommendationsHeader: React.FC = () => {
 export const RecommendationsFooter: React.FC = () => {
   return (
     <div className="flex justify-center mt-6 animate-fade-in">
-      <Button variant="outline" className="flex items-center gap-2 hover:scale-105 transition-all">
+      <Button variant="outline" className="flex items-center gap-2 hover:scale-105 transition-all border-white/20 bg-gradient-to-r from-mansablue to-blue-600 hover:from-blue-700 hover:to-mansablue text-white">
         <TrendingUp className="h-4 w-4" />
         More Recommendations
       </Button>
