@@ -68,17 +68,17 @@ const MultiCityStats: React.FC<MultiCityStatsProps> = ({ selectedCity }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       {stats.map((stat, index) => (
-        <Card key={index} className="border-border bg-card">
+        <Card key={index} className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 {stat.icon}
-                <span className="text-sm font-medium text-muted-foreground">{stat.label}</span>
+                <span className="text-sm font-medium text-slate-300">{stat.label}</span>
               </div>
             </div>
             <div className="space-y-1">
-              <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-              <p className="text-xs text-muted-foreground">{stat.description}</p>
+              <div className="text-2xl font-bold text-white">{stat.value}</div>
+              <p className="text-xs text-slate-400">{stat.description}</p>
             </div>
           </CardContent>
         </Card>

@@ -16,8 +16,8 @@ const DirectoryResultsSummary: React.FC<DirectoryResultsSummaryProps> = ({
   isFiltered
 }) => {
   return (
-    <div className="flex items-center text-sm text-gray-600 mt-4 mb-2">
-      <Info size={16} className="mr-2 text-gray-500" />
+    <div className="flex items-center text-sm text-slate-300 mt-4 mb-2">
+      <Info size={16} className="mr-2 text-slate-400" />
       {totalResults === 0 ? (
         <p>No businesses found. Try adjusting your search criteria.</p>
       ) : (
