@@ -25,22 +25,25 @@ const UnifiedDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
       {/* Animated background elements */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      <div className="absolute inset-0">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
       </div>
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
 
       <BusinessFeaturesTour />
       <div className="container mx-auto px-4 py-8 space-y-8 relative z-10">
         {/* Welcome Header */}
         <div className="flex flex-col md:flex-row items-start justify-between gap-4">
           <div className="space-y-2">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-mansablue via-mansagold to-mansablue bg-clip-text text-transparent animate-fade-in">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent animate-fade-in">
               {getGreeting()}{user ? `, ${user.email?.split('@')[0]}` : ''}!
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-slate-300 text-lg">
               Your personalized hub for community impact and growth
             </p>
           </div>
@@ -66,61 +69,61 @@ const UnifiedDashboard: React.FC = () => {
 
         {/* Quick Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-mansablue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <CardContent className="p-6 relative z-10">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-xl shadow-lg">
+                <div className="p-3 bg-gradient-to-br from-mansablue to-blue-600 rounded-xl shadow-lg">
                   <Sparkles className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground font-medium">AI Recommendations</p>
-                  <p className="text-2xl font-bold text-foreground">Ready</p>
+                  <p className="text-sm text-slate-400 font-medium">AI Recommendations</p>
+                  <p className="text-2xl font-bold text-white">Ready</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-mansagold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-mansagold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <CardContent className="p-6 relative z-10">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-gradient-to-br from-mansagold to-amber-600 rounded-xl shadow-lg">
                   <Award className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground font-medium">Achievements</p>
-                  <p className="text-2xl font-bold text-foreground">Track</p>
+                  <p className="text-sm text-slate-400 font-medium">Achievements</p>
+                  <p className="text-2xl font-bold text-white">Track</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-mansablue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <CardContent className="p-6 relative z-10">
               <div className="flex items-center gap-4">
-                <div className="p-3 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-xl shadow-lg">
+                <div className="p-3 bg-gradient-to-br from-mansablue to-blue-600 rounded-xl shadow-lg">
                   <Landmark className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground font-medium">Savings Circles</p>
-                  <p className="text-2xl font-bold text-foreground">{circles?.length || 0}</p>
+                  <p className="text-sm text-slate-400 font-medium">Savings Circles</p>
+                  <p className="text-2xl font-bold text-white">{circles?.length || 0}</p>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-mansagold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-mansagold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <CardContent className="p-6 relative z-10">
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-gradient-to-br from-mansagold to-amber-600 rounded-xl shadow-lg">
                   <TrendingUp className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground font-medium">Investments</p>
-                  <p className="text-2xl font-bold text-foreground">{investments?.length || 0}</p>
+                  <p className="text-sm text-slate-400 font-medium">Investments</p>
+                  <p className="text-2xl font-bold text-white">{investments?.length || 0}</p>
                 </div>
               </div>
             </CardContent>
