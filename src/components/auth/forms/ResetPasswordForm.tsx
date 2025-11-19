@@ -88,37 +88,44 @@ const ResetPasswordForm: React.FC = () => {
 
   if (!isValidSession) {
     return (
-      <div className="min-h-screen bg-background relative overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 via-background to-mansagold/10" />
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mansablue relative z-10"></div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-96 h-96 bg-mansablue/30 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-mansagold/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]"></div>
+        </div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mansagold relative z-10"></div>
       </div>
     );
   }
 
   if (success) {
     return (
-      <div className="min-h-screen bg-background relative overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 via-background to-mansagold/10" />
-        <div className="absolute top-20 right-20 w-72 h-72 bg-mansagold/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-96 h-96 bg-mansablue/30 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-mansagold/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]"></div>
+        </div>
         <div className="relative z-10 w-full max-w-md mx-auto px-4 animate-fade-in">
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-br from-mansablue/20 to-mansagold/20 rounded-3xl blur-xl" />
-            <Card className="relative bg-card/95 backdrop-blur-sm border-2 border-border/40 shadow-xl rounded-3xl overflow-hidden w-full">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-purple-600 to-mansagold" />
+            <Card className="relative border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl rounded-3xl overflow-hidden w-full">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-blue-500 to-mansagold" />
               <CardHeader className="text-center pt-8">
-            <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-green-100">
-              <CheckCircle className="h-8 w-8 text-green-600" />
+            <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-green-500/20 border border-green-500/30">
+              <CheckCircle className="h-8 w-8 text-green-400" />
             </div>
-            <CardTitle className="text-2xl">Password Updated!</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-2xl text-white">Password Updated!</CardTitle>
+            <CardDescription className="text-slate-300">
               Your password has been successfully updated. You'll be redirected to login shortly.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Alert>
-              <CheckCircle className="h-4 w-4" />
-              <AlertDescription>
+            <Alert className="border-green-500/30 bg-green-500/10">
+              <CheckCircle className="h-4 w-4 text-green-400" />
+              <AlertDescription className="text-slate-300">
                 Redirecting to login page in a few seconds...
               </AlertDescription>
             </Alert>
@@ -131,36 +138,38 @@ const ResetPasswordForm: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden flex items-center justify-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-mansablue/10 via-background to-mansagold/10" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-purple-500/20 via-transparent to-transparent" />
-      <div className="absolute top-20 right-20 w-72 h-72 bg-mansagold/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden flex items-center justify-center">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-10 left-10 w-96 h-96 bg-mansablue/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-mansagold/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]"></div>
+      </div>
       
       <div className="relative z-10 w-full max-w-md mx-auto px-4 animate-fade-in">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-br from-mansablue/20 to-mansagold/20 rounded-3xl blur-xl" />
-      <Card className="relative bg-card/95 backdrop-blur-sm border-2 border-border/40 shadow-xl rounded-3xl overflow-hidden w-full">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-purple-600 to-mansagold" />
+      <Card className="relative border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl rounded-3xl overflow-hidden w-full">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansablue via-blue-500 to-mansagold" />
             <CardHeader className="text-center pt-8">
-          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-mansablue/10">
-            <Lock className="h-8 w-8 text-mansablue" />
+          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center bg-mansablue/20 border border-mansablue/30">
+            <Lock className="h-8 w-8 text-mansagold" />
           </div>
-          <CardTitle className="text-2xl">Create New Password</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl text-white">Create New Password</CardTitle>
+          <CardDescription className="text-slate-300">
             Enter your new password below
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
+              <Alert variant="destructive" className="border-red-500/30 bg-red-500/10">
+                <AlertDescription className="text-red-400">{error}</AlertDescription>
               </Alert>
             )}
             
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">
+              <label htmlFor="password" className="text-sm font-medium text-slate-300">
                 New Password
               </label>
               <div className="relative">
@@ -191,7 +200,7 @@ const ResetPasswordForm: React.FC = () => {
             </div>
             
             <div className="space-y-2">
-              <label htmlFor="confirmPassword" className="text-sm font-medium">
+              <label htmlFor="confirmPassword" className="text-sm font-medium text-slate-300">
                 Confirm New Password
               </label>
               <div className="relative">
@@ -221,14 +230,14 @@ const ResetPasswordForm: React.FC = () => {
               </div>
             </div>
 
-            <Alert>
-              <Lock className="h-4 w-4" />
-              <AlertDescription>
+            <Alert className="border-mansablue/30 bg-mansablue/10">
+              <Lock className="h-4 w-4 text-mansagold" />
+              <AlertDescription className="text-slate-300">
                 Password must be at least 8 characters with uppercase, lowercase, number, and special character.
               </AlertDescription>
             </Alert>
             
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="w-full bg-gradient-to-r from-mansablue via-blue-500 to-mansagold hover:from-blue-600 hover:via-blue-600 hover:to-amber-500" disabled={loading}>
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2"></div>
