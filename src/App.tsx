@@ -631,6 +631,7 @@ function App() {
                         {/* Fixed How It Works route */}
                         <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
                         <Route path="/features" element={<LazyFeatureGuidePage />} />
+                        <Route path="/education" element={<LazyEducationPage />} />
                         
                         {/* QR Scanner routes - both /scanner and /qr-scanner should work */}
                         <Route path="/scanner" element={<LazyQRScannerPage />} />
