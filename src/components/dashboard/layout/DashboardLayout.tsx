@@ -29,7 +29,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
+
       {/* Mobile navigation toggle */}
       <DashboardHeader 
         mobileNavOpen={mobileNavOpen} 
@@ -45,7 +54,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
       {/* Main content */}
       <div className={cn(
-        "flex-1 lg:ml-64",
+        "flex-1 lg:ml-64 relative z-10",
         mobileNavOpen ? "lg:mr-0" : "mr-0",
       )}>
         <main className="px-4 sm:px-6 lg:px-8 pt-14 lg:pt-2">
@@ -62,7 +71,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       {/* Mobile nav backdrop */}
       {mobileNavOpen && (
         <div 
-          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-10 lg:hidden animate-fade-in"
+          className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-10 lg:hidden animate-fade-in"
           onClick={() => setMobileNavOpen(false)}
         />
       )}
