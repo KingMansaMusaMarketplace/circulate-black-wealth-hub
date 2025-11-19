@@ -39,7 +39,7 @@ export const CompareButton: React.FC<CompareButtonProps> = ({ businesses }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button variant="outline" size="sm" className="gap-2 border-white/20 bg-slate-800/60 backdrop-blur-xl text-white hover:bg-slate-700/70 hover:text-mansagold">
           <Scale className="h-4 w-4" />
           Compare Businesses
         </Button>
