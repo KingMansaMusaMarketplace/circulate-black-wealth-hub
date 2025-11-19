@@ -5,6 +5,7 @@ import CTASection from '@/components/CTASection';
 import LazySection from '@/components/common/LazySection';
 import { ImpactCounter } from './ImpactCounter';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
+import HowItWorksPreview from './HowItWorksPreview';
 
 const HomePageSections: React.FC = () => {
   return (
@@ -12,6 +13,11 @@ const HomePageSections: React.FC = () => {
       {/* Impact Counter */}
       <SectionErrorBoundary sectionName="Impact Counter">
         <ImpactCounter />
+      </SectionErrorBoundary>
+
+      {/* How It Works Preview */}
+      <SectionErrorBoundary sectionName="How It Works Preview">
+        <HowItWorksPreview />
       </SectionErrorBoundary>
 
       {/* Featured Businesses - Limited to 6 */}
