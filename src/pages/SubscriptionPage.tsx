@@ -15,6 +15,8 @@ import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 const SubscriptionPage: React.FC = () => {
+  console.log('[SUBSCRIPTION PAGE] Loading dark theme version - 2025-11-19');
+  
   const { user } = useAuth();
   const { subscriptionInfo, openCustomerPortal } = useSubscription();
   const [searchParams] = useSearchParams();

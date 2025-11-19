@@ -199,13 +199,13 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
       {/* Billing Toggle - Only show for business users */}
       {userType === 'business' && (
         <div className="flex justify-center mb-8">
-          <div className="bg-gray-100 p-1 rounded-lg flex">
+          <div className="bg-slate-800/60 backdrop-blur-xl p-1 rounded-lg flex border border-white/10">
             <button
               onClick={() => setBillingCycle('monthly')}
               className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
                 billingCycle === 'monthly'
-                  ? 'bg-white text-mansablue shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-mansagold text-slate-900 shadow-sm'
+                  : 'text-slate-300 hover:text-white'
               }`}
             >
               Monthly
@@ -214,12 +214,12 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
               onClick={() => setBillingCycle('annual')}
               className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
                 billingCycle === 'annual'
-                  ? 'bg-white text-mansablue shadow-sm'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-mansagold text-slate-900 shadow-sm'
+                  : 'text-slate-300 hover:text-white'
               }`}
             >
               Annual
-              <Badge className="ml-2 bg-green-500 text-white text-xs">Save 17%</Badge>
+              <Badge className="ml-2 bg-emerald-500 text-white text-xs">Save 17%</Badge>
             </button>
           </div>
         </div>
@@ -230,12 +230,12 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
         {plans.map((plan) => (
           <Card 
             key={plan.id} 
-            className={`relative ${
+            className={`relative backdrop-blur-xl ${
               plan.popular 
-                ? 'border-mansagold shadow-lg scale-105' 
+                ? 'border-mansagold shadow-lg scale-105 bg-slate-800/80' 
                 : currentTier === plan.id 
-                  ? 'border-green-500 bg-green-50/30' 
-                  : 'border-gray-200'
+                  ? 'border-emerald-500 bg-slate-800/70' 
+                  : 'border-white/10 bg-slate-800/60'
             }`}
           >
             {plan.popular && (
@@ -249,7 +249,7 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
 
             {currentTier === plan.id && (
               <div className="absolute -top-3 right-4">
-                <Badge className="bg-green-500 text-white font-semibold px-3 py-1">
+                <Badge className="bg-emerald-500 text-white font-semibold px-3 py-1">
                   <Check className="h-3 w-3 mr-1" />
                   Active
                 </Badge>
@@ -259,32 +259,32 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
             <CardHeader className="text-center pb-4">
               <div className={`w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center ${
                 plan.popular 
-                  ? 'bg-mansagold/10 text-mansagold' 
+                  ? 'bg-mansagold/20 text-mansagold' 
                   : currentTier === plan.id 
-                    ? 'bg-green-100 text-green-600'
-                    : 'bg-mansablue/10 text-mansablue'
+                    ? 'bg-emerald-500/20 text-emerald-400'
+                    : 'bg-blue-500/20 text-blue-400'
               }`}>
                 {plan.icon}
               </div>
               
-              <CardTitle className="text-xl font-bold">{plan.name}</CardTitle>
-              <CardDescription className="text-sm">{plan.description}</CardDescription>
+              <CardTitle className="text-xl font-bold text-white">{plan.name}</CardTitle>
+              <CardDescription className="text-sm text-slate-300">{plan.description}</CardDescription>
               
               <div className="mt-4">
                 <div className="flex items-baseline justify-center">
-                  <span className="text-3xl font-bold">${plan.price}</span>
-                  <span className="text-gray-500 ml-1">/{plan.period}</span>
+                  <span className="text-3xl font-bold text-white">${plan.price}</span>
+                  <span className="text-slate-400 ml-1">/{plan.period}</span>
                 </div>
                 {plan.monthlyEquivalent && (
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-slate-400 mt-1">
                     ${plan.monthlyEquivalent}/month when billed annually
                   </p>
                 )}
                 {plan.savingsText && (
-                  <p className="text-sm text-green-600 mt-1 font-medium">{plan.savingsText}</p>
+                  <p className="text-sm text-emerald-400 mt-1 font-medium">{plan.savingsText}</p>
                 )}
                 {userType === 'business' && (
-                  <p className="text-sm text-green-600 mt-1 font-medium">30-day free trial</p>
+                  <p className="text-sm text-emerald-400 mt-1 font-medium">30-day free trial</p>
                 )}
               </div>
             </CardHeader>
@@ -293,8 +293,8 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
               <ul className="space-y-3">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-start">
-                    <Check className="h-4 w-4 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">{feature}</span>
+                    <Check className="h-4 w-4 text-emerald-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-slate-300">{feature}</span>
                   </li>
                 ))}
               </ul>

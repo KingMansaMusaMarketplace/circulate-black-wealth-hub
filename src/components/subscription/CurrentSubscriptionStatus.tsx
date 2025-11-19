@@ -39,21 +39,21 @@ const CurrentSubscriptionStatus: React.FC<CurrentSubscriptionStatusProps> = ({
   };
 
   return (
-    <Card className="max-w-2xl mx-auto">
+    <Card className="max-w-2xl mx-auto backdrop-blur-xl bg-slate-800/60 border-white/10">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Star className="h-5 w-5 text-mansagold" />
-          Your Current Plan
+          <span className="text-white">Your Current Plan</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex justify-between items-center">
           <div>
-            <p className="font-semibold text-lg">
+            <p className="font-semibold text-lg text-white">
               {getTierDisplayName(currentTier)}
             </p>
             {subscriptionEnd && (
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-slate-400">
                 Renews on {new Date(subscriptionEnd).toLocaleDateString()}
               </p>
             )}
@@ -63,7 +63,7 @@ const CurrentSubscriptionStatus: React.FC<CurrentSubscriptionStatusProps> = ({
             <Button 
               variant="outline" 
               onClick={onManageSubscription}
-              className="text-mansablue border-mansablue hover:bg-mansablue hover:text-white"
+              className="text-mansagold border-mansagold hover:bg-mansagold hover:text-slate-900"
             >
               Manage Subscription
             </Button>
