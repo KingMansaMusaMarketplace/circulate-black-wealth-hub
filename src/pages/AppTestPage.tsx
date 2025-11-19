@@ -436,11 +436,11 @@ const AppTestPage: React.FC = () => {
 
   const getStatusBadge = (status: TestResult['status']) => {
     const variants = {
-      pass: 'bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-700 dark:text-green-400 border border-green-500/20',
-      fail: 'bg-gradient-to-r from-red-500/10 to-rose-500/10 text-red-700 dark:text-red-400 border border-red-500/20',
-      warning: 'bg-gradient-to-r from-yellow-500/10 to-amber-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-500/20',
-      running: 'bg-gradient-to-r from-mansablue/10 to-mansagold/10 text-mansablue border border-mansablue/20',
-      pending: 'bg-gradient-to-r from-gray-500/10 to-slate-500/10 text-gray-700 dark:text-gray-400 border border-gray-500/20'
+      pass: 'bg-green-500 text-white font-semibold shadow-sm',
+      fail: 'bg-red-500 text-white font-semibold shadow-sm',
+      warning: 'bg-yellow-500 text-white font-semibold shadow-sm',
+      running: 'bg-gradient-to-r from-mansablue to-mansagold text-white font-semibold shadow-sm',
+      pending: 'bg-gray-400 text-white font-semibold shadow-sm'
     };
     
     return (
