@@ -28,21 +28,21 @@ const AnimatedTestimonial: React.FC<AnimatedTestimonialProps> = ({
           }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-xl text-gray-700 mb-6">{testimonial.quote}</p>
+          <p className="text-xl text-white/90 mb-6 leading-relaxed">{testimonial.quote}</p>
           <div className="flex items-center">
-            <Avatar className="h-12 w-12 border-2 border-mansagold/20">
+            <Avatar className="h-12 w-12 border-2 border-yellow-400/30">
               <AvatarImage src={testimonial.image} alt={testimonial.author} />
-              <AvatarFallback className="bg-mansablue/10 text-mansablue">
+              <AvatarFallback className="bg-blue-500/20 text-blue-300">
                 {testimonial.author.charAt(0)}
               </AvatarFallback>
             </Avatar>
             <div className="ml-4">
-              <p className="font-semibold text-gray-900">{testimonial.author}</p>
+              <p className="font-semibold text-white">{testimonial.author}</p>
               <div className="flex items-center">
-                <p className="text-sm text-gray-500 mr-2">{testimonial.title}</p>
+                <p className="text-sm text-white/70 mr-2">{testimonial.title}</p>
                 <div className="flex">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} size={12} className="text-mansagold fill-mansagold" />
+                    <Star key={i} size={12} className="text-yellow-400 fill-yellow-400" />
                   ))}
                 </div>
               </div>
