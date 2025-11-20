@@ -243,24 +243,25 @@ const FullSystemTest: React.FC = memo(() => {
 
   const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
-      case 'pass': return <CheckCircle className="h-4 w-4 text-green-600" />;
-      case 'fail': return <XCircle className="h-4 w-4 text-red-600" />;
-      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-600" />;
-      case 'running': return <RefreshCw className="h-4 w-4 text-blue-600 animate-spin" />;
-      default: return <Clock className="h-4 w-4 text-gray-400" />;
+      case 'pass': return <CheckCircle className="h-4 w-4 text-yellow-400" />;
+      case 'fail': return <XCircle className="h-4 w-4 text-yellow-400" />;
+      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-400" />;
+      case 'running': return <RefreshCw className="h-4 w-4 text-yellow-400 animate-spin" />;
+      default: return <Clock className="h-4 w-4 text-yellow-400" />;
     }
   };
 
   const getStatusBadge = (status: TestResult['status']) => {
-    const variants = {
-      pass: 'default',
-      fail: 'destructive',
-      warning: 'secondary',
-      running: 'outline',
-      idle: 'outline'
-    } as const;
+    const config = {
+      pass: { variant: 'default' as const, className: 'bg-green-500/20 text-green-400 border-green-400/30' },
+      fail: { variant: 'destructive' as const, className: 'bg-red-500/20 text-red-400 border-red-400/30' },
+      warning: { variant: 'secondary' as const, className: 'bg-orange-500/20 text-orange-400 border-orange-400/30' },
+      running: { variant: 'outline' as const, className: 'bg-blue-500/20 text-blue-400 border-blue-400/30' },
+      idle: { variant: 'outline' as const, className: 'bg-slate-700/50 text-yellow-300 border-yellow-400/30' }
+    };
     
-    return <Badge variant={variants[status]}>{status}</Badge>;
+    const { variant, className } = config[status];
+    return <Badge variant={variant} className={className}>{status}</Badge>;
   };
 
   const criticalTests = tests.filter(test => test.critical);
@@ -270,13 +271,13 @@ const FullSystemTest: React.FC = memo(() => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 p-6">
-      <Card>
+      <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Play className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-white">
+            <Play className="h-5 w-5 text-yellow-400" />
             Full System Test
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-blue-200">
             Comprehensive testing of all critical and non-critical systems
           </CardDescription>
         </CardHeader>
@@ -284,11 +285,11 @@ const FullSystemTest: React.FC = memo(() => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <p className="text-sm font-medium">
+                <p className="text-sm font-medium text-white">
                   Critical Systems: {passedCritical}/{criticalTests.length} passed
                 </p>
                 {failedCritical > 0 && (
-                  <p className="text-sm text-red-600">
+                  <p className="text-sm text-red-400">
                     ⚠️ {failedCritical} critical system(s) failing
                   </p>
                 )}
@@ -315,7 +316,7 @@ const FullSystemTest: React.FC = memo(() => {
             {isRunning && (
               <div className="space-y-2">
                 <Progress value={progress} className="w-full" />
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-blue-200">
                   {currentTest ? `Testing: ${currentTest}` : 'Initializing...'}
                 </p>
               </div>
@@ -324,21 +325,21 @@ const FullSystemTest: React.FC = memo(() => {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
         <CardHeader>
-          <CardTitle>Critical Systems (Must Pass)</CardTitle>
+          <CardTitle className="text-white">Critical Systems (Must Pass)</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {criticalTests.map((test) => (
-              <div key={test.name} className="flex items-center justify-between p-3 border rounded-lg">
+              <div key={test.name} className="flex items-center justify-between p-3 border border-white/10 rounded-lg bg-slate-800/50">
                 <div className="flex items-center gap-3">
                   {getStatusIcon(test.status)}
                   <div>
-                    <p className="font-medium">{test.name}</p>
-                    <p className="text-sm text-gray-600">{test.message}</p>
+                    <p className="font-medium text-white">{test.name}</p>
+                    <p className="text-sm text-blue-200">{test.message}</p>
                     {test.details && (
-                      <p className="text-xs text-red-600 mt-1">{test.details}</p>
+                      <p className="text-xs text-red-400 mt-1">{test.details}</p>
                     )}
                   </div>
                 </div>
@@ -349,21 +350,21 @@ const FullSystemTest: React.FC = memo(() => {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
         <CardHeader>
-          <CardTitle>Additional Features</CardTitle>
+          <CardTitle className="text-white">Additional Features</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {nonCriticalTests.map((test) => (
-              <div key={test.name} className="flex items-center justify-between p-3 border rounded-lg">
+              <div key={test.name} className="flex items-center justify-between p-3 border border-white/10 rounded-lg bg-slate-800/50">
                 <div className="flex items-center gap-3">
                   {getStatusIcon(test.status)}
                   <div>
-                    <p className="font-medium">{test.name}</p>
-                    <p className="text-sm text-gray-600">{test.message}</p>
+                    <p className="font-medium text-white">{test.name}</p>
+                    <p className="text-sm text-blue-200">{test.message}</p>
                     {test.details && (
-                      <p className="text-xs text-red-600 mt-1">{test.details}</p>
+                      <p className="text-xs text-red-400 mt-1">{test.details}</p>
                     )}
                   </div>
                 </div>
@@ -375,27 +376,27 @@ const FullSystemTest: React.FC = memo(() => {
       </Card>
 
       {/* System Info */}
-      <Card>
+      <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
         <CardHeader>
-          <CardTitle>System Information</CardTitle>
+          <CardTitle className="text-white">System Information</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <p className="font-medium">User Status</p>
-              <p className="text-gray-600">{user ? `Logged in: ${user.email}` : 'Not logged in'}</p>
+              <p className="font-medium text-yellow-300">User Status</p>
+              <p className="text-blue-200">{user ? `Logged in: ${user.email}` : 'Not logged in'}</p>
             </div>
             <div>
-              <p className="font-medium">Subscription</p>
-              <p className="text-gray-600">{subscriptionInfo?.subscription_tier || 'Free'}</p>
+              <p className="font-medium text-yellow-300">Subscription</p>
+              <p className="text-blue-200">{subscriptionInfo?.subscription_tier || 'Free'}</p>
             </div>
             <div>
-              <p className="font-medium">Viewport</p>
-              <p className="text-gray-600">{window.innerWidth}x{window.innerHeight}</p>
+              <p className="font-medium text-yellow-300">Viewport</p>
+              <p className="text-blue-200">{window.innerWidth}x{window.innerHeight}</p>
             </div>
             <div>
-              <p className="font-medium">User Agent</p>
-              <p className="text-gray-600">{navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop'}</p>
+              <p className="font-medium text-yellow-300">User Agent</p>
+              <p className="text-blue-200">{navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop'}</p>
             </div>
           </div>
         </CardContent>
