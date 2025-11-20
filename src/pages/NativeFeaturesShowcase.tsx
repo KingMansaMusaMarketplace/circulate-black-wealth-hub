@@ -173,28 +173,29 @@ const NativeFeaturesShowcase = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
       {/* Animated Background Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-400/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-40 right-20 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-40 right-10 w-64 h-64 bg-cyan-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.5s' }} />
-        <div className="absolute top-1/2 left-20 w-56 h-56 bg-indigo-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
       </div>
       
       <div className="container mx-auto px-4 py-8 max-w-4xl relative z-10">
         {/* Header */}
         <div className="text-center mb-8 animate-fade-in">
           <div className="flex items-center justify-center mb-6">
-            <div className="bg-gradient-to-br from-purple-600 via-pink-600 to-blue-600 rounded-full p-6 shadow-2xl animate-pulse border-4 border-white/30">
-              <Smartphone className="w-16 h-16 text-white drop-shadow-lg" />
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-yellow-500 to-purple-500 rounded-full blur-2xl opacity-50 animate-pulse"></div>
+              <div className="relative bg-gradient-to-br from-blue-500 via-yellow-500 to-purple-500 rounded-full p-6 shadow-2xl border-4 border-white/30">
+                <Smartphone className="w-16 h-16 text-white drop-shadow-lg" />
+              </div>
             </div>
           </div>
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent drop-shadow-sm">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-yellow-400 to-purple-400 bg-clip-text text-transparent drop-shadow-sm">
             Native Features Showcase
           </h1>
-          <p className="text-lg font-medium bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
+          <p className="text-lg font-medium text-white/80">
             Experience capabilities beyond web browsing
           </p>
           {!isNative && (
@@ -205,45 +206,45 @@ const NativeFeaturesShowcase = () => {
         </div>
 
         {/* Platform Status */}
-        <Card className="mb-6 border-4 border-transparent bg-gradient-to-br from-white via-purple-50 to-pink-50 dark:from-gray-800 dark:via-purple-900/30 dark:to-pink-900/30 shadow-xl hover:shadow-2xl transition-all relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-400/10 via-pink-400/10 to-blue-400/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <Card className="mb-6 bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-2xl hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] transition-all relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-yellow-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
           <CardHeader className="relative z-10">
             <CardTitle className="flex items-center gap-3 text-2xl">
-              <div className="p-2 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl shadow-lg animate-pulse">
+              <div className="p-2 bg-gradient-to-br from-blue-500 to-yellow-500 rounded-xl shadow-lg animate-pulse">
                 <Zap className="w-6 h-6 text-white" />
               </div>
-              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Platform Status</span>
+              <span className="text-white">Platform Status</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="relative z-10">
             <div className="grid grid-cols-2 gap-6">
-              <div className="p-4 bg-gradient-to-br from-purple-100 via-purple-50 to-white dark:from-purple-900/20 dark:to-transparent rounded-xl border-2 border-purple-200/50">
-                <p className="text-sm font-medium text-purple-600 dark:text-purple-400 mb-1">Platform</p>
-                <p className="font-bold text-2xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{platform}</p>
+              <div className="p-4 bg-slate-800/50 backdrop-blur rounded-xl border-2 border-white/10">
+                <p className="text-sm font-medium text-blue-400 mb-1">Platform</p>
+                <p className="font-bold text-2xl text-white">{platform}</p>
               </div>
-              <div className="p-4 bg-gradient-to-br from-pink-100 via-pink-50 to-white dark:from-pink-900/20 dark:to-transparent rounded-xl border-2 border-pink-200/50">
-                <p className="text-sm font-medium text-pink-600 dark:text-pink-400 mb-1">Mode</p>
-                <p className="font-bold text-2xl bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">{isNative ? 'Native' : 'Web'}</p>
+              <div className="p-4 bg-slate-800/50 backdrop-blur rounded-xl border-2 border-white/10">
+                <p className="text-sm font-medium text-yellow-400 mb-1">Mode</p>
+                <p className="font-bold text-2xl text-white">{isNative ? 'Native' : 'Web'}</p>
               </div>
-              <div className="p-4 bg-gradient-to-br from-green-100 via-green-50 to-white dark:from-green-900/20 dark:to-transparent rounded-xl border-2 border-green-200/50">
-                <p className="text-sm font-medium text-green-600 dark:text-green-400 mb-1">Network</p>
+              <div className="p-4 bg-slate-800/50 backdrop-blur rounded-xl border-2 border-white/10">
+                <p className="text-sm font-medium text-green-400 mb-1">Network</p>
                 <p className="font-bold text-2xl flex items-center gap-2">
                   {isOnline ? (
                     <>
                       <CheckCircle2 className="w-6 h-6 text-green-500 animate-pulse" />
-                      <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Online</span>
+                      <span className="text-green-400">Online</span>
                     </>
                   ) : (
                     <>
                       <XCircle className="w-6 h-6 text-red-500 animate-pulse" />
-                      <span className="bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent">Offline</span>
+                      <span className="text-red-400">Offline</span>
                     </>
                   )}
                 </p>
               </div>
-              <div className="p-4 bg-gradient-to-br from-blue-100 via-blue-50 to-white dark:from-blue-900/20 dark:to-transparent rounded-xl border-2 border-blue-200/50">
-                <p className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-1">App State</p>
-                <p className="font-bold text-2xl capitalize bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">{appState}</p>
+              <div className="p-4 bg-slate-800/50 backdrop-blur rounded-xl border-2 border-white/10">
+                <p className="text-sm font-medium text-purple-400 mb-1">App State</p>
+                <p className="font-bold text-2xl capitalize text-white">{appState}</p>
               </div>
             </div>
           </CardContent>
@@ -262,30 +263,30 @@ const NativeFeaturesShowcase = () => {
             };
 
             const cardGradients = [
-              'from-white via-purple-50 to-pink-50 dark:from-gray-800 dark:via-purple-900/30 dark:to-pink-900/30',
-              'from-white via-blue-50 to-cyan-50 dark:from-gray-800 dark:via-blue-900/30 dark:to-cyan-900/30',
-              'from-white via-green-50 to-emerald-50 dark:from-gray-800 dark:via-green-900/30 dark:to-emerald-900/30',
-              'from-white via-orange-50 to-red-50 dark:from-gray-800 dark:via-orange-900/30 dark:to-red-900/30',
-              'from-white via-pink-50 to-purple-50 dark:from-gray-800 dark:via-pink-900/30 dark:to-purple-900/30',
-              'from-white via-indigo-50 to-blue-50 dark:from-gray-800 dark:via-indigo-900/30 dark:to-blue-900/30',
-              'from-white via-yellow-50 to-orange-50 dark:from-gray-800 dark:via-yellow-900/30 dark:to-orange-900/30',
-              'from-white via-teal-50 to-cyan-50 dark:from-gray-800 dark:via-teal-900/30 dark:to-cyan-900/30'
+              'bg-slate-900/40 backdrop-blur-xl border-white/10',
+              'bg-slate-900/40 backdrop-blur-xl border-white/10',
+              'bg-slate-900/40 backdrop-blur-xl border-white/10',
+              'bg-slate-900/40 backdrop-blur-xl border-white/10',
+              'bg-slate-900/40 backdrop-blur-xl border-white/10',
+              'bg-slate-900/40 backdrop-blur-xl border-white/10',
+              'bg-slate-900/40 backdrop-blur-xl border-white/10',
+              'bg-slate-900/40 backdrop-blur-xl border-white/10'
             ];
 
             const iconGradients = [
-              'from-purple-600 via-purple-500 to-pink-500',
-              'from-blue-600 via-blue-500 to-cyan-500',
-              'from-green-600 via-green-500 to-emerald-500',
-              'from-orange-600 via-orange-500 to-red-500',
-              'from-pink-600 via-pink-500 to-purple-500',
-              'from-indigo-600 via-indigo-500 to-blue-500',
-              'from-yellow-600 via-yellow-500 to-orange-500',
-              'from-teal-600 via-teal-500 to-cyan-500'
+              'from-blue-500 via-yellow-500 to-purple-500',
+              'from-yellow-500 via-blue-500 to-purple-500',
+              'from-purple-500 via-blue-500 to-yellow-500',
+              'from-blue-500 via-purple-500 to-yellow-500',
+              'from-yellow-500 via-purple-500 to-blue-500',
+              'from-purple-500 via-yellow-500 to-blue-500',
+              'from-blue-400 via-yellow-400 to-purple-400',
+              'from-yellow-400 via-blue-400 to-purple-400'
             ];
 
             return (
-              <Card key={feature.id} className={`bg-gradient-to-br ${cardGradients[index % cardGradients.length]} hover:shadow-2xl transition-all hover:scale-105 border-0 shadow-xl group overflow-hidden relative`}>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Card key={feature.id} className={`${cardGradients[index % cardGradients.length]} hover:shadow-[0_0_40px_rgba(59,130,246,0.4)] transition-all hover:scale-105 shadow-xl group overflow-hidden relative`}>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-yellow-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <CardHeader className="relative z-10">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
@@ -293,8 +294,8 @@ const NativeFeaturesShowcase = () => {
                         <Icon className="w-7 h-7 text-white drop-shadow-lg" />
                       </div>
                       <div>
-                        <CardTitle className="text-xl font-bold">{feature.title}</CardTitle>
-                        <CardDescription className="text-sm font-medium mt-1">
+                        <CardTitle className="text-xl font-bold text-white">{feature.title}</CardTitle>
+                        <CardDescription className="text-sm font-medium mt-1 text-white/70">
                           {feature.description}
                         </CardDescription>
                       </div>
@@ -325,21 +326,21 @@ const NativeFeaturesShowcase = () => {
 
         {/* Location Data Display */}
         {locationData && (
-          <Card className="mt-6 border-4 border-transparent bg-gradient-to-br from-white via-green-50 to-emerald-50 dark:from-gray-800 dark:via-green-900/30 dark:to-emerald-900/30 shadow-2xl animate-fade-in">
+          <Card className="mt-6 bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-2xl animate-fade-in">
             <CardHeader>
               <CardTitle className="flex items-center gap-3 text-2xl">
-                <div className="p-2 bg-gradient-to-br from-green-600 to-emerald-600 rounded-xl shadow-lg animate-pulse">
+                <div className="p-2 bg-gradient-to-br from-blue-500 to-yellow-500 rounded-xl shadow-lg animate-pulse">
                   <MapPin className="w-6 h-6 text-white" />
                 </div>
-                <span className="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Location Data</span>
+                <span className="text-white">Location Data</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 {Object.entries(locationData).map(([key, value]) => (
-                  <div key={key} className="p-4 bg-gradient-to-br from-green-100 via-green-50 to-white dark:from-green-900/20 dark:to-transparent rounded-xl border-2 border-green-200/50">
-                    <p className="text-green-600 dark:text-green-400 capitalize font-medium mb-1">{key}</p>
-                    <p className="font-mono font-bold text-lg bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">{value as string}</p>
+                  <div key={key} className="p-4 bg-slate-800/50 backdrop-blur rounded-xl border-2 border-white/10">
+                    <p className="text-blue-400 capitalize font-medium mb-1">{key}</p>
+                    <p className="font-mono font-bold text-lg text-white">{value as string}</p>
                   </div>
                 ))}
               </div>
@@ -359,7 +360,7 @@ const NativeFeaturesShowcase = () => {
               toast.success('All tests completed!');
             }}
             size="lg"
-            className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white text-xl px-12 py-8 shadow-2xl hover:shadow-[0_0_50px_rgba(168,85,247,0.5)] hover:scale-110 transition-all border-4 border-white/30 font-bold"
+            className="bg-gradient-to-r from-blue-500 via-yellow-500 to-purple-500 text-white text-xl px-12 py-8 shadow-2xl hover:shadow-[0_0_50px_rgba(59,130,246,0.5)] hover:scale-110 transition-all border-4 border-white/30 font-bold"
             disabled={!isNative}
           >
             <Zap className="w-7 h-7 mr-3 animate-pulse" />
@@ -368,23 +369,24 @@ const NativeFeaturesShowcase = () => {
         </div>
 
         {/* Instructions */}
-        <Card className="mt-6 bg-gradient-to-br from-white via-indigo-50 to-purple-50 dark:from-gray-800 dark:via-indigo-900/30 dark:to-purple-900/30 border-4 border-transparent shadow-xl">
+        <Card className="mt-6 bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl shadow-lg">
+              <div className="p-2 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl shadow-lg">
                 <Activity className="w-6 h-6 text-white" />
               </div>
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">For Apple Reviewers</span>
+              <span className="text-white">For Apple Reviewers</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-base">
-            <p className="p-3 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg border-l-4 border-purple-500"><strong className="text-purple-700 dark:text-purple-400">✅ Haptic Feedback:</strong> Tap "Test" to feel native vibrations</p>
-            <p className="p-3 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border-l-4 border-green-500"><strong className="text-green-700 dark:text-green-400">✅ Geolocation:</strong> Grant location permission to see high-accuracy coordinates</p>
-            <p className="p-3 bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border-l-4 border-blue-500"><strong className="text-blue-700 dark:text-blue-400">✅ Background Location:</strong> Enable to receive notifications when near businesses</p>
-            <p className="p-3 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg border-l-4 border-orange-500"><strong className="text-orange-700 dark:text-orange-400">✅ Notifications:</strong> Check notification center after testing</p>
-            <p className="p-3 bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/20 dark:to-purple-900/20 rounded-lg border-l-4 border-pink-500"><strong className="text-pink-700 dark:text-pink-400">✅ Native Share:</strong> See native share sheet</p>
-            <p className="p-3 bg-gradient-to-r from-indigo-100 to-blue-100 dark:from-indigo-900/20 dark:to-blue-900/20 rounded-lg border-l-4 border-indigo-500"><strong className="text-indigo-700 dark:text-indigo-400">✅ Offline Support:</strong> Turn on airplane mode and try browsing</p>
-            <p className="p-3 bg-gradient-to-r from-teal-100 to-cyan-100 dark:from-teal-900/20 dark:to-cyan-900/20 rounded-lg border-l-4 border-teal-500"><strong className="text-teal-700 dark:text-teal-400">✅ App Lifecycle:</strong> Background the app for 5+ minutes, then return</p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-purple-500"><strong className="text-purple-400">✅ Haptic Feedback:</strong> <span className="text-white/80">Tap "Test" to feel native vibrations</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-green-500"><strong className="text-green-400">✅ Geolocation:</strong> <span className="text-white/80">Grant location permission to see high-accuracy coordinates</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-blue-500"><strong className="text-blue-400">✅ Background Location:</strong> <span className="text-white/80">Enable to receive notifications when near businesses</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-orange-500"><strong className="text-orange-400">✅ Notifications:</strong> <span className="text-white/80">Check notification center after testing</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-orange-500"><strong className="text-orange-400">✅ Notifications:</strong> <span className="text-white/80">Check notification center after testing</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-pink-500"><strong className="text-pink-400">✅ Native Share:</strong> <span className="text-white/80">See native share sheet</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-indigo-500"><strong className="text-indigo-400">✅ Offline Support:</strong> <span className="text-white/80">Turn on airplane mode and try browsing</span></p>
+            <p className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border-l-4 border-teal-500"><strong className="text-teal-400">✅ App Lifecycle:</strong> <span className="text-white/80">Background the app for 5+ minutes, then return</span></p>
           </CardContent>
         </Card>
       </div>
