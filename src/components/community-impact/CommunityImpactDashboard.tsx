@@ -41,15 +41,15 @@ const CommunityImpactDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-3">
             {[1, 2, 3, 4].map((i) => (
-              <Card key={i} className="animate-pulse shadow-lg">
+              <Card key={i} className="animate-pulse shadow-lg bg-slate-800/50 border-white/10">
                 <CardContent className="p-4">
-                  <div className="h-6 bg-gray-200 rounded-lg w-3/4 mb-3"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+                  <div className="h-6 bg-slate-700 rounded-lg w-3/4 mb-3"></div>
+                  <div className="h-4 bg-slate-700 rounded w-1/2 mb-2"></div>
+                  <div className="h-4 bg-slate-700 rounded w-2/3"></div>
                 </CardContent>
               </Card>
             ))}
@@ -64,8 +64,13 @@ const CommunityImpactDashboard: React.FC = () => {
   const displayCommunityMetrics = communityMetrics || fallbackCommunityMetrics;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+      {/* Animated gradient orbs */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Hero Section */}
         <div className="mb-4">
           <HeroSection user={user} />
