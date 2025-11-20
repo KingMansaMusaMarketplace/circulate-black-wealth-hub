@@ -289,10 +289,10 @@ const SystemHealthTest: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      <Card>
+      <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Database className="h-5 w-5" />
+          <CardTitle className="flex items-center gap-2 text-white">
+            <Database className="h-5 w-5 text-yellow-400" />
             System Health Check
           </CardTitle>
           <div className="flex items-center gap-4">
@@ -314,7 +314,7 @@ const SystemHealthTest: React.FC = () => {
             {isRunning && (
               <div className="flex-1">
                 <Progress value={progress} className="w-full" />
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-blue-200 mt-1">
                   {currentTest && `Testing: ${currentTest}`}
                 </p>
               </div>
@@ -325,30 +325,30 @@ const SystemHealthTest: React.FC = () => {
         <CardContent>
           <div className="grid gap-4">
             {!isRunning && (passedTests > 0 || failedTests > 0) && (
-              <div className="flex gap-4 p-4 bg-gray-50 rounded-lg">
+              <div className="flex gap-4 p-4 bg-slate-800/50 rounded-lg border border-white/10">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">{passedTests}</div>
-                  <div className="text-sm text-gray-600">Passed</div>
+                  <div className="text-2xl font-bold text-green-400">{passedTests}</div>
+                  <div className="text-sm text-blue-200">Passed</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-red-600">{failedTests}</div>
-                  <div className="text-sm text-gray-600">Failed</div>
+                  <div className="text-2xl font-bold text-red-400">{failedTests}</div>
+                  <div className="text-sm text-blue-200">Failed</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-gray-600">{tests.length}</div>
-                  <div className="text-sm text-gray-600">Total</div>
+                  <div className="text-2xl font-bold text-yellow-400">{tests.length}</div>
+                  <div className="text-sm text-blue-200">Total</div>
                 </div>
               </div>
             )}
             
             <div className="space-y-3">
               {tests.map((test) => (
-                <div key={test.name} className="flex items-center justify-between p-3 border rounded-lg">
+                <div key={test.name} className="flex items-center justify-between p-3 border border-white/10 rounded-lg bg-slate-800/50">
                   <div className="flex items-center gap-3">
                     {test.icon}
                     <div>
-                      <div className="font-medium">{test.name}</div>
-                      <div className="text-sm text-gray-600">{test.message}</div>
+                      <div className="font-medium text-white">{test.name}</div>
+                      <div className="text-sm text-blue-200">{test.message}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -362,23 +362,23 @@ const SystemHealthTest: React.FC = () => {
         </CardContent>
       </Card>
       
-      <Card>
+      <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
         <CardHeader>
-          <CardTitle>System Information</CardTitle>
+          <CardTitle className="text-white">System Information</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 gap-4 text-sm text-blue-200">
             <div>
-              <strong>User Status:</strong> {user ? `Logged in as ${user.email}` : 'Not logged in'}
+              <strong className="text-yellow-300">User Status:</strong> {user ? `Logged in as ${user.email}` : 'Not logged in'}
             </div>
             <div>
-              <strong>User Type:</strong> {user?.user_metadata?.user_type || 'N/A'}
+              <strong className="text-yellow-300">User Type:</strong> {user?.user_metadata?.user_type || 'N/A'}
             </div>
             <div>
-              <strong>Current Page:</strong> Business Signup
+              <strong className="text-yellow-300">Current Page:</strong> Business Signup
             </div>
             <div>
-              <strong>Environment:</strong> {import.meta.env.MODE || 'development'}
+              <strong className="text-yellow-300">Environment:</strong> {import.meta.env.MODE || 'development'}
             </div>
           </div>
         </CardContent>
