@@ -148,12 +148,12 @@ const BusinessFinancesPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-green-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-teal-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
         </div>
 
         <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
@@ -173,12 +173,12 @@ const BusinessFinancesPage: React.FC = () => {
 
   if (!financialData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-green-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-teal-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
         </div>
 
         <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
@@ -186,15 +186,15 @@ const BusinessFinancesPage: React.FC = () => {
             {/* Enhanced Empty State Header */}
             <div className="animate-fade-in">
               <div className="relative inline-block w-full">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400/30 via-emerald-400/30 to-teal-400/30 rounded-3xl blur-2xl"></div>
-                <Card className="relative bg-white/95 backdrop-blur-sm shadow-2xl border-0">
-                  <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-yellow-500/20 to-purple-500/30 rounded-3xl blur-2xl"></div>
+                <Card className="relative bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-2xl">
+                  <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-yellow-500 to-purple-500"></div>
                   <CardContent className="p-12 text-center">
-                    <DollarSign className="w-20 h-20 mx-auto mb-6 text-emerald-600" />
-                    <h3 className="text-3xl font-bold mb-3 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                    <DollarSign className="w-20 h-20 mx-auto mb-6 text-yellow-400" />
+                    <h3 className="text-3xl font-bold mb-3 text-white">
                       Welcome to Your Financial Dashboard! 💰
                     </h3>
-                    <p className="text-gray-600 text-lg mb-4">
+                    <p className="text-white/70 text-lg mb-4">
                       Start tracking your revenue and expenses to see beautiful financial insights! 📊✨
                     </p>
                   </CardContent>
@@ -204,18 +204,18 @@ const BusinessFinancesPage: React.FC = () => {
 
             {/* Quick Action Cards */}
             <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Quick Actions 🎯</h3>
+              <h3 className="text-2xl font-bold mb-4 text-white">Quick Actions 🎯</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <Button
                   onClick={() => setActiveTab('invoices')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-cyan-400/10 group-hover:from-blue-400/20 group-hover:to-cyan-400/20 transition-all"></div>
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 group-hover:from-blue-500/20 group-hover:to-cyan-500/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <Receipt className="w-12 h-12 mx-auto mb-3 text-blue-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Create Invoice 📄</h4>
-                      <p className="text-sm text-gray-600">Set up billing</p>
+                      <Receipt className="w-12 h-12 mx-auto mb-3 text-blue-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Create Invoice 📄</h4>
+                      <p className="text-sm text-white/70">Set up billing</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -224,12 +224,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('expenses')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 to-rose-400/10 group-hover:from-red-400/20 group-hover:to-rose-400/20 transition-all"></div>
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-rose-500/10 group-hover:from-red-500/20 group-hover:to-rose-500/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <TrendingDown className="w-12 h-12 mx-auto mb-3 text-red-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Log Expense 📉</h4>
-                      <p className="text-sm text-gray-600">Track business costs</p>
+                      <TrendingDown className="w-12 h-12 mx-auto mb-3 text-red-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Log Expense 📉</h4>
+                      <p className="text-sm text-white/70">Track business costs</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -383,30 +383,30 @@ const BusinessFinancesPage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Getting Started Checklist */}
               <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                <h3 className="text-2xl font-bold mb-4 text-gray-800">Getting Started ✅</h3>
-                <Card className="border-0 shadow-xl">
+                <h3 className="text-2xl font-bold mb-4 text-white">Getting Started ✅</h3>
+                <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
                   <CardContent className="p-6 space-y-4">
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
-                      <div className="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center">
-                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/40 transition-all cursor-pointer border border-white/10">
+                      <div className="w-6 h-6 rounded-full border-2 border-white/30 flex items-center justify-center">
+                        <div className="w-3 h-3 rounded-full bg-green-400"></div>
                       </div>
-                      <span className="text-gray-700 font-medium">Set up your business profile</span>
+                      <span className="text-white font-medium">Set up your business profile</span>
                     </div>
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
-                      <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
-                      <span className="text-gray-700">Record your first transaction</span>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/40 transition-all cursor-pointer border border-white/10">
+                      <div className="w-6 h-6 rounded-full border-2 border-white/30"></div>
+                      <span className="text-white/70">Record your first transaction</span>
                     </div>
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
-                      <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
-                      <span className="text-gray-700">Add expense categories</span>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/40 transition-all cursor-pointer border border-white/10">
+                      <div className="w-6 h-6 rounded-full border-2 border-white/30"></div>
+                      <span className="text-white/70">Add expense categories</span>
                     </div>
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
-                      <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
-                      <span className="text-gray-700">Configure tax settings</span>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/40 transition-all cursor-pointer border border-white/10">
+                      <div className="w-6 h-6 rounded-full border-2 border-white/30"></div>
+                      <span className="text-white/70">Configure tax settings</span>
                     </div>
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-all cursor-pointer">
-                      <div className="w-6 h-6 rounded-full border-2 border-gray-300"></div>
-                      <span className="text-gray-700">Connect payment methods</span>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/30 hover:bg-slate-800/40 transition-all cursor-pointer border border-white/10">
+                      <div className="w-6 h-6 rounded-full border-2 border-white/30"></div>
+                      <span className="text-white/70">Connect payment methods</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -414,8 +414,8 @@ const BusinessFinancesPage: React.FC = () => {
 
               {/* Financial Tips Widget */}
               <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                <h3 className="text-2xl font-bold mb-4 text-gray-800">Financial Tips 💡</h3>
-                <Card className="border-0 shadow-xl bg-gradient-to-br from-amber-50 to-yellow-50">
+                <h3 className="text-2xl font-bold mb-4 text-white">Financial Tips 💡</h3>
+                <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
                   <CardContent className="p-6 space-y-4">
                     <div className="p-4 rounded-lg bg-white/80 backdrop-blur-sm border-l-4 border-amber-500">
                       <p className="text-gray-800 font-medium">💰 Track every expense, no matter how small</p>
@@ -493,12 +493,12 @@ const BusinessFinancesPage: React.FC = () => {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-green-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-emerald-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-teal-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
       </div>
 
       <DashboardLayout title="Business Finances" icon={<DollarSign className="mr-2 h-6 w-6" />}>
@@ -506,14 +506,14 @@ const BusinessFinancesPage: React.FC = () => {
           {/* Enhanced Header */}
           <div className="mb-10 animate-fade-in">
             <div className="relative inline-block w-full">
-              <div className="absolute inset-0 bg-gradient-to-r from-green-400/30 via-emerald-400/30 to-teal-400/30 rounded-3xl blur-2xl"></div>
-              <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-0 overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-yellow-500/20 to-purple-500/30 rounded-3xl blur-2xl"></div>
+              <div className="relative bg-slate-900/40 backdrop-blur-xl border-white/10 rounded-3xl p-8 shadow-2xl overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-yellow-500 to-purple-500"></div>
                 <div className="pt-2">
-                  <h2 className="text-4xl font-bold mb-3 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                    Business <span className="text-yellow-500">Finances</span> 💰
+                  <h2 className="text-4xl font-bold mb-3 text-white">
+                    Business <span className="text-yellow-400">Finances</span> 💰
                   </h2>
-                  <p className="text-gray-700 text-lg font-medium">
+                  <p className="text-white/70 text-lg font-medium">
                     Track your revenue, expenses, and financial health 📊
                   </p>
                 </div>
@@ -524,45 +524,45 @@ const BusinessFinancesPage: React.FC = () => {
           <div className="space-y-6">
           {/* Header with Key Metrics */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            <Card className="relative overflow-hidden border-0 shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 to-emerald-400/10"></div>
+            <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10"></div>
               <CardHeader className="pb-2 relative z-10">
-                <CardDescription className="text-gray-600 font-medium">Total Revenue 💵</CardDescription>
-                <CardTitle className="text-3xl text-green-600 flex items-center font-bold">
+                <CardDescription className="text-white/70 font-medium">Total Revenue 💵</CardDescription>
+                <CardTitle className="text-3xl text-green-400 flex items-center font-bold">
                   <TrendingUp className="h-6 w-6 mr-2" />
                   ${financialData.totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </CardTitle>
               </CardHeader>
               <CardContent className="relative z-10">
-                <p className="text-sm text-gray-600 font-medium">From completed bookings</p>
+                <p className="text-sm text-white/60 font-medium">From completed bookings</p>
               </CardContent>
             </Card>
 
-            <Card className="relative overflow-hidden border-0 shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-400/10 to-rose-400/10"></div>
+            <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-rose-500/10"></div>
               <CardHeader className="pb-2 relative z-10">
-                <CardDescription className="text-gray-600 font-medium">Total Expenses 📉</CardDescription>
-                <CardTitle className="text-3xl text-red-600 flex items-center font-bold">
+                <CardDescription className="text-white/70 font-medium">Total Expenses 📉</CardDescription>
+                <CardTitle className="text-3xl text-red-400 flex items-center font-bold">
                   <TrendingDown className="h-6 w-6 mr-2" />
                   ${financialData.totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </CardTitle>
               </CardHeader>
               <CardContent className="relative z-10">
-                <p className="text-sm text-gray-600 font-medium">Business operating costs</p>
+                <p className="text-sm text-white/60 font-medium">Business operating costs</p>
               </CardContent>
             </Card>
 
-            <Card className="relative overflow-hidden border-0 shadow-xl">
-              <div className={`absolute inset-0 bg-gradient-to-br ${financialData.netProfit >= 0 ? 'from-emerald-400/10 to-teal-400/10' : 'from-red-400/10 to-orange-400/10'}`}></div>
+            <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
+              <div className={`absolute inset-0 bg-gradient-to-br ${financialData.netProfit >= 0 ? 'from-emerald-500/10 to-teal-500/10' : 'from-red-500/10 to-orange-500/10'}`}></div>
               <CardHeader className="pb-2 relative z-10">
-                <CardDescription className="text-gray-600 font-medium">Net Profit 💎</CardDescription>
-                <CardTitle className={`text-3xl flex items-center font-bold ${financialData.netProfit >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                <CardDescription className="text-white/70 font-medium">Net Profit 💎</CardDescription>
+                <CardTitle className={`text-3xl flex items-center font-bold ${financialData.netProfit >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                   <DollarSign className="h-6 w-6 mr-2" />
                   ${Math.abs(financialData.netProfit).toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </CardTitle>
               </CardHeader>
               <CardContent className="relative z-10">
-                <p className="text-sm text-gray-600 font-medium">Profit margin: {profitMargin}%</p>
+                <p className="text-sm text-white/60 font-medium">Profit margin: {profitMargin}%</p>
               </CardContent>
             </Card>
           </div>
