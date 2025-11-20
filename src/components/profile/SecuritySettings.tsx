@@ -19,6 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import MFASetup from '@/components/auth/MFASetup';
+import AccountDeletion from '@/components/settings/AccountDeletion';
 
 const passwordFormSchema = z.object({
   currentPassword: z.string().min(6, {
@@ -95,78 +96,27 @@ const SecuritySettings = () => {
   };
 
   return (
-    <Tabs defaultValue="password" className="space-y-6">
-      <TabsList className="grid grid-cols-2 w-full max-w-md mb-4">
-        <TabsTrigger value="password">Password</TabsTrigger>
-        <TabsTrigger value="mfa">Two-Factor Auth</TabsTrigger>
-      </TabsList>
+    <>
+      <Tabs defaultValue="password" className="space-y-6">
+        <TabsList className="grid grid-cols-2 w-full max-w-md mb-4">
+          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="mfa">Two-Factor Auth</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="password">
+...
+        </TabsContent>
+        
+        <TabsContent value="mfa">
+          <MFASetup />
+        </TabsContent>
+      </Tabs>
       
-      <TabsContent value="password">
-        <Card>
-          <CardHeader>
-            <CardTitle>Password Security</CardTitle>
-            <CardDescription>
-              Update your password to keep your account secure.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="currentPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Current Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="newPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>New Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Confirm New Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading ? 'Updating...' : 'Update Password'}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-      </TabsContent>
-      
-      <TabsContent value="mfa">
-        <MFASetup />
-      </TabsContent>
-    </Tabs>
+      {/* Account Deletion - Prominently displayed */}
+      <div className="mt-8">
+        <AccountDeletion />
+      </div>
+    </>
   );
 };
 
