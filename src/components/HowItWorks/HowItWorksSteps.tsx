@@ -79,17 +79,19 @@ const HowItWorksSteps = () => {
   };
   
   return (
-    <section id="how-it-works" className="py-20 bg-slate-900/40 backdrop-blur-sm relative overflow-hidden">
+    <section id="how-it-works" className="py-20 relative overflow-hidden backdrop-blur-xl bg-white/5">
       {/* Background pattern */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.15),transparent_70%)]" />
+      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl"></div>
       
       <div className="container-custom relative z-10">
         <ScrollReveal delay={0.1}>
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 text-white">
-              How It <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Works</span>
+              How It <span className="text-yellow-400">Works</span>
             </h2>
-            <p className="font-body text-lg font-semibold text-blue-100/90 max-w-2xl mx-auto">
+            <p className="font-body text-lg font-semibold text-white/90 max-w-2xl mx-auto">
               Three simple steps to start supporting Black-owned businesses and building community wealth
             </p>
           </div>

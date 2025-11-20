@@ -60,8 +60,12 @@ const FAQSection = () => {
   ];
 
   return (
-    <section id="faq" className="py-16 bg-slate-900/40 backdrop-blur-sm relative overflow-hidden">
-      <div className="container-custom">
+    <section id="faq" className="py-16 relative overflow-hidden backdrop-blur-xl bg-white/5">
+      {/* Background decorations */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl"></div>
+      
+      <div className="container-custom relative z-10">
         <motion.div 
           className="text-center mb-10"
           initial={{ opacity: 0, y: 20 }}
@@ -71,7 +75,7 @@ const FAQSection = () => {
           <h2 className="heading-lg mb-4 text-white font-extrabold">
             Frequently Asked Questions
           </h2>
-          <p className="text-lg font-semibold text-blue-100/90 max-w-2xl mx-auto">
+          <p className="text-lg font-semibold text-white/90 max-w-2xl mx-auto">
             Find answers to common questions about Mansa Musa Marketplace.
           </p>
         </motion.div>
@@ -87,24 +91,24 @@ const FAQSection = () => {
                 <AccordionItem 
                   key={index} 
                   value={`item-${index}`} 
-                  className="bg-slate-800/60 backdrop-blur-xl border border-white/10 rounded-xl px-6 shadow-md hover:shadow-lg hover:shadow-mansagold/20 hover:border-mansagold/30 transition-all duration-300"
+                  className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-xl px-6 shadow-md hover:shadow-lg hover:shadow-yellow-400/20 hover:border-yellow-400/30 transition-all duration-300"
                 >
-                  <AccordionTrigger className="text-left text-lg font-bold text-white hover:text-mansagold transition-all duration-300">
+                  <AccordionTrigger className="text-left text-lg font-bold text-white hover:text-yellow-400 transition-all duration-300">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-blue-200/70 font-medium leading-relaxed">
+                  <AccordionContent className="text-white/90 font-medium leading-relaxed">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
 
-            <div className="mt-10 text-center bg-slate-800/60 backdrop-blur-xl rounded-xl p-8 border border-white/10 shadow-lg">
+            <div className="mt-10 text-center backdrop-blur-xl bg-white/10 rounded-xl p-8 border border-white/20 shadow-lg">
               <p className="text-lg font-bold text-white mb-4">
                 Still have questions?
               </p>
               <Link to="/contact">
-                <Button className="bg-gradient-to-r from-mansagold to-amber-600 hover:from-amber-600 hover:to-mansagold text-white font-bold px-8 py-3 text-lg shadow-md shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/50 transition-all duration-300 hover:scale-105">
+                <Button className="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-amber-600 hover:to-yellow-500 text-slate-900 font-bold px-8 py-3 text-lg shadow-md shadow-yellow-400/30 hover:shadow-xl hover:shadow-yellow-400/50 transition-all duration-300 hover:scale-105">
                   Contact our support team
                 </Button>
               </Link>
