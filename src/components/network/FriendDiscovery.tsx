@@ -103,28 +103,28 @@ const FriendDiscovery = () => {
                         size="sm"
                         onClick={() => sendFriendRequest(user.id)}
                       >
-                        <UserPlus className="w-4 h-4 mr-1" />
-                        Add
-                      </Button>
-                    )}
-                  </motion.div>
-                );
-              })
-            )}
-          </div>
+                    <UserPlus className="w-4 h-4 mr-1" />
+                    Add
+                  </Button>
+                )}
+              </motion.div>
+            );
+          })
         )}
+      </div>
+    )}
 
-        {/* Initial State */}
-        {!loading && searchQuery.length < 2 && (
-          <div className="text-center py-8 text-muted-foreground">
-            <UserPlus className="w-12 h-12 mx-auto mb-3 opacity-50" />
-            <p>Search for friends to connect</p>
-            <p className="text-sm mt-1">Enter at least 2 characters</p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
+    {/* Initial State */}
+    {!loading && searchQuery.length < 2 && (
+      <div className="text-center py-8 text-white/70">
+        <UserPlus className="w-12 h-12 mx-auto mb-3 text-white/30" />
+        <p>Search for friends to connect</p>
+        <p className="text-sm mt-1 text-white/50">Enter at least 2 characters</p>
+      </div>
+    )}
+  </CardContent>
+</Card>
+);
 };
 
 export default FriendDiscovery;
