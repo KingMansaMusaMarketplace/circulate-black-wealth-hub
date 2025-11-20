@@ -20,8 +20,14 @@ const BusinessDashboardPage = () => {
   // Show loading while auth is initializing
   if (loading || !authInitialized || profileLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-mansablue" />
+      <div className="relative min-h-screen flex items-center justify-center">
+        {/* Animated Background */}
+        <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+          <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        </div>
+        <Loader2 className="relative z-10 h-8 w-8 animate-spin text-blue-400" />
       </div>
     );
   }
@@ -54,45 +60,47 @@ const BusinessDashboardPage = () => {
         <meta name="description" content="Manage your business profile, analytics, and engagement tools" />
       </Helmet>
       
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-emerald-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-teal-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-cyan-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div className="relative min-h-screen overflow-hidden">
+        {/* Animated Background */}
+        <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+          <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
         </div>
 
-        <DashboardLayout title="Business Dashboard" icon={null}>
-        <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="financials">Financials</TabsTrigger>
-            <TabsTrigger value="reviews">Reviews</TabsTrigger>
-            <TabsTrigger value="coaching">AI Coach</TabsTrigger>
-            <TabsTrigger value="benefits">Benefits</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="overview">
-            <BusinessDashboard businessId={profile.id} />
-          </TabsContent>
-          
-          <TabsContent value="financials">
-            <FinancialsTab businessId={profile.id} />
-          </TabsContent>
-          
-          <TabsContent value="reviews">
-            <ReviewRequestsAnalytics businessId={profile.id} />
-          </TabsContent>
-          
-          <TabsContent value="coaching">
-            <AICoachingTab businessId={profile.id} />
-          </TabsContent>
-          
-          <TabsContent value="benefits">
-            <BusinessSubscriptionBenefits />
-          </TabsContent>
-        </Tabs>
-        </DashboardLayout>
+        <div className="relative z-10">
+          <DashboardLayout title="Business Dashboard" icon={null}>
+            <Tabs defaultValue="overview" className="w-full">
+              <TabsList className="grid w-full grid-cols-5 bg-slate-800/40 backdrop-blur-sm border border-white/10">
+                <TabsTrigger value="overview" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Overview</TabsTrigger>
+                <TabsTrigger value="financials" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Financials</TabsTrigger>
+                <TabsTrigger value="reviews" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Reviews</TabsTrigger>
+                <TabsTrigger value="coaching" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">AI Coach</TabsTrigger>
+                <TabsTrigger value="benefits" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Benefits</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="overview">
+                <BusinessDashboard businessId={profile.id} />
+              </TabsContent>
+              
+              <TabsContent value="financials">
+                <FinancialsTab businessId={profile.id} />
+              </TabsContent>
+              
+              <TabsContent value="reviews">
+                <ReviewRequestsAnalytics businessId={profile.id} />
+              </TabsContent>
+              
+              <TabsContent value="coaching">
+                <AICoachingTab businessId={profile.id} />
+              </TabsContent>
+              
+              <TabsContent value="benefits">
+                <BusinessSubscriptionBenefits />
+              </TabsContent>
+            </Tabs>
+          </DashboardLayout>
+        </div>
       </div>
     </>
   );
