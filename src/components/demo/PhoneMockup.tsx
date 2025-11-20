@@ -28,7 +28,7 @@ interface PhoneMockupProps {
 const PhoneMockup = ({ demoSteps, activeDemo }: PhoneMockupProps) => {
   return (
     <div className="order-1 lg:order-2">
-      <Card className="border-0 shadow-2xl bg-gradient-to-br from-white to-gray-50">
+      <Card className="border border-white/20 shadow-2xl backdrop-blur-xl bg-white/10">
         <CardContent className="p-8">
           <div className="relative">
             {/* Mock Phone Frame */}
