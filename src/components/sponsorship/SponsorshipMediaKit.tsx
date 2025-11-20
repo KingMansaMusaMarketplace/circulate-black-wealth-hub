@@ -74,16 +74,17 @@ const SponsorshipMediaKit = () => {
   ];
 
   return (
-    <div className="py-16 bg-white">
+    <div className="py-16 relative z-10">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-mansablue">Partnership Resources</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Download these resources to learn more about our partnership program and share them with your team.
-          </p>
-        </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-white/10 p-8 md:p-12">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4 text-yellow-400">Partnership Resources</h2>
+            <p className="text-lg text-blue-200 max-w-2xl mx-auto">
+              Download these resources to learn more about our partnership program and share them with your team.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {mediaKitItems.map((item, index) => (
             <MediaKitCard
               key={index}
@@ -97,15 +98,16 @@ const SponsorshipMediaKit = () => {
             />
           ))}
         </div>
-        
-        {previewDocument && (
-          <DocumentPreview
-            isOpen={true}
-            onClose={() => setPreviewDocument(null)}
-            title={previewDocument.title}
-            content={previewDocument.content}
-          />
-        )}
+          
+          {previewDocument && (
+            <DocumentPreview
+              isOpen={true}
+              onClose={() => setPreviewDocument(null)}
+              title={previewDocument.title}
+              content={previewDocument.content}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
