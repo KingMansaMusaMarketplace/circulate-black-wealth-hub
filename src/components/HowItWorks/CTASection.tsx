@@ -31,16 +31,15 @@ const CTASection = () => {
   }, [controls]);
 
   return (
-    <section id="cta-section" className="py-20 bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue text-white text-center relative overflow-hidden">
-      {/* Enhanced background */}
+    <section id="cta-section" className="py-20 text-white text-center relative overflow-hidden backdrop-blur-xl bg-white/5">
+      {/* Decorative gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.1),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30" />
       
       <div className="container-custom relative z-10">
         <ScrollReveal delay={0.1}>
           <div className="max-w-4xl mx-auto">
-            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-              Ready to <span className="bg-gradient-gold bg-clip-text text-transparent">Join the Movement</span>?
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-white">
+              Ready to <span className="text-yellow-400">Join the Movement</span>?
             </h2>
             
             <p className="font-body text-lg sm:text-xl text-white/90 leading-relaxed mb-8 max-w-2xl mx-auto">
@@ -48,7 +47,7 @@ const CTASection = () => {
               Phase 1: Everything is FREE until Jan 2026 as we focus on growing our community!
             </p>
             
-            <div className="glass-card backdrop-blur-xl bg-white/10 rounded-2xl p-8 mb-8 max-w-3xl mx-auto border border-white/20 shadow-2xl">
+            <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-8 mb-8 max-w-3xl mx-auto border border-white/20 shadow-2xl">
               <BenefitsList isVisible={isVisible} controls={controls} />
             </div>
             
