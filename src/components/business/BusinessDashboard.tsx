@@ -129,7 +129,7 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
       </div>
     );
   }
@@ -137,76 +137,76 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Month Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white">This Month Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-yellow-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${stats?.thisMonthRevenue.toFixed(2)}</div>
-            <p className={`text-xs ${stats?.revenueGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <div className="text-2xl font-bold text-white">${stats?.thisMonthRevenue.toFixed(2)}</div>
+            <p className={`text-xs ${stats?.revenueGrowth >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               {stats?.revenueGrowth >= 0 ? '+' : ''}{stats?.revenueGrowth.toFixed(1)}% from last month
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Month Bookings</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white">This Month Bookings</CardTitle>
+            <Calendar className="h-4 w-4 text-blue-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.thisMonthCount}</div>
-            <p className={`text-xs ${stats?.bookingGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <div className="text-2xl font-bold text-white">{stats?.thisMonthCount}</div>
+            <p className={`text-xs ${stats?.bookingGrowth >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               {stats?.bookingGrowth >= 0 ? '+' : ''}{stats?.bookingGrowth.toFixed(1)}% from last month
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Week</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white">This Week</CardTitle>
+            <Clock className="h-4 w-4 text-blue-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.thisWeekCount}</div>
-            <p className="text-xs text-muted-foreground">bookings this week</p>
+            <div className="text-2xl font-bold text-white">{stats?.thisWeekCount}</div>
+            <p className="text-xs text-white/70">bookings this week</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unique Customers</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white">Unique Customers</CardTitle>
+            <Users className="h-4 w-4 text-blue-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.uniqueCustomers}</div>
-            <p className="text-xs text-muted-foreground">this month</p>
+            <div className="text-2xl font-bold text-white">{stats?.uniqueCustomers}</div>
+            <p className="text-xs text-white/70">this month</p>
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle>Weekly Bookings</CardTitle>
+            <CardTitle className="text-white">Weekly Bookings</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={stats?.dailyBookings}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="day" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="bookings" fill="#D4AF37" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                <XAxis dataKey="day" stroke="rgba(255,255,255,0.7)" />
+                <YAxis stroke="rgba(255,255,255,0.7)" />
+                <Tooltip contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} />
+                <Bar dataKey="bookings" fill="#3B82F6" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle>Bookings by Status</CardTitle>
+            <CardTitle className="text-white">Bookings by Status</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -225,16 +225,16 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff' }} />
               </PieChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
+      <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
         <CardHeader>
-          <CardTitle>Popular Services</CardTitle>
+          <CardTitle className="text-white">Popular Services</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -242,10 +242,10 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
               <div key={service.name} className="flex items-center">
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium">{service.name}</span>
-                    <span className="text-sm text-muted-foreground">{service.value} bookings</span>
+                    <span className="text-sm font-medium text-white">{service.name}</span>
+                    <span className="text-sm text-white/70">{service.value} bookings</span>
                   </div>
-                  <div className="w-full bg-muted rounded-full h-2">
+                  <div className="w-full bg-slate-800/40 rounded-full h-2">
                     <div
                       className="h-2 rounded-full"
                       style={{
@@ -258,7 +258,7 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
               </div>
             ))}
             {stats?.popularServices.length === 0 && (
-              <div className="text-center text-muted-foreground py-4">
+              <div className="text-center text-white/70 py-4">
                 No service data available yet
               </div>
             )}
