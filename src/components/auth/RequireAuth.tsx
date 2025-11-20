@@ -17,9 +17,9 @@ const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
   }
 
   if (!user) {
-    // Redirect to login page but save the location they were
+    // Redirect to auth page but save the location they were
     // trying to access so we can send them there after login
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/auth" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;
