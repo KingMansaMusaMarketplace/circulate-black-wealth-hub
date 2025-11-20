@@ -1,6 +1,5 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -75,19 +74,14 @@ const EducationPage: React.FC = () => {
   ];
 
   return (
-    <ResponsiveLayout
-      title="Education Center"
-      description="Learn, grow, and succeed with our comprehensive business education resources"
-      useSubtleBackground={false}
-    >
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       <Helmet>
         <title>Education Center | Mansa Musa Marketplace</title>
         <meta name="description" content="Access free business education courses, resources, and training to grow your business" />
       </Helmet>
 
-      {/* Animated Background */}
-      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 overflow-hidden">
-        {/* Animated Gradient Orbs */}
+      {/* Animated Background Orbs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-20 w-[500px] h-[500px] bg-blue-500/30 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-20 left-20 w-[400px] h-[400px] bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
@@ -96,7 +90,7 @@ const EducationPage: React.FC = () => {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
       </div>
 
-      <div className="max-w-7xl mx-auto space-y-12 py-8">
+      <div className="relative max-w-7xl mx-auto space-y-12 py-8 px-4">
         {/* Hero Section */}
         <div className="text-center space-y-6 animate-fade-in">
           <div className="inline-block">
@@ -218,7 +212,7 @@ const EducationPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </ResponsiveLayout>
+    </div>
   );
 };
 
