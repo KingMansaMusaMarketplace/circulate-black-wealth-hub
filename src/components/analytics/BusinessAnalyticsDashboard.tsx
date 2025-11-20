@@ -282,10 +282,20 @@ const BusinessAnalyticsDashboard: React.FC = () => {
 
   if (!analytics) {
     return (
-      <div className="text-center py-12">
-        <QrCode className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-        <h3 className="text-lg font-semibold mb-2">No Analytics Data</h3>
-        <p className="text-muted-foreground">Start getting QR code scans to see your analytics here.</p>
+      <div className="relative min-h-[60vh] bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+        {/* Animated gradient orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float" />
+          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-yellow-500/20 rounded-full blur-3xl animate-float" />
+        </div>
+
+        <div className="relative z-10 flex flex-col items-center justify-center py-16 text-center space-y-3">
+          <QrCode className="h-12 w-12 text-yellow-400 mb-2" />
+          <h3 className="text-lg font-semibold text-white">No Analytics Data</h3>
+          <p className="text-white/70 max-w-md">
+            Start getting QR code scans to see your analytics here.
+          </p>
+        </div>
       </div>
     );
   }
