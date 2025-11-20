@@ -34,37 +34,37 @@ const SystemHealthTest: React.FC = () => {
       name: 'Database Connection',
       status: 'pending',
       message: 'Not started',
-      icon: <Database className="h-4 w-4" />
+      icon: <Database className="h-4 w-4 text-yellow-400" />
     },
     {
       name: 'Authentication System',
       status: 'pending',
       message: 'Not started',
-      icon: <Shield className="h-4 w-4" />
+      icon: <Shield className="h-4 w-4 text-yellow-400" />
     },
     {
       name: 'User Session',
       status: 'pending',
       message: 'Not started',
-      icon: <User className="h-4 w-4" />
+      icon: <User className="h-4 w-4 text-yellow-400" />
     },
     {
       name: 'Business Profile API',
       status: 'pending',
       message: 'Not started',
-      icon: <Building className="h-4 w-4" />
+      icon: <Building className="h-4 w-4 text-yellow-400" />
     },
     {
       name: 'Email Functions',
       status: 'pending',
       message: 'Not started',
-      icon: <Mail className="h-4 w-4" />
+      icon: <Mail className="h-4 w-4 text-yellow-400" />
     },
     {
       name: 'Payment System',
       status: 'pending',
       message: 'Not started',
-      icon: <CreditCard className="h-4 w-4" />
+      icon: <CreditCard className="h-4 w-4 text-yellow-400" />
     }
   ]);
   
@@ -261,11 +261,11 @@ const SystemHealthTest: React.FC = () => {
   const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
       case 'success':
-        return <CheckCircle className="h-4 w-4 text-green-400" />;
+        return <CheckCircle className="h-4 w-4 text-yellow-400" />;
       case 'error':
-        return <XCircle className="h-4 w-4 text-red-400" />;
+        return <XCircle className="h-4 w-4 text-yellow-400" />;
       case 'running':
-        return <Loader2 className="h-4 w-4 text-blue-400 animate-spin" />;
+        return <Loader2 className="h-4 w-4 text-yellow-400 animate-spin" />;
       default:
         return <Clock className="h-4 w-4 text-yellow-400" />;
     }
