@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -125,177 +124,170 @@ export function BookingForm({ businessId, businessName }: BookingFormProps) {
 
   if (loadingServices) {
     return (
-      <Card>
-        <CardContent className="pt-6">
-          <div className="text-center">Loading services...</div>
-        </CardContent>
-      </Card>
+      <div className="text-center py-6 text-white/90">Loading services...</div>
     );
   }
 
   if (services.length === 0) {
     return (
-      <Card>
-        <CardContent className="pt-6">
-          <div className="text-center text-muted-foreground">
-            No services available for booking at this time.
-          </div>
-        </CardContent>
-      </Card>
+      <div className="text-center py-6 text-white/90">
+        No services available for booking at this time.
+      </div>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Book Appointment - {businessName}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="service">Select Service *</Label>
-            <Select
-              value={formData.serviceId}
-              onValueChange={(value) =>
-                setFormData({ ...formData, serviceId: value })
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Choose a service" />
-              </SelectTrigger>
-              <SelectContent>
-                {services.map((service) => (
-                  <SelectItem key={service.id} value={service.id}>
-                    <div className="flex items-center justify-between w-full">
-                      <span>{service.name}</span>
-                      <span className="ml-2 text-muted-foreground">
-                        ${service.price} • {service.duration_minutes}min
-                      </span>
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {selectedService && (
-              <p className="text-sm text-muted-foreground mt-1">
-                {selectedService.description}
-              </p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="bookingDate">Date *</Label>
-              <Input
-                id="bookingDate"
-                type="date"
-                min={new Date().toISOString().split('T')[0]}
-                value={formData.bookingDate}
-                onChange={(e) =>
-                  setFormData({ ...formData, bookingDate: e.target.value })
-                }
-                required
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="bookingTime">Time *</Label>
-              <Input
-                id="bookingTime"
-                type="time"
-                value={formData.bookingTime}
-                onChange={(e) =>
-                  setFormData({ ...formData, bookingTime: e.target.value })
-                }
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="customerName">Your Name *</Label>
-            <Input
-              id="customerName"
-              value={formData.customerName}
-              onChange={(e) =>
-                setFormData({ ...formData, customerName: e.target.value })
-              }
-              required
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="customerEmail">Email *</Label>
-            <Input
-              id="customerEmail"
-              type="email"
-              value={formData.customerEmail}
-              onChange={(e) =>
-                setFormData({ ...formData, customerEmail: e.target.value })
-              }
-              required
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="customerPhone">Phone</Label>
-            <Input
-              id="customerPhone"
-              type="tel"
-              value={formData.customerPhone}
-              onChange={(e) =>
-                setFormData({ ...formData, customerPhone: e.target.value })
-              }
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="notes">Special Requests</Label>
-            <Textarea
-              id="notes"
-              value={formData.notes}
-              onChange={(e) =>
-                setFormData({ ...formData, notes: e.target.value })
-              }
-              rows={3}
-            />
-          </div>
-
-          {selectedService && (
-            <Card className="bg-muted">
-              <CardContent className="pt-4">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center text-sm">
-                      <DollarSign className="w-4 h-4 mr-1" />
-                      Service Price:
-                    </span>
-                    <span className="font-semibold">
-                      ${selectedService.price.toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="flex items-center text-sm">
-                      <Clock className="w-4 h-4 mr-1" />
-                      Duration:
-                    </span>
-                    <span className="font-semibold">
-                      {selectedService.duration_minutes} minutes
-                    </span>
-                  </div>
-                  <div className="text-xs text-muted-foreground pt-2 border-t">
-                    Platform fee (2.5%) included • Secure payment via Stripe
-                  </div>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <Label htmlFor="service" className="text-white">Select Service *</Label>
+        <Select
+          value={formData.serviceId}
+          onValueChange={(value) =>
+            setFormData({ ...formData, serviceId: value })
+          }
+        >
+          <SelectTrigger className="backdrop-blur-xl bg-white/10 border-white/20 text-white">
+            <SelectValue placeholder="Choose a service" />
+          </SelectTrigger>
+          <SelectContent>
+            {services.map((service) => (
+              <SelectItem key={service.id} value={service.id}>
+                <div className="flex items-center justify-between w-full">
+                  <span>{service.name}</span>
+                  <span className="ml-2 text-muted-foreground">
+                    ${service.price} • {service.duration_minutes}min
+                  </span>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {selectedService && (
+          <p className="text-sm text-white/70 mt-1">
+            {selectedService.description}
+          </p>
+        )}
+      </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Creating Booking...' : 'Book Now & Pay'}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="bookingDate" className="text-white">Date *</Label>
+          <Input
+            id="bookingDate"
+            type="date"
+            min={new Date().toISOString().split('T')[0]}
+            value={formData.bookingDate}
+            onChange={(e) =>
+              setFormData({ ...formData, bookingDate: e.target.value })
+            }
+            className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+            required
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="bookingTime" className="text-white">Time *</Label>
+          <Input
+            id="bookingTime"
+            type="time"
+            value={formData.bookingTime}
+            onChange={(e) =>
+              setFormData({ ...formData, bookingTime: e.target.value })
+            }
+            className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label htmlFor="customerName" className="text-white">Your Name *</Label>
+        <Input
+          id="customerName"
+          value={formData.customerName}
+          onChange={(e) =>
+            setFormData({ ...formData, customerName: e.target.value })
+          }
+          className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+          required
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="customerEmail" className="text-white">Email *</Label>
+        <Input
+          id="customerEmail"
+          type="email"
+          value={formData.customerEmail}
+          onChange={(e) =>
+            setFormData({ ...formData, customerEmail: e.target.value })
+          }
+          className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+          required
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="customerPhone" className="text-white">Phone</Label>
+        <Input
+          id="customerPhone"
+          type="tel"
+          value={formData.customerPhone}
+          onChange={(e) =>
+            setFormData({ ...formData, customerPhone: e.target.value })
+          }
+          className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+        />
+      </div>
+
+      <div>
+        <Label htmlFor="notes" className="text-white">Special Requests</Label>
+        <Textarea
+          id="notes"
+          value={formData.notes}
+          onChange={(e) =>
+            setFormData({ ...formData, notes: e.target.value })
+          }
+          rows={3}
+          className="backdrop-blur-xl bg-white/10 border-white/20 text-white"
+        />
+      </div>
+
+      {selectedService && (
+        <div className="backdrop-blur-xl bg-white/10 rounded-lg border border-white/20 p-4">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="flex items-center text-sm text-white/90">
+                <DollarSign className="w-4 h-4 mr-1 text-yellow-400" />
+                Service Price:
+              </span>
+              <span className="font-semibold text-yellow-400">
+                ${selectedService.price.toFixed(2)}
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="flex items-center text-sm text-white/90">
+                <Clock className="w-4 h-4 mr-1 text-blue-300" />
+                Duration:
+              </span>
+              <span className="font-semibold text-white">
+                {selectedService.duration_minutes} minutes
+              </span>
+            </div>
+            <div className="text-xs text-white/70 pt-2 border-t border-white/20">
+              Platform fee (2.5%) included • Secure payment via Stripe
+            </div>
+          </div>
+        </div>
+      )}
+
+      <Button 
+        type="submit" 
+        className="w-full bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-black font-semibold" 
+        disabled={loading}
+      >
+        {loading ? 'Creating Booking...' : 'Book Now & Pay'}
+      </Button>
+    </form>
   );
 }
