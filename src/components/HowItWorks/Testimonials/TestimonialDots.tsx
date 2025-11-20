@@ -22,8 +22,8 @@ const TestimonialDots: React.FC<TestimonialDotsProps> = ({
           className={cn(
             "w-3 h-3 rounded-full transition-all duration-300",
             activeIndex === index 
-              ? "bg-mansablue" 
-              : "bg-gray-300 hover:bg-gray-400"
+              ? "bg-yellow-400" 
+              : "bg-white/30 hover:bg-white/50"
           )}
           aria-label={`View testimonial ${index + 1}`}
         />
