@@ -18,9 +18,9 @@ const TestControls: React.FC<TestControlsProps> = ({
   onClearCache
 }) => {
   return (
-    <Card>
+    <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
       <CardHeader>
-        <CardTitle>Test Controls</CardTitle>
+        <CardTitle className="text-white">Test Controls</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <Button 
