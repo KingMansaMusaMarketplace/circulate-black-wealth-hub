@@ -102,29 +102,29 @@ const SocialActivityFeed = () => {
                         {' '}
                         <span className="text-muted-foreground">{getActivityText(activity)}</span>
                       </p>
-                      <div className={`p-1.5 rounded-full ${getActivityColor(activity.activity_type)}`}>
-                        <Icon className="w-3 h-3" />
-                      </div>
+                    <div className={`p-1.5 rounded-full ${getActivityColor(activity.activity_type)}`}>
+                      <Icon className="w-3 h-3" />
                     </div>
-                    
-                    {activity.metadata.description && (
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {activity.metadata.description}
-                      </p>
-                    )}
-                    
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
-                    </p>
                   </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
+                  
+                  {activity.metadata.description && (
+                    <p className="text-xs text-white/50 mt-1">
+                      {activity.metadata.description}
+                    </p>
+                  )}
+                  
+                  <p className="text-xs text-white/50 mt-1">
+                    {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      )}
+    </CardContent>
+  </Card>
+);
 };
 
 export default SocialActivityFeed;
