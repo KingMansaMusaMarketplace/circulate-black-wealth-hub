@@ -29,6 +29,7 @@ export const beautyAndWellnessBusinesses: Business[] = [
     imageAlt: "Beauty supply store display",
     isFeatured: false,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-2",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"
@@ -60,6 +61,7 @@ export const beautyAndWellnessBusinesses: Business[] = [
     imageAlt: "Modern hair salon interior",
     isFeatured: false,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-7",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"

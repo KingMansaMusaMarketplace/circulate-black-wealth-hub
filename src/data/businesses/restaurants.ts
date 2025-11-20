@@ -29,6 +29,7 @@ export const restaurantBusinesses: Business[] = [
     imageAlt: "Soul Food Kitchen restaurant interior",
     isFeatured: true,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-1",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"
@@ -60,6 +61,7 @@ export const restaurantBusinesses: Business[] = [
     imageAlt: "Cozy coffee shop interior",
     isFeatured: true,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-13",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"

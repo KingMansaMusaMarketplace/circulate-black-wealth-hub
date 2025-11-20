@@ -16,6 +16,7 @@ interface BusinessCardProps {
   imageUrl?: string;
   imageAlt?: string;
   isFeatured?: boolean;
+  isSample?: boolean;
 }
 
 const BusinessCard = ({ 
@@ -29,7 +30,8 @@ const BusinessCard = ({
   address,
   imageUrl,
   imageAlt,
-  isFeatured = false 
+  isFeatured = false,
+  isSample = false 
 }: BusinessCardProps) => {
   const [imgError, setImgError] = useState(false);
   const [imgLoading, setImgLoading] = useState(true);
@@ -86,6 +88,11 @@ const BusinessCard = ({
       {isFeatured && (
         <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 text-white text-xs font-bold px-3 py-2 text-center shadow-lg">
           ✨ Featured Business ✨
+        </div>
+      )}
+      {isSample && (
+        <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-semibold px-3 py-1.5 text-center">
+          📋 Sample Business - For demonstration purposes
         </div>
       )}
       <div ref={imgRef} className="aspect-video bg-gradient-subtle relative overflow-hidden">

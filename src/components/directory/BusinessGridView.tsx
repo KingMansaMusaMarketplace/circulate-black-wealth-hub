@@ -39,6 +39,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
               imageUrl={business.imageUrl}
               imageAlt={business.imageAlt}
               isFeatured={business.isFeatured}
+              isSample={business.isSample}
             />
           </div>
         )

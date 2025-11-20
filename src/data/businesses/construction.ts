@@ -29,6 +29,7 @@ export const constructionBusinesses: Business[] = [
     imageAlt: "Construction site with workers",
     isFeatured: false,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-12",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"

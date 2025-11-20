@@ -29,6 +29,7 @@ export const fitnessBusinesses: Business[] = [
     imageAlt: "Modern fitness center",
     isFeatured: false,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-15",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"

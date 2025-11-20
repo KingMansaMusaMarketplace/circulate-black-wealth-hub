@@ -29,6 +29,7 @@ export const fashionAndClothingBusinesses: Business[] = [
     imageAlt: "Urban clothing store display",
     isFeatured: false,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-3",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"

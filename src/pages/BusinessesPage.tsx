@@ -130,6 +130,8 @@ const BusinessesPage: React.FC = () => {
                 address={business.address}
                 imageUrl={business.imageUrl}
                 imageAlt={business.imageAlt || `${business.name} image`}
+                isFeatured={business.isFeatured}
+                isSample={business.isSample}
               />
             ))}
           </div>

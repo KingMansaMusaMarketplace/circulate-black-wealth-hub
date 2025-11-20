@@ -29,6 +29,7 @@ export const technologyBusinesses: Business[] = [
     imageAlt: "Tech innovation workspace",
     isFeatured: false,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-4",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"
