@@ -74,13 +74,13 @@ const LeaderboardPage: React.FC = () => {
   const getRankCardClass = (rank: number) => {
     switch (rank) {
       case 1:
-        return 'border-2 border-mansagold bg-gradient-to-br from-mansagold/10 via-yellow-50 to-mansagold/5 shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30';
+        return 'border-2 border-mansagold bg-slate-800/40 backdrop-blur-sm shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30';
       case 2:
-        return 'border-2 border-gray-400 bg-gradient-to-br from-gray-100 via-gray-50 to-white shadow-lg shadow-gray-200 hover:shadow-xl';
+        return 'border-2 border-gray-400 bg-slate-800/40 backdrop-blur-sm shadow-lg shadow-gray-400/20 hover:shadow-xl';
       case 3:
-        return 'border-2 border-amber-500 bg-gradient-to-br from-amber-100 via-orange-50 to-amber-50 shadow-lg shadow-amber-200 hover:shadow-xl';
+        return 'border-2 border-amber-500 bg-slate-800/40 backdrop-blur-sm shadow-lg shadow-amber-500/20 hover:shadow-xl';
       default:
-        return 'border border-primary/20 bg-gradient-to-br from-background via-primary/5 to-mansablue/5 hover:shadow-md hover:border-primary/40';
+        return 'border border-white/10 bg-slate-800/30 backdrop-blur-sm hover:shadow-md hover:border-white/20';
     }
   };
 
@@ -99,34 +99,46 @@ const LeaderboardPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <ResponsiveLayout title="Agent Leaderboard">
-        <div className="flex items-center justify-center min-h-[400px]">
+      <div className="min-h-screen relative">
+        {/* Animated Background */}
+        <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-mansablue/30 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        </div>
+        <div className="relative z-10 flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading leaderboard...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-mansagold mx-auto mb-4"></div>
+            <p className="text-white/70">Loading leaderboard...</p>
           </div>
         </div>
-      </ResponsiveLayout>
+      </div>
     );
   }
 
   return (
-    <ResponsiveLayout title="Agent Leaderboard">
+    <div className="min-h-screen relative">
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-mansablue/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
+
       <Helmet>
         <title>Sales Agent Leaderboard | Mansa Musa Marketplace</title>
         <meta name="description" content="View top performing sales agents and their achievements" />
       </Helmet>
 
-      <div className="max-w-5xl mx-auto space-y-6">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 py-12 space-y-6">
         {/* Header */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-mansablue via-primary to-mansagold p-8 text-white shadow-xl">
-          <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+        <div className="relative overflow-hidden rounded-2xl bg-slate-900/40 backdrop-blur-xl border border-white/10 p-8 text-white shadow-xl">
+          <div className="absolute inset-0 bg-gradient-to-br from-mansablue/20 via-primary/10 to-mansagold/20"></div>
           <div className="relative text-center space-y-3">
             <div className="flex items-center justify-center gap-3 mb-2">
               <div className="p-3 bg-white/10 rounded-full backdrop-blur-sm">
                 <Trophy className="h-10 w-10 text-mansagold animate-bounce-subtle" />
               </div>
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent">
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-mansagold to-white bg-clip-text text-transparent">
                 Agent Leaderboard
               </h1>
             </div>
@@ -137,7 +149,7 @@ const LeaderboardPage: React.FC = () => {
         </div>
 
         {/* Time Period Filter */}
-        <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-mansagold/5 to-mansablue/5">
+        <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 shadow-xl">
           <CardHeader>
             <CardTitle className="text-center text-2xl bg-gradient-to-r from-mansablue via-primary to-mansagold bg-clip-text text-transparent">
               📅 Leaderboard Period
@@ -145,19 +157,19 @@ const LeaderboardPage: React.FC = () => {
           </CardHeader>
           <CardContent>
             <Tabs value={timePeriod} onValueChange={(value) => setTimePeriod(value as TimePeriod)}>
-              <TabsList className="grid w-full grid-cols-4 bg-gradient-to-r from-primary/10 via-mansagold/10 to-mansablue/10">
-                <TabsTrigger value="all_time" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">All Time</TabsTrigger>
-                <TabsTrigger value="yearly" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-mansagold data-[state=active]:text-white">This Year</TabsTrigger>
-                <TabsTrigger value="quarterly" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-mansablue data-[state=active]:text-white">This Quarter</TabsTrigger>
-                <TabsTrigger value="monthly" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-mansagold data-[state=active]:text-white">This Month</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-4 bg-slate-800/50 backdrop-blur-sm border border-white/10">
+                <TabsTrigger value="all_time" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-primary data-[state=active]:text-white">All Time</TabsTrigger>
+                <TabsTrigger value="yearly" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary data-[state=active]:to-mansagold data-[state=active]:text-white">This Year</TabsTrigger>
+                <TabsTrigger value="quarterly" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-mansablue data-[state=active]:text-white">This Quarter</TabsTrigger>
+                <TabsTrigger value="monthly" className="text-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-mansagold data-[state=active]:text-white">This Month</TabsTrigger>
               </TabsList>
             </Tabs>
           </CardContent>
         </Card>
 
         {/* Leaderboard */}
-        <Card className="border-2 border-mansablue/20 shadow-xl">
-          <CardHeader className="bg-gradient-to-r from-mansablue/5 via-primary/5 to-mansagold/5 border-b border-primary/10">
+        <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 shadow-xl">
+          <CardHeader className="bg-gradient-to-r from-mansablue/20 via-primary/10 to-mansagold/20 border-b border-white/10">
             <CardTitle className="flex items-center gap-3 text-2xl">
               <div className="p-2 bg-gradient-to-br from-mansablue to-primary rounded-lg">
                 <Trophy className="h-6 w-6 text-white" />
@@ -166,18 +178,18 @@ const LeaderboardPage: React.FC = () => {
                 Top Performers - {getTimePeriodLabel()}
               </span>
             </CardTitle>
-            <CardDescription className="text-base">
+            <CardDescription className="text-base text-white/70">
               🎯 Ranked by total referrals and active subscriptions
             </CardDescription>
           </CardHeader>
           <CardContent>
             {leaderboard.length === 0 ? (
               <div className="text-center py-12">
-                <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                <p className="text-lg text-muted-foreground">
+                <Users className="h-16 w-16 text-white/40 mx-auto mb-4 opacity-50" />
+                <p className="text-lg text-white/70">
                   No agents on the leaderboard yet for this period
                 </p>
-                <p className="text-sm text-muted-foreground mt-2">
+                <p className="text-sm text-white/60 mt-2">
                   Be the first to earn referrals and claim the top spot!
                 </p>
               </div>
@@ -196,7 +208,7 @@ const LeaderboardPage: React.FC = () => {
                     {/* Agent Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-lg truncate">
+                        <h3 className="font-semibold text-lg truncate text-white">
                           {entry.agent_name}
                         </h3>
                         <Badge 
@@ -206,26 +218,26 @@ const LeaderboardPage: React.FC = () => {
                           {entry.tier}
                         </Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground font-mono">
+                      <p className="text-sm text-white/60 font-mono">
                         Code: {entry.referral_code}
                       </p>
                     </div>
 
                     {/* Stats */}
                     <div className="flex gap-6 text-center">
-                      <div className="bg-gradient-to-br from-mansablue/10 to-primary/10 px-4 py-3 rounded-lg border border-primary/20">
-                        <p className="text-3xl font-bold bg-gradient-to-r from-mansablue to-primary bg-clip-text text-transparent">
+                      <div className="bg-mansablue/20 backdrop-blur-sm px-4 py-3 rounded-lg border border-mansablue/30">
+                        <p className="text-3xl font-bold bg-gradient-to-r from-mansablue to-blue-300 bg-clip-text text-transparent">
                           {entry.total_referrals}
                         </p>
-                        <p className="text-xs text-muted-foreground font-semibold">
+                        <p className="text-xs text-white/70 font-semibold">
                           Total Referrals
                         </p>
                       </div>
-                      <div className="bg-gradient-to-br from-green-100 to-emerald-100 px-4 py-3 rounded-lg border border-green-300">
-                        <p className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                      <div className="bg-green-500/20 backdrop-blur-sm px-4 py-3 rounded-lg border border-green-400/30">
+                        <p className="text-3xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                           {entry.active_referrals}
                         </p>
-                        <p className="text-xs text-green-700 font-semibold">
+                        <p className="text-xs text-green-300 font-semibold">
                           Active
                         </p>
                       </div>
@@ -238,14 +250,14 @@ const LeaderboardPage: React.FC = () => {
         </Card>
 
         {/* Info Card */}
-        <Card className="bg-gradient-to-br from-mansagold/10 via-primary/10 to-mansablue/10 border-2 border-primary/20">
+        <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 shadow-xl">
           <CardContent className="pt-6">
             <div className="space-y-3">
-              <h3 className="font-semibold flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
+              <h3 className="font-semibold flex items-center gap-2 text-white">
+                <TrendingUp className="h-5 w-5 text-mansagold" />
                 How Rankings Work
               </h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
+              <ul className="space-y-2 text-sm text-white/70">
                 <li className="flex gap-2">
                   <span>•</span>
                   <span>Agents are ranked by total referrals first, then by active subscriptions</span>
@@ -267,7 +279,7 @@ const LeaderboardPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </ResponsiveLayout>
+    </div>
   );
 };
 
