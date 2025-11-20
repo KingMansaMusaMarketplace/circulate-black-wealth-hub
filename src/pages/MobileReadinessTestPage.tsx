@@ -326,30 +326,37 @@ const MobileReadinessTestPage: React.FC = () => {
   const criticalFailCount = criticalTests.filter(t => t.status === 'fail').length;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+      {/* Animated gradient orbs */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+      <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
+      
       <Helmet>
         <title>Mobile Readiness Test | Mansa Musa Marketplace</title>
         <meta name="description" content="Complete mobile deployment readiness test" />
       </Helmet>
 
-      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-8">
+      <div className="py-8 relative z-10">
         <div className="max-w-6xl mx-auto px-6">
-          <h1 className="text-3xl font-bold mb-2">Mobile Readiness Test</h1>
-          <p className="text-blue-100">
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 via-yellow-400 to-purple-400 bg-clip-text text-transparent">
+            Mobile Readiness Test
+          </h1>
+          <p className="text-blue-200">
             Comprehensive testing for mobile deployment readiness
           </p>
         </div>
       </div>
 
-      <main className="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+      <main className="flex-grow container mx-auto px-4 py-8 max-w-6xl relative z-10">
         {/* Test Control Panel */}
-        <Card className="mb-6">
+        <Card className="mb-6 bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Smartphone className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Smartphone className="h-5 w-5 text-yellow-400" />
               Mobile Deployment Test Suite
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-blue-200">
               Complete frontend and backend testing for mobile app deployment
             </CardDescription>
           </CardHeader>
@@ -376,13 +383,13 @@ const MobileReadinessTestPage: React.FC = () => {
 
               {isRunning && (
                 <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
+                  <div className="flex justify-between text-sm text-blue-200">
                     <span>Progress</span>
                     <span>{Math.round(progress)}%</span>
                   </div>
                   <Progress value={progress} className="w-full" />
                   {currentTest && (
-                    <p className="text-sm text-gray-600">Currently testing: {currentTest}</p>
+                    <p className="text-sm text-blue-200">Currently testing: {currentTest}</p>
                   )}
                 </div>
               )}
@@ -390,20 +397,20 @@ const MobileReadinessTestPage: React.FC = () => {
               {tests.length > 0 && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600">{passCount}</div>
-                    <div className="text-sm text-gray-600">Passed</div>
+                    <div className="text-2xl font-bold text-green-400">{passCount}</div>
+                    <div className="text-sm text-blue-200">Passed</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-red-600">{failCount}</div>
-                    <div className="text-sm text-gray-600">Failed</div>
+                    <div className="text-2xl font-bold text-red-400">{failCount}</div>
+                    <div className="text-sm text-blue-200">Failed</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-yellow-600">{warningCount}</div>
-                    <div className="text-sm text-gray-600">Warnings</div>
+                    <div className="text-2xl font-bold text-yellow-400">{warningCount}</div>
+                    <div className="text-sm text-blue-200">Warnings</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">{criticalFailCount}</div>
-                    <div className="text-sm text-gray-600">Critical Fails</div>
+                    <div className="text-2xl font-bold text-orange-400">{criticalFailCount}</div>
+                    <div className="text-sm text-blue-200">Critical Fails</div>
                   </div>
                 </div>
               )}
@@ -412,34 +419,34 @@ const MobileReadinessTestPage: React.FC = () => {
         </Card>
 
         {/* Device Information */}
-        <Card className="mb-6">
+        <Card className="mb-6 bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Smartphone className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Smartphone className="h-5 w-5 text-yellow-400" />
               Device Information
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
-                <div className="text-sm font-medium">Platform</div>
-                <Badge variant={deviceInfo.isCapacitor ? "default" : "secondary"}>
+                <div className="text-sm font-medium text-yellow-300">Platform</div>
+                <Badge variant={deviceInfo.isCapacitor ? "default" : "secondary"} className="bg-blue-500/20 text-blue-400 border-blue-400/30">
                   {deviceInfo.isCapacitor ? 'Native App' : 'Web App'}
                 </Badge>
               </div>
               <div>
-                <div className="text-sm font-medium">OS</div>
-                <Badge variant="outline">
+                <div className="text-sm font-medium text-yellow-300">OS</div>
+                <Badge variant="outline" className="bg-slate-700/50 text-blue-300 border-blue-400/30">
                   {deviceInfo.isIOS ? 'iOS' : deviceInfo.isAndroid ? 'Android' : 'Web'}
                 </Badge>
               </div>
               <div>
-                <div className="text-sm font-medium">Screen Size</div>
-                <Badge variant="outline">{deviceInfo.screenSize}</Badge>
+                <div className="text-sm font-medium text-yellow-300">Screen Size</div>
+                <Badge variant="outline" className="bg-slate-700/50 text-blue-300 border-blue-400/30">{deviceInfo.screenSize}</Badge>
               </div>
               <div>
-                <div className="text-sm font-medium">Orientation</div>
-                <Badge variant="outline">{deviceInfo.orientation}</Badge>
+                <div className="text-sm font-medium text-yellow-300">Orientation</div>
+                <Badge variant="outline" className="bg-slate-700/50 text-blue-300 border-blue-400/30">{deviceInfo.orientation}</Badge>
               </div>
             </div>
           </CardContent>
@@ -447,27 +454,27 @@ const MobileReadinessTestPage: React.FC = () => {
 
         {/* Critical Tests */}
         {criticalTests.length > 0 && (
-          <Card className="mb-6">
+          <Card className="mb-6 bg-slate-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Database className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Database className="h-5 w-5 text-yellow-400" />
                 Critical Systems (Must Pass for Mobile)
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {criticalTests.map((test, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div key={index} className="flex items-center justify-between p-3 border border-white/10 rounded-lg bg-slate-800/50">
                     <div className="flex items-center gap-3">
                       {getStatusIcon(test.status)}
                       <div>
-                        <span className="font-medium">{test.name}</span>
-                        <p className="text-sm text-gray-600">{test.message}</p>
+                        <span className="font-medium text-white">{test.name}</span>
+                        <p className="text-sm text-blue-200">{test.message}</p>
                         {test.details && (
-                          <p className="text-xs text-gray-500 mt-1">{test.details}</p>
+                          <p className="text-xs text-blue-300 mt-1">{test.details}</p>
                         )}
                         {test.error && (
-                          <p className="text-xs text-red-600 mt-1">
+                          <p className="text-xs text-red-400 mt-1">
                             Error: {test.error.message || String(test.error)}
                           </p>
                         )}
@@ -483,24 +490,24 @@ const MobileReadinessTestPage: React.FC = () => {
 
         {/* Important Tests */}
         {importantTests.length > 0 && (
-          <Card className="mb-6">
+          <Card className="mb-6 bg-slate-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Smartphone className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Smartphone className="h-5 w-5 text-yellow-400" />
                 Mobile Features
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {importantTests.map((test, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div key={index} className="flex items-center justify-between p-3 border border-white/10 rounded-lg bg-slate-800/50">
                     <div className="flex items-center gap-3">
                       {getStatusIcon(test.status)}
                       <div>
-                        <span className="font-medium">{test.name}</span>
-                        <p className="text-sm text-gray-600">{test.message}</p>
+                        <span className="font-medium text-white">{test.name}</span>
+                        <p className="text-sm text-blue-200">{test.message}</p>
                         {test.details && (
-                          <p className="text-xs text-gray-500 mt-1">{test.details}</p>
+                          <p className="text-xs text-blue-300 mt-1">{test.details}</p>
                         )}
                       </div>
                     </div>
@@ -514,24 +521,24 @@ const MobileReadinessTestPage: React.FC = () => {
 
         {/* Optional Tests */}
         {optionalTests.length > 0 && (
-          <Card className="mb-6">
+          <Card className="mb-6 bg-slate-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Users className="h-5 w-5 text-yellow-400" />
                 Device Features
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {optionalTests.map((test, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div key={index} className="flex items-center justify-between p-3 border border-white/10 rounded-lg bg-slate-800/50">
                     <div className="flex items-center gap-3">
                       {getStatusIcon(test.status)}
                       <div>
-                        <span className="font-medium">{test.name}</span>
-                        <p className="text-sm text-gray-600">{test.message}</p>
+                        <span className="font-medium text-white">{test.name}</span>
+                        <p className="text-sm text-blue-200">{test.message}</p>
                         {test.details && (
-                          <p className="text-xs text-gray-500 mt-1">{test.details}</p>
+                          <p className="text-xs text-blue-300 mt-1">{test.details}</p>
                         )}
                       </div>
                     </div>
@@ -544,27 +551,27 @@ const MobileReadinessTestPage: React.FC = () => {
         )}
 
         {/* Mobile Deployment Status */}
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <CheckCircle className="h-5 w-5 text-yellow-400" />
               Mobile Deployment Status
             </CardTitle>
           </CardHeader>
           <CardContent>
             {criticalFailCount === 0 ? (
-              <Alert className="border-green-200 bg-green-50">
-                <CheckCircle className="h-4 w-4 text-green-600" />
-                <AlertDescription className="text-green-800">
+              <Alert className="border-green-400/30 bg-green-500/20">
+                <CheckCircle className="h-4 w-4 text-green-400" />
+                <AlertDescription className="text-green-300">
                   <strong>✅ Ready for Mobile Deployment!</strong>
                   <br />
                   All critical systems are working correctly. The app is ready to be deployed to mobile devices.
                 </AlertDescription>
               </Alert>
             ) : (
-              <Alert className="border-red-200 bg-red-50">
-                <XCircle className="h-4 w-4 text-red-600" />
-                <AlertDescription className="text-red-800">
+              <Alert className="border-red-400/30 bg-red-500/20">
+                <XCircle className="h-4 w-4 text-red-400" />
+                <AlertDescription className="text-red-300">
                   <strong>❌ Mobile Deployment Blocked</strong>
                   <br />
                   {criticalFailCount} critical test{criticalFailCount > 1 ? 's' : ''} failed. Please fix these issues before deploying to mobile.
@@ -572,16 +579,16 @@ const MobileReadinessTestPage: React.FC = () => {
               </Alert>
             )}
             
-            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-              <h3 className="font-medium text-blue-800 mb-2">📱 Next Steps for Mobile Deployment:</h3>
-              <ol className="text-sm text-blue-700 space-y-1">
+            <div className="mt-4 p-4 bg-slate-800/50 border border-blue-400/30 rounded-lg">
+              <h3 className="font-medium text-yellow-300 mb-2">📱 Next Steps for Mobile Deployment:</h3>
+              <ol className="text-sm text-blue-200 space-y-1">
                 <li>1. Export project to GitHub repository</li>
-                <li>2. Clone repository locally: <code className="bg-blue-100 px-1 rounded">git clone [repo-url]</code></li>
-                <li>3. Install dependencies: <code className="bg-blue-100 px-1 rounded">npm install</code></li>
-                <li>4. Add mobile platforms: <code className="bg-blue-100 px-1 rounded">npx cap add ios android</code></li>
-                <li>5. Build project: <code className="bg-blue-100 px-1 rounded">npm run build</code></li>
-                <li>6. Sync to mobile: <code className="bg-blue-100 px-1 rounded">npx cap sync</code></li>
-                <li>7. Run on device: <code className="bg-blue-100 px-1 rounded">npx cap run ios/android</code></li>
+                <li>2. Clone repository locally: <code className="bg-slate-700/50 px-1 rounded text-yellow-300">git clone [repo-url]</code></li>
+                <li>3. Install dependencies: <code className="bg-slate-700/50 px-1 rounded text-yellow-300">npm install</code></li>
+                <li>4. Add mobile platforms: <code className="bg-slate-700/50 px-1 rounded text-yellow-300">npx cap add ios android</code></li>
+                <li>5. Build project: <code className="bg-slate-700/50 px-1 rounded text-yellow-300">npm run build</code></li>
+                <li>6. Sync to mobile: <code className="bg-slate-700/50 px-1 rounded text-yellow-300">npx cap sync</code></li>
+                <li>7. Run on device: <code className="bg-slate-700/50 px-1 rounded text-yellow-300">npx cap run ios/android</code></li>
               </ol>
             </div>
           </CardContent>
