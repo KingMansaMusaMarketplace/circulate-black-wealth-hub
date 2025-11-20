@@ -54,13 +54,13 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
   };
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="h-full flex flex-col bg-slate-800/50 backdrop-blur-sm border-white/10">
       <CardHeader className="text-center pb-4">
-        <div className="mx-auto bg-mansablue/10 p-3 rounded-full w-fit mb-3">
-          <Icon className="h-8 w-8 text-mansablue" />
+        <div className="mx-auto bg-yellow-400/20 p-3 rounded-full w-fit mb-3">
+          <Icon className="h-8 w-8 text-yellow-400" />
         </div>
-        <CardTitle className="text-lg font-semibold text-mansablue">{title}</CardTitle>
-        <CardDescription className="text-sm text-gray-600">
+        <CardTitle className="text-lg font-semibold text-white">{title}</CardTitle>
+        <CardDescription className="text-sm text-blue-200">
           {description}
         </CardDescription>
       </CardHeader>
@@ -69,7 +69,7 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
           <Button
             onClick={handlePreview}
             variant="outline"
-            className="w-full border-mansablue text-mansablue hover:bg-mansablue hover:text-white"
+            className="w-full border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-slate-900"
           >
             <Eye className="mr-2 h-4 w-4" />
             Read
@@ -79,7 +79,7 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
           <Button
             onClick={handleAction}
             disabled={isLoading}
-            className="flex-1 bg-mansablue hover:bg-mansablue-dark text-white"
+            className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-slate-900"
           >
             {isLoading ? (
               <>
@@ -97,7 +97,7 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
             onClick={handleShare}
             disabled={isSharing || isLoading}
             variant="outline"
-            className="border-mansablue text-mansablue hover:bg-mansablue hover:text-white"
+            className="border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-slate-900"
           >
             <Share2 className="h-4 w-4" />
           </Button>
