@@ -47,12 +47,12 @@ const NativeFeaturesDemo: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-pink-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-blue-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-yellow-500/15 to-amber-500/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
       </div>
 
       <Helmet>
@@ -61,17 +61,17 @@ const NativeFeaturesDemo: React.FC = () => {
       </Helmet>
 
       {/* Header */}
-      <div className="relative bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white py-16 shadow-2xl animate-fade-in">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10"></div>
+      <div className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 text-white py-16 shadow-2xl animate-fade-in">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20"></div>
         <div className="max-w-5xl mx-auto px-6 relative z-10">
-          <h1 className="text-5xl font-bold mb-4 animate-scale-in">📱 Native Features Demo</h1>
-          <p className="text-white/90 text-xl mb-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <h1 className="text-5xl font-bold mb-4 animate-scale-in bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-400 bg-clip-text text-transparent drop-shadow-lg">📱 Native Features Demo</h1>
+          <p className="text-white text-xl mb-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
             Experience cutting-edge native functionality ✨
           </p>
           <div className="flex gap-3 flex-wrap animate-fade-in" style={{ animationDelay: '0.2s' }}>
             <Badge 
               variant={isNative ? "default" : "secondary"} 
-              className={`text-sm px-4 py-2 ${isNative ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-500'} shadow-lg transition-all hover:scale-105`}
+              className={`text-sm px-4 py-2 ${isNative ? 'bg-green-500 hover:bg-green-600' : 'bg-slate-700'} shadow-lg transition-all hover:scale-105`}
             >
               {isNative ? '✅ Native Platform' : '🌐 Web Platform'}
             </Badge>
@@ -88,50 +88,50 @@ const NativeFeaturesDemo: React.FC = () => {
       <main className="max-w-5xl mx-auto px-6 py-10 space-y-8 relative z-10">
         
         {/* Environment Info */}
-        <Card className="border-0 shadow-2xl bg-gradient-to-br from-white via-purple-50 to-pink-50 backdrop-blur-sm animate-fade-in hover:shadow-3xl hover:scale-[1.02] transition-all duration-300">
-          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 animate-pulse"></div>
+        <Card className="border-0 shadow-2xl bg-slate-900/40 backdrop-blur-xl border border-white/10 animate-fade-in hover:shadow-3xl hover:scale-[1.02] transition-all duration-300">
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-yellow-400 to-purple-500 animate-pulse"></div>
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-3 text-2xl">
-              <div className="p-3 bg-gradient-to-br from-purple-600 via-purple-500 to-pink-500 rounded-xl shadow-lg animate-pulse">
+              <div className="p-3 bg-gradient-to-br from-blue-600 via-blue-500 to-purple-500 rounded-xl shadow-lg animate-pulse">
                 <Smartphone className="w-7 h-7 text-white" />
               </div>
-              <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                 Environment Information
               </span>
             </CardTitle>
-            <CardDescription className="text-base ml-14">
+            <CardDescription className="text-base ml-14 text-white/80">
               Current platform and native capabilities 🚀✨
             </CardDescription>
           </CardHeader>
           <CardContent className="grid md:grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-gray-500">Platform</p>
-              <p className="font-semibold">{platform}</p>
+              <p className="text-sm text-white/60">Platform</p>
+              <p className="font-semibold text-white">{platform}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Native App</p>
-              <p className="font-semibold">{isNative ? 'Yes' : 'No (Web)'}</p>
+              <p className="text-sm text-white/60">Native App</p>
+              <p className="font-semibold text-white">{isNative ? 'Yes' : 'No (Web)'}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">App State</p>
-              <p className="font-semibold capitalize">{appState}</p>
+              <p className="text-sm text-white/60">App State</p>
+              <p className="font-semibold capitalize text-white">{appState}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Background Time</p>
-              <p className="font-semibold">{Math.floor(backgroundTime / 1000)}s</p>
+              <p className="text-sm text-white/60">Background Time</p>
+              <p className="font-semibold text-white">{Math.floor(backgroundTime / 1000)}s</p>
             </div>
           </CardContent>
         </Card>
 
         {/* Haptic Feedback */}
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Vibrate className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Vibrate className="w-5 h-5 text-purple-400" />
               Haptic Feedback
-              {testResults['haptics'] && <CheckCircle2 className="w-4 h-4 text-green-500 ml-auto" />}
+              {testResults['haptics'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/70">
               Tactile responses throughout the app
             </CardDescription>
           </CardHeader>
@@ -182,14 +182,14 @@ const NativeFeaturesDemo: React.FC = () => {
         </Card>
 
         {/* Native Share */}
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Share2 className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Share2 className="w-5 h-5 text-blue-400" />
               Native Share Integration
-              {testResults['share'] && <CheckCircle2 className="w-4 h-4 text-green-500 ml-auto" />}
+              {testResults['share'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/70">
               Platform-native share sheets (iOS/Android)
             </CardDescription>
           </CardHeader>
@@ -216,14 +216,14 @@ const NativeFeaturesDemo: React.FC = () => {
         </Card>
 
         {/* Push & Local Notifications */}
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bell className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Bell className="w-5 h-5 text-yellow-400" />
               Push & Local Notifications
-              {testResults['notifications'] && <CheckCircle2 className="w-4 h-4 text-green-500 ml-auto" />}
+              {testResults['notifications'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/70">
               Rich notifications with actions and deep links
             </CardDescription>
           </CardHeader>
@@ -261,14 +261,14 @@ const NativeFeaturesDemo: React.FC = () => {
         </Card>
 
         {/* Background Location */}
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <MapPin className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <MapPin className="w-5 h-5 text-green-400" />
               Background Location Tracking
-              {testResults['location'] && <CheckCircle2 className="w-4 h-4 text-green-500 ml-auto" />}
+              {testResults['location'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/70">
               Monitors location even when app is backgrounded
             </CardDescription>
           </CardHeader>
@@ -276,8 +276,8 @@ const NativeFeaturesDemo: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold">Tracking Status</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="font-semibold text-white">Tracking Status</p>
+                  <p className="text-sm text-white/60">
                     {isTracking ? 'Active - Monitoring location' : 'Inactive'}
                   </p>
                 </div>
@@ -287,8 +287,8 @@ const NativeFeaturesDemo: React.FC = () => {
               </div>
               
               <div>
-                <p className="text-sm text-gray-500">Current Position</p>
-                <p className="font-semibold">
+                <p className="text-sm text-white/60">Current Position</p>
+                <p className="font-semibold text-white">
                   {lastPosition 
                     ? `${lastPosition.coords.latitude.toFixed(4)}, ${lastPosition.coords.longitude.toFixed(4)}`
                     : 'Not available'
@@ -297,8 +297,8 @@ const NativeFeaturesDemo: React.FC = () => {
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">Position Accuracy</p>
-                <p className="font-semibold">
+                <p className="text-sm text-white/60">Position Accuracy</p>
+                <p className="font-semibold text-white">
                   {lastPosition?.coords.accuracy ? `${lastPosition.coords.accuracy.toFixed(0)}m` : 'N/A'}
                 </p>
               </div>
@@ -317,14 +317,14 @@ const NativeFeaturesDemo: React.FC = () => {
         </Card>
 
         {/* Offline Support */}
-        <Card>
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              {isOnline ? <Wifi className="w-5 h-5" /> : <WifiOff className="w-5 h-5" />}
+            <CardTitle className="flex items-center gap-2 text-white">
+              {isOnline ? <Wifi className="w-5 h-5 text-cyan-400" /> : <WifiOff className="w-5 h-5 text-red-400" />}
               Offline-First Architecture
-              {testResults['offline'] && <CheckCircle2 className="w-4 h-4 text-green-500 ml-auto" />}
+              {testResults['offline'] && <CheckCircle2 className="w-4 h-4 text-green-400 ml-auto" />}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/70">
               Works fully offline with automatic sync
             </CardDescription>
           </CardHeader>
@@ -332,8 +332,8 @@ const NativeFeaturesDemo: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold">Network Status</p>
-                  <p className="text-sm text-gray-500">
+                  <p className="font-semibold text-white">Network Status</p>
+                  <p className="text-sm text-white/60">
                     {isOnline ? 'Connected' : 'Offline'}
                   </p>
                 </div>
@@ -343,8 +343,8 @@ const NativeFeaturesDemo: React.FC = () => {
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">Queued Actions</p>
-                <p className="font-semibold">{offlineQueue} pending</p>
+                <p className="text-sm text-white/60">Queued Actions</p>
+                <p className="font-semibold text-white">{offlineQueue} pending</p>
               </div>
 
               <Button 
@@ -360,35 +360,35 @@ const NativeFeaturesDemo: React.FC = () => {
         </Card>
 
         {/* Instructions for Apple Reviewers */}
-        <Card className="border-2 border-blue-500">
+        <Card className="border-2 border-blue-400 bg-slate-900/40 backdrop-blur-xl">
           <CardHeader>
-            <CardTitle className="text-blue-700">
+            <CardTitle className="text-blue-400">
               📋 For Apple App Review
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/70">
               How to test these native features
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-sm">
             <div>
-              <p className="font-semibold text-blue-700">1. Haptic Feedback</p>
-              <p className="text-gray-600">Tap any button above - you'll feel tactile responses unique to native apps</p>
+              <p className="font-semibold text-blue-400">1. Haptic Feedback</p>
+              <p className="text-white/80">Tap any button above - you'll feel tactile responses unique to native apps</p>
             </div>
             <div>
-              <p className="font-semibold text-blue-700">2. Native Share</p>
-              <p className="text-gray-600">Tap "Share Business" to see the iOS native share sheet (not available in web browsers)</p>
+              <p className="font-semibold text-blue-400">2. Native Share</p>
+              <p className="text-white/80">Tap "Share Business" to see the iOS native share sheet (not available in web browsers)</p>
             </div>
             <div>
-              <p className="font-semibold text-blue-700">3. Notifications</p>
-              <p className="text-gray-600">Tap notification buttons to receive native iOS notifications with app icon and sounds</p>
+              <p className="font-semibold text-blue-400">3. Notifications</p>
+              <p className="text-white/80">Tap notification buttons to receive native iOS notifications with app icon and sounds</p>
             </div>
             <div>
-              <p className="font-semibold text-blue-700">4. Background Location</p>
-              <p className="text-gray-600">Enable location → Background the app → Move around → Receive proximity notifications (only works in native apps)</p>
+              <p className="font-semibold text-blue-400">4. Background Location</p>
+              <p className="text-white/80">Enable location → Background the app → Move around → Receive proximity notifications (only works in native apps)</p>
             </div>
             <div>
-              <p className="font-semibold text-blue-700">5. Offline Mode</p>
-              <p className="text-gray-600">Turn on Airplane Mode → Queue actions → Disable Airplane Mode → See automatic sync</p>
+              <p className="font-semibold text-blue-400">5. Offline Mode</p>
+              <p className="text-white/80">Turn on Airplane Mode → Queue actions → Disable Airplane Mode → See automatic sync</p>
             </div>
           </CardContent>
         </Card>
