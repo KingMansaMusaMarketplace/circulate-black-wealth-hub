@@ -261,26 +261,26 @@ const SystemHealthTest: React.FC = () => {
   const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
       case 'success':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
+        return <CheckCircle className="h-4 w-4 text-green-400" />;
       case 'error':
-        return <XCircle className="h-4 w-4 text-red-500" />;
+        return <XCircle className="h-4 w-4 text-red-400" />;
       case 'running':
-        return <Loader2 className="h-4 w-4 text-blue-500 animate-spin" />;
+        return <Loader2 className="h-4 w-4 text-blue-400 animate-spin" />;
       default:
-        return <Clock className="h-4 w-4 text-gray-400" />;
+        return <Clock className="h-4 w-4 text-yellow-400" />;
     }
   };
 
   const getStatusBadge = (status: TestResult['status']) => {
     switch (status) {
       case 'success':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Passed</Badge>;
+        return <Badge variant="default" className="bg-green-500/20 text-green-400 border-green-400/30">Passed</Badge>;
       case 'error':
-        return <Badge variant="destructive">Failed</Badge>;
+        return <Badge variant="destructive" className="bg-red-500/20 text-red-400 border-red-400/30">Failed</Badge>;
       case 'running':
-        return <Badge variant="secondary">Running</Badge>;
+        return <Badge variant="secondary" className="bg-blue-500/20 text-blue-400 border-blue-400/30">Running</Badge>;
       default:
-        return <Badge variant="outline">Pending</Badge>;
+        return <Badge variant="outline" className="bg-slate-700/50 text-yellow-300 border-yellow-400/30">Pending</Badge>;
     }
   };
 
