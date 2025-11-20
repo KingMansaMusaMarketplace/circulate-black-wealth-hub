@@ -59,18 +59,18 @@ const LoyaltyPointsCard: React.FC<LoyaltyPointsCardProps> = ({
       </CardHeader>
       
       <CardContent className="pt-0 -mt-6">
-        <div className="bg-slate-800/60 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-white/10">
+        <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-white/20">
           <div className="flex items-end justify-between mb-4">
             <div>
               <motion.div 
-                className="text-3xl font-bold text-blue-400"
+                className="text-3xl font-bold text-white"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
                 {isLoading ? '---' : displayPoints?.toLocaleString() || 0}
               </motion.div>
-              <span className="text-white/70 text-sm">Total Points</span>
+              <span className="text-white/90 text-sm font-medium">Total Points</span>
             </div>
             
             {pointsThisMonth > 0 && (
@@ -85,13 +85,13 @@ const LoyaltyPointsCard: React.FC<LoyaltyPointsCardProps> = ({
           {displayTarget > 0 && (
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-white">
-                <span>Progress to next reward</span>
-                <span className="font-medium">{progress}%</span>
+                <span className="font-medium">Progress to next reward</span>
+                <span className="font-semibold">{progress}%</span>
               </div>
               <Progress value={progress} className="h-2" />
-              <div className="flex justify-between items-center text-xs text-white/70">
+              <div className="flex justify-between items-center text-xs text-white/90">
                 <span>Current</span>
-                <div className="flex items-center text-blue-400">
+                <div className="flex items-center text-yellow-400 font-medium">
                   <Award className="h-3 w-3 mr-1" />
                   <span>{displayTarget - displayPoints} points to go</span>
                 </div>
@@ -100,9 +100,9 @@ const LoyaltyPointsCard: React.FC<LoyaltyPointsCardProps> = ({
           )}
           
           {saved > 0 && (
-            <div className="mt-4 pt-4 border-t border-white/10">
+            <div className="mt-4 pt-4 border-t border-white/20">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-white/70">Total Savings</span>
+                <span className="text-white/90 font-medium">Total Savings</span>
                 <span className="font-bold text-green-400">${saved.toFixed(2)}</span>
               </div>
             </div>
