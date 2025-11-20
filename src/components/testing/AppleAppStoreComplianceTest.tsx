@@ -413,13 +413,13 @@ const AppleAppStoreComplianceTest: React.FC = () => {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6 p-6">
-      <Card className="border-2 border-blue-500">
-        <CardHeader className="bg-gradient-to-r from-blue-50 to-blue-100">
+      <Card className="border-2 border-blue-400/30 bg-slate-900/40 backdrop-blur-xl">
+        <CardHeader className="bg-gradient-to-r from-blue-900/50 to-purple-900/50">
           <div className="flex items-center gap-3">
-            <Shield className="h-8 w-8 text-blue-600" />
+            <Shield className="h-8 w-8 text-yellow-400" />
             <div>
-              <CardTitle className="text-2xl">Apple App Store Compliance Test</CardTitle>
-              <CardDescription className="text-base mt-1">
+              <CardTitle className="text-2xl text-white">Apple App Store Compliance Test</CardTitle>
+              <CardDescription className="text-base mt-1 text-blue-200">
                 Comprehensive check for iOS App Store submission requirements
               </CardDescription>
             </div>
@@ -429,11 +429,11 @@ const AppleAppStoreComplianceTest: React.FC = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <p className="text-lg font-semibold">
+                <p className="text-lg font-semibold text-white">
                   High Risk Tests: {passedHighRisk}/{highRiskTests.length} passed
                 </p>
                 {failedHighRisk > 0 && (
-                  <p className="text-sm text-red-600 font-medium">
+                  <p className="text-sm text-red-400 font-medium">
                     🚨 {failedHighRisk} critical issue(s) will likely cause rejection!
                   </p>
                 )}
@@ -461,7 +461,7 @@ const AppleAppStoreComplianceTest: React.FC = () => {
             {isRunning && (
               <div className="space-y-2">
                 <Progress value={progress} className="w-full h-3" />
-                <p className="text-sm text-gray-600 font-medium">
+                <p className="text-sm text-blue-200 font-medium">
                   {currentTest ? `Testing: ${currentTest}` : 'Initializing compliance tests...'}
                 </p>
               </div>
@@ -475,9 +475,9 @@ const AppleAppStoreComplianceTest: React.FC = () => {
         {tests.map((test) => (
           <Card 
             key={test.name} 
-            className={`
-              ${test.status === 'fail' && test.rejectionRisk === 'high' ? 'border-2 border-red-500 bg-red-50' : ''}
-              ${test.status === 'fail' && test.rejectionRisk === 'medium' ? 'border border-orange-400' : ''}
+            className={`bg-slate-900/40 backdrop-blur-xl border
+              ${test.status === 'fail' && test.rejectionRisk === 'high' ? 'border-2 border-red-500/50' : ''}
+              ${test.status === 'fail' && test.rejectionRisk === 'medium' ? 'border border-orange-400/50' : 'border-white/10'}
             `}
           >
             <CardHeader className="pb-3">
@@ -485,9 +485,9 @@ const AppleAppStoreComplianceTest: React.FC = () => {
                 <div className="flex items-start gap-3 flex-1">
                   {getStatusIcon(test.status)}
                   <div className="flex-1">
-                    <CardTitle className="text-lg">{test.name}</CardTitle>
+                    <CardTitle className="text-lg text-white">{test.name}</CardTitle>
                     {test.guidelineReference && (
-                      <p className="text-xs text-gray-500 mt-1">{test.guidelineReference}</p>
+                      <p className="text-xs text-blue-300 mt-1">{test.guidelineReference}</p>
                     )}
                   </div>
                 </div>
@@ -496,9 +496,14 @@ const AppleAppStoreComplianceTest: React.FC = () => {
             </CardHeader>
             <CardContent className="pt-0">
               <div className="space-y-2">
-                <p className="text-sm font-medium">{test.message}</p>
+                <p className={`text-sm font-medium ${
+                  test.status === 'fail' ? 'text-red-400' :
+                  test.status === 'warning' ? 'text-orange-400' :
+                  test.status === 'pass' ? 'text-green-400' :
+                  'text-blue-200'
+                }`}>{test.message}</p>
                 {test.details && (
-                  <p className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
+                  <p className="text-xs text-blue-200 bg-slate-800/50 p-2 rounded border border-white/10">
                     {test.details}
                   </p>
                 )}
