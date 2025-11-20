@@ -47,7 +47,13 @@ export default function BookBusinessPage() {
   if (businessLoading || servicesLoading) {
     return (
       <ResponsiveLayout>
-        <div className="flex items-center justify-center min-h-[400px]">
+        {/* Background decorations */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        </div>
+        
+        <div className="flex items-center justify-center min-h-[400px] relative">
           <Loading text="Loading booking details..." />
         </div>
       </ResponsiveLayout>
@@ -57,9 +63,18 @@ export default function BookBusinessPage() {
   if (!business) {
     return (
       <ResponsiveLayout>
-        <div className="text-center py-12">
-          <h2 className="text-2xl font-bold mb-4">Business Not Found</h2>
-          <Button onClick={() => navigate('/businesses')}>
+        {/* Background decorations */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        </div>
+        
+        <div className="text-center py-12 relative">
+          <h2 className="text-2xl font-bold mb-4 text-white">Business Not Found</h2>
+          <Button 
+            onClick={() => navigate('/businesses')}
+            className="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-black font-semibold"
+          >
             Browse Businesses
           </Button>
         </div>
