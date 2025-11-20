@@ -65,19 +65,19 @@ const QuickStatsOverview: React.FC<QuickStatsOverviewProps> = ({ displayUserMetr
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
         >
-          <Card className={`${stat.borderColor} border-l-4 hover:shadow-lg transition-shadow duration-200 ${stat.bgColor}`}>
+          <Card className={`${stat.borderColor} border-l-4 hover:shadow-lg transition-shadow duration-200 bg-slate-800/50 backdrop-blur-sm border-white/10`}>
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex-1">
-                  <p className="text-3xl font-bold text-gray-900 mb-2">{stat.value}</p>
-                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                  <p className="text-3xl font-bold text-white mb-2">{stat.value}</p>
+                  <p className="text-sm font-medium text-blue-200">{stat.title}</p>
                 </div>
-                <div className={`p-3 rounded-full ${stat.bgColor}`}>
-                  <stat.icon className={`h-8 w-8 ${stat.iconColor}`} />
+                <div className={`p-3 rounded-full bg-${stat.color}-500/20`}>
+                  <stat.icon className={`h-8 w-8 text-yellow-400`} />
                 </div>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className={`bg-gradient-to-r from-${stat.color}-400 to-${stat.color}-600 h-2 rounded-full`} style={{width: '75%'}}></div>
+              <div className="w-full bg-slate-700 rounded-full h-2">
+                <div className={`bg-gradient-to-r from-yellow-400 to-yellow-600 h-2 rounded-full`} style={{width: '75%'}}></div>
               </div>
             </CardContent>
           </Card>

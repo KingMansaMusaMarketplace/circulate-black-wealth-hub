@@ -28,19 +28,19 @@ const MultiplierEffectCard: React.FC<MultiplierEffectCardProps> = ({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
     >
-      <Card className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <Card className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 text-white border-white/10">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-white">The Multiplier Effect</CardTitle>
-              <CardDescription className="text-blue-100">
+              <CardDescription className="text-blue-200">
                 How your spending creates exponential community impact
               </CardDescription>
             </div>
             <Button 
               onClick={onShareImpact}
               variant="outline" 
-              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+              className="bg-slate-800/50 border-white/20 text-white hover:bg-slate-800/70"
             >
               <Share2 className="h-4 w-4 mr-2" />
               Share Impact
@@ -50,7 +50,7 @@ const MultiplierEffectCard: React.FC<MultiplierEffectCardProps> = ({
         <CardContent>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <div className="text-sm text-blue-100 mb-2">
+              <div className="text-sm text-blue-200 mb-2">
                 When you spend {formatCurrency(userMetrics?.total_spending || 0)} at Black-owned businesses:
               </div>
               <div className="space-y-2">
@@ -74,7 +74,7 @@ const MultiplierEffectCard: React.FC<MultiplierEffectCardProps> = ({
                 <div className="text-4xl font-bold text-yellow-300 mb-1">
                   {userMetrics?.circulation_multiplier}x
                 </div>
-                <div className="text-sm text-blue-100">
+                <div className="text-sm text-blue-200">
                   Economic Impact Multiplier
                 </div>
               </div>
