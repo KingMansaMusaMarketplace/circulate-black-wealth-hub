@@ -29,6 +29,7 @@ export const legalServicesBusinesses: Business[] = [
     imageAlt: "Professional legal office",
     isFeatured: false,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-11",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"

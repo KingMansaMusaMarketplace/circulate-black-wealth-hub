@@ -23,7 +23,8 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
       reviews: business.reviewCount,
       distance: business.distance,
       image: business.imageUrl,
-      discount: business.discount
+      discount: business.discount,
+      isSample: business.isSample
     }));
 
   // If we don't have enough featured businesses, fill with regular ones
@@ -40,7 +41,8 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
           reviews: business.reviewCount,
           distance: business.distance,
           image: business.imageUrl,
-          discount: business.discount
+          discount: business.discount,
+          isSample: business.isSample
         }))
       ];
 
@@ -59,6 +61,11 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
         <div className={`grid gap-6 mb-10 ${allDisplayBusinesses.length <= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
           {allDisplayBusinesses.map((business) => (
             <Card key={business.id} className="hover:shadow-lg transition-shadow">
+              {business.isSample && (
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-semibold px-3 py-1.5 text-center">
+                  📋 Sample Business - For demonstration purposes
+                </div>
+              )}
               <CardHeader>
                 <div className="aspect-video bg-gray-200 rounded-lg mb-4 overflow-hidden">
                   <OptimizedImage 

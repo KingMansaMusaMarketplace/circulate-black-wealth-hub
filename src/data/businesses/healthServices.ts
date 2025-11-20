@@ -29,6 +29,7 @@ export const healthServicesBusinesses: Business[] = [
     imageAlt: "Community health clinic reception area",
     isFeatured: false,
     isVerified: true,
+    isSample: true,
     ownerId: "sample-owner-8",
     createdAt: "2024-01-01T00:00:00Z",
     updatedAt: "2024-01-01T00:00:00Z"

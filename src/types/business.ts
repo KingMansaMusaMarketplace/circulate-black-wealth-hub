@@ -26,6 +26,7 @@ export interface Business {
   imageAlt?: string;
   isFeatured?: boolean;
   isVerified: boolean;
+  isSample?: boolean;
   ownerId: string;
   createdAt: string;
   updatedAt: string;
