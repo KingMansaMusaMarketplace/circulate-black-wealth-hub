@@ -43,8 +43,8 @@ const LoyaltyPointsCard: React.FC<LoyaltyPointsCardProps> = ({
     : 0;
 
   return (
-    <Card className="overflow-hidden">
-      <CardHeader className="bg-gradient-to-r from-mansablue to-mansablue-dark text-white pb-8">
+    <Card className="overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10">
+      <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-800 text-white pb-8">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <Sparkles className="h-5 w-5" />
@@ -59,22 +59,22 @@ const LoyaltyPointsCard: React.FC<LoyaltyPointsCardProps> = ({
       </CardHeader>
       
       <CardContent className="pt-0 -mt-6">
-        <div className="bg-white rounded-lg shadow-lg p-4">
+        <div className="bg-slate-800/60 backdrop-blur-sm rounded-lg shadow-lg p-4 border border-white/10">
           <div className="flex items-end justify-between mb-4">
             <div>
               <motion.div 
-                className="text-3xl font-bold text-mansablue"
+                className="text-3xl font-bold text-blue-400"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
                 {isLoading ? '---' : displayPoints?.toLocaleString() || 0}
               </motion.div>
-              <span className="text-gray-500 text-sm">Total Points</span>
+              <span className="text-white/70 text-sm">Total Points</span>
             </div>
             
             {pointsThisMonth > 0 && (
-              <div className="flex items-center text-green-600">
+              <div className="flex items-center text-green-400">
                 <ArrowUp className="h-4 w-4 mr-1" />
                 <span className="font-medium">{pointsThisMonth}</span>
                 <span className="text-xs ml-1">this month</span>
@@ -84,14 +84,14 @@ const LoyaltyPointsCard: React.FC<LoyaltyPointsCardProps> = ({
           
           {displayTarget > 0 && (
             <div className="space-y-2">
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-sm text-white">
                 <span>Progress to next reward</span>
                 <span className="font-medium">{progress}%</span>
               </div>
               <Progress value={progress} className="h-2" />
-              <div className="flex justify-between items-center text-xs text-gray-500">
+              <div className="flex justify-between items-center text-xs text-white/70">
                 <span>Current</span>
-                <div className="flex items-center text-mansablue">
+                <div className="flex items-center text-blue-400">
                   <Award className="h-3 w-3 mr-1" />
                   <span>{displayTarget - displayPoints} points to go</span>
                 </div>
@@ -100,10 +100,10 @@ const LoyaltyPointsCard: React.FC<LoyaltyPointsCardProps> = ({
           )}
           
           {saved > 0 && (
-            <div className="mt-4 pt-4 border-t">
+            <div className="mt-4 pt-4 border-t border-white/10">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Total Savings</span>
-                <span className="font-bold text-green-600">${saved.toFixed(2)}</span>
+                <span className="text-white/70">Total Savings</span>
+                <span className="font-bold text-green-400">${saved.toFixed(2)}</span>
               </div>
             </div>
           )}

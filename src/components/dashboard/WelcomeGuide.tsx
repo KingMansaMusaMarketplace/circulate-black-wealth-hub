@@ -61,23 +61,23 @@ const WelcomeGuide: React.FC<WelcomeGuideProps> = ({ userType }) => {
   const steps = userType === 'customer' ? customerSteps : businessSteps;
 
   return (
-    <Card>
+    <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Users className="h-5 w-5 text-mansablue" />
+        <CardTitle className="flex items-center gap-2 text-white">
+          <Users className="h-5 w-5 text-blue-400" />
           Welcome to Mansa Musa Marketplace
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {steps.map((step, index) => (
-            <div key={index} className="flex flex-col items-center text-center p-4 border rounded-lg">
-              <div className="flex items-center justify-center w-12 h-12 bg-mansablue/10 rounded-full mb-3">
+            <div key={index} className="flex flex-col items-center text-center p-4 border border-white/10 rounded-lg bg-slate-800/40 backdrop-blur-sm hover:bg-slate-800/60 transition-all">
+              <div className="flex items-center justify-center w-12 h-12 bg-blue-500/20 rounded-full mb-3 text-blue-400">
                 {step.icon}
               </div>
-              <h3 className="font-semibold mb-2">{step.title}</h3>
-              <p className="text-sm text-gray-600 mb-4">{step.description}</p>
-              <Button asChild size="sm" variant="outline">
+              <h3 className="font-semibold mb-2 text-white">{step.title}</h3>
+              <p className="text-sm text-white/70 mb-4">{step.description}</p>
+              <Button asChild size="sm" variant="outline" className="border-white/20 text-white hover:bg-white/10">
                 <Link to={step.link}>{step.action}</Link>
               </Button>
             </div>
