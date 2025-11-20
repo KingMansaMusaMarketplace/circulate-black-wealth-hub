@@ -42,17 +42,17 @@ const TestResults: React.FC<TestResultsProps> = ({ testResults }) => {
   };
 
   return (
-    <Card>
+    <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
       <CardHeader>
-        <CardTitle>Test Results</CardTitle>
+        <CardTitle className="text-white">Test Results</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
           {testResults.map((result, index) => (
-            <div key={index} className="flex items-center justify-between p-3 border rounded">
+            <div key={index} className="flex items-center justify-between p-3 border border-white/10 rounded bg-slate-800/50">
               <div className="flex items-center space-x-2">
                 {getIcon(result.status)}
-                <span className="font-medium">{result.name}</span>
+                <span className="font-medium text-white">{result.name}</span>
               </div>
               <Badge variant={getVariant(result.status) as any}>
                 {result.status}
