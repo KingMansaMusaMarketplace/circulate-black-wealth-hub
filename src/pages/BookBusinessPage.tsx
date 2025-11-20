@@ -46,7 +46,7 @@ export default function BookBusinessPage() {
 
   if (businessLoading || servicesLoading) {
     return (
-      <ResponsiveLayout>
+      <ResponsiveLayout className="bg-background" useSubtleBackground={false}>
         {/* Background decorations */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
@@ -62,7 +62,7 @@ export default function BookBusinessPage() {
 
   if (!business) {
     return (
-      <ResponsiveLayout>
+      <ResponsiveLayout className="bg-background" useSubtleBackground={false}>
         {/* Background decorations */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
@@ -89,7 +89,7 @@ export default function BookBusinessPage() {
         <meta name="description" content={`Book an appointment with ${business.business_name}. ${business.description || ''}`} />
       </Helmet>
 
-      <ResponsiveLayout>
+      <ResponsiveLayout className="bg-background" useSubtleBackground={false}>
         {/* Background decorations */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
