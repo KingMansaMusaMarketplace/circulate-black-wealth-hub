@@ -265,39 +265,39 @@ const DashboardPage = () => {
             
             {/* Enhanced Community Highlights */}
             <ScrollReveal delay={0.6}>
-              <Card className="glass-card border-border/30 shadow-xl">
+              <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
                 <CardHeader className="pb-4">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="font-display flex items-center text-xl">
-                      <Users className="h-5 w-5 mr-2 text-mansablue" />
+                    <CardTitle className="font-display flex items-center text-xl text-white">
+                      <Users className="h-5 w-5 mr-2 text-blue-400" />
                       Community Updates
                     </CardTitle>
-                    <Badge variant="secondary" className="bg-green-500/10 text-green-600 border-green-500/30">Live</Badge>
+                    <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">Live</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex items-start space-x-4 p-4 glass-card bg-blue-500/5 rounded-xl border border-blue-500/10">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
+                  <div className="flex items-start space-x-4 p-4 bg-slate-800/40 backdrop-blur-sm rounded-xl border border-white/10">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-display font-semibold text-foreground">New Business Added</p>
-                      <p className="font-body text-sm text-muted-foreground">Urban Threads Boutique joined</p>
-                      <p className="font-body text-xs text-muted-foreground mt-1">2 hours ago</p>
+                      <p className="font-display font-semibold text-white">New Business Added</p>
+                      <p className="font-body text-sm text-white/70">Urban Threads Boutique joined</p>
+                      <p className="font-body text-xs text-white/50 mt-1">2 hours ago</p>
                     </div>
                   </div>
-                  <div className="flex items-start space-x-4 p-4 glass-card bg-green-500/5 rounded-xl border border-green-500/10">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
+                  <div className="flex items-start space-x-4 p-4 bg-slate-800/40 backdrop-blur-sm rounded-xl border border-white/10">
+                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-display font-semibold text-foreground">Community Milestone</p>
-                      <p className="font-body text-sm text-muted-foreground">$50K+ circulated this month!</p>
-                      <p className="font-body text-xs text-muted-foreground mt-1">5 hours ago</p>
+                      <p className="font-display font-semibold text-white">Community Milestone</p>
+                      <p className="font-body text-sm text-white/70">$50K+ circulated this month!</p>
+                      <p className="font-body text-xs text-white/50 mt-1">5 hours ago</p>
                     </div>
                   </div>
-                  <div className="flex items-start space-x-4 p-4 glass-card bg-purple-500/5 rounded-xl border border-purple-500/10">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
+                  <div className="flex items-start space-x-4 p-4 bg-slate-800/40 backdrop-blur-sm rounded-xl border border-white/10">
+                    <div className="w-2 h-2 bg-purple-400 rounded-full mt-2 flex-shrink-0 animate-pulse"></div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-display font-semibold text-foreground">Special Offer</p>
-                      <p className="font-body text-sm text-muted-foreground">Double points weekend</p>
-                      <p className="font-body text-xs text-muted-foreground mt-1">1 day ago</p>
+                      <p className="font-display font-semibold text-white">Special Offer</p>
+                      <p className="font-body text-sm text-white/70">Double points weekend</p>
+                      <p className="font-body text-xs text-white/50 mt-1">1 day ago</p>
                     </div>
                   </div>
                 </CardContent>
