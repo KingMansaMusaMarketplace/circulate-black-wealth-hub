@@ -316,30 +316,30 @@ const DashboardPage = () => {
             
             {/* Enhanced Goals */}
             <ScrollReveal delay={0.6}>
-              <Card className="glass-card border-border/30 shadow-xl">
+              <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
                 <CardHeader className="pb-4">
-                  <CardTitle className="font-display text-lg flex items-center">
-                    <Target className="h-5 w-5 mr-2 text-mansablue" />
+                  <CardTitle className="font-display text-lg flex items-center text-white">
+                    <Target className="h-5 w-5 mr-2 text-blue-400" />
                     Monthly Goals
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
                     <div className="flex justify-between font-body text-sm mb-2">
-                      <span className="text-muted-foreground">Visit 5 new businesses</span>
-                      <span className="font-bold text-foreground">3/5</span>
+                      <span className="text-white/70">Visit 5 new businesses</span>
+                      <span className="font-bold text-white">3/5</span>
                     </div>
-                    <div className="w-full glass-card h-3 rounded-full overflow-hidden">
-                      <div className="bg-gradient-to-r from-mansablue to-mansablue-light h-3 rounded-full transition-all duration-500" style={{ width: '60%' }}></div>
+                    <div className="w-full bg-slate-800/40 h-3 rounded-full overflow-hidden">
+                      <div className="bg-gradient-to-r from-blue-500 to-blue-400 h-3 rounded-full transition-all duration-500" style={{ width: '60%' }}></div>
                     </div>
                   </div>
                   <div>
                     <div className="flex justify-between font-body text-sm mb-2">
-                      <span className="text-muted-foreground">Earn 500 points</span>
-                      <span className="font-bold text-foreground">450/500</span>
+                      <span className="text-white/70">Earn 500 points</span>
+                      <span className="font-bold text-white">450/500</span>
                     </div>
-                    <div className="w-full glass-card h-3 rounded-full overflow-hidden">
-                      <div className="bg-gradient-gold h-3 rounded-full transition-all duration-500" style={{ width: '90%' }}></div>
+                    <div className="w-full bg-slate-800/40 h-3 rounded-full overflow-hidden">
+                      <div className="bg-gradient-to-r from-yellow-500 to-yellow-400 h-3 rounded-full transition-all duration-500" style={{ width: '90%' }}></div>
                     </div>
                   </div>
                 </CardContent>
