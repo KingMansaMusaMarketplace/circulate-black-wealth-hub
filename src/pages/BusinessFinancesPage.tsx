@@ -238,12 +238,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('reconciliation')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-400/10 to-pink-400/10 group-hover:from-purple-400/20 group-hover:to-pink-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <Building2 className="w-12 h-12 mx-auto mb-3 text-purple-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Bank Reconciliation 🏦</h4>
-                      <p className="text-sm text-gray-600">Match transactions</p>
+                      <Building2 className="w-12 h-12 mx-auto mb-3 text-purple-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Bank Reconciliation 🏦</h4>
+                      <p className="text-sm text-white/70">Match transactions</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -252,12 +252,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('budget')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-orange-400/10 group-hover:from-yellow-400/20 group-hover:to-orange-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <Calculator className="w-12 h-12 mx-auto mb-3 text-yellow-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Budget Planning 💰</h4>
-                      <p className="text-sm text-gray-600">Set spending limits</p>
+                      <Calculator className="w-12 h-12 mx-auto mb-3 text-yellow-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Budget Planning 💰</h4>
+                      <p className="text-sm text-white/70">Set spending limits</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -269,12 +269,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('pl-reports')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-green-400/10 to-emerald-400/10 group-hover:from-green-400/20 group-hover:to-emerald-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <TrendingUpIcon className="w-12 h-12 mx-auto mb-3 text-green-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">P&L Reports 📊</h4>
-                      <p className="text-sm text-gray-600">Profit & loss analysis</p>
+                      <TrendingUpIcon className="w-12 h-12 mx-auto mb-3 text-green-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">P&L Reports 📊</h4>
+                      <p className="text-sm text-white/70">Profit & loss analysis</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -283,12 +283,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('cashflow')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 to-blue-400/10 group-hover:from-cyan-400/20 group-hover:to-blue-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <Wallet className="w-12 h-12 mx-auto mb-3 text-cyan-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Cash Flow 💸</h4>
-                      <p className="text-sm text-gray-600">Monitor liquidity</p>
+                      <Wallet className="w-12 h-12 mx-auto mb-3 text-cyan-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Cash Flow 💸</h4>
+                      <p className="text-sm text-white/70">Monitor liquidity</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -297,12 +297,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('balance-sheet')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-400/10 to-purple-400/10 group-hover:from-indigo-400/20 group-hover:to-purple-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <BookOpen className="w-12 h-12 mx-auto mb-3 text-indigo-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Balance Sheet 📚</h4>
-                      <p className="text-sm text-gray-600">Assets & liabilities</p>
+                      <BookOpen className="w-12 h-12 mx-auto mb-3 text-indigo-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Balance Sheet 📚</h4>
+                      <p className="text-sm text-white/70">Assets & liabilities</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -311,12 +311,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('taxes')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-400/10 group-hover:from-amber-400/20 group-hover:to-yellow-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <Shield className="w-12 h-12 mx-auto mb-3 text-amber-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Tax Settings 🛡️</h4>
-                      <p className="text-sm text-gray-600">Manage tax rates</p>
+                      <Shield className="w-12 h-12 mx-auto mb-3 text-amber-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Tax Settings 🛡️</h4>
+                      <p className="text-sm text-white/70">Manage tax rates</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -325,12 +325,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('receivables')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-rose-400/10 to-pink-400/10 group-hover:from-rose-400/20 group-hover:to-pink-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <FileText className="w-12 h-12 mx-auto mb-3 text-rose-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Accounts Receivable 💳</h4>
-                      <p className="text-sm text-gray-600">Track outstanding payments</p>
+                      <FileText className="w-12 h-12 mx-auto mb-3 text-rose-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Accounts Receivable 💳</h4>
+                      <p className="text-sm text-white/70">Track outstanding payments</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -339,12 +339,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('recurring')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-teal-400/10 to-cyan-400/10 group-hover:from-teal-400/20 group-hover:to-cyan-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <Repeat className="w-12 h-12 mx-auto mb-3 text-teal-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Recurring Invoices 🔄</h4>
-                      <p className="text-sm text-gray-600">Automate billing</p>
+                      <Repeat className="w-12 h-12 mx-auto mb-3 text-teal-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Recurring Invoices 🔄</h4>
+                      <p className="text-sm text-white/70">Automate billing</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -353,12 +353,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('assets')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-violet-400/10 to-purple-400/10 group-hover:from-violet-400/20 group-hover:to-purple-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <Building2 className="w-12 h-12 mx-auto mb-3 text-violet-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Fixed Assets 🏢</h4>
-                      <p className="text-sm text-gray-600">Manage property & equipment</p>
+                      <Building2 className="w-12 h-12 mx-auto mb-3 text-violet-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Fixed Assets 🏢</h4>
+                      <p className="text-sm text-white/70">Manage property & equipment</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -367,12 +367,12 @@ const BusinessFinancesPage: React.FC = () => {
                   onClick={() => setActiveTab('audit')}
                   className="h-auto p-0 border-0 bg-transparent hover:bg-transparent"
                 >
-                  <Card className="relative overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
+                  <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl hover:shadow-2xl transition-all cursor-pointer group w-full">
                     <div className="absolute inset-0 bg-gradient-to-br from-slate-400/10 to-gray-400/10 group-hover:from-slate-400/20 group-hover:to-gray-400/20 transition-all"></div>
                     <CardContent className="p-6 relative z-10 text-center">
-                      <FileBarChart className="w-12 h-12 mx-auto mb-3 text-slate-600" />
-                      <h4 className="font-bold text-lg mb-2 text-gray-900">Audit Log 📝</h4>
-                      <p className="text-sm text-gray-600">Track all changes</p>
+                      <FileBarChart className="w-12 h-12 mx-auto mb-3 text-slate-400" />
+                      <h4 className="font-bold text-lg mb-2 text-white">Audit Log 📝</h4>
+                      <p className="text-sm text-white/70">Track all changes</p>
                     </CardContent>
                   </Card>
                 </Button>
@@ -436,33 +436,33 @@ const BusinessFinancesPage: React.FC = () => {
 
             {/* Financial Health Preview */}
             <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Preview: What You'll See 📊</h3>
+              <h3 className="text-2xl font-bold mb-4 text-white">Preview: What You'll See 📊</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="border-0 shadow-xl">
+                <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
                   <CardHeader>
-                    <CardTitle className="text-lg">Cash Flow Chart 💸</CardTitle>
-                    <CardDescription>Track money in vs. money out</CardDescription>
+                    <CardTitle className="text-lg text-white">Cash Flow Chart 💸</CardTitle>
+                    <CardDescription className="text-white/70">Track money in vs. money out</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-48 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center">
+                    <div className="h-48 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-lg flex items-center justify-center border border-white/10">
                       <div className="text-center">
-                        <PieChart className="w-16 h-16 mx-auto mb-2 text-emerald-600" />
-                        <p className="text-sm text-gray-600">Sample chart appears here</p>
+                        <PieChart className="w-16 h-16 mx-auto mb-2 text-emerald-400" />
+                        <p className="text-sm text-white/70">Sample chart appears here</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card className="border-0 shadow-xl">
+                <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
                   <CardHeader>
-                    <CardTitle className="text-lg">Expense Breakdown 📉</CardTitle>
-                    <CardDescription>See where your money goes</CardDescription>
+                    <CardTitle className="text-lg text-white">Expense Breakdown 📉</CardTitle>
+                    <CardDescription className="text-white/70">See where your money goes</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="h-48 bg-gradient-to-br from-red-100 to-rose-100 rounded-lg flex items-center justify-center">
+                    <div className="h-48 bg-gradient-to-br from-red-500/20 to-rose-500/20 rounded-lg flex items-center justify-center border border-white/10">
                       <div className="text-center">
-                        <PieChart className="w-16 h-16 mx-auto mb-2 text-red-600" />
-                        <p className="text-sm text-gray-600">Category breakdown appears here</p>
+                        <PieChart className="w-16 h-16 mx-auto mb-2 text-red-400" />
+                        <p className="text-sm text-white/70">Category breakdown appears here</p>
                       </div>
                     </div>
                   </CardContent>
