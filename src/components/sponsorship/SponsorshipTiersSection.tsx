@@ -54,13 +54,13 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
   ];
 
   return (
-    <section id="sponsorship-tiers" className="py-16 bg-gray-50">
+    <section id="sponsorship-tiers" className="py-16 relative z-10">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-mansablue mb-4">
+          <h2 className="text-3xl font-bold text-yellow-400 mb-4">
             Sponsorship Tiers
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-blue-200 max-w-2xl mx-auto">
             Choose the partnership level that aligns with your company's impact goals and budget.
           </p>
         </div>
@@ -69,27 +69,27 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
           {tiers.map((tier, index) => (
             <div 
               key={tier.name}
-              className={`relative bg-white rounded-lg shadow-lg p-8 ${
-                tier.popular ? 'ring-2 ring-mansagold scale-105' : ''
+              className={`relative bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-lg p-8 ${
+                tier.popular ? 'ring-2 ring-yellow-400 scale-105' : ''
               }`}
             >
               {tier.popular && (
-                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-mansagold text-mansablue">
+                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-slate-900">
                   <Star className="h-3 w-3 mr-1" />
                   Most Popular
                 </Badge>
               )}
               
               <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold text-mansablue mb-2">{tier.name}</h3>
-                <p className="text-3xl font-bold text-gray-900">{tier.price}</p>
+                <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
+                <p className="text-3xl font-bold text-yellow-400">{tier.price}</p>
               </div>
               
               <ul className="space-y-4 mb-8">
                 {tier.features.map((feature, featureIndex) => (
                   <li key={featureIndex} className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">{feature}</span>
+                    <CheckCircle className="h-5 w-5 text-yellow-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-blue-200">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -97,8 +97,8 @@ const SponsorshipTiersSection: React.FC<SponsorshipTiersSectionProps> = ({ onLea
               <Button 
                 className={`w-full ${
                   tier.popular 
-                    ? 'bg-mansagold hover:bg-mansagold-dark text-mansablue' 
-                    : 'bg-mansablue hover:bg-mansablue-dark text-white'
+                    ? 'bg-yellow-400 hover:bg-yellow-500 text-slate-900' 
+                    : 'bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-400 border border-yellow-400'
                 }`}
                 onClick={() => onLearnMore(tier.name)}
               >

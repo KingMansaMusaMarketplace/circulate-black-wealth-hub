@@ -28,7 +28,11 @@ const CorporateSponsorshipPage: React.FC = () => {
         <meta name="description" content="Partner with Mansa Musa Marketplace to support Black-owned businesses and create meaningful economic impact in communities." />
       </Helmet>
       
-      <main className="flex-grow">
+      <main className="flex-grow bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 min-h-screen relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
         <ProgressiveDisclosure
           id="corporate-sponsorship-welcome"
           title="Ready to Drive Real Community Impact?"
@@ -59,15 +63,17 @@ const CorporateSponsorshipPage: React.FC = () => {
           <SponsorshipTiersSection onLearnMore={handleLearnMore} />
         </ContextualTooltip>
         
-        <SponsorshipForm />
-        
-        <section className="py-12 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <VerifiedCorporationBadge variant="detailed" />
+        <div className="relative z-10">
+          <SponsorshipForm />
+          
+          <section className="py-12">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto">
+                <VerifiedCorporationBadge variant="detailed" />
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
         
         <SponsorshipMediaKit />
         <SponsorshipCTASection
