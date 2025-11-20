@@ -30,8 +30,8 @@ const SuccessStoriesCarousel: React.FC<SuccessStoriesCarouselProps> = ({ stories
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-foreground">Success Stories</h2>
-          <p className="text-muted-foreground mt-2">Real impact from our community</p>
+          <h2 className="text-3xl font-bold text-white">Success Stories</h2>
+          <p className="text-white/70 mt-2">Real impact from our community</p>
         </div>
       </div>
 
@@ -46,7 +46,7 @@ const SuccessStoriesCarousel: React.FC<SuccessStoriesCarouselProps> = ({ stories
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className={`h-full border-2 ${getStoryColor(story.story_type)}`}>
+              <Card className="h-full bg-slate-900/40 backdrop-blur-xl border-white/10">
                 {story.image_url && (
                   <div className="h-48 overflow-hidden">
                     <img
@@ -58,38 +58,38 @@ const SuccessStoriesCarousel: React.FC<SuccessStoriesCarouselProps> = ({ stories
                 )}
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
-                    <Icon className="w-6 h-6 text-primary" />
+                    <Icon className="w-6 h-6 text-blue-400" />
                     {story.is_featured && (
-                      <Badge variant="secondary" className="gap-1">
+                      <Badge variant="secondary" className="gap-1 bg-yellow-500/20 text-yellow-400 border-yellow-500/30">
                         <Star className="w-3 h-3" />
                         Featured
                       </Badge>
                     )}
                   </div>
-                  <CardTitle className="text-xl">{story.title}</CardTitle>
+                  <CardTitle className="text-xl text-white">{story.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-sm text-muted-foreground">{story.description}</p>
+                  <p className="text-sm text-white/70">{story.description}</p>
                   
                   {story.metrics && (
-                    <div className="space-y-2 p-4 rounded-lg bg-muted/50">
+                    <div className="space-y-2 p-4 rounded-lg bg-slate-800/40 backdrop-blur-sm border border-white/10">
                       {story.metrics.before && (
                         <div className="flex items-center gap-2 text-sm">
-                          <span className="text-muted-foreground">Before:</span>
-                          <span className="font-medium">{story.metrics.before}</span>
+                          <span className="text-white/60">Before:</span>
+                          <span className="font-medium text-white">{story.metrics.before}</span>
                         </div>
                       )}
                       {story.metrics.after && (
                         <div className="flex items-center gap-2 text-sm">
-                          <TrendingUp className="w-4 h-4 text-accent" />
-                          <span className="text-muted-foreground">After:</span>
-                          <span className="font-medium text-accent">{story.metrics.after}</span>
+                          <TrendingUp className="w-4 h-4 text-blue-400" />
+                          <span className="text-white/60">After:</span>
+                          <span className="font-medium text-blue-400">{story.metrics.after}</span>
                         </div>
                       )}
                       {story.metrics.impact && (
                         <div className="flex items-center gap-2 text-sm">
-                          <Star className="w-4 h-4 text-primary" />
-                          <span className="font-semibold text-primary">{story.metrics.impact}</span>
+                          <Star className="w-4 h-4 text-yellow-400" />
+                          <span className="font-semibold text-yellow-400">{story.metrics.impact}</span>
                         </div>
                       )}
                     </div>

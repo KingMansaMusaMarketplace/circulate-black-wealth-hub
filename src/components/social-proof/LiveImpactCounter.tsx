@@ -88,16 +88,16 @@ const LiveImpactCounter: React.FC<LiveImpactCounterProps> = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
         >
-          <Card className="relative overflow-hidden">
+          <Card className="relative overflow-hidden bg-slate-900/40 backdrop-blur-xl border-white/10">
             <CardContent className="p-6">
               <div className="flex items-start justify-between mb-4">
-                <stat.icon className={`w-8 h-8 ${stat.color}`} />
-                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <stat.icon className="w-8 h-8 text-blue-400" />
+                <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
               </div>
               <div className="space-y-1">
-                <p className="text-3xl font-bold text-foreground">{stat.value}</p>
-                <p className="text-sm font-medium text-foreground/80">{stat.label}</p>
-                <p className="text-xs text-muted-foreground">{stat.subtext}</p>
+                <p className="text-3xl font-bold text-white">{stat.value}</p>
+                <p className="text-sm font-medium text-white/90">{stat.label}</p>
+                <p className="text-xs text-white/60">{stat.subtext}</p>
               </div>
             </CardContent>
           </Card>
