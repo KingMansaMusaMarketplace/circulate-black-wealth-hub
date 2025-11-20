@@ -27,30 +27,29 @@ const SocialProofPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue">
-        <Loader2 className="w-8 h-8 animate-spin text-mansagold" />
+      <div className="relative flex items-center justify-center min-h-screen">
+        {/* Animated Background */}
+        <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+          <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        </div>
+        <Loader2 className="relative z-10 w-8 h-8 animate-spin text-blue-400" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
-      {/* Hero Section with Animated Gradient */}
-      <section className="relative py-20 px-4 overflow-hidden">
-        {/* Animated Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue">
-          <motion.div
-            className="absolute inset-0 opacity-30"
-            animate={{
-              background: [
-                "radial-gradient(circle at 20% 50%, hsl(var(--mansagold) / 0.3) 0%, transparent 50%)",
-                "radial-gradient(circle at 80% 50%, hsl(var(--mansagold) / 0.3) 0%, transparent 50%)",
-                "radial-gradient(circle at 20% 50%, hsl(var(--mansagold) / 0.3) 0%, transparent 50%)",
-              ]
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          />
-        </div>
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative py-20 px-4 overflow-hidden z-10">
 
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
@@ -98,10 +97,10 @@ const SocialProofPage = () => {
                 whileHover={{ y: -5, scale: 1.02 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-mansagold/20 to-transparent rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-                <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 text-center hover:bg-white/15 transition-all duration-300">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-yellow-500/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center hover:bg-slate-900/50 transition-all duration-300">
                   <motion.div
-                    className="text-3xl md:text-4xl font-bold text-mansagold mb-2"
+                    className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 to-yellow-400 bg-clip-text text-transparent mb-2"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ delay: 0.8 + index * 0.1, type: "spring" }}
@@ -109,7 +108,7 @@ const SocialProofPage = () => {
                     {stat.value}
                   </motion.div>
                   <div className="text-white font-semibold mb-1">{stat.label}</div>
-                  <div className="text-blue-200 text-sm">{stat.sublabel}</div>
+                  <div className="text-white/70 text-sm">{stat.sublabel}</div>
                 </div>
               </motion.div>
             ))}
@@ -129,9 +128,9 @@ const SocialProofPage = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1.2 + index * 0.1 }}
                 whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 text-white"
+                className="flex items-center gap-2 bg-slate-800/40 backdrop-blur-sm border border-white/10 rounded-full px-6 py-3 text-white"
               >
-                <benefit.icon className="w-5 h-5 text-mansagold" />
+                <benefit.icon className="w-5 h-5 text-blue-400" />
                 <span className="font-medium">{benefit.text}</span>
               </motion.div>
             ))}
@@ -140,7 +139,7 @@ const SocialProofPage = () => {
       </section>
 
       {/* Member Benefits Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-background via-mansagold/5 to-background">
+      <section className="relative py-20 px-4 z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -149,11 +148,11 @@ const SocialProofPage = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-mansablue via-mansablue-dark to-mansablue bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-400 via-blue-300 to-yellow-400 bg-clip-text text-transparent">
                 Member Benefits
               </span>
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-xl text-white/70">
               Mansa Musa Marketplace offers unique advantages for both customers and business owners
             </p>
           </motion.div>
@@ -170,11 +169,9 @@ const SocialProofPage = () => {
         </div>
       </section>
 
-      {/* Trust Indicators with Gradient Backgrounds */}
-      <section className="py-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-mansablue/5 via-transparent to-mansagold/5" />
-        
-        <div className="max-w-7xl mx-auto relative z-10">
+      {/* Trust Indicators */}
+      <section className="relative py-20 px-4 overflow-hidden z-10">
+        <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -184,17 +181,17 @@ const SocialProofPage = () => {
               whileHover={{ scale: 1.05 }}
               className="relative group"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-mansagold to-amber-600 rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity" />
-              <div className="relative bg-white border-2 border-mansagold/20 rounded-3xl p-8 text-center hover:border-mansagold/40 transition-all duration-300 shadow-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-yellow-500/10 rounded-3xl blur-xl opacity-30 group-hover:opacity-40 transition-opacity" />
+              <div className="relative bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:border-white/20 transition-all duration-300">
                 <motion.div
-                  className="w-16 h-16 bg-gradient-to-br from-mansagold to-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+                  className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
                   <TrendingUp className="w-8 h-8 text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-mansablue mb-2">Avg. 35% Revenue Increase</h3>
-                <p className="text-muted-foreground">For businesses on our platform</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Avg. 35% Revenue Increase</h3>
+                <p className="text-white/70">For businesses on our platform</p>
               </div>
             </motion.div>
 
@@ -206,17 +203,17 @@ const SocialProofPage = () => {
               whileHover={{ scale: 1.05 }}
               className="relative group"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity" />
-              <div className="relative bg-white border-2 border-mansablue/20 rounded-3xl p-8 text-center hover:border-mansablue/40 transition-all duration-300 shadow-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/10 rounded-3xl blur-xl opacity-30 group-hover:opacity-40 transition-opacity" />
+              <div className="relative bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:border-white/20 transition-all duration-300">
                 <motion.div
-                  className="w-16 h-16 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+                  className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
                   <Users className="w-8 h-8 text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-mansablue mb-2">Building to 1M Members</h3>
-                <p className="text-muted-foreground">Join our growing community</p>
+                <h3 className="text-2xl font-bold text-white mb-2">Building to 1M Members</h3>
+                <p className="text-white/70">Join our growing community</p>
               </div>
             </motion.div>
 
@@ -228,17 +225,17 @@ const SocialProofPage = () => {
               whileHover={{ scale: 1.05 }}
               className="relative group"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-mansagold to-amber-600 rounded-3xl blur-xl opacity-20 group-hover:opacity-30 transition-opacity" />
-              <div className="relative bg-white border-2 border-mansagold/20 rounded-3xl p-8 text-center hover:border-mansagold/40 transition-all duration-300 shadow-lg">
+              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-yellow-600/10 rounded-3xl blur-xl opacity-30 group-hover:opacity-40 transition-opacity" />
+              <div className="relative bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 text-center hover:border-white/20 transition-all duration-300">
                 <motion.div
-                  className="w-16 h-16 bg-gradient-to-br from-mansagold to-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg"
+                  className="w-16 h-16 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl flex items-center justify-center mx-auto mb-6"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
                   <Award className="w-8 h-8 text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-bold text-mansablue mb-2">4.9/5 Satisfaction</h3>
-                <p className="text-muted-foreground">Rated by our community members</p>
+                <h3 className="text-2xl font-bold text-white mb-2">4.9/5 Satisfaction</h3>
+                <p className="text-white/70">Rated by our community members</p>
               </div>
             </motion.div>
           </div>
@@ -247,7 +244,7 @@ const SocialProofPage = () => {
 
       {/* Success Stories */}
       {successStories && successStories.length > 0 && (
-        <section className="py-20 px-4 bg-gradient-to-br from-mansablue/5 via-background to-mansagold/5">
+        <section className="relative py-20 px-4 z-10">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -256,11 +253,11 @@ const SocialProofPage = () => {
               className="text-center mb-12"
             >
               <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-mansablue via-mansablue-dark to-mansablue bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-400 via-blue-300 to-yellow-400 bg-clip-text text-transparent">
                   Real Stories, Real Impact
                 </span>
               </h2>
-              <p className="text-xl text-muted-foreground">
+              <p className="text-xl text-white/70">
                 See how businesses and customers are thriving together in our marketplace
               </p>
             </motion.div>
@@ -271,28 +268,15 @@ const SocialProofPage = () => {
 
       {/* Testimonials */}
       {testimonials && testimonials.length > 0 && (
-        <section className="py-20 px-4">
+        <section className="relative py-20 px-4 z-10">
           <div className="max-w-7xl mx-auto">
             <TestimonialsGrid testimonials={testimonials} />
           </div>
         </section>
       )}
 
-      {/* CTA Section with Gradient */}
-      <section className="relative py-24 px-4 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue">
-          <motion.div
-            className="absolute inset-0"
-            animate={{
-              background: [
-                "radial-gradient(circle at 0% 0%, hsl(var(--mansagold) / 0.3) 0%, transparent 50%)",
-                "radial-gradient(circle at 100% 100%, hsl(var(--mansagold) / 0.3) 0%, transparent 50%)",
-                "radial-gradient(circle at 0% 0%, hsl(var(--mansagold) / 0.3) 0%, transparent 50%)",
-              ]
-            }}
-            transition={{ duration: 10, repeat: Infinity }}
-          />
-        </div>
+      {/* CTA Section */}
+      <section className="relative py-24 px-4 overflow-hidden z-10">
 
         <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
           <motion.h2
@@ -302,7 +286,7 @@ const SocialProofPage = () => {
             className="text-4xl md:text-5xl font-bold text-white"
           >
             Ready to help us build a{" "}
-            <span className="bg-gradient-to-r from-mansagold via-amber-400 to-mansagold bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-400 via-yellow-400 to-blue-400 bg-clip-text text-transparent">
               1 million member community?
             </span>
           </motion.h2>
@@ -318,7 +302,7 @@ const SocialProofPage = () => {
               <Button
                 size="lg"
                 onClick={() => navigate('/signup')}
-                className="text-lg bg-mansagold hover:bg-mansagold-dark text-mansablue font-bold px-8 py-6 shadow-xl hover:shadow-2xl transition-all duration-300"
+                className="text-lg bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-8 py-6 border-0"
               >
                 Start Your Journey
               </Button>
@@ -328,7 +312,7 @@ const SocialProofPage = () => {
                 size="lg"
                 variant="outline"
                 onClick={() => navigate('/directory')}
-                className="text-lg border-2 border-white/30 bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm px-8 py-6 font-semibold"
+                className="text-lg border-2 border-white/20 bg-slate-800/40 hover:bg-slate-800/60 text-white backdrop-blur-sm px-8 py-6 font-semibold"
               >
                 List Your Business
               </Button>
