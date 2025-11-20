@@ -44,15 +44,15 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
     trend?: number;
     color?: string;
   }) => (
-    <Card>
+    <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
       <CardContent className="flex items-center p-6">
         <Icon className={`h-8 w-8 mr-3 ${color}`} />
         <div>
-          <p className="text-2xl font-bold">{value}</p>
-          <p className="text-sm text-muted-foreground">{title}</p>
+          <p className="text-2xl font-bold text-white">{value}</p>
+          <p className="text-sm text-white/70">{title}</p>
           {trend && (
-            <p className="text-xs text-muted-foreground">
-              <span className="text-green-600">+{trend}%</span> from last month
+            <p className="text-xs text-white/60">
+              <span className="text-green-400">+{trend}%</span> from last month
             </p>
           )}
         </div>
@@ -70,42 +70,51 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'bg-red-100 text-red-800 border-red-200';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'low': return 'bg-green-100 text-green-800 border-green-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'high': return 'bg-red-500/20 text-red-300 border-red-500/30';
+      case 'medium': return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+      case 'low': return 'bg-green-500/20 text-green-300 border-green-500/30';
+      default: return 'bg-gray-500/20 text-gray-300 border-gray-500/30';
     }
   };
 
   const getImpactColor = (impact: string) => {
     switch (impact) {
-      case 'high': return 'text-red-600';
-      case 'medium': return 'text-yellow-600';
-      case 'low': return 'text-green-600';
-      default: return 'text-gray-600';
+      case 'high': return 'text-red-400';
+      case 'medium': return 'text-yellow-400';
+      case 'low': return 'text-green-400';
+      default: return 'text-gray-400';
     }
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">Business Analytics</h2>
-          <p className="text-muted-foreground">
-            Track your business performance and engagement metrics
-          </p>
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
+      </div>
+
+      <div className="relative z-10 space-y-6 p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-white">Business Analytics</h2>
+            <p className="text-white/70">
+              Track your business performance and engagement metrics
+            </p>
+          </div>
         </div>
         <div className="flex gap-2">
           {insights && (
-            <Button variant="outline" onClick={clearInsights}>
-              Clear Insights
-            </Button>
-          )}
-          <Button 
-            onClick={handleGenerateInsights} 
-            disabled={isGenerating}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
-          >
+          <Button variant="outline" onClick={clearInsights} className="border-white/20 text-white hover:bg-white/10">
+            Clear Insights
+          </Button>
+        )}
+        <Button 
+          onClick={handleGenerateInsights} 
+          disabled={isGenerating}
+          className="bg-gradient-to-r from-blue-600 to-yellow-600 hover:from-blue-700 hover:to-yellow-700 text-white"
+        >
             {isGenerating ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
@@ -123,31 +132,31 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
 
       {/* AI Insights Section */}
       {insights && (
-        <Card className="border-purple-200 bg-gradient-to-r from-purple-50 to-blue-50">
+        <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Brain className="h-5 w-5 text-purple-600" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Brain className="h-5 w-5 text-yellow-400" />
               AI Business Insights
-              <Badge variant="secondary" className="ml-2">
+              <Badge variant="secondary" className="ml-2 bg-blue-500/20 text-blue-300 border-blue-500/30">
                 Generated {new Date(insights.metadata.generatedAt).toLocaleDateString()}
               </Badge>
             </CardTitle>
-            <CardDescription>{insights.summary}</CardDescription>
+            <CardDescription className="text-white/70">{insights.summary}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Key Insights */}
             <div>
-              <h4 className="font-semibold mb-3 flex items-center gap-2">
-                <Lightbulb className="h-4 w-4" />
+              <h4 className="font-semibold mb-3 flex items-center gap-2 text-white">
+                <Lightbulb className="h-4 w-4 text-yellow-400" />
                 Key Insights
               </h4>
               <div className="grid gap-3">
                 {insights.keyInsights.map((insight, index) => (
-                  <div key={index} className="p-3 bg-white rounded-lg border">
+                  <div key={index} className="p-3 bg-slate-800/30 rounded-lg border border-white/10">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h5 className="font-medium text-sm">{insight.title}</h5>
-                        <p className="text-sm text-muted-foreground mt-1">{insight.description}</p>
+                        <h5 className="font-medium text-sm text-white">{insight.title}</h5>
+                        <p className="text-sm text-white/70 mt-1">{insight.description}</p>
                       </div>
                       <Badge variant="outline" className={getImpactColor(insight.impact)}>
                         {insight.impact} impact
@@ -158,23 +167,23 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
               </div>
             </div>
 
-            <Separator />
+            <Separator className="bg-white/10" />
 
             {/* Quick Wins */}
             <div>
-              <h4 className="font-semibold mb-3 flex items-center gap-2">
-                <Zap className="h-4 w-4" />
+              <h4 className="font-semibold mb-3 flex items-center gap-2 text-white">
+                <Zap className="h-4 w-4 text-yellow-400" />
                 Quick Wins
               </h4>
               <div className="grid gap-3">
                 {insights.quickWins.map((win, index) => (
-                  <div key={index} className="p-3 bg-green-50 rounded-lg border border-green-200">
+                  <div key={index} className="p-3 bg-green-500/10 rounded-lg border border-green-500/20">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h5 className="font-medium text-sm text-green-800">{win.action}</h5>
-                        <p className="text-sm text-green-600 mt-1">{win.description}</p>
+                        <h5 className="font-medium text-sm text-green-300">{win.action}</h5>
+                        <p className="text-sm text-green-400/70 mt-1">{win.description}</p>
                       </div>
-                      <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
+                      <Badge variant="outline" className="bg-green-500/20 text-green-300 border-green-500/30">
                         <Clock className="h-3 w-3 mr-1" />
                         {win.timeframe}
                       </Badge>
@@ -184,21 +193,21 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
               </div>
             </div>
 
-            <Separator />
+            <Separator className="bg-white/10" />
 
             {/* Recommendations */}
             <div>
-              <h4 className="font-semibold mb-3 flex items-center gap-2">
-                <Target className="h-4 w-4" />
+              <h4 className="font-semibold mb-3 flex items-center gap-2 text-white">
+                <Target className="h-4 w-4 text-blue-400" />
                 Recommendations
               </h4>
               <div className="grid gap-3">
                 {insights.recommendations.map((rec, index) => (
-                  <div key={index} className="p-3 bg-white rounded-lg border">
+                  <div key={index} className="p-3 bg-slate-800/30 rounded-lg border border-white/10">
                     <div className="flex items-start justify-between mb-2">
-                      <h5 className="font-medium text-sm flex-1">{rec.title}</h5>
+                      <h5 className="font-medium text-sm flex-1 text-white">{rec.title}</h5>
                       <div className="flex gap-2">
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-xs bg-blue-500/20 text-blue-300 border-blue-500/30">
                           {rec.category}
                         </Badge>
                         <Badge className={getPriorityColor(rec.priority)}>
@@ -206,33 +215,33 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
                         </Badge>
                       </div>
                     </div>
-                    <p className="text-sm text-muted-foreground">{rec.description}</p>
+                    <p className="text-sm text-white/70">{rec.description}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <Separator />
+            <Separator className="bg-white/10" />
 
             {/* Trends & Next Steps */}
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-semibold mb-3 flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4" />
+                <h4 className="font-semibold mb-3 flex items-center gap-2 text-white">
+                  <TrendingUp className="h-4 w-4 text-green-400" />
                   Business Trends
                 </h4>
-                <div className="p-3 bg-white rounded-lg border">
+                <div className="p-3 bg-slate-800/30 rounded-lg border border-white/10">
                   <div className="flex items-center gap-2 mb-2">
                     <div className={`w-2 h-2 rounded-full ${
-                      insights.trends.direction === 'positive' ? 'bg-green-500' : 
-                      insights.trends.direction === 'negative' ? 'bg-red-500' : 'bg-yellow-500'
+                      insights.trends.direction === 'positive' ? 'bg-green-400' : 
+                      insights.trends.direction === 'negative' ? 'bg-red-400' : 'bg-yellow-400'
                     }`} />
-                    <span className="text-sm font-medium capitalize">{insights.trends.direction} Trend</span>
+                    <span className="text-sm font-medium capitalize text-white">{insights.trends.direction} Trend</span>
                   </div>
-                  <p className="text-sm text-muted-foreground mb-2">{insights.trends.description}</p>
+                  <p className="text-sm text-white/70 mb-2">{insights.trends.description}</p>
                   <div className="flex flex-wrap gap-1">
                     {insights.trends.keyMetrics.map((metric, index) => (
-                      <Badge key={index} variant="secondary" className="text-xs">
+                      <Badge key={index} variant="secondary" className="text-xs bg-blue-500/20 text-blue-300 border-blue-500/30">
                         {metric}
                       </Badge>
                     ))}
@@ -241,19 +250,19 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-3 flex items-center gap-2">
-                  <ArrowRight className="h-4 w-4" />
+                <h4 className="font-semibold mb-3 flex items-center gap-2 text-white">
+                  <ArrowRight className="h-4 w-4 text-yellow-400" />
                   Strategic Next Steps
                 </h4>
                 <div className="space-y-2">
                   {insights.nextSteps.map((step, index) => (
-                    <div key={index} className="p-3 bg-white rounded-lg border">
+                    <div key={index} className="p-3 bg-slate-800/30 rounded-lg border border-white/10">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h5 className="font-medium text-sm">{step.step}</h5>
-                          <p className="text-sm text-muted-foreground mt-1">{step.description}</p>
+                          <h5 className="font-medium text-sm text-white">{step.step}</h5>
+                          <p className="text-sm text-white/70 mt-1">{step.description}</p>
                         </div>
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-xs bg-purple-500/20 text-purple-300 border-purple-500/30">
                           {step.timeline}
                         </Badge>
                       </div>
@@ -267,14 +276,14 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
       )}
       
       {!insights && (
-        <Card className="border-dashed border-2 border-muted-foreground/25">
+        <Card className="border-dashed border-2 border-white/20 bg-slate-900/20 backdrop-blur-xl">
           <CardContent className="flex flex-col items-center justify-center py-8 text-center">
-            <Brain className="h-12 w-12 text-muted-foreground/50 mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Get AI-Powered Business Insights</h3>
-            <p className="text-muted-foreground mb-4 max-w-md">
+            <Brain className="h-12 w-12 text-yellow-400/50 mb-4" />
+            <h3 className="text-lg font-semibold mb-2 text-white">Get AI-Powered Business Insights</h3>
+            <p className="text-white/70 mb-4 max-w-md">
               Let our AI analyze your business data and provide personalized recommendations to grow your customer engagement and revenue.
             </p>
-            <Button onClick={handleGenerateInsights} disabled={isGenerating}>
+            <Button onClick={handleGenerateInsights} disabled={isGenerating} className="bg-gradient-to-r from-blue-600 to-yellow-600 hover:from-blue-700 hover:to-yellow-700 text-white">
               <Brain className="mr-2 h-4 w-4" />
               Generate Your First AI Insights
             </Button>
@@ -282,51 +291,60 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
         </Card>
       )}
 
+      <Separator className="bg-white/10" />
+
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard title="Profile Views" value={metrics.totalViews.toLocaleString()} icon={Eye} trend={12} color="text-blue-500" />
-        <MetricCard title="QR Code Scans" value={metrics.totalScans} icon={QrCode} trend={8} color="text-green-500" />
-        <MetricCard title="Social Shares" value={metrics.totalShares} icon={Share2} trend={15} color="text-purple-500" />
-        <MetricCard title="Average Rating" value={metrics.avgRating} icon={Star} color="text-yellow-500" />
+        <MetricCard title="Profile Views" value={metrics.totalViews.toLocaleString()} icon={Eye} trend={12} color="text-blue-400" />
+        <MetricCard title="QR Code Scans" value={metrics.totalScans} icon={QrCode} trend={8} color="text-green-400" />
+        <MetricCard title="Social Shares" value={metrics.totalShares} icon={Share2} trend={15} color="text-purple-400" />
+        <MetricCard title="Average Rating" value={metrics.avgRating} icon={Star} color="text-yellow-400" />
       </div>
 
       {/* Analytics Tabs */}
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="engagement">Engagement</TabsTrigger>
-          <TabsTrigger value="demographics">Demographics</TabsTrigger>
+        <TabsList className="bg-slate-900/40 backdrop-blur-xl border border-white/10">
+          <TabsTrigger value="overview" className="data-[state=active]:bg-white/10 text-white">Overview</TabsTrigger>
+          <TabsTrigger value="engagement" className="data-[state=active]:bg-white/10 text-white">Engagement</TabsTrigger>
+          <TabsTrigger value="demographics" className="data-[state=active]:bg-white/10 text-white">Demographics</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Monthly Views Chart */}
-            <Card>
+            <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
               <CardHeader>
-                <CardTitle>Monthly Performance</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-white">Monthly Performance</CardTitle>
+                <CardDescription className="text-white/70">
                   Profile views and QR code scans over time
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={viewsData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                    <XAxis dataKey="month" stroke="rgba(255,255,255,0.5)" />
+                    <YAxis stroke="rgba(255,255,255,0.5)" />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '8px',
+                        color: '#fff'
+                      }}
+                    />
                     <Line type="monotone" dataKey="views" stroke="#3b82f6" strokeWidth={2} name="Views" />
-                    <Line type="monotone" dataKey="scans" stroke="#10b981" strokeWidth={2} name="Scans" />
+                    <Line type="monotone" dataKey="scans" stroke="#d4af37" strokeWidth={2} name="Scans" />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
 
             {/* Category Distribution */}
-            <Card>
+            <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
               <CardHeader>
-                <CardTitle>Category Performance</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-white">Category Performance</CardTitle>
+                <CardDescription className="text-white/70">
                   Overall business performance metrics
                 </CardDescription>
               </CardHeader>
@@ -346,7 +364,14 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '8px',
+                        color: '#fff'
+                      }}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -355,31 +380,31 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
         </TabsContent>
 
         <TabsContent value="engagement" className="space-y-4">
-          <Card>
+          <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
-              <CardTitle>Customer Engagement</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-white">Customer Engagement</CardTitle>
+              <CardDescription className="text-white/70">
                 Detailed engagement metrics and patterns
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <p className="text-2xl font-bold text-blue-600">{metrics.totalViews}</p>
-                    <p className="text-sm text-muted-foreground">Total Views</p>
+                  <div className="text-center p-4 bg-slate-800/30 rounded-lg border border-white/10">
+                    <p className="text-2xl font-bold text-blue-400">{metrics.totalViews}</p>
+                    <p className="text-sm text-white/70">Total Views</p>
                   </div>
-                  <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <p className="text-2xl font-bold text-green-600">{metrics.totalScans}</p>
-                    <p className="text-sm text-muted-foreground">QR Scans</p>
+                  <div className="text-center p-4 bg-slate-800/30 rounded-lg border border-white/10">
+                    <p className="text-2xl font-bold text-green-400">{metrics.totalScans}</p>
+                    <p className="text-sm text-white/70">QR Scans</p>
                   </div>
-                  <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <p className="text-2xl font-bold text-purple-600">{metrics.totalShares}</p>
-                    <p className="text-sm text-muted-foreground">Shares</p>
+                  <div className="text-center p-4 bg-slate-800/30 rounded-lg border border-white/10">
+                    <p className="text-2xl font-bold text-purple-400">{metrics.totalShares}</p>
+                    <p className="text-sm text-white/70">Shares</p>
                   </div>
-                  <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <p className="text-2xl font-bold text-yellow-600">{metrics.avgRating}</p>
-                    <p className="text-sm text-muted-foreground">Rating</p>
+                  <div className="text-center p-4 bg-slate-800/30 rounded-lg border border-white/10">
+                    <p className="text-2xl font-bold text-yellow-400">{metrics.avgRating}</p>
+                    <p className="text-sm text-white/70">Rating</p>
                   </div>
                 </div>
               </div>
@@ -388,15 +413,15 @@ const BusinessAnalyticsDashboard = ({ businessId }: { businessId: string }) => {
         </TabsContent>
 
         <TabsContent value="demographics" className="space-y-4">
-          <Card>
+          <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
             <CardHeader>
-              <CardTitle>Audience Demographics</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-white">Audience Demographics</CardTitle>
+              <CardDescription className="text-white/70">
                 Customer demographics and preferences
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
+              <div className="text-center py-8 text-white/70">
                 <Users className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>Demographics data will be available once you have more customer interactions.</p>
               </div>
