@@ -59,21 +59,21 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
 
   return (
     <motion.div 
-      className="relative h-[300px] md:h-[400px] bg-gradient-to-b from-gray-50 to-white rounded-2xl border border-gray-100 shadow-sm p-6"
+      className="relative h-[300px] md:h-[400px] backdrop-blur-xl bg-white/10 rounded-2xl border border-white/20 shadow-sm p-6"
       variants={fadeIn}
       initial="hidden"
       animate={isVisible ? "visible" : "hidden"}
     >
       {/* Center text */}
       <motion.div 
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center p-6 bg-white/80 backdrop-blur-sm rounded-full w-40 h-40 flex items-center justify-center border-2 border-mansagold z-10"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center p-6 backdrop-blur-xl bg-white/10 rounded-full w-40 h-40 flex items-center justify-center border-2 border-yellow-400 z-10"
         variants={pulseAnimation}
         initial="init"
         animate={isVisible ? "pulse" : "init"}
       >
         <div>
-          <p className="text-mansablue font-bold mb-1">Community</p>
-          <p className="text-mansagold text-2xl font-bold">Wealth</p>
+          <p className="text-blue-300 font-bold mb-1">Community</p>
+          <p className="text-yellow-400 text-2xl font-bold">Wealth</p>
         </div>
       </motion.div>
       
@@ -83,7 +83,7 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
         <motion.path
           d="M200,50 C300,50 350,150 350,200 C350,250 300,350 200,350 C100,350 50,250 50,200 C50,150 100,50 200,50"
           fill="none"
-          stroke="#E5E7EB"
+          stroke="rgba(255,255,255,0.2)"
           strokeWidth="10"
           strokeLinecap="round"
         />
@@ -92,7 +92,7 @@ const CirculationGraphic: React.FC<CirculationGraphicProps> = ({
         <motion.path
           d="M200,50 C300,50 350,150 350,200 C350,250 300,350 200,350 C100,350 50,250 50,200 C50,150 100,50 200,50"
           fill="none"
-          stroke="#2563EB" // mansablue color
+          stroke="#60A5FA"
           strokeWidth="10"
           strokeLinecap="round"
           initial={{ pathLength: 0 }}
