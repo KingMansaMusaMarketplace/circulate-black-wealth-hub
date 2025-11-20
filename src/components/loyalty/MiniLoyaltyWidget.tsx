@@ -11,33 +11,33 @@ export const MiniLoyaltyWidget: React.FC = () => {
   const { summary } = useLoyalty();
 
   return (
-    <Card>
+    <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg flex items-center gap-2">
-          <Gift className="h-5 w-5 text-mansablue" />
+        <CardTitle className="text-lg flex items-center gap-2 text-white">
+          <Gift className="h-5 w-5 text-yellow-400" />
           Loyalty Points
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="text-center">
-          <div className="text-3xl font-bold text-mansablue">
+          <div className="text-3xl font-bold text-white">
             {summary.totalPoints}
           </div>
-          <p className="text-sm text-gray-600">Total Points</p>
+          <p className="text-sm text-white/80">Total Points</p>
         </div>
         
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Level</span>
-            <Badge className="bg-mansagold text-mansablue">
+            <span className="text-sm text-white/70">Level</span>
+            <Badge className="bg-yellow-400/20 text-yellow-300 border border-yellow-400/40">
               <Star className="h-3 w-3 mr-1" />
               Bronze
             </Badge>
           </div>
           
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Available Rewards</span>
-            <span className="text-sm font-medium">3</span>
+            <span className="text-sm text-white/70">Available Rewards</span>
+            <span className="text-sm font-medium text-white">3</span>
           </div>
         </div>
         
@@ -50,7 +50,7 @@ export const MiniLoyaltyWidget: React.FC = () => {
           </Link>
           
           <Link to="/scanner" className="block">
-            <Button variant="outline" className="w-full" size="sm">
+            <Button variant="outline" className="w-full border-white/30 text-white hover:bg-white/10" size="sm">
               Scan to Earn Points
             </Button>
           </Link>
