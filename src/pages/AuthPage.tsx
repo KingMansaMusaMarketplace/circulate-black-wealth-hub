@@ -11,6 +11,9 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, Building2, Users, GraduationCap, ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { useCapacitor } from '@/hooks/use-capacitor';
+import { BiometricLogin } from '@/components/auth/BiometricLogin';
+import { useBiometricAuth } from '@/hooks/use-biometric-auth';
+import { Separator } from '@/components/ui/separator';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -20,6 +23,7 @@ const AuthPage = () => {
   const { signUp, signIn } = useAuth();
   const { toast } = useToast();
   const { platform } = useCapacitor();
+  const { enableBiometric, isAvailable: isBiometricAvailable } = useBiometricAuth();
   
   // Detect if running on iOS
   const isIOS = platform === 'ios';
@@ -63,6 +67,12 @@ const AuthPage = () => {
             title: "Welcome back!",
             description: "You've successfully logged in.",
           });
+          
+          // Enable biometric for future logins if available
+          if (isBiometricAvailable) {
+            await enableBiometric(formData.email);
+          }
+          
           navigate('/');
         }
       } else {
@@ -392,6 +402,20 @@ const AuthPage = () => {
                   }
                 </button>
               </div>
+
+              {/* Biometric Login Option - Only show on login */}
+              {isLogin && isBiometricAvailable && (
+                <>
+                  <div className="relative my-6">
+                    <Separator className="bg-white/10" />
+                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-800 px-3 text-xs text-slate-400">
+                      OR
+                    </span>
+                  </div>
+                  
+                  <BiometricLogin onSuccess={() => navigate('/')} />
+                </>
+              )}
 
               {!isLogin && (
                 <div className="text-center text-xs text-slate-300 mt-4 p-4 bg-gradient-to-r from-mansagold/20 to-amber-600/20 rounded-lg border border-mansagold/30">
