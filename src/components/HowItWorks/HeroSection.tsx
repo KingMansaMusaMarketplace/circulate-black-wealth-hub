@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,8 +5,10 @@ import { AudioButton } from '@/components/ui/audio-button';
 import { AUDIO_PATHS } from '@/utils/audio';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '@/components/animations/ScrollReveal';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 const HeroSection = () => {
+  const isIOS = shouldHideStripePayments();
   const scrollToNextSection = () => {
     const howItWorksSection = document.getElementById('how-it-works');
     if (howItWorksSection) {
@@ -50,19 +51,23 @@ const HeroSection = () => {
                   variant="outline"
                   className="w-full sm:w-auto font-semibold border-2 border-white/30 text-white hover:bg-white/10 shadow-lg"
                   onClick={scrollToNextSection}
+                  style={{ touchAction: 'manipulation' }}
                 >
-                  Learn More
+                  <span className="pointer-events-none">Learn More</span>
                 </Button>
               </div>
               
-              <Link to="/signup">
-                <Button 
-                  size="lg" 
-                  className="w-full sm:w-auto bg-gradient-gold text-mansablue-dark hover:opacity-90 font-semibold shadow-2xl hover:shadow-mansagold/50 border-2 border-mansagold-light/30"
-                >
-                  Join Free Today
-                </Button>
-              </Link>
+              {!isIOS && (
+                <Link to="/signup" style={{ touchAction: 'manipulation' }}>
+                  <Button 
+                    size="lg" 
+                    className="w-full sm:w-auto bg-gradient-gold text-mansablue-dark hover:opacity-90 font-semibold shadow-2xl hover:shadow-mansagold/50 border-2 border-mansagold-light/30"
+                    style={{ touchAction: 'manipulation' }}
+                  >
+                    <span className="pointer-events-none">Join Free Today</span>
+                  </Button>
+                </Link>
+              )}
             </div>
           </ScrollReveal>
           
