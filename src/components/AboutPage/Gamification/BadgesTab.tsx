@@ -35,10 +35,10 @@ const BadgesTab = () => {
                 className={`flex flex-col items-center text-center group hover:scale-110 transition-transform ${!badge.active ? 'opacity-50' : ''}`}
               >
                 <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${badge.color} flex items-center justify-center mb-3 shadow-lg group-hover:shadow-2xl transition-all duration-300 ${badge.active ? 'ring-4 ring-mansagold/50' : ''}`}>
-                  <Icon className={`h-12 w-12 ${badge.active ? 'text-white' : 'text-gray-400'}`} />
+                  <Icon className={`h-12 w-12 ${badge.active ? 'text-white' : 'text-gray-500'}`} />
                 </div>
                 <h4 className="font-bold text-white">{badge.name}</h4>
-                <p className="text-xs text-white/80 font-medium">{badge.desc}</p>
+                <p className="text-xs text-white/70 font-medium">{badge.desc}</p>
               </div>
             );
           })}
