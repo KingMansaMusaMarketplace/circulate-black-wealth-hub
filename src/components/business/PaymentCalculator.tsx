@@ -21,20 +21,20 @@ const PaymentCalculator = () => {
   return (
     <Card className="border-2 shadow-xl">
       <CardHeader className="pb-6">
-        <CardTitle className="flex items-center gap-3 text-2xl">
+        <CardTitle className="flex items-center gap-3 text-2xl text-white">
           <DollarSign className="h-7 w-7 text-primary" />
           Payment Calculator
         </CardTitle>
-        <CardDescription className="text-base mt-2">
+        <CardDescription className="text-base mt-2 text-blue-200/80">
           See exactly how much you receive for any transaction
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
         {/* Input Section */}
         <div className="space-y-3">
-          <Label htmlFor="amount" className="text-base font-semibold">Customer Payment Amount</Label>
+          <Label htmlFor="amount" className="text-base font-semibold text-white">Customer Payment Amount</Label>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-xl font-semibold">$</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-200/60 text-xl font-semibold">$</span>
             <Input
               id="amount"
               type="number"
@@ -42,7 +42,7 @@ const PaymentCalculator = () => {
               step="0.01"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="pl-10 text-2xl font-bold h-16 text-center"
+              className="pl-10 text-2xl font-bold h-16 text-center bg-slate-800/80 text-white border-white/20"
               placeholder="100.00"
             />
           </div>
@@ -53,7 +53,7 @@ const PaymentCalculator = () => {
           {/* Customer Pays */}
           <div className="flex justify-between items-center p-5 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 rounded-xl border-2 border-green-300 dark:border-green-700">
             <div className="space-y-1">
-              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Customer Pays</p>
+              <p className="text-sm font-medium text-green-800/70 dark:text-green-300/80 uppercase tracking-wide">Customer Pays</p>
               <p className="text-3xl font-bold text-green-700 dark:text-green-400">
                 ${customerPayment.toFixed(2)}
               </p>
@@ -64,17 +64,17 @@ const PaymentCalculator = () => {
           </div>
 
           {/* Deductions */}
-          <div className="space-y-3 p-5 bg-muted/30 rounded-xl border border-border">
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Deductions</p>
+          <div className="space-y-3 p-5 bg-slate-800/40 rounded-xl border border-white/10">
+            <p className="text-xs font-semibold text-blue-200/70 uppercase tracking-wider mb-3">Deductions</p>
             
-            <div className="flex justify-between items-center py-2 border-b border-border/50">
+            <div className="flex justify-between items-center py-2 border-b border-white/10">
               <div className="flex items-center gap-3">
                 <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-lg">
-                  <TrendingDown className="h-4 w-4 text-orange-600 dark:text-orange-500" />
+                  <TrendingDown className="h-4 w-4 text-orange-600 dark:text-orange-400" />
                 </div>
-                <span className="text-base font-medium">Platform Commission (7.5%)</span>
+                <span className="text-base font-medium text-blue-100/90">Platform Commission (7.5%)</span>
               </div>
-              <span className="text-lg font-bold text-orange-600 dark:text-orange-500">
+              <span className="text-lg font-bold text-orange-600 dark:text-orange-400">
                 -${platformCommission.toFixed(2)}
               </span>
             </div>
@@ -82,11 +82,11 @@ const PaymentCalculator = () => {
             <div className="flex justify-between items-center py-2">
               <div className="flex items-center gap-3">
                 <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-lg">
-                  <TrendingDown className="h-4 w-4 text-red-600 dark:text-red-500" />
+                  <TrendingDown className="h-4 w-4 text-red-600 dark:text-red-400" />
                 </div>
-                <span className="text-base font-medium">Stripe Processing Fee (2.9% + $0.30)</span>
+                <span className="text-base font-medium text-blue-100/90">Stripe Processing Fee (2.9% + $0.30)</span>
               </div>
-              <span className="text-lg font-bold text-red-600 dark:text-red-500">
+              <span className="text-lg font-bold text-red-600 dark:text-red-400">
                 -${stripeFee.toFixed(2)}
               </span>
             </div>
@@ -95,7 +95,7 @@ const PaymentCalculator = () => {
           {/* You Receive */}
           <div className="flex justify-between items-center p-6 bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl border-2 border-primary shadow-lg">
             <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">You Receive</p>
+              <p className="text-sm font-medium text-blue-200/80 uppercase tracking-wide">You Receive</p>
               <p className="text-4xl font-bold text-primary">
                 ${businessReceives.toFixed(2)}
               </p>
@@ -114,32 +114,32 @@ const PaymentCalculator = () => {
         </div>
 
         {/* Features List */}
-        <div className="pt-6 border-t-2 space-y-4">
-          <h4 className="font-bold text-lg">What&apos;s Included in Your Fee:</h4>
+        <div className="pt-6 border-t-2 border-white/10 space-y-4">
+          <h4 className="font-bold text-lg text-white">What&apos;s Included in Your Fee:</h4>
           <div className="grid gap-3">
-            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors">
               <span className="text-primary text-xl flex-shrink-0">✓</span>
-              <span className="text-base">Secure payment processing with Stripe</span>
+              <span className="text-base text-blue-100/90">Secure payment processing with Stripe</span>
             </div>
-            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors">
               <span className="text-primary text-xl flex-shrink-0">✓</span>
-              <span className="text-base">Customer loyalty & rewards program</span>
+              <span className="text-base text-blue-100/90">Customer loyalty & rewards program</span>
             </div>
-            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors">
               <span className="text-primary text-xl flex-shrink-0">✓</span>
-              <span className="text-base">Digital receipts & transaction tracking</span>
+              <span className="text-base text-blue-100/90">Digital receipts & transaction tracking</span>
             </div>
-            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors">
               <span className="text-primary text-xl flex-shrink-0">✓</span>
-              <span className="text-base">Customer insights & analytics dashboard</span>
+              <span className="text-base text-blue-100/90">Customer insights & analytics dashboard</span>
             </div>
-            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors">
               <span className="text-primary text-xl flex-shrink-0">✓</span>
-              <span className="text-base">Marketing to your customers via app</span>
+              <span className="text-base text-blue-100/90">Marketing to your customers via app</span>
             </div>
-            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors">
               <span className="text-primary text-xl flex-shrink-0">✓</span>
-              <span className="text-base">24/7 customer support</span>
+              <span className="text-base text-blue-100/90">24/7 customer support</span>
             </div>
           </div>
         </div>
