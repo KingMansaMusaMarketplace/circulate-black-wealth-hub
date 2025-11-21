@@ -93,22 +93,22 @@ const PaymentCalculator = () => {
           </div>
 
           {/* You Receive */}
-          <div className="flex justify-between items-center p-6 bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl border-2 border-primary shadow-lg">
+          <div className="flex justify-between items-center p-6 bg-gradient-to-r from-mansagold/10 to-amber-500/5 rounded-xl border-2 border-mansagold shadow-lg">
             <div className="space-y-2">
               <p className="text-sm font-medium text-blue-200/80 uppercase tracking-wide">You Receive</p>
-              <p className="text-4xl font-bold text-primary">
+              <p className="text-4xl font-bold text-mansagold">
                 ${businessReceives.toFixed(2)}
               </p>
               <div className="flex items-center gap-2 mt-2">
-                <div className="bg-primary/20 px-3 py-1 rounded-full">
-                  <p className="text-sm font-semibold text-primary">
+                <div className="bg-mansagold/20 px-3 py-1 rounded-full">
+                  <p className="text-sm font-semibold text-mansagold">
                     {businessPercentage.toFixed(1)}% of total
                   </p>
                 </div>
               </div>
             </div>
-            <div className="bg-primary/20 p-4 rounded-full">
-              <TrendingUp className="h-8 w-8 text-primary" />
+            <div className="bg-mansagold/20 p-4 rounded-full">
+              <TrendingUp className="h-8 w-8 text-mansagold" />
             </div>
           </div>
         </div>
