@@ -117,10 +117,10 @@ const RewardsTab = () => {
         
         <Card className="border-2 border-mansablue/30 bg-white/80 backdrop-blur-sm hover:shadow-2xl transition-all duration-300">
           <CardContent className="p-6">
-            <h3 className="font-bold text-xl mb-2 bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">
+            <h3 className="font-bold text-xl mb-2 text-mansagold">
               Milestone Rewards
             </h3>
-            <p className="text-gray-600 text-sm mb-5 font-medium">
+            <p className="text-mansagold/90 text-sm mb-5 font-medium">
               Earn special rewards when you hit these milestones
             </p>
             
