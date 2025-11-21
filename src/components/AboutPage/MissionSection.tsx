@@ -20,14 +20,14 @@ const MissionSection = () => {
             
             <Card className="border-2 border-blue-200 hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl">
               <CardHeader className="bg-gradient-to-r from-blue-500/10 via-mansablue/10 to-blue-600/10 pb-3">
-                <CardTitle className="text-xl font-bold bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent">Why It Matters</CardTitle>
+                <CardTitle className="text-xl font-bold text-gray-900">Why It Matters</CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <p className="text-gray-700 mb-4 font-medium">
+                <p className="text-gray-900 mb-4 font-medium">
                   Today, the Black dollar circulates within our community for less than six hours, compared to 
                   28+ days in other groups.
                 </p>
-                <p className="text-gray-700 font-bold">
+                <p className="text-gray-900 font-bold">
                   Without structural intervention, this cycle of leakage continues — weakening every generation's 
                   economic potential.
                 </p>
