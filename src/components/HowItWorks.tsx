@@ -1,11 +1,10 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CircleCheck, CircleUser, CircleDollarSign, QrCode } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const HowItWorks = () => {
-  const navigate = useNavigate();
-
   return (
     <section className="py-12 bg-gray-50" id="how-it-works">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,12 +52,15 @@ const HowItWorks = () => {
         </div>
         
         <div className="mt-10 text-center">
-          <button 
-            onClick={() => navigate('/signup')}
-            className="text-mansablue font-medium hover:text-blue-700 cursor-pointer"
+          <Button 
+            asChild
+            variant="link"
+            className="text-mansablue font-medium hover:text-blue-700 cursor-pointer min-h-[44px] text-lg"
           >
-            Get Started Today <span aria-hidden="true">→</span>
-          </button>
+            <Link to="/signup">
+              Get Started Today <span aria-hidden="true">→</span>
+            </Link>
+          </Button>
         </div>
       </div>
     </section>

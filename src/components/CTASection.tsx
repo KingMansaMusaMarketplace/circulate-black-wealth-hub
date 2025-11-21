@@ -16,33 +16,34 @@ const CTASection = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Link to="/signup">
-            <Button size="lg" className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-semibold px-8 py-3 shadow-lg hover:shadow-xl transition-all">
+          <Button asChild size="lg" className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-semibold px-8 py-3 shadow-lg hover:shadow-xl transition-all min-h-[48px]">
+            <Link to="/signup">
               <Users className="mr-2 h-5 w-5" />
               Join as Customer
               <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           
-          <Link to="/signup?type=business">
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="bg-white/10 border-2 border-white text-white hover:bg-white hover:text-mansablue backdrop-blur-sm px-8 py-3 shadow-lg hover:shadow-xl transition-all"
-            >
+          <Button 
+            asChild
+            variant="outline" 
+            size="lg" 
+            className="bg-white/10 border-2 border-white text-white hover:bg-white hover:text-mansablue backdrop-blur-sm px-8 py-3 shadow-lg hover:shadow-xl transition-all min-h-[48px]"
+          >
+            <Link to="/signup?type=business">
               <Building2 className="mr-2 h-5 w-5" />
               Join as Business
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
         
         <div className="mt-8">
-          <Link to="/how-it-works">
-            <Button variant="ghost" className="text-white hover:text-mansagold-light hover:bg-white/10 drop-shadow-sm">
+          <Button asChild variant="ghost" className="text-white hover:text-mansagold-light hover:bg-white/10 drop-shadow-sm min-h-[44px]">
+            <Link to="/how-it-works">
               Learn How It Works
               <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
