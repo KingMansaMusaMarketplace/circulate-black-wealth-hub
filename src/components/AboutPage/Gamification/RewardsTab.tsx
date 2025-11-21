@@ -37,7 +37,7 @@ const RewardsTab = () => {
               </div>
             </div>
             
-            <h3 className="mt-4 text-base font-semibold text-foreground">
+            <h3 className="mt-4 text-base font-semibold text-white">
               How to Earn Points
             </h3>
             <ul className="space-y-3">
@@ -49,9 +49,9 @@ const RewardsTab = () => {
               ].map((item, idx) => (
                 <li key={idx} className="flex items-center space-x-3">
                   <div className="p-2 rounded-full bg-amber-500/10">
-                    <TrendingUp className="h-5 w-5 text-amber-600" />
+                    <TrendingUp className="h-5 w-5 text-amber-400" />
                   </div>
-                  <span className="text-foreground text-sm md:text-base">
+                  <span className="text-white text-sm md:text-base">
                     <strong className="font-semibold">{item.points}</strong> {item.text}
                   </span>
                 </li>
