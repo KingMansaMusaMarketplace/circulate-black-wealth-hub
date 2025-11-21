@@ -9,9 +9,9 @@ const BadgesTab = () => {
     { Icon: Award, name: 'Early Adopter', desc: 'Joined during beta', color: 'from-amber-500 to-orange-500', active: true },
     { Icon: Trophy, name: 'First Purchase', desc: 'Made first purchase', color: 'from-blue-500 to-cyan-500', active: true },
     { Icon: Star, name: 'Reviewer', desc: 'Left 5+ reviews', color: 'from-purple-500 to-pink-500', active: true },
-    { Icon: Gift, name: 'Big Spender', desc: 'Spent $1,000 total', color: 'from-gray-300 to-gray-400', active: false },
-    { Icon: UserCircle, name: 'Influencer', desc: 'Referred 5+ friends', color: 'from-gray-300 to-gray-400', active: false },
-    { Icon: TrendingUp, name: 'Circulation Pro', desc: 'Visited 20+ businesses', color: 'from-gray-300 to-gray-400', active: false }
+    { Icon: Gift, name: 'Big Spender', desc: 'Spent $1,000 total', color: 'from-emerald-500 to-green-500', active: false },
+    { Icon: UserCircle, name: 'Influencer', desc: 'Referred 5+ friends', color: 'from-rose-500 to-pink-500', active: false },
+    { Icon: TrendingUp, name: 'Circulation Pro', desc: 'Visited 20+ businesses', color: 'from-indigo-500 to-purple-500', active: false }
   ];
 
   return (
@@ -35,10 +35,10 @@ const BadgesTab = () => {
                 className={`flex flex-col items-center text-center group hover:scale-110 transition-transform ${!badge.active ? 'opacity-50' : ''}`}
               >
                 <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${badge.color} flex items-center justify-center mb-3 shadow-lg group-hover:shadow-2xl transition-all duration-300 ${badge.active ? 'ring-4 ring-mansagold/50' : ''}`}>
-                  <Icon className={`h-12 w-12 ${badge.active ? 'text-white' : 'text-gray-500'}`} />
+                  <Icon className="h-12 w-12 text-white" />
                 </div>
                 <h4 className="font-bold text-white">{badge.name}</h4>
-                <p className="text-xs text-white/70 font-medium">{badge.desc}</p>
+                <p className="text-xs text-white/90 font-medium">{badge.desc}</p>
               </div>
             );
           })}
