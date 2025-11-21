@@ -14,7 +14,7 @@ const RewardsTab = () => {
         <CardHeader className="pb-2 bg-gradient-to-r from-amber-50 to-orange-50">
           <CardTitle className="flex items-center">
             <Gift className="mr-2 h-6 w-6 text-amber-600" />
-            <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <span className="text-gray-900 font-bold">
               Points Rewards System
             </span>
           </CardTitle>
@@ -23,13 +23,13 @@ const RewardsTab = () => {
           <div className="space-y-4">
             <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-xl border-2 border-amber-200 shadow-md">
               <div className="flex items-center justify-between mb-3">
-                <h4 className="font-bold text-gray-800">Your Points Balance</h4>
-                <span className="text-4xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+                <h4 className="font-bold text-gray-900">Your Points Balance</h4>
+                <span className="text-4xl font-bold text-gray-900">
                   1,250
                 </span>
               </div>
               <div className="space-y-2">
-                <div className="flex justify-between text-sm font-medium text-gray-700">
+                <div className="flex justify-between text-sm font-medium text-gray-800">
                   <span>Next reward at 1,500 points</span>
                   <span>250 points to go</span>
                 </div>
