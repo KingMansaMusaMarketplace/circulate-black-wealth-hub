@@ -81,6 +81,28 @@ export const handleSignUp = async (
       }
     }
 
+    // Send welcome email
+    if (data.user) {
+      try {
+        const userType = (metadata as any)?.user_type || 'customer';
+        const userName = (metadata as any)?.full_name || email.split('@')[0];
+        
+        console.log("Sending welcome email...");
+        await supabase.functions.invoke('send-business-notification', {
+          body: {
+            type: userType === 'business' ? 'new_business' : 'new_customer',
+            userId: data.user.id,
+            recipientEmail: email,
+            businessName: userType === 'business' ? userName : undefined,
+            customerName: userType === 'customer' ? userName : undefined
+          }
+        });
+        console.log("Welcome email sent successfully");
+      } catch (emailError) {
+        console.warn('Welcome email failed:', emailError);
+      }
+    }
+
     showToast({
       title: 'Success',
       description: data.user?.email_confirmed_at 
