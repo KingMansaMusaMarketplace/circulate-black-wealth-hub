@@ -42,14 +42,14 @@ const RewardsTab = () => {
             </h3>
             <ul className="space-y-3">
               {[
-                { points: '10 points', text: 'for each business visit' },
-                { points: '1 point', text: 'for each dollar spent' },
-                { points: '25 points', text: 'for each review submitted' },
-                { points: '50 points', text: 'for referring a friend' }
+                { points: '10 points', text: 'for each business visit', color: 'from-mansablue to-blue-700' },
+                { points: '1 point', text: 'for each dollar spent', color: 'from-blue-600 to-blue-800' },
+                { points: '25 points', text: 'for each review submitted', color: 'from-purple-500 to-pink-500' },
+                { points: '50 points', text: 'for referring a friend', color: 'from-mansagold to-amber-600' }
               ].map((item, idx) => (
-                <li key={idx} className="flex items-center space-x-3">
-                  <div className="p-2 rounded-full bg-amber-500/10">
-                    <TrendingUp className="h-5 w-5 text-amber-400" />
+                <li key={idx} className="flex items-center space-x-3 group">
+                  <div className={`p-2 bg-gradient-to-r ${item.color} rounded-full group-hover:scale-110 transition-transform`}>
+                    <TrendingUp className="h-5 w-5 text-white" />
                   </div>
                   <span className="text-white text-sm md:text-base">
                     <strong className="font-semibold">{item.points}</strong> {item.text}
