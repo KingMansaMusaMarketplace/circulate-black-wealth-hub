@@ -9,9 +9,9 @@ const BadgesTab = () => {
     { Icon: Award, name: 'Early Adopter', desc: 'Joined during beta', color: 'from-amber-500 to-orange-500', active: true },
     { Icon: Trophy, name: 'First Purchase', desc: 'Made first purchase', color: 'from-blue-500 to-cyan-500', active: true },
     { Icon: Star, name: 'Reviewer', desc: 'Left 5+ reviews', color: 'from-purple-500 to-pink-500', active: true },
-    { Icon: Gift, name: 'Big Spender', desc: 'Spent $1,000 total', color: 'from-emerald-500 to-green-500', active: false },
-    { Icon: UserCircle, name: 'Influencer', desc: 'Referred 5+ friends', color: 'from-rose-500 to-pink-500', active: false },
-    { Icon: TrendingUp, name: 'Circulation Pro', desc: 'Visited 20+ businesses', color: 'from-indigo-500 to-purple-500', active: false }
+    { Icon: Gift, name: 'Big Spender', desc: 'Spent $1,000 total', color: 'from-emerald-500 to-green-500', active: true },
+    { Icon: UserCircle, name: 'Influencer', desc: 'Referred 5+ friends', color: 'from-rose-500 to-pink-500', active: true },
+    { Icon: TrendingUp, name: 'Circulation Pro', desc: 'Visited 20+ businesses', color: 'from-indigo-500 to-purple-500', active: true }
   ];
 
   return (
