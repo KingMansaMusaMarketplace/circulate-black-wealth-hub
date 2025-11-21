@@ -35,61 +35,92 @@ const ShareImpactPage: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Sparkles className="w-12 h-12 text-primary animate-pulse" />
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-primary/5 p-8">
-      <div className="container mx-auto max-w-4xl space-y-8">
-        <div>
-          <h1 className="text-4xl font-bold mb-2">Share Your Impact</h1>
-          <p className="text-muted-foreground">Show the community your progress</p>
-        </div>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Modern dark gradient mesh background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" />
+      
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-float" />
+        <div className="absolute top-1/4 -right-32 w-[32rem] h-[32rem] bg-gradient-to-tl from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute -bottom-40 left-1/4 w-[28rem] h-[28rem] bg-gradient-to-tr from-blue-700/25 to-mansablue/25 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-gradient-to-bl from-mansagold/20 to-amber-600/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+      </div>
 
-        <Card className="p-8 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
-          <div className="space-y-8">
-            <div className="flex items-center gap-3">
-              <Sparkles className="w-10 h-10" />
-              <h2 className="text-3xl font-bold">My Impact</h2>
-            </div>
+      {/* Subtle grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
 
-            <div className="grid grid-cols-3 gap-4">
-              <div className="bg-white/10 p-6 rounded-xl">
-                <Users className="w-8 h-8 mb-2" />
-                <div className="text-4xl font-bold">{stats.businesses}</div>
-                <div className="text-sm opacity-80">Businesses</div>
-              </div>
-
-              <div className="bg-white/10 p-6 rounded-xl">
-                <Award className="w-8 h-8 mb-2" />
-                <div className="text-4xl font-bold">{stats.achievements}</div>
-                <div className="text-sm opacity-80">Achievements</div>
-              </div>
-
-              <div className="bg-white/10 p-6 rounded-xl">
-                <Sparkles className="w-8 h-8 mb-2" />
-                <div className="text-4xl font-bold">{stats.points}</div>
-                <div className="text-sm opacity-80">Points</div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-r from-primary to-primary/80 p-4 rounded-xl text-center">
-              <p className="font-semibold">Building Community Wealth Together 💪</p>
+      <div className="container mx-auto px-4 max-w-2xl py-20 relative z-10">
+        {loading ? (
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <Sparkles className="w-12 h-12 animate-spin mx-auto mb-4 text-mansagold" />
+              <p className="text-white/80">Loading your impact...</p>
             </div>
           </div>
-        </Card>
+        ) : (
+          <div className="space-y-8 animate-fade-in">
+            {/* Header */}
+            <div className="text-center space-y-3">
+              <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-mansagold via-amber-400 to-mansagold bg-clip-text text-transparent animate-fade-in">
+                Share Your Impact
+              </h1>
+              <p className="text-white/70 text-lg">
+                Show the community your progress
+              </p>
+            </div>
 
-        <div className="flex gap-4">
-          <Button onClick={() => toast.info('Download feature coming soon!')} className="flex-1">
-            <Download className="w-4 h-4 mr-2" />
-            Download Image
-          </Button>
-        </div>
+            {/* Stats Card with Glass-morphism */}
+            <Card className="p-8 md:p-10 space-y-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:bg-white/10 transition-all duration-300">
+              <h2 className="text-3xl font-semibold text-center bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+                My Impact
+              </h2>
+              
+              <div className="grid grid-cols-3 gap-6">
+                <div className="text-center space-y-3">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-mansablue/30 to-blue-600/30 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/10">
+                    <Users className="w-8 h-8 text-blue-300" />
+                  </div>
+                  <div className="text-4xl font-bold text-white">{stats.businesses}</div>
+                  <div className="text-sm text-white/60">Businesses</div>
+                </div>
+
+                <div className="text-center space-y-3">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-500/30 to-purple-600/30 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/10">
+                    <Award className="w-8 h-8 text-purple-300" />
+                  </div>
+                  <div className="text-4xl font-bold text-white">{stats.achievements}</div>
+                  <div className="text-sm text-white/60">Achievements</div>
+                </div>
+
+                <div className="text-center space-y-3">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-mansagold/30 to-amber-500/30 backdrop-blur-sm rounded-full flex items-center justify-center border border-white/10">
+                    <Sparkles className="w-8 h-8 text-amber-300" />
+                  </div>
+                  <div className="text-4xl font-bold text-white">{stats.points}</div>
+                  <div className="text-sm text-white/60">Points</div>
+                </div>
+              </div>
+
+              <div className="text-center text-white/70 text-lg pt-4 border-t border-white/10">
+                Building Community Wealth Together 💪
+              </div>
+            </Card>
+
+            {/* Download Button */}
+            <div className="text-center">
+              <Button 
+                size="lg"
+                onClick={() => toast.info('Download feature coming soon!')}
+                className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold hover:from-mansagold/90 hover:via-amber-500/90 hover:to-mansagold/90 text-slate-900 font-semibold shadow-lg shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/40 transition-all duration-300 hover:scale-105"
+              >
+                <Download className="w-5 h-5 mr-2" />
+                Download Image
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
