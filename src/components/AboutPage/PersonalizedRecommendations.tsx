@@ -67,7 +67,7 @@ const PersonalizedRecommendations = () => {
               Tailored Business Recommendations
             </p>
           </div>
-          <p className="text-lg bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto font-medium">
+          <p className="text-lg text-gray-900 max-w-2xl mx-auto font-medium">
             Discover Black-owned businesses personalized to your interests, location, and previous interactions.
           </p>
         </div>
