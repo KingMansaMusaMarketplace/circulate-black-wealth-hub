@@ -8,8 +8,10 @@ import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCod
 import { getAudioPath } from '@/utils/audio';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import CountUpNumber from '@/components/animations/CountUpNumber';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 const Hero = () => {
+  const isIOS = shouldHideStripePayments();
   return (
     <section className="relative bg-gradient-to-br from-[#001a33] via-[#00152b] to-[#001024] overflow-hidden min-h-screen">
       {/* Enhanced Background with Pattern - Subtler overlays */}
@@ -35,30 +37,36 @@ const Hero = () => {
 
         {/* Free Access Badges */}
         <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 mb-20 md:mb-24">
-          <Link to="/signup" className="inline-block">
-            <Badge className="bg-gradient-green text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-green badge-shimmer min-h-[44px] flex items-center">
-              <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              100% FREE - All Customer Features
-            </Badge>
-          </Link>
-          <Link to="/signup?type=business" className="inline-block">
-            <Badge className="bg-gradient-blue text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-blue badge-shimmer min-h-[44px] flex items-center">
-              <Building2 className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              100% FREE - All Business Features
-            </Badge>
-          </Link>
+          {!isIOS && (
+            <>
+              <Link to="/signup" className="inline-block">
+                <Badge className="bg-gradient-green text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-green badge-shimmer min-h-[44px] flex items-center">
+                  <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
+                  100% FREE - All Customer Features
+                </Badge>
+              </Link>
+              <Link to="/signup?type=business" className="inline-block">
+                <Badge className="bg-gradient-blue text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-blue badge-shimmer min-h-[44px] flex items-center">
+                  <Building2 className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
+                  100% FREE - All Business Features
+                </Badge>
+              </Link>
+            </>
+          )}
           <Link to="/become-a-sales-agent" className="inline-block">
             <Badge className="bg-gradient-sales text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-ios badge-shimmer min-h-[44px] flex items-center">
               <TrendingUp className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
               Earn as Sales Agent - Up to 15%!
             </Badge>
           </Link>
-          <Link to="/signup" className="inline-block">
-            <Badge className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse shadow-lg badge-shimmer min-h-[44px] flex items-center">
-              <Heart className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              Community First, Revenue Later
-            </Badge>
-          </Link>
+          {!isIOS && (
+            <Link to="/signup" className="inline-block">
+              <Badge className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse shadow-lg badge-shimmer min-h-[44px] flex items-center">
+                <Heart className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
+                Community First, Revenue Later
+              </Badge>
+            </Link>
+          )}
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 xl:gap-32 items-center mb-32 md:mb-40">
@@ -86,20 +94,23 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col gap-6 mb-12 w-full animate-fade-in [animation-delay:600ms]">
-              <Button 
-                asChild
-                size="lg"
-                className="gradient-gold text-mansablue-dark font-bold text-base sm:text-lg md:text-xl rounded-2xl w-full sm:w-auto leading-tight cursor-pointer hover-glow-gold border-2 border-mansagold-light/30 min-h-[48px]"
-              >
-                <Link to="/signup" className="w-full sm:w-auto">
-                  <span className="text-center">
-                    Join FREE Today
-                    <br className="sm:hidden" />
-                    <span className="hidden sm:inline"> - </span>
-                    No Credit Card Required
-                  </span>
-                </Link>
-              </Button>
+              {!isIOS && (
+                <Button 
+                  asChild
+                  size="lg"
+                  className="gradient-gold text-mansablue-dark font-bold text-base sm:text-lg md:text-xl rounded-2xl w-full sm:w-auto leading-tight cursor-pointer hover-glow-gold border-2 border-mansagold-light/30 min-h-[48px]"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  <Link to="/signup" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
+                    <span className="text-center pointer-events-none">
+                      Join FREE Today
+                      <br className="sm:hidden" />
+                      <span className="hidden sm:inline"> - </span>
+                      No Credit Card Required
+                    </span>
+                  </Link>
+                </Button>
+              )}
               
               <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full">
                 <AudioButton
@@ -111,16 +122,20 @@ const Hero = () => {
                   Introduction - 30 mins
                 </AudioButton>
                 
-                <Button 
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="text-lg rounded-2xl w-full sm:w-auto whitespace-nowrap border-mansagold/60 text-mansagold hover:bg-mansagold hover:text-mansablue-dark cursor-pointer backdrop-blur-sm hover-glow-gold transition-all duration-300 min-h-[48px]"
+                <Link 
+                  to="/directory" 
+                  className="w-full sm:w-auto"
+                  style={{ touchAction: 'manipulation' }}
                 >
-                  <Link to="/directory" className="w-full sm:w-auto">
-                    Browse Directory
-                  </Link>
-                </Button>
+                  <Button 
+                    variant="outline"
+                    size="lg"
+                    className="text-lg rounded-2xl w-full sm:w-auto whitespace-nowrap border-mansagold/60 text-mansagold hover:bg-mansagold hover:text-mansablue-dark cursor-pointer backdrop-blur-sm hover-glow-gold transition-all duration-300 min-h-[48px]"
+                    style={{ touchAction: 'manipulation' }}
+                  >
+                    <span className="pointer-events-none">Browse Directory</span>
+                  </Button>
+                </Link>
                 </div>
               </div>
             </div>
@@ -166,65 +181,69 @@ const Hero = () => {
 
         {/* Updated Plan Cards Grid - All Free */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10 max-w-7xl mx-auto px-4">
-          <ScrollReveal delay={0.1}>
-            <Link to="/signup" className="block h-full">
-              <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 group h-full">
-              <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
-                <div className="text-center">
-                  <Badge className="bg-green-500 text-white mb-4 shadow-md">
-                    <CheckCircle className="mr-1.5 h-4 w-4" />
-                    100% FREE
-                  </Badge>
-                  <h3 className="text-green-100 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">CUSTOMERS</h3>
-                  <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
-                    Browse directory, get discounts, earn loyalty points, redeem rewards
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-            </Link>
-          </ScrollReveal>
+          {!isIOS && (
+            <>
+              <ScrollReveal delay={0.1}>
+                <Link to="/signup" className="block h-full" style={{ touchAction: 'manipulation' }}>
+                  <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 group h-full">
+                  <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
+                    <div className="text-center">
+                      <Badge className="bg-green-500 text-white mb-4 shadow-md">
+                        <CheckCircle className="mr-1.5 h-4 w-4" />
+                        100% FREE
+                      </Badge>
+                      <h3 className="text-green-100 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">CUSTOMERS</h3>
+                      <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
+                        Browse directory, get discounts, earn loyalty points, redeem rewards
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+                </Link>
+              </ScrollReveal>
 
-          <ScrollReveal delay={0.2}>
-            <Link to="/signup?type=business" className="block h-full">
-              <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 group h-full">
-              <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
-                <div className="text-center">
-                  <Badge className="bg-blue-500 text-white mb-4 shadow-md">
-                    <Building2 className="mr-1.5 h-4 w-4" />
-                    100% FREE
-                  </Badge>
-                  <h3 className="text-blue-200 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">BUSINESSES</h3>
-                  <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
-                    Unlimited QR codes, analytics, customer management, promotions
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-            </Link>
-          </ScrollReveal>
+              <ScrollReveal delay={0.2}>
+                <Link to="/signup?type=business" className="block h-full" style={{ touchAction: 'manipulation' }}>
+                  <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 group h-full">
+                  <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
+                    <div className="text-center">
+                      <Badge className="bg-blue-500 text-white mb-4 shadow-md">
+                        <Building2 className="mr-1.5 h-4 w-4" />
+                        100% FREE
+                      </Badge>
+                      <h3 className="text-blue-200 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">BUSINESSES</h3>
+                      <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
+                        Unlimited QR codes, analytics, customer management, promotions
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+                </Link>
+              </ScrollReveal>
 
-          <ScrollReveal delay={0.3}>
-            <Link to="/signup" className="block h-full">
-              <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 group h-full">
-              <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
-                <div className="text-center">
-                  <Badge className="bg-purple-500 text-white mb-4 shadow-md">
-                    <GraduationCap className="mr-1.5 h-4 w-4" />
-                    STUDENTS
-                  </Badge>
-                  <h3 className="text-purple-200 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">HBCU SPECIAL</h3>
-                  <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
-                    Extra rewards, exclusive events, community building
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-            </Link>
-          </ScrollReveal>
+              <ScrollReveal delay={0.3}>
+                <Link to="/signup" className="block h-full" style={{ touchAction: 'manipulation' }}>
+                  <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 group h-full">
+                  <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
+                    <div className="text-center">
+                      <Badge className="bg-purple-500 text-white mb-4 shadow-md">
+                        <GraduationCap className="mr-1.5 h-4 w-4" />
+                        STUDENTS
+                      </Badge>
+                      <h3 className="text-purple-200 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">HBCU SPECIAL</h3>
+                      <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
+                        Extra rewards, exclusive events, community building
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+                </Link>
+              </ScrollReveal>
+            </>
+          )}
 
           <ScrollReveal delay={0.4}>
-            <Link to="/directory" className="block h-full">
+            <Link to="/directory" className="block h-full" style={{ touchAction: 'manipulation' }}>
               <Card className="glass-card bg-mansagold/15 border-mansagold/30 hover:bg-mansagold/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-mansagold/30 group h-full">
               <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
                 <div className="text-center">
