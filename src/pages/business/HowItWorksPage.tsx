@@ -189,7 +189,7 @@ const HowItWorksPage = () => {
               <Card className="overflow-hidden bg-slate-800/60 backdrop-blur-xl border-white/10">
                 <CardContent className="p-0">
                   <VideoPlayer
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    src="https://youtu.be/XSMfwiZBOvs?si=bzMfnJomZSKrJsZe"
                     title="Customer QR Payment Flow Tutorial - Step by Step"
                     isYouTube={true}
                     description="Watch a real-time demonstration of a customer using the MMM QR code payment system at a restaurant. This tutorial shows every step from scanning the QR code to receiving the payment confirmation and loyalty points."
