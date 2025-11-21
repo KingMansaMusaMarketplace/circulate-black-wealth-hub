@@ -181,7 +181,7 @@ const HowItWorksPage = () => {
                 <h2 className="text-3xl font-bold text-white">Watch It In Action</h2>
               </div>
               <p className="text-blue-100/90">
-                See a real customer scanning and completing a payment in under 60 seconds
+                6 minutes
               </p>
             </div>
 
