@@ -331,7 +331,11 @@ function App() {
                               <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                               <Route path="/auth" element={<LazyAuthPage />} />
                               <Route path="/login" element={<LazyLoginPage />} />
-                              <Route path="/signup" element={<LazySignupPage />} />
+                              <Route path="/signup" element={
+                                <IOSProtectedRoute>
+                                  <LazySignupPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/email-verified" element={<LazyEmailVerified />} />
                             
                               {/* Error Page */}
