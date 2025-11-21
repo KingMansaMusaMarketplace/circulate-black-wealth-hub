@@ -37,24 +37,22 @@ const RewardsTab = () => {
               </div>
             </div>
             
-            <h3 className="font-bold text-lg mt-4 text-gray-900">
+            <h3 className="mt-4 text-base font-semibold text-foreground">
               How to Earn Points
             </h3>
             <ul className="space-y-3">
               {[
-                { points: '10 points', text: 'for each business visit', color: 'from-mansablue to-blue-700' },
-                { points: '1 point', text: 'for each dollar spent', color: 'from-blue-600 to-blue-800' },
-                { points: '25 points', text: 'for each review submitted', color: 'from-purple-500 to-pink-500' },
-                { points: '50 points', text: 'for referring a friend', color: 'from-mansagold to-amber-600' }
+                { points: '10 points', text: 'for each business visit' },
+                { points: '1 point', text: 'for each dollar spent' },
+                { points: '25 points', text: 'for each review submitted' },
+                { points: '50 points', text: 'for referring a friend' }
               ].map((item, idx) => (
-                <li key={idx} className="flex items-center space-x-3 group">
-                  <div className={`p-2 bg-gradient-to-r ${item.color} rounded-full group-hover:scale-110 transition-transform`}>
-                    <TrendingUp className="h-5 w-5 text-white" />
+                <li key={idx} className="flex items-center space-x-3">
+                  <div className="p-2 rounded-full bg-amber-500/10">
+                    <TrendingUp className="h-5 w-5 text-amber-600" />
                   </div>
-                  <span className="text-gray-900 font-medium">
-                    <strong className={`bg-gradient-to-r ${item.color} bg-clip-text text-transparent font-bold`}>
-                      {item.points}
-                    </strong> {item.text}
+                  <span className="text-foreground text-sm md:text-base">
+                    <strong className="font-semibold">{item.points}</strong> {item.text}
                   </span>
                 </li>
               ))}
