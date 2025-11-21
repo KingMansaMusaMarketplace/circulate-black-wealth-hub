@@ -37,7 +37,7 @@ const RewardsTab = () => {
               </div>
             </div>
             
-            <h3 className="font-bold text-lg mt-4 bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+            <h3 className="font-bold text-lg mt-4 text-gray-900">
               How to Earn Points
             </h3>
             <ul className="space-y-3">
