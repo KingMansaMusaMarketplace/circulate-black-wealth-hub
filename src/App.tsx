@@ -381,6 +381,7 @@ function App() {
                               <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
                               <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
                               <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
+                              <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                               <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                               <Route path="/loyalty" element={<LazyRewardsPage />} />
                               <Route path="/about" element={<LazyAboutPage />} />
@@ -420,7 +421,6 @@ function App() {
                               <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
                               <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
-                              <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
                               <Route path="/network" element={<LazyNetworkPage />} />
                              
@@ -566,6 +566,7 @@ function App() {
                         <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
                         <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
                         <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
+                        <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                         <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                         <Route path="/loyalty" element={<LazyRewardsPage />} />
                         {/* Temporarily disabled to isolate iOS startup crash */}
