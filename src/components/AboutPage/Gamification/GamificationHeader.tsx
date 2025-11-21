@@ -16,7 +16,7 @@ const GamificationHeader = () => {
           Making Economic Empowerment Fun
         </p>
       </div>
-      <p className="text-lg text-gray-700 max-w-2xl mx-auto font-medium">
+      <p className="text-lg text-white/90 max-w-2xl mx-auto font-medium">
         Discover how our gamified platform rewards you for supporting Black-owned businesses 
         and participating in economic circulation.
       </p>
