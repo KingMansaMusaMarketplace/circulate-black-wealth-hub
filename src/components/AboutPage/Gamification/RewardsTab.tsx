@@ -51,8 +51,8 @@ const RewardsTab = () => {
                   <div className={`p-2 bg-gradient-to-r ${item.color} rounded-full group-hover:scale-110 transition-transform`}>
                     <TrendingUp className="h-5 w-5 text-white" />
                   </div>
-                  <span className="text-gray-800">
-                    <strong className={`bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
+                  <span className="text-gray-900 font-medium">
+                    <strong className={`bg-gradient-to-r ${item.color} bg-clip-text text-transparent font-bold`}>
                       {item.points}
                     </strong> {item.text}
                   </span>
