@@ -19,21 +19,22 @@ const PaymentCalculator = () => {
   const businessPercentage = customerPayment > 0 ? (businessReceives / customerPayment) * 100 : 0;
 
   return (
-    <Card className="border-2">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <DollarSign className="h-5 w-5 text-primary" />
+    <Card className="border-2 shadow-xl">
+      <CardHeader className="pb-6">
+        <CardTitle className="flex items-center gap-3 text-2xl">
+          <DollarSign className="h-7 w-7 text-primary" />
           Payment Calculator
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-base mt-2">
           See exactly how much you receive for any transaction
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-2">
-          <Label htmlFor="amount">Customer Payment Amount</Label>
+      <CardContent className="space-y-8">
+        {/* Input Section */}
+        <div className="space-y-3">
+          <Label htmlFor="amount" className="text-base font-semibold">Customer Payment Amount</Label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground text-xl font-semibold">$</span>
             <Input
               id="amount"
               type="number"
@@ -41,94 +42,106 @@ const PaymentCalculator = () => {
               step="0.01"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="pl-7 text-lg font-semibold"
+              className="pl-10 text-2xl font-bold h-16 text-center"
               placeholder="100.00"
             />
           </div>
         </div>
 
-        <div className="space-y-3">
-          <div className="flex justify-between items-center p-4 bg-green-50 dark:bg-green-950 rounded-lg border-2 border-green-200 dark:border-green-800">
-            <div>
-              <p className="text-sm text-muted-foreground">Customer Pays</p>
-              <p className="text-2xl font-bold text-green-700 dark:text-green-400">
+        {/* Calculation Breakdown */}
+        <div className="space-y-4">
+          {/* Customer Pays */}
+          <div className="flex justify-between items-center p-5 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 rounded-xl border-2 border-green-300 dark:border-green-700">
+            <div className="space-y-1">
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Customer Pays</p>
+              <p className="text-3xl font-bold text-green-700 dark:text-green-400">
                 ${customerPayment.toFixed(2)}
               </p>
             </div>
-            <div className="bg-green-100 dark:bg-green-900 p-3 rounded-full">
-              <DollarSign className="h-6 w-6 text-green-700 dark:text-green-400" />
+            <div className="bg-green-200 dark:bg-green-800 p-4 rounded-full">
+              <DollarSign className="h-7 w-7 text-green-700 dark:text-green-300" />
             </div>
           </div>
 
-          <div className="space-y-2 p-4 bg-muted/50 rounded-lg">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <TrendingDown className="h-4 w-4 text-orange-600" />
-                <span className="text-sm">Platform Commission (7.5%)</span>
+          {/* Deductions */}
+          <div className="space-y-3 p-5 bg-muted/30 rounded-xl border border-border">
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">Deductions</p>
+            
+            <div className="flex justify-between items-center py-2 border-b border-border/50">
+              <div className="flex items-center gap-3">
+                <div className="bg-orange-100 dark:bg-orange-900/30 p-2 rounded-lg">
+                  <TrendingDown className="h-4 w-4 text-orange-600 dark:text-orange-500" />
+                </div>
+                <span className="text-base font-medium">Platform Commission (7.5%)</span>
               </div>
-              <span className="font-semibold text-orange-600">
+              <span className="text-lg font-bold text-orange-600 dark:text-orange-500">
                 -${platformCommission.toFixed(2)}
               </span>
             </div>
 
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <TrendingDown className="h-4 w-4 text-red-600" />
-                <span className="text-sm">Stripe Processing Fee</span>
+            <div className="flex justify-between items-center py-2">
+              <div className="flex items-center gap-3">
+                <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-lg">
+                  <TrendingDown className="h-4 w-4 text-red-600 dark:text-red-500" />
+                </div>
+                <span className="text-base font-medium">Stripe Processing Fee (2.9% + $0.30)</span>
               </div>
-              <span className="font-semibold text-red-600">
+              <span className="text-lg font-bold text-red-600 dark:text-red-500">
                 -${stripeFee.toFixed(2)}
               </span>
             </div>
           </div>
 
-          <div className="flex justify-between items-center p-4 bg-primary/10 rounded-lg border-2 border-primary">
-            <div>
-              <p className="text-sm text-muted-foreground">You Receive</p>
-              <p className="text-3xl font-bold text-primary">
+          {/* You Receive */}
+          <div className="flex justify-between items-center p-6 bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl border-2 border-primary shadow-lg">
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">You Receive</p>
+              <p className="text-4xl font-bold text-primary">
                 ${businessReceives.toFixed(2)}
               </p>
-              <div className="flex items-center gap-1 mt-1">
-                <Percent className="h-3 w-3 text-muted-foreground" />
-                <p className="text-xs text-muted-foreground">
-                  {businessPercentage.toFixed(1)}% of total
-                </p>
+              <div className="flex items-center gap-2 mt-2">
+                <div className="bg-primary/20 px-3 py-1 rounded-full">
+                  <p className="text-sm font-semibold text-primary">
+                    {businessPercentage.toFixed(1)}% of total
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="bg-primary/20 p-3 rounded-full">
-              <TrendingUp className="h-6 w-6 text-primary" />
+            <div className="bg-primary/20 p-4 rounded-full">
+              <TrendingUp className="h-8 w-8 text-primary" />
             </div>
           </div>
         </div>
 
-        <div className="pt-4 border-t space-y-2">
-          <h4 className="font-semibold text-sm">What's Included in Your Fee:</h4>
-          <ul className="space-y-1 text-sm text-muted-foreground">
-            <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">✓</span>
-              <span>Secure payment processing with Stripe</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">✓</span>
-              <span>Customer loyalty & rewards program</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">✓</span>
-              <span>Digital receipts & transaction tracking</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">✓</span>
-              <span>Customer insights & analytics dashboard</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">✓</span>
-              <span>Marketing to your customers via app</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">✓</span>
-              <span>24/7 customer support</span>
-            </li>
-          </ul>
+        {/* Features List */}
+        <div className="pt-6 border-t-2 space-y-4">
+          <h4 className="font-bold text-lg">What&apos;s Included in Your Fee:</h4>
+          <div className="grid gap-3">
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+              <span className="text-primary text-xl flex-shrink-0">✓</span>
+              <span className="text-base">Secure payment processing with Stripe</span>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+              <span className="text-primary text-xl flex-shrink-0">✓</span>
+              <span className="text-base">Customer loyalty & rewards program</span>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+              <span className="text-primary text-xl flex-shrink-0">✓</span>
+              <span className="text-base">Digital receipts & transaction tracking</span>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+              <span className="text-primary text-xl flex-shrink-0">✓</span>
+              <span className="text-base">Customer insights & analytics dashboard</span>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+              <span className="text-primary text-xl flex-shrink-0">✓</span>
+              <span className="text-base">Marketing to your customers via app</span>
+            </div>
+            <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+              <span className="text-primary text-xl flex-shrink-0">✓</span>
+              <span className="text-base">24/7 customer support</span>
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>
