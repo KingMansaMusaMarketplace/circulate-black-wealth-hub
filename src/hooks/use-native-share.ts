@@ -59,18 +59,32 @@ export const useNativeShare = () => {
     }
   };
 
-  const shareUrl = async (url: string, title?: string, dialogTitle?: string) => {
+  const shareUrl = async (url: string, text?: string, title?: string) => {
     if (!isNative) {
       // Web fallback
       if (navigator.share) {
         try {
-          await navigator.share({ url, title });
+          await navigator.share({ url, text, title });
+          haptics.success();
+          toast.success('Shared successfully!');
           return true;
         } catch (error) {
+          // User canceled or error occurred
           return false;
         }
       }
-      return false;
+      
+      // Clipboard fallback for browsers without Web Share API
+      try {
+        await navigator.clipboard.writeText(url);
+        haptics.success();
+        toast.success('Link copied to clipboard!');
+        return true;
+      } catch (error) {
+        haptics.error();
+        toast.error('Failed to copy link');
+        return false;
+      }
     }
 
     setIsSharing(true);
@@ -80,7 +94,7 @@ export const useNativeShare = () => {
       await Share.share({
         url,
         title,
-        dialogTitle: dialogTitle || 'Share'
+        dialogTitle: title || 'Share'
       });
       
       haptics.success();
