@@ -63,7 +63,7 @@ const PersonalizedRecommendations = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-6 rounded-full"></div>
           <div className="flex justify-center items-center gap-2 mb-4">
             <Star className="h-6 w-6 fill-mansagold text-mansagold animate-pulse" />
-            <p className="text-xl font-bold bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent">
+            <p className="text-xl font-bold text-gray-900">
               Tailored Business Recommendations
             </p>
           </div>
