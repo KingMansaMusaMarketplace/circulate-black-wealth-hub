@@ -60,24 +60,24 @@ const BusinessFAQ = () => {
   ];
 
   return (
-    <Card>
+    <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-white">
           <HelpCircle className="h-5 w-5 text-primary" />
           Frequently Asked Questions
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-blue-200/80">
           Everything you need to know about accepting payments with MMM
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Accordion type="single" collapsible className="w-full">
           {faqs.map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger className="text-left">
+            <AccordionItem key={index} value={`item-${index}`} className="border-white/10">
+              <AccordionTrigger className="text-left text-blue-100/90 hover:text-white">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">
+              <AccordionContent className="text-blue-200/80">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
