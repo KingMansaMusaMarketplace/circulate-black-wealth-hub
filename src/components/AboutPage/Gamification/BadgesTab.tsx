@@ -15,13 +15,13 @@ const BadgesTab = () => {
   ];
 
   return (
-    <Card className="border-2 border-blue-200 bg-white/80 backdrop-blur-sm">
+    <Card className="border-2 border-blue-500/30 bg-slate-900/60 backdrop-blur-sm">
       <CardContent className="p-8">
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-bold bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent mb-2">
+          <h3 className="text-2xl font-bold text-white mb-2">
             Your Achievement Badges
           </h3>
-          <p className="text-gray-700 font-medium">
+          <p className="text-white/90 font-medium">
             Collect badges as you support Black-owned businesses and reach important milestones
           </p>
         </div>
@@ -34,23 +34,23 @@ const BadgesTab = () => {
                 key={idx}
                 className={`flex flex-col items-center text-center group hover:scale-110 transition-transform ${!badge.active ? 'opacity-50' : ''}`}
               >
-                <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${badge.color} flex items-center justify-center mb-3 shadow-lg group-hover:shadow-2xl transition-all duration-300 ${badge.active ? 'ring-4 ring-white' : ''}`}>
+                <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${badge.color} flex items-center justify-center mb-3 shadow-lg group-hover:shadow-2xl transition-all duration-300 ${badge.active ? 'ring-4 ring-mansagold/50' : ''}`}>
                   <Icon className={`h-12 w-12 ${badge.active ? 'text-white' : 'text-gray-400'}`} />
                 </div>
-                <h4 className="font-bold text-gray-800">{badge.name}</h4>
-                <p className="text-xs text-gray-600 font-medium">{badge.desc}</p>
+                <h4 className="font-bold text-white">{badge.name}</h4>
+                <p className="text-xs text-white/80 font-medium">{badge.desc}</p>
               </div>
             );
           })}
         </div>
         
         <div className="mt-10 text-center">
-          <p className="text-gray-700 font-bold mb-5 text-lg">
+          <p className="text-white font-bold mb-5 text-lg">
             🎖️ You've earned 3 out of 12 possible badges. Keep supporting Black-owned businesses to earn more!
           </p>
           <Button 
             variant="outline" 
-            className="border-2 border-mansablue text-mansablue hover:bg-gradient-to-r hover:from-mansablue hover:to-blue-700 hover:text-white hover:border-transparent font-bold px-8 py-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+            className="border-2 border-mansagold text-mansagold hover:bg-gradient-to-r hover:from-mansagold hover:to-amber-600 hover:text-blue-950 hover:border-transparent font-bold px-8 py-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
             View All Badges
           </Button>
