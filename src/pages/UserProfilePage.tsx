@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -198,8 +199,19 @@ export default function UserProfilePage() {
               <div className="space-y-1">
                 <h1 className="text-4xl font-bold text-white animate-fade-in">{profile.full_name || 'User'}</h1>
                 <p className="text-white/90 text-lg">{profile.email}</p>
-                <div className="flex items-center space-x-2">
-                  <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm">{profile.subscription_tier}</Badge>
+                <div className="flex items-center space-x-2 flex-wrap gap-2">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className="bg-white/20 text-white border-white/30 backdrop-blur-sm hover:bg-white/30 min-h-[44px] min-w-[44px] cursor-pointer touch-manipulation"
+                  >
+                    <Link to="/subscription">
+                      <Badge className="bg-transparent border-0 text-white pointer-events-none">
+                        {profile.subscription_tier}
+                      </Badge>
+                    </Link>
+                  </Button>
                   <Badge className={profile.subscription_status === 'active' ? 'bg-green-500/30 text-white border-green-400/50 backdrop-blur-sm' : 'bg-white/20 text-white border-white/30 backdrop-blur-sm'}>
                     {profile.subscription_status}
                   </Badge>
