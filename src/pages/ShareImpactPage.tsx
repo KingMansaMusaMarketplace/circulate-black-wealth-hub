@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Users, Award, Download } from 'lucide-react';
 import { toast } from 'sonner';
+import html2canvas from 'html2canvas';
 
 const ShareImpactPage: React.FC = () => {
   const [stats, setStats] = useState({ businesses: 0, achievements: 0, points: 0 });
   const [loading, setLoading] = useState(true);
+  const [downloading, setDownloading] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     loadStats();
@@ -32,6 +35,32 @@ const ShareImpactPage: React.FC = () => {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!cardRef.current) return;
+    
+    setDownloading(true);
+    try {
+      const canvas = await html2canvas(cardRef.current, {
+        backgroundColor: null,
+        scale: 2,
+        logging: false,
+        useCORS: true
+      });
+      
+      const link = document.createElement('a');
+      link.download = `my-impact-${new Date().toISOString().split('T')[0]}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      
+      toast.success('Image downloaded successfully!');
+    } catch (error) {
+      console.error('Download failed:', error);
+      toast.error('Failed to download image. Please try again.');
+    } finally {
+      setDownloading(false);
     }
   };
 
@@ -72,7 +101,7 @@ const ShareImpactPage: React.FC = () => {
             </div>
 
             {/* Stats Card with Glass-morphism */}
-            <Card className="p-8 md:p-10 space-y-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:bg-white/10 transition-all duration-300">
+            <Card ref={cardRef} className="p-8 md:p-10 space-y-8 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:bg-white/10 transition-all duration-300">
               <h2 className="text-3xl font-semibold text-center bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
                 My Impact
               </h2>
@@ -112,11 +141,12 @@ const ShareImpactPage: React.FC = () => {
             <div className="text-center">
               <Button 
                 size="lg"
-                onClick={() => toast.info('Download feature coming soon!')}
-                className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold hover:from-mansagold/90 hover:via-amber-500/90 hover:to-mansagold/90 text-slate-900 font-semibold shadow-lg shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/40 transition-all duration-300 hover:scale-105"
+                onClick={handleDownload}
+                disabled={downloading}
+                className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold hover:from-mansagold/90 hover:via-amber-500/90 hover:to-mansagold/90 text-slate-900 font-semibold shadow-lg shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/40 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="w-5 h-5 mr-2" />
-                Download Image
+                {downloading ? 'Downloading...' : 'Download Image'}
               </Button>
             </div>
           </div>
