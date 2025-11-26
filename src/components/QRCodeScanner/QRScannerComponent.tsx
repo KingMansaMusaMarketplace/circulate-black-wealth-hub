@@ -6,6 +6,7 @@ import ScanResult from './ScanResult';
 import ScannerInstructions from './components/ScannerInstructions';
 import { QrCode, Clock, Camera, Loader2, AlertCircle } from 'lucide-react';
 import { Html5Qrcode } from 'html5-qrcode';
+import { toast } from 'sonner';
 
 interface ScanHistoryItem {
   businessName: string;
@@ -159,12 +160,22 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
       console.error('Camera error:', error);
       setScanning(false);
       
+      // Provide clear, user-friendly error messages
       if (error.name === 'NotAllowedError' || error.message.includes('Permission denied')) {
-        setCameraError('Camera permission denied. Please allow camera access and try again.');
-      } else if (error.message.includes('NotFoundError')) {
-        setCameraError('No camera found on this device.');
+        setCameraError('Camera Access Required: Please allow camera access in your browser/device settings to scan QR codes.');
+        toast.error('Camera Access Denied', {
+          description: 'Please allow camera access in your browser settings and refresh the page.'
+        });
+      } else if (error.name === 'NotFoundError' || error.message.includes('not found')) {
+        setCameraError('No Camera Found: This device doesn\'t have a camera or it\'s not available.');
+        toast.error('No Camera Available', {
+          description: 'Please use a device with a camera to scan QR codes.'
+        });
       } else {
-        setCameraError(`Camera error: ${error.message || 'Unknown error'}`);
+        setCameraError(`Camera Error: ${error.message || 'Unable to access camera. Please check your device settings.'}`);
+        toast.error('Camera Error', {
+          description: error.message || 'Unable to access camera'
+        });
       }
     }
   };
