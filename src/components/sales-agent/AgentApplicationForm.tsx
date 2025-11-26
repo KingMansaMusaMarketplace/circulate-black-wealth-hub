@@ -18,12 +18,27 @@ import {
 } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
-// Update the form schema to ensure email is required, matching the SalesAgentApplication type
+// Update the form schema with proper validation
 const formSchema = z.object({
-  full_name: z.string().min(3, { message: 'Name must be at least 3 characters long' }),
-  email: z.string().email({ message: 'Please enter a valid email address' }),
-  phone: z.string().min(10, { message: 'Phone number must be at least 10 characters long' }).optional(),
-  recruiter_code: z.string().optional(),
+  full_name: z.string()
+    .min(3, { message: 'Name must be at least 3 characters long' })
+    .max(100, { message: 'Name must be less than 100 characters' })
+    .trim(),
+  email: z.string()
+    .email({ message: 'Please enter a valid email address' })
+    .max(255, { message: 'Email must be less than 255 characters' })
+    .trim()
+    .toLowerCase(),
+  phone: z.string()
+    .min(10, { message: 'Phone number must be at least 10 digits' })
+    .max(20, { message: 'Phone number must be less than 20 characters' })
+    .regex(/^[0-9\s\-\+\(\)]+$/, { message: 'Please enter a valid phone number' })
+    .optional()
+    .or(z.literal('')),
+  recruiter_code: z.string()
+    .max(50, { message: 'Recruiter code must be less than 50 characters' })
+    .optional()
+    .or(z.literal('')),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -54,20 +69,49 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
 
     try {
       setIsSubmitting(true);
-      // Make sure to pass all required fields and don't make them optional
+      
+      // Validate all fields before submission
+      if (!values.full_name || values.full_name.trim().length < 3) {
+        throw new Error('Please enter your full name (minimum 3 characters)');
+      }
+      
+      if (!values.email || !values.email.includes('@')) {
+        throw new Error('Please enter a valid email address');
+      }
+      
+      // Make sure to pass all required fields
       await submitSalesAgentApplication({
         user_id: user.id,
-        full_name: values.full_name,
-        email: values.email,
-        phone: values.phone,
-        recruiter_code: values.recruiter_code,
+        full_name: values.full_name.trim(),
+        email: values.email.trim().toLowerCase(),
+        phone: values.phone?.trim() || undefined,
+        recruiter_code: values.recruiter_code?.trim() || undefined,
       });
       
-      toast.success('Your application has been submitted successfully!');
+      toast.success('Application Submitted!', {
+        description: 'Your sales agent application has been submitted successfully. You\'ll be contacted soon.'
+      });
+      
       if (onSuccess) onSuccess();
     } catch (error: any) {
       console.error('Error submitting application:', error);
-      toast.error(`Error submitting application: ${error.message}`);
+      
+      // Provide user-friendly error messages
+      let errorMessage = 'Unable to submit your application. Please try again.';
+      
+      if (error.message) {
+        if (error.message.includes('duplicate') || error.message.includes('already exists')) {
+          errorMessage = 'You have already submitted an application. Please check your application status.';
+        } else if (error.message.includes('permission') || error.message.includes('denied')) {
+          errorMessage = 'Permission denied. Please make sure you are logged in.';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+      
+      toast.error('Application Submission Failed', {
+        description: errorMessage
+      });
     } finally {
       setIsSubmitting(false);
     }

@@ -160,8 +160,8 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
       // Check for microphone support
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        toast.error('Not Supported', {
-          description: 'Your browser doesn\'t support audio recording'
+        toast.error('Microphone Not Supported', {
+          description: 'Your browser doesn\'t support audio recording. Please use a modern browser like Chrome, Firefox, or Safari.'
         });
         return;
       }
@@ -329,13 +329,16 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     } catch (error: any) {
       console.error('Error starting recording:', error);
       
+      // Provide clear, user-friendly error messages
       let errorMessage = 'Unable to access microphone';
       if (error.name === 'NotAllowedError') {
-        errorMessage = 'Microphone permission denied. Please enable it in your device settings.';
+        errorMessage = 'Microphone Access Denied: Please allow microphone access in your browser/device settings.';
       } else if (error.name === 'NotFoundError') {
-        errorMessage = 'No microphone found on your device';
+        errorMessage = 'No Microphone Found: Your device doesn\'t have a microphone or it\'s not available.';
       } else if (error.name === 'NotReadableError') {
-        errorMessage = 'Microphone is being used by another app';
+        errorMessage = 'Microphone In Use: The microphone is being used by another app. Please close other apps and try again.';
+      } else if (error.message) {
+        errorMessage = `Microphone Error: ${error.message}`;
       }
       
       toast.error('Recording Error', {

@@ -58,12 +58,28 @@ const PasswordResetForm: React.FC<PasswordResetFormProps> = ({ onBack }) => {
       setEmailSent(true);
       toast.success('Password reset email sent! Check your inbox.');
     } catch (error: any) {
+      console.error('Password reset error:', error);
+      
+      // Provide user-friendly error messages
+      let errorMessage = 'Unable to send reset email';
+      
       if (error.errors) {
-        setError(error.errors[0].message);
-      } else {
-        setError(error.message || 'Failed to send reset email');
+        errorMessage = error.errors[0].message;
+      } else if (error.message) {
+        // Handle common Supabase errors with friendly messages
+        if (error.message.includes('not found') || error.message.includes('does not exist')) {
+          errorMessage = 'No account found with this email address. Please check your email or sign up.';
+        } else if (error.message.includes('rate limit')) {
+          errorMessage = 'Too many attempts. Please wait a few minutes and try again.';
+        } else {
+          errorMessage = error.message;
+        }
       }
-      toast.error('Failed to send password reset email');
+      
+      setError(errorMessage);
+      toast.error('Password Reset Failed', {
+        description: errorMessage
+      });
     } finally {
       setLoading(false);
     }
