@@ -3,6 +3,7 @@ import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Crown, Star } from 'lucide-react';
 import { getTierDisplayName, type SubscriptionTier } from '@/lib/services/subscription-tiers';
+import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 interface SubscriptionBadgeProps {
   tier: SubscriptionTier;
@@ -10,6 +11,11 @@ interface SubscriptionBadgeProps {
 }
 
 const SubscriptionBadge: React.FC<SubscriptionBadgeProps> = ({ tier, className }) => {
+  // Hide all subscription badges on iOS
+  if (shouldHideStripePayments()) {
+    return null;
+  }
+
   if (tier === 'free') {
     return (
       <Badge variant="secondary" className={`flex items-center gap-1 ${className}`}>
