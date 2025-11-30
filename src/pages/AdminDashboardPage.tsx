@@ -7,9 +7,10 @@ import VerificationQueue from '@/components/admin/verification/VerificationQueue
 import SalesAgentAnalytics from '@/components/admin/SalesAgentAnalytics';
 import QRCodeMetrics from '@/components/admin/QRCodeMetrics';
 import NotificationPreferences from '@/components/admin/NotificationPreferences';
+import CorporateSponsorshipApprovals from '@/components/admin/CorporateSponsorshipApprovals';
 import RequireAdmin from '@/components/auth/RequireAdmin';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart3, Users, QrCode, ShieldCheck, Settings } from 'lucide-react';
+import { BarChart3, Users, QrCode, ShieldCheck, Settings, Building2 } from 'lucide-react';
 
 const AdminDashboardPage: React.FC = () => {
   const { user, userType } = useAuth();
@@ -33,7 +34,7 @@ const AdminDashboardPage: React.FC = () => {
           </div>
 
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-6">
               <TabsTrigger value="overview" className="flex items-center gap-2">
                 <BarChart3 className="h-4 w-4" />
                 Overview
@@ -41,6 +42,10 @@ const AdminDashboardPage: React.FC = () => {
               <TabsTrigger value="verifications" className="flex items-center gap-2">
                 <ShieldCheck className="h-4 w-4" />
                 Verifications
+              </TabsTrigger>
+              <TabsTrigger value="sponsors" className="flex items-center gap-2">
+                <Building2 className="h-4 w-4" />
+                Sponsors
               </TabsTrigger>
               <TabsTrigger value="agents" className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
@@ -62,6 +67,10 @@ const AdminDashboardPage: React.FC = () => {
 
             <TabsContent value="verifications" className="space-y-6">
               <VerificationQueue />
+            </TabsContent>
+
+            <TabsContent value="sponsors" className="space-y-6">
+              <CorporateSponsorshipApprovals />
             </TabsContent>
 
             <TabsContent value="agents" className="space-y-6">

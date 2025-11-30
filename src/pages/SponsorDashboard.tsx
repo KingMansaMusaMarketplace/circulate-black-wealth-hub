@@ -40,6 +40,9 @@ const SponsorDashboard: React.FC = () => {
 
   const latestMetrics = metrics?.[0];
 
+  // Show approval status alerts
+  const showApprovalAlert = subscription.approval_status === 'pending' || subscription.approval_status === 'rejected';
+
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
       <div>
@@ -48,6 +51,28 @@ const SponsorDashboard: React.FC = () => {
           Track your impact and manage your sponsorship
         </p>
       </div>
+
+      {/* Approval Status Alerts */}
+      {showApprovalAlert && (
+        <Alert variant={subscription.approval_status === 'rejected' ? 'destructive' : 'default'}>
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>
+            {subscription.approval_status === 'pending' && 'Sponsorship Pending Approval'}
+            {subscription.approval_status === 'rejected' && 'Sponsorship Application Rejected'}
+          </AlertTitle>
+          <AlertDescription>
+            {subscription.approval_status === 'pending' && 
+              'Your corporate sponsorship application is currently under review. You will be notified once it has been approved by our team.'
+            }
+            {subscription.approval_status === 'rejected' && subscription.rejection_reason && (
+              <>Reason: {subscription.rejection_reason}</>
+            )}
+            {subscription.approval_status === 'rejected' && !subscription.rejection_reason && (
+              'Your application was not approved. Please contact us for more information.'
+            )}
+          </AlertDescription>
+        </Alert>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">

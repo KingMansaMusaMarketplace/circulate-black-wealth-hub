@@ -8,6 +8,7 @@ export interface SponsorSubscription {
   user_id: string;
   tier: string;
   status: string;
+  approval_status: string;
   company_name: string;
   logo_url: string | null;
   website_url: string | null;
@@ -18,6 +19,9 @@ export interface SponsorSubscription {
   cancel_at_period_end: boolean;
   created_at: string;
   updated_at: string;
+  approved_at: string | null;
+  rejected_at: string | null;
+  rejection_reason: string | null;
 }
 
 export const useSponsorSubscription = () => {
