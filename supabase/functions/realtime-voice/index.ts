@@ -1,4 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import WebSocket from 'npm:ws@8.18.0';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -27,7 +28,7 @@ Deno.serve(async (req) => {
         throw new Error('OPENAI_API_KEY not configured');
       }
 
-      // Connect to OpenAI Realtime API
+      // Connect to OpenAI Realtime API with proper headers
       const openaiWs = new WebSocket(
         'wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-10-01',
         {
@@ -40,17 +41,17 @@ Deno.serve(async (req) => {
 
       let sessionCreated = false;
 
-      openaiWs.onopen = () => {
+      openaiWs.on('open', () => {
         console.log('Connected to OpenAI Realtime API');
-      };
+      });
 
-      openaiWs.onmessage = (event) => {
+      openaiWs.on('message', (data: any) => {
         try {
-          const data = JSON.parse(event.data);
-          console.log('OpenAI event type:', data.type);
+          const message = JSON.parse(data.toString());
+          console.log('OpenAI event type:', message.type);
 
           // Send session.update after receiving session.created
-          if (data.type === 'session.created' && !sessionCreated) {
+          if (message.type === 'session.created' && !sessionCreated) {
             sessionCreated = true;
             
             const sessionConfig = {
@@ -93,25 +94,31 @@ Keep responses conversational, warm, and concise for voice (30-80 words typicall
           }
 
           // Forward all messages to client
-          socket.send(JSON.stringify(data));
+          if (socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify(message));
+          }
 
         } catch (error) {
           console.error('Error processing OpenAI message:', error);
         }
-      };
+      });
 
-      openaiWs.onerror = (error) => {
+      openaiWs.on('error', (error: any) => {
         console.error('OpenAI WebSocket error:', error);
-        socket.send(JSON.stringify({ 
-          type: 'error', 
-          error: 'Connection to AI service failed' 
-        }));
-      };
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({ 
+            type: 'error', 
+            error: 'Connection to AI service failed' 
+          }));
+        }
+      });
 
-      openaiWs.onclose = () => {
+      openaiWs.on('close', () => {
         console.log('OpenAI connection closed');
-        socket.close();
-      };
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.close();
+        }
+      });
 
       // Forward client messages to OpenAI
       socket.onmessage = (event) => {
@@ -133,11 +140,13 @@ Keep responses conversational, warm, and concise for voice (30-80 words typicall
 
     } catch (error) {
       console.error('Setup error:', error);
-      socket.send(JSON.stringify({ 
-        type: 'error', 
-        error: error.message 
-      }));
-      socket.close();
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ 
+          type: 'error', 
+          error: error.message 
+        }));
+        socket.close();
+      }
     }
   };
 
