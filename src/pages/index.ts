@@ -20,4 +20,5 @@ export { default as MobileReadinessTestPage } from './MobileReadinessTestPage';
 export { default as AdminPage } from './AdminPage';
 export { default as AdminDashboardPage } from './AdminDashboardPage';
 export { default as AdminVerificationPage } from './AdminVerificationPage';
+export { default as QRTestPage } from './QRTestPage';
 export { default as NotFound } from './NotFound';
