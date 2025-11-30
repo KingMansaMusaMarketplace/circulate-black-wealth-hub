@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
-import { RealtimeVoice } from '@/utils/RealtimeVoice';
+import { RealtimeChat } from '@/utils/RealtimeAudio';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 interface VoiceInterfaceProps {
@@ -14,10 +14,19 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const [isConnecting, setIsConnecting] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const voiceRef = useRef<RealtimeVoice | null>(null);
+  const voiceRef = useRef<RealtimeChat | null>(null);
 
   const handleMessage = (event: any) => {
     console.log('Voice event:', event.type);
+
+    // Update speaking state based on audio events
+    if (event.type === 'response.audio.delta') {
+      setIsSpeaking(true);
+      onSpeakingChange?.(true);
+    } else if (event.type === 'response.audio.done') {
+      setIsSpeaking(false);
+      onSpeakingChange?.(false);
+    }
 
     // Display user transcripts
     if (event.type === 'conversation.item.input_audio_transcription.completed') {
@@ -41,11 +50,6 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     }
   };
 
-  const handleSpeakingChange = (speaking: boolean) => {
-    setIsSpeaking(speaking);
-    onSpeakingChange?.(speaking);
-  };
-
   const startConversation = async () => {
     try {
       await Haptics.impact({ style: ImpactStyle.Medium });
@@ -55,8 +59,8 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
     setIsConnecting(true);
     try {
-      const voice = new RealtimeVoice(handleMessage, handleSpeakingChange);
-      await voice.connect();
+      const voice = new RealtimeChat(handleMessage);
+      await voice.init();
       voiceRef.current = voice;
       setIsConnected(true);
       
