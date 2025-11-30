@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/lib/supabase';
 import { format, startOfMonth, endOfMonth, subMonths, startOfWeek, endOfWeek } from 'date-fns';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { EmptyDashboardState } from './EmptyDashboardState';
 
 interface BusinessDashboardProps {
   businessId: string;
@@ -132,6 +133,11 @@ export default function BusinessDashboard({ businessId }: BusinessDashboardProps
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
       </div>
     );
+  }
+
+  // Show empty state for new businesses with no bookings
+  if (stats?.thisMonthCount === 0 && stats?.thisWeekCount === 0) {
+    return <EmptyDashboardState businessId={businessId} />;
   }
 
   return (

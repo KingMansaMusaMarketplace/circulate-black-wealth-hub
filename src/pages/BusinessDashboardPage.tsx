@@ -12,6 +12,7 @@ import { FinancialsTab } from '@/components/business/financials/FinancialsTab';
 import { AICoachingTab } from '@/components/business/coaching/AICoachingTab';
 import { ReviewRequestsAnalytics } from '@/components/business/reviews/ReviewRequestsAnalytics';
 import { BusinessSubscriptionBenefits } from '@/components/business/subscription/BusinessSubscriptionBenefits';
+import { BusinessVerificationStatus } from '@/components/business/BusinessVerificationStatus';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
@@ -70,18 +71,26 @@ const BusinessDashboardPage = () => {
 
         <div className="relative z-10">
           <DashboardLayout title="Business Dashboard" icon={null}>
-            <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="grid w-full grid-cols-5 bg-slate-800/40 backdrop-blur-sm border border-white/10">
-                <TabsTrigger value="overview" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Overview</TabsTrigger>
-                <TabsTrigger value="financials" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Financials</TabsTrigger>
-                <TabsTrigger value="reviews" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Reviews</TabsTrigger>
-                <TabsTrigger value="coaching" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">AI Coach</TabsTrigger>
-                <TabsTrigger value="benefits" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Benefits</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="overview">
-                <BusinessDashboard businessId={profile.id} />
-              </TabsContent>
+            <div className="space-y-6">
+              {/* Verification Status Banner */}
+              <BusinessVerificationStatus
+                isVerified={profile.is_verified || false}
+                businessId={profile.id}
+                businessName={profile.business_name}
+              />
+
+              <Tabs defaultValue="overview" className="w-full">
+                <TabsList className="grid w-full grid-cols-5 bg-slate-800/40 backdrop-blur-sm border border-white/10">
+                  <TabsTrigger value="overview" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Overview</TabsTrigger>
+                  <TabsTrigger value="financials" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Financials</TabsTrigger>
+                  <TabsTrigger value="reviews" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Reviews</TabsTrigger>
+                  <TabsTrigger value="coaching" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">AI Coach</TabsTrigger>
+                  <TabsTrigger value="benefits" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Benefits</TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="overview">
+                  <BusinessDashboard businessId={profile.id} />
+                </TabsContent>
               
               <TabsContent value="financials">
                 <FinancialsTab businessId={profile.id} />
@@ -98,7 +107,8 @@ const BusinessDashboardPage = () => {
               <TabsContent value="benefits">
                 <BusinessSubscriptionBenefits />
               </TabsContent>
-            </Tabs>
+              </Tabs>
+            </div>
           </DashboardLayout>
         </div>
       </div>
