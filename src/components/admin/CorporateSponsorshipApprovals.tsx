@@ -80,6 +80,32 @@ const CorporateSponsorshipApprovals: React.FC = () => {
 
       if (data?.success) {
         toast.success('Corporate sponsorship approved successfully');
+        
+        // Get user email and send welcome email
+        try {
+          const { data: userData, error: userError } = await supabase
+            .from('profiles')
+            .select('email')
+            .eq('id', selectedSubscription.user_id)
+            .single();
+
+          if (!userError && userData?.email) {
+            await supabase.functions.invoke('send-business-notification', {
+              body: {
+                type: 'sponsor_welcome',
+                userId: selectedSubscription.user_id,
+                recipientEmail: userData.email,
+                companyName: selectedSubscription.company_name,
+                tier: selectedSubscription.tier,
+              }
+            });
+            console.log('Welcome email sent to sponsor');
+          }
+        } catch (emailError) {
+          console.error('Failed to send welcome email:', emailError);
+          // Don't fail the approval if email fails
+        }
+        
         setIsApproveOpen(false);
         setAdminNotes('');
         loadSubscriptions();
