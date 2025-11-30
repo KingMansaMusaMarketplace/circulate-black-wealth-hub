@@ -127,6 +127,9 @@ const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
 const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
 const LazyLearningHubPage = lazy(() => import('@/pages/LearningHubPage'));
+const LazyAdminPage = lazy(() => import('@/pages/AdminPage'));
+const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
+const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -423,6 +426,9 @@ function App() {
                               <Route path="/customers/:customerId" element={<LazyCustomerDetailPage />} />
                               <Route path="/share-impact" element={<LazyShareImpactPage />} />
               <Route path="/impact" element={<LazyImpactPage />} />
+                              <Route path="/admin" element={<LazyAdminPage />} />
+                              <Route path="/admin-dashboard" element={<LazyAdminDashboardPage />} />
+                              <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
                               <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
                               <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
                               <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
@@ -662,6 +668,12 @@ function App() {
                                   <LazySponsorDashboardPage />
                                 </IOSProtectedRoute>
                               } />
+                              <Route path="/admin" element={<LazyAdminPage />} />
+                              <Route path="/admin-dashboard" element={<LazyAdminDashboardPage />} />
+                              <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
+                              <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
+                              <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
+                              <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
                               <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
                               <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
                               <Route path="/corporate-dashboard" element={
@@ -708,6 +720,9 @@ function App() {
                         <Route path="/refresh" element={<LazyRefreshPage />} />
                         <Route path="/button-test" element={<LazyButtonTestPage />} />
                         <Route path="/email-copy" element={<LazyEmailCopyPage />} />
+                        <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
+                        <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
+                        <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                         
                         {/* Catch all route for 404 */}
                         <Route path="*" element={<NotFound />} />
