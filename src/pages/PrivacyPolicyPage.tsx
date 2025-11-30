@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Shield, Database, Eye, Lock, Share2, Settings, Heart, AlertCircle, Mail, Users, CreditCard, Bell } from 'lucide-react';
+import { Shield, Database, Eye, Lock, Share2, Settings, Heart, AlertCircle, Mail, Users, CreditCard, Bell, Mic } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const PrivacyPolicyPage = () => {
@@ -139,6 +139,78 @@ const PrivacyPolicyPage = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* AI Voice Assistant */}
+          <Card className="mb-8 border-2 bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-50 border-amber-200 hover:shadow-xl transition-all">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3 text-amber-700 font-bold">
+                <div className="p-3 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-xl shadow-lg">
+                  <Mic className="h-6 w-6 text-white" />
+                </div>
+                AI Voice Assistant & Data Processing 🎤
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
+                <h3 className="text-lg font-bold text-amber-700 mb-3">Voice Data Collection</h3>
+                <p className="text-foreground/80 mb-3">
+                  When you use our AI voice assistant "Kayla," we collect and process your voice recordings to provide conversational assistance about our marketplace features, business directory, and services.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-amber-700 mb-3">Third-Party Processing</h3>
+                <ul className="text-foreground/80 space-y-2 ml-6 list-disc">
+                  <li>Voice recordings are processed by OpenAI's API to generate responses</li>
+                  <li>Audio data is transmitted securely to OpenAI's servers for real-time speech recognition and response generation</li>
+                  <li>OpenAI processes this data according to their privacy policy: <a href="https://openai.com/privacy" target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:underline">https://openai.com/privacy</a></li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-amber-700 mb-3">Data Retention</h3>
+                <ul className="text-foreground/80 space-y-2 ml-6 list-disc">
+                  <li><strong>No Permanent Storage:</strong> Voice recordings are NOT permanently stored by Mansa Musa Marketplace</li>
+                  <li><strong>Real-Time Processing:</strong> Audio is processed in real-time and discarded after the conversation session ends</li>
+                  <li><strong>Session Cache:</strong> Conversation transcripts may be temporarily cached in your device's session storage for context</li>
+                  <li><strong>User Control:</strong> You can clear this data by closing the app or clearing your browser/app cache</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-amber-700 mb-3">Microphone Permission 🎙️</h3>
+                <ul className="text-foreground/80 space-y-2 ml-6 list-disc">
+                  <li>The app requests microphone access only when you activate the voice assistant</li>
+                  <li>You can revoke microphone permission at any time through your device settings</li>
+                  <li>Voice features will not work without microphone permission</li>
+                  <li>Microphone is only active during voice conversations - we do not record in the background</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-amber-700 mb-3">User Control and Optional Use</h3>
+                <ul className="text-foreground/80 space-y-2 ml-6 list-disc">
+                  <li>You can use the app without the voice assistant feature</li>
+                  <li>All marketplace features remain accessible through traditional text input and navigation</li>
+                  <li>You can end voice conversations at any time by tapping "End Chat"</li>
+                  <li>Voice assistant is completely optional and opt-in</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-amber-700 mb-3">Purpose Limitation</h3>
+                <p className="text-foreground/80 mb-2">Voice data is used solely to provide AI-powered assistance with:</p>
+                <ul className="text-foreground/80 space-y-2 ml-6 list-disc">
+                  <li>Finding Black-owned businesses in your area</li>
+                  <li>Understanding marketplace features and how to use them</li>
+                  <li>Booking appointments and managing reservations</li>
+                  <li>Navigating rewards and community features</li>
+                  <li>Getting help with app functionality and support questions</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* How We Use Your Information */}
           <Card className="mb-8 border-2 bg-gradient-to-br from-green-50 via-emerald-50 to-green-50 border-green-200 hover:shadow-xl transition-all">
             <CardHeader>
@@ -154,6 +226,7 @@ const PrivacyPolicyPage = () => {
                 <li>Provide and maintain our marketplace services</li>
                 <li>Facilitate connections between customers and Black-owned businesses</li>
                 <li>Enable camera access for QR code scanning and photo uploads (only when you choose to use these features)</li>
+                <li>Process voice recordings through OpenAI's API to provide AI voice assistant "Kayla" (only when you activate this feature)</li>
                 <li>Use location data to help you discover nearby Black-owned businesses</li>
                 <li>Send push notifications for loyalty rewards, bookings, and important updates (with your permission)</li>
                 <li>Process QR code scans and loyalty point transactions</li>
@@ -209,6 +282,7 @@ const PrivacyPolicyPage = () => {
                 <li><strong>With Your Consent:</strong> When you explicitly agree to share information</li>
                 <li><strong>Business Directory:</strong> Business information is publicly displayed to help customers discover Black-owned businesses</li>
                 <li><strong>Service Providers:</strong> With trusted third-party services (like Supabase for data storage, Stripe for payments) that help us operate the app</li>
+                <li><strong>AI Voice Processing:</strong> Voice recordings are shared with OpenAI for real-time speech recognition and AI assistant responses when you use the voice assistant feature</li>
                 <li><strong>Payment Processors:</strong> Subscription and payment data is shared with our payment processors (Stripe, Apple, Google) as necessary to process transactions and manage subscriptions</li>
                 <li><strong>Legal Requirements:</strong> When required by law or to protect our rights and users' safety</li>
                 <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, or asset sales</li>
@@ -230,6 +304,7 @@ const PrivacyPolicyPage = () => {
               <ul className="text-foreground/80 space-y-2 ml-6 list-disc">
                 <li><strong>Access and Update:</strong> View and update your profile information at any time</li>
                 <li><strong>Subscription Management:</strong> Manage your subscription through our app or directly through your payment provider (Apple App Store, Google Play, or Stripe)</li>
+                <li><strong>Microphone Control:</strong> Control microphone permissions through your device settings and turn off voice assistant features at any time</li>
                 <li><strong>Location Services:</strong> Control location permissions through your device settings</li>
                 <li><strong>Account Deletion:</strong> Request deletion of your account and associated data</li>
                 <li><strong>Communication Preferences:</strong> Opt out of non-essential communications</li>
