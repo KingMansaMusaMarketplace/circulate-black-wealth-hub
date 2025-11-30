@@ -1,0 +1,28 @@
+/* Custom styles for html5-qrcode scanner */
+#qr-reader-scanner {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+#qr-reader-scanner video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+#qr-reader-scanner__scan_region {
+  min-height: 100% !important;
+}
+
+#qr-reader-scanner__dashboard_section {
+  display: none !important;
+}
+
+#qr-reader-scanner__dashboard_section_csr {
+  display: none !important;
+}
+
+/* Style the QR box overlay */
+#qr-reader-scanner__scan_region img {
+  filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.8));
+}

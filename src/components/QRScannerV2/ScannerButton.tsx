@@ -19,13 +19,18 @@ const ScannerButton: React.FC<ScannerButtonProps> = ({
   return (
     <Button 
       className="w-full bg-mansablue hover:bg-mansablue-dark flex items-center justify-center gap-2"
-      disabled={isScanning || scanning}
+      disabled={scanning}
       onClick={onScan}
     >
-      {isScanning || scanning ? (
+      {isScanning ? (
         <>
           <Camera size={16} className="animate-pulse" />
-          Scanning...
+          Stop Scanner
+        </>
+      ) : scanning ? (
+        <>
+          <Camera size={16} className="animate-pulse" />
+          Processing...
         </>
       ) : scanResult ? (
         <>
@@ -35,7 +40,7 @@ const ScannerButton: React.FC<ScannerButtonProps> = ({
       ) : (
         <>
           <QrCode size={16} />
-          Scan QR Code
+          Start Scanner
         </>
       )}
     </Button>

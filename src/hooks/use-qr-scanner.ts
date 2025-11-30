@@ -1,7 +1,9 @@
 
 import { useState, useRef, useEffect } from 'react';
+import { Html5Qrcode } from 'html5-qrcode';
 import { useLoyaltyQRCode } from '@/hooks/use-loyalty-qr-code';
 import { useLocation } from '@/hooks/use-location';
+import { toast } from 'sonner';
 
 export interface ScanResult {
   businessName: string;
@@ -16,7 +18,8 @@ export function useQRScanner() {
   const [recentScans, setRecentScans] = useState<Array<ScanResult>>([]);
   
   const videoRef = useRef<HTMLVideoElement>(null);
-  const scannerIntervalRef = useRef<number | null>(null);
+  const html5QrCodeRef = useRef<Html5Qrcode | null>(null);
+  const scannerElementId = 'qr-reader-scanner';
   
   const { 
     location, 
@@ -49,22 +52,25 @@ export function useQRScanner() {
     checkCamera();
   }, []);
 
-  // Stop scanning when component unmounts
+  // Cleanup scanner on unmount
   useEffect(() => {
     return () => {
-      if (scannerIntervalRef.current) {
-        window.clearInterval(scannerIntervalRef.current);
-      }
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream;
-        const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop());
+      if (html5QrCodeRef.current) {
+        html5QrCodeRef.current.stop().catch(err => {
+          console.error('Error stopping scanner:', err);
+        });
       }
     };
   }, []);
 
-  // Simulate QR scanning with real camera stream
+  // Start actual QR code scanning
   const handleScan = async () => {
+    if (isScanning) {
+      // Stop scanning
+      await stopScanning();
+      return;
+    }
+
     setIsScanning(true);
     
     try {
@@ -76,58 +82,100 @@ export function useQRScanner() {
           return;
         }
       }
-      
-      // Attempt to get camera stream with better error handling
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
-          facingMode: 'environment',
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        } 
-      });
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
+
+      // Initialize Html5Qrcode if not already done
+      if (!html5QrCodeRef.current) {
+        html5QrCodeRef.current = new Html5Qrcode(scannerElementId);
       }
-      
-      // Simulate scanning for a QR code
-      scannerIntervalRef.current = window.setTimeout(() => {
-        processScannedResult();
-        
-        // Stop the camera stream
-        if (videoRef.current && videoRef.current.srcObject) {
-          const stream = videoRef.current.srcObject as MediaStream;
-          const tracks = stream.getTracks();
-          tracks.forEach(track => track.stop());
-          videoRef.current.srcObject = null;
+
+      const qrCodeScanner = html5QrCodeRef.current;
+
+      // Configure QR code scanner
+      const config = {
+        fps: 10,
+        qrbox: { width: 250, height: 250 },
+        aspectRatio: 1.0
+      };
+
+      // Start scanning with back camera
+      await qrCodeScanner.start(
+        { facingMode: "environment" },
+        config,
+        async (decodedText) => {
+          // Successfully scanned a QR code
+          console.log('QR Code detected:', decodedText);
+          
+          // Stop scanning before processing
+          await stopScanning();
+          
+          // Process the scanned QR code
+          await processScannedResult(decodedText);
+        },
+        (errorMessage) => {
+          // Ignore scanning errors (these happen constantly during scanning)
         }
-      }, 2000);
+      );
+      
+      toast.success('Scanner started - point at a QR code');
     } catch (error: any) {
-      console.error("Error accessing camera:", error);
+      console.error("Error starting scanner:", error);
       
       // Provide specific error messages
       if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        toast.error('Camera permission denied');
         setHasCamera(false);
       } else if (error.name === 'NotFoundError') {
+        toast.error('No camera found on this device');
         setHasCamera(false);
+      } else {
+        toast.error('Failed to start scanner');
       }
       
       setIsScanning(false);
-      
-      // Don't fall back to simulation - let user know there's an issue
-      throw error;
+    }
+  };
+
+  // Stop the scanner
+  const stopScanning = async () => {
+    if (html5QrCodeRef.current && isScanning) {
+      try {
+        await html5QrCodeRef.current.stop();
+        setIsScanning(false);
+      } catch (error) {
+        console.error('Error stopping scanner:', error);
+      }
     }
   };
   
-  // Process a successful scan
-  const processScannedResult = async () => {
-    setIsScanning(false);
+  // Process a successful scan with the decoded QR code data
+  const processScannedResult = async (decodedText: string) => {
+    console.log('Processing scanned QR code:', decodedText);
     
-    // Simulate QR code ID
-    const mockQrCodeId = `qr-${Math.random().toString(36).substring(2, 10)}`;
+    // Extract QR code ID from the decoded text
+    // The QR code should contain the QR code ID from the database
+    let qrCodeId = decodedText;
     
-    // Get user's current location using our hook
+    // If the decoded text is a URL, extract the ID from it
+    try {
+      const url = new URL(decodedText);
+      const pathParts = url.pathname.split('/');
+      // Look for 'qr' in the path and get the ID after it
+      const qrIndex = pathParts.indexOf('qr');
+      if (qrIndex !== -1 && pathParts[qrIndex + 1]) {
+        qrCodeId = pathParts[qrIndex + 1];
+      }
+      // Check for query parameter
+      const idParam = url.searchParams.get('id') || url.searchParams.get('qrId');
+      if (idParam) {
+        qrCodeId = idParam;
+      }
+    } catch {
+      // Not a URL, use as-is
+    }
+    
+    console.log('Extracted QR code ID:', qrCodeId);
+    
+    // Get user's current location
     let locationData = null;
     try {
       locationData = await getCurrentPosition();
@@ -135,8 +183,8 @@ export function useQRScanner() {
       console.log('Location not available, proceeding without it');
     }
     
-    // Process the QR scan
-    const result = await scanQRAndProcessPoints(mockQrCodeId);
+    // Process the QR scan with the real QR code ID
+    const result = await scanQRAndProcessPoints(qrCodeId);
     
     if (result) {
       // Add to recent scans
@@ -184,6 +232,7 @@ export function useQRScanner() {
     scanning,
     scanResult,
     handleScan,
-    requestCameraPermission
+    requestCameraPermission,
+    scannerElementId
   };
 }

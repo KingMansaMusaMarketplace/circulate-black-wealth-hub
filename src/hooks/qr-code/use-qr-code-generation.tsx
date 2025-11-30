@@ -41,33 +41,7 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
         codeType = 'loyalty'; // Default to loyalty if not specified
       }
 
-      // Prepare the QR code data
-      const qrData = {
-        type: codeType,
-        businessId: actualBusinessId,
-        timestamp: Date.now(),
-        ...(options?.discountPercentage && { discount: options.discountPercentage }),
-        ...(options?.pointsValue && { points: options.pointsValue })
-      };
-
-      // Generate a QR code image URL using our utility
-      let qrImageUrl = '';
-      try {
-        qrImageUrl = await generateCustomQrCode(JSON.stringify(qrData), {
-          color: '#1a1a1a',
-          backgroundColor: '#FFFFFF',
-          size: 512,
-          useBranding: true // Explicitly enable MMM logo branding
-        });
-      } catch (error) {
-        console.error('Error generating QR code image:', error);
-        // Fallback to a simple QR code generator API
-        qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
-          JSON.stringify(qrData)
-        )}&size=400x400&color=0F2876&bgcolor=FFFFFF`;
-      }
-
-      // Insert into the qr_codes table
+      // Insert into the qr_codes table FIRST to get the ID
       const { data: qrCodeData, error: insertError } = await supabase
         .from('qr_codes')
         .insert({
@@ -78,7 +52,7 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
           scan_limit: options?.scanLimit || null,
           expiration_date: options?.expirationDate || null,
           is_active: options?.isActive !== undefined ? options.isActive : true,
-          qr_image_url: qrImageUrl
+          qr_image_url: '' // Will update after generating QR with the ID
         })
         .select()
         .single();
@@ -89,13 +63,43 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
         return null;
       }
 
-      if (qrCodeData) {
-        setQrCode(qrCodeData as QRCode);
-        toast.success('QR code generated successfully');
-        return qrCodeData as QRCode;
+      if (!qrCodeData) {
+        toast.error('Failed to create QR code record');
+        return null;
       }
-      
-      return null;
+
+      // Now generate the QR code image with the database ID
+      let qrImageUrl = '';
+      try {
+        // The QR code should contain just the database ID for easy lookup
+        qrImageUrl = await generateCustomQrCode(qrCodeData.id, {
+          color: '#1a1a1a',
+          backgroundColor: '#FFFFFF',
+          size: 512,
+          useBranding: true
+        });
+      } catch (error) {
+        console.error('Error generating QR code image:', error);
+        // Fallback to a simple QR code generator API
+        qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
+          qrCodeData.id
+        )}&size=400x400&color=0F2876&bgcolor=FFFFFF`;
+      }
+
+      // Update the QR code record with the generated image
+      const { error: updateError } = await supabase
+        .from('qr_codes')
+        .update({ qr_image_url: qrImageUrl })
+        .eq('id', qrCodeData.id);
+
+      if (updateError) {
+        console.error('Error updating QR code image:', updateError);
+        // Non-critical error, we can still return the QR code
+      }
+
+      setQrCode(qrCodeData as QRCode);
+      toast.success('QR code generated successfully');
+      return qrCodeData as QRCode;
     } catch (error: any) {
       console.error('Error in QR code generation:', error);
       toast.error(error.message || 'Failed to generate QR code');
@@ -121,28 +125,19 @@ export const useQRCodeGeneration = ({ setLoading, setQrCode }: UseQRCodeGenerati
         return null;
       }
 
-      // Generate new QR code image
-      const qrData = {
-        id: qrCode.id,
-        type: qrCode.code_type,
-        businessId: qrCode.business_id,
-        timestamp: Date.now(),
-        ...(qrCode.discount_percentage && { discount: qrCode.discount_percentage }),
-        ...(qrCode.points_value && { points: qrCode.points_value })
-      };
-
+      // Generate new QR code image with just the ID
       let qrImageUrl = '';
       try {
-        qrImageUrl = await generateCustomQrCode(JSON.stringify(qrData), {
+        qrImageUrl = await generateCustomQrCode(qrCode.id, {
           color: '#1a1a1a',
           backgroundColor: '#FFFFFF',
           size: 512,
-          useBranding: true // Explicitly enable MMM logo branding
+          useBranding: true
         });
       } catch (error) {
         // Fallback to a simple QR code generator API
         qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
-          JSON.stringify(qrData)
+          qrCode.id
         )}&size=400x400&color=0F2876&bgcolor=FFFFFF`;
       }
 
