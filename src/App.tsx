@@ -436,6 +436,7 @@ function App() {
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
                               <Route path="/network" element={<LazyNetworkPage />} />
+                              <Route path="/qr-test" element={<LazyQRTestPage />} />
                              
                               {/* Business dashboard routes - iOS protected */}
                               <Route path="/business-dashboard" element={
