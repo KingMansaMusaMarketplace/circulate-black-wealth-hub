@@ -130,6 +130,7 @@ const LazyLearningHubPage = lazy(() => import('@/pages/LearningHubPage'));
 const LazyAdminPage = lazy(() => import('@/pages/AdminPage'));
 const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
+const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -720,6 +721,7 @@ function App() {
                         <Route path="/refresh" element={<LazyRefreshPage />} />
                         <Route path="/button-test" element={<LazyButtonTestPage />} />
                         <Route path="/email-copy" element={<LazyEmailCopyPage />} />
+                        <Route path="/qr-test" element={<LazyQRTestPage />} />
                         <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
                         <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
                         <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />

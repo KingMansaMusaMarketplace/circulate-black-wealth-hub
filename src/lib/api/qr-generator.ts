@@ -1,5 +1,5 @@
 import QRCode from 'qrcode';
-import mansaMusaLogo from '@/assets/mmm-logo.png';
+import mansaMusaLogo from '@/assets/mmm-qr-logo.png';
 
 interface QRCodeOptions {
   color?: string;
@@ -61,20 +61,35 @@ export const generateCustomQrCode = async (data: string, options?: QRCodeOptions
       logo.src = mansaMusaLogo;
     });
 
-    // Calculate logo size (25% of QR code size for better visibility)
-    const logoSize = size * 0.25;
+    // Calculate optimal logo size (20% of QR code for best scannability)
+    const logoSize = size * 0.20;
     const logoX = (size - logoSize) / 2;
-    const logoY = (size - logoSize) / 2; // Center the logo
+    const logoY = (size - logoSize) / 2;
 
-    // Draw white background circle for logo (slightly larger for better contrast)
-    const logoCircleRadius = logoSize * 0.65;
+    // Draw white background circle with gold border for logo
+    const logoCircleRadius = logoSize * 0.60;
+    
+    // White background
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
     ctx.arc(size / 2, size / 2, logoCircleRadius, 0, Math.PI * 2);
     ctx.fill();
+    
+    // Gold border (brand color)
+    ctx.strokeStyle = '#DAA520'; // Mansa gold color
+    ctx.lineWidth = 3;
+    ctx.stroke();
 
-    // Draw logo centered
+    // Draw logo centered with slight shadow for depth
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+    ctx.shadowBlur = 4;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 2;
     ctx.drawImage(logo, logoX, logoY, logoSize, logoSize);
+    
+    // Reset shadow
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
 
     // Return the final branded QR code
     return canvas.toDataURL('image/png');
