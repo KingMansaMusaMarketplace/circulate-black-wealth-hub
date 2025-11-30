@@ -17,4 +17,7 @@ export { default as SignupTestPage } from './SignupTestPage';
 export { default as NewPasswordPage } from './NewPasswordPage';
 export { default as PasswordResetRequestPage } from './PasswordResetRequestPage';
 export { default as MobileReadinessTestPage } from './MobileReadinessTestPage';
+export { default as AdminPage } from './AdminPage';
+export { default as AdminDashboardPage } from './AdminDashboardPage';
+export { default as AdminVerificationPage } from './AdminVerificationPage';
 export { default as NotFound } from './NotFound';
