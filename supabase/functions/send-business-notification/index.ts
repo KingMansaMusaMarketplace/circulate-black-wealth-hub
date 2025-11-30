@@ -89,7 +89,7 @@ const handler = async (req: Request): Promise<Response> => {
     console.log(`Sending ${type} email to ${recipientEmail}`);
     
     const emailResponse = await resend.emails.send({
-      from: "Mansa Musa Marketplace <noreply@mansamusamarketplace.com>",
+      from: "Mansa Musa Marketplace <onboarding@resend.dev>",
       to: [recipientEmail],
       subject: subject,
       html: htmlContent,

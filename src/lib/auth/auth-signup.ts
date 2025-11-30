@@ -88,7 +88,7 @@ export const handleSignUp = async (
         const userName = (metadata as any)?.full_name || email.split('@')[0];
         
         console.log("Sending welcome email...");
-        await supabase.functions.invoke('send-business-notification', {
+        const { data: emailData, error: emailError } = await supabase.functions.invoke('send-business-notification', {
           body: {
             type: userType === 'business' ? 'new_business' : 'new_customer',
             userId: data.user.id,
@@ -97,9 +97,14 @@ export const handleSignUp = async (
             customerName: userType === 'customer' ? userName : undefined
           }
         });
-        console.log("Welcome email sent successfully");
+        
+        if (emailError) {
+          console.error('Welcome email error:', emailError);
+        } else {
+          console.log("Welcome email sent successfully:", emailData);
+        }
       } catch (emailError) {
-        console.warn('Welcome email failed:', emailError);
+        console.error('Welcome email exception:', emailError);
       }
     }
 
