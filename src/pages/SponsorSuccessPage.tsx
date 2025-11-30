@@ -2,20 +2,33 @@ import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Loader2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { useSponsorSubscription } from '@/hooks/useSponsorSubscription';
+import { Badge } from '@/components/ui/badge';
+import { format } from 'date-fns';
 
 const SponsorSuccessPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const sessionId = searchParams.get('session_id');
+  const { subscription, isLoading, error } = useSponsorSubscription();
 
   useEffect(() => {
     if (!sessionId) {
-      // Redirect to pricing if no session ID
       navigate('/sponsor-pricing');
     }
   }, [sessionId, navigate]);
+
+  const getTierColor = (tier: string) => {
+    const colors: Record<string, string> = {
+      platinum: 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100',
+      gold: 'bg-yellow-100 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-100',
+      silver: 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100',
+      bronze: 'bg-orange-100 text-orange-900 dark:bg-orange-900 dark:text-orange-100',
+    };
+    return colors[tier.toLowerCase()] || 'bg-muted text-muted-foreground';
+  };
 
   return (
     <>
@@ -37,6 +50,53 @@ const SponsorSuccessPage: React.FC = () => {
           </CardHeader>
 
           <CardContent className="space-y-6">
+            {isLoading ? (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : error ? (
+              <div className="bg-muted/50 rounded-lg p-6 text-center">
+                <p className="text-muted-foreground">Loading your subscription details...</p>
+              </div>
+            ) : subscription ? (
+              <div className="bg-muted/50 rounded-lg p-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-semibold text-lg">Your Sponsorship Details</h3>
+                  <Badge className={getTierColor(subscription.tier)}>
+                    {subscription.tier.toUpperCase()}
+                  </Badge>
+                </div>
+                <div className="grid gap-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Company:</span>
+                    <span className="font-medium">{subscription.company_name}</span>
+                  </div>
+                  {subscription.current_period_start && (
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Billing Started:</span>
+                      <span className="font-medium">
+                        {format(new Date(subscription.current_period_start), 'MMM d, yyyy')}
+                      </span>
+                    </div>
+                  )}
+                  {subscription.current_period_end && (
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Next Billing:</span>
+                      <span className="font-medium">
+                        {format(new Date(subscription.current_period_end), 'MMM d, yyyy')}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Status:</span>
+                    <Badge variant={subscription.status === 'active' ? 'default' : 'secondary'}>
+                      {subscription.status}
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
             <div className="bg-muted/50 rounded-lg p-6 space-y-3">
               <h3 className="font-semibold text-lg">What Happens Next?</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
