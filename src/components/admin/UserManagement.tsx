@@ -18,7 +18,6 @@ interface User {
   user_type: string | null;
   created_at: string;
   phone: string | null;
-  is_active: boolean;
 }
 
 interface AccountDeletionRequest {
@@ -340,14 +339,6 @@ const UserManagement: React.FC = () => {
                 <div>
                   <div className="text-sm font-medium text-gray-500">Account Created</div>
                   <div>{format(new Date(selectedUser.created_at), 'MMM d, yyyy h:mm a')}</div>
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-gray-500">Status</div>
-                  <div>
-                    <Badge variant={selectedUser.is_active ? 'default' : 'destructive'}>
-                      {selectedUser.is_active ? 'Active' : 'Inactive'}
-                    </Badge>
-                  </div>
                 </div>
               </div>
             </div>

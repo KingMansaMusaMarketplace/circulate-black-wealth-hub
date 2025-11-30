@@ -13,10 +13,10 @@ interface Transaction {
   id: string;
   amount: number;
   transaction_type: string;
-  status: string;
   created_at: string;
-  user_id: string;
+  customer_id: string;
   business_id: string | null;
+  description: string | null;
   profiles: {
     email: string;
     full_name: string | null;
@@ -62,7 +62,10 @@ const FinancialManagement: React.FC = () => {
       // Load transactions
       const { data: transactionsData, error: transactionsError } = await supabase
         .from('transactions')
-        .select('*, profiles(email, full_name)')
+        .select(`
+          *,
+          profiles!transactions_customer_id_fkey(email, full_name)
+        `)
         .order('created_at', { ascending: false })
         .limit(100);
 
@@ -94,7 +97,7 @@ const FinancialManagement: React.FC = () => {
         totalRevenue,
         pendingCommissions,
         paidCommissions,
-        activeTransactions: transactionsData?.filter(t => t.status === 'completed').length || 0,
+        activeTransactions: transactionsData?.length || 0,
       });
     } catch (error: any) {
       toast.error('Failed to load financial data: ' + error.message);
@@ -229,7 +232,6 @@ const FinancialManagement: React.FC = () => {
                       <TableHead>User</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Amount</TableHead>
-                      <TableHead>Status</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -248,11 +250,6 @@ const FinancialManagement: React.FC = () => {
                           <Badge variant="outline">{transaction.transaction_type}</Badge>
                         </TableCell>
                         <TableCell className="font-medium">${Number(transaction.amount).toFixed(2)}</TableCell>
-                        <TableCell>
-                          <Badge variant={transaction.status === 'completed' ? 'default' : 'secondary'}>
-                            {transaction.status}
-                          </Badge>
-                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
