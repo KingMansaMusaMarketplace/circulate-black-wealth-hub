@@ -116,6 +116,26 @@ serve(async (req) => {
         }
         
         console.log("Corporate subscription created for user:", metadata.user_id);
+
+        // Get user email for welcome email
+        const { data: userData } = await supabase.auth.admin.getUserById(metadata.user_id);
+        if (userData?.user?.email) {
+          // Send welcome email
+          try {
+            await supabase.functions.invoke("send-corporate-welcome", {
+              body: {
+                email: userData.user.email,
+                companyName: metadata.company_name,
+                tier: metadata.tier,
+              },
+            });
+            console.log("Welcome email sent to:", userData.user.email);
+          } catch (emailError) {
+            console.error("Failed to send welcome email:", emailError);
+            // Don't fail the webhook if email fails
+          }
+        }
+        
         break;
       }
 

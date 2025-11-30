@@ -1,16 +1,19 @@
 import React from 'react';
 import { useSponsorSubscription, useSponsorImpactMetrics } from '@/hooks/use-sponsor-subscription';
+import { useSponsorPortal } from '@/hooks/useSponsorPortal';
 import { ImpactMetricsCard } from '@/components/sponsor-dashboard/ImpactMetricsCard';
 import { SubscriptionDetailsCard } from '@/components/sponsor-dashboard/SubscriptionDetailsCard';
 import { LogoUploadCard } from '@/components/sponsor-dashboard/LogoUploadCard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, TrendingUp } from 'lucide-react';
+import { AlertCircle, TrendingUp, Settings, ExternalLink } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const SponsorDashboard: React.FC = () => {
   const { data: subscription, isLoading: subscriptionLoading, refetch } = useSponsorSubscription();
   const { data: metrics, isLoading: metricsLoading } = useSponsorImpactMetrics(subscription?.id);
+  const { openPortal, isLoading: portalLoading } = useSponsorPortal();
 
   if (subscriptionLoading) {
     return (
@@ -45,11 +48,23 @@ const SponsorDashboard: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Corporate Sponsor Dashboard</h1>
-        <p className="text-muted-foreground mt-2">
-          Track your impact and manage your sponsorship
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Corporate Sponsor Dashboard</h1>
+          <p className="text-muted-foreground mt-2">
+            Track your impact and manage your sponsorship
+          </p>
+        </div>
+        <Button 
+          onClick={openPortal} 
+          disabled={portalLoading}
+          variant="outline"
+          className="gap-2"
+        >
+          <Settings className="h-4 w-4" />
+          Manage Subscription
+          <ExternalLink className="h-3 w-3" />
+        </Button>
       </div>
 
       {/* Approval Status Alerts */}

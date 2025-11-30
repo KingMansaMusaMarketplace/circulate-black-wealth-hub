@@ -90,11 +90,9 @@ const CorporateSponsorshipApprovals: React.FC = () => {
             .single();
 
           if (!userError && userData?.email) {
-            await supabase.functions.invoke('send-business-notification', {
+            await supabase.functions.invoke('send-corporate-welcome', {
               body: {
-                type: 'sponsor_welcome',
-                userId: selectedSubscription.user_id,
-                recipientEmail: userData.email,
+                email: userData.email,
                 companyName: selectedSubscription.company_name,
                 tier: selectedSubscription.tier,
               }
@@ -147,14 +145,11 @@ const CorporateSponsorshipApprovals: React.FC = () => {
             .single();
 
           if (!userError && userData?.email) {
-            await supabase.functions.invoke('send-business-notification', {
+            await supabase.functions.invoke('send-sponsor-rejection', {
               body: {
-                type: 'sponsor_rejected',
-                userId: selectedSubscription.user_id,
-                recipientEmail: userData.email,
+                email: userData.email,
                 companyName: selectedSubscription.company_name,
-                tier: selectedSubscription.tier,
-                rejectionReason: rejectionReason,
+                reason: rejectionReason,
               }
             });
             console.log('Rejection email sent to applicant');
