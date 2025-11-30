@@ -6,6 +6,7 @@ import { useQRScanner } from '@/hooks/use-qr-scanner';
 import ScannerDisplay from './ScannerDisplay';
 import ScannerButton from './ScannerButton';
 import RecentScans from './RecentScans';
+import './scanner-styles.css';
 
 const QRCodeScannerV2 = () => {
   const {
@@ -16,7 +17,8 @@ const QRCodeScannerV2 = () => {
     scanning,
     scanResult,
     handleScan,
-    requestCameraPermission
+    requestCameraPermission,
+    scannerElementId
   } = useQRScanner();
 
   const handleCameraPermission = async () => {
@@ -50,6 +52,7 @@ const QRCodeScannerV2 = () => {
           hasCamera={hasCamera}
           videoRef={videoRef}
           requestCameraPermission={handleCameraPermission}
+          scannerElementId={scannerElementId}
         />
       </div>
       
