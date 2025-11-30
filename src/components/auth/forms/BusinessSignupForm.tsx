@@ -136,7 +136,14 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
 
         if (businessError) {
           console.error('Business creation error:', businessError);
-          toast.error('Account created but business profile needs completion');
+          console.error('Business creation error details:', {
+            message: businessError.message,
+            code: businessError.code,
+            details: businessError.details,
+            hint: businessError.hint
+          });
+          toast.error(`Failed to create business profile: ${businessError.message || 'Unknown error'}. Please complete your business profile after verification.`);
+          // Still allow signup to succeed so user can complete profile later
         } else if (businessData && enteredReferralCode && isReferralValid) {
           // Process referral tracking if valid referral code was provided
           try {
