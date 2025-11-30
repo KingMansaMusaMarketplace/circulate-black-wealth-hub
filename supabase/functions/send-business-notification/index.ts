@@ -15,12 +15,14 @@ const corsHeaders = {
 };
 
 interface NotificationRequest {
-  type: 'new_business' | 'verification_approved' | 'new_customer';
+  type: 'new_business' | 'verification_approved' | 'new_customer' | 'sponsor_welcome';
   businessId?: string;
   userId: string;
   recipientEmail: string;
   businessName?: string;
   customerName?: string;
+  companyName?: string;
+  tier?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -29,7 +31,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { type, businessId, userId, recipientEmail, businessName, customerName }: NotificationRequest = await req.json();
+    const { type, businessId, userId, recipientEmail, businessName, customerName, companyName, tier }: NotificationRequest = await req.json();
 
     let subject = "";
     let htmlContent = "";
@@ -82,6 +84,31 @@ const handler = async (req: Request): Promise<Response> => {
           <p>Together, we're extending the circulation of the Black dollar beyond the national average of 6 hours.</p>
           <p>Welcome to the movement!</p>
           <p>For questions, contact us at: contact@mansamusamarketplace.com</p>
+        `;
+        break;
+
+      case 'sponsor_welcome':
+        subject = `Welcome as a Corporate Sponsor - ${companyName}! 🎉`;
+        htmlContent = `
+          <h1>Welcome to Corporate Sponsorship! 🌟</h1>
+          <p>Congratulations, ${companyName}!</p>
+          <p>Your <strong>${tier?.toUpperCase()}</strong> tier corporate sponsorship has been approved.</p>
+          <h2>Your Impact Begins Now:</h2>
+          <ul>
+            <li>Your logo will be featured across the Mansa Musa Marketplace platform</li>
+            <li>Track your sponsorship impact through our analytics dashboard</li>
+            <li>Connect with our community of Black-owned businesses</li>
+            <li>Receive monthly reports on the community impact of your sponsorship</li>
+          </ul>
+          <p>Thank you for investing in economic empowerment and helping extend the circulation of the Black dollar.</p>
+          <p>Together, we're building generational wealth and stronger communities.</p>
+          <p><strong>Next Steps:</strong></p>
+          <ul>
+            <li>Access your sponsor dashboard to update company information</li>
+            <li>View real-time impact metrics</li>
+            <li>Download your sponsorship certificate</li>
+          </ul>
+          <p>For questions about your sponsorship, contact us at: sponsors@mansamusamarketplace.com</p>
         `;
         break;
     }
