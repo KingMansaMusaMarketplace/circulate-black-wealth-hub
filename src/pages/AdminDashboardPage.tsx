@@ -8,9 +8,12 @@ import SalesAgentAnalytics from '@/components/admin/SalesAgentAnalytics';
 import QRCodeMetrics from '@/components/admin/QRCodeMetrics';
 import NotificationPreferences from '@/components/admin/NotificationPreferences';
 import CorporateSponsorshipApprovals from '@/components/admin/CorporateSponsorshipApprovals';
+import UserManagement from '@/components/admin/UserManagement';
+import FinancialManagement from '@/components/admin/FinancialManagement';
+import EmailHistory from '@/components/admin/EmailHistory';
 import RequireAdmin from '@/components/auth/RequireAdmin';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart3, Users, QrCode, ShieldCheck, Settings, Building2 } from 'lucide-react';
+import { BarChart3, Users, QrCode, ShieldCheck, Settings, Building2, DollarSign, Mail, UserCog } from 'lucide-react';
 
 const AdminDashboardPage: React.FC = () => {
   const { user, userType } = useAuth();
@@ -34,35 +37,51 @@ const AdminDashboardPage: React.FC = () => {
           </div>
 
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-6">
-              <TabsTrigger value="overview" className="flex items-center gap-2">
-                <BarChart3 className="h-4 w-4" />
+            <TabsList className="grid w-full grid-cols-9 gap-2">
+              <TabsTrigger value="overview" className="flex items-center gap-1 text-xs">
+                <BarChart3 className="h-3 w-3" />
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="verifications" className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4" />
+              <TabsTrigger value="users" className="flex items-center gap-1 text-xs">
+                <UserCog className="h-3 w-3" />
+                Users
+              </TabsTrigger>
+              <TabsTrigger value="verifications" className="flex items-center gap-1 text-xs">
+                <ShieldCheck className="h-3 w-3" />
                 Verifications
               </TabsTrigger>
-              <TabsTrigger value="sponsors" className="flex items-center gap-2">
-                <Building2 className="h-4 w-4" />
+              <TabsTrigger value="sponsors" className="flex items-center gap-1 text-xs">
+                <Building2 className="h-3 w-3" />
                 Sponsors
               </TabsTrigger>
-              <TabsTrigger value="agents" className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                Sales Agents
+              <TabsTrigger value="agents" className="flex items-center gap-1 text-xs">
+                <Users className="h-3 w-3" />
+                Agents
               </TabsTrigger>
-              <TabsTrigger value="qr-metrics" className="flex items-center gap-2">
-                <QrCode className="h-4 w-4" />
+              <TabsTrigger value="financial" className="flex items-center gap-1 text-xs">
+                <DollarSign className="h-3 w-3" />
+                Financial
+              </TabsTrigger>
+              <TabsTrigger value="qr-metrics" className="flex items-center gap-1 text-xs">
+                <QrCode className="h-3 w-3" />
                 QR Metrics
               </TabsTrigger>
-              <TabsTrigger value="settings" className="flex items-center gap-2">
-                <Settings className="h-4 w-4" />
+              <TabsTrigger value="emails" className="flex items-center gap-1 text-xs">
+                <Mail className="h-3 w-3" />
+                Emails
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="flex items-center gap-1 text-xs">
+                <Settings className="h-3 w-3" />
                 Settings
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="space-y-6">
               <AdminAnalyticsDashboard />
+            </TabsContent>
+
+            <TabsContent value="users" className="space-y-6">
+              <UserManagement />
             </TabsContent>
 
             <TabsContent value="verifications" className="space-y-6">
@@ -77,8 +96,16 @@ const AdminDashboardPage: React.FC = () => {
               <SalesAgentAnalytics />
             </TabsContent>
 
+            <TabsContent value="financial" className="space-y-6">
+              <FinancialManagement />
+            </TabsContent>
+
             <TabsContent value="qr-metrics" className="space-y-6">
               <QRCodeMetrics />
+            </TabsContent>
+
+            <TabsContent value="emails" className="space-y-6">
+              <EmailHistory />
             </TabsContent>
 
             <TabsContent value="settings" className="space-y-6">
