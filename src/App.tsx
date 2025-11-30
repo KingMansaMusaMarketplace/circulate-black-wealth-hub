@@ -23,6 +23,7 @@ import { ErrorBoundary } from "@/components/error-boundary/ErrorBoundary";
 import { RouteErrorBoundary } from "@/components/error-boundary/RouteErrorBoundary";
 import IOSProtectedRoute from "@/components/routing/IOSProtectedRoute";
 import FloatingNav from "@/components/navigation/FloatingNav";
+import BusinessProfilePrompt from "@/components/business/BusinessProfilePrompt";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -322,6 +323,7 @@ function App() {
                       
                       <div id="main-content" role="main">
                         <FloatingNav />
+                        <BusinessProfilePrompt />
                         <Suspense fallback={<LoadingFallback />}>
                           <Layout>
                             <Routes>
@@ -514,9 +516,10 @@ function App() {
                       Skip to main content
                     </a>
                     
-                    <div id="main-content" role="main">
-                      <FloatingNav />
-                      <Suspense fallback={<LoadingFallback />}>
+                      <div id="main-content" role="main">
+                        <FloatingNav />
+                        <BusinessProfilePrompt />
+                        <Suspense fallback={<LoadingFallback />}>
                         <Layout>
                           <Routes>
                         <Route path="/" element={<HomePage />} />
