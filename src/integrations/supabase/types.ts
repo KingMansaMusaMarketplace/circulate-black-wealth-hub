@@ -2255,6 +2255,10 @@ export type Database = {
       }
       corporate_subscriptions: {
         Row: {
+          admin_notes: string | null
+          approval_status: string
+          approved_at: string | null
+          approved_by: string | null
           cancel_at_period_end: boolean | null
           company_name: string
           created_at: string
@@ -2262,6 +2266,8 @@ export type Database = {
           current_period_start: string | null
           id: string
           logo_url: string | null
+          rejected_at: string | null
+          rejection_reason: string | null
           status: string
           stripe_customer_id: string | null
           stripe_subscription_id: string | null
@@ -2271,6 +2277,10 @@ export type Database = {
           website_url: string | null
         }
         Insert: {
+          admin_notes?: string | null
+          approval_status?: string
+          approved_at?: string | null
+          approved_by?: string | null
           cancel_at_period_end?: boolean | null
           company_name: string
           created_at?: string
@@ -2278,6 +2288,8 @@ export type Database = {
           current_period_start?: string | null
           id?: string
           logo_url?: string | null
+          rejected_at?: string | null
+          rejection_reason?: string | null
           status?: string
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
@@ -2287,6 +2299,10 @@ export type Database = {
           website_url?: string | null
         }
         Update: {
+          admin_notes?: string | null
+          approval_status?: string
+          approved_at?: string | null
+          approved_by?: string | null
           cancel_at_period_end?: boolean | null
           company_name?: string
           created_at?: string
@@ -2294,6 +2310,8 @@ export type Database = {
           current_period_start?: string | null
           id?: string
           logo_url?: string | null
+          rejected_at?: string | null
+          rejection_reason?: string | null
           status?: string
           stripe_customer_id?: string | null
           stripe_subscription_id?: string | null
@@ -6428,6 +6446,10 @@ export type Database = {
         Args: { reason: string; verification_id: string }
         Returns: undefined
       }
+      approve_corporate_subscription: {
+        Args: { p_admin_notes?: string; p_subscription_id: string }
+        Returns: Json
+      }
       assign_admin_role: { Args: { user_email: string }; Returns: undefined }
       award_review_points_secure: {
         Args: {
@@ -7101,6 +7123,14 @@ export type Database = {
           p_transaction_type?: string
         }
         Returns: string
+      }
+      reject_corporate_subscription: {
+        Args: {
+          p_admin_notes?: string
+          p_rejection_reason: string
+          p_subscription_id: string
+        }
+        Returns: Json
       }
       request_account_deletion: {
         Args: { deletion_reason?: string }
