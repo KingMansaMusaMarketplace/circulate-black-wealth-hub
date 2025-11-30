@@ -150,3 +150,6 @@ verify_jwt = true
 [functions.populate-test-data]
 verify_jwt = false
 
+[functions.realtime-voice]
+verify_jwt = false
+
