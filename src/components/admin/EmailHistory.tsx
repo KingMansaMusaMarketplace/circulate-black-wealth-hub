@@ -19,7 +19,6 @@ interface EmailNotification {
   content: string;
   status: string;
   sent_at: string;
-  error_message: string | null;
 }
 
 const EmailHistory: React.FC = () => {
@@ -218,13 +217,6 @@ const EmailHistory: React.FC = () => {
                 <div className="text-sm font-medium text-gray-500 mb-2">Subject</div>
                 <div className="p-3 bg-gray-50 rounded">{selectedEmail.subject}</div>
               </div>
-
-              {selectedEmail.error_message && (
-                <div>
-                  <div className="text-sm font-medium text-red-600 mb-2">Error Message</div>
-                  <div className="p-3 bg-red-50 rounded text-red-700">{selectedEmail.error_message}</div>
-                </div>
-              )}
 
               <div>
                 <div className="text-sm font-medium text-gray-500 mb-2">Email Content</div>
