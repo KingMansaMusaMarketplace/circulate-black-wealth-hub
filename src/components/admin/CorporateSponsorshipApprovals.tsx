@@ -137,6 +137,33 @@ const CorporateSponsorshipApprovals: React.FC = () => {
 
       if (data?.success) {
         toast.success('Corporate sponsorship rejected');
+        
+        // Get user email and send rejection email
+        try {
+          const { data: userData, error: userError } = await supabase
+            .from('profiles')
+            .select('email')
+            .eq('id', selectedSubscription.user_id)
+            .single();
+
+          if (!userError && userData?.email) {
+            await supabase.functions.invoke('send-business-notification', {
+              body: {
+                type: 'sponsor_rejected',
+                userId: selectedSubscription.user_id,
+                recipientEmail: userData.email,
+                companyName: selectedSubscription.company_name,
+                tier: selectedSubscription.tier,
+                rejectionReason: rejectionReason,
+              }
+            });
+            console.log('Rejection email sent to applicant');
+          }
+        } catch (emailError) {
+          console.error('Failed to send rejection email:', emailError);
+          // Don't fail the rejection if email fails
+        }
+        
         setIsRejectOpen(false);
         setRejectionReason('');
         setAdminNotes('');

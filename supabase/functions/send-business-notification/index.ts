@@ -15,7 +15,7 @@ const corsHeaders = {
 };
 
 interface NotificationRequest {
-  type: 'new_business' | 'verification_approved' | 'new_customer' | 'sponsor_welcome';
+  type: 'new_business' | 'verification_approved' | 'new_customer' | 'sponsor_welcome' | 'sponsor_rejected';
   businessId?: string;
   userId: string;
   recipientEmail: string;
@@ -23,6 +23,7 @@ interface NotificationRequest {
   customerName?: string;
   companyName?: string;
   tier?: string;
+  rejectionReason?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -31,7 +32,7 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { type, businessId, userId, recipientEmail, businessName, customerName, companyName, tier }: NotificationRequest = await req.json();
+    const { type, businessId, userId, recipientEmail, businessName, customerName, companyName, tier, rejectionReason }: NotificationRequest = await req.json();
 
     let subject = "";
     let htmlContent = "";
@@ -109,6 +110,24 @@ const handler = async (req: Request): Promise<Response> => {
             <li>Download your sponsorship certificate</li>
           </ul>
           <p>For questions about your sponsorship, contact us at: sponsors@mansamusamarketplace.com</p>
+        `;
+        break;
+
+      case 'sponsor_rejected':
+        subject = `Corporate Sponsorship Application Update - ${companyName}`;
+        htmlContent = `
+          <h1>Sponsorship Application Status Update</h1>
+          <p>Dear ${companyName} team,</p>
+          <p>Thank you for your interest in becoming a corporate sponsor of Mansa Musa Marketplace.</p>
+          <p>After careful review, we are unable to approve your <strong>${tier?.toUpperCase()}</strong> tier sponsorship application at this time.</p>
+          ${rejectionReason ? `
+          <h2>Reason:</h2>
+          <p style="padding: 15px; background-color: #f5f5f5; border-left: 4px solid #e74c3c;">${rejectionReason}</p>
+          ` : ''}
+          <p>We appreciate your interest in supporting economic empowerment in the Black community. If you have any questions about this decision or would like to discuss alternative partnership opportunities, please don't hesitate to reach out.</p>
+          <p>You may reapply in the future if your circumstances change or if you would like to address the concerns raised.</p>
+          <p>Thank you for considering Mansa Musa Marketplace for your corporate social responsibility initiatives.</p>
+          <p>For questions, contact us at: sponsors@mansamusamarketplace.com</p>
         `;
         break;
     }
