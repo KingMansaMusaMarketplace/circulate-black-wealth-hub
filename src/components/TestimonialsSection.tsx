@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -212,12 +213,16 @@ const TestimonialsSection = () => {
             Ready to help us build a 1 million member community?
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 text-white px-8 py-3 rounded-lg font-bold hover:from-amber-700 hover:via-orange-700 hover:to-rose-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
-              Start Your Journey
-            </button>
-            <button className="border-2 border-orange-500 bg-white text-orange-600 px-8 py-3 rounded-lg font-bold hover:bg-gradient-to-r hover:from-orange-50 hover:to-rose-50 transition-all shadow-md hover:shadow-lg">
-              List Your Business
-            </button>
+            <Link to="/signup">
+              <button className="bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 text-white px-8 py-3 rounded-lg font-bold hover:from-amber-700 hover:via-orange-700 hover:to-rose-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                Start Your Journey
+              </button>
+            </Link>
+            <Link to="/signup?type=business">
+              <button className="border-2 border-orange-500 bg-white text-orange-600 px-8 py-3 rounded-lg font-bold hover:bg-gradient-to-r hover:from-orange-50 hover:to-rose-50 transition-all shadow-md hover:shadow-lg">
+                List Your Business
+              </button>
+            </Link>
           </div>
         </motion.div>
       </div>
