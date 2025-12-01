@@ -262,38 +262,6 @@ const Hero = () => {
           </ScrollReveal>
         </div>
 
-        {/* Phase 1 Metrics Focus */}
-        <div className="mt-32 md:mt-40 text-center">
-          <ScrollReveal delay={0.2}>
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-12 md:mb-16 font-display">We're Measuring Success by Community, Not Revenue</h3>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 lg:gap-12 max-w-6xl mx-auto px-4">
-            <ScrollReveal delay={0.3}>
-              <div className="glass-card bg-white/10 rounded-2xl p-10 md:p-12 hover:scale-105 hover-glow-gold transition-all duration-300">
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
-                  <CountUpNumber end={300} suffix="+" duration={2500} />
-                </div>
-                <div className="text-base text-white/90 font-body">Business Signups</div>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal delay={0.4}>
-              <div className="glass-card bg-white/10 rounded-2xl p-10 md:p-12 hover:scale-105 hover-glow-gold transition-all duration-300">
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
-                  <CountUpNumber end={5000} suffix="+" duration={2500} />
-                </div>
-                <div className="text-base text-white/90 font-body">Customer Transactions</div>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal delay={0.5}>
-              <div className="glass-card bg-white/10 rounded-2xl p-10 md:p-12 hover:scale-105 hover-glow-gold transition-all duration-300">
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-gold bg-clip-text text-transparent mb-2">
-                  <CountUpNumber end={85} suffix="%" duration={2500} />
-                </div>
-                <div className="text-base text-white/90 font-body">Repeat Usage</div>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
       </div>
     </section>
   );
