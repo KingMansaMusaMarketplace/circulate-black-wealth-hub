@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import HomePageSections from '@/components/HomePage/HomePageSections';
+import BetaChallengeSection from '@/components/HomePage/BetaChallengeSection';
 import FreeGrowthBanner from '@/components/FreeGrowthBanner';
 import { SponsorBanner } from '@/components/sponsors';
 import { PublicSponsorDisplay } from '@/components/sponsors/PublicSponsorDisplay';
@@ -64,6 +65,11 @@ const HomePage = () => {
         {/* Hero Section */}
         <SectionErrorBoundary sectionName="Hero">
           <Hero />
+        </SectionErrorBoundary>
+
+        {/* Beta Testing Challenge - 1M Goal */}
+        <SectionErrorBoundary sectionName="Beta Challenge">
+          <BetaChallengeSection />
         </SectionErrorBoundary>
 
         {/* Vibrant Welcome Banner */}
