@@ -82,7 +82,7 @@ const AccessibilityFeatures = () => {
               Making Our Platform Inclusive For All
             </p>
           </div>
-          <p className="text-lg bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto font-medium">
+          <p className="text-lg text-slate-700 max-w-2xl mx-auto font-medium">
             We're committed to ensuring everyone can use our platform comfortably. Customize your experience with these settings.
           </p>
         </div>
