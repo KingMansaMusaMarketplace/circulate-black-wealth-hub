@@ -11,6 +11,11 @@ import BetaChallengeSection from './BetaChallengeSection';
 const HomePageSections: React.FC = () => {
   return (
     <>
+      {/* How It Works Preview */}
+      <SectionErrorBoundary sectionName="How It Works Preview">
+        <HowItWorksPreview />
+      </SectionErrorBoundary>
+
       {/* Beta Challenge Section - 1M Goal */}
       <SectionErrorBoundary sectionName="Beta Challenge">
         <BetaChallengeSection />
@@ -19,11 +24,6 @@ const HomePageSections: React.FC = () => {
       {/* Impact Counter */}
       <SectionErrorBoundary sectionName="Impact Counter">
         <ImpactCounter />
-      </SectionErrorBoundary>
-
-      {/* How It Works Preview */}
-      <SectionErrorBoundary sectionName="How It Works Preview">
-        <HowItWorksPreview />
       </SectionErrorBoundary>
 
       {/* Featured Businesses - Limited to 6 */}
