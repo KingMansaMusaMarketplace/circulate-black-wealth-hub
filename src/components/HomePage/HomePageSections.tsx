@@ -6,10 +6,16 @@ import LazySection from '@/components/common/LazySection';
 import { ImpactCounter } from './ImpactCounter';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import HowItWorksPreview from './HowItWorksPreview';
+import BetaChallengeSection from './BetaChallengeSection';
 
 const HomePageSections: React.FC = () => {
   return (
     <>
+      {/* Beta Challenge Section - 1M Goal */}
+      <SectionErrorBoundary sectionName="Beta Challenge">
+        <BetaChallengeSection />
+      </SectionErrorBoundary>
+
       {/* Impact Counter */}
       <SectionErrorBoundary sectionName="Impact Counter">
         <ImpactCounter />
