@@ -44,7 +44,7 @@ const FAQSection = () => {
         <div className="text-center mb-12">
           <h2 className="heading-md bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 bg-clip-text text-transparent mb-4">Frequently Asked Questions</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-6 shadow-lg shadow-mansagold/50"></div>
-          <p className="text-lg font-medium bg-gradient-to-r from-gray-700 to-gray-600 bg-clip-text text-transparent max-w-2xl mx-auto">
+          <p className="text-lg font-medium text-slate-700 max-w-2xl mx-auto">
             Common questions about our mission, operations, and impact.
           </p>
         </div>
