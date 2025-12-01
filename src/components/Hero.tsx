@@ -28,7 +28,7 @@ const Hero = () => {
         <div className="text-center mb-16 md:mb-20">
           <Badge className="bg-gradient-green text-white px-6 py-3 text-lg font-bold rounded-full mb-4 animate-pulse-green badge-shimmer">
             <Zap className="mr-2 h-5 w-5" />
-            PHASE 1: FREE GROWTH - Everything FREE Until Jan 2026!
+            PHASE 1: FREE GROWTH - Everything FREE Until Feb 28, 2026!
           </Badge>
           <p className="text-white/90 text-sm max-w-2xl mx-auto">
             We're building critical mass first. All features are 100% FREE for everyone - businesses and customers!
