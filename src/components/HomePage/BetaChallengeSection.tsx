@@ -16,11 +16,8 @@ const BetaChallengeSection = () => {
   const targetDate = new Date('2026-02-28T23:59:59');
   
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    
     const calculateTimeLeft = () => {
       const now = new Date().getTime();
       const target = targetDate.getTime();
@@ -41,8 +38,6 @@ const BetaChallengeSection = () => {
 
     return () => clearInterval(timer);
   }, []);
-
-  if (!mounted) return null;
 
   return (
     <section className="py-20 relative overflow-hidden bg-gradient-to-br from-primary via-primary-dark to-mansablue">
