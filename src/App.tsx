@@ -123,6 +123,7 @@ const LazyCommissionReportsPage = lazy(() => import('@/pages/business/Commission
 const LazyBusinessHowItWorksPage = lazy(() => import('@/pages/business/HowItWorksPage'));
 const LazyButtonTestPage = lazy(() => import('@/pages/ButtonTestPage'));
 const LazyEmailCopyPage = lazy(() => import('@/pages/EmailCopyPage'));
+const LazyAIAssistantPage = lazy(() => import('@/pages/AIAssistantPage'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
 const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
 const LazyLearningHubPage = lazy(() => import('@/pages/LearningHubPage'));
@@ -497,6 +498,7 @@ function App() {
                               <Route path="/refresh" element={<LazyRefreshPage />} />
                               <Route path="/button-test" element={<LazyButtonTestPage />} />
                               <Route path="/email-copy" element={<LazyEmailCopyPage />} />
+                              <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                               
                               <Route path="*" element={<NotFound />} />
                               </Route>
@@ -722,6 +724,7 @@ function App() {
                         <Route path="/refresh" element={<LazyRefreshPage />} />
                         <Route path="/button-test" element={<LazyButtonTestPage />} />
                         <Route path="/email-copy" element={<LazyEmailCopyPage />} />
+                        <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/qr-test" element={<LazyQRTestPage />} />
                         <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
                         <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />

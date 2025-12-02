@@ -147,3 +147,6 @@ verify_jwt = false
 [functions.realtime-voice]
 verify_jwt = false
 
+[functions.ai-assistant]
+verify_jwt = false
+
