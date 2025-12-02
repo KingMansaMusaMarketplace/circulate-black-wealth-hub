@@ -96,17 +96,6 @@ const NavLinks: React.FC = () => {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-background/95 backdrop-blur-lg border border-border shadow-xl rounded-lg z-50">
               <li>
-                <Link to="/sponsor-pricing" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
-                  <div className="flex items-center gap-2">
-                    <Building2 className="h-4 w-4 text-mansagold" />
-                    <div className="text-sm font-medium leading-none">Corporate Sponsorship</div>
-                  </div>
-                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Partner with us to support Black businesses
-                  </p>
-                </Link>
-              </li>
-              <li>
                 <Link to="/business/how-it-works" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-4 w-4 text-mansagold" />
@@ -118,13 +107,24 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/sales-agent" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                <Link to="/community-finance" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
-                    <TrendingUp className="h-4 w-4 text-mansagold" />
-                    <div className="text-sm font-medium leading-none">Sales Agent</div>
+                    <Users className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Community Finance</div>
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Earn commissions by referring businesses
+                    Savings circles and community investments
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/sponsor-pricing" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                  <div className="flex items-center gap-2">
+                    <Building2 className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Corporate Sponsorship</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Partner with us to support Black businesses
                   </p>
                 </Link>
               </li>
@@ -151,13 +151,13 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/community-finance" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                <Link to="/sales-agent" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-mansagold" />
-                    <div className="text-sm font-medium leading-none">Community Finance</div>
+                    <TrendingUp className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Sales Agent</div>
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Savings circles and community investments
+                    Earn commissions by referring businesses
                   </p>
                 </Link>
               </li>
@@ -182,17 +182,6 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/recommendations" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-mansagold" />
-                    <div className="text-sm font-medium leading-none">Discover</div>
-                  </div>
-                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Find personalized business recommendations
-                  </p>
-                </Link>
-              </li>
-              <li>
                 <Link to="/community" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
                     <Users className="h-4 w-4 text-mansagold" />
@@ -204,13 +193,13 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/social-proof" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                <Link to="/recommendations" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
-                    <Award className="h-4 w-4 text-mansagold" />
-                    <div className="text-sm font-medium leading-none">Success Stories</div>
+                    <Sparkles className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Discover</div>
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    See our community's real impact and growth
+                    Find personalized business recommendations
                   </p>
                 </Link>
               </li>
@@ -237,6 +226,17 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/social-proof" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                  <div className="flex items-center gap-2">
+                    <Award className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Success Stories</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    See our community's real impact and growth
+                  </p>
+                </Link>
+              </li>
+              <li>
                 <Link to="/support" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
                     <Headphones className="h-4 w-4 text-mansagold" />
@@ -257,13 +257,13 @@ const NavLinks: React.FC = () => {
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-background/95 backdrop-blur-lg border border-border shadow-xl rounded-lg z-50">
               <li>
-                <Link to="/features" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                <Link to="/all-pages" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-mansagold" />
-                    <div className="text-sm font-medium leading-none">Feature Guide</div>
+                    <FolderOpen className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">All Pages</div>
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Explore all platform features
+                    Browse complete directory of pages
                   </p>
                 </Link>
               </li>
@@ -279,13 +279,13 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/all-pages" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                <Link to="/features" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
-                    <FolderOpen className="h-4 w-4 text-mansagold" />
-                    <div className="text-sm font-medium leading-none">All Pages</div>
+                    <Sparkles className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Feature Guide</div>
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                    Browse complete directory of pages
+                    Explore all platform features
                   </p>
                 </Link>
               </li>
