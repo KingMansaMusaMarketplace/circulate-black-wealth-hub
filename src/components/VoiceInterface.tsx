@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import { RealtimeChat } from '@/utils/RealtimeAudio';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
 interface VoiceInterfaceProps {
   onSpeakingChange?: (speaking: boolean) => void;
@@ -15,6 +16,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const [transcript, setTranscript] = useState('');
   const [isSpeaking, setIsSpeaking] = useState(false);
   const voiceRef = useRef<RealtimeChat | null>(null);
+  const { isNative } = useCapacitor();
 
   const handleMessage = (event: any) => {
     console.log('Voice event:', event.type);
@@ -103,7 +105,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   }, []);
 
   return (
-    <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4">
+    <div className={`fixed left-1/2 -translate-x-1/2 z-[60] flex flex-col items-center gap-4 ${isNative ? 'bottom-24' : 'bottom-8'}`}>
       {transcript && (
         <div className="bg-background/95 backdrop-blur-sm border rounded-lg px-4 py-3 max-w-md shadow-lg animate-in fade-in slide-in-from-bottom-2">
           <p className="text-sm">{transcript}</p>

@@ -3,8 +3,10 @@ import { Share2, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCapacitor } from '@/hooks/use-capacitor';
 
 const ShareButton: React.FC = () => {
+  const { isNative } = useCapacitor();
   const [copied, setCopied] = useState(false);
   
   const shareUrl = "https://www.mansamusamarketplace.com";
@@ -67,9 +69,9 @@ const ShareButton: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 1, duration: 0.5 }}
-      className="fixed left-1/2 -translate-x-1/2 bottom-[calc(8rem+env(safe-area-inset-bottom))] md:bottom-36 z-50"
+      className={`fixed left-1/2 -translate-x-1/2 z-[60] ${isNative ? 'bottom-40' : 'bottom-[calc(8rem+env(safe-area-inset-bottom))] md:bottom-36'}`}
       style={{ 
-        paddingBottom: 'env(safe-area-inset-bottom, 0px)'
+        paddingBottom: isNative ? '0px' : 'env(safe-area-inset-bottom, 0px)'
       }}
     >
       <Button
