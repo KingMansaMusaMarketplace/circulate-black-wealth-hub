@@ -6,6 +6,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Loader2, Sparkles, TrendingUp, Target, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+import { AIBusinessDescriptionGenerator } from '../AIBusinessDescriptionGenerator';
 
 interface AICoachingTabProps {
   businessId: string;
@@ -94,7 +95,15 @@ export const AICoachingTab: React.FC<AICoachingTabProps> = ({ businessId }) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      {/* AI Tools Section */}
+      <div>
+        <h3 className="text-2xl font-bold mb-2">AI Tools</h3>
+        <p className="text-muted-foreground mb-6">Powerful AI features to enhance your business</p>
+        <AIBusinessDescriptionGenerator />
+      </div>
+
+      {/* Business Insights Section */}
+      <div className="flex items-center justify-between pt-6 border-t">
         <div>
           <h3 className="text-2xl font-bold">AI Business Coach</h3>
           <p className="text-muted-foreground">Get personalized insights to grow your business</p>

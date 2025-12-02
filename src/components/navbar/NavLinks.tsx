@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones, FolderOpen, Heart, Award, Zap } from 'lucide-react';
+import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones, FolderOpen, Heart, Award, Zap, Bot } from 'lucide-react';
 
 const NavLinks: React.FC = () => {
   const linkClassName = "text-foreground hover:text-mansagold transition-all duration-300 font-semibold px-3 py-2 rounded-md hover:bg-accent/50 relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-mansagold after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100";
@@ -170,6 +170,17 @@ const NavLinks: React.FC = () => {
           <NavigationMenuTrigger className={triggerClassName}>Community & Support</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-background/95 backdrop-blur-lg border border-border shadow-xl rounded-lg z-50">
+              <li>
+                <Link to="/ai-assistant" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                  <div className="flex items-center gap-2">
+                    <Bot className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">AI Assistant</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Get instant help with our AI chatbot
+                  </p>
+                </Link>
+              </li>
               <li>
                 <Link to="/recommendations" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
