@@ -334,121 +334,40 @@ function App() {
                             <Routes>
                               {/* All routes wrapped with error boundary */}
                               <Route errorElement={<RouteErrorBoundary />}>
+                              {/* Home */}
                               <Route path="/" element={<HomePage />} />
-                              <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
-                              <Route path="/auth" element={<LazyAuthPage />} />
-                              <Route path="/login" element={<LazyLoginPage />} />
-                              <Route path="/signup" element={
-                                <IOSProtectedRoute>
-                                  <LazySignupPage />
-                                </IOSProtectedRoute>
-                              } />
-                              <Route path="/email-verified" element={<LazyEmailVerified />} />
-                            
-                              {/* Error Page */}
-                              <Route path="/error" element={<LazyErrorPage />} />
-                            
-                              {/* iOS Blocked Page */}
-                              <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
-                            
-                              {/* Business signup routes - iOS protected */}
-                              <Route path="/business-signup" element={
-                                <IOSProtectedRoute>
-                                  <LazyBusinessSignupPage />
-                                </IOSProtectedRoute>
-                              } />
-                              <Route path="/signup/business" element={
-                                <IOSProtectedRoute>
-                                  <LazyBusinessSignupPage />
-                                </IOSProtectedRoute>
-                              } />
                               
-                              {/* Business form route - iOS protected */}
-                              <Route path="/business-form" element={
-                                <IOSProtectedRoute>
-                                  <LazyBusinessFormPage />
-                                </IOSProtectedRoute>
-                              } />
-                              
-                              {/* Password reset routes */}
-                              <Route path="/reset-password" element={<LazyPasswordResetRequestPage />} />
-                              <Route path="/password-reset" element={<LazyResetPasswordPage />} />
-                              
-                              <Route path="/profile" element={<LazyProfilePage />} />
-                              {/* Subscription route - iOS protected */}
-                              <Route path="/subscription" element={
-                                <IOSProtectedRoute>
-                                  <LazySubscriptionPage />
-                                </IOSProtectedRoute>
-                              } />
-                              <Route path="/directory" element={<LazyDirectoryPage />} />
-                              <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
-                              <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
-                              <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
-                              <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
-                              <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
-                              <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
-                              <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
-                              <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
-                              <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
-                              <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
-                              <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
-                              <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
-                              <Route path="/loyalty" element={<LazyRewardsPage />} />
+                              {/* A */}
                               <Route path="/about" element={<LazyAboutPage />} />
-                              <Route path="/testing-hub" element={<LazyTestingHub />} />
-                              <Route path="/test-data-populator" element={<LazyTestDataPopulator />} />
-                              <Route path="/full-app-test" element={<LazyFullAppTest />} />
-                              <Route path="/contact" element={<LazyContactPage />} />
-                              <Route path="/support" element={<LazySupportPage />} />
-                              <Route path="/terms" element={<LazyTermsOfServicePage />} />
-                              <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
-                              <Route path="/cookies" element={<LazyCookiePolicyPage />} />
-                              <Route path="/blog" element={<LazyBlogPage />} />
-                              <Route path="/help" element={<LazyHelpPage />} />
-                              <Route path="/learning-hub" element={<LazyLearningHubPage />} />
-                              <Route path="/testing/signup" element={<LazySignupTestPage />} />
                               <Route path="/accessibility" element={<LazyAccessibilityPage />} />
-                              
-                              <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
-                              <Route path="/features" element={<LazyFeaturesPage />} />
-                              <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
-                              <Route path="/my-profile" element={<LazyUserProfilePage />} />
-                              <Route path="/user-profile" element={<LazyUserProfilePage />} />
-                              <Route path="/settings" element={<LazyUserSettingsPage />} />
-                              <Route path="/user-settings" element={<LazyUserSettingsPage />} />
-                              <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
-                              <Route path="/recommendations" element={<LazyRecommendationsPage />} />
-                              <Route path="/community" element={<LazyCommunityPage />} />
-                              <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
-                              <Route path="/challenges" element={<LazyGroupChallengesPage />} />
-                              <Route path="/referrals" element={<LazyReferralDashboard />} />
-                              <Route path="/customers" element={<LazyCustomersPage />} />
-                              <Route path="/customers/new" element={<LazyNewCustomerPage />} />
-                              <Route path="/customers/:customerId" element={<LazyCustomerDetailPage />} />
-                              <Route path="/share-impact" element={<LazyShareImpactPage />} />
-              <Route path="/impact" element={<LazyImpactPage />} />
                               <Route path="/admin" element={<LazyAdminPage />} />
                               <Route path="/admin-dashboard" element={<LazyAdminDashboardPage />} />
-                              <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
                               <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
-                              <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
-                              <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
                               <Route path="/admin/email-list" element={<LazyAdminEmailListPage />} />
-                              <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
-                              <Route path="/social-proof" element={<LazySocialProofPage />} />
-                              <Route path="/network" element={<LazyNetworkPage />} />
-                              <Route path="/qr-test" element={<LazyQRTestPage />} />
-                             
-                              {/* Business dashboard routes - iOS protected */}
-                              <Route path="/business-dashboard" element={
-                                <IOSProtectedRoute>
-                                  <LazyDashboardPage />
-                                </IOSProtectedRoute>
-                              } />
+                              <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
+                              <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
+                              <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
+                              <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
+                              <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
+                              <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
+                              <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
+                              <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
+                              <Route path="/apple-compliance" element={<LazyAppleComplianceTestPage />} />
+                              <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
+                              <Route path="/auth" element={<LazyAuthPage />} />
+                              
+                              {/* B */}
+                              <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
+                              <Route path="/blog" element={<LazyBlogPage />} />
+                              <Route path="/book/:businessId" element={<LazyBookBusinessPage />} />
                               <Route path="/business-analytics" element={
                                 <IOSProtectedRoute>
                                   <LazyBusinessAnalyticsPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/business-dashboard" element={
+                                <IOSProtectedRoute>
+                                  <LazyDashboardPage />
                                 </IOSProtectedRoute>
                               } />
                               <Route path="/business-finances" element={
@@ -456,50 +375,150 @@ function App() {
                                   <LazyBusinessFinancesPage />
                                 </IOSProtectedRoute>
                               } />
+                              <Route path="/business-form" element={
+                                <IOSProtectedRoute>
+                                  <LazyBusinessFormPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/business-signup" element={
+                                <IOSProtectedRoute>
+                                  <LazyBusinessSignupPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/business/bookings" element={
                                 <IOSProtectedRoute>
                                   <LazyBusinessBookingsPage />
                                 </IOSProtectedRoute>
                               } />
-                              <Route path="/book/:businessId" element={<LazyBookBusinessPage />} />
-                            
-                              <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
-                              <Route path="/features" element={<LazyFeatureGuidePage />} />
-                              <Route path="/education" element={<LazyEducationPage />} />
-                              <Route path="/scanner" element={<LazyQRScannerPage />} />
-                              <Route path="/loyalty" element={<LazyLoyaltyPage />} />
+                              <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
+                              <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
+                              <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
+                              <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
+                              <Route path="/button-test" element={<LazyButtonTestPage />} />
+                              
+                              {/* C */}
+                              <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
+                              <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                              <Route path="/community" element={<LazyCommunityPage />} />
+                              <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                               <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
-                              <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
-                              <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
-                              <Route path="/sponsor-dashboard" element={<LazySponsorDashboardPage />} />
-                              <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
-                              <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
+                              <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
+                              <Route path="/comprehensive-test" element={<LazyComprehensiveTestPage />} />
+                              <Route path="/contact" element={<LazyContactPage />} />
+                              <Route path="/cookies" element={<LazyCookiePolicyPage />} />
                               <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
-                              <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
-                              <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                              <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                              <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
+                              <Route path="/customers" element={<LazyCustomersPage />} />
+                              <Route path="/customers/new" element={<LazyNewCustomerPage />} />
+                              <Route path="/customers/:customerId" element={<LazyCustomerDetailPage />} />
+                              
+                              {/* D */}
+                              <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
+                              <Route path="/directory" element={<LazyDirectoryPage />} />
+                              
+                              {/* E */}
+                              <Route path="/education" element={<LazyEducationPage />} />
+                              <Route path="/email-copy" element={<LazyEmailCopyPage />} />
+                              <Route path="/email-verified" element={<LazyEmailVerified />} />
+                              <Route path="/error" element={<LazyErrorPage />} />
+                              
+                              {/* F */}
+                              <Route path="/features" element={<LazyFeaturesPage />} />
+                              <Route path="/full-app-test" element={<LazyFullAppTest />} />
                               <Route path="/full-app-test" element={<LazyFullAppTestPage />} />
                               <Route path="/full-system-test" element={<LazyFullSystemTestPage />} />
-                              <Route path="/system-test" element={<LazySystemTestPage />} />
-                              <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
-                              <Route path="/comprehensive-test" element={<LazyComprehensiveTestPage />} />
-                              <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
-                              <Route path="/signup-test" element={<LazySignupTestPage />} />
+                              
+                              {/* H */}
+                              <Route path="/help" element={<LazyHelpPage />} />
+                              <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
+                              
+                              {/* I */}
+                              <Route path="/impact" element={<LazyImpactPage />} />
+                              <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
+                              
+                              {/* L */}
+                              <Route path="/learning-hub" element={<LazyLearningHubPage />} />
+                              <Route path="/login" element={<LazyLoginPage />} />
+                              <Route path="/loyalty" element={<LazyRewardsPage />} />
+                              <Route path="/loyalty" element={<LazyLoyaltyPage />} />
+                              
+                              {/* M */}
+                              <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
+                              <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
+                              <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                              <Route path="/my-profile" element={<LazyUserProfilePage />} />
+                              
+                              {/* N */}
+                              <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
+                              <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
+                              <Route path="/network" element={<LazyNetworkPage />} />
+                              
+                              {/* P */}
+                              <Route path="/password-reset" element={<LazyResetPasswordPage />} />
+                              <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                               <Route path="/payment-test" element={
                                 <IOSProtectedRoute>
                                   <LazyPaymentTestPage />
                                 </IOSProtectedRoute>
                               } />
-                              <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
-                              <Route path="/apple-compliance" element={<LazyAppleComplianceTestPage />} />
                               <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
-                              <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
-                              <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
-                              <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
-                              <Route path="/refresh" element={<LazyRefreshPage />} />
-                              <Route path="/button-test" element={<LazyButtonTestPage />} />
-                              <Route path="/email-copy" element={<LazyEmailCopyPage />} />
-                              <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
+                              <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
+                              <Route path="/profile" element={<LazyProfilePage />} />
                               
+                              {/* Q */}
+                              <Route path="/qr-test" element={<LazyQRTestPage />} />
+                              
+                              {/* R */}
+                              <Route path="/recommendations" element={<LazyRecommendationsPage />} />
+                              <Route path="/referrals" element={<LazyReferralDashboard />} />
+                              <Route path="/refresh" element={<LazyRefreshPage />} />
+                              <Route path="/reset-password" element={<LazyPasswordResetRequestPage />} />
+                              
+                              {/* S */}
+                              <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
+                              <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
+                              <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
+                              <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
+                              <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
+                              <Route path="/scanner" element={<LazyQRScannerPage />} />
+                              <Route path="/settings" element={<LazyUserSettingsPage />} />
+                              <Route path="/share-impact" element={<LazyShareImpactPage />} />
+                              <Route path="/signup" element={
+                                <IOSProtectedRoute>
+                                  <LazySignupPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/signup-test" element={<LazySignupTestPage />} />
+                              <Route path="/signup/business" element={
+                                <IOSProtectedRoute>
+                                  <LazyBusinessSignupPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/social-proof" element={<LazySocialProofPage />} />
+                              <Route path="/sponsor-dashboard" element={<LazySponsorDashboardPage />} />
+                              <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
+                              <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
+                              <Route path="/subscription" element={
+                                <IOSProtectedRoute>
+                                  <LazySubscriptionPage />
+                                </IOSProtectedRoute>
+                              } />
+                              <Route path="/support" element={<LazySupportPage />} />
+                              <Route path="/system-test" element={<LazySystemTestPage />} />
+                              
+                              {/* T */}
+                              <Route path="/terms" element={<LazyTermsOfServicePage />} />
+                              <Route path="/test-data-populator" element={<LazyTestDataPopulator />} />
+                              <Route path="/testing-hub" element={<LazyTestingHub />} />
+                              <Route path="/testing/signup" element={<LazySignupTestPage />} />
+                              
+                              {/* U */}
+                              <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
+                              <Route path="/user-profile" element={<LazyUserProfilePage />} />
+                              <Route path="/user-settings" element={<LazyUserSettingsPage />} />
+                              
+                              {/* 404 */}
                               <Route path="*" element={<NotFound />} />
                               </Route>
                             </Routes>
@@ -532,205 +551,199 @@ function App() {
                         <Suspense fallback={<LoadingFallback />}>
                         <Layout>
                           <Routes>
+                        {/* Home */}
                         <Route path="/" element={<HomePage />} />
-                        <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
-                        <Route path="/auth" element={<LazyAuthPage />} />
-                        <Route path="/login" element={<LazyLoginPage />} />
-                        <Route path="/signup" element={<LazySignupPage />} />
-                        <Route path="/email-verified" element={<LazyEmailVerified />} />
-                      
-                        {/* iOS Blocked Page */}
-                        <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
-                      
-                        {/* Business signup routes - iOS protected */}
-                        <Route path="/business-signup" element={
-                          <IOSProtectedRoute>
-                            <LazyBusinessSignupPage />
-                          </IOSProtectedRoute>
-                        } />
-                        <Route path="/signup/business" element={
-                          <IOSProtectedRoute>
-                            <LazyBusinessSignupPage />
-                          </IOSProtectedRoute>
-                        } />
                         
-                        {/* Business form route - iOS protected */}
+                        {/* A */}
+                        <Route path="/about" element={<LazyAboutPage />} />
+                        <Route path="/accessibility" element={<LazyAccessibilityPage />} />
+                        <Route path="/admin" element={<LazyAdminPage />} />
+                        <Route path="/admin-dashboard" element={<LazyAdminDashboardPage />} />
+                        <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
+                        <Route path="/admin/email-list" element={<LazyAdminEmailListPage />} />
+                        <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
+                        <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
+                        <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
+                        <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
+                        <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
+                        <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
+                        <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
+                        <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
+                        <Route path="/apple-compliance" element={<LazyAppleComplianceTestPage />} />
+                        <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
+                        <Route path="/app-functionality-test" element={<LazyAppTestPage />} />
+                        <Route path="/auth" element={<LazyAuthPage />} />
+                        
+                        {/* B */}
+                        <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
+                        <Route path="/blog" element={<LazyBlogPage />} />
+                        <Route path="/book/:businessId" element={<LazyBookBusinessPage />} />
+                        <Route path="/business-analytics" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessAnalyticsPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/business-dashboard" element={
+                          <IOSProtectedRoute>
+                            <LazyDashboardPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/business-finances" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessFinancesPage />
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/business-form" element={
                           <IOSProtectedRoute>
                             <LazyBusinessFormPage />
                           </IOSProtectedRoute>
                         } />
-                        
-                        {/* Password reset routes */}
-                        <Route path="/reset-password" element={<LazyPasswordResetRequestPage />} />
-                        <Route path="/password-reset" element={<LazyResetPasswordPage />} />
-                        
-                        <Route path="/profile" element={<LazyProfilePage />} />
-                        {/* Subscription route - iOS protected */}
-                        <Route path="/subscription" element={
+                        <Route path="/business-signup" element={
                           <IOSProtectedRoute>
-                            <LazySubscriptionPage />
+                            <LazyBusinessSignupPage />
                           </IOSProtectedRoute>
                         } />
-                        <Route path="/directory" element={<LazyDirectoryPage />} />
-                        <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
-                        <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
-                        <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
-                        <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
-                        <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
-                        <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
-                        <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
-                        <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
-                        <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
-                        <Route path="/become-a-sales-agent" element={<LazySalesAgentGuidePage />} />
+                        <Route path="/business/bookings" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessBookingsPage />
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                         <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
-                        <Route path="/loyalty" element={<LazyRewardsPage />} />
-                        {/* Temporarily disabled to isolate iOS startup crash */}
-                        <Route path="/about" element={<LazyAboutPage />} />
-                        <Route path="/testing-hub" element={<LazyTestingHub />} />
-                        <Route path="/test-data-populator" element={<LazyTestDataPopulator />} />
-                        <Route path="/full-app-test" element={<LazyFullAppTest />} />
-                        <Route path="/contact" element={<LazyContactPage />} />
-                        <Route path="/support" element={<LazySupportPage />} />
-                        <Route path="/terms" element={<LazyTermsOfServicePage />} />
-                        <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
-                        <Route path="/cookies" element={<LazyCookiePolicyPage />} />
-                        <Route path="/blog" element={<LazyBlogPage />} />
-                        <Route path="/help" element={<LazyHelpPage />} />
-                        <Route path="/learning-hub" element={<LazyLearningHubPage />} />
-                        <Route path="/testing/signup" element={<LazySignupTestPage />} />
-                        <Route path="/accessibility" element={<LazyAccessibilityPage />} />
+                        <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
+                        <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
+                        <Route path="/button-test" element={<LazyButtonTestPage />} />
                         
-                         {/* Fixed Dashboard route */}
-                           <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
-                           <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
-                           <Route path="/my-profile" element={<LazyUserProfilePage />} />
-                          <Route path="/user-profile" element={<LazyUserProfilePage />} />
-                          <Route path="/settings" element={<LazyUserSettingsPage />} />
-                          <Route path="/user-settings" element={<LazyUserSettingsPage />} />
-                          <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
-                          <Route path="/recommendations" element={<LazyRecommendationsPage />} />
-                          <Route path="/community" element={<LazyCommunityPage />} />
-                          <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
-                           <Route path="/challenges" element={<LazyGroupChallengesPage />} />
-                           <Route path="/referrals" element={<LazyReferralDashboard />} />
-                           <Route path="/customers" element={<LazyCustomersPage />} />
-                           <Route path="/customers/new" element={<LazyNewCustomerPage />} />
-                           <Route path="/customers/:customerId" element={<LazyCustomerDetailPage />} />
-                           <Route path="/share-impact" element={<LazyShareImpactPage />} />
-                           <Route path="/impact" element={<LazyImpactPage />} />
-                           <Route path="/social-proof" element={<LazySocialProofPage />} />
-                           <Route path="/network" element={<LazyNetworkPage />} />
-                         
-                          {/* Business dashboard routes - iOS protected */}
-                          <Route path="/business-dashboard" element={
-                            <IOSProtectedRoute>
-                              <LazyDashboardPage />
-                            </IOSProtectedRoute>
-                          } />
-                          <Route path="/business-analytics" element={
-                            <IOSProtectedRoute>
-                              <LazyBusinessAnalyticsPage />
-                            </IOSProtectedRoute>
-                          } />
-                          <Route path="/business-finances" element={
-                            <IOSProtectedRoute>
-                              <LazyBusinessFinancesPage />
-                            </IOSProtectedRoute>
-                          } />
-                          <Route path="/business/bookings" element={
-                            <IOSProtectedRoute>
-                              <LazyBusinessBookingsPage />
-                            </IOSProtectedRoute>
-                          } />
-                          <Route path="/book/:businessId" element={<LazyBookBusinessPage />} />
-                        
-                        {/* Fixed How It Works route */}
-                        <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
-                        <Route path="/features" element={<LazyFeatureGuidePage />} />
-                        <Route path="/education" element={<LazyEducationPage />} />
-                        
-                        {/* QR Scanner routes - both /scanner and /qr-scanner should work */}
-                        <Route path="/scanner" element={<LazyQRScannerPage />} />
-                        
-                        {/* Fixed Loyalty route */}
-                        <Route path="/loyalty" element={<LazyLoyaltyPage />} />
-                        
-                        {/* Fixed Community Impact route */}
+                        {/* C */}
+                        <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
+                        <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                        <Route path="/community" element={<LazyCommunityPage />} />
+                        <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                         <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
+                        <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
+                        <Route path="/comprehensive-test" element={<LazyComprehensiveTestPage />} />
+                        <Route path="/contact" element={<LazyContactPage />} />
+                        <Route path="/cookies" element={<LazyCookiePolicyPage />} />
+                        <Route path="/corporate-dashboard" element={
+                          <IOSProtectedRoute>
+                            <LazyCorporateDashboardPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
+                        <Route path="/customer/bookings" element={<LazyCustomerBookingsPage />} />
+                        <Route path="/customers" element={<LazyCustomersPage />} />
+                        <Route path="/customers/new" element={<LazyNewCustomerPage />} />
+                        <Route path="/customers/:customerId" element={<LazyCustomerDetailPage />} />
                         
-                              {/* Corporate Sponsorship routes - pricing/checkout iOS protected */}
-                              <Route path="/corporate-sponsorship" element={<LazyCorporateSponsorshipPage />} />
-                              <Route path="/sponsor-pricing" element={
-                                <IOSProtectedRoute>
-                                  <LazyCorporateSponsorshipPricingPage />
-                                </IOSProtectedRoute>
-                              } />
-                              <Route path="/sponsor-dashboard" element={
-                                <IOSProtectedRoute>
-                                  <LazySponsorDashboardPage />
-                                </IOSProtectedRoute>
-                              } />
-                              <Route path="/admin" element={<LazyAdminPage />} />
-                              <Route path="/admin-dashboard" element={<LazyAdminDashboardPage />} />
-                              <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
-                              <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
-                              <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
-                              <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
-                              <Route path="/admin/email-list" element={<LazyAdminEmailListPage />} />
-                              <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
-                              <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
-                              <Route path="/corporate-dashboard" element={
-                                <IOSProtectedRoute>
-                                  <LazyCorporateDashboardPage />
-                                </IOSProtectedRoute>
-                              } />
-                              <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
+                        {/* D */}
+                        <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
+                        <Route path="/directory" element={<LazyDirectoryPage />} />
                         
-                        {/* Fixed Mobile Readiness Test route */}
-                        <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                        {/* E */}
+                        <Route path="/education" element={<LazyEducationPage />} />
+                        <Route path="/email-copy" element={<LazyEmailCopyPage />} />
+                        <Route path="/email-verified" element={<LazyEmailVerified />} />
                         
-                        {/* App Functionality Test route */}
-                        <Route path="/app-functionality-test" element={<LazyAppTestPage />} />
-                        
-                        {/* Full App Test route */}
+                        {/* F */}
+                        <Route path="/features" element={<LazyFeatureGuidePage />} />
+                        <Route path="/full-app-test" element={<LazyFullAppTest />} />
                         <Route path="/full-app-test" element={<LazyFullAppTestPage />} />
-                        
-                        {/* Full System Test route */}
                         <Route path="/full-system-test" element={<LazyFullSystemTestPage />} />
                         
-                        {/* System Test route */}
-                        <Route path="/system-test" element={<LazySystemTestPage />} />
+                        {/* H */}
+                        <Route path="/help" element={<LazyHelpPage />} />
+                        <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
                         
-                        {/* Capacitor Test route */}
-                        <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
+                        {/* I */}
+                        <Route path="/impact" element={<LazyImpactPage />} />
+                        <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                         
-                        {/* Comprehensive Test route */}
-                        <Route path="/comprehensive-test" element={<LazyComprehensiveTestPage />} />
-                        <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
-                        <Route path="/signup-test" element={<LazySignupTestPage />} />
+                        {/* L */}
+                        <Route path="/learning-hub" element={<LazyLearningHubPage />} />
+                        <Route path="/login" element={<LazyLoginPage />} />
+                        <Route path="/loyalty" element={<LazyRewardsPage />} />
+                        <Route path="/loyalty" element={<LazyLoyaltyPage />} />
+                        
+                        {/* M */}
+                        <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
+                        <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
+                        <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                        <Route path="/my-profile" element={<LazyUserProfilePage />} />
+                        
+                        {/* N */}
+                        <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
+                        <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
+                        <Route path="/network" element={<LazyNetworkPage />} />
+                        
+                        {/* P */}
+                        <Route path="/password-reset" element={<LazyResetPasswordPage />} />
+                        <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                         <Route path="/payment-test" element={
                           <IOSProtectedRoute>
                             <LazyPaymentTestPage />
                           </IOSProtectedRoute>
                         } />
-                        <Route path="/apple-compliance-test" element={<LazyAppleComplianceTestPage />} />
-                        <Route path="/apple-compliance" element={<LazyAppleComplianceTestPage />} />
                         <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
-                        <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
-                        <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
-                        <Route path="/native-features-showcase" element={<LazyNativeFeaturesShowcase />} />
-                        <Route path="/refresh" element={<LazyRefreshPage />} />
-                        <Route path="/button-test" element={<LazyButtonTestPage />} />
-                        <Route path="/email-copy" element={<LazyEmailCopyPage />} />
-                        <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
-                        <Route path="/qr-test" element={<LazyQRTestPage />} />
-                        <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
-                        <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
-                        <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
+                        <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
+                        <Route path="/profile" element={<LazyProfilePage />} />
                         
-                        {/* Catch all route for 404 */}
+                        {/* Q */}
+                        <Route path="/qr-test" element={<LazyQRTestPage />} />
+                        
+                        {/* R */}
+                        <Route path="/recommendations" element={<LazyRecommendationsPage />} />
+                        <Route path="/referrals" element={<LazyReferralDashboard />} />
+                        <Route path="/refresh" element={<LazyRefreshPage />} />
+                        <Route path="/reset-password" element={<LazyPasswordResetRequestPage />} />
+                        
+                        {/* S */}
+                        <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
+                        <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
+                        <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
+                        <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
+                        <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
+                        <Route path="/scanner" element={<LazyQRScannerPage />} />
+                        <Route path="/settings" element={<LazyUserSettingsPage />} />
+                        <Route path="/share-impact" element={<LazyShareImpactPage />} />
+                        <Route path="/signup" element={<LazySignupPage />} />
+                        <Route path="/signup-test" element={<LazySignupTestPage />} />
+                        <Route path="/signup/business" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessSignupPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/social-proof" element={<LazySocialProofPage />} />
+                        <Route path="/sponsor-dashboard" element={
+                          <IOSProtectedRoute>
+                            <LazySponsorDashboardPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/sponsor-pricing" element={
+                          <IOSProtectedRoute>
+                            <LazyCorporateSponsorshipPricingPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
+                        <Route path="/subscription" element={
+                          <IOSProtectedRoute>
+                            <LazySubscriptionPage />
+                          </IOSProtectedRoute>
+                        } />
+                        <Route path="/support" element={<LazySupportPage />} />
+                        <Route path="/system-test" element={<LazySystemTestPage />} />
+                        
+                        {/* T */}
+                        <Route path="/terms" element={<LazyTermsOfServicePage />} />
+                        <Route path="/test-data-populator" element={<LazyTestDataPopulator />} />
+                        <Route path="/testing-hub" element={<LazyTestingHub />} />
+                        <Route path="/testing/signup" element={<LazySignupTestPage />} />
+                        
+                        {/* U */}
+                        <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
+                        <Route path="/user-profile" element={<LazyUserProfilePage />} />
+                        <Route path="/user-settings" element={<LazyUserSettingsPage />} />
+                        
+                        {/* 404 */}
                         <Route path="*" element={<NotFound />} />
                           </Routes>
                         </Layout>
