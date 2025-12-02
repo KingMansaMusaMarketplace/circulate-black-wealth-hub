@@ -11,46 +11,47 @@ import {
 
 const AllPagesDirectory = () => {
   const pages = [
-    { path: '/', name: 'Home', icon: Home, category: 'Main' },
-    { path: '/directory', name: 'Business Directory', icon: Store, category: 'Main' },
-    { path: '/how-it-works', name: 'How It Works', icon: BookOpen, category: 'Main' },
     { path: '/about', name: 'About Us', icon: Info, category: 'Main' },
-    { path: '/community', name: 'Community Hub', icon: Users, category: 'Main' },
     { path: '/blog', name: 'Blog', icon: BookOpen, category: 'Main' },
+    { path: '/directory', name: 'Business Directory', icon: Store, category: 'Main' },
+    { path: '/community', name: 'Community Hub', icon: Users, category: 'Main' },
+    { path: '/', name: 'Home', icon: Home, category: 'Main' },
+    { path: '/how-it-works', name: 'How It Works', icon: BookOpen, category: 'Main' },
     
-    { path: '/login', name: 'Login', icon: LogIn, category: 'Auth' },
-    { path: '/signup', name: 'Customer Signup', icon: UserPlus, category: 'Auth' },
     { path: '/business-signup', name: 'Business Signup', icon: Building2, category: 'Auth' },
+    { path: '/signup', name: 'Customer Signup', icon: UserPlus, category: 'Auth' },
+    { path: '/login', name: 'Login', icon: LogIn, category: 'Auth' },
     { path: '/reset-password', name: 'Password Reset', icon: ShieldCheck, category: 'Auth' },
     
     { path: '/dashboard', name: 'Dashboard', icon: Settings, category: 'User' },
-    { path: '/profile', name: 'Profile Settings', icon: Settings, category: 'User' },
     { path: '/loyalty', name: 'Loyalty Program', icon: Trophy, category: 'User' },
     { path: '/customer/bookings', name: 'My Bookings', icon: Calendar, category: 'User' },
+    { path: '/profile', name: 'Profile Settings', icon: Settings, category: 'User' },
     
     { path: '/business-dashboard', name: 'Business Dashboard', icon: Building2, category: 'Business' },
-    { path: '/business-form', name: 'Register Business', icon: Building2, category: 'Business' },
     { path: '/business/how-it-works', name: 'Business How It Works', icon: BookOpen, category: 'Business' },
+    { path: '/business-form', name: 'Register Business', icon: Building2, category: 'Business' },
     
     { path: '/corporate-sponsorship', name: 'Corporate Sponsorship', icon: Handshake, category: 'Corporate' },
+    
     { path: '/community-impact', name: 'Community Impact', icon: TrendingUp, category: 'Analytics' },
     { path: '/impact', name: 'Impact Dashboard', icon: TrendingUp, category: 'Analytics' },
     
     { path: '/scanner', name: 'QR Scanner', icon: QrCode, category: 'Tools' },
     
-    { path: '/help', name: 'Help Center', icon: HelpCircle, category: 'Support' },
     { path: '/contact', name: 'Contact Us', icon: Mail, category: 'Support' },
+    { path: '/help', name: 'Help Center', icon: HelpCircle, category: 'Support' },
     { path: '/support', name: 'Support', icon: HelpCircle, category: 'Support' },
     
-    { path: '/system-test', name: 'System Test', icon: TestTube, category: 'Testing' },
+    { path: '/apple-compliance-test', name: 'Apple App Store Compliance', icon: ShieldCheck, category: 'Testing' },
+    { path: '/capacitor-test', name: 'Capacitor Test', icon: TestTube, category: 'Testing' },
     { path: '/comprehensive-test', name: 'Comprehensive Test', icon: TestTube, category: 'Testing' },
     { path: '/full-system-test', name: 'Full System Test', icon: TestTube, category: 'Testing' },
-    { path: '/capacitor-test', name: 'Capacitor Test', icon: TestTube, category: 'Testing' },
-    { path: '/apple-compliance-test', name: 'Apple App Store Compliance', icon: ShieldCheck, category: 'Testing' },
+    { path: '/system-test', name: 'System Test', icon: TestTube, category: 'Testing' },
     
+    { path: '/cookies', name: 'Cookie Policy', icon: FileText, category: 'Legal' },
     { path: '/privacy', name: 'Privacy Policy', icon: FileText, category: 'Legal' },
     { path: '/terms', name: 'Terms of Service', icon: FileText, category: 'Legal' },
-    { path: '/cookies', name: 'Cookie Policy', icon: FileText, category: 'Legal' },
   ];
 
   const categories = Array.from(new Set(pages.map(p => p.category)));
