@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -422,25 +421,25 @@ const AppTestPage: React.FC = () => {
   const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
       case 'pass':
-        return <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />;
+        return <CheckCircle className="h-5 w-5 text-green-400" />;
       case 'fail':
-        return <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />;
+        return <XCircle className="h-5 w-5 text-red-400" />;
       case 'warning':
-        return <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />;
+        return <AlertTriangle className="h-5 w-5 text-mansagold" />;
       case 'running':
-        return <Loader2 className="h-5 w-5 text-mansablue animate-spin" />;
+        return <Loader2 className="h-5 w-5 text-mansagold animate-spin" />;
       default:
-        return <div className="h-5 w-5 rounded-full bg-gray-300 dark:bg-gray-600" />;
+        return <div className="h-5 w-5 rounded-full bg-white/20" />;
     }
   };
 
   const getStatusBadge = (status: TestResult['status']) => {
     const variants = {
-      pass: 'bg-green-500 text-white font-semibold shadow-sm',
-      fail: 'bg-red-500 text-white font-semibold shadow-sm',
-      warning: 'bg-yellow-500 text-white font-semibold shadow-sm',
-      running: 'bg-gradient-to-r from-mansablue to-mansagold text-white font-semibold shadow-sm',
-      pending: 'bg-gray-400 text-white font-semibold shadow-sm'
+      pass: 'bg-green-500/20 text-green-300 border-green-500/30 border',
+      fail: 'bg-red-500/20 text-red-300 border-red-500/30 border',
+      warning: 'bg-mansagold/20 text-mansagold border-mansagold/30 border',
+      running: 'bg-mansagold/20 text-mansagold border-mansagold/30 border',
+      pending: 'bg-white/10 text-white/60 border-white/20 border'
     };
     
     return (
@@ -464,282 +463,245 @@ const AppTestPage: React.FC = () => {
   const criticalFailures = criticalTests.filter(t => t.status === 'fail').length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+    <div className="min-h-screen gradient-primary relative overflow-hidden">
+      {/* Animated Gradient Orbs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-mansagold/20 blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-mansagold/15 blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-white/5 blur-2xl animate-float" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute bottom-1/4 left-1/4 w-48 h-48 rounded-full bg-mansagold/10 blur-2xl animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/3 right-1/4 w-56 h-56 rounded-full bg-white/5 blur-2xl animate-float" style={{ animationDelay: '3s' }}></div>
       </div>
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-6xl mx-auto space-y-6">
           {/* Header */}
-          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-mansagold/10 to-transparent rounded-full blur-3xl" />
-            <CardHeader className="relative z-10">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-3 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-xl shadow-lg">
-                  <Database className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">
-                  System Diagnostics
-                </CardTitle>
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-3 bg-mansagold/20 rounded-xl border border-mansagold/30">
+                <Database className="h-6 w-6 text-mansagold" />
               </div>
-              <CardDescription className="text-base">
-                Comprehensive testing of frontend components and backend services
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="relative z-10">
-              <div className="space-y-6">
-                <Button 
-                  onClick={runAllTests} 
-                  disabled={isRunning}
-                  className="w-full bg-gradient-to-r from-mansablue to-mansablue-dark hover:from-mansablue-dark hover:to-mansablue text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
-                  size="lg"
-                >
-                  {isRunning ? (
-                    <>
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Running Tests...
-                    </>
-                  ) : (
-                    <>
-                      <Play className="mr-2 h-5 w-5" />
-                      Run All Tests
-                    </>
+              <h1 className="text-3xl font-bold text-white font-display">
+                System Diagnostics
+              </h1>
+            </div>
+            <p className="text-white/70 mb-6">
+              Comprehensive testing of frontend components and backend services
+            </p>
+
+            <div className="space-y-6">
+              <Button 
+                onClick={runAllTests} 
+                disabled={isRunning}
+                className="w-full bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                size="lg"
+              >
+                {isRunning ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Running Tests...
+                  </>
+                ) : (
+                  <>
+                    <Play className="mr-2 h-5 w-5" />
+                    Run All Tests
+                  </>
+                )}
+              </Button>
+
+              {isRunning && (
+                <div className="space-y-3 p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
+                  <div className="flex justify-between text-sm font-medium">
+                    <span className="text-white/80">Progress</span>
+                    <span className="text-mansagold">{Math.round(progress)}%</span>
+                  </div>
+                  <Progress value={progress} className="w-full h-3 bg-white/10" />
+                  {currentTest && (
+                    <p className="text-sm text-white/60 flex items-center gap-2">
+                      <Loader2 className="h-4 w-4 animate-spin text-mansagold" />
+                      Currently testing: <span className="font-semibold text-white">{currentTest}</span>
+                    </p>
                   )}
-                </Button>
+                </div>
+              )}
 
-                {isRunning && (
-                  <div className="space-y-3 p-4 bg-gradient-to-br from-mansablue/5 to-transparent rounded-xl border border-mansablue/20">
-                    <div className="flex justify-between text-sm font-medium">
-                      <span className="text-foreground">Progress</span>
-                      <span className="text-mansagold">{Math.round(progress)}%</span>
-                    </div>
-                    <div className="relative">
-                      <Progress value={progress} className="w-full h-3 bg-gray-200 [&>div]:bg-gradient-to-r [&>div]:from-mansablue [&>div]:to-mansagold" />
-                    </div>
-                    {currentTest && (
-                      <p className="text-sm text-muted-foreground flex items-center gap-2">
-                        <Loader2 className="h-4 w-4 animate-spin text-mansablue" />
-                        Currently testing: <span className="font-semibold text-foreground">{currentTest}</span>
-                      </p>
-                    )}
+              {tests.some(t => t.status !== 'pending') && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                  <div className="text-center p-4 bg-green-500/10 rounded-xl border border-green-500/20">
+                    <div className="text-3xl font-bold text-green-400">{passCount}</div>
+                    <div className="text-sm font-medium text-white/70">Passed</div>
                   </div>
-                )}
-
-                {tests.some(t => t.status !== 'pending') && (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                    <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 rounded-xl border border-green-200 dark:border-green-800 shadow-sm">
-                      <div className="text-3xl font-bold text-green-600 dark:text-green-400">{passCount}</div>
-                      <div className="text-sm font-medium text-green-700 dark:text-green-300">Passed</div>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-950 dark:to-rose-950 rounded-xl border border-red-200 dark:border-red-800 shadow-sm">
-                      <div className="text-3xl font-bold text-red-600 dark:text-red-400">{failCount}</div>
-                      <div className="text-sm font-medium text-red-700 dark:text-red-300">Failed</div>
-                    </div>
-                    <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-950 dark:to-amber-950 rounded-xl border border-yellow-200 dark:border-yellow-800 shadow-sm">
-                      <div className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{warningCount}</div>
-                      <div className="text-sm font-medium text-yellow-700 dark:text-yellow-300">Warnings</div>
-                    </div>
-                    <div className={`text-center p-4 bg-gradient-to-br rounded-xl border shadow-sm ${
-                      criticalFailures > 0 
-                        ? 'from-red-50 to-rose-50 dark:from-red-950 dark:to-rose-950 border-red-200 dark:border-red-800' 
-                        : 'from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-200 dark:border-green-800'
-                    }`}>
-                      <div className={`text-3xl font-bold ${criticalFailures > 0 ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
-                        {criticalFailures}
-                      </div>
-                      <div className={`text-sm font-medium ${criticalFailures > 0 ? 'text-red-700 dark:text-red-300' : 'text-green-700 dark:text-green-300'}`}>
-                        Critical Issues
-                      </div>
-                    </div>
+                  <div className="text-center p-4 bg-red-500/10 rounded-xl border border-red-500/20">
+                    <div className="text-3xl font-bold text-red-400">{failCount}</div>
+                    <div className="text-sm font-medium text-white/70">Failed</div>
                   </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+                  <div className="text-center p-4 bg-mansagold/10 rounded-xl border border-mansagold/20">
+                    <div className="text-3xl font-bold text-mansagold">{warningCount}</div>
+                    <div className="text-sm font-medium text-white/70">Warnings</div>
+                  </div>
+                  <div className={`text-center p-4 rounded-xl border ${
+                    criticalFailures > 0 
+                      ? 'bg-red-500/10 border-red-500/20' 
+                      : 'bg-green-500/10 border-green-500/20'
+                  }`}>
+                    <div className={`text-3xl font-bold ${criticalFailures > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                      {criticalFailures}
+                    </div>
+                    <div className="text-sm font-medium text-white/70">Critical Issues</div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
 
           {/* Backend Tests */}
-          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl overflow-hidden">
-            <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-mansablue/10 to-transparent rounded-full blur-3xl" />
-            <CardHeader className="relative z-10">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-lg">
-                  <Database className="h-5 w-5 text-white" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl bg-gradient-to-r from-mansablue to-mansablue-dark bg-clip-text text-transparent">
-                    Backend Tests
-                  </CardTitle>
-                  <CardDescription>Database, APIs, and server-side functionality</CardDescription>
-                </div>
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-mansablue/30 rounded-lg border border-white/20">
+                <Database className="h-5 w-5 text-white" />
               </div>
-            </CardHeader>
-            <CardContent className="relative z-10">
-              <div className="space-y-3">
-                {backendTests.map((test, index) => (
-                  <div 
-                    key={index} 
-                    className="group relative flex items-center justify-between p-4 border-2 border-border rounded-xl hover:border-mansablue/40 bg-white dark:bg-gray-900 transition-all duration-300 hover:shadow-lg hover:scale-[1.01]"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-mansablue/5 to-transparent opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-300" />
-                    <div className="flex items-center gap-3 flex-grow relative z-10">
-                      {getStatusIcon(test.status)}
-                      <div className="flex-grow">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-semibold text-foreground">{test.name}</span>
-                          {test.critical && (
-                            <Badge className="bg-red-500/10 text-red-600 border-red-500/20 text-xs px-2 py-0.5">
-                              Critical
-                            </Badge>
-                          )}
-                        </div>
-                        <p className="text-sm text-muted-foreground">{test.message}</p>
+              <div>
+                <h2 className="text-2xl font-bold text-white font-display">Backend Tests</h2>
+                <p className="text-white/60 text-sm">Database, APIs, and server-side functionality</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              {backendTests.map((test, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300"
+                >
+                  <div className="flex items-center gap-3 flex-grow">
+                    {getStatusIcon(test.status)}
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-semibold text-white">{test.name}</span>
+                        {test.critical && (
+                          <Badge className="bg-red-500/20 text-red-300 border-red-500/30 border text-xs px-2 py-0.5">
+                            Critical
+                          </Badge>
+                        )}
                       </div>
-                    </div>
-                    <div className="relative z-10">
-                      {getStatusBadge(test.status)}
+                      <p className="text-sm text-white/60">{test.message}</p>
                     </div>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  {getStatusBadge(test.status)}
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* Frontend Tests */}
-          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-mansagold/10 to-transparent rounded-full blur-3xl" />
-            <CardHeader className="relative z-10">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-br from-mansagold to-amber-600 rounded-lg">
-                  <Navigation className="h-5 w-5 text-white" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl bg-gradient-to-r from-mansagold to-amber-600 bg-clip-text text-transparent">
-                    Frontend Tests
-                  </CardTitle>
-                  <CardDescription>React components, UI, and client-side functionality</CardDescription>
-                </div>
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-mansagold/30 rounded-lg border border-mansagold/30">
+                <Navigation className="h-5 w-5 text-mansagold" />
               </div>
-            </CardHeader>
-            <CardContent className="relative z-10">
-              <div className="space-y-3">
-                {frontendTests.map((test, index) => (
-                  <div 
-                    key={index} 
-                    className="group relative flex items-center justify-between p-4 border-2 border-border rounded-xl hover:border-mansagold/40 bg-white dark:bg-gray-900 transition-all duration-300 hover:shadow-lg hover:scale-[1.01]"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-mansagold/5 to-transparent opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-300" />
-                    <div className="flex items-center gap-3 flex-grow relative z-10">
-                      {getStatusIcon(test.status)}
-                      <div className="flex-grow">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-semibold text-foreground">{test.name}</span>
-                          {test.critical && (
-                            <Badge className="bg-red-500/10 text-red-600 border-red-500/20 text-xs px-2 py-0.5">
-                              Critical
-                            </Badge>
-                          )}
-                        </div>
-                        <p className="text-sm text-muted-foreground">{test.message}</p>
+              <div>
+                <h2 className="text-2xl font-bold text-white font-display">Frontend Tests</h2>
+                <p className="text-white/60 text-sm">React components, UI, and client-side functionality</p>
+              </div>
+            </div>
+            <div className="space-y-3">
+              {frontendTests.map((test, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300"
+                >
+                  <div className="flex items-center gap-3 flex-grow">
+                    {getStatusIcon(test.status)}
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-semibold text-white">{test.name}</span>
+                        {test.critical && (
+                          <Badge className="bg-red-500/20 text-red-300 border-red-500/30 border text-xs px-2 py-0.5">
+                            Critical
+                          </Badge>
+                        )}
                       </div>
-                    </div>
-                    <div className="relative z-10">
-                      {getStatusBadge(test.status)}
+                      <p className="text-sm text-white/60">{test.message}</p>
                     </div>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  {getStatusBadge(test.status)}
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* System Information */}
-          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-xl bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">
-                System Information
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="p-3 bg-gradient-to-br from-mansablue/5 to-transparent rounded-lg border border-mansablue/20">
-                  <span className="text-sm font-semibold text-muted-foreground">User Status</span>
-                  <p className="text-foreground font-medium mt-1">
-                    {user ? `Logged in as ${user.email}` : 'Not logged in'}
-                  </p>
-                </div>
-                <div className="p-3 bg-gradient-to-br from-mansagold/5 to-transparent rounded-lg border border-mansagold/20">
-                  <span className="text-sm font-semibold text-muted-foreground">User Type</span>
-                  <p className="text-foreground font-medium mt-1">{user?.user_metadata?.user_type || 'N/A'}</p>
-                </div>
-                <div className="p-3 bg-gradient-to-br from-mansablue/5 to-transparent rounded-lg border border-mansablue/20">
-                  <span className="text-sm font-semibold text-muted-foreground">Current Page</span>
-                  <p className="text-foreground font-medium mt-1">{window.location.pathname}</p>
-                </div>
-                <div className="p-3 bg-gradient-to-br from-mansagold/5 to-transparent rounded-lg border border-mansagold/20">
-                  <span className="text-sm font-semibold text-muted-foreground">Environment</span>
-                  <p className="text-foreground font-medium mt-1">{import.meta.env.MODE || 'development'}</p>
-                </div>
-                <div className="p-3 bg-gradient-to-br from-mansablue/5 to-transparent rounded-lg border border-mansablue/20">
-                  <span className="text-sm font-semibold text-muted-foreground">React Version</span>
-                  <p className="text-foreground font-medium mt-1">{React.version}</p>
-                </div>
-                <div className="p-3 bg-gradient-to-br from-mansagold/5 to-transparent rounded-lg border border-mansagold/20">
-                  <span className="text-sm font-semibold text-muted-foreground">Browser</span>
-                  <p className="text-foreground font-medium mt-1">{navigator.userAgent.split(' ')[0]}</p>
-                </div>
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+            <h2 className="text-xl font-bold text-white font-display mb-4">System Information</h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                <span className="text-sm font-semibold text-white/60">User Status</span>
+                <p className="text-white font-medium mt-1">
+                  {user ? `Logged in as ${user.email}` : 'Not logged in'}
+                </p>
               </div>
-            </CardContent>
-          </Card>
+              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                <span className="text-sm font-semibold text-white/60">User Type</span>
+                <p className="text-white font-medium mt-1">{user?.user_metadata?.user_type || 'N/A'}</p>
+              </div>
+              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                <span className="text-sm font-semibold text-white/60">Current Page</span>
+                <p className="text-white font-medium mt-1">{window.location.pathname}</p>
+              </div>
+              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                <span className="text-sm font-semibold text-white/60">Environment</span>
+                <p className="text-white font-medium mt-1">{import.meta.env.MODE || 'development'}</p>
+              </div>
+              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                <span className="text-sm font-semibold text-white/60">React Version</span>
+                <p className="text-white font-medium mt-1">{React.version}</p>
+              </div>
+              <div className="p-3 bg-white/5 rounded-lg border border-white/10">
+                <span className="text-sm font-semibold text-white/60">Browser</span>
+                <p className="text-white font-medium mt-1">{navigator.userAgent.split(' ')[0]}</p>
+              </div>
+            </div>
+          </div>
 
           {/* Test Instructions */}
-          <Card className="border-2 border-border bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-xl bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent">
-                Test Instructions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-mansablue/5 to-transparent rounded-lg border-l-4 border-mansablue">
-                  <Database className="h-5 w-5 text-mansablue mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-foreground mb-1">Backend Tests</p>
-                    <p className="text-sm text-muted-foreground">Check database connectivity, API endpoints, and server functionality</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-mansagold/5 to-transparent rounded-lg border-l-4 border-mansagold">
-                  <Navigation className="h-5 w-5 text-mansagold mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-foreground mb-1">Frontend Tests</p>
-                    <p className="text-sm text-muted-foreground">Verify React components, navigation, and user interface</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-red-500/5 to-transparent rounded-lg border-l-4 border-red-500">
-                  <AlertTriangle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-foreground mb-1">Critical Tests</p>
-                    <p className="text-sm text-muted-foreground">Essential functionality that must work for the app to function</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-yellow-500/5 to-transparent rounded-lg border-l-4 border-yellow-500">
-                  <AlertTriangle className="h-5 w-5 text-yellow-500 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-foreground mb-1">Warning Status</p>
-                    <p className="text-sm text-muted-foreground">Functionality works but may have minor issues</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-3 bg-gradient-to-r from-red-500/5 to-transparent rounded-lg border-l-4 border-red-500">
-                  <XCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold text-foreground mb-1">Failure Status</p>
-                    <p className="text-sm text-muted-foreground">Critical issues that need immediate attention</p>
-                  </div>
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-6 shadow-2xl">
+            <h2 className="text-xl font-bold text-white font-display mb-4">Test Instructions</h2>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border-l-4 border-mansablue">
+                <Database className="h-5 w-5 text-mansablue mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-white mb-1">Backend Tests</p>
+                  <p className="text-sm text-white/60">Check database connectivity, API endpoints, and server functionality</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+              <div className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border-l-4 border-mansagold">
+                <Navigation className="h-5 w-5 text-mansagold mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-white mb-1">Frontend Tests</p>
+                  <p className="text-sm text-white/60">Verify React components, navigation, and user interface</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border-l-4 border-red-500">
+                <AlertTriangle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-white mb-1">Critical Tests</p>
+                  <p className="text-sm text-white/60">Essential functionality that must work for the app to function</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border-l-4 border-yellow-500">
+                <AlertTriangle className="h-5 w-5 text-yellow-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-white mb-1">Warning Status</p>
+                  <p className="text-sm text-white/60">Functionality works but may have minor issues</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-3 bg-white/5 rounded-lg border-l-4 border-red-500">
+                <XCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-white mb-1">Failure Status</p>
+                  <p className="text-sm text-white/60">Critical issues that need immediate attention</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
