@@ -231,7 +231,7 @@ const DashboardPage = () => {
                   <span className="font-body text-sm">Ready to go!</span>
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <Link to="/scanner">
                   <Button className="w-full bg-white text-mansablue hover:bg-gray-50 font-semibold py-6 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all">
                     Scan QR Code
@@ -245,6 +245,11 @@ const DashboardPage = () => {
                 <Link to="/loyalty">
                   <Button className="w-full glass-card bg-white/10 text-white hover:bg-white/20 border-2 border-white/20 font-semibold py-6 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all">
                     View Rewards
+                  </Button>
+                </Link>
+                <Link to="/ai-assistant">
+                  <Button className="w-full glass-card bg-purple-500/20 text-white hover:bg-purple-500/30 border-2 border-purple-400/30 font-semibold py-6 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all">
+                    AI Help
                   </Button>
                 </Link>
               </div>
