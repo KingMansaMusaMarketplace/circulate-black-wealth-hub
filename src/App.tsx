@@ -130,6 +130,7 @@ const LazyLearningHubPage = lazy(() => import('@/pages/LearningHubPage'));
 const LazyAdminPage = lazy(() => import('@/pages/AdminPage'));
 const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
+const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
 
 // User profile pages
@@ -433,6 +434,7 @@ function App() {
                               <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
                               <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
                               <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
+                              <Route path="/admin/email-list" element={<LazyAdminEmailListPage />} />
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
                               <Route path="/network" element={<LazyNetworkPage />} />
@@ -676,6 +678,7 @@ function App() {
                               <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
                               <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
                               <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
+                              <Route path="/admin/email-list" element={<LazyAdminEmailListPage />} />
                               <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
                               <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
                               <Route path="/corporate-dashboard" element={
