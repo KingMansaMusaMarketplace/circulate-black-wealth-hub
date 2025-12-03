@@ -1,6 +1,6 @@
 
 import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, HeadingLevel } from 'docx';
-import { saveAs } from 'file-saver';
+import FileSaver from 'file-saver';
 
 interface WordGeneratorOptions {
   filename: string;
@@ -322,7 +322,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
   });
 
   const blob = await Packer.toBlob(doc);
-  saveAs(blob, options.filename);
+  FileSaver.saveAs(blob, options.filename);
 };
 
 function createMarketTable(): Table {
