@@ -14,7 +14,7 @@ export const getInvestorAnalysisContent = (): string => {
         <h1 style="font-size: 32px; color: #1a1a2e; margin-bottom: 10px; font-weight: bold;">
           MANSA MUSA MARKETPLACE
         </h1>
-        <h2 style="font-size: 24px; color: #996515; margin-bottom: 30px; font-weight: 600;">
+        <h2 style="font-size: 24px; color: #1a1a1a; margin-bottom: 30px; font-weight: 600;">
           Billion-Dollar Business Analysis
         </h2>
         <p style="font-size: 16px; color: #444; margin-bottom: 5px;">Investment Opportunity Assessment</p>
@@ -140,23 +140,23 @@ export const getInvestorAnalysisContent = (): string => {
         
         <div style="display: grid; gap: 15px;">
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #996515; margin-bottom: 8px; font-weight: bold;">1. Four-Sided Marketplace Model</h4>
+            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">1. Four-Sided Marketplace Model</h4>
             <p style="font-size: 14px; margin: 0;">Connects consumers, businesses, corporate sponsors, and sales agents in a unified ecosystem with network effects.</p>
           </div>
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #996515; margin-bottom: 8px; font-weight: bold;">2. Community Finance Innovation</h4>
+            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">2. Community Finance Innovation</h4>
             <p style="font-size: 14px; margin: 0;">Digital savings circles (Susu) tap into trusted cultural practices, creating sticky engagement and financial inclusion.</p>
           </div>
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #996515; margin-bottom: 8px; font-weight: bold;">3. Comprehensive Business Tools</h4>
+            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">3. Comprehensive Business Tools</h4>
             <p style="font-size: 14px; margin: 0;">Full-stack business management reduces need for multiple subscriptions, increasing platform stickiness.</p>
           </div>
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #996515; margin-bottom: 8px; font-weight: bold;">4. AI-Powered Intelligence</h4>
+            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">4. AI-Powered Intelligence</h4>
             <p style="font-size: 14px; margin: 0;">Mansa AI provides personalized recommendations, business insights, and automated assistance.</p>
           </div>
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #996515; margin-bottom: 8px; font-weight: bold;">5. Mobile-First Architecture</h4>
+            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">5. Mobile-First Architecture</h4>
             <p style="font-size: 14px; margin: 0;">Native iOS and Android apps ensure accessibility for the 85%+ of Black Americans who are smartphone users.</p>
           </div>
         </div>
@@ -290,7 +290,7 @@ export const getInvestorAnalysisContent = (): string => {
 
       <!-- Contact Information -->
       <div style="background: #1a1a2e; color: white; padding: 30px; border-radius: 8px; text-align: center;">
-        <h2 style="font-size: 20px; color: #d4af37; margin-bottom: 20px;">CONTACT INFORMATION</h2>
+        <h2 style="font-size: 20px; color: #ffffff; margin-bottom: 20px;">CONTACT INFORMATION</h2>
         <p style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">Thomas D. Bowling</p>
         <p style="font-size: 14px; margin-bottom: 5px;">Founder & CEO</p>
         <p style="font-size: 14px; margin-bottom: 5px;">Email: contact@mansamusamarketplace.com</p>
