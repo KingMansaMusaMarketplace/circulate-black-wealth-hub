@@ -6,6 +6,8 @@ import { getBriefPartnershipOverviewContent } from '../templates/briefPartnershi
 import { getBrandAssetsContent } from '../templates/brandAssetsTemplate';
 import { getImpactReportContent } from '../templates/impactReportTemplate';
 import { getMediaKitContent } from '../templates/mediaKitTemplate';
+import { getInvestorAnalysisContent } from '../templates/investorAnalysisTemplate';
+import { generateInvestorAnalysisWord } from '../utils/wordGenerator';
 
 export const generatePartnershipGuide = async (): Promise<void> => {
   try {
@@ -78,6 +80,35 @@ export const generateMediaKit = async (): Promise<void> => {
   } catch (error) {
     console.error('Error generating media kit PDF:', error);
     toast.error('Failed to generate media kit. Please try again.');
+    throw error;
+  }
+};
+
+export const generateInvestorAnalysisPDF = async (): Promise<void> => {
+  try {
+    toast.info('Generating Investor Analysis PDF...');
+    await generatePDF({
+      filename: 'Mansa-Musa-Billion-Dollar-Analysis.pdf',
+      content: getInvestorAnalysisContent()
+    });
+    toast.success('Investor analysis PDF downloaded successfully!');
+  } catch (error) {
+    console.error('Error generating investor analysis PDF:', error);
+    toast.error('Failed to generate investor analysis PDF. Please try again.');
+    throw error;
+  }
+};
+
+export const generateInvestorAnalysisWordDoc = async (): Promise<void> => {
+  try {
+    toast.info('Generating Investor Analysis Word Document...');
+    await generateInvestorAnalysisWord({
+      filename: 'Mansa-Musa-Billion-Dollar-Analysis.docx'
+    });
+    toast.success('Investor analysis Word document downloaded successfully!');
+  } catch (error) {
+    console.error('Error generating investor analysis Word doc:', error);
+    toast.error('Failed to generate investor analysis Word document. Please try again.');
     throw error;
   }
 };

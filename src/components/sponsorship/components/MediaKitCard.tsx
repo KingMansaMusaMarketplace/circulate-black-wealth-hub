@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, LucideIcon, Eye, Download, Share2 } from 'lucide-react';
+import { Loader2, LucideIcon, Eye, Download, Share2, FileText } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 import { useNativeShare } from '@/hooks/use-native-share';
 
@@ -16,6 +16,8 @@ interface MediaKitCardProps {
   isLoading: boolean;
   shareTitle?: string;
   shareText?: string;
+  secondaryAction?: () => void;
+  secondaryButtonText?: string;
 }
 
 const MediaKitCard: React.FC<MediaKitCardProps> = ({
@@ -27,7 +29,9 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
   buttonText,
   isLoading,
   shareTitle,
-  shareText
+  shareText,
+  secondaryAction,
+  secondaryButtonText
 }) => {
   const haptics = useHapticFeedback();
   const { shareUrl, isSharing } = useNativeShare();
@@ -53,6 +57,13 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
     await shareUrl(url, text, dialogTitle);
   };
 
+  const handleSecondaryAction = () => {
+    if (secondaryAction) {
+      haptics.light();
+      secondaryAction();
+    }
+  };
+
   return (
     <Card className="h-full flex flex-col bg-slate-800/50 backdrop-blur-sm border-white/10">
       <CardHeader className="text-center pb-4">
@@ -73,6 +84,26 @@ const MediaKitCard: React.FC<MediaKitCardProps> = ({
           >
             <Eye className="mr-2 h-4 w-4" />
             Read
+          </Button>
+        )}
+        {secondaryAction && secondaryButtonText && (
+          <Button
+            onClick={handleSecondaryAction}
+            disabled={isLoading}
+            variant="outline"
+            className="w-full border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-slate-900"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <FileText className="mr-2 h-4 w-4" />
+                {secondaryButtonText}
+              </>
+            )}
           </Button>
         )}
         <div className="flex gap-2">

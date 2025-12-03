@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { FileText, Award, BarChart3, Share2 } from 'lucide-react';
+import { FileText, Award, BarChart3, Share2, TrendingUp } from 'lucide-react';
 import MediaKitCard from './components/MediaKitCard';
 import DocumentPreview from './components/DocumentPreview';
 import {
@@ -8,10 +8,13 @@ import {
   generateBrandAssets,
   generateImpactReport,
   generateMediaKit,
-  generateBriefPartnershipOverview
+  generateBriefPartnershipOverview,
+  generateInvestorAnalysisPDF,
+  generateInvestorAnalysisWordDoc
 } from './services/pdfGenerationService';
 import { getBriefPartnershipOverviewContent } from './templates/briefPartnershipOverviewTemplate';
 import { getPartnershipGuideContent } from './templates/partnershipGuideTemplate';
+import { getInvestorAnalysisContent } from './templates/investorAnalysisTemplate';
 
 const SponsorshipMediaKit = () => {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
@@ -34,6 +37,16 @@ const SponsorshipMediaKit = () => {
   };
 
   const mediaKitItems = [
+    {
+      title: 'Billion-Dollar Analysis',
+      description: 'Full investor analysis with market opportunity, projections, and valuation path',
+      icon: TrendingUp,
+      action: () => handlePDFGeneration(generateInvestorAnalysisPDF),
+      onPreview: () => handlePreview('Billion-Dollar Business Analysis', getInvestorAnalysisContent()),
+      buttonText: isGeneratingPDF ? 'Generating...' : 'Download PDF',
+      secondaryAction: () => handlePDFGeneration(generateInvestorAnalysisWordDoc),
+      secondaryButtonText: isGeneratingPDF ? 'Generating...' : 'Download Word'
+    },
     {
       title: 'Brief Partnership Overview',
       description: 'Quick 1-page summary of partnership opportunities and benefits',
