@@ -294,7 +294,7 @@ export const getInvestorAnalysisContent = (): string => {
         <p style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">Thomas D. Bowling</p>
         <p style="font-size: 14px; margin-bottom: 5px;">Founder & CEO</p>
         <p style="font-size: 14px; margin-bottom: 5px;">Email: contact@mansamusamarketplace.com</p>
-        <p style="font-size: 14px; margin-bottom: 20px;">Phone: (555) 123-4567</p>
+        <p style="font-size: 14px; margin-bottom: 20px;">Phone: 312.709.6006</p>
         <p style="font-size: 12px; color: #888;">
           © ${new Date().getFullYear()} Mansa Musa Marketplace. All rights reserved.
         </p>
