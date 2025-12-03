@@ -305,7 +305,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
         }),
         new Paragraph({
           children: [
-            new TextRun({ text: "Phone: (555) 123-4567", size: 24 }),
+            new TextRun({ text: "Phone: 312.709.6006", size: 24 }),
           ],
           alignment: AlignmentType.CENTER,
           spacing: { after: 200 },
