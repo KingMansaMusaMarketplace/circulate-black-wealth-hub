@@ -1,6 +1,5 @@
 
 import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, HeadingLevel } from 'docx';
-import FileSaver from 'file-saver';
 
 interface WordGeneratorOptions {
   filename: string;
@@ -322,7 +321,16 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
   });
 
   const blob = await Packer.toBlob(doc);
-  FileSaver.saveAs(blob, options.filename);
+  
+  // Native browser download
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = options.filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 };
 
 function createMarketTable(): Table {
