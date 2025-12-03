@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { useReviewSentiment } from '@/hooks/use-review-sentiment';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TrendingUp, Smile, Frown, Meh, AlertCircle, Sparkles, Loader2 } from 'lucide-react';
+import { TrendingUp, Smile, Frown, Meh, AlertCircle, Loader2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 export const SentimentAnalysisDashboard = () => {
@@ -13,30 +12,30 @@ export const SentimentAnalysisDashboard = () => {
 
   const getSentimentIcon = (sentiment: string) => {
     switch (sentiment) {
-      case 'positive': return <Smile className="h-4 w-4 text-green-600" />;
-      case 'negative': return <Frown className="h-4 w-4 text-red-600" />;
-      case 'neutral': return <Meh className="h-4 w-4 text-gray-600" />;
-      case 'mixed': return <TrendingUp className="h-4 w-4 text-orange-600" />;
-      default: return <Meh className="h-4 w-4" />;
+      case 'positive': return <Smile className="h-4 w-4 text-green-400" />;
+      case 'negative': return <Frown className="h-4 w-4 text-red-400" />;
+      case 'neutral': return <Meh className="h-4 w-4 text-white/60" />;
+      case 'mixed': return <TrendingUp className="h-4 w-4 text-orange-400" />;
+      default: return <Meh className="h-4 w-4 text-white/60" />;
     }
   };
 
-  const getSentimentColor = (sentiment: string) => {
+  const getSentimentCardStyle = (sentiment: string) => {
     switch (sentiment) {
-      case 'positive': return 'bg-green-100 text-green-800 border-green-200';
-      case 'negative': return 'bg-red-100 text-red-800 border-red-200';
-      case 'neutral': return 'bg-gray-100 text-gray-800 border-gray-200';
-      case 'mixed': return 'bg-orange-100 text-orange-800 border-orange-200';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'positive': return 'backdrop-blur-xl bg-green-500/10 border-green-500/30';
+      case 'negative': return 'backdrop-blur-xl bg-red-500/10 border-red-500/30';
+      case 'neutral': return 'backdrop-blur-xl bg-white/10 border-white/20';
+      case 'mixed': return 'backdrop-blur-xl bg-orange-500/10 border-orange-500/30';
+      default: return 'backdrop-blur-xl bg-white/10 border-white/20';
     }
   };
 
   const getUrgencyBadge = (urgency: string) => {
     switch (urgency) {
-      case 'critical': return <Badge variant="destructive">Critical</Badge>;
-      case 'high': return <Badge variant="default" className="bg-orange-600">High</Badge>;
-      case 'medium': return <Badge variant="secondary">Medium</Badge>;
-      case 'low': return <Badge variant="outline">Low</Badge>;
+      case 'critical': return <Badge className="bg-red-500/20 text-red-300 border-red-500/30">Critical</Badge>;
+      case 'high': return <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30">High</Badge>;
+      case 'medium': return <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">Medium</Badge>;
+      case 'low': return <Badge className="bg-white/10 text-white/70 border-white/20">Low</Badge>;
       default: return null;
     }
   };
@@ -52,107 +51,116 @@ export const SentimentAnalysisDashboard = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-12">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <Sparkles className="h-8 w-8" />
-          AI Sentiment Analysis
-        </h1>
-        <p className="text-muted-foreground mt-1">
-          Automated analysis of customer review sentiment and emotions
-        </p>
-      </div>
-
       {/* Statistics */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
-        <Card>
+        <Card className="backdrop-blur-xl bg-white/10 border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Analyzed</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white/70">Total Analyzed</CardTitle>
+            <TrendingUp className="h-4 w-4 text-mansagold" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{sentimentStats.total}</div>
+            <div className="text-2xl font-bold text-white">{sentimentStats.total}</div>
           </CardContent>
         </Card>
 
-        <Card className="border-green-200 bg-green-50">
+        <Card className="backdrop-blur-xl bg-green-500/10 border-green-500/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-green-700">Positive</CardTitle>
-            <Smile className="h-4 w-4 text-green-600" />
+            <CardTitle className="text-sm font-medium text-green-300">Positive</CardTitle>
+            <Smile className="h-4 w-4 text-green-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{sentimentStats.positive}</div>
-            <div className="text-xs text-green-600">{sentimentStats.positivePercentage.toFixed(0)}%</div>
+            <div className="text-2xl font-bold text-green-400">{sentimentStats.positive}</div>
+            <div className="text-xs text-green-300/70">{sentimentStats.positivePercentage.toFixed(0)}%</div>
           </CardContent>
         </Card>
 
-        <Card className="border-red-200 bg-red-50">
+        <Card className="backdrop-blur-xl bg-red-500/10 border-red-500/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-red-700">Negative</CardTitle>
-            <Frown className="h-4 w-4 text-red-600" />
+            <CardTitle className="text-sm font-medium text-red-300">Negative</CardTitle>
+            <Frown className="h-4 w-4 text-red-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{sentimentStats.negative}</div>
-            <div className="text-xs text-red-600">
+            <div className="text-2xl font-bold text-red-400">{sentimentStats.negative}</div>
+            <div className="text-xs text-red-300/70">
               {((sentimentStats.negative / sentimentStats.total) * 100).toFixed(0)}%
             </div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="backdrop-blur-xl bg-white/10 border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Neutral</CardTitle>
-            <Meh className="h-4 w-4 text-gray-600" />
+            <CardTitle className="text-sm font-medium text-white/70">Neutral</CardTitle>
+            <Meh className="h-4 w-4 text-white/60" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{sentimentStats.neutral}</div>
+            <div className="text-2xl font-bold text-white">{sentimentStats.neutral}</div>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="backdrop-blur-xl bg-white/10 border-white/20">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg. Score</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-white/70">Avg. Score</CardTitle>
+            <TrendingUp className="h-4 w-4 text-mansagold" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{sentimentStats.averageScore.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-white">{sentimentStats.averageScore.toFixed(2)}</div>
           </CardContent>
         </Card>
 
-        <Card className="border-orange-200 bg-orange-50">
+        <Card className="backdrop-blur-xl bg-orange-500/10 border-orange-500/30">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-orange-700">Urgent</CardTitle>
-            <AlertCircle className="h-4 w-4 text-orange-600" />
+            <CardTitle className="text-sm font-medium text-orange-300">Urgent</CardTitle>
+            <AlertCircle className="h-4 w-4 text-orange-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-orange-600">{sentimentStats.urgent}</div>
+            <div className="text-2xl font-bold text-orange-400">{sentimentStats.urgent}</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Sentiment List */}
       <Tabs defaultValue="all" className="w-full">
-        <TabsList>
-          <TabsTrigger value="all" onClick={() => setSelectedSentiment('all')}>
+        <TabsList className="backdrop-blur-xl bg-white/10 border border-white/20">
+          <TabsTrigger 
+            value="all" 
+            onClick={() => setSelectedSentiment('all')}
+            className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+          >
             All ({sentimentStats.total})
           </TabsTrigger>
-          <TabsTrigger value="urgent" onClick={() => setSelectedSentiment('urgent')}>
+          <TabsTrigger 
+            value="urgent" 
+            onClick={() => setSelectedSentiment('urgent')}
+            className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+          >
             Urgent ({sentimentStats.urgent})
           </TabsTrigger>
-          <TabsTrigger value="positive" onClick={() => setSelectedSentiment('positive')}>
+          <TabsTrigger 
+            value="positive" 
+            onClick={() => setSelectedSentiment('positive')}
+            className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+          >
             Positive ({sentimentStats.positive})
           </TabsTrigger>
-          <TabsTrigger value="negative" onClick={() => setSelectedSentiment('negative')}>
+          <TabsTrigger 
+            value="negative" 
+            onClick={() => setSelectedSentiment('negative')}
+            className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+          >
             Negative ({sentimentStats.negative})
           </TabsTrigger>
-          <TabsTrigger value="neutral" onClick={() => setSelectedSentiment('neutral')}>
+          <TabsTrigger 
+            value="neutral" 
+            onClick={() => setSelectedSentiment('neutral')}
+            className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue text-white/70"
+          >
             Neutral ({sentimentStats.neutral})
           </TabsTrigger>
         </TabsList>
@@ -160,36 +168,36 @@ export const SentimentAnalysisDashboard = () => {
         {['all', 'urgent', 'positive', 'negative', 'neutral'].map(tab => (
           <TabsContent key={tab} value={tab} className="space-y-4">
             {filterSentiments(tab).length === 0 ? (
-              <Card>
-                <CardContent className="pt-6 text-center text-muted-foreground">
+              <Card className="backdrop-blur-xl bg-white/10 border-white/20">
+                <CardContent className="pt-6 text-center text-white/60">
                   No {tab !== 'all' ? tab : ''} reviews found
                 </CardContent>
               </Card>
             ) : (
               filterSentiments(tab).map((sentiment) => (
-                <Card key={sentiment.id} className={`hover:shadow-md transition-shadow ${getSentimentColor(sentiment.sentiment)}`}>
+                <Card key={sentiment.id} className={`hover:shadow-lg transition-all ${getSentimentCardStyle(sentiment.sentiment)}`}>
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <div className="space-y-2 flex-1">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           {getSentimentIcon(sentiment.sentiment)}
-                          <Badge variant="outline" className="capitalize">
+                          <Badge className="capitalize bg-white/10 text-white border-white/20">
                             {sentiment.sentiment}
                           </Badge>
                           {getUrgencyBadge(sentiment.urgency_level)}
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-xs text-white/60">
                             Confidence: {(sentiment.confidence_score * 100).toFixed(0)}%
                           </span>
                         </div>
                         
-                        <CardDescription className="text-sm font-medium">
+                        <CardDescription className="text-sm font-medium text-white/80">
                           {sentiment.ai_summary}
                         </CardDescription>
 
                         {sentiment.key_themes.length > 0 && (
                           <div className="flex flex-wrap gap-1">
                             {sentiment.key_themes.map((theme, idx) => (
-                              <Badge key={idx} variant="secondary" className="text-xs">
+                              <Badge key={idx} className="text-xs bg-mansagold/20 text-mansagold border-mansagold/30">
                                 {theme}
                               </Badge>
                             ))}
@@ -200,14 +208,14 @@ export const SentimentAnalysisDashboard = () => {
                           <div className="text-xs space-y-1 mt-2">
                             {sentiment.extracted_topics.slice(0, 3).map((topic, idx) => (
                               <div key={idx} className="flex items-start gap-2">
-                                <span className="font-medium">{topic.topic}:</span>
-                                <span className="text-muted-foreground">{topic.mention}</span>
+                                <span className="font-medium text-white/80">{topic.topic}:</span>
+                                <span className="text-white/60">{topic.mention}</span>
                               </div>
                             ))}
                           </div>
                         )}
 
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-white/50">
                           {formatDistanceToNow(new Date(sentiment.created_at), { addSuffix: true })}
                         </div>
                       </div>
