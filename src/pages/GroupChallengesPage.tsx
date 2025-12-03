@@ -15,13 +15,13 @@ const GroupChallengesPage: React.FC = () => {
   const getChallengeIcon = (type: string) => {
     switch (type) {
       case 'spending':
-        return <TrendingUp className="h-5 w-5" />;
+        return <TrendingUp className="h-5 w-5 text-mansagold" />;
       case 'visits':
-        return <Target className="h-5 w-5" />;
+        return <Target className="h-5 w-5 text-mansagold" />;
       case 'reviews':
-        return <Trophy className="h-5 w-5" />;
+        return <Trophy className="h-5 w-5 text-mansagold" />;
       default:
-        return <Users className="h-5 w-5" />;
+        return <Users className="h-5 w-5 text-mansagold" />;
     }
   };
 
@@ -40,20 +40,20 @@ const GroupChallengesPage: React.FC = () => {
     const daysLeft = formatDistanceToNow(new Date(challenge.end_date), { addSuffix: true });
 
     return (
-      <Card key={challenge.id} className="border-primary/20">
+      <Card key={challenge.id} className="backdrop-blur-xl bg-white/10 border-white/20 hover:bg-white/15 transition-all duration-300">
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
+              <div className="p-2 bg-mansagold/20 rounded-lg">
                 {getChallengeIcon(challenge.challenge_type)}
               </div>
               <div>
-                <CardTitle className="text-lg">{challenge.title}</CardTitle>
-                <CardDescription className="mt-1">{challenge.description}</CardDescription>
+                <CardTitle className="text-lg text-white">{challenge.title}</CardTitle>
+                <CardDescription className="mt-1 text-white/60">{challenge.description}</CardDescription>
               </div>
             </div>
             {isParticipating && (
-              <Badge variant="secondary" className="gap-1">
+              <Badge className="gap-1 bg-mansagold/20 text-mansagold border-mansagold/30">
                 <Users className="h-3 w-3" />
                 Joined
               </Badge>
@@ -64,37 +64,37 @@ const GroupChallengesPage: React.FC = () => {
           {/* Progress */}
           <div className="space-y-2">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">{getChallengeTypeLabel(challenge.challenge_type)}</span>
-              <span className="font-medium">
+              <span className="text-white/60">{getChallengeTypeLabel(challenge.challenge_type)}</span>
+              <span className="font-medium text-white">
                 {challenge.current_value.toLocaleString()} / {challenge.goal_value.toLocaleString()}
               </span>
             </div>
-            <Progress value={Math.min(progress, 100)} className="h-2" />
-            <p className="text-xs text-muted-foreground">{progress.toFixed(1)}% complete</p>
+            <Progress value={Math.min(progress, 100)} className="h-2 bg-white/10" />
+            <p className="text-xs text-white/60">{progress.toFixed(1)}% complete</p>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
-              <div className="flex items-center justify-center gap-1 text-primary mb-1">
+              <div className="flex items-center justify-center gap-1 text-mansagold mb-1">
                 <Users className="h-4 w-4" />
               </div>
-              <p className="text-lg font-bold">{challenge.participant_count}</p>
-              <p className="text-xs text-muted-foreground">Participants</p>
+              <p className="text-lg font-bold text-white">{challenge.participant_count}</p>
+              <p className="text-xs text-white/60">Participants</p>
             </div>
             <div className="text-center">
-              <div className="flex items-center justify-center gap-1 text-orange-500 mb-1">
+              <div className="flex items-center justify-center gap-1 text-mansagold mb-1">
                 <Trophy className="h-4 w-4" />
               </div>
-              <p className="text-lg font-bold">{challenge.reward_points}</p>
-              <p className="text-xs text-muted-foreground">Points Reward</p>
+              <p className="text-lg font-bold text-white">{challenge.reward_points}</p>
+              <p className="text-xs text-white/60">Points Reward</p>
             </div>
             <div className="text-center">
-              <div className="flex items-center justify-center gap-1 text-blue-500 mb-1">
+              <div className="flex items-center justify-center gap-1 text-mansagold mb-1">
                 <Clock className="h-4 w-4" />
               </div>
-              <p className="text-xs font-medium">{daysLeft}</p>
-              <p className="text-xs text-muted-foreground">Remaining</p>
+              <p className="text-xs font-medium text-white">{daysLeft}</p>
+              <p className="text-xs text-white/60">Remaining</p>
             </div>
           </div>
 
@@ -102,7 +102,7 @@ const GroupChallengesPage: React.FC = () => {
           {!isParticipating && (
             <Button
               onClick={() => joinChallenge(challenge.id)}
-              className="w-full"
+              className="w-full bg-mansagold hover:bg-mansagold/90 text-mansablue font-semibold"
             >
               Join Challenge
             </Button>
@@ -114,51 +114,53 @@ const GroupChallengesPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8 space-y-6">
-        <Skeleton className="h-12 w-64" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[1, 2, 3, 4].map((i) => (
-            <Skeleton key={i} className="h-64" />
-          ))}
+      <div className="min-h-screen gradient-primary relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-40 left-10 w-80 h-80 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        
+        <div className="container mx-auto px-4 py-8 space-y-6 relative z-10">
+          <Skeleton className="h-12 w-64 bg-white/10" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-64 bg-white/10" />
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-rose-50 to-red-50 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-orange-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-rose-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-red-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-      </div>
+    <div className="min-h-screen gradient-primary relative overflow-hidden">
+      {/* Animated gradient orbs */}
+      <div className="absolute top-20 right-20 w-96 h-96 bg-mansagold/20 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-40 left-10 w-80 h-80 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
 
       <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Enhanced Header */}
         <div className="mb-10 animate-fade-in">
-          <div className="relative inline-block">
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-400/30 via-rose-400/30 to-red-400/30 rounded-3xl blur-2xl"></div>
-            <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-0 overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-500 via-rose-500 to-red-500"></div>
-              <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-orange-600 via-rose-600 to-red-600 bg-clip-text text-transparent pt-2">
-                Group <span className="text-yellow-500">Challenges</span> 🏆
-              </h1>
-              <p className="text-gray-700 text-xl font-medium">
-                Join forces with the community to achieve collective goals and earn rewards 🎯
-              </p>
-            </div>
+          <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-8 shadow-2xl">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-mansagold via-mansagold/80 to-mansagold rounded-t-2xl"></div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-3 text-white">
+              Group <span className="text-mansagold">Challenges</span> 🏆
+            </h1>
+            <p className="text-white/70 text-lg md:text-xl">
+              Join forces with the community to achieve collective goals and earn rewards 🎯
+            </p>
           </div>
         </div>
 
         <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <Tabs defaultValue="all" className="w-full">
-            <TabsList className="grid w-full md:w-auto grid-cols-2">
-              <TabsTrigger value="all" className="gap-2">
+            <TabsList className="grid w-full md:w-auto grid-cols-2 bg-white/10 backdrop-blur-xl border border-white/20">
+              <TabsTrigger value="all" className="gap-2 text-white data-[state=active]:bg-mansagold data-[state=active]:text-mansablue">
                 <Target className="w-4 h-4" />
                 All Challenges
               </TabsTrigger>
-              <TabsTrigger value="mine" className="gap-2">
+              <TabsTrigger value="mine" className="gap-2 text-white data-[state=active]:bg-mansagold data-[state=active]:text-mansablue">
                 <Users className="w-4 h-4" />
                 My Challenges ({myChallenges?.length || 0})
               </TabsTrigger>
@@ -175,11 +177,11 @@ const GroupChallengesPage: React.FC = () => {
                   })}
                 </div>
               ) : (
-                <Card>
+                <Card className="backdrop-blur-xl bg-white/10 border-white/20">
                   <CardContent className="p-12 text-center">
-                    <Trophy className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">No active challenges at the moment</p>
-                    <p className="text-sm text-muted-foreground mt-2">Check back soon for new opportunities!</p>
+                    <Trophy className="h-12 w-12 text-mansagold mx-auto mb-4" />
+                    <p className="text-white/70">No active challenges at the moment</p>
+                    <p className="text-sm text-white/50 mt-2">Check back soon for new opportunities!</p>
                   </CardContent>
                 </Card>
               )}
@@ -193,11 +195,11 @@ const GroupChallengesPage: React.FC = () => {
                   )}
                 </div>
               ) : (
-                <Card>
+                <Card className="backdrop-blur-xl bg-white/10 border-white/20">
                   <CardContent className="p-12 text-center">
-                    <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground">You haven't joined any challenges yet</p>
-                    <p className="text-sm text-muted-foreground mt-2">Browse all challenges to get started!</p>
+                    <Users className="h-12 w-12 text-mansagold mx-auto mb-4" />
+                    <p className="text-white/70">You haven't joined any challenges yet</p>
+                    <p className="text-sm text-white/50 mt-2">Browse all challenges to get started!</p>
                   </CardContent>
                 </Card>
               )}
