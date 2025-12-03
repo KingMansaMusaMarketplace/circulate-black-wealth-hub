@@ -284,7 +284,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
         }),
         new Paragraph({
           children: [
-            new TextRun({ text: "Cory Kipp", bold: true, size: 28 }),
+            new TextRun({ text: "Thomas D. Bowling", bold: true, size: 28 }),
           ],
           alignment: AlignmentType.CENTER,
           spacing: { after: 100 },
