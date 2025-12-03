@@ -21,6 +21,7 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     element.style.fontFamily = 'Arial, sans-serif';
     element.style.fontSize = '14px';
     element.style.lineHeight = '1.6';
+    element.style.color = '#000000';
     
     // Temporarily add to DOM for proper rendering
     element.style.position = 'absolute';
