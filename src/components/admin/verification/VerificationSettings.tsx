@@ -1,14 +1,12 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
 import { useToast } from '@/components/ui/use-toast';
-import { AlertCircle, CheckCircle, Save } from 'lucide-react';
+import { AlertCircle, Save } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface SettingsState {
@@ -25,7 +23,7 @@ const VerificationSettings: React.FC = () => {
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
   const [settings, setSettings] = useState<SettingsState>({
-    autoApproveThreshold: 0, // 0 means disabled
+    autoApproveThreshold: 0,
     requireOwnershipProof: true,
     requireAddressProof: true,
     requireRegistrationProof: true,
@@ -37,7 +35,6 @@ const VerificationSettings: React.FC = () => {
   const handleSaveSettings = () => {
     setIsSaving(true);
     
-    // Simulate API call to save settings
     setTimeout(() => {
       setIsSaving(false);
       toast({
@@ -49,23 +46,23 @@ const VerificationSettings: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <Card>
+      <Card className="backdrop-blur-xl bg-white/10 border-white/20">
         <CardHeader>
-          <CardTitle>Verification Process Settings</CardTitle>
-          <CardDescription>Configure how business verification works on the platform</CardDescription>
+          <CardTitle className="text-white">Verification Process Settings</CardTitle>
+          <CardDescription className="text-white/60">Configure how business verification works on the platform</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <Alert>
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Information</AlertTitle>
-            <AlertDescription>
+          <Alert className="bg-mansagold/20 border-mansagold/30">
+            <AlertCircle className="h-4 w-4 text-mansagold" />
+            <AlertTitle className="text-white">Information</AlertTitle>
+            <AlertDescription className="text-white/70">
               These settings control how business verification requests are processed.
               Changes will apply to new verification requests only.
             </AlertDescription>
           </Alert>
           
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">Required Documentation</h3>
+            <h3 className="text-lg font-medium text-white">Required Documentation</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <Checkbox 
@@ -74,8 +71,9 @@ const VerificationSettings: React.FC = () => {
                   onCheckedChange={(checked) => 
                     setSettings({...settings, requireRegistrationProof: !!checked})
                   }
+                  className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="requireRegistrationProof">
+                <Label htmlFor="requireRegistrationProof" className="text-white/80">
                   Require Business Registration Documentation
                 </Label>
               </div>
@@ -87,8 +85,9 @@ const VerificationSettings: React.FC = () => {
                   onCheckedChange={(checked) => 
                     setSettings({...settings, requireOwnershipProof: !!checked})
                   }
+                  className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="requireOwnershipProof">
+                <Label htmlFor="requireOwnershipProof" className="text-white/80">
                   Require Ownership Proof Documentation
                 </Label>
               </div>
@@ -100,22 +99,23 @@ const VerificationSettings: React.FC = () => {
                   onCheckedChange={(checked) => 
                     setSettings({...settings, requireAddressProof: !!checked})
                   }
+                  className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="requireAddressProof">
+                <Label htmlFor="requireAddressProof" className="text-white/80">
                   Require Address Verification Documentation
                 </Label>
               </div>
             </div>
           </div>
           
-          <Separator />
+          <Separator className="bg-white/20" />
           
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">Verification Thresholds</h3>
+            <h3 className="text-lg font-medium text-white">Verification Thresholds</h3>
             
             <div className="space-y-2">
-              <Label htmlFor="minOwnershipPercentage">
-                Minimum Ownership Percentage Required: {settings.minOwnershipPercentage}%
+              <Label htmlFor="minOwnershipPercentage" className="text-white/80">
+                Minimum Ownership Percentage Required: <span className="text-mansagold font-bold">{settings.minOwnershipPercentage}%</span>
               </Label>
               <Slider 
                 id="minOwnershipPercentage"
@@ -128,14 +128,14 @@ const VerificationSettings: React.FC = () => {
                 }
                 className="w-full"
               />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/60">
                 Businesses must have at least this percentage of Black ownership to be verified.
               </p>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="autoApproveThreshold">
-                Auto-Approve Ownership Threshold: {settings.autoApproveThreshold > 0 ? `${settings.autoApproveThreshold}%` : "Disabled"}
+              <Label htmlFor="autoApproveThreshold" className="text-white/80">
+                Auto-Approve Ownership Threshold: <span className="text-mansagold font-bold">{settings.autoApproveThreshold > 0 ? `${settings.autoApproveThreshold}%` : "Disabled"}</span>
               </Label>
               <Slider 
                 id="autoApproveThreshold"
@@ -148,16 +148,16 @@ const VerificationSettings: React.FC = () => {
                 }
                 className="w-full"
               />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/60">
                 Automatically approve businesses with ownership percentage above this threshold. Set to 0 to disable.
               </p>
             </div>
           </div>
           
-          <Separator />
+          <Separator className="bg-white/20" />
           
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">Notifications</h3>
+            <h3 className="text-lg font-medium text-white">Notifications</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
                 <Checkbox 
@@ -166,8 +166,9 @@ const VerificationSettings: React.FC = () => {
                   onCheckedChange={(checked) => 
                     setSettings({...settings, notifyAdminOnNewRequest: !!checked})
                   }
+                  className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="notifyAdminOnNewRequest">
+                <Label htmlFor="notifyAdminOnNewRequest" className="text-white/80">
                   Notify administrators on new verification requests
                 </Label>
               </div>
@@ -179,8 +180,9 @@ const VerificationSettings: React.FC = () => {
                   onCheckedChange={(checked) => 
                     setSettings({...settings, notifyBusinessOnStatusChange: !!checked})
                   }
+                  className="border-white/30 data-[state=checked]:bg-mansagold data-[state=checked]:border-mansagold"
                 />
-                <Label htmlFor="notifyBusinessOnStatusChange">
+                <Label htmlFor="notifyBusinessOnStatusChange" className="text-white/80">
                   Notify businesses when verification status changes
                 </Label>
               </div>
@@ -189,13 +191,13 @@ const VerificationSettings: React.FC = () => {
         </CardContent>
       </Card>
       
-      <Card>
+      <Card className="backdrop-blur-xl bg-white/10 border-white/20">
         <CardHeader>
-          <CardTitle>Verification Team Management</CardTitle>
-          <CardDescription>Configure who can approve or reject business verifications</CardDescription>
+          <CardTitle className="text-white">Verification Team Management</CardTitle>
+          <CardDescription className="text-white/60">Configure who can approve or reject business verifications</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground mb-4">
+          <p className="text-white/60 mb-4">
             This feature will be available in a future update. Currently, all users with admin privileges can manage verifications.
           </p>
         </CardContent>
@@ -205,6 +207,7 @@ const VerificationSettings: React.FC = () => {
         <Button 
           onClick={handleSaveSettings}
           disabled={isSaving}
+          className="bg-mansagold hover:bg-mansagold/90 text-mansablue"
         >
           {isSaving ? (
             <>Saving...</>

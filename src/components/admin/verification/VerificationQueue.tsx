@@ -1,11 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { fetchVerificationQueue, approveBusinessVerification, rejectBusinessVerification } from '@/lib/api/verification-api';
 import { VerificationQueueItem } from '@/lib/types/verification';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, CheckCircle, XCircle, Eye } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Loader2, CheckCircle, XCircle, Eye, RefreshCw } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -62,88 +60,82 @@ const VerificationQueue: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Business Verification Queue</h2>
-        <Button onClick={loadQueue}>Refresh</Button>
-      </div>
-      
-      <div className="flex space-x-4 pb-4">
+        <h2 className="text-2xl font-bold text-white">Business Verification Queue</h2>
         <Button 
-          variant={filter === 'pending' ? 'default' : 'outline'}
-          onClick={() => setFilter('pending')}
+          onClick={loadQueue}
+          className="bg-mansagold hover:bg-mansagold/90 text-mansablue"
         >
-          Pending
-        </Button>
-        <Button 
-          variant={filter === 'approved' ? 'default' : 'outline'}
-          onClick={() => setFilter('approved')}
-        >
-          Approved
-        </Button>
-        <Button 
-          variant={filter === 'rejected' ? 'default' : 'outline'}
-          onClick={() => setFilter('rejected')}
-        >
-          Rejected
-        </Button>
-        <Button 
-          variant={filter === 'all' ? 'default' : 'outline'}
-          onClick={() => setFilter('all')}
-        >
-          All
+          <RefreshCw className="h-4 w-4 mr-2" /> Refresh
         </Button>
       </div>
       
-      <Card>
+      <div className="flex flex-wrap gap-3 pb-4">
+        {['pending', 'approved', 'rejected', 'all'].map((status) => (
+          <Button 
+            key={status}
+            variant={filter === status ? 'default' : 'outline'}
+            onClick={() => setFilter(status)}
+            className={filter === status 
+              ? 'bg-mansagold hover:bg-mansagold/90 text-mansablue' 
+              : 'border-white/20 text-white/70 hover:bg-white/10 hover:text-white'
+            }
+          >
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </Button>
+        ))}
+      </div>
+      
+      <Card className="backdrop-blur-xl bg-white/10 border-white/20">
         <CardHeader>
-          <CardTitle>Verification Requests</CardTitle>
-          <CardDescription>Review and manage business verification requests</CardDescription>
+          <CardTitle className="text-white">Verification Requests</CardTitle>
+          <CardDescription className="text-white/60">Review and manage business verification requests</CardDescription>
         </CardHeader>
         <CardContent>
           {loading ? (
             <div className="flex justify-center py-8">
-              <Loader2 className="h-8 w-8 animate-spin text-mansablue" />
+              <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
             </div>
           ) : filteredQueue.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground">
+            <div className="text-center py-8 text-white/60">
               No {filter !== 'all' ? filter : ''} verification requests to display
             </div>
           ) : (
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Business</TableHead>
-                    <TableHead>Owner</TableHead>
-                    <TableHead>Ownership %</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Submitted</TableHead>
-                    <TableHead>Actions</TableHead>
+                  <TableRow className="border-white/20">
+                    <TableHead className="text-white/70">Business</TableHead>
+                    <TableHead className="text-white/70">Owner</TableHead>
+                    <TableHead className="text-white/70">Ownership %</TableHead>
+                    <TableHead className="text-white/70">Status</TableHead>
+                    <TableHead className="text-white/70">Submitted</TableHead>
+                    <TableHead className="text-white/70">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredQueue.map((item) => (
-                    <TableRow key={item.verification_id}>
-                      <TableCell className="font-medium">{item.business_name}</TableCell>
-                      <TableCell>{item.owner_name || 'Unknown'}</TableCell>
-                      <TableCell>{item.ownership_percentage ?? 'N/A'}</TableCell>
+                    <TableRow key={item.verification_id} className="border-white/10">
+                      <TableCell className="font-medium text-white">{item.business_name}</TableCell>
+                      <TableCell className="text-white/80">{item.owner_name || 'Unknown'}</TableCell>
+                      <TableCell className="text-white/80">{item.ownership_percentage ?? 'N/A'}</TableCell>
                       <TableCell>
                         {item.verification_status === 'pending' && (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-500/20 text-orange-300 border border-orange-500/30">
                             Pending
                           </span>
                         )}
                         {item.verification_status === 'approved' && (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/20 text-green-300 border border-green-500/30">
                             Approved
                           </span>
                         )}
                         {item.verification_status === 'rejected' && (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-500/20 text-red-300 border border-red-500/30">
                             Rejected
                           </span>
                         )}
                       </TableCell>
-                      <TableCell>{new Date(item.submitted_at).toLocaleDateString()}</TableCell>
+                      <TableCell className="text-white/80">{new Date(item.submitted_at).toLocaleDateString()}</TableCell>
                       <TableCell>
                         <Button 
                           variant="outline" 
@@ -152,6 +144,7 @@ const VerificationQueue: React.FC = () => {
                             setSelectedItem(item);
                             setIsViewOpen(true);
                           }}
+                          className="border-mansagold/50 text-mansagold hover:bg-mansagold/20"
                         >
                           <Eye className="h-4 w-4 mr-1" /> View
                         </Button>
@@ -167,10 +160,10 @@ const VerificationQueue: React.FC = () => {
       
       {/* View Verification Dialog */}
       <Dialog open={isViewOpen} onOpenChange={setIsViewOpen}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-3xl backdrop-blur-xl bg-mansablue/95 border-white/20">
           <DialogHeader>
-            <DialogTitle>Verification Request</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-white">Verification Request</DialogTitle>
+            <DialogDescription className="text-white/60">
               Review the business verification details
             </DialogDescription>
           </DialogHeader>
@@ -179,42 +172,42 @@ const VerificationQueue: React.FC = () => {
             <div className="space-y-6 py-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h3 className="text-lg font-medium">Business Information</h3>
-                  <div className="mt-2 space-y-2">
+                  <h3 className="text-lg font-medium text-white">Business Information</h3>
+                  <div className="mt-2 space-y-2 text-white/80">
                     <div>
-                      <span className="font-medium">Name:</span> {selectedItem.business_name}
+                      <span className="font-medium text-white">Name:</span> {selectedItem.business_name}
                     </div>
                     <div>
-                      <span className="font-medium">Email:</span> {selectedItem.business_email}
+                      <span className="font-medium text-white">Email:</span> {selectedItem.business_email}
                     </div>
                     <div>
-                      <span className="font-medium">Owner:</span> {selectedItem.owner_name || 'Unknown'}
+                      <span className="font-medium text-white">Owner:</span> {selectedItem.owner_name || 'Unknown'}
                     </div>
                     <div>
-                      <span className="font-medium">Black Ownership:</span> {selectedItem.ownership_percentage}%
+                      <span className="font-medium text-white">Black Ownership:</span> {selectedItem.ownership_percentage}%
                     </div>
                   </div>
                 </div>
                 
                 <div>
-                  <h3 className="text-lg font-medium">Verification Status</h3>
-                  <div className="mt-2 space-y-2">
+                  <h3 className="text-lg font-medium text-white">Verification Status</h3>
+                  <div className="mt-2 space-y-2 text-white/80">
                     <div>
-                      <span className="font-medium">Current Status:</span> 
+                      <span className="font-medium text-white">Current Status:</span> 
                       <span className={`ml-2 capitalize ${
-                        selectedItem.verification_status === 'pending' ? 'text-yellow-600' :
-                        selectedItem.verification_status === 'approved' ? 'text-green-600' :
-                        'text-red-600'
+                        selectedItem.verification_status === 'pending' ? 'text-orange-400' :
+                        selectedItem.verification_status === 'approved' ? 'text-green-400' :
+                        'text-red-400'
                       }`}>
                         {selectedItem.verification_status}
                       </span>
                     </div>
                     <div>
-                      <span className="font-medium">Submitted:</span> {new Date(selectedItem.submitted_at).toLocaleDateString()}
+                      <span className="font-medium text-white">Submitted:</span> {new Date(selectedItem.submitted_at).toLocaleDateString()}
                     </div>
                     {selectedItem.verified_at && (
                       <div>
-                        <span className="font-medium">
+                        <span className="font-medium text-white">
                           {selectedItem.verification_status === 'approved' ? 'Approved' : 'Rejected'}:
                         </span> {new Date(selectedItem.verified_at).toLocaleDateString()}
                       </div>
@@ -224,45 +217,24 @@ const VerificationQueue: React.FC = () => {
               </div>
               
               <div>
-                <h3 className="text-lg font-medium">Documents</h3>
-                <p className="text-sm text-muted-foreground mb-2">
+                <h3 className="text-lg font-medium text-white">Documents</h3>
+                <p className="text-sm text-white/60 mb-2">
                   These documents have been submitted for verification.
                 </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* This would normally link to actual documents, but this is a placeholder */}
-                  <Card>
-                    <CardHeader className="p-4">
-                      <CardTitle className="text-md">Business Registration</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-4 pt-0">
-                      <Button variant="outline" className="w-full">
-                        View Document
-                      </Button>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardHeader className="p-4">
-                      <CardTitle className="text-md">Ownership Proof</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-4 pt-0">
-                      <Button variant="outline" className="w-full">
-                        View Document
-                      </Button>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardHeader className="p-4">
-                      <CardTitle className="text-md">Address Verification</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-4 pt-0">
-                      <Button variant="outline" className="w-full">
-                        View Document
-                      </Button>
-                    </CardContent>
-                  </Card>
+                  {['Business Registration', 'Ownership Proof', 'Address Verification'].map((doc) => (
+                    <Card key={doc} className="backdrop-blur-xl bg-white/10 border-white/20">
+                      <CardHeader className="p-4">
+                        <CardTitle className="text-md text-white">{doc}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-4 pt-0">
+                        <Button variant="outline" className="w-full border-white/20 text-white/70 hover:bg-white/10">
+                          View Document
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
               </div>
               
@@ -274,6 +246,7 @@ const VerificationQueue: React.FC = () => {
                       setIsViewOpen(false);
                       setIsRejectOpen(true);
                     }}
+                    className="border-red-500/50 text-red-400 hover:bg-red-500/20"
                   >
                     <XCircle className="h-4 w-4 mr-2" /> Reject
                   </Button>
@@ -281,6 +254,7 @@ const VerificationQueue: React.FC = () => {
                   <Button
                     onClick={() => handleApprove(selectedItem.verification_id)}
                     disabled={actionLoading}
+                    className="bg-mansagold hover:bg-mansagold/90 text-mansablue"
                   >
                     {actionLoading ? (
                       <>
@@ -301,10 +275,10 @@ const VerificationQueue: React.FC = () => {
       
       {/* Reject Dialog */}
       <Dialog open={isRejectOpen} onOpenChange={setIsRejectOpen}>
-        <DialogContent>
+        <DialogContent className="backdrop-blur-xl bg-mansablue/95 border-white/20">
           <DialogHeader>
-            <DialogTitle>Reject Verification</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-white">Reject Verification</DialogTitle>
+            <DialogDescription className="text-white/60">
               Please provide a reason for rejecting this verification request.
             </DialogDescription>
           </DialogHeader>
@@ -315,6 +289,7 @@ const VerificationQueue: React.FC = () => {
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
               rows={4}
+              className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
             />
           </div>
           
@@ -323,6 +298,7 @@ const VerificationQueue: React.FC = () => {
               variant="outline"
               onClick={() => setIsRejectOpen(false)}
               disabled={actionLoading}
+              className="border-white/20 text-white/70 hover:bg-white/10"
             >
               Cancel
             </Button>
@@ -331,6 +307,7 @@ const VerificationQueue: React.FC = () => {
               variant="destructive"
               onClick={handleReject}
               disabled={actionLoading || !rejectionReason.trim()}
+              className="bg-red-500 hover:bg-red-600"
             >
               {actionLoading ? (
                 <>
