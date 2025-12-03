@@ -7,7 +7,7 @@ export const getInvestorAnalysisContent = (): string => {
   });
 
   return `
-    <div style="font-family: 'Georgia', serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #1a1a2e;">
+    <div style="font-family: 'Georgia', serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #000000;">
       
       <!-- Cover Page -->
       <div style="text-align: center; padding: 60px 0; border-bottom: 3px solid #000000; margin-bottom: 40px;">
@@ -17,8 +17,8 @@ export const getInvestorAnalysisContent = (): string => {
         <h2 style="font-size: 24px; color: #000000; margin-bottom: 30px; font-weight: bold;">
           Billion-Dollar Business Analysis
         </h2>
-        <p style="font-size: 16px; color: #444; margin-bottom: 5px;">Investment Opportunity Assessment</p>
-        <p style="font-size: 16px; color: #444;">${currentDate}</p>
+        <p style="font-size: 16px; color: #000000; margin-bottom: 5px;">Investment Opportunity Assessment</p>
+        <p style="font-size: 16px; color: #000000;">${currentDate}</p>
       </div>
 
       <!-- Executive Summary -->
@@ -51,7 +51,7 @@ export const getInvestorAnalysisContent = (): string => {
         
         <h3 style="font-size: 16px; color: #000000; margin-bottom: 15px; font-weight: bold;">Total Addressable Market</h3>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
-          <tr style="background: #1a1a2e; color: white;">
+          <tr style="background: #000000; color: white;">
             <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Market Segment</th>
             <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Value</th>
           </tr>
@@ -93,7 +93,7 @@ export const getInvestorAnalysisContent = (): string => {
         
         <h3 style="font-size: 16px; color: #000000; margin-bottom: 15px; font-weight: bold;">Technical Infrastructure</h3>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
-          <tr style="background: #1a1a2e; color: white;">
+          <tr style="background: #000000; color: white;">
             <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Component</th>
             <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Scale</th>
           </tr>
@@ -169,7 +169,7 @@ export const getInvestorAnalysisContent = (): string => {
         </h2>
         
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
-          <tr style="background: #1a1a2e; color: white;">
+          <tr style="background: #000000; color: white;">
             <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Revenue Stream</th>
             <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Model</th>
             <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">Potential</th>
@@ -214,7 +214,7 @@ export const getInvestorAnalysisContent = (): string => {
         </h2>
         
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
-          <tr style="background: #1a1a2e; color: white;">
+          <tr style="background: #000000; color: white;">
             <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Metric</th>
             <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Year 1</th>
             <th style="padding: 12px; text-align: center; border: 1px solid #ddd;">Year 2</th>
@@ -254,11 +254,11 @@ export const getInvestorAnalysisContent = (): string => {
             <td style="padding: 12px; text-align: center; border: 1px solid #ddd;">$5M</td>
             <td style="padding: 12px; text-align: center; border: 1px solid #ddd;">$50M</td>
             <td style="padding: 12px; text-align: center; border: 1px solid #ddd;">$250M</td>
-            <td style="padding: 12px; text-align: center; border: 1px solid #ddd; font-weight: bold; color: #d4af37;">$1.5B</td>
+            <td style="padding: 12px; text-align: center; border: 1px solid #ddd; font-weight: bold; color: #000000;">$1.5B</td>
           </tr>
         </table>
         
-        <p style="font-size: 14px; color: #444; font-style: italic;">
+        <p style="font-size: 14px; color: #000000; font-style: italic;">
           *Projections based on 10x ARR multiple for high-growth marketplace companies. Actual results may vary based on market conditions and execution.
         </p>
       </div>
@@ -289,7 +289,7 @@ export const getInvestorAnalysisContent = (): string => {
       </div>
 
       <!-- Contact Information -->
-      <div style="background: #1a1a2e; color: white; padding: 30px; border-radius: 8px; text-align: center;">
+      <div style="background: #000000; color: white; padding: 30px; border-radius: 8px; text-align: center;">
         <h2 style="font-size: 20px; color: #ffffff; margin-bottom: 20px;">CONTACT INFORMATION</h2>
         <p style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">Thomas D. Bowling</p>
         <p style="font-size: 14px; margin-bottom: 5px;">Founder & CEO</p>
