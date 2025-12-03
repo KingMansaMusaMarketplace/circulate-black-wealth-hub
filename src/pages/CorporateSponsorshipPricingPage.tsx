@@ -12,6 +12,7 @@ import { useCorporateCheckout } from '@/hooks/useCorporateCheckout';
 import { useScreenshotMode } from '@/hooks/use-screenshot-mode';
 import { useNativeShare } from '@/hooks/use-native-share';
 import NotificationDemo from '@/components/sponsorship/NotificationDemo';
+import SponsorshipMediaKit from '@/components/sponsorship/SponsorshipMediaKit';
 import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
 
 interface PricingTier {
@@ -390,6 +391,9 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
 
         {/* Notification Demo Section */}
         <NotificationDemo />
+
+        {/* Partnership Resources / Media Kit */}
+        <SponsorshipMediaKit />
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 py-16 text-center relative z-10">
