@@ -17,8 +17,8 @@ export const getInvestorAnalysisContent = (): string => {
         <h2 style="font-size: 24px; color: #d4af37; margin-bottom: 30px; font-weight: normal;">
           Billion-Dollar Business Analysis
         </h2>
-        <p style="font-size: 14px; color: #666; margin-bottom: 5px;">Investment Opportunity Assessment</p>
-        <p style="font-size: 14px; color: #666;">${currentDate}</p>
+        <p style="font-size: 16px; color: #444; margin-bottom: 5px;">Investment Opportunity Assessment</p>
+        <p style="font-size: 16px; color: #444;">${currentDate}</p>
       </div>
 
       <!-- Executive Summary -->
@@ -258,7 +258,7 @@ export const getInvestorAnalysisContent = (): string => {
           </tr>
         </table>
         
-        <p style="font-size: 12px; color: #666; font-style: italic;">
+        <p style="font-size: 14px; color: #444; font-style: italic;">
           *Projections based on 10x ARR multiple for high-growth marketplace companies. Actual results may vary based on market conditions and execution.
         </p>
       </div>
@@ -295,7 +295,7 @@ export const getInvestorAnalysisContent = (): string => {
         <p style="font-size: 14px; margin-bottom: 5px;">Founder & CEO</p>
         <p style="font-size: 14px; margin-bottom: 5px;">Email: contact@mansamusamarketplace.com</p>
         <p style="font-size: 14px; margin-bottom: 20px;">Phone: 312.709.6006</p>
-        <p style="font-size: 12px; color: #888;">
+        <p style="font-size: 14px; color: #ccc;">
           © ${new Date().getFullYear()} Mansa Musa Marketplace. All rights reserved.
         </p>
       </div>
