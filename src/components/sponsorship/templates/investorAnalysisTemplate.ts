@@ -10,11 +10,11 @@ export const getInvestorAnalysisContent = (): string => {
     <div style="font-family: 'Georgia', serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #1a1a2e;">
       
       <!-- Cover Page -->
-      <div style="text-align: center; padding: 60px 0; border-bottom: 3px solid #d4af37; margin-bottom: 40px;">
-        <h1 style="font-size: 32px; color: #1a1a2e; margin-bottom: 10px; font-weight: bold;">
+      <div style="text-align: center; padding: 60px 0; border-bottom: 3px solid #000000; margin-bottom: 40px;">
+        <h1 style="font-size: 32px; color: #000000; margin-bottom: 10px; font-weight: bold;">
           MANSA MUSA MARKETPLACE
         </h1>
-        <h2 style="font-size: 24px; color: #1a1a1a; margin-bottom: 30px; font-weight: 600;">
+        <h2 style="font-size: 24px; color: #000000; margin-bottom: 30px; font-weight: bold;">
           Billion-Dollar Business Analysis
         </h2>
         <p style="font-size: 16px; color: #444; margin-bottom: 5px;">Investment Opportunity Assessment</p>
@@ -23,7 +23,7 @@ export const getInvestorAnalysisContent = (): string => {
 
       <!-- Executive Summary -->
       <div style="margin-bottom: 40px;">
-        <h2 style="font-size: 20px; color: #1a1a2e; border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="font-size: 20px; color: #000000; border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 20px; font-weight: bold;">
           EXECUTIVE SUMMARY
         </h2>
         <p style="font-size: 14px; line-height: 1.8; margin-bottom: 15px;">
@@ -32,8 +32,8 @@ export const getInvestorAnalysisContent = (): string => {
           West African emperor known for his immense wealth and generosity, our platform embodies the spirit 
           of economic empowerment and community prosperity.
         </p>
-        <div style="background: #f8f9fa; padding: 20px; border-left: 4px solid #d4af37; margin: 20px 0;">
-          <h3 style="font-size: 16px; color: #1a1a2e; margin-bottom: 10px;">THE BILLION-DOLLAR VERDICT</h3>
+        <div style="background: #f8f9fa; padding: 20px; border-left: 4px solid #000000; margin: 20px 0;">
+          <h3 style="font-size: 16px; color: #000000; margin-bottom: 10px; font-weight: bold;">THE BILLION-DOLLAR VERDICT</h3>
           <p style="font-size: 14px; line-height: 1.6; margin: 0;">
             <strong>Yes, Mansa Musa Marketplace has legitimate billion-dollar potential.</strong> The platform addresses 
             a $1.6 trillion market opportunity with a unique 4-sided marketplace model, comprehensive feature set, 
@@ -45,11 +45,11 @@ export const getInvestorAnalysisContent = (): string => {
 
       <!-- Market Opportunity -->
       <div style="margin-bottom: 40px;">
-        <h2 style="font-size: 20px; color: #1a1a2e; border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="font-size: 20px; color: #000000; border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 20px; font-weight: bold;">
           MARKET OPPORTUNITY
         </h2>
         
-        <h3 style="font-size: 16px; color: #1a1a2e; margin-bottom: 15px;">Total Addressable Market</h3>
+        <h3 style="font-size: 16px; color: #000000; margin-bottom: 15px; font-weight: bold;">Total Addressable Market</h3>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
           <tr style="background: #1a1a2e; color: white;">
             <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Market Segment</th>
@@ -73,7 +73,7 @@ export const getInvestorAnalysisContent = (): string => {
           </tr>
         </table>
 
-        <h3 style="font-size: 16px; color: #1a1a2e; margin-bottom: 15px;">The Market Gap</h3>
+        <h3 style="font-size: 16px; color: #000000; margin-bottom: 15px; font-weight: bold;">The Market Gap</h3>
         <p style="font-size: 14px; line-height: 1.8; margin-bottom: 15px;">
           Despite significant spending power, Black communities face systemic challenges:
         </p>
@@ -87,11 +87,11 @@ export const getInvestorAnalysisContent = (): string => {
 
       <!-- Platform Assessment -->
       <div style="margin-bottom: 40px;">
-        <h2 style="font-size: 20px; color: #1a1a2e; border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="font-size: 20px; color: #000000; border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 20px; font-weight: bold;">
           PLATFORM ASSESSMENT
         </h2>
         
-        <h3 style="font-size: 16px; color: #1a1a2e; margin-bottom: 15px;">Technical Infrastructure</h3>
+        <h3 style="font-size: 16px; color: #000000; margin-bottom: 15px; font-weight: bold;">Technical Infrastructure</h3>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
           <tr style="background: #1a1a2e; color: white;">
             <th style="padding: 12px; text-align: left; border: 1px solid #ddd;">Component</th>
@@ -119,7 +119,7 @@ export const getInvestorAnalysisContent = (): string => {
           </tr>
         </table>
 
-        <h3 style="font-size: 16px; color: #1a1a2e; margin-bottom: 15px;">Core Features</h3>
+        <h3 style="font-size: 16px; color: #000000; margin-bottom: 15px; font-weight: bold;">Core Features</h3>
         <ul style="font-size: 14px; line-height: 1.8; padding-left: 25px; margin-bottom: 20px;">
           <li><strong>Business Directory:</strong> Comprehensive listings with search, filtering, and reviews</li>
           <li><strong>Loyalty Points System:</strong> Gamified engagement rewarding community participation</li>
@@ -134,29 +134,29 @@ export const getInvestorAnalysisContent = (): string => {
 
       <!-- Competitive Advantages -->
       <div style="margin-bottom: 40px;">
-        <h2 style="font-size: 20px; color: #1a1a2e; border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="font-size: 20px; color: #000000; border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 20px; font-weight: bold;">
           COMPETITIVE ADVANTAGES
         </h2>
         
         <div style="display: grid; gap: 15px;">
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">1. Four-Sided Marketplace Model</h4>
+            <h4 style="color: #000000; margin-bottom: 8px; font-weight: bold;">1. Four-Sided Marketplace Model</h4>
             <p style="font-size: 14px; margin: 0;">Connects consumers, businesses, corporate sponsors, and sales agents in a unified ecosystem with network effects.</p>
           </div>
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">2. Community Finance Innovation</h4>
+            <h4 style="color: #000000; margin-bottom: 8px; font-weight: bold;">2. Community Finance Innovation</h4>
             <p style="font-size: 14px; margin: 0;">Digital savings circles (Susu) tap into trusted cultural practices, creating sticky engagement and financial inclusion.</p>
           </div>
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">3. Comprehensive Business Tools</h4>
+            <h4 style="color: #000000; margin-bottom: 8px; font-weight: bold;">3. Comprehensive Business Tools</h4>
             <p style="font-size: 14px; margin: 0;">Full-stack business management reduces need for multiple subscriptions, increasing platform stickiness.</p>
           </div>
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">4. AI-Powered Intelligence</h4>
+            <h4 style="color: #000000; margin-bottom: 8px; font-weight: bold;">4. AI-Powered Intelligence</h4>
             <p style="font-size: 14px; margin: 0;">Mansa AI provides personalized recommendations, business insights, and automated assistance.</p>
           </div>
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <h4 style="color: #1a1a1a; margin-bottom: 8px; font-weight: bold;">5. Mobile-First Architecture</h4>
+            <h4 style="color: #000000; margin-bottom: 8px; font-weight: bold;">5. Mobile-First Architecture</h4>
             <p style="font-size: 14px; margin: 0;">Native iOS and Android apps ensure accessibility for the 85%+ of Black Americans who are smartphone users.</p>
           </div>
         </div>
@@ -164,7 +164,7 @@ export const getInvestorAnalysisContent = (): string => {
 
       <!-- Revenue Model -->
       <div style="margin-bottom: 40px;">
-        <h2 style="font-size: 20px; color: #1a1a2e; border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="font-size: 20px; color: #000000; border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 20px; font-weight: bold;">
           REVENUE MODEL
         </h2>
         
@@ -209,7 +209,7 @@ export const getInvestorAnalysisContent = (): string => {
 
       <!-- Growth Projections -->
       <div style="margin-bottom: 40px;">
-        <h2 style="font-size: 20px; color: #1a1a2e; border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="font-size: 20px; color: #000000; border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 20px; font-weight: bold;">
           5-YEAR GROWTH PROJECTIONS
         </h2>
         
@@ -265,7 +265,7 @@ export const getInvestorAnalysisContent = (): string => {
 
       <!-- Key Requirements -->
       <div style="margin-bottom: 40px;">
-        <h2 style="font-size: 20px; color: #1a1a2e; border-bottom: 2px solid #d4af37; padding-bottom: 10px; margin-bottom: 20px;">
+        <h2 style="font-size: 20px; color: #000000; border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 20px; font-weight: bold;">
           KEY REQUIREMENTS FOR SUCCESS
         </h2>
         
