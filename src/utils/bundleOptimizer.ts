@@ -23,7 +23,6 @@ export const lazyLoadHeavyDeps = {
   qrGenerator: () => import('qrcode'),
   
   // File processing
-  fileSaver: () => import('file-saver'),
   htmlToPdf: () => import('html2pdf.js'),
   
   // Image processing
