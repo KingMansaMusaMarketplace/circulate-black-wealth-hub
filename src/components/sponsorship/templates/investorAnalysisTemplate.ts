@@ -291,7 +291,7 @@ export const getInvestorAnalysisContent = (): string => {
       <!-- Contact Information -->
       <div style="background: #1a1a2e; color: white; padding: 30px; border-radius: 8px; text-align: center;">
         <h2 style="font-size: 20px; color: #d4af37; margin-bottom: 20px;">CONTACT INFORMATION</h2>
-        <p style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">Cory Kipp</p>
+        <p style="font-size: 18px; margin-bottom: 10px; font-weight: bold;">Thomas D. Bowling</p>
         <p style="font-size: 14px; margin-bottom: 5px;">Founder & CEO</p>
         <p style="font-size: 14px; margin-bottom: 5px;">Email: contact@mansamusamarketplace.com</p>
         <p style="font-size: 14px; margin-bottom: 20px;">Phone: (555) 123-4567</p>
