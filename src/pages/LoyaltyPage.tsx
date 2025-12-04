@@ -187,38 +187,55 @@ const LoyaltyPage = () => {
       title="Loyalty Program" 
       icon={<Award className="mr-2 h-5 w-5" />}
     >
-      <div className="space-y-6">
-        {/* Decorative Banner */}
-        <div className="relative overflow-hidden rounded-2xl h-32">
-          <div className="absolute inset-0 bg-gradient-gold" />
-          <div className="absolute top-4 right-10 w-24 h-24 bg-white/10 rounded-full blur-2xl animate-pulse" />
-          <div className="absolute bottom-4 left-10 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          <div className="relative h-full flex items-center px-8">
-            <div className="text-white">
-              <h2 className="text-2xl font-bold mb-1">Your Rewards</h2>
-              <p className="text-white/90 text-sm">Earn points and redeem exclusive rewards</p>
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 -m-6 p-6 relative overflow-hidden">
+        {/* Animated Gradient Orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        
+        <div className="relative z-10 space-y-6">
+          {/* Decorative Banner */}
+          <div className="relative overflow-hidden rounded-2xl h-32 backdrop-blur-xl bg-white/5 border border-white/10">
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-blue-500/20" />
+            <div className="absolute top-4 right-10 w-24 h-24 bg-yellow-400/20 rounded-full blur-2xl animate-pulse" />
+            <div className="absolute bottom-4 left-10 w-32 h-32 bg-blue-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="relative h-full flex items-center px-8">
+              <div className="text-white">
+                <h2 className="text-2xl font-bold mb-1">Your Rewards</h2>
+                <p className="text-blue-200 text-sm">Earn points and redeem exclusive rewards</p>
+              </div>
             </div>
           </div>
+          
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid grid-cols-2 mb-8 backdrop-blur-xl bg-white/5 border border-white/10">
+              <TabsTrigger 
+                value="history" 
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500 data-[state=active]:to-yellow-600 data-[state=active]:text-slate-900 text-blue-200"
+              >
+                History
+              </TabsTrigger>
+              <TabsTrigger 
+                value="rewards"
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-yellow-500 data-[state=active]:to-yellow-600 data-[state=active]:text-slate-900 text-blue-200"
+              >
+                Redeem Rewards
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="history" className="space-y-6">
+              <LoyaltyHistory stats={loyaltyStats} transactions={transactions} />
+            </TabsContent>
+            
+            <TabsContent value="rewards">
+              <RewardsTab 
+                availablePoints={loyaltyStats.totalPoints}
+                rewards={rewards}
+                onRedeem={handleRedeemReward}
+              />
+            </TabsContent>
+          </Tabs>
         </div>
-        
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-2 mb-8">
-          <TabsTrigger value="history">History</TabsTrigger>
-          <TabsTrigger value="rewards">Redeem Rewards</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="history" className="space-y-6">
-          <LoyaltyHistory stats={loyaltyStats} transactions={transactions} />
-        </TabsContent>
-        
-        <TabsContent value="rewards">
-          <RewardsTab 
-            availablePoints={loyaltyStats.totalPoints}
-            rewards={rewards}
-            onRedeem={handleRedeemReward}
-          />
-        </TabsContent>
-      </Tabs>
       </div>
     </DashboardLayout>
   );
