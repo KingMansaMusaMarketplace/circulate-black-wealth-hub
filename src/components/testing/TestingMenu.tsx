@@ -1,23 +1,25 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Database, Play, TestTube } from "lucide-react";
+import { Database, Play } from "lucide-react";
 
 export function TestingMenu() {
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Link to="/test-data-populator">
-        <Card className="hover:bg-accent transition-colors cursor-pointer h-full">
+        <Card className="backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer h-full">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Database className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg">
+                <Database className="w-5 h-5 text-white" />
+              </div>
               Test Data Populator
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-blue-200">
               Populate your database with realistic test data for Apple review
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-blue-100/70">
               Creates sample businesses, transactions, reviews, and sponsors
             </p>
           </CardContent>
@@ -25,18 +27,20 @@ export function TestingMenu() {
       </Link>
 
       <Link to="/full-app-test">
-        <Card className="hover:bg-accent transition-colors cursor-pointer h-full">
+        <Card className="backdrop-blur-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer h-full">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Play className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-white">
+              <div className="p-2 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-lg">
+                <Play className="w-5 h-5 text-white" />
+              </div>
               Full App Test
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-blue-200">
               Run comprehensive tests on all app functionality
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-blue-100/70">
               Tests database, edge functions, authentication, and more
             </p>
           </CardContent>
