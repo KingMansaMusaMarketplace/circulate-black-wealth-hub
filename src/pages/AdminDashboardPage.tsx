@@ -11,9 +11,14 @@ import CorporateSponsorshipApprovals from '@/components/admin/CorporateSponsorsh
 import UserManagement from '@/components/admin/UserManagement';
 import FinancialManagement from '@/components/admin/FinancialManagement';
 import EmailHistory from '@/components/admin/EmailHistory';
+import AccountSuspensionManager from '@/components/admin/AccountSuspensionManager';
+import BulkActionsPanel from '@/components/admin/BulkActionsPanel';
+import ActivityMonitor from '@/components/admin/ActivityMonitor';
+import SystemSettings from '@/components/admin/SystemSettings';
+import BroadcastAnnouncements from '@/components/admin/BroadcastAnnouncements';
 import RequireAdmin from '@/components/auth/RequireAdmin';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart3, Users, QrCode, ShieldCheck, Settings, Building2, DollarSign, Mail, UserCog } from 'lucide-react';
+import { BarChart3, Users, QrCode, ShieldCheck, Settings, Building2, DollarSign, Mail, UserCog, Ban, CheckSquare, Activity, Megaphone, Sliders } from 'lucide-react';
 
 const AdminDashboardPage: React.FC = () => {
   const { user, userType } = useAuth();
@@ -37,7 +42,7 @@ const AdminDashboardPage: React.FC = () => {
           </div>
 
           <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-9 gap-2">
+            <TabsList className="flex flex-wrap gap-2 h-auto p-2">
               <TabsTrigger value="overview" className="flex items-center gap-1 text-xs">
                 <BarChart3 className="h-3 w-3" />
                 Overview
@@ -45,6 +50,18 @@ const AdminDashboardPage: React.FC = () => {
               <TabsTrigger value="users" className="flex items-center gap-1 text-xs">
                 <UserCog className="h-3 w-3" />
                 Users
+              </TabsTrigger>
+              <TabsTrigger value="bulk" className="flex items-center gap-1 text-xs">
+                <CheckSquare className="h-3 w-3" />
+                Bulk Actions
+              </TabsTrigger>
+              <TabsTrigger value="suspensions" className="flex items-center gap-1 text-xs">
+                <Ban className="h-3 w-3" />
+                Suspensions
+              </TabsTrigger>
+              <TabsTrigger value="activity" className="flex items-center gap-1 text-xs">
+                <Activity className="h-3 w-3" />
+                Activity
               </TabsTrigger>
               <TabsTrigger value="verifications" className="flex items-center gap-1 text-xs">
                 <ShieldCheck className="h-3 w-3" />
@@ -66,9 +83,17 @@ const AdminDashboardPage: React.FC = () => {
                 <QrCode className="h-3 w-3" />
                 QR Metrics
               </TabsTrigger>
+              <TabsTrigger value="announcements" className="flex items-center gap-1 text-xs">
+                <Megaphone className="h-3 w-3" />
+                Announcements
+              </TabsTrigger>
               <TabsTrigger value="emails" className="flex items-center gap-1 text-xs">
                 <Mail className="h-3 w-3" />
                 Emails
+              </TabsTrigger>
+              <TabsTrigger value="system" className="flex items-center gap-1 text-xs">
+                <Sliders className="h-3 w-3" />
+                System
               </TabsTrigger>
               <TabsTrigger value="settings" className="flex items-center gap-1 text-xs">
                 <Settings className="h-3 w-3" />
@@ -82,6 +107,18 @@ const AdminDashboardPage: React.FC = () => {
 
             <TabsContent value="users" className="space-y-6">
               <UserManagement />
+            </TabsContent>
+
+            <TabsContent value="bulk" className="space-y-6">
+              <BulkActionsPanel />
+            </TabsContent>
+
+            <TabsContent value="suspensions" className="space-y-6">
+              <AccountSuspensionManager />
+            </TabsContent>
+
+            <TabsContent value="activity" className="space-y-6">
+              <ActivityMonitor />
             </TabsContent>
 
             <TabsContent value="verifications" className="space-y-6">
@@ -104,8 +141,16 @@ const AdminDashboardPage: React.FC = () => {
               <QRCodeMetrics />
             </TabsContent>
 
+            <TabsContent value="announcements" className="space-y-6">
+              <BroadcastAnnouncements />
+            </TabsContent>
+
             <TabsContent value="emails" className="space-y-6">
               <EmailHistory />
+            </TabsContent>
+
+            <TabsContent value="system" className="space-y-6">
+              <SystemSettings />
             </TabsContent>
 
             <TabsContent value="settings" className="space-y-6">
