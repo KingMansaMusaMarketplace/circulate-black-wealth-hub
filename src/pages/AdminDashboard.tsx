@@ -28,6 +28,10 @@ import SystemHealthMonitor from '@/components/admin/SystemHealthMonitor';
 import QuickActionsFAB from '@/components/admin/QuickActionsFAB';
 import KeyboardShortcutsHelp from '@/components/admin/KeyboardShortcutsHelp';
 import AdminBreadcrumb from '@/components/admin/AdminBreadcrumb';
+import ThemeToggle from '@/components/admin/ThemeToggle';
+import UserProfileDropdown from '@/components/admin/UserProfileDropdown';
+import LiveDataCounters from '@/components/admin/LiveDataCounters';
+import GlobalSearch from '@/components/admin/GlobalSearch';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -128,7 +132,7 @@ const AdminDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden transition-colors duration-300">
       <Helmet>
         <title>Admin Dashboard | Mansa Musa Marketplace</title>
         <meta name="description" content="Complete admin dashboard for Mansa Musa Marketplace" />
@@ -139,77 +143,114 @@ const AdminDashboard: React.FC = () => {
       <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
       <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
 
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="relative z-10 container mx-auto px-4 py-6">
         {/* Top Bar */}
-        <div className="flex items-center justify-between mb-6">
-          <AdminBreadcrumb currentTab={activeTab} tabs={tabs} />
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center justify-between lg:justify-start gap-4">
+            <AdminBreadcrumb currentTab={activeTab} tabs={tabs} />
+            <div className="lg:hidden">
+              <UserProfileDropdown />
+            </div>
+          </div>
           
-          <div className="flex items-center gap-2">
-            <SystemHealthMonitor />
-            <div className="h-6 w-px bg-white/10 mx-2 hidden md:block" />
-            <CommandPalette onTabChange={setActiveTab} onExportOpen={() => setExportDialogOpen(true)} />
-            <NotificationCenter />
-            <KeyboardShortcutsHelp />
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0">
+            {/* Live Counters - Hidden on mobile */}
+            <div className="hidden xl:flex">
+              <LiveDataCounters />
+            </div>
+            
+            <div className="h-6 w-px bg-white/10 mx-2 hidden xl:block" />
+            
+            {/* System Health - Hidden on mobile */}
+            <div className="hidden lg:flex">
+              <SystemHealthMonitor />
+            </div>
+            
+            <div className="h-6 w-px bg-white/10 mx-2 hidden lg:block" />
+            
+            {/* Search & Actions */}
+            <div className="flex items-center gap-1">
+              <GlobalSearch onTabChange={setActiveTab} />
+              <CommandPalette onTabChange={setActiveTab} onExportOpen={() => setExportDialogOpen(true)} />
+              <NotificationCenter />
+              <ThemeToggle />
+              <KeyboardShortcutsHelp />
+              <div className="hidden lg:block">
+                <UserProfileDropdown />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-            <Shield className="h-8 w-8 text-yellow-400" />
-            Admin Dashboard
-          </h1>
-          <p className="text-blue-200">Complete system overview and management</p>
+        <div className="mb-6 animate-fade-in">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl lg:text-3xl font-bold text-white mb-1 flex items-center gap-3">
+                <Shield className="h-7 w-7 lg:h-8 lg:w-8 text-yellow-400" />
+                Admin Dashboard
+              </h1>
+              <p className="text-blue-200 text-sm lg:text-base">Complete system overview and management</p>
+            </div>
+          </div>
+          
+          {/* Mobile Live Counters */}
+          <div className="xl:hidden mt-4 overflow-x-auto">
+            <LiveDataCounters />
+          </div>
         </div>
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-2 overflow-x-auto">
+          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-2 overflow-x-auto animate-fade-in" style={{ animationDelay: '100ms' }}>
             <TabsList className="bg-transparent flex flex-wrap gap-1 min-w-max">
-              {tabs.map((tab) => (
+              {tabs.map((tab, index) => (
                 <TabsTrigger
                   key={tab.id}
                   value={tab.id}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-blue-200 data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400 hover:bg-white/5 transition-all"
+                  className="flex items-center gap-2 px-3 lg:px-4 py-2 rounded-lg text-blue-200 data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400 hover:bg-white/5 transition-all"
+                  style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <tab.icon className="h-4 w-4" />
-                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="hidden sm:inline text-sm">{tab.label}</span>
                 </TabsTrigger>
               ))}
             </TabsList>
           </div>
 
-          <TabsContent value="overview" className="mt-6">
-            <AdminOverview />
-          </TabsContent>
+          <div className="animate-fade-in" style={{ animationDelay: '200ms' }}>
+            <TabsContent value="overview" className="mt-6">
+              <AdminOverview />
+            </TabsContent>
 
-          <TabsContent value="users" className="mt-6">
-            <AdminUsers />
-          </TabsContent>
+            <TabsContent value="users" className="mt-6">
+              <AdminUsers />
+            </TabsContent>
 
-          <TabsContent value="businesses" className="mt-6">
-            <AdminBusinesses />
-          </TabsContent>
+            <TabsContent value="businesses" className="mt-6">
+              <AdminBusinesses />
+            </TabsContent>
 
-          <TabsContent value="agents" className="mt-6">
-            <AdminSalesAgents />
-          </TabsContent>
+            <TabsContent value="agents" className="mt-6">
+              <AdminSalesAgents />
+            </TabsContent>
 
-          <TabsContent value="financials" className="mt-6">
-            <AdminFinancials />
-          </TabsContent>
+            <TabsContent value="financials" className="mt-6">
+              <AdminFinancials />
+            </TabsContent>
 
-          <TabsContent value="security" className="mt-6">
-            <AdminSecurity />
-          </TabsContent>
+            <TabsContent value="security" className="mt-6">
+              <AdminSecurity />
+            </TabsContent>
 
-          <TabsContent value="fraud" className="mt-6">
-            <AdminFraudAlerts />
-          </TabsContent>
+            <TabsContent value="fraud" className="mt-6">
+              <AdminFraudAlerts />
+            </TabsContent>
 
-          <TabsContent value="activity" className="mt-6">
-            <AdminActivityLog />
-          </TabsContent>
+            <TabsContent value="activity" className="mt-6">
+              <AdminActivityLog />
+            </TabsContent>
+          </div>
         </Tabs>
       </div>
 
