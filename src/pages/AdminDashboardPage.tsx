@@ -16,9 +16,10 @@ import BulkActionsPanel from '@/components/admin/BulkActionsPanel';
 import ActivityMonitor from '@/components/admin/ActivityMonitor';
 import SystemSettings from '@/components/admin/SystemSettings';
 import BroadcastAnnouncements from '@/components/admin/BroadcastAnnouncements';
+import AdminAIDashboard from '@/components/admin/ai/AdminAIDashboard';
 import RequireAdmin from '@/components/auth/RequireAdmin';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart3, Users, QrCode, ShieldCheck, Settings, Building2, DollarSign, Mail, UserCog, Ban, CheckSquare, Activity, Megaphone, Sliders } from 'lucide-react';
+import { BarChart3, Users, QrCode, ShieldCheck, Settings, Building2, DollarSign, Mail, UserCog, Ban, CheckSquare, Activity, Megaphone, Sliders, Bot } from 'lucide-react';
 
 const AdminDashboardPage: React.FC = () => {
   const { user, userType } = useAuth();
@@ -95,6 +96,10 @@ const AdminDashboardPage: React.FC = () => {
                 <Sliders className="h-3 w-3" />
                 System
               </TabsTrigger>
+              <TabsTrigger value="ai" className="flex items-center gap-1 text-xs">
+                <Bot className="h-3 w-3" />
+                AI Tools
+              </TabsTrigger>
               <TabsTrigger value="settings" className="flex items-center gap-1 text-xs">
                 <Settings className="h-3 w-3" />
                 Settings
@@ -151,6 +156,10 @@ const AdminDashboardPage: React.FC = () => {
 
             <TabsContent value="system" className="space-y-6">
               <SystemSettings />
+            </TabsContent>
+
+            <TabsContent value="ai" className="space-y-6">
+              <AdminAIDashboard />
             </TabsContent>
 
             <TabsContent value="settings" className="space-y-6">
