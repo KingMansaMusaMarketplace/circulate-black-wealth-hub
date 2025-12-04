@@ -167,10 +167,11 @@ const HelpPanel: React.FC = () => {
     <Sheet>
       <SheetTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
-          className="text-blue-200 hover:text-white hover:bg-white/10"
+          className="border-yellow-500/30 text-yellow-400 hover:text-white hover:bg-yellow-500/20 hover:border-yellow-500/50"
           data-tour="help-panel"
+          title="Help Guide"
         >
           <HelpCircle className="h-5 w-5" />
         </Button>

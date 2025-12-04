@@ -145,13 +145,14 @@ Answer questions about these features helpfully and concisely.
     <Sheet>
       <SheetTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
-          className="text-blue-200 hover:text-white hover:bg-white/10 relative"
+          className="border-purple-500/30 text-purple-400 hover:text-white hover:bg-purple-500/20 hover:border-purple-500/50 relative"
           data-tour="ai-assistant"
+          title="AI Assistant"
         >
           <Bot className="h-5 w-5" />
-          <Sparkles className="h-2 w-2 text-yellow-400 absolute top-1 right-1" />
+          <Sparkles className="h-2.5 w-2.5 text-yellow-400 absolute -top-1 -right-1" />
         </Button>
       </SheetTrigger>
       <SheetContent className="w-96 bg-slate-900 border-white/10 flex flex-col">
