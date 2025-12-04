@@ -4003,6 +4003,8 @@ export type Database = {
           referral_tier: number | null
           referred_by: string | null
           referred_by_agent_id: string | null
+          signup_device_info: string | null
+          signup_platform: string | null
           state: string | null
           subscription_end_date: string | null
           subscription_start_date: string | null
@@ -4036,6 +4038,8 @@ export type Database = {
           referral_tier?: number | null
           referred_by?: string | null
           referred_by_agent_id?: string | null
+          signup_device_info?: string | null
+          signup_platform?: string | null
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null
@@ -4069,6 +4073,8 @@ export type Database = {
           referral_tier?: number | null
           referred_by?: string | null
           referred_by_agent_id?: string | null
+          signup_device_info?: string | null
+          signup_platform?: string | null
           state?: string | null
           subscription_end_date?: string | null
           subscription_start_date?: string | null

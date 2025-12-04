@@ -90,6 +90,11 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
     try {
       console.log('[CUSTOMER SIGNUP] Starting signup process...');
       
+      // Detect platform
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const isCapacitor = !!(window as any).Capacitor;
+      const platform = isCapacitor ? (/(iPhone|iPad|iPod)/i.test(navigator.userAgent) ? 'ios' : 'android') : (isMobile ? 'mobile_web' : 'web');
+      
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
@@ -99,7 +104,9 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
             full_name: data.fullName,
             phone: data.phone,
             user_type: 'customer',
-            referral_code: data.referralCode || null
+            referral_code: data.referralCode || null,
+            signup_platform: platform,
+            device_info: navigator.userAgent
           }
         }
       });

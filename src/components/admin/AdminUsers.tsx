@@ -26,6 +26,7 @@ interface UserProfile {
   role: string | null;
   created_at: string;
   avatar_url: string | null;
+  signup_platform: string | null;
 }
 
 interface UserRole {
@@ -39,6 +40,7 @@ const AdminUsers: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
+  const [platformFilter, setPlatformFilter] = useState('all');
   const [confirmDialog, setConfirmDialog] = useState<{
     open: boolean;
     userId: string;
@@ -159,10 +161,16 @@ const AdminUsers: React.FC = () => {
       user.email?.toLowerCase().includes(searchTerm.toLowerCase());
     
     if (roleFilter === 'admin') {
-      return matchesSearch && isAdmin(user.id);
+      if (!isAdmin(user.id)) return false;
+    } else if (roleFilter !== 'all' && user.role !== roleFilter) {
+      return false;
     }
-    const matchesRole = roleFilter === 'all' || user.role === roleFilter;
-    return matchesSearch && matchesRole;
+    
+    if (platformFilter !== 'all' && (user.signup_platform || 'web') !== platformFilter) {
+      return false;
+    }
+    
+    return matchesSearch;
   });
 
   const getRoleBadgeColor = (role: string | null) => {
@@ -190,7 +198,7 @@ const AdminUsers: React.FC = () => {
               />
             </div>
             <Select value={roleFilter} onValueChange={setRoleFilter}>
-              <SelectTrigger className="w-full md:w-48 bg-white/5 border-white/10 text-white">
+              <SelectTrigger className="w-full md:w-40 bg-white/5 border-white/10 text-white">
                 <SelectValue placeholder="Filter by role" />
               </SelectTrigger>
               <SelectContent>
@@ -199,6 +207,18 @@ const AdminUsers: React.FC = () => {
                 <SelectItem value="business">Business</SelectItem>
                 <SelectItem value="sales_agent">Sales Agent</SelectItem>
                 <SelectItem value="customer">Customer</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={platformFilter} onValueChange={setPlatformFilter}>
+              <SelectTrigger className="w-full md:w-36 bg-white/5 border-white/10 text-white">
+                <SelectValue placeholder="Platform" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Platforms</SelectItem>
+                <SelectItem value="web">Web</SelectItem>
+                <SelectItem value="ios">iOS</SelectItem>
+                <SelectItem value="android">Android</SelectItem>
+                <SelectItem value="mobile_web">Mobile Web</SelectItem>
               </SelectContent>
             </Select>
             <Button onClick={() => { fetchUsers(); fetchUserRoles(); }} variant="outline" className="border-white/10 text-blue-200 hover:bg-white/10">
@@ -264,6 +284,13 @@ const AdminUsers: React.FC = () => {
                     <div className="flex items-center gap-4 flex-wrap">
                       <Badge className={getRoleBadgeColor(user.role)}>
                         {user.role || 'customer'}
+                      </Badge>
+                      <Badge className={
+                        user.signup_platform === 'ios' ? 'bg-gray-500/20 text-gray-300 border-gray-500/30' :
+                        user.signup_platform === 'android' ? 'bg-green-500/20 text-green-300 border-green-500/30' :
+                        'bg-blue-500/20 text-blue-300 border-blue-500/30'
+                      }>
+                        {user.signup_platform || 'web'}
                       </Badge>
                       <p className="text-blue-300 text-sm flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
