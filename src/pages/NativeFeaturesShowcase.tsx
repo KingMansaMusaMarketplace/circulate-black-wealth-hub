@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 import { useBackgroundLocation } from '@/hooks/use-background-location';
@@ -22,11 +23,13 @@ import {
   XCircle,
   Phone,
   Layers,
-  Activity
+  Activity,
+  X
 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const NativeFeaturesShowcase = () => {
+  const navigate = useNavigate();
   const { isNative, platform } = useCapacitor();
   const haptics = useHapticFeedback();
   const { isTracking, enableBackgroundLocation, disableBackgroundLocation } = useBackgroundLocation();
@@ -174,10 +177,19 @@ const NativeFeaturesShowcase = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+      {/* Close Button - Fixed Position */}
+      <button
+        onClick={() => navigate(-1)}
+        className="fixed top-4 right-4 z-50 p-3 rounded-full bg-slate-800/90 hover:bg-slate-700 text-white/90 hover:text-white transition-all shadow-lg border border-white/10"
+        aria-label="Close and go back"
+      >
+        <X className="w-6 h-6" />
+      </button>
+      
       {/* Animated Background Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-mansagold/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
         <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
       </div>
       
@@ -186,13 +198,13 @@ const NativeFeaturesShowcase = () => {
         <div className="text-center mb-8 animate-fade-in">
           <div className="flex items-center justify-center mb-6">
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-yellow-500 to-purple-500 rounded-full blur-2xl opacity-50 animate-pulse"></div>
-              <div className="relative bg-gradient-to-br from-blue-500 via-yellow-500 to-purple-500 rounded-full p-6 shadow-2xl border-4 border-white/30">
+              <div className="absolute inset-0 bg-gradient-to-r from-mansablue via-mansagold to-mansablue rounded-full blur-2xl opacity-50 animate-pulse"></div>
+              <div className="relative bg-gradient-to-br from-mansablue via-mansagold to-mansablue rounded-full p-6 shadow-2xl border-4 border-white/30">
                 <Smartphone className="w-16 h-16 text-white drop-shadow-lg" />
               </div>
             </div>
           </div>
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-yellow-400 to-purple-400 bg-clip-text text-transparent drop-shadow-sm">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-mansablue via-mansagold to-mansablue bg-clip-text text-transparent drop-shadow-sm">
             Native Features Showcase
           </h1>
           <p className="text-lg font-medium text-white/80">
