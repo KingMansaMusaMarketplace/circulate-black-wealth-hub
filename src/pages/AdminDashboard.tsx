@@ -11,8 +11,10 @@ import {
   DollarSign, 
   Shield, 
   AlertTriangle,
-  Activity
+  Activity,
+  PlayCircle
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import AdminOverview from '@/components/admin/AdminOverview';
 import AdminUsers from '@/components/admin/AdminUsers';
 import AdminBusinesses from '@/components/admin/AdminBusinesses';
@@ -32,6 +34,10 @@ import ThemeToggle from '@/components/admin/ThemeToggle';
 import UserProfileDropdown from '@/components/admin/UserProfileDropdown';
 import LiveDataCounters from '@/components/admin/LiveDataCounters';
 import GlobalSearch from '@/components/admin/GlobalSearch';
+import OnboardingTour from '@/components/admin/OnboardingTour';
+import HelpPanel from '@/components/admin/HelpPanel';
+import DashboardAIAssistant from '@/components/admin/DashboardAIAssistant';
+import { HelpTooltip } from '@/components/admin/HelpTooltip';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -42,6 +48,7 @@ const AdminDashboard: React.FC = () => {
   const [checkingAdmin, setCheckingAdmin] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
   const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [showTour, setShowTour] = useState(false);
 
   useEffect(() => {
     // Wait for auth to initialize before checking admin access
@@ -54,6 +61,17 @@ const AdminDashboard: React.FC = () => {
     
     checkAdminAccess();
   }, [user, authLoading]);
+
+  // Check if user has seen the tour
+  useEffect(() => {
+    if (isAdmin) {
+      const hasSeenTour = localStorage.getItem('admin-tour-completed');
+      if (!hasSeenTour) {
+        // Delay tour start to let dashboard render
+        setTimeout(() => setShowTour(true), 1000);
+      }
+    }
+  }, [isAdmin]);
 
   // Keyboard shortcuts for navigation
   useEffect(() => {
@@ -85,6 +103,12 @@ const AdminDashboard: React.FC = () => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  const handleTourComplete = () => {
+    setShowTour(false);
+    localStorage.setItem('admin-tour-completed', 'true');
+    toast.success('Tour completed! You can restart it anytime from the header.');
+  };
 
   const checkAdminAccess = async () => {
     try {
@@ -146,7 +170,7 @@ const AdminDashboard: React.FC = () => {
       <div className="relative z-10 container mx-auto px-4 py-6">
         {/* Top Bar */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
-          <div className="flex items-center justify-between lg:justify-start gap-4">
+          <div className="flex items-center justify-between lg:justify-start gap-4" data-tour="breadcrumb">
             <AdminBreadcrumb currentTab={activeTab} tabs={tabs} />
             <div className="lg:hidden">
               <UserProfileDropdown />
@@ -155,26 +179,81 @@ const AdminDashboard: React.FC = () => {
           
           <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0">
             {/* Live Counters - Hidden on mobile */}
-            <div className="hidden xl:flex">
-              <LiveDataCounters />
+            <div className="hidden xl:flex" data-tour="live-counters">
+              <HelpTooltip content="Real-time metrics that update automatically as data changes">
+                <div>
+                  <LiveDataCounters />
+                </div>
+              </HelpTooltip>
             </div>
             
             <div className="h-6 w-px bg-white/10 mx-2 hidden xl:block" />
             
             {/* System Health - Hidden on mobile */}
-            <div className="hidden lg:flex">
-              <SystemHealthMonitor />
+            <div className="hidden lg:flex" data-tour="health-monitor">
+              <HelpTooltip content="Monitor system health: Database, API, and Auth status with latency">
+                <div>
+                  <SystemHealthMonitor />
+                </div>
+              </HelpTooltip>
             </div>
             
             <div className="h-6 w-px bg-white/10 mx-2 hidden lg:block" />
             
             {/* Search & Actions */}
             <div className="flex items-center gap-1">
-              <GlobalSearch onTabChange={setActiveTab} />
-              <CommandPalette onTabChange={setActiveTab} onExportOpen={() => setExportDialogOpen(true)} />
-              <NotificationCenter />
-              <ThemeToggle />
-              <KeyboardShortcutsHelp />
+              <div data-tour="global-search">
+                <HelpTooltip content="Search users, businesses, and transactions (press /)">
+                  <div>
+                    <GlobalSearch onTabChange={setActiveTab} />
+                  </div>
+                </HelpTooltip>
+              </div>
+              
+              <div data-tour="command-palette">
+                <HelpTooltip content="Quick commands and navigation (press ⌘K)">
+                  <div>
+                    <CommandPalette onTabChange={setActiveTab} onExportOpen={() => setExportDialogOpen(true)} />
+                  </div>
+                </HelpTooltip>
+              </div>
+              
+              <div data-tour="notifications">
+                <HelpTooltip content="Real-time notifications for new users, businesses, and alerts">
+                  <div>
+                    <NotificationCenter />
+                  </div>
+                </HelpTooltip>
+              </div>
+              
+              <div data-tour="theme-toggle">
+                <HelpTooltip content="Switch between dark and light mode">
+                  <div>
+                    <ThemeToggle />
+                  </div>
+                </HelpTooltip>
+              </div>
+              
+              <div data-tour="keyboard-shortcuts">
+                <HelpTooltip content="View all keyboard shortcuts (press ?)">
+                  <div>
+                    <KeyboardShortcutsHelp />
+                  </div>
+                </HelpTooltip>
+              </div>
+              
+              <HelpTooltip content="Comprehensive guide to all dashboard features">
+                <div>
+                  <HelpPanel />
+                </div>
+              </HelpTooltip>
+              
+              <HelpTooltip content="AI assistant to help you navigate the dashboard">
+                <div>
+                  <DashboardAIAssistant />
+                </div>
+              </HelpTooltip>
+              
               <div className="hidden lg:block">
                 <UserProfileDropdown />
               </div>
@@ -192,6 +271,17 @@ const AdminDashboard: React.FC = () => {
               </h1>
               <p className="text-blue-200 text-sm lg:text-base">Complete system overview and management</p>
             </div>
+            
+            {/* Tour restart button */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowTour(true)}
+              className="hidden sm:flex items-center gap-2 border-yellow-500/30 text-yellow-400 hover:bg-yellow-500/10"
+            >
+              <PlayCircle className="h-4 w-4" />
+              Start Tour
+            </Button>
           </div>
           
           {/* Mobile Live Counters */}
@@ -202,7 +292,11 @@ const AdminDashboard: React.FC = () => {
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-2 overflow-x-auto animate-fade-in" style={{ animationDelay: '100ms' }}>
+          <div 
+            className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-2 overflow-x-auto animate-fade-in" 
+            style={{ animationDelay: '100ms' }}
+            data-tour="tabs"
+          >
             <TabsList className="bg-transparent flex flex-wrap gap-1 min-w-max">
               {tabs.map((tab, index) => (
                 <TabsTrigger
@@ -255,10 +349,15 @@ const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Quick Actions FAB */}
-      <QuickActionsFAB onExportOpen={() => setExportDialogOpen(true)} />
+      <div data-tour="fab">
+        <QuickActionsFAB onExportOpen={() => setExportDialogOpen(true)} />
+      </div>
 
       {/* Export Dialog */}
       <ExportReportsDialog open={exportDialogOpen} onOpenChange={setExportDialogOpen} />
+
+      {/* Onboarding Tour */}
+      {showTour && <OnboardingTour onComplete={handleTourComplete} />}
     </div>
   );
 };
