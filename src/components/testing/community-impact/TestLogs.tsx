@@ -12,10 +12,10 @@ const TestLogs: React.FC<TestLogsProps> = ({ logs }) => {
 
   return (
     <div className="mt-6">
-      <h3 className="text-lg font-semibold mb-3">Test Logs</h3>
-      <div className="bg-gray-50 p-4 rounded-lg max-h-64 overflow-y-auto">
+      <h3 className="text-lg font-semibold mb-3 text-white">Test Logs</h3>
+      <div className="bg-slate-900/50 border border-white/10 p-4 rounded-lg max-h-64 overflow-y-auto">
         {logs.map((log, index) => (
-          <div key={index} className="text-sm font-mono text-gray-700 mb-1">
+          <div key={index} className="text-sm font-mono text-blue-200 mb-1">
             {log}
           </div>
         ))}

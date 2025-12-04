@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
 import { useCommunityImpactTests } from './useCommunityImpactTests';
 import TestControls from './TestControls';
 import TestResults from './TestResults';
@@ -15,12 +14,10 @@ const CommunityImpactTest: React.FC = () => {
       <TestControls isRunning={isRunning} onRunTests={runTests} />
 
       {testResults.length > 0 && (
-        <Card>
-          <CardContent className="p-6">
-            <TestResults testResults={testResults} />
-            <TestLogs logs={logs} />
-          </CardContent>
-        </Card>
+        <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl p-6">
+          <TestResults testResults={testResults} />
+          <TestLogs logs={logs} />
+        </div>
       )}
 
       <NavigationTests />
