@@ -460,12 +460,12 @@ const MasterAppleReviewTest: React.FC = () => {
 
   const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
-      case 'pass': return <CheckCircle className="h-5 w-5 text-green-600" />;
-      case 'fail': return <XCircle className="h-5 w-5 text-red-600" />;
-      case 'warning': return <AlertTriangle className="h-5 w-5 text-yellow-600" />;
-      case 'skip': return <AlertTriangle className="h-5 w-5 text-gray-400" />;
-      case 'running': return <RefreshCw className="h-5 w-5 text-blue-600 animate-spin" />;
-      default: return <Shield className="h-5 w-5 text-gray-400" />;
+      case 'pass': return <CheckCircle className="h-5 w-5 text-green-400" />;
+      case 'fail': return <XCircle className="h-5 w-5 text-red-400" />;
+      case 'warning': return <AlertTriangle className="h-5 w-5 text-yellow-400" />;
+      case 'skip': return <AlertTriangle className="h-5 w-5 text-white/40" />;
+      case 'running': return <RefreshCw className="h-5 w-5 text-blue-400 animate-spin" />;
+      default: return <Shield className="h-5 w-5 text-white/40" />;
     }
   };
 
@@ -484,10 +484,10 @@ const MasterAppleReviewTest: React.FC = () => {
 
   const getCategoryIcon = (category: TestResult['category']) => {
     switch (category) {
-      case 'compliance': return <Shield className="h-5 w-5 text-blue-600" />;
-      case 'frontend': return <Smartphone className="h-5 w-5 text-purple-600" />;
-      case 'backend': return <Database className="h-5 w-5 text-green-600" />;
-      case 'native': return <Zap className="h-5 w-5 text-orange-600" />;
+      case 'compliance': return <Shield className="h-5 w-5 text-blue-400" />;
+      case 'frontend': return <Smartphone className="h-5 w-5 text-purple-400" />;
+      case 'backend': return <Database className="h-5 w-5 text-green-400" />;
+      case 'native': return <Zap className="h-5 w-5 text-orange-400" />;
     }
   };
 
@@ -504,115 +504,104 @@ const MasterAppleReviewTest: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6 p-6">
       {/* Main Control Panel */}
-      <Card className="border-4 border-blue-600 bg-gradient-to-br from-blue-50 to-white">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Shield className="h-10 w-10 text-blue-600" />
-              <div>
-                <CardTitle className="text-3xl">🍎 Master Apple Review Test</CardTitle>
-                <CardDescription className="text-base mt-1">
-                  Comprehensive pre-submission validation for iOS App Store
-                </CardDescription>
-              </div>
+      <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6 shadow-2xl">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl">
+              <Shield className="h-10 w-10 text-slate-900" />
             </div>
-            <Button 
-              onClick={runAllTests} 
-              disabled={isRunning}
-              size="lg"
-              className="min-w-[180px] h-12 text-lg"
-            >
-              {isRunning ? (
-                <>
-                  <RefreshCw className="h-5 w-5 mr-2 animate-spin" />
-                  Testing...
-                </>
-              ) : (
-                <>
-                  <Play className="h-5 w-5 mr-2" />
-                  Run All Tests
-                </>
-              )}
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Card className="bg-white">
-                <CardContent className="pt-6">
-                  <p className="text-2xl font-bold text-green-600">{totalPassed}/{totalTests}</p>
-                  <p className="text-sm text-gray-600">Tests Passed</p>
-                </CardContent>
-              </Card>
-              <Card className={criticalFailures > 0 ? 'bg-red-100 border-2 border-red-500' : 'bg-white'}>
-                <CardContent className="pt-6">
-                  <p className="text-2xl font-bold text-red-600">{criticalFailures}</p>
-                  <p className="text-sm text-gray-600">🚨 Critical Issues</p>
-                </CardContent>
-              </Card>
-              <Card className={highRiskFailures > 0 ? 'bg-orange-100' : 'bg-white'}>
-                <CardContent className="pt-6">
-                  <p className="text-2xl font-bold text-orange-600">{highRiskFailures}</p>
-                  <p className="text-sm text-gray-600">High Risk Issues</p>
-                </CardContent>
-              </Card>
-              <Card className="bg-white">
-                <CardContent className="pt-6">
-                  <p className="text-2xl font-bold text-blue-600">{isNative ? '✅' : '⚠️'}</p>
-                  <p className="text-sm text-gray-600">{isNative ? 'Native' : 'Web'} Mode</p>
-                </CardContent>
-              </Card>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-white">🍎 Master Apple Review Test</h2>
+              <p className="text-blue-200 mt-1">
+                Comprehensive pre-submission validation for iOS App Store
+              </p>
             </div>
-
-            {isRunning && (
-              <div className="space-y-2">
-                <Progress value={progress} className="w-full h-4" />
-                <p className="text-sm font-medium text-gray-700">
-                  {currentTest ? `Testing: ${currentTest}...` : 'Initializing tests...'}
-                </p>
-              </div>
-            )}
-
-            {criticalFailures > 0 && (
-              <div className="bg-red-100 border-2 border-red-500 rounded-lg p-4">
-                <p className="text-red-800 font-bold text-lg">
-                  🚨 CRITICAL: Your app WILL BE REJECTED with {criticalFailures} critical issue(s)!
-                </p>
-                <p className="text-red-700 text-sm mt-1">Fix these issues before submitting to Apple.</p>
-              </div>
-            )}
           </div>
-        </CardContent>
-      </Card>
+          <Button 
+            onClick={runAllTests} 
+            disabled={isRunning}
+            size="lg"
+            className="min-w-[180px] h-12 text-lg bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-slate-900 font-bold"
+          >
+            {isRunning ? (
+              <>
+                <RefreshCw className="h-5 w-5 mr-2 animate-spin" />
+                Testing...
+              </>
+            ) : (
+              <>
+                <Play className="h-5 w-5 mr-2" />
+                Run All Tests
+              </>
+            )}
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4">
+            <p className="text-2xl font-bold text-green-400">{totalPassed}/{totalTests}</p>
+            <p className="text-sm text-blue-200">Tests Passed</p>
+          </div>
+          <div className={`backdrop-blur-xl border rounded-xl p-4 ${criticalFailures > 0 ? 'bg-red-500/20 border-red-400/50' : 'bg-white/5 border-white/10'}`}>
+            <p className="text-2xl font-bold text-red-400">{criticalFailures}</p>
+            <p className="text-sm text-blue-200">🚨 Critical Issues</p>
+          </div>
+          <div className={`backdrop-blur-xl border rounded-xl p-4 ${highRiskFailures > 0 ? 'bg-orange-500/20 border-orange-400/50' : 'bg-white/5 border-white/10'}`}>
+            <p className="text-2xl font-bold text-orange-400">{highRiskFailures}</p>
+            <p className="text-sm text-blue-200">High Risk Issues</p>
+          </div>
+          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-4">
+            <p className="text-2xl font-bold text-blue-400">{isNative ? '✅' : '⚠️'}</p>
+            <p className="text-sm text-blue-200">{isNative ? 'Native' : 'Web'} Mode</p>
+          </div>
+        </div>
+
+        {isRunning && (
+          <div className="space-y-2 mt-4">
+            <Progress value={progress} className="w-full h-4" />
+            <p className="text-sm font-medium text-blue-200">
+              {currentTest ? `Testing: ${currentTest}...` : 'Initializing tests...'}
+            </p>
+          </div>
+        )}
+
+        {criticalFailures > 0 && (
+          <div className="bg-red-500/20 border border-red-400/50 rounded-lg p-4 mt-4">
+            <p className="text-red-300 font-bold text-lg">
+              🚨 CRITICAL: Your app WILL BE REJECTED with {criticalFailures} critical issue(s)!
+            </p>
+            <p className="text-red-400 text-sm mt-1">Fix these issues before submitting to Apple.</p>
+          </div>
+        )}
+      </div>
 
       {/* Compliance Tests */}
-      <Card className="border-2 border-blue-500">
-        <CardHeader className="bg-blue-50">
+      <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-blue-500/20 border-b border-white/10 p-4">
           <div className="flex items-center gap-2">
-            <Shield className="h-6 w-6 text-blue-600" />
-            <CardTitle>Apple Compliance Tests (Previous Rejections)</CardTitle>
+            <Shield className="h-6 w-6 text-blue-400" />
+            <h3 className="text-xl font-bold text-white">Apple Compliance Tests (Previous Rejections)</h3>
           </div>
-        </CardHeader>
-        <CardContent className="pt-6">
+        </div>
+        <div className="p-6">
           <div className="space-y-3">
             {complianceTests.map((test) => (
               <div 
                 key={test.name}
-                className={`p-4 border-2 rounded-lg ${
+                className={`p-4 border rounded-lg backdrop-blur-xl ${
                   test.status === 'fail' && test.rejectionRisk === 'critical' 
-                    ? 'border-red-500 bg-red-50' 
-                    : 'border-gray-200'
+                    ? 'border-red-400/50 bg-red-500/20' 
+                    : 'border-white/10 bg-white/5'
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3 flex-1">
                     {getStatusIcon(test.status)}
                     <div className="flex-1">
-                      <p className="font-semibold">{test.name}</p>
-                      <p className="text-sm text-gray-600 mt-1">{test.message}</p>
+                      <p className="font-semibold text-white">{test.name}</p>
+                      <p className="text-sm text-blue-200 mt-1">{test.message}</p>
                       {test.details && (
-                        <p className="text-xs text-gray-500 mt-1 bg-gray-100 p-2 rounded">{test.details}</p>
+                        <p className="text-xs text-blue-300 mt-1 bg-white/5 p-2 rounded">{test.details}</p>
                       )}
                     </div>
                   </div>
@@ -621,130 +610,126 @@ const MasterAppleReviewTest: React.FC = () => {
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Frontend Tests */}
-      <Card>
-        <CardHeader className="bg-purple-50">
+      <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-purple-500/20 border-b border-white/10 p-4">
           <div className="flex items-center gap-2">
-            <Smartphone className="h-6 w-6 text-purple-600" />
-            <CardTitle>Frontend & UI Tests</CardTitle>
+            <Smartphone className="h-6 w-6 text-purple-400" />
+            <h3 className="text-xl font-bold text-white">Frontend & UI Tests</h3>
           </div>
-        </CardHeader>
-        <CardContent className="pt-6">
+        </div>
+        <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {frontendTests.map((test) => (
-              <div key={test.name} className="p-3 border rounded-lg">
+              <div key={test.name} className="p-3 border border-white/10 bg-white/5 rounded-lg">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-start gap-2 flex-1">
                     {getStatusIcon(test.status)}
                     <div className="flex-1">
-                      <p className="font-medium text-sm">{test.name}</p>
-                      <p className="text-xs text-gray-600 mt-1">{test.message}</p>
+                      <p className="font-medium text-sm text-white">{test.name}</p>
+                      <p className="text-xs text-blue-200 mt-1">{test.message}</p>
                     </div>
                   </div>
-                  {test.critical && <Badge variant="outline" className="text-xs">Critical</Badge>}
+                  {test.critical && <Badge variant="outline" className="text-xs border-yellow-400/50 text-yellow-400">Critical</Badge>}
                 </div>
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Backend Tests */}
-      <Card>
-        <CardHeader className="bg-green-50">
+      <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-green-500/20 border-b border-white/10 p-4">
           <div className="flex items-center gap-2">
-            <Database className="h-6 w-6 text-green-600" />
-            <CardTitle>Backend & API Tests</CardTitle>
+            <Database className="h-6 w-6 text-green-400" />
+            <h3 className="text-xl font-bold text-white">Backend & API Tests</h3>
           </div>
-        </CardHeader>
-        <CardContent className="pt-6">
+        </div>
+        <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {backendTests.map((test) => (
-              <div key={test.name} className="p-3 border rounded-lg">
+              <div key={test.name} className="p-3 border border-white/10 bg-white/5 rounded-lg">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-start gap-2 flex-1">
                     {getStatusIcon(test.status)}
                     <div className="flex-1">
-                      <p className="font-medium text-sm">{test.name}</p>
-                      <p className="text-xs text-gray-600 mt-1">{test.message}</p>
+                      <p className="font-medium text-sm text-white">{test.name}</p>
+                      <p className="text-xs text-blue-200 mt-1">{test.message}</p>
                     </div>
                   </div>
-                  {test.critical && <Badge variant="outline" className="text-xs">Critical</Badge>}
+                  {test.critical && <Badge variant="outline" className="text-xs border-yellow-400/50 text-yellow-400">Critical</Badge>}
                 </div>
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Native Features Tests */}
-      <Card>
-        <CardHeader className="bg-orange-50">
+      <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+        <div className="bg-orange-500/20 border-b border-white/10 p-4">
           <div className="flex items-center gap-2">
-            <Zap className="h-6 w-6 text-orange-600" />
-            <CardTitle>Native iOS Features</CardTitle>
+            <Zap className="h-6 w-6 text-orange-400" />
+            <h3 className="text-xl font-bold text-white">Native iOS Features</h3>
           </div>
-        </CardHeader>
-        <CardContent className="pt-6">
+        </div>
+        <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {nativeTests.map((test) => (
-              <div key={test.name} className="p-3 border rounded-lg">
+              <div key={test.name} className="p-3 border border-white/10 bg-white/5 rounded-lg">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-start gap-2 flex-1">
                     {getStatusIcon(test.status)}
                     <div className="flex-1">
-                      <p className="font-medium text-sm">{test.name}</p>
-                      <p className="text-xs text-gray-600 mt-1">{test.message}</p>
+                      <p className="font-medium text-sm text-white">{test.name}</p>
+                      <p className="text-xs text-blue-200 mt-1">{test.message}</p>
                       {test.details && (
-                        <p className="text-xs text-gray-500 mt-1">{test.details}</p>
+                        <p className="text-xs text-blue-300 mt-1">{test.details}</p>
                       )}
                     </div>
                   </div>
-                  {test.critical && <Badge variant="outline" className="text-xs">Critical</Badge>}
+                  {test.critical && <Badge variant="outline" className="text-xs border-yellow-400/50 text-yellow-400">Critical</Badge>}
                 </div>
               </div>
             ))}
           </div>
           {!isNative && (
-            <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <p className="text-sm text-yellow-800">
+            <div className="mt-4 p-4 bg-yellow-500/20 border border-yellow-400/50 rounded-lg">
+              <p className="text-sm text-yellow-300">
                 ⚠️ <strong>Important:</strong> Native tests require running on a physical iOS device or simulator. 
-                Deploy with <code className="bg-yellow-100 px-1 rounded">npx cap run ios</code> to test these features.
+                Deploy with <code className="bg-white/10 px-1 rounded">npx cap run ios</code> to test these features.
               </p>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* System Info */}
-      <Card>
-        <CardHeader>
-          <CardTitle>System Information</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-            <div>
-              <p className="font-medium text-gray-700">Platform</p>
-              <p className="text-gray-600">{isNative ? `Native (${Capacitor.getPlatform()})` : 'Web Browser'}</p>
-            </div>
-            <div>
-              <p className="font-medium text-gray-700">User Status</p>
-              <p className="text-gray-600">{user ? `✅ ${user.email}` : '❌ Not logged in'}</p>
-            </div>
-            <div>
-              <p className="font-medium text-gray-700">Subscription</p>
-              <p className="text-gray-600">{subscriptionInfo?.subscription_tier || 'Free'}</p>
-            </div>
-            <div>
-              <p className="font-medium text-gray-700">Viewport</p>
-              <p className="text-gray-600">{window.innerWidth}x{window.innerHeight}px</p>
-            </div>
+      <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6">
+        <h3 className="text-xl font-bold text-white mb-4">System Information</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div>
+            <p className="font-medium text-yellow-400">Platform</p>
+            <p className="text-blue-200">{isNative ? `Native (${Capacitor.getPlatform()})` : 'Web Browser'}</p>
           </div>
-        </CardContent>
-      </Card>
+          <div>
+            <p className="font-medium text-yellow-400">User Status</p>
+            <p className="text-blue-200">{user ? `✅ ${user.email}` : '❌ Not logged in'}</p>
+          </div>
+          <div>
+            <p className="font-medium text-yellow-400">Subscription</p>
+            <p className="text-blue-200">{subscriptionInfo?.subscription_tier || 'Free'}</p>
+          </div>
+          <div>
+            <p className="font-medium text-yellow-400">Viewport</p>
+            <p className="text-blue-200">{window.innerWidth}x{window.innerHeight}px</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
