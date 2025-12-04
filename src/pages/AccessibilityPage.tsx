@@ -239,13 +239,18 @@ const AccessibilityPage: React.FC = () => {
               <p className="text-white/80 mb-4">
                 We continuously improve our accessibility. Your feedback helps us build a more inclusive platform.
               </p>
-              <Button 
-                className="w-full bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold"
-                onClick={() => window.location.href = 'mailto:contact@mansamusamarketplace.com?subject=Accessibility Feedback'}
+              <a 
+                href="mailto:contact@mansamusamarketplace.com?subject=Accessibility Feedback"
+                className="w-full"
               >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                Share Feedback
-              </Button>
+                <Button 
+                  className="w-full bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold"
+                  type="button"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  Share Feedback
+                </Button>
+              </a>
             </div>
           </div>
 
