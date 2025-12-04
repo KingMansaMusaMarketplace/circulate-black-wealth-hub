@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import AdminAnalyticsDashboard from '@/components/admin/AdminAnalyticsDashboard';
 import VerificationQueue from '@/components/admin/verification/VerificationQueue';
@@ -17,11 +17,29 @@ import SystemSettings from '@/components/admin/SystemSettings';
 import BroadcastAnnouncements from '@/components/admin/BroadcastAnnouncements';
 import AdminAIDashboard from '@/components/admin/ai/AdminAIDashboard';
 import RequireAdmin from '@/components/auth/RequireAdmin';
+import HelpPanel from '@/components/admin/HelpPanel';
+import DashboardAIAssistant from '@/components/admin/DashboardAIAssistant';
+import OnboardingTour from '@/components/admin/OnboardingTour';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BarChart3, Users, QrCode, ShieldCheck, Settings, Building2, DollarSign, Mail, UserCog, Ban, CheckSquare, Activity, Megaphone, Sliders, Bot } from 'lucide-react';
+import { BarChart3, Users, QrCode, ShieldCheck, Settings, Building2, DollarSign, Mail, UserCog, Ban, CheckSquare, Activity, Megaphone, Sliders, Bot, PlayCircle } from 'lucide-react';
 
 const AdminDashboardPage: React.FC = () => {
   const { user, userType } = useAuth();
+  const [showTour, setShowTour] = useState(false);
+
+  // Check if user has seen the tour
+  useEffect(() => {
+    const hasSeenTour = localStorage.getItem('admin-dashboard-page-tour-completed');
+    if (!hasSeenTour) {
+      setTimeout(() => setShowTour(true), 1000);
+    }
+  }, []);
+
+  const handleTourComplete = () => {
+    setShowTour(false);
+    localStorage.setItem('admin-dashboard-page-tour-completed', 'true');
+  };
 
   return (
     <RequireAdmin>
@@ -49,8 +67,22 @@ const AdminDashboardPage: React.FC = () => {
                   Manage verifications, monitor agent performance, and track QR analytics.
                 </p>
               </div>
-              <div className="text-sm text-white/80 glass-card px-4 py-2 rounded-full border border-mansagold/30">
-                <span className="text-mansagold">●</span> Logged in as: {user?.email} ({userType || 'unknown'})
+              <div className="flex items-center gap-3">
+                {/* Help Features */}
+                <HelpPanel />
+                <DashboardAIAssistant />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowTour(true)}
+                  className="flex items-center gap-2 border-mansagold/30 text-mansagold hover:bg-mansagold/10"
+                >
+                  <PlayCircle className="h-4 w-4" />
+                  Tour
+                </Button>
+                <div className="text-sm text-white/80 glass-card px-4 py-2 rounded-full border border-mansagold/30">
+                  <span className="text-mansagold">●</span> Logged in as: {user?.email} ({userType || 'unknown'})
+                </div>
               </div>
             </div>
           </div>
@@ -185,6 +217,9 @@ const AdminDashboardPage: React.FC = () => {
             </Tabs>
           </div>
         </div>
+
+        {/* Onboarding Tour */}
+        {showTour && <OnboardingTour onComplete={handleTourComplete} />}
       </div>
     </RequireAdmin>
   );
