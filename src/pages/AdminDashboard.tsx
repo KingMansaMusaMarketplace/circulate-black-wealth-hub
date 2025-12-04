@@ -21,6 +21,13 @@ import AdminFinancials from '@/components/admin/AdminFinancials';
 import AdminSecurity from '@/components/admin/AdminSecurity';
 import AdminFraudAlerts from '@/components/admin/AdminFraudAlerts';
 import AdminActivityLog from '@/components/admin/AdminActivityLog';
+import CommandPalette from '@/components/admin/CommandPalette';
+import NotificationCenter from '@/components/admin/NotificationCenter';
+import ExportReportsDialog from '@/components/admin/ExportReportsDialog';
+import SystemHealthMonitor from '@/components/admin/SystemHealthMonitor';
+import QuickActionsFAB from '@/components/admin/QuickActionsFAB';
+import KeyboardShortcutsHelp from '@/components/admin/KeyboardShortcutsHelp';
+import AdminBreadcrumb from '@/components/admin/AdminBreadcrumb';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -30,6 +37,7 @@ const AdminDashboard: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [checkingAdmin, setCheckingAdmin] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
 
   useEffect(() => {
     // Wait for auth to initialize before checking admin access
@@ -43,8 +51,38 @@ const AdminDashboard: React.FC = () => {
     checkAdminAccess();
   }, [user, authLoading]);
 
-  const checkAdminAccess = async () => {
+  // Keyboard shortcuts for navigation
+  useEffect(() => {
+    let lastKey = '';
+    let keyTimeout: NodeJS.Timeout;
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore if in input/textarea
+      if ((e.target as HTMLElement).tagName === 'INPUT' || (e.target as HTMLElement).tagName === 'TEXTAREA') return;
+
+      clearTimeout(keyTimeout);
+      
+      if (lastKey === 'g') {
+        switch (e.key.toLowerCase()) {
+          case 'o': setActiveTab('overview'); break;
+          case 'u': setActiveTab('users'); break;
+          case 'b': setActiveTab('businesses'); break;
+          case 'a': setActiveTab('agents'); break;
+          case 'f': setActiveTab('financials'); break;
+          case 's': setActiveTab('security'); break;
+        }
+        lastKey = '';
+      } else if (e.key === 'g') {
+        lastKey = 'g';
+        keyTimeout = setTimeout(() => { lastKey = ''; }, 1000);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const checkAdminAccess = async () => {
     try {
       const { data, error } = await supabase.rpc('is_admin_secure');
       
@@ -102,6 +140,19 @@ const AdminDashboard: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
 
       <div className="relative z-10 container mx-auto px-4 py-8">
+        {/* Top Bar */}
+        <div className="flex items-center justify-between mb-6">
+          <AdminBreadcrumb currentTab={activeTab} tabs={tabs} />
+          
+          <div className="flex items-center gap-2">
+            <SystemHealthMonitor />
+            <div className="h-6 w-px bg-white/10 mx-2 hidden md:block" />
+            <CommandPalette onTabChange={setActiveTab} onExportOpen={() => setExportDialogOpen(true)} />
+            <NotificationCenter />
+            <KeyboardShortcutsHelp />
+          </div>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
@@ -161,6 +212,12 @@ const AdminDashboard: React.FC = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Quick Actions FAB */}
+      <QuickActionsFAB onExportOpen={() => setExportDialogOpen(true)} />
+
+      {/* Export Dialog */}
+      <ExportReportsDialog open={exportDialogOpen} onOpenChange={setExportDialogOpen} />
     </div>
   );
 };
