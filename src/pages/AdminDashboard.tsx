@@ -26,20 +26,24 @@ import { toast } from 'sonner';
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [checkingAdmin, setCheckingAdmin] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
-    checkAdminAccess();
-  }, [user]);
-
-  const checkAdminAccess = async () => {
+    // Wait for auth to initialize before checking admin access
+    if (authLoading) return;
+    
     if (!user) {
       navigate('/login');
       return;
     }
+    
+    checkAdminAccess();
+  }, [user, authLoading]);
+
+  const checkAdminAccess = async () => {
 
     try {
       const { data, error } = await supabase.rpc('is_admin_secure');
@@ -58,11 +62,11 @@ const AdminDashboard: React.FC = () => {
       toast.error('Failed to verify admin access');
       navigate('/');
     } finally {
-      setLoading(false);
+      setCheckingAdmin(false);
     }
   };
 
-  if (loading) {
+  if (authLoading || checkingAdmin) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-400"></div>
