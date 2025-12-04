@@ -4,10 +4,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, User, Mail, Calendar, Shield, RefreshCw } from 'lucide-react';
+import { Search, User, Mail, Calendar, Shield, RefreshCw, ShieldCheck, ShieldOff } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface UserProfile {
   id: string;
@@ -18,14 +28,27 @@ interface UserProfile {
   avatar_url: string | null;
 }
 
+interface UserRole {
+  user_id: string;
+  role: string;
+}
+
 const AdminUsers: React.FC = () => {
   const [users, setUsers] = useState<UserProfile[]>([]);
+  const [userRoles, setUserRoles] = useState<UserRole[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
+  const [confirmDialog, setConfirmDialog] = useState<{
+    open: boolean;
+    userId: string;
+    userName: string;
+    action: 'grant' | 'revoke';
+  }>({ open: false, userId: '', userName: '', action: 'grant' });
 
   useEffect(() => {
     fetchUsers();
+    fetchUserRoles();
   }, []);
 
   const fetchUsers = async () => {
@@ -43,6 +66,72 @@ const AdminUsers: React.FC = () => {
       toast.error('Failed to fetch users');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchUserRoles = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('user_id, role');
+
+      if (error) throw error;
+      setUserRoles(data || []);
+    } catch (error) {
+      console.error('Error fetching user roles:', error);
+    }
+  };
+
+  const isAdmin = (userId: string) => {
+    return userRoles.some(ur => ur.user_id === userId && ur.role === 'admin');
+  };
+
+  const handleAdminToggle = (userId: string, userName: string, currentlyAdmin: boolean) => {
+    setConfirmDialog({
+      open: true,
+      userId,
+      userName: userName || 'this user',
+      action: currentlyAdmin ? 'revoke' : 'grant'
+    });
+  };
+
+  const confirmAdminChange = async () => {
+    const { userId, action } = confirmDialog;
+    
+    try {
+      if (action === 'grant') {
+        // Grant admin access
+        const { error } = await supabase
+          .from('user_roles')
+          .insert({ user_id: userId, role: 'admin' });
+        
+        if (error) {
+          if (error.code === '23505') {
+            toast.info('User already has admin access');
+          } else {
+            throw error;
+          }
+        } else {
+          toast.success('Admin access granted successfully');
+        }
+      } else {
+        // Revoke admin access
+        const { error } = await supabase
+          .from('user_roles')
+          .delete()
+          .eq('user_id', userId)
+          .eq('role', 'admin');
+        
+        if (error) throw error;
+        toast.success('Admin access revoked successfully');
+      }
+      
+      fetchUserRoles();
+    } catch (error: any) {
+      console.error('Error changing admin status:', error);
+      toast.error(error.message || 'Failed to change admin status');
+    } finally {
+      setConfirmDialog({ open: false, userId: '', userName: '', action: 'grant' });
     }
   };
 
@@ -68,6 +157,10 @@ const AdminUsers: React.FC = () => {
     const matchesSearch = 
       user.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    if (roleFilter === 'admin') {
+      return matchesSearch && isAdmin(user.id);
+    }
     const matchesRole = roleFilter === 'all' || user.role === roleFilter;
     return matchesSearch && matchesRole;
   });
@@ -102,13 +195,13 @@ const AdminUsers: React.FC = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Roles</SelectItem>
-                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="admin">Admins Only</SelectItem>
                 <SelectItem value="business">Business</SelectItem>
                 <SelectItem value="sales_agent">Sales Agent</SelectItem>
                 <SelectItem value="customer">Customer</SelectItem>
               </SelectContent>
             </Select>
-            <Button onClick={fetchUsers} variant="outline" className="border-white/10 text-blue-200 hover:bg-white/10">
+            <Button onClick={() => { fetchUsers(); fetchUserRoles(); }} variant="outline" className="border-white/10 text-blue-200 hover:bg-white/10">
               <RefreshCw className="h-4 w-4 mr-2" />
               Refresh
             </Button>
@@ -133,49 +226,88 @@ const AdminUsers: React.FC = () => {
             </div>
           ) : (
             <div className="space-y-3">
-              {filteredUsers.map((user) => (
-                <div
-                  key={user.id}
-                  className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10 gap-4"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
-                      {user.full_name?.charAt(0) || user.email?.charAt(0) || '?'}
+              {filteredUsers.map((user) => {
+                const userIsAdmin = isAdmin(user.id);
+                return (
+                  <div
+                    key={user.id}
+                    className={`flex flex-col md:flex-row md:items-center justify-between p-4 rounded-lg border gap-4 ${
+                      userIsAdmin 
+                        ? 'bg-red-500/10 border-red-500/30' 
+                        : 'bg-white/5 border-white/10'
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
+                        userIsAdmin 
+                          ? 'bg-gradient-to-br from-red-500 to-orange-500' 
+                          : 'bg-gradient-to-br from-blue-500 to-purple-500'
+                      }`}>
+                        {user.full_name?.charAt(0) || user.email?.charAt(0) || '?'}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className="text-white font-medium">{user.full_name || 'No name'}</p>
+                          {userIsAdmin && (
+                            <Badge className="bg-red-500/20 text-red-400 border-red-500/30">
+                              <ShieldCheck className="h-3 w-3 mr-1" />
+                              ADMIN
+                            </Badge>
+                          )}
+                        </div>
+                        <p className="text-blue-300 text-sm flex items-center gap-1">
+                          <Mail className="h-3 w-3" />
+                          {user.email}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-white font-medium">{user.full_name || 'No name'}</p>
+                    <div className="flex items-center gap-4 flex-wrap">
+                      <Badge className={getRoleBadgeColor(user.role)}>
+                        {user.role || 'customer'}
+                      </Badge>
                       <p className="text-blue-300 text-sm flex items-center gap-1">
-                        <Mail className="h-3 w-3" />
-                        {user.email}
+                        <Calendar className="h-3 w-3" />
+                        {format(new Date(user.created_at), 'MMM d, yyyy')}
                       </p>
+                      <Select
+                        value={user.role || 'customer'}
+                        onValueChange={(value) => updateUserRole(user.id, value)}
+                      >
+                        <SelectTrigger className="w-32 bg-white/5 border-white/10 text-white text-xs">
+                          <Shield className="h-3 w-3 mr-1" />
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="customer">Customer</SelectItem>
+                          <SelectItem value="business">Business</SelectItem>
+                          <SelectItem value="sales_agent">Sales Agent</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        variant={userIsAdmin ? "destructive" : "outline"}
+                        size="sm"
+                        onClick={() => handleAdminToggle(user.id, user.full_name || user.email || '', userIsAdmin)}
+                        className={userIsAdmin 
+                          ? "bg-red-600 hover:bg-red-700 text-white" 
+                          : "border-green-500/30 text-green-400 hover:bg-green-500/20"
+                        }
+                      >
+                        {userIsAdmin ? (
+                          <>
+                            <ShieldOff className="h-4 w-4 mr-1" />
+                            Revoke Admin
+                          </>
+                        ) : (
+                          <>
+                            <ShieldCheck className="h-4 w-4 mr-1" />
+                            Grant Admin
+                          </>
+                        )}
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <Badge className={getRoleBadgeColor(user.role)}>
-                      {user.role || 'customer'}
-                    </Badge>
-                    <p className="text-blue-300 text-sm flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      {format(new Date(user.created_at), 'MMM d, yyyy')}
-                    </p>
-                    <Select
-                      value={user.role || 'customer'}
-                      onValueChange={(value) => updateUserRole(user.id, value)}
-                    >
-                      <SelectTrigger className="w-32 bg-white/5 border-white/10 text-white text-xs">
-                        <Shield className="h-3 w-3 mr-1" />
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="customer">Customer</SelectItem>
-                        <SelectItem value="business">Business</SelectItem>
-                        <SelectItem value="sales_agent">Sales Agent</SelectItem>
-                        <SelectItem value="admin">Admin</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
               {filteredUsers.length === 0 && (
                 <div className="text-center py-8 text-blue-300">
                   No users found matching your criteria
@@ -185,6 +317,37 @@ const AdminUsers: React.FC = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Confirmation Dialog */}
+      <AlertDialog open={confirmDialog.open} onOpenChange={(open) => setConfirmDialog(prev => ({ ...prev, open }))}>
+        <AlertDialogContent className="bg-slate-900 border-white/10">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-white">
+              {confirmDialog.action === 'grant' ? 'Grant Admin Access' : 'Revoke Admin Access'}
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-blue-300">
+              {confirmDialog.action === 'grant' 
+                ? `Are you sure you want to grant admin access to ${confirmDialog.userName}? They will have full access to the admin dashboard.`
+                : `Are you sure you want to revoke admin access from ${confirmDialog.userName}? They will no longer be able to access the admin dashboard.`
+              }
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="bg-white/5 border-white/10 text-white hover:bg-white/10">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmAdminChange}
+              className={confirmDialog.action === 'grant' 
+                ? "bg-green-600 hover:bg-green-700" 
+                : "bg-red-600 hover:bg-red-700"
+              }
+            >
+              {confirmDialog.action === 'grant' ? 'Grant Access' : 'Revoke Access'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
