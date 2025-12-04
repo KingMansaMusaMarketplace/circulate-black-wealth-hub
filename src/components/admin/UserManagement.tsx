@@ -129,78 +129,78 @@ const UserManagement: React.FC = () => {
 
   const getUserTypeBadge = (type: string | null) => {
     const colors: Record<string, string> = {
-      customer: 'bg-blue-100 text-blue-800',
-      business: 'bg-green-100 text-green-800',
-      sales_agent: 'bg-purple-100 text-purple-800',
+      customer: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+      business: 'bg-green-500/20 text-green-300 border-green-500/30',
+      sales_agent: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
     };
-    return <Badge className={colors[type || ''] || 'bg-gray-100'}>{type || 'Unknown'}</Badge>;
+    return <Badge className={colors[type || ''] || 'bg-white/10 text-white/70 border-white/20'}>{type || 'Unknown'}</Badge>;
   };
 
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
+        <Card className="backdrop-blur-xl bg-white/5 border-white/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Total Users</CardTitle>
+            <CardTitle className="text-sm font-medium text-white/70">Total Users</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{userStats.total}</div>
+            <div className="text-2xl font-bold text-white">{userStats.total}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="backdrop-blur-xl bg-white/5 border-white/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Customers</CardTitle>
+            <CardTitle className="text-sm font-medium text-white/70">Customers</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{userStats.customers}</div>
+            <div className="text-2xl font-bold text-blue-400">{userStats.customers}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="backdrop-blur-xl bg-white/5 border-white/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Businesses</CardTitle>
+            <CardTitle className="text-sm font-medium text-white/70">Businesses</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{userStats.businesses}</div>
+            <div className="text-2xl font-bold text-green-400">{userStats.businesses}</div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="backdrop-blur-xl bg-white/5 border-white/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Sales Agents</CardTitle>
+            <CardTitle className="text-sm font-medium text-white/70">Sales Agents</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{userStats.agents}</div>
+            <div className="text-2xl font-bold text-purple-400">{userStats.agents}</div>
           </CardContent>
         </Card>
       </div>
 
       <Tabs defaultValue="all-users">
-        <TabsList>
-          <TabsTrigger value="all-users" className="flex items-center gap-2">
+        <TabsList className="bg-white/5 border-white/10">
+          <TabsTrigger value="all-users" className="flex items-center gap-2 data-[state=active]:bg-white/10 data-[state=active]:text-white text-white/70">
             <UsersIcon className="h-4 w-4" />
             All Users
           </TabsTrigger>
-          <TabsTrigger value="deletion-requests" className="flex items-center gap-2">
+          <TabsTrigger value="deletion-requests" className="flex items-center gap-2 data-[state=active]:bg-white/10 data-[state=active]:text-white text-white/70">
             <UserX className="h-4 w-4" />
             Deletion Requests {deletionRequests.length > 0 && `(${deletionRequests.length})`}
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="all-users">
-          <Card>
+          <Card className="backdrop-blur-xl bg-white/5 border-white/10">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>All Users</CardTitle>
-                  <CardDescription>Manage all platform users</CardDescription>
+                  <CardTitle className="text-white">All Users</CardTitle>
+                  <CardDescription className="text-white/60">Manage all platform users</CardDescription>
                 </div>
                 <div className="relative w-64">
-                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-white/50" />
                   <Input
                     placeholder="Search users..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-8"
+                    className="pl-8 bg-white/5 border-white/10 text-white placeholder:text-white/50"
                   />
                 </div>
               </div>
@@ -209,27 +209,27 @@ const UserManagement: React.FC = () => {
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
-                    <TableRow>
-                      <TableHead>Email</TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Joined</TableHead>
-                      <TableHead>Actions</TableHead>
+                    <TableRow className="border-white/10 hover:bg-white/5">
+                      <TableHead className="text-white/80">Email</TableHead>
+                      <TableHead className="text-white/80">Name</TableHead>
+                      <TableHead className="text-white/80">Type</TableHead>
+                      <TableHead className="text-white/80">Joined</TableHead>
+                      <TableHead className="text-white/80">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredUsers.map((user) => (
-                      <TableRow key={user.id}>
-                        <TableCell>
+                      <TableRow key={user.id} className="border-white/10 hover:bg-white/5">
+                        <TableCell className="text-white">
                           <div className="flex items-center gap-2">
-                            <Mail className="h-4 w-4 text-gray-400" />
+                            <Mail className="h-4 w-4 text-blue-400" />
                             {user.email}
                           </div>
                         </TableCell>
-                        <TableCell>{user.full_name || 'N/A'}</TableCell>
+                        <TableCell className="text-white/80">{user.full_name || 'N/A'}</TableCell>
                         <TableCell>{getUserTypeBadge(user.user_type)}</TableCell>
                         <TableCell>
-                          <div className="flex items-center gap-1 text-sm">
+                          <div className="flex items-center gap-1 text-sm text-white/70">
                             <Calendar className="h-3 w-3" />
                             {format(new Date(user.created_at), 'MMM d, yyyy')}
                           </div>
@@ -238,6 +238,7 @@ const UserManagement: React.FC = () => {
                           <Button
                             size="sm"
                             variant="outline"
+                            className="border-white/20 text-white hover:bg-white/10"
                             onClick={() => {
                               setSelectedUser(user);
                               setIsDetailsOpen(true);
@@ -256,31 +257,31 @@ const UserManagement: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="deletion-requests">
-          <Card>
+          <Card className="backdrop-blur-xl bg-white/5 border-white/10">
             <CardHeader>
-              <CardTitle>Account Deletion Requests</CardTitle>
-              <CardDescription>Review and process user deletion requests</CardDescription>
+              <CardTitle className="text-white">Account Deletion Requests</CardTitle>
+              <CardDescription className="text-white/60">Review and process user deletion requests</CardDescription>
             </CardHeader>
             <CardContent>
               {deletionRequests.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 text-white/50">
                   No pending deletion requests
                 </div>
               ) : (
                 <div className="space-y-4">
                   {deletionRequests.map((request) => (
-                    <div key={request.id} className="border rounded-lg p-4">
+                    <div key={request.id} className="border border-white/10 rounded-lg p-4 bg-white/5">
                       <div className="flex items-start justify-between">
                         <div className="space-y-2">
-                          <div className="font-medium">{request.profiles.email}</div>
+                          <div className="font-medium text-white">{request.profiles.email}</div>
                           {request.profiles.full_name && (
-                            <div className="text-sm text-gray-600">{request.profiles.full_name}</div>
+                            <div className="text-sm text-white/70">{request.profiles.full_name}</div>
                           )}
-                          <div className="text-sm text-gray-500">
+                          <div className="text-sm text-white/50">
                             Requested: {format(new Date(request.requested_at), 'MMM d, yyyy h:mm a')}
                           </div>
                           {request.reason && (
-                            <div className="text-sm">
+                            <div className="text-sm text-white/80">
                               <span className="font-medium">Reason:</span> {request.reason}
                             </div>
                           )}
@@ -296,6 +297,7 @@ const UserManagement: React.FC = () => {
                           <Button
                             size="sm"
                             variant="outline"
+                            className="border-white/20 text-white hover:bg-white/10"
                             onClick={() => handleRejectDeletion(request.id)}
                           >
                             Reject
@@ -313,38 +315,38 @@ const UserManagement: React.FC = () => {
 
       {/* User Details Dialog */}
       <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl bg-slate-900 border-white/10">
           <DialogHeader>
-            <DialogTitle>User Details</DialogTitle>
+            <DialogTitle className="text-white">User Details</DialogTitle>
           </DialogHeader>
           {selectedUser && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-sm font-medium text-gray-500">Email</div>
-                  <div>{selectedUser.email}</div>
+                  <div className="text-sm font-medium text-white/60">Email</div>
+                  <div className="text-white">{selectedUser.email}</div>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-500">Full Name</div>
-                  <div>{selectedUser.full_name || 'N/A'}</div>
+                  <div className="text-sm font-medium text-white/60">Full Name</div>
+                  <div className="text-white">{selectedUser.full_name || 'N/A'}</div>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-500">User Type</div>
+                  <div className="text-sm font-medium text-white/60">User Type</div>
                   <div>{getUserTypeBadge(selectedUser.user_type)}</div>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-500">Phone</div>
-                  <div>{selectedUser.phone || 'N/A'}</div>
+                  <div className="text-sm font-medium text-white/60">Phone</div>
+                  <div className="text-white">{selectedUser.phone || 'N/A'}</div>
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-gray-500">Account Created</div>
-                  <div>{format(new Date(selectedUser.created_at), 'MMM d, yyyy h:mm a')}</div>
+                  <div className="text-sm font-medium text-white/60">Account Created</div>
+                  <div className="text-white">{format(new Date(selectedUser.created_at), 'MMM d, yyyy h:mm a')}</div>
                 </div>
               </div>
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsDetailsOpen(false)}>
+            <Button variant="outline" className="border-white/20 text-white hover:bg-white/10" onClick={() => setIsDetailsOpen(false)}>
               Close
             </Button>
           </DialogFooter>
