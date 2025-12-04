@@ -39,41 +39,41 @@ export const FAQSection: React.FC = () => {
       {/* Header */}
       <div className="text-center">
         <div className="flex items-center justify-center gap-2 mb-4">
-          <HelpCircle className="w-8 h-8 text-mansablue" />
-          <h2 className="text-2xl font-bold text-gray-900">
+          <HelpCircle className="w-8 h-8 text-yellow-400" />
+          <h2 className="text-2xl font-bold text-white">
             Frequently Asked Questions
           </h2>
         </div>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+        <p className="text-blue-200 max-w-2xl mx-auto">
           Find quick answers to common questions about using Mansa Musa Marketplace.
         </p>
       </div>
 
       {/* Search and controls */}
-      <Card>
+      <Card className="backdrop-blur-xl bg-white/5 border border-white/10">
         <CardContent className="p-4">
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300 w-4 h-4" />
               <Input
                 placeholder="Search FAQ..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 bg-white/10 border-white/20 text-white placeholder:text-blue-300/60"
               />
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={expandAll}>
+              <Button variant="outline" size="sm" onClick={expandAll} className="border-white/20 text-blue-200 hover:bg-white/10 hover:text-white">
                 Expand All
               </Button>
-              <Button variant="outline" size="sm" onClick={collapseAll}>
+              <Button variant="outline" size="sm" onClick={collapseAll} className="border-white/20 text-blue-200 hover:bg-white/10 hover:text-white">
                 Collapse All
               </Button>
             </div>
           </div>
           {searchTerm && (
             <div className="mt-3">
-              <Badge variant="secondary">
+              <Badge variant="secondary" className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30">
                 {filteredFAQs.length} result{filteredFAQs.length !== 1 ? 's' : ''} found
               </Badge>
             </div>
@@ -84,35 +84,35 @@ export const FAQSection: React.FC = () => {
       {/* FAQ Items */}
       <div className="space-y-3">
         {filteredFAQs.length === 0 ? (
-          <Card>
+          <Card className="backdrop-blur-xl bg-white/5 border border-white/10">
             <CardContent className="p-8 text-center">
-              <HelpCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">
+              <HelpCircle className="w-12 h-12 text-blue-400 mx-auto mb-4" />
+              <p className="text-blue-200">
                 No FAQ items match your search. Try different keywords or browse all questions.
               </p>
             </CardContent>
           </Card>
         ) : (
           filteredFAQs.map((item, index) => (
-            <Card key={index} className="overflow-hidden">
+            <Card key={index} className="overflow-hidden backdrop-blur-xl bg-white/5 border border-white/10">
               <CardHeader 
-                className="cursor-pointer hover:bg-gray-50 transition-colors p-4"
+                className="cursor-pointer hover:bg-white/10 transition-colors p-4"
                 onClick={() => toggleExpanded(index)}
               >
                 <CardTitle className="flex items-center justify-between text-lg">
-                  <span className="text-gray-900 pr-4">{item.question}</span>
+                  <span className="text-white pr-4">{item.question}</span>
                   {expandedItems.has(index) ? (
-                    <ChevronUp className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                    <ChevronUp className="w-5 h-5 text-yellow-400 flex-shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                    <ChevronDown className="w-5 h-5 text-blue-300 flex-shrink-0" />
                   )}
                 </CardTitle>
               </CardHeader>
               
               {expandedItems.has(index) && (
                 <CardContent className="pt-0 pb-4 px-4">
-                  <div className="border-t pt-4">
-                    <p className="text-gray-600 leading-relaxed">{item.answer}</p>
+                  <div className="border-t border-white/10 pt-4">
+                    <p className="text-blue-100 leading-relaxed">{item.answer}</p>
                   </div>
                 </CardContent>
               )}
@@ -122,16 +122,16 @@ export const FAQSection: React.FC = () => {
       </div>
 
       {/* Contact support */}
-      <Card className="bg-gradient-to-r from-mansablue/5 to-mansagold/5 border-mansablue/20">
+      <Card className="backdrop-blur-xl bg-gradient-to-r from-blue-500/10 to-yellow-500/10 border border-white/10">
         <CardContent className="p-6 text-center">
-          <h3 className="font-semibold text-gray-900 mb-2">
+          <h3 className="font-semibold text-white mb-2">
             Still need help?
           </h3>
-          <p className="text-gray-600 mb-4">
+          <p className="text-blue-200 mb-4">
             Can't find what you're looking for? Our support team is here to help.
           </p>
           <Button 
-            className="bg-gradient-to-r from-mansablue to-mansagold hover:from-mansablue-dark hover:to-mansagold-dark text-white"
+            className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-slate-900 font-semibold"
             onClick={() => window.location.href = '/contact'}
           >
             Contact Support
