@@ -1,9 +1,8 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Settings } from 'lucide-react';
+import { Settings, Play } from 'lucide-react';
 import { TestSummaryProps } from '../types';
 
 export const TestSummary: React.FC<TestSummaryProps> = ({
@@ -16,52 +15,55 @@ export const TestSummary: React.FC<TestSummaryProps> = ({
   onRunAllTests
 }) => {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Settings className="h-5 w-5" />
+    <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+      <div className="p-6 border-b border-white/10">
+        <h2 className="text-xl font-bold text-white flex items-center gap-2">
+          <Settings className="h-5 w-5 text-yellow-400" />
           System Health Dashboard
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-green-600">{passedCritical}</div>
-            <div className="text-sm text-gray-600">Critical Systems Pass</div>
+        </h2>
+      </div>
+      <div className="p-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div className="text-center p-4 bg-green-500/10 rounded-xl border border-green-500/20">
+            <div className="text-2xl font-bold text-green-400">{passedCritical}</div>
+            <div className="text-sm text-green-300/80">Critical Systems Pass</div>
           </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-red-600">{failedCritical}</div>
-            <div className="text-sm text-gray-600">Critical Failures</div>
+          <div className="text-center p-4 bg-red-500/10 rounded-xl border border-red-500/20">
+            <div className="text-2xl font-bold text-red-400">{failedCritical}</div>
+            <div className="text-sm text-red-300/80">Critical Failures</div>
           </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">{tests.filter(t => t.status === 'success').length}</div>
-            <div className="text-sm text-gray-600">Total Passed</div>
+          <div className="text-center p-4 bg-blue-500/10 rounded-xl border border-blue-500/20">
+            <div className="text-2xl font-bold text-blue-400">{tests.filter(t => t.status === 'success').length}</div>
+            <div className="text-sm text-blue-300/80">Total Passed</div>
           </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-gray-600">{tests.length}</div>
-            <div className="text-sm text-gray-600">Total Tests</div>
+          <div className="text-center p-4 bg-white/5 rounded-xl border border-white/10">
+            <div className="text-2xl font-bold text-white">{tests.length}</div>
+            <div className="text-sm text-white/60">Total Tests</div>
           </div>
         </div>
         
         {isRunning && (
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
+          <div className="space-y-2 mb-4 p-4 bg-white/5 rounded-xl border border-white/10">
+            <div className="flex justify-between text-sm text-white">
               <span>Running tests...</span>
-              <span>{Math.round(progress)}%</span>
+              <span className="text-yellow-400">{Math.round(progress)}%</span>
             </div>
-            <Progress value={progress} className="w-full" />
+            <Progress value={progress} className="w-full bg-white/10" />
             {currentTest && (
-              <div className="text-sm text-gray-600">Testing: {currentTest}</div>
+              <div className="text-sm text-blue-200">Testing: {currentTest}</div>
             )}
           </div>
         )}
         
-        <div className="flex gap-2 mt-4">
-          <Button onClick={onRunAllTests} disabled={isRunning}>
-            {isRunning ? 'Running Tests...' : 'Run All Tests'}
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+        <Button 
+          onClick={onRunAllTests} 
+          disabled={isRunning}
+          className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-slate-900 font-semibold"
+        >
+          <Play className="h-4 w-4 mr-2" />
+          {isRunning ? 'Running Tests...' : 'Run All Tests'}
+        </Button>
+      </div>
+    </div>
   );
 };
