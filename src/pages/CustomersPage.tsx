@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Search, Filter, Users, DollarSign, TrendingUp, Star } from 'lucide-react';
+import { Plus, Search, Users, DollarSign, TrendingUp, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -40,7 +39,6 @@ export default function CustomersPage() {
     try {
       setLoading(true);
       
-      // Get business ID
       const { data: businesses } = await supabase
         .from('businesses')
         .select('id')
@@ -54,7 +52,6 @@ export default function CustomersPage() {
 
       setBusinessId(businesses.id);
 
-      // Load customers and analytics
       const [customersData, analyticsData] = await Promise.all([
         getCustomers(businesses.id),
         getCRMAnalytics(businesses.id)
@@ -73,7 +70,6 @@ export default function CustomersPage() {
   const filterCustomers = () => {
     let filtered = [...customers];
 
-    // Search filter
     if (searchTerm) {
       filtered = filtered.filter(c =>
         `${c.first_name} ${c.last_name}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -82,12 +78,10 @@ export default function CustomersPage() {
       );
     }
 
-    // Status filter
     if (statusFilter !== 'all') {
       filtered = filtered.filter(c => c.customer_status === statusFilter);
     }
 
-    // Lifecycle filter
     if (lifecycleFilter !== 'all') {
       filtered = filtered.filter(c => c.lifecycle_stage === lifecycleFilter);
     }
@@ -97,150 +91,130 @@ export default function CustomersPage() {
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, string> = {
-      lead: 'bg-blue-100 text-blue-800',
-      active: 'bg-green-100 text-green-800',
-      inactive: 'bg-gray-100 text-gray-800',
-      vip: 'bg-purple-100 text-purple-800'
+      lead: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+      active: 'bg-green-500/20 text-green-400 border-green-500/30',
+      inactive: 'bg-white/10 text-white/60 border-white/20',
+      vip: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
     };
     return variants[status] || variants.active;
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 relative overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-rose-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
         <div className="container mx-auto p-6 space-y-6 relative z-10">
-          <Skeleton className="h-12 w-64 rounded-3xl" />
+          <Skeleton className="h-12 w-64 rounded-2xl bg-white/10" />
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {[...Array(4)].map((_, i) => (
-              <Skeleton key={i} className="h-32 rounded-3xl" />
+              <Skeleton key={i} className="h-32 rounded-2xl bg-white/10" />
             ))}
           </div>
-          <Skeleton className="h-96 rounded-3xl" />
+          <Skeleton className="h-96 rounded-2xl bg-white/10" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-rose-50 to-red-50 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-pink-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-rose-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-red-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+      {/* Animated gradient orbs */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
 
       <div className="container mx-auto p-6 space-y-6 relative z-10">
-        {/* Enhanced Header */}
-        <div className="mb-10 animate-fade-in">
-          <div className="relative inline-block w-full">
-            <div className="absolute inset-0 bg-gradient-to-r from-pink-400/30 via-rose-400/30 to-red-400/30 rounded-3xl blur-2xl"></div>
-            <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-0 overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-500 via-rose-500 to-red-500"></div>
-              <div className="flex items-center justify-between pt-2">
-                <div>
-                  <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-pink-600 via-rose-600 to-red-600 bg-clip-text text-transparent">
-                    Customer <span className="text-yellow-500">Relationship</span> Management 💼
-                  </h1>
-                  <p className="text-gray-700 text-xl font-medium">
-                    Manage and track all your customer relationships 🎯
-                  </p>
-                </div>
-                <Button onClick={() => navigate('/customers/new')} className="gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg">
-                  <Plus className="h-4 w-4" />
-                  Add Customer
-                </Button>
+        {/* Header */}
+        <div className="mb-8">
+          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-4xl font-bold mb-3 text-white">
+                  Customer <span className="text-yellow-400">Relationship</span> Management
+                </h1>
+                <p className="text-blue-200 text-lg">
+                  Manage and track all your customer relationships
+                </p>
               </div>
+              <Button 
+                onClick={() => navigate('/customers/new')} 
+                className="gap-2 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-slate-900 font-semibold"
+              >
+                <Plus className="h-4 w-4" />
+                Add Customer
+              </Button>
             </div>
           </div>
         </div>
 
-      {/* Analytics Cards */}
-      {analytics && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          <Card className="border-pink-200 bg-gradient-to-br from-pink-50 to-pink-100/50 shadow-lg hover:shadow-xl transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-pink-700">Total Customers</CardTitle>
-              <div className="p-2 bg-gradient-to-br from-pink-500 to-pink-600 rounded-full">
-                <Users className="h-4 w-4 text-white" />
+        {/* Analytics Cards */}
+        {analytics && (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium text-blue-200">Total Customers</span>
+                <div className="p-2 bg-blue-500/20 rounded-xl border border-blue-500/30">
+                  <Users className="h-4 w-4 text-blue-400" />
+                </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-pink-900">{analytics.totalCustomers}</div>
-              <p className="text-xs text-pink-600">
-                {analytics.activeCustomers} active
-              </p>
-            </CardContent>
-          </Card>
+              <div className="text-3xl font-bold text-white">{analytics.totalCustomers}</div>
+              <p className="text-sm text-blue-300">{analytics.activeCustomers} active</p>
+            </div>
 
-          <Card className="border-yellow-200 bg-gradient-to-br from-yellow-50 to-yellow-100/50 shadow-lg hover:shadow-xl transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-yellow-700">VIP Customers</CardTitle>
-              <div className="p-2 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-full">
-                <Star className="h-4 w-4 text-white" />
+            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium text-yellow-200">VIP Customers</span>
+                <div className="p-2 bg-yellow-500/20 rounded-xl border border-yellow-500/30">
+                  <Star className="h-4 w-4 text-yellow-400" />
+                </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-yellow-900">{analytics.vipCustomers}</div>
-              <p className="text-xs text-yellow-600">Premium tier</p>
-            </CardContent>
-          </Card>
+              <div className="text-3xl font-bold text-white">{analytics.vipCustomers}</div>
+              <p className="text-sm text-yellow-300">Premium tier</p>
+            </div>
 
-          <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100/50 shadow-lg hover:shadow-xl transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-blue-700">Active Leads</CardTitle>
-              <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full">
-                <TrendingUp className="h-4 w-4 text-white" />
+            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium text-purple-200">Active Leads</span>
+                <div className="p-2 bg-purple-500/20 rounded-xl border border-purple-500/30">
+                  <TrendingUp className="h-4 w-4 text-purple-400" />
+                </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-blue-900">{analytics.leads}</div>
-              <p className="text-xs text-blue-600">In pipeline</p>
-            </CardContent>
-          </Card>
+              <div className="text-3xl font-bold text-white">{analytics.leads}</div>
+              <p className="text-sm text-purple-300">In pipeline</p>
+            </div>
 
-          <Card className="border-emerald-200 bg-gradient-to-br from-emerald-50 to-emerald-100/50 shadow-lg hover:shadow-xl transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-emerald-700">Total LTV</CardTitle>
-              <div className="p-2 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full">
-                <DollarSign className="h-4 w-4 text-white" />
+            <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-sm font-medium text-green-200">Total LTV</span>
+                <div className="p-2 bg-green-500/20 rounded-xl border border-green-500/30">
+                  <DollarSign className="h-4 w-4 text-green-400" />
+                </div>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-emerald-900">
-                ${analytics.totalLifetimeValue.toFixed(2)}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Avg: ${analytics.avgLifetimeValue.toFixed(2)}
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+              <div className="text-3xl font-bold text-white">${analytics.totalLifetimeValue.toFixed(2)}</div>
+              <p className="text-sm text-green-300">Avg: ${analytics.avgLifetimeValue.toFixed(2)}</p>
+            </div>
+          </div>
+        )}
 
-      {/* Filters */}
-      <Card>
-        <CardContent className="pt-6">
+        {/* Filters */}
+        <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-white/40" />
               <Input
                 placeholder="Search customers..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 bg-white/5 border-white/20 text-white placeholder:text-white/40"
               />
             </div>
 
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full md:w-[180px]">
+              <SelectTrigger className="w-full md:w-[180px] bg-white/5 border-white/20 text-white">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-slate-800 border-white/20">
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="lead">Lead</SelectItem>
                 <SelectItem value="active">Active</SelectItem>
@@ -250,10 +224,10 @@ export default function CustomersPage() {
             </Select>
 
             <Select value={lifecycleFilter} onValueChange={setLifecycleFilter}>
-              <SelectTrigger className="w-full md:w-[180px]">
+              <SelectTrigger className="w-full md:w-[180px] bg-white/5 border-white/20 text-white">
                 <SelectValue placeholder="Lifecycle" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-slate-800 border-white/20">
                 <SelectItem value="all">All Stages</SelectItem>
                 <SelectItem value="lead">Lead</SelectItem>
                 <SelectItem value="prospect">Prospect</SelectItem>
@@ -263,29 +237,27 @@ export default function CustomersPage() {
               </SelectContent>
             </Select>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {/* Customer Table */}
-      <Card>
-        <CardContent className="pt-6">
+        {/* Customer Table */}
+        <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Company</TableHead>
-                <TableHead>Contact</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Lifecycle</TableHead>
-                <TableHead>LTV</TableHead>
-                <TableHead>Last Contact</TableHead>
-                <TableHead>Actions</TableHead>
+              <TableRow className="border-white/10 hover:bg-white/5">
+                <TableHead className="text-blue-200">Name</TableHead>
+                <TableHead className="text-blue-200">Company</TableHead>
+                <TableHead className="text-blue-200">Contact</TableHead>
+                <TableHead className="text-blue-200">Status</TableHead>
+                <TableHead className="text-blue-200">Lifecycle</TableHead>
+                <TableHead className="text-blue-200">LTV</TableHead>
+                <TableHead className="text-blue-200">Last Contact</TableHead>
+                <TableHead className="text-blue-200">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredCustomers.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={8} className="text-center text-muted-foreground py-8">
+                <TableRow className="border-white/10">
+                  <TableCell colSpan={8} className="text-center text-blue-200 py-8">
                     No customers found. Add your first customer to get started!
                   </TableCell>
                 </TableRow>
@@ -293,17 +265,17 @@ export default function CustomersPage() {
                 filteredCustomers.map((customer) => (
                   <TableRow 
                     key={customer.id}
-                    className="cursor-pointer hover:bg-muted/50"
+                    className="cursor-pointer hover:bg-white/5 border-white/10"
                     onClick={() => navigate(`/customers/${customer.id}`)}
                   >
-                    <TableCell className="font-medium">
+                    <TableCell className="font-medium text-white">
                       {customer.first_name} {customer.last_name}
                     </TableCell>
-                    <TableCell>{customer.company || '-'}</TableCell>
+                    <TableCell className="text-blue-200">{customer.company || '-'}</TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        <div>{customer.email || '-'}</div>
-                        <div className="text-muted-foreground">{customer.phone || '-'}</div>
+                        <div className="text-white">{customer.email || '-'}</div>
+                        <div className="text-blue-300">{customer.phone || '-'}</div>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -311,9 +283,9 @@ export default function CustomersPage() {
                         {customer.customer_status}
                       </Badge>
                     </TableCell>
-                    <TableCell className="capitalize">{customer.lifecycle_stage}</TableCell>
-                    <TableCell>${customer.lifetime_value.toFixed(2)}</TableCell>
-                    <TableCell>
+                    <TableCell className="capitalize text-blue-200">{customer.lifecycle_stage}</TableCell>
+                    <TableCell className="text-white">${customer.lifetime_value.toFixed(2)}</TableCell>
+                    <TableCell className="text-blue-200">
                       {customer.last_contact_date 
                         ? format(new Date(customer.last_contact_date), 'MMM d, yyyy')
                         : 'Never'
@@ -323,6 +295,7 @@ export default function CustomersPage() {
                       <Button
                         variant="ghost"
                         size="sm"
+                        className="text-yellow-400 hover:text-yellow-300 hover:bg-white/10"
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(`/customers/${customer.id}`);
@@ -336,8 +309,7 @@ export default function CustomersPage() {
               )}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
       </div>
     </div>
   );
