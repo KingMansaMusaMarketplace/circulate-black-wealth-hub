@@ -56,20 +56,20 @@ const TestResults: React.FC<TestResultsProps> = ({ testResults }) => {
   const getBgClass = (status: string) => {
     switch (status) {
       case 'pass':
-        return 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200';
+        return 'bg-green-500/10 border-green-400/30';
       case 'fail':
-        return 'bg-gradient-to-r from-red-50 to-rose-50 border-red-200';
+        return 'bg-red-500/10 border-red-400/30';
       case 'warning':
-        return 'bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200';
+        return 'bg-yellow-500/10 border-yellow-400/30';
       default:
-        return 'bg-gray-50 border-gray-200';
+        return 'bg-white/5 border-white/10';
     }
   };
 
   return (
-    <Card className="bg-gradient-to-br from-violet-50 to-purple-50 border-violet-200 shadow-lg hover:shadow-xl transition-all">
+    <Card className="backdrop-blur-xl bg-white/5 border border-white/10 shadow-lg hover:shadow-xl transition-all">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-violet-700">
+        <CardTitle className="flex items-center gap-2 text-white">
           <div className="p-2 bg-gradient-to-br from-violet-500 to-purple-500 rounded-lg">
             <CheckCircle className="h-5 w-5 text-white" />
           </div>
@@ -79,21 +79,21 @@ const TestResults: React.FC<TestResultsProps> = ({ testResults }) => {
       <CardContent>
         {testResults.length === 0 ? (
           <div className="text-center py-8">
-            <div className="inline-block p-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full mb-3">
-              <AlertCircle className="h-8 w-8 text-gray-400" />
+            <div className="inline-block p-3 bg-white/10 rounded-full mb-3">
+              <AlertCircle className="h-8 w-8 text-blue-300" />
             </div>
-            <p className="text-gray-500 font-medium">No tests run yet.</p>
+            <p className="text-blue-200 font-medium">No tests run yet.</p>
           </div>
         ) : (
           <div className="space-y-3">
             {testResults.map((result, index) => (
               <div 
                 key={index} 
-                className={`flex items-center justify-between p-4 border rounded-lg shadow-sm hover:shadow-md transition-all ${getBgClass(result.status)}`}
+                className={`flex items-center justify-between p-4 border rounded-lg shadow-sm hover:shadow-md transition-all backdrop-blur-sm ${getBgClass(result.status)}`}
               >
                 <div className="flex items-center space-x-3">
                   {getIcon(result.status)}
-                  <span className="font-semibold">{result.name}</span>
+                  <span className="font-semibold text-white">{result.name}</span>
                 </div>
                 <Badge 
                   variant={getVariant(result.status) as any}
