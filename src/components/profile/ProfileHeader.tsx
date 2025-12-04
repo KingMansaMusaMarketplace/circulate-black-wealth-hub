@@ -27,17 +27,17 @@ const ProfileHeader = () => {
             <AvatarFallback className="text-lg">{getInitial()}</AvatarFallback>
           </Avatar>
           <div>
-            <CardTitle className="text-xl">
+            <CardTitle className="text-xl text-white">
               {user?.user_metadata?.fullName || user?.email}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white/70">
               {userType && `${userType.charAt(0).toUpperCase()}${userType.slice(1)} Account`}
             </CardDescription>
           </div>
         </div>
       </CardHeader>
       <CardContent className="pt-2">
-        <div className="text-sm text-muted-foreground">
+        <div className="text-sm text-white/80">
           <p>Member since: {user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</p>
           <p>Email: {user?.email || 'N/A'}</p>
         </div>
