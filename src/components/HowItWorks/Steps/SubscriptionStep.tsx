@@ -22,11 +22,11 @@ const SubscriptionStep: React.FC<SubscriptionStepProps> = ({ isHovered }) => {
         
         <div className="space-y-4">
           <div className="border border-white/20 rounded-lg p-4 bg-white/5">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
               <h4 className="font-bold text-white">Community Member</h4>
               <span className="font-bold text-yellow-400">100% FREE Forever</span>
             </div>
-            <ul className="mt-2 space-y-1">
+            <ul className="mt-3 space-y-1">
               <li className="text-sm text-white/80">• Full directory access</li>
               <li className="text-sm text-white/80">• QR scanning for discounts</li>
               <li className="text-sm text-white/80">• Loyalty points system</li>
