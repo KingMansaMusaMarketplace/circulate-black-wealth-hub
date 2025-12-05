@@ -231,8 +231,8 @@ const AdminAnalyticsDashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-mansablue">Admin Analytics</h2>
-        <div className="text-sm text-gray-500">
+        <h2 style={{ color: '#ffffff' }} className="text-2xl font-bold">Admin Analytics</h2>
+        <div style={{ color: 'rgba(255,255,255,0.7)' }} className="text-sm">
           Last updated: {new Date().toLocaleDateString()}
         </div>
       </div>
@@ -313,9 +313,9 @@ const AdminAnalyticsDashboard: React.FC = () => {
                           className="w-3 h-3 rounded-full mr-2" 
                           style={{ backgroundColor: item.color }}
                         />
-                        <span className="text-sm">{item.name}</span>
+                        <span style={{ color: '#ffffff' }} className="text-sm">{item.name}</span>
                       </div>
-                      <span className="font-medium">{item.value}</span>
+                      <span style={{ color: '#ffffff' }} className="font-medium">{item.value}</span>
                     </div>
                   ))}
                 </div>
@@ -391,25 +391,25 @@ const AdminAnalyticsDashboard: React.FC = () => {
 
         <TabsContent value="users" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/5 border-white/10">
               <CardContent className="p-6 text-center">
                 <Users className="h-12 w-12 text-mansagold mx-auto mb-2" />
-                <div className="text-2xl font-bold text-mansablue">{metrics?.total_users || 0}</div>
-                <div className="text-sm text-gray-600">Total Registered Users</div>
+                <div style={{ color: '#ffffff' }} className="text-2xl font-bold">{metrics?.total_users || 0}</div>
+                <div style={{ color: 'rgba(255,255,255,0.7)' }} className="text-sm">Total Registered Users</div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/5 border-white/10">
               <CardContent className="p-6 text-center">
                 <UserCheck className="h-12 w-12 text-mansagold mx-auto mb-2" />
-                <div className="text-2xl font-bold text-mansablue">{metrics?.total_customers || 0}</div>
-                <div className="text-sm text-gray-600">Customer Accounts</div>
+                <div style={{ color: '#ffffff' }} className="text-2xl font-bold">{metrics?.total_customers || 0}</div>
+                <div style={{ color: 'rgba(255,255,255,0.7)' }} className="text-sm">Customer Accounts</div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/5 border-white/10">
               <CardContent className="p-6 text-center">
                 <Building2 className="h-12 w-12 text-mansagold mx-auto mb-2" />
-                <div className="text-2xl font-bold text-mansablue">{metrics?.total_businesses || 0}</div>
-                <div className="text-sm text-gray-600">Business Accounts</div>
+                <div style={{ color: '#ffffff' }} className="text-2xl font-bold">{metrics?.total_businesses || 0}</div>
+                <div style={{ color: 'rgba(255,255,255,0.7)' }} className="text-sm">Business Accounts</div>
               </CardContent>
             </Card>
           </div>
@@ -446,9 +446,9 @@ const AdminAnalyticsDashboard: React.FC = () => {
                         className="w-3 h-3 rounded-full mr-2" 
                         style={{ backgroundColor: item.color }}
                       />
-                      <span className="text-sm">{item.name}</span>
+                      <span style={{ color: '#ffffff' }} className="text-sm">{item.name}</span>
                     </div>
-                    <span className="font-medium">{item.value}</span>
+                    <span style={{ color: '#ffffff' }} className="font-medium">{item.value}</span>
                   </div>
                 ))}
               </div>
