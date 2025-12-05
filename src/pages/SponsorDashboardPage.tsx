@@ -11,7 +11,7 @@ import { SponsorAnalytics } from '@/components/sponsors/SponsorAnalytics';
 import { CancelSubscriptionDialog } from '@/components/sponsor/CancelSubscriptionDialog';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, ArrowLeft, Heart, ExternalLink } from 'lucide-react';
+import { Loader2, ArrowLeft, Crown, ExternalLink, Sparkles } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -51,55 +51,71 @@ export default function SponsorDashboardPage() {
 
   if (isLoading) {
     return (
-      <ResponsiveLayout>
-        <div className="flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      <div className="min-h-screen bg-[#0a1628] relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-amber-500/30 to-yellow-600/20 rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite]" />
+          <div className="absolute top-1/3 -left-60 w-[600px] h-[600px] bg-gradient-to-tr from-blue-600/25 to-indigo-700/15 rounded-full blur-3xl animate-[pulse_10s_ease-in-out_infinite_1s]" />
         </div>
-      </ResponsiveLayout>
+        <div className="flex items-center justify-center min-h-screen relative z-10">
+          <Loader2 className="w-8 h-8 animate-spin text-amber-400" />
+        </div>
+      </div>
     );
   }
 
   if (error || !subscription) {
     return (
-      <ResponsiveLayout>
-        <Helmet>
-          <title>Sponsor Dashboard | Mansa Musa Marketplace</title>
-        </Helmet>
-        <div className="max-w-4xl mx-auto py-8 px-4">
-          <Button
-            variant="ghost"
-            onClick={() => navigate('/sponsor-pricing')}
-            className="mb-6"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Pricing
-          </Button>
-
-          <Alert>
-            <AlertDescription>
-              {error
-                ? 'Failed to load your sponsorship. Please try again later.'
-                : 'You do not have an active sponsorship. Visit our pricing page to become a sponsor.'}
-            </AlertDescription>
-          </Alert>
-
-          <div className="mt-6">
-            <Button onClick={() => navigate('/sponsor-pricing')} className="w-full">
-              View Sponsorship Options
-            </Button>
-          </div>
+      <div className="min-h-screen bg-[#0a1628] relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-amber-500/30 to-yellow-600/20 rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite]" />
+          <div className="absolute top-1/3 -left-60 w-[600px] h-[600px] bg-gradient-to-tr from-blue-600/25 to-indigo-700/15 rounded-full blur-3xl animate-[pulse_10s_ease-in-out_infinite_1s]" />
         </div>
-      </ResponsiveLayout>
+        <ResponsiveLayout>
+          <Helmet>
+            <title>Sponsor Dashboard | Mansa Musa Marketplace</title>
+          </Helmet>
+          <div className="max-w-4xl mx-auto py-8 px-4 relative z-10">
+            <Button
+              variant="ghost"
+              onClick={() => navigate('/sponsor-pricing')}
+              className="mb-6 text-amber-100 hover:text-amber-200 hover:bg-white/10"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Pricing
+            </Button>
+
+            <Alert className="bg-white/5 backdrop-blur-xl border-amber-500/30">
+              <AlertDescription className="text-blue-100">
+                {error
+                  ? 'Failed to load your sponsorship. Please try again later.'
+                  : 'You do not have an active sponsorship. Visit our pricing page to become a sponsor.'}
+              </AlertDescription>
+            </Alert>
+
+            <div className="mt-6">
+              <Button 
+                onClick={() => navigate('/sponsor-pricing')} 
+                className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white hover:from-amber-600 hover:to-yellow-700"
+              >
+                View Sponsorship Options
+              </Button>
+            </div>
+          </div>
+        </ResponsiveLayout>
+      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 relative overflow-hidden">
-      {/* Animated background elements */}
+    <div className="min-h-screen bg-[#0a1628] relative overflow-hidden">
+      {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-red-400/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-rose-400/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-pink-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-amber-500/30 to-yellow-600/20 rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite]" />
+        <div className="absolute top-1/3 -left-60 w-[600px] h-[600px] bg-gradient-to-tr from-blue-600/25 to-indigo-700/15 rounded-full blur-3xl animate-[pulse_10s_ease-in-out_infinite_1s]" />
+        <div className="absolute -bottom-40 right-1/4 w-[400px] h-[400px] bg-gradient-to-tl from-amber-400/20 to-orange-500/10 rounded-full blur-3xl animate-[pulse_12s_ease-in-out_infinite_2s]" />
+        <div className="absolute top-1/4 right-1/3 w-[300px] h-[300px] bg-gradient-to-bl from-blue-500/15 to-cyan-600/10 rounded-full blur-3xl animate-[pulse_9s_ease-in-out_infinite_0.5s]" />
       </div>
 
       <ResponsiveLayout>
@@ -113,7 +129,7 @@ export default function SponsorDashboardPage() {
             <Button
               variant="ghost"
               onClick={() => navigate('/')}
-              className="mb-4"
+              className="mb-4 text-amber-100 hover:text-amber-200 hover:bg-white/10"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Home
@@ -121,20 +137,17 @@ export default function SponsorDashboardPage() {
 
             {/* Enhanced Header */}
             <div className="animate-fade-in">
-              <div className="relative inline-block w-full">
-                <div className="absolute inset-0 bg-gradient-to-r from-red-400/30 via-rose-400/30 to-pink-400/30 rounded-2xl blur-xl"></div>
-                <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
-                   <div className="flex items-center gap-3">
-                    <Heart className="w-12 h-12 text-red-600" />
-                    <div>
-                      <h1 className="text-4xl font-bold mb-1 bg-gradient-to-r from-red-600 via-rose-600 to-pink-600 bg-clip-text text-transparent">
-                        Sponsor <span className="text-yellow-500">Dashboard</span> ❤️
-                      </h1>
-                      <p className="text-gray-700 text-lg font-medium">
-                        Track your impact and manage your sponsorship ✨
-                      </p>
-                    </div>
-                  </div>
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-600 shadow-lg shadow-amber-500/25">
+                  <Crown className="h-8 w-8 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-200 via-yellow-100 to-amber-200 bg-clip-text text-transparent">
+                    Sponsor Dashboard
+                  </h1>
+                  <p className="text-blue-200/70 mt-1">
+                    Track your impact and manage your sponsorship
+                  </p>
                 </div>
               </div>
             </div>
@@ -147,7 +160,10 @@ export default function SponsorDashboardPage() {
               <TierBenefits tier={subscription.tier} />
               
               <div>
-                <h2 className="text-2xl font-bold mb-4">Sponsorship Analytics</h2>
+                <h2 className="text-2xl font-bold mb-4 text-amber-100 flex items-center gap-2">
+                  <Sparkles className="h-5 w-5 text-amber-400" />
+                  Sponsorship Analytics
+                </h2>
                 <SponsorAnalytics subscriptionId={subscription.id} />
               </div>
             </div>
@@ -155,17 +171,17 @@ export default function SponsorDashboardPage() {
             <div className="space-y-6">
               <CompanyInfoEditor subscription={subscription} />
 
-              <Card>
+              <Card className="bg-white/5 backdrop-blur-xl border-white/10 overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-amber-500/20 to-transparent rounded-bl-full" />
                 <CardHeader>
-                  <CardTitle>Manage Subscription</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-amber-100">Manage Subscription</CardTitle>
+                  <CardDescription className="text-blue-200/70">
                     Update your payment method, view invoices, upgrade/downgrade, or cancel your subscription
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="space-y-3 relative">
                   <Button 
-                    variant="default" 
-                    className="w-full"
+                    className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white hover:from-amber-600 hover:to-yellow-700"
                     onClick={handleManageSubscription}
                     disabled={isLoadingPortal || !subscription.stripe_customer_id}
                   >
@@ -181,7 +197,7 @@ export default function SponsorDashboardPage() {
                       </>
                     )}
                   </Button>
-                  <p className="text-xs text-muted-foreground text-center">
+                  <p className="text-xs text-blue-200/50 text-center">
                     Access your customer portal to update payment methods, view invoices, upgrade/downgrade tiers, and manage your subscription
                   </p>
                 </CardContent>
