@@ -261,6 +261,27 @@ export type Database = {
         }
         Relationships: []
       }
+      admin_permissions: {
+        Row: {
+          admin_role: string
+          created_at: string | null
+          id: string
+          permission: string
+        }
+        Insert: {
+          admin_role: string
+          created_at?: string | null
+          id?: string
+          permission: string
+        }
+        Update: {
+          admin_role?: string
+          created_at?: string | null
+          id?: string
+          permission?: string
+        }
+        Relationships: []
+      }
       agent_badges: {
         Row: {
           category: Database["public"]["Enums"]["badge_category"]
@@ -2378,6 +2399,48 @@ export type Database = {
           },
         ]
       }
+      content_moderation_queue: {
+        Row: {
+          action_taken: string | null
+          content_id: string
+          content_type: string
+          created_at: string | null
+          details: string | null
+          id: string
+          reason: string
+          reported_by: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+        }
+        Insert: {
+          action_taken?: string | null
+          content_id: string
+          content_type: string
+          created_at?: string | null
+          details?: string | null
+          id?: string
+          reason: string
+          reported_by?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+        }
+        Update: {
+          action_taken?: string | null
+          content_id?: string
+          content_type?: string
+          created_at?: string | null
+          details?: string | null
+          id?: string
+          reason?: string
+          reported_by?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
       corporate_subscriptions: {
         Row: {
           admin_notes: string | null
@@ -2640,6 +2703,45 @@ export type Database = {
           id?: string
           ip_address?: unknown
           user_agent?: string | null
+        }
+        Relationships: []
+      }
+      feature_flags: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          flag_key: string
+          flag_name: string
+          id: string
+          is_enabled: boolean | null
+          rollout_percentage: number | null
+          target_user_types: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          flag_key: string
+          flag_name: string
+          id?: string
+          is_enabled?: boolean | null
+          rollout_percentage?: number | null
+          target_user_types?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          flag_key?: string
+          flag_name?: string
+          id?: string
+          is_enabled?: boolean | null
+          rollout_percentage?: number | null
+          target_user_types?: string[] | null
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -3246,6 +3348,33 @@ export type Database = {
             | null
           verified_at?: string | null
           verified_by?: string | null
+        }
+        Relationships: []
+      }
+      impersonation_sessions: {
+        Row: {
+          admin_id: string
+          ended_at: string | null
+          id: string
+          reason: string | null
+          started_at: string | null
+          target_user_id: string
+        }
+        Insert: {
+          admin_id: string
+          ended_at?: string | null
+          id?: string
+          reason?: string | null
+          started_at?: string | null
+          target_user_id: string
+        }
+        Update: {
+          admin_id?: string
+          ended_at?: string | null
+          id?: string
+          reason?: string | null
+          started_at?: string | null
+          target_user_id?: string
         }
         Relationships: []
       }
@@ -4227,6 +4356,120 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      promo_code_redemptions: {
+        Row: {
+          business_id: string | null
+          id: string
+          promo_code_id: string | null
+          redeemed_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          business_id?: string | null
+          id?: string
+          promo_code_id?: string | null
+          redeemed_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          business_id?: string | null
+          id?: string
+          promo_code_id?: string | null
+          redeemed_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promo_code_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_code_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_code_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_code_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_code_redemptions_promo_code_id_fkey"
+            columns: ["promo_code_id"]
+            isOneToOne: false
+            referencedRelation: "promo_codes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      promo_codes: {
+        Row: {
+          applies_to: string | null
+          code: string
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          discount_type: string
+          discount_value: number
+          id: string
+          is_active: boolean | null
+          max_uses: number | null
+          min_purchase_amount: number | null
+          name: string
+          uses_count: number | null
+          valid_from: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          applies_to?: string | null
+          code: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          discount_type: string
+          discount_value: number
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          min_purchase_amount?: number | null
+          name: string
+          uses_count?: number | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          applies_to?: string | null
+          code?: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          id?: string
+          is_active?: boolean | null
+          max_uses?: number | null
+          min_purchase_amount?: number | null
+          name?: string
+          uses_count?: number | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Relationships: []
       }
       qr_code_scans: {
         Row: {
@@ -5377,6 +5620,48 @@ export type Database = {
         }
         Relationships: []
       }
+      scheduled_reports: {
+        Row: {
+          config: Json | null
+          created_at: string | null
+          created_by: string | null
+          frequency: string
+          id: string
+          is_active: boolean | null
+          last_run_at: string | null
+          next_run_at: string
+          recipients: string[]
+          report_name: string
+          report_type: string
+        }
+        Insert: {
+          config?: Json | null
+          created_at?: string | null
+          created_by?: string | null
+          frequency: string
+          id?: string
+          is_active?: boolean | null
+          last_run_at?: string | null
+          next_run_at: string
+          recipients: string[]
+          report_name: string
+          report_type: string
+        }
+        Update: {
+          config?: Json | null
+          created_at?: string | null
+          created_by?: string | null
+          frequency?: string
+          id?: string
+          is_active?: boolean | null
+          last_run_at?: string | null
+          next_run_at?: string
+          recipients?: string[]
+          report_name?: string
+          report_type?: string
+        }
+        Relationships: []
+      }
       security_audit_log: {
         Row: {
           action: string
@@ -5886,6 +6171,89 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      support_ticket_messages: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_internal_note: boolean | null
+          message: string
+          sender_id: string | null
+          ticket_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_internal_note?: boolean | null
+          message: string
+          sender_id?: string | null
+          ticket_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_internal_note?: boolean | null
+          message?: string
+          sender_id?: string | null
+          ticket_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_ticket_messages_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      support_tickets: {
+        Row: {
+          assigned_to: string | null
+          category: string
+          created_at: string | null
+          description: string
+          id: string
+          priority: string | null
+          resolution_notes: string | null
+          resolved_at: string | null
+          status: string | null
+          subject: string
+          ticket_number: string
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          category: string
+          created_at?: string | null
+          description: string
+          id?: string
+          priority?: string | null
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          status?: string | null
+          subject: string
+          ticket_number: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          category?: string
+          created_at?: string | null
+          description?: string
+          id?: string
+          priority?: string | null
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          status?: string | null
+          subject?: string
+          ticket_number?: string
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
       }
       system_settings: {
         Row: {
@@ -6699,6 +7067,7 @@ export type Database = {
       generate_batch_number: { Args: never; Returns: string }
       generate_invoice_number: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
+      generate_ticket_number: { Args: never; Returns: string }
       generate_white_label_api_key: {
         Args: { p_business_id: string }
         Returns: string
