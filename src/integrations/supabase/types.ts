@@ -7205,6 +7205,14 @@ export type Database = {
         Args: { _business_id: string; _user_id: string }
         Returns: boolean
       }
+      is_business_owner_or_manager: {
+        Args: {
+          business_location_manager_id: string
+          business_owner_id: string
+          business_parent_id: string
+        }
+        Returns: boolean
+      }
       is_business_suspended: {
         Args: { check_business_id: string }
         Returns: boolean
