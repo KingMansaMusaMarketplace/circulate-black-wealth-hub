@@ -169,6 +169,27 @@ export default function AdminSponsorsPage() {
     setEditingSponsor(null);
   };
 
+  // Wait for auth to load before checking role
+  if (!user && userRole === null) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-6">Sponsor Management</h1>
+        <div className="grid gap-4 md:grid-cols-4 mb-8">
+          {[...Array(4)].map((_, i) => (
+            <Card key={i}>
+              <CardHeader>
+                <div className="h-4 w-20 bg-muted animate-pulse rounded"></div>
+              </CardHeader>
+              <CardContent>
+                <div className="h-8 w-16 bg-muted animate-pulse rounded"></div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   if (!user || userRole !== 'admin') {
     return <Navigate to="/" />;
   }
