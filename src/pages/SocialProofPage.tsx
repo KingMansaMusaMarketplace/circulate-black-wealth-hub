@@ -13,10 +13,10 @@ const SocialProofPage = () => {
   const navigate = useNavigate();
 
   const statsData = [
-    { value: "12,500+", label: "Active Members", sublabel: "Growing daily" },
-    { value: "2,847", label: "Verified Businesses", sublabel: "Across 15 cities" },
-    { value: "$1.2M+", label: "Money Circulated", sublabel: "In Black communities" },
-    { value: "89%", label: "Satisfaction Rate", sublabel: "Member retention" }
+    { value: "1M", label: "Member Goal", sublabel: "Help us grow" },
+    { value: "100+", label: "Local Businesses", sublabel: "And counting" },
+    { value: "100%", label: "Black-Owned", sublabel: "Supporting our community" },
+    { value: "24/7", label: "Always Open", sublabel: "Shop anytime" }
   ];
 
   const benefits = [
