@@ -72,11 +72,11 @@ export default function SponsorDashboardPage() {
           <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-amber-500/30 to-yellow-600/20 rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite]" />
           <div className="absolute top-1/3 -left-60 w-[600px] h-[600px] bg-gradient-to-tr from-blue-600/25 to-indigo-700/15 rounded-full blur-3xl animate-[pulse_10s_ease-in-out_infinite_1s]" />
         </div>
-        <ResponsiveLayout>
-          <Helmet>
-            <title>Sponsor Dashboard | Mansa Musa Marketplace</title>
-          </Helmet>
-          <div className="max-w-4xl mx-auto py-8 px-4 relative z-10">
+      <ResponsiveLayout useSubtleBackground={false} className="!bg-transparent">
+        <Helmet>
+          <title>Sponsor Dashboard | Mansa Musa Marketplace</title>
+        </Helmet>
+        <div className="max-w-4xl mx-auto py-8 px-4 relative z-10">
             <Button
               variant="ghost"
               onClick={() => navigate('/sponsor-pricing')}
@@ -118,7 +118,7 @@ export default function SponsorDashboardPage() {
         <div className="absolute top-1/4 right-1/3 w-[300px] h-[300px] bg-gradient-to-bl from-blue-500/15 to-cyan-600/10 rounded-full blur-3xl animate-[pulse_9s_ease-in-out_infinite_0.5s]" />
       </div>
 
-      <ResponsiveLayout>
+      <ResponsiveLayout useSubtleBackground={false} className="!bg-transparent">
         <Helmet>
           <title>Sponsor Dashboard | Mansa Musa Marketplace</title>
           <meta name="description" content="Manage your corporate sponsorship" />
