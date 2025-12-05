@@ -114,11 +114,11 @@ export const ContextualTooltip: React.FC<ContextualTooltipProps> = ({
       
       {isVisible && !isDismissed && (
         <div className={`absolute z-50 ${getPositionClasses()}`}>
-          <Card className="w-64 bg-white shadow-lg border border-gray-200">
-            <CardContent className="p-4">
+          <Card className="w-64 bg-white shadow-xl border border-gray-200 backdrop-blur-none">
+            <CardContent className="p-4 bg-white rounded-lg">
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <Lightbulb className="w-4 h-4 text-mansagold" />
+                  <Lightbulb className="w-4 h-4 text-amber-500" />
                   <h4 className="font-semibold text-sm text-gray-900">{title}</h4>
                 </div>
                 <Button
@@ -130,7 +130,7 @@ export const ContextualTooltip: React.FC<ContextualTooltipProps> = ({
                   <X className="w-3 h-3 text-gray-500" />
                 </Button>
               </div>
-              <p className="text-xs text-gray-600 leading-relaxed">{tip}</p>
+              <p className="text-sm text-gray-700 leading-relaxed">{tip}</p>
             </CardContent>
           </Card>
           
