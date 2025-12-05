@@ -489,7 +489,7 @@ export default function AdminSponsorDetailPage() {
         <div className="flex gap-2">
           <Dialog open={certificateDialogOpen} onOpenChange={setCertificateDialogOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="text-mansagold border-mansagold hover:bg-mansagold/10">
                 <Award className="h-4 w-4 mr-2" />
                 Certificate
               </Button>
@@ -501,7 +501,7 @@ export default function AdminSponsorDetailPage() {
               <SponsorCertificateGenerator sponsor={sponsor} />
             </DialogContent>
           </Dialog>
-          <Button variant="outline" onClick={() => setEditMode(!editMode)}>
+          <Button variant="outline" className="text-mansagold border-mansagold hover:bg-mansagold/10" onClick={() => setEditMode(!editMode)}>
             {editMode ? 'Cancel' : 'Edit Profile'}
           </Button>
         </div>
