@@ -11,7 +11,7 @@ const SupportPage = () => {
       icon: <Mail className="h-6 w-6" />,
       title: "Email Support",
       description: "Get help via email within 24 hours",
-      contact: "support@mansamusamarketplace.com",
+      contact: "contact@mansamusamarketplace.com",
       action: "Send Email"
     },
     {
