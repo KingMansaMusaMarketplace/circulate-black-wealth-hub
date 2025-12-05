@@ -38,16 +38,16 @@ interface MetricCardProps {
 }
 
 const MetricCard: React.FC<MetricCardProps> = ({ title, value, change, icon, trend, color }) => {
-  const trendColor = trend === 'up' ? 'text-green-400' : trend === 'down' ? 'text-red-400' : 'text-white/60';
+  const trendColor = trend === 'up' ? '#4ade80' : trend === 'down' ? '#f87171' : 'rgba(255,255,255,0.6)';
   
   return (
     <Card className="backdrop-blur-xl bg-white/5 border-white/10">
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-white">{title}</p>
-            <p className="text-3xl font-bold text-white">{value}</p>
-            <p className={`text-sm ${trendColor} flex items-center gap-1`}>
+            <p style={{ color: '#ffffff' }} className="text-sm font-medium">{title}</p>
+            <p style={{ color: '#ffffff' }} className="text-3xl font-bold">{value}</p>
+            <p style={{ color: trendColor }} className="text-sm flex items-center gap-1">
               <TrendingUp className="h-3 w-3" />
               {change}
             </p>
