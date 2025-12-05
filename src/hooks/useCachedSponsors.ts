@@ -8,11 +8,14 @@ interface Sponsor {
   website_url: string | null;
   tier: string;
   status: string;
+  is_visible: boolean;
+  logo_approved: boolean;
+  display_priority: number;
 }
 
 /**
  * Optimized hook for fetching sponsor data with aggressive caching
- * Sponsor logos change infrequently, so we cache them for 30 minutes
+ * Only returns sponsors that are visible AND have approved logos
  */
 export const useCachedSponsors = (tier?: string) => {
   return useQuery({
@@ -22,6 +25,9 @@ export const useCachedSponsors = (tier?: string) => {
         .from('corporate_subscriptions')
         .select('*')
         .eq('status', 'active')
+        .eq('is_visible', true)
+        .eq('logo_approved', true)
+        .order('display_priority', { ascending: false })
         .order('tier', { ascending: false });
 
       if (tier) {
@@ -42,6 +48,7 @@ export const useCachedSponsors = (tier?: string) => {
 
 /**
  * Hook for fetching featured sponsors with maximum caching
+ * Only returns visible, approved platinum/gold sponsors
  */
 export const useFeaturedSponsors = () => {
   return useQuery({
@@ -51,7 +58,10 @@ export const useFeaturedSponsors = () => {
         .from('corporate_subscriptions')
         .select('*')
         .eq('status', 'active')
+        .eq('is_visible', true)
+        .eq('logo_approved', true)
         .in('tier', ['platinum', 'gold'])
+        .order('display_priority', { ascending: false })
         .order('tier', { ascending: false })
         .limit(6);
 

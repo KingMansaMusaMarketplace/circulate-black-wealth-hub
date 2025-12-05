@@ -29,6 +29,7 @@ import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
 import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 import { CONTEXTUAL_TIPS } from '@/lib/onboarding-constants';
 import { SmartDiscoveryWidget } from '@/components/discovery/SmartDiscoveryWidget';
+import { SponsorLogoGrid } from '@/components/sponsors/SponsorLogoGrid';
 
 const DirectoryPage: React.FC = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -145,6 +146,16 @@ const DirectoryPage: React.FC = () => {
               <MultiCityStats selectedCity={selectedCity} />
             </div>
             
+            {/* Featured Sponsor Section - Gold+ tiers */}
+            <div className="mt-6 animate-fade-in" style={{ animationDelay: '0.05s' }}>
+              <SponsorLogoGrid 
+                placement="directory" 
+                maxLogos={4}
+                variant="dark"
+                className="bg-gradient-to-r from-slate-800/80 to-blue-900/80 backdrop-blur-sm rounded-2xl p-6 border border-mansagold/20"
+              />
+            </div>
+            
             <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mt-8">
               {/* Sidebar Filters */}
               <div className="w-full lg:w-1/4 space-y-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
@@ -162,6 +173,15 @@ const DirectoryPage: React.FC = () => {
                   <ErrorBoundary>
                     <SmartDiscoveryWidget businesses={filteredBusinesses} />
                   </ErrorBoundary>
+                  {/* Sidebar Sponsor Logos - Silver+ tiers */}
+                  <div className="mt-6">
+                    <SponsorLogoGrid 
+                      placement="sidebar" 
+                      maxLogos={4}
+                      variant="dark"
+                      className="bg-slate-800/60 backdrop-blur-sm rounded-xl p-4 border border-white/10"
+                    />
+                  </div>
                 </div>
               </div>
               

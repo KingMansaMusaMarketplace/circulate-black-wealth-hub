@@ -1,23 +1,65 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { DollarSign, Users, TrendingUp, Eye } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { DollarSign, Users, TrendingUp, Eye, CheckCircle, XCircle, Clock, Settings, ExternalLink } from 'lucide-react';
 import { format } from 'date-fns';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
-import { useQuery as useSupabaseQuery } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { useState } from 'react';
 
 const tierPrices = {
-  platinum: 5000,
-  gold: 2500,
-  silver: 1000,
+  platinum: 15000,
+  gold: 5000,
+  silver: 1500,
   bronze: 500,
 };
 
+const tierPlacements = {
+  platinum: ['Homepage Banner', 'Footer', 'Sidebar', 'Directory Featured', 'All Pages'],
+  gold: ['Homepage Banner', 'Footer', 'Sidebar', 'Directory Featured'],
+  silver: ['Footer', 'Sidebar', 'Directory'],
+  bronze: ['Footer'],
+};
+
+interface Sponsor {
+  id: string;
+  user_id: string;
+  company_name: string;
+  logo_url: string | null;
+  website_url: string | null;
+  tier: string;
+  status: string;
+  is_visible: boolean;
+  logo_approved: boolean;
+  display_priority: number;
+  admin_notes: string | null;
+  created_at: string;
+  current_period_end: string | null;
+  stripe_customer_id: string | null;
+}
+
 export default function AdminSponsorsPage() {
   const { user, userRole } = useAuth();
+  const queryClient = useQueryClient();
+  const [editingSponsor, setEditingSponsor] = useState<Sponsor | null>(null);
+  const [adminNotes, setAdminNotes] = useState('');
 
   const { data: subscriptions, isLoading } = useQuery({
     queryKey: ['admin-sponsors'],
@@ -25,10 +67,10 @@ export default function AdminSponsorsPage() {
       const { data, error } = await supabase
         .from('corporate_subscriptions')
         .select('*')
-        .order('created_at', { ascending: false});
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data;
+      return data as Sponsor[];
     },
     enabled: userRole === 'admin',
   });
@@ -45,6 +87,56 @@ export default function AdminSponsorsPage() {
     },
     enabled: userRole === 'admin',
   });
+
+  const updateSponsorMutation = useMutation({
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<Sponsor> }) => {
+      const { error } = await supabase
+        .from('corporate_subscriptions')
+        .update(updates)
+        .eq('id', id);
+
+      if (error) throw error;
+
+      // Log the action
+      await supabase.from('sponsor_admin_audit').insert({
+        admin_user_id: user?.id,
+        sponsor_id: id,
+        action: Object.keys(updates).join(', '),
+        new_value: updates,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-sponsors'] });
+      queryClient.invalidateQueries({ queryKey: ['sponsors'] });
+      toast.success('Sponsor updated successfully');
+    },
+    onError: (error) => {
+      toast.error('Failed to update sponsor');
+      console.error(error);
+    },
+  });
+
+  const toggleVisibility = (sponsor: Sponsor) => {
+    updateSponsorMutation.mutate({
+      id: sponsor.id,
+      updates: { is_visible: !sponsor.is_visible },
+    });
+  };
+
+  const toggleLogoApproval = (sponsor: Sponsor) => {
+    updateSponsorMutation.mutate({
+      id: sponsor.id,
+      updates: { logo_approved: !sponsor.logo_approved },
+    });
+  };
+
+  const saveAdminNotes = (sponsor: Sponsor) => {
+    updateSponsorMutation.mutate({
+      id: sponsor.id,
+      updates: { admin_notes: adminNotes },
+    });
+    setEditingSponsor(null);
+  };
 
   if (!user || userRole !== 'admin') {
     return <Navigate to="/" />;
@@ -71,6 +163,7 @@ export default function AdminSponsorsPage() {
   }
 
   const activeSponsors = subscriptions?.filter((s) => s.status === 'active') || [];
+  const pendingApproval = subscriptions?.filter((s) => s.logo_url && !s.logo_approved) || [];
   const totalRevenue = activeSponsors.reduce(
     (sum, s) => sum + (tierPrices[s.tier as keyof typeof tierPrices] || 0),
     0
@@ -87,7 +180,7 @@ export default function AdminSponsorsPage() {
       case 'past_due':
         return 'bg-yellow-500/10 text-yellow-500';
       default:
-        return 'bg-gray-500/10 text-gray-500';
+        return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -98,17 +191,161 @@ export default function AdminSponsorsPage() {
       case 'gold':
         return 'bg-yellow-500/10 text-yellow-500';
       case 'silver':
-        return 'bg-gray-500/10 text-gray-500';
+        return 'bg-zinc-500/10 text-zinc-400';
       case 'bronze':
         return 'bg-orange-500/10 text-orange-500';
       default:
-        return 'bg-gray-500/10 text-gray-500';
+        return 'bg-muted text-muted-foreground';
     }
   };
 
+  const SponsorRow = ({ sponsor }: { sponsor: Sponsor }) => (
+    <TableRow key={sponsor.id}>
+      <TableCell className="font-medium">
+        <div className="flex items-center gap-3">
+          {sponsor.logo_url ? (
+            <img 
+              src={sponsor.logo_url} 
+              alt={sponsor.company_name} 
+              className="h-10 w-10 object-contain rounded bg-background border"
+            />
+          ) : (
+            <div className="h-10 w-10 bg-muted rounded flex items-center justify-center text-xs text-muted-foreground">
+              No logo
+            </div>
+          )}
+          <div>
+            <div className="font-semibold">{sponsor.company_name}</div>
+            {sponsor.website_url && (
+              <a 
+                href={sponsor.website_url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1"
+              >
+                <ExternalLink className="h-3 w-3" />
+                Website
+              </a>
+            )}
+          </div>
+        </div>
+      </TableCell>
+      <TableCell>
+        <Badge className={getTierColor(sponsor.tier)}>{sponsor.tier.toUpperCase()}</Badge>
+      </TableCell>
+      <TableCell>
+        <Badge className={getStatusColor(sponsor.status)}>{sponsor.status}</Badge>
+      </TableCell>
+      <TableCell>
+        <div className="flex items-center gap-2">
+          {sponsor.logo_url ? (
+            sponsor.logo_approved ? (
+              <Badge className="bg-green-500/10 text-green-500">
+                <CheckCircle className="h-3 w-3 mr-1" /> Approved
+              </Badge>
+            ) : (
+              <Badge className="bg-yellow-500/10 text-yellow-500">
+                <Clock className="h-3 w-3 mr-1" /> Pending
+              </Badge>
+            )
+          ) : (
+            <Badge className="bg-muted text-muted-foreground">
+              <XCircle className="h-3 w-3 mr-1" /> No Logo
+            </Badge>
+          )}
+        </div>
+      </TableCell>
+      <TableCell>
+        <Switch
+          checked={sponsor.is_visible}
+          onCheckedChange={() => toggleVisibility(sponsor)}
+          disabled={updateSponsorMutation.isPending}
+        />
+      </TableCell>
+      <TableCell>
+        <div className="flex items-center gap-2">
+          {sponsor.logo_url && (
+            <Button
+              variant={sponsor.logo_approved ? "outline" : "default"}
+              size="sm"
+              onClick={() => toggleLogoApproval(sponsor)}
+              disabled={updateSponsorMutation.isPending}
+            >
+              {sponsor.logo_approved ? 'Revoke' : 'Approve'}
+            </Button>
+          )}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setEditingSponsor(sponsor);
+                  setAdminNotes(sponsor.admin_notes || '');
+                }}
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Manage {sponsor.company_name}</DialogTitle>
+                <DialogDescription>
+                  Configure sponsor settings and add admin notes
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <Label>Tier Placements</Label>
+                  <div className="flex flex-wrap gap-2">
+                    {tierPlacements[sponsor.tier as keyof typeof tierPlacements]?.map((placement) => (
+                      <Badge key={placement} variant="secondary">{placement}</Badge>
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="priority">Display Priority</Label>
+                  <Input
+                    id="priority"
+                    type="number"
+                    defaultValue={sponsor.display_priority}
+                    onChange={(e) => {
+                      updateSponsorMutation.mutate({
+                        id: sponsor.id,
+                        updates: { display_priority: parseInt(e.target.value) || 0 },
+                      });
+                    }}
+                  />
+                  <p className="text-xs text-muted-foreground">Higher numbers appear first</p>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="notes">Admin Notes</Label>
+                  <Textarea
+                    id="notes"
+                    value={adminNotes}
+                    onChange={(e) => setAdminNotes(e.target.value)}
+                    placeholder="Internal notes about this sponsor..."
+                  />
+                </div>
+                <Button onClick={() => saveAdminNotes(sponsor)}>Save Notes</Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </TableCell>
+    </TableRow>
+  );
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Sponsor Management</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-3xl font-bold">Sponsor Management</h1>
+        {pendingApproval.length > 0 && (
+          <Badge className="bg-yellow-500/10 text-yellow-500">
+            {pendingApproval.length} Pending Approval
+          </Badge>
+        )}
+      </div>
 
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-4 mb-8">
@@ -153,50 +390,153 @@ export default function AdminSponsorsPage() {
         </Card>
       </div>
 
-      {/* Sponsors Table */}
+      {/* Placement Preview */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Placement Preview</CardTitle>
+          <CardDescription>Where sponsor logos will appear based on tier</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="border rounded-lg p-4">
+              <h4 className="font-semibold mb-2 text-sm">Homepage Banner</h4>
+              <div className="text-xs text-muted-foreground mb-2">Platinum & Gold</div>
+              <div className="flex flex-wrap gap-1">
+                {activeSponsors
+                  .filter(s => s.is_visible && s.logo_approved && ['platinum', 'gold'].includes(s.tier))
+                  .slice(0, 3)
+                  .map(s => (
+                    <div key={s.id} className="h-6 w-6 bg-muted rounded" title={s.company_name}>
+                      {s.logo_url && <img src={s.logo_url} alt="" className="h-full w-full object-contain" />}
+                    </div>
+                  ))}
+              </div>
+            </div>
+            <div className="border rounded-lg p-4">
+              <h4 className="font-semibold mb-2 text-sm">Footer</h4>
+              <div className="text-xs text-muted-foreground mb-2">All Tiers</div>
+              <div className="flex flex-wrap gap-1">
+                {activeSponsors
+                  .filter(s => s.is_visible && s.logo_approved)
+                  .slice(0, 4)
+                  .map(s => (
+                    <div key={s.id} className="h-6 w-6 bg-muted rounded" title={s.company_name}>
+                      {s.logo_url && <img src={s.logo_url} alt="" className="h-full w-full object-contain" />}
+                    </div>
+                  ))}
+              </div>
+            </div>
+            <div className="border rounded-lg p-4">
+              <h4 className="font-semibold mb-2 text-sm">Directory Sidebar</h4>
+              <div className="text-xs text-muted-foreground mb-2">Silver+</div>
+              <div className="flex flex-wrap gap-1">
+                {activeSponsors
+                  .filter(s => s.is_visible && s.logo_approved && ['platinum', 'gold', 'silver'].includes(s.tier))
+                  .slice(0, 3)
+                  .map(s => (
+                    <div key={s.id} className="h-6 w-6 bg-muted rounded" title={s.company_name}>
+                      {s.logo_url && <img src={s.logo_url} alt="" className="h-full w-full object-contain" />}
+                    </div>
+                  ))}
+              </div>
+            </div>
+            <div className="border rounded-lg p-4">
+              <h4 className="font-semibold mb-2 text-sm">Directory Featured</h4>
+              <div className="text-xs text-muted-foreground mb-2">Gold+</div>
+              <div className="flex flex-wrap gap-1">
+                {activeSponsors
+                  .filter(s => s.is_visible && s.logo_approved && ['platinum', 'gold'].includes(s.tier))
+                  .slice(0, 3)
+                  .map(s => (
+                    <div key={s.id} className="h-6 w-6 bg-muted rounded" title={s.company_name}>
+                      {s.logo_url && <img src={s.logo_url} alt="" className="h-full w-full object-contain" />}
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Sponsors Table with Tabs */}
       <Card>
         <CardHeader>
           <CardTitle>All Sponsors</CardTitle>
           <CardDescription>Manage and monitor all sponsorships</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Company</TableHead>
-                <TableHead>Tier</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Monthly Value</TableHead>
-                <TableHead>Start Date</TableHead>
-                <TableHead>Next Billing</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {subscriptions?.map((sub) => (
-                <TableRow key={sub.id}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      {sub.logo_url && (
-                        <img src={sub.logo_url} alt={sub.company_name} className="h-8 w-8 object-contain" />
-                      )}
-                      {sub.company_name}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge className={getTierColor(sub.tier)}>{sub.tier.toUpperCase()}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge className={getStatusColor(sub.status)}>{sub.status}</Badge>
-                  </TableCell>
-                  <TableCell>${(tierPrices[sub.tier as keyof typeof tierPrices] || 0).toLocaleString()}</TableCell>
-                  <TableCell>{format(new Date(sub.created_at), 'MMM d, yyyy')}</TableCell>
-                  <TableCell>
-                    {sub.current_period_end ? format(new Date(sub.current_period_end), 'MMM d, yyyy') : '-'}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <Tabs defaultValue="all">
+            <TabsList className="mb-4">
+              <TabsTrigger value="all">All ({subscriptions?.length || 0})</TabsTrigger>
+              <TabsTrigger value="active">Active ({activeSponsors.length})</TabsTrigger>
+              <TabsTrigger value="pending">
+                Pending Approval ({pendingApproval.length})
+                {pendingApproval.length > 0 && (
+                  <span className="ml-1 h-2 w-2 rounded-full bg-yellow-500" />
+                )}
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="all">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Company</TableHead>
+                    <TableHead>Tier</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Logo Status</TableHead>
+                    <TableHead>Visible</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {subscriptions?.map((sponsor) => (
+                    <SponsorRow key={sponsor.id} sponsor={sponsor} />
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+
+            <TabsContent value="active">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Company</TableHead>
+                    <TableHead>Tier</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Logo Status</TableHead>
+                    <TableHead>Visible</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {activeSponsors.map((sponsor) => (
+                    <SponsorRow key={sponsor.id} sponsor={sponsor} />
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+
+            <TabsContent value="pending">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Company</TableHead>
+                    <TableHead>Tier</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Logo Status</TableHead>
+                    <TableHead>Visible</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {pendingApproval.map((sponsor) => (
+                    <SponsorRow key={sponsor.id} sponsor={sponsor} />
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
     </div>

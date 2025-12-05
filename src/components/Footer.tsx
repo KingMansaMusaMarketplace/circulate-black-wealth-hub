@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
 import { useCapacitor } from '@/hooks/use-capacitor';
-
+import { SponsorLogoGrid } from '@/components/sponsors/SponsorLogoGrid';
 const Footer = () => {
   const navigate = useNavigate();
   const { platform } = useCapacitor();
@@ -206,6 +206,16 @@ const Footer = () => {
               </li>
             </ul>
           </div>
+        </div>
+
+        {/* Sponsor Logos Section */}
+        <div className="mt-10 mb-8">
+          <SponsorLogoGrid 
+            placement="footer" 
+            maxLogos={6} 
+            variant="dark"
+            className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10"
+          />
         </div>
 
         {/* Social Media & Copyright */}
