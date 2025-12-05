@@ -63,15 +63,24 @@ export default defineConfig(({ mode }) => ({
   css: {
     devSourcemap: mode === 'development',
   },
-  // Optimize dependencies
+  // Optimize dependencies - Ensure React is pre-bundled together
   optimizeDeps: {
     include: [
       'react',
       'react-dom',
+      'react-dom/client',
+      'react/jsx-runtime',
+      'react/jsx-dev-runtime',
       'react-router-dom',
       '@tanstack/react-query',
       'lucide-react',
-      'framer-motion'
+      'framer-motion',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-tabs',
+      '@radix-ui/react-tooltip',
+      '@radix-ui/react-popover',
+      '@radix-ui/react-progress'
     ],
     exclude: [
       // Exclude heavy deps that should be loaded on demand
