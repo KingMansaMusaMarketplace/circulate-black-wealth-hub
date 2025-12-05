@@ -3,23 +3,45 @@ import { fetchVerificationQueue, approveBusinessVerification, rejectBusinessVeri
 import { VerificationQueueItem } from '@/lib/types/verification';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, CheckCircle, XCircle, Eye, RefreshCw } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Loader2, CheckCircle, XCircle, Eye, RefreshCw, Building2 } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { supabase } from '@/integrations/supabase/client';
+import { format } from 'date-fns';
+
+interface RegisteredBusiness {
+  id: string;
+  business_name: string;
+  email: string | null;
+  category: string | null;
+  city: string | null;
+  state: string | null;
+  is_verified: boolean;
+  created_at: string;
+  owner_id: string;
+  subscription_status: string | null;
+  has_verification: boolean;
+}
 
 const VerificationQueue: React.FC = () => {
   const [queue, setQueue] = useState<VerificationQueueItem[]>([]);
+  const [businesses, setBusinesses] = useState<RegisteredBusiness[]>([]);
   const [loading, setLoading] = useState(true);
+  const [businessesLoading, setBusinessesLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState<VerificationQueueItem | null>(null);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
   const [filter, setFilter] = useState('pending');
+  const [activeTab, setActiveTab] = useState('businesses');
 
   useEffect(() => {
     loadQueue();
+    loadBusinesses();
   }, []);
 
   const loadQueue = async () => {
@@ -27,6 +49,50 @@ const VerificationQueue: React.FC = () => {
     const data = await fetchVerificationQueue();
     setQueue(data);
     setLoading(false);
+  };
+
+  const loadBusinesses = async () => {
+    setBusinessesLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('businesses')
+        .select(`
+          id,
+          business_name,
+          email,
+          category,
+          city,
+          state,
+          is_verified,
+          created_at,
+          owner_id,
+          subscription_status,
+          business_verifications(id)
+        `)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      const formattedData: RegisteredBusiness[] = (data || []).map(b => ({
+        id: b.id,
+        business_name: b.business_name,
+        email: b.email,
+        category: b.category,
+        city: b.city,
+        state: b.state,
+        is_verified: b.is_verified || false,
+        created_at: b.created_at,
+        owner_id: b.owner_id,
+        subscription_status: b.subscription_status,
+        has_verification: Array.isArray(b.business_verifications) && b.business_verifications.length > 0
+      }));
+
+      setBusinesses(formattedData);
+    } catch (error) {
+      console.error('Error loading businesses:', error);
+    } finally {
+      setBusinessesLoading(false);
+    }
   };
 
   const handleApprove = async (id: string) => {
@@ -62,28 +128,105 @@ const VerificationQueue: React.FC = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-white">Business Verification Queue</h2>
         <Button 
-          onClick={loadQueue}
+          onClick={() => { loadQueue(); loadBusinesses(); }}
           className="bg-mansagold hover:bg-mansagold/90 text-mansablue"
         >
           <RefreshCw className="h-4 w-4 mr-2" /> Refresh
         </Button>
       </div>
-      
-      <div className="flex flex-wrap gap-3 pb-4">
-        {['pending', 'approved', 'rejected', 'all'].map((status) => (
-          <Button 
-            key={status}
-            variant={filter === status ? 'default' : 'outline'}
-            onClick={() => setFilter(status)}
-            className={filter === status 
-              ? 'bg-mansagold hover:bg-mansagold/90 text-mansablue' 
-              : 'border-white/20 text-white/70 hover:bg-white/10 hover:text-white'
-            }
-          >
-            {status.charAt(0).toUpperCase() + status.slice(1)}
-          </Button>
-        ))}
-      </div>
+
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+        <TabsList className="bg-white/10">
+          <TabsTrigger value="businesses" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue">
+            <Building2 className="h-4 w-4 mr-2" />
+            All Businesses ({businesses.length})
+          </TabsTrigger>
+          <TabsTrigger value="verification" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue">
+            Verification Requests ({queue.length})
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="businesses">
+          <Card className="backdrop-blur-xl bg-white/10 border-white/20">
+            <CardHeader>
+              <CardTitle className="text-white">Registered Businesses</CardTitle>
+              <CardDescription className="text-white/60">All businesses that have signed up on the platform</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {businessesLoading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
+                </div>
+              ) : businesses.length === 0 ? (
+                <div className="text-center py-8 text-white/60">
+                  No businesses registered yet
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-white/20">
+                        <TableHead className="text-white/70">Business Name</TableHead>
+                        <TableHead className="text-white/70">Email</TableHead>
+                        <TableHead className="text-white/70">Category</TableHead>
+                        <TableHead className="text-white/70">Location</TableHead>
+                        <TableHead className="text-white/70">Verified</TableHead>
+                        <TableHead className="text-white/70">Verification Status</TableHead>
+                        <TableHead className="text-white/70">Registered</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {businesses.map((business) => (
+                        <TableRow key={business.id} className="border-white/10">
+                          <TableCell className="font-medium text-white">{business.business_name}</TableCell>
+                          <TableCell className="text-white/80">{business.email || 'N/A'}</TableCell>
+                          <TableCell className="text-white/80">{business.category || 'N/A'}</TableCell>
+                          <TableCell className="text-white/80">
+                            {business.city && business.state ? `${business.city}, ${business.state}` : 'N/A'}
+                          </TableCell>
+                          <TableCell>
+                            {business.is_verified ? (
+                              <Badge className="bg-green-500/20 text-green-300 border-green-500/30">Verified</Badge>
+                            ) : (
+                              <Badge className="bg-gray-500/20 text-gray-300 border-gray-500/30">Not Verified</Badge>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {business.has_verification ? (
+                              <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">Submitted</Badge>
+                            ) : (
+                              <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30">Not Submitted</Badge>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-white/80">
+                            {format(new Date(business.created_at), 'MMM d, yyyy')}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="verification">
+          <div className="flex flex-wrap gap-3 pb-4">
+            {['pending', 'approved', 'rejected', 'all'].map((status) => (
+              <Button 
+                key={status}
+                variant={filter === status ? 'default' : 'outline'}
+                onClick={() => setFilter(status)}
+                className={filter === status 
+                  ? 'bg-mansagold hover:bg-mansagold/90 text-mansablue' 
+                  : 'border-white/20 text-white/70 hover:bg-white/10 hover:text-white'
+                }
+              >
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </Button>
+            ))}
+          </div>
       
       <Card className="backdrop-blur-xl bg-white/10 border-white/20">
         <CardHeader>
@@ -157,6 +300,8 @@ const VerificationQueue: React.FC = () => {
           )}
         </CardContent>
       </Card>
+        </TabsContent>
+      </Tabs>
       
       {/* View Verification Dialog */}
       <Dialog open={isViewOpen} onOpenChange={setIsViewOpen}>
