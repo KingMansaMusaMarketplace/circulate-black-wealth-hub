@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Crown, Link as LinkIcon } from 'lucide-react';
 import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 
 interface SubscriptionDetailsCardProps {
   companyName: string;
@@ -16,10 +17,10 @@ interface SubscriptionDetailsCardProps {
 }
 
 const tierColors = {
-  bronze: 'bg-orange-100 text-orange-800 border-orange-300',
-  silver: 'bg-gray-100 text-gray-800 border-gray-300',
-  gold: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-  platinum: 'bg-purple-100 text-purple-800 border-purple-300',
+  bronze: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
+  silver: 'bg-gray-400/20 text-gray-300 border-gray-400/30',
+  gold: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  platinum: 'bg-purple-400/20 text-purple-300 border-purple-400/30',
 };
 
 const tierNames = {
@@ -40,27 +41,28 @@ export const SubscriptionDetailsCard: React.FC<SubscriptionDetailsCardProps> = (
   className,
 }) => {
   return (
-    <Card className={className}>
+    <Card className={cn("relative overflow-hidden", className)}>
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500" />
       <CardHeader>
         <div className="flex items-start justify-between">
           <div>
-            <CardTitle>{companyName}</CardTitle>
-            <CardDescription>Corporate Sponsorship Details</CardDescription>
+            <CardTitle className="text-amber-100">{companyName}</CardTitle>
+            <CardDescription className="text-blue-200/70">Corporate Sponsorship Details</CardDescription>
           </div>
           {logoUrl && (
             <img
               src={logoUrl}
               alt={`${companyName} logo`}
-              className="h-12 w-auto max-w-[120px] object-contain"
+              className="h-12 w-auto max-w-[120px] object-contain rounded-lg bg-white/10 p-1"
             />
           )}
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center gap-3">
-          <Crown className="h-5 w-5 text-primary" />
+          <Crown className="h-5 w-5 text-amber-400" />
           <div className="flex-1">
-            <p className="text-sm text-muted-foreground">Tier</p>
+            <p className="text-sm text-blue-200/70">Tier</p>
             <Badge className={tierColors[tier]} variant="outline">
               {tierNames[tier]}
             </Badge>
@@ -68,28 +70,34 @@ export const SubscriptionDetailsCard: React.FC<SubscriptionDetailsCardProps> = (
         </div>
 
         <div className="flex items-center gap-3">
-          <Calendar className="h-5 w-5 text-primary" />
+          <Calendar className="h-5 w-5 text-amber-400" />
           <div className="flex-1">
-            <p className="text-sm text-muted-foreground">Status</p>
-            <Badge variant={status === 'active' ? 'default' : 'secondary'}>
+            <p className="text-sm text-blue-200/70">Status</p>
+            <Badge 
+              className={status === 'active' 
+                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' 
+                : 'bg-gray-500/20 text-gray-300 border-gray-500/30'
+              }
+              variant="outline"
+            >
               {status}
             </Badge>
           </div>
         </div>
 
         {currentPeriodStart && currentPeriodEnd && (
-          <div className="pt-4 border-t">
-            <p className="text-sm font-medium mb-2">Billing Period</p>
+          <div className="pt-4 border-t border-white/10">
+            <p className="text-sm font-medium mb-2 text-amber-100">Billing Period</p>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <p className="text-muted-foreground">Start Date</p>
-                <p className="font-medium">
+                <p className="text-blue-200/70">Start Date</p>
+                <p className="font-medium text-blue-100">
                   {format(new Date(currentPeriodStart), 'MMM d, yyyy')}
                 </p>
               </div>
               <div>
-                <p className="text-muted-foreground">End Date</p>
-                <p className="font-medium">
+                <p className="text-blue-200/70">End Date</p>
+                <p className="font-medium text-blue-100">
                   {format(new Date(currentPeriodEnd), 'MMM d, yyyy')}
                 </p>
               </div>
@@ -98,13 +106,13 @@ export const SubscriptionDetailsCard: React.FC<SubscriptionDetailsCardProps> = (
         )}
 
         {websiteUrl && (
-          <div className="flex items-center gap-2 pt-4 border-t">
-            <LinkIcon className="h-4 w-4 text-muted-foreground" />
+          <div className="flex items-center gap-2 pt-4 border-t border-white/10">
+            <LinkIcon className="h-4 w-4 text-blue-200/70" />
             <a
               href={websiteUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-primary hover:underline"
+              className="text-sm text-amber-400 hover:text-amber-300 hover:underline transition-colors"
             >
               {websiteUrl}
             </a>
