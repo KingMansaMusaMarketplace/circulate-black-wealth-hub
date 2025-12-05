@@ -113,13 +113,13 @@ export const ContextualTooltip: React.FC<ContextualTooltipProps> = ({
       {children}
       
       {isVisible && !isDismissed && (
-        <div className={`absolute z-50 ${getPositionClasses()}`}>
-          <Card className="w-64 bg-white shadow-xl border border-gray-200 backdrop-blur-none">
-            <CardContent className="p-4 bg-white rounded-lg">
-              <div className="flex items-start justify-between mb-2">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 pointer-events-none">
+          <Card className="w-80 max-w-[90vw] bg-white shadow-2xl border border-gray-200 pointer-events-auto">
+            <CardContent className="p-5 bg-white rounded-lg">
+              <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <Lightbulb className="w-4 h-4 text-amber-500" />
-                  <h4 className="font-semibold text-sm text-gray-900">{title}</h4>
+                  <Lightbulb className="w-5 h-5 text-amber-500" />
+                  <h4 className="font-semibold text-base text-gray-900">{title}</h4>
                 </div>
                 <Button
                   variant="ghost"
@@ -127,17 +127,12 @@ export const ContextualTooltip: React.FC<ContextualTooltipProps> = ({
                   onClick={handleDismiss}
                   className="h-auto p-1 hover:bg-gray-100"
                 >
-                  <X className="w-3 h-3 text-gray-500" />
+                  <X className="w-4 h-4 text-gray-500" />
                 </Button>
               </div>
               <p className="text-sm text-gray-700 leading-relaxed">{tip}</p>
             </CardContent>
           </Card>
-          
-          {/* Arrow */}
-          <div 
-            className={`absolute w-0 h-0 border-4 ${getArrowClasses()}`}
-          />
         </div>
       )}
     </div>
