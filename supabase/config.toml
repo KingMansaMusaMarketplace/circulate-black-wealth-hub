@@ -153,3 +153,9 @@ verify_jwt = false
 [functions.ai-assistant]
 verify_jwt = false
 
+[functions.send-sponsor-email]
+verify_jwt = true
+
+[functions.send-sponsor-rejection]
+verify_jwt = true
+

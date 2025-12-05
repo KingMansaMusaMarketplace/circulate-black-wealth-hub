@@ -6038,6 +6038,94 @@ export type Database = {
           },
         ]
       }
+      sponsor_communications: {
+        Row: {
+          admin_user_id: string | null
+          communication_type: string
+          content: string
+          created_at: string | null
+          email_template: string | null
+          id: string
+          sent_at: string | null
+          sponsor_id: string
+          subject: string | null
+        }
+        Insert: {
+          admin_user_id?: string | null
+          communication_type: string
+          content: string
+          created_at?: string | null
+          email_template?: string | null
+          id?: string
+          sent_at?: string | null
+          sponsor_id: string
+          subject?: string | null
+        }
+        Update: {
+          admin_user_id?: string | null
+          communication_type?: string
+          content?: string
+          created_at?: string | null
+          email_template?: string | null
+          id?: string
+          sent_at?: string | null
+          sponsor_id?: string
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_communications_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_documents: {
+        Row: {
+          created_at: string | null
+          document_data: Json | null
+          document_type: string
+          document_url: string | null
+          generated_by: string | null
+          id: string
+          sponsor_id: string
+          valid_from: string | null
+          valid_to: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          document_data?: Json | null
+          document_type: string
+          document_url?: string | null
+          generated_by?: string | null
+          id?: string
+          sponsor_id: string
+          valid_from?: string | null
+          valid_to?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          document_data?: Json | null
+          document_type?: string
+          document_url?: string | null
+          generated_by?: string | null
+          id?: string
+          sponsor_id?: string
+          valid_from?: string | null
+          valid_to?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_documents_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sponsor_impact_metrics: {
         Row: {
           businesses_supported: number | null
@@ -6073,6 +6161,53 @@ export type Database = {
           {
             foreignKeyName: "sponsor_impact_metrics_subscription_id_fkey"
             columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_reminders: {
+        Row: {
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_completed: boolean | null
+          message: string | null
+          reminder_date: string
+          reminder_type: string
+          sponsor_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_completed?: boolean | null
+          message?: string | null
+          reminder_date: string
+          reminder_type: string
+          sponsor_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_completed?: boolean | null
+          message?: string | null
+          reminder_date?: string
+          reminder_type?: string
+          sponsor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_reminders_sponsor_id_fkey"
+            columns: ["sponsor_id"]
             isOneToOne: false
             referencedRelation: "corporate_subscriptions"
             referencedColumns: ["id"]
