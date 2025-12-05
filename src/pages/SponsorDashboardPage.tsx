@@ -172,26 +172,39 @@ export default function SponsorDashboardPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-3 relative">
-                  <Button 
-                    className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white hover:from-amber-600 hover:to-yellow-700"
-                    onClick={handleManageSubscription}
-                    disabled={isLoadingPortal || !subscription.stripe_customer_id}
-                  >
-                    {isLoadingPortal ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Loading...
-                      </>
-                    ) : (
-                      <>
-                        <ExternalLink className="mr-2 h-4 w-4" />
-                        Manage Subscription & Billing
-                      </>
-                    )}
-                  </Button>
-                  <p className="text-xs text-blue-200/50 text-center">
-                    Access your customer portal to update payment methods, view invoices, upgrade/downgrade tiers, and manage your subscription
-                  </p>
+                  {subscription.stripe_customer_id ? (
+                    <>
+                      <Button 
+                        className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white hover:from-amber-600 hover:to-yellow-700"
+                        onClick={handleManageSubscription}
+                        disabled={isLoadingPortal}
+                      >
+                        {isLoadingPortal ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Loading...
+                          </>
+                        ) : (
+                          <>
+                            <ExternalLink className="mr-2 h-4 w-4" />
+                            Manage Subscription & Billing
+                          </>
+                        )}
+                      </Button>
+                      <p className="text-xs text-blue-200/50 text-center">
+                        Access your customer portal to update payment methods, view invoices, upgrade/downgrade tiers, and manage your subscription
+                      </p>
+                    </>
+                  ) : (
+                    <div className="text-center py-2">
+                      <p className="text-sm text-amber-200/70">
+                        Billing portal not available
+                      </p>
+                      <p className="text-xs text-blue-200/50 mt-1">
+                        Your subscription was set up manually. Please contact support to manage billing.
+                      </p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
