@@ -29,12 +29,12 @@ export const SponsorAnalytics = ({ subscriptionId }: SponsorAnalyticsProps) => {
     return (
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {[...Array(4)].map((_, i) => (
-          <Card key={i}>
+          <Card key={i} className="bg-white/5 backdrop-blur-xl border-white/10">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <div className="h-4 w-20 bg-muted animate-pulse rounded"></div>
+              <div className="h-4 w-20 bg-white/10 animate-pulse rounded"></div>
             </CardHeader>
             <CardContent>
-              <div className="h-8 w-16 bg-muted animate-pulse rounded"></div>
+              <div className="h-8 w-16 bg-white/10 animate-pulse rounded"></div>
             </CardContent>
           </Card>
         ))}
@@ -57,70 +57,82 @@ export const SponsorAnalytics = ({ subscriptionId }: SponsorAnalyticsProps) => {
       clicks: m.clicks || 0,
     })) || [];
 
+  const statCards = [
+    {
+      title: 'Total Impressions',
+      value: totalImpressions.toLocaleString(),
+      description: 'All-time views of your sponsor logo',
+      icon: Eye,
+      gradient: 'from-blue-500 to-cyan-600',
+    },
+    {
+      title: 'Total Clicks',
+      value: totalClicks.toLocaleString(),
+      description: 'Clicks to your website',
+      icon: MousePointerClick,
+      gradient: 'from-emerald-500 to-teal-600',
+    },
+    {
+      title: 'Click-Through Rate',
+      value: `${clickThroughRate}%`,
+      description: 'Engagement rate',
+      icon: TrendingUp,
+      gradient: 'from-amber-500 to-yellow-600',
+    },
+    {
+      title: 'Avg Daily Impressions',
+      value: avgDailyImpressions.toLocaleString(),
+      description: 'Last 30 days',
+      icon: Calendar,
+      gradient: 'from-purple-500 to-pink-600',
+    },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Impressions</CardTitle>
-            <Eye className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalImpressions.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">All-time views of your sponsor logo</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Clicks</CardTitle>
-            <MousePointerClick className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalClicks.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">Clicks to your website</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Click-Through Rate</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{clickThroughRate}%</div>
-            <p className="text-xs text-muted-foreground">Engagement rate</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg Daily Impressions</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{avgDailyImpressions.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">Last 30 days</p>
-          </CardContent>
-        </Card>
+        {statCards.map((stat) => (
+          <Card key={stat.title} className="bg-white/5 backdrop-blur-xl border-white/10 overflow-hidden relative group hover:bg-white/10 transition-colors">
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${stat.gradient} opacity-10 rounded-full blur-2xl`} />
+            </div>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
+              <CardTitle className="text-sm font-medium text-blue-200/70">{stat.title}</CardTitle>
+              <div className={`p-2 rounded-lg bg-gradient-to-br ${stat.gradient}`}>
+                <stat.icon className="h-4 w-4 text-white" />
+              </div>
+            </CardHeader>
+            <CardContent className="relative">
+              <div className="text-2xl font-bold text-white">{stat.value}</div>
+              <p className="text-xs text-blue-200/50">{stat.description}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {/* Chart */}
-      <Card>
+      <Card className="bg-white/5 backdrop-blur-xl border-white/10">
         <CardHeader>
-          <CardTitle>Performance Over Time</CardTitle>
-          <CardDescription>Last 14 days of impressions and clicks</CardDescription>
+          <CardTitle className="text-amber-100">Performance Over Time</CardTitle>
+          <CardDescription className="text-blue-200/70">Last 14 days of impressions and clicks</CardDescription>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="impressions" stroke="hsl(var(--primary))" strokeWidth={2} name="Impressions" />
-              <Line type="monotone" dataKey="clicks" stroke="hsl(var(--accent))" strokeWidth={2} name="Clicks" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+              <XAxis dataKey="date" stroke="rgba(191,219,254,0.5)" fontSize={12} />
+              <YAxis stroke="rgba(191,219,254,0.5)" fontSize={12} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: 'rgba(10, 22, 40, 0.9)', 
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '8px',
+                  color: '#fff'
+                }}
+              />
+              <Line type="monotone" dataKey="impressions" stroke="#fbbf24" strokeWidth={2} name="Impressions" dot={{ fill: '#fbbf24' }} />
+              <Line type="monotone" dataKey="clicks" stroke="#60a5fa" strokeWidth={2} name="Clicks" dot={{ fill: '#60a5fa' }} />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
