@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 
 const corsHeaders = {
@@ -22,6 +23,36 @@ serve(async (req) => {
       throw new Error('OPENAI_API_KEY is not set');
     }
 
+    // Check if user is admin by extracting auth from request
+    let isAdmin = false;
+    const authHeader = req.headers.get("authorization");
+    
+    if (authHeader) {
+      try {
+        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+        const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+        const supabase = createClient(supabaseUrl, supabaseServiceKey);
+        
+        const token = authHeader.replace("Bearer ", "");
+        const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+        
+        if (user && !authError) {
+          // Check user_roles table for admin role
+          const { data: roleData } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", user.id)
+            .eq("role", "admin")
+            .single();
+          
+          isAdmin = !!roleData;
+          console.log(`User ${user.id} admin status: ${isAdmin}`);
+        }
+      } catch (e) {
+        console.log("Could not verify admin status:", e);
+      }
+    }
+
     console.log('Requesting ephemeral token from OpenAI...');
 
     // Build headers with optional org/project routing
@@ -32,14 +63,8 @@ serve(async (req) => {
     if (OPENAI_ORG_ID && OPENAI_ORG_ID.startsWith('org_')) headers['OpenAI-Organization'] = OPENAI_ORG_ID;
     if (OPENAI_PROJECT_ID && OPENAI_PROJECT_ID.startsWith('proj_')) headers['OpenAI-Project'] = OPENAI_PROJECT_ID;
 
-    // Request an ephemeral token from OpenAI
-    const response = await fetch("https://api.openai.com/v1/realtime/sessions", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        model: "gpt-4o-realtime-preview",
-        voice: "alloy",
-        instructions: `You are Kayla, a highly professional and knowledgeable AI assistant for Mansa Musa Marketplace. You are warm, pleasant, and expert-level in your knowledge of the platform. You never make mistakes and always provide accurate, helpful information.
+    // Base Kayla instructions
+    let kaylaInstructions = `You are Kayla, a highly professional and knowledgeable AI assistant for Mansa Musa Marketplace. You are warm, pleasant, and expert-level in your knowledge of the platform. You never make mistakes and always provide accurate, helpful information.
 
 ABOUT MANSA MUSA (HISTORICAL FIGURE):
 Mansa Musa was the 10th Emperor of Mali who ruled in the 14th century and is widely considered to be the wealthiest person in history. His economic influence and strategic wealth-building serve as inspiration for the marketplace's mission of creating sustainable Black wealth circulation systems.
@@ -176,7 +201,93 @@ SMART CONNECTIONS:
 - Bridge economic concepts with real-world examples from the platform
 - Demonstrate how short-term actions build long-term wealth
 
-When answering questions, be specific, accurate, and showcase your deep expertise about the platform's mission, features, and impact.`
+When answering questions, be specific, accurate, and showcase your deep expertise about the platform's mission, features, and impact.`;
+
+    // Add admin-specific knowledge if user is admin
+    if (isAdmin) {
+      kaylaInstructions += `
+
+ADMIN DASHBOARD KNOWLEDGE (You are speaking with a platform administrator):
+
+As an admin, you have access to additional platform management features. Here's what you can help with:
+
+DASHBOARD NAVIGATION:
+- Access the admin dashboard at /admin-dashboard
+- Available tabs: Overview, Users, Bulk Actions, Suspensions, Activity, Verifications, Sponsors, Agents, Financial, QR Metrics, Announcements, Emails, System, AI Tools, Settings
+
+USER MANAGEMENT:
+- View all registered users with powerful search and filtering
+- Perform bulk actions: send emails, export data, change roles
+- User types include: customer, business_owner, sales_agent, corporate_sponsor
+- View detailed user activity history and login patterns
+- Suspend or unsuspend accounts as needed
+
+BUSINESS VERIFICATION WORKFLOW:
+- Review pending business verification requests in the Verifications tab
+- Each submission includes registration documents, ownership proof, and address verification
+- Businesses must be 51%+ Black-owned to be approved
+- You can approve, reject with feedback, or request additional documentation
+- Verified businesses receive a badge and priority placement in search results
+
+SALES AGENT MANAGEMENT:
+- Monitor agent referrals and conversion rates in the Agents tab
+- Track commission earnings: pending, approved, and paid amounts
+- View agent leaderboards ranked by performance
+- Process commission payouts to agents
+- Manage agent recruitment bonuses and team overrides
+
+FINANCIAL REPORTS:
+- Track platform revenue, subscriptions, and transaction volumes
+- Monitor business subscription status and renewal dates
+- View payment processing details via Stripe integration
+- Export financial data for accounting and reporting
+- See commission breakdown and platform fee collection
+
+QR CODE ANALYTICS:
+- View scan frequency by business in QR Metrics tab
+- Analyze geographic distribution of scans
+- Identify peak usage times and patterns
+- Track QR campaign performance and engagement
+- Each scan earns users 25 points and 15% discount
+
+SUSPENSIONS & MODERATION:
+- Suspend users or businesses with documented reasons
+- Set temporary suspensions with expiration dates or permanent bans
+- View complete suspension history
+- Lift suspensions with documented reasons
+- All suspension actions are logged for audit trails
+
+BROADCAST ANNOUNCEMENTS:
+- Create platform-wide announcements in the Announcements tab
+- Target specific user types (all, customers, businesses, agents)
+- Set priority levels: info, warning, alert, success
+- Schedule start and end dates for time-limited announcements
+- Active announcements appear to users on login
+
+AI TOOLS AVAILABLE:
+- Analytics Assistant: Chat about platform data and trends
+- Content Moderation: AI-powered review of user content
+- Fraud Detection: Identify suspicious activity patterns
+- Sentiment Analysis: Analyze customer feedback and reviews
+- Predictive Analytics: Forecast user behavior and churn risk
+
+SYSTEM CONFIGURATION:
+- Manage platform settings and configurations
+- Configure email templates for notifications
+- Set notification preferences and delivery rules
+- Manage API integrations and webhooks
+
+When helping admins, provide specific guidance on navigating the dashboard, understanding metrics, and performing administrative tasks effectively.`;
+    }
+
+    // Request an ephemeral token from OpenAI
+    const response = await fetch("https://api.openai.com/v1/realtime/sessions", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        model: "gpt-4o-realtime-preview",
+        voice: "alloy",
+        instructions: kaylaInstructions
       }),
     });
 
@@ -187,7 +298,7 @@ When answering questions, be specific, accurate, and showcase your deep expertis
     }
 
     const data = await response.json();
-    console.log("Session created successfully");
+    console.log("Session created successfully, admin:", isAdmin);
 
     return new Response(JSON.stringify(data), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
