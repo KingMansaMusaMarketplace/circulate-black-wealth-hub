@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
-  Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft
+  Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home
 } from 'lucide-react';
 import {
   Sidebar,
@@ -30,6 +30,12 @@ interface AdminSidebarProps {
 }
 
 const menuGroups = [
+  {
+    label: 'Home',
+    items: [
+      { id: 'hub', label: 'Hub', icon: Home },
+    ]
+  },
   {
     label: 'Dashboard',
     items: [

@@ -25,14 +25,15 @@ import AdminRolesManager from '@/components/admin/AdminRolesManager';
 import DatabasePerformanceMonitor from '@/components/admin/DatabasePerformanceMonitor';
 import UserImpersonation from '@/components/admin/UserImpersonation';
 import AdminSidebar from '@/components/admin/AdminSidebar';
+import AdminHub from '@/components/admin/AdminHub';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-import { PlayCircle } from 'lucide-react';
+import { PlayCircle, Home } from 'lucide-react';
 
 const AdminDashboardPage: React.FC = () => {
   const { user } = useAuth();
   const [showTour, setShowTour] = useState(false);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('hub');
 
   useEffect(() => {
     const hasSeenTour = localStorage.getItem('admin-dashboard-page-tour-completed');
@@ -48,6 +49,8 @@ const AdminDashboardPage: React.FC = () => {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'hub':
+        return <AdminHub onNavigate={setActiveTab} />;
       case 'overview':
         return <AdminAnalyticsDashboard />;
       case 'users':
@@ -130,6 +133,17 @@ const AdminDashboardPage: React.FC = () => {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
+                    {activeTab !== 'hub' && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setActiveTab('hub')}
+                        className="flex items-center gap-2 border-white/20 text-white hover:bg-white/10 hover:text-white bg-white/5 backdrop-blur-sm"
+                      >
+                        <Home className="h-4 w-4" />
+                        Hub
+                      </Button>
+                    )}
                     <HelpPanel />
                     <DashboardAIAssistant />
                     <Button
