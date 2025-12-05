@@ -29,7 +29,7 @@ Deno.serve(async (req) => {
       .select(`
         id,
         title,
-        type,
+        category,
         download_count,
         created_at
       `)
@@ -101,7 +101,7 @@ Deno.serve(async (req) => {
       return {
         id: material.id,
         title: material.title,
-        type: material.type,
+        category: material.category,
         total_downloads: materialDownloads.length,
         unique_agents: uniqueAgents.size,
         conversions,
@@ -131,16 +131,16 @@ Performance Summary:
 - Average Conversion Rate: ${(materialPerformance.reduce((s, m) => s + m.conversion_rate, 0) / materialPerformance.length).toFixed(2)}%
 
 Top Performing Materials (by conversions):
-${topPerformers.map(m => `- ${m.title} (${m.type}): ${m.conversions} conversions, ${m.conversion_rate.toFixed(1)}% rate, ${m.total_downloads} downloads`).join('\n')}
+${topPerformers.map(m => `- ${m.title} (${m.category}): ${m.conversions} conversions, ${m.conversion_rate.toFixed(1)}% rate, ${m.total_downloads} downloads`).join('\n')}
 
 Underperforming Materials (high downloads, low conversions):
-${underperformers.map(m => `- ${m.title} (${m.type}): ${m.conversion_rate.toFixed(1)}% rate, ${m.total_downloads} downloads`).join('\n')}
+${underperformers.map(m => `- ${m.title} (${m.category}): ${m.conversion_rate.toFixed(1)}% rate, ${m.total_downloads} downloads`).join('\n')}
 
-Material Type Distribution:
+Material Category Distribution:
 ${Object.entries(materialPerformance.reduce((acc, m) => {
-  acc[m.type] = (acc[m.type] || 0) + m.total_downloads;
+  acc[m.category] = (acc[m.category] || 0) + m.total_downloads;
   return acc;
-}, {} as Record<string, number>)).map(([type, count]) => `- ${type}: ${count} downloads`).join('\n')}
+}, {} as Record<string, number>)).map(([category, count]) => `- ${category}: ${count} downloads`).join('\n')}
 
 Please provide:
 1. Key insights about what's working well (2-3 points)
