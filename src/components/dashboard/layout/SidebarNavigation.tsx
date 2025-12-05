@@ -59,8 +59,8 @@ const SidebarNavigation = () => {
             className={cn(
               "flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors",
               isActive
-                ? "bg-mansablue text-white"
-                : "text-gray-700 hover:bg-gray-100 hover:text-mansablue"
+                ? "bg-mansagold/20 text-mansagold"
+                : "text-mansagold hover:bg-mansagold/10 hover:text-mansagold"
             )}
           >
             <item.icon className="mr-3 h-5 w-5" />
