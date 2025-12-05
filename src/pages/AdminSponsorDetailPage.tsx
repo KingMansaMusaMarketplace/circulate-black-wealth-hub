@@ -436,7 +436,7 @@ export default function AdminSponsorDetailPage() {
                     aria-expanded={sponsorSwitcherOpen}
                     className="h-auto p-1 -ml-1 text-2xl font-bold hover:bg-muted/50"
                   >
-                    {sponsor.company_name}
+                    <span className="text-red-500">{sponsor.company_name}</span>
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
