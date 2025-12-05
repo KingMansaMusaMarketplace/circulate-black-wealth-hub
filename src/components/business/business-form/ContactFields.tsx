@@ -24,7 +24,7 @@ const ContactFields = () => {
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone</FormLabel>
+              <FormLabel>Phone <span className="text-red-500">*</span></FormLabel>
               <FormControl>
                 <Input placeholder="(555) 123-4567" {...field} />
               </FormControl>
