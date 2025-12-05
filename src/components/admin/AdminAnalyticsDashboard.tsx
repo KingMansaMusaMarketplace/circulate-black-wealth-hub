@@ -2,10 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 import { Users, Building2, UserCheck, Calendar, TrendingUp, Shield } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { format, subDays, startOfDay } from 'date-fns';
+import { format, subDays, subMonths, subYears, startOfDay, startOfMonth, startOfYear } from 'date-fns';
+
+type TimePeriod = '7days' | '30days' | '90days' | 'thisMonth' | 'thisYear' | 'allTime';
 
 interface UserMetrics {
   total_users: number;
@@ -61,10 +64,36 @@ const MetricCard: React.FC<MetricCardProps> = ({ title, value, change, icon, tre
 const AdminAnalyticsDashboard: React.FC = () => {
   const [metrics, setMetrics] = useState<UserMetrics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>('7days');
+
+  const getTimePeriodConfig = (period: TimePeriod) => {
+    const now = new Date();
+    switch (period) {
+      case '7days':
+        return { days: 7, label: 'Last 7 Days', dateFormat: 'MMM dd' };
+      case '30days':
+        return { days: 30, label: 'Last 30 Days', dateFormat: 'MMM dd' };
+      case '90days':
+        return { days: 90, label: 'Last 90 Days', dateFormat: 'MMM dd' };
+      case 'thisMonth':
+        const daysThisMonth = Math.ceil((now.getTime() - startOfMonth(now).getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        return { days: daysThisMonth, label: 'This Month', dateFormat: 'MMM dd' };
+      case 'thisYear':
+        const daysThisYear = Math.ceil((now.getTime() - startOfYear(now).getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        return { days: daysThisYear, label: 'This Year', dateFormat: 'MMM' };
+      case 'allTime':
+        return { days: 365, label: 'All Time', dateFormat: 'MMM yyyy' };
+      default:
+        return { days: 7, label: 'Last 7 Days', dateFormat: 'MMM dd' };
+    }
+  };
 
   useEffect(() => {
     const fetchUserMetrics = async () => {
+      setLoading(true);
       try {
+        const periodConfig = getTimePeriodConfig(timePeriod);
+        
         // Fetch total users and breakdown by type
         const { data: profiles, error: profilesError } = await supabase
           .from('profiles')
@@ -92,25 +121,74 @@ const AdminAnalyticsDashboard: React.FC = () => {
           expired: profiles?.filter(p => p.subscription_status === 'expired').length || 0,
         };
 
-        // Generate daily signup data for the last 7 days
+        // Generate signup data based on time period
         const dailySignups = [];
-        for (let i = 6; i >= 0; i--) {
-          const date = startOfDay(subDays(new Date(), i));
-          const dateStr = format(date, 'yyyy-MM-dd');
-          
-          const dayProfiles = profiles?.filter(p => 
-            format(new Date(p.created_at), 'yyyy-MM-dd') === dateStr
-          ) || [];
-          
-          const customers = dayProfiles.filter(p => p.user_type === 'customer').length;
-          const businesses = dayProfiles.filter(p => p.user_type === 'business').length;
-          
-          dailySignups.push({
-            date: format(date, 'MMM dd'),
-            customers,
-            businesses,
-            total: customers + businesses
-          });
+        const daysToShow = periodConfig.days;
+        
+        // For longer periods, aggregate by week or month
+        const aggregateBy = daysToShow > 90 ? 'month' : daysToShow > 30 ? 'week' : 'day';
+        
+        if (aggregateBy === 'day') {
+          for (let i = daysToShow - 1; i >= 0; i--) {
+            const date = startOfDay(subDays(new Date(), i));
+            const dateStr = format(date, 'yyyy-MM-dd');
+            
+            const dayProfiles = profiles?.filter(p => 
+              format(new Date(p.created_at), 'yyyy-MM-dd') === dateStr
+            ) || [];
+            
+            const customers = dayProfiles.filter(p => p.user_type === 'customer').length;
+            const businessCount = dayProfiles.filter(p => p.user_type === 'business').length;
+            
+            dailySignups.push({
+              date: format(date, periodConfig.dateFormat),
+              customers,
+              businesses: businessCount,
+              total: customers + businessCount
+            });
+          }
+        } else if (aggregateBy === 'week') {
+          const weeks = Math.ceil(daysToShow / 7);
+          for (let i = weeks - 1; i >= 0; i--) {
+            const weekStart = startOfDay(subDays(new Date(), i * 7 + 6));
+            const weekEnd = startOfDay(subDays(new Date(), i * 7));
+            
+            const weekProfiles = profiles?.filter(p => {
+              const createdAt = new Date(p.created_at);
+              return createdAt >= weekStart && createdAt <= weekEnd;
+            }) || [];
+            
+            const customers = weekProfiles.filter(p => p.user_type === 'customer').length;
+            const businessCount = weekProfiles.filter(p => p.user_type === 'business').length;
+            
+            dailySignups.push({
+              date: format(weekEnd, 'MMM dd'),
+              customers,
+              businesses: businessCount,
+              total: customers + businessCount
+            });
+          }
+        } else {
+          // Monthly aggregation
+          const months = Math.min(12, Math.ceil(daysToShow / 30));
+          for (let i = months - 1; i >= 0; i--) {
+            const monthDate = subMonths(new Date(), i);
+            const monthStr = format(monthDate, 'yyyy-MM');
+            
+            const monthProfiles = profiles?.filter(p => 
+              format(new Date(p.created_at), 'yyyy-MM') === monthStr
+            ) || [];
+            
+            const customers = monthProfiles.filter(p => p.user_type === 'customer').length;
+            const businessCount = monthProfiles.filter(p => p.user_type === 'business').length;
+            
+            dailySignups.push({
+              date: format(monthDate, 'MMM yyyy'),
+              customers,
+              businesses: businessCount,
+              total: customers + businessCount
+            });
+          }
         }
 
         setMetrics({
@@ -129,7 +207,7 @@ const AdminAnalyticsDashboard: React.FC = () => {
     };
 
     fetchUserMetrics();
-  }, []);
+  }, [timePeriod]);
 
   const userTypeData = [
     { name: 'Customers', value: metrics?.total_customers || 0, color: '#1E40AF' },
@@ -245,8 +323,21 @@ const AdminAnalyticsDashboard: React.FC = () => {
             </Card>
 
             <Card>
-              <CardHeader>
-                <CardTitle>Daily Signups (Last 7 Days)</CardTitle>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle>Signups ({getTimePeriodConfig(timePeriod).label})</CardTitle>
+                <Select value={timePeriod} onValueChange={(value: TimePeriod) => setTimePeriod(value)}>
+                  <SelectTrigger className="w-[160px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-background">
+                    <SelectItem value="7days">Last 7 Days</SelectItem>
+                    <SelectItem value="30days">Last 30 Days</SelectItem>
+                    <SelectItem value="90days">Last 90 Days</SelectItem>
+                    <SelectItem value="thisMonth">This Month</SelectItem>
+                    <SelectItem value="thisYear">This Year</SelectItem>
+                    <SelectItem value="allTime">All Time</SelectItem>
+                  </SelectContent>
+                </Select>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -267,8 +358,21 @@ const AdminAnalyticsDashboard: React.FC = () => {
 
         <TabsContent value="signups" className="space-y-4">
           <Card>
-            <CardHeader>
-              <CardTitle>Signup Trends</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle>Signup Trends ({getTimePeriodConfig(timePeriod).label})</CardTitle>
+              <Select value={timePeriod} onValueChange={(value: TimePeriod) => setTimePeriod(value)}>
+                <SelectTrigger className="w-[160px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent className="bg-background">
+                  <SelectItem value="7days">Last 7 Days</SelectItem>
+                  <SelectItem value="30days">Last 30 Days</SelectItem>
+                  <SelectItem value="90days">Last 90 Days</SelectItem>
+                  <SelectItem value="thisMonth">This Month</SelectItem>
+                  <SelectItem value="thisYear">This Year</SelectItem>
+                  <SelectItem value="allTime">All Time</SelectItem>
+                </SelectContent>
+              </Select>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
