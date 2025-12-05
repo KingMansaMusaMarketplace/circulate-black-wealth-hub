@@ -107,7 +107,7 @@ const LiveDataCounters: React.FC = () => {
         >
           <counter.icon className={`h-4 w-4 ${counter.color}`} />
           <div className="flex flex-col">
-            <span className="text-[10px] text-blue-200/60 leading-none">{counter.label}</span>
+            <span className="text-[10px] text-white leading-none">{counter.label}</span>
             <div className="flex items-center gap-1">
               <span className={`text-sm font-bold text-white leading-none ${
                 isAnimating === index ? 'animate-pulse' : ''
