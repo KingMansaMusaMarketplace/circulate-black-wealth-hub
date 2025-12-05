@@ -3,10 +3,11 @@ import { Helmet } from 'react-helmet-async';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, TrendingUp, DollarSign, Users, Target, Award, PlayCircle, FileText, ChevronRight } from 'lucide-react';
+import { BookOpen, TrendingUp, DollarSign, Users, Target, Award, PlayCircle, FileText, ChevronRight, Construction, Bell } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const EducationPage: React.FC = () => {
-  console.log('[EDUCATION PAGE] Loading dark theme version - 2025-01-19');
+  console.log('[EDUCATION PAGE] Loading with Coming Soon overlay - 2025-12-05');
   
   // Dark theme education page with animated gradient orbs
   const courses = [
@@ -88,6 +89,72 @@ const EducationPage: React.FC = () => {
         
         {/* Grid Overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:72px_72px]" />
+      </div>
+
+      {/* Coming Soon Overlay */}
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/95 backdrop-blur-sm">
+        <div className="text-center space-y-8 p-8 max-w-2xl mx-auto animate-fade-in">
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 mb-4">
+            <Construction className="h-12 w-12 text-slate-900" />
+          </div>
+          
+          <div className="space-y-4">
+            <Badge className="bg-yellow-400/20 text-yellow-400 border-yellow-400/30 px-4 py-2 text-sm">
+              Coming Soon
+            </Badge>
+            <h1 className="text-4xl md:text-5xl font-bold text-white">
+              Education Center
+            </h1>
+            <p className="text-xl text-blue-200 max-w-xl mx-auto">
+              We're building something amazing! Our comprehensive education platform with courses, resources, and expert content is currently under development.
+            </p>
+          </div>
+
+          <div className="bg-slate-800/60 border border-white/10 rounded-xl p-6 space-y-4">
+            <h3 className="text-lg font-semibold text-yellow-400 flex items-center justify-center gap-2">
+              <Bell className="h-5 w-5" />
+              What's Coming
+            </h3>
+            <ul className="text-blue-200 space-y-2 text-left max-w-md mx-auto">
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-yellow-400 rounded-full" />
+                Business Fundamentals & Financial Literacy Courses
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-yellow-400 rounded-full" />
+                Digital Marketing & Customer Success Training
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-yellow-400 rounded-full" />
+                Expert Webinars & Video Tutorials
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-yellow-400 rounded-full" />
+                Downloadable Templates & Industry Guides
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+            <Link to="/">
+              <Button 
+                size="lg" 
+                className="bg-yellow-400 text-slate-900 hover:bg-yellow-500 shadow-lg"
+              >
+                Return Home
+              </Button>
+            </Link>
+            <Link to="/directory">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-slate-900"
+              >
+                Explore Businesses
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
 
       <div className="relative max-w-7xl mx-auto space-y-12 py-8 px-4">
