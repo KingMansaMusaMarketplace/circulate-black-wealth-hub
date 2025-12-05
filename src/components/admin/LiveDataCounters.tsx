@@ -107,11 +107,11 @@ const LiveDataCounters: React.FC = () => {
         >
           <counter.icon className={`h-4 w-4 ${counter.color}`} />
           <div className="flex flex-col">
-            <span className="text-[10px] text-white leading-none">{counter.label}</span>
+            <span className="text-[10px] leading-none" style={{ color: '#ffffff' }}>{counter.label}</span>
             <div className="flex items-center gap-1">
-              <span className={`text-sm font-bold text-white leading-none ${
+              <span className={`text-sm font-bold leading-none ${
                 isAnimating === index ? 'animate-pulse' : ''
-              }`}>
+              }`} style={{ color: '#ffffff' }}>
                 {formatValue(counter.value, counter.prefix)}
               </span>
               {getChangeIndicator(counter.value, counter.previousValue)}
