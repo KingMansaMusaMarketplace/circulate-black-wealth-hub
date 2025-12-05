@@ -3,13 +3,37 @@ import { getAllSalesAgentStats, getAgentPerformanceMetrics, SalesAgentStats, Age
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, TrendingUp, Users, DollarSign, Target, Award } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Loader2, TrendingUp, Users, DollarSign, Target, Award, Clock, Eye, CheckCircle, XCircle } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
+import { format } from 'date-fns';
+
+interface Application {
+  id: string;
+  user_id: string;
+  full_name: string;
+  email: string;
+  phone: string | null;
+  application_status: string;
+  test_score: number | null;
+  test_passed: boolean | null;
+  application_date: string;
+  why_join: string | null;
+  business_experience: string | null;
+  marketing_ideas: string | null;
+  notes: string | null;
+}
 
 const SalesAgentAnalytics: React.FC = () => {
   const [agentStats, setAgentStats] = useState<SalesAgentStats[]>([]);
   const [performanceMetrics, setPerformanceMetrics] = useState<AgentPerformance[]>([]);
+  const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
+  const [reviewNotes, setReviewNotes] = useState('');
 
   useEffect(() => {
     loadData();
@@ -21,10 +45,70 @@ const SalesAgentAnalytics: React.FC = () => {
       getAllSalesAgentStats(),
       getAgentPerformanceMetrics()
     ]);
+    
+    // Fetch applications
+    const { data: appsData } = await supabase
+      .from('sales_agent_applications')
+      .select('*')
+      .order('application_date', { ascending: false });
+    
     setAgentStats(stats);
     setPerformanceMetrics(performance);
+    setApplications(appsData || []);
     setLoading(false);
   };
+
+  const handleApplicationReview = async (applicationId: string, status: 'approved' | 'rejected') => {
+    try {
+      const { error } = await supabase
+        .from('sales_agent_applications')
+        .update({
+          application_status: status,
+          notes: reviewNotes,
+          reviewed_at: new Date().toISOString(),
+        })
+        .eq('id', applicationId);
+
+      if (error) throw error;
+
+      if (status === 'approved') {
+        const application = applications.find(a => a.id === applicationId);
+        if (application) {
+          const referralCode = `AGENT${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+          
+          const { error: agentError } = await supabase
+            .from('sales_agents')
+            .insert({
+              user_id: application.user_id,
+              full_name: application.full_name,
+              email: application.email,
+              phone: application.phone,
+              referral_code: referralCode,
+              commission_rate: 10.0,
+              tier: 'bronze',
+              is_active: true,
+            });
+
+          if (agentError) throw agentError;
+
+          await supabase.rpc('secure_change_user_role', {
+            target_user_id: application.user_id,
+            new_role: 'sales_agent',
+            reason: 'Application approved'
+          });
+        }
+      }
+
+      toast.success(`Application ${status === 'approved' ? 'approved' : 'rejected'} successfully`);
+      setReviewNotes('');
+      loadData();
+    } catch (error) {
+      console.error('Error reviewing application:', error);
+      toast.error('Failed to review application');
+    }
+  };
+
+  const pendingApplications = applications.filter(a => a.application_status === 'pending');
 
   const totalAgents = agentStats.length;
   const activeAgents = agentStats.filter(a => a.is_active).length;
@@ -119,11 +203,144 @@ const SalesAgentAnalytics: React.FC = () => {
         </Card>
       </div>
 
-      <Tabs defaultValue="overview" className="space-y-4">
+      <Tabs defaultValue="applications" className="space-y-4">
         <TabsList>
+          <TabsTrigger value="applications" className="relative">
+            Applications
+            {pendingApplications.length > 0 && (
+              <span className="ml-2 bg-orange-500 text-white text-xs rounded-full px-2 py-0.5">
+                {pendingApplications.length}
+              </span>
+            )}
+          </TabsTrigger>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="applications" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="h-5 w-5 text-orange-500" />
+                Pending Applications ({pendingApplications.length})
+              </CardTitle>
+              <CardDescription>Review and approve sales agent applications</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {pendingApplications.length === 0 ? (
+                <p className="text-muted-foreground text-center py-8">No pending applications</p>
+              ) : (
+                <div className="space-y-3">
+                  {pendingApplications.map((application) => (
+                    <div
+                      key={application.id}
+                      className="flex items-center justify-between p-4 bg-muted/50 rounded-lg border"
+                    >
+                      <div>
+                        <p className="font-medium">{application.full_name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {application.email} {application.phone && `• ${application.phone}`}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Applied: {format(new Date(application.application_date), 'MMM d, yyyy')}
+                          {application.test_passed !== null && (
+                            <span className={application.test_passed ? ' • Test Passed' : ' • Test Failed'}>
+                              {application.test_score !== null && ` (${application.test_score}%)`}
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Eye className="h-4 w-4 mr-1" />
+                            Review
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-2xl">
+                          <DialogHeader>
+                            <DialogTitle>Review Application</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <p className="text-sm text-muted-foreground">Full Name</p>
+                                <p className="font-medium">{application.full_name}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm text-muted-foreground">Email</p>
+                                <p>{application.email}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm text-muted-foreground">Phone</p>
+                                <p>{application.phone || 'Not provided'}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm text-muted-foreground">Test Status</p>
+                                <Badge variant={application.test_passed ? 'default' : 'secondary'}>
+                                  {application.test_passed ? `Passed (${application.test_score}%)` : application.test_passed === false ? 'Failed' : 'Pending'}
+                                </Badge>
+                              </div>
+                            </div>
+
+                            {application.why_join && (
+                              <div>
+                                <p className="text-sm text-muted-foreground">Why they want to join</p>
+                                <p className="bg-muted p-3 rounded mt-1">{application.why_join}</p>
+                              </div>
+                            )}
+
+                            {application.business_experience && (
+                              <div>
+                                <p className="text-sm text-muted-foreground">Business Experience</p>
+                                <p className="bg-muted p-3 rounded mt-1">{application.business_experience}</p>
+                              </div>
+                            )}
+
+                            {application.marketing_ideas && (
+                              <div>
+                                <p className="text-sm text-muted-foreground">Marketing Ideas</p>
+                                <p className="bg-muted p-3 rounded mt-1">{application.marketing_ideas}</p>
+                              </div>
+                            )}
+
+                            <div>
+                              <label className="text-sm text-muted-foreground">Review Notes</label>
+                              <Textarea
+                                value={reviewNotes}
+                                onChange={(e) => setReviewNotes(e.target.value)}
+                                placeholder="Add notes about this application..."
+                                className="mt-1"
+                              />
+                            </div>
+
+                            <div className="flex gap-3 pt-4">
+                              <Button
+                                onClick={() => handleApplicationReview(application.id, 'approved')}
+                                className="flex-1 bg-green-600 hover:bg-green-700"
+                              >
+                                <CheckCircle className="h-4 w-4 mr-2" />
+                                Approve
+                              </Button>
+                              <Button
+                                onClick={() => handleApplicationReview(application.id, 'rejected')}
+                                variant="destructive"
+                                className="flex-1"
+                              >
+                                <XCircle className="h-4 w-4 mr-2" />
+                                Reject
+                              </Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         <TabsContent value="overview" className="space-y-4">
           <Card>
