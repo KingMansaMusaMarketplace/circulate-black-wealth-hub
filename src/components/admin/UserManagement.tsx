@@ -142,34 +142,34 @@ const UserManagement: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="backdrop-blur-xl bg-white/5 border-white/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-white/70">Total Users</CardTitle>
+            <CardTitle style={{ color: '#ffffff' }} className="text-sm font-medium">Total Users</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{userStats.total}</div>
+            <div style={{ color: '#ffffff' }} className="text-2xl font-bold">{userStats.total}</div>
           </CardContent>
         </Card>
         <Card className="backdrop-blur-xl bg-white/5 border-white/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-white/70">Customers</CardTitle>
+            <CardTitle style={{ color: '#ffffff' }} className="text-sm font-medium">Customers</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-400">{userStats.customers}</div>
+            <div style={{ color: '#60a5fa' }} className="text-2xl font-bold">{userStats.customers}</div>
           </CardContent>
         </Card>
         <Card className="backdrop-blur-xl bg-white/5 border-white/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-white/70">Businesses</CardTitle>
+            <CardTitle style={{ color: '#ffffff' }} className="text-sm font-medium">Businesses</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-400">{userStats.businesses}</div>
+            <div style={{ color: '#4ade80' }} className="text-2xl font-bold">{userStats.businesses}</div>
           </CardContent>
         </Card>
         <Card className="backdrop-blur-xl bg-white/5 border-white/10">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-white/70">Sales Agents</CardTitle>
+            <CardTitle style={{ color: '#ffffff' }} className="text-sm font-medium">Sales Agents</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-purple-400">{userStats.agents}</div>
+            <div style={{ color: '#c084fc' }} className="text-2xl font-bold">{userStats.agents}</div>
           </CardContent>
         </Card>
       </div>
