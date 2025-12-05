@@ -158,14 +158,6 @@ export default function SponsorDashboardPage() {
               <SubscriptionStatus subscription={subscription} />
               
               <TierBenefits tier={subscription.tier} />
-              
-              <div>
-                <h2 className="text-2xl font-bold mb-4 text-amber-100 flex items-center gap-2">
-                  <Sparkles className="h-5 w-5 text-amber-400" />
-                  Sponsorship Analytics
-                </h2>
-                <SponsorAnalytics subscriptionId={subscription.id} />
-              </div>
             </div>
 
             <div className="space-y-6">
@@ -203,6 +195,15 @@ export default function SponsorDashboardPage() {
                 </CardContent>
               </Card>
             </div>
+          </div>
+
+          {/* Analytics Section - Full Width */}
+          <div className="mt-6">
+            <h2 className="text-2xl font-bold mb-4 text-amber-100 flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-amber-400" />
+              Sponsorship Analytics
+            </h2>
+            <SponsorAnalytics subscriptionId={subscription.id} />
           </div>
         </div>
       </ResponsiveLayout>
