@@ -26,6 +26,9 @@ interface SalesAgent {
 interface Application {
   id: string;
   user_id: string;
+  full_name: string;
+  email: string;
+  phone: string | null;
   application_status: string;
   test_score: number | null;
   test_passed: boolean | null;
@@ -148,8 +151,11 @@ const AdminSalesAgents: React.FC = () => {
                 className="flex items-center justify-between p-3 bg-white/5 rounded-lg"
               >
                 <div>
-                  <p className="text-white font-medium">Application #{application.id.slice(0, 8)}</p>
+                  <p className="text-white font-medium">{application.full_name}</p>
                   <p className="text-blue-300 text-sm">
+                    {application.email} {application.phone && `• ${application.phone}`}
+                  </p>
+                  <p className="text-blue-300/70 text-xs">
                     Applied: {format(new Date(application.application_date), 'MMM d, yyyy')}
                     {application.test_passed !== null && (
                       <span className={application.test_passed ? ' • Test Passed' : ' • Test Failed'}>
@@ -176,6 +182,25 @@ const AdminSalesAgents: React.FC = () => {
                     </DialogHeader>
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-blue-300 text-sm">Full Name</p>
+                          <p className="text-white font-medium">{application.full_name}</p>
+                        </div>
+                        <div>
+                          <p className="text-blue-300 text-sm">Email</p>
+                          <p className="text-white">{application.email}</p>
+                        </div>
+                        <div>
+                          <p className="text-blue-300 text-sm">Phone</p>
+                          <p className="text-white">{application.phone || 'Not provided'}</p>
+                        </div>
+                        <div>
+                          <p className="text-blue-300 text-sm">Applied</p>
+                          <p className="text-white">{format(new Date(application.application_date), 'MMM d, yyyy')}</p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4 pt-2 border-t border-white/10">
                         <div>
                           <p className="text-blue-300 text-sm">Test Score</p>
                           <p className="text-white">
