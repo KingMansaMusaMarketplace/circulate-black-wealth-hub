@@ -23,7 +23,7 @@ Deno.serve(async (req) => {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - dateRange);
 
-    // Get material download data with referral conversion tracking
+    // Get material download data
     const { data: materials, error: materialsError } = await supabase
       .from('marketing_materials')
       .select(`
@@ -31,13 +31,7 @@ Deno.serve(async (req) => {
         title,
         type,
         download_count,
-        created_at,
-        material_category_assignments(
-          material_categories(name)
-        ),
-        material_tag_assignments(
-          material_tags(name)
-        )
+        created_at
       `)
       .eq('is_active', true);
 
@@ -113,8 +107,6 @@ Deno.serve(async (req) => {
         conversions,
         conversion_rate: conversionRate,
         tier_distribution: tierDistribution,
-        categories: material.material_category_assignments?.map((ca: any) => ca.material_categories?.name).filter(Boolean) || [],
-        tags: material.material_tag_assignments?.map((ta: any) => ta.material_tags?.name).filter(Boolean) || [],
         downloads_per_day: materialDownloads.length / dateRange,
         created_days_ago: Math.floor((Date.now() - new Date(material.created_at).getTime()) / (1000 * 60 * 60 * 24))
       };
