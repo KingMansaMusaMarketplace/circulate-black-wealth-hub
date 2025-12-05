@@ -1,4 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -22,7 +23,38 @@ Deno.serve(async (req) => {
       );
     }
 
-    const systemPrompt = `You are Kayla, a warm and knowledgeable AI assistant for Mansa Musa Marketplace - a platform connecting users with Black-owned businesses. Keep responses conversational and concise for voice.
+    // Check if user is admin by extracting auth from request
+    let isAdmin = false;
+    const authHeader = req.headers.get("authorization");
+    
+    if (authHeader) {
+      try {
+        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+        const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+        const supabase = createClient(supabaseUrl, supabaseServiceKey);
+        
+        const token = authHeader.replace("Bearer ", "");
+        const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+        
+        if (user && !authError) {
+          // Check user_roles table for admin role
+          const { data: roleData } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", user.id)
+            .eq("role", "admin")
+            .single();
+          
+          isAdmin = !!roleData;
+          console.log(`User ${user.id} admin status: ${isAdmin}`);
+        }
+      } catch (e) {
+        console.log("Could not verify admin status:", e);
+      }
+    }
+
+    // Base system prompt for all users
+    let systemPrompt = `You are Kayla, a warm and knowledgeable AI assistant for Mansa Musa Marketplace - a platform connecting users with Black-owned businesses. Keep responses conversational and concise for voice.
 
 **Response Length:**
 - Simple questions: 30-40 words (2-3 sentences)
@@ -73,7 +105,78 @@ Thomas D. Bowling is the inventor, Founder & Chief Architect of Economic Infrast
 - Managing bookings (view, cancel, reschedule)
 - Joining savings circles
 - Business registration
-- Sponsorship opportunities
+- Sponsorship opportunities`;
+
+    // Add admin-specific knowledge if user is admin
+    if (isAdmin) {
+      systemPrompt += `
+
+**ADMIN DASHBOARD KNOWLEDGE (Admin-Only Information):**
+
+You are speaking with a platform administrator. You can help them with dashboard features and admin tasks.
+
+**Dashboard Navigation:**
+- Access via /admin-dashboard route
+- Tabs: Overview, Users, Bulk Actions, Suspensions, Activity, Verifications, Sponsors, Agents, Financial, QR Metrics, Announcements, Emails, System, AI Tools, Settings
+
+**User Management:**
+- View all users with search and filters
+- Bulk actions: email, export, role changes
+- User types: customer, business_owner, sales_agent, corporate_sponsor
+- View user activity history and login patterns
+
+**Business Verification:**
+- Review pending verification requests
+- Check submitted documents (registration, ownership, address proof)
+- Approve or reject with notes
+- Verified businesses get a badge and priority listing
+
+**Sales Agent Management:**
+- Track agent referrals and conversions
+- Monitor commission earnings (pending, paid)
+- View agent leaderboards and performance
+- Approve commission payouts
+- Agent recruitment bonuses and team overrides
+
+**Financial Reports:**
+- Platform revenue and commission tracking
+- Business subscription status
+- Payment processing via Stripe
+- Export financial data for accounting
+
+**QR Analytics:**
+- Scan frequency by business
+- Geographic distribution of scans
+- Peak usage times
+- QR campaign performance
+
+**Suspensions & Moderation:**
+- Suspend users or businesses with reason
+- Set temporary or permanent suspensions
+- View suspension history
+- Lift suspensions with notes
+
+**Broadcast Announcements:**
+- Create platform-wide announcements
+- Target specific user types
+- Schedule start/end dates
+- Priority levels: info, warning, alert, success
+
+**AI Tools Available:**
+- Analytics Assistant for data insights
+- Content Moderation AI
+- Fraud Detection
+- Sentiment Analysis
+- Predictive Analytics
+
+**System Settings:**
+- Platform configuration
+- Email templates
+- Notification preferences
+- API integrations`;
+    }
+
+    systemPrompt += `
 
 Keep answers helpful, accurate, and conversational. If you need more details about a feature, ask clarifying questions.`;
 
