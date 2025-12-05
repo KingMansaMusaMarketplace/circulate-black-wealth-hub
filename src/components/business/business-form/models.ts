@@ -24,9 +24,12 @@ export const businessFormSchema = z.object({
   zipCode: z.string().min(5, {
     message: "Zip code must be at least 5 characters.",
   }),
-  phone: z.string().min(10, {
-    message: "Phone number is required and must be at least 10 characters.",
-  }),
+  phone: z.string()
+    .min(10, { message: "Phone number must be at least 10 digits." })
+    .regex(/^[\d\s\-\(\)\+]+$/, { message: "Please enter a valid phone number (digits, spaces, dashes, parentheses allowed)." })
+    .refine((val) => val.replace(/\D/g, '').length >= 10, {
+      message: "Phone number must contain at least 10 digits.",
+    }),
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
