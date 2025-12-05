@@ -177,13 +177,38 @@ const NativeFeaturesShowcase = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
-      {/* Close Button - Fixed Position */}
+      {/* Close Button - Fixed Position - Prominent for iOS */}
       <button
-        onClick={() => navigate(-1)}
-        className="fixed top-4 right-4 z-50 p-3 rounded-full bg-slate-800/90 hover:bg-slate-700 text-white/90 hover:text-white transition-all shadow-lg border border-white/10"
+        onClick={() => {
+          // Try to go back, but if no history, go home
+          if (window.history.length > 1) {
+            navigate(-1);
+          } else {
+            navigate('/');
+          }
+        }}
+        className="fixed top-4 right-4 z-50 p-4 rounded-full bg-white text-slate-900 hover:bg-slate-100 transition-all shadow-2xl border-2 border-slate-200 touch-manipulation"
         aria-label="Close and go back"
+        style={{
+          minHeight: '56px',
+          minWidth: '56px',
+          WebkitTapHighlightColor: 'transparent'
+        }}
       >
-        <X className="w-6 h-6" />
+        <X className="w-7 h-7" />
+      </button>
+      
+      {/* Back to Home Link - Additional exit */}
+      <button
+        onClick={() => navigate('/')}
+        className="fixed top-4 left-4 z-50 px-4 py-3 rounded-full bg-white text-slate-900 hover:bg-slate-100 transition-all shadow-2xl border-2 border-slate-200 touch-manipulation font-semibold text-sm"
+        aria-label="Go to home"
+        style={{
+          minHeight: '48px',
+          WebkitTapHighlightColor: 'transparent'
+        }}
+      >
+        ← Home
       </button>
       
       {/* Animated Background Orbs */}

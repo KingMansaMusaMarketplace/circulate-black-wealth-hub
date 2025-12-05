@@ -59,10 +59,21 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
       <div data-tour="user-menu">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={user?.user_metadata?.avatar_url} alt="User avatar" />
-                <AvatarFallback>{getUserInitials(displayName)}</AvatarFallback>
+            <Button 
+              variant="ghost" 
+              className="relative h-10 w-10 rounded-full select-none touch-manipulation"
+              style={{
+                WebkitUserSelect: 'none',
+                userSelect: 'none',
+                WebkitTouchCallout: 'none',
+                WebkitTapHighlightColor: 'transparent',
+                minHeight: '44px',
+                minWidth: '44px'
+              }}
+            >
+              <Avatar className="h-8 w-8 pointer-events-none">
+                <AvatarImage src={user?.user_metadata?.avatar_url} alt="User avatar" draggable={false} />
+                <AvatarFallback className="select-none">{getUserInitials(displayName)}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
