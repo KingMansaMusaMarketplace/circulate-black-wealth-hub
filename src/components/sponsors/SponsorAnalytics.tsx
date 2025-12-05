@@ -91,21 +91,18 @@ export const SponsorAnalytics = ({ subscriptionId }: SponsorAnalyticsProps) => {
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {statCards.map((stat) => (
-          <Card key={stat.title} className="bg-white/5 backdrop-blur-xl border-white/10 relative group hover:bg-white/10 transition-colors h-full">
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-              <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${stat.gradient} opacity-10 rounded-full blur-2xl`} />
-            </div>
-            <CardHeader className="pb-2 relative">
-              <div className="flex items-start justify-between gap-3">
+          <Card key={stat.title} className="bg-white/5 backdrop-blur-xl border-white/10 relative group hover:bg-white/10 transition-colors">
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between gap-2">
                 <CardTitle className="text-sm font-medium text-blue-200/70">{stat.title}</CardTitle>
-                <div className={`p-2 rounded-lg bg-gradient-to-br ${stat.gradient}`}>
+                <div className={`p-2 rounded-lg bg-gradient-to-br ${stat.gradient} shrink-0`}>
                   <stat.icon className="h-4 w-4 text-white" />
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="relative pt-0">
+            <CardContent className="pt-0">
               <div className="text-2xl font-bold text-white">{stat.value}</div>
               <p className="text-xs text-blue-200/50 mt-1">{stat.description}</p>
             </CardContent>
