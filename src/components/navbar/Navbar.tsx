@@ -112,14 +112,20 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                   variant="ghost" 
                   size="icon" 
                   onClick={toggleMobileMenu}
-                  className="md:hidden relative z-50 touch-manipulation hover:bg-accent/80 transition-all duration-300 hover:scale-105 rounded-lg"
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    toggleMobileMenu(e);
+                  }}
+                  className="md:hidden relative z-50 touch-manipulation hover:bg-accent/80 transition-all duration-300 hover:scale-105 rounded-lg select-none"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   data-mobile-menu-trigger
                   style={{ 
                     minHeight: '44px',
                     minWidth: '44px',
                     touchAction: 'manipulation',
-                    WebkitTapHighlightColor: 'transparent'
+                    WebkitTapHighlightColor: 'transparent',
+                    WebkitUserSelect: 'none',
+                    userSelect: 'none'
                   }}
                 >
                   {mobileMenuOpen ? (

@@ -105,7 +105,12 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   }, []);
 
   return (
-    <div className={`fixed left-1/2 -translate-x-1/2 z-[60] flex flex-col items-center gap-4 ${isNative ? 'bottom-24' : 'bottom-8'}`}>
+    <div 
+      className="fixed left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-4"
+      style={{
+        bottom: isNative ? 'calc(env(safe-area-inset-bottom, 20px) + 80px)' : '32px'
+      }}
+    >
       {transcript && (
         <div className="bg-background/95 backdrop-blur-sm border rounded-lg px-4 py-3 max-w-md shadow-lg animate-in fade-in slide-in-from-bottom-2">
           <p className="text-sm">{transcript}</p>
