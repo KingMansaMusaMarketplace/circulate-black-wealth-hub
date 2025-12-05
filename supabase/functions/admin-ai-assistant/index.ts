@@ -106,6 +106,12 @@ Based on the provided user/business data, predict:
         userPrompt = `Predict outcomes for:\n${JSON.stringify(data, null, 2)}`;
         break;
 
+      case "dashboard_help":
+        systemPrompt = data?.context || `You are a helpful assistant for the Mansa Musa Marketplace Admin Dashboard.
+Help administrators understand dashboard features, navigation, and functionality.
+Be concise and helpful. If you're unsure about something, say so.`;
+        break;
+
       default:
         systemPrompt = "You are a helpful AI assistant for the Mansa Musa Marketplace admin dashboard.";
     }
@@ -153,7 +159,7 @@ Based on the provided user/business data, predict:
 
     console.log(`${type} response generated successfully`);
 
-    return new Response(JSON.stringify({ result: content }), {
+    return new Response(JSON.stringify({ content, result: content }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
 
