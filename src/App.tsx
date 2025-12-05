@@ -96,6 +96,7 @@ const LazyTestingHub = lazy(() => import('@/pages/TestingHub'));
 const LazySponsorDashboard = lazy(() => import('@/pages/SponsorDashboard'));
 const LazySponsorSuccessPage = lazy(() => import('@/pages/SponsorSuccessPage'));
 const LazyAdminSponsorsPage = lazy(() => import('@/pages/AdminSponsorsPage'));
+const LazyAdminSponsorDetailPage = lazy(() => import('@/pages/AdminSponsorDetailPage'));
 const LazyRefreshPage = lazy(() => import('@/pages/RefreshPage'));
 const LazyFeatureDiscoveryPage = lazy(() => import('@/components/onboarding/FeatureDiscovery'));
 const LazyCustomersPage = lazy(() => import('@/pages/CustomersPage'));
@@ -348,7 +349,8 @@ function App() {
                               <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
                               <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
                               <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
-                              <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
+<Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
+                              <Route path="/admin/sponsors/:id" element={<LazyAdminSponsorDetailPage />} />
                               <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
                               <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                               <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
@@ -565,7 +567,8 @@ function App() {
                         <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
                         <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
                         <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
-                        <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
+<Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
+                        <Route path="/admin/sponsors/:id" element={<LazyAdminSponsorDetailPage />} />
                         <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />

@@ -5,10 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { DollarSign, Users, TrendingUp, Eye, CheckCircle, XCircle, Clock, Settings, ExternalLink } from 'lucide-react';
-import { format } from 'date-fns';
+import { DollarSign, Users, TrendingUp, Eye, CheckCircle, XCircle, Clock, Settings, ExternalLink, Download, AlertTriangle, ChevronRight } from 'lucide-react';
+import { format, differenceInDays } from 'date-fns';
 import { useAuth } from '@/contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -58,8 +58,39 @@ interface Sponsor {
 export default function AdminSponsorsPage() {
   const { user, userRole } = useAuth();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [editingSponsor, setEditingSponsor] = useState<Sponsor | null>(null);
   const [adminNotes, setAdminNotes] = useState('');
+
+  // Export sponsors to CSV
+  const exportToCSV = () => {
+    if (!subscriptions || subscriptions.length === 0) {
+      toast.error('No sponsors to export');
+      return;
+    }
+
+    const headers = ['Company Name', 'Tier', 'Status', 'Logo Approved', 'Visible', 'Created At', 'Renewal Date', 'Website'];
+    const rows = subscriptions.map(s => [
+      s.company_name,
+      s.tier,
+      s.status,
+      s.logo_approved ? 'Yes' : 'No',
+      s.is_visible ? 'Yes' : 'No',
+      format(new Date(s.created_at), 'yyyy-MM-dd'),
+      s.current_period_end ? format(new Date(s.current_period_end), 'yyyy-MM-dd') : 'N/A',
+      s.website_url || ''
+    ]);
+
+    const csvContent = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `sponsors_export_${format(new Date(), 'yyyy-MM-dd')}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+    toast.success('Sponsors exported successfully');
+  };
 
   const { data: subscriptions, isLoading } = useQuery({
     queryKey: ['admin-sponsors'],
@@ -164,6 +195,11 @@ export default function AdminSponsorsPage() {
 
   const activeSponsors = subscriptions?.filter((s) => s.status === 'active') || [];
   const pendingApproval = subscriptions?.filter((s) => s.logo_url && !s.logo_approved) || [];
+  const expiringSoon = subscriptions?.filter((s) => {
+    if (!s.current_period_end || s.status !== 'active') return false;
+    const daysLeft = differenceInDays(new Date(s.current_period_end), new Date());
+    return daysLeft >= 0 && daysLeft <= 30;
+  }) || [];
   const totalRevenue = activeSponsors.reduce(
     (sum, s) => sum + (tierPrices[s.tier as keyof typeof tierPrices] || 0),
     0
@@ -199,8 +235,16 @@ export default function AdminSponsorsPage() {
     }
   };
 
-  const SponsorRow = ({ sponsor }: { sponsor: Sponsor }) => (
-    <TableRow key={sponsor.id}>
+  const getDaysUntilRenewal = (endDate: string | null) => {
+    if (!endDate) return null;
+    return differenceInDays(new Date(endDate), new Date());
+  };
+
+  const SponsorRow = ({ sponsor }: { sponsor: Sponsor }) => {
+    const daysLeft = getDaysUntilRenewal(sponsor.current_period_end);
+    
+    return (
+    <TableRow key={sponsor.id} className="cursor-pointer hover:bg-muted/50" onClick={() => navigate(`/admin/sponsors/${sponsor.id}`)}>
       <TableCell className="font-medium">
         <div className="flex items-center gap-3">
           {sponsor.logo_url ? (
@@ -215,13 +259,21 @@ export default function AdminSponsorsPage() {
             </div>
           )}
           <div>
-            <div className="font-semibold">{sponsor.company_name}</div>
+            <div className="font-semibold flex items-center gap-2">
+              {sponsor.company_name}
+              {daysLeft !== null && daysLeft <= 30 && daysLeft >= 0 && (
+                <Badge className="bg-orange-500/10 text-orange-500 text-xs">
+                  {daysLeft}d left
+                </Badge>
+              )}
+            </div>
             {sponsor.website_url && (
               <a 
                 href={sponsor.website_url} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-xs text-muted-foreground hover:text-primary flex items-center gap-1"
+                onClick={(e) => e.stopPropagation()}
               >
                 <ExternalLink className="h-3 w-3" />
                 Website
@@ -279,7 +331,8 @@ export default function AdminSponsorsPage() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setEditingSponsor(sponsor);
                   setAdminNotes(sponsor.admin_notes || '');
                 }}
@@ -287,7 +340,7 @@ export default function AdminSponsorsPage() {
                 <Settings className="h-4 w-4" />
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent onClick={(e) => e.stopPropagation()}>
               <DialogHeader>
                 <DialogTitle>Manage {sponsor.company_name}</DialogTitle>
                 <DialogDescription>
@@ -309,6 +362,7 @@ export default function AdminSponsorsPage() {
                     id="priority"
                     type="number"
                     defaultValue={sponsor.display_priority}
+                    onClick={(e) => e.stopPropagation()}
                     onChange={(e) => {
                       updateSponsorMutation.mutate({
                         id: sponsor.id,
@@ -323,6 +377,7 @@ export default function AdminSponsorsPage() {
                   <Textarea
                     id="notes"
                     value={adminNotes}
+                    onClick={(e) => e.stopPropagation()}
                     onChange={(e) => setAdminNotes(e.target.value)}
                     placeholder="Internal notes about this sponsor..."
                   />
@@ -331,20 +386,36 @@ export default function AdminSponsorsPage() {
               </div>
             </DialogContent>
           </Dialog>
+          <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); navigate(`/admin/sponsors/${sponsor.id}`); }}>
+            <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
       </TableCell>
     </TableRow>
   );
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-3xl font-bold">Sponsor Management</h1>
-        {pendingApproval.length > 0 && (
-          <Badge className="bg-yellow-500/10 text-yellow-500">
-            {pendingApproval.length} Pending Approval
-          </Badge>
-        )}
+        <div className="flex items-center gap-3">
+          {expiringSoon.length > 0 && (
+            <Badge className="bg-orange-500/10 text-orange-500">
+              <AlertTriangle className="h-3 w-3 mr-1" />
+              {expiringSoon.length} Expiring Soon
+            </Badge>
+          )}
+          {pendingApproval.length > 0 && (
+            <Badge className="bg-yellow-500/10 text-yellow-500">
+              {pendingApproval.length} Pending Approval
+            </Badge>
+          )}
+          <Button variant="outline" onClick={exportToCSV}>
+            <Download className="h-4 w-4 mr-2" />
+            Export CSV
+          </Button>
+        </div>
       </div>
 
       {/* Summary Cards */}
@@ -469,6 +540,12 @@ export default function AdminSponsorsPage() {
             <TabsList className="mb-4">
               <TabsTrigger value="all">All ({subscriptions?.length || 0})</TabsTrigger>
               <TabsTrigger value="active">Active ({activeSponsors.length})</TabsTrigger>
+              <TabsTrigger value="expiring">
+                Expiring Soon ({expiringSoon.length})
+                {expiringSoon.length > 0 && (
+                  <span className="ml-1 h-2 w-2 rounded-full bg-orange-500" />
+                )}
+              </TabsTrigger>
               <TabsTrigger value="pending">
                 Pending Approval ({pendingApproval.length})
                 {pendingApproval.length > 0 && (
@@ -511,6 +588,26 @@ export default function AdminSponsorsPage() {
                 </TableHeader>
                 <TableBody>
                   {activeSponsors.map((sponsor) => (
+                    <SponsorRow key={sponsor.id} sponsor={sponsor} />
+                  ))}
+                </TableBody>
+              </Table>
+            </TabsContent>
+
+            <TabsContent value="expiring">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Company</TableHead>
+                    <TableHead>Tier</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Logo Status</TableHead>
+                    <TableHead>Visible</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {expiringSoon.map((sponsor) => (
                     <SponsorRow key={sponsor.id} sponsor={sponsor} />
                   ))}
                 </TableBody>
