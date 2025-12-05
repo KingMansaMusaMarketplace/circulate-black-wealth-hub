@@ -27,7 +27,7 @@ interface UserProfile {
   id: string;
   full_name: string | null;
   email: string | null;
-  role: string;
+  user_type: string;
   created_at: string;
 }
 
@@ -44,7 +44,7 @@ const UserImpersonation: React.FC = () => {
     queryFn: async () => {
       let query = supabase
         .from('profiles')
-        .select('id, full_name, email, role, created_at')
+        .select('id, full_name, email, user_type, created_at')
         .order('created_at', { ascending: false })
         .limit(50);
 
@@ -211,7 +211,7 @@ const UserImpersonation: React.FC = () => {
                           <p className="text-white/60 text-sm">{u.email}</p>
                         </div>
                       </div>
-                      <Badge className={getRoleBadge(u.role)}>{u.role}</Badge>
+                      <Badge className={getRoleBadge(u.user_type)}>{u.user_type}</Badge>
                     </div>
                   </div>
                 ))}

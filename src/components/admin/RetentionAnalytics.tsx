@@ -16,7 +16,7 @@ const RetentionAnalytics: React.FC = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, created_at, updated_at, role');
+        .select('id, created_at, updated_at, user_type');
       if (error) throw error;
       return data;
     }

@@ -82,12 +82,12 @@ const GeographicAnalytics: React.FC = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profiles')
-        .select('role');
+        .select('user_type');
       if (error) throw error;
       
       const roleCounts: Record<string, number> = {};
       data?.forEach(profile => {
-        const role = profile.role || 'customer';
+        const role = profile.user_type || 'customer';
         roleCounts[role] = (roleCounts[role] || 0) + 1;
       });
       
