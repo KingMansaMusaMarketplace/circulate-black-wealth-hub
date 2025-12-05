@@ -26,11 +26,21 @@ interface RegisteredBusiness {
   has_verification: boolean;
 }
 
+interface PendingBusinessUser {
+  id: string;
+  email: string | null;
+  full_name: string | null;
+  phone: string | null;
+  created_at: string;
+}
+
 const VerificationQueue: React.FC = () => {
   const [queue, setQueue] = useState<VerificationQueueItem[]>([]);
   const [businesses, setBusinesses] = useState<RegisteredBusiness[]>([]);
+  const [pendingUsers, setPendingUsers] = useState<PendingBusinessUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [businessesLoading, setBusinessesLoading] = useState(true);
+  const [pendingUsersLoading, setPendingUsersLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState<VerificationQueueItem | null>(null);
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isRejectOpen, setIsRejectOpen] = useState(false);
@@ -42,6 +52,7 @@ const VerificationQueue: React.FC = () => {
   useEffect(() => {
     loadQueue();
     loadBusinesses();
+    loadPendingBusinessUsers();
   }, []);
 
   const loadQueue = async () => {
@@ -95,6 +106,33 @@ const VerificationQueue: React.FC = () => {
     }
   };
 
+  const loadPendingBusinessUsers = async () => {
+    setPendingUsersLoading(true);
+    try {
+      // Get all business owner IDs
+      const { data: businessOwners } = await supabase
+        .from('businesses')
+        .select('owner_id');
+      
+      const ownerIds = (businessOwners || []).map(b => b.owner_id);
+
+      // Get profiles with user_type = 'business' that don't have a business record
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, email, full_name, phone, created_at')
+        .eq('user_type', 'business')
+        .not('id', 'in', ownerIds.length > 0 ? `(${ownerIds.join(',')})` : '(00000000-0000-0000-0000-000000000000)')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setPendingUsers(data || []);
+    } catch (error) {
+      console.error('Error loading pending business users:', error);
+    } finally {
+      setPendingUsersLoading(false);
+    }
+  };
+
   const handleApprove = async (id: string) => {
     setActionLoading(true);
     const success = await approveBusinessVerification(id);
@@ -128,7 +166,7 @@ const VerificationQueue: React.FC = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-white">Business Verification Queue</h2>
         <Button 
-          onClick={() => { loadQueue(); loadBusinesses(); }}
+          onClick={() => { loadQueue(); loadBusinesses(); loadPendingBusinessUsers(); }}
           className="bg-mansagold hover:bg-mansagold/90 text-mansablue"
         >
           <RefreshCw className="h-4 w-4 mr-2" /> Refresh
@@ -137,6 +175,9 @@ const VerificationQueue: React.FC = () => {
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList className="bg-white/10">
+          <TabsTrigger value="pending-setup" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue">
+            Pending Setup ({pendingUsers.length})
+          </TabsTrigger>
           <TabsTrigger value="businesses" className="data-[state=active]:bg-mansagold data-[state=active]:text-mansablue">
             <Building2 className="h-4 w-4 mr-2" />
             All Businesses ({businesses.length})
@@ -145,6 +186,51 @@ const VerificationQueue: React.FC = () => {
             Verification Requests ({queue.length})
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="pending-setup">
+          <Card className="backdrop-blur-xl bg-white/10 border-white/20">
+            <CardHeader>
+              <CardTitle className="text-white">Pending Business Setup</CardTitle>
+              <CardDescription className="text-white/60">Users who signed up as business but haven't created their business profile yet</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {pendingUsersLoading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
+                </div>
+              ) : pendingUsers.length === 0 ? (
+                <div className="text-center py-8 text-white/60">
+                  All business users have completed their setup
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-white/20">
+                        <TableHead className="text-white/70">Full Name</TableHead>
+                        <TableHead className="text-white/70">Email</TableHead>
+                        <TableHead className="text-white/70">Phone</TableHead>
+                        <TableHead className="text-white/70">Signed Up</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {pendingUsers.map((user) => (
+                        <TableRow key={user.id} className="border-white/10">
+                          <TableCell className="font-medium text-white">{user.full_name || 'N/A'}</TableCell>
+                          <TableCell className="text-white/80">{user.email || 'N/A'}</TableCell>
+                          <TableCell className="text-white/80">{user.phone || 'N/A'}</TableCell>
+                          <TableCell className="text-white/80">
+                            {format(new Date(user.created_at), 'MMM d, yyyy h:mm a')}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
         <TabsContent value="businesses">
           <Card className="backdrop-blur-xl bg-white/10 border-white/20">
