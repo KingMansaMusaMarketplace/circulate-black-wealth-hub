@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
+import DashboardLayout from '@/components/dashboard/layout/DashboardLayout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -288,20 +288,26 @@ export default function AdminSponsorDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <DashboardLayout title="Sponsor Details" icon={<Building2 className="h-6 w-6" />}>
         <div className="animate-pulse space-y-4">
           <div className="h-8 w-64 bg-muted rounded" />
           <div className="h-64 bg-muted rounded" />
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   if (!sponsor) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <p>Sponsor not found</p>
-      </div>
+      <DashboardLayout title="Sponsor Details" icon={<Building2 className="h-6 w-6" />}>
+        <div className="text-center py-12">
+          <Building2 className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+          <p className="text-muted-foreground">Sponsor not found</p>
+          <Button variant="outline" className="mt-4" onClick={() => navigate('/admin/sponsors')}>
+            Back to Sponsors
+          </Button>
+        </div>
+      </DashboardLayout>
     );
   }
 
@@ -355,7 +361,7 @@ export default function AdminSponsorDetailPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <DashboardLayout title={sponsor.company_name} icon={<Building2 className="h-6 w-6" />}>
       {/* Header */}
       <div className="flex items-center gap-4 mb-6">
         <Button variant="ghost" size="icon" onClick={() => navigate('/admin/sponsors')}>
@@ -845,6 +851,6 @@ export default function AdminSponsorDetailPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </DashboardLayout>
   );
 }
