@@ -97,10 +97,12 @@ export const SponsorAnalytics = ({ subscriptionId }: SponsorAnalyticsProps) => {
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
               <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${stat.gradient} opacity-10 rounded-full blur-2xl`} />
             </div>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative">
-              <CardTitle className="text-sm font-medium text-blue-200/70">{stat.title}</CardTitle>
-              <div className={`p-2 rounded-lg bg-gradient-to-br ${stat.gradient} flex-shrink-0`}>
-                <stat.icon className="h-4 w-4 text-white" />
+            <CardHeader className="pb-2 relative">
+              <div className="flex items-start justify-between w-full">
+                <CardTitle className="text-sm font-medium text-blue-200/70 flex-1">{stat.title}</CardTitle>
+                <div className={`p-2 rounded-lg bg-gradient-to-br ${stat.gradient} flex-shrink-0 ml-2`}>
+                  <stat.icon className="h-4 w-4 text-white" />
+                </div>
               </div>
             </CardHeader>
             <CardContent className="relative pt-0">
