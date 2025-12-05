@@ -110,11 +110,17 @@ interface Reminder {
   is_completed: boolean;
 }
 
+// UUID validation regex
+const isValidUUID = (str: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
+
 export default function AdminSponsorDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user, userRole } = useAuth();
   const queryClient = useQueryClient();
+  
+  // Check if ID is valid UUID
+  const isValidId = id && isValidUUID(id);
   
   const [editMode, setEditMode] = useState(false);
   const [emailDialogOpen, setEmailDialogOpen] = useState(false);
@@ -144,7 +150,7 @@ export default function AdminSponsorDetailPage() {
       if (error) throw error;
       return data as Sponsor;
     },
-    enabled: !!id && userRole === 'admin',
+    enabled: isValidId && userRole === 'admin',
   });
 
   // Fetch all sponsors for quick-switcher
@@ -173,7 +179,7 @@ export default function AdminSponsorDetailPage() {
       if (error) throw error;
       return data;
     },
-    enabled: !!id && userRole === 'admin',
+    enabled: isValidId && userRole === 'admin',
   });
 
   const { data: communications } = useQuery({
@@ -187,7 +193,7 @@ export default function AdminSponsorDetailPage() {
       if (error) throw error;
       return data as Communication[];
     },
-    enabled: !!id && userRole === 'admin',
+    enabled: isValidId && userRole === 'admin',
   });
 
   const { data: reminders } = useQuery({
@@ -201,7 +207,7 @@ export default function AdminSponsorDetailPage() {
       if (error) throw error;
       return data as Reminder[];
     },
-    enabled: !!id && userRole === 'admin',
+    enabled: isValidId && userRole === 'admin',
   });
 
   const { data: auditLog } = useQuery({
@@ -216,7 +222,7 @@ export default function AdminSponsorDetailPage() {
       if (error) throw error;
       return data;
     },
-    enabled: !!id && userRole === 'admin',
+    enabled: isValidId && userRole === 'admin',
   });
 
   const updateSponsorMutation = useMutation({
@@ -339,12 +345,14 @@ export default function AdminSponsorDetailPage() {
     );
   }
 
-  if (!sponsor) {
+  if (!isValidId || !sponsor) {
     return (
       <DashboardLayout title="Sponsor Details" icon={<Building2 className="h-6 w-6" />}>
         <div className="text-center py-12">
           <Building2 className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-          <p className="text-muted-foreground">Sponsor not found</p>
+          <p className="text-muted-foreground">
+            {!isValidId ? 'Invalid sponsor ID. Please select a sponsor from the list.' : 'Sponsor not found'}
+          </p>
           <Button variant="outline" className="mt-4" onClick={() => navigate('/admin/sponsors')}>
             Back to Sponsors
           </Button>
