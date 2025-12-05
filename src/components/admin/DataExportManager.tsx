@@ -76,10 +76,10 @@ const DataExportManager: React.FC = () => {
         const table = selectedTables[i];
         setExportProgress(((i + 0.5) / totalTables) * 100);
 
-        const { data, error } = await supabase
-          .from(table)
+        const { data, error } = await (supabase
+          .from(table as any)
           .select('*')
-          .limit(10000);
+          .limit(10000));
 
         if (error) {
           console.error(`Error exporting ${table}:`, error);
