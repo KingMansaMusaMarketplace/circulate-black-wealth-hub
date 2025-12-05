@@ -2452,8 +2452,13 @@ export type Database = {
           created_at: string
           current_period_end: string | null
           current_period_start: string | null
+          display_priority: number | null
+          featured_until: string | null
           id: string
+          is_visible: boolean | null
+          logo_approved: boolean | null
           logo_url: string | null
+          placement_override: Json | null
           rejected_at: string | null
           rejection_reason: string | null
           status: string
@@ -2474,8 +2479,13 @@ export type Database = {
           created_at?: string
           current_period_end?: string | null
           current_period_start?: string | null
+          display_priority?: number | null
+          featured_until?: string | null
           id?: string
+          is_visible?: boolean | null
+          logo_approved?: boolean | null
           logo_url?: string | null
+          placement_override?: Json | null
           rejected_at?: string | null
           rejection_reason?: string | null
           status?: string
@@ -2496,8 +2506,13 @@ export type Database = {
           created_at?: string
           current_period_end?: string | null
           current_period_start?: string | null
+          display_priority?: number | null
+          featured_until?: string | null
           id?: string
+          is_visible?: boolean | null
+          logo_approved?: boolean | null
           logo_url?: string | null
+          placement_override?: Json | null
           rejected_at?: string | null
           rejection_reason?: string | null
           status?: string
@@ -5943,6 +5958,44 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_admin_audit: {
+        Row: {
+          action: string
+          admin_user_id: string
+          created_at: string | null
+          id: string
+          new_value: Json | null
+          old_value: Json | null
+          sponsor_id: string
+        }
+        Insert: {
+          action: string
+          admin_user_id: string
+          created_at?: string | null
+          id?: string
+          new_value?: Json | null
+          old_value?: Json | null
+          sponsor_id: string
+        }
+        Update: {
+          action?: string
+          admin_user_id?: string
+          created_at?: string | null
+          id?: string
+          new_value?: Json | null
+          old_value?: Json | null
+          sponsor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_admin_audit_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions"
             referencedColumns: ["id"]
           },
         ]
