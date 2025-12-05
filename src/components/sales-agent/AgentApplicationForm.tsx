@@ -32,9 +32,7 @@ const formSchema = z.object({
   phone: z.string()
     .min(10, { message: 'Phone number must be at least 10 digits' })
     .max(20, { message: 'Phone number must be less than 20 characters' })
-    .regex(/^[0-9\s\-\+\(\)]+$/, { message: 'Please enter a valid phone number' })
-    .optional()
-    .or(z.literal('')),
+    .regex(/^[0-9\s\-\+\(\)]+$/, { message: 'Please enter a valid phone number' }),
   recruiter_code: z.string()
     .max(50, { message: 'Recruiter code must be less than 50 characters' })
     .optional()
@@ -162,7 +160,7 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Phone Number (optional)</FormLabel>
+                  <FormLabel>Phone Number</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter your phone number" {...field} />
                   </FormControl>
