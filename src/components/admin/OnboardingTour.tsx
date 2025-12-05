@@ -16,78 +16,81 @@ interface OnboardingTourProps {
 const OnboardingTour: React.FC<OnboardingTourProps> = ({ onComplete }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   const steps: TourStep[] = [
     {
-      target: '[data-tour="breadcrumb"]',
-      title: 'Navigation Breadcrumbs',
-      content: 'Always know where you are in the dashboard. Click to navigate back.',
+      target: '[role="tablist"]',
+      title: 'Dashboard Navigation',
+      content: 'Use these tabs to navigate between different admin sections: Users, Verifications, Agents, Financial reports, and more.',
       position: 'bottom',
     },
     {
-      target: '[data-tour="live-counters"]',
-      title: 'Live Data Counters',
-      content: 'Real-time metrics that update automatically. Watch your platform grow!',
+      target: '[value="overview"]',
+      title: 'Overview Tab',
+      content: 'See key metrics at a glance - total users, businesses, and verification status.',
       position: 'bottom',
     },
     {
-      target: '[data-tour="health-monitor"]',
-      title: 'System Health Monitor',
-      content: 'Monitor database, API, and authentication status with live latency.',
+      target: '[value="users"]',
+      title: 'User Management',
+      content: 'View and manage all registered users. Search, filter, and take actions on user accounts.',
       position: 'bottom',
     },
     {
-      target: '[data-tour="global-search"]',
-      title: 'Global Search',
-      content: 'Press "/" to search across users, businesses, and transactions instantly.',
+      target: '[value="verifications"]',
+      title: 'Business Verifications',
+      content: 'Review and approve business verification requests. Ensure all businesses meet your standards.',
       position: 'bottom',
     },
     {
-      target: '[data-tour="command-palette"]',
-      title: 'Command Palette',
-      content: 'Press ⌘K to access quick commands and navigate anywhere.',
+      target: '[value="agents"]',
+      title: 'Sales Agents',
+      content: 'Monitor agent performance, commissions, and referral statistics.',
       position: 'bottom',
     },
     {
-      target: '[data-tour="notifications"]',
-      title: 'Notification Center',
-      content: 'Real-time alerts for new users, businesses, and important events.',
+      target: '[value="financial"]',
+      title: 'Financial Reports',
+      content: 'Track revenue, commissions, and financial health of the platform.',
       position: 'bottom',
     },
     {
-      target: '[data-tour="theme-toggle"]',
-      title: 'Theme Toggle',
-      content: 'Switch between dark and light mode for your preference.',
+      target: '[value="ai-tools"]',
+      title: 'AI Tools',
+      content: 'Access AI-powered analytics, insights, content moderation, and predictive tools.',
       position: 'bottom',
-    },
-    {
-      target: '[data-tour="keyboard-shortcuts"]',
-      title: 'Keyboard Shortcuts',
-      content: 'Press "?" anytime to see all available keyboard shortcuts.',
-      position: 'bottom',
-    },
-    {
-      target: '[data-tour="tabs"]',
-      title: 'Dashboard Sections',
-      content: 'Navigate between Overview, Users, Businesses, Financials, and more.',
-      position: 'bottom',
-    },
-    {
-      target: '[data-tour="fab"]',
-      title: 'Quick Actions',
-      content: 'Floating button for quick access to AI Dashboard, Verification, and Exports.',
-      position: 'left',
     },
   ];
 
   useEffect(() => {
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+    
     const target = document.querySelector(steps[currentStep].target);
     if (target) {
       const rect = target.getBoundingClientRect();
       setTargetRect(rect);
       target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      // If target not found, try again after a short delay
+      const retryTimer = setTimeout(() => {
+        const retryTarget = document.querySelector(steps[currentStep].target);
+        if (retryTarget) {
+          const rect = retryTarget.getBoundingClientRect();
+          setTargetRect(rect);
+        }
+      }, 300);
+      return () => clearTimeout(retryTimer);
     }
-  }, [currentStep]);
+  }, [currentStep, isVisible]);
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -104,7 +107,14 @@ const OnboardingTour: React.FC<OnboardingTourProps> = ({ onComplete }) => {
   };
 
   const getTooltipPosition = () => {
-    if (!targetRect) return {};
+    if (!targetRect) {
+      // Default center position if no target found
+      return {
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+      };
+    }
     
     const step = steps[currentStep];
     const padding = 16;
@@ -135,6 +145,8 @@ const OnboardingTour: React.FC<OnboardingTourProps> = ({ onComplete }) => {
     }
   };
 
+  if (!isVisible) return null;
+
   return (
     <>
       {/* Overlay */}
@@ -156,7 +168,7 @@ const OnboardingTour: React.FC<OnboardingTourProps> = ({ onComplete }) => {
       
       {/* Tooltip */}
       <div
-        className="fixed z-[102] w-80 bg-slate-900 border border-yellow-500/50 rounded-xl shadow-2xl animate-scale-in"
+        className="fixed z-[102] w-80 bg-slate-900 border border-yellow-500/50 rounded-xl shadow-2xl animate-in fade-in zoom-in-95 duration-200"
         style={getTooltipPosition()}
       >
         <div className="p-4">
