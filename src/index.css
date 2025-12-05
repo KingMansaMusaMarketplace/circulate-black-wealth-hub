@@ -46,8 +46,8 @@
     --text-on-light: 224 71.4% 4.1%;
     
     /* Glass Morphism */
-    --glass-bg: 255 255 255 / 0.08;
-    --glass-border: 255 255 255 / 0.15;
+    --glass-bg: 255, 255, 255;
+    --glass-border: 255, 255, 255;
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
     
     /* Gradients - Enhanced for readability */
@@ -102,8 +102,8 @@
     --text-on-light: 210 20% 98%;
     
     /* Glass Morphism - Dark Mode */
-    --glass-bg: 0 0 0 / 0.4;
-    --glass-border: 255 255 255 / 0.1;
+    --glass-bg: 0, 0, 0;
+    --glass-border: 255, 255, 255;
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
     
     /* Gradients - Dark Mode - Brighter for better contrast */
@@ -242,18 +242,18 @@
   
   /* Glass Morphism Effects */
   .glass {
-    background: rgba(var(--glass-bg));
+    background: rgba(var(--glass-bg), 0.08);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(var(--glass-border));
+    border: 1px solid rgba(var(--glass-border), 0.15);
     box-shadow: var(--glass-shadow);
   }
 
   .glass-card {
-    background: rgba(var(--glass-bg));
+    background: rgba(var(--glass-bg), 0.08);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(var(--glass-border));
+    border: 1px solid rgba(var(--glass-border), 0.15);
     box-shadow: var(--glass-shadow);
   }
 
