@@ -33,7 +33,22 @@ import {
   Plus,
   MessageSquare,
   Award,
+  ChevronsUpDown,
+  Check,
 } from 'lucide-react';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
 import {
   Dialog,
   DialogContent,
@@ -105,6 +120,7 @@ export default function AdminSponsorDetailPage() {
   const [emailDialogOpen, setEmailDialogOpen] = useState(false);
   const [reminderDialogOpen, setReminderDialogOpen] = useState(false);
   const [certificateDialogOpen, setCertificateDialogOpen] = useState(false);
+  const [sponsorSwitcherOpen, setSponsorSwitcherOpen] = useState(false);
   
   // Form states
   const [emailSubject, setEmailSubject] = useState('');
@@ -129,6 +145,20 @@ export default function AdminSponsorDetailPage() {
       return data as Sponsor;
     },
     enabled: !!id && userRole === 'admin',
+  });
+
+  // Fetch all sponsors for quick-switcher
+  const { data: allSponsors } = useQuery({
+    queryKey: ['admin-sponsors-list'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('corporate_subscriptions')
+        .select('id, company_name, tier, status, logo_url')
+        .order('company_name', { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+    enabled: userRole === 'admin',
   });
 
   const { data: metrics } = useQuery({
@@ -377,7 +407,52 @@ export default function AdminSponsorDetailPage() {
               </div>
             )}
             <div>
-              <h1 className="text-2xl font-bold">{sponsor.company_name}</h1>
+              {/* Sponsor Quick Switcher */}
+              <Popover open={sponsorSwitcherOpen} onOpenChange={setSponsorSwitcherOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    role="combobox"
+                    aria-expanded={sponsorSwitcherOpen}
+                    className="h-auto p-1 -ml-1 text-2xl font-bold hover:bg-muted/50"
+                  >
+                    {sponsor.company_name}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[300px] p-0" align="start">
+                  <Command>
+                    <CommandInput placeholder="Search sponsors..." />
+                    <CommandList>
+                      <CommandEmpty>No sponsor found.</CommandEmpty>
+                      <CommandGroup heading="Sponsors">
+                        {allSponsors?.map((s) => (
+                          <CommandItem
+                            key={s.id}
+                            value={s.company_name}
+                            onSelect={() => {
+                              navigate(`/admin/sponsors/${s.id}`);
+                              setSponsorSwitcherOpen(false);
+                            }}
+                            className="flex items-center gap-2"
+                          >
+                            {s.logo_url ? (
+                              <img src={s.logo_url} alt="" className="h-6 w-6 rounded object-contain bg-background" />
+                            ) : (
+                              <Building2 className="h-6 w-6 text-muted-foreground" />
+                            )}
+                            <div className="flex-1 truncate">
+                              <span className="font-medium">{s.company_name}</span>
+                              <span className="ml-2 text-xs text-muted-foreground capitalize">{s.tier}</span>
+                            </div>
+                            {s.id === id && <Check className="h-4 w-4 text-primary" />}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
               <div className="flex items-center gap-2 mt-1">
                 <Badge className={getTierColor(sponsor.tier)}>{sponsor.tier.toUpperCase()}</Badge>
                 <Badge className={getStatusColor(sponsor.status)}>{sponsor.status}</Badge>
