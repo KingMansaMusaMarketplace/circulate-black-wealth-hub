@@ -53,5 +53,11 @@
 	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Mansa Musa Marketplace needs camera access to scan QR codes at participating businesses to earn loyalty points and discounts.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Mansa Musa Marketplace needs photo library access to upload profile pictures and business logos.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Mansa Musa Marketplace needs permission to save QR codes and receipts to your photo library.</string>
 </dict>
 </plist>
