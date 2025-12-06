@@ -279,7 +279,7 @@ export const useRealtimeNotifications = () => {
           .from('qr_scans')
           .select(`
             id,
-            user_id,
+            customer_id,
             business_id,
             points_awarded,
             created_at,
@@ -294,7 +294,7 @@ export const useRealtimeNotifications = () => {
         if (recentScans) {
           const formattedActivity = recentScans.map(scan => ({
             id: scan.id,
-            user_id: scan.user_id,
+            user_id: scan.customer_id,
             business_id: scan.business_id,
             event_type: 'qr_scan' as const,
             points_earned: scan.points_awarded,
