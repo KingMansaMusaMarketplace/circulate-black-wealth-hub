@@ -131,7 +131,7 @@ const BusinessDetailPage = () => {
         className={`${starSize} ${
           index < Math.floor(rating) 
             ? 'text-yellow-400 fill-current' 
-            : 'text-gray-300'
+            : 'text-yellow-400/30'
         }`}
       />
     ));
@@ -167,7 +167,10 @@ const BusinessDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
         <LoadingSpinner />
       </div>
     );
@@ -175,9 +178,12 @@ const BusinessDetailPage = () => {
 
   if (error || !business) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Alert className="max-w-md">
-          <AlertDescription>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <Alert className="max-w-md bg-slate-900/40 backdrop-blur-xl border-white/10">
+          <AlertDescription className="text-white">
             {error || 'Business not found'}
           </AlertDescription>
         </Alert>
@@ -192,12 +198,18 @@ const BusinessDetailPage = () => {
         <meta name="description" content={business.description} />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-400/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
+
         {/* Header */}
-        <div className="border-b bg-background/95 backdrop-blur sticky top-0 z-50">
+        <div className="border-b border-white/10 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <Link to="/businesses" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+              <Link to="/businesses" className="flex items-center gap-2 text-blue-200 hover:text-yellow-400 transition-colors">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Businesses
               </Link>
@@ -207,11 +219,11 @@ const BusinessDetailPage = () => {
                   variant="ghost" 
                   size="sm" 
                   onClick={handleLike}
-                  className={isLiked ? 'text-red-500' : ''}
+                  className={`text-white hover:bg-white/10 ${isLiked ? 'text-red-400' : ''}`}
                 >
                   <Heart className={`h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
                 </Button>
-                <Button variant="ghost" size="sm" onClick={handleShare}>
+                <Button variant="ghost" size="sm" onClick={handleShare} className="text-white hover:bg-white/10">
                   <Share2 className="h-4 w-4" />
                 </Button>
               </div>
@@ -220,7 +232,7 @@ const BusinessDetailPage = () => {
         </div>
 
         {/* Hero Section */}
-        <div className="relative">
+        <div className="relative z-10">
           {/* Banner Image */}
           {business.banner_url ? (
             <div className="h-64 md:h-80 overflow-hidden">
@@ -231,17 +243,17 @@ const BusinessDetailPage = () => {
               />
             </div>
           ) : (
-            <div className="h-64 md:h-80 bg-gradient-to-br from-primary/20 to-primary/10" />
+            <div className="h-64 md:h-80 bg-gradient-to-br from-blue-600/30 to-yellow-500/20" />
           )}
           
           {/* Business Info Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent text-white">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 via-slate-900/90 to-transparent text-white">
             <div className="container mx-auto px-4 py-8">
               <div className="flex flex-col md:flex-row items-start md:items-end gap-6">
                 {/* Logo */}
-                <Avatar className="w-24 h-24 border-4 border-background">
+                <Avatar className="w-24 h-24 border-4 border-yellow-400/50 shadow-lg shadow-yellow-500/20">
                   <AvatarImage src={business.logo_url} alt={business.business_name} />
-                  <AvatarFallback className="text-2xl font-bold bg-primary text-primary-foreground">
+                  <AvatarFallback className="text-2xl font-bold bg-gradient-to-br from-blue-600 to-blue-800 text-white">
                     {business.business_name.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -249,16 +261,16 @@ const BusinessDetailPage = () => {
                 {/* Business Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2">
-                    <h1 className="text-3xl md:text-4xl font-bold">
+                    <h1 className="text-3xl md:text-4xl font-bold text-white">
                       {business.business_name}
                     </h1>
                     {business.is_verified && (
-                      <Verified className="h-6 w-6 text-blue-400" />
+                      <Verified className="h-6 w-6 text-yellow-400" />
                     )}
                   </div>
                   
-                  <div className="flex items-center gap-4 mb-3">
-                    <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
+                  <div className="flex items-center gap-4 mb-3 flex-wrap">
+                    <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-400/30">
                       {business.category}
                     </Badge>
                     
@@ -267,18 +279,18 @@ const BusinessDetailPage = () => {
                         <div className="flex items-center gap-1">
                           {renderStars(business.average_rating, 'md')}
                         </div>
-                        <span className="text-white/90">
+                        <span className="text-blue-200">
                           {business.average_rating.toFixed(1)} ({business.review_count} reviews)
                         </span>
                       </div>
                     ) : (
-                      <span className="text-white/70">No reviews yet</span>
+                      <span className="text-blue-300/70">No reviews yet</span>
                     )}
                   </div>
                   
                   {(business.city || business.state) && (
-                    <div className="flex items-center gap-1 text-white/90">
-                      <MapPin className="h-4 w-4" />
+                    <div className="flex items-center gap-1 text-blue-200">
+                      <MapPin className="h-4 w-4 text-yellow-400" />
                       <span>{business.city}{business.city && business.state ? ', ' : ''}{business.state}</span>
                     </div>
                   )}
@@ -288,7 +300,7 @@ const BusinessDetailPage = () => {
                 <Button 
                   size="lg"
                   onClick={() => navigate(`/book/${businessId}`)}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                  className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-semibold shadow-lg shadow-yellow-500/30"
                 >
                   Book Appointment
                 </Button>
@@ -298,25 +310,25 @@ const BusinessDetailPage = () => {
         </div>
 
         {/* Main Content */}
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - Main Content */}
             <div className="lg:col-span-2 space-y-6">
               {/* Tabs: About, Book, Reviews */}
               <Tabs defaultValue="about" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="about">About</TabsTrigger>
-                  <TabsTrigger value="book">Book Appointment</TabsTrigger>
-                  <TabsTrigger value="reviews">Reviews ({reviews.length})</TabsTrigger>
+                <TabsList className="grid w-full grid-cols-3 bg-slate-900/40 backdrop-blur-xl border border-white/10">
+                  <TabsTrigger value="about" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-300 text-blue-200">About</TabsTrigger>
+                  <TabsTrigger value="book" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-300 text-blue-200">Book Appointment</TabsTrigger>
+                  <TabsTrigger value="reviews" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-300 text-blue-200">Reviews ({reviews.length})</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="about">
-                  <Card>
+                  <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
                     <CardHeader>
-                      <CardTitle>About {business.business_name}</CardTitle>
+                      <CardTitle className="text-white">About {business.business_name}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-muted-foreground leading-relaxed">
+                      <p className="text-blue-200 leading-relaxed">
                         {business.description || 'No description available.'}
                       </p>
                     </CardContent>
@@ -324,21 +336,27 @@ const BusinessDetailPage = () => {
                 </TabsContent>
 
                 <TabsContent value="book">
-                  <BookingForm
-                    businessId={business.id}
-                    businessName={business.business_name}
-                  />
+                  <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-lg p-6">
+                    <BookingForm
+                      businessId={business.id}
+                      businessName={business.business_name}
+                    />
+                  </div>
                 </TabsContent>
 
                 <TabsContent value="reviews" className="space-y-6">
                   {user && (
-                    <ReviewForm 
-                      businessId={business.id} 
-                      onSuccess={loadReviews}
-                    />
+                    <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-lg p-6">
+                      <ReviewForm 
+                        businessId={business.id} 
+                        onSuccess={loadReviews}
+                      />
+                    </div>
                   )}
                   
-                  <ReviewsList businessId={business.id} />
+                  <div className="bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-lg p-6">
+                    <ReviewsList businessId={business.id} />
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
@@ -346,17 +364,17 @@ const BusinessDetailPage = () => {
             {/* Right Column - Contact & Info */}
             <div className="space-y-6">
               {/* Contact Info */}
-              <Card>
+              <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
                 <CardHeader>
-                  <CardTitle>Contact Information</CardTitle>
+                  <CardTitle className="text-white">Contact Information</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {business.address && (
                     <div className="flex items-start gap-3">
-                      <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+                      <MapPin className="h-5 w-5 text-yellow-400 mt-0.5" />
                       <div>
-                        <p className="font-medium">Address</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="font-medium text-white">Address</p>
+                        <p className="text-sm text-blue-200">
                           {business.address}
                           {business.city && <><br />{business.city}{business.state && `, ${business.state}`} {business.zip_code}</>}
                         </p>
@@ -366,12 +384,12 @@ const BusinessDetailPage = () => {
                   
                   {business.phone && (
                     <div className="flex items-center gap-3">
-                      <Phone className="h-5 w-5 text-muted-foreground" />
+                      <Phone className="h-5 w-5 text-yellow-400" />
                       <div>
-                        <p className="font-medium">Phone</p>
+                        <p className="font-medium text-white">Phone</p>
                         <a 
                           href={`tel:${business.phone}`} 
-                          className="text-sm text-primary hover:underline"
+                          className="text-sm text-yellow-400 hover:text-yellow-300 hover:underline"
                         >
                           {business.phone}
                         </a>
@@ -381,12 +399,12 @@ const BusinessDetailPage = () => {
                   
                   {business.email && (
                     <div className="flex items-center gap-3">
-                      <Mail className="h-5 w-5 text-muted-foreground" />
+                      <Mail className="h-5 w-5 text-yellow-400" />
                       <div>
-                        <p className="font-medium">Email</p>
+                        <p className="font-medium text-white">Email</p>
                         <a 
                           href={`mailto:${business.email}`} 
-                          className="text-sm text-primary hover:underline"
+                          className="text-sm text-yellow-400 hover:text-yellow-300 hover:underline"
                         >
                           {business.email}
                         </a>
@@ -396,14 +414,14 @@ const BusinessDetailPage = () => {
                   
                   {business.website && (
                     <div className="flex items-center gap-3">
-                      <Globe className="h-5 w-5 text-muted-foreground" />
+                      <Globe className="h-5 w-5 text-yellow-400" />
                       <div>
-                        <p className="font-medium">Website</p>
+                        <p className="font-medium text-white">Website</p>
                         <a 
                           href={business.website} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-sm text-primary hover:underline"
+                          className="text-sm text-yellow-400 hover:text-yellow-300 hover:underline"
                         >
                           Visit Website
                         </a>
@@ -414,13 +432,13 @@ const BusinessDetailPage = () => {
               </Card>
 
               {/* Quick Actions */}
-              <Card>
+              <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
                 <CardHeader>
-                  <CardTitle>Quick Actions</CardTitle>
+                  <CardTitle className="text-white">Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   {business.phone && (
-                    <Button className="w-full" asChild>
+                    <Button className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-semibold" asChild>
                       <a href={`tel:${business.phone}`}>
                         <Phone className="h-4 w-4 mr-2" />
                         Call Business
@@ -429,7 +447,7 @@ const BusinessDetailPage = () => {
                   )}
                   
                   {business.website && (
-                    <Button variant="outline" className="w-full" asChild>
+                    <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 hover:text-yellow-300" asChild>
                       <a href={business.website} target="_blank" rel="noopener noreferrer">
                         <Globe className="h-4 w-4 mr-2" />
                         Visit Website
@@ -437,7 +455,7 @@ const BusinessDetailPage = () => {
                     </Button>
                   )}
                   
-                  <Button variant="outline" className="w-full" onClick={handleShare}>
+                  <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 hover:text-yellow-300" onClick={handleShare}>
                     <Share2 className="h-4 w-4 mr-2" />
                     Share Business
                   </Button>
