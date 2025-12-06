@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { Calendar, Clock, DollarSign, X, CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { Calendar, Clock, DollarSign, X, CheckCircle, XCircle, Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { bookingService, Booking } from '@/lib/services/booking-service';
@@ -86,193 +85,197 @@ export function BookingsList({ businessId, customerId }: BookingsListProps) {
   };
 
   const getStatusBadge = (status: Booking['status']) => {
-    const variants: Record<Booking['status'], { variant: any; label: string; gradient: string }> = {
-      pending: { variant: 'secondary', label: 'Pending', gradient: 'from-yellow-50 to-yellow-100/50 border-yellow-200' },
-      confirmed: { variant: 'default', label: 'Confirmed', gradient: 'from-blue-50 to-blue-100/50 border-blue-200' },
-      completed: { variant: 'default', label: 'Completed', gradient: 'from-green-50 to-green-100/50 border-green-200' },
-      cancelled: { variant: 'destructive', label: 'Cancelled', gradient: 'from-red-50 to-red-100/50 border-red-200' },
-      no_show: { variant: 'destructive', label: 'No Show', gradient: 'from-gray-50 to-gray-100/50 border-gray-200' },
+    const variants: Record<Booking['status'], { className: string; label: string }> = {
+      pending: { className: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30', label: 'Pending' },
+      confirmed: { className: 'bg-blue-500/20 text-blue-300 border-blue-500/30', label: 'Confirmed' },
+      completed: { className: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30', label: 'Completed' },
+      cancelled: { className: 'bg-red-500/20 text-red-300 border-red-500/30', label: 'Cancelled' },
+      no_show: { className: 'bg-slate-500/20 text-slate-300 border-slate-500/30', label: 'No Show' },
     };
 
     const config = variants[status];
-    return <Badge variant={config.variant}>{config.label}</Badge>;
+    return (
+      <span className={`px-2.5 py-1 text-xs font-medium rounded-full border ${config.className}`}>
+        {config.label}
+      </span>
+    );
   };
 
-  const getCardGradient = (status: Booking['status']) => {
+  const getCardBorder = (status: Booking['status']) => {
     const variants: Record<Booking['status'], string> = {
-      pending: 'from-yellow-50 to-yellow-100/50 border-yellow-200',
-      confirmed: 'from-blue-50 to-blue-100/50 border-blue-200',
-      completed: 'from-green-50 to-green-100/50 border-green-200',
-      cancelled: 'from-red-50 to-red-100/50 border-red-200',
-      no_show: 'from-gray-50 to-gray-100/50 border-gray-200',
+      pending: 'hover:border-yellow-500/30',
+      confirmed: 'hover:border-blue-500/30',
+      completed: 'hover:border-emerald-500/30',
+      cancelled: 'hover:border-red-500/30',
+      no_show: 'hover:border-slate-500/30',
     };
     return variants[status];
   };
 
   if (loading) {
     return (
-      <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100/50 shadow-lg">
-        <CardContent className="pt-6">
-          <div className="text-center text-blue-700 font-medium">
-            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2 text-blue-500" />
-            Loading bookings...
-          </div>
-        </CardContent>
-      </Card>
+      <div className="text-center py-8">
+        <Loader2 className="h-8 w-8 animate-spin mx-auto mb-3 text-mansagold" />
+        <p className="text-slate-400">Loading bookings...</p>
+      </div>
     );
   }
 
   if (bookings.length === 0) {
     return (
-      <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100/50 shadow-lg">
-        <CardContent className="pt-6">
-          <div className="text-center">
-            <Calendar className="w-16 h-16 mx-auto mb-4 text-purple-500" />
-            <p className="text-purple-700 font-medium">No bookings found.</p>
-            <p className="text-purple-600 text-sm mt-2">Your bookings will appear here once customers make appointments.</p>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="text-center py-12">
+        <Sparkles className="w-16 h-16 mx-auto mb-4 text-mansagold/50" />
+        <p className="text-white font-medium text-lg">No bookings found</p>
+        <p className="text-slate-400 text-sm mt-2">Your bookings will appear here once you make appointments.</p>
+      </div>
     );
   }
 
   return (
     <div className="space-y-4">
       {bookings.map((booking: any) => (
-        <Card key={booking.id} className={`bg-gradient-to-br ${getCardGradient(booking.status)} shadow-lg hover:shadow-xl transition-shadow`}>
-          <CardHeader>
-            <div className="flex items-start justify-between">
-              <div>
-                <CardTitle className="text-lg">
-                  {businessId ? booking.customer_name : booking.businesses?.business_name}
-                </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {booking.business_services?.name}
-                </p>
-              </div>
-              {getStatusBadge(booking.status)}
+        <div 
+          key={booking.id} 
+          className={`bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-5 transition-all duration-300 ${getCardBorder(booking.status)}`}
+        >
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-white">
+                {businessId ? booking.customer_name : booking.businesses?.business_name}
+              </h3>
+              <p className="text-sm text-slate-400 mt-1">
+                {booking.business_services?.name}
+              </p>
             </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex items-center text-sm">
-                <Calendar className="w-4 h-4 mr-2 text-muted-foreground" />
-                <span>{format(new Date(booking.booking_date), 'PPP')}</span>
-              </div>
+            {getStatusBadge(booking.status)}
+          </div>
 
-              <div className="flex items-center text-sm">
-                <Clock className="w-4 h-4 mr-2 text-muted-foreground" />
-                <span>
-                  {format(new Date(booking.booking_date), 'p')} • {booking.duration_minutes} minutes
+          <div className="space-y-3">
+            <div className="flex items-center text-sm text-slate-300">
+              <Calendar className="w-4 h-4 mr-2 text-mansagold" />
+              <span>{format(new Date(booking.booking_date), 'PPP')}</span>
+            </div>
+
+            <div className="flex items-center text-sm text-slate-300">
+              <Clock className="w-4 h-4 mr-2 text-mansagold" />
+              <span>
+                {format(new Date(booking.booking_date), 'p')} • {booking.duration_minutes} minutes
+              </span>
+            </div>
+
+            <div className="flex items-center text-sm text-slate-300">
+              <DollarSign className="w-4 h-4 mr-2 text-mansagold" />
+              <span className="text-white font-medium">${booking.amount.toFixed(2)}</span>
+              {businessId && (
+                <span className="text-slate-500 ml-2">
+                  (You receive: ${booking.business_amount.toFixed(2)})
                 </span>
-              </div>
-
-              <div className="flex items-center text-sm">
-                <DollarSign className="w-4 h-4 mr-2 text-muted-foreground" />
-                <span>${booking.amount.toFixed(2)}</span>
-                {businessId && (
-                  <span className="text-muted-foreground ml-2">
-                    (You receive: ${booking.business_amount.toFixed(2)})
-                  </span>
-                )}
-              </div>
-
-              {!businessId && booking.customer_email && (
-                <div className="text-sm">
-                  <strong>Contact:</strong> {booking.customer_email}
-                  {booking.customer_phone && ` • ${booking.customer_phone}`}
-                </div>
-              )}
-
-              {booking.notes && (
-                <div className="text-sm">
-                  <strong>Notes:</strong> {booking.notes}
-                </div>
-              )}
-
-              {/* Customer actions */}
-              {!businessId && booking.status === 'pending' && (
-                <div className="flex gap-2 pt-2">
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="destructive" size="sm">
-                        <X className="w-4 h-4 mr-1" />
-                        Cancel Booking
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Cancel Booking?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This will cancel your booking. This action cannot be undone.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>No, keep it</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => handleCancelBooking(booking.id)}>
-                          Yes, cancel
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </div>
-              )}
-
-              {/* Business owner actions */}
-              {businessId && booking.status === 'pending' && (
-                <div className="flex gap-2 pt-2">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={() => handleUpdateStatus(booking.id, 'confirmed')}
-                  >
-                    <CheckCircle className="w-4 h-4 mr-1" />
-                    Confirm
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => handleUpdateStatus(booking.id, 'cancelled')}
-                  >
-                    <XCircle className="w-4 h-4 mr-1" />
-                    Cancel
-                  </Button>
-                </div>
-              )}
-
-              {businessId && booking.status === 'confirmed' && (
-                <div className="flex gap-2 pt-2">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={() => handleUpdateStatus(booking.id, 'completed')}
-                  >
-                    <CheckCircle className="w-4 h-4 mr-1" />
-                    Mark Completed
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleUpdateStatus(booking.id, 'no_show')}
-                  >
-                    No Show
-                  </Button>
-                </div>
-              )}
-
-              {/* Show review request button for completed bookings */}
-              {businessId && booking.status === 'completed' && (
-                <div className="flex gap-2 pt-2">
-                  <ReviewRequestButton 
-                    bookingId={booking.id}
-                    customerEmail={booking.customer_email}
-                    bookingStatus={booking.status}
-                  />
-                </div>
               )}
             </div>
-          </CardContent>
-        </Card>
+
+            {!businessId && booking.customer_email && (
+              <div className="text-sm text-slate-300">
+                <strong className="text-slate-200">Contact:</strong> {booking.customer_email}
+                {booking.customer_phone && ` • ${booking.customer_phone}`}
+              </div>
+            )}
+
+            {booking.notes && (
+              <div className="text-sm text-slate-300">
+                <strong className="text-slate-200">Notes:</strong> {booking.notes}
+              </div>
+            )}
+
+            {/* Customer actions */}
+            {!businessId && booking.status === 'pending' && (
+              <div className="flex gap-2 pt-3">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button 
+                      size="sm"
+                      className="bg-red-500/20 text-red-300 border border-red-500/30 hover:bg-red-500/30"
+                    >
+                      <X className="w-4 h-4 mr-1" />
+                      Cancel Booking
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="bg-[#0f1d32] border-white/10 text-white">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="text-white">Cancel Booking?</AlertDialogTitle>
+                      <AlertDialogDescription className="text-slate-400">
+                        This will cancel your booking. This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel className="bg-white/5 border-white/20 text-white hover:bg-white/10">
+                        No, keep it
+                      </AlertDialogCancel>
+                      <AlertDialogAction 
+                        onClick={() => handleCancelBooking(booking.id)}
+                        className="bg-red-500 text-white hover:bg-red-600"
+                      >
+                        Yes, cancel
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            )}
+
+            {/* Business owner actions */}
+            {businessId && booking.status === 'pending' && (
+              <div className="flex gap-2 pt-3">
+                <Button
+                  size="sm"
+                  onClick={() => handleUpdateStatus(booking.id, 'confirmed')}
+                  className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30"
+                >
+                  <CheckCircle className="w-4 h-4 mr-1" />
+                  Confirm
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => handleUpdateStatus(booking.id, 'cancelled')}
+                  className="bg-red-500/20 text-red-300 border border-red-500/30 hover:bg-red-500/30"
+                >
+                  <XCircle className="w-4 h-4 mr-1" />
+                  Cancel
+                </Button>
+              </div>
+            )}
+
+            {businessId && booking.status === 'confirmed' && (
+              <div className="flex gap-2 pt-3">
+                <Button
+                  size="sm"
+                  onClick={() => handleUpdateStatus(booking.id, 'completed')}
+                  className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30"
+                >
+                  <CheckCircle className="w-4 h-4 mr-1" />
+                  Mark Completed
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => handleUpdateStatus(booking.id, 'no_show')}
+                  className="bg-white/5 border-white/20 text-white hover:bg-white/10"
+                >
+                  No Show
+                </Button>
+              </div>
+            )}
+
+            {/* Show review request button for completed bookings */}
+            {businessId && booking.status === 'completed' && (
+              <div className="flex gap-2 pt-3">
+                <ReviewRequestButton 
+                  bookingId={booking.id}
+                  customerEmail={booking.customer_email}
+                  bookingStatus={booking.status}
+                />
+              </div>
+            )}
+          </div>
+        </div>
       ))}
     </div>
   );
