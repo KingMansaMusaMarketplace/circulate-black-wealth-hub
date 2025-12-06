@@ -449,6 +449,7 @@ function App() {
                               <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                               <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                               <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                              <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                               <Route path="/my-profile" element={<LazyUserProfilePage />} />
                               
                               {/* N */}
@@ -671,6 +672,7 @@ function App() {
                         <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                         <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                         <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                        <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                         <Route path="/my-profile" element={<LazyUserProfilePage />} />
                         
                         {/* N */}
