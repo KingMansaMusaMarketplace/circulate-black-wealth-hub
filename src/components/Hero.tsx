@@ -1,17 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { AudioButton } from '@/components/ui/audio-button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle, Zap, Heart, Volume2 } from 'lucide-react';
+import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle, Zap, Heart, Volume2, MapPin, Loader2 } from 'lucide-react';
 import { getAudioPath } from '@/utils/audio';
+import { useLocation } from '@/hooks/location/useLocation';
+import { toast } from 'sonner';
 import ScrollReveal from '@/components/animations/ScrollReveal';
 import CountUpNumber from '@/components/animations/CountUpNumber';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 const Hero = () => {
   const isIOS = shouldHideStripePayments();
+  const navigate = useNavigate();
+  const { getCurrentPosition, loading: locationLoading } = useLocation();
+  const [isLocating, setIsLocating] = useState(false);
+
+  const handleFindNearMe = useCallback(async () => {
+    setIsLocating(true);
+    try {
+      const location = await getCurrentPosition(true);
+      if (location) {
+        toast.success('Location found! Showing nearby businesses...');
+        navigate('/directory?view=map');
+      } else {
+        toast.error('Could not get your location. Please enable location services.');
+      }
+    } catch (error) {
+      console.error('Location error:', error);
+      toast.error('Unable to access location. Please check your settings.');
+    } finally {
+      setIsLocating(false);
+    }
+  }, [getCurrentPosition, navigate]);
+
   return (
     <section className="relative bg-gradient-to-br from-[#001a33] via-[#00152b] to-[#001024] overflow-hidden min-h-screen">
       {/* Enhanced Background with Pattern - Subtler overlays */}
@@ -112,7 +136,28 @@ const Hero = () => {
                 </Button>
               )}
               
-              <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full">
+                {/* Find Near Me - Primary Location CTA */}
+                <Button 
+                  size="lg"
+                  onClick={handleFindNearMe}
+                  disabled={isLocating || locationLoading}
+                  className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 text-white font-bold text-lg md:text-xl rounded-2xl w-full sm:w-auto cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105 transition-all duration-300 min-h-[56px] animate-pulse-green"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  {isLocating || locationLoading ? (
+                    <>
+                      <Loader2 className="mr-3 h-6 w-6 animate-spin" />
+                      Finding Businesses...
+                    </>
+                  ) : (
+                    <>
+                      <MapPin className="mr-3 h-6 w-6" />
+                      Find Black Businesses Near Me
+                    </>
+                  )}
+                </Button>
+
+                <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full">
                 <AudioButton
                   audioSrc={getAudioPath('blueprint')}
                   variant="red"
