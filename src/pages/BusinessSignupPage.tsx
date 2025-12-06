@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
-import { Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle } from 'lucide-react';
+import { Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, PieChart, Wallet, BarChart3, Clock, CreditCard, FileText, Target, Bell, Shield } from 'lucide-react';
 
 const BusinessSignupPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -28,39 +28,99 @@ const BusinessSignupPage: React.FC = () => {
   const includedFeatures = [
     {
       icon: Calendar,
-      title: 'Booking System',
-      description: 'Let customers book appointments online 24/7',
+      title: 'Online Booking System',
+      description: 'Let customers book appointments 24/7',
+      details: [
+        'Customers book online anytime',
+        'Automatic email confirmations',
+        'Calendar sync & availability',
+        'Reduce no-shows with reminders'
+      ],
       color: 'from-blue-500 to-cyan-500'
     },
     {
       icon: DollarSign,
-      title: 'Accounting Suite',
-      description: 'P&L reports, invoices, expenses & budgeting',
+      title: 'Full Accounting Suite',
+      description: 'QuickBooks-style financial management',
+      details: [
+        'Profit & Loss statements',
+        'Cash flow tracking',
+        'Budget planning & alerts',
+        'Balance sheet reports'
+      ],
       color: 'from-green-500 to-emerald-500'
+    },
+    {
+      icon: Receipt,
+      title: 'Invoice & Expense Tracking',
+      description: 'Professional billing made easy',
+      details: [
+        'Create professional invoices',
+        'Track paid/unpaid/overdue',
+        'Expense categorization',
+        'Tax rate management'
+      ],
+      color: 'from-rose-500 to-red-500'
     },
     {
       icon: QrCode,
       title: 'QR Payment System',
-      description: 'Accept payments with scannable QR codes',
+      description: 'Accept payments instantly',
+      details: [
+        'Unique QR code for your business',
+        'Customers scan & pay easily',
+        'Automatic loyalty points',
+        'Real-time payment tracking'
+      ],
       color: 'from-purple-500 to-pink-500'
     },
     {
       icon: Users,
-      title: 'Customer Loyalty',
-      description: 'Reward repeat customers automatically',
+      title: 'Customer Loyalty Program',
+      description: 'Build repeat business automatically',
+      details: [
+        'Points for every purchase',
+        'Custom reward tiers',
+        'Customer visit tracking',
+        'Automated engagement'
+      ],
       color: 'from-orange-500 to-amber-500'
     },
     {
       icon: TrendingUp,
       title: 'Analytics Dashboard',
-      description: 'Track sales, visits & customer insights',
+      description: 'Data-driven business insights',
+      details: [
+        'Sales & revenue trends',
+        'Customer behavior analytics',
+        'Peak hours identification',
+        'Performance benchmarks'
+      ],
       color: 'from-indigo-500 to-violet-500'
     },
     {
-      icon: Receipt,
-      title: 'Invoice Management',
-      description: 'Create & send professional invoices',
-      color: 'from-rose-500 to-red-500'
+      icon: Wallet,
+      title: 'Bank Reconciliation',
+      description: 'Match transactions automatically',
+      details: [
+        'Import bank statements',
+        'Auto-match transactions',
+        'Identify discrepancies',
+        'Accurate bookkeeping'
+      ],
+      color: 'from-teal-500 to-cyan-500'
+    },
+    {
+      icon: BarChart3,
+      title: 'Business Profile & Directory',
+      description: 'Get discovered by new customers',
+      details: [
+        'Public business listing',
+        'Customer reviews & ratings',
+        'Photo gallery showcase',
+        'Contact & location info'
+      ],
+      color: 'from-sky-500 to-blue-500'
     }
   ];
 
@@ -116,42 +176,84 @@ const BusinessSignupPage: React.FC = () => {
 
         {/* Included Features Section */}
         <div className="container mx-auto px-4 mb-8 animate-fade-in" style={{ animationDelay: '0.05s' }}>
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold text-white mb-2">
-                Everything Included in Your Subscription
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-mansagold/20 border border-mansagold/30 rounded-full mb-4">
+                <Shield className="w-4 h-4 text-mansagold" />
+                <span className="text-sm font-semibold text-mansagold">All Included In Your Monthly Fee</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+                Everything You Need to Run Your Business
               </h2>
-              <p className="text-slate-400">
-                All these powerful tools are part of your monthly fee — no extra charges!
+              <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+                No hidden fees, no extra charges. Get powerful tools worth $500+/month — all included in one simple subscription.
               </p>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {includedFeatures.map((feature, index) => (
                 <div 
                   key={feature.title}
-                  className="relative group"
+                  className="relative group animate-fade-in"
                   style={{ animationDelay: `${0.1 + index * 0.05}s` }}
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-20 rounded-xl blur-xl transition-opacity duration-300`} />
-                  <div className="relative bg-slate-800/60 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-white/20 transition-all duration-300 h-full">
-                    <div className="flex items-start gap-3">
-                      <div className={`p-2 rounded-lg bg-gradient-to-br ${feature.color} flex-shrink-0`}>
-                        <feature.icon className="w-4 h-4 text-white" />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 rounded-2xl blur-xl transition-opacity duration-300`} />
+                  <div className="relative bg-slate-800/60 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all duration-300 h-full">
+                    <div className="flex items-start gap-4">
+                      <div className={`p-3 rounded-xl bg-gradient-to-br ${feature.color} flex-shrink-0 shadow-lg`}>
+                        <feature.icon className="w-6 h-6 text-white" />
                       </div>
-                      <div className="min-w-0">
-                        <h3 className="font-semibold text-white text-sm flex items-center gap-1">
-                          {feature.title}
-                          <CheckCircle className="w-3 h-3 text-green-400" />
-                        </h3>
-                        <p className="text-xs text-slate-400 mt-0.5 leading-tight">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-bold text-white text-lg">
+                            {feature.title}
+                          </h3>
+                          <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                        </div>
+                        <p className="text-sm text-slate-300 mb-3">
                           {feature.description}
                         </p>
+                        <ul className="space-y-1.5">
+                          {feature.details.map((detail, i) => (
+                            <li key={i} className="flex items-center gap-2 text-xs text-slate-400">
+                              <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${feature.color}`} />
+                              {detail}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Value Summary */}
+            <div className="mt-8 relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-mansagold/20 via-amber-500/20 to-orange-500/20 rounded-2xl blur-2xl" />
+              <div className="relative bg-slate-800/80 backdrop-blur-xl border border-mansagold/30 rounded-2xl p-6 text-center">
+                <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12">
+                  <div>
+                    <p className="text-3xl font-bold text-mansagold">8+</p>
+                    <p className="text-sm text-slate-400">Premium Tools</p>
+                  </div>
+                  <div className="hidden md:block w-px h-12 bg-white/20" />
+                  <div>
+                    <p className="text-3xl font-bold text-green-400">$500+</p>
+                    <p className="text-sm text-slate-400">Value Per Month</p>
+                  </div>
+                  <div className="hidden md:block w-px h-12 bg-white/20" />
+                  <div>
+                    <p className="text-3xl font-bold text-blue-400">24/7</p>
+                    <p className="text-sm text-slate-400">Customer Booking</p>
+                  </div>
+                  <div className="hidden md:block w-px h-12 bg-white/20" />
+                  <div>
+                    <p className="text-3xl font-bold text-purple-400">$0</p>
+                    <p className="text-sm text-slate-400">Extra Fees</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
