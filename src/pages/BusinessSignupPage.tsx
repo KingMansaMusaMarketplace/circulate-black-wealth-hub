@@ -5,13 +5,13 @@ import { Helmet } from 'react-helmet-async';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
+import { Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle } from 'lucide-react';
 
 const BusinessSignupPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const referralCode = searchParams.get('ref') || '';
   const [referringAgent, setReferringAgent] = useState<SalesAgent | null>(null);
   
-  // Function to check referral code validity and set the referring agent
   const checkReferralCode = async (code: string): Promise<SalesAgent | null> => {
     if (!code) return null;
     
@@ -24,6 +24,45 @@ const BusinessSignupPage: React.FC = () => {
       return null;
     }
   };
+
+  const includedFeatures = [
+    {
+      icon: Calendar,
+      title: 'Booking System',
+      description: 'Let customers book appointments online 24/7',
+      color: 'from-blue-500 to-cyan-500'
+    },
+    {
+      icon: DollarSign,
+      title: 'Accounting Suite',
+      description: 'P&L reports, invoices, expenses & budgeting',
+      color: 'from-green-500 to-emerald-500'
+    },
+    {
+      icon: QrCode,
+      title: 'QR Payment System',
+      description: 'Accept payments with scannable QR codes',
+      color: 'from-purple-500 to-pink-500'
+    },
+    {
+      icon: Users,
+      title: 'Customer Loyalty',
+      description: 'Reward repeat customers automatically',
+      color: 'from-orange-500 to-amber-500'
+    },
+    {
+      icon: TrendingUp,
+      title: 'Analytics Dashboard',
+      description: 'Track sales, visits & customer insights',
+      color: 'from-indigo-500 to-violet-500'
+    },
+    {
+      icon: Receipt,
+      title: 'Invoice Management',
+      description: 'Create & send professional invoices',
+      color: 'from-rose-500 to-red-500'
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative flex flex-col justify-center py-12">
@@ -71,6 +110,48 @@ const BusinessSignupPage: React.FC = () => {
                   <path d="m12 5 7 7-7 7"/>
                 </svg>
               </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Included Features Section */}
+        <div className="container mx-auto px-4 mb-8 animate-fade-in" style={{ animationDelay: '0.05s' }}>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold text-white mb-2">
+                Everything Included in Your Subscription
+              </h2>
+              <p className="text-slate-400">
+                All these powerful tools are part of your monthly fee — no extra charges!
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {includedFeatures.map((feature, index) => (
+                <div 
+                  key={feature.title}
+                  className="relative group"
+                  style={{ animationDelay: `${0.1 + index * 0.05}s` }}
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-20 rounded-xl blur-xl transition-opacity duration-300`} />
+                  <div className="relative bg-slate-800/60 backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-white/20 transition-all duration-300 h-full">
+                    <div className="flex items-start gap-3">
+                      <div className={`p-2 rounded-lg bg-gradient-to-br ${feature.color} flex-shrink-0`}>
+                        <feature.icon className="w-4 h-4 text-white" />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="font-semibold text-white text-sm flex items-center gap-1">
+                          {feature.title}
+                          <CheckCircle className="w-3 h-3 text-green-400" />
+                        </h3>
+                        <p className="text-xs text-slate-400 mt-0.5 leading-tight">
+                          {feature.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
