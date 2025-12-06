@@ -1,8 +1,9 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { QrCode, MapPin, Star, Share2 } from 'lucide-react';
+import { QrCode, MapPin, Star, Share2, Calendar } from 'lucide-react';
 import { Business } from '@/types/business';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
 import CheckInButton from './CheckInButton';
@@ -12,6 +13,12 @@ interface BusinessDetailHeaderProps {
 }
 
 const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business }) => {
+  const navigate = useNavigate();
+
+  const handleBookNow = () => {
+    navigate(`/book/${business.id}`);
+  };
+
   return (
     <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm mb-8">
       <div className="h-48 bg-gradient-to-r from-mansablue to-mansagold flex items-center justify-center">
@@ -46,6 +53,14 @@ const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business })
           </div>
           
           <div className="flex flex-wrap items-center gap-2">
+            <Button 
+              onClick={handleBookNow}
+              className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold shadow-lg"
+            >
+              <Calendar size={16} className="mr-2" />
+              Book Now
+            </Button>
+            
             <CheckInButton 
               businessId={business.id}
               businessName={business.name}

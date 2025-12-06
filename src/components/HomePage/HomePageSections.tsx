@@ -6,6 +6,7 @@ import LazySection from '@/components/common/LazySection';
 import { ImpactCounter } from './ImpactCounter';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import HowItWorksPreview from './HowItWorksPreview';
+import BookingAccessSection from './BookingAccessSection';
 
 const HomePageSections: React.FC = () => {
   return (
@@ -44,6 +45,11 @@ const HomePageSections: React.FC = () => {
             <FeaturedBusinesses limit={6} />
           </Suspense>
         </LazySection>
+      </SectionErrorBoundary>
+
+      {/* Booking Access Section */}
+      <SectionErrorBoundary sectionName="Booking Access">
+        <BookingAccessSection />
       </SectionErrorBoundary>
 
       {/* CTA Section */}
