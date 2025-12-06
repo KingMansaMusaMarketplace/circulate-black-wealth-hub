@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/lib/supabase';
 import { BookingForm } from '@/components/booking/BookingForm';
-import ResponsiveLayout from '@/components/layouts/ResponsiveLayout';
 import { Helmet } from 'react-helmet-async';
 import Loading from '@/components/ui/loading';
 
@@ -46,39 +45,36 @@ export default function BookBusinessPage() {
 
   if (businessLoading || servicesLoading) {
     return (
-      <ResponsiveLayout className="bg-background" useSubtleBackground={false}>
-        {/* Background decorations */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
         
-        <div className="flex items-center justify-center min-h-[400px] relative">
+        <div className="flex items-center justify-center min-h-screen relative z-10">
           <Loading text="Loading booking details..." />
         </div>
-      </ResponsiveLayout>
+      </div>
     );
   }
 
   if (!business) {
     return (
-      <ResponsiveLayout className="bg-background" useSubtleBackground={false}>
-        {/* Background decorations */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
         
-        <div className="text-center py-12 relative">
+        <div className="text-center py-12 relative z-10 flex flex-col items-center justify-center min-h-screen">
           <h2 className="text-2xl font-bold mb-4 text-white">Business Not Found</h2>
           <Button 
             onClick={() => navigate('/businesses')}
-            className="bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-black font-semibold"
+            className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-semibold"
           >
             Browse Businesses
           </Button>
         </div>
-      </ResponsiveLayout>
+      </div>
     );
   }
 
@@ -89,121 +85,128 @@ export default function BookBusinessPage() {
         <meta name="description" content={`Book an appointment with ${business.business_name}. ${business.description || ''}`} />
       </Helmet>
 
-      <ResponsiveLayout className="bg-background" useSubtleBackground={false}>
-        {/* Background decorations */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }} />
+        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-yellow-400/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '3s' }} />
 
-        <div className="max-w-4xl mx-auto relative">
-          <Button
-            variant="ghost"
-            onClick={() => navigate(`/business/${businessId}`)}
-            className="mb-4 backdrop-blur-xl bg-white/10 border border-white/20 hover:bg-white/20 text-white"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Business
-          </Button>
+        <div className="container mx-auto px-4 py-8 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <Button
+              variant="ghost"
+              onClick={() => navigate(`/business/${businessId}`)}
+              className="mb-6 bg-slate-900/40 backdrop-blur-xl border border-white/10 hover:bg-white/10 text-white hover:text-yellow-300"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Business
+            </Button>
 
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2 text-white">Book Appointment</h1>
-            <p className="text-xl text-white/90">{business.business_name}</p>
-          </div>
+            <div className="mb-8 text-center">
+              <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 bg-clip-text text-transparent">
+                Book Appointment
+              </h1>
+              <p className="text-xl text-blue-200">{business.business_name}</p>
+            </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <div className="backdrop-blur-xl bg-white/10 rounded-2xl border border-white/20 shadow-xl">
-                <div className="p-6 border-b border-white/20">
-                  <h2 className="text-2xl font-bold text-white">Select Service & Time</h2>
-                </div>
-                <div className="p-6">
-                  {services.length === 0 ? (
-                    <div className="text-center py-8">
-                      <p className="text-white/90">
-                        This business has no bookable services at the moment.
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
+                  <CardHeader className="border-b border-white/10">
+                    <CardTitle className="text-2xl font-bold text-white flex items-center gap-2">
+                      <Calendar className="w-6 h-6 text-yellow-400" />
+                      Select Service & Time
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    {services.length === 0 ? (
+                      <div className="text-center py-8">
+                        <p className="text-blue-200">
+                          This business has no bookable services at the moment.
+                        </p>
+                      </div>
+                    ) : (
+                      <BookingForm businessId={businessId!} businessName={business.business_name} />
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="space-y-4">
+                <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
+                  <CardHeader className="border-b border-white/10">
+                    <CardTitle className="text-lg font-bold text-white">Business Info</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6 space-y-4">
+                    {business.logo_url && (
+                      <img
+                        src={business.logo_url}
+                        alt={business.business_name}
+                        className="w-full h-32 object-cover rounded-lg border border-white/20"
+                      />
+                    )}
+                    
+                    <div>
+                      <p className="text-sm font-medium mb-1 text-yellow-400">Location</p>
+                      <p className="text-sm text-blue-200">
+                        {business.address}<br />
+                        {business.city}, {business.state} {business.zip_code}
                       </p>
                     </div>
-                  ) : (
-                    <BookingForm businessId={businessId!} businessName={business.business_name} />
-                  )}
-                </div>
-              </div>
-            </div>
 
-            <div className="space-y-4">
-              <div className="backdrop-blur-xl bg-white/10 rounded-2xl border border-white/20 shadow-xl">
-                <div className="p-6 border-b border-white/20">
-                  <h3 className="text-lg font-bold text-white">Business Info</h3>
-                </div>
-                <div className="p-6 space-y-4">
-                  {business.logo_url && (
-                    <img
-                      src={business.logo_url}
-                      alt={business.business_name}
-                      className="w-full h-32 object-cover rounded-lg border border-white/20"
-                    />
-                  )}
-                  
-                  <div>
-                    <p className="text-sm font-medium mb-1 text-blue-300">Location</p>
-                    <p className="text-sm text-white/90">
-                      {business.address}<br />
-                      {business.city}, {business.state} {business.zip_code}
-                    </p>
-                  </div>
+                    {business.phone && (
+                      <div>
+                        <p className="text-sm font-medium mb-1 text-yellow-400">Phone</p>
+                        <p className="text-sm text-blue-200">{business.phone}</p>
+                      </div>
+                    )}
 
-                  {business.phone && (
-                    <div>
-                      <p className="text-sm font-medium mb-1 text-blue-300">Phone</p>
-                      <p className="text-sm text-white/90">{business.phone}</p>
-                    </div>
-                  )}
+                    {business.email && (
+                      <div>
+                        <p className="text-sm font-medium mb-1 text-yellow-400">Email</p>
+                        <p className="text-sm text-blue-200">{business.email}</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
 
-                  {business.email && (
-                    <div>
-                      <p className="text-sm font-medium mb-1 text-blue-300">Email</p>
-                      <p className="text-sm text-white/90">{business.email}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {services.length > 0 && (
-                <div className="backdrop-blur-xl bg-white/10 rounded-2xl border border-white/20 shadow-xl">
-                  <div className="p-6 border-b border-white/20">
-                    <h3 className="text-lg font-bold text-white">Available Services</h3>
-                  </div>
-                  <div className="p-6">
-                    <div className="space-y-3">
-                      {services.map((service: any) => (
-                        <div key={service.id} className="p-3 backdrop-blur-xl bg-white/10 rounded-lg border border-white/20">
-                          <div className="font-medium mb-1 text-white">{service.name}</div>
-                          {service.description && (
-                            <p className="text-sm text-white/70 mb-2">
-                              {service.description}
-                            </p>
-                          )}
-                          <div className="flex items-center justify-between text-sm">
-                            <div className="flex items-center gap-1 text-white/70">
-                              <Clock className="w-3 h-3" />
-                              {service.duration_minutes} min
-                            </div>
-                            <div className="flex items-center gap-1 font-semibold text-yellow-400">
-                              <DollarSign className="w-3 h-3" />
-                              {service.price.toFixed(2)}
+                {services.length > 0 && (
+                  <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10 shadow-xl">
+                    <CardHeader className="border-b border-white/10">
+                      <CardTitle className="text-lg font-bold text-white">Available Services</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="space-y-3">
+                        {services.map((service: any) => (
+                          <div key={service.id} className="p-3 bg-slate-800/50 backdrop-blur rounded-lg border border-white/10">
+                            <div className="font-medium mb-1 text-white">{service.name}</div>
+                            {service.description && (
+                              <p className="text-sm text-blue-200/70 mb-2">
+                                {service.description}
+                              </p>
+                            )}
+                            <div className="flex items-center justify-between text-sm">
+                              <div className="flex items-center gap-1 text-blue-200/70">
+                                <Clock className="w-3 h-3" />
+                                {service.duration_minutes} min
+                              </div>
+                              <div className="flex items-center gap-1 font-semibold text-yellow-400">
+                                <DollarSign className="w-3 h-3" />
+                                {service.price.toFixed(2)}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </ResponsiveLayout>
+      </div>
     </>
   );
 }
