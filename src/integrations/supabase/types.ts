@@ -7751,6 +7751,7 @@ export type Database = {
             Args: { _role: Database["public"]["Enums"]["user_role"] }
             Returns: boolean
           }
+        | { Args: { _role: string; _user_id: string }; Returns: boolean }
       increment_material_downloads: {
         Args: { material_id: string }
         Returns: undefined
