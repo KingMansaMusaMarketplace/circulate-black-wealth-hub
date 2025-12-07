@@ -38,42 +38,72 @@ Deno.serve(async (req) => {
       startDate.setDate(now.getDate() - 7); // week
     }
 
-    // Fetch user transactions
+    console.log('Fetching transactions for user:', userId);
+
+    // Fetch user transactions from the existing transactions table
     const { data: transactions, error: transError } = await supabase
-      .from('user_impact_transactions')
-      .select('amount, transaction_date, business_id')
+      .from('transactions')
+      .select('amount, created_at, business_id')
+      .eq('customer_id', userId)
+      .gte('created_at', startDate.toISOString())
+      .order('created_at', { ascending: false });
+
+    if (transError) {
+      console.error('Transaction fetch error:', transError);
+      // Continue with empty data instead of throwing
+    }
+
+    // Fetch user business interactions/visits
+    const { data: interactions, error: interactionsError } = await supabase
+      .from('business_interactions')
+      .select('business_id, created_at, interaction_type')
       .eq('user_id', userId)
-      .gte('transaction_date', startDate.toISOString())
-      .order('transaction_date', { ascending: false });
+      .gte('created_at', startDate.toISOString());
 
-    if (transError) throw transError;
+    if (interactionsError) {
+      console.error('Interactions fetch error:', interactionsError);
+      // Continue with empty data
+    }
 
-    // Fetch user business visits
-    const { data: visits, error: visitsError } = await supabase
-      .from('user_business_visits')
-      .select('business_id, visit_date, visit_source')
-      .eq('user_id', userId)
-      .gte('visit_date', startDate.toISOString());
-
-    if (visitsError) throw visitsError;
-
-    // Fetch community metrics
-    const { data: communityMetrics, error: metricsError } = await supabase
-      .from('community_impact_metrics')
+    // Fetch aggregate community metrics
+    const { data: communityData, error: communityError } = await supabase
+      .from('community_aggregate_metrics')
       .select('*')
-      .gte('metric_date', startDate.toISOString().split('T')[0])
-      .order('metric_date', { ascending: false })
+      .gte('period_start', startDate.toISOString().split('T')[0])
+      .order('period_start', { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
+
+    if (communityError) {
+      console.error('Community metrics fetch error:', communityError);
+    }
+
+    // Get total verified businesses count
+    const { count: businessCount } = await supabase
+      .from('businesses')
+      .select('*', { count: 'exact', head: true })
+      .eq('is_verified', true);
+
+    // Get total users count
+    const { count: userCount } = await supabase
+      .from('profiles')
+      .select('*', { count: 'exact', head: true });
 
     // Calculate user statistics
-    const totalSpent = transactions?.reduce((sum, t) => sum + parseFloat(t.amount.toString()), 0) || 0;
-    const uniqueBusinesses = new Set(transactions?.map(t => t.business_id) || []).size;
-    const totalVisits = visits?.length || 0;
-    const transactionCount = transactions?.length || 0;
+    const safeTransactions = transactions || [];
+    const safeInteractions = interactions || [];
+    
+    const totalSpent = safeTransactions.reduce((sum, t) => sum + parseFloat(t.amount?.toString() || '0'), 0);
+    const uniqueBusinesses = new Set(safeTransactions.map(t => t.business_id).filter(Boolean)).size;
+    const totalVisits = safeInteractions.length;
+    const transactionCount = safeTransactions.length;
 
     // Fetch business names for context
-    const businessIds = Array.from(new Set(transactions?.map(t => t.business_id) || []));
+    const businessIds = Array.from(new Set([
+      ...safeTransactions.map(t => t.business_id),
+      ...safeInteractions.map(i => i.business_id)
+    ].filter(Boolean)));
+    
     let businessNames: any[] = [];
     if (businessIds.length > 0) {
       const { data: businesses } = await supabase
@@ -82,6 +112,14 @@ Deno.serve(async (req) => {
         .in('id', businessIds);
       businessNames = businesses || [];
     }
+
+    // Calculate community totals from transactions
+    const { data: allTransactions } = await supabase
+      .from('transactions')
+      .select('amount')
+      .gte('created_at', startDate.toISOString());
+
+    const totalCirculation = allTransactions?.reduce((sum, t) => sum + parseFloat(t.amount?.toString() || '0'), 0) || 0;
 
     const systemPrompt = `You are an AI storyteller for Mansa Musa Marketplace, a platform dedicated to circulating wealth within the Black community. Your goal is to create inspiring, personalized impact stories that make users feel proud of their contribution to economic empowerment.
 
@@ -106,10 +144,10 @@ USER'S PERSONAL IMPACT:
 - Businesses Supported: ${businessNames.map(b => `${b.business_name} (${b.category})`).join(', ') || 'None yet'}
 
 COMMUNITY COLLECTIVE IMPACT:
-- Total Community Circulation: $${communityMetrics?.total_circulation || 0}
-- Active Community Members: ${communityMetrics?.active_users || 0}
-- Businesses Supported Community-Wide: ${communityMetrics?.businesses_supported || 0}
-- Average Dollar Circulation Time: ${communityMetrics?.average_circulation_time_hours || 6} hours (up from 6 hours baseline)
+- Total Community Circulation: $${totalCirculation.toFixed(2)}
+- Active Community Members: ${userCount || 0}
+- Businesses on Platform: ${businessCount || 0}
+- Average Dollar Circulation Time: 6 hours (building momentum)
 
 Generate a personalized impact story that celebrates their contribution and motivates continued engagement. Include:
 1. A powerful opening statement about their impact
@@ -147,6 +185,8 @@ Keep it under 200 words but make every word count.`;
     const aiResult = await response.json();
     const impactStory = aiResult.choices[0].message.content;
 
+    console.log('Successfully generated impact report');
+
     return new Response(JSON.stringify({
       story: impactStory,
       stats: {
@@ -157,10 +197,10 @@ Keep it under 200 words but make every word count.`;
         businesses: businessNames
       },
       communityStats: {
-        totalCirculation: communityMetrics?.total_circulation || 0,
-        activeUsers: communityMetrics?.active_users || 0,
-        businessesSupported: communityMetrics?.businesses_supported || 0,
-        circulationTimeHours: communityMetrics?.average_circulation_time_hours || 6
+        totalCirculation,
+        activeUsers: userCount || 0,
+        businessesSupported: businessCount || 0,
+        circulationTimeHours: 6
       }
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
