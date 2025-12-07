@@ -1,8 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Geolocation, Position } from '@capacitor/geolocation';
-import { Capacitor } from '@capacitor/core';
-import { LocalNotifications } from '@capacitor/local-notifications';
 import { toast } from 'sonner';
+
+// Safe native platform check without importing Capacitor at top level
+const isNativePlatform = () => {
+  try {
+    return typeof window !== 'undefined' && 
+           window.Capacitor && 
+           typeof window.Capacitor.isNativePlatform === 'function' && 
+           window.Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+};
 
 interface NearbyBusiness {
   id: string;
@@ -10,11 +19,24 @@ interface NearbyBusiness {
   distance: number;
 }
 
+interface Position {
+  coords: {
+    latitude: number;
+    longitude: number;
+    accuracy: number;
+    altitude: number | null;
+    altitudeAccuracy: number | null;
+    heading: number | null;
+    speed: number | null;
+  };
+  timestamp: number;
+}
+
 export const useBackgroundLocation = () => {
   const [isTracking, setIsTracking] = useState(false);
   const [lastPosition, setLastPosition] = useState<Position | null>(null);
   const [watchId, setWatchId] = useState<string | null>(null);
-  const isNative = Capacitor.isNativePlatform();
+  const isNative = isNativePlatform();
 
   useEffect(() => {
     if (isNative) {
@@ -34,6 +56,8 @@ export const useBackgroundLocation = () => {
     if (!isNative || isTracking) return;
 
     try {
+      const { Geolocation } = await import('@capacitor/geolocation');
+      
       // Request background location permissions
       const permission = await Geolocation.requestPermissions({
         permissions: ['location', 'coarseLocation']
@@ -69,10 +93,15 @@ export const useBackgroundLocation = () => {
 
   const stopTracking = async () => {
     if (watchId) {
-      await Geolocation.clearWatch({ id: watchId });
-      setWatchId(null);
-      setIsTracking(false);
-      console.log('Background location tracking stopped');
+      try {
+        const { Geolocation } = await import('@capacitor/geolocation');
+        await Geolocation.clearWatch({ id: watchId });
+        setWatchId(null);
+        setIsTracking(false);
+        console.log('Background location tracking stopped');
+      } catch (error) {
+        console.error('Error stopping location tracking:', error);
+      }
     }
   };
 
@@ -119,6 +148,8 @@ export const useBackgroundLocation = () => {
     if (!isNative || businesses.length === 0) return;
 
     try {
+      const { LocalNotifications } = await import('@capacitor/local-notifications');
+      
       // Check if we've already notified about these businesses today
       const notifiedToday = JSON.parse(localStorage.getItem('notified_businesses_today') || '[]');
       const today = new Date().toDateString();
