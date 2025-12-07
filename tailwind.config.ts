@@ -18,9 +18,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Poppins", "Inter", ...fontFamily.sans],
+        sans: ["DM Sans", "Inter", ...fontFamily.sans],
         body: ["DM Sans", "Inter", ...fontFamily.sans],
-        display: ["Poppins", "Inter", ...fontFamily.sans],
+        display: ["Playfair Display", "Georgia", "serif"],
+        heading: ["Playfair Display", "Georgia", "serif"],
         montserrat: ["Montserrat", "sans-serif"],
         spartan: ["League Spartan", "sans-serif"],
         playfair: ["Playfair Display", "serif"],
