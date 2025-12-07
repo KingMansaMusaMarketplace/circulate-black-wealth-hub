@@ -6,6 +6,23 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Rate limiting store (in-memory, resets on function cold start)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string, maxRequests = 3, windowMs = 60000): boolean {
+  const now = Date.now();
+  const entry = rateLimitStore.get(ip);
+  
+  if (!entry || now > entry.resetTime) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + windowMs });
+    return true;
+  }
+  
+  if (entry.count >= maxRequests) return false;
+  entry.count++;
+  return true;
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -13,6 +30,19 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Apply rate limiting
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+    
+    if (!checkRateLimit(clientIP, 3, 60000)) { // 3 requests per minute for insights
+      console.log(`Rate limit exceeded for IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ error: 'Too many requests. Please wait a moment before trying again.' }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const { businessId } = await req.json();
     
     if (!businessId) {

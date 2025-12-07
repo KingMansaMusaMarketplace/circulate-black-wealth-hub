@@ -42,8 +42,8 @@ export const useGamification = () => {
     enabled: !!user,
   });
 
-  // Fetch leaderboard
-  const { data: leaderboard, isLoading: leaderboardLoading } = useQuery({
+  // Fetch leaderboard with retry and stale time
+  const { data: leaderboard, isLoading: leaderboardLoading, refetch: refetchLeaderboard } = useQuery({
     queryKey: ['leaderboard', 'weekly'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -61,6 +61,9 @@ export const useGamification = () => {
       if (error) throw error;
       return data || [];
     },
+    staleTime: 30000, // Consider data fresh for 30 seconds
+    retry: 2, // Retry failed requests twice
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 5000),
   });
 
   // Update streak
@@ -129,5 +132,6 @@ export const useGamification = () => {
     isLoading: achievementsLoading || streaksLoading || leaderboardLoading,
     updateStreak: updateStreakMutation.mutate,
     unlockAchievement: unlockAchievementMutation.mutate,
+    refetchLeaderboard,
   };
 };
