@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Check, Crown, Sparkles, Star, Zap, Loader2, Share2 } from 'lucide-react';
+import { Check, Crown, Sparkles, Star, Zap, Loader2, Share2, ArrowRight } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { cn } from '@/lib/utils';
 import { useCorporateCheckout } from '@/hooks/useCorporateCheckout';
@@ -14,6 +14,7 @@ import { useNativeShare } from '@/hooks/use-native-share';
 import NotificationDemo from '@/components/sponsorship/NotificationDemo';
 import SponsorshipMediaKit from '@/components/sponsorship/SponsorshipMediaKit';
 import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
+import { motion } from 'framer-motion';
 
 interface PricingTier {
   name: string;
@@ -24,8 +25,8 @@ interface PricingTier {
   features: string[];
   cta: string;
   popular?: boolean;
-  borderClass: string;
-  iconBg: string;
+  gradient: string;
+  bgGlow: string;
 }
 
 const CorporateSponsorshipPricingPage: React.FC = () => {
@@ -44,9 +45,9 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
       tier: 'bronze',
       price: '$500',
       description: 'Perfect for small businesses looking to support the community',
-      icon: <Star className="h-6 w-6" />,
-      borderClass: 'border-amber-300 hover:border-amber-400',
-      iconBg: 'bg-amber-100 text-amber-700',
+      icon: <Star className="h-6 w-6 text-white" />,
+      gradient: 'from-amber-600 to-amber-700',
+      bgGlow: 'rgba(217, 119, 6, 0.15)',
       features: [
         'Logo in website footer',
         'Monthly impact reports',
@@ -61,9 +62,9 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
       tier: 'silver',
       price: '$1,500',
       description: 'Enhanced visibility for growing organizations',
-      icon: <Sparkles className="h-6 w-6" />,
-      borderClass: 'border-slate-300 hover:border-slate-400',
-      iconBg: 'bg-slate-100 text-slate-700',
+      icon: <Sparkles className="h-6 w-6 text-white" />,
+      gradient: 'from-slate-400 to-slate-500',
+      bgGlow: 'rgba(148, 163, 184, 0.15)',
       features: [
         'All Bronze benefits',
         'Logo in business directory',
@@ -79,10 +80,10 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
       tier: 'gold',
       price: '$5,000',
       description: 'Maximum impact for committed corporate partners',
-      icon: <Crown className="h-6 w-6" />,
+      icon: <Crown className="h-6 w-6 text-white" />,
       popular: true,
-      borderClass: 'border-mansagold hover:border-amber-500',
-      iconBg: 'bg-mansagold/20 text-mansagold',
+      gradient: 'from-amber-400 via-yellow-400 to-orange-400',
+      bgGlow: 'rgba(251, 191, 36, 0.2)',
       features: [
         'All Silver benefits',
         'Logo on homepage & sidebar',
@@ -100,9 +101,9 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
       tier: 'platinum',
       price: '$15,000',
       description: 'Premier partnership with maximum visibility and impact',
-      icon: <Zap className="h-6 w-6" />,
-      borderClass: 'border-mansablue hover:border-blue-700',
-      iconBg: 'bg-mansablue/20 text-mansablue',
+      icon: <Zap className="h-6 w-6 text-white" />,
+      gradient: 'from-violet-400 via-purple-400 to-fuchsia-400',
+      bgGlow: 'rgba(167, 139, 250, 0.15)',
       features: [
         'All Gold benefits',
         'Top banner placement',
@@ -161,230 +162,327 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-gradient-to-br from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[40rem] h-[40rem] bg-gradient-to-br from-blue-700/20 to-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+      <div className="min-h-screen bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark relative overflow-hidden">
+        {/* Premium ambient background */}
+        <div className="fixed inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-mansagold/10 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/5 rounded-full blur-[150px]" />
         </div>
 
-        {/* Subtle grid overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]"></div>
+        {/* Grid pattern overlay */}
+        <div 
+          className="fixed inset-0 pointer-events-none opacity-[0.02]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
+            backgroundSize: '60px 60px'
+          }}
+        />
+
+        {/* Animated gold particles */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          {[...Array(15)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 bg-mansagold rounded-full"
+              initial={{ 
+                x: `${Math.random() * 100}%`, 
+                y: '100%',
+                opacity: 0 
+              }}
+              animate={{ 
+                y: '-10%',
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: Math.random() * 4 + 4,
+                repeat: Infinity,
+                delay: Math.random() * 4,
+                ease: 'linear',
+              }}
+            />
+          ))}
+        </div>
 
         {/* Hero Section */}
-        <section className="container mx-auto px-4 py-16 text-center relative z-10">
-          <Badge className="mb-4 bg-gradient-to-r from-mansablue to-blue-600 text-white border-0 shadow-lg shadow-mansablue/20">
-            Corporate Sponsorship
-          </Badge>
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-white animate-fade-in-up">
-            Partner With Us to{' '}
-            <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Create Real Impact</span>
-          </h1>
-          <p className="text-xl text-blue-100/90 max-w-3xl mx-auto mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            Your corporate sponsorship directly supports Black-owned businesses
-            and strengthens communities. Choose a partnership tier that aligns
-            with your company's values and budget.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center text-sm text-blue-200/70 mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <div className="flex items-center gap-2 bg-slate-800/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-              <Check className="h-4 w-4 text-mansagold" />
-              <span>Tax Deductible</span>
+        <section className="relative py-24 md:py-32 overflow-hidden">
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-5xl mx-auto text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                {/* Premium badge */}
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mansagold/10 border border-mansagold/30 mb-8">
+                  <Sparkles className="w-4 h-4 text-mansagold" />
+                  <span className="text-sm font-semibold text-mansagold tracking-wide uppercase">
+                    Corporate Partnership Program
+                  </span>
+                </div>
+              </motion.div>
+              
+              <motion.h1 
+                className="font-playfair text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                <span className="text-white">Partner With Us to </span>
+                <br />
+                <span className="text-gradient-gold">Create Real Impact</span>
+              </motion.h1>
+              
+              <motion.p 
+                className="text-xl md:text-2xl text-blue-100/90 mb-10 max-w-3xl mx-auto leading-relaxed font-body"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                Your corporate sponsorship directly supports Black-owned businesses
+                and strengthens communities. Choose a partnership tier that aligns
+                with your company's values and budget.
+              </motion.p>
+              
+              <motion.div 
+                className="flex flex-wrap gap-4 justify-center text-sm text-white/90 mb-8"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                  <Check className="h-4 w-4 text-mansagold" />
+                  <span className="font-medium">Tax Deductible</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                  <Check className="h-4 w-4 text-mansagold" />
+                  <span className="font-medium">Real-Time Impact Metrics</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
+                  <Check className="h-4 w-4 text-mansagold" />
+                  <span className="font-medium">Transparent Reporting</span>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                className="flex justify-center"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={handleShare}
+                  disabled={isSharing}
+                  className="border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold px-8 py-6 rounded-xl backdrop-blur-sm transition-all duration-300"
+                >
+                  <Share2 className="mr-2 h-4 w-4" />
+                  Share Opportunity
+                </Button>
+              </motion.div>
             </div>
-            <div className="flex items-center gap-2 bg-slate-800/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-              <Check className="h-4 w-4 text-mansagold" />
-              <span>Real-Time Impact Metrics</span>
-            </div>
-            <div className="flex items-center gap-2 bg-slate-800/40 backdrop-blur-sm px-4 py-2 rounded-full border border-white/10">
-              <Check className="h-4 w-4 text-mansagold" />
-              <span>Transparent Reporting</span>
-            </div>
-          </div>
-          <div className="flex justify-center animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={handleShare}
-              disabled={isSharing}
-              className="border-mansagold/30 bg-slate-800/60 backdrop-blur-xl text-white hover:bg-mansablue/20 hover:border-mansagold"
-            >
-              <Share2 className="mr-2 h-4 w-4" />
-              Share Opportunity
-            </Button>
           </div>
         </section>
 
         {/* Pricing Cards */}
-        <section className="container mx-auto px-4 pb-16 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <section className="container mx-auto px-4 pb-20 relative z-10">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4">
+              Partnership Tiers
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-playfair mb-6">
+              <span className="text-white">Choose Your </span>
+              <span className="text-gradient-gold">Impact Level</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto items-start">
             {tiers.map((tier, idx) => (
-              <Card
+              <motion.div
                 key={tier.tier}
-                className={cn(
-                  'relative transition-all duration-500 hover:shadow-2xl hover:shadow-mansablue/20 hover:-translate-y-2 bg-slate-800/60 backdrop-blur-xl border-white/10 animate-fade-in-up',
-                  tier.popular && 'ring-2 ring-mansagold shadow-2xl shadow-mansagold/20 scale-105'
-                )}
-                style={{ animationDelay: `${idx * 0.1}s` }}
+                className={`relative ${tier.popular ? 'xl:-mt-4 xl:mb-4' : ''}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
               >
+                {/* Glow effect for popular tier */}
                 {tier.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                    <Badge className="bg-gradient-to-r from-mansagold to-amber-600 text-white shadow-lg shadow-mansagold/30 border-0 animate-pulse">
-                      Most Popular
-                    </Badge>
-                  </div>
+                  <div 
+                    className="absolute -inset-1 rounded-3xl blur-xl opacity-50"
+                    style={{ background: `linear-gradient(135deg, ${tier.bgGlow}, transparent)` }}
+                  />
                 )}
-
-                {/* Gradient decoration */}
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-50"></div>
-
-                <CardHeader className="text-center">
-                  <div className={cn('w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center backdrop-blur-sm', 
-                    tier.tier === 'bronze' && 'bg-amber-500/20 text-amber-400',
-                    tier.tier === 'silver' && 'bg-slate-400/20 text-slate-300',
-                    tier.tier === 'gold' && 'bg-mansagold/20 text-mansagold',
-                    tier.tier === 'platinum' && 'bg-mansablue/20 text-blue-400'
-                  )}>
-                    {tier.icon}
-                  </div>
-                  <CardTitle className="text-2xl text-white">{tier.name}</CardTitle>
-                  <CardDescription className="text-sm mt-2 min-h-[3rem] text-blue-200/70">
-                    {tier.description}
-                  </CardDescription>
-                  {!isScreenshotMode && (
-                    <div className="mt-4 flex items-baseline justify-center gap-1">
-                      <span className="text-4xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">{tier.price}</span>
-                      <span className="text-blue-300/60 text-base">/month</span>
-                    </div>
+                
+                <div 
+                  className={`relative bg-slate-900/70 backdrop-blur-xl rounded-2xl overflow-hidden border transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl h-full ${
+                    tier.popular 
+                      ? 'border-mansagold/50 shadow-lg shadow-mansagold/10' 
+                      : 'border-white/10 hover:border-white/20'
+                  }`}
+                >
+                  {/* Popular badge */}
+                  {tier.popular && (
+                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400" />
                   )}
-                </CardHeader>
-
-                <CardContent className="space-y-6">
-                  <ul className="space-y-3">
-                    {tier.features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm text-blue-100/90">
-                        <Check className="h-4 w-4 text-mansagold shrink-0 mt-0.5" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <Button
-                    onClick={() => handleCtaClick(tier.tier)}
-                    className={cn(
-                      "w-full whitespace-normal h-auto py-3 transition-all duration-300",
-                      tier.popular 
-                        ? "bg-gradient-to-r from-mansagold to-amber-600 hover:from-amber-600 hover:to-mansagold text-white border-0 shadow-lg shadow-mansagold/30" 
-                        : "bg-slate-700/50 border-white/10 text-white hover:bg-mansablue hover:border-mansagold"
+                  
+                  <div className="p-8">
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div>
+                        <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${tier.gradient} mb-4`}>
+                          {tier.icon}
+                        </div>
+                        <h3 className="text-2xl font-bold text-white font-playfair">{tier.name}</h3>
+                        <p className="text-blue-200/70 text-sm mt-1 font-medium">{tier.description}</p>
+                      </div>
+                    </div>
+                    
+                    {tier.popular && (
+                      <span className="inline-block px-3 py-1 rounded-full bg-mansagold/20 border border-mansagold/30 text-mansagold text-xs font-bold uppercase tracking-wide mb-4">
+                        Most Popular
+                      </span>
                     )}
-                    size="lg"
-                    variant={tier.popular ? "default" : "outline"}
-                  >
-                    {tier.cta}
-                  </Button>
-                </CardContent>
-              </Card>
+                    
+                    {/* Pricing */}
+                    {!isScreenshotMode && (
+                      <div className="mb-8">
+                        <div className="flex items-baseline gap-1">
+                          <span className={`text-4xl font-bold font-playfair bg-gradient-to-r ${tier.gradient} bg-clip-text text-transparent`}>
+                            {tier.price}
+                          </span>
+                          <span className="text-blue-200/60 text-lg font-medium">/month</span>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Features */}
+                    <ul className="space-y-3 mb-8">
+                      {tier.features.map((feature, index) => (
+                        <li key={index} className="flex items-start gap-3">
+                          <div className={`flex-shrink-0 w-5 h-5 rounded-full bg-gradient-to-br ${tier.gradient} flex items-center justify-center mt-0.5`}>
+                            <Check className="w-3 h-3 text-white" strokeWidth={3} />
+                          </div>
+                          <span className="text-white/90 text-sm leading-relaxed font-medium">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    {/* CTA Button */}
+                    <Button 
+                      className={`w-full group text-base py-6 rounded-xl transition-all duration-300 font-semibold ${
+                        tier.popular 
+                          ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 hover:from-amber-500 hover:via-yellow-500 hover:to-orange-500 text-slate-900 shadow-lg shadow-mansagold/25' 
+                          : 'bg-white/5 hover:bg-white/10 text-white border border-white/20 hover:border-white/30'
+                      }`}
+                      onClick={() => handleCtaClick(tier.tier)}
+                    >
+                      {tier.cta}
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
         </section>
 
         {/* Impact Section */}
-        <section className="container mx-auto px-4 py-16 border-t border-white/10 relative z-10">
+        <section className="container mx-auto px-4 py-20 border-t border-white/10 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6 text-white">
-              Your Impact, <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Measured</span>
-            </h2>
-            <p className="text-lg text-blue-100/90 mb-12">
-              Every corporate sponsor receives real-time access to their
-              dedicated impact dashboard, tracking the tangible difference your
-              sponsorship makes.
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4">
+                Real Results
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold font-playfair mb-6">
+                <span className="text-white">Your Impact, </span>
+                <span className="text-gradient-gold">Measured</span>
+              </h2>
+              <p className="text-xl text-blue-100/80 mb-12 font-medium">
+                Every corporate sponsor receives real-time access to their
+                dedicated impact dashboard, tracking the tangible difference your
+                sponsorship makes.
+              </p>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
-                <CardHeader>
-                  <CardTitle className="text-3xl bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">25+</CardTitle>
-                  <CardDescription className="text-blue-200/70">Businesses Supported</CardDescription>
-                </CardHeader>
-              </Card>
-              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
-                <CardHeader>
-                  <CardTitle className="text-3xl bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">150+</CardTitle>
-                  <CardDescription className="text-blue-200/70">Transactions Facilitated</CardDescription>
-                </CardHeader>
-              </Card>
-              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
-                <CardHeader>
-                  <CardTitle className="text-3xl bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">1,500+</CardTitle>
-                  <CardDescription className="text-blue-200/70">Community Members Reached</CardDescription>
-                </CardHeader>
-              </Card>
-              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
-                <CardHeader>
-                  <CardTitle className="text-3xl bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
-                    {isScreenshotMode ? '345K+' : '$345K+'}
-                  </CardTitle>
-                  <CardDescription className="text-blue-200/70">Economic Impact Generated</CardDescription>
-                </CardHeader>
-              </Card>
+              {[
+                { value: '25+', label: 'Businesses Supported' },
+                { value: '150+', label: 'Transactions Facilitated' },
+                { value: '1,500+', label: 'Community Members Reached' },
+                { value: isScreenshotMode ? '345K+' : '$345K+', label: 'Economic Impact Generated' },
+              ].map((stat, idx) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                >
+                  <Card className="bg-slate-900/60 backdrop-blur-xl border-white/10 hover:border-mansagold/50 transition-all duration-300 hover:shadow-lg hover:shadow-mansagold/20">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-3xl font-playfair text-gradient-gold">{stat.value}</CardTitle>
+                      <CardDescription className="text-white/70 font-medium">{stat.label}</CardDescription>
+                    </CardHeader>
+                  </Card>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Benefits Section */}
-        <section className="container mx-auto px-4 py-16 relative z-10">
+        <section className="container mx-auto px-4 py-20 relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-12 text-white">
-              Why Become a <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Corporate Sponsor?</span>
-            </h2>
+            <motion.div
+              className="text-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4">
+                Why Partner With Us
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold font-playfair">
+                <span className="text-white">Why Become a </span>
+                <span className="text-gradient-gold">Corporate Sponsor?</span>
+              </h2>
+            </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
-                <h3 className="text-xl font-semibold text-white">Measurable Impact</h3>
-                <p className="text-blue-200/70">
-                  Track exactly how your sponsorship supports Black-owned
-                  businesses with real-time metrics and transparent reporting.
-                </p>
-              </div>
-
-              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
-                <h3 className="text-xl font-semibold text-white">Brand Visibility</h3>
-                <p className="text-blue-200/70">
-                  Increase your brand awareness among socially conscious
-                  consumers who value corporate responsibility.
-                </p>
-              </div>
-
-              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
-                <h3 className="text-xl font-semibold text-white">Tax Benefits</h3>
-                <p className="text-blue-200/70">
-                  Your sponsorship is tax-deductible. We provide all necessary
-                  documentation for your records.
-                </p>
-              </div>
-
-              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
-                <h3 className="text-xl font-semibold text-white">Community Building</h3>
-                <p className="text-blue-200/70">
-                  Join a network of forward-thinking companies committed to
-                  economic empowerment and social justice.
-                </p>
-              </div>
-
-              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
-                <h3 className="text-xl font-semibold text-white">ESG Alignment</h3>
-                <p className="text-blue-200/70">
-                  Strengthen your Environmental, Social, and Governance (ESG)
-                  initiatives with quantifiable social impact.
-                </p>
-              </div>
-
-              <div className="space-y-4 bg-slate-800/40 backdrop-blur-sm p-6 rounded-lg border border-white/10 hover:border-mansagold/30 transition-all duration-300">
-                <h3 className="text-xl font-semibold text-white">Positive PR</h3>
-                <p className="text-blue-200/70">
-                  Generate positive press coverage and social media engagement
-                  through authentic community support.
-                </p>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { title: 'Measurable Impact', description: 'Track exactly how your sponsorship supports Black-owned businesses with real-time metrics and transparent reporting.' },
+                { title: 'Brand Visibility', description: 'Increase your brand awareness among socially conscious consumers who value corporate responsibility.' },
+                { title: 'Tax Benefits', description: 'Your sponsorship is tax-deductible. We provide all necessary documentation for your records.' },
+                { title: 'Community Building', description: 'Join a network of forward-thinking companies committed to economic empowerment and social justice.' },
+                { title: 'ESG Alignment', description: 'Strengthen your Environmental, Social, and Governance (ESG) initiatives with quantifiable social impact.' },
+                { title: 'Positive PR', description: 'Generate positive press coverage and social media engagement through authentic community support.' },
+              ].map((benefit, idx) => (
+                <motion.div 
+                  key={benefit.title}
+                  className="bg-slate-900/50 backdrop-blur-sm p-6 rounded-xl border border-white/10 hover:border-mansagold/30 transition-all duration-300"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                >
+                  <h3 className="text-xl font-bold text-white font-playfair mb-3">{benefit.title}</h3>
+                  <p className="text-white/70 font-medium leading-relaxed">{benefit.description}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
@@ -396,49 +494,57 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
         <SponsorshipMediaKit />
 
         {/* CTA Section */}
-        <section className="container mx-auto px-4 py-16 text-center relative z-10">
-          <div className="max-w-2xl mx-auto space-y-6 bg-slate-800/60 backdrop-blur-xl p-8 rounded-2xl border border-white/10">
-            <h2 className="text-3xl font-bold text-white">
-              Ready to Make an <span className="bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">Impact?</span>
+        <section className="container mx-auto px-4 py-20 text-center relative z-10">
+          <motion.div 
+            className="max-w-2xl mx-auto space-y-6 bg-slate-900/60 backdrop-blur-xl p-10 rounded-2xl border border-white/10"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold font-playfair">
+              <span className="text-white">Ready to Make an </span>
+              <span className="text-gradient-gold">Impact?</span>
             </h2>
-            <p className="text-lg text-blue-100/90">
+            <p className="text-lg text-white/80 font-medium">
               Join leading companies in supporting economic empowerment and
               community development. Have questions? Our team is here to help.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
               <Button 
-                size="lg" 
+                size="lg"
                 onClick={() => handleCtaClick('platinum')}
-                className="bg-gradient-to-r from-mansagold to-amber-600 hover:from-amber-600 hover:to-mansagold text-white border-0 shadow-lg shadow-mansagold/30"
+                className="group bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 hover:from-amber-500 hover:via-yellow-500 hover:to-orange-500 text-slate-900 font-semibold text-lg px-8 py-6 rounded-xl shadow-lg shadow-mansagold/25"
               >
                 Become a Sponsor
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
                 asChild
-                className="border-mansablue/50 bg-slate-700/50 text-white hover:bg-mansablue hover:border-mansagold"
+                className="border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 font-semibold text-lg px-8 py-6 rounded-xl backdrop-blur-sm"
               >
                 <a href="/contact">Contact Us</a>
               </Button>
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* Company Details Dialog */}
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogContent className="sm:max-w-md bg-slate-900 border-white/10 text-white">
+          <DialogContent className="sm:max-w-md bg-slate-900 border-white/20 text-white">
             <DialogHeader>
-              <DialogTitle className="text-white">Complete Your Sponsorship</DialogTitle>
-              <DialogDescription className="text-blue-200/70">
+              <DialogTitle className="text-white font-playfair text-xl">Complete Your Sponsorship</DialogTitle>
+              <DialogDescription className="text-white/70 font-medium">
                 Please provide your company details to proceed with {selectedTier} tier sponsorship.
               </DialogDescription>
             </DialogHeader>
             
             <form onSubmit={handleCheckoutSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="companyName">
-                  Company Name <span className="text-destructive">*</span>
+                <Label htmlFor="companyName" className="text-white font-semibold">
+                  Company Name <span className="text-red-400">*</span>
                 </Label>
                 <Input
                   id="companyName"
@@ -447,11 +553,12 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   onChange={(e) => setCompanyName(e.target.value)}
                   required
                   disabled={isLoading}
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="logoUrl">Company Logo URL (optional)</Label>
+                <Label htmlFor="logoUrl" className="text-white font-semibold">Company Logo URL (optional)</Label>
                 <Input
                   id="logoUrl"
                   type="url"
@@ -459,11 +566,12 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   value={logoUrl}
                   onChange={(e) => setLogoUrl(e.target.value)}
                   disabled={isLoading}
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="websiteUrl">Company Website (optional)</Label>
+                <Label htmlFor="websiteUrl" className="text-white font-semibold">Company Website (optional)</Label>
                 <Input
                   id="websiteUrl"
                   type="url"
@@ -471,19 +579,25 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   value={websiteUrl}
                   onChange={(e) => setWebsiteUrl(e.target.value)}
                   disabled={isLoading}
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
                 />
               </div>
 
-              <DialogFooter className="gap-2">
+              <DialogFooter className="gap-2 pt-4">
                 <Button
                   type="button"
                   variant="outline"
                   onClick={() => setIsDialogOpen(false)}
                   disabled={isLoading}
+                  className="border-white/30 text-white hover:bg-white/10"
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={isLoading || !companyName.trim()}>
+                <Button 
+                  type="submit" 
+                  disabled={isLoading || !companyName.trim()}
+                  className="bg-gradient-to-r from-amber-400 to-orange-400 text-slate-900 font-semibold hover:from-amber-500 hover:to-orange-500"
+                >
                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Proceed to Checkout
                 </Button>
