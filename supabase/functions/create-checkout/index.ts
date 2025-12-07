@@ -2,10 +2,43 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+// Input validation schema
+const checkoutRequestSchema = z.object({
+  userType: z.enum(['business', 'corporate']),
+  email: z.string().email().max(255),
+  name: z.string().max(100).optional().default(''),
+  businessName: z.string().max(200).optional().default(''),
+  tier: z.string().max(50).nullable().optional(),
+  message: z.string().max(1000).optional().default(''),
+});
+
+// Rate limiting map (in-memory, resets on function restart)
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const RATE_LIMIT_MAX = 5; // 5 requests per minute per IP
+
+const checkRateLimit = (ip: string): boolean => {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+  
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return true;
+  }
+  
+  if (record.count >= RATE_LIMIT_MAX) {
+    return false;
+  }
+  
+  record.count++;
+  return true;
 };
 
 // Helper logging function to trace execution steps
@@ -32,7 +65,32 @@ serve(async (req) => {
   }
 
   try {
-    const { userType, email, name = '', businessName = '', tier = null, message = '' } = await req.json();
+    // Rate limiting check
+    const clientIP = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
+                     req.headers.get("x-real-ip") || 
+                     "unknown";
+    
+    if (!checkRateLimit(clientIP)) {
+      logStep("Rate limit exceeded", { ip: clientIP });
+      return new Response(
+        JSON.stringify({ error: "Too many requests. Please try again later." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Parse and validate input
+    const rawBody = await req.json();
+    const parseResult = checkoutRequestSchema.safeParse(rawBody);
+    
+    if (!parseResult.success) {
+      logStep("Validation failed", { errors: parseResult.error.errors });
+      return new Response(
+        JSON.stringify({ error: "Invalid request data", details: parseResult.error.errors }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    
+    const { userType, email, name, businessName, tier, message } = parseResult.data;
     logStep("Request received", { userType, email, tier });
 
     // Create Supabase client with anon key for authentication
