@@ -30,30 +30,44 @@ const FeaturesPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark relative overflow-hidden">
+      {/* Premium ambient background */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-mansagold/10 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/5 rounded-full blur-[150px]" />
+      </div>
+      
+      {/* Grid pattern overlay */}
+      <div 
+        className="fixed inset-0 pointer-events-none opacity-[0.02]"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
+          backgroundSize: '60px 60px'
+        }}
+      />
+
       <Helmet>
         <title>Features - Mansa Musa Marketplace</title>
         <meta name="description" content="Discover the powerful features that make Mansa Musa Marketplace the premier platform for supporting Black-owned businesses." />
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 px-4 overflow-hidden">
+      <section className="relative py-24 md:py-32 px-4 overflow-hidden z-10">
         {/* Animated Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-mansablue via-mansablue-dark to-mansablue-darker">
+        <div className="absolute inset-0">
           <motion.div
             className="absolute inset-0"
             animate={{
               background: [
-                "radial-gradient(circle at 20% 30%, hsl(var(--mansagold) / 0.15) 0%, transparent 50%)",
-                "radial-gradient(circle at 80% 70%, hsl(var(--mansagold) / 0.15) 0%, transparent 50%)",
-                "radial-gradient(circle at 50% 50%, hsl(var(--mansagold) / 0.15) 0%, transparent 50%)",
-                "radial-gradient(circle at 20% 30%, hsl(var(--mansagold) / 0.15) 0%, transparent 50%)",
+                "radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%)",
+                "radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.15) 0%, transparent 50%)",
+                "radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 50%)",
+                "radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 50%)",
               ]
             }}
             transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
           />
-          {/* Overlay for better text contrast */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-mansablue/20 to-mansablue" />
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -115,11 +129,11 @@ const FeaturesPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 px-4 bg-gradient-to-b from-background via-muted/20 to-background relative overflow-hidden">
+      <section className="py-24 px-4 relative overflow-hidden z-10">
         {/* Decorative elements */}
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-mansagold/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-mansablue/10 rounded-full blur-3xl" />
+          <div className="absolute top-20 left-10 w-72 h-72 bg-mansagold/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -130,10 +144,10 @@ const FeaturesPage = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-mansablue via-mansablue-dark to-mansablue bg-clip-text text-transparent mb-4">
-              How It Works
+            <h2 className="text-4xl md:text-5xl font-bold font-playfair text-white mb-4">
+              How It <span className="bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text text-transparent">Works</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-white/70 max-w-2xl mx-auto">
               Four simple steps to start making an impact in your community
             </p>
           </motion.div>
@@ -149,30 +163,30 @@ const FeaturesPage = () => {
                 className="relative group"
               >
                 <motion.div 
-                  className="relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 h-full shadow-lg transition-all duration-300"
+                  className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 h-full shadow-lg transition-all duration-300"
                   whileHover={{ y: -8, scale: 1.02 }}
                 >
                   {/* Gradient overlay on hover */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-mansagold/5 via-transparent to-mansablue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-mansagold/10 via-transparent to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   
                   <div className="relative z-10">
                     <motion.div 
-                      className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-mansablue to-mansablue-dark shadow-lg shadow-mansablue/30"
+                      className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-mansagold to-amber-600 shadow-lg shadow-mansagold/30"
                       whileHover={{ rotate: 360 }}
                       transition={{ duration: 0.6 }}
                     >
-                      <step.icon className="w-8 h-8 text-white" />
+                      <step.icon className="w-8 h-8 text-mansablue-dark" />
                     </motion.div>
-                    <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-mansablue transition-colors">
+                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-mansagold transition-colors">
                       {step.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <p className="text-white/70 leading-relaxed">
                       {step.description}
                     </p>
                   </div>
 
                   {/* Step number */}
-                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-mansagold/10 flex items-center justify-center">
+                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-mansagold/20 border border-mansagold/30 flex items-center justify-center">
                     <span className="text-mansagold font-bold text-lg">{index + 1}</span>
                   </div>
                 </motion.div>
@@ -183,24 +197,14 @@ const FeaturesPage = () => {
       </section>
 
       {/* Benefits Section with gradient background */}
-      <div className="relative py-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-mansablue/5 to-background" />
+      <div className="relative py-20 z-10">
         <div className="relative z-10">
           <BenefitsSection />
         </div>
       </div>
 
       {/* Native Features Section */}
-      <section className="py-24 px-4 relative overflow-hidden">
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-br from-mansagold/10 via-transparent to-mansablue/10"
-          animate={{
-            backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          style={{ backgroundSize: '200% 200%' }}
-        />
-        
+      <section className="py-24 px-4 relative overflow-hidden z-10">
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -208,10 +212,10 @@ const FeaturesPage = () => {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-mansablue via-mansagold to-mansablue bg-clip-text text-transparent">
-              Mobile Experience
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair text-white">
+              Mobile <span className="bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text text-transparent">Experience</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-xl text-white/70 max-w-3xl mx-auto">
               Get the best experience with our mobile-optimized features
             </p>
           </motion.div>
@@ -220,13 +224,7 @@ const FeaturesPage = () => {
       </section>
 
       {/* Security & Trust Section */}
-      <section className="py-24 px-4 relative overflow-hidden bg-gradient-to-b from-background to-muted/20">
-        {/* Decorative background */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-mansagold/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-mansablue/5 rounded-full blur-3xl" />
-        </div>
-
+      <section className="py-24 px-4 relative overflow-hidden z-10">
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -235,14 +233,14 @@ const FeaturesPage = () => {
             className="text-center mb-16"
           >
             <motion.div 
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-mansagold/10 to-amber-500/10 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-mansagold/20"
+              className="inline-flex items-center gap-2 bg-mansagold/10 backdrop-blur-sm rounded-full px-6 py-3 mb-6 border border-mansagold/30"
               whileHover={{ scale: 1.05 }}
             >
               <Shield className="w-5 h-5 text-mansagold" />
-              <span className="font-semibold text-mansagold">Secure & Trusted</span>
+              <span className="font-semibold text-white">Secure & Trusted</span>
             </motion.div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-mansablue via-mansagold to-mansablue bg-clip-text text-transparent">
-              Your Security Matters
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-playfair text-white">
+              Your Security <span className="bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text text-transparent">Matters</span>
             </h2>
           </motion.div>
 
@@ -252,19 +250,19 @@ const FeaturesPage = () => {
                 icon: Shield,
                 title: "Verified Businesses",
                 description: "Every business on our platform goes through a verification process to ensure authenticity and quality.",
-                gradient: "from-mansablue to-mansablue-dark",
+                gradient: "from-mansagold to-amber-600",
               },
               {
                 icon: Zap,
                 title: "Secure Transactions",
                 description: "Industry-standard encryption and security measures protect your data and transactions.",
-                gradient: "from-mansagold to-amber-600",
+                gradient: "from-blue-500 to-cyan-500",
               },
               {
                 icon: Heart,
                 title: "Community First",
                 description: "Built by the community, for the community. Your trust and safety are our top priorities.",
-                gradient: "from-mansablue-dark to-mansagold",
+                gradient: "from-purple-500 to-pink-500",
               },
             ].map((item, index) => (
               <motion.div
@@ -276,17 +274,12 @@ const FeaturesPage = () => {
                 className="group"
               >
                 <motion.div 
-                  className="relative bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-3xl p-8 text-center h-full shadow-xl overflow-hidden"
+                  className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl p-8 text-center h-full shadow-xl overflow-hidden"
                   whileHover={{ y: -8, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   {/* Gradient overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                  
-                  {/* Animated glow */}
-                  <motion.div
-                    className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 blur-2xl transition-opacity duration-500`}
-                  />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
 
                   <div className="relative z-10">
                     <motion.div 
@@ -296,10 +289,10 @@ const FeaturesPage = () => {
                     >
                       <item.icon className="w-8 h-8 text-white" />
                     </motion.div>
-                    <h3 className="text-xl font-bold text-foreground mb-3 group-hover:bg-gradient-to-r group-hover:from-mansablue group-hover:to-mansagold group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
+                    <h3 className="text-xl font-bold text-white mb-3 group-hover:text-mansagold transition-all duration-300">
                       {item.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed">
+                    <p className="text-white/70 leading-relaxed">
                       {item.description}
                     </p>
                   </div>
