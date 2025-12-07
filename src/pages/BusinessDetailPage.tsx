@@ -5,8 +5,6 @@ import {
   ArrowLeft, 
   Star, 
   MapPin, 
-  Phone, 
-  Mail, 
   Globe, 
   Share2, 
   Heart,
@@ -23,6 +21,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { useAuth } from '@/contexts/AuthContext';
+import { BusinessContactForm } from '@/components/business/BusinessContactForm';
 import { toast } from 'sonner';
 import { BookingForm } from '@/components/booking/BookingForm';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -383,10 +382,16 @@ const BusinessDetailPage = () => {
 
             {/* Right Column - Contact & Info */}
             <div className="space-y-6">
-              {/* Contact Info */}
+              {/* Contact Form - Secure Alternative */}
+              <BusinessContactForm 
+                businessId={business.id} 
+                businessName={business.business_name} 
+              />
+
+              {/* Location Info (public) */}
               <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
                 <CardHeader>
-                  <CardTitle className="text-white">Contact Information</CardTitle>
+                  <CardTitle className="text-white">Location</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {business.address && (
@@ -398,36 +403,6 @@ const BusinessDetailPage = () => {
                           {business.address}
                           {business.city && <><br />{business.city}{business.state && `, ${business.state}`} {business.zip_code}</>}
                         </p>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {business.phone && (
-                    <div className="flex items-center gap-3">
-                      <Phone className="h-5 w-5 text-yellow-400" />
-                      <div>
-                        <p className="font-medium text-white">Phone</p>
-                        <a 
-                          href={`tel:${business.phone}`} 
-                          className="text-sm text-yellow-400 hover:text-yellow-300 hover:underline"
-                        >
-                          {business.phone}
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {business.email && (
-                    <div className="flex items-center gap-3">
-                      <Mail className="h-5 w-5 text-yellow-400" />
-                      <div>
-                        <p className="font-medium text-white">Email</p>
-                        <a 
-                          href={`mailto:${business.email}`} 
-                          className="text-sm text-yellow-400 hover:text-yellow-300 hover:underline"
-                        >
-                          {business.email}
-                        </a>
                       </div>
                     </div>
                   )}
@@ -457,14 +432,6 @@ const BusinessDetailPage = () => {
                   <CardTitle className="text-white">Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {business.phone && (
-                    <Button className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-semibold" asChild>
-                      <a href={`tel:${business.phone}`}>
-                        <Phone className="h-4 w-4 mr-2" />
-                        Call Business
-                      </a>
-                    </Button>
-                  )}
                   
                   {business.website && (
                     <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 hover:text-yellow-300" asChild>

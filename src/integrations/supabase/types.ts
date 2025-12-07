@@ -1276,6 +1276,77 @@ export type Database = {
           },
         ]
       }
+      business_contact_requests: {
+        Row: {
+          business_id: string
+          created_at: string
+          id: string
+          message: string
+          read_at: string | null
+          replied_at: string | null
+          sender_email: string
+          sender_name: string
+          sender_phone: string | null
+          status: string
+          subject: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          id?: string
+          message: string
+          read_at?: string | null
+          replied_at?: string | null
+          sender_email: string
+          sender_name: string
+          sender_phone?: string | null
+          status?: string
+          subject: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          id?: string
+          message?: string
+          read_at?: string | null
+          replied_at?: string | null
+          sender_email?: string
+          sender_name?: string
+          sender_phone?: string | null
+          status?: string
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_contact_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_contact_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_contact_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_contact_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_insights: {
         Row: {
           business_id: string
