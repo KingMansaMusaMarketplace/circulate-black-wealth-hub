@@ -1,6 +1,9 @@
 
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { motion } from 'framer-motion';
+import { HelpCircle, Sparkles } from 'lucide-react';
 
 const FAQPage = () => {
   const faqs = [
@@ -35,41 +38,127 @@ const FAQPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-amber-50 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 left-20 w-[32rem] h-[32rem] bg-mansablue/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+    <div className="min-h-screen bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark relative overflow-hidden">
+      <Helmet>
+        <title>FAQ - Frequently Asked Questions | Mansa Musa Marketplace</title>
+        <meta name="description" content="Find answers to common questions about Mansa Musa Marketplace - how to sign up, use loyalty points, and support Black-owned businesses." />
+      </Helmet>
+
+      {/* Premium ambient background */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-mansagold/10 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/5 rounded-full blur-[150px]" />
       </div>
       
+      {/* Grid pattern overlay */}
+      <div 
+        className="fixed inset-0 pointer-events-none opacity-[0.02]"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
+          backgroundSize: '60px 60px'
+        }}
+      />
+      
       <div className="container mx-auto px-4 py-16 relative z-10">
-        {/* Header Banner */}
-        <div className="bg-gradient-to-r from-mansablue via-blue-700 to-blue-800 rounded-3xl p-8 mb-12 shadow-2xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent_50%)]" />
-          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400"></div>
-          <div className="relative z-10">
-            <h1 className="text-4xl md:text-5xl font-bold text-white text-center drop-shadow-lg mb-3">
-              Frequently Asked <span className="text-mansagold">Questions</span>
-            </h1>
-            <p className="text-white/90 text-center text-lg drop-shadow-md">
-              Find answers to common questions about Mansa Musa Marketplace
-            </p>
+        {/* Hero Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+            className="inline-flex items-center gap-2 bg-mansagold/10 backdrop-blur-sm border border-mansagold/30 rounded-full px-6 py-3 mb-8 shadow-lg shadow-mansagold/20"
+          >
+            <Sparkles className="w-5 h-5 text-mansagold animate-pulse" />
+            <span className="font-semibold text-white">Help Center</span>
+          </motion.div>
+
+          <div className="inline-block mb-6">
+            <motion.div 
+              className="p-5 bg-gradient-to-br from-mansagold to-amber-600 rounded-2xl shadow-2xl shadow-mansagold/30"
+              whileHover={{ rotate: [0, -5, 5, 0], scale: 1.05 }}
+              transition={{ duration: 0.5 }}
+            >
+              <HelpCircle className="h-16 w-16 text-mansablue-dark" />
+            </motion.div>
           </div>
-        </div>
-        <div className="max-w-4xl mx-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-mansablue/20">
-          <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-b border-mansablue/20">
-                <AccordionTrigger className="text-left text-mansablue hover:text-blue-700 font-semibold">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-gray-700">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
+          
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 font-playfair">
+            <span className="text-white">Frequently Asked </span>
+            <span className="bg-gradient-to-r from-mansagold via-amber-300 to-mansagold bg-clip-text text-transparent">
+              Questions
+            </span>
+          </h1>
+          <p className="text-xl text-white/80">
+            Find answers to common questions about Mansa Musa Marketplace
+          </p>
+        </motion.div>
+
+        {/* FAQ Accordion */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl p-8 md:p-10">
+            <Accordion type="single" collapsible className="w-full space-y-4">
+              {faqs.map((faq, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 * index, duration: 0.4 }}
+                >
+                  <AccordionItem 
+                    value={`item-${index}`} 
+                    className="border border-white/10 rounded-xl overflow-hidden bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300"
+                  >
+                    <AccordionTrigger className="text-left text-white hover:text-mansagold font-semibold px-6 py-5 text-lg hover:no-underline">
+                      <span className="flex items-center gap-3">
+                        <span className="flex-shrink-0 w-8 h-8 rounded-full bg-mansagold/20 flex items-center justify-center text-mansagold text-sm font-bold">
+                          {index + 1}
+                        </span>
+                        {faq.question}
+                      </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-white/70 px-6 pb-5 pt-0 leading-relaxed text-base">
+                      <div className="pl-11">
+                        {faq.answer}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </motion.div>
+              ))}
+            </Accordion>
+          </div>
+        </motion.div>
+
+        {/* Contact CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="text-center mt-16"
+        >
+          <div className="backdrop-blur-xl bg-gradient-to-r from-mansagold/10 to-amber-500/10 border border-mansagold/20 rounded-2xl p-8 max-w-2xl mx-auto">
+            <h3 className="text-2xl font-bold text-white mb-3">Still have questions?</h3>
+            <p className="text-white/70 mb-6">
+              Our team is here to help. Reach out and we'll get back to you as soon as possible.
+            </p>
+            <a 
+              href="/contact" 
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-mansagold to-amber-500 text-mansablue-dark font-bold rounded-xl hover:shadow-lg hover:shadow-mansagold/30 transition-all duration-300 hover:scale-105"
+            >
+              Contact Us
+            </a>
+          </div>
+        </motion.div>
       </div>
     </div>
   );
