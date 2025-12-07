@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Clock, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -19,16 +19,15 @@ import { useAuth } from '@/contexts/AuthContext';
 interface BookingFormProps {
   businessId: string;
   businessName: string;
+  services: BookingService[];
 }
 
-export function BookingForm({ businessId, businessName }: BookingFormProps) {
+export function BookingForm({ businessId, businessName, services }: BookingFormProps) {
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  const [services, setServices] = useState<BookingService[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loadingServices, setLoadingServices] = useState(true);
   
   const [formData, setFormData] = useState({
     serviceId: '',
@@ -39,26 +38,6 @@ export function BookingForm({ businessId, businessName }: BookingFormProps) {
     customerPhone: '',
     notes: '',
   });
-
-  useEffect(() => {
-    loadServices();
-  }, [businessId]);
-
-  const loadServices = async () => {
-    try {
-      setLoadingServices(true);
-      const data = await bookingService.getBusinessServices(businessId);
-      setServices(data);
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to load available services',
-        variant: 'destructive',
-      });
-    } finally {
-      setLoadingServices(false);
-    }
-  };
 
   const selectedService = services.find((s) => s.id === formData.serviceId);
 
@@ -121,12 +100,6 @@ export function BookingForm({ businessId, businessName }: BookingFormProps) {
       setLoading(false);
     }
   };
-
-  if (loadingServices) {
-    return (
-      <div className="text-center py-6 text-white/90">Loading services...</div>
-    );
-  }
 
   if (services.length === 0) {
     return (
