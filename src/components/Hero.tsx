@@ -1,15 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { AudioButton } from '@/components/ui/audio-button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, Crown, GraduationCap, Building2, Users, TrendingUp, Shield, QrCode, BarChart3, CheckCircle, Zap, Heart, Volume2, MapPin, Loader2 } from 'lucide-react';
-import { getAudioPath } from '@/utils/audio';
+import { motion } from 'framer-motion';
+import { Star, Building2, Users, TrendingUp, MapPin, Loader2, ArrowRight, Sparkles, Play } from 'lucide-react';
 import { useLocation } from '@/hooks/location/useLocation';
 import { toast } from 'sonner';
-import ScrollReveal from '@/components/animations/ScrollReveal';
-import CountUpNumber from '@/components/animations/CountUpNumber';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
 
 const Hero = () => {
@@ -36,277 +32,225 @@ const Hero = () => {
     }
   }, [getCurrentPosition, navigate]);
 
+  const stats = [
+    { value: '2,500+', label: 'Businesses', icon: Building2 },
+    { value: '150K+', label: 'Members', icon: Users },
+    { value: '30%', label: 'Max Savings', icon: TrendingUp },
+  ];
+
   return (
-    <section className="relative bg-gradient-to-br from-[#001a33] via-[#00152b] to-[#001024] overflow-hidden min-h-screen">
-      {/* Enhanced Background with Pattern - Subtler overlays */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(251,191,36,0.08),transparent_60%)] animate-pulse-slow" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(59,130,246,0.1),transparent_60%)] animate-pulse-slow" style={{ animationDelay: '1s' }} />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.04),transparent_70%)]" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMiI+PHBhdGggZD0iTTM2IDM0djItaDJWMzZ6TTM2IDM4djJoMnYtMnptLTIgMHYyaDJ2LTJ6bTAgMnYyaDJ2LTJ6bS0yLTJ2Mmgydi0yem0wIDJ2Mmgydi0yem0tMi0ydjJoMnYtMnptMCAydjJoMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20" />
-      {/* Floating decorative elements */}
-      <div className="absolute top-20 left-10 w-2 h-2 bg-mansagold/30 rounded-full animate-bounce-subtle" />
-      <div className="absolute top-40 right-20 w-3 h-3 bg-blue-400/20 rounded-full animate-bounce-subtle" style={{ animationDelay: '0.5s' }} />
-      <div className="absolute bottom-32 left-1/4 w-2 h-2 bg-mansagold/30 rounded-full animate-bounce-subtle" style={{ animationDelay: '1s' }} />
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 lg:py-32">
-        {/* Phase 1 Free Growth Banner */}
-        <div className="text-center mb-16 md:mb-20">
-          <Badge className="bg-gradient-green text-white px-6 py-3 text-lg font-bold rounded-full mb-4 animate-pulse-green badge-shimmer">
-            <Zap className="mr-2 h-5 w-5" />
-            PHASE 1: FREE GROWTH - Everything FREE Until Feb 28, 2026!
-          </Badge>
-          <p className="text-white/90 text-sm max-w-2xl mx-auto">
-            We're building critical mass first. All features are 100% FREE for everyone - businesses and customers!
-          </p>
-        </div>
+    <section className="relative min-h-screen overflow-hidden">
+      {/* Premium gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-dark" />
+      
+      {/* Animated ambient effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-mansagold/10 rounded-full blur-[150px] animate-pulse-slow" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-blue-400/5 rounded-full blur-[180px]" />
+      </div>
+      
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-mansagold/40 rounded-full"
+            initial={{ x: `${Math.random() * 100}%`, y: '110%', opacity: 0 }}
+            animate={{ y: '-10%', opacity: [0, 1, 0] }}
+            transition={{
+              duration: Math.random() * 6 + 6,
+              repeat: Infinity,
+              delay: Math.random() * 5,
+              ease: 'linear',
+            }}
+          />
+        ))}
+      </div>
 
-        {/* Free Access Badges */}
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6 lg:gap-8 mb-20 md:mb-24">
-          {!isIOS && (
-            <>
-              <Link to="/signup" className="inline-block">
-                <Badge className="bg-gradient-green text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-green badge-shimmer min-h-[44px] flex items-center">
-                  <Star className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-                  100% FREE - All Customer Features
-                </Badge>
-              </Link>
-              <Link to="/signup?type=business" className="inline-block">
-                <Badge className="bg-gradient-blue text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-blue badge-shimmer min-h-[44px] flex items-center">
-                  <Building2 className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-                  100% FREE - All Business Features
-                </Badge>
-              </Link>
-            </>
-          )}
-          <Link to="/become-a-sales-agent" className="inline-block">
-            <Badge className="bg-gradient-sales text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse-ios badge-shimmer min-h-[44px] flex items-center">
-              <TrendingUp className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-              Earn as Sales Agent - Up to 15%!
-            </Badge>
-          </Link>
-          {!isIOS && (
-            <Link to="/signup" className="inline-block">
-              <Badge className="bg-gradient-to-r from-mansablue via-blue-600 to-blue-700 text-white px-4 md:px-8 py-3 md:py-4 text-base md:text-lg font-semibold rounded-full cursor-pointer animate-pulse shadow-lg badge-shimmer min-h-[44px] flex items-center">
-                <Heart className="mr-2 md:mr-3 h-4 md:h-5 w-4 md:w-5" />
-                Community First, Revenue Later
-              </Badge>
-            </Link>
-          )}
-        </div>
+      {/* Grid pattern */}
+      <div 
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
+          backgroundSize: '60px 60px'
+        }}
+      />
 
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 xl:gap-32 items-center mb-32 md:mb-40">
-          <ScrollReveal delay={0.1}>
-            <div className="text-white">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-bold leading-[1.1] tracking-tight mb-10 md:mb-12">
-              Save Money &{' '}
-              <br className="hidden sm:block" />
-              Support{' '}
-              <span className="inline-block text-gradient-gold font-extrabold">
-                Black-Owned Businesses
-              </span>
-            </h1>
+      <div className="relative container mx-auto px-4 pt-8 pb-20 md:pt-16 md:pb-32">
+        {/* Free Growth Banner */}
+        <motion.div 
+          className="text-center mb-12 md:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 backdrop-blur-sm">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            <span className="text-sm md:text-base font-semibold text-emerald-300">
+              Phase 1: 100% FREE Until Feb 28, 2026
+            </span>
+          </div>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Left column - Content */}
+          <div className="text-center lg:text-left">
+            <motion.h1 
+              className="font-playfair text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 md:mb-8"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <span className="text-white">Save Money.</span>
+              <br />
+              <span className="text-white">Support </span>
+              <span className="text-gradient-gold">Black-Owned</span>
+              <br />
+              <span className="text-gradient-gold">Businesses.</span>
+            </motion.h1>
             
-            <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-white/95 leading-relaxed mb-10 md:mb-12 font-body font-medium animate-fade-in [animation-delay:200ms]">
-              Get 5% - 30% discounts while building community wealth!
-            </p>
-            
-            <div className="glass-card bg-green-500/10 border-green-400/20 rounded-2xl p-6 md:p-8 mb-10 md:mb-12 animate-scale-in [animation-delay:400ms] shadow-xl">
-              <p className="text-lg sm:text-xl md:text-2xl text-white leading-relaxed font-body">
-                <strong className="text-green-300 font-bold">FREE FOR EVERYONE:</strong> Join thousands of customers and businesses 
-                building economic power together. No subscriptions, no fees, just community wealth creation!
-              </p>
-            </div>
+            <motion.p 
+              className="text-lg md:text-xl lg:text-2xl text-blue-100/80 mb-8 md:mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Get <span className="text-mansagold font-semibold">5% - 30% discounts</span> while 
+              building generational wealth in Black communities.
+            </motion.p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col gap-6 mb-12 w-full animate-fade-in [animation-delay:600ms]">
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10 md:mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
               {!isIOS && (
                 <Button 
                   asChild
                   size="lg"
-                  className="gradient-gold text-mansablue-dark font-bold text-base sm:text-lg md:text-xl rounded-2xl w-full sm:w-auto leading-tight cursor-pointer hover-glow-gold border-2 border-mansagold-light/30 min-h-[48px]"
-                  style={{ touchAction: 'manipulation' }}
+                  className="group bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-semibold text-lg px-8 py-6 rounded-xl shadow-lg shadow-mansagold/25 hover:shadow-xl hover:shadow-mansagold/30 transition-all duration-300"
                 >
-                  <Link to="/signup" className="w-full sm:w-auto" style={{ touchAction: 'manipulation' }}>
-                    <span className="text-center pointer-events-none">
-                      Join FREE Today
-                      <br className="sm:hidden" />
-                      <span className="hidden sm:inline"> - </span>
-                      No Credit Card Required
-                    </span>
+                  <Link to="/signup">
+                    Join FREE Today
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
               )}
               
-                {/* Find Near Me - Primary Location CTA */}
-                <Button 
-                  size="lg"
-                  onClick={handleFindNearMe}
-                  disabled={isLocating || locationLoading}
-                  className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-600 hover:via-teal-600 hover:to-cyan-600 text-white font-bold text-lg md:text-xl rounded-2xl w-full sm:w-auto cursor-pointer shadow-xl hover:shadow-2xl hover:shadow-emerald-500/30 transform hover:scale-105 transition-all duration-300 min-h-[56px] animate-pulse-green"
-                  style={{ touchAction: 'manipulation' }}
-                >
-                  {isLocating || locationLoading ? (
-                    <>
-                      <Loader2 className="mr-3 h-6 w-6 animate-spin" />
-                      Finding Businesses...
-                    </>
-                  ) : (
-                    <>
-                      <MapPin className="mr-3 h-6 w-6" />
-                      Find Black Businesses Near Me
-                    </>
-                  )}
-                </Button>
+              <Button 
+                size="lg"
+                onClick={handleFindNearMe}
+                disabled={isLocating || locationLoading}
+                className="group bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 font-semibold text-lg px-8 py-6 rounded-xl backdrop-blur-sm transition-all duration-300"
+              >
+                {isLocating || locationLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Finding...
+                  </>
+                ) : (
+                  <>
+                    <MapPin className="mr-2 h-5 w-5" />
+                    Find Near Me
+                  </>
+                )}
+              </Button>
+            </motion.div>
 
-                <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full">
-                <AudioButton
-                  audioSrc={getAudioPath('blueprint')}
-                  variant="red"
-                  className="py-5 px-10 text-lg md:text-xl rounded-2xl w-full sm:w-auto whitespace-nowrap cursor-pointer shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 font-bold"
-                >
-                  <Volume2 className="mr-3 h-6 w-6" />
-                  Introduction - 30 mins
-                </AudioButton>
-                
-                <Link 
-                  to="/directory" 
-                  className="w-full sm:w-auto"
-                  style={{ touchAction: 'manipulation' }}
-                >
-                  <Button 
-                    variant="outline"
-                    size="lg"
-                    className="text-lg rounded-2xl w-full sm:w-auto whitespace-nowrap border-mansagold/60 text-mansagold hover:bg-mansagold hover:text-mansablue-dark cursor-pointer backdrop-blur-sm hover-glow-gold transition-all duration-300 min-h-[48px]"
-                    style={{ touchAction: 'manipulation' }}
-                  >
-                    <span className="pointer-events-none">Browse Directory</span>
-                  </Button>
-                </Link>
+            {/* Stats */}
+            <motion.div 
+              className="flex flex-wrap justify-center lg:justify-start gap-6 md:gap-10"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              {stats.map((stat, index) => (
+                <div key={stat.label} className="text-center lg:text-left">
+                  <div className="flex items-center gap-2 mb-1">
+                    <stat.icon className="w-5 h-5 text-mansagold" />
+                    <span className="text-2xl md:text-3xl font-bold text-white font-playfair">{stat.value}</span>
+                  </div>
+                  <span className="text-sm text-blue-200/60">{stat.label}</span>
                 </div>
-              </div>
-            </div>
-          </ScrollReveal>
+              ))}
+            </motion.div>
+          </div>
 
-          <ScrollReveal delay={0.2} y={50}>
-            <div className="flex justify-center lg:justify-end">
-            <div className="relative max-w-lg w-full">
-              {/* Glow effect behind image */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-mansagold/20 via-transparent to-blue-500/20 rounded-3xl blur-2xl"></div>
+          {/* Right column - Visual */}
+          <motion.div 
+            className="relative flex justify-center lg:justify-end"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            <div className="relative max-w-md w-full">
+              {/* Glow effect */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-mansagold/30 via-transparent to-purple-500/20 rounded-3xl blur-2xl" />
               
-              <div className="relative rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.3)] ring-2 ring-white/10">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10">
                 <img 
                   src="/lovable-uploads/487f9aac-a3ad-4b28-8d90-3fd25a3a689b.png" 
                   alt="Professional business woman working on laptop"
                   className="w-full h-auto object-cover"
+                  loading="eager"
                 />
                 
-                {/* Overlay with key benefits */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-8">
-                  <div className="text-white space-y-4">
-                    <div className="flex items-center">
-                      <TrendingUp className="h-6 w-6 text-green-400 mr-3" />
-                      <span className="text-base font-semibold font-body">5% - 30% Discounts</span>
-                    </div>
-                    
-                    <div className="flex items-center">
-                      <Star className="h-6 w-6 text-green-400 mr-3" />
-                      <span className="text-base font-semibold font-body">100% FREE</span>
-                    </div>
-                    
-                    <div className="flex items-center">
-                      <Shield className="h-6 w-6 text-blue-400 mr-3" />
-                      <span className="text-base font-semibold font-body">Community First</span>
-                    </div>
+                {/* Overlay with benefits */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-6 md:p-8">
+                  <div className="space-y-3">
+                    {[
+                      { icon: TrendingUp, text: '5% - 30% Discounts', color: 'text-emerald-400' },
+                      { icon: Star, text: '100% FREE to Join', color: 'text-mansagold' },
+                      { icon: Users, text: '150K+ Community Members', color: 'text-blue-400' },
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-center gap-3">
+                        <item.icon className={`h-5 w-5 ${item.color}`} />
+                        <span className="text-white font-medium">{item.text}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
-            </div>
-          </ScrollReveal>
+          </motion.div>
         </div>
 
-        {/* Updated Plan Cards Grid - All Free */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10 max-w-7xl mx-auto px-4">
-          {!isIOS && (
-            <>
-              <ScrollReveal delay={0.1}>
-                <Link to="/signup" className="block h-full" style={{ touchAction: 'manipulation' }}>
-                  <Card className="glass-card bg-green-500/15 border-green-400/30 hover:bg-green-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20 group h-full">
-                  <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
-                    <div className="text-center">
-                      <Badge className="bg-green-500 text-white mb-4 shadow-md">
-                        <CheckCircle className="mr-1.5 h-4 w-4" />
-                        100% FREE
-                      </Badge>
-                      <h3 className="text-green-100 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">CUSTOMERS</h3>
-                      <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
-                        Browse directory, get discounts, earn loyalty points, redeem rewards
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-                </Link>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.2}>
-                <Link to="/signup?type=business" className="block h-full" style={{ touchAction: 'manipulation' }}>
-                  <Card className="glass-card bg-blue-500/15 border-blue-400/30 hover:bg-blue-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20 group h-full">
-                  <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
-                    <div className="text-center">
-                      <Badge className="bg-blue-500 text-white mb-4 shadow-md">
-                        <Building2 className="mr-1.5 h-4 w-4" />
-                        100% FREE
-                      </Badge>
-                      <h3 className="text-blue-200 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">BUSINESSES</h3>
-                      <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
-                        Unlimited QR codes, analytics, customer management, promotions
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-                </Link>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.3}>
-                <Link to="/signup" className="block h-full" style={{ touchAction: 'manipulation' }}>
-                  <Card className="glass-card bg-purple-500/15 border-purple-400/30 hover:bg-purple-500/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 group h-full">
-                  <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
-                    <div className="text-center">
-                      <Badge className="bg-purple-500 text-white mb-4 shadow-md">
-                        <GraduationCap className="mr-1.5 h-4 w-4" />
-                        STUDENTS
-                      </Badge>
-                      <h3 className="text-purple-200 font-bold text-lg md:text-xl mb-3 font-display tracking-tight">HBCU SPECIAL</h3>
-                      <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
-                        Extra rewards, exclusive events, community building
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-                </Link>
-              </ScrollReveal>
-            </>
-          )}
-
-          <ScrollReveal delay={0.4}>
-            <Link to="/directory" className="block h-full" style={{ touchAction: 'manipulation' }}>
-              <Card className="glass-card bg-mansagold/15 border-mansagold/30 hover:bg-mansagold/25 transition-all duration-300 cursor-pointer hover:scale-105 hover:shadow-2xl hover:shadow-mansagold/30 group h-full">
-              <CardContent className="p-8 md:p-10 h-full flex flex-col justify-between">
-                <div className="text-center">
-                  <Badge className="gradient-gold text-mansablue-dark mb-4 shadow-md">
-                    <Users className="mr-1.5 h-4 w-4" />
-                    EXPLORE
-                  </Badge>
-                  <h3 className="text-mansagold font-bold text-lg md:text-xl mb-3 font-display tracking-tight">BROWSE NOW</h3>
-                  <p className="text-white/90 text-sm md:text-base font-body leading-relaxed">
-                    Start exploring businesses across 5 cities today
-                  </p>
+        {/* Feature cards */}
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-16 md:mt-24 max-w-6xl mx-auto"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          {[
+            { title: 'Customers', desc: 'Browse, get discounts & earn rewards', color: 'from-emerald-400 to-teal-500', icon: Users, link: '/signup' },
+            { title: 'Businesses', desc: 'List free, grow your customer base', color: 'from-blue-400 to-indigo-500', icon: Building2, link: '/signup?type=business' },
+            { title: 'Sales Agents', desc: 'Earn up to 15% commission', color: 'from-amber-400 to-orange-500', icon: TrendingUp, link: '/become-a-sales-agent' },
+            { title: 'Directory', desc: 'Explore 2,500+ businesses now', color: 'from-purple-400 to-pink-500', icon: MapPin, link: '/directory' },
+          ].map((card, index) => (
+            <Link 
+              key={card.title} 
+              to={card.link}
+              className="group"
+            >
+              <motion.div
+                className="relative bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-white/20 hover:bg-slate-800/50 transition-all duration-300 h-full"
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br ${card.color} mb-4`}>
+                  <card.icon className="w-6 h-6 text-white" />
                 </div>
-              </CardContent>
-            </Card>
+                <h3 className="text-lg font-bold text-white mb-2">{card.title}</h3>
+                <p className="text-sm text-blue-200/70">{card.desc}</p>
+                <ArrowRight className="absolute bottom-6 right-6 w-5 h-5 text-white/30 group-hover:text-white/60 group-hover:translate-x-1 transition-all" />
+              </motion.div>
             </Link>
-          </ScrollReveal>
-        </div>
-
+          ))}
+        </motion.div>
       </div>
     </section>
   );
