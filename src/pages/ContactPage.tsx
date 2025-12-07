@@ -1,12 +1,60 @@
 
-import React from 'react';
-import { Mail, Phone, MapPin, Send, MessageCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, MapPin, Send, MessageCircle, Loader2, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const ContactPage = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      toast.error('Please fill in all fields');
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([{
+          name: formData.name.trim(),
+          email: formData.email.trim().toLowerCase(),
+          message: formData.message.trim(),
+          inquiry_type: 'general'
+        }]);
+
+      if (error) throw error;
+
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', message: '' });
+      toast.success('Message sent successfully!');
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast.error('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
       {/* Animated gradient orbs */}
@@ -97,42 +145,79 @@ const ContactPage = () => {
                   </h3>
                 </div>
                 <div className="p-6">
-                  <form className="space-y-5">
-                    <div>
-                      <Label htmlFor="name" className="text-base font-semibold text-white">Name</Label>
-                      <Input 
-                        id="name" 
-                        type="text" 
-                        placeholder="Your full name"
-                        className="mt-2 bg-white/5 border-white/20 text-white placeholder:text-white/40 focus:border-yellow-500/50"
-                      />
+                  {isSubmitted ? (
+                    <div className="text-center py-12">
+                      <div className="rounded-full bg-green-500/20 p-4 w-20 h-20 flex items-center justify-center mx-auto mb-6">
+                        <CheckCircle className="h-10 w-10 text-green-400" />
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-3">Thank You!</h3>
+                      <p className="text-white/70 mb-6">
+                        Your message has been sent successfully. We'll get back to you soon.
+                      </p>
+                      <Button 
+                        onClick={() => setIsSubmitted(false)}
+                        className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-slate-900 font-semibold"
+                      >
+                        Send Another Message
+                      </Button>
                     </div>
-                    <div>
-                      <Label htmlFor="email" className="text-base font-semibold text-white">Email</Label>
-                      <Input 
-                        id="email" 
-                        type="email" 
-                        placeholder="your.email@example.com"
-                        className="mt-2 bg-white/5 border-white/20 text-white placeholder:text-white/40 focus:border-yellow-500/50"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="message" className="text-base font-semibold text-white">Message</Label>
-                      <Textarea 
-                        id="message"
-                        rows={5} 
-                        placeholder="Tell us what's on your mind..."
-                        className="mt-2 bg-white/5 border-white/20 text-white placeholder:text-white/40 focus:border-yellow-500/50 resize-none"
-                      />
-                    </div>
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-slate-900 font-semibold py-6 text-lg"
-                    >
-                      <Send className="h-5 w-5 mr-2" />
-                      Send Message
-                    </Button>
-                  </form>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      <div>
+                        <Label htmlFor="name" className="text-base font-semibold text-white">Name</Label>
+                        <Input 
+                          id="name" 
+                          type="text" 
+                          placeholder="Your full name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          className="mt-2 bg-white/5 border-white/20 text-white placeholder:text-white/40 focus:border-yellow-500/50"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="email" className="text-base font-semibold text-white">Email</Label>
+                        <Input 
+                          id="email" 
+                          type="email" 
+                          placeholder="your.email@example.com"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="mt-2 bg-white/5 border-white/20 text-white placeholder:text-white/40 focus:border-yellow-500/50"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="message" className="text-base font-semibold text-white">Message</Label>
+                        <Textarea 
+                          id="message"
+                          rows={5} 
+                          placeholder="Tell us what's on your mind..."
+                          value={formData.message}
+                          onChange={handleChange}
+                          className="mt-2 bg-white/5 border-white/20 text-white placeholder:text-white/40 focus:border-yellow-500/50 resize-none"
+                          required
+                        />
+                      </div>
+                      <Button 
+                        type="submit" 
+                        disabled={isSubmitting}
+                        className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-slate-900 font-semibold py-6 text-lg"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="h-5 w-5 mr-2" />
+                            Send Message
+                          </>
+                        )}
+                      </Button>
+                    </form>
+                  )}
                 </div>
               </div>
             </div>

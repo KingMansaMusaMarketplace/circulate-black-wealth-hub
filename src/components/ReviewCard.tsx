@@ -5,7 +5,7 @@ import { Star, ThumbsUp, Flag } from 'lucide-react';
 
 interface ReviewCardProps {
   review: {
-    id: number;
+    id: string | number;
     userName: string;
     avatar?: string;
     rating: number;
