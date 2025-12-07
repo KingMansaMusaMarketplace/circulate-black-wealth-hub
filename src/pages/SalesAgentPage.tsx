@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSalesAgent } from '@/hooks/use-sales-agent';
 import { useSalesAgentTabs } from '@/hooks/use-sales-agent-tabs';
@@ -20,18 +21,34 @@ const SalesAgentPage: React.FC = () => {
   } = useSalesAgentTabs();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-mansagold/10 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/5 rounded-full blur-[150px]" />
+      </div>
+      
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none opacity-50" />
+      
       <Helmet>
         <title>Sales Agent Program | Mansa Musa Marketplace</title>
       </Helmet>
 
-      <main className="bg-gradient-to-b from-blue-50 to-blue-100 py-8">
+      <main className="relative z-10 py-12">
         <div className="container mx-auto px-4">
           {!user ? (
-            <div className="max-w-6xl mx-auto">
-              <div className="mb-8">
-                <h1 className="text-3xl font-bold text-mansablue mb-2">Sales Agent Program</h1>
-                <p className="text-gray-600">
+            <motion.div 
+              className="max-w-6xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="mb-8 text-center">
+                <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4">Earn With Us</span>
+                <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Sales Agent Program</h1>
+                <p className="text-blue-200/80 text-lg max-w-2xl mx-auto">
                   Join our sales agent program and earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
                 </p>
               </div>
@@ -60,12 +77,18 @@ const SalesAgentPage: React.FC = () => {
                 onAction={() => window.location.href = '/signup'}
                 onDismiss={() => {}}
               />
-            </div>
+            </motion.div>
           ) : (
-            <div className="max-w-4xl mx-auto">
-              <div className="mb-8">
-                <h1 className="text-3xl font-bold text-mansablue mb-2">Sales Agent Program</h1>
-                <p className="text-gray-600">
+            <motion.div 
+              className="max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="mb-8 text-center">
+                <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4">Your Dashboard</span>
+                <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Sales Agent Program</h1>
+                <p className="text-blue-200/80 text-lg max-w-2xl mx-auto">
                   Join our sales agent program and earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
                 </p>
               </div>
@@ -110,7 +133,7 @@ const SalesAgentPage: React.FC = () => {
                   onDismiss={() => {}}
                 />
               )}
-            </div>
+            </motion.div>
           )}
         </div>
       </main>
