@@ -1,12 +1,21 @@
 import { useEffect, useState } from 'react';
-import { App, AppState } from '@capacitor/app';
-import { Capacitor } from '@capacitor/core';
-import { LocalNotifications } from '@capacitor/local-notifications';
+
+// Safe native platform check without importing Capacitor at top level
+const isNativePlatform = () => {
+  try {
+    return typeof window !== 'undefined' && 
+           window.Capacitor && 
+           typeof window.Capacitor.isNativePlatform === 'function' && 
+           window.Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+};
 
 export const useAppLifecycle = () => {
   const [appState, setAppState] = useState<'active' | 'background' | 'inactive'>('active');
   const [backgroundTime, setBackgroundTime] = useState<number>(0);
-  const isNative = Capacitor.isNativePlatform();
+  const isNative = isNativePlatform();
 
   useEffect(() => {
     if (!isNative) return;
@@ -17,46 +26,52 @@ export const useAppLifecycle = () => {
     let backListener: any;
 
     const setupListeners = async () => {
-      stateListener = await App.addListener('appStateChange', (state: AppState) => {
-        const isActive = state.isActive;
+      try {
+        const { App } = await import('@capacitor/app');
         
-        if (isActive) {
-          // App came to foreground
-          setAppState('active');
+        stateListener = await App.addListener('appStateChange', (state) => {
+          const isActive = state.isActive;
           
-          if (backgroundStartTime) {
-            const timeInBackground = Date.now() - backgroundStartTime;
-            setBackgroundTime(timeInBackground);
+          if (isActive) {
+            // App came to foreground
+            setAppState('active');
             
-            // If app was in background for more than 5 minutes, show welcome back message
-            if (timeInBackground > 5 * 60 * 1000) {
-              showWelcomeBackNotification();
+            if (backgroundStartTime) {
+              const timeInBackground = Date.now() - backgroundStartTime;
+              setBackgroundTime(timeInBackground);
+              
+              // If app was in background for more than 5 minutes, show welcome back message
+              if (timeInBackground > 5 * 60 * 1000) {
+                showWelcomeBackNotification();
+              }
+              
+              backgroundStartTime = null;
             }
+
+            // Refresh data that might have changed
+            handleAppResume();
+          } else {
+            // App went to background
+            setAppState('background');
+            backgroundStartTime = Date.now();
             
-            backgroundStartTime = null;
+            // Save current state
+            handleAppBackground();
           }
+        });
 
-          // Refresh data that might have changed
-          handleAppResume();
-        } else {
-          // App went to background
-          setAppState('background');
-          backgroundStartTime = Date.now();
-          
-          // Save current state
-          handleAppBackground();
-        }
-      });
+        // Handle app URL opens (deep links)
+        urlListener = await App.addListener('appUrlOpen', (event) => {
+          handleDeepLink(event.url);
+        });
 
-      // Handle app URL opens (deep links)
-      urlListener = await App.addListener('appUrlOpen', (event) => {
-        handleDeepLink(event.url);
-      });
-
-      // Handle back button (Android)
-      backListener = await App.addListener('backButton', ({ canGoBack }) => {
-        handleBackButton(canGoBack);
-      });
+        // Handle back button (Android)
+        backListener = await App.addListener('backButton', ({ canGoBack }) => {
+          handleBackButton(canGoBack);
+        });
+      } catch (error) {
+        console.error('Error setting up app lifecycle listeners:', error);
+      }
     };
 
     setupListeners();
@@ -68,13 +83,18 @@ export const useAppLifecycle = () => {
     };
   }, [isNative]);
 
-  const handleAppResume = () => {
+  const handleAppResume = async () => {
     // Trigger data refresh
     window.dispatchEvent(new CustomEvent('app-resumed'));
     
     // Clear any notifications that are no longer relevant
     if (isNative) {
-      LocalNotifications.removeAllDeliveredNotifications();
+      try {
+        const { LocalNotifications } = await import('@capacitor/local-notifications');
+        LocalNotifications.removeAllDeliveredNotifications();
+      } catch (error) {
+        console.error('Error clearing notifications:', error);
+      }
     }
   };
 
@@ -103,7 +123,7 @@ export const useAppLifecycle = () => {
       } else if (params.get('ref')) {
         // Referral code
         const refCode = params.get('ref');
-        sessionStorage.setItem('referral_code', refCode);
+        sessionStorage.setItem('referral_code', refCode || '');
         window.location.href = '/signup';
       } else {
         window.location.href = path || '/';
@@ -113,13 +133,18 @@ export const useAppLifecycle = () => {
     }
   };
 
-  const handleBackButton = (canGoBack: boolean) => {
+  const handleBackButton = async (canGoBack: boolean) => {
     if (canGoBack) {
       window.history.back();
     } else {
       // On home page, show exit confirmation
       if (confirm('Exit Mansa Musa Marketplace?')) {
-        App.exitApp();
+        try {
+          const { App } = await import('@capacitor/app');
+          App.exitApp();
+        } catch (error) {
+          console.error('Error exiting app:', error);
+        }
       }
     }
   };
@@ -128,6 +153,8 @@ export const useAppLifecycle = () => {
     if (!isNative) return;
 
     try {
+      const { LocalNotifications } = await import('@capacitor/local-notifications');
+      
       let permStatus = await LocalNotifications.checkPermissions();
       if (permStatus.display === 'prompt') {
         permStatus = await LocalNotifications.requestPermissions();
@@ -148,15 +175,25 @@ export const useAppLifecycle = () => {
     }
   };
 
-  const exitApp = () => {
+  const exitApp = async () => {
     if (isNative) {
-      App.exitApp();
+      try {
+        const { App } = await import('@capacitor/app');
+        App.exitApp();
+      } catch (error) {
+        console.error('Error exiting app:', error);
+      }
     }
   };
 
-  const minimizeApp = () => {
+  const minimizeApp = async () => {
     if (isNative) {
-      App.minimizeApp();
+      try {
+        const { App } = await import('@capacitor/app');
+        App.minimizeApp();
+      } catch (error) {
+        console.error('Error minimizing app:', error);
+      }
     }
   };
 

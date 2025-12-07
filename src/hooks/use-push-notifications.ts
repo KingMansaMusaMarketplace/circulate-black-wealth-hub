@@ -1,9 +1,18 @@
-import { useState, useEffect } from 'react';
-import { PushNotifications, Token, PushNotificationSchema, ActionPerformed } from '@capacitor/push-notifications';
-import { LocalNotifications } from '@capacitor/local-notifications';
-import { Capacitor } from '@capacitor/core';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useHapticFeedback } from './use-haptic-feedback';
+
+// Safe native platform check without importing Capacitor at top level
+const isNativePlatform = () => {
+  try {
+    return typeof window !== 'undefined' && 
+           window.Capacitor && 
+           typeof window.Capacitor.isNativePlatform === 'function' && 
+           window.Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+};
 
 export const usePushNotifications = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -11,13 +20,15 @@ export const usePushNotifications = () => {
   const haptics = useHapticFeedback();
 
   useEffect(() => {
-    if (Capacitor.isNativePlatform()) {
+    if (isNativePlatform()) {
       initializePushNotifications();
     }
   }, []);
 
   const initializePushNotifications = async () => {
     try {
+      const { PushNotifications } = await import('@capacitor/push-notifications');
+      
       // Request permission for push notifications
       let permStatus = await PushNotifications.checkPermissions();
       
@@ -33,7 +44,7 @@ export const usePushNotifications = () => {
       await PushNotifications.register();
 
       // Listen for registration success
-      PushNotifications.addListener('registration', (token: Token) => {
+      PushNotifications.addListener('registration', (token) => {
         console.log('Push registration success, token: ' + token.value);
         setToken(token.value);
         setIsRegistered(true);
@@ -47,7 +58,7 @@ export const usePushNotifications = () => {
       });
 
       // Listen for push notifications received
-      PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
+      PushNotifications.addListener('pushNotificationReceived', (notification) => {
         console.log('Push notification received: ', notification);
         
         // Trigger haptic feedback
@@ -60,7 +71,7 @@ export const usePushNotifications = () => {
       });
 
       // Listen for notification actions
-      PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
+      PushNotifications.addListener('pushNotificationActionPerformed', (notification) => {
         console.log('Push notification action performed', notification.actionId, notification.inputValue);
         
         // Handle notification tap - could navigate to specific screen
@@ -76,7 +87,11 @@ export const usePushNotifications = () => {
   };
 
   const showLocalNotification = async (title: string, body: string, data?: any) => {
+    if (!isNativePlatform()) return;
+    
     try {
+      const { LocalNotifications } = await import('@capacitor/local-notifications');
+      
       // Request permission for local notifications
       let permStatus = await LocalNotifications.checkPermissions();
       

@@ -1,15 +1,23 @@
 import React, { useEffect } from 'react';
-import { Capacitor } from '@capacitor/core';
-import { App } from '@capacitor/app';
-import { StatusBar, Style } from '@capacitor/status-bar';
 import { usePushNotifications } from '@/hooks/use-push-notifications';
 import { useOfflineSupport } from '@/hooks/use-offline-support';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 import { useAppLifecycle } from '@/hooks/use-app-lifecycle';
 import { useBackgroundLocation } from '@/hooks/use-background-location';
-import { Geolocation } from '@capacitor/geolocation';
 import { toast } from 'sonner';
+
+// Safe native platform check without importing Capacitor at top level
+const isNativePlatform = () => {
+  try {
+    return typeof window !== 'undefined' && 
+           window.Capacitor && 
+           typeof window.Capacitor.isNativePlatform === 'function' && 
+           window.Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+};
 
 interface NativeFeaturesProps {
   children: React.ReactNode;
@@ -24,13 +32,24 @@ export const NativeFeatures: React.FC<NativeFeaturesProps> = ({ children }) => {
   const { isTracking: isLocationTracking } = useBackgroundLocation();
 
   useEffect(() => {
-    if (Capacitor.isNativePlatform()) {
+    if (isNativePlatform()) {
       initializeNativeFeatures();
     }
   }, []);
 
   const initializeNativeFeatures = async () => {
     try {
+      // Lazy load Capacitor modules only when needed
+      const [
+        { StatusBar, Style },
+        { App },
+        { Geolocation }
+      ] = await Promise.all([
+        import('@capacitor/status-bar'),
+        import('@capacitor/app'),
+        import('@capacitor/geolocation')
+      ]);
+
       // Enhanced status bar configuration with proper typing
       await StatusBar.setStyle({ style: Style.Dark });
       await StatusBar.setBackgroundColor({ color: '#1B365D' });
@@ -118,7 +137,10 @@ export const NativeFeatures: React.FC<NativeFeaturesProps> = ({ children }) => {
 
   const handleAppResume = async () => {
     // Native behavior: Check for location updates when app resumes
+    if (!isNativePlatform()) return;
+    
     try {
+      const { Geolocation } = await import('@capacitor/geolocation');
       const position = await Geolocation.getCurrentPosition({ timeout: 5000 });
       console.log('Location updated on app resume:', position);
     } catch (error) {

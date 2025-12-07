@@ -1,14 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Network } from '@capacitor/network';
-import { Capacitor } from '@capacitor/core';
 import { toast } from 'sonner';
+
+// Safe native platform check without importing Capacitor
+const isNativePlatform = () => {
+  try {
+    return typeof window !== 'undefined' && 
+           window.Capacitor && 
+           typeof window.Capacitor.isNativePlatform === 'function' && 
+           window.Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+};
 
 export const useOfflineSupport = () => {
   const [isOnline, setIsOnline] = useState(true);
   const [offlineQueue, setOfflineQueue] = useState<any[]>([]);
 
   useEffect(() => {
-    if (Capacitor.isNativePlatform()) {
+    if (isNativePlatform()) {
       initializeNetworkStatus();
     } else {
       // Web fallback
@@ -37,6 +47,8 @@ export const useOfflineSupport = () => {
 
   const initializeNetworkStatus = async () => {
     try {
+      const { Network } = await import('@capacitor/network');
+      
       // Get current network status
       const status = await Network.getStatus();
       setIsOnline(status.connected);
