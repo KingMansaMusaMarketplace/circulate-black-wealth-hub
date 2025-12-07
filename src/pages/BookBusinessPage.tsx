@@ -127,7 +127,7 @@ export default function BookBusinessPage() {
                         </p>
                       </div>
                     ) : (
-                      <BookingForm businessId={businessId!} businessName={business.business_name} />
+                      <BookingForm businessId={businessId!} businessName={business.business_name} services={services} />
                     )}
                   </CardContent>
                 </Card>

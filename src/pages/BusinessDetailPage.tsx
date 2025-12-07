@@ -65,6 +65,7 @@ const BusinessDetailPage = () => {
   const navigate = useNavigate();
   const [business, setBusiness] = useState<Business | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [services, setServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isLiked, setIsLiked] = useState(false);
@@ -117,9 +118,27 @@ const BusinessDetailPage = () => {
     }
   };
 
+  const loadServices = async () => {
+    if (!businessId) return;
+    try {
+      const { data, error } = await supabase
+        .from('business_services')
+        .select('*')
+        .eq('business_id', businessId)
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) throw error;
+      setServices(data || []);
+    } catch (error: any) {
+      console.error('Error loading services:', error);
+    }
+  };
+
   useEffect(() => {
     loadBusiness();
     loadReviews();
+    loadServices();
   }, [businessId]);
 
   const renderStars = (rating: number, size: 'sm' | 'md' = 'sm') => {
@@ -340,6 +359,7 @@ const BusinessDetailPage = () => {
                     <BookingForm
                       businessId={business.id}
                       businessName={business.business_name}
+                      services={services}
                     />
                   </div>
                 </TabsContent>
