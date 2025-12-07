@@ -25,8 +25,49 @@ Deno.serve(async (req) => {
   const startTime = Date.now();
   
   try {
+    // ========== AUTHENTICATION CHECK ==========
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      console.error('No authorization header provided');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+    
+    // Create auth client with anon key to verify user
+    const supabaseAuth = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+    );
+
+    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser(token);
+    if (authError || !user) {
+      console.error('Authentication failed:', authError?.message);
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Check if user is admin
+    const { data: isAdmin, error: roleError } = await supabaseAuth.rpc('is_admin_secure');
+    if (roleError || !isAdmin) {
+      console.error('Admin check failed:', roleError?.message || 'User is not admin');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Forbidden - Admin access required' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    console.log('Admin user authenticated:', user.id);
+    // ========== END AUTHENTICATION CHECK ==========
+
     const { userId, businessId, analysisType = 'full' } = await req.json();
     
+    // Use service role for data access after auth verification
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
