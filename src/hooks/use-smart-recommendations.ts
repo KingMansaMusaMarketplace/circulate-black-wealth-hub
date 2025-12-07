@@ -1,6 +1,7 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
 import { Business } from '@/types/business';
 import { LocationData } from '@/hooks/location/types';
 
@@ -9,118 +10,157 @@ export const useSmartRecommendations = (userLocation?: LocationData | null) => {
   const [recommendations, setRecommendations] = useState<Business[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchRecommendations = async () => {
-      setLoading(true);
-      try {
-        // In a real app, this would be an API call to get personalized recommendations
-        // For now, we'll simulate a delay and return mock data
-        await new Promise(resolve => setTimeout(resolve, 1000));
+  const fetchRecommendations = useCallback(async () => {
+    setLoading(true);
+    try {
+      // Fetch user's interactions to personalize recommendations
+      let userInteractions: string[] = [];
+      let userCategories: string[] = [];
+      
+      if (user) {
+        // Get businesses the user has interacted with
+        const { data: interactions } = await supabase
+          .from('business_interactions')
+          .select('business_id')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(20);
         
-        // Mock recommendations data
-        const mockRecommendations: Business[] = [
-          {
-            id: '1',
-            name: "Soul Food Kitchen",
-            description: "Authentic Southern cuisine served with love and tradition",
-            category: "Restaurant",
-            address: "123 Main St",
-            city: "Atlanta",
-            state: "GA",
-            zipCode: "30303",
-            phone: "(404) 555-0101",
-            email: "info@soulfoodkitchen.com",
-            website: "https://soulfoodkitchen.com",
-            logoUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
-            bannerUrl: "",
-            rating: 4.8,
-            averageRating: 4.8,
-            reviewCount: 120,
-            discount: "10% off",
-            discountValue: 10,
-            distance: "1.2 miles",
-            distanceValue: 1.2,
-            lat: 33.7490,
-            lng: -84.3880,
-            imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
-            isFeatured: true,
-            isVerified: true,
-            ownerId: "sample-owner-1",
-            createdAt: "2024-01-01T00:00:00Z",
-            updatedAt: "2024-01-01T00:00:00Z"
-          },
-          {
-            id: '2',
-            name: "Curl & Coil Hair Salon",
-            description: "Expert hair care specializing in natural and textured hair",
-            category: "Beauty & Wellness",
-            address: "456 Peachtree St",
-            city: "Atlanta",
-            state: "GA",
-            zipCode: "30308",
-            phone: "(404) 555-0102",
-            email: "info@curlandcoil.com",
-            website: "https://curlandcoil.com",
-            logoUrl: "https://images.unsplash.com/photo-1560066984-138dadb4c035",
-            bannerUrl: "",
-            rating: 4.9,
-            averageRating: 4.9,
-            reviewCount: 85,
-            discount: "15% off",
-            discountValue: 15,
-            distance: "0.8 miles",
-            distanceValue: 0.8,
-            lat: 33.7590,
-            lng: -84.3870,
-            imageUrl: "https://images.unsplash.com/photo-1560066984-138dadb4c035",
-            isFeatured: false,
-            isVerified: true,
-            ownerId: "sample-owner-2",
-            createdAt: "2024-01-01T00:00:00Z",
-            updatedAt: "2024-01-01T00:00:00Z"
-          },
-          {
-            id: '3',
-            name: "Tech Innovators Inc",
-            description: "Cutting-edge technology solutions for modern businesses",
-            category: "Technology",
-            address: "789 Tech Pkwy",
-            city: "Atlanta",
-            state: "GA",
-            zipCode: "30309",
-            phone: "(404) 555-0103",
-            email: "info@techinnovators.com",
-            website: "https://techinnovators.com",
-            logoUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789",
-            bannerUrl: "",
-            rating: 4.7,
-            averageRating: 4.7,
-            reviewCount: 42,
-            discount: "Free consultation",
-            discountValue: 0,
-            distance: "1.5 miles",
-            distanceValue: 1.5,
-            lat: 33.7690,
-            lng: -84.3890,
-            imageUrl: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789",
-            isFeatured: true,
-            isVerified: true,
-            ownerId: "sample-owner-3",
-            createdAt: "2024-01-01T00:00:00Z",
-            updatedAt: "2024-01-01T00:00:00Z"
+        userInteractions = interactions?.map(i => i.business_id) || [];
+
+        // Get categories from user's favorite/visited businesses
+        if (userInteractions.length > 0) {
+          const { data: visitedBusinesses } = await supabase
+            .from('businesses')
+            .select('category')
+            .in('id', userInteractions);
+          
+          userCategories = [...new Set(visitedBusinesses?.map(b => b.category).filter(Boolean) || [])];
+        }
+
+        // Check AI recommendations table
+        const { data: aiRecs } = await supabase
+          .from('ai_recommendations')
+          .select('business_id, recommendation_score')
+          .eq('user_id', user.id)
+          .gte('expires_at', new Date().toISOString())
+          .order('recommendation_score', { ascending: false })
+          .limit(10);
+
+        if (aiRecs && aiRecs.length > 0) {
+          const aiBusinessIds = aiRecs.map(r => r.business_id);
+          const { data: aiBusinesses, error } = await supabase
+            .from('businesses')
+            .select('*')
+            .in('id', aiBusinessIds)
+            .eq('is_verified', true);
+
+          if (!error && aiBusinesses && aiBusinesses.length > 0) {
+            const mapped = mapBusinesses(aiBusinesses);
+            setRecommendations(mapped);
+            setLoading(false);
+            return;
           }
-        ];
-        
-        setRecommendations(mockRecommendations);
-      } catch (error) {
-        console.error('Error fetching recommendations:', error);
-      } finally {
-        setLoading(false);
+        }
       }
-    };
-    
-    fetchRecommendations();
+
+      // Build query for recommendations
+      let query = supabase
+        .from('businesses')
+        .select('*')
+        .eq('is_verified', true)
+        .order('average_rating', { ascending: false })
+        .order('review_count', { ascending: false })
+        .limit(10);
+
+      // Prioritize user's preferred categories if available
+      if (userCategories.length > 0) {
+        query = query.in('category', userCategories);
+      }
+
+      // Exclude already visited businesses for variety
+      if (userInteractions.length > 0 && userInteractions.length < 50) {
+        query = query.not('id', 'in', `(${userInteractions.join(',')})`);
+      }
+
+      const { data: businesses, error } = await query;
+
+      if (error) {
+        console.error('Error fetching recommendations:', error);
+        // Fallback to simple query
+        const { data: fallbackBusinesses } = await supabase
+          .from('businesses')
+          .select('*')
+          .eq('is_verified', true)
+          .order('average_rating', { ascending: false })
+          .limit(10);
+        
+        setRecommendations(mapBusinesses(fallbackBusinesses || []));
+      } else {
+        // If not enough results with categories, fetch more general ones
+        let allBusinesses = businesses || [];
+        
+        if (allBusinesses.length < 5) {
+          const { data: moreBusinesses } = await supabase
+            .from('businesses')
+            .select('*')
+            .eq('is_verified', true)
+            .order('average_rating', { ascending: false })
+            .limit(10 - allBusinesses.length);
+          
+          if (moreBusinesses) {
+            const existingIds = new Set(allBusinesses.map(b => b.id));
+            const newBusinesses = moreBusinesses.filter(b => !existingIds.has(b.id));
+            allBusinesses = [...allBusinesses, ...newBusinesses];
+          }
+        }
+
+        setRecommendations(mapBusinesses(allBusinesses));
+      }
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+      setRecommendations([]);
+    } finally {
+      setLoading(false);
+    }
   }, [user, userLocation]);
 
-  return { recommendations, loading };
+  useEffect(() => {
+    fetchRecommendations();
+  }, [fetchRecommendations]);
+
+  return { recommendations, loading, refetch: fetchRecommendations };
 };
+
+function mapBusinesses(businesses: any[]): Business[] {
+  return businesses.map(b => ({
+    id: b.id,
+    name: b.business_name || b.name,
+    description: b.description || '',
+    category: b.category || 'Other',
+    address: b.address || '',
+    city: b.city || '',
+    state: b.state || '',
+    zipCode: b.zip_code || '',
+    phone: b.phone || '',
+    email: b.email || '',
+    website: b.website || '',
+    logoUrl: b.logo_url || '',
+    bannerUrl: b.banner_url || '',
+    rating: Number(b.average_rating) || 0,
+    averageRating: Number(b.average_rating) || 0,
+    reviewCount: b.review_count || 0,
+    discount: '',
+    discountValue: 0,
+    distance: '',
+    distanceValue: 0,
+    lat: 0,
+    lng: 0,
+    imageUrl: b.logo_url || b.banner_url || '',
+    isFeatured: b.is_verified,
+    isVerified: b.is_verified,
+    ownerId: b.owner_id,
+    createdAt: b.created_at,
+    updatedAt: b.updated_at
+  }));
+}

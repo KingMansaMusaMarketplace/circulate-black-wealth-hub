@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
-import { Bell, Mail, Smartphone, Globe, Star, Gift, MapPin, Calendar } from 'lucide-react';
+import { Bell, Mail, Smartphone, Globe, Star, Gift, MapPin, Calendar, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
 
 interface NotificationPrefs {
   email_notifications: boolean;
@@ -22,49 +24,142 @@ interface NotificationPrefs {
   point_milestones: boolean;
 }
 
+const defaultPreferences: NotificationPrefs = {
+  email_notifications: true,
+  push_notifications: true,
+  sms_notifications: false,
+  marketing_emails: true,
+  new_businesses: true,
+  special_offers: true,
+  loyalty_updates: true,
+  event_reminders: true,
+  location_based: false,
+  weekly_digest: true,
+  reward_expiry: true,
+  point_milestones: true,
+};
+
 export const NotificationSettings: React.FC = () => {
   const { toast } = useToast();
-  const [preferences, setPreferences] = useState<NotificationPrefs>({
-    email_notifications: true,
-    push_notifications: true,
-    sms_notifications: false,
-    marketing_emails: true,
-    new_businesses: true,
-    special_offers: true,
-    loyalty_updates: true,
-    event_reminders: true,
-    location_based: false,
-    weekly_digest: true,
-    reward_expiry: true,
-    point_milestones: true,
-  });
+  const { user } = useAuth();
+  const [preferences, setPreferences] = useState<NotificationPrefs>(defaultPreferences);
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load preferences from database on mount
+  useEffect(() => {
+    const loadPreferences = async () => {
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('notification_preferences')
+          .select('*')
+          .eq('user_id', user.id)
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error loading preferences:', error);
+        }
+
+        if (data) {
+          setPreferences({
+            email_notifications: data.email_notifications ?? defaultPreferences.email_notifications,
+            push_notifications: data.push_notifications ?? defaultPreferences.push_notifications,
+            sms_notifications: data.sms_notifications ?? defaultPreferences.sms_notifications,
+            marketing_emails: data.marketing_emails ?? defaultPreferences.marketing_emails,
+            new_businesses: data.new_businesses ?? defaultPreferences.new_businesses,
+            special_offers: data.special_offers ?? defaultPreferences.special_offers,
+            loyalty_updates: data.loyalty_updates ?? defaultPreferences.loyalty_updates,
+            event_reminders: data.event_reminders ?? defaultPreferences.event_reminders,
+            location_based: data.location_based ?? defaultPreferences.location_based,
+            weekly_digest: data.weekly_digest ?? defaultPreferences.weekly_digest,
+            reward_expiry: data.reward_expiry ?? defaultPreferences.reward_expiry,
+            point_milestones: data.point_milestones ?? defaultPreferences.point_milestones,
+          });
+        }
+      } catch (error) {
+        console.error('Error loading notification preferences:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadPreferences();
+  }, [user]);
 
   const updatePreference = (key: keyof NotificationPrefs, value: boolean) => {
     setPreferences(prev => ({ ...prev, [key]: value }));
   };
 
   const savePreferences = async () => {
+    if (!user) {
+      toast({
+        title: 'Error',
+        description: 'You must be logged in to save preferences',
+        variant: 'destructive'
+      });
+      return;
+    }
+
     setIsSaving(true);
     try {
-      // In a real app, this would save to the database
-      // For now, we'll just simulate saving
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Check if preferences exist
+      const { data: existing } = await supabase
+        .from('notification_preferences')
+        .select('id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (existing) {
+        // Update existing preferences
+        const { error } = await supabase
+          .from('notification_preferences')
+          .update({
+            ...preferences,
+            updated_at: new Date().toISOString()
+          })
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+      } else {
+        // Insert new preferences
+        const { error } = await supabase
+          .from('notification_preferences')
+          .insert({
+            user_id: user.id,
+            ...preferences
+          });
+
+        if (error) throw error;
+      }
       
       toast({
         title: 'Success',
         description: 'Notification preferences updated successfully'
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Error saving preferences:', error);
       toast({
         title: 'Error',
-        description: 'Failed to update notification preferences',
+        description: error.message || 'Failed to update notification preferences',
         variant: 'destructive'
       });
     } finally {
       setIsSaving(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -305,7 +400,14 @@ export const NotificationSettings: React.FC = () => {
       {/* Save Button */}
       <div className="flex justify-end">
         <Button onClick={savePreferences} disabled={isSaving}>
-          {isSaving ? 'Saving...' : 'Save Notification Settings'}
+          {isSaving ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Saving...
+            </>
+          ) : (
+            'Save Notification Settings'
+          )}
         </Button>
       </div>
     </div>
