@@ -45,46 +45,48 @@ export const SavingsCircles: React.FC = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Savings Circles (Susu)</h2>
-          <p className="text-muted-foreground">Pool resources and build wealth together</p>
+          <h2 className="text-2xl font-bold text-white">Savings Circles (Susu)</h2>
+          <p className="text-white/80 font-medium">Pool resources and build wealth together</p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
+            <Button className="gap-2 bg-mansagold hover:bg-mansagold/90 text-slate-900 font-bold">
               <Users className="w-4 h-4" />
               Create Circle
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="bg-slate-900 border-white/20">
             <DialogHeader>
-              <DialogTitle>Create Savings Circle</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="text-white font-bold">Create Savings Circle</DialogTitle>
+              <DialogDescription className="text-white/70">
                 Start a savings circle and invite others to join
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="circle_name">Circle Name</Label>
+                <Label htmlFor="circle_name" className="text-white font-semibold">Circle Name</Label>
                 <Input
                   id="circle_name"
                   value={formData.circle_name}
                   onChange={(e) => setFormData({ ...formData, circle_name: e.target.value })}
                   placeholder="My Savings Circle"
                   required
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
                 />
               </div>
               <div>
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description" className="text-white font-semibold">Description</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder="What is this circle for?"
+                  className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="target_amount">Target Amount</Label>
+                  <Label htmlFor="target_amount" className="text-white font-semibold">Target Amount</Label>
                   <Input
                     id="target_amount"
                     type="number"
@@ -94,10 +96,11 @@ export const SavingsCircles: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, target_amount: e.target.value })}
                     placeholder="1000"
                     required
+                    className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="contribution_amount">Contribution</Label>
+                  <Label htmlFor="contribution_amount" className="text-white font-semibold">Contribution</Label>
                   <Input
                     id="contribution_amount"
                     type="number"
@@ -107,28 +110,29 @@ export const SavingsCircles: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, contribution_amount: e.target.value })}
                     placeholder="100"
                     required
+                    className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
                   />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="frequency">Frequency</Label>
+                  <Label htmlFor="frequency" className="text-white font-semibold">Frequency</Label>
                   <Select
                     value={formData.frequency}
                     onValueChange={(value) => setFormData({ ...formData, frequency: value })}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-slate-800 border-white/30 text-white">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="weekly">Weekly</SelectItem>
-                      <SelectItem value="biweekly">Bi-weekly</SelectItem>
-                      <SelectItem value="monthly">Monthly</SelectItem>
+                    <SelectContent className="bg-slate-800 border-white/20">
+                      <SelectItem value="weekly" className="text-white">Weekly</SelectItem>
+                      <SelectItem value="biweekly" className="text-white">Bi-weekly</SelectItem>
+                      <SelectItem value="monthly" className="text-white">Monthly</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="max_members">Max Members</Label>
+                  <Label htmlFor="max_members" className="text-white font-semibold">Max Members</Label>
                   <Input
                     id="max_members"
                     type="number"
@@ -137,10 +141,11 @@ export const SavingsCircles: React.FC = () => {
                     value={formData.max_members}
                     onChange={(e) => setFormData({ ...formData, max_members: e.target.value })}
                     required
+                    className="bg-slate-800 border-white/30 text-white placeholder:text-white/50"
                   />
                 </div>
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full bg-mansagold hover:bg-mansagold/90 text-slate-900 font-bold">
                 Create Savings Circle
               </Button>
             </form>
@@ -151,26 +156,26 @@ export const SavingsCircles: React.FC = () => {
       {/* My Circles */}
       {myCircles && myCircles.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-4">My Circles</h3>
+          <h3 className="text-lg font-bold mb-4 text-white">My Circles</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {myCircles.map((membership: any) => (
-              <Card key={membership.id}>
+              <Card key={membership.id} className="bg-slate-800/60 border-white/20 backdrop-blur-sm">
                 <CardHeader>
-                  <CardTitle className="text-lg">{membership.savings_circles.circle_name}</CardTitle>
-                  <CardDescription>{membership.savings_circles.description}</CardDescription>
+                  <CardTitle className="text-lg text-white font-bold">{membership.savings_circles.circle_name}</CardTitle>
+                  <CardDescription className="text-white/70">{membership.savings_circles.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">My Contribution</span>
-                      <span className="font-semibold">${membership.total_contributed}</span>
+                      <span className="text-white/80 font-medium">My Contribution</span>
+                      <span className="font-bold text-mansagold">${membership.total_contributed}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Position</span>
-                      <Badge>#{membership.payout_position}</Badge>
+                      <span className="text-white/80 font-medium">Position</span>
+                      <Badge className="bg-mansablue/30 text-mansablue border-mansablue/50 font-bold">#{membership.payout_position}</Badge>
                     </div>
                     {membership.payout_date && (
-                      <div className="flex items-center gap-2 text-sm text-green-600">
+                      <div className="flex items-center gap-2 text-sm text-emerald-400 font-semibold">
                         <Calendar className="w-4 h-4" />
                         Payout: {new Date(membership.payout_date).toLocaleDateString()}
                       </div>
@@ -185,41 +190,41 @@ export const SavingsCircles: React.FC = () => {
 
       {/* Available Circles */}
       <div>
-        <h3 className="text-lg font-semibold mb-4">Join a Circle</h3>
+        <h3 className="text-lg font-bold mb-4 text-white">Join a Circle</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {isLoading ? (
-            <p className="col-span-full text-center py-8 text-muted-foreground">Loading...</p>
+            <p className="col-span-full text-center py-8 text-white/70 font-medium">Loading...</p>
           ) : circles && circles.length > 0 ? (
             circles.map((circle: any) => (
-              <Card key={circle.id} className="hover:shadow-lg transition-shadow">
+              <Card key={circle.id} className="hover:shadow-lg transition-shadow bg-slate-800/60 border-white/20 backdrop-blur-sm">
                 <CardHeader>
-                  <CardTitle className="text-lg">{circle.circle_name}</CardTitle>
-                  <CardDescription className="line-clamp-2">{circle.description}</CardDescription>
+                  <CardTitle className="text-lg text-white font-bold">{circle.circle_name}</CardTitle>
+                  <CardDescription className="line-clamp-2 text-white/70">{circle.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Target</span>
-                      <span className="font-semibold">${circle.target_amount}</span>
+                      <span className="text-sm text-white/80 font-medium">Target</span>
+                      <span className="font-bold text-mansagold">${circle.target_amount}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Contribution</span>
-                      <span className="font-semibold">${circle.contribution_amount}</span>
+                      <span className="text-sm text-white/80 font-medium">Contribution</span>
+                      <span className="font-bold text-white">${circle.contribution_amount}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Members</span>
-                      <span className="flex items-center gap-1">
+                      <span className="text-sm text-white/80 font-medium">Members</span>
+                      <span className="flex items-center gap-1 text-white font-semibold">
                         <Users className="w-4 h-4" />
                         {circle.current_members}/{circle.max_members}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2 text-sm text-white/70 font-medium">
                       <Calendar className="w-4 h-4" />
                       {circle.frequency}
                     </div>
                     <Button
                       onClick={() => joinCircle(circle.id)}
-                      className="w-full mt-4"
+                      className="w-full mt-4 bg-mansablue hover:bg-mansablue/90 text-white font-bold"
                       disabled={circle.current_members >= circle.max_members}
                     >
                       {circle.current_members >= circle.max_members ? 'Full' : 'Join Circle'}
@@ -229,10 +234,10 @@ export const SavingsCircles: React.FC = () => {
               </Card>
             ))
           ) : (
-            <Card className="col-span-full">
+            <Card className="col-span-full bg-slate-800/60 border-white/20 backdrop-blur-sm">
               <CardContent className="text-center py-12">
-                <Users className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">
+                <Users className="w-12 h-12 text-white/50 mx-auto mb-4" />
+                <p className="text-white/70 font-medium">
                   No active savings circles yet. Create one to get started!
                 </p>
               </CardContent>
