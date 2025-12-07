@@ -39,14 +39,11 @@ export const useLoyaltyScanning = (options: UseLoyaltyScanningOptions = {}) => {
       const result = await scanQRCode(qrCodeId);
       
       if (result && result.success) {
-        // Get business name from the result
-        const businessName = result.business_name || 'Business';
-        
         const scanResultData = {
           success: true,
-          businessName: businessName,
-          pointsEarned: result.points_awarded || 0,
-          discountApplied: result.discount_applied || 0
+          businessName: result.businessName || 'Business',
+          pointsEarned: result.pointsEarned || 0,
+          discountApplied: result.discountApplied || 0
         };
         
         setScanResult(scanResultData);
