@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { toast } from 'sonner';
 import { Mail, Search, Eye, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
+import DOMPurify from 'dompurify';
 
 interface EmailNotification {
   id: string;
@@ -86,6 +87,14 @@ const EmailHistory: React.FC = () => {
       sponsor_rejected: 'bg-red-100 text-red-800',
     };
     return <Badge className={colors[type] || 'bg-gray-100'}>{type.replace(/_/g, ' ')}</Badge>;
+  };
+
+  // Sanitize HTML content to prevent XSS attacks
+  const sanitizeEmailContent = (content: string): string => {
+    return DOMPurify.sanitize(content, {
+      ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'a', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'table', 'tr', 'td', 'th', 'thead', 'tbody', 'img'],
+      ALLOWED_ATTR: ['href', 'target', 'style', 'class', 'src', 'alt', 'width', 'height'],
+    });
   };
 
   return (
@@ -222,7 +231,7 @@ const EmailHistory: React.FC = () => {
                 <div className="text-sm font-medium text-gray-500 mb-2">Email Content</div>
                 <div 
                   className="p-4 bg-gray-50 rounded border overflow-auto max-h-96"
-                  dangerouslySetInnerHTML={{ __html: selectedEmail.content }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeEmailContent(selectedEmail.content) }}
                 />
               </div>
             </div>
