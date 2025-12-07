@@ -8,9 +8,6 @@ import SponsorshipTiersSection from '@/components/sponsorship/SponsorshipTiersSe
 import SponsorshipCTASection from '@/components/sponsorship/SponsorshipCTASection';
 import SponsorshipForm from '@/components/sponsorship/SponsorshipForm';
 import { useSponsorshipActions } from '@/hooks/useSponsorshipActions';
-import { ContextualTooltip } from '@/components/ui/ContextualTooltip';
-import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
-import { CORPORATE_CONTEXTUAL_TIPS } from '@/lib/corporate-onboarding-constants';
 import VerifiedCorporationBadge from '@/components/ui/VerifiedCorporationBadge';
 
 const CorporateSponsorshipPage: React.FC = () => {
@@ -24,44 +21,30 @@ const CorporateSponsorshipPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Corporate Sponsorship - Mansa Musa Marketplace</title>
-        <meta name="description" content="Partner with Mansa Musa Marketplace to support Black-owned businesses and create meaningful economic impact in communities." />
+        <title>Corporate Sponsorship | Partner with Mansa Musa Marketplace</title>
+        <meta name="description" content="Partner with Mansa Musa Marketplace to support Black-owned businesses and create meaningful economic impact. Join 50+ organizations making a difference." />
       </Helmet>
       
-      <main className="flex-grow bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 min-h-screen relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
-        <ProgressiveDisclosure
-          id="corporate-sponsorship-welcome"
-          title="Ready to Drive Real Community Impact?"
-          message="Join forward-thinking corporations making a measurable difference. Our partnership program connects your brand with engaged customers while creating authentic economic impact in Black communities."
-          autoShow={true}
-          position="top"
-          actionText="Explore Partnership Opportunities"
+      <main className="flex-grow min-h-screen relative overflow-hidden bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark">
+        {/* Premium ambient background */}
+        <div className="fixed inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-mansagold/10 rounded-full blur-[120px] animate-pulse-slow" />
+          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/5 rounded-full blur-[150px]" />
+        </div>
+        
+        {/* Grid pattern overlay */}
+        <div 
+          className="fixed inset-0 pointer-events-none opacity-[0.02]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px)',
+            backgroundSize: '60px 60px'
+          }}
         />
         
         <SponsorshipHeroSection onContactPartnership={handleContactPartnership} />
-        
-        <ContextualTooltip
-          id="sponsorship-impact-metrics"
-          title={CORPORATE_CONTEXTUAL_TIPS['impact-analytics'].title}
-          tip={CORPORATE_CONTEXTUAL_TIPS['impact-analytics'].tip}
-          trigger="auto"
-          delay={3000}
-        >
-          <SponsorshipImpactSection />
-        </ContextualTooltip>
-        
-        <ContextualTooltip
-          id="sponsorship-tier-selection"
-          title={CORPORATE_CONTEXTUAL_TIPS['sponsorship-tiers'].title}
-          tip={CORPORATE_CONTEXTUAL_TIPS['sponsorship-tiers'].tip}
-          trigger="hover"
-        >
-          <SponsorshipTiersSection onLearnMore={handleLearnMore} />
-        </ContextualTooltip>
+        <SponsorshipImpactSection />
+        <SponsorshipTiersSection onLearnMore={handleLearnMore} />
         
         <div className="relative z-10">
           <SponsorshipForm />

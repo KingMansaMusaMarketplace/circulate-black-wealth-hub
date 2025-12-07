@@ -23,6 +23,7 @@ export default {
         display: ["Poppins", "Inter", ...fontFamily.sans],
         montserrat: ["Montserrat", "sans-serif"],
         spartan: ["League Spartan", "sans-serif"],
+        playfair: ["Playfair Display", "serif"],
       },
       letterSpacing: {
         tighter: '-0.05em',
@@ -175,6 +176,14 @@ export default {
             transform: "translateY(0)"
           }
         },
+        "float": {
+          "0%, 100%": {
+            transform: "translateY(0px)"
+          },
+          "50%": {
+            transform: "translateY(-20px)"
+          }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -187,6 +196,8 @@ export default {
         "scale-in": "scale-in 0.3s ease-out",
         "bounce-subtle": "bounce-subtle 2s ease-in-out infinite",
         "shimmer": "shimmer 2s infinite",
+        "float": "float 6s ease-in-out infinite",
+        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },
