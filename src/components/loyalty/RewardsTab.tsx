@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Award, Gift, Clock } from 'lucide-react';
 
 interface Reward {
-  id: number;
+  id: number | string;
   title: string;
   description: string;
   pointsCost: number;
@@ -15,7 +15,7 @@ interface Reward {
 interface RewardsTabProps {
   availablePoints: number;
   rewards: Reward[];
-  onRedeem: (rewardId: number, pointsCost: number) => void;
+  onRedeem: (rewardId: number | string, pointsCost: number) => void;
 }
 
 const RewardsTab: React.FC<RewardsTabProps> = ({

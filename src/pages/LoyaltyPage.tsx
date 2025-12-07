@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { DashboardLayout } from '@/components/dashboard';
@@ -7,181 +7,251 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from 'sonner';
 import LoyaltyHistory from '@/components/loyalty/LoyaltyHistory';
 import RewardsTab from '@/components/loyalty/RewardsTab';
-import { useLoyaltyRewards } from '@/hooks/loyalty-qr-code/use-loyalty-rewards';
+import { useLoyalty } from '@/hooks/use-loyalty';
+import { supabase } from '@/lib/supabase';
 import Loading from '@/components/ui/loading';
 
+interface Transaction {
+  id: number | string;
+  businessName: string;
+  action: string;
+  points: number;
+  date: string;
+  time: string;
+}
+
+interface Reward {
+  id: number | string;
+  title: string;
+  description: string;
+  pointsCost: number;
+  category: string;
+  expiresAt?: string;
+}
+
 const LoyaltyPage = () => {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState('history');
   
-  // Use the loyalty rewards hook
-  const { totalPoints, redeemReward } = useLoyaltyRewards();
+  // Use the loyalty hook for real data
+  const { summary, loading: loyaltyLoading, refreshData } = useLoyalty();
   
-  // State for loyalty points and transactions
-  const [loyaltyStats, setLoyaltyStats] = useState({
-    totalPoints,
-    pointsEarned: 445,
-    pointsRedeemed: 100,
-    visitsThisMonth: 5,
-  });
-  
-  const [transactions, setTransactions] = useState([
-    {
-      id: 1,
-      businessName: "Soul Food Kitchen",
-      action: "Scan",
-      points: 15,
-      date: "2023-05-01",
-      time: "14:30"
-    },
-    {
-      id: 2,
-      businessName: "Prestigious Cuts",
-      action: "Review",
-      points: 25,
-      date: "2023-04-28",
-      time: "11:15"
-    },
-    {
-      id: 3,
-      businessName: "Heritage Bookstore",
-      action: "Scan",
-      points: 10,
-      date: "2023-04-25",
-      time: "16:45"
-    },
-    {
-      id: 4,
-      businessName: "Prosperity Financial",
-      action: "Referral",
-      points: 50,
-      date: "2023-04-20",
-      time: "09:30"
-    },
-    {
-      id: 5,
-      businessName: "Soul Food Kitchen",
-      action: "Redemption",
-      points: -100,
-      date: "2023-04-15",
-      time: "18:20"
-    },
-    {
-      id: 6,
-      businessName: "Ebony Crafts",
-      action: "Scan",
-      points: 12,
-      date: "2023-04-10",
-      time: "13:45"
-    },
-    {
-      id: 7,
-      businessName: "Royal Apparel",
-      action: "Scan",
-      points: 15,
-      date: "2023-04-05",
-      time: "15:30"
-    },
-  ]);
-  
-  const [rewards, setRewards] = useState([
-    {
-      id: 1,
-      title: "$10 off at Soul Food Kitchen",
-      description: "Get $10 off your next purchase of $30 or more at Soul Food Kitchen.",
-      pointsCost: 100,
-      category: "Restaurant Deals",
-      expiresAt: "2023-06-30"
-    },
-    {
-      id: 2,
-      title: "Free Haircut at Prestigious Cuts",
-      description: "Redeem a free haircut at Prestigious Cuts barber shop.",
-      pointsCost: 200,
-      category: "Beauty & Wellness",
-      expiresAt: "2023-07-15"
-    },
-    {
-      id: 3,
-      title: "20% off any book at Heritage Bookstore",
-      description: "Get 20% off any book purchase at Heritage Bookstore.",
-      pointsCost: 75,
-      category: "Retail Rewards",
-    },
-    {
-      id: 4,
-      title: "Free Financial Consultation",
-      description: "Redeem a 30-minute financial consultation at Prosperity Financial.",
-      pointsCost: 150,
-      category: "Services",
-      expiresAt: "2023-08-01"
-    },
-    {
-      id: 5,
-      title: "$25 Mansa Musa Gift Card",
-      description: "Get a $25 gift card to use at any participating business.",
-      pointsCost: 250,
-      category: "Gift Cards",
-    },
-    {
-      id: 6,
-      title: "Buy One Get One Free at Royal Apparel",
-      description: "Buy any item and get one of equal or lesser value for free.",
-      pointsCost: 175,
-      category: "Retail Rewards",
-      expiresAt: "2023-07-31"
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [rewards, setRewards] = useState<Reward[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
+
+  const fetchLoyaltyHistory = useCallback(async () => {
+    if (!user) return;
+
+    try {
+      setLoadingData(true);
+
+      // Fetch QR scan history for transactions
+      const { data: scansData, error: scansError } = await supabase
+        .from('qr_scans')
+        .select(`
+          id,
+          scanned_at,
+          points_awarded,
+          qr_codes!inner(
+            business_id,
+            code_type,
+            businesses!inner(business_name)
+          )
+        `)
+        .eq('user_id', user.id)
+        .order('scanned_at', { ascending: false })
+        .limit(20);
+
+      if (scansError) {
+        console.error('Error fetching scan history:', scansError);
+      } else {
+        const formattedTransactions: Transaction[] = (scansData || []).map((scan: any, index: number) => ({
+          id: scan.id || index,
+          businessName: scan.qr_codes?.businesses?.business_name || 'Unknown Business',
+          action: scan.qr_codes?.code_type === 'loyalty' ? 'Scan' : 'Discount',
+          points: scan.points_awarded || 0,
+          date: new Date(scan.scanned_at).toLocaleDateString(),
+          time: new Date(scan.scanned_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }));
+        setTransactions(formattedTransactions);
+      }
+
+      // Fetch redeemed rewards
+      const { data: redemptionsData, error: redemptionsError } = await supabase
+        .from('redeemed_rewards')
+        .select(`
+          id,
+          points_used,
+          redemption_date,
+          rewards!inner(title)
+        `)
+        .eq('customer_id', user.id)
+        .order('redemption_date', { ascending: false })
+        .limit(10);
+
+      if (!redemptionsError && redemptionsData) {
+        const redemptionTransactions: Transaction[] = redemptionsData.map((redemption: any) => ({
+          id: `redemption-${redemption.id}`,
+          businessName: 'Rewards Program',
+          action: 'Redemption',
+          points: -(redemption.points_used || 0),
+          date: new Date(redemption.redemption_date).toLocaleDateString(),
+          time: new Date(redemption.redemption_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }));
+
+        // Merge and sort all transactions
+        const allTransactions = [...transactions, ...redemptionTransactions]
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+          .slice(0, 20);
+
+        setTransactions(prev => {
+          const combined = [...prev.filter(t => !String(t.id).startsWith('redemption-')), ...redemptionTransactions];
+          return combined.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 20);
+        });
+      }
+
+      // Fetch available rewards
+      const { data: rewardsData, error: rewardsError } = await supabase
+        .from('rewards')
+        .select('*')
+        .eq('is_active', true)
+        .order('points_cost', { ascending: true });
+
+      if (rewardsError) {
+        console.error('Error fetching rewards:', rewardsError);
+      } else {
+        const formattedRewards: Reward[] = (rewardsData || []).map((reward: any) => ({
+          id: reward.id,
+          title: reward.title,
+          description: reward.description || '',
+          pointsCost: reward.points_cost,
+          category: reward.category || 'General',
+          expiresAt: reward.expires_at
+        }));
+        setRewards(formattedRewards);
+      }
+    } catch (error) {
+      console.error('Error fetching loyalty data:', error);
+    } finally {
+      setLoadingData(false);
     }
-  ]);
-  
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      refreshData();
+      fetchLoyaltyHistory();
+    }
+  }, [user, refreshData, fetchLoyaltyHistory]);
+
   // Handle reward redemption
-  const handleRedeemReward = (rewardId: number, pointsCost: number) => {
+  const handleRedeemReward = async (rewardId: number | string, pointsCost: number) => {
+    if (!user) {
+      toast.error('Please log in to redeem rewards');
+      return;
+    }
+
     // Check if user has enough points
-    if (loyaltyStats.totalPoints < pointsCost) {
+    if (summary.totalPoints < pointsCost) {
       toast.error("Not enough points to redeem this reward");
       return;
     }
-    
-    // Update points balance
-    setLoyaltyStats(prev => ({
-      ...prev,
-      totalPoints: prev.totalPoints - pointsCost,
-      pointsRedeemed: prev.pointsRedeemed + pointsCost
-    }));
-    
-    // Add transaction for this redemption
-    const newTransaction = {
-      id: Date.now(),
-      businessName: "Rewards Program",
-      action: "Redemption",
-      points: -pointsCost,
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    };
-    
-    setTransactions([newTransaction, ...transactions]);
-    
-    // Find the reward to show in the toast
-    const redeemedReward = rewards.find(r => r.id === rewardId);
-    
-    toast.success("Reward Redeemed", {
-      description: `You've redeemed "${redeemedReward?.title}". ${pointsCost} points have been deducted.`
-    });
+
+    try {
+      // Record the redemption
+      const { error: redemptionError } = await supabase
+        .from('redeemed_rewards')
+        .insert({
+          customer_id: user.id,
+          reward_id: String(rewardId),
+          points_used: pointsCost,
+          redemption_date: new Date().toISOString()
+        });
+
+      if (redemptionError) {
+        console.error('Error recording redemption:', redemptionError);
+        toast.error('Failed to redeem reward');
+        return;
+      }
+
+      // Deduct points from loyalty_points records
+      const { data: loyaltyRecords, error: fetchError } = await supabase
+        .from('loyalty_points')
+        .select('*')
+        .eq('customer_id', user.id)
+        .order('points', { ascending: false });
+
+      if (!fetchError && loyaltyRecords?.length) {
+        let remainingToDeduct = pointsCost;
+        for (const record of loyaltyRecords) {
+          if (remainingToDeduct <= 0) break;
+
+          const deduction = Math.min(record.points, remainingToDeduct);
+          const newPoints = record.points - deduction;
+
+          await supabase
+            .from('loyalty_points')
+            .update({ points: newPoints })
+            .eq('id', record.id);
+
+          remainingToDeduct -= deduction;
+        }
+      }
+
+      // Find the reward to show in the toast
+      const redeemedReward = rewards.find(r => r.id === rewardId);
+
+      // Add transaction for this redemption
+      const newTransaction: Transaction = {
+        id: Date.now(),
+        businessName: "Rewards Program",
+        action: "Redemption",
+        points: -pointsCost,
+        date: new Date().toLocaleDateString(),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+
+      setTransactions(prev => [newTransaction, ...prev]);
+
+      toast.success("Reward Redeemed", {
+        description: `You've redeemed "${redeemedReward?.title}". ${pointsCost} points have been deducted.`
+      });
+
+      // Refresh data
+      refreshData();
+    } catch (error) {
+      console.error('Error redeeming reward:', error);
+      toast.error('Failed to redeem reward');
+    }
   };
-  
+
+  // Calculate stats from real data
+  const loyaltyStats = {
+    totalPoints: summary.totalPoints,
+    pointsEarned: transactions.filter(t => t.points > 0).reduce((sum, t) => sum + t.points, 0),
+    pointsRedeemed: Math.abs(transactions.filter(t => t.points < 0).reduce((sum, t) => sum + t.points, 0)),
+    visitsThisMonth: transactions.filter(t => {
+      const txDate = new Date(t.date);
+      const now = new Date();
+      return txDate.getMonth() === now.getMonth() && txDate.getFullYear() === now.getFullYear();
+    }).length,
+  };
+
   // Show loading state while checking auth status
-  if (loading) {
+  if (authLoading || loyaltyLoading || loadingData) {
     return (
       <DashboardLayout title="Loyalty History" location="">
         <Loading text="Loading loyalty rewards..." />
       </DashboardLayout>
     );
   }
-  
+
   // Redirect to login if not authenticated
   if (!user) {
     return <Navigate to="/login" />;
   }
-  
+
   return (
     <DashboardLayout 
       title="Loyalty Program" 
@@ -203,6 +273,10 @@ const LoyaltyPage = () => {
               <div className="text-white">
                 <h2 className="text-2xl font-bold mb-1">Your Rewards</h2>
                 <p className="text-blue-200 text-sm">Earn points and redeem exclusive rewards</p>
+              </div>
+              <div className="ml-auto text-right">
+                <div className="text-3xl font-bold text-yellow-400">{loyaltyStats.totalPoints}</div>
+                <div className="text-sm text-white/70">Total Points</div>
               </div>
             </div>
           </div>
