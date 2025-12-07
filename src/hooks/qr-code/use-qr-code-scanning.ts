@@ -62,15 +62,30 @@ export const useQRCodeScanning = ({ setLoading }: UseQRCodeScanningOptions) => {
         .eq('id', qrCodeId);
 
       if (qrCode.points_value > 0) {
-        await supabase
+        // First check if the user already has points with this business
+        const { data: existingPoints } = await supabase
           .from('loyalty_points')
-          .upsert({
-            customer_id: user.id,
-            business_id: qrCode.business_id,
-            points: qrCode.points_value
-          }, {
-            onConflict: 'customer_id,business_id'
-          });
+          .select('*')
+          .eq('customer_id', user.id)
+          .eq('business_id', qrCode.business_id)
+          .single();
+
+        if (existingPoints) {
+          // Update existing points
+          await supabase
+            .from('loyalty_points')
+            .update({ points: existingPoints.points + qrCode.points_value })
+            .eq('id', existingPoints.id);
+        } else {
+          // Create new points record
+          await supabase
+            .from('loyalty_points')
+            .insert({
+              customer_id: user.id,
+              business_id: qrCode.business_id,
+              points: qrCode.points_value
+            });
+        }
       }
 
       const result = {
