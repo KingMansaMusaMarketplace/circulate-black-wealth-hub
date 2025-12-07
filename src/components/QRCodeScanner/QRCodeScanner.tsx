@@ -45,7 +45,7 @@ const QRCodeScanner = () => {
       <Button 
         className="w-full bg-mansablue hover:bg-mansablue-dark flex items-center justify-center gap-2"
         disabled={isScanning || scanned}
-        onClick={handleScan}
+        onClick={() => handleScan()}
       >
         {isScanning ? (
           <>
