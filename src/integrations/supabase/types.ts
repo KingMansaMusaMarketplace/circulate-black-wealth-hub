@@ -7942,6 +7942,7 @@ export type Database = {
         | {
             Args: {
               p_business_id: string
+              p_metadata?: Json
               p_metric_type: string
               p_metric_value: number
             }
@@ -7950,7 +7951,6 @@ export type Database = {
         | {
             Args: {
               p_business_id: string
-              p_metadata?: Json
               p_metric_type: string
               p_metric_value: number
             }
