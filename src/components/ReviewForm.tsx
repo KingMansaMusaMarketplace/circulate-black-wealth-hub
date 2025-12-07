@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 interface ReviewFormProps {
   businessName: string;
-  onSubmit?: (rating: number, content: string) => void;
+  onSubmit?: (rating: number, content: string) => void | Promise<void>;
 }
 
 const ReviewForm: React.FC<ReviewFormProps> = ({ businessName, onSubmit }) => {
@@ -17,7 +17,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessName, onSubmit }) => {
   const [content, setContent] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (rating === 0) {
@@ -36,20 +36,21 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ businessName, onSubmit }) => {
     
     setIsSubmitting(true);
     
-    // Simulate submission
-    setTimeout(() => {
+    try {
       if (onSubmit) {
-        onSubmit(rating, content);
+        await onSubmit(rating, content);
       }
-      
-      toast("Review Submitted!", {
-        description: `Thank you for reviewing ${businessName}. You earned 15 loyalty points!`
-      });
       
       setRating(0);
       setContent('');
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      toast("Error", {
+        description: "Failed to submit review. Please try again."
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
   
   return (
