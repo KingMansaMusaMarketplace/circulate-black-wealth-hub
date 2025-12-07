@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -9,6 +10,16 @@ const corsHeaders = {
 
 // Platform fee percentage (adjustable per business tier)
 const DEFAULT_PLATFORM_FEE_PERCENTAGE = 2.50; // 2.5%
+
+// Input validation schema
+const paymentIntentSchema = z.object({
+  businessId: z.string().uuid(),
+  amount: z.number().positive().max(999999.99),
+  description: z.string().max(500).optional().default("Payment"),
+  customerEmail: z.string().email().max(255).optional(),
+  customerName: z.string().max(100).optional(),
+  metadata: z.record(z.string()).optional().default({}),
+});
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -33,18 +44,19 @@ serve(async (req) => {
       throw new Error("User not authenticated");
     }
 
-    const { 
-      businessId, 
-      amount, 
-      description = "Payment",
-      customerEmail,
-      customerName,
-      metadata = {}
-    } = await req.json();
-
-    if (!businessId || !amount || amount <= 0) {
-      throw new Error("Business ID and valid amount are required");
+    // Parse and validate input
+    const rawBody = await req.json();
+    const parseResult = paymentIntentSchema.safeParse(rawBody);
+    
+    if (!parseResult.success) {
+      console.error("Validation failed:", parseResult.error.errors);
+      return new Response(
+        JSON.stringify({ error: "Invalid request data", details: parseResult.error.errors }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
     }
+    
+    const { businessId, amount, description, customerEmail, customerName, metadata } = parseResult.data;
 
     // Get business Stripe account
     const { data: paymentAccount, error: accountError } = await supabaseClient

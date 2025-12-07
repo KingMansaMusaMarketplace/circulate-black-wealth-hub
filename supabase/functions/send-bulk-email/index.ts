@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -9,11 +10,12 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-interface BulkEmailRequest {
-  recipients: string[];
-  subject: string;
-  content: string;
-}
+// Input validation schema
+const bulkEmailSchema = z.object({
+  recipients: z.array(z.string().email().max(255)).min(1).max(10000),
+  subject: z.string().min(1).max(200),
+  content: z.string().min(1).max(50000),
+});
 
 const handler = async (req: Request): Promise<Response> => {
   if (req.method === "OPTIONS") {
@@ -59,15 +61,19 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Admin user ${user.id} authorized for bulk email`);
 
-    const { recipients, subject, content }: BulkEmailRequest = await req.json();
-
-    if (!recipients || recipients.length === 0) {
-      throw new Error("No recipients provided");
+    // Parse and validate input
+    const rawBody = await req.json();
+    const parseResult = bulkEmailSchema.safeParse(rawBody);
+    
+    if (!parseResult.success) {
+      console.error("Validation failed:", parseResult.error.errors);
+      return new Response(
+        JSON.stringify({ success: false, error: "Invalid request data", details: parseResult.error.errors }),
+        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
     }
-
-    if (!subject || !content) {
-      throw new Error("Subject and content are required");
-    }
+    
+    const { recipients, subject, content } = parseResult.data;
 
     console.log(`Sending bulk email to ${recipients.length} recipients`);
 

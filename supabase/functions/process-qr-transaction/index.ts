@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import Stripe from "https://esm.sh/stripe@14.21.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -9,6 +10,15 @@ const corsHeaders = {
 };
 
 const COMMISSION_RATE = 7.5; // 7.5% platform commission
+
+// Input validation schema
+const qrTransactionSchema = z.object({
+  businessId: z.string().uuid(),
+  qrCodeId: z.string().uuid().optional(),
+  amount: z.number().positive().max(99999.99),
+  description: z.string().max(500).optional(),
+  customerEmail: z.string().email().max(255).optional(),
+});
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -34,13 +44,23 @@ serve(async (req) => {
       throw new Error("Unauthorized");
     }
 
-    const {
-      businessId,
-      qrCodeId,
-      amount,
-      description,
-      customerEmail,
-    } = await req.json();
+    // Parse and validate input
+    const rawBody = await req.json();
+    const parseResult = qrTransactionSchema.safeParse(rawBody);
+    
+    if (!parseResult.success) {
+      console.error("Validation failed:", parseResult.error.errors);
+      return new Response(
+        JSON.stringify({ 
+          success: false, 
+          error: "Invalid request data", 
+          details: parseResult.error.errors 
+        }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    
+    const { businessId, qrCodeId, amount, description, customerEmail } = parseResult.data;
 
     console.log("Processing QR transaction:", {
       businessId,
@@ -48,11 +68,6 @@ serve(async (req) => {
       amount,
       customerEmail,
     });
-
-    // Validate amount
-    if (!amount || amount <= 0) {
-      throw new Error("Invalid transaction amount");
-    }
 
     // Get business payment account
     const { data: paymentAccount, error: accountError } = await supabase
