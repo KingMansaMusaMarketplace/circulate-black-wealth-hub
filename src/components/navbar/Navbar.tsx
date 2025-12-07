@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -88,19 +89,34 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
 
   return (
     <>
-      <header className={`bg-gradient-to-r from-background via-background to-background/95 backdrop-blur-xl shadow-lg z-50 w-full sticky top-0 border-b border-border/30 transition-all duration-300 ${className}`}>
+      <motion.header 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className={`bg-gradient-to-r from-slate-950/95 via-blue-950/95 to-slate-950/95 backdrop-blur-xl shadow-2xl z-50 w-full sticky top-0 border-b border-white/10 transition-all duration-300 ${className}`}
+      >
         <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="flex h-16 items-center justify-between w-full gap-4">
-            <div className="flex items-center min-w-0 flex-shrink-0">
+            <motion.div 
+              className="flex items-center min-w-0 flex-shrink-0"
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+            >
               <Logo />
               {!isMobile && (
                 <div className="ml-8 hidden md:block">
                   <NavLinks />
                 </div>
               )}
-            </div>
+            </motion.div>
             
-            <div className="flex items-center gap-3 flex-shrink-0">
+            <motion.div 
+              className="flex items-center gap-3 flex-shrink-0"
+              initial={{ x: 20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+            >
               {user && !isMobile && (
                 <div className="transition-all duration-300 hover:scale-105">
                   <NotificationBell />
@@ -116,7 +132,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                     e.preventDefault();
                     toggleMobileMenu(e);
                   }}
-                  className="md:hidden relative z-50 touch-manipulation hover:bg-accent/80 transition-all duration-300 hover:scale-105 rounded-lg select-none"
+                  className="md:hidden relative z-50 touch-manipulation hover:bg-white/10 text-white transition-all duration-300 hover:scale-105 rounded-lg select-none border border-white/10"
                   aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                   data-mobile-menu-trigger
                   style={{ 
@@ -139,24 +155,35 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
               <div className="flex-shrink-0">
                 <UserMenu user={user} />
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Mobile navigation menu with improved mobile support */}
       {isMobile && mobileMenuOpen && (
         <>
           {/* Backdrop */}
-          <div 
-            className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 md:hidden animate-fade-in"
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-40 md:hidden"
             onClick={closeMobileMenu}
             style={{ touchAction: 'manipulation' }}
           />
           {/* Mobile Menu */}
-          <div className="fixed inset-x-0 top-24 bottom-0 z-50 md:hidden animate-slide-in-from-top overflow-y-auto overscroll-contain" data-mobile-menu style={{ WebkitOverflowScrolling: 'touch' }}>
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-x-0 top-16 bottom-0 z-50 md:hidden overflow-y-auto overscroll-contain" 
+            data-mobile-menu 
+            style={{ WebkitOverflowScrolling: 'touch' }}
+          >
             <MobileMenu onNavigate={closeMobileMenu} />
-          </div>
+          </motion.div>
         </>
       )}
     </>
