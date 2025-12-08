@@ -441,12 +441,13 @@ When helping admins, provide specific guidance on navigating the dashboard, unde
     }
 
     // Request an ephemeral token from OpenAI
+    // Using "shimmer" voice - the most natural, warm, human-like female voice
     const response = await fetch("https://api.openai.com/v1/realtime/sessions", {
       method: "POST",
       headers,
       body: JSON.stringify({
         model: "gpt-4o-realtime-preview",
-        voice: "alloy",
+        voice: "shimmer",
         instructions: kaylaInstructions
       }),
     });
