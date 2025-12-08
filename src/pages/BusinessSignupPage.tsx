@@ -2,10 +2,12 @@
 import React, { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
-import { Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, PieChart, Wallet, BarChart3, Clock, CreditCard, FileText, Target, Bell, Shield } from 'lucide-react';
+import { Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, Wallet, BarChart3, Shield, Star, Quote } from 'lucide-react';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const BusinessSignupPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -192,20 +194,30 @@ const BusinessSignupPage: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {includedFeatures.map((feature, index) => (
-                <div 
+                <motion.div 
                   key={feature.title}
-                  className="relative group animate-fade-in"
-                  style={{ animationDelay: `${0.1 + index * 0.05}s` }}
+                  className="relative group"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
+                  whileHover={{ 
+                    y: -4,
+                    transition: { duration: 0.2 }
+                  }}
                 >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 rounded-2xl blur-xl transition-opacity duration-300`} />
-                  <div className="relative bg-slate-800/60 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:border-white/20 transition-all duration-300 h-full">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-15 rounded-2xl blur-xl transition-opacity duration-300`} />
+                  <div className="relative bg-slate-800/60 backdrop-blur-sm border border-white/10 rounded-2xl p-5 group-hover:border-white/25 group-hover:bg-slate-800/80 transition-all duration-300 h-full group-hover:shadow-xl group-hover:shadow-black/20">
                     <div className="flex items-start gap-4">
-                      <div className={`p-3 rounded-xl bg-gradient-to-br ${feature.color} flex-shrink-0 shadow-lg`}>
+                      <motion.div 
+                        className={`p-3 rounded-xl bg-gradient-to-br ${feature.color} flex-shrink-0 shadow-lg`}
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        transition={{ duration: 0.2 }}
+                      >
                         <feature.icon className="w-6 h-6 text-white" />
-                      </div>
+                      </motion.div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-bold text-white text-lg">
+                          <h3 className="font-bold text-white text-lg group-hover:text-mansagold transition-colors duration-300">
                             {feature.title}
                           </h3>
                           <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
@@ -224,7 +236,7 @@ const BusinessSignupPage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
@@ -258,8 +270,82 @@ const BusinessSignupPage: React.FC = () => {
           </div>
         </div>
         
+        {/* Testimonials Section */}
+        <div className="container mx-auto px-4 mb-8 animate-fade-in" style={{ animationDelay: '0.15s' }}>
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full mb-4">
+                <Quote className="w-4 h-4 text-blue-400" />
+                <span className="text-sm font-semibold text-blue-400">What Business Owners Say</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+                Trusted by Business Owners Like You
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  quote: "As a business owner, I gained 25 new customers the first month. Best $100/month I've ever spent.",
+                  author: "Marcus Johnson",
+                  title: "Restaurant Owner",
+                  image: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+                  rating: 5
+                },
+                {
+                  quote: "The booking system alone saves me 10+ hours a week. My customers love scheduling online anytime.",
+                  author: "Keisha Thompson",
+                  title: "Salon Owner",
+                  image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+                  rating: 5
+                },
+                {
+                  quote: "Finally, accounting software that understands small businesses. The invoicing feature is a game-changer.",
+                  author: "David Williams",
+                  title: "Auto Shop Owner",
+                  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60",
+                  rating: 5
+                }
+              ].map((testimonial, index) => (
+                <motion.div
+                  key={testimonial.author}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + index * 0.1, duration: 0.4 }}
+                  whileHover={{ y: -4 }}
+                  className="relative group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-mansagold/20 to-blue-500/20 opacity-0 group-hover:opacity-100 rounded-2xl blur-xl transition-opacity duration-300" />
+                  <div className="relative bg-slate-800/60 backdrop-blur-sm border border-white/10 rounded-2xl p-6 group-hover:border-white/25 transition-all duration-300 h-full">
+                    <div className="flex gap-1 mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 text-mansagold fill-mansagold" />
+                      ))}
+                    </div>
+                    <p className="text-slate-300 text-sm mb-6 leading-relaxed italic">
+                      "{testimonial.quote}"
+                    </p>
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10 border-2 border-mansagold/30">
+                        <AvatarImage src={testimonial.image} alt={testimonial.author} />
+                        <AvatarFallback className="bg-blue-500/20 text-blue-300">
+                          {testimonial.author.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-semibold text-white text-sm">{testimonial.author}</p>
+                        <p className="text-xs text-slate-400">{testimonial.title}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+
         {/* Form Container with gradient */}
-        <div className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+        <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
           <BusinessSignupForm 
             referralCode={referralCode}
             referringAgent={referringAgent}
