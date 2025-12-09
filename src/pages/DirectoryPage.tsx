@@ -17,7 +17,7 @@ import BusinessListView from '@/components/directory/BusinessListView';
 import ScrollToTopButton from '@/components/directory/ScrollToTopButton';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, MapPin, ListFilter, Grid3X3, List } from 'lucide-react';
+import { Search, MapPin, ListFilter, Grid3X3, List, Landmark } from 'lucide-react';
 import DirectoryFilter from '@/components/DirectoryFilter';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CompareButton } from '@/components/business/comparison/CompareButton';
@@ -117,8 +117,9 @@ const DirectoryPage: React.FC = () => {
           <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-mansablue via-blue-500 to-mansagold"></div>
           
           <div className="container mx-auto text-center relative z-10 px-4 animate-fade-in">
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
-              Multi-City <span className="bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent">Marketplace</span> 🌆
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg flex items-center justify-center gap-4 flex-wrap">
+              Multi-City <span className="bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent">Marketplace</span>
+              <Landmark className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 text-mansagold drop-shadow-[0_0_15px_rgba(255,193,7,0.5)]" />
             </h1>
             <p className="font-body text-xl sm:text-2xl text-slate-300 leading-relaxed max-w-3xl mx-auto mb-10 font-medium">
               Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, and Detroit
