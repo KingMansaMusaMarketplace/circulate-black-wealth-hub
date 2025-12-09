@@ -7772,6 +7772,7 @@ export type Database = {
         Args: { p_end_date?: string; p_start_date?: string }
         Returns: Json
       }
+      get_platform_stats: { Args: never; Returns: Json }
       get_public_business_info: {
         Args: never
         Returns: {
