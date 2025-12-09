@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -7,12 +7,41 @@ import { Star, Building2, Users, TrendingUp, MapPin, Loader2, ArrowRight, Sparkl
 import { useLocation } from '@/hooks/location/useLocation';
 import { toast } from 'sonner';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
+import { supabase } from '@/integrations/supabase/client';
 
 const Hero = () => {
   const isIOS = shouldHideStripePayments();
   const navigate = useNavigate();
   const { getCurrentPosition, loading: locationLoading } = useLocation();
   const [isLocating, setIsLocating] = useState(false);
+  const [stats, setStats] = useState({
+    businesses: 0,
+    members: 0
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const { count: businessCount } = await supabase
+          .from('businesses')
+          .select('*', { count: 'exact', head: true })
+          .eq('is_verified', true);
+
+        const { count: memberCount } = await supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true });
+
+        setStats({
+          businesses: businessCount || 0,
+          members: memberCount || 0
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   const handleFindNearMe = useCallback(async () => {
     setIsLocating(true);
@@ -32,9 +61,25 @@ const Hero = () => {
     }
   }, [getCurrentPosition, navigate]);
 
-  const stats = [
-    { value: '2,500+', label: 'Businesses', icon: Building2 },
-    { value: '150K+', label: 'Members', icon: Users },
+  const getBusinessLabel = (count: number) => {
+    if (count === 0) return 'Be First';
+    if (count === 1) return 'Founding Business';
+    if (count <= 10) return 'Founding Businesses';
+    if (count <= 50) return 'Businesses & Growing';
+    return 'Businesses';
+  };
+
+  const getMemberLabel = (count: number) => {
+    if (count === 0) return 'Join Us';
+    if (count === 1) return 'Founding Member';
+    if (count <= 50) return 'Founding Members';
+    if (count <= 500) return 'Members & Growing';
+    return 'Members';
+  };
+
+  const displayStats = [
+    { value: stats.businesses, label: getBusinessLabel(stats.businesses), icon: Building2 },
+    { value: stats.members, label: getMemberLabel(stats.members), icon: Users },
     { value: '30%', label: 'Max Savings', icon: TrendingUp },
   ];
 
@@ -167,11 +212,13 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              {stats.map((stat, index) => (
+              {displayStats.map((stat, index) => (
                 <div key={stat.label} className="text-center lg:text-left">
                   <div className="flex items-center gap-2 mb-1">
                     <stat.icon className="w-5 h-5 text-mansagold" />
-                    <span className="text-2xl md:text-3xl font-bold text-white font-playfair">{stat.value}</span>
+                    <span className="text-2xl md:text-3xl font-bold text-white font-playfair">
+                      {typeof stat.value === 'number' ? stat.value : stat.value}
+                    </span>
                   </div>
                   <span className="text-sm text-blue-200/60">{stat.label}</span>
                 </div>
@@ -204,7 +251,7 @@ const Hero = () => {
                     {[
                       { icon: TrendingUp, text: '5% - 30% Discounts', color: 'text-emerald-400' },
                       { icon: Star, text: '100% FREE to Join', color: 'text-mansagold' },
-                      { icon: Users, text: '150K+ Community Members', color: 'text-blue-400' },
+                      { icon: Users, text: 'Join Our Growing Community', color: 'text-blue-400' },
                     ].map((item, i) => (
                       <div key={i} className="flex items-center gap-3">
                         <item.icon className={`h-5 w-5 ${item.color}`} />
@@ -229,7 +276,7 @@ const Hero = () => {
             { title: 'Customers', desc: 'Browse, get discounts & earn rewards', color: 'from-emerald-400 to-teal-500', icon: Users, link: '/signup' },
             { title: 'Businesses', desc: 'List free, grow your customer base', color: 'from-blue-400 to-indigo-500', icon: Building2, link: '/signup?type=business' },
             { title: 'Sales Agents', desc: 'Earn up to 15% commission', color: 'from-amber-400 to-orange-500', icon: TrendingUp, link: '/become-a-sales-agent' },
-            { title: 'Directory', desc: 'Explore 2,500+ businesses now', color: 'from-purple-400 to-pink-500', icon: MapPin, link: '/directory' },
+            { title: 'Directory', desc: 'Explore our growing business network', color: 'from-purple-400 to-pink-500', icon: MapPin, link: '/directory' },
           ].map((card, index) => (
             <Link 
               key={card.title} 

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Mail, CheckCircle, TrendingUp, Bell } from 'lucide-react';
+import { Mail, CheckCircle, TrendingUp, Bell, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -11,6 +11,21 @@ export const NewsletterSignup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [subscriberCount, setSubscriberCount] = useState(0);
+
+  useEffect(() => {
+    const fetchSubscriberCount = async () => {
+      try {
+        const { count } = await supabase
+          .from('email_subscriptions')
+          .select('*', { count: 'exact', head: true });
+        setSubscriberCount(count || 0);
+      } catch (error) {
+        console.error('Error fetching subscriber count:', error);
+      }
+    };
+    fetchSubscriberCount();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,21 +164,14 @@ export const NewsletterSignup: React.FC = () => {
                 </form>
 
                 <div className="mt-6 pt-6 border-t border-white/20">
-                  <div className="flex items-center justify-center gap-6 text-center">
-                    <div>
-                      <div className="text-2xl font-bold text-white">2,500+</div>
-                      <div className="text-xs text-white/70">Subscribers</div>
-                    </div>
-                    <div className="h-10 w-px bg-white/20" />
-                    <div>
-                      <div className="text-2xl font-bold text-white">98%</div>
-                      <div className="text-xs text-white/70">Open Rate</div>
-                    </div>
-                    <div className="h-10 w-px bg-white/20" />
-                    <div>
-                      <div className="text-2xl font-bold text-white">4.8★</div>
-                      <div className="text-xs text-white/70">Rating</div>
-                    </div>
+                  <div className="flex items-center justify-center gap-2 text-center">
+                    <Sparkles className="w-4 h-4 text-green-300" />
+                    <span className="text-sm text-white/80">
+                      {subscriberCount > 0 
+                        ? `Join ${subscriberCount} ${subscriberCount === 1 ? 'subscriber' : 'subscribers'}`
+                        : 'Be among the first to join'
+                      }
+                    </span>
                   </div>
                 </div>
               </div>
