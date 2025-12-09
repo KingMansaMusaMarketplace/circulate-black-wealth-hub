@@ -10,58 +10,57 @@ interface MultiCityStatsProps {
 
 const MultiCityStats: React.FC<MultiCityStatsProps> = ({ selectedCity }) => {
   const selectedCityData = cities.find(city => city.id === selectedCity);
-  const totalBusinesses = cities.reduce((sum, city) => sum + city.businesses, 0);
-  const avgBusinessesPerCity = Math.round(totalBusinesses / cities.length);
 
+  // These are honest stats - showing launch cities and growth potential
   const stats = selectedCity === 'all' ? [
     {
       icon: <Building2 className="h-5 w-5 text-primary" />,
-      label: 'Total Businesses',
-      value: totalBusinesses.toLocaleString(),
-      description: 'Across all cities'
+      label: 'Launch Cities',
+      value: cities.length.toString(),
+      description: 'Growing network'
     },
     {
       icon: <MapPin className="h-5 w-5 text-secondary" />,
-      label: 'Active Cities',
-      value: cities.length.toString(),
-      description: 'Major metropolitan areas'
+      label: 'Coverage',
+      value: '5 States',
+      description: 'IL, GA, TX, DC, MI'
     },
     {
       icon: <Users className="h-5 w-5 text-accent" />,
-      label: 'Average per City',
-      value: avgBusinessesPerCity.toString(),
-      description: 'Business density'
+      label: 'Status',
+      value: 'Beta',
+      description: 'Onboarding businesses'
     },
     {
       icon: <TrendingUp className="h-5 w-5 text-success" />,
-      label: 'Network Growth',
-      value: '+23%',
-      description: 'Month over month'
+      label: 'Goal',
+      value: '1,000+',
+      description: 'Businesses by 2025'
     }
   ] : [
     {
       icon: <Building2 className="h-5 w-5 text-primary" />,
-      label: 'Local Businesses',
-      value: selectedCityData?.businesses.toLocaleString() || '0',
-      description: `In ${selectedCityData?.name || 'this city'}`
+      label: 'City',
+      value: selectedCityData?.name || 'Unknown',
+      description: selectedCityData?.state || ''
     },
     {
       icon: <MapPin className="h-5 w-5 text-secondary" />,
-      label: 'City Rank',
-      value: `#${cities.findIndex(city => city.id === selectedCity) + 1}`,
-      description: 'By business count'
+      label: 'Status',
+      value: 'Active',
+      description: 'Now accepting businesses'
     },
     {
       icon: <Users className="h-5 w-5 text-accent" />,
-      label: 'Market Share',
-      value: `${Math.round((selectedCityData?.businesses || 0) / totalBusinesses * 100)}%`,
-      description: 'Of total network'
+      label: 'Featured',
+      value: selectedCityData?.featured ? 'Yes' : 'No',
+      description: 'Priority market'
     },
     {
       icon: <TrendingUp className="h-5 w-5 text-success" />,
-      label: 'Growth Rate',
-      value: '+18%',
-      description: 'Monthly growth'
+      label: 'Join Now',
+      value: 'Free',
+      description: 'Early adopter benefits'
     }
   ];
 
