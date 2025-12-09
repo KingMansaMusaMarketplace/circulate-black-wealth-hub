@@ -223,7 +223,7 @@ const BusinessSignupPage: React.FC = () => {
                 Everything You Need to Run Your Business
               </h2>
               <p className="text-slate-300 text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed">
-                No hidden fees, no extra charges. Get powerful tools worth $500+/month — all included in one simple subscription.
+                No hidden fees, no extra charges. Get powerful tools worth <span className="text-emerald-400 font-bold">$500+/month</span> — all included in one simple subscription.
               </p>
             </div>
             
