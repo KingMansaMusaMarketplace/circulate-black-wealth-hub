@@ -92,33 +92,22 @@ export const ImpactCounter: React.FC = () => {
   useEffect(() => {
     const fetchImpactStats = async () => {
       try {
-        const { count: businessCount } = await supabase
-          .from('businesses')
-          .select('*', { count: 'exact', head: true })
-          .eq('is_verified', true);
+        // Use RPC function to bypass RLS and get accurate counts
+        const { data, error } = await supabase.rpc('get_platform_stats');
+        
+        if (error) {
+          console.error('Error fetching platform stats:', error);
+          return;
+        }
 
-        const { count: transactionCount } = await supabase
-          .from('transactions')
-          .select('*', { count: 'exact', head: true });
-
-        const { data: transactionData } = await supabase
-          .from('transactions')
-          .select('amount');
-
-        const totalValue = transactionData?.reduce((sum, t) => sum + (t.amount || 0), 0) || 0;
-
-        const { data: customerData } = await supabase
-          .from('transactions')
-          .select('customer_id');
-
-        const uniqueCustomers = new Set(customerData?.map(t => t.customer_id)).size;
-
-        setStats({
-          totalBusinesses: businessCount || 0,
-          totalTransactions: transactionCount || 0,
-          totalValue: totalValue,
-          totalCustomers: uniqueCustomers || 0
-        });
+        if (data) {
+          setStats({
+            totalBusinesses: data.total_businesses || 0,
+            totalTransactions: data.total_transactions || 0,
+            totalValue: data.total_value || 0,
+            totalCustomers: data.total_members || 0
+          });
+        }
       } catch (error) {
         console.error('Error fetching impact stats:', error);
       } finally {

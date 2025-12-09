@@ -24,21 +24,20 @@ const SocialProofWidget = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Get total users/members
-        const { count: memberCount } = await supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true });
+        // Use RPC function to bypass RLS and get accurate counts
+        const { data, error } = await supabase.rpc('get_platform_stats');
+        
+        if (error) {
+          console.error('Error fetching platform stats:', error);
+          return;
+        }
 
-        // Get verified businesses
-        const { count: businessCount } = await supabase
-          .from('businesses')
-          .select('*', { count: 'exact', head: true })
-          .eq('is_verified', true);
-
-        setStats({
-          members: memberCount || 0,
-          businesses: businessCount || 0
-        });
+        if (data) {
+          setStats({
+            members: data.total_members || 0,
+            businesses: data.total_businesses || 0
+          });
+        }
       } catch (error) {
         console.error('Error fetching social proof stats:', error);
       } finally {

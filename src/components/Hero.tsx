@@ -22,19 +22,20 @@ const Hero = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const { count: businessCount } = await supabase
-          .from('businesses')
-          .select('*', { count: 'exact', head: true })
-          .eq('is_verified', true);
+        // Use RPC function to bypass RLS and get accurate counts
+        const { data, error } = await supabase.rpc('get_platform_stats');
+        
+        if (error) {
+          console.error('Error fetching platform stats:', error);
+          return;
+        }
 
-        const { count: memberCount } = await supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true });
-
-        setStats({
-          businesses: businessCount || 0,
-          members: memberCount || 0
-        });
+        if (data) {
+          setStats({
+            businesses: data.total_businesses || 0,
+            members: data.total_members || 0
+          });
+        }
       } catch (error) {
         console.error('Error fetching stats:', error);
       }
