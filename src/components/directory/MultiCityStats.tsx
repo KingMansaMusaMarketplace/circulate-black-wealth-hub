@@ -22,8 +22,8 @@ const MultiCityStats: React.FC<MultiCityStatsProps> = ({ selectedCity }) => {
     {
       icon: <MapPin className="h-5 w-5 text-secondary" />,
       label: 'Coverage',
-      value: '5 States',
-      description: 'IL, GA, TX, DC, MI'
+      value: '7 States',
+      description: 'IL, GA, TX, DC, MI, NY, CA'
     },
     {
       icon: <Users className="h-5 w-5 text-accent" />,
