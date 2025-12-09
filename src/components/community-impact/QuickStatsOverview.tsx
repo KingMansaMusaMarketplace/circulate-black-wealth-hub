@@ -76,9 +76,8 @@ const QuickStatsOverview: React.FC<QuickStatsOverviewProps> = ({ displayUserMetr
                   <stat.icon className={`h-8 w-8 text-yellow-400`} />
                 </div>
               </div>
-              <div className="w-full bg-slate-700 rounded-full h-2">
-                <div className={`bg-gradient-to-r from-yellow-400 to-yellow-600 h-2 rounded-full`} style={{width: '75%'}}></div>
-              </div>
+              {/* Decorative accent line - no misleading progress */}
+              <div className="w-full bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 h-1 rounded-full" />
             </CardContent>
           </Card>
         </motion.div>
