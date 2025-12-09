@@ -1,57 +1,99 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Store, DollarSign, Target } from 'lucide-react';
+import { Users, Store, Target, Sparkles } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { supabase } from '@/integrations/supabase/client';
 
-interface SocialProofMetric {
+interface GoalMetric {
   icon: React.ReactNode;
-  value: string;
+  current: number;
+  goal: number;
   label: string;
-  subtext?: string;
+  goalLabel: string;
 }
 
 const SocialProofWidget = () => {
-  const metrics: SocialProofMetric[] = [
+  const [stats, setStats] = useState({
+    members: 0,
+    businesses: 0
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Get total users/members
+        const { count: memberCount } = await supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true });
+
+        // Get verified businesses
+        const { count: businessCount } = await supabase
+          .from('businesses')
+          .select('*', { count: 'exact', head: true })
+          .eq('is_verified', true);
+
+        setStats({
+          members: memberCount || 0,
+          businesses: businessCount || 0
+        });
+      } catch (error) {
+        console.error('Error fetching social proof stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  const metrics: GoalMetric[] = [
     {
-      icon: <Users className="h-8 w-8 text-mansablue" />,
-      value: "12,500+",
-      label: "Active Members",
-      subtext: "Growing daily"
+      icon: <Users className="h-6 w-6 text-mansablue" />,
+      current: stats.members,
+      goal: 1000,
+      label: "Founding Members",
+      goalLabel: "Help us reach 1,000 members"
     },
     {
-      icon: <Store className="h-8 w-8 text-mansagold" />,
-      value: "2,847",
-      label: "Verified Businesses",
-      subtext: "Across 15 cities"
-    },
-    {
-      icon: <DollarSign className="h-8 w-8 text-green-600" />,
-      value: "$1.2M+",
-      label: "Money Circulated",
-      subtext: "In Black communities"
-    },
-    {
-      icon: <Target className="h-8 w-8 text-purple-600" />,
-      value: "89%",
-      label: "Satisfaction Rate",
-      subtext: "Member retention"
+      icon: <Store className="h-6 w-6 text-mansagold" />,
+      current: stats.businesses,
+      goal: 100,
+      label: "Partner Businesses",
+      goalLabel: "Growing to 100 businesses"
     }
   ];
+
+  const getProgressPercentage = (current: number, goal: number) => {
+    return Math.min((current / goal) * 100, 100);
+  };
 
   return (
     <section className="py-12 bg-gradient-to-br from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
+          {/* Early Access Badge */}
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-mansablue/10 border border-mansablue/20 mb-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <Sparkles className="w-4 h-4 text-mansablue" />
+            <span className="text-mansablue text-sm font-medium">Early Access • Be a Founder</span>
+          </motion.div>
+          
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Join Thousands Making Real Impact
+            Join the Movement
           </h2>
           <p className="text-gray-600">
-            Our community is growing stronger every day
+            Be part of something meaningful from the ground up
           </p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {metrics.map((metric, index) => (
             <motion.div
               key={index}
@@ -60,22 +102,34 @@ const SocialProofWidget = () => {
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="text-center hover:shadow-lg transition-shadow duration-300">
-                <CardContent className="p-4 lg:p-6">
-                  <div className="flex justify-center mb-3">
-                    {metric.icon}
-                  </div>
-                  <div className="text-2xl lg:text-3xl font-bold text-gray-900 mb-1">
-                    {metric.value}
-                  </div>
-                  <div className="text-sm lg:text-base font-medium text-gray-700 mb-1">
-                    {metric.label}
-                  </div>
-                  {metric.subtext && (
-                    <div className="text-xs text-gray-500">
-                      {metric.subtext}
+              <Card className="hover:shadow-lg transition-shadow duration-300">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 rounded-lg bg-gray-100">
+                      {metric.icon}
                     </div>
-                  )}
+                    <div>
+                      <div className="text-2xl font-bold text-gray-900">
+                        {loading ? (
+                          <span className="animate-pulse">--</span>
+                        ) : (
+                          metric.current
+                        )}
+                      </div>
+                      <div className="text-sm text-gray-600">{metric.label}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-xs text-gray-500">
+                      <span>{metric.goalLabel}</span>
+                      <span>{Math.round(getProgressPercentage(metric.current, metric.goal))}%</span>
+                    </div>
+                    <Progress 
+                      value={getProgressPercentage(metric.current, metric.goal)} 
+                      className="h-2"
+                    />
+                  </div>
                 </CardContent>
               </Card>
             </motion.div>
@@ -86,12 +140,12 @@ const SocialProofWidget = () => {
         <div className="mt-8 text-center">
           <div className="flex flex-wrap justify-center items-center gap-6 text-sm text-gray-500">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>Verified businesses only</span>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span>Live data</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-              <span>Secure transactions</span>
+              <span>Verified businesses only</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
