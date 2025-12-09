@@ -46,4 +46,6 @@ export const LazyCookiePolicyPage = lazy(() => import('@/pages/CookiePolicyPage'
 export const LazyBlogPage = lazy(() => import('@/pages/BlogPage'));
 export const LazyHelpPage = lazy(() => import('@/pages/HelpPage'));
 export const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));
+
+// Media Kit Page
 export const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
