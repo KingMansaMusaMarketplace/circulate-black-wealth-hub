@@ -19,7 +19,10 @@ import {
   Zap,
   Clock,
   CheckCircle2,
-  ArrowRight
+  ArrowRight,
+  DollarSign,
+  Receipt,
+  Wallet
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -140,12 +143,112 @@ const FeatureGuidePage = () => {
       ]
     },
     {
+      id: 'full-accounting',
+      title: 'Full Accounting Suite',
+      description: 'QuickBooks-style financial management for your business with comprehensive reporting.',
+      icon: <DollarSign className="h-6 w-6" />,
+      category: 'business',
+      tags: ['accounting', 'finance', 'reports', 'new'],
+      benefits: [
+        'Profit & Loss statements',
+        'Cash flow tracking',
+        'Budget planning & alerts',
+        'Balance sheet reports'
+      ],
+      howToUse: [
+        'Access Accounting from your dashboard',
+        'Set up your chart of accounts',
+        'Generate financial reports anytime',
+        'Export to PDF or Excel'
+      ]
+    },
+    {
+      id: 'invoice-expense',
+      title: 'Invoice & Expense Tracking',
+      description: 'Professional billing made easy with comprehensive invoice and expense management.',
+      icon: <Receipt className="h-6 w-6" />,
+      category: 'business',
+      tags: ['invoicing', 'expenses', 'billing', 'new'],
+      benefits: [
+        'Create professional invoices',
+        'Track paid/unpaid/overdue',
+        'Expense categorization',
+        'Tax rate management'
+      ],
+      howToUse: [
+        'Create invoices from dashboard',
+        'Send directly to customers via email',
+        'Track payment status automatically',
+        'Categorize expenses for tax time'
+      ]
+    },
+    {
+      id: 'qr-payment',
+      title: 'QR Payment System',
+      description: 'Accept payments instantly with your unique QR code that customers can scan and pay.',
+      icon: <QrCode className="h-6 w-6" />,
+      category: 'business',
+      tags: ['payments', 'qr', 'mobile', 'new'],
+      benefits: [
+        'Unique QR code for your business',
+        'Customers scan & pay easily',
+        'Automatic loyalty points',
+        'Real-time payment tracking'
+      ],
+      howToUse: [
+        'Get your unique business QR code',
+        'Display at your checkout counter',
+        'Customers scan to pay instantly',
+        'Track all payments in real-time'
+      ]
+    },
+    {
+      id: 'loyalty-program',
+      title: 'Customer Loyalty Program',
+      description: 'Build repeat business automatically with points, rewards, and customer engagement tools.',
+      icon: <Gift className="h-6 w-6" />,
+      category: 'business',
+      tags: ['loyalty', 'rewards', 'retention', 'new'],
+      benefits: [
+        'Points for every purchase',
+        'Custom reward tiers',
+        'Customer visit tracking',
+        'Automated engagement'
+      ],
+      howToUse: [
+        'Configure your points structure',
+        'Set up reward tiers',
+        'Customers earn automatically',
+        'Track engagement in analytics'
+      ]
+    },
+    {
+      id: 'bank-reconciliation',
+      title: 'Bank Reconciliation',
+      description: 'Match transactions automatically and maintain accurate bookkeeping records.',
+      icon: <Wallet className="h-6 w-6" />,
+      category: 'business',
+      tags: ['banking', 'reconciliation', 'bookkeeping', 'new'],
+      benefits: [
+        'Import bank statements',
+        'Auto-match transactions',
+        'Identify discrepancies',
+        'Accurate bookkeeping'
+      ],
+      howToUse: [
+        'Connect or import bank statements',
+        'System auto-matches transactions',
+        'Review and confirm matches',
+        'Resolve discrepancies easily'
+      ]
+    },
+    {
       id: 'automated-reviews',
       title: 'Automated Review Requests',
       description: 'Automatically request reviews from customers after completed bookings to build your reputation.',
       icon: <Star className="h-6 w-6" />,
       category: 'business',
-      tags: ['reviews', 'reputation', 'automation', 'new'],
+      tags: ['reviews', 'reputation', 'automation'],
       benefits: [
         'Automatic email requests after service completion',
         'Increase review volume by 3-5x',
@@ -161,16 +264,36 @@ const FeatureGuidePage = () => {
     },
     {
       id: 'business-profile',
-      title: 'Professional Business Profiles',
-      description: 'Create an attractive business profile with photos, descriptions, hours, and special offers.',
+      title: 'Business Profile & Directory',
+      description: 'Get discovered by new customers with a complete public business listing.',
       icon: <Store className="h-6 w-6" />,
       category: 'business',
-      tags: ['branding', 'visibility', 'marketing'],
+      tags: ['branding', 'visibility', 'marketing', 'directory'],
       benefits: [
-        'Showcase your business with photos',
-        'Display hours and contact information',
-        'Promote special offers',
-        'Increase discoverability'
+        'Public business listing',
+        'Customer reviews & ratings',
+        'Photo gallery showcase',
+        'Contact & location info'
+      ]
+    },
+    {
+      id: 'analytics-dashboard',
+      title: 'Analytics Dashboard',
+      description: 'Data-driven business insights to help you make smarter decisions.',
+      icon: <BarChart3 className="h-6 w-6" />,
+      category: 'business',
+      tags: ['analytics', 'insights', 'data'],
+      benefits: [
+        'Sales & revenue trends',
+        'Customer behavior analytics',
+        'Peak hours identification',
+        'Performance benchmarks'
+      ],
+      howToUse: [
+        'Log in to your business account',
+        'Navigate to Analytics Dashboard',
+        'View metrics and trends',
+        'Download reports for deeper analysis'
       ]
     },
     {
