@@ -13,7 +13,7 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.text-to-speech]
-verify_jwt = false
+verify_jwt = true
 
 [functions.increment-counters]
 verify_jwt = true
@@ -109,13 +109,13 @@ verify_jwt = false
 verify_jwt = true
 
 [functions.ai-chat]
-verify_jwt = false
+verify_jwt = true
 
 [functions.realtime-token]
 verify_jwt = false
 
 [functions.transcribe-audio]
-verify_jwt = false
+verify_jwt = true
 
 [functions.generate-material-recommendations]
 verify_jwt = true
@@ -148,7 +148,7 @@ verify_jwt = false
 verify_jwt = true
 
 [functions.realtime-voice]
-verify_jwt = false
+verify_jwt = true
 
 [functions.ai-assistant]
 verify_jwt = false
