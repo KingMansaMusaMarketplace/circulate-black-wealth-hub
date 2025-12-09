@@ -295,36 +295,38 @@ const MediaKitPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <Card className="bg-gradient-to-br from-mansagold/20 to-amber-500/10 backdrop-blur-xl border-mansagold/30 overflow-hidden">
+            <Card className="bg-slate-900/80 backdrop-blur-xl border-mansagold/40 overflow-hidden shadow-2xl">
               <CardContent className="p-8 md:p-12">
-                <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">Media & Partnership Contact</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-center bg-gradient-to-r from-mansagold via-amber-400 to-yellow-400 bg-clip-text text-transparent mb-8">
+                  Media & Partnership Contact
+                </h2>
                 <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                   <a 
                     href="mailto:contact@mansamusamarketplace.com"
-                    className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-xl border border-white/10 hover:border-mansagold/30 transition-all duration-300 group"
+                    className="flex flex-col items-center gap-4 p-6 bg-white/10 rounded-xl border border-mansagold/30 hover:border-mansagold hover:bg-mansagold/10 transition-all duration-300 group"
                   >
-                    <div className="w-12 h-12 rounded-full bg-mansagold/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Mail className="w-6 h-6 text-mansagold" />
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-mansagold to-amber-500 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                      <Mail className="w-7 h-7 text-white" />
                     </div>
-                    <p className="text-white font-semibold">Email</p>
-                    <p className="text-blue-200/70 text-sm text-center">contact@mansamusamarketplace.com</p>
+                    <p className="text-mansagold font-bold text-lg">Email</p>
+                    <p className="text-white text-sm text-center font-medium">contact@mansamusamarketplace.com</p>
                   </a>
                   <a 
                     href="tel:+1-312-709-6006"
-                    className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-xl border border-white/10 hover:border-mansagold/30 transition-all duration-300 group"
+                    className="flex flex-col items-center gap-4 p-6 bg-white/10 rounded-xl border border-mansagold/30 hover:border-mansagold hover:bg-mansagold/10 transition-all duration-300 group"
                   >
-                    <div className="w-12 h-12 rounded-full bg-mansagold/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Phone className="w-6 h-6 text-mansagold" />
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-mansagold to-amber-500 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                      <Phone className="w-7 h-7 text-white" />
                     </div>
-                    <p className="text-white font-semibold">Phone</p>
-                    <p className="text-blue-200/70 text-sm">(312) 709-6006</p>
+                    <p className="text-mansagold font-bold text-lg">Phone</p>
+                    <p className="text-white text-sm font-medium">(312) 709-6006</p>
                   </a>
-                  <div className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-xl border border-white/10">
-                    <div className="w-12 h-12 rounded-full bg-mansagold/20 flex items-center justify-center">
-                      <MapPin className="w-6 h-6 text-mansagold" />
+                  <div className="flex flex-col items-center gap-4 p-6 bg-white/10 rounded-xl border border-mansagold/30">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-mansagold to-amber-500 flex items-center justify-center shadow-lg">
+                      <MapPin className="w-7 h-7 text-white" />
                     </div>
-                    <p className="text-white font-semibold">Address</p>
-                    <p className="text-blue-200/70 text-sm text-center">1000 E. 111th St. Suite 1100<br />Chicago, IL 60628</p>
+                    <p className="text-mansagold font-bold text-lg">Address</p>
+                    <p className="text-white text-sm text-center font-medium">1000 E. 111th St. Suite 1100<br />Chicago, IL 60628</p>
                   </div>
                 </div>
               </CardContent>
