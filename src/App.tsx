@@ -58,7 +58,8 @@ import {
   LazyFullSystemTestPage,
   LazyAccessibilityPage,
   LazyCapacitorTestPage,
-  LazyComprehensiveTestPage
+  LazyComprehensiveTestPage,
+  LazyMediaKitPage
 } from './components/LazyComponents';
 
 // Additional lazy loaded pages (defined directly for performance)
@@ -448,6 +449,7 @@ function App() {
                               {/* M */}
                               <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                               <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
+                              <Route path="/media-kit" element={<LazyMediaKitPage />} />
                               <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
                               <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                               <Route path="/my-profile" element={<LazyUserProfilePage />} />
@@ -671,6 +673,7 @@ function App() {
                         {/* M */}
                         <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                         <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
+                        <Route path="/media-kit" element={<LazyMediaKitPage />} />
                         <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
                         <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                         <Route path="/my-profile" element={<LazyUserProfilePage />} />
