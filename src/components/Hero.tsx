@@ -236,6 +236,9 @@ const Hero = () => {
               <p className="text-base md:text-lg font-semibold text-white">
                 🚀 We just launched! <span className="text-mansagold">Help us grow</span> by sharing with family & friends.
               </p>
+              <p className="text-sm md:text-base text-blue-200/80 mt-1">
+                Share on social media, text your group chats, tell everyone!
+              </p>
             </motion.div>
           </div>
 
