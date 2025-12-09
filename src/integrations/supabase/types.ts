@@ -3940,6 +3940,60 @@ export type Database = {
         }
         Relationships: []
       }
+      media_kit_requests: {
+        Row: {
+          admin_notes: string | null
+          company: string | null
+          created_at: string
+          document_type: string
+          download_count: number | null
+          download_token: string | null
+          email: string
+          full_name: string
+          id: string
+          last_downloaded_at: string | null
+          reason: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          role: string | null
+          status: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          company?: string | null
+          created_at?: string
+          document_type: string
+          download_count?: number | null
+          download_token?: string | null
+          email: string
+          full_name: string
+          id?: string
+          last_downloaded_at?: string | null
+          reason: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          role?: string | null
+          status?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          company?: string | null
+          created_at?: string
+          document_type?: string
+          download_count?: number | null
+          download_token?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          last_downloaded_at?: string | null
+          reason?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          role?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       notification_batch_queue: {
         Row: {
           batch_id: string | null
