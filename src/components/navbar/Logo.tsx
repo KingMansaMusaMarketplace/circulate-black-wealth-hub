@@ -12,7 +12,7 @@ const Logo: React.FC = () => {
           className="w-full h-full object-cover"
         />
       </div>
-      <span className="text-xl font-bold text-foreground transition-colors duration-300 group-hover:text-mansagold">Mansa Musa Marketplace</span>
+      <span className="text-xl font-bold text-mansagold transition-colors duration-300">Mansa Musa Marketplace</span>
     </Link>
   );
 };
