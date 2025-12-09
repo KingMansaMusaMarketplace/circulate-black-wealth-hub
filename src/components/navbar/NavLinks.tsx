@@ -12,26 +12,27 @@ import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, Help
 
 const NavLinks: React.FC = () => {
   const linkClassName = "text-foreground hover:text-mansagold transition-all duration-300 font-semibold px-3 py-2 rounded-md hover:bg-accent/50 relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-mansagold after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100";
+  const goldLinkClassName = "text-mansagold transition-all duration-300 font-semibold px-3 py-2 rounded-md hover:bg-accent/50 relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-mansagold after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100";
   const triggerClassName = "text-foreground hover:text-mansagold transition-all duration-300 font-semibold";
 
   return (
     <NavigationMenu className="hidden md:flex">
       <NavigationMenuList className="flex gap-1">
-        {/* Primary Links */}
+        {/* Primary Links - Always Gold */}
         <NavigationMenuItem>
-          <Link to="/" className={linkClassName}>
+          <Link to="/" className={goldLinkClassName}>
             Home
           </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/businesses" className={linkClassName}>
+          <Link to="/businesses" className={goldLinkClassName}>
             Marketplace
           </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/impact" className={`${linkClassName} flex items-center gap-1.5`}>
+          <Link to="/impact" className={`${goldLinkClassName} flex items-center gap-1.5`}>
             <Heart className="h-4 w-4 text-red-500 fill-red-500" />
             My Impact
           </Link>

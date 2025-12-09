@@ -35,11 +35,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
   ];
 
   const mainItems = [
-    { to: '/', label: 'Home' },
+    { to: '/', label: 'Home', alwaysGold: true },
     { to: '/dashboard', label: 'Dashboard' },
-    { to: '/businesses', label: 'Marketplace' },
+    { to: '/businesses', label: 'Marketplace', alwaysGold: true },
     { to: '/recommendations', label: 'Discover & Achieve' },
-    { to: '/impact', label: '❤️ My Impact' },
+    { to: '/impact', label: '❤️ My Impact', alwaysGold: true },
     { to: '/features', label: 'Features ⚡' },
     { to: '/community', label: 'Community' },
     { to: '/community-finance', label: 'Community Finance' },
@@ -66,7 +66,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
                 key={item.to}
                 to={item.to}
                 onClick={handleLinkClick}
-                className="block px-3 py-3 text-base font-medium text-gray-700 hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100"
+                className={`block px-3 py-3 text-base font-medium ${item.alwaysGold ? 'text-mansagold' : 'text-gray-700'} hover:text-mansagold hover:bg-gray-50 rounded-md transition-colors touch-manipulation active:bg-gray-100`}
                 style={{ minHeight: '44px' }}
                 data-tour={item.dataTour}
               >
