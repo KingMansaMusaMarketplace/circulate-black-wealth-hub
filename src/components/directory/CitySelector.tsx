@@ -18,6 +18,8 @@ export const cities: City[] = [
   { id: 'houston', name: 'Houston', state: 'TX', businesses: 0, featured: true },
   { id: 'washington-dc', name: 'Washington', state: 'DC', businesses: 0, featured: true },
   { id: 'detroit', name: 'Detroit', state: 'MI', businesses: 0, featured: true },
+  { id: 'new-york', name: 'New York', state: 'NY', businesses: 0, featured: true },
+  { id: 'los-angeles', name: 'Los Angeles', state: 'CA', businesses: 0, featured: true },
 ];
 
 interface CitySelectorProps {
