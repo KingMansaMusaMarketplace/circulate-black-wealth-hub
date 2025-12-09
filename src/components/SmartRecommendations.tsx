@@ -25,40 +25,78 @@ export const SmartRecommendations = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const abortController = new AbortController();
+    
+    const loadRecommendations = async () => {
+      try {
+        setIsLoading(true);
+
+        // Get user's location (you can enhance this with actual geolocation)
+        const userLocation = {
+          city: 'New York', // Default, can be replaced with actual location
+          state: 'NY'
+        };
+
+        // Get user preferences from localStorage or profile
+        const savedPreferences = localStorage.getItem('user_preferences');
+        const userPreferences = savedPreferences ? JSON.parse(savedPreferences) : {
+          categories: ['Food & Beverage', 'Retail', 'Services']
+        };
+
+        // Get browsing history from localStorage
+        const savedHistory = localStorage.getItem('browsing_history');
+        const browsingHistory = savedHistory ? JSON.parse(savedHistory) : [];
+
+        const { data, error } = await supabase.functions.invoke('ai-recommendations', {
+          body: {
+            userLocation,
+            userPreferences,
+            browsingHistory: browsingHistory.slice(0, 10), // Last 10 items
+            limit: 5
+          }
+        });
+
+        // Don't update state if component was unmounted
+        if (abortController.signal.aborted) return;
+
+        if (error) throw error;
+
+        setRecommendations(data.recommendations || []);
+      } catch (error: any) {
+        // Ignore abort errors - they're expected during navigation
+        if (error?.name === 'AbortError' || abortController.signal.aborted) return;
+        console.error('Error loading recommendations:', error);
+        // Don't show toast for abort errors
+      } finally {
+        if (!abortController.signal.aborted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
     loadRecommendations();
+    
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
-  const loadRecommendations = async () => {
+  const refreshRecommendations = async () => {
     try {
       setIsLoading(true);
-
-      // Get user's location (you can enhance this with actual geolocation)
-      const userLocation = {
-        city: 'New York', // Default, can be replaced with actual location
-        state: 'NY'
-      };
-
-      // Get user preferences from localStorage or profile
+      const userLocation = { city: 'New York', state: 'NY' };
       const savedPreferences = localStorage.getItem('user_preferences');
       const userPreferences = savedPreferences ? JSON.parse(savedPreferences) : {
         categories: ['Food & Beverage', 'Retail', 'Services']
       };
-
-      // Get browsing history from localStorage
       const savedHistory = localStorage.getItem('browsing_history');
       const browsingHistory = savedHistory ? JSON.parse(savedHistory) : [];
 
       const { data, error } = await supabase.functions.invoke('ai-recommendations', {
-        body: {
-          userLocation,
-          userPreferences,
-          browsingHistory: browsingHistory.slice(0, 10), // Last 10 items
-          limit: 5
-        }
+        body: { userLocation, userPreferences, browsingHistory: browsingHistory.slice(0, 10), limit: 5 }
       });
 
       if (error) throw error;
-
       setRecommendations(data.recommendations || []);
     } catch (error) {
       console.error('Error loading recommendations:', error);
@@ -101,7 +139,7 @@ export const SmartRecommendations = () => {
           <Sparkles className="h-5 w-5 text-primary animate-pulse" />
           <h2 className="text-2xl font-bold">Recommended For You</h2>
         </div>
-        <Button variant="ghost" size="sm" onClick={loadRecommendations}>
+        <Button variant="ghost" size="sm" onClick={refreshRecommendations}>
           Refresh
         </Button>
       </div>
