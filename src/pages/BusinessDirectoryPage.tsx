@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import DirectoryFilter from '@/components/DirectoryFilter';
@@ -14,9 +13,34 @@ import { Tabs, TabsContent } from '@/components/ui/tabs';
 import { businesses } from '@/data/businessData';
 import { useDirectorySearch } from '@/hooks/use-directory-search';
 import { BusinessLocation } from '@/components/MapView/types';
+import { supabase } from '@/integrations/supabase/client';
 
 const BusinessDirectoryPage: React.FC = () => {
   const [view, setView] = useState<'grid' | 'list' | 'map'>('grid');
+  const [businessCount, setBusinessCount] = useState(0);
+  
+  useEffect(() => {
+    const fetchBusinessCount = async () => {
+      try {
+        const { count } = await supabase
+          .from('businesses')
+          .select('*', { count: 'exact', head: true })
+          .eq('is_verified', true);
+        setBusinessCount(count || 0);
+      } catch (error) {
+        console.error('Error fetching business count:', error);
+      }
+    };
+    fetchBusinessCount();
+  }, []);
+
+  const getBusinessBadgeText = (count: number) => {
+    if (count === 0) return 'Be Our First Business';
+    if (count === 1) return '1 Verified Business';
+    if (count <= 10) return `${count} Founding Businesses`;
+    if (count <= 50) return `${count} Businesses & Growing`;
+    return `${count}+ Verified Businesses`;
+  };
   
   const {
     searchTerm,
@@ -53,7 +77,7 @@ const BusinessDirectoryPage: React.FC = () => {
       
       <Helmet>
         <title>Business Directory | Mansa Musa Marketplace</title>
-        <meta name="description" content="Discover and support Black-owned businesses. Browse 2,500+ verified businesses in the Mansa Musa Marketplace directory." />
+        <meta name="description" content="Discover and support Black-owned businesses in the Mansa Musa Marketplace directory." />
       </Helmet>
       
       {/* Hero Section */}
@@ -66,7 +90,7 @@ const BusinessDirectoryPage: React.FC = () => {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mansagold/10 border border-mansagold/30 mb-6">
               <Sparkles className="w-4 h-4 text-mansagold" />
-              <span className="text-sm font-medium text-mansagold">2,500+ Verified Businesses</span>
+              <span className="text-sm font-medium text-mansagold">{getBusinessBadgeText(businessCount)}</span>
             </div>
           </motion.div>
           
