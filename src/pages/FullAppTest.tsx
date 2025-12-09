@@ -338,9 +338,6 @@ export default function FullAppTest() {
                       Action Required
                     </h4>
                     <div className="space-y-2 text-sm text-yellow-200">
-                      {tests.filter(t => t.status === 'failed').map(t => t.message).includes('No businesses found') && (
-                        <p>• Run the Test Data Populator at <a href="/test-data-populator" className="underline">/test-data-populator</a></p>
-                      )}
                       {failed > 0 && (
                         <p>• Review failed tests and fix issues before submitting to Apple</p>
                       )}

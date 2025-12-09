@@ -93,7 +93,7 @@ const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboard
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
 const LazySponsorDashboardPage = lazy(() => import('@/pages/SponsorDashboardPage'));
-const LazyTestDataPopulator = lazy(() => import('@/pages/TestDataPopulator'));
+
 const LazyFullAppTest = lazy(() => import('@/pages/FullAppTest'));
 const LazyTestingHub = lazy(() => import('@/pages/TestingHub'));
 const LazySponsorDashboard = lazy(() => import('@/pages/SponsorDashboard'));
@@ -516,7 +516,6 @@ function App() {
                               
                               {/* T */}
                               <Route path="/terms" element={<LazyTermsOfServicePage />} />
-                              <Route path="/test-data-populator" element={<LazyTestDataPopulator />} />
                               <Route path="/testing-hub" element={<LazyTestingHub />} />
                               <Route path="/testing/signup" element={<LazySignupTestPage />} />
                               
@@ -744,7 +743,7 @@ function App() {
                         
                         {/* T */}
                         <Route path="/terms" element={<LazyTermsOfServicePage />} />
-                        <Route path="/test-data-populator" element={<LazyTestDataPopulator />} />
+                        
                         <Route path="/testing-hub" element={<LazyTestingHub />} />
                         <Route path="/testing/signup" element={<LazySignupTestPage />} />
                         
