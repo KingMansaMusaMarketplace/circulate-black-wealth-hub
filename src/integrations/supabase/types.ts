@@ -1831,7 +1831,9 @@ export type Database = {
           created_at: string | null
           description: string | null
           email: string | null
+          founding_sponsor_since: string | null
           id: string
+          is_founding_sponsor: boolean | null
           is_verified: boolean | null
           location_manager_id: string | null
           location_name: string | null
@@ -1865,7 +1867,9 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           email?: string | null
+          founding_sponsor_since?: string | null
           id?: string
+          is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
           location_manager_id?: string | null
           location_name?: string | null
@@ -1899,7 +1903,9 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           email?: string | null
+          founding_sponsor_since?: string | null
           id?: string
+          is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
           location_manager_id?: string | null
           location_name?: string | null
