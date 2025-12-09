@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { 
@@ -19,21 +19,25 @@ import {
   FileText,
   Mail,
   Phone,
-  MapPin
+  MapPin,
+  Lock
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
 import {
-  generatePartnershipGuide,
   generateBrandAssets,
   generateMediaKit,
-  generateInvestorAnalysisPDF
 } from '@/components/sponsorship/services/pdfGenerationService';
+import { AccessRequestModal } from '@/components/media-kit/AccessRequestModal';
+
+type GatedDocumentType = 'partnership_guide' | 'investor_analysis';
 
 const MediaKitPage = () => {
-  const [isGenerating, setIsGenerating] = React.useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [accessModalOpen, setAccessModalOpen] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState<GatedDocumentType>('partnership_guide');
 
   const handleDownload = async (generator: () => Promise<void>) => {
     setIsGenerating(true);
@@ -42,6 +46,11 @@ const MediaKitPage = () => {
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  const handleRequestAccess = (documentType: GatedDocumentType) => {
+    setSelectedDocument(documentType);
+    setAccessModalOpen(true);
   };
 
   const stats = [
@@ -92,11 +101,26 @@ const MediaKitPage = () => {
     { tier: 'Platinum Partner', investment: '$50,000+', color: 'from-blue-300 to-blue-500' },
   ];
 
-  const downloadItems = [
+  // Public downloads - directly accessible
+  const publicDownloads = [
     { title: 'Full Media Kit', icon: FileText, action: generateMediaKit },
-    { title: 'Partnership Guide', icon: FileText, action: generatePartnershipGuide },
     { title: 'Brand Assets', icon: Award, action: generateBrandAssets },
-    { title: 'Investor Analysis', icon: TrendingUp, action: generateInvestorAnalysisPDF },
+  ];
+
+  // Gated downloads - require access request
+  const gatedDownloads: { title: string; icon: typeof FileText; documentType: GatedDocumentType; description: string }[] = [
+    { 
+      title: 'Partnership Guide', 
+      icon: FileText, 
+      documentType: 'partnership_guide',
+      description: 'Strategic partnership details'
+    },
+    { 
+      title: 'Investor Analysis', 
+      icon: TrendingUp, 
+      documentType: 'investor_analysis',
+      description: 'Financial projections & valuation'
+    },
   ];
 
   return (
@@ -272,22 +296,72 @@ const MediaKitPage = () => {
             className="mb-16"
           >
             <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">Download Resources</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {downloadItems.map((item, index) => (
+            
+            {/* Public Downloads */}
+            <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto mb-6">
+              {publicDownloads.map((item) => (
                 <Button
                   key={item.title}
                   onClick={() => handleDownload(item.action)}
                   disabled={isGenerating}
                   variant="outline"
-                  className="h-auto py-6 bg-slate-900/60 border-white/10 hover:bg-mansagold/10 hover:border-mansagold/30 text-white flex flex-col items-center gap-3 transition-all duration-300"
+                  className="h-auto py-6 px-6 bg-slate-900/60 border-white/20 hover:border-mansagold/50 hover:bg-mansagold/10 text-white group transition-all duration-300"
                 >
-                  <item.icon className="w-8 h-8 text-mansagold" />
-                  <span className="font-semibold">{item.title}</span>
-                  <Download className="w-4 h-4 text-blue-200/60" />
+                  <div className="flex items-center gap-4 w-full">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-mansagold/20 to-amber-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <item.icon className="w-6 h-6 text-mansagold" />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <p className="font-semibold text-lg">{item.title}</p>
+                      <p className="text-sm text-blue-200/60">Free download</p>
+                    </div>
+                    <Download className="w-5 h-5 text-mansagold opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
                 </Button>
               ))}
             </div>
+
+            {/* Gated Downloads */}
+            <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+              {gatedDownloads.map((item) => (
+                <Button
+                  key={item.title}
+                  onClick={() => handleRequestAccess(item.documentType)}
+                  variant="outline"
+                  className="h-auto py-6 px-6 bg-slate-900/60 border-amber-500/30 hover:border-mansagold hover:bg-mansagold/10 text-white group transition-all duration-300"
+                >
+                  <div className="flex items-center gap-4 w-full">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 flex items-center justify-center group-hover:scale-110 transition-transform relative">
+                      <item.icon className="w-6 h-6 text-amber-400" />
+                      <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center">
+                        <Lock className="w-3 h-3 text-white" />
+                      </div>
+                    </div>
+                    <div className="flex-1 text-left">
+                      <p className="font-semibold text-lg">{item.title}</p>
+                      <p className="text-sm text-amber-400/70">{item.description}</p>
+                    </div>
+                    <div className="text-right">
+                      <Badge variant="outline" className="border-amber-500/50 text-amber-400 text-xs">
+                        Request Access
+                      </Badge>
+                    </div>
+                  </div>
+                </Button>
+              ))}
+            </div>
+            
+            <p className="text-center text-blue-200/50 text-sm mt-4">
+              🔒 Some resources require approval to protect strategic information
+            </p>
           </motion.div>
+
+          {/* Access Request Modal */}
+          <AccessRequestModal
+            isOpen={accessModalOpen}
+            onClose={() => setAccessModalOpen(false)}
+            documentType={selectedDocument}
+          />
 
           {/* Contact Section */}
           <motion.div

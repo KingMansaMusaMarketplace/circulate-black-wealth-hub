@@ -45,6 +45,9 @@ verify_jwt = false
 [functions.send-admin-notification]
 verify_jwt = false
 
+[functions.send-media-kit-request]
+verify_jwt = false
+
 [functions.generate-business-description]
 verify_jwt = false
 
@@ -158,4 +161,3 @@ verify_jwt = true
 
 [functions.send-sponsor-rejection]
 verify_jwt = true
-
