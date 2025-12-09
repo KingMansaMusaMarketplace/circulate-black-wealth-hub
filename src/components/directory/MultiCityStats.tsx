@@ -34,7 +34,7 @@ const MultiCityStats: React.FC<MultiCityStatsProps> = ({ selectedCity }) => {
     {
       icon: <TrendingUp className="h-5 w-5 text-success" />,
       label: 'Goal',
-      value: '10,000',
+      value: '10,000+',
       description: 'Businesses by 2027'
     }
   ] : [
