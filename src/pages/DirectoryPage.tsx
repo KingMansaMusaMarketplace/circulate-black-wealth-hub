@@ -122,7 +122,7 @@ const DirectoryPage: React.FC = () => {
               <Landmark className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 text-mansagold drop-shadow-[0_0_15px_rgba(255,193,7,0.5)]" />
             </h1>
             <p className="font-body text-xl sm:text-2xl text-slate-300 leading-relaxed max-w-3xl mx-auto mb-10 font-medium">
-              Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, and Detroit
+              Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, Detroit, New York, and Los Angeles
             </p>
             
             <div className="relative max-w-2xl mx-auto" data-tour="search-businesses">
