@@ -13,7 +13,7 @@ import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, Help
 const NavLinks: React.FC = () => {
   const linkClassName = "text-foreground hover:text-mansagold transition-all duration-300 font-semibold px-3 py-2 rounded-md hover:bg-accent/50 relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-mansagold after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100";
   const goldLinkClassName = "text-mansagold transition-all duration-300 font-semibold px-3 py-2 rounded-md hover:bg-accent/50 relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-mansagold after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100";
-  const triggerClassName = "text-mansagold hover:text-mansagold-light transition-all duration-300 font-semibold";
+  const triggerClassName = "!text-white hover:!text-mansagold transition-all duration-300 font-semibold";
 
   return (
     <NavigationMenu className="hidden md:flex">
