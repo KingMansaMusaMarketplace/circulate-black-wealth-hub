@@ -7,7 +7,9 @@ import AuthLayout from '@/components/auth/AuthLayout';
 import { Button } from '@/components/ui/button';
 import { subscriptionService } from '@/lib/services/subscription-service';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { supabase } from '@/integrations/supabase/client'; // Import supabase client directly
+import { supabase } from '@/integrations/supabase/client';
+import { FoundingMemberBadge } from '@/components/badges/FoundingMemberBadge';
+import { isInFreePeriod } from '@/lib/constants/free-period';
 
 const SignupSuccessPage = () => {
   const [searchParams] = useSearchParams();
@@ -104,10 +106,23 @@ const SignupSuccessPage = () => {
             Welcome to Mansa Musa Marketplace!
           </h1>
           
-          <p className="text-center text-gray-600 mb-6">
-            Your account has been created and your subscription is now active. 
+          {/* Founding Member Badge for users who signed up during free period */}
+          {isInFreePeriod() && (
+            <div className="flex justify-center mb-4">
+              <FoundingMemberBadge size="lg" />
+            </div>
+          )}
+          
+          <p className="text-center text-gray-600 mb-2">
+            Your account has been created successfully. 
             Thank you for joining our community!
           </p>
+          
+          {isInFreePeriod() && (
+            <p className="text-center text-amber-600 font-medium mb-6 text-sm">
+              🎉 You&apos;re now a Founding Member! This badge is yours forever as a thank you for being an early supporter.
+            </p>
+          )}
           
           {/* User type specific guidance */}
           {!loading && userType === 'business' && renderBusinessGuidance()}
