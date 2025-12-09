@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, Building } from 'lucide-react';
+import { Users, Building, Star, ArrowRight } from 'lucide-react';
 import CustomerSignupTab from './CustomerSignupTab';
 import BusinessSignupForm from './BusinessSignupForm';
 
@@ -11,6 +12,38 @@ const EnhancedSignupForm: React.FC = () => {
   if (selectedTab) {
     return (
       <div className="w-full max-w-2xl mx-auto animate-scale-in">
+        {/* Feature Guide Banner for Business */}
+        {selectedTab === 'business' && (
+          <div className="mb-6 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 via-mansagold/30 to-pink-500/30 rounded-2xl blur-xl" />
+            <div className="relative border-2 border-mansagold/40 bg-gradient-to-br from-white/95 via-white/90 to-purple-50/80 backdrop-blur-xl rounded-2xl p-5 shadow-xl overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-500 via-mansagold to-pink-500"></div>
+              <div className="flex items-center justify-between flex-wrap gap-4 pt-1">
+                <div className="flex items-center gap-3">
+                  <div className="bg-gradient-to-br from-purple-500 via-mansagold to-pink-500 p-3 rounded-xl shadow-lg shadow-mansagold/30 animate-pulse">
+                    <Star className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-lg bg-gradient-to-r from-mansablue via-purple-600 to-mansagold bg-clip-text text-transparent">
+                      📖 See All Features in Detail
+                    </p>
+                    <p className="text-sm text-foreground/70 font-medium">
+                      Learn everything your business will get
+                    </p>
+                  </div>
+                </div>
+                <Link 
+                  to="/feature-guide" 
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 via-mansagold to-pink-500 hover:from-purple-700 hover:via-amber-500 hover:to-pink-600 text-white rounded-xl shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30 transition-all duration-300 font-bold hover:scale-105"
+                >
+                  View Feature Guide
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
         <Card className="border-0 bg-white/95 backdrop-blur-xl shadow-2xl overflow-hidden ring-1 ring-mansagold/20">
           <div className="h-3 bg-gradient-blue-gold"></div>
           <CardHeader className="text-center space-y-4 pb-8 bg-gradient-to-br from-mansablue/5 to-mansagold/5 relative overflow-hidden">
