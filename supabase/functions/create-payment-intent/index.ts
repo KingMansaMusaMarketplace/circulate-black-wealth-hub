@@ -3,9 +3,30 @@ import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+// CORS configuration with origin validation
+const getAllowedOrigins = (): string[] => {
+  const origins = Deno.env.get('ALLOWED_ORIGINS');
+  if (origins) {
+    return origins.split(',').map(o => o.trim());
+  }
+  return [
+    'https://agoclnqfyinwjxdmjnns.lovableproject.com',
+    'https://lovable.dev',
+    'http://localhost:5173',
+    'http://localhost:3000'
+  ];
+};
+
+const getCorsHeaders = (req: Request): Record<string, string> => {
+  const origin = req.headers.get('origin') || '';
+  const allowedOrigins = getAllowedOrigins();
+  const isAllowed = allowedOrigins.includes(origin) || allowedOrigins.includes('*');
+  
+  return {
+    'Access-Control-Allow-Origin': isAllowed ? origin : allowedOrigins[0],
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  };
 };
 
 // Platform fee percentage (adjustable per business tier)
@@ -22,6 +43,8 @@ const paymentIntentSchema = z.object({
 });
 
 serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req);
+  
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -135,7 +158,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
       {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { ...getCorsHeaders(req), "Content-Type": "application/json" },
         status: 500,
       }
     );
