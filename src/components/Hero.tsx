@@ -127,15 +127,16 @@ const Hero = () => {
         {/* Free Growth Banner */}
         <motion.div 
           className="text-center mb-12 md:mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
         >
-          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 backdrop-blur-sm">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
-            <span className="text-sm md:text-base font-semibold text-emerald-300">
+          <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-mansagold/30 via-amber-500/20 to-mansagold/30 border-2 border-mansagold/50 backdrop-blur-md shadow-[0_0_40px_rgba(251,191,36,0.3)] hover:shadow-[0_0_60px_rgba(251,191,36,0.5)] transition-all duration-500 hover:scale-105">
+            <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-mansagold animate-pulse" />
+            <span className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-mansagold via-yellow-300 to-amber-400 bg-clip-text text-transparent drop-shadow-lg">
               Phase 1: 100% FREE Until January 2027
             </span>
+            <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-mansagold animate-pulse" />
           </div>
         </motion.div>
 
