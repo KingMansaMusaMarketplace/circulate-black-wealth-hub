@@ -58,9 +58,11 @@ import {
   LazyFullSystemTestPage,
   LazyAccessibilityPage,
   LazyCapacitorTestPage,
-  LazyComprehensiveTestPage,
-  LazyMediaKitPage
+  LazyComprehensiveTestPage
 } from './components/LazyComponents';
+
+// Media Kit page
+const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 
 // Additional lazy loaded pages (defined directly for performance)
 const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
