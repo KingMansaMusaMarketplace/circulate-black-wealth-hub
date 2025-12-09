@@ -75,7 +75,7 @@ const BetaChallengeSection = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="text-4xl md:text-6xl font-bold text-white mb-6"
           >
-            Help Us Reach <span className="text-mansagold">10,000 Strong</span>
+            Help Us Reach <span className="text-mansagold">1,000,000 Strong</span>
           </motion.h2>
 
           <motion.p
@@ -95,7 +95,7 @@ const BetaChallengeSection = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-lg text-white/80 mb-12 max-w-2xl mx-auto"
           >
-            Our first milestone: <strong>10,000 founding members</strong> by January 2027
+            Our first milestone: <strong>1,000,000 founding members</strong> by January 2027
           </motion.p>
 
           {/* Countdown Timer */}
@@ -140,7 +140,7 @@ const BetaChallengeSection = () => {
           >
             <div className="flex items-center gap-3">
               <Users className="w-6 h-6 text-mansagold" />
-              <span className="text-lg font-semibold">Goal: 10,000 Founding Members</span>
+              <span className="text-lg font-semibold">Goal: 1,000,000 Founding Members</span>
             </div>
             <div className="flex items-center gap-3">
               <TrendingUp className="w-6 h-6 text-mansagold" />
