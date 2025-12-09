@@ -15,14 +15,21 @@ const UserProfileSection: React.FC<UserProfileSectionProps> = ({ user }) => {
     const checkFoundingMember = async () => {
       if (!user?.id) return;
       
-      const { data } = await supabase
-        .from('profiles')
-        .select('is_founding_member')
-        .eq('id', user.id)
-        .single();
-      
-      if (data?.is_founding_member) {
-        setIsFoundingMember(true);
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('is_founding_member')
+          .eq('id', user.id)
+          .single();
+        
+        if (error) {
+          console.error('Error checking founding member status:', error);
+          return;
+        }
+        
+        setIsFoundingMember(data?.is_founding_member === true);
+      } catch (err) {
+        console.error('Error in founding member check:', err);
       }
     };
 
