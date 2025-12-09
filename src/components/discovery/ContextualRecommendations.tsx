@@ -47,8 +47,8 @@ export const ContextualRecommendations: React.FC<ContextualRecommendationsProps>
   return (
     <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg text-yellow-400">
-          <Sparkles className="h-5 w-5 text-yellow-400" />
+        <CardTitle className="flex items-center gap-2 text-lg text-primary font-semibold">
+          <Sparkles className="h-5 w-5 text-primary" />
           Personalized Suggestions
         </CardTitle>
       </CardHeader>
@@ -72,8 +72,8 @@ export const ContextualRecommendations: React.FC<ContextualRecommendationsProps>
                 }
               }}
             >
-              <Icon className="h-4 w-4 mr-3 text-yellow-400 flex-shrink-0" />
-              <span className="text-sm text-yellow-300">{suggestion}</span>
+              <Icon className="h-4 w-4 mr-3 text-primary flex-shrink-0" />
+              <span className="text-sm text-foreground">{suggestion}</span>
             </Button>
           );
         })}
