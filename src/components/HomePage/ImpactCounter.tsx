@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TrendingUp, Users, DollarSign, Building2 } from 'lucide-react';
+import { TrendingUp, Users, DollarSign, Building2, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { motion, useInView } from 'framer-motion';
 
@@ -47,6 +47,37 @@ const AnimatedCounter = ({ target, prefix = '', suffix = '' }: { target: number;
   };
 
   return <span ref={ref} className="tabular-nums">{formatValue(count)}</span>;
+};
+
+// Get honest, contextual label based on the count
+const getHonestLabel = (type: 'businesses' | 'members' | 'transactions' | 'value', count: number): string => {
+  if (type === 'businesses') {
+    if (count === 0) return 'Be Our First Partner';
+    if (count === 1) return 'Founding Business';
+    if (count <= 10) return 'Founding Businesses';
+    if (count <= 50) return 'Businesses & Growing';
+    return 'Black-Owned Businesses';
+  }
+  if (type === 'members') {
+    if (count === 0) return 'Join as a Founder';
+    if (count === 1) return 'Founding Member';
+    if (count <= 50) return 'Founding Members';
+    if (count <= 500) return 'Members & Growing';
+    return 'Community Members';
+  }
+  if (type === 'transactions') {
+    if (count === 0) return 'Make History';
+    if (count <= 10) return 'Transactions & Counting';
+    if (count <= 100) return 'Transactions Made';
+    return 'Transactions';
+  }
+  if (type === 'value') {
+    if (count === 0) return 'Start the Movement';
+    if (count < 1000) return 'Circulated So Far';
+    if (count < 10000) return 'Economic Impact';
+    return 'Economic Impact';
+  }
+  return '';
 };
 
 export const ImpactCounter: React.FC = () => {
@@ -101,30 +132,30 @@ export const ImpactCounter: React.FC = () => {
   const impactMetrics = [
     { 
       icon: Building2, 
-      value: stats.totalBusinesses || 2500,
-      suffix: '+',
-      label: 'Black-Owned Businesses',
+      value: stats.totalBusinesses,
+      suffix: stats.totalBusinesses > 50 ? '+' : '',
+      label: getHonestLabel('businesses', stats.totalBusinesses),
       gradient: 'from-emerald-400 to-teal-500'
     },
     { 
       icon: Users, 
-      value: stats.totalCustomers || 150000,
-      suffix: '+',
-      label: 'Community Members',
+      value: stats.totalCustomers,
+      suffix: stats.totalCustomers > 500 ? '+' : '',
+      label: getHonestLabel('members', stats.totalCustomers),
       gradient: 'from-blue-400 to-indigo-500'
     },
     { 
       icon: TrendingUp, 
-      value: stats.totalTransactions || 50000,
-      suffix: '+',
-      label: 'Transactions',
+      value: stats.totalTransactions,
+      suffix: stats.totalTransactions > 100 ? '+' : '',
+      label: getHonestLabel('transactions', stats.totalTransactions),
       gradient: 'from-purple-400 to-pink-500'
     },
     { 
       icon: DollarSign, 
-      value: stats.totalValue || 45000000,
+      value: stats.totalValue,
       prefix: '$',
-      label: 'Economic Impact',
+      label: getHonestLabel('value', stats.totalValue),
       gradient: 'from-amber-400 to-orange-500'
     },
   ];
@@ -142,15 +173,23 @@ export const ImpactCounter: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-3">
-            Real-Time Impact
-          </span>
+          {/* Early Access Badge */}
+          <motion.div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-mansagold/20 border border-mansagold/30 mb-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+          >
+            <Sparkles className="w-4 h-4 text-mansagold" />
+            <span className="text-mansagold text-sm font-medium">Live Data • Early Access</span>
+          </motion.div>
+          
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-playfair mb-4">
             <span className="text-white">Together We're </span>
             <span className="text-gradient-gold">Building Wealth</span>
           </h2>
           <p className="text-lg text-blue-200/70 max-w-2xl mx-auto">
-            Every transaction strengthens our community and creates generational impact.
+            Join our growing community. Every transaction strengthens Black economic power.
           </p>
         </motion.div>
         
@@ -171,6 +210,8 @@ export const ImpactCounter: React.FC = () => {
                 <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 font-playfair">
                   {loading ? (
                     <span className="animate-pulse">--</span>
+                  ) : metric.value === 0 ? (
+                    <span className="text-xl md:text-2xl">--</span>
                   ) : (
                     <AnimatedCounter 
                       target={metric.value} 
