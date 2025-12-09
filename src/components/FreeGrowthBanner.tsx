@@ -56,32 +56,38 @@ const FreeGrowthBanner = () => {
         </Link>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-5xl mx-auto">
-          <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 hover:border-yellow-400/50 transition-all">
-            <CardContent className="p-8 text-center">
-              <Users className="h-16 w-16 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-3 text-white">✅ Customers</h3>
-              <p className="text-xl font-semibold text-yellow-300 mb-2">ALWAYS FREE</p>
-              <p className="text-blue-200 text-sm">(You never pay - ever!)</p>
-            </CardContent>
-          </Card>
+          <Link to="/signup" className="block group">
+            <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 hover:border-yellow-400/50 transition-all cursor-pointer h-full group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(251,191,36,0.2)]">
+              <CardContent className="p-8 text-center">
+                <Users className="h-16 w-16 text-yellow-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-yellow-400 transition-colors">✅ Customers</h3>
+                <p className="text-xl font-semibold text-yellow-300 mb-2">ALWAYS FREE</p>
+                <p className="text-blue-200 text-sm">(You never pay - ever!)</p>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 hover:border-yellow-400/50 transition-all">
-            <CardContent className="p-8 text-center">
-              <Building2 className="h-16 w-16 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-3 text-white">✅ Businesses</h3>
-              <p className="text-xl font-semibold text-yellow-300 mb-2">FREE until January 2027</p>
-              <p className="text-blue-200 text-sm">(Then affordable paid plans start)</p>
-            </CardContent>
-          </Card>
+          <Link to="/signup?type=business" className="block group">
+            <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 hover:border-yellow-400/50 transition-all cursor-pointer h-full group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(251,191,36,0.2)]">
+              <CardContent className="p-8 text-center">
+                <Building2 className="h-16 w-16 text-yellow-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-yellow-400 transition-colors">✅ Businesses</h3>
+                <p className="text-xl font-semibold text-yellow-300 mb-2">FREE until January 2027</p>
+                <p className="text-blue-200 text-sm">(Then affordable paid plans start)</p>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 hover:border-yellow-400/50 transition-all">
-            <CardContent className="p-8 text-center">
-              <Heart className="h-16 w-16 text-yellow-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-3 text-white">✅ Corporate Sponsors</h3>
-              <p className="text-xl font-semibold text-yellow-300 mb-2">Available Now</p>
-              <p className="text-blue-200 text-sm">(Support the platform - $500+/mo)</p>
-            </CardContent>
-          </Card>
+          <Link to="/sponsor-pricing" className="block group">
+            <Card className="bg-slate-900/40 backdrop-blur-xl border border-white/10 hover:border-yellow-400/50 transition-all cursor-pointer h-full group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(251,191,36,0.2)]">
+              <CardContent className="p-8 text-center">
+                <Heart className="h-16 w-16 text-yellow-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-yellow-400 transition-colors">✅ Corporate Sponsors</h3>
+                <p className="text-xl font-semibold text-yellow-300 mb-2">Available Now</p>
+                <p className="text-blue-200 text-sm">(Support the platform - $500+/mo)</p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
 
         <div className="bg-slate-900/40 backdrop-blur-xl rounded-2xl p-8 mb-12 border border-white/10">
