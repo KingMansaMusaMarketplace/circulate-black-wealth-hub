@@ -214,15 +214,15 @@ const BusinessSignupPage: React.FC = () => {
         {/* Included Features Section */}
         <div className="container mx-auto px-4 mb-8 animate-fade-in" style={{ animationDelay: '0.05s' }}>
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-mansagold/20 border border-mansagold/30 rounded-full mb-4">
-                <Shield className="w-4 h-4 text-mansagold" />
-                <span className="text-sm font-semibold text-mansagold">All Included In Your Monthly Fee</span>
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-mansagold/20 border border-mansagold/30 rounded-full mb-6">
+                <Shield className="w-6 h-6 text-mansagold" />
+                <span className="text-lg md:text-xl font-bold text-mansagold">All Included In Your Monthly Fee</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5">
                 Everything You Need to Run Your Business
               </h2>
-              <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+              <p className="text-slate-300 text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed">
                 No hidden fees, no extra charges. Get powerful tools worth $500+/month — all included in one simple subscription.
               </p>
             </div>
@@ -308,12 +308,12 @@ const BusinessSignupPage: React.FC = () => {
         {/* Testimonials Section */}
         <div className="container mx-auto px-4 mb-8 animate-fade-in" style={{ animationDelay: '0.15s' }}>
           <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full mb-4">
-                <Quote className="w-4 h-4 text-blue-400" />
-                <span className="text-sm font-semibold text-blue-400">What Business Owners Say</span>
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-3 px-6 py-3 bg-blue-500/20 border border-blue-500/30 rounded-full mb-6">
+                <Quote className="w-6 h-6 text-blue-400" />
+                <span className="text-lg md:text-xl font-bold text-blue-400">What Business Owners Say</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5">
                 Trusted by Business Owners Like You
               </h2>
             </div>
