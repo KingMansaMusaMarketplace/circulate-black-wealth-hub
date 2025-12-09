@@ -328,24 +328,22 @@ const MediaKitPage = () => {
                   key={item.title}
                   onClick={() => handleRequestAccess(item.documentType)}
                   variant="outline"
-                  className="h-auto py-6 px-6 bg-slate-900/60 border-amber-500/30 hover:border-mansagold hover:bg-mansagold/10 text-white group transition-all duration-300"
+                  className="h-auto py-6 px-6 bg-slate-900/60 border-amber-500/30 hover:border-mansagold hover:bg-mansagold/10 text-white group transition-all duration-300 w-full"
                 >
                   <div className="flex items-center gap-4 w-full">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 flex items-center justify-center group-hover:scale-110 transition-transform relative">
+                    <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 flex items-center justify-center group-hover:scale-110 transition-transform relative">
                       <item.icon className="w-6 h-6 text-amber-400" />
                       <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-amber-500 flex items-center justify-center">
                         <Lock className="w-3 h-3 text-white" />
                       </div>
                     </div>
-                    <div className="flex-1 text-left">
-                      <p className="font-semibold text-lg">{item.title}</p>
-                      <p className="text-sm text-amber-400/70">{item.description}</p>
+                    <div className="flex-1 text-left min-w-0">
+                      <p className="font-semibold text-lg truncate">{item.title}</p>
+                      <p className="text-sm text-amber-400/70 truncate">{item.description}</p>
                     </div>
-                    <div className="text-right">
-                      <Badge variant="outline" className="border-amber-500/50 text-amber-400 text-xs">
-                        Request Access
-                      </Badge>
-                    </div>
+                    <Badge variant="outline" className="border-amber-500/50 text-amber-400 text-xs flex-shrink-0 whitespace-nowrap">
+                      Request Access
+                    </Badge>
                   </div>
                 </Button>
               ))}
