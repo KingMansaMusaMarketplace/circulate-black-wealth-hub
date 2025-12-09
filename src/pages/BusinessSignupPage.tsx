@@ -241,29 +241,29 @@ const BusinessSignupPage: React.FC = () => {
                   }}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-15 rounded-2xl blur-xl transition-opacity duration-300`} />
-                  <div className="relative bg-slate-800/60 backdrop-blur-sm border border-white/10 rounded-2xl p-5 group-hover:border-white/25 group-hover:bg-slate-800/80 transition-all duration-300 h-full group-hover:shadow-xl group-hover:shadow-black/20">
-                    <div className="flex items-start gap-4">
+                  <div className="relative bg-slate-800/60 backdrop-blur-sm border border-white/10 rounded-2xl p-6 group-hover:border-white/25 group-hover:bg-slate-800/80 transition-all duration-300 h-full group-hover:shadow-xl group-hover:shadow-black/20">
+                    <div className="flex items-start gap-5">
                       <motion.div 
-                        className={`p-3 rounded-xl bg-gradient-to-br ${feature.color} flex-shrink-0 shadow-lg`}
+                        className={`p-4 rounded-xl bg-gradient-to-br ${feature.color} flex-shrink-0 shadow-lg`}
                         whileHover={{ scale: 1.1, rotate: 5 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <feature.icon className="w-6 h-6 text-white" />
+                        <feature.icon className="w-8 h-8 text-white" />
                       </motion.div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-bold text-white text-lg group-hover:text-mansagold transition-colors duration-300">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="font-bold text-white text-xl md:text-2xl group-hover:text-mansagold transition-colors duration-300">
                             {feature.title}
                           </h3>
-                          <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                          <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
                         </div>
-                        <p className="text-sm text-slate-300 mb-3">
+                        <p className="text-base md:text-lg text-slate-300 mb-4">
                           {feature.description}
                         </p>
-                        <ul className="space-y-1.5">
+                        <ul className="space-y-2">
                           {feature.details.map((detail, i) => (
-                            <li key={i} className="flex items-center gap-2 text-xs text-slate-400">
-                              <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${feature.color}`} />
+                            <li key={i} className="flex items-center gap-3 text-sm md:text-base text-slate-400">
+                              <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${feature.color}`} />
                               {detail}
                             </li>
                           ))}
