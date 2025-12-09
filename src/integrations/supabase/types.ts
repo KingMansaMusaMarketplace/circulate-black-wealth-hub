@@ -7952,6 +7952,22 @@ export type Database = {
         Args: { check_business_id: string }
         Returns: boolean
       }
+      is_savings_circle_creator: {
+        Args: { p_circle_id: string; p_user_id: string }
+        Returns: boolean
+      }
+      is_savings_circle_member: {
+        Args: { p_circle_id: string; p_user_id: string }
+        Returns: boolean
+      }
+      is_shopping_list_creator: {
+        Args: { p_list_id: string; p_user_id: string }
+        Returns: boolean
+      }
+      is_shopping_list_member: {
+        Args: { p_list_id: string; p_user_id: string }
+        Returns: boolean
+      }
       is_user_suspended: { Args: { check_user_id: string }; Returns: boolean }
       join_challenge: { Args: { p_challenge_id: string }; Returns: Json }
       log_activity: {
