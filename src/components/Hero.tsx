@@ -225,6 +225,16 @@ const Hero = () => {
                 </div>
               ))}
             </motion.div>
+
+            {/* Early adopter CTA */}
+            <motion.p
+              className="text-sm md:text-base text-blue-200/70 mt-6 text-center lg:text-left"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              We just launched! Help us grow by sharing with family & friends.
+            </motion.p>
           </div>
 
           {/* Right column - Visual */}
