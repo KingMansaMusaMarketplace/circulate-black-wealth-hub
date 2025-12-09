@@ -134,7 +134,7 @@ const Hero = () => {
           <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 backdrop-blur-sm">
             <Sparkles className="w-4 h-4 text-emerald-400" />
             <span className="text-sm md:text-base font-semibold text-emerald-300">
-              Phase 1: 100% FREE Until Feb 28, 2026
+              Phase 1: 100% FREE Until January 2027
             </span>
           </div>
         </motion.div>

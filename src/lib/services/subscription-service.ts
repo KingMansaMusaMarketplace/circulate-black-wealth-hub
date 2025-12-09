@@ -1,5 +1,6 @@
 
 import { supabase } from '@/lib/supabase';
+import { isInFreePeriod, FREE_PERIOD_END_DATE } from '@/lib/constants/free-period';
 
 export interface SubscriptionInfo {
   isActive: boolean;
@@ -11,6 +12,7 @@ export interface SubscriptionInfo {
   subscription_tier?: 'free' | 'premium' | 'business' | 'enterprise';
   subscription_end?: string;
   subscribed?: boolean;
+  isFreePeriod?: boolean;
 }
 
 export const subscriptionService = {
@@ -20,6 +22,20 @@ export const subscriptionService = {
       
       if (!user) {
         throw new Error('User not authenticated');
+      }
+
+      // During free period, all users are treated as having premium access
+      if (isInFreePeriod()) {
+        console.log('[Subscription] Free period active - granting premium access');
+        return {
+          isActive: true,
+          tier: 'premium',
+          status: 'active',
+          subscription_tier: 'premium',
+          subscription_end: FREE_PERIOD_END_DATE.toISOString(),
+          subscribed: true,
+          isFreePeriod: true
+        };
       }
 
       const { data, error } = await supabase.functions.invoke('check-subscription', {
@@ -35,7 +51,8 @@ export const subscriptionService = {
           isActive: true,
           tier: 'free',
           status: 'active',
-          subscription_tier: 'free'
+          subscription_tier: 'free',
+          isFreePeriod: false
         };
       }
 
@@ -45,7 +62,8 @@ export const subscriptionService = {
         status: data.subscribed ? 'active' : 'canceled',
         subscription_tier: data.subscription_tier || 'free',
         subscription_end: data.subscription_end,
-        subscribed: data.subscribed || false
+        subscribed: data.subscribed || false,
+        isFreePeriod: false
       };
     } catch (error) {
       console.error('Error checking subscription:', error);
@@ -54,7 +72,8 @@ export const subscriptionService = {
         isActive: true,
         tier: 'free',
         status: 'active',
-        subscription_tier: 'free'
+        subscription_tier: 'free',
+        isFreePeriod: false
       };
     }
   },

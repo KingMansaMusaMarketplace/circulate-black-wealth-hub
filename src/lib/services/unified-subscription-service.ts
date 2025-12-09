@@ -1,12 +1,13 @@
 
 import { supabase } from '@/lib/supabase';
 import { subscriptionService } from './subscription-service';
+import { isInFreePeriod, FREE_PERIOD_END_DATE } from '@/lib/constants/free-period';
 
 export interface UnifiedSubscriptionInfo {
   isActive: boolean;
   tier: 'free' | 'paid' | 'premium';
   status: 'active' | 'canceled' | 'past_due' | 'trial';
-  source: 'stripe' | 'apple' | 'google' | 'unknown';
+  source: 'stripe' | 'apple' | 'google' | 'free_period' | 'unknown';
   currentPeriodStart?: string;
   currentPeriodEnd?: string;
   cancelAtPeriodEnd?: boolean;
@@ -15,6 +16,7 @@ export interface UnifiedSubscriptionInfo {
   subscribed?: boolean;
   autoRenewEnabled?: boolean;
   isSandbox?: boolean;
+  isFreePeriod?: boolean;
 }
 
 export const unifiedSubscriptionService = {
@@ -24,6 +26,21 @@ export const unifiedSubscriptionService = {
       
       if (!user) {
         throw new Error('User not authenticated');
+      }
+
+      // During free period, grant premium access to everyone
+      if (isInFreePeriod()) {
+        console.log('[Unified Subscription] Free period active - granting premium access');
+        return {
+          isActive: true,
+          tier: 'premium',
+          status: 'active',
+          source: 'free_period',
+          subscribed: true,
+          subscription_tier: 'premium',
+          subscription_end: FREE_PERIOD_END_DATE.toISOString(),
+          isFreePeriod: true
+        };
       }
 
       console.log('[Unified Subscription] Checking all subscription sources for user:', user.id);
