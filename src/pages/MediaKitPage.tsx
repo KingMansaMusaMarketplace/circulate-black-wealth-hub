@@ -1,0 +1,339 @@
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion';
+import { 
+  Download, 
+  Users, 
+  Building2, 
+  Globe, 
+  Smartphone, 
+  Database, 
+  Zap, 
+  TrendingUp,
+  Award,
+  ShieldCheck,
+  Sparkles,
+  Target,
+  DollarSign,
+  Heart,
+  FileText,
+  Mail,
+  Phone,
+  MapPin
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
+import {
+  generatePartnershipGuide,
+  generateBrandAssets,
+  generateMediaKit,
+  generateInvestorAnalysisPDF
+} from '@/components/sponsorship/services/pdfGenerationService';
+
+const MediaKitPage = () => {
+  const [isGenerating, setIsGenerating] = React.useState(false);
+
+  const handleDownload = async (generator: () => Promise<void>) => {
+    setIsGenerating(true);
+    try {
+      await generator();
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const stats = [
+    { value: '$1.6T', label: 'Addressable Market', icon: DollarSign },
+    { value: '130+', label: 'Application Pages', icon: Globe },
+    { value: '110+', label: 'Database Tables', icon: Database },
+    { value: '67', label: 'Edge Functions', icon: Zap },
+    { value: '6+', label: 'Revenue Streams', icon: TrendingUp },
+    { value: '2', label: 'Mobile Platforms', icon: Smartphone },
+  ];
+
+  const features = [
+    {
+      icon: Building2,
+      title: 'Business Directory',
+      description: 'Comprehensive directory of verified Black-owned businesses with reviews and ratings'
+    },
+    {
+      icon: Award,
+      title: 'Loyalty Points System',
+      description: 'Reward customers for supporting Black-owned businesses with redeemable points'
+    },
+    {
+      icon: Users,
+      title: 'Community Savings (Susu)',
+      description: 'Traditional community savings circles reimagined for the digital age'
+    },
+    {
+      icon: Sparkles,
+      title: 'Mansa AI Assistant',
+      description: 'AI-powered assistant for business recommendations and financial guidance'
+    },
+    {
+      icon: Target,
+      title: 'Sales Agent Network',
+      description: 'Commission-based agents recruiting and onboarding businesses nationwide'
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Business Verification',
+      description: 'Multi-step verification ensuring authenticity of Black-owned businesses'
+    }
+  ];
+
+  const partnershipTiers = [
+    { tier: 'Silver Partner', investment: '$10,000+', color: 'from-slate-300 to-slate-400' },
+    { tier: 'Gold Partner', investment: '$25,000+', color: 'from-mansagold to-amber-500' },
+    { tier: 'Platinum Partner', investment: '$50,000+', color: 'from-blue-300 to-blue-500' },
+  ];
+
+  const downloadItems = [
+    { title: 'Full Media Kit', icon: FileText, action: generateMediaKit },
+    { title: 'Partnership Guide', icon: FileText, action: generatePartnershipGuide },
+    { title: 'Brand Assets', icon: Award, action: generateBrandAssets },
+    { title: 'Investor Analysis', icon: TrendingUp, action: generateInvestorAnalysisPDF },
+  ];
+
+  return (
+    <>
+      <Helmet>
+        <title>Media Kit | Mansa Musa Marketplace</title>
+        <meta name="description" content="Access Mansa Musa Marketplace's media kit with platform stats, brand assets, partnership opportunities, and press resources." />
+        <meta property="og:title" content="Media Kit | Mansa Musa Marketplace" />
+        <meta property="og:description" content="Download our media kit, brand assets, and partnership information." />
+      </Helmet>
+
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950/90 to-slate-900 relative overflow-hidden">
+        {/* Animated Background */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 left-10 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-mansagold/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] opacity-50" />
+        </div>
+
+        <div className="container mx-auto px-4 py-16 relative z-10">
+          {/* Hero Section */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <div className="flex justify-center mb-6">
+              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-mansagold shadow-2xl shadow-mansagold/30 bg-white/10 backdrop-blur-sm">
+                <img src={mansaMusaLogo} alt="Mansa Musa Marketplace" className="w-full h-full object-cover" />
+              </div>
+            </div>
+            <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30 mb-4 text-sm px-4 py-1">
+              Press & Partnership Resources
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-blue-100 to-mansagold bg-clip-text text-transparent">
+              Media Kit
+            </h1>
+            <p className="text-xl text-blue-200/80 max-w-3xl mx-auto leading-relaxed">
+              Everything you need to know about Mansa Musa Marketplace – the revolutionary platform building, protecting, and expanding the Black economic ecosystem.
+            </p>
+          </motion.div>
+
+          {/* About Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-16"
+          >
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-white/10 overflow-hidden">
+              <CardContent className="p-8 md:p-12">
+                <div className="flex items-center gap-3 mb-6">
+                  <Heart className="w-8 h-8 text-mansagold" />
+                  <h2 className="text-2xl md:text-3xl font-bold text-white">Our Mission</h2>
+                </div>
+                <p className="text-lg text-blue-100/80 leading-relaxed mb-6">
+                  Mansa Musa Marketplace is named after the legendary 14th-century African emperor, renowned as the wealthiest person in history. Our platform embodies his legacy of economic empowerment and community wealth-building.
+                </p>
+                <p className="text-lg text-blue-100/80 leading-relaxed mb-6">
+                  We connect consumers with verified Black-owned businesses, reward community support through loyalty points, and create sustainable economic ecosystems that circulate wealth within the community.
+                </p>
+                <div className="grid md:grid-cols-3 gap-4 mt-8">
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <p className="text-mansagold font-bold text-lg">Founded</p>
+                    <p className="text-white">2024</p>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <p className="text-mansagold font-bold text-lg">Founder</p>
+                    <p className="text-white">Thomas D. Bowling</p>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <p className="text-mansagold font-bold text-lg">Headquarters</p>
+                    <p className="text-white">Chicago, Illinois</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Stats Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-16"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">Platform Statistics</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.1 * index }}
+                  className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center hover:border-mansagold/30 transition-all duration-300 group"
+                >
+                  <stat.icon className="w-8 h-8 mx-auto mb-3 text-mansagold group-hover:scale-110 transition-transform" />
+                  <p className="text-3xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">
+                    {stat.value}
+                  </p>
+                  <p className="text-sm text-blue-200/70 mt-1">{stat.label}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Features Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mb-16"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">Core Features</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {features.map((feature, index) => (
+                <motion.div
+                  key={feature.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.1 * index }}
+                  className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-mansagold/30 transition-all duration-300"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-mansagold/20 to-amber-500/10 flex items-center justify-center mb-4">
+                    <feature.icon className="w-6 h-6 text-mansagold" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
+                  <p className="text-blue-200/70">{feature.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Partnership Tiers */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mb-16"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">Partnership Opportunities</h2>
+            <div className="grid md:grid-cols-3 gap-6">
+              {partnershipTiers.map((tier, index) => (
+                <motion.div
+                  key={tier.tier}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.1 * index }}
+                  className="bg-slate-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center hover:scale-105 transition-all duration-300"
+                >
+                  <div className={`w-16 h-16 mx-auto rounded-full bg-gradient-to-br ${tier.color} flex items-center justify-center mb-4`}>
+                    <Award className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{tier.tier}</h3>
+                  <p className="text-2xl font-bold bg-gradient-to-r from-mansagold to-amber-400 bg-clip-text text-transparent">
+                    {tier.investment}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+            <p className="text-center text-blue-200/60 mt-6">
+              Custom partnership packages available for enterprise clients
+            </p>
+          </motion.div>
+
+          {/* Downloads Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mb-16"
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">Download Resources</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {downloadItems.map((item, index) => (
+                <Button
+                  key={item.title}
+                  onClick={() => handleDownload(item.action)}
+                  disabled={isGenerating}
+                  variant="outline"
+                  className="h-auto py-6 bg-slate-900/60 border-white/10 hover:bg-mansagold/10 hover:border-mansagold/30 text-white flex flex-col items-center gap-3 transition-all duration-300"
+                >
+                  <item.icon className="w-8 h-8 text-mansagold" />
+                  <span className="font-semibold">{item.title}</span>
+                  <Download className="w-4 h-4 text-blue-200/60" />
+                </Button>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Contact Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            <Card className="bg-gradient-to-br from-mansagold/20 to-amber-500/10 backdrop-blur-xl border-mansagold/30 overflow-hidden">
+              <CardContent className="p-8 md:p-12">
+                <h2 className="text-2xl md:text-3xl font-bold text-center text-white mb-8">Media & Partnership Contact</h2>
+                <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                  <a 
+                    href="mailto:contact@mansamusamarketplace.com"
+                    className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-xl border border-white/10 hover:border-mansagold/30 transition-all duration-300 group"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-mansagold/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Mail className="w-6 h-6 text-mansagold" />
+                    </div>
+                    <p className="text-white font-semibold">Email</p>
+                    <p className="text-blue-200/70 text-sm text-center">contact@mansamusamarketplace.com</p>
+                  </a>
+                  <a 
+                    href="tel:+1-312-709-6006"
+                    className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-xl border border-white/10 hover:border-mansagold/30 transition-all duration-300 group"
+                  >
+                    <div className="w-12 h-12 rounded-full bg-mansagold/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Phone className="w-6 h-6 text-mansagold" />
+                    </div>
+                    <p className="text-white font-semibold">Phone</p>
+                    <p className="text-blue-200/70 text-sm">(312) 709-6006</p>
+                  </a>
+                  <div className="flex flex-col items-center gap-3 p-6 bg-white/5 rounded-xl border border-white/10">
+                    <div className="w-12 h-12 rounded-full bg-mansagold/20 flex items-center justify-center">
+                      <MapPin className="w-6 h-6 text-mansagold" />
+                    </div>
+                    <p className="text-white font-semibold">Address</p>
+                    <p className="text-blue-200/70 text-sm text-center">1000 E. 111th St. Suite 1100<br />Chicago, IL 60628</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default MediaKitPage;
