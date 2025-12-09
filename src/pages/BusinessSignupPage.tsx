@@ -143,8 +143,43 @@ const BusinessSignupPage: React.FC = () => {
       </div>
       
       <main className="relative z-10 flex-1 py-8">
+        {/* Feature Guide Banner */}
+        <div className="container mx-auto px-4 mb-6 animate-fade-in">
+          <div className="relative max-w-4xl mx-auto">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 via-mansagold/30 to-pink-500/30 rounded-2xl blur-2xl" />
+            <div className="relative border-2 border-mansagold/40 bg-gradient-to-br from-slate-800/90 via-slate-800/80 to-purple-900/40 backdrop-blur-xl rounded-2xl p-6 shadow-2xl overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-500 via-mansagold to-pink-500"></div>
+              <div className="flex items-center justify-between flex-wrap gap-4 pt-2">
+                <div className="flex items-center gap-4">
+                  <div className="bg-gradient-to-br from-purple-500 via-mansagold to-pink-500 p-4 rounded-2xl shadow-xl shadow-mansagold/40 animate-pulse">
+                    <Star className="w-7 h-7 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-extrabold text-xl bg-gradient-to-r from-mansagold via-amber-300 to-orange-400 bg-clip-text text-transparent">
+                      📖 Want to See All Features in Detail?
+                    </p>
+                    <p className="text-sm text-slate-300 font-medium">
+                      Explore our comprehensive guide with every feature explained thoroughly
+                    </p>
+                  </div>
+                </div>
+                <Link 
+                  to="/feature-guide" 
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 via-mansagold to-pink-500 hover:from-purple-700 hover:via-amber-500 hover:to-pink-600 text-white rounded-xl shadow-lg shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/40 transition-all duration-300 font-bold text-lg hover:scale-105"
+                >
+                  View Complete Feature Guide
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14"/>
+                    <path d="m12 5 7 7-7 7"/>
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Info Banner */}
-        <div className="container mx-auto px-4 mb-8 animate-fade-in">
+        <div className="container mx-auto px-4 mb-8 animate-fade-in" style={{ animationDelay: '0.05s' }}>
           <div className="relative max-w-4xl mx-auto">
             <div className="absolute inset-0 bg-gradient-to-r from-mansablue/30 via-blue-500/30 to-mansagold/30 rounded-2xl blur-2xl" />
             <div className="relative border border-white/10 bg-slate-800/60 backdrop-blur-xl rounded-2xl p-6 flex items-center justify-between flex-wrap gap-4 shadow-2xl overflow-hidden">
