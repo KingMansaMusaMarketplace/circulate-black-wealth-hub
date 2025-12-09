@@ -229,16 +229,16 @@ const Hero = () => {
 
             {/* Early adopter CTA */}
             <motion.div
-              className="mt-8 p-4 rounded-xl bg-gradient-to-r from-mansagold/20 to-amber-500/10 border border-mansagold/30 backdrop-blur-sm text-center lg:text-left"
+              className="mt-8 p-6 md:p-8 rounded-2xl bg-gradient-to-r from-mansagold/30 via-amber-500/20 to-mansagold/30 border-2 border-mansagold/50 backdrop-blur-sm text-center shadow-[0_0_40px_rgba(251,191,36,0.3)]"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              <p className="text-base md:text-lg font-semibold text-white">
+              <p className="text-xl md:text-3xl font-extrabold text-white leading-tight">
                 🚀 We just launched! <span className="text-mansagold">Help us grow</span> by sharing with family & friends.
               </p>
-              <p className="text-base md:text-lg font-medium text-white mt-2">
-                📱 Share on social media, text your group chats, <span className="text-mansagold font-semibold">tell everyone!</span>
+              <p className="text-xl md:text-2xl font-bold text-white mt-4">
+                📱 Share on social media, text your group chats, <span className="text-mansagold">tell everyone!</span>
               </p>
             </motion.div>
           </div>
