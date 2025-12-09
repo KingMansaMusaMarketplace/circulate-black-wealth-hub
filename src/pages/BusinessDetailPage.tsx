@@ -12,6 +12,7 @@ import {
   Verified,
   Camera
 } from 'lucide-react';
+import { FoundingSponsorBadge } from '@/components/badges/FoundingSponsorBadge';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -44,6 +45,7 @@ interface Business {
   logo_url: string;
   banner_url: string;
   is_verified: boolean;
+  is_founding_sponsor: boolean;
   average_rating: number;
   review_count: number;
   created_at: string;
@@ -278,12 +280,15 @@ const BusinessDetailPage = () => {
                 
                 {/* Business Info */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="flex items-center gap-3 mb-2 flex-wrap">
                     <h1 className="text-3xl md:text-4xl font-bold text-white">
                       {business.business_name}
                     </h1>
                     {business.is_verified && (
                       <Verified className="h-6 w-6 text-yellow-400" />
+                    )}
+                    {business.is_founding_sponsor && (
+                      <FoundingSponsorBadge size="md" />
                     )}
                   </div>
                   

@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { FoundingSponsorBadge } from '@/components/badges/FoundingSponsorBadge';
 
 interface Business {
   id: string;
@@ -20,6 +21,7 @@ interface Business {
   logo_url: string;
   banner_url: string;
   is_verified: boolean;
+  is_founding_sponsor?: boolean;
   average_rating: number;
   review_count: number;
 }
@@ -42,6 +44,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode }
     logo_url,
     banner_url,
     is_verified,
+    is_founding_sponsor,
     average_rating,
     review_count
   } = business;
@@ -79,7 +82,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode }
             <div className="flex-1 min-w-0">
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <Link 
                       to={`/business/${id}`} 
                       className="font-semibold text-lg text-white hover:text-transparent hover:bg-gradient-to-r hover:from-blue-400 hover:to-amber-400 hover:bg-clip-text transition-all duration-300"
@@ -88,6 +91,9 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode }
                     </Link>
                     {is_verified && (
                       <Verified className="h-5 w-5 text-blue-400" />
+                    )}
+                    {is_founding_sponsor && (
+                      <FoundingSponsorBadge size="sm" showTooltip={false} />
                     )}
                   </div>
                   
@@ -187,15 +193,18 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode }
           </Avatar>
         </div>
         
-        {/* Verification Badge */}
-        {is_verified && (
-          <div className="absolute top-4 right-4">
+        {/* Verification & Founding Sponsor Badges */}
+        <div className="absolute top-4 right-4 flex flex-col gap-2">
+          {is_verified && (
             <Badge className="bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg border-0">
               <Verified className="h-3 w-3 mr-1" />
               Verified
             </Badge>
-          </div>
-        )}
+          )}
+          {is_founding_sponsor && (
+            <FoundingSponsorBadge size="sm" showTooltip={false} />
+          )}
+        </div>
       </div>
 
       <CardHeader className="pb-3 relative z-10">
