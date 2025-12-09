@@ -227,14 +227,16 @@ const Hero = () => {
             </motion.div>
 
             {/* Early adopter CTA */}
-            <motion.p
-              className="text-sm md:text-base text-blue-200/70 mt-6 text-center lg:text-left"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+            <motion.div
+              className="mt-8 p-4 rounded-xl bg-gradient-to-r from-mansagold/20 to-amber-500/10 border border-mansagold/30 backdrop-blur-sm text-center lg:text-left"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              We just launched! Help us grow by sharing with family & friends.
-            </motion.p>
+              <p className="text-base md:text-lg font-semibold text-white">
+                🚀 We just launched! <span className="text-mansagold">Help us grow</span> by sharing with family & friends.
+              </p>
+            </motion.div>
           </div>
 
           {/* Right column - Visual */}
