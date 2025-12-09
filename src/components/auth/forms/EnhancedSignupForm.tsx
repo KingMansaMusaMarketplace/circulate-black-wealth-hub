@@ -33,10 +33,10 @@ const EnhancedSignupForm: React.FC = () => {
                   </div>
                 </div>
                 <Link 
-                  to="/feature-guide" 
+                  to="/business-signup" 
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 via-mansagold to-pink-500 hover:from-purple-700 hover:via-amber-500 hover:to-pink-600 text-white rounded-xl shadow-lg shadow-mansagold/20 hover:shadow-xl hover:shadow-mansagold/30 transition-all duration-300 font-bold hover:scale-105"
                 >
-                  View Feature Guide
+                  View All Benefits
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
