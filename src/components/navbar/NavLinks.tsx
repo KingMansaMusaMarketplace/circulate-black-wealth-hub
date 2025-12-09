@@ -17,7 +17,7 @@ const NavLinks: React.FC = () => {
 
   return (
     <NavigationMenu className="hidden md:flex">
-      <NavigationMenuList className="flex gap-1">
+      <NavigationMenuList className="flex gap-0.5">
         {/* Primary Links - Always Gold */}
         <NavigationMenuItem>
           <Link to="/" className={goldLinkClassName}>
@@ -38,15 +38,9 @@ const NavLinks: React.FC = () => {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/how-it-works" className={goldLinkClassName}>
-            How It Works
-          </Link>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
           <Link to="/impact" className={`${goldLinkClassName} flex items-center gap-1.5`}>
             <Heart className="h-4 w-4 text-red-500 fill-red-500" />
-            My Impact
+            Impact
           </Link>
         </NavigationMenuItem>
 
