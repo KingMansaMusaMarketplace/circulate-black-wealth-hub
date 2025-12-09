@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones, FolderOpen, Heart, Award, Zap, Bot, FileText } from 'lucide-react';
+import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Shield, Sparkles, Headphones, FolderOpen, Heart, Award, Zap, Bot, FileText, Store, Globe } from 'lucide-react';
 
 const NavLinks: React.FC = () => {
   const linkClassName = "text-foreground hover:text-mansagold transition-all duration-300 font-semibold px-3 py-2 rounded-md hover:bg-accent/50 relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-mansagold after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100";
@@ -83,6 +83,17 @@ const NavLinks: React.FC = () => {
                   </div>
                   <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                     Educational resources for financial empowerment
+                  </p>
+                </Link>
+              </li>
+              <li>
+                <Link to="/education" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Education</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Financial literacy and business education
                   </p>
                 </Link>
               </li>
@@ -237,6 +248,17 @@ const NavLinks: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/community-impact" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                  <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Community Impact</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    See the difference we're making together
+                  </p>
+                </Link>
+              </li>
+              <li>
                 <Link to="/support" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
                     <Headphones className="h-4 w-4 text-mansagold" />
@@ -256,6 +278,17 @@ const NavLinks: React.FC = () => {
           <NavigationMenuTrigger className={triggerClassName}>Resources</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-background/95 backdrop-blur-lg border border-border shadow-xl rounded-lg z-50">
+              <li>
+                <Link to="/directory" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                  <div className="flex items-center gap-2">
+                    <Store className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Directory</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Browse all Black-owned businesses
+                  </p>
+                </Link>
+              </li>
               <li>
                 <Link to="/all-pages" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
                   <div className="flex items-center gap-2">
