@@ -14,6 +14,7 @@ import { User, Settings, Trophy, History, MapPin, Star, Bell } from 'lucide-reac
 import { useToast } from '@/hooks/use-toast';
 import { DiscoveryPreferences } from '@/components/user/DiscoveryPreferences';
 import { NotificationSettings } from '@/components/user/NotificationSettings';
+import { FoundingMemberBadge } from '@/components/badges/FoundingMemberBadge';
 
 interface UserProfile {
   id: string;
@@ -26,6 +27,8 @@ interface UserProfile {
   subscription_tier: string;
   subscription_status: string;
   created_at: string;
+  is_founding_member?: boolean;
+  founding_member_since?: string;
 }
 
 interface UserStats {
@@ -229,6 +232,9 @@ export default function UserProfilePage() {
                   <h1 className="text-3xl md:text-4xl font-bold text-white">{profile.full_name || 'User'}</h1>
                   <p className="text-blue-200/80 text-lg">{profile.email}</p>
                   <div className="flex items-center space-x-2 flex-wrap gap-2">
+                    {profile.is_founding_member && (
+                      <FoundingMemberBadge size="md" />
+                    )}
                     <Button
                       asChild
                       variant="outline"

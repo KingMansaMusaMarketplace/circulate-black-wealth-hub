@@ -4425,11 +4425,13 @@ export type Database = {
           city: string | null
           created_at: string | null
           email: string | null
+          founding_member_since: string | null
           full_name: string | null
           hbcu_verification_status:
             | Database["public"]["Enums"]["hbcu_verification_status"]
             | null
           id: string
+          is_founding_member: boolean | null
           is_hbcu_member: boolean | null
           phone: string | null
           referral_code: string | null
@@ -4460,11 +4462,13 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           email?: string | null
+          founding_member_since?: string | null
           full_name?: string | null
           hbcu_verification_status?:
             | Database["public"]["Enums"]["hbcu_verification_status"]
             | null
           id: string
+          is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
           phone?: string | null
           referral_code?: string | null
@@ -4495,11 +4499,13 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           email?: string | null
+          founding_member_since?: string | null
           full_name?: string | null
           hbcu_verification_status?:
             | Database["public"]["Enums"]["hbcu_verification_status"]
             | null
           id?: string
+          is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
           phone?: string | null
           referral_code?: string | null

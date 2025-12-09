@@ -12,7 +12,8 @@ import {
   Target,
   Calendar,
   BarChart3,
-  Check
+  Check,
+  Crown
 } from 'lucide-react';
 
 const FreeGrowthBanner = () => {
@@ -33,6 +34,23 @@ const FreeGrowthBanner = () => {
           <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-yellow-400 to-purple-400 bg-clip-text text-transparent">
             We&apos;re building critical mass first. All features are 100% FREE for everyone - businesses and customers!
           </h2>
+        </div>
+
+        {/* Founding Member Callout */}
+        <div className="bg-gradient-to-r from-mansagold/20 via-amber-500/10 to-mansagold/20 backdrop-blur-xl rounded-2xl p-6 mb-12 max-w-3xl mx-auto border-2 border-mansagold/50 shadow-[0_0_30px_rgba(251,191,36,0.2)]">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 text-center md:text-left">
+            <div className="flex items-center gap-3">
+              <Crown className="h-10 w-10 text-mansagold" />
+              <div>
+                <h3 className="text-xl font-bold text-white">Become a Founding Member!</h3>
+                <p className="text-blue-200 text-sm">Join before January 2027 and get this exclusive badge forever</p>
+              </div>
+            </div>
+            <Badge className="bg-gradient-to-r from-mansagold via-amber-400 to-yellow-500 text-slate-900 font-bold px-4 py-2 text-base shadow-lg">
+              <Crown className="w-4 h-4 mr-2" />
+              Founding Member
+            </Badge>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 max-w-5xl mx-auto">
