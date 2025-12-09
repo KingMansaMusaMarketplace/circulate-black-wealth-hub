@@ -11,12 +11,13 @@ export interface City {
   featured?: boolean;
 }
 
+// Note: Business counts are placeholders - real counts will come from database
 export const cities: City[] = [
-  { id: 'chicago', name: 'Chicago', state: 'IL', businesses: 250, featured: true },
-  { id: 'atlanta', name: 'Atlanta', state: 'GA', businesses: 180, featured: true },
-  { id: 'houston', name: 'Houston', state: 'TX', businesses: 165, featured: true },
-  { id: 'washington-dc', name: 'Washington', state: 'DC', businesses: 135, featured: true },
-  { id: 'detroit', name: 'Detroit', state: 'MI', businesses: 95, featured: true },
+  { id: 'chicago', name: 'Chicago', state: 'IL', businesses: 0, featured: true },
+  { id: 'atlanta', name: 'Atlanta', state: 'GA', businesses: 0, featured: true },
+  { id: 'houston', name: 'Houston', state: 'TX', businesses: 0, featured: true },
+  { id: 'washington-dc', name: 'Washington', state: 'DC', businesses: 0, featured: true },
+  { id: 'detroit', name: 'Detroit', state: 'MI', businesses: 0, featured: true },
 ];
 
 interface CitySelectorProps {

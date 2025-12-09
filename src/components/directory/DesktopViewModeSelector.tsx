@@ -24,8 +24,9 @@ const DesktopViewModeSelector: React.FC<DesktopViewModeSelectorProps> = ({
     <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="text-gray-700">
-          {loading ? 'Loading...' : `${totalCount} businesses found`}
+          {loading ? 'Loading...' : `${totalCount} sample businesses`}
           {location && ' near you'}
+          <span className="text-xs text-muted-foreground ml-2">(Demo data)</span>
           {error && <span className="text-red-500 ml-2">Error loading data</span>}
         </div>
         
