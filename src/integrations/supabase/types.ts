@@ -690,6 +690,409 @@ export type Database = {
         }
         Relationships: []
       }
+      b2b_connections: {
+        Row: {
+          actual_value: number | null
+          buyer_business_id: string
+          capability_id: string | null
+          connection_type: string | null
+          created_at: string | null
+          estimated_value: number | null
+          id: string
+          initial_need_id: string | null
+          initiated_by: string | null
+          match_score: number | null
+          notes: string | null
+          status: string | null
+          supplier_business_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          actual_value?: number | null
+          buyer_business_id: string
+          capability_id?: string | null
+          connection_type?: string | null
+          created_at?: string | null
+          estimated_value?: number | null
+          id?: string
+          initial_need_id?: string | null
+          initiated_by?: string | null
+          match_score?: number | null
+          notes?: string | null
+          status?: string | null
+          supplier_business_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          actual_value?: number | null
+          buyer_business_id?: string
+          capability_id?: string | null
+          connection_type?: string | null
+          created_at?: string | null
+          estimated_value?: number | null
+          id?: string
+          initial_need_id?: string | null
+          initiated_by?: string | null
+          match_score?: number | null
+          notes?: string | null
+          status?: string | null
+          supplier_business_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "b2b_connections_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_capability_id_fkey"
+            columns: ["capability_id"]
+            isOneToOne: false
+            referencedRelation: "business_capabilities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_initial_need_id_fkey"
+            columns: ["initial_need_id"]
+            isOneToOne: false
+            referencedRelation: "business_needs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      b2b_messages: {
+        Row: {
+          attachments: Json | null
+          connection_id: string
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          message: string
+          read_at: string | null
+          sender_business_id: string
+        }
+        Insert: {
+          attachments?: Json | null
+          connection_id: string
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message: string
+          read_at?: string | null
+          sender_business_id: string
+        }
+        Update: {
+          attachments?: Json | null
+          connection_id?: string
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          read_at?: string | null
+          sender_business_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "b2b_messages_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_connections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_messages_sender_business_id_fkey"
+            columns: ["sender_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_messages_sender_business_id_fkey"
+            columns: ["sender_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_messages_sender_business_id_fkey"
+            columns: ["sender_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_messages_sender_business_id_fkey"
+            columns: ["sender_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      b2b_reviews: {
+        Row: {
+          communication_rating: number | null
+          connection_id: string | null
+          created_at: string | null
+          id: string
+          is_verified: boolean | null
+          quality_rating: number | null
+          rating: number | null
+          review_text: string | null
+          reviewed_business_id: string
+          reviewer_business_id: string
+          timeliness_rating: number | null
+          value_rating: number | null
+          would_recommend: boolean | null
+        }
+        Insert: {
+          communication_rating?: number | null
+          connection_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_verified?: boolean | null
+          quality_rating?: number | null
+          rating?: number | null
+          review_text?: string | null
+          reviewed_business_id: string
+          reviewer_business_id: string
+          timeliness_rating?: number | null
+          value_rating?: number | null
+          would_recommend?: boolean | null
+        }
+        Update: {
+          communication_rating?: number | null
+          connection_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_verified?: boolean | null
+          quality_rating?: number | null
+          rating?: number | null
+          review_text?: string | null
+          reviewed_business_id?: string
+          reviewer_business_id?: string
+          timeliness_rating?: number | null
+          value_rating?: number | null
+          would_recommend?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "b2b_reviews_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_connections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_reviews_reviewed_business_id_fkey"
+            columns: ["reviewed_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_reviews_reviewed_business_id_fkey"
+            columns: ["reviewed_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_reviews_reviewed_business_id_fkey"
+            columns: ["reviewed_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_reviews_reviewed_business_id_fkey"
+            columns: ["reviewed_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_reviews_reviewer_business_id_fkey"
+            columns: ["reviewer_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_reviews_reviewer_business_id_fkey"
+            columns: ["reviewer_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_reviews_reviewer_business_id_fkey"
+            columns: ["reviewer_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_reviews_reviewer_business_id_fkey"
+            columns: ["reviewer_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      b2b_transactions: {
+        Row: {
+          amount: number
+          buyer_business_id: string
+          connection_id: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          invoice_reference: string | null
+          supplier_business_id: string
+          transaction_date: string | null
+        }
+        Insert: {
+          amount: number
+          buyer_business_id: string
+          connection_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          invoice_reference?: string | null
+          supplier_business_id: string
+          transaction_date?: string | null
+        }
+        Update: {
+          amount?: number
+          buyer_business_id?: string
+          connection_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          invoice_reference?: string | null
+          supplier_business_id?: string
+          transaction_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "b2b_transactions_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_transactions_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_transactions_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_transactions_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_transactions_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_connections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_transactions_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_transactions_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_transactions_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_transactions_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bank_accounts: {
         Row: {
           account_name: string
@@ -1276,6 +1679,98 @@ export type Database = {
           },
         ]
       }
+      business_capabilities: {
+        Row: {
+          business_id: string
+          capability_type: string
+          category: string
+          certifications: string[] | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          lead_time_days: number | null
+          maximum_capacity: string | null
+          minimum_order_value: number | null
+          price_range_max: number | null
+          price_range_min: number | null
+          pricing_model: string | null
+          service_area: string[] | null
+          subcategory: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          capability_type: string
+          category: string
+          certifications?: string[] | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          lead_time_days?: number | null
+          maximum_capacity?: string | null
+          minimum_order_value?: number | null
+          price_range_max?: number | null
+          price_range_min?: number | null
+          pricing_model?: string | null
+          service_area?: string[] | null
+          subcategory?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          capability_type?: string
+          category?: string
+          certifications?: string[] | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          lead_time_days?: number | null
+          maximum_capacity?: string | null
+          minimum_order_value?: number | null
+          price_range_max?: number | null
+          price_range_min?: number | null
+          pricing_model?: string | null
+          service_area?: string[] | null
+          subcategory?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_capabilities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_capabilities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_capabilities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_capabilities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_contact_requests: {
         Row: {
           business_id: string
@@ -1461,6 +1956,92 @@ export type Database = {
           },
           {
             foreignKeyName: "business_interactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      business_needs: {
+        Row: {
+          budget_max: number | null
+          budget_min: number | null
+          business_id: string
+          category: string
+          created_at: string | null
+          description: string | null
+          expires_at: string | null
+          id: string
+          need_type: string
+          preferred_location: string[] | null
+          quantity: string | null
+          status: string | null
+          subcategory: string | null
+          title: string
+          updated_at: string | null
+          urgency: string | null
+        }
+        Insert: {
+          budget_max?: number | null
+          budget_min?: number | null
+          business_id: string
+          category: string
+          created_at?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          need_type: string
+          preferred_location?: string[] | null
+          quantity?: string | null
+          status?: string | null
+          subcategory?: string | null
+          title: string
+          updated_at?: string | null
+          urgency?: string | null
+        }
+        Update: {
+          budget_max?: number | null
+          budget_min?: number | null
+          business_id?: string
+          category?: string
+          created_at?: string | null
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          need_type?: string
+          preferred_location?: string[] | null
+          quantity?: string | null
+          status?: string | null
+          subcategory?: string | null
+          title?: string
+          updated_at?: string | null
+          urgency?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_needs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_needs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_needs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_needs_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_full_details"
@@ -2085,6 +2666,329 @@ export type Database = {
             columns: ["challenge_id"]
             isOneToOne: false
             referencedRelation: "group_challenges"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coalition_members: {
+        Row: {
+          business_id: string
+          contribution_rate: number | null
+          id: string
+          is_active: boolean | null
+          joined_at: string | null
+          redemption_rate: number | null
+          total_points_generated: number | null
+          total_points_redeemed: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          business_id: string
+          contribution_rate?: number | null
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string | null
+          redemption_rate?: number | null
+          total_points_generated?: number | null
+          total_points_redeemed?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          business_id?: string
+          contribution_rate?: number | null
+          id?: string
+          is_active?: boolean | null
+          joined_at?: string | null
+          redemption_rate?: number | null
+          total_points_generated?: number | null
+          total_points_redeemed?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coalition_members_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_members_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_members_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_members_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coalition_points: {
+        Row: {
+          created_at: string | null
+          customer_id: string
+          id: string
+          lifetime_earned: number | null
+          points: number | null
+          tier: string | null
+          tier_updated_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_id: string
+          id?: string
+          lifetime_earned?: number | null
+          points?: number | null
+          tier?: string | null
+          tier_updated_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_id?: string
+          id?: string
+          lifetime_earned?: number | null
+          points?: number | null
+          tier?: string | null
+          tier_updated_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      coalition_redemptions: {
+        Row: {
+          business_id: string | null
+          created_at: string | null
+          customer_id: string
+          expires_at: string | null
+          id: string
+          points_spent: number
+          redeemed_at: string | null
+          redemption_code: string
+          reward_id: string
+          status: string | null
+        }
+        Insert: {
+          business_id?: string | null
+          created_at?: string | null
+          customer_id: string
+          expires_at?: string | null
+          id?: string
+          points_spent: number
+          redeemed_at?: string | null
+          redemption_code: string
+          reward_id: string
+          status?: string | null
+        }
+        Update: {
+          business_id?: string | null
+          created_at?: string | null
+          customer_id?: string
+          expires_at?: string | null
+          id?: string
+          points_spent?: number
+          redeemed_at?: string | null
+          redemption_code?: string
+          reward_id?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coalition_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_redemptions_reward_id_fkey"
+            columns: ["reward_id"]
+            isOneToOne: false
+            referencedRelation: "coalition_rewards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      coalition_rewards: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          current_redemptions: number | null
+          description: string | null
+          discount_amount: number | null
+          discount_percentage: number | null
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          max_redemptions: number | null
+          points_cost: number
+          reward_type: string | null
+          specific_business_ids: string[] | null
+          title: string
+          updated_at: string | null
+          valid_at_all_businesses: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          current_redemptions?: number | null
+          description?: string | null
+          discount_amount?: number | null
+          discount_percentage?: number | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_redemptions?: number | null
+          points_cost: number
+          reward_type?: string | null
+          specific_business_ids?: string[] | null
+          title: string
+          updated_at?: string | null
+          valid_at_all_businesses?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          current_redemptions?: number | null
+          description?: string | null
+          discount_amount?: number | null
+          discount_percentage?: number | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          max_redemptions?: number | null
+          points_cost?: number
+          reward_type?: string | null
+          specific_business_ids?: string[] | null
+          title?: string
+          updated_at?: string | null
+          valid_at_all_businesses?: boolean | null
+        }
+        Relationships: []
+      }
+      coalition_transactions: {
+        Row: {
+          created_at: string | null
+          customer_id: string
+          description: string | null
+          id: string
+          metadata: Json | null
+          points: number
+          redeem_business_id: string | null
+          source_business_id: string | null
+          transaction_type: string
+        }
+        Insert: {
+          created_at?: string | null
+          customer_id: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          points: number
+          redeem_business_id?: string | null
+          source_business_id?: string | null
+          transaction_type: string
+        }
+        Update: {
+          created_at?: string | null
+          customer_id?: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          points?: number
+          redeem_business_id?: string | null
+          source_business_id?: string | null
+          transaction_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coalition_transactions_redeem_business_id_fkey"
+            columns: ["redeem_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_transactions_redeem_business_id_fkey"
+            columns: ["redeem_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_transactions_redeem_business_id_fkey"
+            columns: ["redeem_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_transactions_redeem_business_id_fkey"
+            columns: ["redeem_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_transactions_source_business_id_fkey"
+            columns: ["source_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_directory_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_transactions_source_business_id_fkey"
+            columns: ["source_business_id"]
+            isOneToOne: false
+            referencedRelation: "business_locations_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_transactions_source_business_id_fkey"
+            columns: ["source_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_transactions_source_business_id_fkey"
+            columns: ["source_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
             referencedColumns: ["id"]
           },
         ]
@@ -7353,6 +8257,15 @@ export type Database = {
         Returns: Json
       }
       assign_admin_role: { Args: { user_email: string }; Returns: undefined }
+      award_coalition_points: {
+        Args: {
+          p_base_points: number
+          p_business_id: string
+          p_customer_id: string
+          p_description?: string
+        }
+        Returns: Json
+      }
       award_review_points_secure: {
         Args: {
           p_business_id: string
@@ -7364,6 +8277,10 @@ export type Database = {
       calculate_asset_depreciation: {
         Args: { p_as_of_date?: string; p_asset_id: string }
         Returns: number
+      }
+      calculate_coalition_tier: {
+        Args: { lifetime_points: number }
+        Returns: string
       }
       calculate_commission: {
         Args: { p_amount: number; p_commission_rate?: number }
@@ -7621,6 +8538,7 @@ export type Database = {
           test_score: number
         }[]
       }
+      get_b2b_impact_metrics: { Args: never; Returns: Json }
       get_business_analytics_summary: {
         Args: { p_business_id: string }
         Returns: Json
@@ -7663,6 +8581,7 @@ export type Database = {
           verified_by: string
         }[]
       }
+      get_coalition_stats: { Args: never; Returns: Json }
       get_community_impact_summary: { Args: never; Returns: Json }
       get_directory_businesses: {
         Args: { p_limit?: number; p_offset?: number }
@@ -7884,6 +8803,7 @@ export type Database = {
           question: string
         }[]
       }
+      get_tier_multiplier: { Args: { tier: string }; Returns: number }
       get_user_hbcu_status: { Args: { target_user_id?: string }; Returns: Json }
       get_user_role: {
         Args: { user_id_param: string }
