@@ -24,7 +24,7 @@ export function CoalitionDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-[hsl(45,93%,58%)]" />
       </div>
     );
   }
@@ -55,10 +55,25 @@ export function CoalitionDashboard() {
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="rewards" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="rewards">Rewards</TabsTrigger>
-          <TabsTrigger value="history">History</TabsTrigger>
-          <TabsTrigger value="businesses">Businesses</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-3 bg-white/10 border border-white/20">
+          <TabsTrigger 
+            value="rewards" 
+            className="data-[state=active]:bg-[hsl(45,93%,47%)] data-[state=active]:text-[hsl(222,47%,11%)] text-white/70"
+          >
+            Rewards
+          </TabsTrigger>
+          <TabsTrigger 
+            value="history"
+            className="data-[state=active]:bg-[hsl(45,93%,47%)] data-[state=active]:text-[hsl(222,47%,11%)] text-white/70"
+          >
+            History
+          </TabsTrigger>
+          <TabsTrigger 
+            value="businesses"
+            className="data-[state=active]:bg-[hsl(45,93%,47%)] data-[state=active]:text-[hsl(222,47%,11%)] text-white/70"
+          >
+            Businesses
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="rewards" className="space-y-4">
