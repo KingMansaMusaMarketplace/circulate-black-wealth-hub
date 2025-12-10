@@ -105,7 +105,7 @@ const AdminDashboardPage: React.FC = () => {
   return (
     <RequireAdmin>
       <SidebarProvider defaultOpen={true}>
-        <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+        <div className="dark min-h-screen flex w-full bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
           {/* Animated gradient orbs */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-mansagold/20 rounded-full blur-[120px] animate-pulse" />
