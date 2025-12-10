@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
-  Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home
+  Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award
 } from 'lucide-react';
 import {
   Sidebar,
@@ -71,6 +71,7 @@ const menuGroups = [
       { id: 'verifications', label: 'Verifications', icon: ShieldCheck },
       { id: 'agents', label: 'Sales Agents', icon: Users },
       { id: 'financial', label: 'Financial', icon: DollarSign },
+      { id: 'loyalty', label: 'Loyalty Program', icon: Award },
     ]
   },
   {

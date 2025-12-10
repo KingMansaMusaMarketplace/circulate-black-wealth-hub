@@ -11,6 +11,7 @@ import RequireAdmin from '@/components/auth/RequireAdmin';
 import HelpPanel from '@/components/admin/HelpPanel';
 import DashboardAIAssistant from '@/components/admin/DashboardAIAssistant';
 import OnboardingTour from '@/components/admin/OnboardingTour';
+import LoyaltyManagement from '@/components/admin/LoyaltyManagement';
 import AdminAuditLog from '@/components/admin/AdminAuditLog';
 import SupportTicketManager from '@/components/admin/SupportTicketManager';
 import ContentModerationQueue from '@/components/admin/ContentModerationQueue';
@@ -73,6 +74,8 @@ const AdminDashboardPage: React.FC = () => {
         return <VerificationQueue />;
       case 'agents':
         return <SalesAgentAnalytics />;
+      case 'loyalty':
+        return <LoyaltyManagement />;
       case 'financial':
         return <FinancialManagement />;
       case 'exports':
