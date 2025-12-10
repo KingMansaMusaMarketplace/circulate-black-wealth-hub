@@ -22,7 +22,9 @@ import {
   ArrowRight,
   DollarSign,
   Receipt,
-  Wallet
+  Wallet,
+  Award,
+  Sparkles
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -205,21 +207,101 @@ const FeatureGuidePage = () => {
     {
       id: 'loyalty-program',
       title: 'Customer Loyalty Program',
-      description: 'Build repeat business automatically with points, rewards, and customer engagement tools.',
+      description: 'Build repeat business automatically with tiered rewards and automated progression.',
       icon: <Gift className="h-6 w-6" />,
       category: 'business',
-      tags: ['loyalty', 'rewards', 'retention', 'new'],
+      tags: ['loyalty', 'rewards', 'retention', 'tiers'],
       benefits: [
-        'Points for every purchase',
-        'Custom reward tiers',
-        'Customer visit tracking',
-        'Automated engagement'
+        'Bronze/Silver/Gold/Platinum tiers',
+        'Points multipliers (up to 2x)',
+        'Automated tier progression',
+        'Reward redemption system'
       ],
       howToUse: [
         'Configure your points structure',
         'Set up reward tiers',
         'Customers earn automatically',
         'Track engagement in analytics'
+      ]
+    },
+    {
+      id: 'loyalty-management',
+      title: 'Loyalty Program Management',
+      description: 'Full admin control over your loyalty system with comprehensive analytics and member tracking.',
+      icon: <Award className="h-6 w-6" />,
+      category: 'business',
+      tags: ['loyalty', 'admin', 'management', 'analytics', 'new'],
+      benefits: [
+        'Member analytics dashboard',
+        'Tier management controls',
+        'Reward redemption tracking',
+        'Points distribution reports'
+      ],
+      howToUse: [
+        'Access Loyalty Management in dashboard',
+        'View member tier distribution',
+        'Track reward redemptions',
+        'Analyze points trends'
+      ]
+    },
+    {
+      id: 'ai-business-coach',
+      title: 'AI Business Coach',
+      description: 'Get personalized growth insights and recommendations powered by AI to help your business thrive.',
+      icon: <Sparkles className="h-6 w-6" />,
+      category: 'business',
+      tags: ['ai', 'insights', 'growth', 'recommendations', 'new'],
+      benefits: [
+        'Smart business recommendations',
+        'Performance trend analysis',
+        'Growth opportunity alerts',
+        'Actionable improvement tips'
+      ],
+      howToUse: [
+        'Access AI Coach from dashboard',
+        'Review personalized insights',
+        'Follow growth recommendations',
+        'Track improvement over time'
+      ]
+    },
+    {
+      id: 'customer-review-system',
+      title: 'Customer Review System',
+      description: 'Build credibility with social proof by collecting and showcasing customer reviews.',
+      icon: <MessageSquare className="h-6 w-6" />,
+      category: 'business',
+      tags: ['reviews', 'reputation', 'testimonials', 'new'],
+      benefits: [
+        'Collect customer reviews easily',
+        'Showcase testimonials publicly',
+        'Respond to feedback directly',
+        'Boost online reputation'
+      ],
+      howToUse: [
+        'Enable reviews in settings',
+        'Customers leave reviews after visits',
+        'Respond to reviews from dashboard',
+        'Reviews appear on your profile'
+      ]
+    },
+    {
+      id: 'rewards-marketplace',
+      title: 'Rewards Marketplace',
+      description: 'Pre-built rewards your customers love with custom creation options and automated fulfillment.',
+      icon: <Gift className="h-6 w-6" />,
+      category: 'business',
+      tags: ['rewards', 'marketplace', 'loyalty', 'new'],
+      benefits: [
+        '8+ ready-to-use rewards',
+        'Custom reward creation',
+        'Point cost management',
+        'Automated fulfillment tracking'
+      ],
+      howToUse: [
+        'Browse pre-built reward templates',
+        'Create custom rewards for your business',
+        'Set point costs for each reward',
+        'Track redemptions automatically'
       ]
     },
     {
