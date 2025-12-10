@@ -83,17 +83,39 @@ const LoyaltyManagement: React.FC = () => {
   const fetchLoyaltyData = async () => {
     setLoading(true);
     try {
-      // Fetch loyalty points data
+      // Fetch loyalty points data - join with profiles using customer_id
       const { data: pointsData, error: pointsError } = await supabase
         .from('loyalty_points')
-        .select('*, profiles(email, full_name)');
+        .select('*, profiles:customer_id(email, full_name)');
 
       if (pointsError) throw pointsError;
 
-      // Calculate stats
-      const totalMembers = pointsData?.length || 0;
+      // Calculate stats by aggregating per user
+      const userPointsMap = new Map<string, { 
+        points: number; 
+        email: string; 
+        full_name: string; 
+        created_at: string;
+      }>();
+
+      pointsData?.forEach((record: any) => {
+        const customerId = record.customer_id;
+        const existing = userPointsMap.get(customerId);
+        
+        if (existing) {
+          existing.points += record.points || 0;
+        } else {
+          userPointsMap.set(customerId, {
+            points: record.points || 0,
+            email: record.profiles?.email || 'Unknown',
+            full_name: record.profiles?.full_name || 'Unknown User',
+            created_at: record.created_at
+          });
+        }
+      });
+
+      const totalMembers = userPointsMap.size;
       let totalPointsIssued = 0;
-      let totalPointsRedeemed = 0;
       let bronzeMembers = 0;
       let silverMembers = 0;
       let goldMembers = 0;
@@ -101,23 +123,19 @@ const LoyaltyManagement: React.FC = () => {
 
       const membersList: LoyaltyMember[] = [];
 
-      pointsData?.forEach((record: any) => {
-        const earned = record.total_earned || 0;
-        const redeemed = record.total_redeemed || 0;
-        const balance = record.points_balance || 0;
-        
-        totalPointsIssued += earned;
-        totalPointsRedeemed += redeemed;
+      userPointsMap.forEach((userData, customerId) => {
+        const points = userData.points;
+        totalPointsIssued += points;
 
-        // Determine tier based on total earned
+        // Determine tier based on total points
         let tier = 'Bronze';
-        if (earned >= 5000) {
+        if (points >= 5000) {
           tier = 'Platinum';
           platinumMembers++;
-        } else if (earned >= 2000) {
+        } else if (points >= 2000) {
           tier = 'Gold';
           goldMembers++;
-        } else if (earned >= 500) {
+        } else if (points >= 500) {
           tier = 'Silver';
           silverMembers++;
         } else {
@@ -125,16 +143,38 @@ const LoyaltyManagement: React.FC = () => {
         }
 
         membersList.push({
-          id: record.user_id,
-          email: record.profiles?.email || 'Unknown',
-          full_name: record.profiles?.full_name || 'Unknown User',
-          points_balance: balance,
+          id: customerId,
+          email: userData.email,
+          full_name: userData.full_name,
+          points_balance: points,
           tier,
-          total_earned: earned,
-          total_redeemed: redeemed,
-          created_at: record.created_at,
+          total_earned: points,
+          total_redeemed: 0,
+          created_at: userData.created_at,
         });
       });
+
+      // Fetch redemption data
+      const { data: redemptionsData } = await supabase
+        .from('redeemed_rewards')
+        .select('customer_id, points_used');
+
+      let totalPointsRedeemed = 0;
+      if (redemptionsData) {
+        const redemptionsByUser = new Map<string, number>();
+        redemptionsData.forEach((r: any) => {
+          const current = redemptionsByUser.get(r.customer_id) || 0;
+          redemptionsByUser.set(r.customer_id, current + (r.points_used || 0));
+          totalPointsRedeemed += r.points_used || 0;
+        });
+
+        // Update members with redemption data
+        membersList.forEach(member => {
+          const redeemed = redemptionsByUser.get(member.id) || 0;
+          member.total_redeemed = redeemed;
+          member.points_balance = member.total_earned - redeemed;
+        });
+      }
 
       // Fetch rewards count
       const { count: rewardsCount } = await supabase
