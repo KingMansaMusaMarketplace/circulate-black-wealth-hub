@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import BusinessSignupForm from '@/components/auth/forms/BusinessSignupForm';
 import { getSalesAgentByReferralCode } from '@/lib/api/sales-agent-api';
 import { SalesAgent } from '@/types/sales-agent';
-import { Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, Wallet, BarChart3, Shield, Star, Quote } from 'lucide-react';
+import { Calendar, DollarSign, QrCode, Users, TrendingUp, Receipt, CheckCircle, Wallet, BarChart3, Shield, Star, Quote, Award, Sparkles, MessageSquare, Gift } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 const BusinessSignupPage: React.FC = () => {
@@ -81,10 +81,10 @@ const BusinessSignupPage: React.FC = () => {
       title: 'Customer Loyalty Program',
       description: 'Build repeat business automatically',
       details: [
-        'Points for every purchase',
-        'Custom reward tiers',
-        'Customer visit tracking',
-        'Automated engagement'
+        'Bronze/Silver/Gold/Platinum tiers',
+        'Points multipliers (up to 2x)',
+        'Automated tier progression',
+        'Reward redemption system'
       ],
       color: 'from-orange-500 to-amber-500'
     },
@@ -123,6 +123,54 @@ const BusinessSignupPage: React.FC = () => {
         'Contact & location info'
       ],
       color: 'from-sky-500 to-blue-500'
+    },
+    {
+      icon: Award,
+      title: 'Loyalty Program Management',
+      description: 'Full admin control over your loyalty system',
+      details: [
+        'Member analytics dashboard',
+        'Tier management controls',
+        'Reward redemption tracking',
+        'Points distribution reports'
+      ],
+      color: 'from-amber-500 to-yellow-500'
+    },
+    {
+      icon: Sparkles,
+      title: 'AI Business Coach',
+      description: 'Get personalized growth insights',
+      details: [
+        'Smart business recommendations',
+        'Performance trend analysis',
+        'Growth opportunity alerts',
+        'Actionable improvement tips'
+      ],
+      color: 'from-violet-500 to-purple-500'
+    },
+    {
+      icon: MessageSquare,
+      title: 'Customer Review System',
+      description: 'Build credibility with social proof',
+      details: [
+        'Collect customer reviews',
+        'Showcase testimonials',
+        'Respond to feedback',
+        'Boost online reputation'
+      ],
+      color: 'from-pink-500 to-rose-500'
+    },
+    {
+      icon: Gift,
+      title: 'Rewards Marketplace',
+      description: 'Pre-built rewards your customers love',
+      details: [
+        '8+ ready-to-use rewards',
+        'Custom reward creation',
+        'Point cost management',
+        'Automated fulfillment'
+      ],
+      color: 'from-cyan-500 to-teal-500'
     }
   ];
 
@@ -223,7 +271,7 @@ const BusinessSignupPage: React.FC = () => {
                 Everything You Need to Run Your Business
               </h2>
               <p className="text-slate-300 text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed">
-                No hidden fees, no extra charges. Get powerful tools worth <span className="text-emerald-400 font-bold">$500+/month</span> — all included in one simple subscription.
+                No hidden fees, no extra charges. Get powerful tools worth <span className="text-emerald-400 font-bold">$750+/month</span> — all included in one simple subscription.
               </p>
             </div>
             
@@ -281,12 +329,12 @@ const BusinessSignupPage: React.FC = () => {
               <div className="relative bg-slate-800/80 backdrop-blur-xl border border-mansagold/30 rounded-2xl p-6 text-center">
                 <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12">
                   <div>
-                    <p className="text-3xl font-bold text-mansagold">8+</p>
+                    <p className="text-3xl font-bold text-mansagold">12+</p>
                     <p className="text-sm text-slate-400">Premium Tools</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
                   <div>
-                    <p className="text-3xl font-bold text-green-400">$500+</p>
+                    <p className="text-3xl font-bold text-green-400">$750+</p>
                     <p className="text-sm text-slate-400">Value Per Month</p>
                   </div>
                   <div className="hidden md:block w-px h-12 bg-white/20" />
