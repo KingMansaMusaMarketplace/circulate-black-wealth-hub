@@ -17,6 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const noLayoutPages = [
     '/scanner',
     '/qr-scanner',
+    '/admin-dashboard',
   ];
   
   // Pages that should show bottom tab bar on mobile
