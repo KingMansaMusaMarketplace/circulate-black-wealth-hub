@@ -73,7 +73,7 @@ export function B2BMarketplace() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin text-amber-400" />
       </div>
     );
   }
@@ -86,23 +86,23 @@ export function B2BMarketplace() {
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <Input
             placeholder="Search suppliers or needs..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-slate-800/50 border-white/10 text-white placeholder:text-slate-400 focus:border-amber-500/50 focus:ring-amber-500/20"
           />
         </div>
         <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger className="w-full sm:w-[200px]">
-            <Filter className="h-4 w-4 mr-2" />
+          <SelectTrigger className="w-full sm:w-[200px] bg-slate-800/50 border-white/10 text-white">
+            <Filter className="h-4 w-4 mr-2 text-slate-400" />
             <SelectValue placeholder="Category" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Categories</SelectItem>
+          <SelectContent className="bg-slate-800 border-white/10">
+            <SelectItem value="all" className="text-white hover:bg-white/10">All Categories</SelectItem>
             {B2B_CATEGORIES.map((cat) => (
-              <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+              <SelectItem key={cat} value={cat} className="text-white hover:bg-white/10">{cat}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -110,20 +110,26 @@ export function B2BMarketplace() {
 
       {/* Main Content */}
       <Tabs defaultValue="suppliers" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="suppliers">
+        <TabsList className="grid w-full grid-cols-2 bg-slate-800/50 border border-white/10 p-1">
+          <TabsTrigger 
+            value="suppliers"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-amber-600 data-[state=active]:text-slate-900 text-slate-300"
+          >
             Suppliers ({filteredCapabilities.length})
           </TabsTrigger>
-          <TabsTrigger value="needs">
+          <TabsTrigger 
+            value="needs"
+            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-amber-600 data-[state=active]:text-slate-900 text-slate-300"
+          >
             Business Needs ({filteredNeeds.length})
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="suppliers" className="space-y-4">
           {filteredCapabilities.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground mb-4">No suppliers found matching your criteria</p>
-              <Button variant="outline">
+            <div className="text-center py-12 bg-slate-800/30 backdrop-blur-sm rounded-xl border border-white/10">
+              <p className="text-slate-400 mb-4">No suppliers found matching your criteria</p>
+              <Button variant="outline" className="border-amber-500/50 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300">
                 <Plus className="h-4 w-4 mr-2" />
                 List Your Business as a Supplier
               </Button>
@@ -143,9 +149,9 @@ export function B2BMarketplace() {
 
         <TabsContent value="needs" className="space-y-4">
           {filteredNeeds.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground mb-4">No open business needs found</p>
-              <Button variant="outline">
+            <div className="text-center py-12 bg-slate-800/30 backdrop-blur-sm rounded-xl border border-white/10">
+              <p className="text-slate-400 mb-4">No open business needs found</p>
+              <Button variant="outline" className="border-amber-500/50 text-amber-400 hover:bg-amber-500/10 hover:text-amber-300">
                 <Plus className="h-4 w-4 mr-2" />
                 Post What You Need
               </Button>
