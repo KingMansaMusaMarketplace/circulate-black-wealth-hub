@@ -7,24 +7,24 @@ export const useReferrals = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  // Fetch user's referral code and stats
+  // Fetch user's referral code from profile or create one
   const { data: referralData, isLoading: referralLoading } = useQuery({
     queryKey: ['referral-code', user?.id],
     queryFn: async () => {
       if (!user) return null;
 
-      // Get or create referral code
-      const { data: existingReferral } = await supabase
-        .from('referrals')
+      // First check profile for existing code
+      const { data: profile } = await supabase
+        .from('profiles')
         .select('referral_code')
-        .eq('referrer_id', user.id)
+        .eq('id', user.id)
         .single();
 
-      if (existingReferral) {
-        return existingReferral;
+      if (profile?.referral_code) {
+        return { referral_code: profile.referral_code };
       }
 
-      // Create new referral code
+      // Create new referral code via RPC
       const { data: newCode, error } = await supabase.rpc('create_user_referral', {
         p_user_id: user.id
       });
@@ -70,7 +70,7 @@ export const useReferrals = () => {
       if (!user) return [];
 
       const { data, error } = await supabase
-        .from('referrals')
+        .from('user_referrals')
         .select(`
           *,
           profiles:referred_id (
@@ -127,7 +127,7 @@ export const useReferrals = () => {
         .from('referral_stats')
         .select(`
           *,
-          profiles (
+          profiles:user_id (
             full_name
           )
         `)

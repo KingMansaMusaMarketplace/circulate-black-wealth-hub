@@ -5997,6 +5997,134 @@ export type Database = {
           },
         ]
       }
+      referral_rewards: {
+        Row: {
+          claimed_at: string | null
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          referral_id: string | null
+          reward_description: string
+          reward_type: string
+          reward_value: number
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          claimed_at?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          referral_id?: string | null
+          reward_description: string
+          reward_type: string
+          reward_value?: number
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          claimed_at?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          referral_id?: string | null
+          reward_description?: string
+          reward_type?: string
+          reward_value?: number
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_rewards_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "user_referrals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referral_stats: {
+        Row: {
+          created_at: string | null
+          current_tier: string | null
+          id: string
+          pending_referrals: number | null
+          rank: number | null
+          successful_referrals: number | null
+          total_cash_earned: number | null
+          total_points_earned: number | null
+          total_referrals: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_tier?: string | null
+          id?: string
+          pending_referrals?: number | null
+          rank?: number | null
+          successful_referrals?: number | null
+          total_cash_earned?: number | null
+          total_points_earned?: number | null
+          total_referrals?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          current_tier?: string | null
+          id?: string
+          pending_referrals?: number | null
+          rank?: number | null
+          successful_referrals?: number | null
+          total_cash_earned?: number | null
+          total_points_earned?: number | null
+          total_referrals?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      referral_tiers: {
+        Row: {
+          cash_bonus: number
+          created_at: string | null
+          id: string
+          max_referrals: number | null
+          min_referrals: number
+          points_per_referral: number
+          special_perks: Json | null
+          tier_color: string | null
+          tier_name: string
+          updated_at: string | null
+        }
+        Insert: {
+          cash_bonus?: number
+          created_at?: string | null
+          id?: string
+          max_referrals?: number | null
+          min_referrals?: number
+          points_per_referral?: number
+          special_perks?: Json | null
+          tier_color?: string | null
+          tier_name: string
+          updated_at?: string | null
+        }
+        Update: {
+          cash_bonus?: number
+          created_at?: string | null
+          id?: string
+          max_referrals?: number | null
+          min_referrals?: number
+          points_per_referral?: number
+          special_perks?: Json | null
+          tier_color?: string | null
+          tier_name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       referrals: {
         Row: {
           commission_amount: number | null
@@ -7960,6 +8088,45 @@ export type Database = {
         }
         Relationships: []
       }
+      user_referrals: {
+        Row: {
+          cash_awarded: number | null
+          converted_at: string | null
+          created_at: string | null
+          id: string
+          points_awarded: number | null
+          referral_code: string
+          referred_email: string | null
+          referred_id: string | null
+          referrer_id: string
+          status: string | null
+        }
+        Insert: {
+          cash_awarded?: number | null
+          converted_at?: string | null
+          created_at?: string | null
+          id?: string
+          points_awarded?: number | null
+          referral_code: string
+          referred_email?: string | null
+          referred_id?: string | null
+          referrer_id: string
+          status?: string | null
+        }
+        Update: {
+          cash_awarded?: number | null
+          converted_at?: string | null
+          created_at?: string | null
+          id?: string
+          points_awarded?: number | null
+          referral_code?: string
+          referred_email?: string | null
+          referred_id?: string | null
+          referrer_id?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           granted_at: string | null
@@ -8342,6 +8509,7 @@ export type Database = {
         }
         Returns: string
       }
+      create_user_referral: { Args: { p_user_id: string }; Returns: string }
       delete_user_account: { Args: { user_id: string }; Returns: undefined }
       delete_user_account_immediate: { Args: never; Returns: Json }
       expire_challenges: { Args: never; Returns: undefined }
