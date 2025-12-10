@@ -20,29 +20,32 @@ const ErrorPage: React.FC = () => {
   const is404 = errorStatus === 404;
 
   return (
-    <div className="min-h-screen flex items-center justify-center gradient-primary relative overflow-hidden p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden p-4">
       <Helmet>
         <title>{errorStatus} - {is404 ? 'Page Not Found' : 'Error'} | Mansa Musa Marketplace</title>
       </Helmet>
       
       {/* Animated Gradient Orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-mansagold/20 blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-mansagold/15 blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/3 w-64 h-64 rounded-full bg-white/5 blur-2xl animate-float" style={{ animationDelay: '4s' }}></div>
-        <div className="absolute bottom-1/4 left-1/4 w-48 h-48 rounded-full bg-mansagold/10 blur-2xl animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-mansagold/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-1/3 left-1/4 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1.5s' }} />
+        {/* Grid overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
       </div>
       
       {/* Glass Card */}
-      <div className="relative z-10 w-full max-w-md">
-        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-8 text-center shadow-2xl">
+      <div className="relative z-10 w-full max-w-md animate-fade-in">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl blur-xl" />
+        <div className="relative backdrop-blur-xl bg-slate-900/80 border border-white/10 rounded-2xl p-8 text-center shadow-2xl">
           {/* Icon */}
-          <div className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center bg-mansagold/20 border border-mansagold/30">
+          <div className="w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-gradient-to-br from-mansagold/30 to-orange-500/20 border border-mansagold/30 shadow-lg shadow-mansagold/20">
             <AlertTriangle className="h-10 w-10 text-mansagold" />
           </div>
           
           {/* Error Status */}
-          <div className="text-7xl font-bold text-mansagold/80 mb-4 font-display">
+          <div className="text-7xl font-bold bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent mb-4 font-display">
             {errorStatus}
           </div>
           
@@ -52,7 +55,7 @@ const ErrorPage: React.FC = () => {
           </h1>
           
           {/* Description */}
-          <p className="text-white/80 mb-6 font-body">
+          <p className="text-blue-200/80 mb-6 font-body text-lg">
             {is404 
               ? "The page you're looking for doesn't exist or has been moved."
               : "We apologize for the inconvenience. Please try again."
@@ -61,14 +64,14 @@ const ErrorPage: React.FC = () => {
           
           {/* Dev Error Message */}
           {process.env.NODE_ENV === 'development' && !is404 && (
-            <div className="p-3 bg-black/30 backdrop-blur-sm rounded-lg text-xs font-mono text-left overflow-auto max-h-32 mb-6 border border-white/10">
-              <span className="text-red-300">{errorMessage}</span>
+            <div className="p-3 bg-black/40 backdrop-blur-sm rounded-lg text-xs font-mono text-left overflow-auto max-h-32 mb-6 border border-red-500/30">
+              <span className="text-red-400">{errorMessage}</span>
             </div>
           )}
           
           {/* Buttons */}
           <div className="flex flex-col space-y-3">
-            <Button asChild className="w-full bg-mansagold hover:bg-mansagold-dark text-mansablue font-semibold">
+            <Button asChild className="w-full bg-gradient-to-r from-mansagold to-amber-500 hover:from-amber-500 hover:to-mansagold text-slate-900 font-semibold shadow-lg shadow-mansagold/30 hover:shadow-xl hover:shadow-mansagold/40 transition-all duration-300">
               <Link to="/">
                 <Home className="h-4 w-4 mr-2" />
                 Go Home
@@ -77,7 +80,7 @@ const ErrorPage: React.FC = () => {
             <Button 
               variant="outline" 
               onClick={() => window.history.back()} 
-              className="w-full border-white/30 text-white hover:bg-white/10 hover:text-white"
+              className="w-full border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white hover:border-white/30 transition-all duration-300"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Go Back
@@ -86,23 +89,23 @@ const ErrorPage: React.FC = () => {
           
           {/* 404 Helpful Links */}
           {is404 && (
-            <div className="mt-6 p-4 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-              <p className="text-sm text-mansagold font-semibold mb-2">
+            <div className="mt-6 p-4 bg-blue-500/10 backdrop-blur-sm rounded-xl border border-blue-500/20">
+              <p className="text-sm text-mansagold font-semibold mb-3">
                 Looking for something specific?
               </p>
-              <ul className="text-sm text-white/80 space-y-1">
+              <ul className="text-sm text-blue-200/90 space-y-2">
                 <li>
-                  <Link to="/directory" className="hover:text-mansagold transition-colors underline underline-offset-2">
+                  <Link to="/directory" className="hover:text-mansagold transition-colors underline underline-offset-2 decoration-white/30 hover:decoration-mansagold">
                     Browse Business Directory
                   </Link>
                 </li>
                 <li>
-                  <Link to="/about" className="hover:text-mansagold transition-colors underline underline-offset-2">
+                  <Link to="/about" className="hover:text-mansagold transition-colors underline underline-offset-2 decoration-white/30 hover:decoration-mansagold">
                     Learn About Us
                   </Link>
                 </li>
                 <li>
-                  <Link to="/help" className="hover:text-mansagold transition-colors underline underline-offset-2">
+                  <Link to="/help" className="hover:text-mansagold transition-colors underline underline-offset-2 decoration-white/30 hover:decoration-mansagold">
                     Get Help
                   </Link>
                 </li>
