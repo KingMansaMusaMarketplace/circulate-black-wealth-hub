@@ -49,13 +49,10 @@ export default function AdminEmailListPage() {
       return;
     }
 
-    const { data: roleData } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', user.id)
-      .single();
+    const { data: role, error } = await supabase
+      .rpc('get_user_role', { user_id_param: user.id });
 
-    if (!roleData || roleData.role !== 'admin') {
+    if (error || role !== 'admin') {
       toast.error('Access denied: Admin only');
       navigate('/');
     }
