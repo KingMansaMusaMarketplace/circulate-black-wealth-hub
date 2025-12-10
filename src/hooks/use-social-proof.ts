@@ -53,11 +53,14 @@ export const useSocialProof = () => {
     try {
       setLoading(true);
 
+      const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
       // Fetch community metrics
-      const [usersCount, businessesCount, transactionsSum] = await Promise.all([
+      const [usersCount, businessesCount, transactionsSum, activeUsersCount] = await Promise.all([
         supabase.from('profiles').select('id', { count: 'exact', head: true }),
         supabase.from('businesses').select('id', { count: 'exact', head: true }).eq('is_verified', true),
-        supabase.from('transactions').select('amount').gte('transaction_date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
+        supabase.from('transactions').select('amount').gte('transaction_date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
+        supabase.from('activity_log').select('user_id', { count: 'exact', head: true }).gte('created_at', oneWeekAgo)
       ]);
 
       const totalWealth = transactionsSum.data?.reduce((sum, t) => sum + (Number(t.amount) || 0), 0) || 0;
@@ -67,7 +70,7 @@ export const useSocialProof = () => {
         total_businesses: businessesCount.count || 0,
         total_wealth_circulated: totalWealth,
         jobs_supported: Math.floor((businessesCount.count || 0) * 2.5),
-        active_this_week: Math.floor((usersCount.count || 0) * 0.35)
+        active_this_week: activeUsersCount.count || 0
       });
 
       // Fetch success stories
