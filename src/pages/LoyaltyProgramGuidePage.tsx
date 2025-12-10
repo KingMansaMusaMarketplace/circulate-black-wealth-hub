@@ -69,21 +69,21 @@ const LoyaltyProgramGuidePage: React.FC = () => {
   const tiers = [
     {
       name: "Bronze",
-      icon: <Award className="h-10 w-10 text-amber-700" />,
+      icon: <Award className="h-10 w-10 text-amber-600" />,
       pointsRequired: "0",
       multiplier: "1x",
       benefits: ["Earn base points", "Access to standard rewards", "Member newsletter"],
-      color: "from-amber-700/20 to-amber-900/20",
-      border: "border-amber-700/30"
+      bgColor: "bg-amber-900/40",
+      border: "border-amber-600/50"
     },
     {
       name: "Silver",
-      icon: <Star className="h-10 w-10 text-gray-400" />,
+      icon: <Star className="h-10 w-10 text-slate-300" />,
       pointsRequired: "500",
       multiplier: "1.25x",
       benefits: ["25% bonus points", "Early access to deals", "Birthday rewards", "Silver-exclusive offers"],
-      color: "from-gray-400/20 to-gray-600/20",
-      border: "border-gray-400/30"
+      bgColor: "bg-slate-800/50",
+      border: "border-slate-400/50"
     },
     {
       name: "Gold",
@@ -91,8 +91,8 @@ const LoyaltyProgramGuidePage: React.FC = () => {
       pointsRequired: "2,000",
       multiplier: "1.5x",
       benefits: ["50% bonus points", "VIP event access", "Priority support", "Gold-only flash sales", "Free shipping offers"],
-      color: "from-mansagold/20 to-yellow-600/20",
-      border: "border-mansagold/30"
+      bgColor: "bg-amber-800/50",
+      border: "border-mansagold/60"
     },
     {
       name: "Platinum",
@@ -100,8 +100,8 @@ const LoyaltyProgramGuidePage: React.FC = () => {
       pointsRequired: "5,000",
       multiplier: "2x",
       benefits: ["Double points", "Exclusive experiences", "Personal concierge", "Annual appreciation gift", "First access to new businesses"],
-      color: "from-cyan-400/20 to-purple-600/20",
-      border: "border-cyan-400/30"
+      bgColor: "bg-gradient-to-b from-cyan-900/50 to-purple-900/50",
+      border: "border-cyan-400/50"
     }
   ];
 
@@ -284,20 +284,20 @@ const LoyaltyProgramGuidePage: React.FC = () => {
                         transition={{ delay: index * 0.1 }}
                         viewport={{ once: true }}
                       >
-                        <Card className={`bg-gradient-to-b ${tier.color} backdrop-blur-lg ${tier.border} border h-full`}>
+                        <Card className={`${tier.bgColor} backdrop-blur-lg ${tier.border} border-2 h-full`}>
                           <CardHeader className="text-center pb-2">
                             <div className="flex justify-center mb-2">{tier.icon}</div>
-                            <CardTitle className="text-white text-xl">{tier.name}</CardTitle>
-                            <div className="text-white/60 text-sm">{tier.pointsRequired}+ points</div>
+                            <CardTitle className="text-white text-xl font-bold">{tier.name}</CardTitle>
+                            <div className="text-white/90 text-sm font-medium">{tier.pointsRequired}+ points</div>
                           </CardHeader>
                           <CardContent className="pt-0">
                             <div className="text-center mb-4">
                               <span className="text-2xl font-bold text-mansagold">{tier.multiplier}</span>
-                              <span className="text-white/60 text-sm ml-1">points multiplier</span>
+                              <span className="text-white/90 text-sm font-medium ml-2">points multiplier</span>
                             </div>
                             <ul className="space-y-2">
                               {tier.benefits.map((benefit, i) => (
-                                <li key={i} className="flex items-start gap-2 text-sm text-white/80">
+                                <li key={i} className="flex items-start gap-2 text-sm text-white font-medium">
                                   <CheckCircle className="h-4 w-4 text-mansagold shrink-0 mt-0.5" />
                                   {benefit}
                                 </li>
