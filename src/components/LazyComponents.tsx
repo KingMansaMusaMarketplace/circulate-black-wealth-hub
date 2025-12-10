@@ -49,3 +49,8 @@ export const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirector
 
 // Media Kit Page
 export const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
+
+// Coalition & B2B Pages
+export const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
+export const LazyB2BMarketplacePage = lazy(() => import('@/pages/B2BMarketplacePage'));
+export const LazyB2BDashboardPage = lazy(() => import('@/pages/business/B2BDashboardPage'));
