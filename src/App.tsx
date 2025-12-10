@@ -64,7 +64,10 @@ import {
 // Media Kit page
 const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 
-// Additional lazy loaded pages (defined directly for performance)
+// Coalition & B2B pages
+const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
+const LazyB2BMarketplacePage = lazy(() => import('@/pages/B2BMarketplacePage'));
+const LazyB2BDashboardPage = lazy(() => import('@/pages/business/B2BDashboardPage'));
 const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
 const LazyRewardsPage = lazy(() => import('@/pages/RewardsPage'));
 const LazyBusinessDiscoveryPage = lazy(() => import('@/pages/BusinessDiscoveryPage'));
@@ -396,13 +399,17 @@ function App() {
                                 </IOSProtectedRoute>
                               } />
                               <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
+                              <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
                               <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                               <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
                               <Route path="/button-test" element={<LazyButtonTestPage />} />
+                              <Route path="/b2b-marketplace" element={<LazyB2BMarketplacePage />} />
                               
                               {/* C */}
                               <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
+                              <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                              <Route path="/coalition" element={<LazyCoalitionPage />} />
                               <Route path="/challenges" element={<LazyGroupChallengesPage />} />
                               <Route path="/community" element={<LazyCommunityPage />} />
                               <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
@@ -616,14 +623,17 @@ function App() {
                           </IOSProtectedRoute>
                         } />
                         <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
+                        <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
                         <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                         <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                         <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
                         <Route path="/button-test" element={<LazyButtonTestPage />} />
+                        <Route path="/b2b-marketplace" element={<LazyB2BMarketplacePage />} />
                         
                         {/* C */}
                         <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
                         <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                        <Route path="/coalition" element={<LazyCoalitionPage />} />
                         <Route path="/community" element={<LazyCommunityPage />} />
                         <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                         <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
