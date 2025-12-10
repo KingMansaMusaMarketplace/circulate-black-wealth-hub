@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -212,6 +212,13 @@ export const useLoyalty = () => {
       setLoading(false);
     }
   }, [user]);
+
+  // Auto-fetch data when user changes
+  useEffect(() => {
+    if (user) {
+      refreshData();
+    }
+  }, [user, refreshData]);
 
   // Calculate tier based on points
   const calculatedTier = summary.totalPoints >= 5000 ? 'Platinum' 
