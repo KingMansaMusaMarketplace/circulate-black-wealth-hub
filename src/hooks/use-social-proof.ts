@@ -60,17 +60,18 @@ export const useSocialProof = () => {
         supabase.from('profiles').select('id', { count: 'exact', head: true }),
         supabase.from('businesses').select('id', { count: 'exact', head: true }).eq('is_verified', true),
         supabase.from('transactions').select('amount').gte('transaction_date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
-        supabase.from('activity_log').select('user_id', { count: 'exact', head: true }).gte('created_at', oneWeekAgo)
+        supabase.from('activity_log').select('user_id').gte('created_at', oneWeekAgo)
       ]);
 
       const totalWealth = transactionsSum.data?.reduce((sum, t) => sum + (Number(t.amount) || 0), 0) || 0;
+      const uniqueActiveUsers = new Set(activeUsersCount.data?.map(a => a.user_id) || []).size;
 
       setMetrics({
         total_users: usersCount.count || 0,
         total_businesses: businessesCount.count || 0,
         total_wealth_circulated: totalWealth,
         jobs_supported: Math.floor((businessesCount.count || 0) * 2.5),
-        active_this_week: activeUsersCount.count || 0
+        active_this_week: uniqueActiveUsers
       });
 
       // Fetch success stories
