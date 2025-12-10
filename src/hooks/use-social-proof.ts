@@ -55,22 +55,24 @@ export const useSocialProof = () => {
 
       const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-      // Fetch community metrics
-      const [usersCount, businessesCount, transactionsSum, activeUsersCount] = await Promise.all([
-        supabase.from('profiles').select('id', { count: 'exact', head: true }),
-        supabase.from('businesses').select('id', { count: 'exact', head: true }).eq('is_verified', true),
+      // Fetch community metrics using RPC to bypass RLS
+      const [platformStats, transactionsSum, activeUsersData] = await Promise.all([
+        supabase.rpc('get_platform_stats'),
         supabase.from('transactions').select('amount').gte('transaction_date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
         supabase.from('activity_log').select('user_id').gte('created_at', oneWeekAgo)
       ]);
 
       const totalWealth = transactionsSum.data?.reduce((sum, t) => sum + (Number(t.amount) || 0), 0) || 0;
-      const uniqueActiveUsers = new Set(activeUsersCount.data?.map(a => a.user_id) || []).size;
+      const uniqueActiveUsers = new Set(activeUsersData.data?.map(a => a.user_id) || []).size;
+
+      const totalUsers = platformStats.data?.total_members || 0;
+      const totalBusinesses = platformStats.data?.total_businesses || 0;
 
       setMetrics({
-        total_users: usersCount.count || 0,
-        total_businesses: businessesCount.count || 0,
+        total_users: totalUsers,
+        total_businesses: totalBusinesses,
         total_wealth_circulated: totalWealth,
-        jobs_supported: Math.floor((businessesCount.count || 0) * 2.5),
+        jobs_supported: Math.floor(totalBusinesses * 2.5),
         active_this_week: uniqueActiveUsers
       });
 
