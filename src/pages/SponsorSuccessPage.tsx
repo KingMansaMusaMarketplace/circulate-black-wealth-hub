@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, ArrowRight, Loader2 } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Loader2, Sparkles, Crown } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useSponsorSubscription } from '@/hooks/useSponsorSubscription';
 import { Badge } from '@/components/ui/badge';
@@ -17,12 +17,12 @@ const SponsorSuccessPage: React.FC = () => {
 
   const getTierColor = (tier: string) => {
     const colors: Record<string, string> = {
-      platinum: 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100',
-      gold: 'bg-yellow-100 text-yellow-900 dark:bg-yellow-900 dark:text-yellow-100',
-      silver: 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-gray-100',
-      bronze: 'bg-orange-100 text-orange-900 dark:bg-orange-900 dark:text-orange-100',
+      platinum: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+      gold: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+      silver: 'bg-gray-400/20 text-gray-300 border-gray-400/30',
+      bronze: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
     };
-    return colors[tier.toLowerCase()] || 'bg-muted text-muted-foreground';
+    return colors[tier.toLowerCase()] || 'bg-white/10 text-white/70';
   };
 
   return (
@@ -32,19 +32,32 @@ const SponsorSuccessPage: React.FC = () => {
         <meta name="description" content="Your corporate sponsorship has been confirmed. Thank you for supporting Black-owned businesses." />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex items-center justify-center p-4">
-        <Card className="max-w-2xl w-full">
+      <div className="min-h-screen bg-[#0a1628] relative overflow-hidden flex items-center justify-center p-4">
+        {/* Animated gradient orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-gradient-to-br from-amber-500/30 to-yellow-600/20 rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite]" />
+          <div className="absolute top-1/3 -left-60 w-[600px] h-[600px] bg-gradient-to-tr from-blue-600/25 to-indigo-700/15 rounded-full blur-3xl animate-[pulse_10s_ease-in-out_infinite_1s]" />
+          <div className="absolute -bottom-40 right-1/4 w-[400px] h-[400px] bg-gradient-to-tl from-emerald-500/20 to-green-600/10 rounded-full blur-3xl animate-[pulse_12s_ease-in-out_infinite_2s]" />
+        </div>
+
+        <Card className="max-w-2xl w-full bg-white/5 backdrop-blur-xl border-white/10 relative z-10">
           <CardHeader className="text-center space-y-4">
             {isPreviewMode && (
-              <Badge variant="outline" className="mx-auto bg-yellow-100 text-yellow-800 border-yellow-300">
+              <Badge variant="outline" className="mx-auto bg-amber-500/20 text-amber-300 border-amber-500/30">
                 Preview Mode - No session ID provided
               </Badge>
             )}
-            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-              <CheckCircle2 className="h-10 w-10 text-green-600" />
+            <div className="mx-auto w-20 h-20 bg-gradient-to-br from-emerald-500 to-green-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/25">
+              <CheckCircle2 className="h-12 w-12 text-white" />
             </div>
-            <CardTitle className="text-3xl">Sponsorship Confirmed!</CardTitle>
-            <CardDescription className="text-lg">
+            <div className="flex items-center justify-center gap-2">
+              <Crown className="h-6 w-6 text-amber-400" />
+              <CardTitle className="text-3xl bg-gradient-to-r from-amber-200 via-yellow-100 to-amber-200 bg-clip-text text-transparent">
+                Sponsorship Confirmed!
+              </CardTitle>
+              <Crown className="h-6 w-6 text-amber-400" />
+            </div>
+            <CardDescription className="text-lg text-blue-200/80">
               Thank you for becoming a corporate sponsor. Your support will make a real difference in strengthening Black-owned businesses and communities.
             </CardDescription>
           </CardHeader>
@@ -52,44 +65,47 @@ const SponsorSuccessPage: React.FC = () => {
           <CardContent className="space-y-6">
             {isLoading ? (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <Loader2 className="h-8 w-8 animate-spin text-amber-400" />
               </div>
             ) : error ? (
-              <div className="bg-muted/50 rounded-lg p-6 text-center">
-                <p className="text-muted-foreground">Loading your subscription details...</p>
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 text-center">
+                <p className="text-blue-200/70">Loading your subscription details...</p>
               </div>
             ) : subscription ? (
-              <div className="bg-muted/50 rounded-lg p-6 space-y-4">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-lg">Your Sponsorship Details</h3>
+                  <h3 className="font-semibold text-lg text-amber-100 flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-amber-400" />
+                    Your Sponsorship Details
+                  </h3>
                   <Badge className={getTierColor(subscription.tier)}>
                     {subscription.tier.toUpperCase()}
                   </Badge>
                 </div>
                 <div className="grid gap-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Company:</span>
-                    <span className="font-medium">{subscription.company_name}</span>
+                    <span className="text-blue-200/70">Company:</span>
+                    <span className="font-medium text-blue-100">{subscription.company_name}</span>
                   </div>
                   {subscription.current_period_start && (
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Billing Started:</span>
-                      <span className="font-medium">
+                      <span className="text-blue-200/70">Billing Started:</span>
+                      <span className="font-medium text-blue-100">
                         {format(new Date(subscription.current_period_start), 'MMM d, yyyy')}
                       </span>
                     </div>
                   )}
                   {subscription.current_period_end && (
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Next Billing:</span>
-                      <span className="font-medium">
+                      <span className="text-blue-200/70">Next Billing:</span>
+                      <span className="font-medium text-blue-100">
                         {format(new Date(subscription.current_period_end), 'MMM d, yyyy')}
                       </span>
                     </div>
                   )}
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Status:</span>
-                    <Badge variant={subscription.status === 'active' ? 'default' : 'secondary'}>
+                    <span className="text-blue-200/70">Status:</span>
+                    <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
                       {subscription.status}
                     </Badge>
                   </div>
@@ -97,31 +113,34 @@ const SponsorSuccessPage: React.FC = () => {
               </div>
             ) : null}
 
-            <div className="bg-muted/50 rounded-lg p-6 space-y-3">
-              <h3 className="font-semibold text-lg">What Happens Next?</h3>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <span>You'll receive a confirmation email with your sponsorship details</span>
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg p-6 space-y-3">
+              <h3 className="font-semibold text-lg text-amber-100 flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-amber-400" />
+                What Happens Next?
+              </h3>
+              <ul className="space-y-3 text-sm">
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <span className="text-blue-100">You will receive a confirmation email with your sponsorship details</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <span>Your company logo will be added to the platform within 24 hours</span>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <span className="text-blue-100">Your company logo will be added to the platform within 24 hours</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <span>Access to your sponsor dashboard will be granted shortly</span>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <span className="text-blue-100">Access to your sponsor dashboard will be granted shortly</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <span>Our team will contact you to coordinate promotional materials</span>
+                <li className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <span className="text-blue-100">Our team will contact you to coordinate promotional materials</span>
                 </li>
               </ul>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
               <Button 
-                className="flex-1" 
+                className="flex-1 bg-gradient-to-r from-amber-500 to-yellow-600 text-white hover:from-amber-600 hover:to-yellow-700 shadow-lg shadow-amber-500/25" 
                 onClick={() => navigate('/sponsor-dashboard')}
               >
                 Go to Dashboard
@@ -129,15 +148,20 @@ const SponsorSuccessPage: React.FC = () => {
               </Button>
               <Button 
                 variant="outline" 
-                className="flex-1"
+                className="flex-1 bg-white/5 border-white/20 text-blue-100 hover:bg-white/10 hover:text-white"
                 onClick={() => navigate('/')}
               >
                 Back to Home
               </Button>
             </div>
 
-            <div className="text-center text-sm text-muted-foreground pt-4 border-t">
-              <p>Questions? Contact us at <a href="mailto:sponsors@example.com" className="text-primary hover:underline">sponsors@example.com</a></p>
+            <div className="text-center text-sm pt-4 border-t border-white/10">
+              <p className="text-blue-200/70">
+                Questions? Contact us at{' '}
+                <a href="mailto:sponsors@mansamusamarketplace.com" className="text-amber-400 hover:text-amber-300 hover:underline">
+                  sponsors@mansamusamarketplace.com
+                </a>
+              </p>
             </div>
           </CardContent>
         </Card>
