@@ -85,8 +85,8 @@ serve(async (req) => {
         },
       ],
       mode: "subscription",
-      success_url: `${req.headers.get("origin")}/sponsor-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/pricing`,
+      success_url: `${req.headers.get("origin")}/payment-success?session_id={CHECKOUT_SESSION_ID}&user_type=corporate`,
+      cancel_url: `${req.headers.get("origin")}/corporate-pricing`,
       metadata: {
         user_id: user.id,
         tier: tier,
