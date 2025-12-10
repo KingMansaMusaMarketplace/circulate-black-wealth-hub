@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,13 +12,8 @@ const SponsorSuccessPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const sessionId = searchParams.get('session_id');
+  const isPreviewMode = !sessionId;
   const { subscription, isLoading, error } = useSponsorSubscription();
-
-  useEffect(() => {
-    if (!sessionId) {
-      navigate('/sponsor-pricing');
-    }
-  }, [sessionId, navigate]);
 
   const getTierColor = (tier: string) => {
     const colors: Record<string, string> = {
@@ -40,6 +35,11 @@ const SponsorSuccessPage: React.FC = () => {
       <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 flex items-center justify-center p-4">
         <Card className="max-w-2xl w-full">
           <CardHeader className="text-center space-y-4">
+            {isPreviewMode && (
+              <Badge variant="outline" className="mx-auto bg-yellow-100 text-yellow-800 border-yellow-300">
+                Preview Mode - No session ID provided
+              </Badge>
+            )}
             <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
               <CheckCircle2 className="h-10 w-10 text-green-600" />
             </div>
