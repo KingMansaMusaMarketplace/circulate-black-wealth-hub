@@ -104,6 +104,17 @@ const NavLinks: React.FC = () => {
                   </p>
                 </Link>
               </li>
+              <li>
+                <Link to="/loyalty-program-guide" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02]">
+                  <div className="flex items-center gap-2">
+                    <Award className="h-4 w-4 text-mansagold" />
+                    <div className="text-sm font-medium leading-none">Loyalty Program Guide</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Learn how our B2B & B2C loyalty rewards work
+                  </p>
+                </Link>
+              </li>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
