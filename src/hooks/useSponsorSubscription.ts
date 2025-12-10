@@ -37,10 +37,10 @@ export const useSponsorSubscription = () => {
         .from('corporate_subscriptions')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
-      return data as SponsorSubscription;
+      return data as SponsorSubscription | null;
     },
     enabled: !!user,
   });
