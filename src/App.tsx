@@ -134,6 +134,7 @@ const LazyAIAssistantPage = lazy(() => import('@/pages/AIAssistantPage'));
 const LazyAdminFraudDetectionPage = lazy(() => import('@/pages/AdminFraudDetectionPage'));
 const LazyAdminSentimentAnalysisPage = lazy(() => import('@/pages/AdminSentimentAnalysisPage'));
 const LazyLearningHubPage = lazy(() => import('@/pages/LearningHubPage'));
+const LazyLoyaltyProgramGuidePage = lazy(() => import('@/pages/LoyaltyProgramGuidePage'));
 const LazyAdminPage = lazy(() => import('@/pages/AdminPage'));
 const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
@@ -454,6 +455,7 @@ function App() {
                               <Route path="/login" element={<LazyLoginPage />} />
                               <Route path="/loyalty" element={<LazyRewardsPage />} />
                               <Route path="/loyalty" element={<LazyLoyaltyPage />} />
+                              <Route path="/loyalty-program-guide" element={<LazyLoyaltyProgramGuidePage />} />
                               
                               {/* M */}
                               <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
@@ -681,6 +683,7 @@ function App() {
                         <Route path="/login" element={<LazyLoginPage />} />
                         <Route path="/loyalty" element={<LazyRewardsPage />} />
                         <Route path="/loyalty" element={<LazyLoyaltyPage />} />
+                        <Route path="/loyalty-program-guide" element={<LazyLoyaltyProgramGuidePage />} />
                         
                         {/* M */}
                         <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
