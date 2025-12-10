@@ -24,7 +24,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const tabBarPages = ['/', '/directory', '/dashboard/profile', '/how-it-works'];
   const shouldShowTabBar = isNative && tabBarPages.includes(location.pathname);
   
-  const shouldShowLayout = !noLayoutPages.includes(location.pathname);
+  // Check if current path matches any no-layout page (exact match or starts with)
+  const shouldShowLayout = !noLayoutPages.some(page => 
+    location.pathname === page || location.pathname.startsWith(page + '/')
+  );
 
   if (!shouldShowLayout) {
     return <>{children}</>;
