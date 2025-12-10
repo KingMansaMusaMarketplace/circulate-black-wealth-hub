@@ -18,15 +18,9 @@ const PaymentSuccessPage: React.FC = () => {
   useEffect(() => {
     const verifyPayment = async () => {
       const sessionId = searchParams.get('session_id');
-      const userType = searchParams.get('user_type');
 
-      if (!sessionId) {
-        toast.error('Invalid payment session');
-        navigate('/');
-        return;
-      }
-
-      // Give Stripe webhook time to process
+      // Give Stripe webhook time to process, then show success
+      // We don't redirect away even without session_id - let users see the success page
       setTimeout(() => {
         setSuccess(true);
         setLoading(false);
@@ -34,7 +28,7 @@ const PaymentSuccessPage: React.FC = () => {
     };
 
     verifyPayment();
-  }, [searchParams, navigate]);
+  }, [searchParams]);
 
   const handleContinue = () => {
     const userType = searchParams.get('user_type');
