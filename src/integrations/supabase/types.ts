@@ -8768,9 +8768,9 @@ export type Database = {
           location_type: string
           logo_url: string
           name: string
-          parent_business_id: string
           review_count: number
           state: string
+          updated_at: string
           website: string
           zip_code: string
         }[]
@@ -9169,6 +9169,37 @@ export type Database = {
       sanitize_text_input: {
         Args: { input_text: string; max_length?: number }
         Returns: string
+      }
+      search_directory_businesses: {
+        Args: {
+          p_category?: string
+          p_city?: string
+          p_limit?: number
+          p_offset?: number
+          p_search_term?: string
+          p_state?: string
+        }
+        Returns: {
+          address: string
+          average_rating: number
+          banner_url: string
+          business_name: string
+          category: string
+          city: string
+          created_at: string
+          description: string
+          id: string
+          is_verified: boolean
+          location_name: string
+          location_type: string
+          logo_url: string
+          name: string
+          review_count: number
+          state: string
+          updated_at: string
+          website: string
+          zip_code: string
+        }[]
       }
       search_public_businesses: {
         Args: {
