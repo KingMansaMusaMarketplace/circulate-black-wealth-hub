@@ -98,20 +98,6 @@ export type Database = {
             foreignKeyName: "account_suspensions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "account_suspensions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "account_suspensions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -159,20 +145,6 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "activity_log_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "activity_log_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "activity_log_business_id_fkey"
             columns: ["business_id"]
@@ -577,20 +549,6 @@ export type Database = {
             foreignKeyName: "ai_recommendations_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "ai_recommendations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "ai_recommendations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -744,20 +702,6 @@ export type Database = {
             foreignKeyName: "b2b_connections_buyer_business_id_fkey"
             columns: ["buyer_business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_connections_buyer_business_id_fkey"
-            columns: ["buyer_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_connections_buyer_business_id_fkey"
-            columns: ["buyer_business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -780,20 +724,6 @@ export type Database = {
             columns: ["initial_need_id"]
             isOneToOne: false
             referencedRelation: "business_needs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_connections_supplier_business_id_fkey"
-            columns: ["supplier_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_connections_supplier_business_id_fkey"
-            columns: ["supplier_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
             referencedColumns: ["id"]
           },
           {
@@ -849,20 +779,6 @@ export type Database = {
             columns: ["connection_id"]
             isOneToOne: false
             referencedRelation: "b2b_connections"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_messages_sender_business_id_fkey"
-            columns: ["sender_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_messages_sender_business_id_fkey"
-            columns: ["sender_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
             referencedColumns: ["id"]
           },
           {
@@ -939,20 +855,6 @@ export type Database = {
             foreignKeyName: "b2b_reviews_reviewed_business_id_fkey"
             columns: ["reviewed_business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_reviews_reviewed_business_id_fkey"
-            columns: ["reviewed_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_reviews_reviewed_business_id_fkey"
-            columns: ["reviewed_business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -961,20 +863,6 @@ export type Database = {
             columns: ["reviewed_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_full_details"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_reviews_reviewer_business_id_fkey"
-            columns: ["reviewer_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_reviews_reviewer_business_id_fkey"
-            columns: ["reviewer_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
             referencedColumns: ["id"]
           },
           {
@@ -1032,20 +920,6 @@ export type Database = {
             foreignKeyName: "b2b_transactions_buyer_business_id_fkey"
             columns: ["buyer_business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_transactions_buyer_business_id_fkey"
-            columns: ["buyer_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_transactions_buyer_business_id_fkey"
-            columns: ["buyer_business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -1061,20 +935,6 @@ export type Database = {
             columns: ["connection_id"]
             isOneToOne: false
             referencedRelation: "b2b_connections"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_transactions_supplier_business_id_fkey"
-            columns: ["supplier_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "b2b_transactions_supplier_business_id_fkey"
-            columns: ["supplier_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
             referencedColumns: ["id"]
           },
           {
@@ -1140,20 +1000,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "bank_accounts_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "bank_accounts_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "bank_accounts_business_id_fkey"
             columns: ["business_id"]
@@ -1231,20 +1077,6 @@ export type Database = {
             columns: ["bank_account_id"]
             isOneToOne: false
             referencedRelation: "bank_accounts"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "bank_transactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "bank_transactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
             referencedColumns: ["id"]
           },
           {
@@ -1345,20 +1177,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "bookings_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "bookings_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "bookings_business_id_fkey"
             columns: ["business_id"]
@@ -1479,20 +1297,6 @@ export type Database = {
             foreignKeyName: "budgets_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "budgets_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "budgets_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -1534,20 +1338,6 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "business_access_log_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_access_log_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "business_access_log_business_id_fkey"
             columns: ["business_id"]
@@ -1594,20 +1384,6 @@ export type Database = {
             foreignKeyName: "business_analytics_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_analytics_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_analytics_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -1649,20 +1425,6 @@ export type Database = {
           start_time?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "business_availability_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_availability_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "business_availability_business_id_fkey"
             columns: ["business_id"]
@@ -1745,20 +1507,6 @@ export type Database = {
             foreignKeyName: "business_capabilities_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_capabilities_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_capabilities_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -1816,20 +1564,6 @@ export type Database = {
             foreignKeyName: "business_contact_requests_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_contact_requests_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_contact_requests_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -1881,20 +1615,6 @@ export type Database = {
             foreignKeyName: "business_insights_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_insights_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_insights_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -1933,20 +1653,6 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "business_interactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_interactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "business_interactions_business_id_fkey"
             columns: ["business_id"]
@@ -2023,20 +1729,6 @@ export type Database = {
             foreignKeyName: "business_needs_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_needs_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_needs_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -2084,20 +1776,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "business_payment_accounts_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: true
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_payment_accounts_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: true
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "business_payment_accounts_business_id_fkey"
             columns: ["business_id"]
@@ -2171,20 +1849,6 @@ export type Database = {
             foreignKeyName: "business_sentiment_trends_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_sentiment_trends_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_sentiment_trends_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -2236,20 +1900,6 @@ export type Database = {
             foreignKeyName: "business_services_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_services_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_services_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -2291,20 +1941,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "business_tax_rates_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_tax_rates_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "business_tax_rates_business_id_fkey"
             columns: ["business_id"]
@@ -2371,20 +2007,6 @@ export type Database = {
           verified_by?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "business_verifications_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "business_verifications_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "business_verifications_business_id_fkey"
             columns: ["business_id"]
@@ -2515,20 +2137,6 @@ export type Database = {
             foreignKeyName: "businesses_parent_business_id_fkey"
             columns: ["parent_business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -2570,20 +2178,6 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "businesses_private_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: true
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_private_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: true
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "businesses_private_business_id_fkey"
             columns: ["business_id"]
@@ -2709,20 +2303,6 @@ export type Database = {
             foreignKeyName: "coalition_members_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: true
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "coalition_members_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: true
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "coalition_members_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: true
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -2806,20 +2386,6 @@ export type Database = {
           status?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "coalition_redemptions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "coalition_redemptions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "coalition_redemptions_business_id_fkey"
             columns: ["business_id"]
@@ -2939,20 +2505,6 @@ export type Database = {
             foreignKeyName: "coalition_transactions_redeem_business_id_fkey"
             columns: ["redeem_business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "coalition_transactions_redeem_business_id_fkey"
-            columns: ["redeem_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "coalition_transactions_redeem_business_id_fkey"
-            columns: ["redeem_business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -2961,20 +2513,6 @@ export type Database = {
             columns: ["redeem_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_full_details"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "coalition_transactions_source_business_id_fkey"
-            columns: ["source_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "coalition_transactions_source_business_id_fkey"
-            columns: ["source_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
             referencedColumns: ["id"]
           },
           {
@@ -3124,20 +2662,6 @@ export type Database = {
             foreignKeyName: "commission_transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "commission_transactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "commission_transactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -3241,20 +2765,6 @@ export type Database = {
             foreignKeyName: "community_events_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "community_events_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "community_events_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -3350,20 +2860,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "community_investments_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "community_investments_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "community_investments_business_id_fkey"
             columns: ["business_id"]
@@ -3688,20 +3184,6 @@ export type Database = {
             foreignKeyName: "expenses_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "expenses_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "expenses_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -3819,20 +3301,6 @@ export type Database = {
             foreignKeyName: "financial_audit_log_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "financial_audit_log_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "financial_audit_log_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -3904,20 +3372,6 @@ export type Database = {
           useful_life_years?: number
         }
         Relationships: [
-          {
-            foreignKeyName: "fixed_assets_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fixed_assets_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "fixed_assets_business_id_fkey"
             columns: ["business_id"]
@@ -4144,20 +3598,6 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "fraud_alerts_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "fraud_alerts_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "fraud_alerts_business_id_fkey"
             columns: ["business_id"]
@@ -4486,20 +3926,6 @@ export type Database = {
             foreignKeyName: "invoices_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invoices_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invoices_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -4571,20 +3997,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "loyalty_points_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "loyalty_points_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "loyalty_points_business_id_fkey"
             columns: ["business_id"]
@@ -5201,20 +4613,6 @@ export type Database = {
             foreignKeyName: "platform_transactions_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "platform_transactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "platform_transactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -5293,20 +4691,6 @@ export type Database = {
           view_count?: number | null
         }
         Relationships: [
-          {
-            foreignKeyName: "product_images_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "product_images_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "product_images_business_id_fkey"
             columns: ["business_id"]
@@ -5475,20 +4859,6 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "promo_code_redemptions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "promo_code_redemptions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "promo_code_redemptions_business_id_fkey"
             columns: ["business_id"]
@@ -5664,20 +5034,6 @@ export type Database = {
             foreignKeyName: "qr_codes_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "qr_codes_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "qr_codes_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -5728,20 +5084,6 @@ export type Database = {
           scan_date?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "qr_scans_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "qr_scans_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "qr_scans_business_id_fkey"
             columns: ["business_id"]
@@ -5855,20 +5197,6 @@ export type Database = {
             foreignKeyName: "recurring_invoices_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "recurring_invoices_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "recurring_invoices_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -5916,20 +5244,6 @@ export type Database = {
           reward_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "redeemed_rewards_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "redeemed_rewards_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "redeemed_rewards_business_id_fkey"
             columns: ["business_id"]
@@ -6228,20 +5542,6 @@ export type Database = {
             foreignKeyName: "review_requests_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "review_requests_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "review_requests_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -6301,20 +5601,6 @@ export type Database = {
           urgency_level?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "review_sentiment_analysis_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "review_sentiment_analysis_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "review_sentiment_analysis_business_id_fkey"
             columns: ["business_id"]
@@ -6380,20 +5666,6 @@ export type Database = {
             foreignKeyName: "reviews_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "reviews_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "reviews_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -6444,20 +5716,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "rewards_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "rewards_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "rewards_business_id_fkey"
             columns: ["business_id"]
@@ -6987,20 +6245,6 @@ export type Database = {
             foreignKeyName: "shopping_list_items_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "shopping_list_items_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "shopping_list_items_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -7085,20 +6329,6 @@ export type Database = {
             foreignKeyName: "social_activity_feed_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "social_activity_feed_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "social_activity_feed_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -7140,20 +6370,6 @@ export type Database = {
           shared_by?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "social_shares_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "social_shares_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "social_shares_business_id_fkey"
             columns: ["business_id"]
@@ -7542,20 +6758,6 @@ export type Database = {
             foreignKeyName: "success_stories_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "success_stories_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "success_stories_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -7747,20 +6949,6 @@ export type Database = {
             foreignKeyName: "tenant_configurations_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: true
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tenant_configurations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: true
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tenant_configurations_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: true
             referencedRelation: "businesses"
             referencedColumns: ["id"]
           },
@@ -7808,20 +6996,6 @@ export type Database = {
           user_id?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "testimonials_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "testimonials_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "testimonials_business_id_fkey"
             columns: ["business_id"]
@@ -7885,20 +7059,6 @@ export type Database = {
           transaction_type?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "transactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "transactions_business_id_fkey"
-            columns: ["business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "transactions_business_id_fkey"
             columns: ["business_id"]
@@ -8186,147 +7346,6 @@ export type Database = {
       }
     }
     Views: {
-      business_directory_public: {
-        Row: {
-          address: string | null
-          average_rating: number | null
-          banner_url: string | null
-          business_name: string | null
-          category: string | null
-          city: string | null
-          created_at: string | null
-          description: string | null
-          id: string | null
-          is_verified: boolean | null
-          location_name: string | null
-          location_type: string | null
-          logo_url: string | null
-          name: string | null
-          parent_business_id: string | null
-          review_count: number | null
-          state: string | null
-          website: string | null
-          zip_code: string | null
-        }
-        Insert: {
-          address?: string | null
-          average_rating?: number | null
-          banner_url?: string | null
-          business_name?: string | null
-          category?: string | null
-          city?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string | null
-          is_verified?: boolean | null
-          location_name?: string | null
-          location_type?: string | null
-          logo_url?: string | null
-          name?: string | null
-          parent_business_id?: string | null
-          review_count?: number | null
-          state?: string | null
-          website?: string | null
-          zip_code?: string | null
-        }
-        Update: {
-          address?: string | null
-          average_rating?: number | null
-          banner_url?: string | null
-          business_name?: string | null
-          category?: string | null
-          city?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string | null
-          is_verified?: boolean | null
-          location_name?: string | null
-          location_type?: string | null
-          logo_url?: string | null
-          name?: string | null
-          parent_business_id?: string | null
-          review_count?: number | null
-          state?: string | null
-          website?: string | null
-          zip_code?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_full_details"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      business_locations_view: {
-        Row: {
-          business_name: string | null
-          city: string | null
-          created_at: string | null
-          id: string | null
-          is_verified: boolean | null
-          location_manager_id: string | null
-          location_name: string | null
-          location_type: string | null
-          owner_id: string | null
-          parent_business_id: string | null
-          parent_business_name: string | null
-          state: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "businesses_full_details"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       businesses_full_details: {
         Row: {
           address: string | null
@@ -8363,20 +7382,6 @@ export type Database = {
           zip_code: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_directory_public"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "businesses_parent_business_id_fkey"
-            columns: ["parent_business_id"]
-            isOneToOne: false
-            referencedRelation: "business_locations_view"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "businesses_parent_business_id_fkey"
             columns: ["parent_business_id"]
@@ -8907,6 +7912,14 @@ export type Database = {
           state: string
           website: string
           zip_code: string
+        }[]
+      }
+      get_public_profile_info: {
+        Args: { user_ids: string[] }
+        Returns: {
+          avatar_url: string
+          display_name: string
+          id: string
         }[]
       }
       get_public_referral_codes: {

@@ -49,12 +49,10 @@ export const useCommunityActivity = (limit = 10) => {
         let profilesMap: Record<string, any> = {};
         if (customerIds.length > 0) {
           const { data: profiles } = await supabase
-            .from('profiles')
-            .select('id, full_name, avatar_url')
-            .in('id', customerIds);
+            .rpc('get_public_profile_info', { user_ids: customerIds });
           
-          profilesMap = (profiles || []).reduce((acc, p) => {
-            acc[p.id] = p;
+          profilesMap = (profiles || []).reduce((acc: Record<string, any>, p: any) => {
+            acc[p.id] = { full_name: p.display_name, avatar_url: p.avatar_url };
             return acc;
           }, {} as Record<string, any>);
         }
@@ -101,12 +99,10 @@ export const useCommunityActivity = (limit = 10) => {
         let reviewerProfiles: Record<string, any> = {};
         if (reviewerIds.length > 0) {
           const { data: profiles } = await supabase
-            .from('profiles')
-            .select('id, full_name, avatar_url')
-            .in('id', reviewerIds);
+            .rpc('get_public_profile_info', { user_ids: reviewerIds });
           
-          reviewerProfiles = (profiles || []).reduce((acc, p) => {
-            acc[p.id] = p;
+          reviewerProfiles = (profiles || []).reduce((acc: Record<string, any>, p: any) => {
+            acc[p.id] = { full_name: p.display_name, avatar_url: p.avatar_url };
             return acc;
           }, {} as Record<string, any>);
         }
