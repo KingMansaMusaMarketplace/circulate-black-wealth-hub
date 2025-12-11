@@ -32,10 +32,10 @@ export const useLoyaltyLeaderboard = (limit: number = 10) => {
           
         if (transactionsError) throw transactionsError;
         
-        // Get user profiles for display names
+        // Get user profiles using secure function (respects RLS)
+        const userIds = [...new Set(transactions.map(tx => tx.customer_id).filter(Boolean))];
         const { data: profiles, error: profilesError } = await supabase
-          .from('profiles')
-          .select('id, full_name, avatar_url');
+          .rpc('get_public_profile_info', { user_ids: userIds });
           
         if (profilesError) throw profilesError;
         
@@ -55,12 +55,11 @@ export const useLoyaltyLeaderboard = (limit: number = 10) => {
         // Create leaderboard array
         const leaderboardData: LeaderboardUser[] = Array.from(pointsMap.entries())
           .map(([userId, points]) => {
-            const profile = profiles.find(p => p.id === userId) || { full_name: 'Anonymous User' };
+            const profile = (profiles || []).find((p: any) => p.id === userId);
             return {
               id: userId,
-              username: profile.full_name || 'Anonymous User',
-              // Fix the TypeScript error by using optional chaining for avatar_url
-              avatarUrl: 'avatar_url' in profile ? profile.avatar_url : undefined,
+              username: profile?.display_name || 'Anonymous User',
+              avatarUrl: profile?.avatar_url,
               totalPoints: points as number,
               rank: 0, // Will set this after sorting
               isCurrentUser: user && userId === user.id
