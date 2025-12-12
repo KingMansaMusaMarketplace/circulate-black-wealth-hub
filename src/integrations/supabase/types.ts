@@ -1961,9 +1961,16 @@ export type Database = {
         Row: {
           address_document_url: string | null
           admin_notes: string | null
+          badge_tier: string | null
           business_id: string
+          business_license_url: string | null
+          certificate_number: string | null
+          certification_agreement_accepted: boolean | null
+          certification_agreement_date: string | null
+          certification_expires_at: string | null
           created_at: string
           id: string
+          identity_document_url: string | null
           ownership_document_url: string | null
           ownership_percentage: number | null
           registration_document_url: string | null
@@ -1977,9 +1984,16 @@ export type Database = {
         Insert: {
           address_document_url?: string | null
           admin_notes?: string | null
+          badge_tier?: string | null
           business_id: string
+          business_license_url?: string | null
+          certificate_number?: string | null
+          certification_agreement_accepted?: boolean | null
+          certification_agreement_date?: string | null
+          certification_expires_at?: string | null
           created_at?: string
           id?: string
+          identity_document_url?: string | null
           ownership_document_url?: string | null
           ownership_percentage?: number | null
           registration_document_url?: string | null
@@ -1993,9 +2007,16 @@ export type Database = {
         Update: {
           address_document_url?: string | null
           admin_notes?: string | null
+          badge_tier?: string | null
           business_id?: string
+          business_license_url?: string | null
+          certificate_number?: string | null
+          certification_agreement_accepted?: boolean | null
+          certification_agreement_date?: string | null
+          certification_expires_at?: string | null
           created_at?: string
           id?: string
+          identity_document_url?: string | null
           ownership_document_url?: string | null
           ownership_percentage?: number | null
           registration_document_url?: string | null
@@ -7344,6 +7365,76 @@ export type Database = {
         }
         Relationships: []
       }
+      verification_certificates: {
+        Row: {
+          business_id: string
+          certificate_number: string
+          created_at: string
+          embed_code: string | null
+          expires_at: string
+          id: string
+          is_active: boolean | null
+          issued_at: string
+          pdf_url: string | null
+          revoked_at: string | null
+          revoked_reason: string | null
+          updated_at: string
+          verification_id: string
+        }
+        Insert: {
+          business_id: string
+          certificate_number: string
+          created_at?: string
+          embed_code?: string | null
+          expires_at: string
+          id?: string
+          is_active?: boolean | null
+          issued_at?: string
+          pdf_url?: string | null
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          updated_at?: string
+          verification_id: string
+        }
+        Update: {
+          business_id?: string
+          certificate_number?: string
+          created_at?: string
+          embed_code?: string | null
+          expires_at?: string
+          id?: string
+          is_active?: boolean | null
+          issued_at?: string
+          pdf_url?: string | null
+          revoked_at?: string | null
+          revoked_reason?: string | null
+          updated_at?: string
+          verification_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_certificates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verification_certificates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "verification_certificates_verification_id_fkey"
+            columns: ["verification_id"]
+            isOneToOne: false
+            referencedRelation: "business_verifications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       businesses_full_details: {
@@ -7427,6 +7518,19 @@ export type Database = {
       approve_corporate_subscription: {
         Args: { p_admin_notes?: string; p_subscription_id: string }
         Returns: Json
+      }
+      approve_verification_with_certificate: {
+        Args: {
+          p_admin_id: string
+          p_admin_notes?: string
+          p_badge_tier?: string
+          p_verification_id: string
+        }
+        Returns: {
+          certificate_number: string
+          expires_at: string
+          verification_id: string
+        }[]
       }
       assign_admin_role: { Args: { user_email: string }; Returns: undefined }
       award_coalition_points: {
@@ -7519,6 +7623,7 @@ export type Database = {
       delete_user_account_immediate: { Args: never; Returns: Json }
       expire_challenges: { Args: never; Returns: undefined }
       generate_batch_number: { Args: never; Returns: string }
+      generate_certificate_number: { Args: never; Returns: string }
       generate_invoice_number: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_ticket_number: { Args: never; Returns: string }

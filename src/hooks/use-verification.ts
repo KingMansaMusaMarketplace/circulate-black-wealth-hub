@@ -33,7 +33,7 @@ export const useVerification = (businessId?: string, userId?: string) => {
   // Upload document
   const uploadDocument = async (
     file: File,
-    documentType: 'registration' | 'ownership' | 'address'
+    documentType: 'registration' | 'ownership' | 'address' | 'identity' | 'license'
   ) => {
     if (!businessId || !userId) {
       setError('Missing business or user information');
@@ -63,7 +63,11 @@ export const useVerification = (businessId?: string, userId?: string) => {
     ownershipPercentage: number,
     registrationDocUrl: string,
     ownershipDocUrl: string,
-    addressDocUrl: string
+    addressDocUrl: string,
+    identityDocUrl?: string,
+    licenseDocUrl?: string,
+    certificationAccepted?: boolean,
+    ownerLegalName?: string
   ) => {
     if (!businessId) {
       setError('Missing business information');
@@ -79,7 +83,11 @@ export const useVerification = (businessId?: string, userId?: string) => {
         ownershipPercentage,
         registrationDocUrl,
         ownershipDocUrl,
-        addressDocUrl
+        addressDocUrl,
+        identityDocUrl,
+        licenseDocUrl,
+        certificationAccepted,
+        ownerLegalName
       );
 
       if (!result.success) {
