@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { fetchVerificationQueue, approveBusinessVerification, rejectBusinessVerification } from '@/lib/api/verification-api';
-import { VerificationQueueItem } from '@/lib/types/verification';
+import { VerificationQueueItem, REJECTION_TEMPLATES } from '@/lib/types/verification';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, CheckCircle, XCircle, Eye, RefreshCw, Building2 } from 'lucide-react';
+import { Loader2, CheckCircle, XCircle, Eye, RefreshCw, Building2, Award, FileText, ExternalLink } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { supabase } from '@/integrations/supabase/client';
-import { format } from 'date-fns';
+import { format, addYears } from 'date-fns';
+import { toast } from 'sonner';
+import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 
 interface RegisteredBusiness {
   id: string;
@@ -48,6 +53,13 @@ const VerificationQueue: React.FC = () => {
   const [actionLoading, setActionLoading] = useState(false);
   const [filter, setFilter] = useState('pending');
   const [activeTab, setActiveTab] = useState('businesses');
+  const [selectedBadgeTier, setSelectedBadgeTier] = useState<string>('certified');
+  const [verificationChecklist, setVerificationChecklist] = useState({
+    registrationValid: false,
+    ownershipConfirmed: false,
+    idMatches: false,
+    addressVerified: false,
+  });
 
   useEffect(() => {
     loadQueue();
@@ -134,13 +146,42 @@ const VerificationQueue: React.FC = () => {
   };
 
   const handleApprove = async (id: string) => {
+    // Check if all checklist items are checked
+    const allChecked = Object.values(verificationChecklist).every(v => v);
+    if (!allChecked) {
+      toast.error('Please complete all verification checklist items before approving');
+      return;
+    }
+
     setActionLoading(true);
-    const success = await approveBusinessVerification(id);
-    if (success) {
+    try {
+      // Use the database function to approve with certificate generation
+      const { data, error } = await supabase.rpc('approve_verification_with_certificate', {
+        p_verification_id: id,
+        p_badge_tier: selectedBadgeTier
+      });
+
+      if (error) throw error;
+
+      toast.success(`Verification approved! Certificate: ${data}`);
       await loadQueue();
       setIsViewOpen(false);
+      resetChecklist();
+    } catch (error) {
+      console.error('Error approving verification:', error);
+      toast.error('Failed to approve verification');
     }
     setActionLoading(false);
+  };
+
+  const resetChecklist = () => {
+    setVerificationChecklist({
+      registrationValid: false,
+      ownershipConfirmed: false,
+      idMatches: false,
+      addressVerified: false,
+    });
+    setSelectedBadgeTier('certified');
   };
 
   const handleReject = async () => {
@@ -400,7 +441,7 @@ const VerificationQueue: React.FC = () => {
           </DialogHeader>
           
           {selectedItem && (
-            <div className="space-y-6 py-4">
+            <div className="space-y-6 py-4 max-h-[70vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h3 className="text-lg font-medium text-white">Business Information</h3>
@@ -443,9 +484,40 @@ const VerificationQueue: React.FC = () => {
                         </span> {new Date(selectedItem.verified_at).toLocaleDateString()}
                       </div>
                     )}
+                    {selectedItem.certificate_number && (
+                      <div className="flex items-center gap-2">
+                        <Award className="h-4 w-4 text-mansagold" />
+                        <span className="font-medium text-mansagold">Certificate: {selectedItem.certificate_number}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
+
+              {/* Certificate Preview for approved */}
+              {selectedItem.verification_status === 'approved' && selectedItem.certificate_number && (
+                <div className="p-4 rounded-lg bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/30">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <VerifiedBlackOwnedBadge 
+                        tier={selectedItem.badge_tier as any || 'certified'} 
+                        variant="standard"
+                        certificateNumber={selectedItem.certificate_number}
+                        expiresAt={selectedItem.certification_expires_at}
+                      />
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-amber-500/50 text-amber-300 hover:bg-amber-500/20"
+                      onClick={() => window.open(`/verify/${selectedItem.certificate_number}`, '_blank')}
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      View Public Page
+                    </Button>
+                  </div>
+                </div>
+              )}
               
               <div>
                 <h3 className="text-lg font-medium text-white">Documents</h3>
@@ -454,14 +526,23 @@ const VerificationQueue: React.FC = () => {
                 </p>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {['Business Registration', 'Ownership Proof', 'Address Verification'].map((doc) => (
-                    <Card key={doc} className="backdrop-blur-xl bg-white/10 border-white/20">
-                      <CardHeader className="p-4">
-                        <CardTitle className="text-md text-white">{doc}</CardTitle>
+                  {[
+                    { name: 'Government ID', icon: FileText },
+                    { name: 'Business Registration', icon: FileText },
+                    { name: 'Ownership Proof', icon: FileText },
+                    { name: 'Address Verification', icon: FileText },
+                    { name: 'Business License', icon: FileText },
+                  ].map((doc) => (
+                    <Card key={doc.name} className="backdrop-blur-xl bg-white/10 border-white/20">
+                      <CardHeader className="p-3">
+                        <CardTitle className="text-sm text-white flex items-center gap-2">
+                          <doc.icon className="h-4 w-4" />
+                          {doc.name}
+                        </CardTitle>
                       </CardHeader>
-                      <CardContent className="p-4 pt-0">
-                        <Button variant="outline" className="w-full border-white/20 text-white/70 hover:bg-white/10">
-                          View Document
+                      <CardContent className="p-3 pt-0">
+                        <Button variant="outline" size="sm" className="w-full border-white/20 text-white/70 hover:bg-white/10">
+                          View
                         </Button>
                       </CardContent>
                     </Card>
@@ -470,34 +551,90 @@ const VerificationQueue: React.FC = () => {
               </div>
               
               {selectedItem.verification_status === 'pending' && (
-                <div className="flex justify-between pt-4">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setIsViewOpen(false);
-                      setIsRejectOpen(true);
-                    }}
-                    className="border-red-500/50 text-red-400 hover:bg-red-500/20"
-                  >
-                    <XCircle className="h-4 w-4 mr-2" /> Reject
-                  </Button>
-                  
-                  <Button
-                    onClick={() => handleApprove(selectedItem.verification_id)}
-                    disabled={actionLoading}
-                    className="bg-mansagold hover:bg-mansagold/90 text-mansablue"
-                  >
-                    {actionLoading ? (
-                      <>
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Processing...
-                      </>
-                    ) : (
-                      <>
-                        <CheckCircle className="h-4 w-4 mr-2" /> Approve
-                      </>
-                    )}
-                  </Button>
-                </div>
+                <>
+                  {/* Verification Checklist */}
+                  <div className="p-4 rounded-lg bg-white/5 border border-white/10">
+                    <h3 className="text-lg font-medium text-white mb-3">Verification Checklist</h3>
+                    <div className="space-y-3">
+                      {[
+                        { key: 'registrationValid', label: 'Business registration is valid and current' },
+                        { key: 'ownershipConfirmed', label: 'Black ownership (51%+) confirmed via documents' },
+                        { key: 'idMatches', label: 'Government ID matches owner name on documents' },
+                        { key: 'addressVerified', label: 'Business address verified' },
+                      ].map((item) => (
+                        <div key={item.key} className="flex items-center space-x-3">
+                          <Checkbox
+                            id={item.key}
+                            checked={verificationChecklist[item.key as keyof typeof verificationChecklist]}
+                            onCheckedChange={(checked) => 
+                              setVerificationChecklist(prev => ({ ...prev, [item.key]: checked === true }))
+                            }
+                            className="border-white/30 data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
+                          />
+                          <Label htmlFor={item.key} className="text-white/80 text-sm cursor-pointer">
+                            {item.label}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Badge Tier Selection */}
+                  <div className="p-4 rounded-lg bg-white/5 border border-white/10">
+                    <h3 className="text-lg font-medium text-white mb-3">Certification Tier</h3>
+                    <Select value={selectedBadgeTier} onValueChange={setSelectedBadgeTier}>
+                      <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                        <SelectValue placeholder="Select badge tier" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-mansablue border-white/20">
+                        <SelectItem value="certified" className="text-white hover:bg-white/10">
+                          <div className="flex items-center gap-2">
+                            <span>Certified Black-Owned</span>
+                            <span className="text-xs text-white/50">(Standard)</span>
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="premium" className="text-white hover:bg-white/10">
+                          <div className="flex items-center gap-2">
+                            <span>Premium Certified</span>
+                            <span className="text-xs text-white/50">(With premium subscription)</span>
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <div className="mt-3">
+                      <VerifiedBlackOwnedBadge tier={selectedBadgeTier as any} variant="standard" />
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between pt-4">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setIsViewOpen(false);
+                        setIsRejectOpen(true);
+                      }}
+                      className="border-red-500/50 text-red-400 hover:bg-red-500/20"
+                    >
+                      <XCircle className="h-4 w-4 mr-2" /> Reject
+                    </Button>
+                    
+                    <Button
+                      onClick={() => handleApprove(selectedItem.verification_id)}
+                      disabled={actionLoading || !Object.values(verificationChecklist).every(v => v)}
+                      className="bg-mansagold hover:bg-mansagold/90 text-mansablue disabled:opacity-50"
+                    >
+                      {actionLoading ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" /> Processing...
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle className="h-4 w-4 mr-2" /> Approve & Issue Certificate
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </>
               )}
             </div>
           )}
@@ -515,8 +652,24 @@ const VerificationQueue: React.FC = () => {
           </DialogHeader>
           
           <div className="space-y-4 py-4">
+            <div>
+              <Label className="text-white/80 mb-2 block">Quick Templates</Label>
+              <div className="flex flex-wrap gap-2">
+                {REJECTION_TEMPLATES.map((template) => (
+                  <Button
+                    key={template.id}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setRejectionReason(template.reason)}
+                    className="border-white/20 text-white/70 hover:bg-white/10 text-xs"
+                  >
+                    {template.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
             <Textarea
-              placeholder="Enter rejection reason"
+              placeholder="Enter rejection reason or select a template above"
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
               rows={4}
