@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Star, MapPin, Phone, Globe, Verified, Heart, Share2 } from 'lucide-react';
+import { Star, MapPin, Phone, Globe, Heart, Share2 } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FoundingSponsorBadge } from '@/components/badges/FoundingSponsorBadge';
+import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 
 interface Business {
   id: string;
@@ -89,15 +90,12 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode }
                     >
                       {business_name}
                     </Link>
-                    {is_verified && (
-                      <Verified className="h-5 w-5 text-blue-400" />
-                    )}
                     {is_founding_sponsor && (
                       <FoundingSponsorBadge size="sm" showTooltip={false} />
                     )}
                   </div>
                   
-                  <div className="flex items-center gap-4 mb-2">
+                  <div className="flex items-center gap-4 mb-2 flex-wrap">
                     {average_rating > 0 ? (
                       <div className="flex items-center gap-1">
                         {renderStars(average_rating)}
@@ -111,6 +109,12 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode }
                     
                     <Badge variant="secondary" className="bg-slate-700/50 text-slate-200 border-white/10">{category}</Badge>
                   </div>
+                  
+                  {is_verified && (
+                    <div className="mb-2">
+                      <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={false} />
+                    </div>
+                  )}
                   
                   <p className="text-slate-300 text-sm mb-3 line-clamp-2">
                     {description}
@@ -193,14 +197,8 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode }
           </Avatar>
         </div>
         
-        {/* Verification & Founding Sponsor Badges */}
+        {/* Founding Sponsor Badge */}
         <div className="absolute top-4 right-4 flex flex-col gap-2">
-          {is_verified && (
-            <Badge className="bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg border-0">
-              <Verified className="h-3 w-3 mr-1" />
-              Verified
-            </Badge>
-          )}
           {is_founding_sponsor && (
             <FoundingSponsorBadge size="sm" showTooltip={false} />
           )}
@@ -224,14 +222,21 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ business, viewMode }
       <CardContent className="pt-0 relative z-10">
         {/* Rating */}
         {average_rating > 0 ? (
-          <div className="flex items-center gap-1 mb-3">
+          <div className="flex items-center gap-1 mb-2">
             {renderStars(average_rating)}
             <span className="text-sm text-slate-400 ml-1">
               {average_rating.toFixed(1)} ({review_count})
             </span>
           </div>
         ) : (
-          <div className="mb-3 text-sm text-slate-500">No reviews yet</div>
+          <div className="mb-2 text-sm text-slate-500">No reviews yet</div>
+        )}
+        
+        {/* Certification Badge */}
+        {is_verified && (
+          <div className="mb-3">
+            <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={true} />
+          </div>
         )}
 
         {/* Description */}
