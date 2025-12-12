@@ -155,15 +155,27 @@ const VerificationQueue: React.FC = () => {
 
     setActionLoading(true);
     try {
+      // Get current user for admin_id
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error('Not authenticated');
+        setActionLoading(false);
+        return;
+      }
+
       // Use the database function to approve with certificate generation
       const { data, error } = await supabase.rpc('approve_verification_with_certificate', {
         p_verification_id: id,
-        p_badge_tier: selectedBadgeTier
+        p_admin_id: user.id,
+        p_badge_tier: selectedBadgeTier,
+        p_admin_notes: null
       });
 
       if (error) throw error;
 
-      toast.success(`Verification approved! Certificate: ${data}`);
+      // data is an array of results, extract certificate number
+      const certNumber = Array.isArray(data) && data.length > 0 ? data[0].certificate_number : data;
+      toast.success(`Verification approved! Certificate: ${certNumber}`);
       await loadQueue();
       setIsViewOpen(false);
       resetChecklist();
