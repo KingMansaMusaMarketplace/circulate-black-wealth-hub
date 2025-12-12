@@ -1,12 +1,13 @@
 
 import React, { useState } from 'react';
-import { FileText, Award, BarChart3, Share2, TrendingUp, Lock } from 'lucide-react';
+import { FileText, Award, BarChart3, Share2, TrendingUp, Lock, Building2 } from 'lucide-react';
 import MediaKitCard from './components/MediaKitCard';
 import DocumentPreview from './components/DocumentPreview';
 import {
   generateBrandAssets,
   generateImpactReport,
   generateMediaKit,
+  generateDirectoryPartnershipProposal,
 } from './services/pdfGenerationService';
 import { AccessRequestModal } from '@/components/media-kit/AccessRequestModal';
 
@@ -57,6 +58,13 @@ const SponsorshipMediaKit = () => {
       icon: Share2,
       action: () => handlePDFGeneration(generateMediaKit),
       buttonText: isGeneratingPDF ? 'Generating...' : 'Download Kit'
+    },
+    {
+      title: 'Directory Partnership Proposal',
+      description: 'Strategic partnership proposal for Black business directories',
+      icon: Building2,
+      action: () => handlePDFGeneration(generateDirectoryPartnershipProposal),
+      buttonText: isGeneratingPDF ? 'Generating...' : 'Download Proposal'
     }
   ];
 

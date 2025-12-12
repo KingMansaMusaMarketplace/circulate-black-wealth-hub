@@ -7,6 +7,7 @@ import { getBrandAssetsContent } from '../templates/brandAssetsTemplate';
 import { getImpactReportContent } from '../templates/impactReportTemplate';
 import { getMediaKitContent } from '../templates/mediaKitTemplate';
 import { getInvestorAnalysisContent } from '../templates/investorAnalysisTemplate';
+import { getDirectoryPartnershipProposalContent } from '../templates/directoryPartnershipProposalTemplate';
 import { generateInvestorAnalysisWord } from '../utils/wordGenerator';
 
 export const generatePartnershipGuide = async (): Promise<void> => {
@@ -109,6 +110,21 @@ export const generateInvestorAnalysisWordDoc = async (): Promise<void> => {
   } catch (error) {
     console.error('Error generating investor analysis Word doc:', error);
     toast.error('Failed to generate investor analysis Word document. Please try again.');
+    throw error;
+  }
+};
+
+export const generateDirectoryPartnershipProposal = async (): Promise<void> => {
+  try {
+    toast.info('Generating Directory Partnership Proposal...');
+    await generatePDF({
+      filename: 'Mansa-Musa-Directory-Partnership-Proposal.pdf',
+      content: getDirectoryPartnershipProposalContent()
+    });
+    toast.success('Directory partnership proposal downloaded successfully!');
+  } catch (error) {
+    console.error('Error generating directory partnership proposal:', error);
+    toast.error('Failed to generate directory partnership proposal. Please try again.');
     throw error;
   }
 };
