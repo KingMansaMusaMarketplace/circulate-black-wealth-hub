@@ -20,6 +20,16 @@ export const cities: City[] = [
   { id: 'detroit', name: 'Detroit', state: 'MI', businesses: 0, featured: true },
   { id: 'new-york', name: 'New York', state: 'NY', businesses: 0, featured: true },
   { id: 'los-angeles', name: 'Los Angeles', state: 'CA', businesses: 0, featured: true },
+  { id: 'memphis', name: 'Memphis', state: 'TN', businesses: 0 },
+  { id: 'baltimore', name: 'Baltimore', state: 'MD', businesses: 0 },
+  { id: 'new-orleans', name: 'New Orleans', state: 'LA', businesses: 0 },
+  { id: 'birmingham', name: 'Birmingham', state: 'AL', businesses: 0 },
+  { id: 'philadelphia', name: 'Philadelphia', state: 'PA', businesses: 0 },
+  { id: 'miami', name: 'Miami', state: 'FL', businesses: 0 },
+  { id: 'charlotte', name: 'Charlotte', state: 'NC', businesses: 0 },
+  { id: 'dallas', name: 'Dallas', state: 'TX', businesses: 0 },
+  { id: 'st-louis', name: 'St. Louis', state: 'MO', businesses: 0 },
+  { id: 'cleveland', name: 'Cleveland', state: 'OH', businesses: 0 },
 ];
 
 interface CitySelectorProps {
