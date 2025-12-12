@@ -1,7 +1,11 @@
 import React from 'react';
 import { Globe, MapPin } from 'lucide-react';
 
-const launchCities = ['Chicago', 'Atlanta', 'Houston', 'DC', 'Detroit', 'NYC', 'LA'];
+const launchCities = [
+  'Chicago', 'Atlanta', 'Houston', 'DC', 'Detroit', 'NYC', 'LA',
+  'Memphis', 'Baltimore', 'New Orleans', 'Birmingham', 'Philadelphia',
+  'Miami', 'Charlotte', 'Dallas', 'St. Louis', 'Cleveland'
+];
 
 const globalCountries = [
   { name: 'Nigeria', flag: '🇳🇬' },
