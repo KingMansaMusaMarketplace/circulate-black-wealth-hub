@@ -140,6 +140,7 @@ const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
 const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
+const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -757,6 +758,9 @@ function App() {
                         
                         {/* T */}
                         <Route path="/terms" element={<LazyTermsOfServicePage />} />
+                        
+                        {/* V */}
+                        <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
                         
                         <Route path="/testing-hub" element={<LazyTestingHub />} />
                         <Route path="/testing/signup" element={<LazySignupTestPage />} />
