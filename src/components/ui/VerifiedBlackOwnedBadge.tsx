@@ -89,6 +89,7 @@ const VerifiedBlackOwnedBadge: React.FC<VerifiedBlackOwnedBadgeProps> = ({
               effectiveClasses.bgClass,
               effectiveClasses.textClass,
               effectiveClasses.borderClass,
+              (tier === 'certified' || tier === 'premium') && !isExpired && 'animate-pulse [animation-duration:3s]',
               className
             )}
           >
