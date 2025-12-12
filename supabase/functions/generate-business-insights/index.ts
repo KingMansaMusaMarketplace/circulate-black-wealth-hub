@@ -1,5 +1,6 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { z } from 'https://esm.sh/zod@3.23.8';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -23,6 +24,14 @@ function checkRateLimit(ip: string, maxRequests = 3, windowMs = 60000): boolean 
   return true;
 }
 
+// UUID validation regex
+const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+// Zod schema for input validation
+const BusinessInsightsRequestSchema = z.object({
+  businessId: z.string().regex(uuidRegex, 'Invalid UUID format for businessId'),
+});
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -43,11 +52,20 @@ Deno.serve(async (req) => {
       );
     }
 
-    const { businessId } = await req.json();
+    // Parse and validate input
+    const rawBody = await req.json();
+    const parseResult = BusinessInsightsRequestSchema.safeParse(rawBody);
     
-    if (!businessId) {
-      throw new Error('Business ID is required');
+    if (!parseResult.success) {
+      const errors = parseResult.error.issues.map(i => i.message).join(', ');
+      console.log('Validation error:', errors);
+      return new Response(
+        JSON.stringify({ error: `Validation error: ${errors}` }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
+
+    const { businessId } = parseResult.data;
 
     // Get Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;

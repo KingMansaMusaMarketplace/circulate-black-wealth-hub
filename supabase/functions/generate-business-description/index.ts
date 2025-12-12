@@ -1,4 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { z } from 'https://esm.sh/zod@3.23.8';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -21,6 +22,16 @@ function checkRateLimit(ip: string, maxRequests = 5, windowMs = 60000): boolean 
   entry.count++;
   return true;
 }
+
+// Zod schema for input validation
+const BusinessDescriptionRequestSchema = z.object({
+  businessName: z.string().min(1, 'Business name is required').max(200, 'Business name too long'),
+  category: z.string().min(1, 'Category is required').max(100, 'Category too long'),
+  city: z.string().max(100).optional().nullable(),
+  state: z.string().max(100).optional().nullable(),
+  currentDescription: z.string().max(2000, 'Current description too long').optional().nullable(),
+  businessType: z.string().max(100).optional().nullable(),
+});
 
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
@@ -47,20 +58,22 @@ Deno.serve(async (req) => {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    const { businessName, category, city, state, currentDescription, businessType } = await req.json();
-
-    console.log('Generating description for:', { businessName, category, city, state, businessType });
-
-    // Validate required fields
-    if (!businessName || !category) {
+    // Parse and validate input
+    const rawBody = await req.json();
+    const parseResult = BusinessDescriptionRequestSchema.safeParse(rawBody);
+    
+    if (!parseResult.success) {
+      const errors = parseResult.error.issues.map(i => i.message).join(', ');
+      console.log('Validation error:', errors);
       return new Response(
-        JSON.stringify({ error: 'Business name and category are required' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
+        JSON.stringify({ error: `Validation error: ${errors}` }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    const { businessName, category, city, state, currentDescription, businessType } = parseResult.data;
+
+    console.log('Generating description for:', { businessName, category, city, state, businessType });
 
     // Create AI prompt for business description generation
     const systemPrompt = `You are an expert copywriter specializing in creating compelling business descriptions for Black-owned businesses in the Mansa Musa Marketplace. Your goal is to:

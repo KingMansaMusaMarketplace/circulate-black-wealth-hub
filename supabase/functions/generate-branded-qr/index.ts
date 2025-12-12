@@ -1,17 +1,36 @@
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 import QRCode from 'npm:qrcode@1.5.3';
+import { z } from 'npm:zod@3.23.8';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-interface QRCodeRequest {
-  data: string;
-  size?: number;
-  logoUrl?: string;
-  errorCorrectionLevel?: 'L' | 'M' | 'Q' | 'H';
+// Rate limiting store (in-memory, resets on function cold start)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string, maxRequests = 10, windowMs = 60000): boolean {
+  const now = Date.now();
+  const entry = rateLimitStore.get(ip);
+  
+  if (!entry || now > entry.resetTime) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + windowMs });
+    return true;
+  }
+  
+  if (entry.count >= maxRequests) return false;
+  entry.count++;
+  return true;
 }
+
+// Zod schema for input validation
+const QRCodeRequestSchema = z.object({
+  data: z.string().min(1, 'QR code data is required').max(2048, 'QR code data too long'),
+  size: z.number().int().min(64).max(2048).optional().default(512),
+  logoUrl: z.string().url().max(500).optional().default('https://agoclnqfyinwjxdmjnns.supabase.co/storage/v1/object/public/mmm-logo.png'),
+  errorCorrectionLevel: z.enum(['L', 'M', 'Q', 'H']).optional().default('H'),
+});
 
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
@@ -20,19 +39,33 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { 
-      data, 
-      size = 512, 
-      logoUrl = 'https://agoclnqfyinwjxdmjnns.supabase.co/storage/v1/object/public/mmm-logo.png',
-      errorCorrectionLevel = 'H' 
-    }: QRCodeRequest = await req.json();
-
-    if (!data) {
+    // Apply rate limiting
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+    
+    if (!checkRateLimit(clientIP, 10, 60000)) { // 10 requests per minute
+      console.log(`Rate limit exceeded for IP: ${clientIP}`);
       return new Response(
-        JSON.stringify({ error: 'QR code data is required' }),
+        JSON.stringify({ error: 'Too many requests. Please wait a moment before trying again.' }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Parse and validate input
+    const rawBody = await req.json();
+    const parseResult = QRCodeRequestSchema.safeParse(rawBody);
+    
+    if (!parseResult.success) {
+      const errors = parseResult.error.issues.map(i => i.message).join(', ');
+      console.log('Validation error:', errors);
+      return new Response(
+        JSON.stringify({ error: `Validation error: ${errors}` }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    const { data, size, logoUrl, errorCorrectionLevel } = parseResult.data;
 
     console.log('Generating branded QR code for data:', data);
 
