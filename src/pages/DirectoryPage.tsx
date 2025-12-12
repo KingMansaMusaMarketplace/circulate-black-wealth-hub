@@ -5,6 +5,7 @@ import { businesses } from '@/data/businessData';
 import { BusinessFilters } from '@/lib/api/directory/types';
 import { useMultiCityDirectory } from '@/hooks/use-multi-city-directory';
 import MultiCityStats from '@/components/directory/MultiCityStats';
+import GlobalReachBanner from '@/components/directory/GlobalReachBanner';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 
@@ -121,9 +122,13 @@ const DirectoryPage: React.FC = () => {
               Multi-City <span className="bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent">Marketplace</span>
               <Landmark className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 text-mansagold drop-shadow-[0_0_15px_rgba(255,193,7,0.5)]" />
             </h1>
-            <p className="font-body text-xl sm:text-2xl text-slate-300 leading-relaxed max-w-3xl mx-auto mb-10 font-medium">
-              Connect with Black-owned businesses across Chicago, Atlanta, Houston, Washington DC, Detroit, New York, and Los Angeles
+            <p className="font-body text-xl sm:text-2xl text-slate-300 leading-relaxed max-w-4xl mx-auto mb-6 font-medium">
+              Connect with Black-owned businesses worldwide
             </p>
+            
+            <div className="mb-10">
+              <GlobalReachBanner />
+            </div>
             
             <div className="relative max-w-2xl mx-auto" data-tour="search-businesses">
               <div className="absolute inset-0 bg-gradient-to-r from-mansablue/30 via-blue-500/30 to-mansagold/30 rounded-3xl blur-xl"></div>
