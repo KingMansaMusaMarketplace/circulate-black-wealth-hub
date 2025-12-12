@@ -58,12 +58,12 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
         {/* Content Section */}
         <CardContent className="flex-1 p-3 flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between gap-1 mb-1">
-              <h3 className="font-semibold text-sm leading-tight line-clamp-1 text-white flex-1 min-w-0">
+            <div className="flex items-start justify-between gap-1 mb-1">
+              <h3 className="font-semibold text-sm leading-tight line-clamp-2 text-white flex-1 min-w-0">
                 {name}
               </h3>
               {isVerified && (
-                <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={false} className="flex-shrink-0" />
+                <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={false} className="flex-shrink-0 mt-0.5" />
               )}
             </div>
             <p className="text-xs text-slate-300 mb-2">{category}</p>
