@@ -58,17 +58,12 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
         {/* Content Section */}
         <CardContent className="flex-1 p-3 flex flex-col justify-between">
           <div>
-            <div className="flex items-start justify-between gap-1 mb-1">
-              <h3 className="font-semibold text-sm leading-tight line-clamp-2 text-white flex-1 min-w-0">
-                {name}
-              </h3>
-              {isVerified && (
-                <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={false} className="flex-shrink-0 mt-0.5" />
-              )}
-            </div>
+            <h3 className="font-semibold text-sm leading-tight line-clamp-2 text-white mb-1">
+              {name}
+            </h3>
             <p className="text-xs text-slate-300 mb-2">{category}</p>
             
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-1">
               <div className="flex items-center gap-1">
                 <Star className="h-3 w-3 text-mansagold fill-current" />
                 <span className="text-xs font-medium text-white">{rating}</span>
@@ -82,6 +77,10 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
                 </div>
               )}
             </div>
+            
+            {isVerified && (
+              <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={false} />
+            )}
           </div>
           
           <div className="flex items-center justify-between">

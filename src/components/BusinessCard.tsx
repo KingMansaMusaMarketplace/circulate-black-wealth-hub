@@ -136,12 +136,7 @@ const BusinessCard = ({
         </div>
       </div>
       <div className="p-5 flex flex-col flex-grow">
-        <div className="flex items-start justify-between gap-2 mb-1">
-          <h3 className="font-display font-bold text-xl text-white leading-tight">{name}</h3>
-          {isVerified && (
-            <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={true} className="flex-shrink-0 mt-1" />
-          )}
-        </div>
+        <h3 className="font-display font-bold text-xl text-white leading-tight mb-1">{name}</h3>
         <p className="font-body text-slate-300 text-sm mb-3">{category}</p>
         
         {address && (
@@ -151,7 +146,7 @@ const BusinessCard = ({
           </div>
         )}
         
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-2">
           <div className="flex text-mansagold">
             {[...Array(5)].map((_, i) => (
               <Star 
@@ -169,6 +164,12 @@ const BusinessCard = ({
             </div>
           )}
         </div>
+        
+        {isVerified && (
+          <div className="mb-4">
+            <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={true} />
+          </div>
+        )}
         
         <div className="mt-auto">
           <Link to={`/business/${id}`} className="w-full">
