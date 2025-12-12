@@ -9,10 +9,10 @@ import {
   Share2, 
   Heart,
   Clock,
-  Verified,
   Camera
 } from 'lucide-react';
 import { FoundingSponsorBadge } from '@/components/badges/FoundingSponsorBadge';
+import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -284,15 +284,12 @@ const BusinessDetailPage = () => {
                     <h1 className="text-3xl md:text-4xl font-bold text-white">
                       {business.business_name}
                     </h1>
-                    {business.is_verified && (
-                      <Verified className="h-6 w-6 text-yellow-400" />
-                    )}
                     {business.is_founding_sponsor && (
                       <FoundingSponsorBadge size="md" />
                     )}
                   </div>
                   
-                  <div className="flex items-center gap-4 mb-3 flex-wrap">
+                  <div className="flex items-center gap-4 mb-2 flex-wrap">
                     <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-400/30">
                       {business.category}
                     </Badge>
@@ -310,6 +307,12 @@ const BusinessDetailPage = () => {
                       <span className="text-blue-300/70">No reviews yet</span>
                     )}
                   </div>
+                  
+                  {business.is_verified && (
+                    <div className="mb-3">
+                      <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={true} />
+                    </div>
+                  )}
                   
                   {(business.city || business.state) && (
                     <div className="flex items-center gap-1 text-blue-200">
