@@ -1,10 +1,36 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
+import { z } from 'https://esm.sh/zod@3.23.8';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
+
+// Rate limiting store (in-memory, resets on function cold start)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string, maxRequests = 5, windowMs = 60000): boolean {
+  const now = Date.now();
+  const entry = rateLimitStore.get(ip);
+  
+  if (!entry || now > entry.resetTime) {
+    rateLimitStore.set(ip, { count: 1, resetTime: now + windowMs });
+    return true;
+  }
+  
+  if (entry.count >= maxRequests) return false;
+  entry.count++;
+  return true;
+}
+
+// UUID validation regex
+const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+// Zod schema for input validation
+const RecommendationsRequestSchema = z.object({
+  userId: z.string().regex(uuidRegex, 'Invalid UUID format for userId'),
+});
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -12,7 +38,33 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { userId } = await req.json();
+    // Apply rate limiting
+    const clientIP = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+    
+    if (!checkRateLimit(clientIP, 5, 60000)) { // 5 requests per minute
+      console.log(`Rate limit exceeded for IP: ${clientIP}`);
+      return new Response(
+        JSON.stringify({ error: 'Too many requests. Please wait a moment before trying again.' }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Parse and validate input
+    const rawBody = await req.json();
+    const parseResult = RecommendationsRequestSchema.safeParse(rawBody);
+    
+    if (!parseResult.success) {
+      const errors = parseResult.error.issues.map(i => i.message).join(', ');
+      console.log('Validation error:', errors);
+      return new Response(
+        JSON.stringify({ error: `Validation error: ${errors}` }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { userId } = parseResult.data;
     
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',

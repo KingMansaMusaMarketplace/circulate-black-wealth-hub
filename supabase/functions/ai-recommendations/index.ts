@@ -1,4 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
+import { z } from 'https://esm.sh/zod@3.23.8';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -22,6 +23,21 @@ function checkRateLimit(ip: string, maxRequests = 5, windowMs = 60000): boolean 
   return true;
 }
 
+// Zod schema for input validation
+const RecommendationsRequestSchema = z.object({
+  userLocation: z.object({
+    city: z.string().max(100).optional(),
+    state: z.string().max(100).optional(),
+  }).optional().nullable(),
+  userPreferences: z.object({
+    categories: z.array(z.string().max(100)).max(20).optional(),
+  }).optional().nullable(),
+  browsingHistory: z.array(z.object({
+    category: z.string().max(100).optional(),
+  })).max(50).optional().nullable(),
+  limit: z.number().int().min(1).max(20).optional().default(5),
+});
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -41,7 +57,20 @@ Deno.serve(async (req) => {
       );
     }
 
-    const { userLocation, userPreferences, browsingHistory, limit = 5 } = await req.json();
+    // Parse and validate input
+    const rawBody = await req.json();
+    const parseResult = RecommendationsRequestSchema.safeParse(rawBody);
+    
+    if (!parseResult.success) {
+      const errors = parseResult.error.issues.map(i => i.message).join(', ');
+      console.log('Validation error:', errors);
+      return new Response(
+        JSON.stringify({ error: `Validation error: ${errors}` }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { userLocation, userPreferences, browsingHistory, limit } = parseResult.data;
     
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
     if (!LOVABLE_API_KEY) {
