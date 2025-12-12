@@ -45,10 +45,17 @@ const VerifyCertificatePage: React.FC = () => {
             businesses!inner(business_name, id)
           `)
           .eq('certificate_number', certificateNumber)
-          .single();
+          .maybeSingle();
 
-        if (verificationError || !verification) {
-          setError('Certificate not found. Please check the certificate number.');
+        if (verificationError) {
+          console.error('Verification lookup error:', verificationError);
+          setError('An error occurred while looking up the certificate.');
+          setLoading(false);
+          return;
+        }
+
+        if (!verification) {
+          setError('Certificate not found. Please check the certificate number and try again.');
           setLoading(false);
           return;
         }

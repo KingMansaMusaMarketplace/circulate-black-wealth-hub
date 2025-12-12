@@ -529,6 +529,9 @@ function App() {
                               <Route path="/testing-hub" element={<LazyTestingHub />} />
                               <Route path="/testing/signup" element={<LazySignupTestPage />} />
                               
+                              {/* V */}
+                              <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
+                              
                               {/* U */}
                               <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
                               <Route path="/user-profile" element={<LazyUserProfilePage />} />

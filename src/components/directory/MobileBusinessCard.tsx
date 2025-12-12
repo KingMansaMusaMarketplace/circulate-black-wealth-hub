@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Star, MapPin, Phone, ExternalLink } from 'lucide-react';
 import { Business } from '@/types/business';
 import FavoriteButton from './FavoriteButton';
+import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 
 interface MobileBusinessCardProps extends Business {
   onSelect?: () => void;
@@ -23,6 +24,7 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
   imageUrl,
   imageAlt,
   isFeatured,
+  isVerified,
   onSelect
 }) => {
   return (
@@ -56,9 +58,14 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
         {/* Content Section */}
         <CardContent className="flex-1 p-3 flex flex-col justify-between">
           <div>
-            <h3 className="font-semibold text-sm leading-tight mb-1 line-clamp-2 text-white">
-              {name}
-            </h3>
+            <div className="flex items-start justify-between gap-1 mb-1">
+              <h3 className="font-semibold text-sm leading-tight line-clamp-2 text-white">
+                {name}
+              </h3>
+              {isVerified && (
+                <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={false} className="flex-shrink-0" />
+              )}
+            </div>
             <p className="text-xs text-slate-300 mb-2">{category}</p>
             
             <div className="flex items-center gap-3 mb-2">

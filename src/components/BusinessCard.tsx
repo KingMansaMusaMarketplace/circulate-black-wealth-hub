@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 
 interface BusinessCardProps {
   id: string;
@@ -17,6 +18,7 @@ interface BusinessCardProps {
   imageAlt?: string;
   isFeatured?: boolean;
   isSample?: boolean;
+  isVerified?: boolean;
 }
 
 const BusinessCard = ({ 
@@ -31,7 +33,8 @@ const BusinessCard = ({
   imageUrl,
   imageAlt,
   isFeatured = false,
-  isSample = false 
+  isSample = false,
+  isVerified = false
 }: BusinessCardProps) => {
   const [imgError, setImgError] = useState(false);
   const [imgLoading, setImgLoading] = useState(true);
@@ -133,7 +136,12 @@ const BusinessCard = ({
         </div>
       </div>
       <div className="p-5 flex flex-col flex-grow">
-        <h3 className="font-display font-bold text-xl mb-1 text-white">{name}</h3>
+        <div className="flex items-start justify-between gap-2 mb-1">
+          <h3 className="font-display font-bold text-xl text-white">{name}</h3>
+          {isVerified && (
+            <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={true} />
+          )}
+        </div>
         <p className="font-body text-slate-300 text-sm mb-3">{category}</p>
         
         {address && (
