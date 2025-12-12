@@ -1,10 +1,10 @@
 
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import ContactInfo from './ContactInfo';
 import ContactForm from './ContactForm';
+import { toast } from 'sonner';
 
 const ContactSection = () => {
   const variants = {
@@ -85,7 +85,7 @@ const ContactSection = () => {
             transition={{ delay: 0.3 }}
           >
             <p className="text-gray-700 text-lg">
-              Need immediate assistance? <Button variant="link" className="p-0 h-auto bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent font-semibold">Schedule a call with our team</Button>
+              Need immediate assistance? <Button variant="link" className="p-0 h-auto bg-gradient-to-r from-mansablue to-blue-700 bg-clip-text text-transparent font-semibold" onClick={() => toast.info('Contact us at support@mansamusa.com or call (555) 123-4567')}>Schedule a call with our team</Button>
             </p>
           </motion.div>
         </div>
