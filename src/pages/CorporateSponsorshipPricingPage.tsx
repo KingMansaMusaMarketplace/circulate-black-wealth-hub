@@ -377,15 +377,15 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                     
                     {/* CTA Button */}
                     <Button 
-                      className={`w-full group text-base py-6 rounded-xl transition-all duration-300 font-semibold ${
+                      className={`w-full group text-base h-auto min-h-[56px] py-4 px-6 rounded-xl transition-all duration-300 font-semibold text-center leading-tight ${
                         tier.popular 
                           ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 hover:from-amber-500 hover:via-yellow-500 hover:to-orange-500 text-slate-900 shadow-lg shadow-mansagold/25' 
-                          : 'bg-white/5 hover:bg-white/10 text-white border border-white/20 hover:border-white/30'
+                          : 'bg-white/10 hover:bg-white/15 text-white border border-white/20 hover:border-white/30'
                       }`}
                       onClick={() => handleCtaClick(tier.tier)}
                     >
-                      {tier.cta}
-                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      <span className="flex-1">{tier.cta}</span>
+                      <ArrowRight className="ml-2 w-4 h-4 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </div>
                 </div>
