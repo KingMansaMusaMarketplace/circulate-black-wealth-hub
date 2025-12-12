@@ -136,10 +136,10 @@ const BusinessCard = ({
         </div>
       </div>
       <div className="p-5 flex flex-col flex-grow">
-        <div className="flex items-start justify-between gap-2 mb-1">
-          <h3 className="font-display font-bold text-xl text-white">{name}</h3>
+        <div className="flex items-center justify-between gap-2 mb-1">
+          <h3 className="font-display font-bold text-xl text-white truncate">{name}</h3>
           {isVerified && (
-            <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={true} />
+            <VerifiedBlackOwnedBadge tier="certified" variant="compact" showTooltip={true} className="flex-shrink-0" />
           )}
         </div>
         <p className="font-body text-slate-300 text-sm mb-3">{category}</p>
