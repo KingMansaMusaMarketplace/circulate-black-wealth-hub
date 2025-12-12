@@ -121,7 +121,7 @@ const DirectoryPage: React.FC = () => {
           <div className="container mx-auto text-center relative z-10 px-4 animate-fade-in">
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg flex items-center justify-center gap-4 flex-wrap">
               Multi-City <span className="bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent">Marketplace</span>
-              <img src={earthImage} alt="Earth" className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 drop-shadow-[0_0_15px_rgba(255,193,7,0.5)] rounded-full" />
+              <img src={earthImage} alt="Earth" className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 drop-shadow-[0_0_15px_rgba(255,193,7,0.5)] rounded-full" />
             </h1>
             <p className="font-body text-xl sm:text-2xl text-slate-300 leading-relaxed max-w-4xl mx-auto mb-6 font-medium">
               Connect with Black-owned businesses worldwide
