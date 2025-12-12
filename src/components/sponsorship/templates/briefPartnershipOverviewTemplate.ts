@@ -74,6 +74,7 @@ export const getBriefPartnershipOverviewContent = (): string => {
       <!-- Contact & CTA -->
       <div style="text-align: center; padding: 18px; background-color: #1a1a1a; color: white; border-radius: 6px;">
         <h3 style="margin-bottom: 8px; font-size: 18px; font-weight: bold;">Ready to Make an Impact?</h3>
+        <p style="margin-bottom: 8px; font-size: 14px;">Powered by patent-pending economic circulation technology</p>
         <p style="margin-bottom: 12px; font-size: 15px;">Join us in building economic empowerment for Black communities</p>
         <div style="font-size: 14px;">
           <p style="margin: 5px 0;"><strong>Email:</strong> contact@mansamusamarketplace.com</p>
@@ -83,7 +84,7 @@ export const getBriefPartnershipOverviewContent = (): string => {
 
       <!-- Footer -->
       <div style="text-align: center; margin-top: 20px; font-size: 13px; color: #000000;">
-        <p>© 2024 Mansa Musa Marketplace • www.mansamusamarketplace.com</p>
+        <p>© 2025 Mansa Musa Marketplace • Patent Pending • www.mansamusamarketplace.com</p>
       </div>
     </div>
   `;
