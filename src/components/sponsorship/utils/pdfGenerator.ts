@@ -1,8 +1,7 @@
-
 import { toast } from 'sonner';
 import { Haptics, NotificationType } from '@capacitor/haptics';
 import { Capacitor } from '@capacitor/core';
-
+import { sanitizeHtml } from '@/lib/security/content-sanitizer';
 interface PDFOptions {
   filename: string;
   content: string;
@@ -12,7 +11,7 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
   try {
     // Create a temporary div element with the content
     const element = document.createElement('div');
-    element.innerHTML = content;
+    element.innerHTML = sanitizeHtml(content);
     element.style.width = '210mm';
     element.style.minHeight = '297mm';
     element.style.padding = '20mm';
