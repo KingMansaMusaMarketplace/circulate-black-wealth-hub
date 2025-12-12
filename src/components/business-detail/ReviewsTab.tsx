@@ -29,6 +29,7 @@ const ReviewsTab: React.FC<ReviewsTabProps> = ({ business }) => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     fetchReviews();
@@ -163,15 +164,17 @@ const ReviewsTab: React.FC<ReviewsTabProps> = ({ business }) => {
         </div>
       ) : (
         <div className="space-y-6">
-          {reviews.map(review => (
+          {(showAll ? reviews : reviews.slice(0, 5)).map(review => (
             <ReviewCard key={review.id} review={review} />
           ))}
         </div>
       )}
       
-      {reviews.length > 5 && (
+      {reviews.length > 5 && !showAll && (
         <div className="mt-6 pt-4 border-t flex justify-center">
-          <Button variant="outline">See All {reviews.length} Reviews</Button>
+          <Button variant="outline" onClick={() => setShowAll(true)}>
+            See All {reviews.length} Reviews
+          </Button>
         </div>
       )}
     </div>

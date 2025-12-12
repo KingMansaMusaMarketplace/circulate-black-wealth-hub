@@ -19,14 +19,12 @@ const AuthenticationNotice: React.FC = () => {
           To subscribe to a plan, you need to create an account or log in first.
         </p>
         <div className="flex gap-3">
-          <Link to="/login" className="flex-1">
-            <Button className="w-full">Login</Button>
-          </Link>
-          <Link to="/signup" className="flex-1">
-            <Button variant="outline" className="w-full border-white/30 text-slate-100 hover:bg-slate-800/80">
-              Sign Up
-            </Button>
-          </Link>
+          <Button className="flex-1" asChild>
+            <Link to="/login">Login</Link>
+          </Button>
+          <Button variant="outline" className="flex-1 border-white/30 text-slate-100 hover:bg-slate-800/80" asChild>
+            <Link to="/signup">Sign Up</Link>
+          </Button>
         </div>
       </CardContent>
     </Card>

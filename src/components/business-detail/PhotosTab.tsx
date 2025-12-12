@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 const PhotosTab: React.FC = () => {
   return (
@@ -16,7 +17,9 @@ const PhotosTab: React.FC = () => {
       </div>
       
       <div className="text-center">
-        <Button variant="outline">Upload Photos</Button>
+        <Button variant="outline" onClick={() => toast.info('Photo upload coming soon!')}>
+          Upload Photos
+        </Button>
       </div>
     </div>
   );

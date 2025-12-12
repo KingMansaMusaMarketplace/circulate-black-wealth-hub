@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { useSalesAgentOnboarding } from '@/hooks/useSalesAgentOnboarding';
 import { Target, Users, DollarSign, BarChart3, FileText, HelpCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 const SalesAgentHelpSection: React.FC = () => {
   const { resetOnboarding } = useSalesAgentOnboarding();
@@ -128,9 +129,15 @@ const SalesAgentHelpSection: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Button variant="default">Contact Support</Button>
-            <Button variant="outline">Join Community Forum</Button>
-            <Button variant="outline">Schedule Training Call</Button>
+            <Button variant="default" onClick={() => toast.info('Contact support at support@mansamusa.com')}>
+              Contact Support
+            </Button>
+            <Button variant="outline" onClick={() => window.open('https://discord.gg/mansamusa', '_blank')}>
+              Join Community Forum
+            </Button>
+            <Button variant="outline" onClick={() => toast.info('Training call scheduling coming soon!')}>
+              Schedule Training Call
+            </Button>
           </div>
         </CardContent>
       </Card>

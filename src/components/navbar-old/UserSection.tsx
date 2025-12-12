@@ -25,12 +25,12 @@ const UserSection: React.FC<UserSectionProps> = ({ user, signOut }) => {
   
   return (
     <div className="flex items-center space-x-4">
-      <Link to="/login">
-        <Button variant="outline">Log in</Button>
-      </Link>
-      <Link to="/signup">
-        <Button>Sign up</Button>
-      </Link>
+      <Button variant="outline" asChild>
+        <Link to="/login">Log in</Link>
+      </Button>
+      <Button asChild>
+        <Link to="/signup">Sign up</Link>
+      </Button>
     </div>
   );
 };
