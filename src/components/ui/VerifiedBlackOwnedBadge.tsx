@@ -38,9 +38,9 @@ const tierConfig = {
   certified: {
     label: 'Certified Black-Owned',
     icon: CheckCircle,
-    bgClass: 'bg-gradient-to-r from-amber-500/20 to-yellow-500/20',
-    textClass: 'text-amber-700 dark:text-amber-300',
-    borderClass: 'border-amber-500/50',
+    bgClass: 'bg-gradient-to-r from-emerald-500/20 to-green-500/20',
+    textClass: 'text-emerald-500 dark:text-emerald-400',
+    borderClass: 'border-emerald-500/50',
     description: 'Verified 51%+ Black-owned business',
   },
   premium: {
