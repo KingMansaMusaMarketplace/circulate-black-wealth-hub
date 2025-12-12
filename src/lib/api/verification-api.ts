@@ -69,10 +69,14 @@ export const submitVerificationRequest = async (
   ownershipPercentage: number,
   registrationDocUrl: string,
   ownershipDocUrl: string,
-  addressDocUrl: string
+  addressDocUrl: string,
+  identityDocUrl?: string,
+  licenseDocUrl?: string,
+  certificationAccepted?: boolean,
+  ownerLegalName?: string
 ): Promise<{ success: boolean; error?: any }> => {
   try {
-    // Insert verification request
+    // Insert verification request with enhanced fields
     const { data: verificationData, error } = await supabase
       .from('business_verifications')
       .insert({
@@ -81,7 +85,12 @@ export const submitVerificationRequest = async (
         registration_document_url: registrationDocUrl,
         ownership_document_url: ownershipDocUrl,
         address_document_url: addressDocUrl,
-        verification_status: 'pending'
+        identity_document_url: identityDocUrl || null,
+        business_license_url: licenseDocUrl || null,
+        certification_agreement_accepted: certificationAccepted || false,
+        certification_agreement_date: certificationAccepted ? new Date().toISOString() : null,
+        verification_status: 'pending',
+        badge_tier: 'verified'
       })
       .select()
       .single();
@@ -116,7 +125,7 @@ export const submitVerificationRequest = async (
             eventData: {
               businessId: businessId,
               businessName: business.business_name,
-              ownerName: profileData?.full_name || 'Unknown',
+              ownerName: ownerLegalName || profileData?.full_name || 'Unknown',
               ownerEmail: profileData?.email || business.email,
               submittedAt: new Date().toISOString(),
             },
@@ -129,7 +138,7 @@ export const submitVerificationRequest = async (
               eventData: {
                 businessId: businessId,
                 businessName: business.business_name,
-                ownerName: profileData?.full_name || 'Unknown',
+                ownerName: ownerLegalName || profileData?.full_name || 'Unknown',
                 ownerEmail: profileData?.email || business.email,
                 submittedAt: new Date().toISOString(),
               },
@@ -153,7 +162,7 @@ export const uploadVerificationDocument = async (
   file: File,
   businessId: string,
   userId: string,
-  documentType: 'registration' | 'ownership' | 'address'
+  documentType: 'registration' | 'ownership' | 'address' | 'identity' | 'license'
 ): Promise<{ url: string } | { error: string }> => {
   try {
     // Since no storage buckets exist, return a placeholder URL
