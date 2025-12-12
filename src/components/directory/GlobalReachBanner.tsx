@@ -1,6 +1,8 @@
 import React from 'react';
 import { Globe, MapPin } from 'lucide-react';
 
+const launchCities = ['Chicago', 'Atlanta', 'Houston', 'DC', 'Detroit', 'NYC', 'LA'];
+
 const globalCountries = [
   { name: 'Nigeria', flag: '🇳🇬' },
   { name: 'Ghana', flag: '🇬🇭' },
@@ -13,13 +15,20 @@ const globalCountries = [
 const GlobalReachBanner: React.FC = () => {
   return (
     <div className="space-y-4">
-      {/* USA Line */}
+      {/* Launch Markets Line */}
       <div className="flex items-center gap-4 flex-wrap justify-center">
         <div className="flex items-center gap-2 text-mansagold font-bold text-xl">
           <MapPin className="h-6 w-6" />
-          <span>USA</span>
+          <span>Launch Markets</span>
         </div>
-        <span className="text-slate-300 text-lg">All 50 States</span>
+        <div className="flex items-center gap-3 flex-wrap justify-center">
+          {launchCities.map((city, index) => (
+            <span key={city} className="text-slate-300 text-lg">
+              {city}
+              {index < launchCities.length - 1 && <span className="text-slate-500 ml-2">•</span>}
+            </span>
+          ))}
+        </div>
       </div>
       
       {/* Global Countries Line */}
