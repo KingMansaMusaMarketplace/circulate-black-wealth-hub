@@ -18,6 +18,48 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
+const ONBOARDING_STATE_KEY = 'native_onboarding_state';
+
+type NativeOnboardingState = 'seen' | 'completed';
+
+async function readNativeOnboardingState(): Promise<NativeOnboardingState | null> {
+  // Prefer Capacitor Preferences on native (more reliable than localStorage on iOS WebView)
+  try {
+    if (window?.Capacitor?.isNativePlatform?.()) {
+      const { Preferences } = await import('@capacitor/preferences');
+      const { value } = await Preferences.get({ key: ONBOARDING_STATE_KEY });
+      return (value as NativeOnboardingState) ?? null;
+    }
+  } catch {
+    // fall back
+  }
+
+  try {
+    const value = localStorage.getItem(ONBOARDING_STATE_KEY);
+    return (value as NativeOnboardingState) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+async function writeNativeOnboardingState(state: NativeOnboardingState): Promise<void> {
+  try {
+    if (window?.Capacitor?.isNativePlatform?.()) {
+      const { Preferences } = await import('@capacitor/preferences');
+      await Preferences.set({ key: ONBOARDING_STATE_KEY, value: state });
+      return;
+    }
+  } catch {
+    // fall back
+  }
+
+  try {
+    localStorage.setItem(ONBOARDING_STATE_KEY, state);
+  } catch {
+    // ignore
+  }
+}
+
 export const NativeFeaturesOnboarding = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -28,14 +70,27 @@ export const NativeFeaturesOnboarding = () => {
   const { showLocalNotification } = usePushNotifications();
 
   useEffect(() => {
-    // Only show for native apps and if not already completed
-    if (isNative) {
-      const hasCompletedOnboarding = localStorage.getItem('native_onboarding_completed');
-      if (!hasCompletedOnboarding) {
-        // Show after 2 seconds to let the app load
-        setTimeout(() => setIsOpen(true), 2000);
+    if (!isNative) return;
+
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    (async () => {
+      const state = await readNativeOnboardingState();
+      if (cancelled) return;
+
+      // Only show once. Mark as "seen" immediately so permission prompts / reloads
+      // can't trap the user in a repeated onboarding loop.
+      if (!state) {
+        await writeNativeOnboardingState('seen');
+        timeoutId = setTimeout(() => setIsOpen(true), 1200);
       }
-    }
+    })();
+
+    return () => {
+      cancelled = true;
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, [isNative]);
 
   const features = [
@@ -111,22 +166,31 @@ export const NativeFeaturesOnboarding = () => {
   const currentFeature = features[currentStep];
 
   const handleFeatureAction = async () => {
-    await currentFeature.action();
-    setCompletedFeatures([...completedFeatures, currentFeature.id]);
-    
-    if (currentStep < features.length - 1) {
-      setTimeout(() => setCurrentStep(currentStep + 1), 1500);
-    } else {
-      setTimeout(() => {
-        localStorage.setItem('native_onboarding_completed', 'true');
-        setIsOpen(false);
-        toast.success('🎉 Native features activated! Enjoy the full experience.');
-      }, 2000);
+    try {
+      await currentFeature.action();
+    } catch (error) {
+      console.error('[Native Onboarding] Feature action failed:', error);
+      toast.error('Permission needed for that feature. You can skip setup and continue.');
     }
+
+    setCompletedFeatures((prev) =>
+      prev.includes(currentFeature.id) ? prev : [...prev, currentFeature.id]
+    );
+
+    if (currentStep < features.length - 1) {
+      setTimeout(() => setCurrentStep((s) => s + 1), 800);
+      return;
+    }
+
+    setTimeout(async () => {
+      await writeNativeOnboardingState('completed');
+      setIsOpen(false);
+      toast.success('Native features setup complete.');
+    }, 800);
   };
 
-  const handleSkip = () => {
-    localStorage.setItem('native_onboarding_completed', 'true');
+  const handleSkip = async () => {
+    await writeNativeOnboardingState('completed');
     setIsOpen(false);
   };
 
@@ -141,7 +205,7 @@ export const NativeFeaturesOnboarding = () => {
         <DialogHeader>
           <div className="flex items-center justify-center mb-4">
             <div className="bg-gradient-to-r from-primary to-primary-glow rounded-full p-4">
-              <Smartphone className="w-8 h-8 text-white" />
+              <Smartphone className="w-8 h-8 text-primary-foreground" />
             </div>
           </div>
           <DialogTitle className="text-center text-2xl">
@@ -153,7 +217,7 @@ export const NativeFeaturesOnboarding = () => {
         </DialogHeader>
 
         {/* Progress Bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
+        <div className="w-full bg-muted rounded-full h-2 mb-6">
           <div 
             className="bg-gradient-to-r from-primary to-primary-glow h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
@@ -168,8 +232,8 @@ export const NativeFeaturesOnboarding = () => {
                 <Icon className="w-12 h-12 text-primary" />
               </div>
               {completedFeatures.includes(currentFeature.id) && (
-                <div className="absolute -top-1 -right-1 bg-green-500 rounded-full p-1">
-                  <CheckCircle2 className="w-5 h-5 text-white" />
+                <div className="absolute -top-1 -right-1 bg-primary rounded-full p-1">
+                  <CheckCircle2 className="w-5 h-5 text-primary-foreground" />
                 </div>
               )}
             </div>
@@ -224,12 +288,12 @@ export const NativeFeaturesOnboarding = () => {
                   .filter(f => completedFeatures.includes(f.id))
                   .map(f => {
                     const FIcon = f.icon;
-                    return (
-                      <div key={f.id} className="flex items-center gap-1 bg-green-50 text-green-700 px-2 py-1 rounded text-xs">
-                        <FIcon className="w-3 h-3" />
-                        <span>{f.title}</span>
-                      </div>
-                    );
+                      return (
+                        <div key={f.id} className="flex items-center gap-1 bg-muted text-foreground border border-border px-2 py-1 rounded text-xs">
+                          <FIcon className="w-3 h-3" />
+                          <span>{f.title}</span>
+                        </div>
+                      );
                   })
                 }
               </div>
