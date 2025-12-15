@@ -201,7 +201,16 @@ export const NativeFeaturesOnboarding = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md relative">
+        {/* Always-visible close button so user can escape if stuck */}
+        <button
+          onClick={handleSkip}
+          aria-label="Close"
+          className="absolute top-3 right-3 z-50 p-1.5 rounded-full bg-muted hover:bg-muted/80 text-muted-foreground transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+
         <DialogHeader>
           <div className="flex items-center justify-center mb-4">
             <div className="bg-gradient-to-r from-primary to-primary-glow rounded-full p-4">
