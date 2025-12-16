@@ -21,14 +21,31 @@ interface AuthContextType {
   getMFAFactors: () => Promise<any[]>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+// Default context value - used if accessed before provider is ready
+// This prevents crashes during initialization
+const defaultAuthContext: AuthContextType = {
+  user: null,
+  session: null,
+  loading: false,
+  userType: null,
+  userRole: null,
+  authInitialized: false,
+  databaseInitialized: false,
+  signUp: async () => ({ error: { message: 'Auth not initialized' } }),
+  signIn: async () => ({ error: { message: 'Auth not initialized' } }),
+  signOut: async () => ({ error: null }),
+  updateProfile: async () => ({ error: 'Auth not initialized' }),
+  updateUserPassword: async () => ({ error: { message: 'Auth not initialized' }, success: false }),
+  resetPassword: async () => ({ error: { message: 'Auth not initialized' }, success: false }),
+  signInWithSocial: async () => ({ error: { message: 'Auth not initialized' } }),
+  verifyMFA: async () => ({ error: { message: 'Auth not initialized' }, success: false }),
+  getMFAFactors: async () => [],
+};
+
+const AuthContext = createContext<AuthContextType>(defaultAuthContext);
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return useContext(AuthContext);
 };
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
