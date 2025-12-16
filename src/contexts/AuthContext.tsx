@@ -34,105 +34,97 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  // CRITICAL: Start with loading=false to NEVER block app render on iOS
+  // Auth will update state when ready, but app shows content immediately
+  const [loading, setLoading] = useState(false);
   const [userType, setUserType] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
     let isMounted = true;
-    let timeoutId: NodeJS.Timeout;
     
-    console.log('[AUTH INIT] Starting authentication initialization');
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    console.log('[AUTH INIT] Starting auth, iOS device:', isIOS, 'UA:', navigator.userAgent.substring(0, 100));
 
-    // Reduced timeout to 3 seconds for faster app start
-    timeoutId = setTimeout(() => {
-      if (isMounted) {
-        console.warn('[AUTH INIT] TIMEOUT: Force completing auth after 3s');
-        setLoading(false);
-      }
-    }, 3000);
-
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (!isMounted) return;
-        
-        console.log('[AUTH] Auth state changed:', event);
-        
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        // Fetch user profile when authenticated (without blocking)
-        if (session?.user) {
-          fetchUserProfile(session.user.id).catch(err => 
-            console.error('[AUTH] Profile fetch error:', err)
-          );
-        } else {
-          setUserType(null);
-          setUserRole(null);
-          setProfile(null);
+    // CRITICAL: On iOS, we do NOT set loading=true at all to prevent any blocking
+    // The app will work as guest until auth completes
+    
+    // Set up auth state listener FIRST (this is synchronous setup)
+    let subscription: { unsubscribe: () => void } | null = null;
+    
+    try {
+      const { data } = supabase.auth.onAuthStateChange(
+        async (event, newSession) => {
+          if (!isMounted) return;
+          
+          console.log('[AUTH] State changed:', event, 'hasSession:', !!newSession);
+          
+          setSession(newSession);
+          setUser(newSession?.user ?? null);
+          
+          // Fetch profile in background without blocking
+          if (newSession?.user) {
+            fetchUserProfile(newSession.user.id).catch(err => 
+              console.error('[AUTH] Profile fetch error:', err)
+            );
+          } else {
+            setUserType(null);
+            setUserRole(null);
+            setProfile(null);
+          }
         }
-        
-        if (isMounted) {
-          clearTimeout(timeoutId);
-          setLoading(false);
-        }
-      }
-    );
+      );
+      subscription = data?.subscription;
+    } catch (err) {
+      console.error('[AUTH INIT] Failed to set up auth listener:', err);
+    }
 
-    // Check for existing session (with 2s timeout)
+    // Check for existing session with AGGRESSIVE timeout for iOS
     const initializeAuth = async () => {
+      const timeout = isIOS ? 1500 : 2000; // 1.5s on iOS, 2s elsewhere
+      
       try {
         const sessionPromise = supabase.auth.getSession();
-        const timeoutPromise = new Promise((_, reject) => 
-          setTimeout(() => reject(new Error('Session fetch timeout')), 2000)
+        const timeoutPromise = new Promise<null>((resolve) => 
+          setTimeout(() => {
+            console.warn('[AUTH INIT] Session fetch timeout after', timeout, 'ms');
+            resolve(null);
+          }, timeout)
         );
         
-        let result: any;
-        try {
-          result = await Promise.race([sessionPromise, timeoutPromise]);
-        } catch (timeoutError) {
-          console.warn('[AUTH INIT] Session fetch timed out, continuing without session');
-          if (isMounted) {
-            clearTimeout(timeoutId);
-            setLoading(false);
-          }
-          return;
-        }
+        const result = await Promise.race([sessionPromise, timeoutPromise]);
         
         if (!isMounted) return;
         
-        const session = result?.data?.session || null;
-        
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          fetchUserProfile(session.user.id).catch(err =>
-            console.error('[AUTH INIT] Profile fetch error:', err)
-          );
-        }
-        
-        if (isMounted) {
-          clearTimeout(timeoutId);
-          setLoading(false);
+        if (result && 'data' in result) {
+          const existingSession = result.data?.session || null;
+          console.log('[AUTH INIT] Got session:', !!existingSession);
+          
+          if (existingSession) {
+            setSession(existingSession);
+            setUser(existingSession.user);
+            
+            // Fetch profile in background
+            fetchUserProfile(existingSession.user.id).catch(err =>
+              console.error('[AUTH INIT] Profile fetch error:', err)
+            );
+          }
+        } else {
+          console.log('[AUTH INIT] No session or timed out - continuing as guest');
         }
       } catch (error) {
         console.error('[AUTH INIT] Error:', error);
-        if (isMounted) {
-          clearTimeout(timeoutId);
-          setLoading(false);
-        }
+        // Don't block on errors - app continues as guest
       }
     };
 
+    // Run auth init but don't wait for it
     initializeAuth();
 
     return () => {
       isMounted = false;
-      clearTimeout(timeoutId);
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, []);
 

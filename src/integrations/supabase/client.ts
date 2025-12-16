@@ -16,79 +16,79 @@ const isNativePlatform = () => {
   }
 };
 
-// Storage adapter - uses localStorage for web, lazy-loads Capacitor for native
+// Detect iOS device
+const isIOSDevice = () => {
+  try {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent);
+  } catch {
+    return false;
+  }
+};
+
+// Storage adapter with iOS-safe fallback
+// CRITICAL: On iOS WKWebView, localStorage can be restricted
 const getStorage = () => {
-  // For web, use localStorage directly
-  if (!isNativePlatform()) {
-    try {
-      localStorage.setItem('_test', '1');
-      localStorage.removeItem('_test');
-      console.log('[SUPABASE] Using localStorage for web storage');
-      return localStorage;
-    } catch (e) {
-      console.error('[SUPABASE] localStorage not accessible, auth will not persist');
-      const memoryStorage: Record<string, string> = {};
-      return {
-        getItem: (key: string) => memoryStorage[key] || null,
-        setItem: (key: string, value: string) => { memoryStorage[key] = value; },
-        removeItem: (key: string) => { delete memoryStorage[key]; }
-      };
-    }
+  // Try localStorage first (works on web and most native)
+  try {
+    const testKey = '__storage_test__';
+    localStorage.setItem(testKey, testKey);
+    localStorage.removeItem(testKey);
+    console.log('[SUPABASE] Using localStorage');
+    return localStorage;
+  } catch (e) {
+    console.warn('[SUPABASE] localStorage not available, using memory storage');
   }
   
-  // For native apps, use Capacitor Preferences (lazy loaded)
-  console.log('[SUPABASE] Using Capacitor Preferences for native app storage');
+  // Fallback to memory storage (auth won't persist but app will work)
+  console.log('[SUPABASE] Using memory storage fallback');
+  const memoryStorage: Record<string, string> = {};
   return {
-    getItem: async (key: string) => {
-      const { Preferences } = await import('@capacitor/preferences');
-      const { value } = await Preferences.get({ key });
-      return value;
-    },
-    setItem: async (key: string, value: string) => {
-      const { Preferences } = await import('@capacitor/preferences');
-      await Preferences.set({ key, value });
-    },
-    removeItem: async (key: string) => {
-      const { Preferences } = await import('@capacitor/preferences');
-      await Preferences.remove({ key });
-    }
+    getItem: (key: string) => memoryStorage[key] || null,
+    setItem: (key: string, value: string) => { memoryStorage[key] = value; },
+    removeItem: (key: string) => { delete memoryStorage[key]; }
   };
 };
 
-// Create a single instance of the Supabase client to avoid multiple instances warning
+// Create a single instance of the Supabase client
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     storage: getStorage() as any,
     persistSession: true,
     autoRefreshToken: true,
-    detectSessionInUrl: true,
+    detectSessionInUrl: !isNativePlatform(), // Disable URL detection on native
     flowType: 'pkce',
   },
   global: {
     headers: {
-      'X-Client-Info': 'mansa-musa-marketplace@1.0.0',
+      'X-Client-Info': 'mansa-musa-marketplace@1.1.0',
     },
     fetch: (url, options = {}) => {
-      // Increased timeout from 10s to 15s for slower networks on iOS
-      // This prevents premature aborts that could cause blank screens
+      // CRITICAL: Shorter timeout on iOS (8s) vs web (15s)
+      // iOS WKWebView can hang on slow connections
+      const timeoutMs = isIOSDevice() ? 8000 : 15000;
       const controller = new AbortController();
       const timeoutId = setTimeout(() => {
-        console.warn('[SUPABASE] Request timeout after 15 seconds:', url);
+        console.warn('[SUPABASE] Request timeout after', timeoutMs, 'ms:', url);
         controller.abort();
-      }, 15000);
+      }, timeoutMs);
       
-      console.log('[SUPABASE] Fetch request:', url);
+      console.log('[SUPABASE] Fetch:', url.toString().substring(0, 80));
       
       return fetch(url, {
         ...options,
         signal: controller.signal,
       })
         .then(response => {
-          console.log('[SUPABASE] Fetch response:', url, 'Status:', response.status);
+          console.log('[SUPABASE] Response:', response.status, url.toString().substring(0, 50));
           return response;
         })
         .catch(error => {
-          console.error('[SUPABASE] Fetch error:', url, error);
+          // Don't throw on abort - just log and continue
+          if (error.name === 'AbortError') {
+            console.warn('[SUPABASE] Request aborted:', url.toString().substring(0, 50));
+          } else {
+            console.error('[SUPABASE] Fetch error:', error);
+          }
           throw error;
         })
         .finally(() => clearTimeout(timeoutId));

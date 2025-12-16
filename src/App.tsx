@@ -185,90 +185,43 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const [appReady, setAppReady] = useState(false);
+  // CRITICAL: Start with appReady=true to NEVER show loading screen
+  // This ensures iOS app launches immediately without any spinner
+  const [appReady, setAppReady] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Initialize Capacitor plugins on app start
+  // Initialize Capacitor plugins on app start (non-blocking)
   useEffect(() => {
-    console.log('[APP MOUNT] Component mounted, starting initialization');
-    console.log('[APP MOUNT] User Agent:', navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isNative = window?.Capacitor?.isNativePlatform?.();
+    
+    console.log('[APP MOUNT] Started - iOS:', isIOS, 'Native:', isNative);
     console.log('[APP MOUNT] Timestamp:', new Date().toISOString());
     
-    let initTimeoutId: NodeJS.Timeout;
+    // Dispatch app:ready immediately to hide any boot fallback
+    window.dispatchEvent(new Event('app:ready'));
     
-    const initializeApp = async () => {
-      try {
-        console.log('[APP INIT] Starting initialization...');
-        console.log('[APP INIT] Environment:', import.meta.env.MODE);
-        console.log('[APP INIT] Platform:', window?.Capacitor?.isNativePlatform?.() ? 'Native' : 'Web');
-        console.log('[APP INIT] iOS Device:', /iPad|iPhone|iPod/.test(navigator.userAgent));
-        
-        // Reduced failsafe timeout to 2s for faster startup
-        initTimeoutId = setTimeout(() => {
-          console.warn('[APP INIT] FAILSAFE: Force setting appReady after 2s');
-          setAppReady(true);
-        }, 2000);
-        
-        // Set app ready immediately to prevent blocking
-        console.log('[APP INIT] Setting appReady to true');
-        setAppReady(true);
-        clearTimeout(initTimeoutId);
-        console.log('[APP INIT] appReady state updated');
-        
-        // Dispatch app:ready event to hide boot fallback
-        window.dispatchEvent(new Event('app:ready'));
-        console.log('[APP INIT] app:ready event dispatched');
-        
-        // For native: hide splash and initialize plugins
-        if (window?.Capacitor?.isNativePlatform?.()) {
-          console.log('[APP INIT] Native platform detected');
-          
-          // CRITICAL: Force-hide splash screen immediately with failsafe
-          const hideSplash = async () => {
-            try {
-              const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
-              await hideSplashScreen();
-              console.log('[APP INIT] Splash hidden successfully');
-            } catch (err) {
-              console.error('[APP INIT] Splash hide error:', err);
-            }
-          };
-          
-          // Hide splash immediately
-          hideSplash();
-          
-          // Failsafe: Force hide after 1 second even if first attempt failed
-          setTimeout(hideSplash, 1000);
-          
-          // Initialize plugins in background (don't block on this)
-          initializeCapacitorPlugins()
-            .then(() => console.log('[APP INIT] Plugins initialized'))
-            .catch(err => console.error('[APP INIT] Plugin init error:', err));
-        } else {
-          console.log('[APP INIT] Web platform ready');
+    // For native apps: hide splash screen immediately
+    if (isNative) {
+      const hideSplash = async () => {
+        try {
+          const { hideSplashScreen } = await import('@/utils/capacitor-plugins');
+          await hideSplashScreen();
+          console.log('[APP] Splash hidden');
+        } catch (err) {
+          console.error('[APP] Splash hide error:', err);
         }
-      } catch (err) {
-        console.error('[APP INIT] Fatal error:', err);
-        setError(err instanceof Error ? err.message : String(err));
-        setAppReady(true); // Show error state
-        clearTimeout(initTimeoutId);
-        
-        // Try to hide splash even on error
-        if (window?.Capacitor?.isNativePlatform?.()) {
-          try {
-            import('@/utils/capacitor-plugins').then(({ hideSplashScreen }) => {
-              hideSplashScreen().catch(() => {});
-            });
-          } catch {}
-        }
-      }
-    };
-    
-    initializeApp();
-    
-    return () => {
-      clearTimeout(initTimeoutId);
-    };
+      };
+      
+      // Hide splash immediately and again after 500ms as failsafe
+      hideSplash();
+      setTimeout(hideSplash, 500);
+      
+      // Initialize plugins in background (non-blocking)
+      initializeCapacitorPlugins()
+        .then(() => console.log('[APP] Plugins ready'))
+        .catch(err => console.error('[APP] Plugin error:', err));
+    }
   }, []);
 
   // Show user-friendly error if init failed
