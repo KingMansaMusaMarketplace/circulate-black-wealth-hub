@@ -8,6 +8,7 @@ import { retailCategories } from './retail';
 import { foodCategories } from './food';
 import { beautyCategories } from './beauty';
 import { serviceCategories } from './services';
+import { serviceProviderCategories } from './service-providers';
 import { educationCategories } from './education';
 import { fitnessCategories } from './fitness';
 import { entertainmentCategories } from './entertainment';
@@ -23,6 +24,7 @@ export const businessCategories: BusinessCategory[] = [
   ...foodCategories,
   ...beautyCategories,
   ...serviceCategories,
+  ...serviceProviderCategories,
   ...educationCategories,
   ...fitnessCategories,
   ...entertainmentCategories,
@@ -43,6 +45,7 @@ export {
   foodCategories,
   beautyCategories,
   serviceCategories,
+  serviceProviderCategories,
   educationCategories,
   fitnessCategories,
   entertainmentCategories,
