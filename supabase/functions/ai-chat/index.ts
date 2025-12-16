@@ -6,13 +6,100 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Rate limiting store (in-memory, resets on function cold start)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(identifier: string, maxRequests = 20, windowMs = 60000): boolean {
+  const now = Date.now();
+  const entry = rateLimitStore.get(identifier);
+  
+  if (!entry || now > entry.resetTime) {
+    rateLimitStore.set(identifier, { count: 1, resetTime: now + windowMs });
+    return true;
+  }
+  
+  if (entry.count >= maxRequests) return false;
+  entry.count++;
+  return true;
+}
+
+// Sanitize user input for AI prompts to prevent injection attacks
+function sanitizeForPrompt(input: string): string {
+  if (typeof input !== 'string') return '';
+  return input
+    .replace(/[\x00-\x1F\x7F]/g, '') // Remove control characters
+    .substring(0, 10000) // Limit length
+    .replace(/\{\{|\}\}/g, '') // Remove template markers
+    .trim();
+}
+
+// Sanitize message array
+function sanitizeMessages(messages: any[]): { role: string; content: string }[] {
+  if (!Array.isArray(messages)) return [];
+  
+  return messages
+    .filter(msg => msg && typeof msg === 'object' && msg.role && msg.content)
+    .slice(0, 50) // Limit number of messages
+    .map(msg => ({
+      role: String(msg.role).substring(0, 20),
+      content: sanitizeForPrompt(String(msg.content))
+    }));
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { messages } = await req.json();
+    // ========== AUTHENTICATION CHECK ==========
+    const authHeader = req.headers.get("authorization");
+    
+    if (!authHeader) {
+      console.error("No authorization header provided");
+      return new Response(
+        JSON.stringify({ error: "Authorization header required" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    const token = authHeader.replace("Bearer ", "");
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !user) {
+      console.error("Authentication failed:", authError?.message);
+      return new Response(
+        JSON.stringify({ error: "Authentication required" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Rate limit by user ID
+    if (!checkRateLimit(user.id, 20, 60000)) {
+      console.log(`Rate limit exceeded for user: ${user.id}`);
+      return new Response(
+        JSON.stringify({ error: "Too many requests. Please wait a moment." }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    console.log(`Authenticated user: ${user.id}`);
+    // ========== END AUTHENTICATION CHECK ==========
+
+    const requestBody = await req.json();
+    const messages = sanitizeMessages(requestBody.messages);
+
+    if (messages.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "No valid messages provided" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
 
     if (!OPENAI_API_KEY) {
@@ -23,37 +110,25 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Check if user is admin by extracting auth from request
+    // Check if user is admin
     let isAdmin = false;
-    const authHeader = req.headers.get("authorization");
-    
-    if (authHeader) {
-      try {
-        const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-        const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-        const supabase = createClient(supabaseUrl, supabaseServiceKey);
-        
-        const token = authHeader.replace("Bearer ", "");
-        const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-        
-        if (user && !authError) {
-          // Check user_roles table for admin role
-          const { data: roleData } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", user.id)
-            .eq("role", "admin")
-            .single();
-          
-          isAdmin = !!roleData;
-          console.log(`User ${user.id} admin status: ${isAdmin}`);
-        }
-      } catch (e) {
-        console.log("Could not verify admin status:", e);
+    try {
+      const { data: roleData, error: roleError } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .single();
+      
+      if (!roleError && roleData) {
+        isAdmin = true;
+        console.log(`User ${user.id} verified as admin`);
       }
+    } catch (e) {
+      console.log("Admin role check completed, user is not admin");
     }
 
-    // Base system prompt for all users
+    // Base system prompt for all authenticated users
     let systemPrompt = `You are Kayla, a warm and knowledgeable AI assistant for Mansa Musa Marketplace - a platform connecting users with Black-owned businesses. Keep responses conversational and concise for voice.
 
 **Response Length:**
@@ -72,14 +147,7 @@ Thomas D. Bowling is the inventor, Founder & Chief Architect of Economic Infrast
 1. **QR Code Check-ins** - Scan QR codes at businesses to earn 25 points + 15% discount
 2. **Business Directory** - Find Black-owned businesses by category and location
 3. **Rewards** - Earn points, unlock achievements, track streaks, climb leaderboards
-4. **Booking System** - Full appointment scheduling with:
-   - Browse and book services from any listed business
-   - Secure payment processing via Stripe
-   - Email confirmations for bookings and cancellations
-   - View and manage all bookings in "My Bookings" page
-   - Cancel or update booking status
-   - Businesses create bookable services and manage appointments
-   - Automatic commission tracking (40% platform fee supports community programs)
+4. **Booking System** - Full appointment scheduling with secure payment processing
 5. **Savings Circles (Susu)** - Join traditional rotating savings groups
 6. **Community Investments** - Invest in local Black-owned businesses
 7. **AI Recommendations** - Get personalized business suggestions
@@ -107,78 +175,28 @@ Thomas D. Bowling is the inventor, Founder & Chief Architect of Economic Infrast
 - Business registration
 - Sponsorship opportunities`;
 
-    // Add admin-specific knowledge if user is admin
+    // Add admin-specific knowledge ONLY if user is verified admin
     if (isAdmin) {
       systemPrompt += `
 
-**ADMIN DASHBOARD KNOWLEDGE (Admin-Only Information):**
+**ADMIN DASHBOARD KNOWLEDGE (Verified Admin Only):**
 
-You are speaking with a platform administrator. You can help them with dashboard features and admin tasks.
+You are speaking with a verified platform administrator. You can help them with dashboard features and admin tasks.
 
-**Dashboard Navigation:**
-- Access via /admin-dashboard route
-- Tabs: Overview, Users, Bulk Actions, Suspensions, Activity, Verifications, Sponsors, Agents, Financial, QR Metrics, Announcements, Emails, System, AI Tools, Settings
-
-**User Management:**
-- View all users with search and filters
-- Bulk actions: email, export, role changes
-- User types: customer, business_owner, sales_agent, corporate_sponsor
-- View user activity history and login patterns
-
-**Business Verification:**
-- Review pending verification requests
-- Check submitted documents (registration, ownership, address proof)
-- Approve or reject with notes
-- Verified businesses get a badge and priority listing
-
-**Sales Agent Management:**
-- Track agent referrals and conversions
-- Monitor commission earnings (pending, paid)
-- View agent leaderboards and performance
-- Approve commission payouts
-- Agent recruitment bonuses and team overrides
-
-**Financial Reports:**
-- Platform revenue and commission tracking
-- Business subscription status
-- Payment processing via Stripe
-- Export financial data for accounting
-
-**QR Analytics:**
-- Scan frequency by business
-- Geographic distribution of scans
-- Peak usage times
-- QR campaign performance
-
-**Suspensions & Moderation:**
-- Suspend users or businesses with reason
-- Set temporary or permanent suspensions
-- View suspension history
-- Lift suspensions with notes
-
-**Broadcast Announcements:**
-- Create platform-wide announcements
-- Target specific user types
-- Schedule start/end dates
-- Priority levels: info, warning, alert, success
-
-**AI Tools Available:**
-- Analytics Assistant for data insights
-- Content Moderation AI
-- Fraud Detection
-- Sentiment Analysis
-- Predictive Analytics
-
-**System Settings:**
-- Platform configuration
-- Email templates
-- Notification preferences
-- API integrations`;
-    }
-
-    systemPrompt += `
+**Available Admin Features:**
+- User management and bulk actions
+- Business verification review
+- Sales agent performance tracking
+- Financial reporting
+- Platform announcements
+- System settings
 
 Keep answers helpful, accurate, and conversational. If you need more details about a feature, ask clarifying questions.`;
+    } else {
+      systemPrompt += `
+
+Keep answers helpful, accurate, and conversational. If you need more details about a feature, ask clarifying questions.`;
+    }
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -226,7 +244,7 @@ Keep answers helpful, accurate, and conversational. If you need more details abo
   } catch (error) {
     console.error("Chat error:", error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      JSON.stringify({ error: "An error occurred processing your request" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

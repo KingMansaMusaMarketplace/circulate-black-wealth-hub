@@ -14,15 +14,34 @@ interface ReviewData {
   customer_id: string;
 }
 
+// Sanitize text for AI prompts
+function sanitizeForPrompt(input: string): string {
+  if (typeof input !== 'string') return '';
+  return input
+    .replace(/[\x00-\x1F\x7F]/g, '') // Remove control characters
+    .substring(0, 5000) // Limit length for review content
+    .replace(/\{\{|\}\}/g, '') // Remove template markers
+    .trim();
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { reviewId, reviewIds } = await req.json();
-    
+    // ========== AUTHENTICATION CHECK ==========
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      console.error('No authorization header provided');
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
     
@@ -30,23 +49,82 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY not configured');
     }
 
+    // Verify user authentication
+    const supabaseAuth = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+
+    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser();
+    if (authError || !user) {
+      console.error('Authentication failed:', authError?.message);
+      return new Response(
+        JSON.stringify({ success: false, error: 'Unauthorized' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Check if user is admin or business owner (for their own reviews)
+    const { data: isAdmin } = await supabaseAuth.rpc('is_admin_secure');
+    
+    console.log(`User ${user.id} authenticated, admin: ${isAdmin}`);
+    // ========== END AUTHENTICATION CHECK ==========
+
+    const { reviewId, reviewIds } = await req.json();
+    
+    // Validate input
+    const reviewIdsToAnalyze = reviewIds || (reviewId ? [reviewId] : []);
+    
+    if (!Array.isArray(reviewIdsToAnalyze) || reviewIdsToAnalyze.length === 0) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'No valid review IDs provided' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Limit batch size
+    const limitedIds = reviewIdsToAnalyze.slice(0, 10);
+
+    // Use service role for data operations
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Fetch review(s) to analyze
-    const reviewIdsToAnalyze = reviewIds || [reviewId];
     const { data: reviews, error: fetchError } = await supabase
       .from('reviews')
       .select('id, rating, comment, business_id, customer_id')
-      .in('id', reviewIdsToAnalyze);
+      .in('id', limitedIds);
 
     if (fetchError || !reviews || reviews.length === 0) {
       throw new Error('Reviews not found');
+    }
+
+    // If not admin, verify user owns the business for these reviews
+    if (!isAdmin) {
+      const businessIds = [...new Set(reviews.map(r => r.business_id))];
+      const { data: ownedBusinesses } = await supabase
+        .from('businesses')
+        .select('id')
+        .in('id', businessIds)
+        .eq('owner_id', user.id);
+      
+      const ownedBusinessIds = new Set((ownedBusinesses || []).map(b => b.id));
+      const unauthorizedReviews = reviews.filter(r => !ownedBusinessIds.has(r.business_id));
+      
+      if (unauthorizedReviews.length > 0) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'You can only analyze reviews for your own businesses' }),
+          { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
     }
 
     const analyzedReviews = [];
 
     for (const review of reviews as ReviewData[]) {
       console.log(`Analyzing review ${review.id}`);
+
+      // Sanitize review content before sending to AI
+      const sanitizedComment = sanitizeForPrompt(review.comment || 'No comment provided');
+      const rating = typeof review.rating === 'number' ? Math.min(Math.max(review.rating, 1), 5) : 3;
 
       // Build AI prompt for sentiment analysis
       const systemPrompt = `You are an expert sentiment analysis AI for customer reviews. Analyze the review and extract:
@@ -61,8 +139,8 @@ serve(async (req) => {
 
 Consider both the rating and the comment text. Be nuanced - a 3-star review might be mixed sentiment.`;
 
-      const userPrompt = `Review Rating: ${review.rating}/5
-Review Comment: ${review.comment || 'No comment provided'}
+      const userPrompt = `Review Rating: ${rating}/5
+Review Comment: ${sanitizedComment}
 
 Analyze this review comprehensively.`;
 
@@ -157,7 +235,7 @@ Analyze this review comprehensively.`;
           throw new Error('Payment required. Please add credits to your Lovable AI workspace.');
         }
         
-        throw new Error(`AI analysis failed: ${errorText}`);
+        throw new Error(`AI analysis failed`);
       }
 
       const aiData = await aiResponse.json();
@@ -237,7 +315,7 @@ Analyze this review comprehensively.`;
     return new Response(
       JSON.stringify({
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: 'An error occurred processing your request'
       }),
       {
         status: 500,
