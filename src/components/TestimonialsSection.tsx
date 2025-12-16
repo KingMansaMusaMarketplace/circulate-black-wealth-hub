@@ -7,74 +7,8 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Star, TrendingUp, Users, Award } from 'lucide-react';
 
-const testimonials = [
-  {
-    id: 1,
-    content: "Implementing Mansa Musa's loyalty program increased our customer return rate by 40% in just two months. The QR code system is so easy for both our staff and customers.",
-    author: "Sarah Johnson",
-    role: "Owner, The Cozy Corner Cafe",
-    avatar: "SJ",
-    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-    type: "business",
-    metrics: { increase: "40%", metric: "Return Rate" },
-    location: "Atlanta, GA"
-  },
-  {
-    id: 2,
-    content: "As a customer, I love collecting points at my favorite shops. I've already redeemed rewards at three different businesses, and the experience was seamless.",
-    author: "Marcus Chen",
-    role: "Loyal Customer",
-    avatar: "MC",
-    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-    type: "customer",
-    points: "2,450",
-    saved: "$127"
-  },
-  {
-    id: 3,
-    content: "The analytics provided by Mansa Musa have completely transformed how we approach our marketing. We now know exactly what brings customers back.",
-    author: "Priya Patel",
-    role: "Marketing Director, Urban Fitness",
-    avatar: "PP",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-    type: "business",
-    metrics: { increase: "65%", metric: "Customer Insights" },
-    location: "Houston, TX"
-  },
-  {
-    id: 4,
-    content: "Since joining Mansa Musa, my barbershop has seen a 30% increase in new customers. The community really supports each other here.",
-    author: "DeAndre Williams",
-    role: "Owner, Fresh Cuts Barbershop",
-    avatar: "DW",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-    type: "business",
-    metrics: { increase: "30%", metric: "New Customers" },
-    location: "Chicago, IL"
-  },
-  {
-    id: 5,
-    content: "I've discovered so many amazing Black-owned businesses through this platform. The rewards are just a bonus - supporting my community is priceless.",
-    author: "Jasmine Thompson",
-    role: "Community Advocate",
-    avatar: "JT",
-    image: "https://images.unsplash.com/photo-1494790108755-2616c78d5c43?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-    type: "customer",
-    points: "3,200",
-    saved: "$180"
-  },
-  {
-    id: 6,
-    content: "Our restaurant's revenue increased by 25% after joining. The platform makes it easy for customers to find us and come back for more.",
-    author: "Chef Antoine Davis",
-    role: "Owner, Soul Kitchen",
-    avatar: "AD",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
-    type: "business",
-    metrics: { increase: "25%", metric: "Revenue Growth" },
-    location: "New Orleans, LA"
-  }
-];
+// Real testimonials will be loaded from the database
+const testimonials: any[] = [];
 
 const TestimonialsSection = () => {
   return (
@@ -121,85 +55,103 @@ const TestimonialsSection = () => {
         </div>
 
         {/* Testimonials Grid */}
-        <div className="grid gap-8 lg:grid-cols-3 md:grid-cols-2">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card className="h-full border-2 border-orange-200 bg-gradient-to-br from-white via-orange-50 to-rose-50 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-6">
-                  {/* Header with Avatar and Badge */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-start gap-3">
-                      <Avatar className="h-12 w-12 ring-2 ring-orange-300 ring-offset-2">
-                        <AvatarImage src={testimonial.image} alt={testimonial.author} />
-                        <AvatarFallback className="bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold">
-                          {testimonial.avatar}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-bold bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">{testimonial.author}</p>
-                        <p className="text-sm text-gray-700 font-medium">{testimonial.role}</p>
-                        {testimonial.location && (
-                          <p className="text-xs text-gray-500">{testimonial.location}</p>
-                        )}
+        {testimonials.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center py-12"
+          >
+            <div className="bg-gradient-to-br from-white via-orange-50 to-rose-50 rounded-2xl p-8 max-w-2xl mx-auto border-2 border-orange-200 shadow-lg">
+              <Star className="w-12 h-12 text-amber-400 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-gray-800 mb-2">Be the First to Share Your Story</h3>
+              <p className="text-gray-600">
+                Join our growing community and share your experience with Mansa Musa Marketplace!
+              </p>
+            </div>
+          </motion.div>
+        ) : (
+          <div className="grid gap-8 lg:grid-cols-3 md:grid-cols-2">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card className="h-full border-2 border-orange-200 bg-gradient-to-br from-white via-orange-50 to-rose-50 backdrop-blur-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                  <CardContent className="p-6">
+                    {/* Header with Avatar and Badge */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-start gap-3">
+                        <Avatar className="h-12 w-12 ring-2 ring-orange-300 ring-offset-2">
+                          <AvatarImage src={testimonial.image} alt={testimonial.author} />
+                          <AvatarFallback className="bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold">
+                            {testimonial.avatar}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-bold bg-gradient-to-r from-orange-600 to-rose-600 bg-clip-text text-transparent">{testimonial.author}</p>
+                          <p className="text-sm text-gray-700 font-medium">{testimonial.role}</p>
+                          {testimonial.location && (
+                            <p className="text-xs text-gray-500">{testimonial.location}</p>
+                          )}
+                        </div>
                       </div>
+                      <Badge 
+                        variant="secondary"
+                        className={testimonial.type === 'business' 
+                          ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white border-none shadow-lg' 
+                          : 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-none shadow-lg'}
+                      >
+                        {testimonial.type === 'business' ? 'Business' : 'Customer'}
+                      </Badge>
                     </div>
-                    <Badge 
-                      variant="secondary"
-                      className={testimonial.type === 'business' 
-                        ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white border-none shadow-lg' 
-                        : 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-none shadow-lg'}
-                    >
-                      {testimonial.type === 'business' ? 'Business' : 'Customer'}
-                    </Badge>
-                  </div>
 
-                  {/* Rating */}
-                  <div className="flex items-center gap-1 mb-4">
-                    {[1,2,3,4,5].map(i => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-500" />
-                    ))}
-                  </div>
-
-                  {/* Content */}
-                  <blockquote className="text-gray-800 italic mb-4 leading-relaxed font-medium border-l-4 border-gradient-to-b from-orange-400 to-rose-400 pl-4">
-                    "{testimonial.content}"
-                  </blockquote>
-
-                  {/* Metrics */}
-                  {testimonial.type === 'business' && testimonial.metrics && (
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-3 border-2 border-green-300 shadow-md">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">{testimonial.metrics.metric}</span>
-                        <span className="text-lg font-extrabold bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">
-                          +{testimonial.metrics.increase}
-                        </span>
-                      </div>
+                    {/* Rating */}
+                    <div className="flex items-center gap-1 mb-4">
+                      {[1,2,3,4,5].map(i => (
+                        <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-500" />
+                      ))}
                     </div>
-                  )}
 
-                  {testimonial.type === 'customer' && testimonial.points && (
-                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-3 border-2 border-blue-300 shadow-md">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Points Earned</span>
-                        <span className="font-extrabold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">{testimonial.points}</span>
+                    {/* Content */}
+                    <blockquote className="text-gray-800 italic mb-4 leading-relaxed font-medium border-l-4 border-gradient-to-b from-orange-400 to-rose-400 pl-4">
+                      "{testimonial.content}"
+                    </blockquote>
+
+                    {/* Metrics */}
+                    {testimonial.type === 'business' && testimonial.metrics && (
+                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-3 border-2 border-green-300 shadow-md">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">{testimonial.metrics.metric}</span>
+                          <span className="text-lg font-extrabold bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">
+                            +{testimonial.metrics.increase}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between text-sm mt-1">
-                        <span className="font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Money Saved</span>
-                        <span className="font-extrabold bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">{testimonial.saved}</span>
+                    )}
+
+                    {testimonial.type === 'customer' && testimonial.points && (
+                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-3 border-2 border-blue-300 shadow-md">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Points Earned</span>
+                          <span className="font-extrabold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">{testimonial.points}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-sm mt-1">
+                          <span className="font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Money Saved</span>
+                          <span className="font-extrabold bg-gradient-to-r from-green-700 to-emerald-700 bg-clip-text text-transparent">{testimonial.saved}</span>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         {/* Call to Action */}
         <motion.div 
