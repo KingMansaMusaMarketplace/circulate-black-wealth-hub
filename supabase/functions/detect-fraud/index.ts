@@ -38,6 +38,46 @@ interface FraudAlert {
   ai_confidence_score: number;
 }
 
+// Sanitize data for AI prompts - removes sensitive/PII info and limits size
+function sanitizeDataForAI(data: any): any {
+  if (data === null || data === undefined) return null;
+  
+  if (typeof data === 'string') {
+    return data.substring(0, 500);
+  }
+  
+  if (typeof data === 'number' || typeof data === 'boolean') {
+    return data;
+  }
+  
+  if (Array.isArray(data)) {
+    return data.slice(0, 50).map(item => sanitizeDataForAI(item));
+  }
+  
+  if (typeof data === 'object') {
+    const sanitized: Record<string, any> = {};
+    const sensitiveKeys = ['ip_address', 'user_agent', 'email', 'phone', 'password', 'token', 'secret'];
+    
+    for (const [key, value] of Object.entries(data)) {
+      // Redact sensitive fields but keep structure for pattern detection
+      if (sensitiveKeys.some(sk => key.toLowerCase().includes(sk))) {
+        if (key.toLowerCase().includes('ip')) {
+          sanitized[key] = '[IP_REDACTED]';
+        } else if (key.toLowerCase().includes('user_agent')) {
+          sanitized[key] = '[USER_AGENT_REDACTED]';
+        } else {
+          sanitized[key] = '[REDACTED]';
+        }
+      } else {
+        sanitized[key] = sanitizeDataForAI(value);
+      }
+    }
+    return sanitized;
+  }
+  
+  return String(data).substring(0, 500);
+}
+
 Deno.serve(async (req) => {
   const corsHeaders = getCorsHeaders(req);
   
@@ -63,7 +103,8 @@ Deno.serve(async (req) => {
     // Create auth client with anon key to verify user
     const supabaseAuth = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      { global: { headers: { Authorization: authHeader } } }
     );
 
     const { data: { user }, error: authError } = await supabaseAuth.auth.getUser(token);
@@ -88,7 +129,12 @@ Deno.serve(async (req) => {
     console.log('Admin user authenticated:', user.id);
     // ========== END AUTHENTICATION CHECK ==========
 
-    const { userId, businessId, analysisType = 'full' } = await req.json();
+    const requestBody = await req.json();
+    
+    // Validate inputs
+    const userId = typeof requestBody.userId === 'string' ? requestBody.userId.substring(0, 100) : undefined;
+    const businessId = typeof requestBody.businessId === 'string' ? requestBody.businessId.substring(0, 100) : undefined;
+    const analysisType = typeof requestBody.analysisType === 'string' ? requestBody.analysisType.substring(0, 20) : 'full';
     
     // Use service role for data access after auth verification
     const supabase = createClient(
@@ -107,29 +153,24 @@ Deno.serve(async (req) => {
     const now = new Date();
     const lookbackWindow = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000); // 7 days
 
-    // Gather data for analysis
-    let whereClause: any = { scan_date: { gte: lookbackWindow.toISOString() } };
-    if (userId) whereClause.customer_id = userId;
-    if (businessId) whereClause.business_id = businessId;
-
     const [qrScansResult, transactionsResult, activityLogResult] = await Promise.all([
       supabase
         .from('qr_scans')
-        .select('*')
+        .select('id, customer_id, business_id, scan_date, points_earned')
         .gte('scan_date', lookbackWindow.toISOString())
         .order('scan_date', { ascending: false })
         .limit(500),
       
       supabase
         .from('transactions')
-        .select('*')
+        .select('id, customer_id, business_id, amount, transaction_type, transaction_date')
         .gte('transaction_date', lookbackWindow.toISOString())
         .order('transaction_date', { ascending: false })
         .limit(500),
       
       supabase
         .from('activity_log')
-        .select('*')
+        .select('id, user_id, activity_type, created_at, points_involved')
         .gte('created_at', lookbackWindow.toISOString())
         .order('created_at', { ascending: false })
         .limit(1000)
@@ -145,13 +186,12 @@ Deno.serve(async (req) => {
 
     console.log(`Analyzing ${qrScans.length} QR scans, ${transactions.length} transactions, ${activityLog.length} activities`);
 
-    // Prepare data summary for AI analysis
-    const dataContext = {
+    // Prepare sanitized data summary for AI analysis (no PII)
+    const dataContext = sanitizeDataForAI({
       qrScans: {
         total: qrScans.length,
         uniqueUsers: new Set(qrScans.map(s => s.customer_id)).size,
         uniqueBusinesses: new Set(qrScans.map(s => s.business_id)).size,
-        sample: qrScans.slice(0, 50),
         patterns: {
           scansPerUser: groupAndCount(qrScans, 'customer_id'),
           scansPerBusiness: groupAndCount(qrScans, 'business_id'),
@@ -162,7 +202,6 @@ Deno.serve(async (req) => {
         total: transactions.length,
         totalAmount: transactions.reduce((sum, t) => sum + (t.amount || 0), 0),
         uniqueUsers: new Set(transactions.map(t => t.customer_id)).size,
-        sample: transactions.slice(0, 50),
         patterns: {
           transactionsPerUser: groupAndCount(transactions, 'customer_id'),
           avgAmount: transactions.length > 0 ? transactions.reduce((sum, t) => sum + (t.amount || 0), 0) / transactions.length : 0,
@@ -172,24 +211,22 @@ Deno.serve(async (req) => {
         total: activityLog.length,
         uniqueUsers: new Set(activityLog.map(a => a.user_id)).size,
         activityTypes: groupAndCount(activityLog, 'activity_type'),
-        ipAddresses: groupAndCount(activityLog, 'ip_address'),
       }
-    };
+    });
 
     const systemPrompt = `You are an expert fraud detection AI for a Black business marketplace platform. Analyze user activity patterns to detect suspicious behavior.
 
 CRITICAL FRAUD PATTERNS TO DETECT:
-1. **QR Scan Abuse**: Same user scanning multiple locations impossibly fast, same device/IP scanning for many users
+1. **QR Scan Abuse**: Same user scanning multiple locations impossibly fast, coordinated scanning patterns
 2. **Transaction Anomalies**: Unusual transaction amounts, frequencies, or patterns inconsistent with typical behavior  
 3. **Velocity Abuse**: Too many actions in short time (scans, transactions, reviews)
-4. **Location Mismatch**: Transactions claiming to be at business location but IP/device location doesn't match
-5. **Account Suspicious**: Newly created accounts with immediate high activity, coordinated behavior patterns
-6. **Review Manipulation**: Burst of positive/negative reviews from related accounts
+4. **Account Suspicious**: Newly created accounts with immediate high activity, coordinated behavior patterns
+5. **Review Manipulation**: Burst of positive/negative reviews from related accounts
 
 For each suspicious pattern, return:
 - alert_type (one of the types above in snake_case)
 - severity (low/medium/high/critical)
-- user_id (if applicable)
+- user_id (if applicable, use placeholder IDs from data)
 - business_id (if applicable)  
 - description (clear explanation for investigation)
 - evidence (detailed data supporting the alert)
@@ -284,13 +321,17 @@ Identify suspicious patterns and return structured fraud alerts.`;
       }
     }
 
-    // Log the analysis
+    // Log the analysis (without sensitive data)
     const duration = Date.now() - startTime;
     await supabase.from('fraud_detection_logs').insert({
       analysis_type: analysisType,
       user_id: userId,
       business_id: businessId,
-      patterns_analyzed: dataContext,
+      patterns_analyzed: {
+        qr_scans_count: qrScans.length,
+        transactions_count: transactions.length,
+        activity_count: activityLog.length
+      },
       alerts_generated: alerts.length,
       analysis_duration_ms: duration
     });
@@ -309,7 +350,7 @@ Identify suspicious patterns and return structured fraud alerts.`;
     console.error('Error in fraud detection:', error);
     return new Response(JSON.stringify({
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: 'An error occurred processing your request'
     }), {
       status: 500,
       headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' },
@@ -319,20 +360,24 @@ Identify suspicious patterns and return structured fraud alerts.`;
 
 // Helper functions
 function groupAndCount(arr: any[], key: string): Record<string, number> {
-  return arr.reduce((acc, item) => {
+  const result: Record<string, number> = {};
+  for (const item of arr) {
     const value = item[key];
     if (value) {
-      acc[value] = (acc[value] || 0) + 1;
+      result[value] = (result[value] || 0) + 1;
     }
-    return acc;
-  }, {} as Record<string, number>);
+  }
+  // Only return top 20 to limit data size
+  const sorted = Object.entries(result).sort((a, b) => b[1] - a[1]).slice(0, 20);
+  return Object.fromEntries(sorted);
 }
 
 function getHourlyDistribution(arr: any[], dateKey: string): Record<number, number> {
-  return arr.reduce((acc, item) => {
+  const result: Record<number, number> = {};
+  for (const item of arr) {
     const date = new Date(item[dateKey]);
     const hour = date.getHours();
-    acc[hour] = (acc[hour] || 0) + 1;
-    return acc;
-  }, {} as Record<number, number>);
+    result[hour] = (result[hour] || 0) + 1;
+  }
+  return result;
 }

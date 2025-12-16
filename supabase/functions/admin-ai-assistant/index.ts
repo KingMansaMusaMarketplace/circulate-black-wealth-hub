@@ -6,6 +6,47 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Sanitize user input for AI prompts to prevent injection attacks
+function sanitizeForPrompt(input: string): string {
+  if (typeof input !== 'string') return '';
+  return input
+    .replace(/[\x00-\x1F\x7F]/g, '') // Remove control characters
+    .substring(0, 10000) // Limit length
+    .replace(/\{\{|\}\}/g, '') // Remove template markers
+    .trim();
+}
+
+// Sanitize data object for AI prompts - removes potential injection content
+function sanitizeDataForPrompt(data: any, maxDepth = 3, currentDepth = 0): any {
+  if (currentDepth >= maxDepth) return '[truncated]';
+  
+  if (data === null || data === undefined) return null;
+  
+  if (typeof data === 'string') {
+    return sanitizeForPrompt(data);
+  }
+  
+  if (typeof data === 'number' || typeof data === 'boolean') {
+    return data;
+  }
+  
+  if (Array.isArray(data)) {
+    return data.slice(0, 100).map(item => sanitizeDataForPrompt(item, maxDepth, currentDepth + 1));
+  }
+  
+  if (typeof data === 'object') {
+    const sanitized: Record<string, any> = {};
+    const keys = Object.keys(data).slice(0, 50); // Limit number of keys
+    for (const key of keys) {
+      const sanitizedKey = sanitizeForPrompt(key).substring(0, 100);
+      sanitized[sanitizedKey] = sanitizeDataForPrompt(data[key], maxDepth, currentDepth + 1);
+    }
+    return sanitized;
+  }
+  
+  return String(data).substring(0, 1000);
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -15,6 +56,7 @@ serve(async (req) => {
     // Verify admin role
     const authHeader = req.headers.get('Authorization');
     if (!authHeader) {
+      console.error('No authorization header provided');
       return new Response(
         JSON.stringify({ error: 'Unauthorized' }),
         { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -36,7 +78,20 @@ serve(async (req) => {
       );
     }
 
-    const { type, prompt, data } = await req.json();
+    const requestBody = await req.json();
+    
+    // Validate and sanitize inputs
+    const type = typeof requestBody.type === 'string' ? requestBody.type.substring(0, 50) : '';
+    const prompt = sanitizeForPrompt(requestBody.prompt || '');
+    const data = sanitizeDataForPrompt(requestBody.data);
+
+    if (!type) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid request type' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -86,7 +141,7 @@ Create engaging, clear announcements for the platform. Match the tone to the ann
 - warning: clear but not alarming
 - alert: urgent but professional
 - success: celebratory and positive`;
-        userPrompt = `Draft an announcement with these details:\nType: ${data.type}\nTopic: ${data.topic}\nTarget: ${data.audience}\nKey points: ${data.keyPoints}`;
+        userPrompt = `Draft an announcement with these details:\nType: ${sanitizeForPrompt(data?.type || '')}\nTopic: ${sanitizeForPrompt(data?.topic || '')}\nTarget: ${sanitizeForPrompt(data?.audience || '')}\nKey points: ${sanitizeForPrompt(data?.keyPoints || '')}`;
         break;
 
       case "fraud_analysis":
@@ -132,7 +187,7 @@ Based on the provided user/business data, predict:
         break;
 
       case "dashboard_help":
-        systemPrompt = data?.context || `You are a helpful assistant for the Mansa Musa Marketplace Admin Dashboard.
+        systemPrompt = sanitizeForPrompt(data?.context) || `You are a helpful assistant for the Mansa Musa Marketplace Admin Dashboard.
 Help administrators understand dashboard features, navigation, and functionality.
 Be concise and helpful. If you're unsure about something, say so.`;
         break;
@@ -190,7 +245,7 @@ Be concise and helpful. If you're unsure about something, say so.`;
 
   } catch (error) {
     console.error("Error in admin-ai-assistant:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ error: "An error occurred processing your request" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
