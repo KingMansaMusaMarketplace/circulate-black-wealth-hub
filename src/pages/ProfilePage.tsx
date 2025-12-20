@@ -1,6 +1,6 @@
 
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/contexts/AuthContext';
 import ProfileHeader from '@/components/profile/ProfileHeader';
@@ -8,17 +8,32 @@ import ProfileForm from '@/components/profile/ProfileForm';
 import SecuritySettings from '@/components/profile/SecuritySettings';
 import SystemHealthSettings from '@/components/profile/SystemHealthSettings';
 import { DashboardLayout } from '@/components/dashboard';
+import { Loader2 } from 'lucide-react';
 
 const ProfilePage = () => {
-  const { user } = useAuth();
+  const { user, userRole, loading, authInitialized } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const tab = searchParams.get('tab') || 'profile';
 
-  // Check if the user is an admin
-  const { userRole } = useAuth();
   const isAdmin = userRole === 'admin';
+
+  // Show loading while auth is initializing
+  if (loading || !authInitialized) {
+    return (
+      <DashboardLayout title="Account Settings">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  // Redirect to login if not authenticated
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
   // Handle tab changes
   const handleTabChange = (value: string) => {
