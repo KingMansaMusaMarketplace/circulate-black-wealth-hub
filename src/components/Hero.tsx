@@ -1,48 +1,17 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
-import { Star, Building2, Users, TrendingUp, MapPin, Loader2, ArrowRight, Sparkles, Play } from 'lucide-react';
+import { Star, Building2, Users, TrendingUp, MapPin, Loader2, ArrowRight, Sparkles, Crown, Clock } from 'lucide-react';
 import { useLocation } from '@/hooks/location/useLocation';
 import { toast } from 'sonner';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
-import { supabase } from '@/integrations/supabase/client';
 
 const Hero = () => {
   const isIOS = shouldHideStripePayments();
   const navigate = useNavigate();
   const { getCurrentPosition, loading: locationLoading } = useLocation();
   const [isLocating, setIsLocating] = useState(false);
-  const [stats, setStats] = useState({
-    businesses: 0,
-    members: 0
-  });
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        // Use RPC function to bypass RLS and get accurate counts
-        const { data, error } = await supabase.rpc('get_platform_stats');
-        
-        if (error) {
-          console.error('Error fetching platform stats:', error);
-          return;
-        }
-
-        if (data) {
-          setStats({
-            businesses: data.total_businesses || 0,
-            members: data.total_members || 0
-          });
-        }
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-      }
-    };
-
-    fetchStats();
-  }, []);
 
   const handleFindNearMe = useCallback(async () => {
     setIsLocating(true);
@@ -62,26 +31,11 @@ const Hero = () => {
     }
   }, [getCurrentPosition, navigate]);
 
-  const getBusinessLabel = (count: number) => {
-    if (count === 0) return 'Be First';
-    if (count === 1) return 'Founding Business';
-    if (count <= 10) return 'Founding Businesses';
-    if (count <= 50) return 'Businesses & Growing';
-    return 'Businesses';
-  };
-
-  const getMemberLabel = (count: number) => {
-    if (count === 0) return 'Join Us';
-    if (count === 1) return 'Founding Member';
-    if (count <= 50) return 'Founding Members';
-    if (count <= 500) return 'Members & Growing';
-    return 'Members';
-  };
-
+  // Exclusivity-focused messaging instead of raw numbers
   const displayStats = [
-    { value: stats.businesses, label: getBusinessLabel(stats.businesses), icon: Building2 },
-    { value: stats.members, label: getMemberLabel(stats.members), icon: Users },
-    { value: '30%', label: 'Max Savings', icon: TrendingUp },
+    { value: 'Founding', label: 'Member Status', icon: Crown, highlight: true },
+    { value: 'Up to 30%', label: 'Exclusive Discounts', icon: TrendingUp },
+    { value: 'Forever', label: 'Badge & Perks', icon: Star },
   ];
 
   return (
@@ -207,24 +161,42 @@ const Hero = () => {
               </Button>
             </motion.div>
 
-            {/* Stats */}
+            {/* Founding Member Benefits */}
             <motion.div 
-              className="flex flex-wrap justify-center lg:justify-start gap-6 md:gap-10"
+              className="flex flex-wrap justify-center lg:justify-start gap-4 md:gap-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               {displayStats.map((stat, index) => (
-                <div key={stat.label} className="text-center lg:text-left">
+                <div 
+                  key={stat.label} 
+                  className={`text-center px-4 py-3 rounded-xl backdrop-blur-sm border ${
+                    stat.highlight 
+                      ? 'bg-mansagold/20 border-mansagold/40' 
+                      : 'bg-white/5 border-white/10'
+                  }`}
+                >
                   <div className="flex items-center gap-2 mb-1">
-                    <stat.icon className="w-5 h-5 text-mansagold" />
-                    <span className="text-2xl md:text-3xl font-bold text-white font-playfair">
-                      {typeof stat.value === 'number' ? stat.value : stat.value}
+                    <stat.icon className={`w-5 h-5 ${stat.highlight ? 'text-mansagold' : 'text-mansagold/80'}`} />
+                    <span className="text-lg md:text-xl font-bold text-white font-playfair">
+                      {stat.value}
                     </span>
                   </div>
-                  <span className="text-sm text-blue-200/60">{stat.label}</span>
+                  <span className="text-xs text-blue-200/70">{stat.label}</span>
                 </div>
               ))}
+            </motion.div>
+
+            {/* Urgency element */}
+            <motion.div
+              className="flex items-center justify-center lg:justify-start gap-2 mt-4 text-blue-200/60"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+            >
+              <Clock className="w-4 h-4" />
+              <span className="text-sm">Founding member window closes January 2027</span>
             </motion.div>
 
             {/* Early adopter CTA */}
