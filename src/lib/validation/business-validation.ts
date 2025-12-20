@@ -231,25 +231,62 @@ export function validateExpense(data: unknown) {
 
 /**
  * Sanitize text input by removing potentially dangerous characters
- * Use this before displaying user-generated content
+ * Use this before storing or displaying user-generated content
+ * This provides defense-in-depth alongside parameterized queries
  */
 export function sanitizeTextInput(text: string): string {
+  if (!text || typeof text !== 'string') return '';
+  
   return text
     .trim()
     .replace(/[<>]/g, '') // Remove HTML brackets
     .replace(/javascript:/gi, '') // Remove javascript: protocol
-    .replace(/on\w+\s*=/gi, ''); // Remove event handlers
+    .replace(/data:/gi, '') // Remove data: protocol
+    .replace(/vbscript:/gi, '') // Remove vbscript: protocol
+    .replace(/on\w+\s*=/gi, '') // Remove event handlers
+    .replace(/<!--[\s\S]*?-->/g, '') // Remove HTML comments
+    .substring(0, 10000); // Enforce maximum length to prevent DoS
 }
 
 /**
  * Validate and sanitize search term
  */
 export function sanitizeSearchTerm(term: string): string {
-  if (!term) return '';
+  if (!term || typeof term !== 'string') return '';
   
   return term
     .trim()
     .substring(0, 200) // Limit length
     .replace(/[<>'"]/g, '') // Remove potentially dangerous characters
     .replace(/\s+/g, ' '); // Normalize whitespace
+}
+
+/**
+ * Validate UUID format
+ * Use this to validate IDs before database queries
+ */
+export function isValidUUID(uuid: string): boolean {
+  if (!uuid || typeof uuid !== 'string') return false;
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(uuid);
+}
+
+/**
+ * Sanitize and validate an array of text inputs
+ */
+export function sanitizeTextArray(texts: string[]): string[] {
+  if (!Array.isArray(texts)) return [];
+  return texts
+    .filter(t => typeof t === 'string')
+    .map(t => sanitizeTextInput(t))
+    .filter(t => t.length > 0);
+}
+
+/**
+ * Sanitize numeric input - ensures a valid number within bounds
+ */
+export function sanitizeNumericInput(value: unknown, min = 0, max = Number.MAX_SAFE_INTEGER): number {
+  const num = Number(value);
+  if (isNaN(num)) return min;
+  return Math.max(min, Math.min(max, num));
 }
