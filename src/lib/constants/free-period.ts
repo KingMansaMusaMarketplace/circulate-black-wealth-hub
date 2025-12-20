@@ -9,5 +9,5 @@ export const isInFreePeriod = (): boolean => {
 };
 
 export const getFreePeriodEndDateString = (): string => {
-  return 'March 2026';
+  return 'March 31, 2026';
 };

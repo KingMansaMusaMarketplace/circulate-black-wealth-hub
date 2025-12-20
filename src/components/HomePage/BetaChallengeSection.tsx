@@ -95,7 +95,7 @@ const BetaChallengeSection = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-lg text-white/80 mb-12 max-w-2xl mx-auto"
           >
-            Our first milestone: <strong>1,000,000 founding members</strong> by March 2026
+            Our first milestone: <strong>1,000,000 founding members</strong> by March 31, 2026
           </motion.p>
 
           {/* Countdown Timer */}
@@ -144,7 +144,7 @@ const BetaChallengeSection = () => {
             </div>
             <div className="flex items-center gap-3">
               <TrendingUp className="w-6 h-6 text-mansagold" />
-              <span className="text-lg font-semibold">Deadline: March 2026</span>
+              <span className="text-lg font-semibold">Deadline: March 31, 2026</span>
             </div>
           </motion.div>
 
