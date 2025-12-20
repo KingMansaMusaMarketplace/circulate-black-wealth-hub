@@ -13,7 +13,7 @@ interface TimeLeft {
 
 const BetaChallengeSection = () => {
   const navigate = useNavigate();
-  const targetDate = new Date('2027-01-31T23:59:59');
+  const targetDate = new Date('2026-06-30T23:59:59');
   
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
@@ -95,7 +95,7 @@ const BetaChallengeSection = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="text-lg text-white/80 mb-12 max-w-2xl mx-auto"
           >
-            Our first milestone: <strong>1,000,000 founding members</strong> by January 2027
+            Our first milestone: <strong>1,000,000 founding members</strong> by June 2026
           </motion.p>
 
           {/* Countdown Timer */}
@@ -144,7 +144,7 @@ const BetaChallengeSection = () => {
             </div>
             <div className="flex items-center gap-3">
               <TrendingUp className="w-6 h-6 text-mansagold" />
-              <span className="text-lg font-semibold">Deadline: January 2027</span>
+              <span className="text-lg font-semibold">Deadline: June 2026</span>
             </div>
           </motion.div>
 

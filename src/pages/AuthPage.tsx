@@ -164,7 +164,7 @@ const AuthPage = () => {
         {/* Phase 1 Free Banner */}
         <div className="text-center mb-6 animate-fade-in" style={{ animationDelay: '0.1s' }}>
           <Badge className="bg-gradient-to-r from-mansagold via-amber-500 to-mansagold text-slate-900 px-6 py-3 text-sm font-bold rounded-full shadow-[0_0_30px_rgba(251,191,36,0.4)] hover:shadow-[0_0_40px_rgba(251,191,36,0.6)] transition-all duration-300 hover:scale-105">
-            🎉 Customers ALWAYS FREE! Businesses FREE Until January 2027!
+            🎉 Customers ALWAYS FREE! Businesses FREE Until June 2026!
           </Badge>
         </div>
 
@@ -421,7 +421,7 @@ const AuthPage = () => {
                 <div className="text-center text-xs text-slate-300 mt-4 p-4 bg-gradient-to-r from-mansagold/20 to-amber-600/20 rounded-lg border border-mansagold/30">
                   By creating an account, you agree to our Terms of Service and Privacy Policy.
                   <br />
-                  <strong className="text-mansagold font-bold">Customers are ALWAYS FREE! Businesses are FREE until January 2027!</strong>
+                  <strong className="text-mansagold font-bold">Customers are ALWAYS FREE! Businesses are FREE until June 2026!</strong>
                 </div>
               )}
             </form>

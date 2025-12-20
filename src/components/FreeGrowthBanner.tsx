@@ -28,7 +28,7 @@ const FreeGrowthBanner = () => {
         <div className="text-center mb-12">
           <Badge className="bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-400 text-slate-900 px-6 py-3 text-lg font-bold rounded-full mb-6 inline-flex items-center shadow-lg">
             <Zap className="mr-2 h-5 w-5" />
-            PHASE 1: FREE GROWTH - Everything FREE Until January 2027!
+            PHASE 1: FREE GROWTH - Everything FREE Until June 2026!
           </Badge>
           
           <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-yellow-400 to-purple-400 bg-clip-text text-transparent">
@@ -44,7 +44,7 @@ const FreeGrowthBanner = () => {
                 <Crown className="h-10 w-10 text-mansagold group-hover:scale-110 transition-transform" />
                 <div>
                   <h3 className="text-xl font-bold text-white group-hover:text-mansagold transition-colors">Become a Founding Member!</h3>
-                  <p className="text-blue-200 text-sm">Join before January 2027 and get this exclusive badge forever</p>
+                  <p className="text-blue-200 text-sm">Join before June 2026 and get this exclusive badge forever</p>
                 </div>
               </div>
               <Badge className="bg-gradient-to-r from-mansagold via-amber-400 to-yellow-500 text-slate-900 font-bold px-4 py-2 text-base shadow-lg group-hover:scale-105 transition-transform">
@@ -72,7 +72,7 @@ const FreeGrowthBanner = () => {
               <CardContent className="p-8 text-center">
                 <Building2 className="h-16 w-16 text-yellow-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
                 <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-yellow-400 transition-colors">✅ Businesses</h3>
-                <p className="text-xl font-semibold text-yellow-300 mb-2">FREE until January 2027</p>
+                <p className="text-xl font-semibold text-yellow-300 mb-2">FREE until June 2026</p>
                 <p className="text-blue-200 text-sm">(Then affordable paid plans start)</p>
               </CardContent>
             </Card>
@@ -131,7 +131,7 @@ const FreeGrowthBanner = () => {
 
         <div className="bg-slate-900/40 backdrop-blur-xl rounded-2xl p-8 mb-12 border border-blue-400/30">
           <div className="text-center mb-6">
-            <Badge className="bg-blue-500 text-white mb-4">Coming January 2027</Badge>
+            <Badge className="bg-blue-500 text-white mb-4">Coming June 2026</Badge>
             <h3 className="text-2xl font-bold mb-2 text-white">Future Business Pricing</h3>
             <p className="text-blue-200 mb-6">
               After the free growth phase, businesses will transition to affordable paid plans
@@ -236,7 +236,7 @@ const FreeGrowthBanner = () => {
           <div className="bg-slate-900/40 backdrop-blur-xl rounded-xl p-6 inline-block mb-8 border border-white/10">
             <div className="flex items-center text-2xl font-bold mb-2 text-yellow-400">
               <Calendar className="h-6 w-6 mr-2" />
-              Free Until January 2027
+              Free Until June 2026
             </div>
             <p className="text-blue-200">
               Focus on value creation, community building, and sustainable growth
