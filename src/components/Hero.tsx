@@ -88,7 +88,7 @@ const Hero = () => {
           <div className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-mansagold/30 via-amber-500/20 to-mansagold/30 border-2 border-mansagold/50 backdrop-blur-md shadow-[0_0_40px_rgba(251,191,36,0.3)] hover:shadow-[0_0_60px_rgba(251,191,36,0.5)] transition-all duration-500 hover:scale-105">
             <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-mansagold animate-pulse" />
             <span className="text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-mansagold via-yellow-300 to-amber-400 bg-clip-text text-transparent drop-shadow-lg">
-              Phase 1: 100% FREE Until January 2027
+              Phase 1: 100% FREE Until June 2026
             </span>
             <Sparkles className="w-6 h-6 md:w-8 md:h-8 text-mansagold animate-pulse" />
           </div>
@@ -196,7 +196,7 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.45 }}
             >
               <Clock className="w-4 h-4" />
-              <span className="text-sm">Founding member window closes January 2027</span>
+              <span className="text-sm">Founding member window closes June 2026</span>
             </motion.div>
 
             {/* Early adopter CTA */}
