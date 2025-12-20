@@ -37,7 +37,7 @@ const HomePage = () => {
     // SEO optimizations
     updateMetaTags({
       title: 'Mansa Musa Marketplace - Save Money & Support Black-Owned Businesses',
-      description: 'Customers always FREE! Businesses FREE until June 2026. Join the Mansa Musa Marketplace community and build wealth together.',
+      description: 'Customers always FREE! Businesses FREE until March 2026. Join the Mansa Musa Marketplace community and build wealth together.',
       path: '/'
     });
 

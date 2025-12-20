@@ -44,7 +44,7 @@ const CTASection = () => {
             
             <p className="font-body text-lg sm:text-xl text-white/90 leading-relaxed mb-8 max-w-2xl mx-auto">
               Join the FREE Mansa Musa Marketplace community and help build Black economic power together. 
-              Phase 1: Everything is FREE until June 2026 as we focus on growing our community!
+              Phase 1: Everything is FREE until March 2026 as we focus on growing our community!
             </p>
             
             <div className="backdrop-blur-xl bg-white/10 rounded-2xl p-8 mb-8 max-w-3xl mx-auto border border-white/20 shadow-2xl">
