@@ -7,10 +7,13 @@ import { useAuth } from '@/contexts/AuthContext';
 const ProfileHeader = () => {
   const { user, userType } = useAuth();
   
+  // Return null if user is not available (prevents crashes)
+  if (!user) {
+    return null;
+  }
+  
   // Get the first letter of email or name for avatar fallback
   const getInitial = () => {
-    if (!user) return '?';
-    
     if (user.user_metadata?.fullName) {
       return user.user_metadata.fullName.charAt(0).toUpperCase();
     }

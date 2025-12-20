@@ -52,6 +52,11 @@ const SecuritySettings = () => {
     },
   });
   
+  // Return null if user is not available (prevents crashes)
+  if (!user) {
+    return null;
+  }
+
   const onSubmit = async (data: PasswordFormValues) => {
     try {
       setIsLoading(true);
