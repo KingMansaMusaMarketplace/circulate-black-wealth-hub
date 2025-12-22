@@ -21,7 +21,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   ];
   
   // Pages that should show bottom tab bar on mobile
-  const tabBarPages = ['/', '/directory', '/dashboard/profile', '/how-it-works'];
+  const tabBarPages = ['/', '/directory', '/user-profile', '/how-it-works'];
   const shouldShowTabBar = isNative && tabBarPages.includes(location.pathname);
   
   // Check if current path matches any no-layout page (exact match or starts with)

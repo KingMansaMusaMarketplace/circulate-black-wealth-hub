@@ -11,7 +11,7 @@ const BottomTabBar: React.FC = () => {
   const tabs = [
     { icon: Home, label: 'Home', path: '/' },
     { icon: Search, label: 'Directory', path: '/directory' },
-    { icon: User, label: 'Profile', path: '/dashboard/profile' },
+    { icon: User, label: 'Profile', path: '/user-profile' },
     { icon: Menu, label: 'More', path: '/how-it-works' },
   ];
 
