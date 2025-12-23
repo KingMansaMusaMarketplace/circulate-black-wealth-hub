@@ -368,27 +368,29 @@ const MansaAmbassadorsPage: React.FC = () => {
       {/* The Mission */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <Card className="p-10 bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-mansagold/30 rounded-2xl">
+          <Card className="p-10 bg-white border-2 border-mansagold/30 rounded-2xl shadow-2xl">
             <div className="text-center">
-              <Heart className="w-16 h-16 text-mansagold mx-auto mb-6" />
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <Heart className="w-10 h-10 text-white" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
                 More Than Money — It's a Mission
               </h2>
-              <p className="text-xl text-white/80 mb-8 leading-relaxed max-w-3xl mx-auto">
-                Every business you onboard strengthens the Black economic ecosystem. You're not just earning commissions — you're building <span className="text-mansagold font-semibold">generational wealth infrastructure</span> in your community.
+              <p className="text-xl text-foreground/80 mb-8 leading-relaxed max-w-3xl mx-auto">
+                Every business you onboard strengthens the Black economic ecosystem. You're not just earning commissions — you're building <span className="text-mansagold font-bold">generational wealth infrastructure</span> in your community.
               </p>
-              <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/10">
-                <div>
-                  <Building2 className="w-8 h-8 text-mansagold mx-auto mb-2" />
-                  <div className="text-white font-medium">Support Businesses</div>
+              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-foreground/10">
+                <div className="p-4 bg-mansablue/5 rounded-xl">
+                  <Building2 className="w-8 h-8 text-mansablue mx-auto mb-2" />
+                  <div className="text-foreground font-semibold">Support Businesses</div>
                 </div>
-                <div>
-                  <Handshake className="w-8 h-8 text-mansagold mx-auto mb-2" />
-                  <div className="text-white font-medium">Build Community</div>
+                <div className="p-4 bg-mansagold/10 rounded-xl">
+                  <Handshake className="w-8 h-8 text-mansagold-dark mx-auto mb-2" />
+                  <div className="text-foreground font-semibold">Build Community</div>
                 </div>
-                <div>
-                  <TrendingUp className="w-8 h-8 text-mansagold mx-auto mb-2" />
-                  <div className="text-white font-medium">Create Wealth</div>
+                <div className="p-4 bg-green-500/10 rounded-xl">
+                  <TrendingUp className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                  <div className="text-foreground font-semibold">Create Wealth</div>
                 </div>
               </div>
             </div>
