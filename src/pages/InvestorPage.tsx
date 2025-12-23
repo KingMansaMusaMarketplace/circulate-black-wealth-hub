@@ -297,32 +297,34 @@ const InvestorPage: React.FC = () => {
       </section>
 
       {/* The Moat Explained */}
-      <section className="py-20 px-4 bg-gradient-to-b from-transparent to-mansablue-dark/50">
+      <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
-          <Card className="p-10 bg-gradient-to-br from-mansagold/20 to-mansagold/5 border-mansagold/30">
+          <Card className="p-10 bg-white border-2 border-mansagold/30 shadow-2xl">
             <div className="text-center">
-              <Lock className="w-16 h-16 text-mansagold mx-auto mb-6" />
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-mansagold-dark to-mansagold rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                <Lock className="w-10 h-10 text-mansablue-dark" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
                 The Vendor Lock-In Effect
               </h2>
-              <p className="text-xl text-white/80 mb-8 leading-relaxed">
-                Once a business owner has 1,000 followers, a high rating, and their entire accounting history on our platform, <span className="text-mansagold font-semibold">they will never leave</span>.
+              <p className="text-xl text-foreground/80 mb-6 leading-relaxed max-w-2xl mx-auto">
+                Once a business owner has 1,000 followers, a high rating, and their entire accounting history on our platform, <span className="text-mansagold font-bold">they will never leave</span>.
               </p>
-              <p className="text-lg text-white/60 mb-8">
+              <p className="text-lg text-foreground/60 mb-8 max-w-2xl mx-auto">
                 They can't take their reputation, their customer relationships, or their financial history to a competitor. This is how we create sustainable, defensible market position.
               </p>
-              <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/10">
-                <div>
-                  <div className="text-3xl font-bold text-mansagold">Social</div>
-                  <div className="text-white/60 text-sm">Reputation Capital</div>
+              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-foreground/10">
+                <div className="p-4 bg-mansablue/5 rounded-xl">
+                  <div className="text-2xl md:text-3xl font-bold text-mansablue">Social</div>
+                  <div className="text-foreground/60 text-sm mt-1">Reputation Capital</div>
                 </div>
-                <div>
-                  <div className="text-3xl font-bold text-mansagold">Financial</div>
-                  <div className="text-white/60 text-sm">Accounting History</div>
+                <div className="p-4 bg-mansagold/10 rounded-xl">
+                  <div className="text-2xl md:text-3xl font-bold text-mansagold-dark">Financial</div>
+                  <div className="text-foreground/60 text-sm mt-1">Accounting History</div>
                 </div>
-                <div>
-                  <div className="text-3xl font-bold text-mansagold">Network</div>
-                  <div className="text-white/60 text-sm">B2B Connections</div>
+                <div className="p-4 bg-purple-500/10 rounded-xl">
+                  <div className="text-2xl md:text-3xl font-bold text-purple-600">Network</div>
+                  <div className="text-foreground/60 text-sm mt-1">B2B Connections</div>
                 </div>
               </div>
             </div>
