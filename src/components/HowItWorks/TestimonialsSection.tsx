@@ -34,8 +34,9 @@ const TestimonialsSection = () => {
     };
   }, []);
 
-  // Auto rotate testimonials
+  // Auto rotate testimonials - only if there are testimonials
   useEffect(() => {
+    if (testimonials.length === 0) return;
     const interval = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
     }, 5000);
@@ -44,10 +45,12 @@ const TestimonialsSection = () => {
   }, []);
 
   const handlePrevious = () => {
+    if (testimonials.length === 0) return;
     setActiveIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
   };
 
   const handleNext = () => {
+    if (testimonials.length === 0) return;
     setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
   };
 
@@ -73,48 +76,63 @@ const TestimonialsSection = () => {
         </motion.div>
         
         <div className="max-w-4xl mx-auto">
-          <motion.div 
-            className="grid grid-cols-1"
-            initial={{ opacity: 0 }}
-            animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            {/* Main testimonial */}
+          {testimonials.length === 0 ? (
             <motion.div 
-              className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl p-8 relative border border-white/20"
+              className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl p-8 relative border border-white/20 text-center"
               initial={{ scale: 0.95, opacity: 0 }}
               animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
             >
-              {/* Quote icon */}
-              <div className="absolute top-6 left-8 text-yellow-400 opacity-30">
-                <Quote size={40} />
-              </div>
-              
-              {/* Navigation buttons */}
-              <TestimonialNavigation 
-                handlePrevious={handlePrevious} 
-                handleNext={handleNext} 
-              />
-              
-              {/* Testimonial content */}
-              <div className="pt-8">
-                <div className="testimonial-content">
-                  <AnimatedTestimonial 
-                    testimonials={testimonials} 
-                    activeIndex={activeIndex} 
-                  />
+              <Quote size={40} className="mx-auto text-yellow-400 mb-4" />
+              <h3 className="text-xl font-bold text-white mb-2">Testimonials Coming Soon</h3>
+              <p className="text-white/80">
+                Be among the first to share your experience with our community!
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div 
+              className="grid grid-cols-1"
+              initial={{ opacity: 0 }}
+              animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              {/* Main testimonial */}
+              <motion.div 
+                className="backdrop-blur-xl bg-white/10 rounded-2xl shadow-xl p-8 relative border border-white/20"
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={isVisible ? { scale: 1, opacity: 1 } : { scale: 0.95, opacity: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                {/* Quote icon */}
+                <div className="absolute top-6 left-8 text-yellow-400 opacity-30">
+                  <Quote size={40} />
                 </div>
                 
-                {/* Dots indicator */}
-                <TestimonialDots 
-                  count={testimonials.length} 
-                  activeIndex={activeIndex} 
-                  onDotClick={setActiveIndex}
+                {/* Navigation buttons */}
+                <TestimonialNavigation 
+                  handlePrevious={handlePrevious} 
+                  handleNext={handleNext} 
                 />
-              </div>
+                
+                {/* Testimonial content */}
+                <div className="pt-8">
+                  <div className="testimonial-content">
+                    <AnimatedTestimonial 
+                      testimonials={testimonials} 
+                      activeIndex={activeIndex} 
+                    />
+                  </div>
+                  
+                  {/* Dots indicator */}
+                  <TestimonialDots 
+                    count={testimonials.length} 
+                    activeIndex={activeIndex} 
+                    onDotClick={setActiveIndex}
+                  />
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          )}
         </div>
         
         <motion.div 
