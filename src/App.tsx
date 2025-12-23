@@ -146,6 +146,7 @@ const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePa
 const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
 const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage'));
 const LazyAmbassadorResourcesPage = lazy(() => import('@/pages/AmbassadorResourcesPage'));
+const LazySalesAgentCodeOfConductPage = lazy(() => import('@/pages/SalesAgentCodeOfConductPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -457,6 +458,7 @@ function App() {
                               <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
                               <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
                               <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
+                              <Route path="/sales-agent-code-of-conduct" element={<LazySalesAgentCodeOfConductPage />} />
                               <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
                               <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
                               <Route path="/scanner" element={<LazyQRScannerPage />} />
@@ -691,6 +693,7 @@ function App() {
                         <Route path="/sales-agent" element={<LazySalesAgentSignupPage />} />
                         <Route path="/sales-agent-dashboard" element={<LazySalesAgentDashboardPage />} />
                         <Route path="/sales-agent-guide" element={<LazySalesAgentGuidePage />} />
+                        <Route path="/sales-agent-code-of-conduct" element={<LazySalesAgentCodeOfConductPage />} />
                         <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
                         <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
                         <Route path="/scanner" element={<LazyQRScannerPage />} />
