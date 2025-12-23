@@ -459,7 +459,7 @@ export default function UserDashboardPage() {
                   <span className="text-sm font-bold">View Rewards</span>
                 </Button>
               </Link>
-              <Link to="/marketplace">
+              <Link to="/businesses">
                 <Button className="w-full h-24 flex flex-col space-y-2 bg-gradient-to-br from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-lg hover:shadow-xl transition-all">
                   <MapPin className="h-7 w-7" />
                   <span className="text-sm font-bold">Find Businesses</span>
