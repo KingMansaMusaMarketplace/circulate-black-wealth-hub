@@ -1,12 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { submitSalesAgentApplication } from '@/lib/api/sales-agent-api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import {
   Form,
@@ -47,7 +49,8 @@ interface AgentApplicationFormProps {
 
 const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }) => {
   const { user } = useAuth();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -184,9 +187,32 @@ const AgentApplicationForm: React.FC<AgentApplicationFormProps> = ({ onSuccess }
                 </FormItem>
               )}
             />
+            
+            <div className="flex items-center space-x-2 pt-2">
+              <Checkbox
+                id="agent-terms"
+                checked={agreedToTerms}
+                onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
+              />
+              <label
+                htmlFor="agent-terms"
+                className="text-sm text-gray-700 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                I agree to the{' '}
+                <Link to="/terms" className="text-mansablue hover:underline">
+                  terms of service
+                </Link>{' '}
+                and{' '}
+                <Link to="/privacy" className="text-mansablue hover:underline">
+                  privacy policy
+                </Link>
+                , including the Agent Non-Solicitation clause
+              </label>
+            </div>
+            
             <Button 
               type="submit" 
-              disabled={isSubmitting} 
+              disabled={isSubmitting || !agreedToTerms} 
               className="w-full bg-gradient-to-r from-mansagold-dark to-mansagold hover:from-mansagold hover:to-mansagold-light text-mansablue-dark font-semibold shadow-xl shadow-mansagold/30 hover:shadow-2xl hover:shadow-mansagold/50 transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Submitting...' : 'Submit Application'}
