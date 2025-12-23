@@ -183,35 +183,36 @@ const InvestorPage: React.FC = () => {
           </div>
 
           {/* Data Flow Visualization */}
-          <Card className="mt-12 p-8 bg-gradient-to-r from-mansablue/20 to-mansagold/10 border-mansagold/20">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-mansablue rounded-full flex items-center justify-center">
-                  <Building2 className="w-8 h-8 text-white" />
+          <Card className="mt-12 p-8 bg-white border-2 border-mansagold/30 shadow-xl">
+            <h3 className="text-center text-lg font-bold text-foreground mb-8">How Data Flows Through the Platform</h3>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-20 h-20 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-2xl flex items-center justify-center shadow-lg">
+                  <Building2 className="w-10 h-10 text-white" />
                 </div>
                 <div>
-                  <div className="text-white font-bold">Business Onboards</div>
-                  <div className="text-white/60 text-sm">Accounting + Listing</div>
+                  <div className="text-foreground font-bold text-lg">Business Onboards</div>
+                  <div className="text-foreground/60 text-sm">Accounting + Listing</div>
                 </div>
               </div>
-              <ArrowRight className="w-8 h-8 text-mansagold hidden md:block" />
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center">
-                  <Database className="w-8 h-8 text-white" />
+              <ArrowRight className="w-10 h-10 text-mansagold hidden md:block" />
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-700 rounded-2xl flex items-center justify-center shadow-lg">
+                  <Database className="w-10 h-10 text-white" />
                 </div>
                 <div>
-                  <div className="text-white font-bold">Data Captured</div>
-                  <div className="text-white/60 text-sm">Transactions + Behavior</div>
+                  <div className="text-foreground font-bold text-lg">Data Captured</div>
+                  <div className="text-foreground/60 text-sm">Transactions + Behavior</div>
                 </div>
               </div>
-              <ArrowRight className="w-8 h-8 text-mansagold hidden md:block" />
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-mansagold rounded-full flex items-center justify-center">
-                  <Brain className="w-8 h-8 text-mansablue-dark" />
+              <ArrowRight className="w-10 h-10 text-mansagold hidden md:block" />
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-20 h-20 bg-gradient-to-br from-mansagold-dark to-mansagold rounded-2xl flex items-center justify-center shadow-lg">
+                  <Brain className="w-10 h-10 text-mansablue-dark" />
                 </div>
                 <div>
-                  <div className="text-white font-bold">AI Intelligence</div>
-                  <div className="text-white/60 text-sm">Predictions + Insights</div>
+                  <div className="text-foreground font-bold text-lg">AI Intelligence</div>
+                  <div className="text-foreground/60 text-sm">Predictions + Insights</div>
                 </div>
               </div>
             </div>
