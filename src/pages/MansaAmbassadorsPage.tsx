@@ -81,10 +81,10 @@ const MansaAmbassadorsPage: React.FC = () => {
   const launchCities = [
     { city: 'Atlanta, GA', status: 'Recruiting', spots: 50 },
     { city: 'Washington, DC', status: 'Recruiting', spots: 40 },
-    { city: 'Houston, TX', status: 'Coming Soon', spots: 45 },
-    { city: 'Chicago, IL', status: 'Coming Soon', spots: 40 },
-    { city: 'New York, NY', status: 'Coming Soon', spots: 60 },
-    { city: 'Los Angeles, CA', status: 'Coming Soon', spots: 55 }
+    { city: 'Houston, TX', status: 'Recruiting', spots: 45 },
+    { city: 'Chicago, IL', status: 'Recruiting', spots: 40 },
+    { city: 'New York, NY', status: 'Recruiting', spots: 60 },
+    { city: 'Los Angeles, CA', status: 'Recruiting', spots: 55 }
   ];
 
   const steps = [
