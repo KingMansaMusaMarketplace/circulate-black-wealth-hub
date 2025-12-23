@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import HomePageSections from '@/components/HomePage/HomePageSections';
 import BetaChallengeSection from '@/components/HomePage/BetaChallengeSection';
+import AmbassadorCTA from '@/components/HomePage/AmbassadorCTA';
 import FreeGrowthBanner from '@/components/FreeGrowthBanner';
 import { SponsorBanner } from '@/components/sponsors';
 import { PublicSponsorDisplay } from '@/components/sponsors/PublicSponsorDisplay';
@@ -119,6 +120,11 @@ const HomePage = () => {
               </div>
             </div>
           </div>
+        </SectionErrorBoundary>
+
+        {/* Ambassador Program CTA */}
+        <SectionErrorBoundary sectionName="Ambassador CTA">
+          <AmbassadorCTA />
         </SectionErrorBoundary>
 
         {/* All conversion-focused sections */}
