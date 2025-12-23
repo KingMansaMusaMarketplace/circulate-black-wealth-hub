@@ -145,6 +145,7 @@ const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePa
 // Investor & Ambassador pages
 const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
 const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage'));
+const LazyAmbassadorResourcesPage = lazy(() => import('@/pages/AmbassadorResourcesPage'));
 
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
@@ -418,6 +419,7 @@ function App() {
                               
                               {/* M */}
                               <Route path="/mansa-ambassadors" element={<LazyMansaAmbassadorsPage />} />
+                              <Route path="/ambassador-resources" element={<LazyAmbassadorResourcesPage />} />
                               <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                               <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                               <Route path="/media-kit" element={<LazyMediaKitPage />} />
@@ -651,6 +653,7 @@ function App() {
                         
                         {/* M */}
                         <Route path="/mansa-ambassadors" element={<LazyMansaAmbassadorsPage />} />
+                        <Route path="/ambassador-resources" element={<LazyAmbassadorResourcesPage />} />
                         <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                         <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                         <Route path="/media-kit" element={<LazyMediaKitPage />} />
