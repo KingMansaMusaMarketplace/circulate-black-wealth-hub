@@ -561,6 +561,159 @@ export type Database = {
           },
         ]
       }
+      ambassador_marketing_materials: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          download_count: number | null
+          file_name: string
+          file_size: number | null
+          file_url: string
+          id: string
+          is_active: boolean | null
+          material_type: string
+          thumbnail_url: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          download_count?: number | null
+          file_name: string
+          file_size?: number | null
+          file_url: string
+          id?: string
+          is_active?: boolean | null
+          material_type: string
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          download_count?: number | null
+          file_name?: string
+          file_size?: number | null
+          file_url?: string
+          id?: string
+          is_active?: boolean | null
+          material_type?: string
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ambassador_training_content: {
+        Row: {
+          category: string
+          content_type: string
+          content_url: string | null
+          created_at: string | null
+          description: string | null
+          difficulty_level: string | null
+          duration_minutes: number | null
+          external_url: string | null
+          id: string
+          is_active: boolean | null
+          is_required: boolean | null
+          sort_order: number | null
+          thumbnail_url: string | null
+          title: string
+          updated_at: string | null
+          view_count: number | null
+        }
+        Insert: {
+          category: string
+          content_type: string
+          content_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          difficulty_level?: string | null
+          duration_minutes?: number | null
+          external_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_required?: boolean | null
+          sort_order?: number | null
+          thumbnail_url?: string | null
+          title: string
+          updated_at?: string | null
+          view_count?: number | null
+        }
+        Update: {
+          category?: string
+          content_type?: string
+          content_url?: string | null
+          created_at?: string | null
+          description?: string | null
+          difficulty_level?: string | null
+          duration_minutes?: number | null
+          external_url?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_required?: boolean | null
+          sort_order?: number | null
+          thumbnail_url?: string | null
+          title?: string
+          updated_at?: string | null
+          view_count?: number | null
+        }
+        Relationships: []
+      }
+      ambassador_training_progress: {
+        Row: {
+          completed_at: string | null
+          created_at: string | null
+          id: string
+          progress_percent: number | null
+          sales_agent_id: string
+          started_at: string | null
+          status: string
+          training_content_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          progress_percent?: number | null
+          sales_agent_id: string
+          started_at?: string | null
+          status?: string
+          training_content_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string | null
+          id?: string
+          progress_percent?: number | null
+          sales_agent_id?: string
+          started_at?: string | null
+          status?: string
+          training_content_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ambassador_training_progress_sales_agent_id_fkey"
+            columns: ["sales_agent_id"]
+            isOneToOne: false
+            referencedRelation: "sales_agents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ambassador_training_progress_training_content_id_fkey"
+            columns: ["training_content_id"]
+            isOneToOne: false
+            referencedRelation: "ambassador_training_content"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       apple_subscriptions: {
         Row: {
           auto_renew_status: boolean | null
