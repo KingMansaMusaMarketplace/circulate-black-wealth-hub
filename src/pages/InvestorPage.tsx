@@ -125,7 +125,7 @@ const InvestorPage: React.FC = () => {
               </span>
             </h1>
             <p className="text-2xl md:text-3xl text-white/90 mb-4 max-w-4xl mx-auto font-light">
-              We own the ledger of the businesses they shop at.
+              We own the ledger of every business they patronize.
             </p>
             <p className="text-lg text-white/60 max-w-3xl mx-auto">
               Our AI understands the cash flow, the supply chain, and the consumer behavior of the Black economy in real-time.
