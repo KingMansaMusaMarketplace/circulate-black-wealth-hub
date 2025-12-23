@@ -94,10 +94,17 @@ const PrivacyPolicyPage = () => {
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-yellow-400 mb-3">Location Information 📍</h3>
-                <p className="text-blue-200">
-                  We collect approximate location data (coarse location) to help you discover nearby Black-owned businesses. We do not collect precise GPS coordinates unless specifically required for a feature you choose to use. Location access can be controlled through your device settings, and you can choose to deny location access while still using most app features.
+                <h3 className="text-lg font-bold text-yellow-400 mb-3">Location Information & Proximity Triggers 📍</h3>
+                <p className="text-blue-200 mb-3">
+                  We use <strong className="text-white">Geofencing technology</strong> to power our Proximity Notification system, which alerts you when you're near Black-owned businesses you might be interested in.
                 </p>
+                <ul className="text-blue-200 space-y-2 ml-6 list-disc">
+                  <li><strong className="text-white">Local Processing First:</strong> Location data is processed locally on your device whenever possible to minimize data transmission</li>
+                  <li><strong className="text-white">Anonymized Storage:</strong> When location data is stored, it is anonymized to improve our AI's "Interest Zone" accuracy without identifying you personally</li>
+                  <li><strong className="text-white">Coarse Location:</strong> We collect approximate location data (coarse location) to help you discover nearby businesses</li>
+                  <li><strong className="text-white">Precise Location:</strong> We do not collect precise GPS coordinates unless specifically required for a feature you choose to use</li>
+                  <li><strong className="text-white">User Control:</strong> Location access can be controlled through your device settings, and you can choose to deny location access while still using most app features</li>
+                </ul>
               </div>
 
               <div>
@@ -145,35 +152,50 @@ const PrivacyPolicyPage = () => {
             </div>
           </div>
 
-          {/* AI Voice Assistant */}
+          {/* AI Processing & Lovable AI Gateway */}
           <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
             <div className="bg-yellow-500/20 border-b border-white/10 p-4">
               <div className="flex items-center gap-3">
                 <div className="p-3 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl shadow-lg">
                   <Mic className="h-6 w-6 text-slate-900" />
                 </div>
-                <h2 className="text-xl font-bold text-white">AI Voice Assistant & Data Processing 🎤</h2>
+                <h2 className="text-xl font-bold text-white">AI Processing & Voice Assistant 🤖</h2>
               </div>
             </div>
             <div className="p-6 space-y-6">
               <div>
-                <h3 className="text-lg font-bold text-yellow-400 mb-3">Voice Data Collection</h3>
+                <h3 className="text-lg font-bold text-yellow-400 mb-3">AI-Powered Features</h3>
                 <p className="text-blue-200 mb-3">
-                  When you use our AI voice assistant "Kayla," we collect and process your voice recordings to provide conversational assistance about our marketplace features, business directory, and services.
+                  Mansa Musa Marketplace uses AI to enhance your experience through features including:
                 </p>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-bold text-yellow-400 mb-3">Third-Party Processing</h3>
                 <ul className="text-blue-200 space-y-2 ml-6 list-disc">
-                  <li>Voice recordings are processed by OpenAI's API to generate responses</li>
-                  <li>Audio data is transmitted securely to OpenAI's servers for real-time speech recognition and response generation</li>
-                  <li>OpenAI processes this data according to their privacy policy: <a href="https://openai.com/privacy" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:underline">https://openai.com/privacy</a></li>
+                  <li><strong className="text-white">Business Recommendations:</strong> Personalized suggestions based on your preferences and activity</li>
+                  <li><strong className="text-white">Review Sentiment Analysis:</strong> Understanding customer feedback to help businesses improve</li>
+                  <li><strong className="text-white">B2B Matching:</strong> Connecting businesses with potential partners and suppliers</li>
+                  <li><strong className="text-white">Business Insights:</strong> AI-generated analytics and growth recommendations</li>
+                  <li><strong className="text-white">Fraud Detection:</strong> Protecting the marketplace from suspicious activity</li>
+                  <li><strong className="text-white">Voice Assistant "Kayla":</strong> Conversational assistance for marketplace navigation</li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-yellow-400 mb-3">Data Retention</h3>
+                <h3 className="text-lg font-bold text-yellow-400 mb-3">AI Processing Through Secure Gateway</h3>
+                <p className="text-blue-200 mb-3">
+                  Data processed by our AI features (such as reviews, voice notes, or business descriptions) is transmitted through a <strong className="text-white">secure AI Gateway</strong> that connects to Google Gemini AI models.
+                </p>
+                <ul className="text-blue-200 space-y-2 ml-6 list-disc">
+                  <li>All AI requests are encrypted in transit using industry-standard TLS</li>
+                  <li>Personal identifiers are minimized before AI processing when possible</li>
+                  <li>AI models do not retain your data after processing your request</li>
+                  <li>Voice recordings are processed in real-time and NOT permanently stored</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold text-yellow-400 mb-3">Voice Data Collection</h3>
+                <p className="text-blue-200 mb-3">
+                  When you use our AI voice assistant "Kayla," we collect and process your voice recordings to provide conversational assistance.
+                </p>
                 <ul className="text-blue-200 space-y-2 ml-6 list-disc">
                   <li><strong className="text-white">No Permanent Storage:</strong> Voice recordings are NOT permanently stored by Mansa Musa Marketplace</li>
                   <li><strong className="text-white">Real-Time Processing:</strong> Audio is processed in real-time and discarded after the conversation session ends</li>
@@ -187,32 +209,41 @@ const PrivacyPolicyPage = () => {
                 <ul className="text-blue-200 space-y-2 ml-6 list-disc">
                   <li>The app requests microphone access only when you activate the voice assistant</li>
                   <li>You can revoke microphone permission at any time through your device settings</li>
-                  <li>Voice features will not work without microphone permission</li>
                   <li>Microphone is only active during voice conversations - we do not record in the background</li>
                 </ul>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold text-yellow-400 mb-3">User Control and Optional Use</h3>
+                <h3 className="text-lg font-bold text-yellow-400 mb-3">Optional Use</h3>
                 <ul className="text-blue-200 space-y-2 ml-6 list-disc">
-                  <li>You can use the app without the voice assistant feature</li>
-                  <li>All marketplace features remain accessible through traditional text input and navigation</li>
+                  <li>AI features are optional - you can use the marketplace without them</li>
+                  <li>All marketplace features remain accessible through traditional navigation</li>
                   <li>You can end voice conversations at any time by tapping "End Chat"</li>
-                  <li>Voice assistant is completely optional and opt-in</li>
                 </ul>
               </div>
+            </div>
+          </div>
 
-              <div>
-                <h3 className="text-lg font-bold text-yellow-400 mb-3">Purpose Limitation</h3>
-                <p className="text-blue-200 mb-2">Voice data is used solely to provide AI-powered assistance with:</p>
-                <ul className="text-blue-200 space-y-2 ml-6 list-disc">
-                  <li>Finding Black-owned businesses in your area</li>
-                  <li>Understanding marketplace features and how to use them</li>
-                  <li>Booking appointments and managing reservations</li>
-                  <li>Navigating rewards and community features</li>
-                  <li>Getting help with app functionality and support questions</li>
-                </ul>
+          {/* B2B Marketplace Transparency */}
+          <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+            <div className="bg-violet-500/20 border-b border-white/10 p-4">
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl shadow-lg">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-xl font-bold text-white">B2B Marketplace Transparency 🤝</h2>
               </div>
+            </div>
+            <div className="p-6 space-y-4">
+              <p className="text-blue-200">
+                If you are a business owner participating in our B2B Marketplace features, please be aware of the following:
+              </p>
+              <ul className="text-blue-200 space-y-2 ml-6 list-disc">
+                <li><strong className="text-white">Discoverability:</strong> By opting into the B2B Marketplace, your inventory data, business capabilities, and service offerings will be "discoverable" by other verified vendors for the purpose of business matching</li>
+                <li><strong className="text-white">AI-Powered Matching:</strong> Our b2b-match AI function analyzes your business profile to suggest potential partners, suppliers, and collaboration opportunities</li>
+                <li><strong className="text-white">Opt-In Required:</strong> B2B features are opt-in only - your data will not be shared with other businesses unless you explicitly enable these features</li>
+                <li><strong className="text-white">Control:</strong> You can disable B2B discoverability at any time through your business dashboard settings</li>
+              </ul>
             </div>
           </div>
 
