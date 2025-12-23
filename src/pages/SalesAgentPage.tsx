@@ -33,7 +33,7 @@ const SalesAgentPage: React.FC = () => {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none opacity-50" />
       
       <Helmet>
-        <title>Sales Agent Program | Mansa Musa Marketplace</title>
+        <title>Mansa Ambassador Program | Mansa Musa Marketplace</title>
       </Helmet>
 
       <main className="relative z-10 py-12">
@@ -47,9 +47,9 @@ const SalesAgentPage: React.FC = () => {
             >
               <div className="mb-8 text-center">
                 <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4">Earn With Us</span>
-                <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Sales Agent Program</h1>
+                <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Mansa Ambassador Program</h1>
                 <p className="text-blue-200/80 text-lg max-w-2xl mx-auto">
-                  Join our sales agent program and earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
+                  Join the Mansa Ambassador Program and earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
                 </p>
               </div>
 
@@ -57,8 +57,8 @@ const SalesAgentPage: React.FC = () => {
               
               <ContextualTooltip
                 id="guest-sales-agent-info"
-                title="Sales Agent Program"
-                tip="Join our sales agent program to earn commissions by referring businesses and customers. No upfront costs - you only earn when your referrals succeed!"
+                title="Mansa Ambassador Program"
+                tip="Join the Mansa Ambassador Program to earn commissions by referring businesses and customers. No upfront costs - you only earn when your referrals succeed!"
                 position="top"
                 trigger="auto"
                 delay={3000}
@@ -69,7 +69,7 @@ const SalesAgentPage: React.FC = () => {
               <ProgressiveDisclosure
                 id="sales-agent-getting-started"
                 title="Ready to Start Earning?"
-                message="Join our sales agent program today and start earning commissions by referring new customers and businesses to Mansa Musa Marketplace."
+                message="Join the Mansa Ambassador Program today and start earning commissions by referring new customers and businesses to Mansa Musa Marketplace."
                 position="bottom"
                 showOnMount={true}
                 delay={5000}
@@ -87,9 +87,9 @@ const SalesAgentPage: React.FC = () => {
             >
               <div className="mb-8 text-center">
                 <span className="inline-block text-mansagold text-sm font-semibold uppercase tracking-widest mb-4">Your Dashboard</span>
-                <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Sales Agent Program</h1>
+                <h1 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4">Mansa Ambassador Program</h1>
                 <p className="text-blue-200/80 text-lg max-w-2xl mx-auto">
-                  Join our sales agent program and earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
+                  Welcome to the Mansa Ambassador Program. Earn commissions by referring new customers and businesses to Mansa Musa Marketplace.
                 </p>
               </div>
 
@@ -124,7 +124,7 @@ const SalesAgentPage: React.FC = () => {
                     ? "Your application is under review. You'll be notified once it's processed. In the meantime, check out our training materials!"
                     : application.test_passed === false 
                     ? "Don't worry! You can retake the qualification test after reviewing our materials. Practice makes perfect!"
-                    : "Complete your qualification test to become an approved sales agent and start earning commissions."
+                    : "Complete your qualification test to become an approved Mansa Ambassador and start earning commissions."
                   }
                   position="bottom"
                   autoShow={true}

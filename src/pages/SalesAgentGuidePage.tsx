@@ -41,8 +41,8 @@ const SalesAgentGuidePage: React.FC = () => {
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-light">
       <Helmet>
-        <title>Become a Sales Agent - Mansa Musa Marketplace</title>
-        <meta name="description" content="Join the Mansa Musa Marketplace Sales Agent Program. Earn competitive commissions, recruitment bonuses, and team overrides. Build your own sales empire!" />
+        <title>Become a Mansa Ambassador - Mansa Musa Marketplace</title>
+        <meta name="description" content="Join the Mansa Ambassador Program. Earn competitive commissions, recruitment bonuses, and team overrides while building the largest Black business network in your city!" />
       </Helmet>
 
       {/* Hero Section */}
@@ -59,13 +59,13 @@ const SalesAgentGuidePage: React.FC = () => {
               Unlimited Earning Potential
             </Badge>
             <h1 className="text-5xl md:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-mansagold-light to-white">
-              Build Your Sales Empire
+              Become a Mansa Ambassador
             </h1>
             <p className="text-xl md:text-2xl mb-4 text-white">
               Earn up to 15% commissions + $75 recruitment bonuses + 7.5% team overrides
             </p>
             <p className="text-lg text-white mb-8 max-w-3xl mx-auto">
-              Join the Mansa Musa Marketplace Sales Agent Program and get paid to connect Black-owned businesses with customers who want to support them.
+              Join the Mansa Ambassador Program and get paid to connect Black-owned businesses with customers who want to support them.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
@@ -369,7 +369,7 @@ const SalesAgentGuidePage: React.FC = () => {
             <Card className="p-6 !bg-white shadow-xl border-2 border-mansagold/20 rounded-2xl">
               <h3 className="text-lg font-bold mb-2 text-foreground">Is there a monthly fee?</h3>
               <p className="text-foreground/80">
-                No! There are zero fees to become a sales agent. We only succeed when you succeed.
+                No! There are zero fees to become a Mansa Ambassador. We only succeed when you succeed.
               </p>
             </Card>
 
@@ -381,9 +381,9 @@ const SalesAgentGuidePage: React.FC = () => {
             </Card>
 
             <Card className="p-6 !bg-white shadow-xl border-2 border-mansagold/20 rounded-2xl">
-              <h3 className="text-lg font-bold mb-2 text-foreground">Can I recruit other agents?</h3>
+              <h3 className="text-lg font-bold mb-2 text-foreground">Can I recruit other ambassadors?</h3>
               <p className="text-foreground/80">
-                Absolutely! You'll earn a $75 bonus for each approved agent you recruit who gets 3 sales, plus 7.5% override on their commissions for 6 months.
+                Absolutely! You'll earn a $75 bonus for each approved ambassador you recruit who gets 3 sales, plus 7.5% override on their commissions for 6 months.
               </p>
             </Card>
 
@@ -402,10 +402,10 @@ const SalesAgentGuidePage: React.FC = () => {
         <div className="max-w-4xl mx-auto text-center">
           <Rocket className="w-16 h-16 mx-auto mb-6" />
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Build Your Sales Empire?
+            Ready to Become a Mansa Ambassador?
           </h2>
           <p className="text-xl mb-8 text-mansablue-dark/90">
-            Join hundreds of agents already earning with Mansa Musa Marketplace
+            Join hundreds of ambassadors already earning with Mansa Musa Marketplace
           </p>
           <Button 
             size="lg" 

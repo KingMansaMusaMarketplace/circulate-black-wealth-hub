@@ -132,7 +132,7 @@ const ReferralPage = () => {
               ) : (
                 <div className="text-center py-8">
                   <p className="text-white/60 mb-4">
-                    Become a sales agent to get your referral code and start earning commissions
+                    Become a Mansa Ambassador to get your referral code and start earning commissions
                   </p>
                   <Button 
                     asChild
@@ -161,7 +161,7 @@ const ReferralPage = () => {
                   <span className="bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold rounded-full h-6 w-6 flex items-center justify-center mr-3 mt-0.5 shadow-lg">1</span>
                   <div>
                     <h3 className="font-medium text-white">Get your referral code</h3>
-                    <p className="text-sm text-white/60">Apply to become a sales agent and receive your unique code</p>
+                    <p className="text-sm text-white/60">Apply to become a Mansa Ambassador and receive your unique code</p>
                   </div>
                 </li>
                 <li className="flex items-start">
