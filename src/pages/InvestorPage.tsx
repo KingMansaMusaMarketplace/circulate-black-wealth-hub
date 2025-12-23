@@ -345,17 +345,21 @@ const InvestorPage: React.FC = () => {
             <Button 
               size="lg"
               className="bg-gradient-to-r from-mansagold-dark to-mansagold hover:from-mansagold hover:to-mansagold-light text-mansablue-dark font-bold text-lg px-10 py-6 shadow-xl"
-              onClick={() => window.location.href = 'mailto:investors@mansamusamarketplace.com?subject=Investor%20Inquiry'}
+              asChild
             >
-              Contact Our Team <ArrowRight className="ml-2" />
+              <a href="mailto:investors@mansamusamarketplace.com?subject=Investor%20Inquiry">
+                Contact Our Team <ArrowRight className="ml-2" />
+              </a>
             </Button>
             <Button 
               size="lg"
               variant="outline"
               className="border-2 border-white/30 text-white hover:bg-white/10 font-bold text-lg px-10 py-6"
-              onClick={() => window.location.href = '/'}
+              asChild
             >
-              <Globe className="mr-2" /> Explore Platform
+              <a href="/">
+                <Globe className="mr-2" /> Explore Platform
+              </a>
             </Button>
           </div>
         </div>
