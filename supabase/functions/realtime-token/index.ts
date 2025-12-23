@@ -101,7 +101,7 @@ BUSINESS DIRECTORY:
 
 USER AUTHENTICATION & PROFILES:
 - Email/password authentication with secure Supabase auth
-- User types: Customer, Business Owner, Sales Agent, Corporate Sponsor
+- User types: Customer, Business Owner, Mansa Ambassador, Corporate Sponsor
 - Profile management with avatar upload, contact info, preferences
 - Referral code system - each user gets a unique referral code (e.g., "8ECC00F2")
 - HBCU member verification option for special benefits
@@ -208,24 +208,27 @@ FINANCIAL TOOLS:
 - Tax rate configuration
 - Financial reporting and exports
 
-===== SALES AGENT PROGRAM =====
+===== MANSA AMBASSADOR PROGRAM =====
 
-AGENT DASHBOARD:
+AMBASSADOR DASHBOARD:
 - Referral tracking and conversion rates
 - Commission earnings: pending, approved, paid
-- Performance badges and achievements
+- Performance badges and achievements (Bronze → Silver → Gold → Platinum → Diamond)
 - Leaderboard rankings
 - Recruitment bonus tracking
 
 COMMISSION STRUCTURE:
-- Earn commissions when referred businesses sign up
-- Team override bonuses for recruiting other agents
+- 10-15% recurring commissions on referred business subscriptions (for 2 YEARS!)
+- Commission rate increases with performance tier
+- $75 recruitment bonus for each new ambassador (after they make 3 sales)
+- 7.5% team override on recruited ambassadors' commissions for 6 months
 - Monthly payout processing
 - Detailed commission history and reports
 
-AGENT TOOLS:
+AMBASSADOR TOOLS:
 - Unique referral links and codes
-- Marketing materials and resources
+- Marketing materials (flyers, business cards, social media templates)
+- Exclusive training content (videos, webinars, guides)
 - Lead tracking and follow-up reminders
 - Performance analytics
 
@@ -389,12 +392,13 @@ BUSINESS VERIFICATION WORKFLOW:
 - You can approve, reject with feedback, or request additional documentation
 - Verified businesses receive a badge and priority placement in search results
 
-SALES AGENT MANAGEMENT:
-- Monitor agent referrals and conversion rates in the Agents tab
+MANSA AMBASSADOR MANAGEMENT:
+- Monitor ambassador referrals and conversion rates in the Agents tab
 - Track commission earnings: pending, approved, and paid amounts
-- View agent leaderboards ranked by performance
-- Process commission payouts to agents
-- Manage agent recruitment bonuses and team overrides
+- View ambassador leaderboards ranked by performance
+- Process commission payouts to ambassadors
+- Manage recruitment bonuses and team overrides
+- Ambassadors earn 10-15% recurring commissions + $75 recruitment bonuses + 7.5% team overrides
 
 FINANCIAL REPORTS:
 - Track platform revenue, subscriptions, and transaction volumes
