@@ -20,6 +20,7 @@ import ReferralCodeInput from '@/components/business/ReferralCodeInput';
 import { processBusinessReferral } from '@/lib/api/referral-tracking-api';
 import { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
 import { Progress } from '@/components/ui/progress';
+import { FormCheckbox } from './FormCheckbox';
 
 const businessSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -66,6 +67,7 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
   const [success, setSuccess] = useState(false);
   const [enteredReferralCode, setEnteredReferralCode] = useState(referralCode || '');
   const [isReferralValid, setIsReferralValid] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const {
     register,
@@ -436,10 +438,16 @@ const BusinessSignupForm: React.FC<BusinessSignupFormProps> = ({
         </div>
       </div>
 
+      <FormCheckbox
+        id="business-terms"
+        checked={agreedToTerms}
+        onCheckedChange={setAgreedToTerms}
+      />
+
       <Button 
         type="submit" 
         className="w-full bg-gradient-to-r from-yellow-500 via-orange-500 to-amber-500 hover:from-yellow-600 hover:via-orange-600 hover:to-amber-600 text-white font-bold py-6 text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]" 
-        disabled={isLoading}
+        disabled={isLoading || !agreedToTerms}
       >
         {isLoading ? (
           <>

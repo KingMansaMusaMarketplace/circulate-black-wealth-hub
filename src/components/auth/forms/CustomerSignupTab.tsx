@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { FormCheckbox } from './FormCheckbox';
 
 const customerSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -35,6 +36,7 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
   const [success, setSuccess] = useState(false);
   const [referralCodeInfo, setReferralCodeInfo] = useState<{ valid: boolean; referrerName?: string } | null>(null);
   const [checkingReferral, setCheckingReferral] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const {
     register,
@@ -278,7 +280,13 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
         )}
       </div>
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      <FormCheckbox
+        id="customer-terms"
+        checked={agreedToTerms}
+        onCheckedChange={setAgreedToTerms}
+      />
+
+      <Button type="submit" className="w-full" disabled={isLoading || !agreedToTerms}>
         {isLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
