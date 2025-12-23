@@ -142,6 +142,10 @@ const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
 const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
 
+// Investor & Ambassador pages
+const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
+const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage'));
+
 // User profile pages
 const LazyUserDashboardPage = lazy(() => import('@/pages/UserDashboardPage'));
 const LazyUserProfilePage = lazy(() => import('@/pages/UserProfilePage'));
@@ -402,6 +406,7 @@ function App() {
                               
                               {/* I */}
                               <Route path="/impact" element={<LazyImpactPage />} />
+                              <Route path="/investors" element={<LazyInvestorPage />} />
                               <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                               
                               {/* L */}
@@ -412,6 +417,7 @@ function App() {
                               <Route path="/loyalty-program-guide" element={<LazyLoyaltyProgramGuidePage />} />
                               
                               {/* M */}
+                              <Route path="/mansa-ambassadors" element={<LazyMansaAmbassadorsPage />} />
                               <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                               <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                               <Route path="/media-kit" element={<LazyMediaKitPage />} />
@@ -633,6 +639,7 @@ function App() {
                         
                         {/* I */}
                         <Route path="/impact" element={<LazyImpactPage />} />
+                        <Route path="/investors" element={<LazyInvestorPage />} />
                         <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                         
                         {/* L */}
@@ -643,6 +650,7 @@ function App() {
                         <Route path="/loyalty-program-guide" element={<LazyLoyaltyProgramGuidePage />} />
                         
                         {/* M */}
+                        <Route path="/mansa-ambassadors" element={<LazyMansaAmbassadorsPage />} />
                         <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                         <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                         <Route path="/media-kit" element={<LazyMediaKitPage />} />
