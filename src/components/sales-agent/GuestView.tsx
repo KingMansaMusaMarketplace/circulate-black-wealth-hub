@@ -12,10 +12,10 @@ const GuestView: React.FC = () => {
           <Users className="h-10 w-10 text-mansablue-dark" />
         </div>
         <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-mansagold via-mansagold-light to-white bg-clip-text text-transparent mb-6 animate-fade-in">
-          Become a Mansa Musa Marketplace Sales Agent
+          Become a Mansa Ambassador
         </h2>
         <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-          Join our growing team of sales agents and earn commissions by connecting businesses and customers to the Mansa Musa Marketplace.
+          Join our growing team of ambassadors and earn commissions by connecting businesses and customers to the Mansa Musa Marketplace.
         </p>
         <Button 
           asChild 
@@ -32,7 +32,7 @@ const GuestView: React.FC = () => {
       {/* Benefits grid */}
       <div className="py-12 px-4 relative">
         <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent">
-          Benefits of Becoming a Sales Agent
+          Benefits of Becoming a Mansa Ambassador
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -83,7 +83,7 @@ const GuestView: React.FC = () => {
       {/* How it works section */}
       <div className="max-w-4xl mx-auto px-4">
         <h2 className="text-3xl font-bold mb-12 text-center bg-gradient-to-r from-white via-mansagold-light to-white bg-clip-text text-transparent">
-          How the Sales Agent Program Works
+          How the Mansa Ambassador Program Works
         </h2>
         
         <ol className="space-y-8">
@@ -92,7 +92,7 @@ const GuestView: React.FC = () => {
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2 text-white">Sign Up & Apply</h3>
               <p className="text-white/80">
-                Create an account and complete the sales agent application. Our team will review your application.
+                Create an account and complete the ambassador application. Our team will review your application.
               </p>
             </div>
           </li>
@@ -133,7 +133,7 @@ const GuestView: React.FC = () => {
       <div className="relative bg-gradient-to-br from-mansagold-dark via-mansagold to-mansagold-light py-16 px-4 text-center rounded-3xl overflow-hidden shadow-2xl shadow-mansagold/30">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
         <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-mansablue-dark">Ready to Join Our Sales Agent Team?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-mansablue-dark">Ready to Become a Mansa Ambassador?</h2>
           <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-mansablue-dark/90">
             Sign up today and start earning commissions while helping to build wealth in Black communities.
           </p>

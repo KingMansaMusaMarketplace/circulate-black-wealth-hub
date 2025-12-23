@@ -53,7 +53,7 @@ const AgentContent: React.FC<AgentContentProps> = ({
         </TabsList>
         <TabsContent value="dashboard">
           <div className="text-center py-12">
-            <p className="text-xl mb-6 text-foreground font-semibold">You're an active sales agent!</p>
+            <p className="text-xl mb-6 text-foreground font-semibold">You're an active Mansa Ambassador!</p>
             <a 
               href="/sales-agent-dashboard" 
               className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-mansablue-dark to-mansablue hover:from-mansablue hover:to-mansablue-light text-white rounded-xl font-semibold shadow-xl shadow-mansablue/30 hover:shadow-2xl hover:shadow-mansablue/50 transition-all duration-300 hover:scale-105"
