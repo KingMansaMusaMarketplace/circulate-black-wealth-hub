@@ -7,59 +7,24 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, TrendingUp, Users, DollarSign, Star, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const caseStudies = [
-  {
-    id: 1,
-    businessName: "Soul Food Kitchen",
-    ownerName: "Maria Washington",
-    category: "Restaurant",
-    location: "Atlanta, GA",
-    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    challenge: "Struggling to attract new customers and compete with chain restaurants",
-    solution: "Joined Mansa Musa Marketplace and implemented loyalty program",
-    results: {
-      revenueIncrease: "150%",
-      newCustomers: "300+",
-      loyaltyMembers: "200+"
-    },
-    testimonial: "The Marketplace connected me with customers who truly value supporting Black-owned businesses. My revenue has increased by 150% since joining!",
-    timeline: "6 months"
-  },
-  {
-    id: 2,
-    businessName: "Elite Barber Shop",
-    ownerName: "Marcus Johnson",
-    category: "Beauty & Wellness",
-    location: "Chicago, IL",
-    image: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    challenge: "Limited visibility in the community and irregular customer flow",
-    solution: "Used QR code system for appointments and customer engagement",
-    results: {
-      revenueIncrease: "85%",
-      newCustomers: "150+",
-      loyaltyMembers: "120+"
-    },
-    testimonial: "The QR code system made booking so much easier for my customers. I've seen consistent growth and built lasting relationships.",
-    timeline: "4 months"
-  },
-  {
-    id: 3,
-    businessName: "Creative Designs Studio",
-    ownerName: "Jasmine Brown",
-    category: "Professional Services",
-    location: "Houston, TX",
-    image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-    challenge: "Difficulty finding clients who appreciated custom design work",
-    solution: "Leveraged verification system to showcase credibility and expertise",
-    results: {
-      revenueIncrease: "200%",
-      newCustomers: "75+",
-      loyaltyMembers: "50+"
-    },
-    testimonial: "Being verified on the platform gave my clients confidence in my work. I've landed several high-value projects through the Marketplace.",
-    timeline: "8 months"
-  }
-];
+// Real case studies will be loaded from the database once available
+const caseStudies: Array<{
+  id: number;
+  businessName: string;
+  ownerName: string;
+  category: string;
+  location: string;
+  image: string;
+  challenge: string;
+  solution: string;
+  results: {
+    revenueIncrease: string;
+    newCustomers: string;
+    loyaltyMembers: string;
+  };
+  testimonial: string;
+  timeline: string;
+}> = [];
 
 const CaseStudiesPage: React.FC = () => {
   return (
@@ -124,7 +89,16 @@ const CaseStudiesPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid gap-8">
+            {caseStudies.length === 0 ? (
+              <div className="text-center py-16 backdrop-blur-xl bg-slate-800/50 border border-white/10 rounded-2xl">
+                <Sparkles className="h-12 w-12 text-mansagold mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-white mb-2">Success Stories Coming Soon</h3>
+                <p className="text-blue-100/80 max-w-md mx-auto">
+                  We are onboarding our first businesses. Check back soon to see real success stories from our growing community.
+                </p>
+              </div>
+            ) : (
+              <div className="grid gap-8">
               {caseStudies.map((study, index) => (
                 <Card 
                   key={study.id} 
@@ -207,7 +181,8 @@ const CaseStudiesPage: React.FC = () => {
                   </div>
                 </Card>
               ))}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
