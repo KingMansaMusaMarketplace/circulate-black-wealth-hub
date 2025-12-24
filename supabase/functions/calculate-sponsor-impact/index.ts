@@ -1,3 +1,27 @@
+/**
+ * @fileoverview Sponsor Impact Metrics Calculator
+ * 
+ * PATENT PROTECTED - Provisional Application Filed
+ * ================================================
+ * Title: System and Method for a Multi-Tenant Vertical Marketplace Operating System
+ *        Featuring Temporal Incentives, Circulatory Multiplier Attribution, and
+ *        Geospatial Velocity Fraud Detection
+ * 
+ * CLAIM 3: Economic Circulation Multiplier & Impact Attribution
+ * -------------------------------------------------------------
+ * This module implements a proprietary method for calculating community economic
+ * impact wherein transaction values are multiplied by a culturally-specific
+ * circulation factor (2.3x) representing the number of times currency circulates
+ * within the target demographic before leaving the community.
+ * 
+ * Key Protected Elements:
+ * - The 2.3x economic multiplier constant (line ~83: totalEconomicImpact = economicImpact * 2.3)
+ * - Real-time aggregation into automated Impact Reports for corporate sponsors
+ * - Attribution of "social ROI velocity" metrics
+ * 
+ * © 2024-2025. All rights reserved. Unauthorized replication prohibited.
+ */
+
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 

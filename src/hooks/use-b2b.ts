@@ -1,3 +1,31 @@
+/**
+ * @fileoverview B2B Marketplace Hook - AI-Driven Circularity Engine
+ * 
+ * PATENT PROTECTED - Provisional Application Filed
+ * ================================================
+ * Title: System and Method for a Multi-Tenant Vertical Marketplace Operating System
+ *        Featuring Temporal Incentives, Circulatory Multiplier Attribution, and
+ *        Geospatial Velocity Fraud Detection
+ * 
+ * CLAIM 1: AI-Driven Economic Circularity System
+ * -----------------------------------------------
+ * This module implements a proprietary computer-implemented system for automated
+ * economic circularity utilizing AI to match merchant transaction data with
+ * community wholesale vendors, keeping money within the target demographic.
+ * 
+ * Protected B2B Matching Logic:
+ * - Capability-to-Need matching algorithm with match_score calculation
+ * - Category-based supplier discovery (16 B2B categories)
+ * - Connection status lifecycle management (inquiry → active → completed)
+ * - Impact metrics aggregation (money_kept_in_community tracking)
+ * - Integration with circularity multiplier for economic impact attribution
+ * 
+ * The system creates a closed-loop economy where B2C transaction data
+ * automatically triggers B2B supplier recommendations.
+ * 
+ * © 2024-2025. All rights reserved. Unauthorized replication prohibited.
+ */
+
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';

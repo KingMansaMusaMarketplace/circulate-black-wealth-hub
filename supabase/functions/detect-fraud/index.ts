@@ -1,3 +1,33 @@
+/**
+ * @fileoverview AI-Powered Fraud Detection Engine
+ * 
+ * PATENT PROTECTED - Provisional Application Filed
+ * ================================================
+ * Title: System and Method for a Multi-Tenant Vertical Marketplace Operating System
+ *        Featuring Temporal Incentives, Circulatory Multiplier Attribution, and
+ *        Geospatial Velocity Fraud Detection
+ * 
+ * CLAIM 4: Velocity-Based Fraud Detection System
+ * -----------------------------------------------
+ * This module implements a proprietary pattern analysis system that analyzes
+ * temporal and geospatial patterns of QR scans and transactions to identify
+ * impossible travel scenarios and abuse patterns.
+ * 
+ * Protected Detection Methods:
+ * - velocity_abuse: Analyzes action frequency over time windows to detect
+ *   superhuman activity rates (too many scans/transactions in short periods)
+ * - location_mismatch: Compares sequential scan GPS coordinates to detect
+ *   impossible travel (e.g., scans 100 miles apart within 5 minutes)
+ * - qr_scan_abuse: Detects coordinated scanning patterns across accounts
+ * - AI-mediated pattern recognition using Gemini 2.5 Flash
+ * - Batch alert insertion with atomic database operations
+ * 
+ * The system calculates implied travel speed = distance / time_delta,
+ * flagging any result exceeding configurable human-possible thresholds.
+ * 
+ * © 2024-2025. All rights reserved. Unauthorized replication prohibited.
+ */
+
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
 
 // CORS configuration with origin validation
