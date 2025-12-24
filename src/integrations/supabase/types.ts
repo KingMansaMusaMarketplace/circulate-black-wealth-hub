@@ -504,6 +504,33 @@ export type Database = {
           },
         ]
       }
+      ai_assistant_rate_limits: {
+        Row: {
+          created_at: string
+          id: string
+          request_count: number
+          updated_at: string
+          user_id: string
+          window_start: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          request_count?: number
+          updated_at?: string
+          user_id: string
+          window_start?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          request_count?: number
+          updated_at?: string
+          user_id?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
       ai_recommendations: {
         Row: {
           business_id: string
@@ -7725,6 +7752,10 @@ export type Database = {
         Returns: Json
       }
       can_access_admin_features: { Args: never; Returns: boolean }
+      check_ai_assistant_rate_limit: {
+        Args: { p_user_id: string }
+        Returns: boolean
+      }
       check_and_award_badges: {
         Args: { p_sales_agent_id: string }
         Returns: undefined
