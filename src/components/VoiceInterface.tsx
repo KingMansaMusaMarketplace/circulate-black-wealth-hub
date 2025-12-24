@@ -3,8 +3,19 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Mic, MicOff, Loader2 } from 'lucide-react';
 import { RealtimeChat } from '@/utils/RealtimeAudio';
-import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import { useCapacitor } from '@/hooks/use-capacitor';
+
+// Safe haptics helper - lazy load to prevent iOS crashes
+const triggerHaptics = async (style: 'light' | 'medium' | 'heavy') => {
+  try {
+    const { Haptics, ImpactStyle } = await import('@capacitor/haptics');
+    const impactStyle = style === 'light' ? ImpactStyle.Light : 
+                        style === 'medium' ? ImpactStyle.Medium : ImpactStyle.Heavy;
+    await Haptics.impact({ style: impactStyle });
+  } catch (e) {
+    // Haptics not available or plugin not installed - silently ignore
+  }
+};
 
 interface VoiceInterfaceProps {
   onSpeakingChange?: (speaking: boolean) => void;
@@ -53,11 +64,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   };
 
   const startConversation = async () => {
-    try {
-      await Haptics.impact({ style: ImpactStyle.Medium });
-    } catch (e) {
-      // Haptics not available
-    }
+    await triggerHaptics('medium');
 
     setIsConnecting(true);
     try {
@@ -79,12 +86,8 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
     }
   };
 
-  const endConversation = () => {
-    try {
-      Haptics.impact({ style: ImpactStyle.Light });
-    } catch (e) {
-      // Haptics not available
-    }
+  const endConversation = async () => {
+    await triggerHaptics('light');
 
     voiceRef.current?.disconnect();
     voiceRef.current = null;
