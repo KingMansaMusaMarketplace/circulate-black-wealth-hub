@@ -63,30 +63,52 @@ export class AudioRecorder {
 export class RealtimeChat {
   private pc: RTCPeerConnection | null = null;
   private dc: RTCDataChannel | null = null;
-  private audioEl: HTMLAudioElement;
+  private audioEl: HTMLAudioElement | null = null;
   private recorder: AudioRecorder | null = null;
+  private localStream: MediaStream | null = null;
 
   constructor(private onMessage: (message: any) => void) {
-    this.audioEl = document.createElement("audio");
-    this.audioEl.autoplay = true;
-    this.audioEl.setAttribute('playsinline', 'true');
-    // Keep element in DOM to satisfy autoplay policies across browsers
-    this.audioEl.style.position = 'fixed';
-    this.audioEl.style.left = '-9999px';
-    this.audioEl.style.width = '0';
-    this.audioEl.style.height = '0';
-    this.audioEl.style.opacity = '0';
+    // Defer audio element creation to init() for better iOS compatibility
+  }
+
+  private createAudioElement() {
     try {
-      if (!document.body.contains(this.audioEl)) {
+      this.audioEl = document.createElement("audio");
+      this.audioEl.autoplay = true;
+      this.audioEl.setAttribute('playsinline', 'true');
+      this.audioEl.setAttribute('webkit-playsinline', 'true');
+      // Keep element in DOM to satisfy autoplay policies across browsers
+      this.audioEl.style.position = 'fixed';
+      this.audioEl.style.left = '-9999px';
+      this.audioEl.style.width = '0';
+      this.audioEl.style.height = '0';
+      this.audioEl.style.opacity = '0';
+      this.audioEl.style.pointerEvents = 'none';
+      
+      if (document.body) {
         document.body.appendChild(this.audioEl);
       }
     } catch (e) {
-      console.warn('Could not append audio element to DOM:', e);
+      console.warn('Could not create audio element:', e);
     }
   }
 
   async init() {
     try {
+      console.log('Initializing RealtimeChat...');
+      
+      // Create audio element first - must happen before any async operations on iOS
+      this.createAudioElement();
+      
+      // Check for required APIs before proceeding
+      if (!navigator.mediaDevices?.getUserMedia) {
+        throw new Error('Microphone access not available on this device');
+      }
+      
+      if (typeof RTCPeerConnection === 'undefined') {
+        throw new Error('WebRTC not supported on this device');
+      }
+      
       console.log('Getting ephemeral token...');
       
       // Get ephemeral token from our Supabase Edge Function
@@ -96,37 +118,61 @@ export class RealtimeChat {
       
       if (error) {
         console.error('Edge function error:', error);
-        throw error;
+        throw new Error(error.message || 'Failed to connect to voice service');
       }
 
-      console.log('Token response:', data);
+      console.log('Token response received');
       
       if (!data?.client_secret?.value) {
-        throw new Error("Failed to get ephemeral token");
+        throw new Error("Failed to get ephemeral token - please try again");
       }
 
       const EPHEMERAL_KEY = data.client_secret.value;
       console.log('Got ephemeral token');
 
-      // Create peer connection
-      this.pc = new RTCPeerConnection();
+      // Request microphone BEFORE creating peer connection (important for iOS)
+      console.log('Requesting microphone access...');
+      try {
+        this.localStream = await navigator.mediaDevices.getUserMedia({ 
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          } 
+        });
+        console.log('Microphone access granted');
+      } catch (micError) {
+        console.error('Microphone access denied:', micError);
+        throw new Error('Microphone permission denied. Please allow microphone access and try again.');
+      }
 
-      // Set up remote audio
+      // Create peer connection with STUN servers for better connectivity
+      this.pc = new RTCPeerConnection({
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' }
+        ]
+      });
+
+      // Set up remote audio handler
       this.pc.ontrack = async (e) => {
-        console.log('Received audio track');
-        this.audioEl.srcObject = e.streams[0];
-        try {
-          await this.audioEl.play();
-          console.log('Remote audio playback started');
-        } catch (err) {
-          console.warn('Autoplay blocked, attempting user-gesture resume:', err);
+        console.log('Received remote audio track');
+        if (this.audioEl) {
+          this.audioEl.srcObject = e.streams[0];
+          try {
+            await this.audioEl.play();
+            console.log('Remote audio playback started');
+          } catch (err) {
+            console.warn('Autoplay blocked:', err);
+            // On iOS, audio may need user interaction - it will play on next interaction
+          }
         }
       };
 
       // Add local audio track
-      console.log('Requesting microphone access...');
-      const ms = await navigator.mediaDevices.getUserMedia({ audio: true });
-      this.pc.addTrack(ms.getTracks()[0]);
+      const audioTrack = this.localStream.getAudioTracks()[0];
+      if (audioTrack) {
+        this.pc.addTrack(audioTrack, this.localStream);
+      }
 
       // Set up data channel
       this.dc = this.pc.createDataChannel("oai-events");
@@ -218,8 +264,46 @@ export class RealtimeChat {
   }
 
   disconnect() {
-    this.recorder?.stop();
-    this.dc?.close();
-    this.pc?.close();
+    console.log('Disconnecting RealtimeChat...');
+    
+    try {
+      // Stop recorder
+      this.recorder?.stop();
+      this.recorder = null;
+      
+      // Close data channel
+      if (this.dc) {
+        this.dc.close();
+        this.dc = null;
+      }
+      
+      // Close peer connection
+      if (this.pc) {
+        this.pc.close();
+        this.pc = null;
+      }
+      
+      // Stop local media stream tracks
+      if (this.localStream) {
+        this.localStream.getTracks().forEach(track => {
+          track.stop();
+        });
+        this.localStream = null;
+      }
+      
+      // Clean up audio element
+      if (this.audioEl) {
+        this.audioEl.pause();
+        this.audioEl.srcObject = null;
+        if (this.audioEl.parentNode) {
+          this.audioEl.parentNode.removeChild(this.audioEl);
+        }
+        this.audioEl = null;
+      }
+      
+      console.log('RealtimeChat disconnected');
+    } catch (e) {
+      console.error('Error during disconnect:', e);
+    }
   }
 }
