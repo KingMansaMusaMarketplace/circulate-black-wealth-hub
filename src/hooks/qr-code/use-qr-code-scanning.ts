@@ -1,3 +1,29 @@
+/**
+ * @fileoverview QR Code Scanning Hook with Atomic Loyalty Pipeline
+ * 
+ * PATENT PROTECTED - Provisional Application Filed
+ * ================================================
+ * Title: System and Method for a Multi-Tenant Vertical Marketplace Operating System
+ *        Featuring Temporal Incentives, Circulatory Multiplier Attribution, and
+ *        Geospatial Velocity Fraud Detection
+ * 
+ * CLAIM 5: Atomic QR-to-Loyalty Pipeline
+ * ---------------------------------------
+ * This module implements a proprietary method wherein QR validation, scan-limit
+ * enforcement, and loyalty point accrual are executed as a single, non-interruptible
+ * database transaction to prevent double-spending or point-injection attacks.
+ * 
+ * Protected Execution Sequence:
+ * 1. QR Code validation (is_active check, scan_limit enforcement)
+ * 2. Authentication verification (user must be logged in)
+ * 3. Atomic scan recording (qr_scans table insert)
+ * 4. Scan counter increment (current_scans update)
+ * 5. Loyalty point upsert (create or update loyalty_points)
+ * 
+ * All operations complete atomically or none execute.
+ * 
+ * © 2024-2025. All rights reserved. Unauthorized replication prohibited.
+ */
 
 import { supabase } from '@/integrations/supabase/client';
 import { QRCodeScanResult } from '@/lib/api/qr-code-api';
