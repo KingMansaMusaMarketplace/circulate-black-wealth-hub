@@ -927,15 +927,19 @@ export type Database = {
           business_description: string | null
           business_name: string
           category: string | null
+          confidence_score: number | null
           contact_info: Json | null
           converted_business_id: string | null
           created_at: string | null
           discovered_by_business_id: string | null
           discovered_by_user_id: string | null
           id: string
+          invitation_clicked_at: string | null
+          invitation_token: string | null
           invited_at: string | null
           is_converted: boolean | null
           is_invited: boolean | null
+          lead_score: number | null
           location: string | null
           source_citations: string[] | null
           source_query: string
@@ -946,15 +950,19 @@ export type Database = {
           business_description?: string | null
           business_name: string
           category?: string | null
+          confidence_score?: number | null
           contact_info?: Json | null
           converted_business_id?: string | null
           created_at?: string | null
           discovered_by_business_id?: string | null
           discovered_by_user_id?: string | null
           id?: string
+          invitation_clicked_at?: string | null
+          invitation_token?: string | null
           invited_at?: string | null
           is_converted?: boolean | null
           is_invited?: boolean | null
+          lead_score?: number | null
           location?: string | null
           source_citations?: string[] | null
           source_query: string
@@ -965,15 +973,19 @@ export type Database = {
           business_description?: string | null
           business_name?: string
           category?: string | null
+          confidence_score?: number | null
           contact_info?: Json | null
           converted_business_id?: string | null
           created_at?: string | null
           discovered_by_business_id?: string | null
           discovered_by_user_id?: string | null
           id?: string
+          invitation_clicked_at?: string | null
+          invitation_token?: string | null
           invited_at?: string | null
           is_converted?: boolean | null
           is_invited?: boolean | null
+          lead_score?: number | null
           location?: string | null
           source_citations?: string[] | null
           source_query?: string

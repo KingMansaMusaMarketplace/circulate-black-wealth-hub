@@ -42,6 +42,10 @@ export interface B2BExternalLead {
   invited_at: string | null;
   is_converted: boolean;
   converted_business_id: string | null;
+  confidence_score: number | null;
+  lead_score: number | null;
+  invitation_clicked_at: string | null;
+  invitation_token: string | null;
   created_at: string;
   updated_at: string;
 }

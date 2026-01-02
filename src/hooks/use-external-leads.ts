@@ -9,6 +9,7 @@ export function useExternalLeads() {
   const [leads, setLeads] = useState<B2BExternalLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [invitingLeadId, setInvitingLeadId] = useState<string | null>(null);
+  const [bulkInviting, setBulkInviting] = useState(false);
 
   const fetchLeads = useCallback(async () => {
     if (!user) {
@@ -90,6 +91,8 @@ export function useExternalLeads() {
             inviterBusinessName: business?.business_name,
             category: lead.category || 'business services',
             personalMessage,
+            leadId: lead.id,
+            invitationToken: lead.invitation_token,
           }),
         }
       );
@@ -121,6 +124,110 @@ export function useExternalLeads() {
     }
   };
 
+  const sendBulkInvitations = async (leadIds: string[], personalMessage?: string) => {
+    if (!user) {
+      toast.error('Please sign in to send invitations');
+      return { success: 0, failed: 0 };
+    }
+
+    const leadsToInvite = leads.filter(
+      l => leadIds.includes(l.id) && !l.is_invited && l.contact_info?.email
+    );
+
+    if (leadsToInvite.length === 0) {
+      toast.error('No eligible leads to invite');
+      return { success: 0, failed: 0 };
+    }
+
+    setBulkInviting(true);
+    let success = 0;
+    let failed = 0;
+
+    try {
+      // Get inviter profile and business once
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', user.id)
+        .single();
+
+      const { data: business } = await supabase
+        .from('businesses')
+        .select('business_name')
+        .eq('owner_id', user.id)
+        .single();
+
+      // Send invitations in batches of 5 to avoid rate limiting
+      const batchSize = 5;
+      for (let i = 0; i < leadsToInvite.length; i += batchSize) {
+        const batch = leadsToInvite.slice(i, i + batchSize);
+        
+        await Promise.all(
+          batch.map(async (lead) => {
+            try {
+              const response = await fetch(
+                `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-b2b-invitation`,
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+                  },
+                  body: JSON.stringify({
+                    businessName: lead.business_name,
+                    businessEmail: lead.contact_info?.email,
+                    inviterName: profile?.full_name || 'A Mansa Musa member',
+                    inviterBusinessName: business?.business_name,
+                    category: lead.category || 'business services',
+                    personalMessage,
+                    leadId: lead.id,
+                    invitationToken: lead.invitation_token,
+                  }),
+                }
+              );
+
+              if (response.ok) {
+                await supabase
+                  .from('b2b_external_leads')
+                  .update({
+                    is_invited: true,
+                    invited_at: new Date().toISOString(),
+                  })
+                  .eq('id', lead.id);
+                success++;
+              } else {
+                failed++;
+              }
+            } catch {
+              failed++;
+            }
+          })
+        );
+
+        // Small delay between batches
+        if (i + batchSize < leadsToInvite.length) {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+      }
+
+      await fetchLeads();
+      
+      if (success > 0) {
+        toast.success(`Successfully sent ${success} invitation${success > 1 ? 's' : ''}${failed > 0 ? `, ${failed} failed` : ''}`);
+      } else {
+        toast.error('Failed to send invitations');
+      }
+
+      return { success, failed };
+    } catch (error) {
+      console.error('Error sending bulk invitations:', error);
+      toast.error('Failed to send bulk invitations');
+      return { success, failed };
+    } finally {
+      setBulkInviting(false);
+    }
+  };
+
   const deleteLead = async (leadId: string) => {
     try {
       const { error } = await supabase
@@ -138,22 +245,82 @@ export function useExternalLeads() {
     }
   };
 
+  const deleteMultipleLeads = async (leadIds: string[]) => {
+    try {
+      const { error } = await supabase
+        .from('b2b_external_leads')
+        .delete()
+        .in('id', leadIds);
+
+      if (error) throw error;
+
+      toast.success(`Removed ${leadIds.length} lead${leadIds.length > 1 ? 's' : ''}`);
+      setLeads(prev => prev.filter(l => !leadIds.includes(l.id)));
+    } catch (error) {
+      console.error('Error deleting leads:', error);
+      toast.error('Failed to remove leads');
+    }
+  };
+
   const getLeadStats = () => {
     const total = leads.length;
     const invited = leads.filter(l => l.is_invited).length;
     const converted = leads.filter(l => l.is_converted).length;
     const pending = total - invited;
+    const clicked = leads.filter(l => l.invitation_clicked_at).length;
 
-    return { total, invited, converted, pending };
+    return { total, invited, converted, pending, clicked };
+  };
+
+  // Calculate lead score based on confidence and category match
+  const calculateLeadScore = (lead: B2BExternalLead, userCategories?: string[]): number => {
+    let score = (lead.confidence_score || 0) * 100;
+    
+    // Bonus points for category match
+    if (userCategories && lead.category) {
+      const categoryMatch = userCategories.some(
+        cat => lead.category?.toLowerCase().includes(cat.toLowerCase())
+      );
+      if (categoryMatch) {
+        score += 20;
+      }
+    }
+
+    // Bonus for having email contact
+    if (lead.contact_info?.email) {
+      score += 10;
+    }
+
+    // Bonus for having website
+    if (lead.website_url) {
+      score += 5;
+    }
+
+    return Math.min(score, 100);
+  };
+
+  // Get leads sorted by score
+  const getLeadsByScore = (userCategories?: string[]) => {
+    return [...leads]
+      .map(lead => ({
+        ...lead,
+        calculatedScore: calculateLeadScore(lead, userCategories),
+      }))
+      .sort((a, b) => b.calculatedScore - a.calculatedScore);
   };
 
   return {
     leads,
     loading,
     invitingLeadId,
+    bulkInviting,
     fetchLeads,
     sendInvitation,
+    sendBulkInvitations,
     deleteLead,
+    deleteMultipleLeads,
     getLeadStats,
+    calculateLeadScore,
+    getLeadsByScore,
   };
 }
