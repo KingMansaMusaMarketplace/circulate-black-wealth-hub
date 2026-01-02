@@ -97,8 +97,10 @@ export class RealtimeChat {
     try {
       console.log('Initializing RealtimeChat...');
       
-      // Create audio element first - must happen before any async operations on iOS
-      this.createAudioElement();
+      // iOS detection for special handling
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      console.log('Device is iOS:', isIOS);
       
       // Check for required APIs before proceeding
       if (!navigator.mediaDevices?.getUserMedia) {
@@ -107,6 +109,47 @@ export class RealtimeChat {
       
       if (typeof RTCPeerConnection === 'undefined') {
         throw new Error('WebRTC not supported on this device');
+      }
+      
+      // Request microphone FIRST on iOS - must happen immediately after user gesture
+      console.log('Requesting microphone access...');
+      try {
+        this.localStream = await navigator.mediaDevices.getUserMedia({ 
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true,
+            // iOS-specific: don't request specific sample rate
+            ...(isIOS ? {} : { sampleRate: 24000 })
+          } 
+        });
+        console.log('Microphone access granted, tracks:', this.localStream.getAudioTracks().length);
+      } catch (micError: any) {
+        console.error('Microphone access denied:', micError);
+        if (micError.name === 'NotAllowedError') {
+          throw new Error('Microphone permission denied. Please allow microphone access in your device settings and try again.');
+        } else if (micError.name === 'NotFoundError') {
+          throw new Error('No microphone found on this device.');
+        } else {
+          throw new Error(`Microphone error: ${micError.message || 'Unknown error'}`);
+        }
+      }
+      
+      // Create audio element AFTER microphone permission granted
+      this.createAudioElement();
+      
+      // iOS: Create and resume AudioContext to satisfy autoplay policy
+      if (isIOS && this.audioEl) {
+        try {
+          const tempAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+          if (tempAudioContext.state === 'suspended') {
+            await tempAudioContext.resume();
+          }
+          await tempAudioContext.close();
+          console.log('iOS AudioContext warmed up');
+        } catch (e) {
+          console.warn('AudioContext warmup failed:', e);
+        }
       }
       
       console.log('Getting ephemeral token...');
@@ -118,68 +161,93 @@ export class RealtimeChat {
       
       if (error) {
         console.error('Edge function error:', error);
+        // Clean up microphone on error
+        this.localStream?.getTracks().forEach(t => t.stop());
+        this.localStream = null;
         throw new Error(error.message || 'Failed to connect to voice service');
       }
 
       console.log('Token response received');
       
       if (!data?.client_secret?.value) {
+        // Clean up microphone on error
+        this.localStream?.getTracks().forEach(t => t.stop());
+        this.localStream = null;
         throw new Error("Failed to get ephemeral token - please try again");
       }
 
       const EPHEMERAL_KEY = data.client_secret.value;
       console.log('Got ephemeral token');
 
-      // Request microphone BEFORE creating peer connection (important for iOS)
-      console.log('Requesting microphone access...');
-      try {
-        this.localStream = await navigator.mediaDevices.getUserMedia({ 
-          audio: {
-            echoCancellation: true,
-            noiseSuppression: true,
-            autoGainControl: true
-          } 
-        });
-        console.log('Microphone access granted');
-      } catch (micError) {
-        console.error('Microphone access denied:', micError);
-        throw new Error('Microphone permission denied. Please allow microphone access and try again.');
-      }
-
       // Create peer connection with STUN servers for better connectivity
+      console.log('Creating RTCPeerConnection...');
       this.pc = new RTCPeerConnection({
         iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' }
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' }
         ]
       });
 
       // Set up remote audio handler
       this.pc.ontrack = async (e) => {
         console.log('Received remote audio track');
-        if (this.audioEl) {
+        if (this.audioEl && e.streams[0]) {
           this.audioEl.srcObject = e.streams[0];
           try {
-            await this.audioEl.play();
+            // iOS requires play() to be called in response to user action
+            const playPromise = this.audioEl.play();
+            if (playPromise !== undefined) {
+              await playPromise;
+            }
             console.log('Remote audio playback started');
-          } catch (err) {
-            console.warn('Autoplay blocked:', err);
-            // On iOS, audio may need user interaction - it will play on next interaction
+          } catch (err: any) {
+            console.warn('Autoplay blocked, will retry:', err.message);
+            // Don't throw - audio will play on next user interaction
           }
         }
+      };
+      
+      // Handle connection state changes
+      this.pc.onconnectionstatechange = () => {
+        console.log('Connection state:', this.pc?.connectionState);
+        if (this.pc?.connectionState === 'failed') {
+          console.error('WebRTC connection failed');
+          this.onMessage({ type: 'error', message: 'Connection failed' });
+        }
+      };
+      
+      this.pc.oniceconnectionstatechange = () => {
+        console.log('ICE connection state:', this.pc?.iceConnectionState);
       };
 
       // Add local audio track
       const audioTrack = this.localStream.getAudioTracks()[0];
       if (audioTrack) {
+        console.log('Adding audio track to peer connection');
         this.pc.addTrack(audioTrack, this.localStream);
+      } else {
+        throw new Error('No audio track available from microphone');
       }
 
       // Set up data channel
+      console.log('Creating data channel...');
       this.dc = this.pc.createDataChannel("oai-events");
       this.dc.addEventListener("message", (e) => {
-        const event = JSON.parse(e.data);
-        console.log("Received event:", event);
-        this.onMessage(event);
+        try {
+          const event = JSON.parse(e.data);
+          console.log("Received event:", event.type);
+          this.onMessage(event);
+        } catch (parseError) {
+          console.error('Failed to parse event:', parseError);
+        }
+      });
+      
+      this.dc.addEventListener("open", () => {
+        console.log('Data channel opened');
+      });
+      
+      this.dc.addEventListener("error", (e) => {
+        console.error('Data channel error:', e);
       });
 
       // Create and set local description
@@ -203,20 +271,23 @@ export class RealtimeChat {
 
       if (!sdpResponse.ok) {
         const errorText = await sdpResponse.text();
-        console.error('OpenAI SDP error:', errorText);
-        throw new Error(`OpenAI connection failed: ${sdpResponse.status}`);
+        console.error('OpenAI SDP error:', sdpResponse.status, errorText);
+        throw new Error(`Voice service connection failed (${sdpResponse.status})`);
       }
 
+      const answerSdp = await sdpResponse.text();
       const answer = {
         type: "answer" as RTCSdpType,
-        sdp: await sdpResponse.text(),
+        sdp: answerSdp,
       };
       
       await this.pc.setRemoteDescription(answer);
-      console.log("WebRTC connection established");
+      console.log("WebRTC connection established successfully");
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error initializing chat:", error);
+      // Clean up on error
+      this.disconnect();
       throw error;
     }
   }

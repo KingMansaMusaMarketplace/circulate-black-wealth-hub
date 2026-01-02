@@ -64,10 +64,18 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   };
 
   const startConversation = async () => {
+    // Prevent double-tap issues on iOS
+    if (isConnecting) return;
+    
     await triggerHaptics('medium');
 
     setIsConnecting(true);
     try {
+      // iOS: Check if we're in a secure context (required for getUserMedia)
+      if (!window.isSecureContext) {
+        throw new Error('Voice features require a secure connection (HTTPS)');
+      }
+      
       const voice = new RealtimeChat(handleMessage);
       await voice.init();
       voiceRef.current = voice;
@@ -76,10 +84,23 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       toast.success('Connected to Kayla', {
         description: 'Start speaking naturally - I can hear you!'
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error starting conversation:', error);
+      
+      // Provide user-friendly error messages
+      let errorMessage = 'Failed to start conversation';
+      if (error.message?.includes('Microphone')) {
+        errorMessage = error.message;
+      } else if (error.message?.includes('WebRTC')) {
+        errorMessage = 'Voice chat not supported on this device';
+      } else if (error.message?.includes('token')) {
+        errorMessage = 'Connection failed - please try again';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast.error('Connection Failed', {
-        description: error instanceof Error ? error.message : 'Failed to start conversation'
+        description: errorMessage
       });
     } finally {
       setIsConnecting(false);
