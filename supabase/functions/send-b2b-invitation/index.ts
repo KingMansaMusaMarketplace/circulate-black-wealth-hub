@@ -42,23 +42,31 @@ const handler = async (req: Request): Promise<Response> => {
     }: InvitationRequest = await req.json();
 
     // Validate required fields
-    if (!businessName || !businessEmail) {
+    if (!businessName?.trim() || !businessEmail?.trim()) {
+      console.error("Missing required fields:", { businessName, businessEmail });
       return new Response(
         JSON.stringify({ error: "Business name and email are required" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Validate email format (RFC 5322 compliant)
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     if (!emailRegex.test(businessEmail)) {
+      console.error("Invalid email format:", businessEmail);
       return new Response(
         JSON.stringify({ error: "Invalid email address" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+    
+    // Sanitize inputs to prevent XSS in emails
+    const sanitizedBusinessName = businessName.replace(/[<>]/g, '');
+    const sanitizedInviterName = inviterName?.replace(/[<>]/g, '') || 'A Mansa Musa member';
+    const sanitizedInviterBusinessName = inviterBusinessName?.replace(/[<>]/g, '');
+    const sanitizedPersonalMessage = personalMessage?.replace(/[<>]/g, '');
 
-    console.log(`Sending B2B invitation to: ${businessName} (${businessEmail})`);
+    console.log(`Sending B2B invitation to: ${sanitizedBusinessName} (${businessEmail})`);
 
     // Build signup URL with UTM params for tracking
     const utmParams = new URLSearchParams({
@@ -111,21 +119,21 @@ const handler = async (req: Request): Promise<Response> => {
                   <tr>
                     <td style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 16px; padding: 40px; border: 1px solid rgba(255,255,255,0.1);">
                       <h2 style="color: #ffffff; font-size: 24px; margin: 0 0 20px 0;">
-                        Hello ${businessName}! 👋
+                        Hello ${sanitizedBusinessName}! 👋
                       </h2>
                       
                       <p style="color: #cbd5e1; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                        <strong style="color: #f59e0b;">${inviterName}</strong>${inviterBusinessName ? ` from <strong style="color: #f59e0b;">${inviterBusinessName}</strong>` : ''} 
-                        discovered your business while searching for <strong style="color: #3b82f6;">${category}</strong> suppliers 
+                        <strong style="color: #f59e0b;">${sanitizedInviterName}</strong>${sanitizedInviterBusinessName ? ` from <strong style="color: #f59e0b;">${sanitizedInviterBusinessName}</strong>` : ''} 
+                        discovered your business while searching for <strong style="color: #3b82f6;">${category || 'business services'}</strong> suppliers 
                         and thinks you'd be a great fit for our community!
                       </p>
                       
-                      ${personalMessage ? `
+                      ${sanitizedPersonalMessage ? `
                       <div style="background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0; border-radius: 0 8px 8px 0;">
                         <p style="color: #93c5fd; font-size: 14px; margin: 0; font-style: italic;">
-                          "${personalMessage}"
+                          "${sanitizedPersonalMessage}"
                         </p>
-                        <p style="color: #64748b; font-size: 12px; margin: 10px 0 0 0;">— ${inviterName}</p>
+                        <p style="color: #64748b; font-size: 12px; margin: 10px 0 0 0;">— ${sanitizedInviterName}</p>
                       </div>
                       ` : ''}
                       
