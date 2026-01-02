@@ -68,6 +68,7 @@ const LazyMediaKitPage = lazy(() => import('@/pages/MediaKitPage'));
 const LazyCoalitionPage = lazy(() => import('@/pages/CoalitionPage'));
 const LazyB2BMarketplacePage = lazy(() => import('@/pages/B2BMarketplacePage'));
 const LazyB2BDashboardPage = lazy(() => import('@/pages/business/B2BDashboardPage'));
+const LazyLeadsDashboardPage = lazy(() => import('@/pages/LeadsDashboardPage'));
 const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
 const LazyRewardsPage = lazy(() => import('@/pages/RewardsPage'));
 const LazyBusinessDiscoveryPage = lazy(() => import('@/pages/BusinessDiscoveryPage'));
@@ -366,6 +367,7 @@ function App() {
                               <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
                               <Route path="/button-test" element={<LazyButtonTestPage />} />
                               <Route path="/b2b-marketplace" element={<LazyB2BMarketplacePage />} />
+                              <Route path="/leads-dashboard" element={<LazyLeadsDashboardPage />} />
                               
                               {/* C */}
                               <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
@@ -598,6 +600,7 @@ function App() {
                         <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
                         <Route path="/button-test" element={<LazyButtonTestPage />} />
                         <Route path="/b2b-marketplace" element={<LazyB2BMarketplacePage />} />
+                        <Route path="/leads-dashboard" element={<LazyLeadsDashboardPage />} />
                         
                         {/* C */}
                         <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />

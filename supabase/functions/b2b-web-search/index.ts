@@ -1,14 +1,12 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
 
 /**
- * B2B Web Search Edge Function - Perplexity Integration
+ * B2B Web Search Edge Function - Perplexity Integration with 24hr Caching
  * 
  * PATENT PROTECTED - Provisional Application Filed
  * ================================================
- * This function implements AI-powered web search for discovering
- * Black-owned B2B suppliers beyond the platform database.
- * 
- * Multi-AI Architecture: Perplexity (web search) + Lovable AI (processing)
+ * Multi-AI architecture for discovering Black-owned B2B suppliers
  */
 
 const corsHeaders = {
@@ -42,16 +40,30 @@ interface WebSearchResponse {
   citations: string[];
   query: string;
   searchedAt: string;
+  cached: boolean;
+}
+
+// Create a simple hash for cache key
+function hashQuery(query: string, category?: string, location?: string): string {
+  const str = `${query.toLowerCase().trim()}|${category || ''}|${location || ''}`;
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash).toString(36);
 }
 
 serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const PERPLEXITY_API_KEY = Deno.env.get('PERPLEXITY_API_KEY');
+    const SUPABASE_URL = Deno.env.get('SUPABASE_URL');
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     
     if (!PERPLEXITY_API_KEY) {
       console.error('PERPLEXITY_API_KEY is not configured');
@@ -72,10 +84,37 @@ serve(async (req) => {
 
     console.log(`B2B Web Search: query="${query}", category="${category}", location="${location}"`);
 
-    // Build optimized search prompt for Black-owned business discovery
+    // Create Supabase client for caching
+    const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_ROLE_KEY!);
+    const queryHash = hashQuery(query, category, location);
+
+    // Check cache first
+    const { data: cachedResult } = await supabase
+      .from('b2b_web_search_cache')
+      .select('*')
+      .eq('query_hash', queryHash)
+      .gt('expires_at', new Date().toISOString())
+      .single();
+
+    if (cachedResult) {
+      console.log('Returning cached result for query:', query);
+      const response: WebSearchResponse = {
+        businesses: cachedResult.results as DiscoveredBusiness[],
+        citations: cachedResult.citations || [],
+        query,
+        searchedAt: cachedResult.created_at,
+        cached: true,
+      };
+      return new Response(
+        JSON.stringify(response),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Build optimized search prompt
     const searchPrompt = buildSearchPrompt(query, category, location, limit);
 
-    // Call Perplexity API with sonar model (cost-efficient)
+    // Call Perplexity API
     const perplexityResponse = await fetch('https://api.perplexity.ai/chat/completions', {
       method: 'POST',
       headers: {
@@ -140,26 +179,23 @@ Only include businesses you're confident are Black-owned or minority-owned. Set 
     const perplexityData = await perplexityResponse.json();
     console.log('Perplexity response received');
 
-    // Parse the response
     const content = perplexityData.choices?.[0]?.message?.content || '';
     const citations = perplexityData.citations || [];
 
-    // Extract JSON from response
+    // Parse response
     let businesses: DiscoveredBusiness[] = [];
     try {
-      // Try to find JSON in the response
       const jsonMatch = content.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
         const parsed = JSON.parse(jsonMatch[0]);
         businesses = parsed.businesses || [];
       }
     } catch (parseError) {
-      console.error('Failed to parse Perplexity response as JSON:', parseError);
-      // Return empty results rather than failing
+      console.error('Failed to parse Perplexity response:', parseError);
       businesses = [];
     }
 
-    // Filter and validate businesses
+    // Filter and validate
     businesses = businesses
       .filter(b => b.name && b.name.length > 0)
       .slice(0, limit)
@@ -169,14 +205,31 @@ Only include businesses you're confident are Black-owned or minority-owned. Set 
         category: b.category || category || 'Other',
       }));
 
+    // Store in cache (24hr TTL)
+    await supabase
+      .from('b2b_web_search_cache')
+      .upsert({
+        query_hash: queryHash,
+        query_text: query,
+        category,
+        location,
+        results: businesses,
+        citations: citations.slice(0, 10),
+        created_at: new Date().toISOString(),
+        expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+      }, {
+        onConflict: 'query_hash'
+      });
+
     const response: WebSearchResponse = {
       businesses,
       citations: citations.slice(0, 10),
       query,
       searchedAt: new Date().toISOString(),
+      cached: false,
     };
 
-    console.log(`Found ${businesses.length} potential Black-owned suppliers`);
+    console.log(`Found ${businesses.length} potential Black-owned suppliers (cached for 24hrs)`);
 
     return new Response(
       JSON.stringify(response),

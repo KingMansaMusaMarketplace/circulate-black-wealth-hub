@@ -1,6 +1,6 @@
 import { B2BMarketplace } from '@/components/b2b/B2BMarketplace';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { ArrowLeft, Plus, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/AuthContext';
@@ -41,14 +41,24 @@ export default function B2BMarketplacePage() {
               </Link>
               <h1 className="font-semibold text-white">B2B Marketplace</h1>
             </div>
-            {user && profile && (
-              <Link to="/business/b2b-dashboard">
-                <Button size="sm" className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-900 font-semibold border-0">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Manage Listings
-                </Button>
-              </Link>
-            )}
+            <div className="flex items-center gap-2">
+              {user && (
+                <Link to="/leads-dashboard">
+                  <Button variant="outline" size="sm" className="border-blue-500/50 text-blue-300 hover:bg-blue-500/10 hover:text-blue-200">
+                    <Users className="h-4 w-4 mr-2" />
+                    My Leads
+                  </Button>
+                </Link>
+              )}
+              {user && profile && (
+                <Link to="/business/b2b-dashboard">
+                  <Button size="sm" className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-900 font-semibold border-0">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Manage Listings
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
         </header>
 

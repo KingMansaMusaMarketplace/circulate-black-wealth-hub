@@ -1222,6 +1222,42 @@ export type Database = {
           },
         ]
       }
+      b2b_web_search_cache: {
+        Row: {
+          category: string | null
+          citations: string[] | null
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          location: string | null
+          query_hash: string
+          query_text: string
+          results: Json
+        }
+        Insert: {
+          category?: string | null
+          citations?: string[] | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          location?: string | null
+          query_hash: string
+          query_text: string
+          results?: Json
+        }
+        Update: {
+          category?: string | null
+          citations?: string[] | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          location?: string | null
+          query_hash?: string
+          query_text?: string
+          results?: Json
+        }
+        Relationships: []
+      }
       bank_accounts: {
         Row: {
           account_name: string
@@ -7877,6 +7913,7 @@ export type Database = {
         }
         Returns: Json
       }
+      cleanup_expired_search_cache: { Args: never; Returns: undefined }
       cleanup_old_audit_logs: { Args: never; Returns: undefined }
       cleanup_old_batch_queue: { Args: never; Returns: undefined }
       create_sales_agent_application_secure: {
