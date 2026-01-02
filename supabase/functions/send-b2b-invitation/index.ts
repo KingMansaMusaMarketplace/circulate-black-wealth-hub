@@ -20,6 +20,8 @@ interface InvitationRequest {
   inviterBusinessName?: string;
   category: string;
   personalMessage?: string;
+  leadId?: string;
+  invitationToken?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -34,7 +36,9 @@ const handler = async (req: Request): Promise<Response> => {
       inviterName, 
       inviterBusinessName,
       category,
-      personalMessage 
+      personalMessage,
+      leadId,
+      invitationToken
     }: InvitationRequest = await req.json();
 
     // Validate required fields
@@ -56,7 +60,26 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Sending B2B invitation to: ${businessName} (${businessEmail})`);
 
-    const signupUrl = "https://mansamusa.app/business/signup";
+    // Build signup URL with UTM params for tracking
+    const utmParams = new URLSearchParams({
+      utm_source: 'b2b_invitation',
+      utm_medium: 'email',
+      utm_campaign: 'lead_discovery',
+      utm_content: category || 'general',
+      ...(leadId && { lead_id: leadId }),
+      ...(invitationToken && { token: invitationToken })
+    });
+    
+    const signupUrl = `https://mansamusa.app/business/signup?${utmParams.toString()}`;
+    
+    // Build tracking pixel URL for open tracking
+    const trackingPixelUrl = invitationToken 
+      ? `https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/track-invitation?token=${invitationToken}&action=open`
+      : null;
+
+    const clickTrackingUrl = invitationToken
+      ? `https://agoclnqfyinwjxdmjnns.supabase.co/functions/v1/track-invitation?token=${invitationToken}&action=click&redirect=${encodeURIComponent(signupUrl)}`
+      : signupUrl;
     
     const emailResponse = await resend.emails.send({
       from: "Mansa Musa Marketplace <noreply@mansamusa.app>",
@@ -71,6 +94,7 @@ const handler = async (req: Request): Promise<Response> => {
           <title>Join Mansa Musa Marketplace</title>
         </head>
         <body style="margin: 0; padding: 0; background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+          ${trackingPixelUrl ? `<img src="${trackingPixelUrl}" width="1" height="1" style="display:none;" alt="" />` : ''}
           <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #0f172a; padding: 40px 20px;">
             <tr>
               <td align="center">
@@ -116,7 +140,7 @@ const handler = async (req: Request): Promise<Response> => {
                       </div>
                       
                       <div style="text-align: center; margin: 30px 0;">
-                        <a href="${signupUrl}" style="display: inline-block; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0f172a; text-decoration: none; padding: 16px 40px; font-size: 16px; font-weight: 600; border-radius: 8px;">
+                        <a href="${clickTrackingUrl}" style="display: inline-block; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0f172a; text-decoration: none; padding: 16px 40px; font-size: 16px; font-weight: 600; border-radius: 8px;">
                           Join the Marketplace →
                         </a>
                       </div>
