@@ -1,8 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
-  Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award
+  Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail
 } from 'lucide-react';
 import {
   Sidebar,
@@ -79,6 +80,7 @@ const menuGroups = [
     items: [
       { id: 'promos', label: 'Promo Codes', icon: Tag },
       { id: 'flags', label: 'Feature Flags', icon: Flag },
+      { id: 'email-analytics', label: 'Email Analytics', icon: Mail, route: '/admin/emails' },
     ]
   },
   {
@@ -101,6 +103,15 @@ const menuGroups = [
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) => {
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === 'collapsed';
+  const navigate = useNavigate();
+
+  const handleItemClick = (item: { id: string; route?: string }) => {
+    if (item.route) {
+      navigate(item.route);
+    } else {
+      onTabChange(item.id);
+    }
+  };
 
   return (
     <Sidebar 
@@ -150,7 +161,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ activeTab, onTabChange }) =
                     {group.items.map((item) => (
                       <SidebarMenuItem key={item.id}>
                         <SidebarMenuButton
-                          onClick={() => onTabChange(item.id)}
+                          onClick={() => handleItemClick(item)}
                           isActive={activeTab === item.id}
                           tooltip={isCollapsed ? item.label : undefined}
                           className={`
