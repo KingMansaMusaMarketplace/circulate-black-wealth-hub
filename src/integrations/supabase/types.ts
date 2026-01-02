@@ -935,6 +935,7 @@ export type Database = {
           discovered_by_user_id: string | null
           id: string
           invitation_clicked_at: string | null
+          invitation_opened_at: string | null
           invitation_token: string | null
           invited_at: string | null
           is_converted: boolean | null
@@ -958,6 +959,7 @@ export type Database = {
           discovered_by_user_id?: string | null
           id?: string
           invitation_clicked_at?: string | null
+          invitation_opened_at?: string | null
           invitation_token?: string | null
           invited_at?: string | null
           is_converted?: boolean | null
@@ -981,6 +983,7 @@ export type Database = {
           discovered_by_user_id?: string | null
           id?: string
           invitation_clicked_at?: string | null
+          invitation_opened_at?: string | null
           invitation_token?: string | null
           invited_at?: string | null
           is_converted?: boolean | null
@@ -3378,6 +3381,53 @@ export type Database = {
           website_url?: string | null
         }
         Relationships: []
+      }
+      email_events: {
+        Row: {
+          created_at: string
+          email_id: string
+          event_type: string
+          from_email: string | null
+          id: string
+          lead_id: string | null
+          metadata: Json | null
+          recipient_email: string
+          subject: string | null
+          timestamp: string
+        }
+        Insert: {
+          created_at?: string
+          email_id: string
+          event_type: string
+          from_email?: string | null
+          id?: string
+          lead_id?: string | null
+          metadata?: Json | null
+          recipient_email: string
+          subject?: string | null
+          timestamp?: string
+        }
+        Update: {
+          created_at?: string
+          email_id?: string
+          event_type?: string
+          from_email?: string | null
+          id?: string
+          lead_id?: string | null
+          metadata?: Json | null
+          recipient_email?: string
+          subject?: string | null
+          timestamp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_events_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_external_leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       email_notifications: {
         Row: {
