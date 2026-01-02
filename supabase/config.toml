@@ -1,5 +1,8 @@
 project_id = "agoclnqfyinwjxdmjnns"
 
+[functions.resend-webhook]
+verify_jwt = false
+
 [functions.track-invitation]
 verify_jwt = false
 
