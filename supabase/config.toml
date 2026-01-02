@@ -167,3 +167,6 @@ verify_jwt = true
 
 [functions.b2b-match]
 verify_jwt = false
+
+[functions.b2b-web-search]
+verify_jwt = false

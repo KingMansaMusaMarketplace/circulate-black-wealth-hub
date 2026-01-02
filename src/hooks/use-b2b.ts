@@ -31,6 +31,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBusinessProfile } from '@/hooks/use-business-profile';
 import { toast } from 'sonner';
+import { DiscoveredBusiness, WebSearchResponse, B2BExternalLead } from '@/types/b2b-external';
 
 export interface BusinessCapability {
   id: string;
@@ -144,7 +145,12 @@ export const useB2B = () => {
   const [allNeeds, setAllNeeds] = useState<BusinessNeed[]>([]);
   const [impactMetrics, setImpactMetrics] = useState<B2BImpactMetrics | null>(null);
   const [loading, setLoading] = useState(true);
-
+  
+  // Web search state
+  const [webSearchResults, setWebSearchResults] = useState<DiscoveredBusiness[]>([]);
+  const [webSearchCitations, setWebSearchCitations] = useState<string[]>([]);
+  const [webSearchLoading, setWebSearchLoading] = useState(false);
+  const [webSearchError, setWebSearchError] = useState<string | null>(null);
   const fetchB2BData = useCallback(async () => {
     try {
       setLoading(true);
@@ -369,6 +375,106 @@ export const useB2B = () => {
     return data as unknown as BusinessCapability[];
   };
 
+  /**
+   * Search the web for Black-owned suppliers using Perplexity AI
+   * PATENT: Multi-AI architecture for economic circularity
+   */
+  const searchWebSuppliers = async (query: string, category?: string, location?: string) => {
+    if (!query || query.trim().length < 3) {
+      toast.error('Please enter at least 3 characters to search');
+      return;
+    }
+
+    setWebSearchLoading(true);
+    setWebSearchError(null);
+    setWebSearchResults([]);
+    setWebSearchCitations([]);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/b2b-web-search`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query,
+            category: category !== 'all' ? category : undefined,
+            location,
+            limit: 6,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to search web');
+      }
+
+      const data: WebSearchResponse = await response.json();
+      setWebSearchResults(data.businesses);
+      setWebSearchCitations(data.citations);
+      
+      if (data.businesses.length === 0) {
+        toast.info('No suppliers found on the web. Try a different search term.');
+      } else {
+        toast.success(`Found ${data.businesses.length} potential suppliers on the web`);
+      }
+    } catch (error) {
+      console.error('Web search error:', error);
+      const message = error instanceof Error ? error.message : 'Failed to search web';
+      setWebSearchError(message);
+      toast.error(message);
+    } finally {
+      setWebSearchLoading(false);
+    }
+  };
+
+  /**
+   * Save a discovered lead to the database
+   */
+  const saveExternalLead = async (business: DiscoveredBusiness, sourceQuery: string) => {
+    if (!user) {
+      toast.error('Please sign in to save leads');
+      return null;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('b2b_external_leads')
+        .insert({
+          discovered_by_user_id: user.id,
+          discovered_by_business_id: businessProfile?.id || null,
+          source_query: sourceQuery,
+          business_name: business.name,
+          business_description: business.description,
+          category: business.category,
+          contact_info: business.contact || {},
+          website_url: business.website || null,
+          location: business.location || null,
+          source_citations: webSearchCitations,
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      toast.success(`Saved ${business.name} to your leads`);
+      return data;
+    } catch (error) {
+      console.error('Error saving lead:', error);
+      toast.error('Failed to save lead');
+      return null;
+    }
+  };
+
+  const clearWebSearch = () => {
+    setWebSearchResults([]);
+    setWebSearchCitations([]);
+    setWebSearchError(null);
+  };
+
   return {
     capabilities,
     needs,
@@ -384,5 +490,13 @@ export const useB2B = () => {
     searchCapabilities,
     refreshData: fetchB2BData,
     B2B_CATEGORIES,
+    // Web search exports
+    webSearchResults,
+    webSearchCitations,
+    webSearchLoading,
+    webSearchError,
+    searchWebSuppliers,
+    saveExternalLead,
+    clearWebSearch,
   };
 };
