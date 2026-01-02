@@ -141,7 +141,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
           ) : (
             <>
               <Mic className="mr-3 h-6 w-6" />
-              <span className="font-medium">Talk to Kayla</span>
+              <span className="font-medium">Please ask Kayla</span>
             </>
           )}
         </Button>
