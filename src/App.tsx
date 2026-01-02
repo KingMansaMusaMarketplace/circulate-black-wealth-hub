@@ -140,6 +140,7 @@ const LazyAdminPage = lazy(() => import('@/pages/AdminPage'));
 const LazyAdminDashboardPage = lazy(() => import('@/pages/AdminDashboardPage'));
 const LazyAdminVerificationPage = lazy(() => import('@/pages/AdminVerificationPage'));
 const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
+const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyticsPage'));
 const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
 const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
 
@@ -313,6 +314,7 @@ function App() {
                               <Route path="/admin-dashboard" element={<LazyAdminDashboardPage />} />
                               <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
                               <Route path="/admin/email-list" element={<LazyAdminEmailListPage />} />
+                              <Route path="/admin/emails" element={<LazyAdminEmailAnalyticsPage />} />
                               <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
                               <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
                               <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
