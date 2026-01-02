@@ -922,6 +922,95 @@ export type Database = {
           },
         ]
       }
+      b2b_external_leads: {
+        Row: {
+          business_description: string | null
+          business_name: string
+          category: string | null
+          contact_info: Json | null
+          converted_business_id: string | null
+          created_at: string | null
+          discovered_by_business_id: string | null
+          discovered_by_user_id: string | null
+          id: string
+          invited_at: string | null
+          is_converted: boolean | null
+          is_invited: boolean | null
+          location: string | null
+          source_citations: string[] | null
+          source_query: string
+          updated_at: string | null
+          website_url: string | null
+        }
+        Insert: {
+          business_description?: string | null
+          business_name: string
+          category?: string | null
+          contact_info?: Json | null
+          converted_business_id?: string | null
+          created_at?: string | null
+          discovered_by_business_id?: string | null
+          discovered_by_user_id?: string | null
+          id?: string
+          invited_at?: string | null
+          is_converted?: boolean | null
+          is_invited?: boolean | null
+          location?: string | null
+          source_citations?: string[] | null
+          source_query: string
+          updated_at?: string | null
+          website_url?: string | null
+        }
+        Update: {
+          business_description?: string | null
+          business_name?: string
+          category?: string | null
+          contact_info?: Json | null
+          converted_business_id?: string | null
+          created_at?: string | null
+          discovered_by_business_id?: string | null
+          discovered_by_user_id?: string | null
+          id?: string
+          invited_at?: string | null
+          is_converted?: boolean | null
+          is_invited?: boolean | null
+          location?: string | null
+          source_citations?: string[] | null
+          source_query?: string
+          updated_at?: string | null
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "b2b_external_leads_converted_business_id_fkey"
+            columns: ["converted_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_external_leads_converted_business_id_fkey"
+            columns: ["converted_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_external_leads_discovered_by_business_id_fkey"
+            columns: ["discovered_by_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_external_leads_discovered_by_business_id_fkey"
+            columns: ["discovered_by_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       b2b_messages: {
         Row: {
           attachments: Json | null
