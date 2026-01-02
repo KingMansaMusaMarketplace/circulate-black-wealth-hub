@@ -1,6 +1,86 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import Stripe from "https://esm.sh/stripe@14.21.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+
+// Zod schemas for Stripe webhook event validation
+const stripeMetadataSchema = z.record(z.string()).optional();
+
+const checkoutSessionSchema = z.object({
+  id: z.string().min(1),
+  customer: z.string().nullable().optional(),
+  subscription: z.string().nullable().optional(),
+  metadata: stripeMetadataSchema,
+});
+
+const subscriptionSchema = z.object({
+  id: z.string().min(1),
+  status: z.string(),
+  current_period_start: z.number(),
+  current_period_end: z.number(),
+  cancel_at_period_end: z.boolean(),
+});
+
+const paymentIntentSchema = z.object({
+  id: z.string().min(1),
+  latest_charge: z.string().nullable().optional(),
+});
+
+const accountSchema = z.object({
+  id: z.string().min(1),
+  charges_enabled: z.boolean().optional(),
+  payouts_enabled: z.boolean().optional(),
+  requirements: z.object({
+    currently_due: z.array(z.string()).optional(),
+  }).optional(),
+});
+
+const chargeSchema = z.object({
+  id: z.string().min(1),
+});
+
+// Validate webhook event structure after signature verification
+const validateWebhookEvent = (event: Stripe.Event): { valid: boolean; error?: string } => {
+  try {
+    // Validate event has required base structure
+    if (!event.id || !event.type || !event.data?.object) {
+      return { valid: false, error: 'Missing required event fields' };
+    }
+
+    // Validate specific event types with their schemas
+    const eventObject = event.data.object;
+    
+    switch (event.type) {
+      case 'checkout.session.completed':
+        checkoutSessionSchema.parse(eventObject);
+        break;
+      case 'customer.subscription.updated':
+      case 'customer.subscription.deleted':
+        subscriptionSchema.parse(eventObject);
+        break;
+      case 'payment_intent.succeeded':
+      case 'payment_intent.payment_failed':
+        paymentIntentSchema.parse(eventObject);
+        break;
+      case 'account.updated':
+        accountSchema.parse(eventObject);
+        break;
+      case 'charge.refunded':
+        chargeSchema.parse(eventObject);
+        break;
+      default:
+        // Unknown event types are allowed but logged
+        break;
+    }
+    
+    return { valid: true };
+  } catch (error) {
+    const errorMessage = error instanceof z.ZodError 
+      ? error.errors.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')
+      : 'Unknown validation error';
+    return { valid: false, error: errorMessage };
+  }
+};
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
   apiVersion: "2023-10-16",
@@ -21,6 +101,16 @@ serve(async (req) => {
       signature!,
       webhookSecret
     );
+
+    // Validate event structure after signature verification
+    const validation = validateWebhookEvent(event);
+    if (!validation.valid) {
+      console.error(`Webhook event validation failed: ${validation.error}`);
+      return new Response(
+        JSON.stringify({ error: `Invalid event structure: ${validation.error}` }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",

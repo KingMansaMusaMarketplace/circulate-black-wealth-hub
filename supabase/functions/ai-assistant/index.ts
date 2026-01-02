@@ -1,5 +1,16 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+
+// Zod schema for message validation - prevents DoS and ensures proper structure
+const messageSchema = z.object({
+  role: z.enum(['user', 'assistant', 'system']),
+  content: z.string().min(1, 'Message content cannot be empty').max(10000, 'Message content too long'),
+});
+
+const messagesSchema = z.array(messageSchema)
+  .min(1, 'At least one message is required')
+  .max(50, 'Too many messages in conversation');
 
 // Allowed origins for CORS - security fix for CSRF protection
 const getAllowedOrigins = (): string[] => {
@@ -78,15 +89,29 @@ serve(async (req) => {
       );
     }
 
-    const { messages } = await req.json();
-    
-    // Basic input validation
-    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    // Parse and validate request body with Zod
+    let requestBody: unknown;
+    try {
+      requestBody = await req.json();
+    } catch {
       return new Response(
-        JSON.stringify({ error: 'Invalid request format' }),
+        JSON.stringify({ error: 'Invalid JSON in request body' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    // Validate messages with comprehensive Zod schema
+    const parseResult = messagesSchema.safeParse((requestBody as Record<string, unknown>)?.messages);
+    if (!parseResult.success) {
+      const errorMessage = parseResult.error.errors.map(e => e.message).join(', ');
+      console.log("Validation error:", errorMessage);
+      return new Response(
+        JSON.stringify({ error: `Invalid request format: ${errorMessage}` }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const messages = parseResult.data;
     
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
