@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { Helmet } from 'react-helmet';
+import { useState, useMemo, useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useExternalLeads } from '@/hooks/use-external-leads';
 import { useAuth } from '@/contexts/AuthContext';
@@ -142,19 +142,19 @@ export default function LeadsDashboardPage() {
     setSelectedLeadIds([]);
   };
 
-  const getScoreColor = (score: number) => {
+  const getScoreColor = useCallback((score: number) => {
     if (score >= 80) return 'text-emerald-400';
     if (score >= 60) return 'text-amber-400';
     if (score >= 40) return 'text-orange-400';
     return 'text-slate-400';
-  };
+  }, []);
 
-  const getScoreLabel = (score: number) => {
+  const getScoreLabel = useCallback((score: number) => {
     if (score >= 80) return 'Excellent';
     if (score >= 60) return 'Good';
     if (score >= 40) return 'Fair';
     return 'Low';
-  };
+  }, []);
 
   if (!user) {
     return (

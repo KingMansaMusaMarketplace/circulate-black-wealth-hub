@@ -76,30 +76,31 @@ export function useExternalLeads() {
         .eq('owner_id', user.id)
         .single();
 
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-b2b-invitation`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({
-            businessName: lead.business_name,
-            businessEmail: email,
-            inviterName: profile?.full_name || 'A Mansa Musa member',
-            inviterBusinessName: business?.business_name,
-            category: lead.category || 'business services',
-            personalMessage,
-            leadId: lead.id,
-            invitationToken: lead.invitation_token,
-          }),
-        }
-      );
+      // Generate invitation token if not present
+      let invitationToken = lead.invitation_token;
+      if (!invitationToken) {
+        invitationToken = crypto.randomUUID();
+        await supabase
+          .from('b2b_external_leads')
+          .update({ invitation_token: invitationToken })
+          .eq('id', lead.id);
+      }
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Failed to send invitation');
+      const response = await supabase.functions.invoke('send-b2b-invitation', {
+        body: {
+          businessName: lead.business_name,
+          businessEmail: email,
+          inviterName: profile?.full_name || 'A Mansa Musa member',
+          inviterBusinessName: business?.business_name,
+          category: lead.category || 'business services',
+          personalMessage,
+          leadId: lead.id,
+          invitationToken,
+        },
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message || 'Failed to send invitation');
       }
 
       // Update lead as invited
@@ -165,28 +166,30 @@ export function useExternalLeads() {
         await Promise.all(
           batch.map(async (lead) => {
             try {
-              const response = await fetch(
-                `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-b2b-invitation`,
-                {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-                  },
-                  body: JSON.stringify({
-                    businessName: lead.business_name,
-                    businessEmail: lead.contact_info?.email,
-                    inviterName: profile?.full_name || 'A Mansa Musa member',
-                    inviterBusinessName: business?.business_name,
-                    category: lead.category || 'business services',
-                    personalMessage,
-                    leadId: lead.id,
-                    invitationToken: lead.invitation_token,
-                  }),
-                }
-              );
+              // Generate invitation token if not present
+              let invitationToken = lead.invitation_token;
+              if (!invitationToken) {
+                invitationToken = crypto.randomUUID();
+                await supabase
+                  .from('b2b_external_leads')
+                  .update({ invitation_token: invitationToken })
+                  .eq('id', lead.id);
+              }
 
-              if (response.ok) {
+              const response = await supabase.functions.invoke('send-b2b-invitation', {
+                body: {
+                  businessName: lead.business_name,
+                  businessEmail: lead.contact_info?.email,
+                  inviterName: profile?.full_name || 'A Mansa Musa member',
+                  inviterBusinessName: business?.business_name,
+                  category: lead.category || 'business services',
+                  personalMessage,
+                  leadId: lead.id,
+                  invitationToken,
+                },
+              });
+
+              if (!response.error) {
                 await supabase
                   .from('b2b_external_leads')
                   .update({
