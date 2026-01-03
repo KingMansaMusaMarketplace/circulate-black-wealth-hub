@@ -8328,11 +8328,9 @@ export type Database = {
           description: string | null
           id: string | null
           is_verified: boolean | null
-          listing_status: string | null
           logo_url: string | null
           review_count: number | null
           state: string | null
-          subscription_status: string | null
           website: string | null
           zip_code: string | null
         }
@@ -8347,11 +8345,9 @@ export type Database = {
           description?: string | null
           id?: string | null
           is_verified?: boolean | null
-          listing_status?: string | null
           logo_url?: string | null
           review_count?: number | null
           state?: string | null
-          subscription_status?: string | null
           website?: string | null
           zip_code?: string | null
         }
@@ -8366,11 +8362,9 @@ export type Database = {
           description?: string | null
           id?: string | null
           is_verified?: boolean | null
-          listing_status?: string | null
           logo_url?: string | null
           review_count?: number | null
           state?: string | null
-          subscription_status?: string | null
           website?: string | null
           zip_code?: string | null
         }
