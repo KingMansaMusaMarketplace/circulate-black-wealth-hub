@@ -1,22 +1,49 @@
-
 import React from 'react';
 import { RegistrationVerifier } from '@/components/auth/RegistrationVerifier';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useServerAdminVerification } from '@/hooks/useServerAdminVerification';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, ShieldAlert } from 'lucide-react';
+import Loading from '@/components/ui/loading';
 
 const RegistrationTestPage = () => {
-  const { user, userType } = useAuth();
+  const { user } = useAuth();
+  const { isAdmin, isVerifying, error } = useServerAdminVerification();
   
-  // Only allow access to authenticated administrative users
-  const { userRole } = useAuth();
-  const isAdmin = user && userRole === 'admin';
-  
+  // Redirect to login if not authenticated
   if (!user) {
     return <Navigate to="/login" replace />;
   }
+
+  // Show loading while verifying admin status
+  if (isVerifying) {
+    return <Loading fullScreen text="Verifying admin access..." />;
+  }
+
+  // Show error state if verification failed
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive" className="mb-4">
+          <ShieldAlert className="h-4 w-4" />
+          <AlertDescription>
+            Unable to verify admin access. Please try again later.
+          </AlertDescription>
+        </Alert>
+        <div className="text-center mt-8">
+          <button
+            onClick={() => window.history.back()}
+            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
   
+  // Server-side verified: user is NOT an admin
   if (!isAdmin) {
     return (
       <div className="container mx-auto px-4 py-8">
