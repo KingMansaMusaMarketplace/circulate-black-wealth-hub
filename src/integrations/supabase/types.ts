@@ -2379,11 +2379,13 @@ export type Database = {
           id: string
           is_founding_sponsor: boolean | null
           is_verified: boolean | null
+          listing_status: string | null
           location_manager_id: string | null
           location_name: string | null
           location_type: string | null
           logo_url: string | null
           name: string
+          onboarding_completed_at: string | null
           owner_id: string
           parent_business_id: string | null
           phone: string | null
@@ -2415,11 +2417,13 @@ export type Database = {
           id?: string
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
+          listing_status?: string | null
           location_manager_id?: string | null
           location_name?: string | null
           location_type?: string | null
           logo_url?: string | null
           name: string
+          onboarding_completed_at?: string | null
           owner_id: string
           parent_business_id?: string | null
           phone?: string | null
@@ -2451,11 +2455,13 @@ export type Database = {
           id?: string
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
+          listing_status?: string | null
           location_manager_id?: string | null
           location_name?: string | null
           location_type?: string | null
           logo_url?: string | null
           name?: string
+          onboarding_completed_at?: string | null
           owner_id?: string
           parent_business_id?: string | null
           phone?: string | null
@@ -5115,7 +5121,9 @@ export type Database = {
           id: string
           is_founding_member: boolean | null
           is_hbcu_member: boolean | null
+          onboarding_completed_at: string | null
           phone: string | null
+          profile_completion_percentage: number | null
           referral_code: string | null
           referral_tier: number | null
           referred_by: string | null
@@ -5152,7 +5160,9 @@ export type Database = {
           id: string
           is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
+          onboarding_completed_at?: string | null
           phone?: string | null
+          profile_completion_percentage?: number | null
           referral_code?: string | null
           referral_tier?: number | null
           referred_by?: string | null
@@ -5189,7 +5199,9 @@ export type Database = {
           id?: string
           is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
+          onboarding_completed_at?: string | null
           phone?: string | null
+          profile_completion_percentage?: number | null
           referral_code?: string | null
           referral_tier?: number | null
           referred_by?: string | null
@@ -7932,6 +7944,10 @@ export type Database = {
       calculate_override_end_date: {
         Args: { recruitment_date: string }
         Returns: string
+      }
+      calculate_profile_completion: {
+        Args: { profile_row: Database["public"]["Tables"]["profiles"]["Row"] }
+        Returns: number
       }
       calculate_team_bonus: { Args: { tier1_points: number }; Returns: number }
       calculate_user_impact_metrics: {

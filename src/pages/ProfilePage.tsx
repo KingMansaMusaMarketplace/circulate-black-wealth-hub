@@ -7,6 +7,7 @@ import ProfileHeader from '@/components/profile/ProfileHeader';
 import ProfileForm from '@/components/profile/ProfileForm';
 import SecuritySettings from '@/components/profile/SecuritySettings';
 import SystemHealthSettings from '@/components/profile/SystemHealthSettings';
+import ProfileCompletionCard from '@/components/profile/ProfileCompletionCard';
 import { DashboardLayout } from '@/components/dashboard';
 import { Loader2 } from 'lucide-react';
 
@@ -78,6 +79,7 @@ const ProfilePage = () => {
           </TabsList>
           
           <TabsContent value="profile" className="space-y-3 mt-3">
+            <ProfileCompletionCard />
             <ProfileForm />
           </TabsContent>
           
