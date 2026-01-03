@@ -110,6 +110,12 @@ const EnhancedSignupForm: React.FC = () => {
                 Support Black-owned businesses, earn rewards, and discover amazing local spots 🎁
               </p>
             </div>
+            <div className="pt-4">
+              <div className="inline-flex items-center gap-2 text-lg font-bold bg-gradient-to-r from-mansablue to-mansagold bg-clip-text text-transparent group-hover:gap-4 transition-all">
+                Get Started
+                <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
+              </div>
+            </div>
           </div>
         </Card>
 
