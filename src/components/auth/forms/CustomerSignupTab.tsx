@@ -7,18 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, AlertCircle, CheckCircle } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { FormCheckbox } from './FormCheckbox';
+import { useNavigate } from 'react-router-dom';
 
+// Simplified schema - only email and password required upfront
 const customerSignupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
   confirmPassword: z.string(),
-  fullName: z.string().min(2, 'Full name must be at least 2 characters'),
-  phone: z.string().optional(),
-  referralCode: z.string().optional(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -31,11 +30,10 @@ interface CustomerSignupTabProps {
 }
 
 const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [referralCodeInfo, setReferralCodeInfo] = useState<{ valid: boolean; referrerName?: string } | null>(null);
-  const [checkingReferral, setCheckingReferral] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const {
@@ -43,54 +41,16 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
     handleSubmit,
     formState: { errors },
     reset,
-    watch
   } = useForm<CustomerSignupForm>({
     resolver: zodResolver(customerSignupSchema)
   });
-
-  const referralCode = watch('referralCode');
-
-  // Real-time referral code validation
-  React.useEffect(() => {
-    const validateReferralCode = async () => {
-      if (!referralCode || referralCode.trim() === '') {
-        setReferralCodeInfo(null);
-        return;
-      }
-
-      setCheckingReferral(true);
-      try {
-        const { data, error } = await supabase
-          .from('sales_agents')
-          .select('user_id, profiles(full_name)')
-          .eq('referral_code', referralCode.trim())
-          .eq('is_active', true)
-          .single();
-
-        if (error || !data) {
-          setReferralCodeInfo({ valid: false });
-        } else {
-          const referrerName = (data.profiles as any)?.full_name || 'Unknown';
-          setReferralCodeInfo({ valid: true, referrerName });
-        }
-      } catch (err) {
-        console.error('Error validating referral code:', err);
-        setReferralCodeInfo({ valid: false });
-      } finally {
-        setCheckingReferral(false);
-      }
-    };
-
-    const debounceTimer = setTimeout(validateReferralCode, 500);
-    return () => clearTimeout(debounceTimer);
-  }, [referralCode]);
 
   const onSubmit = async (data: CustomerSignupForm) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      console.log('[CUSTOMER SIGNUP] Starting signup process...');
+      console.log('[CUSTOMER SIGNUP] Starting simplified signup process...');
       
       // Detect platform
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -101,14 +61,12 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
         email: data.email,
         password: data.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/`,
+          emailRedirectTo: `${window.location.origin}/welcome`,
           data: {
-            full_name: data.fullName,
-            phone: data.phone,
             user_type: 'customer',
-            referral_code: data.referralCode || null,
             signup_platform: platform,
-            device_info: navigator.userAgent
+            device_info: navigator.userAgent,
+            profile_completion_percentage: 20, // Just email = 20%
           }
         }
       });
@@ -138,15 +96,15 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
             window.location.href = `/subscription?tier=${pendingSubscription}`;
           }, 1500);
         } else {
-          toast.success('Account created successfully!', {
-            description: authData.session ? 'You are now logged in.' : 'Please check your email to verify your account.'
+          toast.success('Welcome to Mansa Musa! 🎉', {
+            description: authData.session ? 'Let\'s find some businesses near you!' : 'Please check your email to verify your account.'
           });
           
-          // If user is auto-logged in (session exists), redirect to home
+          // If user is auto-logged in (session exists), redirect to welcome page
           if (authData.session) {
             setTimeout(() => {
-              window.location.href = '/';
-            }, 1500);
+              navigate('/welcome');
+            }, 1000);
           }
         }
         
@@ -174,129 +132,97 @@ const CustomerSignupTab: React.FC<CustomerSignupTabProps> = ({ onSuccess }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {error && (
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-
-      <div className="space-y-2">
-        <Label htmlFor="fullName">Full Name</Label>
-        <Input
-          id="fullName"
-          {...register('fullName')}
-          disabled={isLoading}
-          placeholder="Enter your full name"
-        />
-        {errors.fullName && (
-          <p className="text-sm text-red-600">{errors.fullName.message}</p>
-        )}
+    <div className="space-y-6">
+      {/* Benefits Banner */}
+      <div className="bg-gradient-to-r from-mansagold/10 to-amber-500/10 border border-mansagold/30 rounded-lg p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Sparkles className="w-5 h-5 text-mansagold" />
+          <span className="font-semibold text-sm">Quick signup - just 2 fields!</span>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Get started in seconds. Add more details later to earn bonus points.
+        </p>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          {...register('email')}
-          disabled={isLoading}
-          placeholder="Enter your email"
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            {...register('email')}
+            disabled={isLoading}
+            placeholder="Enter your email"
+            autoComplete="email"
+          />
+          {errors.email && (
+            <p className="text-sm text-red-600">{errors.email.message}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            type="password"
+            {...register('password')}
+            disabled={isLoading}
+            placeholder="Create a password (8+ characters)"
+            autoComplete="new-password"
+          />
+          {errors.password && (
+            <p className="text-sm text-red-600">{errors.password.message}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Input
+            id="confirmPassword"
+            type="password"
+            {...register('confirmPassword')}
+            disabled={isLoading}
+            placeholder="Confirm your password"
+            autoComplete="new-password"
+          />
+          {errors.confirmPassword && (
+            <p className="text-sm text-red-600">{errors.confirmPassword.message}</p>
+          )}
+        </div>
+
+        <FormCheckbox
+          id="customer-terms"
+          checked={agreedToTerms}
+          onCheckedChange={setAgreedToTerms}
         />
-        {errors.email && (
-          <p className="text-sm text-red-600">{errors.email.message}</p>
-        )}
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="phone">Phone (Optional)</Label>
-        <Input
-          id="phone"
-          type="tel"
-          {...register('phone')}
-          disabled={isLoading}
-          placeholder="Enter your phone number"
-        />
-        {errors.phone && (
-          <p className="text-sm text-red-600">{errors.phone.message}</p>
-        )}
-      </div>
+        <Button 
+          type="submit" 
+          className="w-full bg-gradient-to-r from-mansablue to-indigo-600 hover:from-mansablue-dark hover:to-indigo-700" 
+          disabled={isLoading || !agreedToTerms}
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Creating Account...
+            </>
+          ) : (
+            'Create Free Account'
+          )}
+        </Button>
 
-      <div className="space-y-2">
-        <Label htmlFor="referralCode">
-          Referral Code (Optional)
-          {checkingReferral && <span className="ml-2 text-xs text-gray-500">Checking...</span>}
-        </Label>
-        <Input
-          id="referralCode"
-          {...register('referralCode')}
-          disabled={isLoading}
-          placeholder="Enter referral code"
-          className={
-            referralCodeInfo?.valid === true ? 'border-green-500' :
-            referralCodeInfo?.valid === false ? 'border-red-500' : ''
-          }
-        />
-        {referralCodeInfo?.valid === true && (
-          <p className="text-sm text-green-600 flex items-center gap-1">
-            <CheckCircle className="h-4 w-4" />
-            Referred by {referralCodeInfo.referrerName}
-          </p>
-        )}
-        {referralCodeInfo?.valid === false && (
-          <p className="text-sm text-red-600">Invalid referral code</p>
-        )}
-        {errors.referralCode && (
-          <p className="text-sm text-red-600">{errors.referralCode.message}</p>
-        )}
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          type="password"
-          {...register('password')}
-          disabled={isLoading}
-          placeholder="Create a password"
-        />
-        {errors.password && (
-          <p className="text-sm text-red-600">{errors.password.message}</p>
-        )}
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="confirmPassword">Confirm Password</Label>
-        <Input
-          id="confirmPassword"
-          type="password"
-          {...register('confirmPassword')}
-          disabled={isLoading}
-          placeholder="Confirm your password"
-        />
-        {errors.confirmPassword && (
-          <p className="text-sm text-red-600">{errors.confirmPassword.message}</p>
-        )}
-      </div>
-
-      <FormCheckbox
-        id="customer-terms"
-        checked={agreedToTerms}
-        onCheckedChange={setAgreedToTerms}
-      />
-
-      <Button type="submit" className="w-full" disabled={isLoading || !agreedToTerms}>
-        {isLoading ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Creating Account...
-          </>
-        ) : (
-          'Create Customer Account'
-        )}
-      </Button>
-    </form>
+        <p className="text-xs text-center text-muted-foreground">
+          You can add your name, phone, and address later to earn 50 bonus points!
+        </p>
+      </form>
+    </div>
   );
 };
 
