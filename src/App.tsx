@@ -165,6 +165,10 @@ const LazyMarketingMaterialsPage = lazy(() => import('./pages/MarketingMaterials
 const LazyAdminMarketingMaterialsPage = lazy(() => import('./pages/AdminMarketingMaterialsPage'));
 const LazyMarketingAnalyticsPage = lazy(() => import('./pages/MarketingAnalyticsPage'));
 
+// Onboarding & Welcome pages
+const LazyWelcomePage = lazy(() => import('@/pages/WelcomePage'));
+const LazyBusinessOnboardingPage = lazy(() => import('@/pages/business/BusinessOnboardingPage'));
+
 // Loading fallback component
 const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => {
   console.log('[LOADING FALLBACK] Showing loading screen:', message);
@@ -504,6 +508,12 @@ function App() {
                               <Route path="/user-profile" element={<LazyUserProfilePage />} />
                               <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                               
+                              {/* W */}
+                              <Route path="/welcome" element={<LazyWelcomePage />} />
+                              
+                              {/* Business Onboarding */}
+                              <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
+                              
                               {/* 404 */}
                               <Route path="*" element={<NotFound />} />
                               </Route>
@@ -744,6 +754,12 @@ function App() {
                         <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
                         <Route path="/user-profile" element={<LazyUserProfilePage />} />
                         <Route path="/user-settings" element={<LazyUserSettingsPage />} />
+                        
+                        {/* W */}
+                        <Route path="/welcome" element={<LazyWelcomePage />} />
+                        
+                        {/* Business Onboarding */}
+                        <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
                         
                         {/* 404 */}
                         <Route path="*" element={<NotFound />} />

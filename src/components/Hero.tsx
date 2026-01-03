@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
-import { Star, Building2, Users, TrendingUp, MapPin, Loader2, ArrowRight, Sparkles, Crown, Clock } from 'lucide-react';
+import { Star, Building2, Users, TrendingUp, MapPin, Loader2, ArrowRight, Sparkles, Crown, Clock, Search } from 'lucide-react';
 import { useLocation } from '@/hooks/location/useLocation';
 import { toast } from 'sonner';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
@@ -12,6 +13,7 @@ const Hero = () => {
   const navigate = useNavigate();
   const { getCurrentPosition, loading: locationLoading } = useLocation();
   const [isLocating, setIsLocating] = useState(false);
+  const [zipCode, setZipCode] = useState('');
 
   const handleFindNearMe = useCallback(async () => {
     setIsLocating(true);
@@ -30,6 +32,14 @@ const Hero = () => {
       setIsLocating(false);
     }
   }, [getCurrentPosition, navigate]);
+
+  const handleZipSearch = useCallback(() => {
+    if (zipCode.trim()) {
+      // Store ZIP in localStorage for guest session
+      localStorage.setItem('guest_zip_code', zipCode.trim());
+      navigate(`/directory?zip=${zipCode.trim()}`);
+    }
+  }, [zipCode, navigate]);
 
   // Exclusivity-focused messaging instead of raw numbers
   const displayStats = [
@@ -121,6 +131,40 @@ const Hero = () => {
               building generational wealth in Black communities.
             </motion.p>
 
+            {/* ZIP Code Search - For guests */}
+            <motion.div
+              className="mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+            >
+              <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto lg:mx-0">
+                <div className="relative flex-1">
+                  <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+                  <Input
+                    type="text"
+                    placeholder="Enter ZIP code to find businesses"
+                    value={zipCode}
+                    onChange={(e) => setZipCode(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleZipSearch()}
+                    className="pl-12 bg-white/10 border-white/30 text-white placeholder:text-white/50 h-14 text-lg rounded-xl"
+                    maxLength={5}
+                  />
+                </div>
+                <Button
+                  onClick={handleZipSearch}
+                  disabled={!zipCode.trim()}
+                  className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-semibold h-14 px-6 rounded-xl"
+                >
+                  <Search className="w-5 h-5 mr-2" />
+                  Search
+                </Button>
+              </div>
+              <p className="text-sm text-blue-200/60 mt-2 text-center lg:text-left">
+                No account needed to browse businesses
+              </p>
+            </motion.div>
+
             {/* CTA Buttons */}
             <motion.div 
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10 md:mb-12"
@@ -155,7 +199,7 @@ const Hero = () => {
                 ) : (
                   <>
                     <MapPin className="mr-2 h-5 w-5" />
-                    Find Near Me
+                    Use My Location
                   </>
                 )}
               </Button>
