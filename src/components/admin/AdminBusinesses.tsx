@@ -52,8 +52,12 @@ const AdminBusinesses: React.FC = () => {
     setLoading(true);
     try {
       const [businessesRes, verificationsRes] = await Promise.all([
-        supabase.from('businesses').select('*').order('created_at', { ascending: false }),
-        supabase.from('business_verifications').select('*').order('submitted_at', { ascending: false }),
+        supabase.from('businesses')
+          .select('id, business_name, category, city, state, is_verified, created_at, owner_id')
+          .order('created_at', { ascending: false }),
+        supabase.from('business_verifications')
+          .select('id, business_id, verification_status, submitted_at, admin_notes, rejection_reason, registration_document_url, ownership_document_url, address_document_url')
+          .order('submitted_at', { ascending: false }),
       ]);
 
       if (businessesRes.error) throw businessesRes.error;

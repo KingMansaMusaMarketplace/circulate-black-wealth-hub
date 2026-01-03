@@ -53,27 +53,34 @@ const ExportReportsDialog: React.FC<ExportReportsDialogProps> = ({ open, onOpenC
 
         switch (reportId) {
           case 'users':
-            const { data: users } = await supabase.from('profiles').select('*');
+            const { data: users } = await supabase.from('profiles')
+              .select('id, full_name, email, user_type, role, is_verified, created_at, updated_at, city, state, total_points');
             data = users || [];
             filename = 'users-report';
             break;
           case 'businesses':
-            const { data: businesses } = await supabase.from('businesses').select('*');
+            const { data: businesses } = await supabase.from('businesses')
+              .select('id, business_name, category, city, state, is_verified, created_at, subscription_status, listing_status, average_rating, review_count');
             data = businesses || [];
             filename = 'businesses-report';
             break;
           case 'transactions':
-            const { data: transactions } = await supabase.from('transactions').select('*').limit(1000);
+            const { data: transactions } = await supabase.from('transactions')
+              .select('id, user_id, business_id, transaction_type, amount, points_earned, created_at, status')
+              .limit(1000);
             data = transactions || [];
             filename = 'transactions-report';
             break;
           case 'agents':
-            const { data: agents } = await supabase.from('sales_agents').select('*');
+            const { data: agents } = await supabase.from('sales_agents')
+              .select('id, user_id, referral_code, commission_rate, tier, is_active, total_earnings, lifetime_referrals, created_at');
             data = agents || [];
             filename = 'agents-report';
             break;
           case 'activity':
-            const { data: activity } = await supabase.from('activity_log').select('*').limit(1000);
+            const { data: activity } = await supabase.from('activity_log')
+              .select('id, user_id, activity_type, business_id, created_at, points_involved')
+              .limit(1000);
             data = activity || [];
             filename = 'activity-log';
             break;
