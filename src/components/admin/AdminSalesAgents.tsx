@@ -56,8 +56,12 @@ const AdminSalesAgents: React.FC = () => {
     setLoading(true);
     try {
       const [agentsRes, applicationsRes] = await Promise.all([
-        supabase.from('sales_agents').select('*').order('created_at', { ascending: false }),
-        supabase.from('sales_agent_applications').select('*').order('application_date', { ascending: false }),
+        supabase.from('sales_agents')
+          .select('id, user_id, referral_code, commission_rate, tier, is_active, total_earnings, lifetime_referrals, created_at')
+          .order('created_at', { ascending: false }),
+        supabase.from('sales_agent_applications')
+          .select('id, user_id, full_name, email, phone, application_status, test_score, test_passed, application_date, why_join, business_experience, marketing_ideas, notes')
+          .order('application_date', { ascending: false }),
       ]);
 
       if (agentsRes.error) throw agentsRes.error;

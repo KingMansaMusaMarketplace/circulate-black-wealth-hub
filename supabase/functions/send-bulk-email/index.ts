@@ -2,8 +2,100 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
+import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.38/deno-dom-wasm.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+
+/**
+ * Sanitize HTML content to prevent XSS attacks in emails.
+ * Only allows safe tags and removes potentially dangerous content.
+ */
+const sanitizeHtmlContent = (content: string): string => {
+  // Define allowed tags for email content
+  const allowedTags = new Set(['p', 'br', 'strong', 'em', 'b', 'i', 'u', 'a', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'span']);
+  
+  // First, escape any HTML entities in the raw content
+  const escapeHtml = (text: string): string => {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  };
+  
+  // For plain text content (no HTML tags), just escape and wrap in paragraphs
+  const hasHtmlTags = /<[^>]*>/g.test(content);
+  if (!hasHtmlTags) {
+    return content.split('\n').map(line => `<p>${escapeHtml(line)}</p>`).join('');
+  }
+  
+  // For content with HTML, parse and sanitize
+  try {
+    const doc = new DOMParser().parseFromString(`<div>${content}</div>`, 'text/html');
+    if (!doc) {
+      // Fallback: escape all HTML
+      return content.split('\n').map(line => `<p>${escapeHtml(line)}</p>`).join('');
+    }
+    
+    const sanitizeNode = (node: any): string => {
+      if (node.nodeType === 3) { // Text node
+        return escapeHtml(node.textContent || '');
+      }
+      
+      if (node.nodeType === 1) { // Element node
+        const tagName = node.tagName.toLowerCase();
+        
+        if (!allowedTags.has(tagName)) {
+          // For disallowed tags, just return the text content
+          let result = '';
+          for (const child of node.childNodes) {
+            result += sanitizeNode(child);
+          }
+          return result;
+        }
+        
+        // Build sanitized element
+        let result = `<${tagName}`;
+        
+        // Only allow href attribute on anchor tags, and validate the URL
+        if (tagName === 'a') {
+          const href = node.getAttribute('href');
+          if (href) {
+            // Only allow http/https URLs
+            if (/^https?:\/\//i.test(href)) {
+              result += ` href="${escapeHtml(href)}"`;
+            }
+          }
+        }
+        
+        result += '>';
+        
+        for (const child of node.childNodes) {
+          result += sanitizeNode(child);
+        }
+        
+        result += `</${tagName}>`;
+        return result;
+      }
+      
+      return '';
+    };
+    
+    let sanitized = '';
+    const container = doc.querySelector('div');
+    if (container) {
+      for (const child of container.childNodes) {
+        sanitized += sanitizeNode(child);
+      }
+    }
+    
+    return sanitized || content.split('\n').map(line => `<p>${escapeHtml(line)}</p>`).join('');
+  } catch (error) {
+    console.error('HTML sanitization error, falling back to escaped text:', error);
+    return content.split('\n').map(line => `<p>${escapeHtml(line)}</p>`).join('');
+  }
+};
 
 // CORS configuration with origin validation
 const getAllowedOrigins = (): string[] => {
@@ -167,7 +259,7 @@ const handler = async (req: Request): Promise<Response> => {
                 <h1 style="margin: 0; font-size: 24px;">Mansa Musa Marketplace</h1>
               </div>
               <div class="content">
-                ${content.split('\n').map(line => `<p>${line}</p>`).join('')}
+                ${sanitizeHtmlContent(content)}
                 
                 <div style="text-align: center; margin-top: 30px;">
                   <a href="https://mansamusamarketplace.com" class="button">Visit Marketplace</a>
