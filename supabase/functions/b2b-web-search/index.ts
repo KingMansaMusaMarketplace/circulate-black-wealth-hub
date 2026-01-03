@@ -21,6 +21,72 @@ interface WebSearchRequest {
   limit?: number;
 }
 
+/**
+ * Validates and sanitizes search input to prevent injection attacks
+ */
+function validateSearchInput(input: WebSearchRequest): { valid: boolean; error?: string; sanitized?: WebSearchRequest } {
+  // Query validation
+  if (!input.query || typeof input.query !== 'string') {
+    return { valid: false, error: 'Query must be a string' };
+  }
+  
+  const cleanQuery = input.query.trim();
+  if (cleanQuery.length < 3) {
+    return { valid: false, error: 'Query must be at least 3 characters' };
+  }
+  if (cleanQuery.length > 200) {
+    return { valid: false, error: 'Query must be less than 200 characters' };
+  }
+  
+  // Remove control characters and null bytes
+  const sanitizedQuery = cleanQuery.replace(/[\x00-\x1F\x7F]/g, '');
+  if (sanitizedQuery.length < 3) {
+    return { valid: false, error: 'Query contains invalid characters' };
+  }
+  
+  // Validate category if provided
+  let sanitizedCategory = input.category;
+  if (input.category) {
+    if (typeof input.category !== 'string' || input.category.length > 50) {
+      return { valid: false, error: 'Invalid category format' };
+    }
+    // Only allow alphanumeric, spaces, hyphens, underscores
+    if (!/^[a-zA-Z0-9\s_-]{1,50}$/.test(input.category)) {
+      return { valid: false, error: 'Category contains invalid characters' };
+    }
+    sanitizedCategory = input.category.trim();
+  }
+  
+  // Validate location if provided
+  let sanitizedLocation = input.location;
+  if (input.location) {
+    if (typeof input.location !== 'string' || input.location.length > 100) {
+      return { valid: false, error: 'Invalid location format' };
+    }
+    // Only allow alphanumeric, spaces, commas, periods, hyphens
+    if (!/^[a-zA-Z0-9\s,.\-]{1,100}$/.test(input.location)) {
+      return { valid: false, error: 'Location contains invalid characters' };
+    }
+    sanitizedLocation = input.location.trim();
+  }
+  
+  // Validate limit
+  const limit = input.limit || 5;
+  if (typeof limit !== 'number' || limit < 1 || limit > 20 || !Number.isInteger(limit)) {
+    return { valid: false, error: 'Limit must be an integer between 1 and 20' };
+  }
+  
+  return { 
+    valid: true, 
+    sanitized: {
+      query: sanitizedQuery,
+      category: sanitizedCategory,
+      location: sanitizedLocation,
+      limit
+    }
+  };
+}
+
 interface DiscoveredBusiness {
   name: string;
   description: string;
@@ -73,14 +139,19 @@ serve(async (req) => {
       );
     }
 
-    const { query, category, location, limit = 5 }: WebSearchRequest = await req.json();
+    const rawInput: WebSearchRequest = await req.json();
 
-    if (!query || query.trim().length < 3) {
+    // Comprehensive input validation
+    const validation = validateSearchInput(rawInput);
+    if (!validation.valid || !validation.sanitized) {
+      console.warn('B2B Web Search validation failed:', validation.error);
       return new Response(
-        JSON.stringify({ error: 'Query must be at least 3 characters' }),
+        JSON.stringify({ error: validation.error }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
+
+    const { query, category, location, limit } = validation.sanitized;
 
     console.log(`B2B Web Search: query="${query}", category="${category}", location="${location}"`);
 

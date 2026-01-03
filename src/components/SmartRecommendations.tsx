@@ -6,6 +6,68 @@ import { Star, MapPin, Sparkles, ArrowRight } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
+// Constants for browsing history privacy controls
+const BROWSING_HISTORY_KEY = 'browsing_history';
+const MAX_HISTORY_ITEMS = 50;
+const HISTORY_EXPIRY_DAYS = 30;
+
+interface BrowsingHistoryItem {
+  id: string;
+  category: string;
+  timestamp: string;
+  expiresAt: number;
+}
+
+/**
+ * Get valid (non-expired) browsing history items
+ * Implements data minimization and expiration for privacy
+ */
+const getValidBrowsingHistory = (): BrowsingHistoryItem[] => {
+  try {
+    const stored = localStorage.getItem(BROWSING_HISTORY_KEY);
+    if (!stored) return [];
+    
+    const items: BrowsingHistoryItem[] = JSON.parse(stored);
+    const now = Date.now();
+    
+    // Filter out expired items
+    const validItems = items.filter(item => item.expiresAt > now);
+    
+    // If we filtered any items, update storage
+    if (validItems.length !== items.length) {
+      localStorage.setItem(BROWSING_HISTORY_KEY, JSON.stringify(validItems));
+    }
+    
+    return validItems;
+  } catch (e) {
+    console.error('Failed to load browsing history:', e);
+    return [];
+  }
+};
+
+/**
+ * Add an item to browsing history with expiration
+ */
+const addToBrowsingHistory = (item: { id: string; category: string }) => {
+  try {
+    const history = getValidBrowsingHistory();
+    const expiryMs = HISTORY_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+    
+    const newItem: BrowsingHistoryItem = {
+      id: item.id,
+      category: item.category,
+      timestamp: new Date().toISOString(),
+      expiresAt: Date.now() + expiryMs
+    };
+    
+    // Add to front, limit size
+    const updatedHistory = [newItem, ...history.filter(h => h.id !== item.id)].slice(0, MAX_HISTORY_ITEMS);
+    localStorage.setItem(BROWSING_HISTORY_KEY, JSON.stringify(updatedHistory));
+  } catch (e) {
+    console.error('Failed to save browsing history:', e);
+  }
+};
+
 interface Business {
   id: string;
   business_name: string;
@@ -43,9 +105,8 @@ export const SmartRecommendations = () => {
           categories: ['Food & Beverage', 'Retail', 'Services']
         };
 
-        // Get browsing history from localStorage
-        const savedHistory = localStorage.getItem('browsing_history');
-        const browsingHistory = savedHistory ? JSON.parse(savedHistory) : [];
+        // Get browsing history from localStorage with expiration check
+        const browsingHistory = getValidBrowsingHistory();
 
         const { data, error } = await supabase.functions.invoke('ai-recommendations', {
           body: {
@@ -89,8 +150,7 @@ export const SmartRecommendations = () => {
       const userPreferences = savedPreferences ? JSON.parse(savedPreferences) : {
         categories: ['Food & Beverage', 'Retail', 'Services']
       };
-      const savedHistory = localStorage.getItem('browsing_history');
-      const browsingHistory = savedHistory ? JSON.parse(savedHistory) : [];
+      const browsingHistory = getValidBrowsingHistory();
 
       const { data, error } = await supabase.functions.invoke('ai-recommendations', {
         body: { userLocation, userPreferences, browsingHistory: browsingHistory.slice(0, 10), limit: 5 }
@@ -222,14 +282,11 @@ export const SmartRecommendations = () => {
                 <Button 
                   className="w-full group/btn"
                   onClick={() => {
-                    // Track the view in browsing history
-                    const history = JSON.parse(localStorage.getItem('browsing_history') || '[]');
-                    history.unshift({ 
+                    // Track the view in browsing history with expiration
+                    addToBrowsingHistory({ 
                       id: business.id, 
-                      category: business.category,
-                      timestamp: new Date().toISOString()
+                      category: business.category
                     });
-                    localStorage.setItem('browsing_history', JSON.stringify(history.slice(0, 50)));
                     
                     // Navigate to business page (you can customize this)
                     toast.success(`Opening ${business.business_name}`);

@@ -180,18 +180,27 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
     }
   };
 
+  // Constants for QR scan history privacy controls
+  const QR_HISTORY_KEY = 'qrScanHistory';
+  const MAX_QR_HISTORY_ITEMS = 10;
+  const QR_HISTORY_EXPIRY_DAYS = 7;
+
   // Update scan history when a successful scan happens
   useEffect(() => {
     if (scanResult && scanResult.success) {
       setScanHistory(prev => {
-        const newHistory = [{
+        const expiryMs = QR_HISTORY_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+        const newItem = {
           businessName: scanResult.businessName || 'Business',
           pointsEarned: scanResult.pointsEarned || 0,
-          timestamp: new Date().toLocaleTimeString()
-        }, ...prev].slice(0, 5);
+          timestamp: new Date().toLocaleTimeString(),
+          expiresAt: Date.now() + expiryMs
+        };
+        
+        const newHistory = [newItem, ...prev].slice(0, MAX_QR_HISTORY_ITEMS);
         
         try {
-          localStorage.setItem('qrScanHistory', JSON.stringify(newHistory));
+          localStorage.setItem(QR_HISTORY_KEY, JSON.stringify(newHistory));
         } catch (e) {
           console.error('Failed to save scan history:', e);
         }
@@ -201,12 +210,25 @@ const QRScannerComponent: React.FC<QRScannerComponentProps> = ({
     }
   }, [scanResult]);
 
-  // Load scan history from local storage
+  // Load scan history from local storage with expiration check
   useEffect(() => {
     try {
-      const storedHistory = localStorage.getItem('qrScanHistory');
+      const storedHistory = localStorage.getItem(QR_HISTORY_KEY);
       if (storedHistory) {
-        setScanHistory(JSON.parse(storedHistory));
+        const items = JSON.parse(storedHistory);
+        const now = Date.now();
+        
+        // Filter out expired items
+        const validItems = items.filter((item: any) => 
+          !item.expiresAt || item.expiresAt > now
+        );
+        
+        // Update storage if we filtered any items
+        if (validItems.length !== items.length) {
+          localStorage.setItem(QR_HISTORY_KEY, JSON.stringify(validItems));
+        }
+        
+        setScanHistory(validItems);
       }
     } catch (e) {
       console.error('Failed to load scan history:', e);
