@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { Progress } from "@/components/ui/progress";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { SubscriptionProvider } from "@/contexts/SubscriptionContext";
+import { GuestProvider } from "@/contexts/GuestContext";
 import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
 import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
 import { NativeFeatures } from "@/components/native/NativeFeatures";
@@ -286,9 +287,10 @@ function App() {
       <HelmetProvider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <AnalyticsProvider>
-              <SubscriptionProvider>
-                <NativeFeatures>
+            <GuestProvider>
+              <AnalyticsProvider>
+                <SubscriptionProvider>
+                  <NativeFeatures>
                 {/* Use HashRouter for Capacitor/native compatibility, BrowserRouter for web */}
                 {isCapacitorPlatform() ? (
                   <HashRouter>
@@ -781,6 +783,7 @@ function App() {
             </NativeFeatures>
           </SubscriptionProvider>
         </AnalyticsProvider>
+        </GuestProvider>
         </AuthProvider>
       </QueryClientProvider>
     </HelmetProvider>

@@ -13,12 +13,18 @@ import { Star, Heart, Gift, ArrowRight, Sparkles } from 'lucide-react';
 interface SignupPromptModalProps {
   isOpen: boolean;
   onClose: () => void;
-  action?: 'favorite' | 'reward' | 'qr_scan' | 'loyalty' | 'default';
+  action?: 'favorite' | 'save_favorite' | 'reward' | 'qr_scan' | 'loyalty' | 'default' | string;
   businessName?: string;
 }
 
-const actionMessages = {
+const actionMessages: Record<string, { title: string; description: string; icon: typeof Heart; benefit: string }> = {
   favorite: {
+    title: 'Save Your Favorites',
+    description: 'Create a free account to save businesses and access them anytime.',
+    icon: Heart,
+    benefit: 'Keep track of all the businesses you love!',
+  },
+  save_favorite: {
     title: 'Save Your Favorites',
     description: 'Create a free account to save businesses and access them anytime.',
     icon: Heart,
@@ -57,7 +63,7 @@ export const SignupPromptModal: React.FC<SignupPromptModalProps> = ({
   businessName,
 }) => {
   const navigate = useNavigate();
-  const message = actionMessages[action];
+  const message = actionMessages[action] || actionMessages.default;
   const Icon = message.icon;
 
   const handleSignup = () => {

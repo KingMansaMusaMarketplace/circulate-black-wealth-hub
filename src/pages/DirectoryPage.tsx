@@ -8,6 +8,9 @@ import MultiCityStats from '@/components/directory/MultiCityStats';
 import GlobalReachBanner from '@/components/directory/GlobalReachBanner';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
+import { useGuest } from '@/contexts/GuestContext';
+import { useAuth } from '@/contexts/AuthContext';
+import SignupPromptModal from '@/components/auth/SignupPromptModal';
 
 // Import the directory components
 import DirectoryHeader from '@/components/directory/DirectoryHeader';
@@ -35,6 +38,8 @@ import { SponsorLogoGrid } from '@/components/sponsors/SponsorLogoGrid';
 
 const DirectoryPage: React.FC = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
+  const { user } = useAuth();
+  const { recordBusinessView, recordAttemptedAction, showSignupPrompt, setShowSignupPrompt, lastAttemptedAction } = useGuest();
   
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'map'>('grid');
   const [showFilters, setShowFilters] = useState(false);
@@ -71,6 +76,11 @@ const DirectoryPage: React.FC = () => {
   const handleSelectBusiness = (id: string) => {
     const business = filteredBusinesses.find(b => b.id === id);
     if (business) {
+      // Track business view for guests
+      if (!user) {
+        recordBusinessView(id);
+      }
+      
       // Scroll to the business card
       const element = document.getElementById(`business-${id}`);
       if (element) {
@@ -82,6 +92,15 @@ const DirectoryPage: React.FC = () => {
         }, 2000);
       }
     }
+  };
+
+  // Handler for guest actions that require auth
+  const handleGuestAction = (action: string, businessName?: string) => {
+    if (!user) {
+      recordAttemptedAction(action, businessName);
+      return false;
+    }
+    return true;
   };
 
   const handleGetLocation = useCallback(async () => {
@@ -312,6 +331,14 @@ const DirectoryPage: React.FC = () => {
           onSkip={skipTour}
         />
       )}
+      
+      {/* Signup Prompt Modal for Guests */}
+      <SignupPromptModal 
+        isOpen={showSignupPrompt}
+        onClose={() => setShowSignupPrompt(false)}
+        action={lastAttemptedAction?.action || 'save_favorite'}
+        businessName={lastAttemptedAction?.businessName}
+      />
     </ErrorBoundary>
   );
 };

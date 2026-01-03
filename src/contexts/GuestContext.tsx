@@ -9,6 +9,12 @@ interface GuestSession {
   createdAt: string;
 }
 
+interface AttemptedAction {
+  action: string;
+  businessName?: string;
+  timestamp: string;
+}
+
 interface GuestContextType {
   isGuest: boolean;
   guestSession: GuestSession | null;
@@ -17,6 +23,12 @@ interface GuestContextType {
   trackAttemptedAction: (action: string) => void;
   getViewedBusinessCount: () => number;
   clearGuestSession: () => void;
+  // Additional properties for signup prompts
+  recordBusinessView: (businessId: string) => void;
+  recordAttemptedAction: (action: string, businessName?: string) => void;
+  showSignupPrompt: boolean;
+  setShowSignupPrompt: (show: boolean) => void;
+  lastAttemptedAction: AttemptedAction | null;
 }
 
 const GuestContext = createContext<GuestContextType | undefined>(undefined);
@@ -26,6 +38,8 @@ const GUEST_SESSION_KEY = 'mansa_guest_session';
 export const GuestProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [guestSession, setGuestSession] = useState<GuestSession | null>(null);
   const [isGuest, setIsGuest] = useState(true);
+  const [showSignupPrompt, setShowSignupPrompt] = useState(false);
+  const [lastAttemptedAction, setLastAttemptedAction] = useState<AttemptedAction | null>(null);
 
   // Initialize guest session from localStorage
   useEffect(() => {
@@ -93,6 +107,22 @@ export const GuestProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     });
   }, []);
 
+  // Alias for trackBusinessView
+  const recordBusinessView = useCallback((businessId: string) => {
+    trackBusinessView(businessId);
+  }, [trackBusinessView]);
+
+  // Enhanced version that triggers signup prompt
+  const recordAttemptedAction = useCallback((action: string, businessName?: string) => {
+    trackAttemptedAction(action);
+    setLastAttemptedAction({
+      action,
+      businessName,
+      timestamp: new Date().toISOString(),
+    });
+    setShowSignupPrompt(true);
+  }, [trackAttemptedAction]);
+
   const getViewedBusinessCount = useCallback(() => {
     return guestSession?.viewedBusinesses.length ?? 0;
   }, [guestSession]);
@@ -113,6 +143,11 @@ export const GuestProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         trackAttemptedAction,
         getViewedBusinessCount,
         clearGuestSession,
+        recordBusinessView,
+        recordAttemptedAction,
+        showSignupPrompt,
+        setShowSignupPrompt,
+        lastAttemptedAction,
       }}
     >
       {children}

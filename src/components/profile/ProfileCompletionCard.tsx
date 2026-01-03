@@ -28,7 +28,7 @@ const PROFILE_FIELDS: ProfileField[] = [
 ];
 
 interface ProfileCompletionCardProps {
-  profile: {
+  profile?: {
     full_name?: string | null;
     phone?: string | null;
     address?: string | null;
@@ -39,15 +39,37 @@ interface ProfileCompletionCardProps {
 }
 
 export const ProfileCompletionCard: React.FC<ProfileCompletionCardProps> = ({ 
-  profile, 
+  profile: propProfile, 
   onUpdate,
   compact = false 
 }) => {
   const { user } = useAuth();
+  const [profile, setProfile] = useState(propProfile);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editingField, setEditingField] = useState<string | null>(null);
   const [fieldValue, setFieldValue] = useState('');
+
+  // Fetch profile if not provided as prop
+  React.useEffect(() => {
+    if (!propProfile && user) {
+      const fetchProfile = async () => {
+        try {
+          const { data } = await supabase
+            .from('profiles')
+            .select('full_name, phone, address, avatar_url')
+            .eq('id', user.id)
+            .single();
+          if (data) setProfile(data);
+        } catch (err) {
+          console.error('Error fetching profile:', err);
+        }
+      };
+      fetchProfile();
+    } else if (propProfile) {
+      setProfile(propProfile);
+    }
+  }, [propProfile, user]);
 
   // Calculate completion
   const completedFields = PROFILE_FIELDS.filter(
