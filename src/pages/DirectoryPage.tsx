@@ -11,6 +11,8 @@ import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { useGuest } from '@/contexts/GuestContext';
 import { useAuth } from '@/contexts/AuthContext';
 import SignupPromptModal from '@/components/auth/SignupPromptModal';
+import { pageSEO } from '@/utils/seoUtils';
+import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
 
 // Import the directory components
 import DirectoryHeader from '@/components/directory/DirectoryHeader';
@@ -117,9 +119,12 @@ const DirectoryPage: React.FC = () => {
   return (
     <ErrorBoundary>
       <Helmet>
-        <title>Business Directory | Mansa Musa Marketplace</title>
-        <meta name="description" content="Find and support Black-owned businesses in your community" />
+        <title>{pageSEO.directory.title}</title>
+        <meta name="description" content={pageSEO.directory.description} />
+        <meta name="keywords" content={pageSEO.directory.keywords.join(', ')} />
       </Helmet>
+      
+      <BreadcrumbStructuredData items={generateBreadcrumbs.directory()} />
       
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
         {/* Animated gradient orbs */}

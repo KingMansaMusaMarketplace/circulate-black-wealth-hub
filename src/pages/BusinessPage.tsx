@@ -14,6 +14,9 @@ import {
   LoadingState, 
   NotFoundState 
 } from '@/components/business-detail';
+import { BusinessStructuredData } from '@/components/SEO/BusinessStructuredData';
+import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
+import { generateBusinessSEO } from '@/utils/seoUtils';
 
 const BusinessPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -59,13 +62,47 @@ const BusinessPage: React.FC = () => {
     console.log('BusinessPage - Business not found, showing NotFoundState');
     return <NotFoundState />;
   }
+
+  const seo = generateBusinessSEO({
+    business_name: business.name,
+    description: business.description,
+    category: business.category,
+    city: business.city,
+    state: business.state,
+    id: business.id,
+  });
   
   return (
     <>
       <Helmet>
-        <title>{business.name} | Mansa Musa Marketplace</title>
-        <meta name="description" content={business.description} />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        <meta name="keywords" content={seo.keywords.join(', ')} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
+        <meta property="og:type" content="business.business" />
+        {business.imageUrl && <meta property="og:image" content={business.imageUrl} />}
       </Helmet>
+      
+      <BusinessStructuredData business={{
+        id: business.id,
+        business_name: business.name,
+        description: business.description,
+        category: business.category,
+        address: business.address,
+        city: business.city,
+        state: business.state,
+        zip_code: business.zipCode,
+        phone: business.phone,
+        website: business.website,
+        logo_url: business.imageUrl,
+        average_rating: business.rating,
+        review_count: business.reviewCount,
+      }} />
+      
+      <BreadcrumbStructuredData 
+        items={generateBreadcrumbs.business(business.name, business.id, business.category)} 
+      />
 
       <div className="min-h-screen relative overflow-hidden">
         {/* Animated Background */}

@@ -9,7 +9,7 @@ import { SponsorBanner } from '@/components/sponsors';
 import { PublicSponsorDisplay } from '@/components/sponsors/PublicSponsorDisplay';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
 import { preloadCriticalImages } from '@/utils/imageOptimizer';
-import { updateMetaTags } from '@/utils/seoUtils';
+import { updateMetaTags, pageSEO } from '@/utils/seoUtils';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
@@ -17,6 +17,8 @@ import VoiceInterface from '@/components/VoiceInterface';
 import { SmartRecommendations } from '@/components/SmartRecommendations';
 import { ContextualRecommendations } from '@/components/discovery/ContextualRecommendations';
 import ShareButton from '@/components/ShareButton';
+import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructuredData';
+import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -37,9 +39,10 @@ const HomePage = () => {
     
     // SEO optimizations
     updateMetaTags({
-      title: 'Mansa Musa Marketplace - Save Money & Support Black-Owned Businesses',
-      description: 'Customers always FREE! Businesses FREE until March 31, 2026. Join the Mansa Musa Marketplace community and build wealth together.',
-      path: '/'
+      title: pageSEO.home.title,
+      description: pageSEO.home.description,
+      path: '/',
+      keywords: pageSEO.home.keywords,
     });
 
     // Preload critical chunks for better UX (reduced delay for faster interactivity)
@@ -52,6 +55,8 @@ const HomePage = () => {
 
   return (
     <>
+      <OrganizationStructuredData />
+      <WebsiteStructuredData />
       <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark">
         {/* Premium ambient background */}
         <div className="fixed inset-0 pointer-events-none">
