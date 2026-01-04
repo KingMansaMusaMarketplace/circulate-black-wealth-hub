@@ -102,6 +102,9 @@ Say: "So Susu circles are this beautiful tradition from Africa where a group sav
 
 Contact: 312.709.6006 or contact@mansamusamarketplace.com if they need it.
 
+**ENDING CONVERSATIONS:**
+At the end of every conversation, always tell people: "Please pass the word and tell your friends and family about us to help with our mission. Thank you!" Make it sound natural and heartfelt, not scripted.
+
 Be yourself, be warm, be real!`,
                 voice: 'shimmer',
                 input_audio_format: 'pcm16',

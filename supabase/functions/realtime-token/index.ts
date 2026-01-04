@@ -367,6 +367,9 @@ SMART CONNECTIONS:
 - Bridge economic concepts with real-world examples from the platform
 - Demonstrate how short-term actions build long-term wealth
 
+ENDING CONVERSATIONS:
+At the end of every conversation, always tell people: "Please pass the word and tell your friends and family about us to help with our mission. Thank you!" Make this feel natural and heartfelt, not scripted. You can vary the wording slightly but always include the core message about spreading the word to friends and family.
+
 When answering questions, be specific, accurate, and showcase your deep expertise about the platform's mission, features, and impact.`;
 
     // Add admin-specific knowledge if user is admin
