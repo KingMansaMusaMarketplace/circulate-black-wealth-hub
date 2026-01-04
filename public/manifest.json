@@ -1,29 +1,73 @@
-
 {
+  "id": "mansa-musa-marketplace",
   "name": "Mansa Musa Marketplace",
   "short_name": "Mansa Musa",
-  "description": "Support Black-owned businesses and earn rewards",
-  "start_url": "/",
+  "description": "Discover and support Black-owned businesses in your community. Find restaurants, services, shops and more. Earn rewards for shopping local.",
+  "start_url": "/?source=pwa",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "background_color": "#1B365D",
   "theme_color": "#1B365D",
-  "orientation": "portrait",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "/app-icon-source.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/app-icon-source.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "/app-icon-source.png", 
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/app-icon-source.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "categories": ["business", "shopping", "social"],
+  "screenshots": [
+    {
+      "src": "/app-icon-source.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mansa Musa Marketplace Home"
+    }
+  ],
+  "categories": ["business", "shopping", "social", "lifestyle"],
   "lang": "en-US",
+  "dir": "ltr",
   "scope": "/",
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Browse Directory",
+      "short_name": "Directory",
+      "description": "Browse Black-owned businesses",
+      "url": "/directory",
+      "icons": [{ "src": "/app-icon-source.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Register Business",
+      "short_name": "Register",
+      "description": "List your business",
+      "url": "/register-business",
+      "icons": [{ "src": "/app-icon-source.png", "sizes": "192x192" }]
+    }
+  ],
+  "related_applications": [],
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
 }
