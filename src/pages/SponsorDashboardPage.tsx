@@ -8,10 +8,12 @@ import { SubscriptionStatus } from '@/components/sponsor/SubscriptionStatus';
 import { CompanyInfoEditor } from '@/components/sponsors/CompanyInfoEditor';
 import { TierBenefits } from '@/components/sponsor/TierBenefits';
 import { SponsorAnalytics } from '@/components/sponsors/SponsorAnalytics';
+import { SponsorDocuments } from '@/components/sponsors/SponsorDocuments';
 import { CancelSubscriptionDialog } from '@/components/sponsor/CancelSubscriptionDialog';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, ArrowLeft, Crown, ExternalLink, Sparkles } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Loader2, ArrowLeft, Crown, ExternalLink, Sparkles, FileText, BarChart3, Building2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -153,71 +155,94 @@ export default function SponsorDashboardPage() {
             </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-6">
-              <SubscriptionStatus subscription={subscription} />
-              
-              <TierBenefits tier={subscription.tier} />
-            </div>
+          <Tabs defaultValue="overview" className="space-y-6">
+            <TabsList className="bg-white/5 border border-white/10">
+              <TabsTrigger value="overview" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-100">
+                <Building2 className="h-4 w-4 mr-2" />
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-100">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger value="documents" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-100">
+                <FileText className="h-4 w-4 mr-2" />
+                Documents
+              </TabsTrigger>
+            </TabsList>
 
-            <div className="space-y-6">
-              <CompanyInfoEditor subscription={subscription} />
+            <TabsContent value="overview" className="space-y-6">
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="space-y-6">
+                  <SubscriptionStatus subscription={subscription} />
+                  <TierBenefits tier={subscription.tier} />
+                </div>
 
-              <Card className="bg-white/5 backdrop-blur-xl border-white/10 overflow-hidden relative">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-amber-500/20 to-transparent rounded-bl-full" />
-                <CardHeader>
-                  <CardTitle className="text-amber-100">Manage Subscription</CardTitle>
-                  <CardDescription className="text-blue-200/70">
-                    Update your payment method, view invoices, upgrade/downgrade, or cancel your subscription
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3 relative">
-                  {subscription.stripe_customer_id ? (
-                    <>
-                      <Button 
-                        className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white hover:from-amber-600 hover:to-yellow-700"
-                        onClick={handleManageSubscription}
-                        disabled={isLoadingPortal}
-                      >
-                        {isLoadingPortal ? (
-                          <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            Loading...
-                          </>
-                        ) : (
-                          <>
-                            <ExternalLink className="mr-2 h-4 w-4" />
-                            Manage Subscription & Billing
-                          </>
-                        )}
-                      </Button>
-                      <p className="text-xs text-blue-200/50 text-center">
-                        Access your customer portal to update payment methods, view invoices, upgrade/downgrade tiers, and manage your subscription
-                      </p>
-                    </>
-                  ) : (
-                    <div className="text-center py-2">
-                      <p className="text-sm text-amber-200/70">
-                        Billing portal not available
-                      </p>
-                      <p className="text-xs text-blue-200/50 mt-1">
-                        Your subscription was set up manually. Please contact support to manage billing.
-                      </p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-          </div>
+                <div className="space-y-6">
+                  <CompanyInfoEditor subscription={subscription} />
 
-          {/* Analytics Section - Full Width */}
-          <div className="mt-6">
-            <h2 className="text-2xl font-bold mb-4 text-amber-100 flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-amber-400" />
-              Sponsorship Analytics
-            </h2>
-            <SponsorAnalytics subscriptionId={subscription.id} />
-          </div>
+                  <Card className="bg-white/5 backdrop-blur-xl border-white/10 overflow-hidden relative">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-amber-500/20 to-transparent rounded-bl-full" />
+                    <CardHeader>
+                      <CardTitle className="text-amber-100">Manage Subscription</CardTitle>
+                      <CardDescription className="text-blue-200/70">
+                        Update your payment method, view invoices, upgrade/downgrade, or cancel your subscription
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-3 relative">
+                      {subscription.stripe_customer_id ? (
+                        <>
+                          <Button 
+                            className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white hover:from-amber-600 hover:to-yellow-700"
+                            onClick={handleManageSubscription}
+                            disabled={isLoadingPortal}
+                          >
+                            {isLoadingPortal ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Loading...
+                              </>
+                            ) : (
+                              <>
+                                <ExternalLink className="mr-2 h-4 w-4" />
+                                Manage Subscription & Billing
+                              </>
+                            )}
+                          </Button>
+                          <p className="text-xs text-blue-200/50 text-center">
+                            Access your customer portal to update payment methods, view invoices, upgrade/downgrade tiers, and manage your subscription
+                          </p>
+                        </>
+                      ) : (
+                        <div className="text-center py-2">
+                          <p className="text-sm text-amber-200/70">
+                            Billing portal not available
+                          </p>
+                          <p className="text-xs text-blue-200/50 mt-1">
+                            Your subscription was set up manually. Please contact support to manage billing.
+                          </p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="analytics">
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-amber-100 flex items-center gap-2">
+                  <Sparkles className="h-5 w-5 text-amber-400" />
+                  Sponsorship Analytics
+                </h2>
+                <SponsorAnalytics subscriptionId={subscription.id} />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="documents">
+              <SponsorDocuments subscription={subscription} />
+            </TabsContent>
+          </Tabs>
         </div>
       </ResponsiveLayout>
     </div>
