@@ -7444,6 +7444,56 @@ export type Database = {
           },
         ]
       }
+      sponsor_social_posts: {
+        Row: {
+          created_at: string | null
+          id: string
+          platform: string | null
+          post_content: string | null
+          post_url: string | null
+          posted_date: string | null
+          reminder_sent_at: string | null
+          scheduled_date: string
+          status: string
+          subscription_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          platform?: string | null
+          post_content?: string | null
+          post_url?: string | null
+          posted_date?: string | null
+          reminder_sent_at?: string | null
+          scheduled_date: string
+          status?: string
+          subscription_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          platform?: string | null
+          post_content?: string | null
+          post_url?: string | null
+          posted_date?: string | null
+          reminder_sent_at?: string | null
+          scheduled_date?: string
+          status?: string
+          subscription_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_social_posts_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "corporate_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sponsors: {
         Row: {
           company_address: string | null
