@@ -106,6 +106,9 @@ USER AUTHENTICATION & PROFILES:
 - Referral code system - each user gets a unique referral code (e.g., "8ECC00F2")
 - HBCU member verification option for special benefits
 
+GETTING STARTED - IMPORTANT:
+When users ask how to get started or sign up, tell them to click the "Join FREE Today" button on the homepage. It's a prominent gold button that takes them to create their free account. Do NOT say "Get Started button on the top right corner" - the correct button text is "Join FREE Today".
+
 QR CODE LOYALTY SYSTEM:
 - Customers scan QR codes at participating businesses
 - Each scan earns 25 loyalty points
