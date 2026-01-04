@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,6 +20,7 @@ interface CompanyInfoEditorProps {
 
 export const CompanyInfoEditor = ({ subscription }: CompanyInfoEditorProps) => {
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   const [companyName, setCompanyName] = useState(subscription.company_name);
   const [websiteUrl, setWebsiteUrl] = useState(subscription.website_url || '');
   const [logoUrl, setLogoUrl] = useState(subscription.logo_url || '');
@@ -39,7 +41,7 @@ export const CompanyInfoEditor = ({ subscription }: CompanyInfoEditorProps) => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sponsor-subscription'] });
+      queryClient.invalidateQueries({ queryKey: ['sponsor-subscription', user?.id] });
       toast.success('Company information updated successfully');
     },
     onError: (error: Error) => {

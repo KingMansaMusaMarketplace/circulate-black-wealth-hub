@@ -64,10 +64,10 @@ export const useSponsorSubscription = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['sponsor-subscription'] });
+      queryClient.invalidateQueries({ queryKey: ['sponsor-subscription', user?.id] });
       toast.success('Company information updated successfully');
     },
-    onError: (error: any) => {
+    onError: (error: Error) => {
       toast.error(error.message || 'Failed to update company information');
     },
   });
