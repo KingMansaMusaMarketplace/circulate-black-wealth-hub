@@ -285,9 +285,9 @@ const BusinessDetailPage = () => {
         <div className="border-b border-white/10 bg-slate-900/40 backdrop-blur-xl sticky top-0 z-50">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <Link to="/businesses" className="flex items-center gap-2 text-blue-200 hover:text-yellow-400 transition-colors">
+              <Link to="/directory" className="flex items-center gap-2 text-blue-200 hover:text-yellow-400 transition-colors">
                 <ArrowLeft className="h-4 w-4" />
-                Back to Businesses
+                Back to Directory
               </Link>
               
               <div className="flex items-center gap-2">

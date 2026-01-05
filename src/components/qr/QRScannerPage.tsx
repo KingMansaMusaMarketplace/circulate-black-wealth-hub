@@ -330,8 +330,8 @@ const QRScannerPage = () => {
               <Button onClick={initializeScanner} className="w-full">
                 Try Again
               </Button>
-              <Button variant="outline" onClick={() => navigate('/businesses')} className="w-full">
-                Browse Businesses Instead
+              <Button variant="outline" onClick={() => navigate('/directory')} className="w-full">
+                Browse Directory Instead
               </Button>
             </div>
           </CardContent>
