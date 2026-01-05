@@ -76,16 +76,18 @@ const HomePage = () => {
           <Hero />
         </SectionErrorBoundary>
 
+        {/* Community Wealth Ticker - Live Impact Stats - PROMINENT POSITION */}
+        <SectionErrorBoundary sectionName="Wealth Ticker">
+          <div className="relative z-10 -mt-8">
+            <div className="container mx-auto px-4">
+              <CommunityWealthTicker />
+            </div>
+          </div>
+        </SectionErrorBoundary>
+
         {/* Beta Testing Challenge - 1M Goal */}
         <SectionErrorBoundary sectionName="Beta Challenge">
           <BetaChallengeSection />
-        </SectionErrorBoundary>
-
-        {/* Community Wealth Ticker - Live Impact Stats */}
-        <SectionErrorBoundary sectionName="Wealth Ticker">
-          <div className="container mx-auto px-4">
-            <CommunityWealthTicker />
-          </div>
         </SectionErrorBoundary>
 
         {/* Vibrant Welcome Banner */}
