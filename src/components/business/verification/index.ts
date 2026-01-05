@@ -1,6 +1,10 @@
-
+export { default as VerificationTab } from './VerificationTab';
 export { default as VerificationForm } from './VerificationForm';
 export { default as VerificationStatus } from './VerificationStatus';
-export { default as VerificationTab } from './VerificationTab';
 export { default as CertificationAgreement } from './CertificationAgreement';
 export { default as CertificateDownload } from './CertificateDownload';
+export { default as PhoneVerification } from './PhoneVerification';
+export { default as VideoVerification } from './VideoVerification';
+export { default as SocialVerification } from './SocialVerification';
+export { default as VerificationMethodSelector } from './VerificationMethodSelector';
+export type { VerificationMethod } from './VerificationMethodSelector';

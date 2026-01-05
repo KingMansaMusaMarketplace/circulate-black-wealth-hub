@@ -8,8 +8,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, AlertCircle, CheckCircle, Shield } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import CertificationAgreement from './CertificationAgreement';
 import CertificateDownload from './CertificateDownload';
+import PhoneVerification from './PhoneVerification';
+import VideoVerification from './VideoVerification';
+import SocialVerification from './SocialVerification';
+import VerificationMethodSelector, { VerificationMethod } from './VerificationMethodSelector';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
 import { BadgeTier } from '@/lib/types/verification';
 
@@ -17,14 +22,22 @@ interface VerificationFormProps {
   businessId: string;
   userId: string;
   businessName?: string;
+  businessPhone?: string;
 }
 
 type DocumentType = 'registration' | 'ownership' | 'address' | 'identity' | 'license';
 
-const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId, businessName }) => {
-  const { verificationStatus, isLoading, error, uploadDocument, submitVerification } = useVerification(businessId, userId);
+interface SocialLink {
+  platform: string;
+  url: string;
+  verified: boolean;
+}
+
+const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId, businessName, businessPhone }) => {
+  const { verificationStatus, isLoading, error, uploadDocument, submitVerification, refreshStatus } = useVerification(businessId, userId);
   const { user } = useAuth();
   
+  const [verificationMethod, setVerificationMethod] = useState<VerificationMethod>('documents');
   const [ownershipPercentage, setOwnershipPercentage] = useState<number>(51);
   const [ownerLegalName, setOwnerLegalName] = useState<string>(user?.user_metadata?.full_name || '');
   const [registrationDocUrl, setRegistrationDocUrl] = useState<string>('');
@@ -35,6 +48,9 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
   const [certificationAccepted, setCertificationAccepted] = useState<boolean>(false);
   const [uploadingType, setUploadingType] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<number>(1);
+  const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
+  const [videoUrl, setVideoUrl] = useState<string>('');
+  const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
   
   // Handle document upload
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: DocumentType) => {
@@ -244,6 +260,24 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
     </div>
   );
   
+  // Check if ready to submit based on method
+  const canSubmit = () => {
+    if (!certificationAccepted || !ownerLegalName) return false;
+    
+    switch (verificationMethod) {
+      case 'documents':
+        return allRequiredDocsUploaded;
+      case 'phone':
+        return phoneVerified;
+      case 'video':
+        return !!videoUrl;
+      case 'combined':
+        return allRequiredDocsUploaded && phoneVerified && !!videoUrl;
+      default:
+        return false;
+    }
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -313,66 +347,188 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
             
             <Separator />
             
-            {/* Step 2: Required Documents */}
+            {/* Step 2: Choose Verification Method */}
             <div className="space-y-4">
               <h3 className="text-lg font-medium flex items-center gap-2">
                 <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-sm">2</span>
-                Required Documents
+                Verification Method
               </h3>
               
-              <DocumentUploadField
-                id="identityDoc"
-                label="Government-Issued Photo ID"
-                description="Driver's license, passport, or state ID showing your legal name"
-                type="identity"
-                url={identityDocUrl}
-                setUrl={setIdentityDocUrl}
-              />
-              
-              <DocumentUploadField
-                id="registrationDoc"
-                label="Business Registration Document"
-                description="Business registration certificate, LLC documentation, or articles of incorporation"
-                type="registration"
-                url={registrationDocUrl}
-                setUrl={setRegistrationDocUrl}
-              />
-              
-              <DocumentUploadField
-                id="ownershipDoc"
-                label="Ownership Verification Document"
-                description="Shareholder agreements, operating agreements, or ownership certificates showing 51%+ Black ownership"
-                type="ownership"
-                url={ownershipDocUrl}
-                setUrl={setOwnershipDocUrl}
-              />
-              
-              <DocumentUploadField
-                id="addressDoc"
-                label="Address Verification Document"
-                description="Utility bill, lease agreement, or official correspondence showing business address"
-                type="address"
-                url={addressDocUrl}
-                setUrl={setAddressDocUrl}
-              />
-              
-              <DocumentUploadField
-                id="licenseDoc"
-                label="Business License/Permit"
-                description="Business license, permit, or professional certification (if applicable)"
-                type="license"
-                url={licenseDocUrl}
-                setUrl={setLicenseDocUrl}
-                required={false}
+              <VerificationMethodSelector
+                selectedMethod={verificationMethod}
+                onMethodChange={setVerificationMethod}
+                phoneVerified={phoneVerified}
+                videoSubmitted={!!videoUrl}
+                documentsUploaded={!!allRequiredDocsUploaded}
               />
             </div>
             
             <Separator />
             
-            {/* Step 3: Certification Agreement */}
+            {/* Step 3: Complete Verification */}
             <div className="space-y-4">
               <h3 className="text-lg font-medium flex items-center gap-2">
                 <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-sm">3</span>
+                Complete Verification
+              </h3>
+              
+              <Tabs value={verificationMethod === 'combined' ? 'documents' : verificationMethod} className="w-full">
+                <TabsList className="grid w-full grid-cols-3">
+                  <TabsTrigger 
+                    value="documents"
+                    disabled={verificationMethod !== 'documents' && verificationMethod !== 'combined'}
+                  >
+                    Documents
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="phone"
+                    disabled={verificationMethod !== 'phone' && verificationMethod !== 'combined'}
+                  >
+                    Phone
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="video"
+                    disabled={verificationMethod !== 'video' && verificationMethod !== 'combined'}
+                  >
+                    Video
+                  </TabsTrigger>
+                </TabsList>
+                
+                <TabsContent value="documents" className="space-y-4 mt-4">
+                  <DocumentUploadField
+                    id="identityDoc"
+                    label="Government-Issued Photo ID"
+                    description="Driver's license, passport, or state ID showing your legal name"
+                    type="identity"
+                    url={identityDocUrl}
+                    setUrl={setIdentityDocUrl}
+                  />
+                  
+                  <DocumentUploadField
+                    id="registrationDoc"
+                    label="Business Registration Document"
+                    description="Business registration certificate, LLC documentation, or articles of incorporation"
+                    type="registration"
+                    url={registrationDocUrl}
+                    setUrl={setRegistrationDocUrl}
+                  />
+                  
+                  <DocumentUploadField
+                    id="ownershipDoc"
+                    label="Ownership Verification Document"
+                    description="Shareholder agreements, operating agreements, or ownership certificates showing 51%+ Black ownership"
+                    type="ownership"
+                    url={ownershipDocUrl}
+                    setUrl={setOwnershipDocUrl}
+                  />
+                  
+                  <DocumentUploadField
+                    id="addressDoc"
+                    label="Address Verification Document"
+                    description="Utility bill, lease agreement, or official correspondence showing business address"
+                    type="address"
+                    url={addressDocUrl}
+                    setUrl={setAddressDocUrl}
+                  />
+                  
+                  <DocumentUploadField
+                    id="licenseDoc"
+                    label="Business License/Permit"
+                    description="Business license, permit, or professional certification (if applicable)"
+                    type="license"
+                    url={licenseDocUrl}
+                    setUrl={setLicenseDocUrl}
+                    required={false}
+                  />
+                </TabsContent>
+                
+                <TabsContent value="phone" className="mt-4">
+                  <PhoneVerification
+                    businessId={businessId}
+                    userId={userId}
+                    businessPhone={businessPhone}
+                    isVerified={phoneVerified}
+                    onVerified={() => {
+                      setPhoneVerified(true);
+                      refreshStatus();
+                    }}
+                  />
+                </TabsContent>
+                
+                <TabsContent value="video" className="mt-4">
+                  <VideoVerification
+                    businessId={businessId}
+                    userId={userId}
+                    businessName={businessName || 'Your Business'}
+                    isVerified={!!videoUrl}
+                    videoUrl={videoUrl}
+                    onVideoUploaded={setVideoUrl}
+                  />
+                </TabsContent>
+              </Tabs>
+              
+              {verificationMethod === 'combined' && (
+                <div className="mt-4 p-4 bg-muted/30 rounded-lg">
+                  <h4 className="font-medium mb-2">Combined Verification Progress</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      {allRequiredDocsUploaded ? (
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <div className="h-4 w-4 rounded-full border-2 border-muted-foreground" />
+                      )}
+                      <span className={allRequiredDocsUploaded ? 'text-green-600' : ''}>
+                        Document Verification
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {phoneVerified ? (
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <div className="h-4 w-4 rounded-full border-2 border-muted-foreground" />
+                      )}
+                      <span className={phoneVerified ? 'text-green-600' : ''}>
+                        Phone Verification
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {videoUrl ? (
+                        <CheckCircle className="h-4 w-4 text-green-600" />
+                      ) : (
+                        <div className="h-4 w-4 rounded-full border-2 border-muted-foreground" />
+                      )}
+                      <span className={videoUrl ? 'text-green-600' : ''}>
+                        Video Verification
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <Separator />
+            
+            {/* Step 4: Social Verification (Optional) */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium flex items-center gap-2">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-sm">4</span>
+                Social Verification
+                <span className="text-xs text-muted-foreground font-normal">(Optional)</span>
+              </h3>
+              
+              <SocialVerification
+                businessId={businessId}
+                socialLinks={socialLinks}
+                onLinksChange={setSocialLinks}
+              />
+            </div>
+            
+            <Separator />
+            
+            {/* Step 5: Certification Agreement */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium flex items-center gap-2">
+                <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground text-sm">5</span>
                 Certification Agreement
               </h3>
               
@@ -387,7 +543,7 @@ const VerificationForm: React.FC<VerificationFormProps> = ({ businessId, userId,
           <Button 
             type="submit" 
             className="mt-6 w-full gap-2" 
-            disabled={isLoading || !allRequiredDocsUploaded || !certificationAccepted || !ownerLegalName}
+            disabled={isLoading || !canSubmit()}
           >
             {isLoading ? (
               <>
