@@ -9,7 +9,8 @@ import {
   Share2, 
   Heart,
   Clock,
-  Camera
+  Camera,
+  Info
 } from 'lucide-react';
 import { FoundingSponsorBadge } from '@/components/badges/FoundingSponsorBadge';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
@@ -29,6 +30,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ReviewForm } from '@/components/reviews/ReviewForm';
 import { ReviewsList } from '@/components/reviews/ReviewsList';
 import { useNavigate } from 'react-router-dom';
+import { businesses as sampleBusinesses } from '@/data/businessesData';
+
+// Helper to check if ID is a valid UUID
+const isValidUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 
 interface Business {
   id: string;
@@ -70,20 +75,56 @@ const BusinessDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isLiked, setIsLiked] = useState(false);
+  const [isSampleBusiness, setIsSampleBusiness] = useState(false);
 
   const loadBusiness = async () => {
     if (!businessId) return;
 
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('businesses')
-        .select('*')
-        .eq('id', businessId)
-        .single();
+      setError(null);
+      setIsSampleBusiness(false);
 
-      if (error) throw error;
-      setBusiness(data);
+      // Check if this is a valid UUID (real database business)
+      if (isValidUUID(businessId)) {
+        const { data, error } = await supabase
+          .from('businesses')
+          .select('*')
+          .eq('id', businessId)
+          .single();
+
+        if (error) throw error;
+        setBusiness(data);
+      } else {
+        // Non-UUID ID - look in sample/demo data
+        const sampleBusiness = sampleBusinesses.find(b => b.id === businessId);
+        if (sampleBusiness) {
+          // Map sample business to expected Business interface
+          setBusiness({
+            id: sampleBusiness.id,
+            business_name: sampleBusiness.name,
+            description: sampleBusiness.description || '',
+            category: sampleBusiness.category,
+            address: sampleBusiness.address || '',
+            city: sampleBusiness.city || '',
+            state: sampleBusiness.state || '',
+            zip_code: sampleBusiness.zipCode || '',
+            phone: sampleBusiness.phone || '',
+            email: sampleBusiness.email || '',
+            website: sampleBusiness.website || '',
+            logo_url: sampleBusiness.logoUrl || sampleBusiness.imageUrl || '',
+            banner_url: sampleBusiness.bannerUrl || '',
+            is_verified: sampleBusiness.isVerified || false,
+            is_founding_sponsor: false,
+            average_rating: sampleBusiness.rating || sampleBusiness.averageRating || 0,
+            review_count: sampleBusiness.reviewCount || 0,
+            created_at: sampleBusiness.createdAt || new Date().toISOString()
+          });
+          setIsSampleBusiness(true);
+        } else {
+          setError('Business not found');
+        }
+      }
     } catch (error: any) {
       console.error('Error loading business:', error);
       setError(error.message || 'Failed to load business details');
@@ -93,7 +134,7 @@ const BusinessDetailPage = () => {
   };
 
   const loadReviews = async () => {
-    if (!businessId) return;
+    if (!businessId || !isValidUUID(businessId)) return; // Skip for sample businesses
 
     try {
       const { data, error } = await supabase
@@ -120,7 +161,7 @@ const BusinessDetailPage = () => {
   };
 
   const loadServices = async () => {
-    if (!businessId) return;
+    if (!businessId || !isValidUUID(businessId)) return; // Skip for sample businesses
     try {
       const { data, error } = await supabase
         .from('business_services')
@@ -219,6 +260,21 @@ const BusinessDetailPage = () => {
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
+        {/* Sample Business Banner */}
+        {isSampleBusiness && (
+          <div className="bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-900 py-3 px-4 relative z-50">
+            <div className="container mx-auto flex items-center justify-center gap-3">
+              <Info className="h-5 w-5" />
+              <p className="text-sm font-medium">
+                This is a sample business profile for demonstration purposes. 
+                <Link to="/directory" className="underline ml-1 font-semibold hover:text-slate-800">
+                  Explore real businesses →
+                </Link>
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Animated gradient orbs */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
