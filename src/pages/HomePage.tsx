@@ -19,6 +19,7 @@ import { ContextualRecommendations } from '@/components/discovery/ContextualReco
 import ShareButton from '@/components/ShareButton';
 import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructuredData';
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
+import { CommunityWealthTicker } from '@/components/wealth-ticker';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -78,6 +79,13 @@ const HomePage = () => {
         {/* Beta Testing Challenge - 1M Goal */}
         <SectionErrorBoundary sectionName="Beta Challenge">
           <BetaChallengeSection />
+        </SectionErrorBoundary>
+
+        {/* Community Wealth Ticker - Live Impact Stats */}
+        <SectionErrorBoundary sectionName="Wealth Ticker">
+          <div className="container mx-auto px-4">
+            <CommunityWealthTicker />
+          </div>
         </SectionErrorBoundary>
 
         {/* Vibrant Welcome Banner */}
