@@ -37,7 +37,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
   const mainItems = [
     { to: '/', label: 'Home', alwaysGold: true },
     { to: '/dashboard', label: 'Dashboard' },
-    { to: '/businesses', label: 'Marketplace', alwaysGold: true },
+    { to: '/directory', label: 'Marketplace', alwaysGold: true },
     { to: '/recommendations', label: 'Discover & Achieve' },
     { to: '/impact', label: '❤️ My Impact', alwaysGold: true },
     { to: '/features', label: 'Features ⚡' },

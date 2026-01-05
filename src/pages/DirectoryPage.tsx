@@ -18,6 +18,7 @@ import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/
 import DirectoryHeader from '@/components/directory/DirectoryHeader';
 import DirectoryLoadingState from '@/components/directory/DirectoryLoadingState';
 import DirectoryErrorState from '@/components/directory/DirectoryErrorState';
+import { WebSearchSection } from '@/components/business/discovery/WebSearchSection';
 import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
 import ScrollToTopButton from '@/components/directory/ScrollToTopButton';
@@ -320,6 +321,11 @@ const DirectoryPage: React.FC = () => {
                     </TabsContent>
                   </Tabs>
                 </ErrorBoundary>
+                
+                {/* Web Search Section - Find businesses not on platform */}
+                <div className="mt-12">
+                  <WebSearchSection initialQuery={searchTerm || ''} />
+                </div>
               </div>
             </div>
           </div>

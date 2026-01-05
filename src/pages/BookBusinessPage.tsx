@@ -68,10 +68,10 @@ export default function BookBusinessPage() {
         <div className="text-center py-12 relative z-10 flex flex-col items-center justify-center min-h-screen">
           <h2 className="text-2xl font-bold mb-4 text-white">Business Not Found</h2>
           <Button 
-            onClick={() => navigate('/businesses')}
+            onClick={() => navigate('/directory')}
             className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-semibold"
           >
-            Browse Businesses
+            Browse Directory
           </Button>
         </div>
       </div>

@@ -179,7 +179,7 @@ const UnifiedDashboard: React.FC = () => {
                   Community Finance
                 </Button>
                 <Button 
-                  onClick={() => navigate('/businesses')}
+                  onClick={() => navigate('/directory')}
                   className="w-full justify-start gap-2 text-white border-white/20 hover:bg-mansablue/10 hover:border-mansablue/30 transition-all duration-300"
                   variant="outline"
                 >

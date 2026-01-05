@@ -72,7 +72,7 @@ const LazyB2BDashboardPage = lazy(() => import('@/pages/business/B2BDashboardPag
 const LazyLeadsDashboardPage = lazy(() => import('@/pages/LeadsDashboardPage'));
 const LazyEducationPage = lazy(() => import('@/pages/EducationPage'));
 const LazyRewardsPage = lazy(() => import('@/pages/RewardsPage'));
-const LazyBusinessDiscoveryPage = lazy(() => import('@/pages/BusinessDiscoveryPage'));
+
 const LazySalesAgentSignupPage = lazy(() => import('@/pages/SalesAgentSignupPage'));
 const LazySalesAgentGuidePage = lazy(() => import('@/pages/SalesAgentGuidePage'));
 const LazySalesAgentDashboardPage = lazy(() => import('@/pages/SalesAgentDashboardPage'));
@@ -375,7 +375,6 @@ function App() {
                               <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
                               <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
-                              <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
                               <Route path="/button-test" element={<LazyButtonTestPage />} />
                               <Route path="/b2b-marketplace" element={<LazyB2BMarketplacePage />} />
                               <Route path="/leads-dashboard" element={<LazyLeadsDashboardPage />} />
@@ -615,7 +614,7 @@ function App() {
                         <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
                         <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                         <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
-                        <Route path="/businesses" element={<LazyBusinessDiscoveryPage />} />
+                        
                         <Route path="/button-test" element={<LazyButtonTestPage />} />
                         <Route path="/b2b-marketplace" element={<LazyB2BMarketplacePage />} />
                         <Route path="/leads-dashboard" element={<LazyLeadsDashboardPage />} />
