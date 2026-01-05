@@ -2,9 +2,6 @@
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import HomePageSections from '@/components/HomePage/HomePageSections';
-import BetaChallengeSection from '@/components/HomePage/BetaChallengeSection';
-import AmbassadorCTA from '@/components/HomePage/AmbassadorCTA';
-import FreeGrowthBanner from '@/components/FreeGrowthBanner';
 import { SponsorBanner } from '@/components/sponsors';
 import { PublicSponsorDisplay } from '@/components/sponsors/PublicSponsorDisplay';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
@@ -14,12 +11,9 @@ import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import VoiceInterface from '@/components/VoiceInterface';
-import { SmartRecommendations } from '@/components/SmartRecommendations';
-import { ContextualRecommendations } from '@/components/discovery/ContextualRecommendations';
 import ShareButton from '@/components/ShareButton';
 import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructuredData';
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
-import { CommunityWealthTicker } from '@/components/wealth-ticker';
 
 const HomePage = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -46,10 +40,8 @@ const HomePage = () => {
       keywords: pageSEO.home.keywords,
     });
 
-    // Preload critical chunks for better UX (reduced delay for faster interactivity)
+    // Preload critical chunks for better UX
     setTimeout(() => {
-      // Temporarily disabled to avoid iOS white screen during startup
-      // import('@/pages/DirectoryPage');
       import('@/pages/LoginPage');
     }, 1000);
   }, []);
@@ -59,11 +51,10 @@ const HomePage = () => {
       <OrganizationStructuredData />
       <WebsiteStructuredData />
       <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-mansablue-dark via-mansablue to-mansablue-dark">
-        {/* Premium ambient background */}
+        {/* Subtle ambient background - reduced for mobile performance */}
         <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-mansagold/10 rounded-full blur-[120px] animate-pulse-slow" />
-          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-400/5 rounded-full blur-[150px]" />
+          <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-mansagold/8 rounded-full blur-[100px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-purple-500/6 rounded-full blur-[80px]" />
         </div>
         
         {/* Sponsor Banner */}
@@ -71,78 +62,12 @@ const HomePage = () => {
           <SponsorBanner />
         </SectionErrorBoundary>
         
-        {/* Hero Section */}
+        {/* Hero Section - Simplified with integrated Wealth Ticker */}
         <SectionErrorBoundary sectionName="Hero">
           <Hero />
         </SectionErrorBoundary>
 
-        {/* Community Wealth Ticker - Live Impact Stats - PROMINENT POSITION */}
-        <SectionErrorBoundary sectionName="Wealth Ticker">
-          <div className="relative z-10 -mt-8">
-            <div className="container mx-auto px-4">
-              <CommunityWealthTicker />
-            </div>
-          </div>
-        </SectionErrorBoundary>
-
-        {/* Beta Testing Challenge - 1M Goal */}
-        <SectionErrorBoundary sectionName="Beta Challenge">
-          <BetaChallengeSection />
-        </SectionErrorBoundary>
-
-        {/* Vibrant Welcome Banner */}
-        <SectionErrorBoundary sectionName="Welcome Banner">
-          <div className="relative -mt-20 z-10 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto">
-              <div className="relative overflow-hidden rounded-3xl h-40 shadow-2xl bg-slate-900/40 backdrop-blur-xl border border-white/10">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 via-blue-800/50 to-blue-900/50" />
-                <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-yellow-500/20 to-transparent rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-amber-500/20 to-transparent rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '0.5s' }} />
-                <div className="relative h-full flex items-center justify-between px-6 sm:px-8">
-                  <div className="text-white z-10">
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-2 drop-shadow-lg bg-gradient-to-r from-blue-400 via-yellow-400 to-purple-400 bg-clip-text text-transparent">Join the Movement! 🚀</h2>
-                    <p className="text-blue-200 text-sm sm:text-base drop-shadow">Build wealth together in our growing community</p>
-                  </div>
-                  <div className="hidden md:flex items-center space-x-3 z-10">
-                    <div className="flex -space-x-2">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 border-2 border-white shadow-lg" />
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 border-2 border-white shadow-lg" />
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 border-2 border-white shadow-lg" />
-                    </div>
-                    <p className="text-yellow-300 text-sm font-semibold">Goal: 1M Members</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </SectionErrorBoundary>
-
-        {/* Free Growth Strategy Banner */}
-        <SectionErrorBoundary sectionName="Growth Banner">
-          <FreeGrowthBanner />
-        </SectionErrorBoundary>
-
-        {/* AI-Powered Smart Recommendations */}
-        <SectionErrorBoundary sectionName="Smart Recommendations">
-          <div className="container mx-auto px-4 py-12">
-            <div className="grid lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2">
-                <SmartRecommendations />
-              </div>
-              <div>
-                <ContextualRecommendations />
-              </div>
-            </div>
-          </div>
-        </SectionErrorBoundary>
-
-        {/* Ambassador Program CTA */}
-        <SectionErrorBoundary sectionName="Ambassador CTA">
-          <AmbassadorCTA />
-        </SectionErrorBoundary>
-
-        {/* All conversion-focused sections */}
+        {/* Essential Sections Only */}
         <SectionErrorBoundary sectionName="Content Sections">
           <HomePageSections />
         </SectionErrorBoundary>
@@ -153,7 +78,7 @@ const HomePage = () => {
         </SectionErrorBoundary>
       </div>
       
-      {/* Voice Interface */}
+      {/* Voice Interface - PRESERVED */}
       <SectionErrorBoundary sectionName="Voice Assistant">
         <VoiceInterface />
       </SectionErrorBoundary>
