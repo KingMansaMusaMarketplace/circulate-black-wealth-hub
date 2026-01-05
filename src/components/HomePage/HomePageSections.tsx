@@ -5,6 +5,7 @@ import CTASection from '@/components/CTASection';
 import LazySection from '@/components/common/LazySection';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import HowItWorksPreview from './HowItWorksPreview';
+import MissionPreview from './MissionPreview';
 
 const HomePageSections: React.FC = () => {
   return (
@@ -12,6 +13,11 @@ const HomePageSections: React.FC = () => {
       {/* How It Works Preview - 3 Simple Steps */}
       <SectionErrorBoundary sectionName="How It Works Preview">
         <HowItWorksPreview />
+      </SectionErrorBoundary>
+
+      {/* Mission Preview - Why This Matters */}
+      <SectionErrorBoundary sectionName="Mission Preview">
+        <MissionPreview />
       </SectionErrorBoundary>
 
       {/* Featured Businesses - Limited to 4 on mobile, 6 on desktop */}
