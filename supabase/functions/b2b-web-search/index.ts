@@ -70,10 +70,10 @@ function validateSearchInput(input: WebSearchRequest): { valid: boolean; error?:
     sanitizedLocation = input.location.trim();
   }
   
-  // Validate limit
-  const limit = input.limit || 5;
-  if (typeof limit !== 'number' || limit < 1 || limit > 20 || !Number.isInteger(limit)) {
-    return { valid: false, error: 'Limit must be an integer between 1 and 20' };
+  // Validate limit - default to 10 for better discovery
+  const limit = input.limit || 10;
+  if (typeof limit !== 'number' || limit < 1 || limit > 25 || !Number.isInteger(limit)) {
+    return { valid: false, error: 'Limit must be an integer between 1 and 25' };
   }
   
   return { 
@@ -227,8 +227,8 @@ Only include businesses you're confident are Black-owned or minority-owned. Set 
             content: searchPrompt
           }
         ],
-        temperature: 0.1,
-        max_tokens: 2000,
+        temperature: 0.2,
+        max_tokens: 4000,
       }),
     });
 
@@ -319,8 +319,9 @@ Only include businesses you're confident are Black-owned or minority-owned. Set 
 });
 
 function buildSearchPrompt(query: string, category?: string, location?: string, limit?: number): string {
+  const targetCount = limit || 10;
   const parts = [
-    `Find ${limit || 5} Black-owned or minority-owned businesses that provide:`,
+    `Find AT LEAST ${targetCount} Black-owned or minority-owned businesses that provide:`,
     `"${query}"`,
   ];
 
@@ -329,24 +330,31 @@ function buildSearchPrompt(query: string, category?: string, location?: string, 
   }
 
   if (location) {
-    parts.push(`Location preference: ${location} area or nationwide`);
+    parts.push(`Location preference: ${location} area, but also include nationwide options`);
+  } else {
+    parts.push(`Search nationwide across the United States`);
   }
 
   parts.push(`
-Focus on finding:
-1. Established Black-owned B2B suppliers
-2. Certified minority-owned enterprises (MBE, NMSDC certified)
-3. Businesses listed in Black business directories
+IMPORTANT: You MUST find at least ${targetCount} different businesses. Search thoroughly across:
+1. Official Black business directories (Official Black Wall Street, We Buy Black, Black Business Directory, Support Black Owned)
+2. NMSDC certified businesses (National Minority Supplier Development Council)
+3. SBA 8(a) certified minority-owned businesses
+4. State and regional Black Chambers of Commerce member directories
+5. LinkedIn company pages identifying as Black-owned
+6. Yelp and Google listings tagged as Black-owned
+7. Industry-specific minority business databases
 
 For each business found, provide:
-- Company name
-- What they offer (description)
-- Their category
-- Location
-- Website if available
-- Contact information if publicly available
+- Company name (exact legal name)
+- What they offer (detailed description of services/products)
+- Their business category
+- City and State location
+- Website URL if available
+- Contact information if publicly available (email, phone, LinkedIn)
 
-Only include businesses you're confident are Black-owned or minority-owned.`);
+Cast a wide net - include small local businesses AND larger established enterprises.
+Return exactly ${targetCount} businesses minimum. Do not stop early.`);
 
   return parts.join('\n');
 }
