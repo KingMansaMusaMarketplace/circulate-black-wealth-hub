@@ -12,6 +12,7 @@ import { BusinessCard } from '@/components/business/discovery/BusinessCard';
 import { BusinessFilters } from '@/components/business/discovery/BusinessFilters';
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { businessCategories } from '@/data/categories';
 
 interface Business {
   id: string;
@@ -42,17 +43,8 @@ const BusinessDiscoveryPage = () => {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('newest');
 
-  const categories = [
-    'all',
-    'Restaurant', 
-    'Retail', 
-    'Services', 
-    'Beauty', 
-    'Technology', 
-    'Healthcare', 
-    'Education',
-    'Other'
-  ];
+  // Use comprehensive business categories
+  const categories = ['all', ...businessCategories.map(cat => cat.name).sort()];
 
   const loadBusinesses = async () => {
     try {
