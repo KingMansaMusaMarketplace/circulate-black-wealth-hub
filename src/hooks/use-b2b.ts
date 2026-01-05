@@ -434,7 +434,7 @@ export const useB2B = () => {
   /**
    * Save a discovered lead to the database
    */
-  const saveExternalLead = async (business: DiscoveredBusiness, sourceQuery: string) => {
+  const saveExternalLead = async (business: DiscoveredBusiness, sourceQuery: string, visibleInDirectory = true) => {
     if (!user) {
       toast.error('Please sign in to save leads');
       return null;
@@ -454,19 +454,82 @@ export const useB2B = () => {
           website_url: business.website || null,
           location: business.location || null,
           source_citations: webSearchCitations,
+          confidence_score: business.confidence || 0.7,
+          is_visible_in_directory: visibleInDirectory,
+          claim_status: 'unclaimed',
         })
         .select()
         .single();
 
       if (error) throw error;
 
-      toast.success(`Saved ${business.name} to your leads`);
+      toast.success(`Added ${business.name} to the directory`);
       return data;
     } catch (error) {
       console.error('Error saving lead:', error);
-      toast.error('Failed to save lead');
+      toast.error('Failed to save to directory');
       return null;
     }
+  };
+
+  /**
+   * Save all web search results to the directory
+   */
+  const saveAllSearchResults = async (sourceQuery: string) => {
+    if (!user) {
+      toast.error('Please sign in to add businesses to the directory');
+      return { saved: 0, failed: 0 };
+    }
+
+    if (webSearchResults.length === 0) {
+      toast.error('No businesses to save');
+      return { saved: 0, failed: 0 };
+    }
+
+    let saved = 0;
+    let failed = 0;
+
+    for (const business of webSearchResults) {
+      try {
+        const { error } = await supabase
+          .from('b2b_external_leads')
+          .insert({
+            discovered_by_user_id: user.id,
+            discovered_by_business_id: businessProfile?.id || null,
+            source_query: sourceQuery,
+            business_name: business.name,
+            business_description: business.description,
+            category: business.category,
+            contact_info: business.contact || {},
+            website_url: business.website || null,
+            location: business.location || null,
+            source_citations: webSearchCitations,
+            confidence_score: business.confidence || 0.7,
+            is_visible_in_directory: true,
+            claim_status: 'unclaimed',
+          });
+
+        if (error) {
+          // Ignore duplicate key errors
+          if (!error.message.includes('duplicate')) {
+            failed++;
+          }
+        } else {
+          saved++;
+        }
+      } catch (error) {
+        failed++;
+      }
+    }
+
+    if (saved > 0) {
+      toast.success(`Added ${saved} businesses to the directory!`);
+    }
+    if (failed > 0) {
+      toast.error(`Failed to add ${failed} businesses`);
+    }
+
+    return { saved, failed };
   };
 
   const clearWebSearch = () => {
@@ -497,6 +560,7 @@ export const useB2B = () => {
     webSearchError,
     searchWebSuppliers,
     saveExternalLead,
+    saveAllSearchResults,
     clearWebSearch,
   };
 };
