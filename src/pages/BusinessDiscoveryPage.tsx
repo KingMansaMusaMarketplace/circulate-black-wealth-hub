@@ -13,6 +13,7 @@ import { BusinessFilters } from '@/components/business/discovery/BusinessFilters
 import LoadingSpinner from '@/components/ui/loading-spinner';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { businessCategories } from '@/data/categories';
+import { WebSearchSection } from '@/components/business/discovery/WebSearchSection';
 
 interface Business {
   id: string;
@@ -290,6 +291,11 @@ const BusinessDiscoveryPage = () => {
               ))}
             </div>
           )}
+          
+          {/* Web Search Section - Find businesses not on platform */}
+          <div className="mt-16">
+            <WebSearchSection initialQuery={searchQuery} />
+          </div>
         </div>
       </div>
     </>
