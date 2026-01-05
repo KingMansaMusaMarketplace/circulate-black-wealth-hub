@@ -173,7 +173,9 @@ const BusinessDiscoveryPage = () => {
                     </div>
                     <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                       <SelectTrigger className="w-full md:w-56 h-16 rounded-2xl bg-slate-700/50 border-white/10 text-white text-xl font-semibold hover:bg-slate-700/70 transition-colors">
-                        <SelectValue placeholder="All Categories" />
+                        <SelectValue>
+                          {selectedCategory === 'all' ? 'All Categories' : selectedCategory}
+                        </SelectValue>
                       </SelectTrigger>
                       <SelectContent className="bg-slate-800 border-white/10 text-white z-50 max-h-96">
                         {categories.map(category => (
