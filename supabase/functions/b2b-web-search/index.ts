@@ -50,8 +50,8 @@ function validateSearchInput(input: WebSearchRequest): { valid: boolean; error?:
     if (typeof input.category !== 'string' || input.category.length > 50) {
       return { valid: false, error: 'Invalid category format' };
     }
-    // Only allow alphanumeric, spaces, hyphens, underscores
-    if (!/^[a-zA-Z0-9\s_-]{1,50}$/.test(input.category)) {
+    // Only allow alphanumeric, spaces, hyphens, underscores, ampersand
+    if (!/^[a-zA-Z0-9\s_&-]{1,50}$/.test(input.category)) {
       return { valid: false, error: 'Category contains invalid characters' };
     }
     sanitizedCategory = input.category.trim();
