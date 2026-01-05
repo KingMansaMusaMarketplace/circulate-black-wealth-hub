@@ -185,3 +185,9 @@ verify_jwt = false
 
 [functions.send-business-invitation]
 verify_jwt = true
+
+[functions.send-phone-otp]
+verify_jwt = true
+
+[functions.verify-phone-otp]
+verify_jwt = true

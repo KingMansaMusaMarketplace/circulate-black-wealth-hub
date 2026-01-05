@@ -2604,13 +2604,22 @@ export type Database = {
           identity_document_url: string | null
           ownership_document_url: string | null
           ownership_percentage: number | null
+          phone_verification_number: string | null
+          phone_verified: boolean | null
+          phone_verified_at: string | null
           registration_document_url: string | null
           rejection_reason: string | null
+          social_verification_links: Json | null
           submitted_at: string
           updated_at: string
+          verification_method: string | null
           verification_status: string
           verified_at: string | null
           verified_by: string | null
+          video_verification_notes: string | null
+          video_verification_url: string | null
+          video_verified: boolean | null
+          video_verified_at: string | null
         }
         Insert: {
           address_document_url?: string | null
@@ -2627,13 +2636,22 @@ export type Database = {
           identity_document_url?: string | null
           ownership_document_url?: string | null
           ownership_percentage?: number | null
+          phone_verification_number?: string | null
+          phone_verified?: boolean | null
+          phone_verified_at?: string | null
           registration_document_url?: string | null
           rejection_reason?: string | null
+          social_verification_links?: Json | null
           submitted_at?: string
           updated_at?: string
+          verification_method?: string | null
           verification_status?: string
           verified_at?: string | null
           verified_by?: string | null
+          video_verification_notes?: string | null
+          video_verification_url?: string | null
+          video_verified?: boolean | null
+          video_verified_at?: string | null
         }
         Update: {
           address_document_url?: string | null
@@ -2650,13 +2668,22 @@ export type Database = {
           identity_document_url?: string | null
           ownership_document_url?: string | null
           ownership_percentage?: number | null
+          phone_verification_number?: string | null
+          phone_verified?: boolean | null
+          phone_verified_at?: string | null
           registration_document_url?: string | null
           rejection_reason?: string | null
+          social_verification_links?: Json | null
           submitted_at?: string
           updated_at?: string
+          verification_method?: string | null
           verification_status?: string
           verified_at?: string | null
           verified_by?: string | null
+          video_verification_notes?: string | null
+          video_verification_url?: string | null
+          video_verified?: boolean | null
+          video_verified_at?: string | null
         }
         Relationships: [
           {
@@ -5378,6 +5405,67 @@ export type Database = {
           user_agent?: string | null
         }
         Relationships: []
+      }
+      phone_verification_otps: {
+        Row: {
+          attempts: number | null
+          business_id: string
+          created_at: string
+          expires_at: string
+          id: string
+          max_attempts: number | null
+          otp_code: string
+          phone_number: string
+          user_id: string
+          verified_at: string | null
+        }
+        Insert: {
+          attempts?: number | null
+          business_id: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          max_attempts?: number | null
+          otp_code: string
+          phone_number: string
+          user_id: string
+          verified_at?: string | null
+        }
+        Update: {
+          attempts?: number | null
+          business_id?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          max_attempts?: number | null
+          otp_code?: string
+          phone_number?: string
+          user_id?: string
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "phone_verification_otps_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "phone_verification_otps_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "phone_verification_otps_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       platform_transactions: {
         Row: {
