@@ -962,6 +962,11 @@ export type Database = {
           business_description: string | null
           business_name: string
           category: string | null
+          claim_status: string | null
+          claim_token: string | null
+          claim_token_expires_at: string | null
+          claimed_at: string | null
+          claimed_by_user_id: string | null
           confidence_score: number | null
           contact_info: Json | null
           converted_business_id: string | null
@@ -975,17 +980,24 @@ export type Database = {
           invited_at: string | null
           is_converted: boolean | null
           is_invited: boolean | null
+          is_visible_in_directory: boolean | null
           lead_score: number | null
           location: string | null
           source_citations: string[] | null
           source_query: string
           updated_at: string | null
+          verification_method: string | null
           website_url: string | null
         }
         Insert: {
           business_description?: string | null
           business_name: string
           category?: string | null
+          claim_status?: string | null
+          claim_token?: string | null
+          claim_token_expires_at?: string | null
+          claimed_at?: string | null
+          claimed_by_user_id?: string | null
           confidence_score?: number | null
           contact_info?: Json | null
           converted_business_id?: string | null
@@ -999,17 +1011,24 @@ export type Database = {
           invited_at?: string | null
           is_converted?: boolean | null
           is_invited?: boolean | null
+          is_visible_in_directory?: boolean | null
           lead_score?: number | null
           location?: string | null
           source_citations?: string[] | null
           source_query: string
           updated_at?: string | null
+          verification_method?: string | null
           website_url?: string | null
         }
         Update: {
           business_description?: string | null
           business_name?: string
           category?: string | null
+          claim_status?: string | null
+          claim_token?: string | null
+          claim_token_expires_at?: string | null
+          claimed_at?: string | null
+          claimed_by_user_id?: string | null
           confidence_score?: number | null
           contact_info?: Json | null
           converted_business_id?: string | null
@@ -1023,11 +1042,13 @@ export type Database = {
           invited_at?: string | null
           is_converted?: boolean | null
           is_invited?: boolean | null
+          is_visible_in_directory?: boolean | null
           lead_score?: number | null
           location?: string | null
           source_citations?: string[] | null
           source_query?: string
           updated_at?: string | null
+          verification_method?: string | null
           website_url?: string | null
         }
         Relationships: [
@@ -2144,6 +2165,100 @@ export type Database = {
           {
             foreignKeyName: "business_interactions_business_id_fkey"
             columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      business_invitations: {
+        Row: {
+          converted_business_id: string | null
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          invitation_token: string
+          invitee_business_name: string | null
+          invitee_email: string
+          inviter_business_id: string | null
+          inviter_user_id: string
+          message: string | null
+          opened_at: string | null
+          points_awarded: number | null
+          signed_up_at: string | null
+          status: string | null
+        }
+        Insert: {
+          converted_business_id?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          invitation_token?: string
+          invitee_business_name?: string | null
+          invitee_email: string
+          inviter_business_id?: string | null
+          inviter_user_id: string
+          message?: string | null
+          opened_at?: string | null
+          points_awarded?: number | null
+          signed_up_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          converted_business_id?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          invitation_token?: string
+          invitee_business_name?: string | null
+          invitee_email?: string
+          inviter_business_id?: string | null
+          inviter_user_id?: string
+          message?: string | null
+          opened_at?: string | null
+          points_awarded?: number | null
+          signed_up_at?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_invitations_converted_business_id_fkey"
+            columns: ["converted_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_invitations_converted_business_id_fkey"
+            columns: ["converted_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_invitations_converted_business_id_fkey"
+            columns: ["converted_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_invitations_inviter_business_id_fkey"
+            columns: ["inviter_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_invitations_inviter_business_id_fkey"
+            columns: ["inviter_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_invitations_inviter_business_id_fkey"
+            columns: ["inviter_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
@@ -8559,6 +8674,10 @@ export type Database = {
         }
         Returns: Json
       }
+      claim_business_lead: {
+        Args: { p_token: string; p_user_id: string }
+        Returns: Json
+      }
       cleanup_expired_search_cache: { Args: never; Returns: undefined }
       cleanup_old_audit_logs: { Args: never; Returns: undefined }
       cleanup_old_batch_queue: { Args: never; Returns: undefined }
@@ -8580,6 +8699,7 @@ export type Database = {
       expire_challenges: { Args: never; Returns: undefined }
       generate_batch_number: { Args: never; Returns: string }
       generate_certificate_number: { Args: never; Returns: string }
+      generate_claim_token: { Args: { lead_id: string }; Returns: string }
       generate_invoice_number: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_ticket_number: { Args: never; Returns: string }

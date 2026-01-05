@@ -38,6 +38,7 @@ import { ProgressiveDisclosure } from '@/components/ui/ProgressiveDisclosure';
 import { CONTEXTUAL_TIPS } from '@/lib/onboarding-constants';
 import { SmartDiscoveryWidget } from '@/components/discovery/SmartDiscoveryWidget';
 import { SponsorLogoGrid } from '@/components/sponsors/SponsorLogoGrid';
+import { DiscoveredBusinessesSection } from '@/components/directory/DiscoveredBusinessesSection';
 
 const DirectoryPage: React.FC = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
@@ -322,8 +323,13 @@ const DirectoryPage: React.FC = () => {
                   </Tabs>
                 </ErrorBoundary>
                 
-                {/* Web Search Section - Find businesses not on platform */}
+                {/* Discovered Businesses Section - Claim Your Business */}
                 <div className="mt-12">
+                  <DiscoveredBusinessesSection />
+                </div>
+                
+                {/* Web Search Section - Find businesses not on platform */}
+                <div className="mt-8">
                   <WebSearchSection initialQuery={searchTerm || ''} />
                 </div>
               </div>

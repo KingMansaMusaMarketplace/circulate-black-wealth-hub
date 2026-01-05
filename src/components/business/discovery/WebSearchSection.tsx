@@ -11,27 +11,34 @@ import {
   MapPin, 
   ExternalLink,
   Building2,
-  Star
+  Plus,
+  CheckCircle2
 } from 'lucide-react';
 import { useB2B } from '@/hooks/use-b2b';
 import { DiscoveredBusiness } from '@/types/b2b-external';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface WebSearchSectionProps {
   initialQuery?: string;
 }
 
 export function WebSearchSection({ initialQuery = '' }: WebSearchSectionProps) {
+  const { user } = useAuth();
   const {
     webSearchResults,
     webSearchCitations,
     webSearchLoading,
     searchWebSuppliers,
+    saveExternalLead,
+    saveAllSearchResults,
     clearWebSearch,
   } = useB2B();
 
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [location, setLocation] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
+  const [savingAll, setSavingAll] = useState(false);
+  const [savedBusinesses, setSavedBusinesses] = useState<Set<string>>(new Set());
 
   const handleSearch = async () => {
     if (searchQuery.trim().length < 3) return;
@@ -42,6 +49,25 @@ export function WebSearchSection({ initialQuery = '' }: WebSearchSectionProps) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleSearch();
+    }
+  };
+
+  const handleSaveAll = async () => {
+    setSavingAll(true);
+    const result = await saveAllSearchResults(searchQuery);
+    if (result.saved > 0) {
+      // Mark all as saved
+      const newSaved = new Set(savedBusinesses);
+      webSearchResults.forEach(b => newSaved.add(b.name));
+      setSavedBusinesses(newSaved);
+    }
+    setSavingAll(false);
+  };
+
+  const handleSaveOne = async (business: DiscoveredBusiness) => {
+    const result = await saveExternalLead(business, searchQuery, true);
+    if (result) {
+      setSavedBusinesses(prev => new Set(prev).add(business.name));
     }
   };
 
@@ -124,22 +150,45 @@ export function WebSearchSection({ initialQuery = '' }: WebSearchSectionProps) {
           {/* Results */}
           {isExpanded && !webSearchLoading && webSearchResults.length > 0 && (
             <div className="mt-6">
-              <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
                 <h4 className="text-lg font-semibold text-white flex items-center gap-2">
                   <Building2 className="h-5 w-5 text-purple-400" />
                   Discovered {webSearchResults.length} Businesses
                 </h4>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    clearWebSearch();
-                    setIsExpanded(false);
-                  }}
-                  className="text-slate-400 hover:text-white"
-                >
-                  Clear Results
-                </Button>
+                <div className="flex items-center gap-2">
+                  {user && (
+                    <Button
+                      size="sm"
+                      onClick={handleSaveAll}
+                      disabled={savingAll}
+                      className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white"
+                    >
+                      {savingAll ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                          Saving...
+                        </>
+                      ) : (
+                        <>
+                          <Plus className="h-4 w-4 mr-1" />
+                          Add All to Directory
+                        </>
+                      )}
+                    </Button>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      clearWebSearch();
+                      setIsExpanded(false);
+                      setSavedBusinesses(new Set());
+                    }}
+                    className="text-slate-400 hover:text-white"
+                  >
+                    Clear Results
+                  </Button>
+                </div>
               </div>
               
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -182,17 +231,45 @@ export function WebSearchSection({ initialQuery = '' }: WebSearchSectionProps) {
                         </div>
                       )}
                       
-                      {business.website && (
-                        <a
-                          href={business.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center text-sm text-purple-400 hover:text-purple-300 transition-colors"
-                        >
-                          <ExternalLink className="h-4 w-4 mr-1" />
-                          Visit Website
-                        </a>
-                      )}
+                      <div className="flex items-center gap-2 mt-3">
+                        {business.website && (
+                          <a
+                            href={business.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 inline-flex items-center justify-center text-sm text-purple-400 hover:text-purple-300 transition-colors px-3 py-1.5 rounded-lg border border-purple-500/30 hover:bg-purple-500/10"
+                          >
+                            <ExternalLink className="h-4 w-4 mr-1" />
+                            Website
+                          </a>
+                        )}
+                        
+                        {user && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleSaveOne(business)}
+                            disabled={savedBusinesses.has(business.name)}
+                            className={`flex-1 ${
+                              savedBusinesses.has(business.name)
+                                ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                                : 'border-purple-500/30 text-purple-300 hover:bg-purple-500/20'
+                            }`}
+                          >
+                            {savedBusinesses.has(business.name) ? (
+                              <>
+                                <CheckCircle2 className="h-4 w-4 mr-1" />
+                                Added
+                              </>
+                            ) : (
+                              <>
+                                <Plus className="h-4 w-4 mr-1" />
+                                Add
+                              </>
+                            )}
+                          </Button>
+                        )}
+                      </div>
                     </CardContent>
                   </Card>
                 ))}

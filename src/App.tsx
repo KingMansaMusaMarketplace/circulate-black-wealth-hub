@@ -144,6 +144,7 @@ const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyticsPage'));
 const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
 const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
+const LazyClaimBusinessPage = lazy(() => import('@/pages/ClaimBusinessPage'));
 
 // Investor & Ambassador pages
 const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
@@ -382,8 +383,9 @@ function App() {
                               {/* C */}
                               <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
                               <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                              <Route path="/claim-business" element={<LazyClaimBusinessPage />} />
                               <Route path="/coalition" element={<LazyCoalitionPage />} />
-                              <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                              <Route path="/community" element={<LazyCommunityPage />} />
                               <Route path="/community" element={<LazyCommunityPage />} />
                               <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                               <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
