@@ -148,6 +148,9 @@ const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePa
 // Investor & Ambassador pages
 const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
 const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage'));
+
+// Founder's Wall
+const LazyFoundersWallPage = lazy(() => import('@/pages/FoundersWallPage'));
 const LazyAmbassadorResourcesPage = lazy(() => import('@/pages/AmbassadorResourcesPage'));
 const LazySalesAgentCodeOfConductPage = lazy(() => import('@/pages/SalesAgentCodeOfConductPage'));
 
@@ -408,6 +411,7 @@ function App() {
                               
                               {/* F */}
                               <Route path="/features" element={<LazyFeaturesPage />} />
+                              <Route path="/founders-wall" element={<LazyFoundersWallPage />} />
                               <Route path="/full-app-test" element={<LazyFullAppTest />} />
                               <Route path="/full-app-test" element={<LazyFullAppTestPage />} />
                               <Route path="/full-system-test" element={<LazyFullSystemTestPage />} />

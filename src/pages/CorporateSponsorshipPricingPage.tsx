@@ -15,6 +15,8 @@ import NotificationDemo from '@/components/sponsorship/NotificationDemo';
 import SponsorshipMediaKit from '@/components/sponsorship/SponsorshipMediaKit';
 import { IOSPaymentBlocker } from '@/components/platform/IOSPaymentBlocker';
 import { motion } from 'framer-motion';
+import { CommunityWealthTicker } from '@/components/wealth-ticker';
+import SponsorROISection from '@/components/sponsors/SponsorROISection';
 
 interface PricingTier {
   name: string;
@@ -281,6 +283,16 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                   Share Opportunity
                 </Button>
               </motion.div>
+
+              {/* Compact Wealth Ticker */}
+              <motion.div
+                className="mt-10 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                <CommunityWealthTicker variant="compact" />
+              </motion.div>
             </div>
           </div>
         </section>
@@ -392,6 +404,11 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
               </motion.div>
             ))}
           </div>
+        </section>
+
+        {/* Sponsor ROI Section */}
+        <section className="container mx-auto px-4 py-16 relative z-10">
+          <SponsorROISection />
         </section>
 
         {/* Impact Section */}

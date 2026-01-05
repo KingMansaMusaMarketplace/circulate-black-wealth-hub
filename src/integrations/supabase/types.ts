@@ -2578,8 +2578,11 @@ export type Database = {
           created_at: string | null
           description: string | null
           email: string | null
+          founding_joined_at: string | null
+          founding_order: number | null
           founding_sponsor_since: string | null
           id: string
+          is_founding_member: boolean | null
           is_founding_sponsor: boolean | null
           is_verified: boolean | null
           listing_status: string | null
@@ -2616,8 +2619,11 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           email?: string | null
+          founding_joined_at?: string | null
+          founding_order?: number | null
           founding_sponsor_since?: string | null
           id?: string
+          is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
           listing_status?: string | null
@@ -2654,8 +2660,11 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           email?: string | null
+          founding_joined_at?: string | null
+          founding_order?: number | null
           founding_sponsor_since?: string | null
           id?: string
+          is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
           listing_status?: string | null
@@ -3584,6 +3593,7 @@ export type Database = {
           display_priority: number | null
           featured_until: string | null
           id: string
+          is_founding_sponsor: boolean | null
           is_visible: boolean | null
           logo_approved: boolean | null
           logo_url: string | null
@@ -3611,6 +3621,7 @@ export type Database = {
           display_priority?: number | null
           featured_until?: string | null
           id?: string
+          is_founding_sponsor?: boolean | null
           is_visible?: boolean | null
           logo_approved?: boolean | null
           logo_url?: string | null
@@ -3638,6 +3649,7 @@ export type Database = {
           display_priority?: number | null
           featured_until?: string | null
           id?: string
+          is_founding_sponsor?: boolean | null
           is_visible?: boolean | null
           logo_approved?: boolean | null
           logo_url?: string | null
@@ -8805,6 +8817,7 @@ export type Database = {
       }
       get_coalition_stats: { Args: never; Returns: Json }
       get_community_impact_summary: { Args: never; Returns: Json }
+      get_community_wealth_metrics: { Args: never; Returns: Json }
       get_directory_businesses: {
         Args: { p_limit?: number; p_offset?: number }
         Returns: {
