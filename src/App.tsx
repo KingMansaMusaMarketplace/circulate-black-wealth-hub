@@ -654,6 +654,7 @@ function App() {
                         {/* F */}
                         <Route path="/features" element={<LazyFeatureGuidePage />} />
                         <Route path="/feature-guide" element={<LazyFeatureGuidePage />} />
+                        <Route path="/founders-wall" element={<LazyFoundersWallPage />} />
                         <Route path="/full-app-test" element={<LazyFullAppTest />} />
                         <Route path="/full-app-test" element={<LazyFullAppTestPage />} />
                         <Route path="/full-system-test" element={<LazyFullSystemTestPage />} />
