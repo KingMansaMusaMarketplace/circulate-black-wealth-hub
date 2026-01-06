@@ -30,29 +30,21 @@ export const ExternalLeadCard: React.FC<ExternalLeadCardProps> = ({
   const { user } = useAuth();
 
   const getStatusBadge = () => {
-    switch (lead.claim_status) {
-      case 'verified':
-        return (
-          <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
-            <BadgeCheck className="h-3 w-3 mr-1" />
-            Verified Owner
-          </Badge>
-        );
-      case 'pending':
-        return (
-          <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
-            <Clock className="h-3 w-3 mr-1" />
-            Claim Pending
-          </Badge>
-        );
-      default:
-        return (
-          <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-            <Sparkles className="h-3 w-3 mr-1" />
-            Discovered
-          </Badge>
-        );
+    // Public view shows conversion status only (no claim details for privacy)
+    if (lead.is_converted) {
+      return (
+        <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
+          <BadgeCheck className="h-3 w-3 mr-1" />
+          Joined
+        </Badge>
+      );
     }
+    return (
+      <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+        <Sparkles className="h-3 w-3 mr-1" />
+        Discovered
+      </Badge>
+    );
   };
 
   const confidencePercent = Math.round((lead.confidence_score || 0.7) * 100);
@@ -83,11 +75,11 @@ export const ExternalLeadCard: React.FC<ExternalLeadCardProps> = ({
           {lead.business_description || 'Black-owned business discovered via AI search'}
         </p>
 
-        {/* Location */}
-        {lead.location && (
+        {/* Location - show city/state or location */}
+        {(lead.city || lead.state || lead.location) && (
           <div className="flex items-center text-xs text-slate-500 mb-3">
             <MapPin className="h-3 w-3 mr-1 text-pink-400" />
-            {lead.location}
+            {lead.city && lead.state ? `${lead.city}, ${lead.state}` : lead.location}
           </div>
         )}
 
@@ -134,7 +126,8 @@ export const ExternalLeadCard: React.FC<ExternalLeadCardProps> = ({
             <Share2 className="h-4 w-4" />
           </Button>
 
-          {lead.claim_status === 'unclaimed' && (
+          {/* Show claim button only for unconverted businesses */}
+          {!lead.is_converted && (
             <Button
               size="sm"
               onClick={() => onClaim(lead.id)}
@@ -157,7 +150,7 @@ export const ExternalLeadCard: React.FC<ExternalLeadCardProps> = ({
         </div>
 
         {/* Sign in prompt for non-authenticated users */}
-        {!user && lead.claim_status === 'unclaimed' && (
+        {!user && !lead.is_converted && (
           <p className="text-xs text-slate-500 mt-2 text-center">
             Sign in to claim this business
           </p>

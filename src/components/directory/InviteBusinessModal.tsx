@@ -45,15 +45,11 @@ export const InviteBusinessModal: React.FC<InviteBusinessModalProps> = ({
   const [message, setMessage] = useState('');
   const [copied, setCopied] = useState(false);
 
-  // Prefill from lead if provided
+  // Prefill business name from lead if provided (email is not exposed in public view)
   useEffect(() => {
     if (prefilledLead) {
       setBusinessName(prefilledLead.business_name);
-      // Try to extract email from contact_info if available
-      const contactInfo = prefilledLead.contact_info;
-      if (contactInfo?.email) {
-        setEmail(contactInfo.email);
-      }
+      // Note: contact_info/email is not exposed in public lead data for privacy
     }
   }, [prefilledLead]);
 
