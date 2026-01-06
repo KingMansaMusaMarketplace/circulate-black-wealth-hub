@@ -178,6 +178,9 @@ const LazyMarketingAnalyticsPage = lazy(() => import('./pages/MarketingAnalytics
 const LazyWelcomePage = lazy(() => import('@/pages/WelcomePage'));
 const LazyBusinessOnboardingPage = lazy(() => import('@/pages/business/BusinessOnboardingPage'));
 
+// Patent Document Export
+const LazyPatentDocumentExport = lazy(() => import('@/pages/PatentDocumentExport'));
+
 // Loading fallback component
 const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => {
   console.log('[LOADING FALLBACK] Showing loading screen:', message);
@@ -522,7 +525,10 @@ function App() {
                               <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                               
                               {/* W */}
-                              <Route path="/welcome" element={<LazyWelcomePage />} />
+<Route path="/welcome" element={<LazyWelcomePage />} />
+                              
+                              {/* Patent Document Export */}
+                              <Route path="/patent-export" element={<LazyPatentDocumentExport />} />
                               
                               {/* Business Onboarding */}
                               <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
@@ -773,7 +779,10 @@ function App() {
                         <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                         
                         {/* W */}
-                        <Route path="/welcome" element={<LazyWelcomePage />} />
+<Route path="/welcome" element={<LazyWelcomePage />} />
+                        
+                        {/* Patent Document Export */}
+                        <Route path="/patent-export" element={<LazyPatentDocumentExport />} />
                         
                         {/* Business Onboarding */}
                         <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
