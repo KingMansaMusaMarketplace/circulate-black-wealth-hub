@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { toast } from 'sonner';
 import Papa from 'papaparse';
 import { supabase } from '@/integrations/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface CSVUploaderProps {
   onClose: () => void;
@@ -35,6 +36,7 @@ const OPTIONAL_FIELDS = [
 ];
 
 export const CSVUploader: React.FC<CSVUploaderProps> = ({ onClose }) => {
+  const queryClient = useQueryClient();
   const [step, setStep] = useState<'upload' | 'mapping' | 'preview' | 'processing'>('upload');
   const [file, setFile] = useState<File | null>(null);
   const [csvPreview, setCsvPreview] = useState<CSVPreview | null>(null);
@@ -177,6 +179,9 @@ export const CSVUploader: React.FC<CSVUploaderProps> = ({ onClose }) => {
 
           if (successCount > 0) {
             toast.success(`Successfully imported ${successCount} leads!`);
+            // Invalidate queries to refresh dashboard stats
+            queryClient.invalidateQueries({ queryKey: ['lead-stats'] });
+            queryClient.invalidateQueries({ queryKey: ['external-leads'] });
           }
           if (errorCount > 0) {
             toast.error(`Failed to import ${errorCount} leads`);
