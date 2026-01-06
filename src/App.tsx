@@ -146,6 +146,10 @@ const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
 const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
 const LazyClaimBusinessPage = lazy(() => import('@/pages/ClaimBusinessPage'));
 
+// Growth System pages
+const LazyAdminBusinessImport = lazy(() => import('@/pages/AdminBusinessImport'));
+const LazyAdminSponsorCRM = lazy(() => import('@/pages/AdminSponsorCRM'));
+
 // Investor & Ambassador pages
 const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
 const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage'));
@@ -332,6 +336,8 @@ function App() {
 <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
                               <Route path="/admin/sponsors/:id" element={<LazyAdminSponsorDetailPage />} />
                               <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
+                              <Route path="/admin/business-import" element={<LazyAdminBusinessImport />} />
+                              <Route path="/admin/sponsor-crm" element={<LazyAdminSponsorCRM />} />
                               <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                               <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                               <Route path="/apple-compliance" element={<LazyAppleComplianceTestPage />} />

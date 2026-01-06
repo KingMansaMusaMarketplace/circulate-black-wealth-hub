@@ -191,3 +191,12 @@ verify_jwt = true
 
 [functions.verify-phone-otp]
 verify_jwt = true
+
+[functions.send-bulk-claim-invitations]
+verify_jwt = true
+
+[functions.send-sponsor-outreach-email]
+verify_jwt = true
+
+[functions.import-businesses-csv]
+verify_jwt = true
