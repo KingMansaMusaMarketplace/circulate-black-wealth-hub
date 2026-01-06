@@ -962,6 +962,7 @@ export type Database = {
           business_description: string | null
           business_name: string
           category: string | null
+          city: string | null
           claim_status: string | null
           claim_token: string | null
           claim_token_expires_at: string | null
@@ -971,28 +972,42 @@ export type Database = {
           contact_info: Json | null
           converted_business_id: string | null
           created_at: string | null
+          data_quality_score: number | null
           discovered_by_business_id: string | null
           discovered_by_user_id: string | null
+          email_status: string | null
           id: string
+          import_job_id: string | null
           invitation_clicked_at: string | null
+          invitation_count: number | null
           invitation_opened_at: string | null
           invitation_token: string | null
           invited_at: string | null
           is_converted: boolean | null
           is_invited: boolean | null
           is_visible_in_directory: boolean | null
+          last_campaign_id: string | null
+          last_invited_at: string | null
           lead_score: number | null
           location: string | null
+          owner_email: string | null
+          owner_name: string | null
+          phone_number: string | null
+          social_profiles: Json | null
           source_citations: string[] | null
+          source_id: string | null
           source_query: string
+          state: string | null
           updated_at: string | null
           verification_method: string | null
           website_url: string | null
+          zip_code: string | null
         }
         Insert: {
           business_description?: string | null
           business_name: string
           category?: string | null
+          city?: string | null
           claim_status?: string | null
           claim_token?: string | null
           claim_token_expires_at?: string | null
@@ -1002,28 +1017,42 @@ export type Database = {
           contact_info?: Json | null
           converted_business_id?: string | null
           created_at?: string | null
+          data_quality_score?: number | null
           discovered_by_business_id?: string | null
           discovered_by_user_id?: string | null
+          email_status?: string | null
           id?: string
+          import_job_id?: string | null
           invitation_clicked_at?: string | null
+          invitation_count?: number | null
           invitation_opened_at?: string | null
           invitation_token?: string | null
           invited_at?: string | null
           is_converted?: boolean | null
           is_invited?: boolean | null
           is_visible_in_directory?: boolean | null
+          last_campaign_id?: string | null
+          last_invited_at?: string | null
           lead_score?: number | null
           location?: string | null
+          owner_email?: string | null
+          owner_name?: string | null
+          phone_number?: string | null
+          social_profiles?: Json | null
           source_citations?: string[] | null
+          source_id?: string | null
           source_query: string
+          state?: string | null
           updated_at?: string | null
           verification_method?: string | null
           website_url?: string | null
+          zip_code?: string | null
         }
         Update: {
           business_description?: string | null
           business_name?: string
           category?: string | null
+          city?: string | null
           claim_status?: string | null
           claim_token?: string | null
           claim_token_expires_at?: string | null
@@ -1033,23 +1062,36 @@ export type Database = {
           contact_info?: Json | null
           converted_business_id?: string | null
           created_at?: string | null
+          data_quality_score?: number | null
           discovered_by_business_id?: string | null
           discovered_by_user_id?: string | null
+          email_status?: string | null
           id?: string
+          import_job_id?: string | null
           invitation_clicked_at?: string | null
+          invitation_count?: number | null
           invitation_opened_at?: string | null
           invitation_token?: string | null
           invited_at?: string | null
           is_converted?: boolean | null
           is_invited?: boolean | null
           is_visible_in_directory?: boolean | null
+          last_campaign_id?: string | null
+          last_invited_at?: string | null
           lead_score?: number | null
           location?: string | null
+          owner_email?: string | null
+          owner_name?: string | null
+          phone_number?: string | null
+          social_profiles?: Json | null
           source_citations?: string[] | null
+          source_id?: string | null
           source_query?: string
+          state?: string | null
           updated_at?: string | null
           verification_method?: string | null
           website_url?: string | null
+          zip_code?: string | null
         }
         Relationships: [
           {
@@ -1092,6 +1134,27 @@ export type Database = {
             columns: ["discovered_by_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_external_leads_import_job_id_fkey"
+            columns: ["import_job_id"]
+            isOneToOne: false
+            referencedRelation: "business_import_jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_external_leads_last_campaign_id_fkey"
+            columns: ["last_campaign_id"]
+            isOneToOne: false
+            referencedRelation: "bulk_invitation_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_external_leads_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "business_import_sources"
             referencedColumns: ["id"]
           },
         ]
@@ -1762,6 +1825,95 @@ export type Database = {
           },
         ]
       }
+      bulk_invitation_campaigns: {
+        Row: {
+          bounced_count: number | null
+          claimed_count: number | null
+          clicked_count: number | null
+          completed_at: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          exclude_previously_invited: boolean | null
+          id: string
+          min_days_between_invites: number | null
+          name: string
+          opened_count: number | null
+          scheduled_at: string | null
+          send_rate_per_hour: number | null
+          sent_count: number | null
+          started_at: string | null
+          status: string | null
+          target_categories: string[] | null
+          target_cities: string[] | null
+          target_criteria: Json | null
+          target_states: string[] | null
+          template_id: string | null
+          total_targets: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          bounced_count?: number | null
+          claimed_count?: number | null
+          clicked_count?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          exclude_previously_invited?: boolean | null
+          id?: string
+          min_days_between_invites?: number | null
+          name: string
+          opened_count?: number | null
+          scheduled_at?: string | null
+          send_rate_per_hour?: number | null
+          sent_count?: number | null
+          started_at?: string | null
+          status?: string | null
+          target_categories?: string[] | null
+          target_cities?: string[] | null
+          target_criteria?: Json | null
+          target_states?: string[] | null
+          template_id?: string | null
+          total_targets?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          bounced_count?: number | null
+          claimed_count?: number | null
+          clicked_count?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          exclude_previously_invited?: boolean | null
+          id?: string
+          min_days_between_invites?: number | null
+          name?: string
+          opened_count?: number | null
+          scheduled_at?: string | null
+          send_rate_per_hour?: number | null
+          sent_count?: number | null
+          started_at?: string | null
+          status?: string | null
+          target_categories?: string[] | null
+          target_cities?: string[] | null
+          target_criteria?: Json | null
+          target_states?: string[] | null
+          template_id?: string | null
+          total_targets?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bulk_invitation_campaigns_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "invitation_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       business_access_log: {
         Row: {
           access_type: string
@@ -2063,6 +2215,122 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      business_import_jobs: {
+        Row: {
+          businesses_found: number | null
+          businesses_imported: number | null
+          completed_at: string | null
+          created_at: string | null
+          duplicates_skipped: number | null
+          error_details: Json | null
+          errors_count: number | null
+          field_mapping: Json | null
+          id: string
+          initiated_by: string
+          job_name: string | null
+          progress_percent: number | null
+          query_params: Json | null
+          source_file_url: string | null
+          source_id: string | null
+          started_at: string | null
+          status: string | null
+        }
+        Insert: {
+          businesses_found?: number | null
+          businesses_imported?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          duplicates_skipped?: number | null
+          error_details?: Json | null
+          errors_count?: number | null
+          field_mapping?: Json | null
+          id?: string
+          initiated_by: string
+          job_name?: string | null
+          progress_percent?: number | null
+          query_params?: Json | null
+          source_file_url?: string | null
+          source_id?: string | null
+          started_at?: string | null
+          status?: string | null
+        }
+        Update: {
+          businesses_found?: number | null
+          businesses_imported?: number | null
+          completed_at?: string | null
+          created_at?: string | null
+          duplicates_skipped?: number | null
+          error_details?: Json | null
+          errors_count?: number | null
+          field_mapping?: Json | null
+          id?: string
+          initiated_by?: string
+          job_name?: string | null
+          progress_percent?: number | null
+          query_params?: Json | null
+          source_file_url?: string | null
+          source_id?: string | null
+          started_at?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "business_import_jobs_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "business_import_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      business_import_sources: {
+        Row: {
+          api_endpoint: string | null
+          api_key_secret_name: string | null
+          created_at: string | null
+          description: string | null
+          field_mapping: Json | null
+          id: string
+          is_active: boolean | null
+          last_import_at: string | null
+          source_name: string
+          source_type: string
+          total_converted: number | null
+          total_imported: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          api_endpoint?: string | null
+          api_key_secret_name?: string | null
+          created_at?: string | null
+          description?: string | null
+          field_mapping?: Json | null
+          id?: string
+          is_active?: boolean | null
+          last_import_at?: string | null
+          source_name: string
+          source_type: string
+          total_converted?: number | null
+          total_imported?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          api_endpoint?: string | null
+          api_key_secret_name?: string | null
+          created_at?: string | null
+          description?: string | null
+          field_mapping?: Json | null
+          id?: string
+          is_active?: boolean | null
+          last_import_at?: string | null
+          source_name?: string
+          source_type?: string
+          total_converted?: number | null
+          total_imported?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       business_insights: {
         Row: {
@@ -4695,6 +4963,57 @@ export type Database = {
         }
         Relationships: []
       }
+      invitation_templates: {
+        Row: {
+          body: string
+          click_count: number | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_active: boolean | null
+          is_default: boolean | null
+          name: string
+          open_count: number | null
+          send_count: number | null
+          subject: string | null
+          template_type: string | null
+          updated_at: string | null
+          variables: Json | null
+        }
+        Insert: {
+          body: string
+          click_count?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          name: string
+          open_count?: number | null
+          send_count?: number | null
+          subject?: string | null
+          template_type?: string | null
+          updated_at?: string | null
+          variables?: Json | null
+        }
+        Update: {
+          body?: string
+          click_count?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_default?: boolean | null
+          name?: string
+          open_count?: number | null
+          send_count?: number | null
+          subject?: string | null
+          template_type?: string | null
+          updated_at?: string | null
+          variables?: Json | null
+        }
+        Relationships: []
+      }
       invoices: {
         Row: {
           amount: number
@@ -5880,6 +6199,72 @@ export type Database = {
         }
         Relationships: []
       }
+      prospect_sequence_enrollments: {
+        Row: {
+          completed_at: string | null
+          current_step: number | null
+          emails_clicked: number | null
+          emails_opened: number | null
+          emails_sent: number | null
+          enrolled_at: string | null
+          enrolled_by: string | null
+          id: string
+          last_sent_at: string | null
+          next_send_at: string | null
+          prospect_id: string
+          sequence_id: string
+          status: string | null
+          stopped_reason: string | null
+        }
+        Insert: {
+          completed_at?: string | null
+          current_step?: number | null
+          emails_clicked?: number | null
+          emails_opened?: number | null
+          emails_sent?: number | null
+          enrolled_at?: string | null
+          enrolled_by?: string | null
+          id?: string
+          last_sent_at?: string | null
+          next_send_at?: string | null
+          prospect_id: string
+          sequence_id: string
+          status?: string | null
+          stopped_reason?: string | null
+        }
+        Update: {
+          completed_at?: string | null
+          current_step?: number | null
+          emails_clicked?: number | null
+          emails_opened?: number | null
+          emails_sent?: number | null
+          enrolled_at?: string | null
+          enrolled_by?: string | null
+          id?: string
+          last_sent_at?: string | null
+          next_send_at?: string | null
+          prospect_id?: string
+          sequence_id?: string
+          status?: string | null
+          stopped_reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prospect_sequence_enrollments_prospect_id_fkey"
+            columns: ["prospect_id"]
+            isOneToOne: false
+            referencedRelation: "sponsor_prospects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prospect_sequence_enrollments_sequence_id_fkey"
+            columns: ["sequence_id"]
+            isOneToOne: false
+            referencedRelation: "sponsor_email_sequences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       qr_code_scans: {
         Row: {
           converted: boolean | null
@@ -6239,6 +6624,122 @@ export type Database = {
           },
         ]
       }
+      referral_campaign_participants: {
+        Row: {
+          campaign_id: string
+          cash_earned: number | null
+          id: string
+          joined_at: string | null
+          last_referral_at: string | null
+          points_earned: number | null
+          rank: number | null
+          referrals_during_campaign: number | null
+          user_id: string
+        }
+        Insert: {
+          campaign_id: string
+          cash_earned?: number | null
+          id?: string
+          joined_at?: string | null
+          last_referral_at?: string | null
+          points_earned?: number | null
+          rank?: number | null
+          referrals_during_campaign?: number | null
+          user_id: string
+        }
+        Update: {
+          campaign_id?: string
+          cash_earned?: number | null
+          id?: string
+          joined_at?: string | null
+          last_referral_at?: string | null
+          points_earned?: number | null
+          rank?: number | null
+          referrals_during_campaign?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_campaign_participants_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "referral_campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referral_campaigns: {
+        Row: {
+          banner_color: string | null
+          banner_image_url: string | null
+          bonus_cash: number | null
+          bonus_multiplier: number | null
+          bonus_points: number | null
+          bonus_type: string | null
+          campaign_type: string
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          end_date: string
+          id: string
+          is_active: boolean | null
+          is_featured: boolean | null
+          max_participants: number | null
+          name: string
+          requirements: Json | null
+          rewards: Json | null
+          start_date: string
+          target_referrals: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          banner_color?: string | null
+          banner_image_url?: string | null
+          bonus_cash?: number | null
+          bonus_multiplier?: number | null
+          bonus_points?: number | null
+          bonus_type?: string | null
+          campaign_type?: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date: string
+          id?: string
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          max_participants?: number | null
+          name: string
+          requirements?: Json | null
+          rewards?: Json | null
+          start_date: string
+          target_referrals?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          banner_color?: string | null
+          banner_image_url?: string | null
+          bonus_cash?: number | null
+          bonus_multiplier?: number | null
+          bonus_points?: number | null
+          bonus_type?: string | null
+          campaign_type?: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          end_date?: string
+          id?: string
+          is_active?: boolean | null
+          is_featured?: boolean | null
+          max_participants?: number | null
+          name?: string
+          requirements?: Json | null
+          rewards?: Json | null
+          start_date?: string
+          target_referrals?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       referral_clicks: {
         Row: {
           clicked_at: string | null
@@ -6282,6 +6783,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      referral_milestones: {
+        Row: {
+          badge_color: string | null
+          badge_icon: string | null
+          badge_name: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          milestone_count: number
+          milestone_name: string
+          reward_cash: number | null
+          reward_points: number | null
+          reward_type: string | null
+        }
+        Insert: {
+          badge_color?: string | null
+          badge_icon?: string | null
+          badge_name?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          milestone_count: number
+          milestone_name: string
+          reward_cash?: number | null
+          reward_points?: number | null
+          reward_type?: string | null
+        }
+        Update: {
+          badge_color?: string | null
+          badge_icon?: string | null
+          badge_name?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          milestone_count?: number
+          milestone_name?: string
+          reward_cash?: number | null
+          reward_points?: number | null
+          reward_type?: string | null
+        }
+        Relationships: []
       }
       referral_rewards: {
         Row: {
@@ -6332,12 +6878,19 @@ export type Database = {
       }
       referral_stats: {
         Row: {
+          badges_earned: string[] | null
+          campaign_wins: number | null
           created_at: string | null
+          current_streak: number | null
           current_tier: string | null
           id: string
+          last_referral_date: string | null
+          longest_streak: number | null
+          milestones_unlocked: number | null
           pending_referrals: number | null
           rank: number | null
           successful_referrals: number | null
+          total_campaigns_joined: number | null
           total_cash_earned: number | null
           total_points_earned: number | null
           total_referrals: number | null
@@ -6345,12 +6898,19 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          badges_earned?: string[] | null
+          campaign_wins?: number | null
           created_at?: string | null
+          current_streak?: number | null
           current_tier?: string | null
           id?: string
+          last_referral_date?: string | null
+          longest_streak?: number | null
+          milestones_unlocked?: number | null
           pending_referrals?: number | null
           rank?: number | null
           successful_referrals?: number | null
+          total_campaigns_joined?: number | null
           total_cash_earned?: number | null
           total_points_earned?: number | null
           total_referrals?: number | null
@@ -6358,15 +6918,61 @@ export type Database = {
           user_id: string
         }
         Update: {
+          badges_earned?: string[] | null
+          campaign_wins?: number | null
           created_at?: string | null
+          current_streak?: number | null
           current_tier?: string | null
           id?: string
+          last_referral_date?: string | null
+          longest_streak?: number | null
+          milestones_unlocked?: number | null
           pending_referrals?: number | null
           rank?: number | null
           successful_referrals?: number | null
+          total_campaigns_joined?: number | null
           total_cash_earned?: number | null
           total_points_earned?: number | null
           total_referrals?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      referral_streaks: {
+        Row: {
+          current_streak: number | null
+          freeze_count: number | null
+          id: string
+          last_referral_date: string | null
+          longest_streak: number | null
+          streak_frozen_until: string | null
+          streak_started_at: string | null
+          total_streak_days: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          current_streak?: number | null
+          freeze_count?: number | null
+          id?: string
+          last_referral_date?: string | null
+          longest_streak?: number | null
+          streak_frozen_until?: string | null
+          streak_started_at?: string | null
+          total_streak_days?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          current_streak?: number | null
+          freeze_count?: number | null
+          id?: string
+          last_referral_date?: string | null
+          longest_streak?: number | null
+          streak_frozen_until?: string | null
+          streak_started_at?: string | null
+          total_streak_days?: number | null
           updated_at?: string | null
           user_id?: string
         }
@@ -7571,6 +8177,102 @@ export type Database = {
           },
         ]
       }
+      sponsor_email_sequences: {
+        Row: {
+          avg_reply_rate: number | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          steps: Json
+          target_industry: string | null
+          target_tier: string | null
+          total_completed: number | null
+          total_converted: number | null
+          total_enrolled: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          avg_reply_rate?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          steps?: Json
+          target_industry?: string | null
+          target_tier?: string | null
+          total_completed?: number | null
+          total_converted?: number | null
+          total_enrolled?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          avg_reply_rate?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          steps?: Json
+          target_industry?: string | null
+          target_tier?: string | null
+          total_completed?: number | null
+          total_converted?: number | null
+          total_enrolled?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      sponsor_email_templates: {
+        Row: {
+          body: string
+          category: string | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          reply_rate: number | null
+          subject: string
+          updated_at: string | null
+          usage_count: number | null
+          variables: Json | null
+        }
+        Insert: {
+          body: string
+          category?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          reply_rate?: number | null
+          subject: string
+          updated_at?: string | null
+          usage_count?: number | null
+          variables?: Json | null
+        }
+        Update: {
+          body?: string
+          category?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          reply_rate?: number | null
+          subject?: string
+          updated_at?: string | null
+          usage_count?: number | null
+          variables?: Json | null
+        }
+        Relationships: []
+      }
       sponsor_impact_metrics: {
         Row: {
           businesses_supported: number | null
@@ -7611,6 +8313,212 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      sponsor_outreach_activities: {
+        Row: {
+          activity_type: string
+          attachments: Json | null
+          body: string | null
+          completed_at: string | null
+          created_at: string | null
+          duration_minutes: number | null
+          email_clicked: boolean | null
+          email_clicked_at: string | null
+          email_message_id: string | null
+          email_opened: boolean | null
+          email_opened_at: string | null
+          id: string
+          is_completed: boolean | null
+          meeting_link: string | null
+          meeting_recording_url: string | null
+          outcome: string | null
+          outcome_notes: string | null
+          performed_by: string | null
+          prospect_id: string
+          scheduled_at: string | null
+          subject: string | null
+        }
+        Insert: {
+          activity_type: string
+          attachments?: Json | null
+          body?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          duration_minutes?: number | null
+          email_clicked?: boolean | null
+          email_clicked_at?: string | null
+          email_message_id?: string | null
+          email_opened?: boolean | null
+          email_opened_at?: string | null
+          id?: string
+          is_completed?: boolean | null
+          meeting_link?: string | null
+          meeting_recording_url?: string | null
+          outcome?: string | null
+          outcome_notes?: string | null
+          performed_by?: string | null
+          prospect_id: string
+          scheduled_at?: string | null
+          subject?: string | null
+        }
+        Update: {
+          activity_type?: string
+          attachments?: Json | null
+          body?: string | null
+          completed_at?: string | null
+          created_at?: string | null
+          duration_minutes?: number | null
+          email_clicked?: boolean | null
+          email_clicked_at?: string | null
+          email_message_id?: string | null
+          email_opened?: boolean | null
+          email_opened_at?: string | null
+          id?: string
+          is_completed?: boolean | null
+          meeting_link?: string | null
+          meeting_recording_url?: string | null
+          outcome?: string | null
+          outcome_notes?: string | null
+          performed_by?: string | null
+          prospect_id?: string
+          scheduled_at?: string | null
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sponsor_outreach_activities_prospect_id_fkey"
+            columns: ["prospect_id"]
+            isOneToOne: false
+            referencedRelation: "sponsor_prospects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sponsor_prospects: {
+        Row: {
+          annual_revenue: string | null
+          assigned_to: string | null
+          company_name: string
+          company_size: string | null
+          created_at: string | null
+          created_by: string | null
+          custom_fields: Json | null
+          deal_currency: string | null
+          deal_value: number | null
+          employee_count: string | null
+          expected_close_date: string | null
+          expected_tier: string | null
+          follow_up_notes: string | null
+          headquarters_city: string | null
+          headquarters_state: string | null
+          id: string
+          industry: string | null
+          last_contact_at: string | null
+          linkedin_url: string | null
+          lost_reason: string | null
+          next_follow_up: string | null
+          notes: string | null
+          pipeline_stage: string | null
+          primary_contact_email: string | null
+          primary_contact_linkedin: string | null
+          primary_contact_name: string | null
+          primary_contact_phone: string | null
+          primary_contact_title: string | null
+          priority: string | null
+          probability: number | null
+          secondary_contacts: Json | null
+          source: string | null
+          source_details: string | null
+          stage_changed_at: string | null
+          tags: string[] | null
+          twitter_url: string | null
+          updated_at: string | null
+          website: string | null
+          weighted_value: number | null
+        }
+        Insert: {
+          annual_revenue?: string | null
+          assigned_to?: string | null
+          company_name: string
+          company_size?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          custom_fields?: Json | null
+          deal_currency?: string | null
+          deal_value?: number | null
+          employee_count?: string | null
+          expected_close_date?: string | null
+          expected_tier?: string | null
+          follow_up_notes?: string | null
+          headquarters_city?: string | null
+          headquarters_state?: string | null
+          id?: string
+          industry?: string | null
+          last_contact_at?: string | null
+          linkedin_url?: string | null
+          lost_reason?: string | null
+          next_follow_up?: string | null
+          notes?: string | null
+          pipeline_stage?: string | null
+          primary_contact_email?: string | null
+          primary_contact_linkedin?: string | null
+          primary_contact_name?: string | null
+          primary_contact_phone?: string | null
+          primary_contact_title?: string | null
+          priority?: string | null
+          probability?: number | null
+          secondary_contacts?: Json | null
+          source?: string | null
+          source_details?: string | null
+          stage_changed_at?: string | null
+          tags?: string[] | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          website?: string | null
+          weighted_value?: number | null
+        }
+        Update: {
+          annual_revenue?: string | null
+          assigned_to?: string | null
+          company_name?: string
+          company_size?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          custom_fields?: Json | null
+          deal_currency?: string | null
+          deal_value?: number | null
+          employee_count?: string | null
+          expected_close_date?: string | null
+          expected_tier?: string | null
+          follow_up_notes?: string | null
+          headquarters_city?: string | null
+          headquarters_state?: string | null
+          id?: string
+          industry?: string | null
+          last_contact_at?: string | null
+          linkedin_url?: string | null
+          lost_reason?: string | null
+          next_follow_up?: string | null
+          notes?: string | null
+          pipeline_stage?: string | null
+          primary_contact_email?: string | null
+          primary_contact_linkedin?: string | null
+          primary_contact_name?: string | null
+          primary_contact_phone?: string | null
+          primary_contact_title?: string | null
+          priority?: string | null
+          probability?: number | null
+          secondary_contacts?: Json | null
+          source?: string | null
+          source_details?: string | null
+          stage_changed_at?: string | null
+          tags?: string[] | null
+          twitter_url?: string | null
+          updated_at?: string | null
+          website?: string | null
+          weighted_value?: number | null
+        }
+        Relationships: []
       }
       sponsor_reminders: {
         Row: {
@@ -8281,6 +9189,41 @@ export type Database = {
           },
         ]
       }
+      user_milestone_progress: {
+        Row: {
+          claimed_at: string | null
+          id: string
+          milestone_id: string
+          reward_claimed: boolean | null
+          unlocked_at: string | null
+          user_id: string
+        }
+        Insert: {
+          claimed_at?: string | null
+          id?: string
+          milestone_id: string
+          reward_claimed?: boolean | null
+          unlocked_at?: string | null
+          user_id: string
+        }
+        Update: {
+          claimed_at?: string | null
+          id?: string
+          milestone_id?: string
+          reward_claimed?: boolean | null
+          unlocked_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_milestone_progress_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "referral_milestones"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_onboarding: {
         Row: {
           completed_at: string | null
@@ -8795,6 +9738,22 @@ export type Database = {
         Args: { p_business_id: string }
         Returns: string
       }
+      get_active_campaigns: {
+        Args: never
+        Returns: {
+          bonus_multiplier: number
+          campaign_type: string
+          description: string
+          end_date: string
+          id: string
+          is_joined: boolean
+          my_rank: number
+          my_referrals: number
+          name: string
+          participant_count: number
+          start_date: string
+        }[]
+      }
       get_active_referral_codes: {
         Args: never
         Returns: {
@@ -9023,6 +9982,17 @@ export type Database = {
           verified_by: string
         }[]
       }
+      get_campaign_leaderboard: {
+        Args: { p_campaign_id: string; p_limit?: number }
+        Returns: {
+          is_current_user: boolean
+          points: number
+          rank: number
+          referrals: number
+          user_id: string
+          user_name: string
+        }[]
+      }
       get_coalition_stats: { Args: never; Returns: Json }
       get_community_impact_summary: { Args: never; Returns: Json }
       get_community_wealth_metrics: { Args: never; Returns: Json }
@@ -9242,6 +10212,15 @@ export type Database = {
         }[]
       }
       get_security_metrics: { Args: never; Returns: Json }
+      get_sponsor_pipeline_summary: {
+        Args: never
+        Returns: {
+          count: number
+          stage: string
+          total_value: number
+          weighted_value: number
+        }[]
+      }
       get_test_questions_for_user: {
         Args: never
         Returns: {
@@ -9256,6 +10235,24 @@ export type Database = {
       }
       get_tier_multiplier: { Args: { tier: string }; Returns: number }
       get_user_hbcu_status: { Args: { target_user_id?: string }; Returns: Json }
+      get_user_milestone_progress: {
+        Args: never
+        Returns: {
+          badge_color: string
+          badge_icon: string
+          badge_name: string
+          description: string
+          is_unlocked: boolean
+          milestone_count: number
+          milestone_id: string
+          milestone_name: string
+          progress_percent: number
+          reward_cash: number
+          reward_claimed: boolean
+          reward_points: number
+          unlocked_at: string
+        }[]
+      }
       get_user_role: {
         Args: { user_id_param: string }
         Returns: Database["public"]["Enums"]["app_role"]
