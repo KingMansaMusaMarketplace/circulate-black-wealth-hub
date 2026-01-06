@@ -90,17 +90,35 @@ export const useSocialProof = () => {
       // Fetch testimonials
       const { data: testimonialData } = await supabase
         .from('testimonials')
-        .select(`
-          *,
-          profiles!testimonials_user_id_fkey(full_name, avatar_url),
-          businesses(business_name)
-        `)
+        .select('*')
         .eq('is_approved', true)
         .order('is_featured', { ascending: false })
         .order('created_at', { ascending: false })
         .limit(12);
+      
+      // Fetch profiles and businesses separately for testimonials
+      const userIds = [...new Set((testimonialData || []).map(t => t.user_id).filter(Boolean))];
+      const businessIds = [...new Set((testimonialData || []).map(t => t.business_id).filter(Boolean))];
+      
+      const [profilesResult, businessesResult] = await Promise.all([
+        userIds.length > 0 
+          ? supabase.from('profiles').select('id, full_name, avatar_url').in('id', userIds)
+          : Promise.resolve({ data: [] }),
+        businessIds.length > 0
+          ? supabase.from('businesses').select('id, business_name').in('id', businessIds)
+          : Promise.resolve({ data: [] })
+      ]);
+      
+      const profilesMap = new Map((profilesResult.data || []).map(p => [p.id, p]));
+      const businessesMap = new Map((businessesResult.data || []).map(b => [b.id, b]));
+      
+      const enrichedTestimonials = (testimonialData || []).map(t => ({
+        ...t,
+        profiles: profilesMap.get(t.user_id) || null,
+        businesses: businessesMap.get(t.business_id) || null
+      }));
 
-      setTestimonials(testimonialData || []);
+      setTestimonials(enrichedTestimonials);
 
     } catch (error) {
       console.error('Error fetching social proof data:', error);

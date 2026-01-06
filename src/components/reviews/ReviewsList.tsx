@@ -15,15 +15,30 @@ export function ReviewsList({ businessId }: ReviewsListProps) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('reviews')
-        .select(`
-          *,
-          profiles:customer_id(full_name)
-        `)
+        .select('*')
         .eq('business_id', businessId)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return data;
+      
+      // Fetch profiles separately
+      const customerIds = [...new Set((data || []).map(r => r.customer_id).filter(Boolean))];
+      let profilesData: any[] = [];
+      
+      if (customerIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .in('id', customerIds);
+        profilesData = profiles || [];
+      }
+      
+      const profilesMap = new Map(profilesData.map(p => [p.id, p]));
+      
+      return (data || []).map(r => ({
+        ...r,
+        profiles: profilesMap.get(r.customer_id) || null
+      }));
     },
   });
 

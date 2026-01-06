@@ -48,18 +48,31 @@ export const useGamification = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('leaderboard')
-        .select(`
-          *,
-          profiles!leaderboard_user_id_fkey (
-            full_name
-          )
-        `)
+        .select('*')
         .eq('period', 'weekly')
         .order('rank', { ascending: true })
         .limit(10);
 
       if (error) throw error;
-      return data || [];
+      
+      // Fetch profiles separately
+      const userIds = [...new Set((data || []).map(l => l.user_id).filter(Boolean))];
+      let profilesData: any[] = [];
+      
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .in('id', userIds);
+        profilesData = profiles || [];
+      }
+      
+      const profilesMap = new Map(profilesData.map(p => [p.id, p]));
+      
+      return (data || []).map(l => ({
+        ...l,
+        profiles: profilesMap.get(l.user_id) || null
+      }));
     },
     staleTime: 30000, // Consider data fresh for 30 seconds
     retry: 2, // Retry failed requests twice

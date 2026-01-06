@@ -50,11 +50,7 @@ const ActivityMonitor: React.FC = () => {
     try {
       let query = supabase
         .from('activity_log')
-        .select(`
-          *,
-          profiles:user_id(full_name, email),
-          businesses:business_id(business_name)
-        `)
+        .select('*')
         .order('created_at', { ascending: false })
         .limit(100);
 
@@ -65,7 +61,30 @@ const ActivityMonitor: React.FC = () => {
       const { data, error } = await query;
 
       if (error) throw error;
-      setActivities(data || []);
+      
+      // Fetch profiles and businesses separately
+      const userIds = [...new Set((data || []).map(a => a.user_id).filter(Boolean))];
+      const businessIds = [...new Set((data || []).map(a => a.business_id).filter(Boolean))];
+      
+      const [profilesResult, businessesResult] = await Promise.all([
+        userIds.length > 0 
+          ? supabase.from('profiles').select('id, full_name, email').in('id', userIds)
+          : Promise.resolve({ data: [] }),
+        businessIds.length > 0
+          ? supabase.from('businesses').select('id, business_name').in('id', businessIds)
+          : Promise.resolve({ data: [] })
+      ]);
+      
+      const profilesMap = new Map((profilesResult.data || []).map(p => [p.id, p]));
+      const businessesMap = new Map((businessesResult.data || []).map(b => [b.id, b]));
+      
+      const enrichedData = (data || []).map(a => ({
+        ...a,
+        profiles: profilesMap.get(a.user_id) || null,
+        businesses: businessesMap.get(a.business_id) || null
+      }));
+      
+      setActivities(enrichedData);
 
       // Calculate stats
       const today = new Date().toISOString().split('T')[0];
@@ -109,24 +128,36 @@ const ActivityMonitor: React.FC = () => {
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'activity_log' },
         async (payload) => {
-          // Fetch the new activity with joins
+          // Fetch the new activity
           const { data } = await supabase
             .from('activity_log')
-            .select(`
-              *,
-              profiles:user_id(full_name, email),
-              businesses:business_id(business_name)
-            `)
+            .select('*')
             .eq('id', payload.new.id)
             .single();
 
           if (data) {
-            setActivities(prev => [data, ...prev.slice(0, 99)]);
+            // Fetch profile and business separately
+            const [profileResult, businessResult] = await Promise.all([
+              data.user_id 
+                ? supabase.from('profiles').select('id, full_name, email').eq('id', data.user_id).single()
+                : Promise.resolve({ data: null }),
+              data.business_id
+                ? supabase.from('businesses').select('id, business_name').eq('id', data.business_id).single()
+                : Promise.resolve({ data: null })
+            ]);
+            
+            const enrichedData = {
+              ...data,
+              profiles: profileResult.data || null,
+              businesses: businessResult.data || null
+            };
+            
+            setActivities(prev => [enrichedData, ...prev.slice(0, 99)]);
             
             // Show toast for security alerts
             if (data.activity_type === 'security_alert') {
               toast.warning('Security Alert', {
-                description: `${data.profiles?.full_name || 'Unknown'}: ${(data.activity_data as Record<string, unknown>)?.message || 'New security event'}`,
+                description: `${profileResult.data?.full_name || 'Unknown'}: ${(data.activity_data as Record<string, unknown>)?.message || 'New security event'}`,
               });
             }
           }

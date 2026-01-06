@@ -83,12 +83,22 @@ const LoyaltyManagement: React.FC = () => {
   const fetchLoyaltyData = async () => {
     setLoading(true);
     try {
-      // Fetch loyalty points data - join with profiles using customer_id
+      // Fetch loyalty points data
       const { data: pointsData, error: pointsError } = await supabase
         .from('loyalty_points')
-        .select('*, profiles:customer_id(email, full_name)');
+        .select('*');
 
       if (pointsError) throw pointsError;
+
+      // Get unique customer IDs and fetch their profiles
+      const customerIds = [...new Set(pointsData?.map(p => p.customer_id).filter(Boolean))];
+      
+      const { data: profilesData } = await supabase
+        .from('profiles')
+        .select('id, email, full_name')
+        .in('id', customerIds.length > 0 ? customerIds : ['none']);
+
+      const profilesMap = new Map(profilesData?.map(p => [p.id, p]) || []);
 
       // Calculate stats by aggregating per user
       const userPointsMap = new Map<string, { 
@@ -100,6 +110,7 @@ const LoyaltyManagement: React.FC = () => {
 
       pointsData?.forEach((record: any) => {
         const customerId = record.customer_id;
+        const profile = profilesMap.get(customerId);
         const existing = userPointsMap.get(customerId);
         
         if (existing) {
@@ -107,8 +118,8 @@ const LoyaltyManagement: React.FC = () => {
         } else {
           userPointsMap.set(customerId, {
             points: record.points || 0,
-            email: record.profiles?.email || 'Unknown',
-            full_name: record.profiles?.full_name || 'Unknown User',
+            email: profile?.email || 'Unknown',
+            full_name: profile?.full_name || 'Unknown User',
             created_at: record.created_at
           });
         }
@@ -185,18 +196,34 @@ const LoyaltyManagement: React.FC = () => {
       // Fetch recent activity
       const { data: activityData } = await supabase
         .from('activity_log')
-        .select('*, profiles:user_id(email), businesses(business_name)')
+        .select('*')
         .in('activity_type', ['points_earned', 'points_redeemed', 'reward_claimed', 'qr_scan'])
         .order('created_at', { ascending: false })
         .limit(20);
+        
+      // Fetch profiles and businesses for activities
+      const actUserIds = [...new Set((activityData || []).map(a => a.user_id).filter(Boolean))];
+      const actBusinessIds = [...new Set((activityData || []).map(a => a.business_id).filter(Boolean))];
+      
+      const [actProfilesResult, actBusinessesResult] = await Promise.all([
+        actUserIds.length > 0 
+          ? supabase.from('profiles').select('id, email').in('id', actUserIds)
+          : Promise.resolve({ data: [] }),
+        actBusinessIds.length > 0
+          ? supabase.from('businesses').select('id, business_name').in('id', actBusinessIds)
+          : Promise.resolve({ data: [] })
+      ]);
+      
+      const actProfilesMap = new Map((actProfilesResult.data || []).map(p => [p.id, p]));
+      const actBusinessesMap = new Map((actBusinessesResult.data || []).map(b => [b.id, b]));
 
       const formattedActivities: RecentActivity[] = (activityData || []).map((a: any) => ({
         id: a.id,
-        user_email: a.profiles?.email || 'Unknown',
+        user_email: actProfilesMap.get(a.user_id)?.email || 'Unknown',
         activity_type: a.activity_type,
         points_involved: a.points_involved || 0,
         created_at: a.created_at,
-        business_name: a.businesses?.business_name,
+        business_name: actBusinessesMap.get(a.business_id)?.business_name,
       }));
 
       setStats({

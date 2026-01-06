@@ -51,15 +51,34 @@ const AccountSuspensionManager: React.FC = () => {
     try {
       const { data, error } = await supabase
         .from('account_suspensions')
-        .select(`
-          *,
-          profiles:user_id(full_name, email),
-          businesses:business_id(business_name)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setSuspensions(data || []);
+      
+      // Fetch profiles and businesses separately
+      const userIds = [...new Set((data || []).map(s => s.user_id).filter(Boolean))];
+      const businessIds = [...new Set((data || []).map(s => s.business_id).filter(Boolean))];
+      
+      const [profilesResult, businessesResult] = await Promise.all([
+        userIds.length > 0 
+          ? supabase.from('profiles').select('id, full_name, email').in('id', userIds)
+          : Promise.resolve({ data: [] }),
+        businessIds.length > 0
+          ? supabase.from('businesses').select('id, business_name').in('id', businessIds)
+          : Promise.resolve({ data: [] })
+      ]);
+      
+      const profilesMap = new Map((profilesResult.data || []).map(p => [p.id, p]));
+      const businessesMap = new Map((businessesResult.data || []).map(b => [b.id, b]));
+      
+      const enrichedData = (data || []).map(s => ({
+        ...s,
+        profiles: profilesMap.get(s.user_id) || null,
+        businesses: businessesMap.get(s.business_id) || null
+      }));
+      
+      setSuspensions(enrichedData);
     } catch (error) {
       console.error('Error fetching suspensions:', error);
       toast.error('Failed to load suspensions');

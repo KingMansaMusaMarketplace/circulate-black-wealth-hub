@@ -40,11 +40,7 @@ export const getRoleChangeAudit = async () => {
   try {
     const { data, error } = await supabase
       .from('role_change_audit')
-      .select(`
-        *,
-        profiles!role_change_audit_user_id_fkey(full_name, email),
-        changed_by_profile:profiles!role_change_audit_changed_by_fkey(full_name, email)
-      `)
+      .select('*')
       .order('changed_at', { ascending: false })
       .limit(100);
 
@@ -52,8 +48,30 @@ export const getRoleChangeAudit = async () => {
       console.error('Failed to fetch role change audit:', error);
       return { data: [], error };
     }
+    
+    // Fetch profiles separately for both user_id and changed_by
+    const userIds = [...new Set((data || []).map(r => r.user_id).filter(Boolean))];
+    const changedByIds = [...new Set((data || []).map(r => r.changed_by).filter(Boolean))];
+    const allIds = [...new Set([...userIds, ...changedByIds])];
+    
+    let profilesData: any[] = [];
+    if (allIds.length > 0) {
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('id, full_name, email')
+        .in('id', allIds);
+      profilesData = profiles || [];
+    }
+    
+    const profilesMap = new Map(profilesData.map(p => [p.id, p]));
+    
+    const enrichedData = (data || []).map(r => ({
+      ...r,
+      profiles: profilesMap.get(r.user_id) || null,
+      changed_by_profile: profilesMap.get(r.changed_by) || null
+    }));
 
-    return { data: data || [], error: null };
+    return { data: enrichedData, error: null };
   } catch (error) {
     console.error('Role change audit error:', error);
     return { data: [], error };

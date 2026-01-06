@@ -66,15 +66,35 @@ const UserManagement: React.FC = () => {
       };
       setUserStats(stats);
 
-      // Load deletion requests
+      // Load deletion requests (fetch profiles separately since no FK relationship)
       const { data: requestsData, error: requestsError } = await supabase
         .from('account_deletion_requests')
-        .select('*, profiles(email, full_name)')
+        .select('*')
         .eq('status', 'pending')
         .order('requested_at', { ascending: false });
 
       if (requestsError) throw requestsError;
-      setDeletionRequests(requestsData || []);
+
+      // Fetch associated profiles for deletion requests
+      const userIds = requestsData?.map(r => r.user_id).filter(Boolean) || [];
+      let profilesForRequests: any[] = [];
+      
+      if (userIds.length > 0) {
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('id, email, full_name')
+          .in('id', userIds);
+        profilesForRequests = profilesData || [];
+      }
+      
+      const profilesMap = new Map(profilesForRequests.map(p => [p.id, p]));
+      
+      const enrichedRequests = requestsData?.map(r => ({
+        ...r,
+        profiles: profilesMap.get(r.user_id) || null
+      })) || [];
+      
+      setDeletionRequests(enrichedRequests);
     } catch (error: any) {
       toast.error('Failed to load data: ' + error.message);
     } finally {

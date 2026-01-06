@@ -35,18 +35,25 @@ const AIFraudDetection: React.FC = () => {
     try {
       const { data, error } = await supabase
         .from('activity_log')
-        .select(`
-          id,
-          user_id,
-          activity_type,
-          activity_data,
-          created_at,
-          profiles:user_id(full_name)
-        `)
+        .select('id, user_id, activity_type, activity_data, created_at')
         .order('created_at', { ascending: false })
         .limit(50);
 
       if (error) throw error;
+      
+      // Fetch profiles separately
+      const userIds = [...new Set((data || []).map(a => a.user_id).filter(Boolean))];
+      let profilesData: any[] = [];
+      
+      if (userIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .in('id', userIds);
+        profilesData = profiles || [];
+      }
+      
+      const profilesMap = new Map(profilesData.map(p => [p.id, p]));
 
       setActivities((data || []).map(a => ({
         id: a.id,
@@ -54,7 +61,7 @@ const AIFraudDetection: React.FC = () => {
         activity_type: a.activity_type,
         activity_data: a.activity_data as Record<string, unknown> || {},
         created_at: a.created_at,
-        user_name: (a.profiles as unknown as { full_name: string } | null)?.full_name,
+        user_name: profilesMap.get(a.user_id)?.full_name,
       })));
     } catch (error) {
       console.error('Error fetching activities:', error);
