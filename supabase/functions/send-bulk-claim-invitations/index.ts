@@ -149,8 +149,9 @@ const handler = async (req: Request): Promise<Response> => {
         sentCount++;
         console.log(`[send-bulk-claim-invitations] Sent to ${lead.owner_email}`);
 
-        // Rate limiting - small delay between sends
-        await new Promise(resolve => setTimeout(resolve, 100));
+        // Rate limiting - Resend free tier allows 2 requests/second
+        // Using 600ms delay to stay safely under limit
+        await new Promise(resolve => setTimeout(resolve, 600));
 
       } catch (error) {
         console.error(`Error processing lead ${lead.id}:`, error);
