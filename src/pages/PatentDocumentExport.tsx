@@ -9,6 +9,7 @@ import { jsPDF } from 'jspdf';
 const PatentDocumentExport = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
+  const [showMarkdown, setShowMarkdown] = useState(false);
 
   const generatePDF = async () => {
     setIsGenerating(true);
@@ -233,14 +234,10 @@ const PatentDocumentExport = () => {
                 variant="outline"
                 size="lg"
                 className="gap-2"
-                onClick={() => window.open('https://github.com/user/repo/blob/main/docs/USPTO_PROVISIONAL_PATENT_APPLICATION_COMPREHENSIVE.md', '_blank')}
-                asChild
+                onClick={() => setShowMarkdown(!showMarkdown)}
               >
-                <a href="/docs/USPTO_PROVISIONAL_PATENT_APPLICATION_COMPREHENSIVE.md" target="_blank" rel="noopener noreferrer">
-                  <FileText className="h-5 w-5" />
-                  View Full Technical Document
-                  <ExternalLink className="h-4 w-4" />
-                </a>
+                <FileText className="h-5 w-5" />
+                {showMarkdown ? 'Hide' : 'View'} Full Technical Document
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-4">
@@ -248,6 +245,139 @@ const PatentDocumentExport = () => {
             </p>
           </CardContent>
         </Card>
+
+        {showMarkdown && (
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle className="text-lg">Full Technical Implementation Document</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-muted/50 rounded-lg p-6 max-h-[600px] overflow-y-auto">
+                <pre className="whitespace-pre-wrap text-sm font-mono leading-relaxed">
+{`# USPTO PROVISIONAL PATENT APPLICATION - COMPREHENSIVE TECHNICAL SPECIFICATION
+
+## System and Method for a Multi-Tenant Vertical Marketplace Operating System
+
+**Application Type:** Provisional Patent Application
+**Filing Date:** [To be completed upon filing]
+**Applicant/Inventor:** [Your Name]
+
+---
+
+## CLAIM 1: TEMPORAL FOUNDING MEMBER STATUS SYSTEM
+
+### Technical Implementation
+
+\`\`\`sql
+CREATE OR REPLACE FUNCTION public.set_founding_member_status()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.created_at <= '2027-01-31 23:59:59+00'::timestamptz THEN
+    NEW.is_founding_member := TRUE;
+    NEW.founding_member_since := NEW.created_at;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+\`\`\`
+
+---
+
+## CLAIM 2: ECONOMIC CIRCULATION MULTIPLIER (2.3x)
+
+### Implementation
+\`\`\`typescript
+const CIRCULATION_MULTIPLIER = 2.3;
+
+export function calculateCommunityImpact(transactionAmount: number): number {
+  return transactionAmount * CIRCULATION_MULTIPLIER;
+}
+\`\`\`
+
+---
+
+## CLAIM 3: CROSS-BUSINESS COALITION LOYALTY NETWORK
+
+### Tier Multipliers
+- Bronze: 1.0x (0-999 lifetime points)
+- Silver: 1.25x (1,000-4,999 points)  
+- Gold: 1.5x (5,000-19,999 points)
+- Platinum: 2.0x (20,000+ points)
+
+---
+
+## CLAIM 4: GEOSPATIAL VELOCITY FRAUD DETECTION
+
+### Detection Categories
+- velocity_abuse: Impossible travel detection
+- location_mismatch: GPS spoofing detection
+- qr_scan_abuse: Rapid scan pattern detection
+- transaction_anomaly: Unusual spending patterns
+- account_suspicious: Multiple account indicators
+
+---
+
+## CLAIM 5: AI-POWERED B2B MATCHING ENGINE
+
+### Scoring Weights
+- Category Match: 30 points
+- Same City: 20 points
+- Service Area Overlap: 15 points
+- Budget Compatibility: 15 points
+- Rating Bonus: 10 points
+- Lead Time Match: 10 points
+
+---
+
+## CLAIM 6: VOICE-ENABLED CONCIERGE SYSTEM
+
+OpenAI Realtime API integration with WebSocket connections for natural language business discovery.
+
+---
+
+## CLAIM 7: MULTI-TIER SALES AGENT COMMISSION NETWORK
+
+- Base Commission: 10%
+- Team Override: 2.5%
+- Recruitment Bonus: $50
+
+---
+
+## CLAIM 8: GAMIFICATION SYSTEM
+
+Achievements, streaks, leaderboards (daily/weekly/monthly/all-time), and group challenges.
+
+---
+
+## CLAIM 9: QR-CODE TRANSACTION ENGINE
+
+- Platform Commission: 7.5%
+- Points Per Dollar: 10 points
+- Stripe Connect Integration
+
+---
+
+## CLAIM 10: AI PERSONALIZED RECOMMENDATIONS
+
+Google Gemini 2.5 Flash integration for personalized business suggestions.
+
+---
+
+## ADDITIONAL PROTECTED SYSTEMS
+
+- CLAIM 11: Susu Savings Circles
+- CLAIM 12: HBCU Student Verification
+- CLAIM 13: AI Business Lead Generation
+
+---
+
+© 2024-2025 All Rights Reserved.
+Full source code implementation in codebase.`}
+                </pre>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Hidden content for PDF generation */}
         <div id="patent-content" className="bg-white text-black p-8" style={{ fontFamily: 'Times New Roman, serif', fontSize: '12pt', lineHeight: '1.6' }}>
