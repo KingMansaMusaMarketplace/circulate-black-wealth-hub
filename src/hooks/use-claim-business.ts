@@ -4,17 +4,19 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
+// Public-safe external lead interface (excludes PII fields)
 export interface ExternalLead {
   id: string;
   business_name: string;
   business_description: string | null;
   category: string | null;
+  city: string | null;
+  state: string | null;
   location: string | null;
   website_url: string | null;
-  contact_info: any;
-  claim_status: 'unclaimed' | 'pending' | 'verified' | 'rejected';
-  claimed_by_user_id: string | null;
   confidence_score: number | null;
+  data_quality_score: number | null;
+  is_converted: boolean | null;
   created_at: string;
 }
 
@@ -23,16 +25,13 @@ export const useClaimBusiness = () => {
   const queryClient = useQueryClient();
   const [claimingId, setClaimingId] = useState<string | null>(null);
 
-  // Fetch all visible external leads for directory display
+  // Fetch all visible external leads for directory display using public-safe view
   const { data: externalLeads, isLoading: leadsLoading } = useQuery({
     queryKey: ['external-leads-directory'],
     queryFn: async () => {
+      // Use RPC function to get public-safe lead data (excludes PII)
       const { data, error } = await supabase
-        .from('b2b_external_leads')
-        .select('*')
-        .eq('is_visible_in_directory', true)
-        .order('created_at', { ascending: false })
-        .limit(50);
+        .rpc('get_public_external_leads', { p_limit: 50 });
 
       if (error) throw error;
       return (data || []) as ExternalLead[];

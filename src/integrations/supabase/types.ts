@@ -4136,6 +4136,13 @@ export type Database = {
             referencedRelation: "b2b_external_leads"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "email_events_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_external_leads_public"
+            referencedColumns: ["id"]
+          },
         ]
       }
       email_notifications: {
@@ -9480,6 +9487,57 @@ export type Database = {
       }
     }
     Views: {
+      b2b_external_leads_public: {
+        Row: {
+          business_description: string | null
+          business_name: string | null
+          category: string | null
+          city: string | null
+          confidence_score: number | null
+          created_at: string | null
+          data_quality_score: number | null
+          id: string | null
+          is_converted: boolean | null
+          is_visible_in_directory: boolean | null
+          location: string | null
+          state: string | null
+          website_url: string | null
+          zip_code: string | null
+        }
+        Insert: {
+          business_description?: string | null
+          business_name?: string | null
+          category?: string | null
+          city?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          data_quality_score?: number | null
+          id?: string | null
+          is_converted?: boolean | null
+          is_visible_in_directory?: boolean | null
+          location?: string | null
+          state?: string | null
+          website_url?: string | null
+          zip_code?: string | null
+        }
+        Update: {
+          business_description?: string | null
+          business_name?: string | null
+          category?: string | null
+          city?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          data_quality_score?: number | null
+          id?: string | null
+          is_converted?: boolean | null
+          is_visible_in_directory?: boolean | null
+          location?: string | null
+          state?: string | null
+          website_url?: string | null
+          zip_code?: string | null
+        }
+        Relationships: []
+      }
       businesses_full_details: {
         Row: {
           address: string | null
@@ -10167,6 +10225,23 @@ export type Database = {
           state: string
           website: string
           zip_code: string
+        }[]
+      }
+      get_public_external_leads: {
+        Args: { p_limit?: number }
+        Returns: {
+          business_description: string
+          business_name: string
+          category: string
+          city: string
+          confidence_score: number
+          created_at: string
+          data_quality_score: number
+          id: string
+          is_converted: boolean
+          location: string
+          state: string
+          website_url: string
         }[]
       }
       get_public_profile_info: {

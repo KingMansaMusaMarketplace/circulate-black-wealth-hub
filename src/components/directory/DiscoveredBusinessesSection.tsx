@@ -55,9 +55,9 @@ export const DiscoveredBusinessesSection: React.FC = () => {
     return null; // Don't show section if no discovered businesses
   }
 
-  const claimedCount = externalLeads.filter(l => l.claim_status === 'verified').length;
-  const pendingCount = externalLeads.filter(l => l.claim_status === 'pending').length;
-  const unclaimedCount = externalLeads.filter(l => l.claim_status === 'unclaimed').length;
+  // Public view doesn't expose claim_status for privacy - show aggregate counts
+  const convertedCount = externalLeads.filter(l => l.is_converted).length;
+  const discoverableCount = externalLeads.filter(l => !l.is_converted).length;
 
   return (
     <>
@@ -113,15 +113,11 @@ export const DiscoveredBusinessesSection: React.FC = () => {
           <div className="flex items-center gap-4 mt-4 pt-4 border-t border-slate-700/50">
             <div className="flex items-center gap-2">
               <div className="h-2 w-2 rounded-full bg-emerald-500" />
-              <span className="text-sm text-slate-400">{claimedCount} Verified</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-2 w-2 rounded-full bg-amber-500" />
-              <span className="text-sm text-slate-400">{pendingCount} Pending</span>
+              <span className="text-sm text-slate-400">{convertedCount} Joined</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="h-2 w-2 rounded-full bg-purple-500" />
-              <span className="text-sm text-slate-400">{unclaimedCount} Awaiting Claim</span>
+              <span className="text-sm text-slate-400">{discoverableCount} Discoverable</span>
             </div>
             <div className="flex-1" />
             <div className="flex items-center gap-1 text-sm text-emerald-400">
