@@ -68,14 +68,39 @@ export const LeadValidation: React.FC<LeadValidationProps> = ({ onClose }) => {
 
   const handleValidateAll = async () => {
     setIsValidating(true);
-    setValidationProgress(0);
+    setValidationProgress(10);
+    toast.info('Starting validation... This may take a minute.');
 
     try {
-      const { data, error } = await supabase.functions.invoke('validate-business-leads', {
-        body: { validate_all: true },
+      setValidationProgress(30);
+
+      // Direct fetch with longer timeout (2 minutes) to avoid client's 15s default
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+      
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000); // 2 minute timeout
+
+      const response = await fetch(`${supabaseUrl}/functions/v1/validate-business-leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseKey}`,
+          'apikey': supabaseKey,
+        },
+        body: JSON.stringify({ validate_all: true }),
+        signal: controller.signal,
       });
 
-      if (error) throw error;
+      clearTimeout(timeoutId);
+      setValidationProgress(90);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Validation failed: ${errorText}`);
+      }
+
+      const data = await response.json();
 
       if (data.validated > 0) {
         toast.success(`Validated ${data.validated} leads successfully!`);
@@ -85,9 +110,13 @@ export const LeadValidation: React.FC<LeadValidationProps> = ({ onClose }) => {
 
       await refetch();
       queryClient.invalidateQueries({ queryKey: ['external-leads'] });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Validation error:', error);
-      toast.error('Failed to validate leads');
+      if (error?.name === 'AbortError') {
+        toast.error('Validation timed out. Please try again or refresh.');
+      } else {
+        toast.error(`Failed to validate leads: ${error.message}`);
+      }
     } finally {
       setIsValidating(false);
       setValidationProgress(100);
