@@ -577,6 +577,9 @@ function App() {
 <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
                         <Route path="/admin/sponsors/:id" element={<LazyAdminSponsorDetailPage />} />
                         <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
+                        <Route path="/admin/business-import" element={<LazyAdminBusinessImport />} />
+                        <Route path="/admin/sponsor-crm" element={<LazyAdminSponsorCRM />} />
+                        <Route path="/admin/emails" element={<LazyAdminEmailAnalyticsPage />} />
                         <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
                         <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         <Route path="/apple-compliance" element={<LazyAppleComplianceTestPage />} />
