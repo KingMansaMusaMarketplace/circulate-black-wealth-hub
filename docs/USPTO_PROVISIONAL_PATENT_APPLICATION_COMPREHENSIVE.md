@@ -764,10 +764,12 @@ async function detectFraud(supabase: any): Promise<FraudAlert[]> {
 
 CRITICAL FRAUD PATTERNS TO DETECT:
 
-1. **QR Scan Abuse**: Same user scanning multiple locations impossibly fast
-   - Calculate implied travel speed = distance / time_delta
-   - Flag if speed exceeds 100 mph between sequential scans
-   - Detect coordinated scanning from multiple accounts at same location
+1. **QR Scan Abuse / Impossible Travel Detection**: Same user scanning multiple locations impossibly fast
+   - Calculate implied travel speed: V = D / Δt (where D = Haversine distance in miles, Δt = time delta in hours)
+   - **IMPOSSIBLE TRAVEL FORMULA**: If scan in NYC at T₁ and scan in LA at T₂, where Δt = T₂ - T₁ < 4 hours → AUTOMATIC ESCROW HOLD
+   - Threshold velocity: V_max = 600 mph (accounting for commercial aviation)
+   - Flag if V > V_max between sequential scans → trigger fraud_alert with severity='critical'
+   - Detect coordinated scanning from multiple accounts at same location within 5-minute windows
 
 2. **Transaction Anomalies**: Unusual transaction amounts or frequencies
    - Flag transactions > 3 standard deviations from user's average
@@ -1870,6 +1872,44 @@ CREATE TABLE public.b2b_external_leads (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 ```
+
+---
+
+## LEGAL SAFEGUARD CLAUSES
+
+### Broad Interpretation Clause
+
+The descriptions, implementations, and examples provided herein are intended to be **illustrative and not restrictive**. The scope of protection extends to all reasonable implementations of the described concepts regardless of specific technology choices. The system may be implemented via:
+
+- Cloud-based servers (AWS, Google Cloud, Azure, or any infrastructure provider)
+- Distributed ledgers (blockchain, DAG-based systems, or other decentralized technologies)
+- Localized edge computing or hybrid cloud-edge architectures
+- Any combination of relational databases, NoSQL databases, or graph databases
+- Any programming languages, frameworks, or runtime environments
+- Native mobile applications, progressive web applications, or hybrid solutions
+- Alternative AI/ML providers or self-hosted machine learning models
+
+The specific technology stack described (React, Supabase, Stripe, etc.) represents one preferred embodiment but does not limit the claims to these specific implementations.
+
+### Equivalents Clause
+
+The inventor expressly reserves rights to **all equivalent variations** of the systems, methods, and algorithms described in this application. The following substitutions and equivalents are explicitly claimed:
+
+1. **Temporal Founding Member System**: Any automated system that utilizes temporal triggers, timestamp comparisons, or time-gate mechanisms for assigning permanent elevated status to early adopters is considered equivalent, regardless of whether implemented via database triggers, application logic, smart contracts, or other computational means.
+
+2. **Economic Circulation Multiplier**: Any system that applies a multiplier greater than 1.0 to track, calculate, or visualize community economic impact—whether using the specific 2.3x constant or any other empirically-derived or configurable multiplier value—constitutes an infringement of this conceptual framework.
+
+3. **Coalition Loyalty Networks**: Any cross-merchant point system enabling earn-anywhere/redeem-anywhere functionality with tiered benefits based on cumulative activity constitutes an equivalent implementation.
+
+4. **Geospatial Velocity Fraud Detection**: Any system using geographic distance divided by time delta to flag physically impossible user activity patterns, whether using the specific velocity thresholds described or alternative thresholds, is considered equivalent.
+
+5. **Hierarchical Commission Networks**: Any multi-level commission architecture where parent/recruiter nodes receive programmatic percentages of child/recruited node transactions—implemented via recursive queries, graph traversal, or any other computational method—is equivalent.
+
+6. **AI-Powered Matching**: Any weighted multi-factor scoring system for business-to-business or business-to-consumer recommendations using category, location, ratings, or similar factors is considered equivalent regardless of specific weights or AI model used.
+
+### Doctrine of Equivalents Notice
+
+Pursuant to the doctrine of equivalents, the claims extend to any system, method, or apparatus that performs substantially the same function in substantially the same way to achieve substantially the same result as the inventions described herein. Minor variations in implementation details, naming conventions, or technical architecture that do not change the fundamental nature of the invention are within the scope of this protection.
 
 ---
 
