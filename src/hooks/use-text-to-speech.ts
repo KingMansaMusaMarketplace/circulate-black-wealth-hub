@@ -1,5 +1,4 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 export function useTextToSpeech() {
@@ -28,8 +27,9 @@ export function useTextToSpeech() {
 
     setIsLoading(true);
     try {
+      // Use OpenAI TTS (shimmer voice is closest to Sarah)
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`,
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/text-to-speech`,
         {
           method: 'POST',
           headers: {
@@ -37,7 +37,7 @@ export function useTextToSpeech() {
             'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
             'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
           },
-          body: JSON.stringify({ text: text.trim() }),
+          body: JSON.stringify({ text: text.trim(), voice: 'shimmer' }),
         }
       );
 
