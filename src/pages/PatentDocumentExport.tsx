@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, FileText, Loader2, CheckCircle } from 'lucide-react';
+import { Download, FileText, Loader2, CheckCircle, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 import Layout from '@/components/Layout';
 import { jsPDF } from 'jspdf';
@@ -205,29 +205,47 @@ const PatentDocumentExport = () => {
             <p className="text-muted-foreground mb-4">
               Download your complete provisional patent application as a PDF document ready for USPTO submission.
             </p>
-            <Button 
-              onClick={generatePDF} 
-              disabled={isGenerating}
-              size="lg"
-              className="gap-2"
-            >
-              {isGenerating ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                  Generating PDF...
-                </>
-              ) : isGenerated ? (
-                <>
-                  <CheckCircle className="h-5 w-5" />
-                  Download Again
-                </>
-              ) : (
-                <>
-                  <Download className="h-5 w-5" />
-                  Download PDF
-                </>
-              )}
-            </Button>
+            <div className="flex flex-wrap gap-3">
+              <Button 
+                onClick={generatePDF} 
+                disabled={isGenerating}
+                size="lg"
+                className="gap-2"
+              >
+                {isGenerating ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Generating PDF...
+                  </>
+                ) : isGenerated ? (
+                  <>
+                    <CheckCircle className="h-5 w-5" />
+                    Download Again
+                  </>
+                ) : (
+                  <>
+                    <Download className="h-5 w-5" />
+                    Download PDF
+                  </>
+                )}
+              </Button>
+              <Button 
+                variant="outline"
+                size="lg"
+                className="gap-2"
+                onClick={() => window.open('https://github.com/user/repo/blob/main/docs/USPTO_PROVISIONAL_PATENT_APPLICATION_COMPREHENSIVE.md', '_blank')}
+                asChild
+              >
+                <a href="/docs/USPTO_PROVISIONAL_PATENT_APPLICATION_COMPREHENSIVE.md" target="_blank" rel="noopener noreferrer">
+                  <FileText className="h-5 w-5" />
+                  View Full Technical Document
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+            <p className="text-sm text-muted-foreground mt-4">
+              The full technical implementation details are available in: <code className="bg-muted px-1 py-0.5 rounded text-xs">docs/USPTO_PROVISIONAL_PATENT_APPLICATION_COMPREHENSIVE.md</code>
+            </p>
           </CardContent>
         </Card>
 
