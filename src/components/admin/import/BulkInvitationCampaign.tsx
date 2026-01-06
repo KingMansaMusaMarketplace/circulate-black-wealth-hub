@@ -175,7 +175,7 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
                   <Badge 
                     key={state} 
                     variant="secondary" 
-                    className="bg-blue-500/20 text-blue-300 cursor-pointer"
+                    className="bg-amber-500/20 text-amber-400 cursor-pointer"
                     onClick={() => setFormData(prev => ({
                       ...prev,
                       target_states: prev.target_states.filter(s => s !== state),
@@ -206,7 +206,7 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
                   <Badge 
                     key={city} 
                     variant="secondary" 
-                    className="bg-purple-500/20 text-purple-300 cursor-pointer"
+                    className="bg-amber-500/20 text-amber-400 cursor-pointer"
                     onClick={() => setFormData(prev => ({
                       ...prev,
                       target_cities: prev.target_cities.filter(c => c !== city),
@@ -237,7 +237,7 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
                   <Badge 
                     key={category} 
                     variant="secondary" 
-                    className="bg-green-500/20 text-green-300 cursor-pointer"
+                    className="bg-amber-500/20 text-amber-400 cursor-pointer"
                     onClick={() => setFormData(prev => ({
                       ...prev,
                       target_categories: prev.target_categories.filter(c => c !== category),

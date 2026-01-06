@@ -309,7 +309,7 @@ export const AIBusinessDiscovery: React.FC<AIBusinessDiscoveryProps> = ({ onClos
                         </div>
 
                         <div className="flex flex-wrap items-center gap-3 mt-3 text-xs text-blue-300">
-                          <Badge variant="outline" className="border-white/20">
+                          <Badge variant="outline" className="border-amber-400/40 text-amber-400">
                             {business.category}
                           </Badge>
                           {business.location && (
