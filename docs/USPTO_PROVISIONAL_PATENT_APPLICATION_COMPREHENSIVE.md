@@ -8,10 +8,10 @@
 
 ---
 
-**Filing Date:** _______________  
+**Filing Date:** January 6, 2026  
 **Application Number:** _______________  
-**Applicant/Inventor:** _______________  
-**Correspondence Address:** _______________  
+**Applicant/Inventor:** Thomas D. Bowling  
+**Correspondence Address:** 1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628
 
 ---
 
@@ -126,8 +126,8 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 DECLARE
-  -- Temporal cutoff constant: January 31, 2027, 23:59:59 UTC
-  v_cutoff_timestamp CONSTANT TIMESTAMP WITH TIME ZONE := '2027-01-31T23:59:59Z';
+  -- Temporal cutoff constant: March 31, 2026, 23:59:59 UTC
+  v_cutoff_timestamp CONSTANT TIMESTAMP WITH TIME ZONE := '2026-03-31T23:59:59Z';
 BEGIN
   -- Compare registration timestamp against immutable cutoff
   IF NEW.created_at < v_cutoff_timestamp THEN
