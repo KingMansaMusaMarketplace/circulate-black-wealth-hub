@@ -57,7 +57,8 @@ Deno.serve(async (req) => {
         model: 'tts-1',
         input: text,
         voice: voice,
-        response_format: 'mp3',
+        response_format: 'opus',
+        speed: 1.15,
       }),
     });
 
@@ -77,7 +78,7 @@ Deno.serve(async (req) => {
       status: 200,
       headers: {
         ...corsHeaders,
-        'Content-Type': 'audio/mpeg',
+        'Content-Type': 'audio/ogg',
         'Content-Length': audioData.byteLength.toString(),
       },
     });
