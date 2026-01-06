@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Upload, FileText, Mail, Users, TrendingUp, CheckCircle, 
   XCircle, Clock, Send, Eye, MousePointer, Building2, 
-  RefreshCw, Plus, Settings, Download, Play
+  RefreshCw, Plus, Settings, Download, Play, Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -13,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useBusinessImport } from '@/hooks/use-business-import';
 import { CSVUploader } from './CSVUploader';
 import { BulkInvitationCampaign } from './BulkInvitationCampaign';
+import { AIBusinessDiscovery } from './AIBusinessDiscovery';
 
 export const BusinessImportDashboard: React.FC = () => {
   const { 
@@ -26,6 +27,7 @@ export const BusinessImportDashboard: React.FC = () => {
 
   const [showUploader, setShowUploader] = useState(false);
   const [showCampaignCreator, setShowCampaignCreator] = useState(false);
+  const [showAIDiscovery, setShowAIDiscovery] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -56,7 +58,7 @@ export const BusinessImportDashboard: React.FC = () => {
           <h1 className="text-2xl font-bold text-white">Business Import Engine</h1>
           <p className="text-blue-200">Import and reach out to Black-owned businesses at scale</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <a 
             href="/templates/business_leads_template.csv" 
             download="business_leads_template.csv"
@@ -78,7 +80,14 @@ export const BusinessImportDashboard: React.FC = () => {
             Import CSV
           </Button>
           <Button 
-            className="bg-gradient-to-r from-purple-500 to-blue-500"
+            className="bg-gradient-to-r from-purple-500 to-pink-500"
+            onClick={() => setShowAIDiscovery(true)}
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            AI Discovery
+          </Button>
+          <Button 
+            className="bg-gradient-to-r from-blue-500 to-cyan-500"
             onClick={() => setShowCampaignCreator(true)}
           >
             <Mail className="w-4 h-4 mr-2" />
@@ -320,6 +329,11 @@ export const BusinessImportDashboard: React.FC = () => {
       {/* CSV Uploader Modal */}
       {showUploader && (
         <CSVUploader onClose={() => setShowUploader(false)} />
+      )}
+
+      {/* AI Business Discovery Modal */}
+      {showAIDiscovery && (
+        <AIBusinessDiscovery onClose={() => setShowAIDiscovery(false)} />
       )}
 
       {/* Campaign Creator Modal */}
