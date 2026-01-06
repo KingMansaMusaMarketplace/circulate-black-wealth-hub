@@ -145,6 +145,79 @@ COMMUNITY FEATURES:
 - Impact tracking - see your contribution to economic circulation
 - Leaderboards for top supporters
 
+===== VIRAL REFERRAL SYSTEM (NEW!) =====
+
+REFERRAL CAMPAIGNS:
+- Time-limited viral campaigns to drive community growth
+- Milestone-based rewards: reach referral targets to unlock exclusive rewards
+- Reward types: points, discounts, cash prizes, exclusive badges
+- Leaderboards showing top referrers in each campaign
+- Progress tracking with visual milestone indicators
+
+REFERRAL TRACKING:
+- Unique referral codes for each user
+- Track successful referrals and conversion rates
+- See which friends signed up using your code
+- Automatic reward distribution when milestones are hit
+
+===== AUTOMATED BUSINESS IMPORT & OUTREACH (NEW!) =====
+
+AI-POWERED BUSINESS DISCOVERY:
+- AI automatically discovers Black-owned businesses using web search
+- Searches by city, state, and business category
+- Validates business information (website, phone numbers)
+- Assigns data quality scores to each lead
+
+LEAD VALIDATION SYSTEM:
+- Website reachability checking via HTTP requests
+- Phone number format validation for US numbers
+- Data quality scoring based on completeness
+- Validation status tracking: pending, valid, invalid, needs_review
+
+BULK INVITATION CAMPAIGNS:
+- Send email invitations to discovered businesses
+- Customizable email templates
+- Track email opens, clicks, and conversions
+- Claim tokens allow businesses to easily join the platform
+- Campaign analytics and performance metrics
+
+BUSINESS CLAIMING:
+- Discovered businesses can claim their listing
+- Secure claim token verification
+- Easy onboarding flow for claimed businesses
+
+===== SPONSOR CRM SYSTEM (NEW!) =====
+
+SPONSOR PROSPECT MANAGEMENT:
+- Track potential corporate sponsors
+- Lead stages: prospect, contacted, meeting_scheduled, proposal_sent, negotiating, won, lost
+- Engagement scoring based on interactions
+- Notes and activity history for each prospect
+
+SPONSORSHIP OUTREACH:
+- Professional proposal generation
+- Custom partnership packages
+- Sponsorship tier recommendations (Bronze, Silver, Gold, Platinum)
+- Follow-up reminders and scheduling
+
+===== B2B MARKETPLACE (NEW!) =====
+
+BUSINESS-TO-BUSINESS CONNECTIONS:
+- Connect Black-owned businesses with each other
+- Supplier and buyer matching
+- Business capabilities listing (what you offer)
+- Business needs posting (what you need)
+
+B2B MESSAGING:
+- Direct messaging between businesses
+- Attachment support for proposals and documents
+- Read receipts and message history
+
+B2B REVIEWS:
+- Rate business partners on quality, communication, timeliness
+- Verified transaction reviews
+- Build B2B reputation and trust
+
 ===== MOBILE APP FEATURES (Capacitor Native) =====
 
 The mobile app is built with Capacitor for true native iOS and Android experiences.
@@ -234,6 +307,7 @@ AMBASSADOR TOOLS:
 - Exclusive training content (videos, webinars, guides)
 - Lead tracking and follow-up reminders
 - Performance analytics
+- Agent recruitment system for building teams
 
 ===== CORPORATE SPONSOR FEATURES =====
 
@@ -248,6 +322,33 @@ SPONSOR DASHBOARD:
 - Community reach statistics
 - Brand visibility analytics
 - Tax-deductible contribution tracking
+
+===== ONBOARDING TOURS (NEW!) =====
+
+GUIDED TOURS BY USER TYPE:
+- Customer Tour: Discover businesses, scan QR codes, earn rewards, join community
+- Business Owner Tour: Dashboard overview, QR codes, analytics, profile settings, verification
+- Sales Agent Tour: Referral codes, commission tracking, tier progress, marketing materials
+
+INTERACTIVE WALKTHROUGH:
+- Step-by-step feature introduction
+- Highlight key actions to take
+- Skip option for experienced users
+- Completion tracking
+
+===== HELP CENTER (NEW!) =====
+
+ROLE-BASED HELP:
+- Customer help section
+- Business owner help section
+- Sales agent help section
+- Corporate sponsor help section
+
+HELP RESOURCES:
+- FAQ sections
+- Video tutorials
+- Documentation
+- Contact support options
 
 ===== TECHNICAL INFRASTRUCTURE =====
 

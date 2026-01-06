@@ -154,6 +154,37 @@ The marketplace is designed to build, protect, and expand the Black economic eco
 6. **AI Recommendations** - Personalized business suggestions
 7. **Reviews & Ratings** - 5-star system with AI-powered sentiment analysis
 
+**NEW FEATURES:**
+
+**Viral Referral System:**
+- Time-limited referral campaigns with milestone rewards
+- Track referrals and earn points, discounts, cash prizes, and badges
+- Leaderboards showing top referrers
+- Automatic reward distribution
+
+**Automated Business Discovery:**
+- AI-powered discovery of Black-owned businesses via web search
+- Lead validation: website reachability, phone format checking, data quality scoring
+- Bulk email invitation campaigns to discovered businesses
+- Business claiming with secure token verification
+
+**Sponsor CRM:**
+- Track potential corporate sponsors through sales pipeline
+- Lead stages: prospect → contacted → meeting → proposal → negotiating → won/lost
+- Professional proposal generation
+- Engagement scoring and activity tracking
+
+**B2B Marketplace:**
+- Business-to-business connections between Black-owned businesses
+- Supplier/buyer matching based on capabilities and needs
+- B2B messaging and reviews
+- Transaction tracking
+
+**Onboarding Tours:**
+- Guided walkthroughs for customers, business owners, and sales agents
+- Interactive feature introductions
+- Role-based help centers
+
 **USER TYPES:**
 - **Customers** - Browse businesses, scan QR codes, earn rewards
 - **Business Owners** - Create profiles, generate QR codes, view analytics (first month free, Premium tier available)
@@ -179,23 +210,10 @@ This is the referral program where community members earn money while building t
 - Bronze → Silver → Gold → Platinum → Diamond
 - Higher tiers unlock better commission rates and exclusive benefits
 
-**Ambassador Resources:**
-- Marketing materials (flyers, business cards, social media templates)
-- Exclusive training content (videos, webinars, guides)
-- Personal referral code and tracking dashboard
-- Performance badges and recognition
-
-**How to Become a Mansa Ambassador:**
-1. Sign up for an account
-2. Complete the ambassador application
-3. Pass the qualification test about the platform
-4. Receive your unique referral code
-5. Start earning by referring businesses!
-
 **BUSINESS OWNER FEATURES:**
 - Business dashboard with analytics (views, scans, bookings, revenue)
 - Multi-location support for franchises
-- Financial tools: invoicing, expense tracking, budgets
+- Financial tools: invoicing, expense tracking, budgets, bank reconciliation
 - QR code generation and campaign tracking
 - Service management for booking-enabled businesses
 
