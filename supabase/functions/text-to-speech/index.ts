@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
         input: text,
         voice: voice,
         response_format: 'opus',
-        speed: 1.15,
+        speed: 1.10,
       }),
     });
 
