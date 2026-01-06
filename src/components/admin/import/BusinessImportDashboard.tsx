@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Upload, FileText, Mail, Users, TrendingUp, CheckCircle, 
   XCircle, Clock, Send, Eye, MousePointer, Building2, 
-  RefreshCw, Plus, Settings, Download
+  RefreshCw, Plus, Settings, Download, Play
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -20,6 +20,8 @@ export const BusinessImportDashboard: React.FC = () => {
     campaigns, 
     leadStats, 
     isLoading,
+    startCampaign,
+    startingCampaign,
   } = useBusinessImport();
 
   const [showUploader, setShowUploader] = useState(false);
@@ -291,6 +293,17 @@ export const BusinessImportDashboard: React.FC = () => {
                           </p>
                           <p className="text-xs text-blue-300">Claim Rate</p>
                         </div>
+                        {campaign.status === 'draft' && (
+                          <Button
+                            size="sm"
+                            onClick={() => startCampaign(campaign.id)}
+                            disabled={startingCampaign}
+                            className="bg-gradient-to-r from-green-500 to-emerald-500"
+                          >
+                            <Play className="w-4 h-4 mr-1" />
+                            {startingCampaign ? 'Starting...' : 'Start'}
+                          </Button>
+                        )}
                         <Badge className={getStatusColor(campaign.status)}>
                           {campaign.status}
                         </Badge>
