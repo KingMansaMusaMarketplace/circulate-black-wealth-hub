@@ -3,8 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Download, FileText, Loader2, CheckCircle, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-
 import { jsPDF } from 'jspdf';
+import HighlightToSpeakButton from '@/components/HighlightToSpeakButton';
 
 const PatentDocumentExport = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -193,7 +193,8 @@ const PatentDocumentExport = () => {
   };
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <>
+      <div className="container mx-auto py-8 px-4">
       <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -598,6 +599,10 @@ Full source code implementation in codebase.`}
           </CardContent>
         </Card>
       </div>
+      
+      {/* Highlight to Speak - Sarah voice */}
+      <HighlightToSpeakButton />
+    </>
   );
 };
 
