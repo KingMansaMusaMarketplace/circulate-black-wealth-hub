@@ -199,7 +199,8 @@ function getDefaultEmailBody(): string {
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5;">
   <div style="background: linear-gradient(135deg, #1B365D 0%, #0f2447 100%); padding: 30px; border-radius: 12px 12px 0 0; text-align: center;">
-    <h1 style="color: #FFD700; margin: 0; font-size: 28px;">👑 You're Invited!</h1>
+    <img src="https://mansamusamarketplace.com/images/mansa-musa-logo.png" alt="Mansa Musa Marketplace" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #FFD700; object-fit: cover;">
+    <h1 style="color: #FFD700; margin: 0; font-size: 28px;">You're Invited!</h1>
     <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 14px;">Join the Premier Directory for Black-Owned Businesses</p>
   </div>
   
