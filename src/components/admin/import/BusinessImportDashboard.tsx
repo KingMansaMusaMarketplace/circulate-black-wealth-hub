@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Upload, FileText, Mail, Users, TrendingUp, CheckCircle, 
   XCircle, Clock, Send, Eye, MousePointer, Building2, 
-  RefreshCw, Plus, Settings
+  RefreshCw, Plus, Settings, Download
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -55,6 +55,18 @@ export const BusinessImportDashboard: React.FC = () => {
           <p className="text-blue-200">Import and reach out to Black-owned businesses at scale</p>
         </div>
         <div className="flex gap-3">
+          <a 
+            href="/templates/business_leads_template.csv" 
+            download="business_leads_template.csv"
+          >
+            <Button 
+              variant="outline" 
+              className="border-white/20 text-blue-200"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download Template
+            </Button>
+          </a>
           <Button 
             variant="outline" 
             className="border-white/20 text-blue-200"
