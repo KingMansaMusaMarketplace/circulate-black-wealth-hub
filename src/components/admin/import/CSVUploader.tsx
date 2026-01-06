@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import Papa from 'papaparse';
+import { supabase } from '@/integrations/supabase/client';
 
 interface CSVUploaderProps {
   onClose: () => void;
@@ -125,15 +126,74 @@ export const CSVUploader: React.FC<CSVUploaderProps> = ({ onClose }) => {
     setStep('processing');
 
     try {
-      // For now, just show success - actual import would call edge function
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      toast.success('Import started! Processing in background.');
-      onClose();
+      // Parse the full CSV
+      Papa.parse(file, {
+        header: true,
+        skipEmptyLines: true,
+        complete: async (results) => {
+          const rows = results.data as Record<string, string>[];
+          
+          // Transform rows based on field mapping
+          const leads = rows.map(row => ({
+            business_name: row[fieldMapping.business_name] || '',
+            business_description: fieldMapping.business_description ? row[fieldMapping.business_description] : null,
+            category: fieldMapping.category ? row[fieldMapping.category] : null,
+            owner_name: fieldMapping.owner_name ? row[fieldMapping.owner_name] : null,
+            owner_email: fieldMapping.owner_email ? row[fieldMapping.owner_email] : null,
+            phone_number: fieldMapping.phone_number ? row[fieldMapping.phone_number] : null,
+            website_url: fieldMapping.website_url ? row[fieldMapping.website_url] : null,
+            city: fieldMapping.city ? row[fieldMapping.city] : null,
+            state: fieldMapping.state ? row[fieldMapping.state] : null,
+            zip_code: fieldMapping.zip_code ? row[fieldMapping.zip_code] : null,
+            location: fieldMapping.location ? row[fieldMapping.location] : null,
+            source_query: 'csv_import',
+          })).filter(lead => lead.business_name.trim() !== '');
+
+          if (leads.length === 0) {
+            toast.error('No valid leads found in CSV');
+            setStep('mapping');
+            setIsProcessing(false);
+            return;
+          }
+
+          // Insert into database in batches
+          const batchSize = 100;
+          let successCount = 0;
+          let errorCount = 0;
+
+          for (let i = 0; i < leads.length; i += batchSize) {
+            const batch = leads.slice(i, i + batchSize);
+            const { error } = await supabase
+              .from('b2b_external_leads')
+              .insert(batch);
+
+            if (error) {
+              console.error('Batch insert error:', error);
+              errorCount += batch.length;
+            } else {
+              successCount += batch.length;
+            }
+          }
+
+          if (successCount > 0) {
+            toast.success(`Successfully imported ${successCount} leads!`);
+          }
+          if (errorCount > 0) {
+            toast.error(`Failed to import ${errorCount} leads`);
+          }
+          
+          onClose();
+        },
+        error: (error) => {
+          toast.error(`Failed to parse CSV: ${error.message}`);
+          setStep('mapping');
+          setIsProcessing(false);
+        },
+      });
     } catch (error) {
+      console.error('Import error:', error);
       toast.error('Failed to start import');
       setStep('mapping');
-    } finally {
       setIsProcessing(false);
     }
   };
