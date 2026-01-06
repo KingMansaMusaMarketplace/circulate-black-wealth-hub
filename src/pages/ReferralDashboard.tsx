@@ -19,6 +19,13 @@ import {
 import { ShareButton } from '@/components/social-share/ShareButton';
 import { Skeleton } from '@/components/ui/skeleton';
 
+// New gamification components
+import { ReferralCampaignBanner } from '@/components/referral/ReferralCampaignBanner';
+import { ReferralMilestoneTracker } from '@/components/referral/ReferralMilestoneTracker';
+import { ReferralStreakWidget } from '@/components/referral/ReferralStreakWidget';
+import { LiveLeaderboard } from '@/components/referral/LiveLeaderboard';
+import { QRCodeReferral } from '@/components/referral/QRCodeReferral';
+
 const ReferralDashboard: React.FC = () => {
   const {
     referralCode,
@@ -71,6 +78,9 @@ const ReferralDashboard: React.FC = () => {
       </div>
 
       <div className="container mx-auto px-4 py-12 space-y-8 relative z-10">
+        {/* Campaign Banner - Shows active campaigns */}
+        <ReferralCampaignBanner />
+        
         {/* Enhanced Header */}
         <div className="mb-10 animate-fade-in">
           <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-8 shadow-2xl">
@@ -87,43 +97,55 @@ const ReferralDashboard: React.FC = () => {
             </p>
           </div>
         </div>
+        
+        {/* Gamification Row - Streaks & Milestones */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ReferralStreakWidget />
+          <ReferralMilestoneTracker />
+        </div>
 
-        {/* Referral Link Card */}
-        <div className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-          <div className="bg-blue-500/20 border-b border-white/10 p-4">
-            <div className="flex items-center gap-2">
-              <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
-                <Gift className="w-5 h-5 text-white" />
+        {/* Referral Link & QR Code Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Referral Link Card */}
+          <div className="lg:col-span-2 backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+            <div className="bg-blue-500/20 border-b border-white/10 p-4">
+              <div className="flex items-center gap-2">
+                <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
+                  <Gift className="w-5 h-5 text-white" />
+                </div>
+                <span className="font-bold text-white">Your Referral Link</span>
               </div>
-              <span className="font-bold text-white">Your Referral Link</span>
+              <p className="text-blue-200 text-sm mt-1 ml-11">Share this link with friends to earn rewards</p>
             </div>
-            <p className="text-blue-200 text-sm mt-1 ml-11">Share this link with friends to earn rewards</p>
-          </div>
-          <div className="p-6 space-y-4">
-            <div className="flex gap-2">
-              <div className="flex-1 bg-white/10 p-3 rounded-md font-mono text-sm break-all text-blue-200 border border-white/10">
-                {referralLink}
+            <div className="p-6 space-y-4">
+              <div className="flex gap-2">
+                <div className="flex-1 bg-white/10 p-3 rounded-md font-mono text-sm break-all text-blue-200 border border-white/10">
+                  {referralLink}
+                </div>
+                <Button onClick={copyReferralLink} variant="outline" size="icon" className="border-white/20 bg-white/5 text-white hover:bg-white/10">
+                  <Copy className="w-4 h-4" />
+                </Button>
               </div>
-              <Button onClick={copyReferralLink} variant="outline" size="icon" className="border-white/20 bg-white/5 text-white hover:bg-white/10">
-                <Copy className="w-4 h-4" />
-              </Button>
-            </div>
-            <div className="flex gap-2">
-              <ShareButton
-                data={{
-                  title: 'Join Mansa Musa Marketplace!',
-                  text: 'Join me on Mansa Musa Marketplace and support Black-owned businesses while earning rewards!',
-                  url: referralLink,
-                }}
-                variant="default"
-                showLabel
-              />
-              <Button variant="outline" className="flex-1 border-white/20 bg-white/5 text-white hover:bg-white/10">
-                <ExternalLink className="w-4 h-4 mr-2" />
-                Share via Email
-              </Button>
+              <div className="flex gap-2">
+                <ShareButton
+                  data={{
+                    title: 'Join Mansa Musa Marketplace!',
+                    text: 'Join me on Mansa Musa Marketplace and support Black-owned businesses while earning rewards!',
+                    url: referralLink,
+                  }}
+                  variant="default"
+                  showLabel
+                />
+                <Button variant="outline" className="flex-1 border-white/20 bg-white/5 text-white hover:bg-white/10">
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Share via Email
+                </Button>
+              </div>
             </div>
           </div>
+          
+          {/* QR Code */}
+          <QRCodeReferral />
         </div>
 
         {/* Stats Overview */}
