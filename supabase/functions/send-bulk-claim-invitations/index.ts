@@ -197,40 +197,60 @@ function getDefaultEmailBody(): string {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5;">
   <div style="background: linear-gradient(135deg, #1B365D 0%, #0f2447 100%); padding: 30px; border-radius: 12px 12px 0 0; text-align: center;">
-    <h1 style="color: #FFD700; margin: 0; font-size: 24px;">🎉 Claim Your Business!</h1>
+    <h1 style="color: #FFD700; margin: 0; font-size: 28px;">👑 You're Invited!</h1>
+    <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 14px;">Join the Premier Directory for Black-Owned Businesses</p>
   </div>
   
-  <div style="background: #f8f9fa; padding: 30px; border-radius: 0 0 12px 12px;">
+  <div style="background: #ffffff; padding: 30px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
     <p style="font-size: 16px;">Hi {{owner_name}},</p>
     
-    <p>We found <strong>{{business_name}}</strong> and want to invite you to claim your FREE listing on <strong>Mansa Musa Marketplace</strong> - the premier directory for Black-owned businesses!</p>
+    <p>We discovered <strong>{{business_name}}</strong> and we'd love for you to be part of our growing community! <a href="https://mansamusamarketplace.com" style="color: #1B365D; font-weight: bold;">Mansa Musa Marketplace</a> is the premier platform connecting customers with Black-owned businesses across the nation.</p>
     
-    <div style="background: white; border-radius: 8px; padding: 20px; margin: 20px 0; border-left: 4px solid #FFD700;">
-      <h3 style="margin: 0 0 10px 0; color: #1B365D;">What You Get (FREE):</h3>
-      <ul style="margin: 0; padding-left: 20px;">
-        <li>Verified business listing</li>
-        <li>Customer loyalty program</li>
-        <li>Business analytics dashboard</li>
-        <li>Access to our B2B network</li>
-        <li>Marketing materials & support</li>
+    <p><strong>The best part?</strong> Claiming your listing is completely <span style="color: #FFD700; background: #1B365D; padding: 2px 8px; border-radius: 4px; font-weight: bold;">FREE</span>!</p>
+    
+    <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; margin: 20px 0; border-left: 4px solid #FFD700;">
+      <h3 style="margin: 0 0 15px 0; color: #1B365D;">✨ What's Included (All FREE):</h3>
+      <ul style="margin: 0; padding-left: 20px; color: #333;">
+        <li style="margin-bottom: 8px;"><strong>Verified business profile</strong> with photos & reviews</li>
+        <li style="margin-bottom: 8px;"><strong>Customer loyalty program</strong> to reward repeat customers</li>
+        <li style="margin-bottom: 8px;"><strong>Business analytics dashboard</strong> to track your growth</li>
+        <li style="margin-bottom: 8px;"><strong>B2B networking</strong> with other Black-owned businesses</li>
+        <li style="margin-bottom: 8px;"><strong>Marketing materials</strong> & promotional support</li>
       </ul>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="{{claim_url}}" style="display: inline-block; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #1B365D; padding: 15px 40px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px;">
-        Claim Your Business Now →
+      <a href="{{claim_url}}" style="display: inline-block; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #1B365D; padding: 18px 45px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 18px; box-shadow: 0 4px 15px rgba(255,215,0,0.4);">
+        Claim Your FREE Listing →
       </a>
+      <p style="font-size: 13px; color: #666; margin-top: 10px;">Takes less than 2 minutes!</p>
     </div>
     
-    <p style="font-size: 14px; color: #666;">This link expires in 7 days. If you have questions, just reply to this email!</p>
-    
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
-    
-    <p style="font-size: 12px; color: #999; text-align: center;">
-      © 2026 Mansa Musa Marketplace. Supporting Black-owned businesses everywhere.
+    <p style="font-size: 14px; color: #666; background: #fff8e1; padding: 12px; border-radius: 6px; text-align: center;">
+      ⏰ This invitation link expires in 7 days
     </p>
+    
+    <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
+    
+    <p style="font-size: 14px; color: #555;">Have questions? Simply reply to this email - we're here to help!</p>
+    
+    <p style="font-size: 14px; color: #333; margin-bottom: 5px;">Warm regards,</p>
+    <p style="font-size: 16px; color: #1B365D; font-weight: bold; margin-top: 0;">The Mansa Musa Marketplace Team 👑</p>
+    
+    <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
+    
+    <div style="text-align: center;">
+      <a href="https://mansamusamarketplace.com" style="color: #1B365D; font-weight: bold; text-decoration: none; font-size: 14px;">Visit Mansa Musa Marketplace</a>
+      <p style="font-size: 12px; color: #999; margin-top: 15px;">
+        © 2025 Mansa Musa Marketplace. Empowering Black-owned businesses everywhere.
+      </p>
+      <p style="font-size: 11px; color: #bbb; margin-top: 10px;">
+        You received this email because your business was discovered in our search for Black-owned businesses. 
+        If you'd prefer not to receive these emails, simply ignore this message.
+      </p>
+    </div>
   </div>
 </body>
 </html>
