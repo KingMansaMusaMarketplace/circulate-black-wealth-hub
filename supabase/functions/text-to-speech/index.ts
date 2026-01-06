@@ -20,6 +20,12 @@ Deno.serve(async (req) => {
       );
     }
 
+    // OpenAI TTS has a 4096 character limit - truncate if needed
+    const MAX_CHARS = 4000;
+    const inputText = text.length > MAX_CHARS 
+      ? text.substring(0, MAX_CHARS) + '... Text truncated for speech.'
+      : text;
+
     const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
     const OPENAI_ORG_ID = Deno.env.get('OPENAI_ORG_ID');
     const OPENAI_PROJECT_ID = Deno.env.get('OPENAI_PROJECT_ID');
@@ -32,7 +38,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    console.log(`Converting text to speech: "${text.substring(0, 50)}..."`);
+    console.log(`Converting text to speech: "${inputText.substring(0, 50)}..." (${inputText.length} chars)`);
 
     const headers: Record<string, string> = {
       'Authorization': `Bearer ${OPENAI_API_KEY}`,
@@ -55,7 +61,7 @@ Deno.serve(async (req) => {
       headers,
       body: JSON.stringify({
         model: 'tts-1',
-        input: text,
+        input: inputText,
         voice: voice,
         response_format: 'opus',
         speed: 1.10,
