@@ -107,9 +107,11 @@ export const CSVUploader: React.FC<CSVUploaderProps> = ({ onClose }) => {
   }, [handleFileSelect]);
 
   const handleMappingChange = (targetField: string, sourceColumn: string) => {
+    // Treat __skip__ as empty/unmapped
+    const mappedValue = sourceColumn === '__skip__' ? '' : sourceColumn;
     setFieldMapping(prev => ({
       ...prev,
-      [targetField]: sourceColumn,
+      [targetField]: mappedValue,
     }));
   };
 
@@ -247,7 +249,7 @@ export const CSVUploader: React.FC<CSVUploaderProps> = ({ onClose }) => {
                         <SelectValue placeholder="Select column (optional)" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">-- Skip --</SelectItem>
+                        <SelectItem value="__skip__">-- Skip --</SelectItem>
                         {csvPreview.headers.map((header) => (
                           <SelectItem key={header} value={header}>{header}</SelectItem>
                         ))}
