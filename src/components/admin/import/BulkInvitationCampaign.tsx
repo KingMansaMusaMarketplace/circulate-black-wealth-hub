@@ -113,7 +113,7 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 placeholder="e.g., January 2026 Launch Campaign"
-                className="bg-white/5 border-white/20"
+                className="bg-white/5 border-white/20 text-amber-400 placeholder:text-white/50"
               />
             </div>
 
@@ -123,7 +123,7 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 placeholder="Internal notes about this campaign"
-                className="bg-white/5 border-white/20"
+                className="bg-white/5 border-white/20 text-amber-400 placeholder:text-white/50"
                 rows={2}
               />
             </div>
@@ -163,7 +163,7 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
                   value={stateInput}
                   onChange={(e) => setStateInput(e.target.value.toUpperCase())}
                   placeholder="e.g., CA, NY, TX"
-                  className="bg-white/5 border-white/20"
+                  className="bg-white/5 border-white/20 text-amber-400 placeholder:text-white/50"
                   maxLength={2}
                 />
                 <Button type="button" variant="outline" onClick={handleAddState} className="border-white/20">
@@ -195,7 +195,7 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
                   value={cityInput}
                   onChange={(e) => setCityInput(e.target.value)}
                   placeholder="e.g., Los Angeles, New York"
-                  className="bg-white/5 border-white/20"
+                  className="bg-white/5 border-white/20 text-amber-400 placeholder:text-white/50"
                 />
                 <Button type="button" variant="outline" onClick={handleAddCity} className="border-white/20">
                   Add
@@ -226,7 +226,7 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
                   value={categoryInput}
                   onChange={(e) => setCategoryInput(e.target.value)}
                   placeholder="e.g., Restaurant, Retail"
-                  className="bg-white/5 border-white/20"
+                  className="bg-white/5 border-white/20 text-amber-400 placeholder:text-white/50"
                 />
                 <Button type="button" variant="outline" onClick={handleAddCategory} className="border-white/20">
                   Add
@@ -274,7 +274,7 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
                 type="datetime-local"
                 value={formData.scheduled_at}
                 onChange={(e) => setFormData(prev => ({ ...prev, scheduled_at: e.target.value }))}
-                className="bg-white/5 border-white/20"
+                className="bg-white/5 border-white/20 text-amber-400 placeholder:text-white/50"
               />
               <p className="text-xs text-blue-300 mt-1">Leave empty to start immediately after creation</p>
             </div>
