@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Upload, FileText, Mail, Users, TrendingUp, CheckCircle, 
   XCircle, Clock, Send, Eye, MousePointer, Building2, 
-  RefreshCw, Plus, Settings, Download, Play, Sparkles
+  RefreshCw, Plus, Settings, Download, Play, Sparkles, Shield
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -14,6 +14,7 @@ import { useBusinessImport } from '@/hooks/use-business-import';
 import { CSVUploader } from './CSVUploader';
 import { BulkInvitationCampaign } from './BulkInvitationCampaign';
 import { AIBusinessDiscovery } from './AIBusinessDiscovery';
+import { LeadValidation } from './LeadValidation';
 
 export const BusinessImportDashboard: React.FC = () => {
   const { 
@@ -28,6 +29,7 @@ export const BusinessImportDashboard: React.FC = () => {
   const [showUploader, setShowUploader] = useState(false);
   const [showCampaignCreator, setShowCampaignCreator] = useState(false);
   const [showAIDiscovery, setShowAIDiscovery] = useState(false);
+  const [showValidation, setShowValidation] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -85,6 +87,13 @@ export const BusinessImportDashboard: React.FC = () => {
           >
             <Sparkles className="w-4 h-4 mr-2" />
             AI Discovery
+          </Button>
+          <Button 
+            className="bg-gradient-to-r from-amber-500 to-orange-500"
+            onClick={() => setShowValidation(true)}
+          >
+            <Shield className="w-4 h-4 mr-2" />
+            Validate Leads
           </Button>
           <Button 
             className="bg-gradient-to-r from-blue-500 to-cyan-500"
@@ -339,6 +348,11 @@ export const BusinessImportDashboard: React.FC = () => {
       {/* Campaign Creator Modal */}
       {showCampaignCreator && (
         <BulkInvitationCampaign onClose={() => setShowCampaignCreator(false)} />
+      )}
+
+      {/* Lead Validation Modal */}
+      {showValidation && (
+        <LeadValidation onClose={() => setShowValidation(false)} />
       )}
     </div>
   );
