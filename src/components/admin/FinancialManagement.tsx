@@ -59,18 +59,35 @@ const FinancialManagement: React.FC = () => {
   const loadFinancialData = async () => {
     setLoading(true);
     try {
-      // Load transactions
+      // Load transactions (fetch profiles separately since FK may not exist)
       const { data: transactionsData, error: transactionsError } = await supabase
         .from('transactions')
-        .select(`
-          *,
-          profiles!transactions_customer_id_fkey(email, full_name)
-        `)
+        .select('*')
         .order('created_at', { ascending: false })
         .limit(100);
 
       if (transactionsError) throw transactionsError;
-      setTransactions(transactionsData || []);
+      
+      // Fetch associated profiles for transactions
+      const customerIds = transactionsData?.map(t => t.customer_id).filter(Boolean) || [];
+      let profilesForTransactions: any[] = [];
+      
+      if (customerIds.length > 0) {
+        const { data: profilesData } = await supabase
+          .from('profiles')
+          .select('id, email, full_name')
+          .in('id', customerIds);
+        profilesForTransactions = profilesData || [];
+      }
+      
+      const profilesMap = new Map(profilesForTransactions.map(p => [p.id, p]));
+      
+      const enrichedTransactions = transactionsData?.map(t => ({
+        ...t,
+        profiles: profilesMap.get(t.customer_id) || null
+      })) || [];
+      
+      setTransactions(enrichedTransactions);
 
       // Load commission payments
       const { data: commissionsData, error: commissionsError } = await supabase

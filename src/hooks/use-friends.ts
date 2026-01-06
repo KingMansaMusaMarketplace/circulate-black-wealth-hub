@@ -39,28 +39,68 @@ export const useFriends = () => {
       // Get accepted friends
       const { data: friendsData, error: friendsError } = await supabase
         .from('friendships')
-        .select(`
-          *,
-          profiles!friendships_friend_id_fkey(full_name, avatar_url, email)
-        `)
+        .select('*')
         .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`)
         .eq('status', 'accepted');
 
       if (friendsError) throw friendsError;
-      setFriends(friendsData || []);
+      
+      // Get all user IDs we need profiles for
+      const allFriendIds = [...new Set([
+        ...(friendsData || []).map(f => f.friend_id),
+        ...(friendsData || []).map(f => f.user_id)
+      ].filter(id => id !== user.id))];
+      
+      let profilesData: any[] = [];
+      if (allFriendIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name, avatar_url, email')
+          .in('id', allFriendIds);
+        profilesData = profiles || [];
+      }
+      
+      const profilesMap = new Map(profilesData.map(p => [p.id, p]));
+      
+      const enrichedFriends = (friendsData || []).map(f => {
+        const friendId = f.user_id === user.id ? f.friend_id : f.user_id;
+        return {
+          ...f,
+          profiles: profilesMap.get(friendId) || null
+        };
+      });
+      
+      setFriends(enrichedFriends);
 
       // Get pending requests (where current user is the receiver)
       const { data: pendingData, error: pendingError } = await supabase
         .from('friendships')
-        .select(`
-          *,
-          profiles!friendships_user_id_fkey(full_name, avatar_url, email)
-        `)
+        .select('*')
         .eq('friend_id', user.id)
         .eq('status', 'pending');
 
       if (pendingError) throw pendingError;
-      setPendingRequests(pendingData || []);
+      
+      // Enrich pending requests with profiles
+      const pendingUserIds = [...new Set((pendingData || []).map(p => p.user_id).filter(Boolean))];
+      let pendingProfilesData: any[] = [];
+      
+      if (pendingUserIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name, avatar_url, email')
+          .in('id', pendingUserIds);
+        pendingProfilesData = profiles || [];
+      }
+      
+      const pendingProfilesMap = new Map(pendingProfilesData.map(p => [p.id, p]));
+      
+      const enrichedPending = (pendingData || []).map(p => ({
+        ...p,
+        profiles: pendingProfilesMap.get(p.user_id) || null
+      }));
+      
+      setPendingRequests(enrichedPending);
 
     } catch (error) {
       console.error('Error fetching friends:', error);

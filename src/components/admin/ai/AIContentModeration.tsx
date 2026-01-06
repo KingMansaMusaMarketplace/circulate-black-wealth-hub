@@ -35,25 +35,34 @@ const AIContentModeration: React.FC = () => {
     try {
       const { data, error } = await supabase
         .from('reviews')
-        .select(`
-          id,
-          content,
-          rating,
-          created_at,
-          businesses:business_id(business_name),
-          profiles:user_id(full_name)
-        `)
+        .select('id, content, rating, created_at, business_id, user_id')
         .order('created_at', { ascending: false })
         .limit(20);
 
       if (error) throw error;
+      
+      // Fetch profiles and businesses separately
+      const userIds = [...new Set((data || []).map(r => r.user_id).filter(Boolean))];
+      const businessIds = [...new Set((data || []).map(r => r.business_id).filter(Boolean))];
+      
+      const [profilesResult, businessesResult] = await Promise.all([
+        userIds.length > 0 
+          ? supabase.from('profiles').select('id, full_name').in('id', userIds)
+          : Promise.resolve({ data: [] }),
+        businessIds.length > 0
+          ? supabase.from('businesses').select('id, business_name').in('id', businessIds)
+          : Promise.resolve({ data: [] })
+      ]);
+      
+      const profilesMap = new Map((profilesResult.data || []).map(p => [p.id, p]));
+      const businessesMap = new Map((businessesResult.data || []).map(b => [b.id, b]));
 
       setReviews((data || []).map(r => ({
         id: r.id,
         content: r.content || '',
         rating: r.rating,
-        business_name: (r.businesses as unknown as { business_name: string } | null)?.business_name,
-        user_name: (r.profiles as unknown as { full_name: string } | null)?.full_name,
+        business_name: businessesMap.get(r.business_id)?.business_name,
+        user_name: profilesMap.get(r.user_id)?.full_name,
         created_at: r.created_at,
       })));
     } catch (error) {

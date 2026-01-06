@@ -45,17 +45,36 @@ export const useSocialFeed = () => {
 
       const { data, error } = await supabase
         .from('social_activity_feed')
-        .select(`
-          *,
-          profiles!social_activity_feed_user_id_fkey(full_name, avatar_url),
-          businesses(business_name, logo_url)
-        `)
+        .select('*')
         .eq('is_public', true)
         .order('created_at', { ascending: false })
         .limit(50);
 
       if (error) throw error;
-      setActivities(data || []);
+      
+      // Fetch profiles and businesses separately
+      const userIds = [...new Set((data || []).map(a => a.user_id).filter(Boolean))];
+      const businessIds = [...new Set((data || []).map(a => a.business_id).filter(Boolean))];
+      
+      const [profilesResult, businessesResult] = await Promise.all([
+        userIds.length > 0 
+          ? supabase.from('profiles').select('id, full_name, avatar_url').in('id', userIds)
+          : Promise.resolve({ data: [] }),
+        businessIds.length > 0
+          ? supabase.from('businesses').select('id, business_name, logo_url').in('id', businessIds)
+          : Promise.resolve({ data: [] })
+      ]);
+      
+      const profilesMap = new Map((profilesResult.data || []).map(p => [p.id, p]));
+      const businessesMap = new Map((businessesResult.data || []).map(b => [b.id, b]));
+      
+      const enrichedData = (data || []).map(a => ({
+        ...a,
+        profiles: profilesMap.get(a.user_id) || null,
+        businesses: businessesMap.get(a.business_id) || null
+      }));
+      
+      setActivities(enrichedData);
 
     } catch (error) {
       console.error('Error fetching social feed:', error);
