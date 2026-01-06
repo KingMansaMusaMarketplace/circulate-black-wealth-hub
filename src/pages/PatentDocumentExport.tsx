@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Download, FileText, Loader2, CheckCircle, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
-import Layout from '@/components/Layout';
+
 import { jsPDF } from 'jspdf';
 
 const PatentDocumentExport = () => {
@@ -193,9 +193,8 @@ const PatentDocumentExport = () => {
   };
 
   return (
-    <Layout>
-      <div className="container mx-auto py-8 px-4">
-        <Card className="mb-6">
+    <div className="container mx-auto py-8 px-4">
+      <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-6 w-6" />
@@ -599,7 +598,6 @@ Full source code implementation in codebase.`}
           </CardContent>
         </Card>
       </div>
-    </Layout>
   );
 };
 
