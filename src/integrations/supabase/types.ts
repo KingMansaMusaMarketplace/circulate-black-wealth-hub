@@ -988,19 +988,24 @@ export type Database = {
           is_visible_in_directory: boolean | null
           last_campaign_id: string | null
           last_invited_at: string | null
+          last_validated_at: string | null
           lead_score: number | null
           location: string | null
           owner_email: string | null
           owner_name: string | null
           phone_number: string | null
+          phone_valid: boolean | null
           social_profiles: Json | null
           source_citations: string[] | null
           source_id: string | null
           source_query: string
           state: string | null
           updated_at: string | null
+          validation_notes: string | null
+          validation_status: string | null
           verification_method: string | null
           website_url: string | null
+          website_valid: boolean | null
           zip_code: string | null
         }
         Insert: {
@@ -1033,19 +1038,24 @@ export type Database = {
           is_visible_in_directory?: boolean | null
           last_campaign_id?: string | null
           last_invited_at?: string | null
+          last_validated_at?: string | null
           lead_score?: number | null
           location?: string | null
           owner_email?: string | null
           owner_name?: string | null
           phone_number?: string | null
+          phone_valid?: boolean | null
           social_profiles?: Json | null
           source_citations?: string[] | null
           source_id?: string | null
           source_query: string
           state?: string | null
           updated_at?: string | null
+          validation_notes?: string | null
+          validation_status?: string | null
           verification_method?: string | null
           website_url?: string | null
+          website_valid?: boolean | null
           zip_code?: string | null
         }
         Update: {
@@ -1078,19 +1088,24 @@ export type Database = {
           is_visible_in_directory?: boolean | null
           last_campaign_id?: string | null
           last_invited_at?: string | null
+          last_validated_at?: string | null
           lead_score?: number | null
           location?: string | null
           owner_email?: string | null
           owner_name?: string | null
           phone_number?: string | null
+          phone_valid?: boolean | null
           social_profiles?: Json | null
           source_citations?: string[] | null
           source_id?: string | null
           source_query?: string
           state?: string | null
           updated_at?: string | null
+          validation_notes?: string | null
+          validation_status?: string | null
           verification_method?: string | null
           website_url?: string | null
+          website_valid?: boolean | null
           zip_code?: string | null
         }
         Relationships: [
