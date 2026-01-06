@@ -244,7 +244,11 @@ function getDefaultEmailBody(): string {
     
     <div style="text-align: center;">
       <a href="https://mansamusamarketplace.com" style="color: #1B365D; font-weight: bold; text-decoration: none; font-size: 14px;">Visit Mansa Musa Marketplace</a>
-      <p style="font-size: 12px; color: #999; margin-top: 15px;">
+      <p style="font-size: 12px; color: #666; margin-top: 15px;">
+        1000 E. 111th Street, Suite 1100<br>
+        Chicago, Illinois 60628
+      </p>
+      <p style="font-size: 12px; color: #999; margin-top: 10px;">
         © 2025 Mansa Musa Marketplace. Empowering Black-owned businesses everywhere.
       </p>
       <p style="font-size: 11px; color: #bbb; margin-top: 10px;">
