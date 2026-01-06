@@ -119,7 +119,7 @@ const handler = async (req: Request): Promise<Response> => {
 
         // Send the email
         const { error: emailError } = await resend.emails.send({
-          from: "Mansa Musa Marketplace <hello@mansamusa.app>",
+          from: "Mansa Musa Marketplace <hello@mansamusamarketplace.com>",
           to: [lead.owner_email],
           subject: personalizedSubject,
           html: personalizedBody,
