@@ -203,3 +203,6 @@ verify_jwt = true
 
 [functions.validate-business-leads]
 verify_jwt = false
+
+[functions.parse-business-info]
+verify_jwt = false
