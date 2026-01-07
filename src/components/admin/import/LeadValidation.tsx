@@ -256,6 +256,29 @@ export const LeadValidation: React.FC<LeadValidationProps> = ({ onClose }) => {
                 >
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-white truncate">{lead.business_name}</p>
+                    {/* Contact Info */}
+                    <div className="flex items-center gap-4 mt-1 text-xs text-blue-200">
+                      {lead.owner_email && (
+                        <span className="truncate max-w-[180px]" title={lead.owner_email}>
+                          ✉️ {lead.owner_email}
+                        </span>
+                      )}
+                      {lead.phone_number && (
+                        <span>📞 {lead.phone_number}</span>
+                      )}
+                      {lead.website_url && (
+                        <a 
+                          href={lead.website_url.startsWith('http') ? lead.website_url : `https://${lead.website_url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-cyan-400 hover:underline truncate max-w-[150px]"
+                          title={lead.website_url}
+                        >
+                          🌐 {lead.website_url.replace(/^https?:\/\//, '')}
+                        </a>
+                      )}
+                    </div>
+                    {/* Validation Status */}
                     <div className="flex items-center gap-3 mt-1 text-xs">
                       {/* Website Status */}
                       {lead.website_url && (
