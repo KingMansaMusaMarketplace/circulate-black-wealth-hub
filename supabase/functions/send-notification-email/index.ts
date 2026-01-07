@@ -162,7 +162,7 @@ function generateNotificationEmailHTML(props: {
           title: `New business alert: ${props.businessName} just joined!`,
           message: `Exciting news, ${props.fullName}! ${props.businessName} has just joined the Mansa Musa Marketplace. Be among the first to support this new Black-owned business!`,
           cta: 'Visit Business',
-          ctaUrl: `${props.dashboardUrl}/businesses`,
+          ctaUrl: `${props.dashboardUrl}/directory`,
           additional: 'Early supporters often get special deals and help new businesses thrive in the community.'
         };
       case 'special_offer':
@@ -171,7 +171,7 @@ function generateNotificationEmailHTML(props: {
           title: `Special offer from ${props.businessName}!`,
           message: `Great news, ${props.fullName}! ${props.businessName} has a special offer just for loyal customers like you: ${props.offerDetails}`,
           cta: 'Get Offer',
-          ctaUrl: `${props.dashboardUrl}/businesses`,
+          ctaUrl: `${props.dashboardUrl}/directory`,
           additional: 'This exclusive offer is available for a limited time, so act fast!'
         };
       case 'weekly_digest':
