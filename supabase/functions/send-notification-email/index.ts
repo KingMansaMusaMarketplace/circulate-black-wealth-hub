@@ -59,7 +59,7 @@ const handler = async (req: Request): Promise<Response> => {
       rewardName: notificationRequest.data.rewardName,
       expiryDate: notificationRequest.data.expiryDate,
       weeklyStats: notificationRequest.data.weeklyStats,
-      dashboardUrl: `${Deno.env.get('SUPABASE_URL')?.replace('supabase.co', 'vercel.app') || 'https://localhost:5173'}/dashboard`
+      dashboardUrl: Deno.env.get('APP_URL') || 'https://mansamusamarketplace.com'
     });
 
     // Send notification email
