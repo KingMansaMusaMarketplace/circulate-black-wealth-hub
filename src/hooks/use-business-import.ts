@@ -184,30 +184,41 @@ export const useBusinessImport = () => {
     });
   };
 
-  // Get lead statistics
+  // Get lead statistics using parallel count queries (much faster than fetching all rows)
   const { data: leadStats } = useQuery({
     queryKey: ['lead-stats'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('b2b_external_leads')
-        .select('email_status, claim_status, is_converted')
-        .limit(10000);
-      
-      if (error) throw error;
+      // Run all count queries in parallel for speed
+      const [
+        totalResult,
+        notSentResult,
+        sentResult,
+        openedResult,
+        clickedResult,
+        claimedResult,
+        convertedResult,
+      ] = await Promise.all([
+        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }),
+        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('email_status', 'not_sent'),
+        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('email_status', 'sent'),
+        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('email_status', 'opened'),
+        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('email_status', 'clicked'),
+        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('claim_status', 'claimed'),
+        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('is_converted', true),
+      ]);
 
-      const stats = {
-        total: data.length,
-        not_sent: data.filter(l => l.email_status === 'not_sent').length,
-        sent: data.filter(l => l.email_status === 'sent').length,
-        opened: data.filter(l => l.email_status === 'opened').length,
-        clicked: data.filter(l => l.email_status === 'clicked').length,
-        claimed: data.filter(l => l.claim_status === 'claimed').length,
-        converted: data.filter(l => l.is_converted).length,
+      return {
+        total: totalResult.count || 0,
+        not_sent: notSentResult.count || 0,
+        sent: sentResult.count || 0,
+        opened: openedResult.count || 0,
+        clicked: clickedResult.count || 0,
+        claimed: claimedResult.count || 0,
+        converted: convertedResult.count || 0,
       };
-
-      return stats;
     },
     enabled: !!user,
+    staleTime: 30000, // Cache for 30 seconds to avoid refetching on every render
   });
 
   // Create import job mutation
