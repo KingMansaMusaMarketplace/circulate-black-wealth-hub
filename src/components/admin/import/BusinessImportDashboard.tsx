@@ -15,6 +15,7 @@ import { CSVUploader } from './CSVUploader';
 import { BulkInvitationCampaign } from './BulkInvitationCampaign';
 import { AIBusinessDiscovery } from './AIBusinessDiscovery';
 import { LeadValidation } from './LeadValidation';
+import { ManualLeadEntry } from './ManualLeadEntry';
 
 export const BusinessImportDashboard: React.FC = () => {
   const { 
@@ -30,6 +31,7 @@ export const BusinessImportDashboard: React.FC = () => {
   const [showCampaignCreator, setShowCampaignCreator] = useState(false);
   const [showAIDiscovery, setShowAIDiscovery] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
+  const [showManualEntry, setShowManualEntry] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -80,6 +82,14 @@ export const BusinessImportDashboard: React.FC = () => {
           >
             <Upload className="w-4 h-4 mr-2" />
             Import CSV
+          </Button>
+          <Button 
+            variant="outline" 
+            className="border-green-500/50 text-green-300 hover:bg-green-500/10"
+            onClick={() => setShowManualEntry(true)}
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Add Lead
           </Button>
           <Button 
             className="bg-gradient-to-r from-purple-500 to-pink-500"
@@ -353,6 +363,11 @@ export const BusinessImportDashboard: React.FC = () => {
       {/* Lead Validation Modal */}
       {showValidation && (
         <LeadValidation onClose={() => setShowValidation(false)} />
+      )}
+
+      {/* Manual Lead Entry Modal */}
+      {showManualEntry && (
+        <ManualLeadEntry onClose={() => setShowManualEntry(false)} />
       )}
     </div>
   );
