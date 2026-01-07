@@ -51,7 +51,7 @@ const HomePage = () => {
     <>
       <OrganizationStructuredData />
       <WebsiteStructuredData />
-      <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#0a1628] via-mansablue-dark to-[#0a1628]">
+      <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#050d1a] via-[#0a1628] to-[#050d1a]">
         {/* Subtle ambient background - reduced for mobile performance */}
         <div className="fixed inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-mansagold/10 rounded-full blur-[100px]" />
