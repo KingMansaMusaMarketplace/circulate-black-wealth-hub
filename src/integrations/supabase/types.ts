@@ -2763,6 +2763,7 @@ export type Database = {
       }
       business_services: {
         Row: {
+          buffer_minutes: number | null
           business_id: string
           created_at: string | null
           description: string | null
@@ -2774,6 +2775,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          buffer_minutes?: number | null
           business_id: string
           created_at?: string | null
           description?: string | null
@@ -2785,6 +2787,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          buffer_minutes?: number | null
           business_id?: string
           created_at?: string | null
           description?: string | null
