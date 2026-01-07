@@ -8,7 +8,7 @@ export const OrganizationStructuredData = () => {
     name: 'Mansa Musa Marketplace',
     alternateName: 'MMM',
     url: 'https://mansamusamarketplace.com',
-    logo: 'https://mansamusamarketplace.com/icons/icon-512x512.png',
+    logo: 'https://mansamusamarketplace.com/images/mansa-musa-logo.png',
     description: 'A digital marketplace connecting consumers with Black-owned businesses, empowering economic growth in the Black community through discovery, loyalty rewards, and corporate sponsorship.',
     foundingDate: '2024',
     slogan: 'Empowering Black-Owned Businesses',

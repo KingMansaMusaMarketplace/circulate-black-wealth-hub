@@ -44,7 +44,7 @@ export const updateMetaTags = (data: {
     title, 
     description, 
     path = '', 
-    image = '/icons/icon-512x512.png',
+    image = '/images/mansa-musa-logo.png',
     type = 'website',
     keywords = []
   } = data;
