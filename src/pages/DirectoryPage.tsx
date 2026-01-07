@@ -1,9 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from '@/hooks/location/useLocation';
-import { businesses } from '@/data/businessData';
 import { BusinessFilters } from '@/lib/api/directory/types';
-import { useMultiCityDirectory } from '@/hooks/use-multi-city-directory';
+import { useSupabaseDirectory } from '@/hooks/use-supabase-directory';
 import MultiCityStats from '@/components/directory/MultiCityStats';
 import GlobalReachBanner from '@/components/directory/GlobalReachBanner';
 import { useOnboardingTour } from '@/hooks/useOnboardingTour';
@@ -52,7 +51,7 @@ const DirectoryPage: React.FC = () => {
   // Fetch user location
   const { location, getCurrentPosition, loading: locationLoading } = useLocation();
   
-  // Use the multi-city directory hook with the business data
+  // Use the Supabase directory hook to fetch real businesses
   const {
     selectedCity,
     searchTerm,
@@ -63,21 +62,12 @@ const DirectoryPage: React.FC = () => {
     categories,
     filteredBusinesses,
     mapData,
-    totalBusinesses
-  } = useMultiCityDirectory(businesses);
+    totalBusinesses,
+    isLoading,
+    error
+  } = useSupabaseDirectory();
 
-  // Safety check for data
-  console.log('DirectoryPage - businesses:', businesses?.length);
-  console.log('DirectoryPage - filteredBusinesses:', filteredBusinesses?.length);
-  console.log('DirectoryPage - selectedCity:', selectedCity);
-  console.log('DirectoryPage - searchTerm:', searchTerm);
-  console.log('DirectoryPage - filterOptions:', filterOptions);
-  
-  if (!businesses || businesses.length === 0) {
-    console.error('DirectoryPage - No businesses data available');
-  }
-
-  const handleSelectBusiness = (id: string) => {
+  const handleSelectBusiness = useCallback((id: string) => {
     const business = filteredBusinesses.find(b => b.id === id);
     if (business) {
       // Track business view for guests
@@ -96,16 +86,16 @@ const DirectoryPage: React.FC = () => {
         }, 2000);
       }
     }
-  };
+  }, [filteredBusinesses, user, recordBusinessView]);
 
   // Handler for guest actions that require auth
-  const handleGuestAction = (action: string, businessName?: string) => {
+  const handleGuestAction = useCallback((action: string, businessName?: string) => {
     if (!user) {
       recordAttemptedAction(action, businessName);
       return false;
     }
     return true;
-  };
+  }, [user, recordAttemptedAction]);
 
   const handleGetLocation = useCallback(async () => {
     try {
@@ -117,6 +107,16 @@ const DirectoryPage: React.FC = () => {
       console.error('Error getting location:', error);
     }
   }, [getCurrentPosition]);
+
+  // Show loading state
+  if (isLoading) {
+    return <DirectoryLoadingState />;
+  }
+
+  // Show error state
+  if (error) {
+    return <DirectoryErrorState error={error instanceof Error ? error.message : 'Failed to load businesses'} />;
+  }
 
   return (
     <ErrorBoundary>
