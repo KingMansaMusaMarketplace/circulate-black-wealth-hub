@@ -124,6 +124,8 @@ const LazyReferralDashboard = lazy(() => import('@/pages/ReferralDashboard'));
 const LazyShareImpactPage = lazy(() => import('@/pages/ShareImpactPage'));
 const LazySocialProofPage = lazy(() => import('@/pages/SocialProofPage'));
 const LazyFeaturesPage = lazy(() => import('@/pages/FeaturesPage'));
+const LazyFAQPage = lazy(() => import('@/pages/FAQPage'));
+const LazyCustomerSignupPage = lazy(() => import('@/pages/CustomerSignupPage'));
 const LazyNetworkPage = lazy(() => import('@/pages/NetworkPage'));
 const LazyLeaderboardPage = lazy(() => import('@/pages/LeaderboardPage'));
 const LazyImpactPage = lazy(() => import('@/pages/ImpactPage'));
@@ -420,6 +422,7 @@ function App() {
                               <Route path="/error" element={<LazyErrorPage />} />
                               
                               {/* F */}
+                              <Route path="/faq" element={<LazyFAQPage />} />
                               <Route path="/features" element={<LazyFeaturesPage />} />
                               <Route path="/founders-wall" element={<LazyFoundersWallPage />} />
                               <Route path="/full-app-test" element={<LazyFullAppTest />} />
@@ -668,6 +671,7 @@ function App() {
                         <Route path="/email-verified" element={<LazyEmailVerified />} />
                         
                         {/* F */}
+                        <Route path="/faq" element={<LazyFAQPage />} />
                         <Route path="/features" element={<LazyFeatureGuidePage />} />
                         <Route path="/feature-guide" element={<LazyFeatureGuidePage />} />
                         <Route path="/founders-wall" element={<LazyFoundersWallPage />} />
@@ -744,6 +748,7 @@ function App() {
                             <LazyBusinessSignupPage />
                           </IOSProtectedRoute>
                         } />
+                        <Route path="/signup/customer" element={<LazyCustomerSignupPage />} />
                         <Route path="/social-proof" element={<LazySocialProofPage />} />
                         <Route path="/sponsor-dashboard" element={
                           <IOSProtectedRoute>
