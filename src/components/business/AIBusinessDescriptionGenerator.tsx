@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Loader2, Sparkles, Copy, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 export const AIBusinessDescriptionGenerator = () => {
   const [businessName, setBusinessName] = useState('');
@@ -25,6 +26,15 @@ export const AIBusinessDescriptionGenerator = () => {
     setGeneratedDescription('');
 
     try {
+      // Get the user's session token for authentication
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session?.access_token) {
+        toast.error('Please sign in to generate descriptions.');
+        setIsGenerating(false);
+        return;
+      }
+
       const prompt = `Create a compelling business description for "${businessName}", a ${category} business. ${keywords ? `Key highlights: ${keywords}.` : ''} Write a professional, engaging description (2-3 sentences) that would attract customers and highlight what makes this business special.`;
 
       const response = await fetch(
@@ -33,7 +43,7 @@ export const AIBusinessDescriptionGenerator = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            Authorization: `Bearer ${session.access_token}`,
           },
           body: JSON.stringify({ 
             messages: [{ role: 'user', content: prompt }] 

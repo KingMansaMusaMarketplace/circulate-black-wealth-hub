@@ -200,3 +200,6 @@ verify_jwt = true
 
 [functions.import-businesses-csv]
 verify_jwt = true
+
+[functions.validate-business-leads]
+verify_jwt = false
