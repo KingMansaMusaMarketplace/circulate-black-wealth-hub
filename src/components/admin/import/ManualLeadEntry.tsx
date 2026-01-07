@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Plus, Building2, Mail, Phone, Globe, MapPin, User } from 'lucide-react';
+import { X, Plus, Building2, Mail, Phone, Globe, MapPin, User, Wand2, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,9 +29,24 @@ const BUSINESS_CATEGORIES = [
   'Other'
 ];
 
+interface FormData {
+  business_name: string;
+  owner_name: string;
+  owner_email: string;
+  phone_number: string;
+  website_url: string;
+  category: string;
+  city: string;
+  state: string;
+  business_description: string;
+}
+
 export const ManualLeadEntry: React.FC<ManualLeadEntryProps> = ({ onClose, onSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
+  const [isParsing, setIsParsing] = useState(false);
+  const [pasteText, setPasteText] = useState('');
+  const [showPasteMode, setShowPasteMode] = useState(true);
+  const [formData, setFormData] = useState<FormData>({
     business_name: '',
     owner_name: '',
     owner_email: '',
@@ -45,6 +60,52 @@ export const ManualLeadEntry: React.FC<ManualLeadEntryProps> = ({ onClose, onSuc
 
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSmartParse = async () => {
+    if (!pasteText.trim()) {
+      toast.error('Please paste some text first');
+      return;
+    }
+
+    setIsParsing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('parse-business-info', {
+        body: { text: pasteText }
+      });
+
+      if (error) throw error;
+
+      if (data?.success && data?.data) {
+        const parsed = data.data;
+        setFormData({
+          business_name: parsed.business_name || '',
+          owner_name: parsed.owner_name || '',
+          owner_email: parsed.owner_email || '',
+          phone_number: parsed.phone_number || '',
+          website_url: parsed.website_url || '',
+          category: parsed.category || '',
+          city: parsed.city || '',
+          state: parsed.state || '',
+          business_description: parsed.business_description || ''
+        });
+        setShowPasteMode(false);
+        toast.success('Business info extracted! Review and save.');
+      } else {
+        toast.error(data?.error || 'Could not extract business info');
+      }
+    } catch (error: any) {
+      console.error('Parse error:', error);
+      if (error.message?.includes('429')) {
+        toast.error('Rate limit reached. Please try again in a moment.');
+      } else if (error.message?.includes('402')) {
+        toast.error('AI credits exhausted. Please add funds.');
+      } else {
+        toast.error('Failed to parse business info');
+      }
+    } finally {
+      setIsParsing(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -106,7 +167,7 @@ export const ManualLeadEntry: React.FC<ManualLeadEntryProps> = ({ onClose, onSuc
             </div>
             <div>
               <h2 className="text-lg font-semibold text-white">Add Business Lead</h2>
-              <p className="text-sm text-blue-200">Manually enter business contact info</p>
+              <p className="text-sm text-blue-200">Paste info or enter manually</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -114,146 +175,216 @@ export const ManualLeadEntry: React.FC<ManualLeadEntryProps> = ({ onClose, onSuc
           </Button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
-          {/* Business Name */}
-          <div className="space-y-2">
-            <Label className="text-white flex items-center gap-2">
-              <Building2 className="w-4 h-4" />
-              Business Name *
-            </Label>
-            <Input
-              value={formData.business_name}
-              onChange={(e) => handleChange('business_name', e.target.value)}
-              placeholder="e.g., Aura Hair Salon"
-              className="bg-white/5 border-white/20 text-white"
-              required
-            />
-          </div>
+        <div className="p-4 space-y-4">
+          {/* Smart Paste Mode */}
+          {showPasteMode && (
+            <div className="space-y-3 p-4 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/20 rounded-lg">
+              <div className="flex items-center gap-2 text-purple-300">
+                <Wand2 className="w-4 h-4" />
+                <span className="font-medium">Smart Paste</span>
+              </div>
+              <p className="text-sm text-blue-200">
+                Copy contact info from a website and paste it below. AI will extract the details automatically.
+              </p>
+              <Textarea
+                value={pasteText}
+                onChange={(e) => setPasteText(e.target.value)}
+                placeholder={`Paste business info here...
 
-          {/* Owner Name */}
-          <div className="space-y-2">
-            <Label className="text-white flex items-center gap-2">
-              <User className="w-4 h-4" />
-              Owner Name
-            </Label>
-            <Input
-              value={formData.owner_name}
-              onChange={(e) => handleChange('owner_name', e.target.value)}
-              placeholder="e.g., John Smith"
-              className="bg-white/5 border-white/20 text-white"
-            />
-          </div>
-
-          {/* Email & Phone Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="text-white flex items-center gap-2">
-                <Mail className="w-4 h-4" />
-                Email
-              </Label>
-              <Input
-                type="email"
-                value={formData.owner_email}
-                onChange={(e) => handleChange('owner_email', e.target.value)}
-                placeholder="owner@business.com"
-                className="bg-white/5 border-white/20 text-white"
+Example:
+Aura Hair Salon
+Contact: Sarah Johnson
+Email: info@aurahair.com
+Phone: (404) 555-1234
+123 Main Street, Atlanta, GA
+www.aurahairsalon.com`}
+                className="bg-white/5 border-white/20 text-white min-h-[120px] font-mono text-sm"
               />
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  onClick={handleSmartParse}
+                  disabled={isParsing || !pasteText.trim()}
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 flex-1"
+                >
+                  {isParsing ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Extracting...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="w-4 h-4 mr-2" />
+                      Extract Info
+                    </>
+                  )}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setShowPasteMode(false)}
+                  className="border-white/20 text-white"
+                >
+                  Manual Entry
+                </Button>
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label className="text-white flex items-center gap-2">
-                <Phone className="w-4 h-4" />
-                Phone
-              </Label>
-              <Input
-                type="tel"
-                value={formData.phone_number}
-                onChange={(e) => handleChange('phone_number', e.target.value)}
-                placeholder="(555) 123-4567"
-                className="bg-white/5 border-white/20 text-white"
-              />
-            </div>
-          </div>
+          )}
 
-          {/* Website */}
-          <div className="space-y-2">
-            <Label className="text-white flex items-center gap-2">
-              <Globe className="w-4 h-4" />
-              Website
-            </Label>
-            <Input
-              type="url"
-              value={formData.website_url}
-              onChange={(e) => handleChange('website_url', e.target.value)}
-              placeholder="https://www.business.com"
-              className="bg-white/5 border-white/20 text-white"
-            />
-          </div>
-
-          {/* Category */}
-          <div className="space-y-2">
-            <Label className="text-white">Category</Label>
-            <Select value={formData.category} onValueChange={(value) => handleChange('category', value)}>
-              <SelectTrigger className="bg-white/5 border-white/20 text-white">
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                {BUSINESS_CATEGORIES.map((cat) => (
-                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* City & State Row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="text-white flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
-                City
-              </Label>
-              <Input
-                value={formData.city}
-                onChange={(e) => handleChange('city', e.target.value)}
-                placeholder="e.g., Atlanta"
-                className="bg-white/5 border-white/20 text-white"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label className="text-white">State</Label>
-              <Input
-                value={formData.state}
-                onChange={(e) => handleChange('state', e.target.value)}
-                placeholder="e.g., GA"
-                className="bg-white/5 border-white/20 text-white"
-              />
-            </div>
-          </div>
-
-          {/* Description */}
-          <div className="space-y-2">
-            <Label className="text-white">Description (optional)</Label>
-            <Textarea
-              value={formData.business_description}
-              onChange={(e) => handleChange('business_description', e.target.value)}
-              placeholder="Brief description of the business..."
-              className="bg-white/5 border-white/20 text-white min-h-[80px]"
-            />
-          </div>
-
-          {/* Submit Button */}
-          <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
-            <Button type="button" variant="outline" onClick={onClose} className="border-white/20 text-white">
-              Cancel
-            </Button>
-            <Button 
-              type="submit" 
-              disabled={isSubmitting}
-              className="bg-gradient-to-r from-green-500 to-emerald-500"
+          {!showPasteMode && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setShowPasteMode(true)}
+              className="border-purple-500/30 text-purple-300 hover:bg-purple-500/10"
             >
-              {isSubmitting ? 'Adding...' : 'Add Lead'}
+              <Wand2 className="w-4 h-4 mr-2" />
+              Use Smart Paste
             </Button>
-          </div>
-        </form>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Business Name */}
+            <div className="space-y-2">
+              <Label className="text-white flex items-center gap-2">
+                <Building2 className="w-4 h-4" />
+                Business Name *
+              </Label>
+              <Input
+                value={formData.business_name}
+                onChange={(e) => handleChange('business_name', e.target.value)}
+                placeholder="e.g., Aura Hair Salon"
+                className="bg-white/5 border-white/20 text-white"
+                required
+              />
+            </div>
+
+            {/* Owner Name */}
+            <div className="space-y-2">
+              <Label className="text-white flex items-center gap-2">
+                <User className="w-4 h-4" />
+                Owner Name
+              </Label>
+              <Input
+                value={formData.owner_name}
+                onChange={(e) => handleChange('owner_name', e.target.value)}
+                placeholder="e.g., John Smith"
+                className="bg-white/5 border-white/20 text-white"
+              />
+            </div>
+
+            {/* Email & Phone Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-white flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  Email
+                </Label>
+                <Input
+                  type="email"
+                  value={formData.owner_email}
+                  onChange={(e) => handleChange('owner_email', e.target.value)}
+                  placeholder="owner@business.com"
+                  className="bg-white/5 border-white/20 text-white"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-white flex items-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  Phone
+                </Label>
+                <Input
+                  type="tel"
+                  value={formData.phone_number}
+                  onChange={(e) => handleChange('phone_number', e.target.value)}
+                  placeholder="(555) 123-4567"
+                  className="bg-white/5 border-white/20 text-white"
+                />
+              </div>
+            </div>
+
+            {/* Website */}
+            <div className="space-y-2">
+              <Label className="text-white flex items-center gap-2">
+                <Globe className="w-4 h-4" />
+                Website
+              </Label>
+              <Input
+                type="url"
+                value={formData.website_url}
+                onChange={(e) => handleChange('website_url', e.target.value)}
+                placeholder="https://www.business.com"
+                className="bg-white/5 border-white/20 text-white"
+              />
+            </div>
+
+            {/* Category */}
+            <div className="space-y-2">
+              <Label className="text-white">Category</Label>
+              <Select value={formData.category} onValueChange={(value) => handleChange('category', value)}>
+                <SelectTrigger className="bg-white/5 border-white/20 text-white">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {BUSINESS_CATEGORIES.map((cat) => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* City & State Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-white flex items-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  City
+                </Label>
+                <Input
+                  value={formData.city}
+                  onChange={(e) => handleChange('city', e.target.value)}
+                  placeholder="e.g., Atlanta"
+                  className="bg-white/5 border-white/20 text-white"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label className="text-white">State</Label>
+                <Input
+                  value={formData.state}
+                  onChange={(e) => handleChange('state', e.target.value)}
+                  placeholder="e.g., GA"
+                  className="bg-white/5 border-white/20 text-white"
+                />
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="space-y-2">
+              <Label className="text-white">Description (optional)</Label>
+              <Textarea
+                value={formData.business_description}
+                onChange={(e) => handleChange('business_description', e.target.value)}
+                placeholder="Brief description of the business..."
+                className="bg-white/5 border-white/20 text-white min-h-[80px]"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
+              <Button type="button" variant="outline" onClick={onClose} className="border-white/20 text-white">
+                Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="bg-gradient-to-r from-green-500 to-emerald-500"
+              >
+                {isSubmitting ? 'Adding...' : 'Add Lead'}
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
