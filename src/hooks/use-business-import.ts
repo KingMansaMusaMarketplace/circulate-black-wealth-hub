@@ -102,62 +102,52 @@ export const useBusinessImport = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  // Fetch import sources
-  const { data: sources, isLoading: sourcesLoading } = useQuery({
-    queryKey: ['import-sources'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('business_import_sources')
-        .select('*')
-        .order('created_at', { ascending: false });
-      if (error) throw error;
-      return data as ImportSource[];
-    },
-    enabled: !!user,
-  });
-
-  // Fetch import jobs
+  // Fetch import jobs - only what we need for the dashboard
   const { data: jobs, isLoading: jobsLoading } = useQuery({
     queryKey: ['import-jobs'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('business_import_jobs')
-        .select('*')
+        .select('id, job_name, status, businesses_imported, duplicates_skipped, progress_percent, created_at')
         .order('created_at', { ascending: false })
-        .limit(50);
+        .limit(20);
       if (error) throw error;
       return data as ImportJob[];
     },
     enabled: !!user,
+    staleTime: 60000, // Cache for 1 minute
   });
 
-  // Fetch bulk invitation campaigns
+  // Fetch bulk invitation campaigns - only essential fields
   const { data: campaigns, isLoading: campaignsLoading } = useQuery({
     queryKey: ['bulk-invitation-campaigns'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('bulk_invitation_campaigns')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select('id, name, status, total_targets, sent_count, opened_count, claimed_count')
+        .order('created_at', { ascending: false })
+        .limit(20);
       if (error) throw error;
       return data as BulkInvitationCampaign[];
     },
     enabled: !!user,
+    staleTime: 60000, // Cache for 1 minute
   });
 
-  // Fetch invitation templates
+  // Fetch invitation templates - loaded lazily when needed for campaign creation
   const { data: templates, isLoading: templatesLoading } = useQuery({
     queryKey: ['invitation-templates'],
     queryFn: async () => {
       const { data, error } = await supabase
         .from('invitation_templates')
-        .select('*')
+        .select('id, name, subject, is_default')
         .eq('is_active', true)
         .order('is_default', { ascending: false });
       if (error) throw error;
       return data as InvitationTemplate[];
     },
     enabled: !!user,
+    staleTime: 300000, // Cache for 5 minutes - rarely changes
   });
 
   // Fetch external leads with filters
@@ -358,13 +348,12 @@ export const useBusinessImport = () => {
   };
 
   return {
-    sources: sources || [],
     jobs: jobs || [],
     campaigns: campaigns || [],
     templates: templates || [],
     leadStats,
     useLeads,
-    isLoading: sourcesLoading || jobsLoading || campaignsLoading || templatesLoading,
+    isLoading: jobsLoading || campaignsLoading,
     createImportJob: createImportJobMutation.mutate,
     creatingJob: createImportJobMutation.isPending,
     createCampaign: createCampaignMutation.mutate,

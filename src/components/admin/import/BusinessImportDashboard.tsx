@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Upload, FileText, Mail, Users, TrendingUp, CheckCircle, 
@@ -10,12 +10,34 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useBusinessImport } from '@/hooks/use-business-import';
-import { CSVUploader } from './CSVUploader';
-import { BulkInvitationCampaign } from './BulkInvitationCampaign';
-import { AIBusinessDiscovery } from './AIBusinessDiscovery';
-import { LeadValidation } from './LeadValidation';
-import { ManualLeadEntry } from './ManualLeadEntry';
+
+// Lazy load modals since they're not needed on initial render
+const CSVUploader = lazy(() => import('./CSVUploader').then(m => ({ default: m.CSVUploader })));
+const BulkInvitationCampaign = lazy(() => import('./BulkInvitationCampaign').then(m => ({ default: m.BulkInvitationCampaign })));
+const AIBusinessDiscovery = lazy(() => import('./AIBusinessDiscovery').then(m => ({ default: m.AIBusinessDiscovery })));
+const LeadValidation = lazy(() => import('./LeadValidation').then(m => ({ default: m.LeadValidation })));
+const ManualLeadEntry = lazy(() => import('./ManualLeadEntry').then(m => ({ default: m.ManualLeadEntry })));
+
+// Loading skeleton for stats cards
+const StatsLoadingSkeleton = () => (
+  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    {[...Array(6)].map((_, i) => (
+      <Card key={i} className="bg-white/5 border-white/10">
+        <CardContent className="p-4">
+          <div className="flex items-center gap-3">
+            <Skeleton className="h-10 w-10 rounded-lg" />
+            <div className="space-y-2">
+              <Skeleton className="h-6 w-12" />
+              <Skeleton className="h-3 w-16" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    ))}
+  </div>
+);
 
 export const BusinessImportDashboard: React.FC = () => {
   const { 
@@ -116,30 +138,34 @@ export const BusinessImportDashboard: React.FC = () => {
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {funnelData.map((item, index) => (
-          <motion.div
-            key={item.label}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-          >
-            <Card className="bg-white/5 border-white/10">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-lg ${item.color}`}>
-                    <item.icon className="w-4 h-4 text-white" />
+      {!leadStats ? (
+        <StatsLoadingSkeleton />
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {funnelData.map((item, index) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.05 }}
+            >
+              <Card className="bg-white/5 border-white/10">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`p-2 rounded-lg ${item.color}`}>
+                      <item.icon className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-white">{item.value.toLocaleString()}</p>
+                      <p className="text-xs text-blue-200">{item.label}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-2xl font-bold text-white">{item.value.toLocaleString()}</p>
-                    <p className="text-xs text-blue-200">{item.label}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Conversion Funnel Visualization */}
       {leadStats && leadStats.total > 0 && (
@@ -345,30 +371,14 @@ export const BusinessImportDashboard: React.FC = () => {
         </TabsContent>
       </Tabs>
 
-      {/* CSV Uploader Modal */}
-      {showUploader && (
-        <CSVUploader onClose={() => setShowUploader(false)} />
-      )}
-
-      {/* AI Business Discovery Modal */}
-      {showAIDiscovery && (
-        <AIBusinessDiscovery onClose={() => setShowAIDiscovery(false)} />
-      )}
-
-      {/* Campaign Creator Modal */}
-      {showCampaignCreator && (
-        <BulkInvitationCampaign onClose={() => setShowCampaignCreator(false)} />
-      )}
-
-      {/* Lead Validation Modal */}
-      {showValidation && (
-        <LeadValidation onClose={() => setShowValidation(false)} />
-      )}
-
-      {/* Manual Lead Entry Modal */}
-      {showManualEntry && (
-        <ManualLeadEntry onClose={() => setShowManualEntry(false)} />
-      )}
+      {/* Lazy-loaded modals */}
+      <Suspense fallback={null}>
+        {showUploader && <CSVUploader onClose={() => setShowUploader(false)} />}
+        {showAIDiscovery && <AIBusinessDiscovery onClose={() => setShowAIDiscovery(false)} />}
+        {showCampaignCreator && <BulkInvitationCampaign onClose={() => setShowCampaignCreator(false)} />}
+        {showValidation && <LeadValidation onClose={() => setShowValidation(false)} />}
+        {showManualEntry && <ManualLeadEntry onClose={() => setShowManualEntry(false)} />}
+      </Suspense>
     </div>
   );
 };
