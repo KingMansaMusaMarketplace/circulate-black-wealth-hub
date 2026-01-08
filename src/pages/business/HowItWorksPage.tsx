@@ -355,7 +355,7 @@ const HowItWorksPage = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
                   size="lg" 
-                  onClick={() => navigate('/business/signup')} 
+                  onClick={() => navigate('/business-signup')} 
                   className="text-lg bg-gradient-to-r from-mansagold to-amber-500 hover:from-mansagold/90 hover:to-amber-500/90 text-mansablue font-semibold shadow-lg shadow-mansagold/20"
                 >
                   Sign Up as Business

@@ -209,12 +209,12 @@ const LoyaltyProgramGuidePage: React.FC = () => {
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button asChild size="lg" className="bg-mansagold hover:bg-mansagold/90 text-mansablue font-semibold">
-                  <Link to="/register">
+                  <Link to="/signup">
                     Join as Consumer <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10">
-                  <Link to="/business/register">
+                  <Link to="/business-signup">
                     Register Your Business
                   </Link>
                 </Button>

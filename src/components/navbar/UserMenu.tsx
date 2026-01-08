@@ -90,7 +90,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             
             {userType === 'business' ? (
               <DropdownMenuItem asChild>
-                <Link to="/business/dashboard" className="flex items-center">
+                <Link to="/business-dashboard" className="flex items-center">
                   <LayoutDashboard className="mr-2 h-4 w-4" />
                   <span>Business Dashboard</span>
                 </Link>

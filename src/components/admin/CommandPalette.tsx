@@ -68,7 +68,7 @@ const CommandPalette: React.FC<CommandPaletteProps> = ({ onTabChange, onExportOp
 
   const actionCommands = [
     { icon: Download, label: 'Export Reports', action: onExportOpen },
-    { icon: Bot, label: 'Open AI Dashboard', action: () => navigate('/admin/ai') },
+    { icon: Bot, label: 'Open AI Assistant', action: () => navigate('/ai-assistant') },
     { icon: FileText, label: 'View Verification Queue', action: () => navigate('/admin/verification') },
     { icon: Settings, label: 'System Settings', action: () => onTabChange('security') },
   ];

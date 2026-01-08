@@ -453,7 +453,7 @@ export default function UserDashboardPage() {
                   <span className="text-sm font-bold">Scan QR</span>
                 </Button>
               </Link>
-              <Link to="/rewards">
+              <Link to="/loyalty">
                 <Button className="w-full h-24 flex flex-col space-y-2 bg-gradient-to-br from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg hover:shadow-xl transition-all">
                   <Gift className="h-7 w-7" />
                   <span className="text-sm font-bold">View Rewards</span>

@@ -12,7 +12,7 @@ const QuickActionsFAB: React.FC<QuickActionsFABProps> = ({ onExportOpen }) => {
   const navigate = useNavigate();
 
   const actions = [
-    { icon: Bot, label: 'AI Dashboard', action: () => navigate('/admin/ai'), color: 'bg-purple-500' },
+    { icon: Bot, label: 'AI Assistant', action: () => navigate('/ai-assistant'), color: 'bg-purple-500' },
     { icon: FileCheck, label: 'Verification', action: () => navigate('/admin/verification'), color: 'bg-blue-500' },
     { icon: Download, label: 'Export Reports', action: onExportOpen, color: 'bg-green-500' },
   ];
