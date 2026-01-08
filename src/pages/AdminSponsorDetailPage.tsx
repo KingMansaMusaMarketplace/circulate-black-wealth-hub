@@ -316,7 +316,7 @@ export default function AdminSponsorDetailPage() {
   });
 
   // Wait for auth to load before checking role
-  if (!user && userRole === null) {
+  if (!user || userRole === null || userRole === undefined) {
     return (
       <DashboardLayout title="Sponsor Details" icon={<Building2 className="h-6 w-6" />}>
         <div className="animate-pulse space-y-4">
@@ -327,7 +327,7 @@ export default function AdminSponsorDetailPage() {
     );
   }
 
-  if (!user || userRole !== 'admin') {
+  if (userRole !== 'admin') {
     return <Navigate to="/" />;
   }
 
