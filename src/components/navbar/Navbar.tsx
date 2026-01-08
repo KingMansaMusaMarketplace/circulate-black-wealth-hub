@@ -114,7 +114,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             </motion.div>
             
             <motion.div 
-              className="flex items-center gap-2 sm:gap-3 flex-shrink-0"
+              className="flex items-center gap-2 sm:gap-3 flex-shrink-0 overflow-visible"
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.2 }}
@@ -124,7 +124,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setSearchOpen(true)}
-                className="relative hover:bg-white/10 text-white/80 hover:text-mansagold transition-all duration-300 hover:scale-105 rounded-lg"
+                className="relative hover:bg-white/10 text-white/80 hover:text-mansagold transition-all duration-300 hover:scale-105 rounded-lg h-9 w-9 min-w-[36px] flex-shrink-0"
                 aria-label="Search"
                 title="Search (⌘K)"
               >
