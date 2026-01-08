@@ -1,18 +1,26 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Search } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
 interface MobileMenuProps {
   onNavigate: () => void;
+  onSearchOpen?: () => void;
 }
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
+const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => {
   const handleLinkClick = (e: React.MouseEvent) => {
     // Ensure the click event propagates properly
     e.stopPropagation();
     onNavigate();
+  };
+
+  const handleSearchClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onNavigate();
+    onSearchOpen?.();
   };
 
   const businessItems = [
@@ -59,6 +67,18 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate }) => {
     <div className="w-full" data-mobile-menu>
       <Card className="mx-4 mt-2 shadow-lg bg-white border border-gray-200">
         <CardContent className="p-4">
+          {/* Search Button */}
+          <button
+            onClick={handleSearchClick}
+            className="w-full flex items-center gap-3 px-3 py-3 mb-3 text-base font-medium text-gray-700 hover:text-mansagold bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors touch-manipulation active:bg-gray-200"
+            style={{ minHeight: '48px' }}
+          >
+            <Search className="h-5 w-5 text-gray-400" />
+            <span>Search businesses...</span>
+          </button>
+          
+          <Separator className="mb-3" />
+          
           <nav className="space-y-2">
             {/* Main Navigation */}
             {mainItems.map((item) => (
