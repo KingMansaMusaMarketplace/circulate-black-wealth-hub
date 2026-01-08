@@ -385,6 +385,11 @@ function App() {
                               } />
                               <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                               <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
+                              <Route path="/business/register" element={
+                                <IOSProtectedRoute>
+                                  <LazyBusinessSignupPage />
+                                </IOSProtectedRoute>
+                              } />
                               <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                               <Route path="/button-test" element={<LazyButtonTestPage />} />
@@ -632,6 +637,11 @@ function App() {
                         } />
                         <Route path="/business/how-it-works" element={<LazyBusinessHowItWorksPage />} />
                         <Route path="/business/b2b-dashboard" element={<LazyB2BDashboardPage />} />
+                        <Route path="/business/register" element={
+                          <IOSProtectedRoute>
+                            <LazyBusinessSignupPage />
+                          </IOSProtectedRoute>
+                        } />
                         <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                         <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                         
