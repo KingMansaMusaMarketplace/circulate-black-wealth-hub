@@ -79,9 +79,6 @@ interface Sponsor {
   company_name: string;
   logo_url: string | null;
   website_url: string | null;
-  contact_name: string | null;
-  contact_email: string | null;
-  contact_phone: string | null;
   tier: string;
   status: string;
   is_visible: boolean;
@@ -371,15 +368,15 @@ export default function AdminSponsorDetailPage() {
   const emailTemplates: Record<string, { subject: string; content: string }> = {
     renewal: {
       subject: `Your ${sponsor.tier.toUpperCase()} sponsorship is up for renewal`,
-      content: `Dear ${sponsor.contact_name || sponsor.company_name},\n\nYour sponsorship is expiring soon. We would love to continue our partnership. Please let us know if you'd like to renew.\n\nBest regards,\nMansa Musa Marketplace Team`,
+      content: `Dear ${sponsor.company_name},\n\nYour sponsorship is expiring soon. We would love to continue our partnership. Please let us know if you'd like to renew.\n\nBest regards,\nMansa Musa Marketplace Team`,
     },
     logo_reminder: {
       subject: 'Action Required: Upload Your Company Logo',
-      content: `Dear ${sponsor.contact_name || sponsor.company_name},\n\nWe noticed you haven't uploaded your company logo yet. Your logo helps increase brand visibility across our platform.\n\nPlease upload your logo through your sponsor dashboard.\n\nBest regards,\nMansa Musa Marketplace Team`,
+      content: `Dear ${sponsor.company_name},\n\nWe noticed you haven't uploaded your company logo yet. Your logo helps increase brand visibility across our platform.\n\nPlease upload your logo through your sponsor dashboard.\n\nBest regards,\nMansa Musa Marketplace Team`,
     },
     welcome: {
       subject: `Welcome to Mansa Musa Marketplace - ${sponsor.tier.toUpperCase()} Sponsor`,
-      content: `Dear ${sponsor.contact_name || sponsor.company_name},\n\nWelcome to Mansa Musa Marketplace! We're thrilled to have you as a ${sponsor.tier} sponsor.\n\nYour sponsorship helps support Black-owned businesses in our community.\n\nBest regards,\nMansa Musa Marketplace Team`,
+      content: `Dear ${sponsor.company_name},\n\nWelcome to Mansa Musa Marketplace! We're thrilled to have you as a ${sponsor.tier} sponsor.\n\nYour sponsorship helps support Black-owned businesses in our community.\n\nBest regards,\nMansa Musa Marketplace Team`,
     },
   };
 
@@ -628,55 +625,19 @@ export default function AdminSponsorDetailPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Contact Information</CardTitle>
+                <CardTitle>Sponsorship Details</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {editMode ? (
-                  <>
-                    <div className="space-y-2">
-                      <Label>Contact Name</Label>
-                      <Input
-                        defaultValue={sponsor.contact_name || ''}
-                        onChange={(e) => setEditForm({ ...editForm, contact_name: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Contact Email</Label>
-                      <Input
-                        defaultValue={sponsor.contact_email || ''}
-                        onChange={(e) => setEditForm({ ...editForm, contact_email: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Contact Phone</Label>
-                      <Input
-                        defaultValue={sponsor.contact_phone || ''}
-                        onChange={(e) => setEditForm({ ...editForm, contact_phone: e.target.value })}
-                      />
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex items-center gap-2">
-                      <Building2 className="h-4 w-4 text-muted-foreground" />
-                      <span>{sponsor.contact_name || 'No contact name'}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-muted-foreground" />
-                      {sponsor.contact_email ? (
-                        <a href={`mailto:${sponsor.contact_email}`} className="text-primary hover:underline">
-                          {sponsor.contact_email}
-                        </a>
-                      ) : (
-                        <span className="text-muted-foreground">No email</span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-muted-foreground" />
-                      <span>{sponsor.contact_phone || 'No phone'}</span>
-                    </div>
-                  </>
-                )}
+                <div className="flex items-center gap-2">
+                  <Building2 className="h-4 w-4 text-muted-foreground" />
+                  <span className="font-medium">User ID:</span>
+                  <span className="text-muted-foreground text-sm">{sponsor.user_id}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                  <span className="font-medium">Stripe Customer:</span>
+                  <span className="text-muted-foreground text-sm">{sponsor.stripe_customer_id || 'Not linked'}</span>
+                </div>
               </CardContent>
             </Card>
 
