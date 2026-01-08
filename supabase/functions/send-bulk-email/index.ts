@@ -2,9 +2,15 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { Resend } from "npm:resend@2.0.0";
 import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
-import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.38/deno-dom-wasm.ts";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+
+// Standard CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+};
 
 /**
  * Sanitize HTML content to prevent XSS attacks in emails.
@@ -30,98 +36,11 @@ const sanitizeHtmlContent = (content: string): string => {
     return content.split('\n').map(line => `<p>${escapeHtml(line)}</p>`).join('');
   }
   
-  // For content with HTML, parse and sanitize
-  try {
-    const doc = new DOMParser().parseFromString(`<div>${content}</div>`, 'text/html');
-    if (!doc) {
-      // Fallback: escape all HTML
-      return content.split('\n').map(line => `<p>${escapeHtml(line)}</p>`).join('');
-    }
-    
-    const sanitizeNode = (node: any): string => {
-      if (node.nodeType === 3) { // Text node
-        return escapeHtml(node.textContent || '');
-      }
-      
-      if (node.nodeType === 1) { // Element node
-        const tagName = node.tagName.toLowerCase();
-        
-        if (!allowedTags.has(tagName)) {
-          // For disallowed tags, just return the text content
-          let result = '';
-          for (const child of node.childNodes) {
-            result += sanitizeNode(child);
-          }
-          return result;
-        }
-        
-        // Build sanitized element
-        let result = `<${tagName}`;
-        
-        // Only allow href attribute on anchor tags, and validate the URL
-        if (tagName === 'a') {
-          const href = node.getAttribute('href');
-          if (href) {
-            // Only allow http/https URLs
-            if (/^https?:\/\//i.test(href)) {
-              result += ` href="${escapeHtml(href)}"`;
-            }
-          }
-        }
-        
-        result += '>';
-        
-        for (const child of node.childNodes) {
-          result += sanitizeNode(child);
-        }
-        
-        result += `</${tagName}>`;
-        return result;
-      }
-      
-      return '';
-    };
-    
-    let sanitized = '';
-    const container = doc.querySelector('div');
-    if (container) {
-      for (const child of container.childNodes) {
-        sanitized += sanitizeNode(child);
-      }
-    }
-    
-    return sanitized || content.split('\n').map(line => `<p>${escapeHtml(line)}</p>`).join('');
-  } catch (error) {
-    console.error('HTML sanitization error, falling back to escaped text:', error);
-    return content.split('\n').map(line => `<p>${escapeHtml(line)}</p>`).join('');
-  }
-};
-
-// CORS configuration with origin validation
-const getAllowedOrigins = (): string[] => {
-  const origins = Deno.env.get('ALLOWED_ORIGINS');
-  if (origins) {
-    return origins.split(',').map(o => o.trim());
-  }
-  // Default allowed origins for MansaMusa platform
-  return [
-    'https://agoclnqfyinwjxdmjnns.lovableproject.com',
-    'https://lovable.dev',
-    'http://localhost:5173',
-    'http://localhost:3000'
-  ];
-};
-
-const getCorsHeaders = (req: Request): Record<string, string> => {
-  const origin = req.headers.get('origin') || '';
-  const allowedOrigins = getAllowedOrigins();
-  const isAllowed = allowedOrigins.includes(origin) || allowedOrigins.includes('*');
-  
-  return {
-    'Access-Control-Allow-Origin': isAllowed ? origin : allowedOrigins[0],
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  };
+  // For content with HTML, just escape dangerous characters but keep structure
+  return content
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/on\w+="[^"]*"/gi, '')
+    .replace(/javascript:/gi, '');
 };
 
 // Input validation schema
@@ -132,8 +51,6 @@ const bulkEmailSchema = z.object({
 });
 
 const handler = async (req: Request): Promise<Response> => {
-  const corsHeaders = getCorsHeaders(req);
-  
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
