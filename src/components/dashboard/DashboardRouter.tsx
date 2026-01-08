@@ -23,9 +23,9 @@ const DashboardRouter: React.FC = () => {
 
   // Redirect based on user type
   if (userType === 'business') {
-    return <Navigate to="/dashboard/business" replace />;
+    return <Navigate to="/business-dashboard" replace />;
   } else {
-    return <Navigate to="/dashboard/customer" replace />;
+    return <Navigate to="/user-dashboard" replace />;
   }
 };
 

@@ -125,8 +125,8 @@ const WelcomePage: React.FC = () => {
           >
             {[
               { icon: Building2, label: 'Browse Directory', action: () => navigate('/directory') },
-              { icon: QrCode, label: 'Scan QR Code', action: () => navigate('/qr-scanner') },
-              { icon: Star, label: 'View Rewards', action: () => navigate('/rewards') },
+              { icon: QrCode, label: 'Scan QR Code', action: () => navigate('/scanner') },
+              { icon: Star, label: 'View Rewards', action: () => navigate('/loyalty') },
               { icon: TrendingUp, label: 'See Your Impact', action: () => navigate('/impact') },
             ].map((item, index) => (
               <Card

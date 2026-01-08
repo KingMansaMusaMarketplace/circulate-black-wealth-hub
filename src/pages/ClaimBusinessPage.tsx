@@ -235,7 +235,7 @@ const ClaimBusinessPage: React.FC = () => {
                 </p>
 
                 <Button
-                  onClick={() => navigate('/business/dashboard')}
+                  onClick={() => navigate('/business-dashboard')}
                   className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700"
                 >
                   Go to Dashboard

@@ -334,7 +334,7 @@ export default function CustomerDetailPage() {
                 <Button
                   variant="outline"
                   className="w-full justify-start bg-white/5 border-white/20 text-white hover:bg-white/10"
-                  onClick={() => navigate(`/invoices/new?customerId=${customer.id}`)}
+                  onClick={() => toast.info('Invoice feature coming soon!')}
                 >
                   <DollarSign className="h-4 w-4 mr-2 text-yellow-400" />
                   Create Invoice
@@ -425,7 +425,7 @@ export default function CustomerDetailPage() {
                       <div 
                         key={invoice.id}
                         className="backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6 cursor-pointer hover:bg-white/10 transition-colors"
-                        onClick={() => navigate(`/invoices/${invoice.id}`)}
+                        onClick={() => toast.info('Invoice details coming soon!')}
                       >
                         <div className="flex items-center justify-between">
                           <div>

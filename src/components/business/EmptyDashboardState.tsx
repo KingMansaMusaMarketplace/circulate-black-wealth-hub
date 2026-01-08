@@ -25,7 +25,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({ busine
       title: "Generate Your QR Code",
       description: "Create a unique QR code for customers to scan and earn loyalty points",
       action: "Generate QR Code",
-      onClick: () => navigate('/business/qr-codes'),
+      onClick: () => navigate('/business-dashboard'),
       color: "from-blue-500 to-cyan-500"
     },
     {
@@ -33,7 +33,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({ busine
       title: "Add Your Services",
       description: "List the services you offer so customers can book appointments",
       action: "Add Services",
-      onClick: () => navigate('/business/services'),
+      onClick: () => navigate('/business-dashboard'),
       color: "from-purple-500 to-pink-500"
     },
     {
@@ -41,7 +41,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({ busine
       title: "Set Your Availability",
       description: "Let customers know when you're open and ready for business",
       action: "Set Hours",
-      onClick: () => navigate('/business/availability'),
+      onClick: () => navigate('/business-dashboard'),
       color: "from-green-500 to-emerald-500"
     },
     {
@@ -49,7 +49,7 @@ export const EmptyDashboardState: React.FC<EmptyDashboardStateProps> = ({ busine
       title: "Share Your Business",
       description: "Spread the word and start attracting customers from the community",
       action: "Get Marketing Materials",
-      onClick: () => navigate('/business/marketing'),
+      onClick: () => navigate('/marketing-materials'),
       color: "from-orange-500 to-amber-500"
     }
   ];
