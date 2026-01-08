@@ -54,11 +54,12 @@ serve(async (req) => {
     // Get service details
     const { data: service, error: serviceError } = await supabase
       .from("business_services")
-      .select("*, businesses:business_id(stripe_account_id)")
+      .select("*")
       .eq("id", serviceId)
       .single();
 
     if (serviceError || !service) {
+      console.error("Service error:", serviceError);
       throw new Error("Service not found");
     }
 
@@ -70,11 +71,12 @@ serve(async (req) => {
       .single();
 
     if (accountError || !paymentAccount) {
-      throw new Error("Business payment account not found");
+      console.error("Payment account error:", accountError);
+      throw new Error("This business hasn't set up payment processing yet. Please contact the business directly.");
     }
 
     if (!paymentAccount.charges_enabled) {
-      throw new Error("Business cannot accept payments yet");
+      throw new Error("This business cannot accept payments yet. Payment setup is pending.");
     }
 
     // Calculate fees with 7.5% commission
