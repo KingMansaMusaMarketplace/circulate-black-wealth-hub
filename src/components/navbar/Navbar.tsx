@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,6 +11,7 @@ import NavLinks from './NavLinks';
 import UserMenu from './UserMenu';
 import MobileMenu from './MobileMenu';
 import NotificationBell from '@/components/notifications/NotificationBell';
+import GlobalSearchModal from './GlobalSearchModal';
 
 interface NavbarProps {
   className?: string;
@@ -21,6 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const { user } = useAuth();
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const toggleMobileMenu = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
@@ -112,11 +114,23 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             </motion.div>
             
             <motion.div 
-              className="flex items-center gap-3 flex-shrink-0"
+              className="flex items-center gap-2 sm:gap-3 flex-shrink-0"
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.2 }}
             >
+              {/* Search Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setSearchOpen(true)}
+                className="relative hover:bg-white/10 text-white/80 hover:text-mansagold transition-all duration-300 hover:scale-105 rounded-lg"
+                aria-label="Search"
+                title="Search (⌘K)"
+              >
+                <Search className="h-5 w-5" />
+              </Button>
+
               {user && !isMobile && (
                 <div className="transition-all duration-300 hover:scale-105">
                   <NotificationBell />
@@ -182,10 +196,13 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             data-mobile-menu 
             style={{ WebkitOverflowScrolling: 'touch' }}
           >
-            <MobileMenu onNavigate={closeMobileMenu} />
+            <MobileMenu onNavigate={closeMobileMenu} onSearchOpen={() => setSearchOpen(true)} />
           </motion.div>
         </>
       )}
+
+      {/* Global Search Modal */}
+      <GlobalSearchModal open={searchOpen} onOpenChange={setSearchOpen} />
     </>
   );
 };
