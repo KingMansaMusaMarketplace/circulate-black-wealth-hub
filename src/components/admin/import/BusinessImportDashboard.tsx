@@ -12,6 +12,8 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useBusinessImport } from '@/hooks/use-business-import';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 // Lazy load modals since they're not needed on initial render
 const CSVUploader = lazy(() => import('./CSVUploader').then(m => ({ default: m.CSVUploader })));
@@ -54,6 +56,62 @@ export const BusinessImportDashboard: React.FC = () => {
   const [showAIDiscovery, setShowAIDiscovery] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
   const [showManualEntry, setShowManualEntry] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+
+  const exportAllLeads = async () => {
+    setIsExporting(true);
+    try {
+      // Fetch all leads from the database
+      const { data, error } = await supabase
+        .from('b2b_external_leads')
+        .select('business_name, owner_email, city, state, category, phone_number, website_url, owner_name, business_description, validation_status, is_invited, is_converted, created_at')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        toast.error('No leads to export');
+        return;
+      }
+
+      // Convert to CSV
+      const headers = ['business_name', 'owner_email', 'city', 'state', 'category', 'phone_number', 'website_url', 'owner_name', 'business_description', 'validation_status', 'is_invited', 'is_converted', 'created_at'];
+      const csvContent = [
+        headers.join(','),
+        ...data.map(row => 
+          headers.map(header => {
+            const value = row[header as keyof typeof row];
+            // Handle null/undefined values and escape quotes
+            if (value === null || value === undefined) return '';
+            const stringValue = String(value);
+            // Escape quotes and wrap in quotes if contains comma, quote, or newline
+            if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+              return `"${stringValue.replace(/"/g, '""')}"`;
+            }
+            return stringValue;
+          }).join(',')
+        )
+      ].join('\n');
+
+      // Create and download the file
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `business_leads_export_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      toast.success(`Exported ${data.length} leads successfully`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export leads');
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -85,6 +143,15 @@ export const BusinessImportDashboard: React.FC = () => {
           <p className="text-blue-200">Import and reach out to Black-owned businesses at scale</p>
         </div>
         <div className="flex flex-wrap gap-3">
+          <Button 
+            variant="outline" 
+            className="border-green-500/50 text-green-300 hover:bg-green-500/10"
+            onClick={exportAllLeads}
+            disabled={isExporting}
+          >
+            <Download className="w-4 h-4 mr-2" />
+            {isExporting ? 'Exporting...' : 'Export All Leads'}
+          </Button>
           <a 
             href="/templates/business_leads_template.csv" 
             download="business_leads_template.csv"
