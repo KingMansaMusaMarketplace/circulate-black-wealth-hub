@@ -70,10 +70,10 @@ function validateSearchInput(input: WebSearchRequest): { valid: boolean; error?:
     sanitizedLocation = input.location.trim();
   }
   
-  // Validate limit - default to 10 for better discovery
-  const limit = input.limit || 10;
-  if (typeof limit !== 'number' || limit < 1 || limit > 25 || !Number.isInteger(limit)) {
-    return { valid: false, error: 'Limit must be an integer between 1 and 25' };
+  // Validate limit - default to 25 for better discovery
+  const limit = input.limit || 25;
+  if (typeof limit !== 'number' || limit < 1 || limit > 50 || !Number.isInteger(limit)) {
+    return { valid: false, error: 'Limit must be an integer between 1 and 50' };
   }
   
   return { 

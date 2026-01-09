@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Upload, FileText, Mail, Users, TrendingUp, CheckCircle, 
   XCircle, Clock, Send, Eye, MousePointer, Building2, 
-  RefreshCw, Plus, Settings, Download, Play, Sparkles, Shield
+  RefreshCw, Plus, Settings, Download, Play, Sparkles, Shield, Star, Calendar, Zap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -15,12 +15,14 @@ import { useBusinessImport } from '@/hooks/use-business-import';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
-// Lazy load modals since they're not needed on initial render
+// Lazy load modals and tabs since they're not needed on initial render
 const CSVUploader = lazy(() => import('./CSVUploader').then(m => ({ default: m.CSVUploader })));
 const BulkInvitationCampaign = lazy(() => import('./BulkInvitationCampaign').then(m => ({ default: m.BulkInvitationCampaign })));
 const AIBusinessDiscovery = lazy(() => import('./AIBusinessDiscovery').then(m => ({ default: m.AIBusinessDiscovery })));
 const LeadValidation = lazy(() => import('./LeadValidation').then(m => ({ default: m.LeadValidation })));
 const ManualLeadEntry = lazy(() => import('./ManualLeadEntry').then(m => ({ default: m.ManualLeadEntry })));
+const PriorityLeadsTab = lazy(() => import('./PriorityLeadsTab').then(m => ({ default: m.PriorityLeadsTab })));
+const ScheduledSearchesTab = lazy(() => import('./ScheduledSearchesTab').then(m => ({ default: m.ScheduledSearchesTab })));
 
 // Loading skeleton for stats cards
 const StatsLoadingSkeleton = () => (
@@ -57,6 +59,26 @@ export const BusinessImportDashboard: React.FC = () => {
   const [showValidation, setShowValidation] = useState(false);
   const [showManualEntry, setShowManualEntry] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isEnriching, setIsEnriching] = useState(false);
+
+  // Auto-enrich all new leads
+  const autoEnrichLeads = async () => {
+    setIsEnriching(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('auto-enrich-leads', {
+        body: { enrich_all_new: true, limit: 100 },
+      });
+
+      if (error) throw error;
+
+      toast.success(`Enriched ${data.enriched} leads: ${data.high_priority} high-priority found!`);
+    } catch (error) {
+      console.error('Enrichment error:', error);
+      toast.error('Failed to enrich leads');
+    } finally {
+      setIsEnriching(false);
+    }
+  };
 
   const exportAllLeads = async () => {
     setIsExporting(true);
@@ -188,6 +210,15 @@ export const BusinessImportDashboard: React.FC = () => {
             AI Discovery
           </Button>
           <Button 
+            variant="outline"
+            className="border-cyan-500/50 text-cyan-300 hover:bg-cyan-500/10"
+            onClick={autoEnrichLeads}
+            disabled={isEnriching}
+          >
+            <Zap className="w-4 h-4 mr-2" />
+            {isEnriching ? 'Enriching...' : 'Auto-Enrich'}
+          </Button>
+          <Button 
             className="bg-gradient-to-r from-amber-500 to-orange-500"
             onClick={() => setShowValidation(true)}
           >
@@ -270,11 +301,31 @@ export const BusinessImportDashboard: React.FC = () => {
         </Card>
       )}
 
-      <Tabs defaultValue="jobs" className="space-y-4">
+      <Tabs defaultValue="priority" className="space-y-4">
         <TabsList className="bg-white/5">
+          <TabsTrigger value="priority" className="data-[state=active]:bg-yellow-500/20">
+            <Star className="w-4 h-4 mr-1" />
+            Priority Leads
+          </TabsTrigger>
+          <TabsTrigger value="scheduled">
+            <Calendar className="w-4 h-4 mr-1" />
+            Scheduled
+          </TabsTrigger>
           <TabsTrigger value="jobs">Import Jobs</TabsTrigger>
           <TabsTrigger value="campaigns">Outreach Campaigns</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="priority">
+          <Suspense fallback={<Skeleton className="h-64 w-full" />}>
+            <PriorityLeadsTab />
+          </Suspense>
+        </TabsContent>
+
+        <TabsContent value="scheduled">
+          <Suspense fallback={<Skeleton className="h-64 w-full" />}>
+            <ScheduledSearchesTab />
+          </Suspense>
+        </TabsContent>
 
         <TabsContent value="jobs">
           <Card className="bg-white/5 border-white/10">

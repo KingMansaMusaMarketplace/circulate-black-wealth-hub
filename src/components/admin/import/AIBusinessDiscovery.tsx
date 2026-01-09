@@ -59,7 +59,7 @@ export const AIBusinessDiscovery: React.FC<AIBusinessDiscoveryProps> = ({ onClos
           query: query.trim(),
           category: category.trim() || undefined,
           location: location.trim() || undefined,
-          limit: 15,
+          limit: 50,
         },
       });
 
