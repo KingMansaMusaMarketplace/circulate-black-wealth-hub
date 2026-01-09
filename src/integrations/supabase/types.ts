@@ -987,6 +987,7 @@ export type Database = {
           is_invited: boolean | null
           is_visible_in_directory: boolean | null
           last_campaign_id: string | null
+          last_enriched_at: string | null
           last_invited_at: string | null
           last_validated_at: string | null
           lead_score: number | null
@@ -995,6 +996,7 @@ export type Database = {
           owner_name: string | null
           phone_number: string | null
           phone_valid: boolean | null
+          priority_rank: string | null
           social_profiles: Json | null
           source_citations: string[] | null
           source_id: string | null
@@ -1037,6 +1039,7 @@ export type Database = {
           is_invited?: boolean | null
           is_visible_in_directory?: boolean | null
           last_campaign_id?: string | null
+          last_enriched_at?: string | null
           last_invited_at?: string | null
           last_validated_at?: string | null
           lead_score?: number | null
@@ -1045,6 +1048,7 @@ export type Database = {
           owner_name?: string | null
           phone_number?: string | null
           phone_valid?: boolean | null
+          priority_rank?: string | null
           social_profiles?: Json | null
           source_citations?: string[] | null
           source_id?: string | null
@@ -1087,6 +1091,7 @@ export type Database = {
           is_invited?: boolean | null
           is_visible_in_directory?: boolean | null
           last_campaign_id?: string | null
+          last_enriched_at?: string | null
           last_invited_at?: string | null
           last_validated_at?: string | null
           lead_score?: number | null
@@ -1095,6 +1100,7 @@ export type Database = {
           owner_name?: string | null
           phone_number?: string | null
           phone_valid?: boolean | null
+          priority_rank?: string | null
           social_profiles?: Json | null
           source_citations?: string[] | null
           source_id?: string | null
@@ -7729,6 +7735,54 @@ export type Database = {
           status?: string | null
           target_amount?: number
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      scheduled_discovery_searches: {
+        Row: {
+          category: string | null
+          created_at: string
+          created_by: string | null
+          frequency: string
+          id: string
+          is_active: boolean
+          last_run_at: string | null
+          leads_found_total: number
+          location: string | null
+          next_run_at: string | null
+          query: string
+          search_name: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          last_run_at?: string | null
+          leads_found_total?: number
+          location?: string | null
+          next_run_at?: string | null
+          query: string
+          search_name: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          created_by?: string | null
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          last_run_at?: string | null
+          leads_found_total?: number
+          location?: string | null
+          next_run_at?: string | null
+          query?: string
+          search_name?: string
+          updated_at?: string
         }
         Relationships: []
       }
