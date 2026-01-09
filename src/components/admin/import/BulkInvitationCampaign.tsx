@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Send, Users, Calendar, Target, Settings } from 'lucide-react';
+import { Mail, Send, Users, Calendar, Target, Settings, AlertTriangle, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,14 +10,24 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { useBusinessImport } from '@/hooks/use-business-import';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 interface BulkInvitationCampaignProps {
   onClose: () => void;
 }
 
+interface EmailStats {
+  total: number;
+  withEmail: number;
+  withoutEmail: number;
+  previouslyInvited: number;
+}
+
 export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ onClose }) => {
   const { templates, createCampaign, creatingCampaign, leadStats } = useBusinessImport();
+  const [emailStats, setEmailStats] = useState<EmailStats | null>(null);
+  const [loadingStats, setLoadingStats] = useState(true);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -33,6 +43,34 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
   const [stateInput, setStateInput] = useState('');
   const [cityInput, setCityInput] = useState('');
   const [categoryInput, setCategoryInput] = useState('');
+
+  // Fetch email availability stats
+  useEffect(() => {
+    const fetchEmailStats = async () => {
+      setLoadingStats(true);
+      try {
+        const { data, error } = await supabase
+          .from('b2b_external_leads')
+          .select('owner_email, is_invited', { count: 'exact' });
+
+        if (error) throw error;
+
+        const stats: EmailStats = {
+          total: data?.length || 0,
+          withEmail: data?.filter(l => l.owner_email && l.owner_email.trim() !== '').length || 0,
+          withoutEmail: data?.filter(l => !l.owner_email || l.owner_email.trim() === '').length || 0,
+          previouslyInvited: data?.filter(l => l.is_invited).length || 0,
+        };
+        setEmailStats(stats);
+      } catch (error) {
+        console.error('Error fetching email stats:', error);
+      } finally {
+        setLoadingStats(false);
+      }
+    };
+
+    fetchEmailStats();
+  }, []);
 
   const handleAddState = () => {
     if (stateInput && !formData.target_states.includes(stateInput)) {
@@ -280,20 +318,73 @@ export const BulkInvitationCampaign: React.FC<BulkInvitationCampaignProps> = ({ 
             </div>
           </div>
 
-          {/* Estimated Reach */}
-          <div className="p-4 bg-purple-500/10 border border-purple-400/30 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-purple-400" />
-                <span className="text-purple-200">Estimated Reach</span>
+          {/* Email Availability Summary */}
+          <div className="space-y-3">
+            {loadingStats ? (
+              <div className="p-4 bg-white/5 border border-white/10 rounded-lg animate-pulse">
+                <div className="h-6 bg-white/10 rounded w-32 mb-2" />
+                <div className="h-4 bg-white/10 rounded w-48" />
               </div>
-              <span className="text-2xl font-bold text-white">
-                ~{estimatedTargets.toLocaleString()}
-              </span>
-            </div>
-            <p className="text-xs text-purple-300 mt-1">
-              Based on leads that haven't been contacted yet
-            </p>
+            ) : emailStats && (
+              <>
+                {/* Warning if low email coverage */}
+                {emailStats.withEmail < emailStats.total * 0.5 && (
+                  <div className="p-4 bg-amber-500/10 border border-amber-400/30 rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-amber-200 font-medium">Low Email Coverage</p>
+                        <p className="text-xs text-amber-300 mt-1">
+                          Only {Math.round((emailStats.withEmail / emailStats.total) * 100)}% of leads have email addresses. 
+                          Use "Find Missing Emails" on the dashboard to enrich leads before sending.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Stats breakdown */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-3 bg-green-500/10 border border-green-400/30 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      <span className="text-green-200 text-sm">With Email</span>
+                    </div>
+                    <p className="text-xl font-bold text-white mt-1">{emailStats.withEmail.toLocaleString()}</p>
+                    <p className="text-xs text-green-300">Can receive invitations</p>
+                  </div>
+
+                  <div className="p-3 bg-red-500/10 border border-red-400/30 rounded-lg">
+                    <div className="flex items-center gap-2">
+                      <AlertTriangle className="w-4 h-4 text-red-400" />
+                      <span className="text-red-200 text-sm">Missing Email</span>
+                    </div>
+                    <p className="text-xl font-bold text-white mt-1">{emailStats.withoutEmail.toLocaleString()}</p>
+                    <p className="text-xs text-red-300">Need enrichment</p>
+                  </div>
+                </div>
+
+                {/* Estimated sendable */}
+                <div className="p-4 bg-purple-500/10 border border-purple-400/30 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Send className="w-5 h-5 text-purple-400" />
+                      <span className="text-purple-200">Will Send To</span>
+                    </div>
+                    <span className="text-2xl font-bold text-white">
+                      {formData.exclude_previously_invited 
+                        ? Math.max(0, emailStats.withEmail - emailStats.previouslyInvited).toLocaleString()
+                        : emailStats.withEmail.toLocaleString()}
+                    </span>
+                  </div>
+                  <p className="text-xs text-purple-300 mt-1">
+                    {formData.exclude_previously_invited 
+                      ? `${emailStats.previouslyInvited} previously invited leads excluded`
+                      : 'All leads with emails will receive invitations'}
+                  </p>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Actions */}
