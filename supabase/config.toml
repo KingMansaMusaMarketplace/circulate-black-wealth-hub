@@ -206,3 +206,9 @@ verify_jwt = false
 
 [functions.parse-business-info]
 verify_jwt = false
+
+[functions.auto-enrich-leads]
+verify_jwt = true
+
+[functions.enrich-lead-emails]
+verify_jwt = true

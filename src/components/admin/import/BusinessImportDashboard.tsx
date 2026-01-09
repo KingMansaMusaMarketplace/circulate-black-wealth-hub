@@ -60,6 +60,7 @@ export const BusinessImportDashboard: React.FC = () => {
   const [showManualEntry, setShowManualEntry] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isEnriching, setIsEnriching] = useState(false);
+  const [isFindingEmails, setIsFindingEmails] = useState(false);
 
   // Auto-enrich all new leads
   const autoEnrichLeads = async () => {
@@ -77,6 +78,29 @@ export const BusinessImportDashboard: React.FC = () => {
       toast.error('Failed to enrich leads');
     } finally {
       setIsEnriching(false);
+    }
+  };
+
+  // Find missing emails using Firecrawl
+  const findMissingEmails = async () => {
+    setIsFindingEmails(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('enrich-lead-emails', {
+        body: { enrich_missing_only: true, limit: 20 },
+      });
+
+      if (error) throw error;
+
+      if (data.emails_found > 0) {
+        toast.success(`Found ${data.emails_found} new emails from ${data.enriched} websites!`);
+      } else {
+        toast.info(`Checked ${data.enriched} websites, no new emails found`);
+      }
+    } catch (error) {
+      console.error('Email finding error:', error);
+      toast.error('Failed to find emails');
+    } finally {
+      setIsFindingEmails(false);
     }
   };
 
@@ -217,6 +241,15 @@ export const BusinessImportDashboard: React.FC = () => {
           >
             <Zap className="w-4 h-4 mr-2" />
             {isEnriching ? 'Enriching...' : 'Auto-Enrich'}
+          </Button>
+          <Button 
+            variant="outline"
+            className="border-emerald-500/50 text-emerald-300 hover:bg-emerald-500/10"
+            onClick={findMissingEmails}
+            disabled={isFindingEmails}
+          >
+            <Mail className="w-4 h-4 mr-2" />
+            {isFindingEmails ? 'Finding...' : 'Find Missing Emails'}
           </Button>
           <Button 
             className="bg-gradient-to-r from-amber-500 to-orange-500"
