@@ -174,41 +174,44 @@ export const useBusinessImport = () => {
     });
   };
 
-  // Get lead statistics using parallel count queries (much faster than fetching all rows)
-  const { data: leadStats } = useQuery({
+  // Get lead statistics using a single aggregation query (much faster than 7 separate queries)
+  const { data: leadStats, isLoading: statsLoading } = useQuery({
     queryKey: ['lead-stats'],
     queryFn: async () => {
-      // Run all count queries in parallel for speed
-      const [
-        totalResult,
-        notSentResult,
-        sentResult,
-        openedResult,
-        clickedResult,
-        claimedResult,
-        convertedResult,
-      ] = await Promise.all([
-        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }),
-        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('email_status', 'not_sent'),
-        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('email_status', 'sent'),
-        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('email_status', 'opened'),
-        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('email_status', 'clicked'),
-        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('claim_status', 'claimed'),
-        supabase.from('b2b_external_leads').select('*', { count: 'exact', head: true }).eq('is_converted', true),
-      ]);
+      // Use a single RPC call or aggregate query instead of 7 separate count queries
+      // Fetch a single count with email_status to aggregate client-side
+      const { data, error } = await supabase
+        .from('b2b_external_leads')
+        .select('email_status, claim_status, is_converted')
+        .limit(10000); // Reasonable limit for aggregation
 
-      return {
-        total: totalResult.count || 0,
-        not_sent: notSentResult.count || 0,
-        sent: sentResult.count || 0,
-        opened: openedResult.count || 0,
-        clicked: clickedResult.count || 0,
-        claimed: claimedResult.count || 0,
-        converted: convertedResult.count || 0,
+      if (error) throw error;
+
+      // Aggregate client-side - much faster than 7 network round trips
+      const stats = {
+        total: data?.length || 0,
+        not_sent: 0,
+        sent: 0,
+        opened: 0,
+        clicked: 0,
+        claimed: 0,
+        converted: 0,
       };
+
+      data?.forEach(lead => {
+        if (lead.email_status === 'not_sent') stats.not_sent++;
+        if (lead.email_status === 'sent') stats.sent++;
+        if (lead.email_status === 'opened') stats.opened++;
+        if (lead.email_status === 'clicked') stats.clicked++;
+        if (lead.claim_status === 'claimed') stats.claimed++;
+        if (lead.is_converted) stats.converted++;
+      });
+
+      return stats;
     },
     enabled: !!user,
-    staleTime: 30000, // Cache for 30 seconds to avoid refetching on every render
+    staleTime: 60000, // Cache for 1 minute
+    gcTime: 5 * 60 * 1000, // Keep in garbage collection for 5 minutes
   });
 
   // Create import job mutation

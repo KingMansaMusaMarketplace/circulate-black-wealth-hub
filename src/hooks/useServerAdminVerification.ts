@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -10,54 +10,30 @@ interface AdminVerificationResult {
 }
 
 /**
- * Server-side admin verification hook.
- * Uses the secure RPC function `is_admin_secure` to verify admin status
- * on the server rather than relying on client-side role checks.
+ * Server-side admin verification hook with caching.
+ * Uses TanStack Query to cache the result and prevent duplicate requests.
  */
 export function useServerAdminVerification(): AdminVerificationResult {
   const { user } = useAuth();
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isVerifying, setIsVerifying] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  const verifyAdmin = useCallback(async () => {
-    if (!user) {
-      setIsAdmin(false);
-      setIsVerifying(false);
-      return;
-    }
-
-    setIsVerifying(true);
-    setError(null);
-
-    try {
-      // Call the secure server-side function to verify admin status
-      const { data, error: rpcError } = await supabase.rpc('is_admin_secure');
-
-      if (rpcError) {
-        console.error('Admin verification error:', rpcError);
-        setError('Failed to verify admin status');
-        setIsAdmin(false);
-      } else {
-        setIsAdmin(data === true);
-      }
-    } catch (err) {
-      console.error('Admin verification exception:', err);
-      setError('An error occurred while verifying admin status');
-      setIsAdmin(false);
-    } finally {
-      setIsVerifying(false);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    verifyAdmin();
-  }, [verifyAdmin]);
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: ['admin-verification', user?.id],
+    queryFn: async () => {
+      if (!user) return false;
+      const { data, error } = await supabase.rpc('is_admin_secure');
+      if (error) throw error;
+      return data === true;
+    },
+    enabled: !!user,
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
+    retry: 1,
+  });
 
   return {
-    isAdmin,
-    isVerifying,
-    error,
-    refetch: verifyAdmin,
+    isAdmin: data ?? false,
+    isVerifying: isLoading,
+    error: error ? 'Failed to verify admin status' : null,
+    refetch: async () => { await refetch(); },
   };
 }
