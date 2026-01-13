@@ -155,6 +155,8 @@ const LazyAdminSponsorCRM = lazy(() => import('@/pages/AdminSponsorCRM'));
 // Investor & Ambassador pages
 const LazyInvestorPage = lazy(() => import('@/pages/InvestorPage'));
 const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage'));
+const LazyPitchDeckPage = lazy(() => import('@/pages/PitchDeckPage'));
+const LazyPartnershipFrameworkPage = lazy(() => import('@/pages/PartnershipFrameworkPage'));
 
 // Founder's Wall
 const LazyFoundersWallPage = lazy(() => import('@/pages/FoundersWallPage'));
@@ -442,6 +444,10 @@ function App() {
                               <Route path="/impact" element={<LazyImpactPage />} />
                               <Route path="/investors" element={<LazyInvestorPage />} />
                               <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
+                              
+                              {/* P - New Pitch & Partnership routes */}
+                              <Route path="/pitch-deck" element={<LazyPitchDeckPage />} />
+                              <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                               
                               {/* L */}
                               <Route path="/learning-hub" element={<LazyLearningHubPage />} />
