@@ -32,6 +32,14 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const handleMessage = (event: any) => {
     console.log('Voice event:', event.type);
 
+    // Handle audio blocked (iOS/Safari autoplay issue)
+    if (event.type === 'audio_blocked') {
+      toast.info('Tap anywhere to enable audio', {
+        description: 'Your browser blocked auto-play. Tap the screen to hear Kayla.',
+        duration: 5000,
+      });
+    }
+
     // Update speaking state based on audio events
     if (event.type === 'response.audio.delta') {
       setIsSpeaking(true);
