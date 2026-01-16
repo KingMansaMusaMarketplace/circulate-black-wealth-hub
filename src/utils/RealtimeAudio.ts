@@ -66,6 +66,7 @@ export class RealtimeChat {
   private audioEl: HTMLAudioElement | null = null;
   private recorder: AudioRecorder | null = null;
   private localStream: MediaStream | null = null;
+  private audioContext: AudioContext | null = null;
 
   constructor(private onMessage: (message: any) => void) {
     // Defer audio element creation to init() for better iOS compatibility
@@ -77,19 +78,53 @@ export class RealtimeChat {
       this.audioEl.autoplay = true;
       this.audioEl.setAttribute('playsinline', 'true');
       this.audioEl.setAttribute('webkit-playsinline', 'true');
-      // Keep element in DOM to satisfy autoplay policies across browsers
+      this.audioEl.setAttribute('controls', 'false');
+      // Set volume to max
+      this.audioEl.volume = 1.0;
+      this.audioEl.muted = false;
+      
+      // Keep element visible in DOM (hidden but accessible) to satisfy autoplay policies
       this.audioEl.style.position = 'fixed';
-      this.audioEl.style.left = '-9999px';
-      this.audioEl.style.width = '0';
-      this.audioEl.style.height = '0';
-      this.audioEl.style.opacity = '0';
+      this.audioEl.style.bottom = '100px';
+      this.audioEl.style.left = '50%';
+      this.audioEl.style.transform = 'translateX(-50%)';
+      this.audioEl.style.width = '1px';
+      this.audioEl.style.height = '1px';
+      this.audioEl.style.opacity = '0.01'; // Nearly invisible but not hidden
       this.audioEl.style.pointerEvents = 'none';
+      this.audioEl.style.zIndex = '-1';
       
       if (document.body) {
         document.body.appendChild(this.audioEl);
+        console.log('[Audio] Audio element created and attached to DOM');
       }
     } catch (e) {
-      console.warn('Could not create audio element:', e);
+      console.error('[Audio] Could not create audio element:', e);
+    }
+  }
+  
+  private async initAudioContext() {
+    try {
+      // Create AudioContext to unlock audio on iOS/Safari
+      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      
+      if (this.audioContext.state === 'suspended') {
+        console.log('[Audio] AudioContext suspended, resuming...');
+        await this.audioContext.resume();
+      }
+      
+      console.log('[Audio] AudioContext state:', this.audioContext.state);
+      
+      // Play a silent buffer to fully unlock audio
+      const buffer = this.audioContext.createBuffer(1, 1, 22050);
+      const source = this.audioContext.createBufferSource();
+      source.buffer = buffer;
+      source.connect(this.audioContext.destination);
+      source.start(0);
+      
+      console.log('[Audio] Silent buffer played to unlock audio');
+    } catch (e) {
+      console.warn('[Audio] AudioContext init failed:', e);
     }
   }
 
@@ -138,19 +173,8 @@ export class RealtimeChat {
       // Create audio element AFTER microphone permission granted
       this.createAudioElement();
       
-      // iOS: Create and resume AudioContext to satisfy autoplay policy
-      if (isIOS && this.audioEl) {
-        try {
-          const tempAudioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-          if (tempAudioContext.state === 'suspended') {
-            await tempAudioContext.resume();
-          }
-          await tempAudioContext.close();
-          console.log('iOS AudioContext warmed up');
-        } catch (e) {
-          console.warn('AudioContext warmup failed:', e);
-        }
-      }
+      // Initialize AudioContext to unlock audio playback on iOS/Safari
+      await this.initAudioContext();
       
       console.log('Getting ephemeral token...');
       
@@ -188,22 +212,37 @@ export class RealtimeChat {
         ]
       });
 
-      // Set up remote audio handler
+      // Set up remote audio handler with enhanced playback
       this.pc.ontrack = async (e) => {
-        console.log('Received remote audio track');
+        console.log('[Audio] Received remote audio track');
         if (this.audioEl && e.streams[0]) {
+          console.log('[Audio] Setting srcObject on audio element');
           this.audioEl.srcObject = e.streams[0];
-          try {
-            // iOS requires play() to be called in response to user action
-            const playPromise = this.audioEl.play();
-            if (playPromise !== undefined) {
-              await playPromise;
+          
+          // Ensure audio is unmuted and at full volume
+          this.audioEl.muted = false;
+          this.audioEl.volume = 1.0;
+          
+          // Multiple play attempts for iOS/Safari
+          const attemptPlay = async (attempt: number = 1) => {
+            try {
+              console.log(`[Audio] Play attempt ${attempt}...`);
+              await this.audioEl!.play();
+              console.log('[Audio] Playback started successfully!');
+            } catch (err: any) {
+              console.warn(`[Audio] Play attempt ${attempt} failed:`, err.message);
+              if (attempt < 3) {
+                // Retry after a short delay
+                await new Promise(resolve => setTimeout(resolve, 100));
+                return attemptPlay(attempt + 1);
+              }
+              // Final fallback: notify user
+              console.error('[Audio] All play attempts failed - user interaction may be required');
+              this.onMessage({ type: 'audio_blocked', message: 'Please tap to enable audio' });
             }
-            console.log('Remote audio playback started');
-          } catch (err: any) {
-            console.warn('Autoplay blocked, will retry:', err.message);
-            // Don't throw - audio will play on next user interaction
-          }
+          };
+          
+          await attemptPlay();
         }
       };
       
@@ -360,6 +399,12 @@ export class RealtimeChat {
           track.stop();
         });
         this.localStream = null;
+      }
+      
+      // Close AudioContext
+      if (this.audioContext) {
+        this.audioContext.close().catch(() => {});
+        this.audioContext = null;
       }
       
       // Clean up audio element
