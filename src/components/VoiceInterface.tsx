@@ -30,13 +30,39 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const { isNative } = useCapacitor();
 
   const handleMessage = (event: any) => {
-    console.log('Voice event:', event.type);
+    console.log('[Kayla] Voice event:', event.type, event);
+
+    // Handle session confirmation - critical for debugging
+    if (event.type === 'session.created') {
+      console.log('[Kayla] Session created:', event.session?.id);
+    }
+    
+    if (event.type === 'session.updated') {
+      console.log('[Kayla] Session confirmed with modalities:', event.session?.modalities);
+      console.log('[Kayla] Turn detection:', event.session?.turn_detection?.type);
+    }
 
     // Handle audio blocked (iOS/Safari autoplay issue)
     if (event.type === 'audio_blocked') {
       toast.info('Tap anywhere to enable audio', {
         description: 'Your browser blocked auto-play. Tap the screen to hear Kayla.',
         duration: 5000,
+      });
+    }
+
+    // Handle errors from OpenAI (rate limits, etc.)
+    if (event.type === 'error') {
+      console.error('[Kayla] OpenAI error:', event.error);
+      toast.error('Voice service error', {
+        description: event.error?.message || 'Please try again'
+      });
+    }
+    
+    // Check for rate limit errors in response.done
+    if (event.type === 'response.done' && event.response?.status_details?.error) {
+      console.error('[Kayla] Response error:', event.response.status_details.error);
+      toast.error('Voice service temporarily unavailable', {
+        description: 'Please try again in a moment'
       });
     }
 
