@@ -282,29 +282,15 @@ export class RealtimeChat {
       });
       
       this.dc.addEventListener("open", () => {
-        console.log('[Kayla] Data channel opened');
+        console.log('[Kayla] Data channel opened - session already configured via ephemeral token');
         
-        // CRITICAL: Send session.update AFTER data channel opens to ensure audio modalities are active
-        const sessionUpdate = {
-          type: "session.update",
-          session: {
-            modalities: ["text", "audio"],
-            input_audio_format: "pcm16",
-            output_audio_format: "pcm16",
-            input_audio_transcription: {
-              model: "whisper-1"
-            },
-            turn_detection: {
-              type: "server_vad",
-              threshold: 0.5,
-              prefix_padding_ms: 300,
-              silence_duration_ms: 800
-            }
-          }
-        };
+        // NOTE: The session is ALREADY configured with voice, instructions, and modalities 
+        // when we create the ephemeral token in realtime-token edge function.
+        // Sending session.update here would OVERWRITE those settings!
+        // Only send if we need to change something specific at runtime.
         
-        this.dc!.send(JSON.stringify(sessionUpdate));
-        console.log('[Kayla] Session update sent to enable audio modalities');
+        // Notify the message handler that the connection is ready
+        this.onMessage({ type: 'session.ready', message: 'Kayla is ready to listen' });
       });
       
       this.dc.addEventListener("error", (e) => {

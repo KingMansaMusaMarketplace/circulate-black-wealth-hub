@@ -32,13 +32,21 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   const handleMessage = (event: any) => {
     console.log('[Kayla] Voice event:', event.type, event);
 
+    // Handle session ready from our client
+    if (event.type === 'session.ready') {
+      console.log('[Kayla] Session ready - Kayla is listening');
+    }
+
     // Handle session confirmation - critical for debugging
     if (event.type === 'session.created') {
       console.log('[Kayla] Session created:', event.session?.id);
+      console.log('[Kayla] Session voice:', event.session?.voice);
+      console.log('[Kayla] Session modalities:', event.session?.modalities);
     }
     
     if (event.type === 'session.updated') {
-      console.log('[Kayla] Session confirmed with modalities:', event.session?.modalities);
+      console.log('[Kayla] Session updated with modalities:', event.session?.modalities);
+      console.log('[Kayla] Session voice:', event.session?.voice);
       console.log('[Kayla] Turn detection:', event.session?.turn_detection?.type);
     }
 
