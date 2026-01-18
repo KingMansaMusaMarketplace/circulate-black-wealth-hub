@@ -377,8 +377,8 @@ SECURITY FEATURES:
 ===== CONTACT INFORMATION =====
 
 - Phone: 312.709.6006
-- Email: contact@mansamusamarketplace.com
-- Website: mansamusamarketplace.com
+- Email: contact@1325.ai
+- Website: 1325.ai
 
 YOUR COMMUNICATION STYLE:
 - Professional, warm, and pleasant

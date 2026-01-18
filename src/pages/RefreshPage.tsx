@@ -38,15 +38,15 @@ const RefreshPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Force Refresh | Mansa Musa Marketplace</title>
-        <meta name="description" content="Clear cache and refresh the Mansa Musa Marketplace app." />
-        <link rel="canonical" href="https://mansamusamarketplace.com/refresh" />
+        <title>Force Refresh | 1325.ai</title>
+        <meta name="description" content="Clear cache and refresh the 1325.ai app." />
+        <link rel="canonical" href="https://1325.ai/refresh" />
       </Helmet>
       <main className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mansablue mx-auto"></div>
           <p className="text-gray-600">{status}</p>
-          <p className="text-xs text-gray-500">If it doesn’t redirect, go to https://mansamusamarketplace.com?v=4</p>
+          <p className="text-xs text-gray-500">If it doesn't redirect, go to https://1325.ai?v=4</p>
         </div>
       </main>
     </>

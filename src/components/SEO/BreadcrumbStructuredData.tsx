@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet';
+import { siteConfig } from '@/config/site';
 
 interface BreadcrumbItem {
   name: string;
@@ -21,7 +22,7 @@ export const BreadcrumbStructuredData = ({ items }: BreadcrumbStructuredDataProp
       name: item.name,
       item: item.url.startsWith('http') 
         ? item.url 
-        : `https://mansamusamarketplace.com${item.url}`,
+        : `${siteConfig.url}${item.url}`,
     })),
   };
 

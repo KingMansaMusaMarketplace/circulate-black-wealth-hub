@@ -1,28 +1,27 @@
 import { Helmet } from 'react-helmet';
+import { siteConfig } from '@/config/site';
 
 export const OrganizationStructuredData = () => {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    '@id': 'https://mansamusamarketplace.com/#organization',
-    name: 'Mansa Musa Marketplace',
-    alternateName: 'MMM',
-    url: 'https://mansamusamarketplace.com',
-    logo: 'https://mansamusamarketplace.com/images/mansa-musa-logo.png',
-    description: 'A digital marketplace connecting consumers with Black-owned businesses, empowering economic growth in the Black community through discovery, loyalty rewards, and corporate sponsorship.',
-    foundingDate: '2024',
-    slogan: 'Empowering Black-Owned Businesses',
+    '@id': `${siteConfig.url}/#organization`,
+    name: siteConfig.name,
+    alternateName: siteConfig.legacyName,
+    url: siteConfig.url,
+    logo: `${siteConfig.url}/images/1325-logo.png`,
+    description: siteConfig.description,
+    foundingDate: siteConfig.foundingDate,
+    slogan: siteConfig.tagline,
     sameAs: [
-      // Add social media profiles here when available
-      // 'https://www.facebook.com/mansamusamarketplace',
-      // 'https://www.instagram.com/mansamusamarketplace',
-      // 'https://twitter.com/mansamusamktplc',
-      // 'https://www.linkedin.com/company/mansamusamarketplace',
+      siteConfig.social.twitter,
+      siteConfig.social.instagram,
+      siteConfig.social.linkedin,
     ],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
-      email: 'support@mansamusamarketplace.com',
+      email: siteConfig.supportEmail,
       availableLanguage: ['English'],
     },
     areaServed: {
@@ -32,7 +31,8 @@ export const OrganizationStructuredData = () => {
     knowsAbout: [
       'Black-owned businesses',
       'Business directory',
-      'Loyalty rewards program',
+      'AI-powered discovery',
+      'Loyalty rewards protocol',
       'Community economic empowerment',
       'Corporate sponsorship',
     ],
