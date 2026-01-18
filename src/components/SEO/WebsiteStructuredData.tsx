@@ -1,21 +1,22 @@
 import { Helmet } from 'react-helmet';
+import { siteConfig } from '@/config/site';
 
 export const WebsiteStructuredData = () => {
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': 'https://mansamusamarketplace.com/#website',
-    name: 'Mansa Musa Marketplace',
-    url: 'https://mansamusamarketplace.com',
-    description: 'Discover and support Black-owned businesses in your community',
+    '@id': `${siteConfig.url}/#website`,
+    name: siteConfig.name,
+    url: siteConfig.url,
+    description: siteConfig.description,
     publisher: {
-      '@id': 'https://mansamusamarketplace.com/#organization',
+      '@id': `${siteConfig.url}/#organization`,
     },
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://mansamusamarketplace.com/directory?search={search_term_string}',
+        urlTemplate: `${siteConfig.url}/directory?search={search_term_string}`,
       },
       'query-input': 'required name=search_term_string',
     },

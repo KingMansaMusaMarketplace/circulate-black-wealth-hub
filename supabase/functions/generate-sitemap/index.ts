@@ -6,7 +6,7 @@ const corsHeaders = {
   'Content-Type': 'application/xml',
 };
 
-const BASE_URL = 'https://mansamusamarketplace.com';
+const BASE_URL = 'https://1325.ai';
 
 Deno.serve(async (req) => {
   // Handle CORS preflight

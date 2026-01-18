@@ -9,7 +9,7 @@ const SponsorshipContact = () => {
   };
 
   const handleEmailClick = () => {
-    window.location.href = 'mailto:yourservant@mansamusamarketplace.com?subject=Corporate Sponsorship Inquiry';
+    window.location.href = 'mailto:partners@1325.ai?subject=Corporate Sponsorship Inquiry';
   };
 
   const handleOfficePhoneClick = () => {
@@ -21,7 +21,7 @@ const SponsorshipContact = () => {
   };
 
   const handleWebsiteClick = () => {
-    window.open('https://www.mansamusamarketplace.com', '_blank');
+    window.open('https://1325.ai', '_blank');
   };
 
   return (
@@ -103,7 +103,7 @@ const SponsorshipContact = () => {
                       onClick={handleEmailClick}
                       className="text-mansablue hover:underline cursor-pointer font-medium"
                     >
-                      yourservant@mansamusamarketplace.com
+                      partners@1325.ai
                     </button>
                   </div>
 
@@ -114,7 +114,7 @@ const SponsorshipContact = () => {
                       onClick={handleWebsiteClick}
                       className="text-mansablue hover:underline cursor-pointer font-medium"
                     >
-                      www.mansamusamarketplace.com
+                      1325.ai
                     </button>
                   </div>
                   
@@ -132,7 +132,7 @@ const SponsorshipContact = () => {
                 {/* Footer */}
                 <div className="mt-6 pt-4 border-t border-gray-200">
                   <p className="text-xs text-gray-400 text-center">
-                    © 2025 Mansa Musa Marketplace, Inc. All Rights Reserved.
+                    © 2025 1325.ai, Inc. All Rights Reserved.
                   </p>
                 </div>
               </CardContent>

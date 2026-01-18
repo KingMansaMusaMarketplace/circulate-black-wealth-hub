@@ -9,9 +9,9 @@ const ShareButton: React.FC = () => {
   const { isNative } = useCapacitor();
   const [copied, setCopied] = useState(false);
   
-  const shareUrl = "https://www.mansamusamarketplace.com";
-  const shareTitle = "Join Mansa Musa Marketplace";
-  const shareText = "Check out Mansa Musa Marketplace - join me in building Black wealth together! Help us reach 1 million members. 💪";
+  const shareUrl = "https://1325.ai";
+  const shareTitle = "Join 1325.ai - The Black Wealth Protocol";
+  const shareText = "Check out 1325.ai - the AI-powered protocol for Black economic empowerment! Help us reach 1 million members. 💪";
 
   const handleShare = async () => {
     console.log('Share button clicked');
