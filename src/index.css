@@ -98,12 +98,12 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     
-    /* Dark mode color adjustments for better contrast */
-    --mansablue: 210 100% 30%;
-    --mansablue-dark: 210 100% 20%;
-    --mansablue-light: 210 100% 65%;
-    --mansagold: 45 100% 60%;
-    --mansagold-dark: 45 100% 50%;
+    /* Dark mode color adjustments - boosted saturation for iPhone P3 displays */
+    --mansablue: 210 100% 35%;
+    --mansablue-dark: 210 100% 25%;
+    --mansablue-light: 210 100% 70%;
+    --mansagold: 45 100% 55%;
+    --mansagold-dark: 45 100% 48%;
     --mansagold-light: 45 100% 75%;
     
     /* Text colors for high contrast in dark mode */

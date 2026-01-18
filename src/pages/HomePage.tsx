@@ -51,11 +51,11 @@ const HomePage = () => {
     <>
       <OrganizationStructuredData />
       <WebsiteStructuredData />
-      <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#020810] via-[#050d1a] to-[#020810]">
-        {/* Subtle ambient background - reduced for mobile performance */}
+      <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#0a1628] via-mansablue-dark to-[#0a1628]">
+        {/* Vibrant ambient background - boosted for iPhone visibility */}
         <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-mansagold/10 rounded-full blur-[100px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-purple-500/8 rounded-full blur-[80px]" />
+          <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-mansagold/20 rounded-full blur-[100px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-purple-500/15 rounded-full blur-[80px]" />
         </div>
         
         {/* Sponsor Banner */}
