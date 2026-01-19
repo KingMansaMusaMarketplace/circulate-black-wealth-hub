@@ -286,11 +286,34 @@ export class RealtimeChat {
         
         // NOTE: The session is ALREADY configured with voice, instructions, and modalities 
         // when we create the ephemeral token in realtime-token edge function.
-        // Sending session.update here would OVERWRITE those settings!
-        // Only send if we need to change something specific at runtime.
         
         // Notify the message handler that the connection is ready
         this.onMessage({ type: 'session.ready', message: 'Kayla is ready to listen' });
+        
+        // CRITICAL: Trigger Kayla to greet the user proactively
+        // Without this, Kayla just listens but doesn't speak first
+        setTimeout(() => {
+          if (this.dc && this.dc.readyState === 'open') {
+            console.log('[Kayla] Sending greeting trigger...');
+            
+            // Create a system-initiated greeting
+            const greetingEvent = {
+              type: 'conversation.item.create',
+              item: {
+                type: 'message',
+                role: 'user',
+                content: [{
+                  type: 'input_text',
+                  text: 'Hello! I just connected.'
+                }]
+              }
+            };
+            
+            this.dc.send(JSON.stringify(greetingEvent));
+            this.dc.send(JSON.stringify({ type: 'response.create' }));
+            console.log('[Kayla] Greeting trigger sent - Kayla should respond now');
+          }
+        }, 500);
       });
       
       this.dc.addEventListener("error", (e) => {
