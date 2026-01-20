@@ -9664,11 +9664,30 @@ export type Database = {
           city: string | null
           created_at: string | null
           description: string | null
+          founding_joined_at: string | null
+          founding_order: number | null
+          founding_sponsor_since: string | null
           id: string | null
+          is_founding_member: boolean | null
+          is_founding_sponsor: boolean | null
           is_verified: boolean | null
+          listing_status: string | null
+          location_manager_id: string | null
+          location_name: string | null
+          location_type: string | null
           logo_url: string | null
+          name: string | null
+          onboarding_completed_at: string | null
+          owner_id: string | null
+          parent_business_id: string | null
+          qr_code_id: string | null
+          qr_code_url: string | null
           review_count: number | null
           state: string | null
+          subscription_end_date: string | null
+          subscription_start_date: string | null
+          subscription_status: string | null
+          updated_at: string | null
           website: string | null
           zip_code: string | null
         }
@@ -9681,11 +9700,30 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
+          founding_joined_at?: string | null
+          founding_order?: number | null
+          founding_sponsor_since?: string | null
           id?: string | null
+          is_founding_member?: boolean | null
+          is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
+          listing_status?: string | null
+          location_manager_id?: string | null
+          location_name?: string | null
+          location_type?: string | null
           logo_url?: string | null
+          name?: string | null
+          onboarding_completed_at?: string | null
+          owner_id?: string | null
+          parent_business_id?: string | null
+          qr_code_id?: string | null
+          qr_code_url?: string | null
           review_count?: number | null
           state?: string | null
+          subscription_end_date?: string | null
+          subscription_start_date?: string | null
+          subscription_status?: string | null
+          updated_at?: string | null
           website?: string | null
           zip_code?: string | null
         }
@@ -9698,15 +9736,56 @@ export type Database = {
           city?: string | null
           created_at?: string | null
           description?: string | null
+          founding_joined_at?: string | null
+          founding_order?: number | null
+          founding_sponsor_since?: string | null
           id?: string | null
+          is_founding_member?: boolean | null
+          is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
+          listing_status?: string | null
+          location_manager_id?: string | null
+          location_name?: string | null
+          location_type?: string | null
           logo_url?: string | null
+          name?: string | null
+          onboarding_completed_at?: string | null
+          owner_id?: string | null
+          parent_business_id?: string | null
+          qr_code_id?: string | null
+          qr_code_url?: string | null
           review_count?: number | null
           state?: string | null
+          subscription_end_date?: string | null
+          subscription_start_date?: string | null
+          subscription_status?: string | null
+          updated_at?: string | null
           website?: string | null
           zip_code?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "businesses_parent_business_id_fkey"
+            columns: ["parent_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_parent_business_id_fkey"
+            columns: ["parent_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_parent_business_id_fkey"
+            columns: ["parent_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {
@@ -10444,6 +10523,10 @@ export type Database = {
             Returns: boolean
           }
         | { Args: { _role: string; _user_id: string }; Returns: boolean }
+      has_transacted_with_business: {
+        Args: { p_business_id: string; p_customer_id: string }
+        Returns: boolean
+      }
       increment_material_downloads: {
         Args: { material_id: string }
         Returns: undefined

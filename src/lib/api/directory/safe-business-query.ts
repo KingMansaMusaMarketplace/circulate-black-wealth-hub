@@ -59,19 +59,34 @@ export async function fetchSafeBusinessDirectory(
   offset: number = 0
 ): Promise<Business[]> {
   try {
+    // Use the secure businesses_public_safe view that excludes email/phone
     const { data, error } = await supabase
-      .rpc('get_directory_businesses', {
-        p_limit: limit,
-        p_offset: offset
-      });
+      .from('businesses_public_safe')
+      .select('*')
+      .or('is_verified.eq.true,listing_status.eq.live')
+      .range(offset, offset + limit - 1)
+      .order('created_at', { ascending: false });
     
     if (error) {
-      console.error('Error fetching safe business directory:', error);
-      return [];
+      // Fallback to RPC if view is not available
+      console.warn('businesses_public_safe view error, falling back to RPC:', error.message);
+      const { data: rpcData, error: rpcError } = await supabase
+        .rpc('get_directory_businesses', {
+          p_limit: limit,
+          p_offset: offset
+        });
+      
+      if (rpcError) {
+        console.error('Error fetching safe business directory:', rpcError);
+        return [];
+      }
+      
+      // Additional client-side filtering as defense-in-depth
+      return (rpcData || []).map(b => filterSensitiveBusinessFields(b) as unknown as Business);
     }
     
-    // Additional client-side filtering as defense-in-depth
-    return (data || []).map(filterSensitiveBusinessFields);
+    // The view already excludes sensitive fields, but filter as defense-in-depth
+    return (data || []).map(b => filterSensitiveBusinessFields(b) as unknown as Business);
   } catch (error) {
     console.error('Unexpected error in fetchSafeBusinessDirectory:', error);
     return [];
@@ -84,24 +99,38 @@ export async function fetchSafeBusinessDirectory(
  */
 export async function fetchSafeBusinessById(businessId: string): Promise<Business | null> {
   try {
-    // First try to get with safe fields only
+    // Use the secure businesses_public_safe view that excludes email/phone
     const { data, error } = await supabase
-      .from('businesses')
-      .select(SAFE_BUSINESS_FIELDS)
+      .from('businesses_public_safe')
+      .select('*')
       .eq('id', businessId)
       .maybeSingle();
     
     if (error) {
-      console.error('Error fetching safe business by ID:', error);
-      return null;
+      // Fallback to direct query with safe fields only
+      console.warn('businesses_public_safe view error, falling back:', error.message);
+      const { data: fallbackData, error: fallbackError } = await supabase
+        .from('businesses')
+        .select(SAFE_BUSINESS_FIELDS)
+        .eq('id', businessId)
+        .maybeSingle();
+      
+      if (fallbackError) {
+        console.error('Error fetching safe business by ID:', fallbackError);
+        return null;
+      }
+      
+      if (!fallbackData) return null;
+      
+      const filtered = filterSensitiveBusinessFields(fallbackData);
+      return filtered as unknown as Business;
     }
     
     if (!data) {
       return null;
     }
     
-    // Since we already selected only safe fields, just filter and cast properly
-    // Cast through unknown first as TypeScript requires
+    // The view already excludes sensitive fields, but filter as defense-in-depth
     const filtered = filterSensitiveBusinessFields(data);
     return filtered as unknown as Business;
   } catch (error) {
