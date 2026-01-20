@@ -54,13 +54,18 @@ const Hero = () => {
       </div>
 
       <div className="relative container mx-auto px-4 pt-6 pb-8 md:pt-12 md:pb-20">
-        {/* Phase 1 Free Badge - Compact */}
+        {/* Economic Operating System Badge */}
         <motion.div 
           className="text-center mb-6 md:mb-10"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-3">
+            <span className="text-xs md:text-sm font-medium text-blue-200/80 tracking-wide uppercase">
+              The Economic Operating System
+            </span>
+          </div>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mansagold/20 border border-mansagold/40 backdrop-blur-sm">
             <Sparkles className="w-4 h-4 text-mansagold" />
             <span className="text-sm md:text-base font-semibold text-mansagold">
@@ -70,7 +75,23 @@ const Hero = () => {
         </motion.div>
 
         {/* Main Content - Single Column on Mobile */}
-        <div className="max-w-2xl mx-auto text-center">
+        <div className="max-w-3xl mx-auto text-center">
+          {/* Brand Tagline */}
+          <motion.div
+            className="mb-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+          >
+            <span className="text-mansagold font-display text-lg md:text-xl font-bold tracking-tight">
+              1325.ai
+            </span>
+            <span className="text-white/60 mx-2">—</span>
+            <span className="text-white/80 text-sm md:text-base">
+              The Intelligence Layer for Black Economic Power
+            </span>
+          </motion.div>
+
           {/* Headline */}
           <motion.h1 
             className="font-playfair text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.15] mb-4 md:mb-6"
@@ -78,23 +99,22 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <span className="text-white">Save Money.</span>
+            <span className="text-white">Circulate. </span>
+            <span className="text-gradient-gold">Accumulate.</span>
             <br />
-            <span className="text-white">Support </span>
-            <span className="text-gradient-gold">Black-Owned</span>
-            <br className="hidden sm:block" />
-            <span className="text-gradient-gold"> Businesses.</span>
+            <span className="text-white">Build </span>
+            <span className="text-gradient-gold">Generational Wealth.</span>
           </motion.h1>
           
           {/* Subhead */}
           <motion.p 
-            className="text-base md:text-lg lg:text-xl text-blue-100/80 mb-6 md:mb-8 max-w-lg mx-auto leading-relaxed px-2"
+            className="text-base md:text-lg lg:text-xl text-blue-100/80 mb-6 md:mb-8 max-w-xl mx-auto leading-relaxed px-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Get <span className="text-mansagold font-semibold">5% - 30% discounts</span> while 
-            building generational wealth in Black communities.
+            Discover Black-owned businesses. Earn <span className="text-mansagold font-semibold">5% - 30% discounts</span>. 
+            Track your community impact in real-time.
           </motion.p>
 
           {/* Primary CTA - ZIP Code Search */}
