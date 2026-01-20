@@ -1,73 +1,177 @@
-# Welcome to your Lovable project
+# 🏛️ Mansa Musa Marketplace
 
-## Project info
+**Circulate Black Wealth** — A community-powered platform connecting consumers with Black-owned businesses, fostering economic empowerment through verified business directories, loyalty rewards, and AI-powered assistance.
 
-**URL**: https://lovable.dev/projects/e4235560-3b6b-4780-b91c-854366c7682f
+[![CI](https://github.com/your-username/mansa-musa-marketplace/actions/workflows/ci.yml/badge.svg)](https://github.com/your-username/mansa-musa-marketplace/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-gold.svg)](https://opensource.org/licenses/MIT)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## ✨ Features
 
-**Use Lovable**
+### 🏪 Business Directory
+- **Verified Listings** — Multi-step verification ensures authentic Black-owned businesses
+- **Smart Search** — Find businesses by category, location, and ratings
+- **QR Code System** — Instant payments and loyalty point collection
+- **Business Analytics** — Comprehensive dashboard for business owners
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e4235560-3b6b-4780-b91c-854366c7682f) and start prompting.
+### 🎁 Loyalty & Rewards
+- **Points System** — Earn points at participating businesses
+- **Digital Wallet** — Track earnings and redeem rewards
+- **Referral Program** — Earn bonuses for referring businesses and users
 
-Changes made via Lovable will be committed automatically to this repo.
+### 🤖 Kayla AI Assistant
+- **Voice-Enabled** — Real-time voice conversations powered by OpenAI
+- **Business Discovery** — Ask Kayla to find businesses near you
+- **Personalized Recommendations** — AI-powered suggestions based on preferences
 
-**Use your preferred IDE**
+### 🎓 Community Features
+- **HBCU Connections** — Special programs for historically Black colleges
+- **Ambassador Program** — Become a community advocate and earn commissions
+- **Wealth Metrics** — Track community economic impact in real-time
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 📱 Mobile Apps
+- **iOS & Android** — Native apps via Capacitor
+- **Push Notifications** — Stay updated on deals and rewards
+- **Offline Support** — Access business info without internet
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 🛠️ Tech Stack
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | React 18, TypeScript, Vite |
+| **Styling** | Tailwind CSS, shadcn/ui, Framer Motion |
+| **Backend** | Supabase (PostgreSQL, Auth, Storage, Edge Functions) |
+| **Payments** | Stripe Connect, QR Code payments |
+| **AI** | OpenAI GPT-4o, Realtime Voice API |
+| **Analytics** | PostHog, Custom dashboards |
+| **Mobile** | Capacitor (iOS/Android) |
+| **Maps** | Mapbox GL |
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🚀 Getting Started
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Prerequisites
+
+- Node.js 20+
+- npm or bun
+- Supabase account
+- Stripe account (for payments)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/mansa-musa-marketplace.git
+cd mansa-musa-marketplace
+
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.example .env.local
+
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Environment Setup
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+See [`.env.example`](.env.example) for all required environment variables.
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📱 Mobile Development
 
-## What technologies are used for this project?
+### iOS
 
-This project is built with:
+```bash
+# Build web assets
+npm run build
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# Sync with iOS
+npx cap sync ios
 
-## How can I deploy this project?
+# Open in Xcode
+npx cap open ios
+```
 
-Simply open [Lovable](https://lovable.dev/projects/e4235560-3b6b-4780-b91c-854366c7682f) and click on Share -> Publish.
+See [Xcode Cloud Setup](.github/workflows/xcode-cloud-setup.md) for CI/CD configuration.
 
-## Can I connect a custom domain to my Lovable project?
+### Android
 
-Yes, you can!
+```bash
+# Build web assets
+npm run build
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+# Sync with Android
+npx cap sync android
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+# Open in Android Studio
+npx cap open android
+```
+
+---
+
+## 📖 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [API Integration Guide](docs/API_INTEGRATION_GUIDE.md) | Backend API documentation |
+| [Mobile App Guide](docs/MOBILE_APP_GUIDE.md) | iOS/Android development |
+| [Admin Guide](docs/ADMIN_SECURITY_AUDIT_GUIDE.md) | Platform administration |
+| [B2B Features](docs/B2B_FEATURES_GUIDE.md) | Business-to-business tools |
+| [Ambassador Program](docs/AMBASSADOR_PROGRAM_GUIDE.md) | Community advocacy |
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+npm run test
+
+# Run tests with UI
+npm run test:ui
+
+# Type checking
+npx tsc --noEmit
+
+# Linting
+npm run lint
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🔗 Links
+
+- **Live App**: [circulate-black-wealth-hub.lovable.app](https://circulate-black-wealth-hub.lovable.app)
+- **Documentation**: [docs.lovable.dev](https://docs.lovable.dev)
+
+---
+
+<p align="center">
+  <strong>Built with ❤️ for the community</strong><br>
+  <em>Circulating wealth, building futures</em>
+</p>
