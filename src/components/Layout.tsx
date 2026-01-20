@@ -20,9 +20,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     '/admin-dashboard',
   ];
   
-  // Pages that should show bottom tab bar on mobile
-  const tabBarPages = ['/', '/directory', '/user-profile', '/how-it-works'];
-  const shouldShowTabBar = isNative && tabBarPages.includes(location.pathname);
+  // On native apps, ALWAYS show bottom tab bar for navigation recovery
+  // Users should never be stuck on a page with no way to navigate
+  const shouldShowTabBar = isNative;
   
   // Check if current path matches any no-layout page (exact match or starts with)
   const shouldShowLayout = !noLayoutPages.some(page => 

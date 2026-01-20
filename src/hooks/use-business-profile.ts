@@ -3,6 +3,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { isValidUUID } from '@/lib/validation/uuid-guard';
+import { showDatabaseError } from '@/lib/error-toast';
 
 export interface BusinessProfile {
   id: string;
@@ -36,6 +38,14 @@ export const useBusinessProfile = () => {
       return;
     }
 
+    // Validate user ID before query to prevent UUID errors
+    if (!isValidUUID(user.id)) {
+      console.error('Invalid user ID format:', user.id);
+      setError('Invalid session. Please log in again.');
+      showDatabaseError('Invalid user ID', 'business profile');
+      return;
+    }
+
     setLoading(true);
     setError(null);
     
@@ -44,16 +54,18 @@ export const useBusinessProfile = () => {
         .from('businesses')
         .select('*')
         .eq('owner_id', user.id)
-        .single();
+        .maybeSingle(); // Use maybeSingle instead of single to avoid errors when no row exists
 
-      if (fetchError && fetchError.code !== 'PGRST116') {
+      if (fetchError) {
         throw fetchError;
       }
 
       setProfile(data);
     } catch (err: any) {
       console.error('Error loading business profile:', err);
-      setError(err.message || 'Failed to load business profile');
+      const message = err.message || 'Failed to load business profile';
+      setError(message);
+      showDatabaseError(message, 'business profile');
     } finally {
       setLoading(false);
     }
