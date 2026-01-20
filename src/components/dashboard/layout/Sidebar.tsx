@@ -25,10 +25,10 @@ const Sidebar: React.FC<SidebarProps> = ({ user, mobileNavOpen, setMobileNavOpen
         <div className="px-6 py-6 border-b border-border/50">
           <Link 
             to="/" 
-            className="text-2xl font-display font-bold text-red-500 flex items-center touch-manipulation"
+            className="text-2xl font-display font-bold text-primary flex items-center touch-manipulation"
             onClick={() => setMobileNavOpen?.(false)}
           >
-            Mansa Musa
+            1325.ai
           </Link>
         </div>
         
