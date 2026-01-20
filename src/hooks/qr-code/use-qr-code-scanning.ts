@@ -28,6 +28,8 @@
 import { supabase } from '@/integrations/supabase/client';
 import { QRCodeScanResult } from '@/lib/api/qr-code-api';
 import { toast } from 'sonner';
+import { isValidUUID } from '@/lib/validation/uuid-guard';
+import { showDatabaseError } from '@/lib/error-toast';
 
 interface UseQRCodeScanningOptions {
   setLoading: (loading: boolean) => void;
@@ -36,12 +38,21 @@ interface UseQRCodeScanningOptions {
 export const useQRCodeScanning = ({ setLoading }: UseQRCodeScanningOptions) => {
   const scanQRCode = async (qrCodeId: string): Promise<QRCodeScanResult | null> => {
     setLoading(true);
+    
+    // Validate QR code ID before database query to prevent UUID errors
+    if (!isValidUUID(qrCodeId)) {
+      setLoading(false);
+      toast.error('Invalid QR code format');
+      showDatabaseError('Invalid QR code ID', 'QR code');
+      return { success: false, error: 'Invalid QR code format' };
+    }
+    
     try {
       const { data: qrCode, error: qrError } = await supabase
         .from('qr_codes')
         .select('*, businesses(business_name)')
         .eq('id', qrCodeId)
-        .single();
+        .maybeSingle();
 
       if (qrError || !qrCode) {
         toast.error('Invalid QR code');

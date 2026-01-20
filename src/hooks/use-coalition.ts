@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
+import { isValidUUID } from '@/lib/validation/uuid-guard';
 
 export interface CoalitionPoints {
   id: string;
@@ -85,15 +86,22 @@ export const useCoalition = () => {
       return;
     }
 
+    // Validate user ID before any queries
+    if (!isValidUUID(user.id)) {
+      console.error('Invalid user ID format in coalition hook');
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
 
-      // Fetch user's coalition points
+      // Fetch user's coalition points - use maybeSingle to handle no data gracefully
       const { data: pointsData } = await supabase
         .from('coalition_points')
         .select('*')
         .eq('customer_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (pointsData) {
         setPoints(pointsData as CoalitionPoints);
