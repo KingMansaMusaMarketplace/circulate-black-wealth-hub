@@ -26,17 +26,17 @@ const AmbassadorCTA: React.FC = () => {
               <div className="flex items-center justify-center lg:justify-start gap-2 mb-3">
                 <Sparkles className="w-5 h-5 text-mansagold" />
                 <span className="text-mansagold font-semibold text-sm uppercase tracking-wide">
-                  Earn While You Build
+                  Join the Movement
                 </span>
               </div>
               
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Become a Mansa Ambassador
+                Become a 1325 Ambassador
               </h2>
               
               <p className="text-lg text-white/80 mb-6 max-w-2xl">
-                Earn money while building the largest Black business network in your city. 
-                Join our ambassador program and turn your passion for community into income.
+                Be the human layer of our Economic Operating System. Earn while building 
+                the largest Black business network in your city.
               </p>
               
               {/* Benefits */}
