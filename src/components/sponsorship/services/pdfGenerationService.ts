@@ -9,7 +9,8 @@ import { getMediaKitContent } from '../templates/mediaKitTemplate';
 import { getInvestorAnalysisContent } from '../templates/investorAnalysisTemplate';
 import { getDirectoryPartnershipProposalContent } from '../templates/directoryPartnershipProposalTemplate';
 import { generateInvestorAnalysisWord } from '../utils/wordGenerator';
-
+import { generateUSPTOPatentWord } from '../utils/usptoWordGenerator';
+import { getUSPTOPatentContent } from '../templates/usptoPatentTemplate';
 export const generatePartnershipGuide = async (): Promise<void> => {
   try {
     toast.info('Generating Partnership Guide...');
@@ -125,6 +126,59 @@ export const generateDirectoryPartnershipProposal = async (): Promise<void> => {
   } catch (error) {
     console.error('Error generating directory partnership proposal:', error);
     toast.error('Failed to generate directory partnership proposal. Please try again.');
+    throw error;
+  }
+};
+
+export const generateUSPTOPatentWordDoc = async (): Promise<void> => {
+  try {
+    toast.info('Generating USPTO Patent Filing Package (Word)...');
+    const date = new Date().toISOString().split('T')[0];
+    await generateUSPTOPatentWord({
+      filename: `USPTO-Provisional-Patent-Application-${date}.docx`
+    });
+    toast.success('USPTO Patent Word document downloaded successfully!');
+  } catch (error) {
+    console.error('Error generating USPTO patent Word doc:', error);
+    toast.error('Failed to generate USPTO patent document. Please try again.');
+    throw error;
+  }
+};
+
+export const generateUSPTOPatentPDF = async (): Promise<void> => {
+  try {
+    toast.info('Generating USPTO Patent Filing Package (PDF)...');
+    const content = getUSPTOPatentContent();
+    const htmlContent = `
+      <div style="font-family: 'Times New Roman', serif; max-width: 800px; margin: 0 auto; padding: 40px;">
+        <h1 style="text-align: center; font-size: 18pt;">USPTO PROVISIONAL PATENT APPLICATION</h1>
+        <h2 style="text-align: center; font-size: 14pt;">${content.title}</h2>
+        <p style="text-align: center;"><strong>Filing Date:</strong> ${content.filingDate}</p>
+        <p style="text-align: center;"><strong>Applicant:</strong> ${content.applicantName}</p>
+        <hr/>
+        <h2>ABSTRACT</h2>
+        <p>${content.abstract.replace(/\n/g, '<br/>')}</p>
+        <h2>FIELD OF THE INVENTION</h2>
+        <p>${content.fieldOfInvention.replace(/\n/g, '<br/>')}</p>
+        <h2>FORMAL CLAIMS (14 Independent + 25+ Dependent)</h2>
+        ${content.claims.map(c => `
+          <h3>CLAIM ${c.number}: ${c.title}</h3>
+          <p><strong>Independent Claim ${c.number}:</strong></p>
+          <p>${c.independentClaim.replace(/\n/g, '<br/>')}</p>
+          ${c.dependentClaims.map(d => `<p><em>Dependent Claim ${d.id}:</em> ${d.text}</p>`).join('')}
+        `).join('')}
+        <hr/>
+        <p style="text-align: center; font-size: 10pt; color: #666;">© 2024-2026 ${content.applicantName}. All rights reserved.</p>
+      </div>
+    `;
+    await generatePDF({
+      filename: `USPTO-Provisional-Patent-Application-${new Date().toISOString().split('T')[0]}.pdf`,
+      content: htmlContent
+    });
+    toast.success('USPTO Patent PDF downloaded successfully!');
+  } catch (error) {
+    console.error('Error generating USPTO patent PDF:', error);
+    toast.error('Failed to generate USPTO patent PDF. Please try again.');
     throw error;
   }
 };
