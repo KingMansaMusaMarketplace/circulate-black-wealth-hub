@@ -15,4 +15,4 @@ User-agent: facebookexternalhit
 Allow: /
 
 # Sitemaps
-Sitemap: https://mansamusamarketplace.com/sitemap.xml
+Sitemap: https://1325.ai/sitemap.xml
