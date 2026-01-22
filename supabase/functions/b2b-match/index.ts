@@ -1,3 +1,26 @@
+/**
+ * @fileoverview AI-Powered B2B Matching Engine
+ * 
+ * PATENT PROTECTED - Provisional Application Filed
+ * ================================================
+ * Title: System and Method for a Multi-Tenant Vertical Marketplace Operating System
+ * 
+ * CLAIM 5: B2B Matching Engine with Multi-Factor Weighted Scoring
+ * ----------------------------------------------------------------
+ * This module implements a proprietary business-to-business matching algorithm
+ * using weighted scoring across category, location, budget, rating, and timeline.
+ * 
+ * Protected Scoring Weights:
+ * - CATEGORY_MATCH: 30 points
+ * - SAME_CITY: 20 points, SAME_STATE: 10 points
+ * - SERVICE_AREA_OVERLAP: 15 points
+ * - BUDGET_COMPATIBILITY: 15 points
+ * - RATING_BONUS_MAX: 15 points (3 pts/star)
+ * - TIMELINE_MATCH: 10 points
+ * 
+ * © 2024-2026 Thomas D. Bowling. All rights reserved.
+ */
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { z } from 'https://esm.sh/zod@3.23.8';

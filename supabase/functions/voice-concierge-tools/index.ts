@@ -1,3 +1,22 @@
+/**
+ * @fileoverview Voice Concierge Tool Registry
+ * 
+ * PATENT PROTECTED - Provisional Application Filed
+ * ================================================
+ * Title: System and Method for a Multi-Tenant Vertical Marketplace Operating System
+ * 
+ * CLAIM 12: AI Tool Registry for Voice Concierge
+ * ----------------------------------------------
+ * This module implements a typed tool registry enabling voice AI to execute
+ * platform operations through Zod-validated tool invocations.
+ * 
+ * Protected Tool Set:
+ * - search_businesses, get_business_details, check_availability
+ * - get_recommendations, check_coalition_points, start_booking
+ * 
+ * © 2024-2026 Thomas D. Bowling. All rights reserved.
+ */
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { z } from 'https://esm.sh/zod@3.23.8';
