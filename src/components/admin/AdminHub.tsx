@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
-  Eye, Sliders, Bot, UserCog, Home, Award
+  Eye, Sliders, Bot, UserCog, Home, Award, Scale
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -48,6 +48,12 @@ const sections = [
       { id: 'agents', label: 'Sales Agents', icon: Users, description: 'Manage sales agent network' },
       { id: 'financial', label: 'Financial', icon: DollarSign, description: 'Financial reports and payouts' },
       { id: 'loyalty', label: 'Loyalty Program', icon: Award, description: 'Manage loyalty points, tiers, and rewards' },
+    ]
+  },
+  {
+    group: 'Legal & IP',
+    items: [
+      { id: 'patents', label: 'Patent Documents', icon: Scale, description: 'USPTO filing packages and IP exports' },
     ]
   },
   {
