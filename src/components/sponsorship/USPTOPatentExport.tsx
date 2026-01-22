@@ -52,16 +52,16 @@ export const USPTOPatentExport: React.FC = () => {
         {/* Document Summary */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg">
           <div className="text-center">
-            <p className="text-2xl font-bold text-primary">14</p>
+            <p className="text-2xl font-bold text-primary">16</p>
             <p className="text-xs text-muted-foreground">Independent Claims</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-primary">25+</p>
+            <p className="text-2xl font-bold text-primary">32+</p>
             <p className="text-xs text-muted-foreground">Dependent Claims</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-primary">12</p>
-            <p className="text-xs text-muted-foreground">Major Sections</p>
+            <p className="text-2xl font-bold text-primary">10</p>
+            <p className="text-xs text-muted-foreground">Protected Constants</p>
           </div>
           <div className="text-center">
             <p className="text-2xl font-bold text-primary">$80</p>
@@ -78,10 +78,12 @@ export const USPTOPatentExport: React.FC = () => {
           <div className="flex flex-wrap gap-2">
             <Badge variant="outline">Temporal Founding Member</Badge>
             <Badge variant="outline">CMAL Engine (2.3x)</Badge>
-            <Badge variant="outline">Fraud Detection</Badge>
+            <Badge variant="outline">Fraud Detection + Race Prevention</Badge>
             <Badge variant="outline">Coalition Loyalty</Badge>
             <Badge variant="outline">Voice AI Bridge</Badge>
             <Badge variant="outline">Sales Agent Network</Badge>
+            <Badge variant="outline">Susu Digital Escrow</Badge>
+            <Badge variant="outline">Biometric Verification</Badge>
           </div>
         </div>
 

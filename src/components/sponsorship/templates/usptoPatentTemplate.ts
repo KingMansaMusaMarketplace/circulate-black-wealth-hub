@@ -235,7 +235,8 @@ g) a privacy-preserving data sanitization layer that removes or redacts personal
           { id: "4.1", text: "The system of Claim 4, wherein the fraud alert types include: velocity_abuse (Action frequency exceeding human-possible rates), location_mismatch (Geographically impossible travel detected), qr_scan_abuse (Coordinated scanning patterns across accounts), transaction_anomaly (Unusual transaction amounts or frequencies), account_suspicious (New accounts with immediate high activity), review_manipulation (Burst patterns in reviews from related accounts)." },
           { id: "4.2", text: "The system of Claim 4, wherein detection of a velocity exceeding the threshold triggers an automatic escrow hold on associated points and pending payouts until manual review is completed." },
           { id: "4.3", text: "The system of Claim 4, wherein the AI confidence score is a decimal value between 0.0 and 1.0, with alerts scoring above 0.85 automatically escalated to critical priority and alerts scoring below 0.5 requiring additional evidence before action." },
-          { id: "4.4", text: "The system of Claim 4, wherein the batch insertion function is implemented using PostgreSQL's jsonb_array_elements for atomic processing." }
+          { id: "4.4", text: "The system of Claim 4, wherein the batch insertion function is implemented using PostgreSQL's jsonb_array_elements for atomic processing." },
+          { id: "4.5", text: "The system of Claim 4, wherein the atomic batch insertion (Claim 13) specifically prevents 'race conditions' wherein a fraudster attempts multiple simultaneous transactions before the first fraud alert is processed, by: (a) Using PostgreSQL SERIALIZABLE isolation level for fraud detection queries; (b) Implementing pessimistic locking on user accounts during velocity calculation via SELECT ... FOR UPDATE; (c) Queueing all transactions from the same user_id for sequential processing within a configurable time window (default: 500ms); (d) Maintaining a transaction_queue table with user_id, queued_at timestamp, and processing_status to ensure FIFO ordering of fraud checks." }
         ]
       },
       {
@@ -459,8 +460,55 @@ e) karma leaderboards displaying top contributors within geographic regions and 
 f) karma milestone achievements that unlock special badges and platform privileges at defined thresholds.`,
         dependentClaims: [
           { id: "14.1", text: "The system of Claim 14, wherein karma earning is calculated as: transaction_karma = transaction_amount × circulation_multiplier × 0.1, referral_karma = base_referral_karma × (1 + referred_user_tier_bonus), review_karma = review_length_factor × helpfulness_score." },
-          { id: "14.2", text: "The system of Claim 14, wherein karma decay applies a 5% monthly reduction to karma scores for users with no platform activity in the preceding 30 days." },
+          { id: "14.2", text: "The system of Claim 14, wherein karma decay applies a 5% monthly reduction to karma scores for users with no platform activity in the preceding 30 days, implemented via a scheduled PostgreSQL cron job executing: UPDATE profiles SET economic_karma = economic_karma * 0.95 WHERE last_activity_at < NOW() - INTERVAL '30 days'." },
           { id: "14.3", text: "The system of Claim 14, wherein karma is designed as a \"Cerebro-compatible feed\" that can be exported as a data stream for integration with external investment analytics platforms, providing signal on community economic velocity patterns." }
+        ]
+      },
+      {
+        number: 15,
+        title: "COMMUNITY FINANCE DIGITAL ESCROW AND DISTRIBUTION SYSTEM (SUSU)",
+        independentClaim: `A computer-implemented rotating savings and credit association (ROSCA) system for community-based collective savings, comprising:
+
+a) a circle creation mechanism with configurable parameters including: contribution_amount (decimal), cycle_length (weekly/biweekly/monthly), max_participants (integer with default 12), payout_order_type (sequential/lottery/auction), and minimum_credit_score threshold;
+
+b) a membership registry implemented as a susu_memberships table tracking: participant position_in_cycle, scheduled_payout_date, contribution_status (pending/paid/late/defaulted), join_date, and UNIQUE constraint on (circle_id, user_id) preventing duplicate enrollment;
+
+c) a digital escrow holding mechanism using a dedicated escrow_balance column that aggregates contributions until payout conditions are met, with all balance modifications performed through atomic database transactions;
+
+d) an automatic distribution engine implemented as a PostgreSQL trigger that releases pooled funds to the designated recipient when: all contributions for the current cycle are received, the scheduled payout date is reached, and the recipient has no active defaults;
+
+e) a contribution enforcement system with: grace_period_days (default 3), late_fee_percentage (default 5%), automatic membership suspension after consecutive_defaults_allowed (default 2), and reputation impact on economic_karma score;
+
+f) an audit trail recording all contribution and payout events in a susu_transactions table with: transaction_type (contribution/payout/late_fee/refund), amount, participant_id, cycle_number, and timestamp for regulatory compliance;
+
+g) integration with Stripe Connect for automatic ACH contribution collection on scheduled dates with retry logic for failed payments.`,
+        dependentClaims: [
+          { id: "15.1", text: "The system of Claim 15, wherein susu_status progression follows the state machine: forming → active → paused → completed → dissolved, with state transitions validated by database constraints." },
+          { id: "15.2", text: "The system of Claim 15, wherein the payout calculation formula is: payout_amount = contribution_amount × (participant_count - 1) - platform_fee, where platform_fee = total_contributions × SUSU_PLATFORM_FEE_RATE (default 1.5%)." },
+          { id: "15.3", text: "The system of Claim 15, wherein lottery-based payout ordering uses a cryptographically secure random selection (crypto.getRandomValues()) excluding members who have already received payouts in the current cycle." },
+          { id: "15.4", text: "The system of Claim 15, wherein auction-based payout ordering allows members to bid a discount percentage on their payout, with the highest bidder receiving priority and the discount distributed proportionally to other members as a bonus." }
+        ]
+      },
+      {
+        number: 16,
+        title: "BIOMETRIC-SECURED GEOSPATIAL TRANSACTION VERIFICATION",
+        independentClaim: `A multi-factor transaction verification system combining geospatial fraud detection with biometric authentication for enhanced security, comprising:
+
+a) integration with native device biometric APIs through Capacitor 7.x plugins (@capacitor-community/biometric-auth) supporting FaceID on iOS, TouchID on iOS/MacOS, and fingerprint sensors on Android devices;
+
+b) a verification workflow requiring biometric confirmation for transactions exceeding a configurable threshold amount (default BIOMETRIC_THRESHOLD = $100), implemented as a pre-transaction middleware check;
+
+c) combination of biometric verification timestamp with geospatial coordinates to create a multi-factor fraud detection signal, stored as: biometric_verified_at TIMESTAMP, biometric_location GEOGRAPHY(Point), biometric_device_id TEXT;
+
+d) fallback authentication mechanisms including PIN entry and password verification when biometric hardware is unavailable or fails, with fallback events logged for security audit;
+
+e) biometric verification audit logging in a biometric_verifications table with columns: user_id, verification_type (faceid/touchid/fingerprint/pin/password), device_id, success BOOLEAN, failure_reason TEXT, coordinates GEOGRAPHY(Point), and created_at timestamp;
+
+f) a velocity correlation component that compares biometric verification location with transaction location, flagging discrepancies exceeding 100 meters as potential device compromise or relay attacks.`,
+        dependentClaims: [
+          { id: "16.1", text: "The system of Claim 16, wherein biometric verification strengthens the geospatial velocity fraud detection (Claim 4) by confirming physical presence of the authenticated user at the transaction location, reducing false positives from shared devices or family account usage." },
+          { id: "16.2", text: "The system of Claim 16, wherein repeated biometric failures (default: 5 consecutive failures) trigger automatic account lock with notification to registered email and phone number." },
+          { id: "16.3", text: "The system of Claim 16, wherein biometric templates are never stored on platform servers; verification occurs entirely on-device using the Secure Enclave (iOS) or Trusted Execution Environment (Android), with only success/failure status transmitted to the server." }
         ]
       }
     ],
@@ -471,7 +519,11 @@ f) karma milestone achievements that unlock special badges and platform privileg
       { constant: "COMMISSION_RATE", value: "7.5%", location: "process-qr-transaction", claim: "Claim 9" },
       { constant: "POINTS_PER_DOLLAR", value: "10", location: "process-qr-transaction", claim: "Claim 9" },
       { constant: "FOUNDING_CUTOFF", value: "2026-03-31T23:59:59Z", location: "Database migration", claim: "Claim 1" },
-      { constant: "FRAUD_VELOCITY_THRESHOLD", value: "600 mph", location: "detect-fraud", claim: "Claim 4" }
+      { constant: "FRAUD_VELOCITY_THRESHOLD", value: "600 mph", location: "detect-fraud", claim: "Claim 4" },
+      { constant: "RACE_CONDITION_WINDOW", value: "500ms", location: "detect-fraud transaction queue", claim: "Claim 4.5" },
+      { constant: "KARMA_DECAY_RATE", value: "5% monthly", location: "economic-karma cron job", claim: "Claim 14" },
+      { constant: "SUSU_PLATFORM_FEE", value: "1.5%", location: "susu-payout-calculation", claim: "Claim 15" },
+      { constant: "BIOMETRIC_THRESHOLD", value: "$100", location: "transaction verification middleware", claim: "Claim 16" }
     ],
 
     technologyMatrix: [
@@ -482,7 +534,10 @@ f) karma milestone achievements that unlock special badges and platform privileg
       { technology: "Stripe Connect", equivalents: "Any multi-party payment splitting system including PayPal Commerce, Adyen, Square, Plaid, any payment processor supporting application fees and destination charges" },
       { technology: "Google Gemini 2.5 Flash", equivalents: "Any large language model including OpenAI GPT-4/GPT-5, Anthropic Claude, Meta Llama, Mistral, Cohere, any transformer-based AI model" },
       { technology: "WebSocket connections", equivalents: "Any persistent bidirectional communication protocol including Server-Sent Events, WebRTC data channels, gRPC streaming, MQTT" },
-      { technology: "Zod schema validation", equivalents: "Any runtime type validation library including Yup, Joi, io-ts, Valibot, AJV, any JSON Schema validator" }
+      { technology: "Zod schema validation", equivalents: "Any runtime type validation library including Yup, Joi, io-ts, Valibot, AJV, any JSON Schema validator" },
+      { technology: "Coalition Loyalty Network (Claim 3)", equivalents: "Blockchain/Distributed Ledgers (Ethereum, Solana, Polygon, etc.), Smart Contracts, Decentralized Autonomous Organizations (DAOs), decentralized identity systems, any token-based loyalty system whether centralized or decentralized, NFT-based membership tokens" },
+      { technology: "Susu/ROSCA System (Claim 15)", equivalents: "Any rotating savings mechanism including blockchain-based savings circles, smart contract escrow systems, DeFi lending pools with rotating distribution, mobile money chit funds, any digital implementation of traditional community savings" },
+      { technology: "Biometric Authentication (Claim 16)", equivalents: "Any biometric verification method including FaceID, TouchID, fingerprint sensors, iris scanning, voice recognition, behavioral biometrics, any hardware security module (HSM) based authentication" }
     ],
 
     pctLanguage: "This provisional application expressly preserves priority rights for international filing under the Patent Cooperation Treaty (PCT) within 12 months of the filing date. The inventor reserves the right to file corresponding applications in all PCT member states.",
@@ -519,7 +574,7 @@ f) karma milestone achievements that unlock special badges and platform privileg
 
     filingChecklist: [
       { document: "Specification (this document)", status: "READY" },
-      { document: "Formal Claims (14 independent + 25 dependent)", status: "READY" },
+      { document: "Formal Claims (16 independent + 32 dependent)", status: "READY" },
       { document: "System Diagrams", status: "READY" },
       { document: "Abstract", status: "READY" },
       { document: "Inventor Declaration", status: "PENDING SIGNATURE" },
