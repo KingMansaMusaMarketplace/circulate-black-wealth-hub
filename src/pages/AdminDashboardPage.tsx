@@ -27,7 +27,7 @@ import DatabasePerformanceMonitor from '@/components/admin/DatabasePerformanceMo
 import UserImpersonation from '@/components/admin/UserImpersonation';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHub from '@/components/admin/AdminHub';
-import USPTOPatentExport from '@/components/sponsorship/USPTOPatentExport';
+import LegalIPDocuments from '@/components/admin/LegalIPDocuments';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -99,7 +99,7 @@ const AdminDashboardPage: React.FC = () => {
       case 'ai':
         return <AdminAIDashboard />;
       case 'patents':
-        return <USPTOPatentExport />;
+        return <LegalIPDocuments />;
       default:
         return <AdminAnalyticsDashboard />;
     }
