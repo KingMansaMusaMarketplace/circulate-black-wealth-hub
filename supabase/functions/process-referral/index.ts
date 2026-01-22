@@ -1,7 +1,27 @@
-
-// Follow this setup guide to integrate the Deno language server with your editor:
-// https://deno.land/manual/getting_started/setup_your_environment
-// This enables autocomplete, go to definition, etc.
+/**
+ * PATENT-PROTECTED IMPLEMENTATION
+ * 
+ * This edge function implements claims from:
+ * "System and Method for a Multi-Tenant Vertical Marketplace Operating System"
+ * 
+ * CLAIM 7: Multi-Tier Commission Cascade System
+ * A computer-implemented system for automatically calculating and distributing
+ * commission payments across multiple tiers of sales agents, comprising:
+ * - Primary agent commission calculation based on referral conversion
+ * - Secondary "override" commissions for recruiting agents
+ * - Tertiary recruitment bonuses triggered upon agent qualification
+ * - Automatic payment scheduling with configurable due dates
+ * - Audit trail generation for regulatory compliance
+ * 
+ * Protected Elements:
+ * - process_pending_referrals() RPC function for atomic processing
+ * - Cascading commission calculations with configurable percentages
+ * - Team override mechanism (recruiter earns from recruited agent's referrals)
+ * - Activity logging for complete audit trail
+ * 
+ * © 2024-2025 1325.ai - All Rights Reserved
+ * Filing Date: January 2025
+ */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.7'
 

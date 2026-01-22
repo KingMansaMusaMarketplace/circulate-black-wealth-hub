@@ -1,3 +1,29 @@
+/**
+ * PATENT-PROTECTED IMPLEMENTATION
+ * 
+ * This edge function implements claims from:
+ * "System and Method for a Multi-Tenant Vertical Marketplace Operating System"
+ * 
+ * CLAIM 10: AI-Powered Personalized Business Recommendation Engine
+ * A computer-implemented system for generating personalized business recommendations
+ * using artificial intelligence and user behavioral analysis, comprising:
+ * - User preference extraction from stored profile data
+ * - Interaction history analysis (views, saves, transactions)
+ * - AI model invocation with contextual user and business data
+ * - Recommendation scoring with confidence values (0.75-1.00 range)
+ * - Persistent storage of recommendations with expiration management
+ * 
+ * Protected Elements:
+ * - Multi-signal user context aggregation (preferences + interactions + history)
+ * - Gemini 2.5 Flash model integration via Lovable AI Gateway
+ * - Recommendation reason generation for user transparency
+ * - Atomic recommendation refresh (delete old, insert new)
+ * - Metadata tracking for recommendation analytics
+ * 
+ * © 2024-2025 1325.ai - All Rights Reserved
+ * Filing Date: January 2025
+ */
+
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.4';
 
