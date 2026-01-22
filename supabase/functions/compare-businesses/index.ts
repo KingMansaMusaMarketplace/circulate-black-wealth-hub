@@ -1,3 +1,27 @@
+/**
+ * PATENT-PROTECTED IMPLEMENTATION
+ * 
+ * This edge function implements claims from:
+ * "System and Method for a Multi-Tenant Vertical Marketplace Operating System"
+ * 
+ * CLAIM 10: AI-Powered Personalized Business Recommendation Engine
+ * A computer-implemented system for generating personalized business comparisons
+ * using artificial intelligence, comprising:
+ * - Multi-dimensional business attribute extraction
+ * - AI-driven comparative analysis with structured output
+ * - Use-case based recommendation generation
+ * - Value proposition scoring across multiple factors
+ * 
+ * Protected Elements:
+ * - Structured AI tool calling with compare_businesses function schema
+ * - Multi-factor comparison including services, pricing, experience, location
+ * - Best-fit use case recommendations with reasoning
+ * - Integration with Lovable AI Gateway for model abstraction
+ * 
+ * © 2024-2025 1325.ai - All Rights Reserved
+ * Filing Date: January 2025
+ */
+
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.0';
 
