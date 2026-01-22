@@ -1,7 +1,8 @@
 import { toast } from 'sonner';
 import { Haptics, NotificationType } from '@capacitor/haptics';
 import { Capacitor } from '@capacitor/core';
-import { sanitizeHtml } from '@/lib/security/content-sanitizer';
+import jsPDF from 'jspdf';
+
 interface PDFOptions {
   filename: string;
   content: string;
@@ -9,48 +10,199 @@ interface PDFOptions {
 
 export const generatePDF = async ({ filename, content }: PDFOptions): Promise<void> => {
   try {
-    // Create a temporary div element with the content
+    // Create a temporary div element with the content to extract text
     const element = document.createElement('div');
-    element.innerHTML = sanitizeHtml(content);
-    element.style.width = '210mm';
-    element.style.minHeight = '297mm';
-    element.style.padding = '20mm';
-    element.style.margin = '0';
-    element.style.backgroundColor = 'white';
-    element.style.fontFamily = 'Arial, sans-serif';
-    element.style.fontSize = '14px';
-    element.style.lineHeight = '1.6';
-    element.style.color = '#000000';
+    element.innerHTML = content;
     
-    // Temporarily add to DOM for proper rendering
-    element.style.position = 'absolute';
-    element.style.left = '-9999px';
-    element.style.top = '0';
-    document.body.appendChild(element);
+    // Create a new jsPDF instance
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
 
-    // Use dynamic import to load html2pdf
-    const html2pdf = await import('html2pdf.js');
-    
-    const opt = {
-      margin: [10, 10, 10, 10],
-      filename,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { 
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff'
-      },
-      jsPDF: { 
-        unit: 'mm', 
-        format: 'a4', 
-        orientation: 'portrait' 
+    // PDF dimensions
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 20;
+    const contentWidth = pageWidth - (margin * 2);
+    let yPosition = margin;
+    const lineHeight = 6;
+    const headerHeight = 10;
+    const sectionSpacing = 8;
+
+    // Set default font
+    pdf.setFont('times', 'normal');
+    pdf.setFontSize(12);
+
+    // Helper function to add new page if needed
+    const checkPageBreak = (requiredSpace: number = lineHeight) => {
+      if (yPosition + requiredSpace > pageHeight - margin) {
+        pdf.addPage();
+        yPosition = margin;
       }
     };
 
-    // Generate and download the PDF
-    const pdfModule = html2pdf.default || html2pdf;
-    await pdfModule().set(opt).from(element).save();
+    // Helper function to add wrapped text
+    const addWrappedText = (text: string, fontSize: number = 12, fontStyle: string = 'normal') => {
+      pdf.setFontSize(fontSize);
+      pdf.setFont('times', fontStyle);
+      const lines = pdf.splitTextToSize(text, contentWidth);
+      lines.forEach((line: string) => {
+        checkPageBreak();
+        pdf.text(line, margin, yPosition);
+        yPosition += lineHeight;
+      });
+    };
+
+    // Helper function to add a header
+    const addHeader = (text: string, level: number = 1) => {
+      checkPageBreak(headerHeight + lineHeight);
+      yPosition += sectionSpacing;
+      const fontSize = level === 1 ? 16 : level === 2 ? 14 : 12;
+      pdf.setFontSize(fontSize);
+      pdf.setFont('times', 'bold');
+      pdf.text(text, margin, yPosition);
+      yPosition += headerHeight;
+      
+      if (level <= 2) {
+        pdf.setLineWidth(0.5);
+        pdf.line(margin, yPosition - 4, pageWidth - margin, yPosition - 4);
+      }
+    };
+
+    // Parse HTML content and convert to PDF
+    const sections = element.querySelectorAll('h1, h2, h3, p, li, th, td, pre');
+    let inTable = false;
+    let tableData: string[][] = [];
+    let tableHeaders: string[] = [];
+
+    sections.forEach((section, index) => {
+      const tagName = section.tagName.toLowerCase();
+      const text = section.textContent?.trim() || '';
+
+      if (!text) return;
+
+      switch (tagName) {
+        case 'h1':
+          if (index === 0) {
+            // Center the main title
+            pdf.setFontSize(18);
+            pdf.setFont('times', 'bold');
+            const titleWidth = pdf.getTextWidth(text);
+            pdf.text(text, (pageWidth - titleWidth) / 2, yPosition);
+            yPosition += headerHeight + 4;
+          } else {
+            addHeader(text, 1);
+          }
+          break;
+        case 'h2':
+          addHeader(text, 2);
+          break;
+        case 'h3':
+          addHeader(text, 3);
+          break;
+        case 'p':
+          addWrappedText(text, 12, 'normal');
+          yPosition += 2;
+          break;
+        case 'li':
+          checkPageBreak();
+          pdf.setFontSize(12);
+          pdf.setFont('times', 'normal');
+          const bulletLines = pdf.splitTextToSize(`• ${text}`, contentWidth - 5);
+          bulletLines.forEach((line: string, lineIndex: number) => {
+            checkPageBreak();
+            pdf.text(line, margin + (lineIndex === 0 ? 0 : 3), yPosition);
+            yPosition += lineHeight;
+          });
+          break;
+        case 'th':
+          tableHeaders.push(text);
+          inTable = true;
+          break;
+        case 'td':
+          if (!inTable) {
+            tableData.push([]);
+            inTable = true;
+          }
+          if (tableData.length === 0) {
+            tableData.push([]);
+          }
+          tableData[tableData.length - 1].push(text);
+          break;
+        case 'pre':
+          checkPageBreak(lineHeight * 3);
+          pdf.setFontSize(9);
+          pdf.setFont('courier', 'normal');
+          const codeLines = pdf.splitTextToSize(text, contentWidth - 10);
+          
+          // Draw code background
+          const codeHeight = codeLines.length * 4.5 + 6;
+          checkPageBreak(codeHeight);
+          pdf.setFillColor(245, 245, 245);
+          pdf.rect(margin, yPosition - 3, contentWidth, codeHeight, 'F');
+          
+          codeLines.forEach((line: string) => {
+            checkPageBreak();
+            pdf.text(line, margin + 3, yPosition);
+            yPosition += 4.5;
+          });
+          yPosition += 4;
+          pdf.setFont('times', 'normal');
+          pdf.setFontSize(12);
+          break;
+      }
+
+      // Check if we just finished a table row
+      if (inTable && section.parentElement?.tagName.toLowerCase() === 'tr') {
+        const nextSibling = section.nextElementSibling;
+        if (!nextSibling || nextSibling.parentElement?.tagName.toLowerCase() !== 'tr') {
+          // End of row, check if end of table
+          const parentRow = section.parentElement;
+          const nextRow = parentRow?.nextElementSibling;
+          if (!nextRow || (nextRow.tagName.toLowerCase() !== 'tr')) {
+            // End of table, render it
+            if (tableHeaders.length > 0 || tableData.length > 0) {
+              checkPageBreak(lineHeight * (tableData.length + 2));
+              
+              const colWidth = contentWidth / Math.max(tableHeaders.length, tableData[0]?.length || 1);
+              
+              // Draw headers
+              if (tableHeaders.length > 0) {
+                pdf.setFont('times', 'bold');
+                pdf.setFontSize(10);
+                tableHeaders.forEach((header, i) => {
+                  pdf.text(header.substring(0, 20), margin + (i * colWidth), yPosition);
+                });
+                yPosition += lineHeight;
+                pdf.line(margin, yPosition - 3, pageWidth - margin, yPosition - 3);
+              }
+              
+              // Draw data rows
+              pdf.setFont('times', 'normal');
+              tableData.forEach(row => {
+                checkPageBreak();
+                row.forEach((cell, i) => {
+                  pdf.text(cell.substring(0, 25), margin + (i * colWidth), yPosition);
+                });
+                yPosition += lineHeight;
+              });
+              
+              yPosition += 4;
+            }
+            
+            // Reset table state
+            inTable = false;
+            tableData = [];
+            tableHeaders = [];
+          }
+        }
+      }
+    });
+
+    // Save the PDF
+    pdf.save(filename);
     
     // Trigger success haptic feedback on native platforms
     if (Capacitor.isNativePlatform()) {
@@ -61,30 +213,9 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
       }
     }
     
-    // Clean up
-    document.body.removeChild(element);
-    
   } catch (error) {
     console.error('Error generating PDF:', error);
-    
-    // Fallback: create a simple text file if PDF generation fails
-    try {
-      const textContent = content.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-      const blob = new Blob([textContent], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename.replace('.pdf', '.txt');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      
-      toast.success(`${filename.replace('.pdf', '.txt')} downloaded as text file`);
-    } catch (fallbackError) {
-      console.error('Fallback download failed:', fallbackError);
-      toast.error('Failed to generate download. Please try again.');
-      throw error;
-    }
+    toast.error('Failed to generate PDF. Please try again.');
+    throw error;
   }
 };
