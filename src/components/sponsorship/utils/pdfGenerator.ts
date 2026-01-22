@@ -18,17 +18,17 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
-      format: 'a4'
+      format: 'letter' // US Letter size for USPTO
     });
 
-    // PDF dimensions
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const marginLeft = 25;
-    const marginRight = 25;
-    const marginTop = 25;
-    const marginBottom = 30; // Extra space for footer
-    const contentWidth = pageWidth - marginLeft - marginRight;
+    // PDF dimensions - US Letter
+    const pageWidth = pdf.internal.pageSize.getWidth(); // 215.9mm
+    const pageHeight = pdf.internal.pageSize.getHeight(); // 279.4mm
+    const marginLeft = 25.4; // 1 inch
+    const marginRight = 25.4; // 1 inch
+    const marginTop = 25.4; // 1 inch
+    const marginBottom = 35; // Extra space for footer
+    const contentWidth = pageWidth - marginLeft - marginRight; // ~165mm usable
     let yPosition = marginTop;
     const lineHeight = 5;
     const paragraphSpacing = 3;
@@ -38,17 +38,25 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     pdf.setFont('times', 'normal');
     pdf.setFontSize(11);
 
+    // Helper: Clean text - remove excessive whitespace and special chars
+    const cleanText = (text: string): string => {
+      return text
+        .replace(/\s+/g, ' ')
+        .replace(/[\u200B-\u200D\uFEFF]/g, '') // Remove zero-width chars
+        .trim();
+    };
+
     // Helper function to add page footer
     const addPageFooter = () => {
-      const footerY = pageHeight - 15;
+      const footerY = pageHeight - 12;
       pdf.setFontSize(8);
       pdf.setFont('times', 'normal');
       pdf.setTextColor(100, 100, 100);
       
-      // Don't draw a line - just add text
       const footerText = `Page ${pageNumber} - CONFIDENTIAL - Attorney-Client Work Product`;
       const footerWidth = pdf.getTextWidth(footerText);
-      pdf.text(footerText, (pageWidth - footerWidth) / 2, footerY);
+      const footerX = Math.max(marginLeft, (pageWidth - footerWidth) / 2);
+      pdf.text(footerText, footerX, footerY);
       
       // Reset text color
       pdf.setTextColor(0, 0, 0);
@@ -66,17 +74,32 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
       return false;
     };
 
+    // Helper function to safely wrap text - NEVER exceeds content width
+    const safeWrapText = (text: string, maxWidth: number, fontSize: number): string[] => {
+      pdf.setFontSize(fontSize);
+      // Ensure maxWidth is at least 20mm to prevent infinite loops
+      const safeWidth = Math.max(20, Math.min(maxWidth, contentWidth));
+      const cleanedText = cleanText(text);
+      
+      if (!cleanedText) return [];
+      
+      return pdf.splitTextToSize(cleanedText, safeWidth);
+    };
+
     // Helper function to add wrapped text with proper line breaks
     const addWrappedText = (text: string, fontSize: number = 11, fontStyle: string = 'normal', indent: number = 0) => {
       pdf.setFontSize(fontSize);
       pdf.setFont('times', fontStyle);
       
-      const effectiveWidth = contentWidth - indent;
-      const lines = pdf.splitTextToSize(text, effectiveWidth);
+      // Calculate effective width accounting for indent
+      const effectiveWidth = Math.max(40, contentWidth - indent);
+      const lines = safeWrapText(text, effectiveWidth, fontSize);
       
       lines.forEach((line: string) => {
         checkPageBreak(lineHeight);
-        pdf.text(line, marginLeft + indent, yPosition);
+        // Ensure text starts within margins
+        const xPos = Math.min(marginLeft + indent, pageWidth - marginRight - 20);
+        pdf.text(line, xPos, yPosition);
         yPosition += lineHeight;
       });
     };
@@ -92,15 +115,15 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
       pdf.setFontSize(fontSize);
       pdf.setFont('times', 'bold');
       
-      // Wrap long headers
-      const headerLines = pdf.splitTextToSize(text, contentWidth);
+      // Wrap long headers - use full content width
+      const headerLines = safeWrapText(text, contentWidth, fontSize);
       headerLines.forEach((line: string, index: number) => {
         if (index > 0) checkPageBreak(lineHeight);
         pdf.text(line, marginLeft, yPosition);
         yPosition += lineHeight + 1;
       });
       
-      // Add underline only for h1 and h2, but not touching text
+      // Add underline only for h1 and h2
       if (level <= 2) {
         pdf.setLineWidth(0.3);
         pdf.setDrawColor(150, 150, 150);
@@ -117,21 +140,26 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
       const numCols = Math.max(headers.length, rows[0]?.length || 0);
       if (numCols === 0) return;
       
-      const colWidth = contentWidth / numCols;
+      // Calculate column widths - distribute evenly but ensure minimum
+      const minColWidth = 25;
+      const colWidth = Math.max(minColWidth, contentWidth / numCols);
+      const actualTableWidth = Math.min(colWidth * numCols, contentWidth);
       const cellPadding = 2;
-      const cellContentWidth = colWidth - (cellPadding * 2);
+      const cellContentWidth = colWidth - (cellPadding * 2) - 2; // Extra 2mm buffer
+      const cellLineHeight = 3.5;
       
       pdf.setFontSize(9);
       
-      // Calculate row heights based on content
+      // Calculate row height based on wrapped content
       const calculateRowHeight = (cells: string[], isBold: boolean = false): number => {
         pdf.setFont('times', isBold ? 'bold' : 'normal');
+        pdf.setFontSize(9);
         let maxLines = 1;
         cells.forEach(cell => {
-          const lines = pdf.splitTextToSize(cell, cellContentWidth);
-          maxLines = Math.max(maxLines, lines.length);
+          const wrappedLines = safeWrapText(cell, cellContentWidth, 9);
+          maxLines = Math.max(maxLines, wrappedLines.length);
         });
-        return maxLines * 4 + cellPadding * 2;
+        return Math.max(8, maxLines * cellLineHeight + cellPadding * 2);
       };
 
       // Draw headers
@@ -140,16 +168,18 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
         checkPageBreak(headerHeight + 10);
         
         pdf.setFont('times', 'bold');
+        pdf.setFontSize(9);
         pdf.setFillColor(240, 240, 240);
-        pdf.rect(marginLeft, yPosition - 1, contentWidth, headerHeight, 'F');
+        pdf.rect(marginLeft, yPosition - 1, actualTableWidth, headerHeight, 'F');
         
         headers.forEach((header, i) => {
+          if (i >= numCols) return; // Safety check
           const cellX = marginLeft + (i * colWidth) + cellPadding;
-          const lines = pdf.splitTextToSize(header, cellContentWidth);
+          const lines = safeWrapText(header, cellContentWidth, 9);
           let cellY = yPosition + 3;
           lines.forEach((line: string) => {
             pdf.text(line, cellX, cellY);
-            cellY += 4;
+            cellY += cellLineHeight;
           });
         });
         
@@ -157,22 +187,58 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
         
         // Draw header bottom border
         pdf.setLineWidth(0.5);
-        pdf.line(marginLeft, yPosition, marginLeft + contentWidth, yPosition);
+        pdf.line(marginLeft, yPosition, marginLeft + actualTableWidth, yPosition);
       }
       
       // Draw data rows
       pdf.setFont('times', 'normal');
+      pdf.setFontSize(9);
+      
       rows.forEach((row) => {
         const rowHeight = calculateRowHeight(row, false);
-        checkPageBreak(rowHeight);
+        
+        // Check if we need a new page - if so, redraw header on new page
+        if (yPosition + rowHeight > pageHeight - marginBottom) {
+          addPageFooter();
+          pdf.addPage();
+          pageNumber++;
+          yPosition = marginTop;
+          
+          // Redraw headers on new page
+          if (headers.length > 0) {
+            const newHeaderHeight = calculateRowHeight(headers, true);
+            pdf.setFont('times', 'bold');
+            pdf.setFontSize(9);
+            pdf.setFillColor(240, 240, 240);
+            pdf.rect(marginLeft, yPosition - 1, actualTableWidth, newHeaderHeight, 'F');
+            
+            headers.forEach((header, i) => {
+              if (i >= numCols) return;
+              const cellX = marginLeft + (i * colWidth) + cellPadding;
+              const lines = safeWrapText(header, cellContentWidth, 9);
+              let cellY = yPosition + 3;
+              lines.forEach((line: string) => {
+                pdf.text(line, cellX, cellY);
+                cellY += cellLineHeight;
+              });
+            });
+            
+            yPosition += newHeaderHeight;
+            pdf.setLineWidth(0.5);
+            pdf.line(marginLeft, yPosition, marginLeft + actualTableWidth, yPosition);
+            pdf.setFont('times', 'normal');
+            pdf.setFontSize(9);
+          }
+        }
         
         row.forEach((cell, i) => {
+          if (i >= numCols) return; // Safety check
           const cellX = marginLeft + (i * colWidth) + cellPadding;
-          const lines = pdf.splitTextToSize(cell, cellContentWidth);
+          const lines = safeWrapText(cell, cellContentWidth, 9);
           let cellY = yPosition + 3;
           lines.forEach((line: string) => {
             pdf.text(line, cellX, cellY);
-            cellY += 4;
+            cellY += cellLineHeight;
           });
         });
         
@@ -181,27 +247,14 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
         // Draw row bottom border (light)
         pdf.setLineWidth(0.1);
         pdf.setDrawColor(200, 200, 200);
-        pdf.line(marginLeft, yPosition, marginLeft + contentWidth, yPosition);
+        pdf.line(marginLeft, yPosition, marginLeft + actualTableWidth, yPosition);
         pdf.setDrawColor(0, 0, 0);
       });
-      
-      // Draw table borders
-      pdf.setLineWidth(0.3);
-      const tableHeight = yPosition - marginTop;
-      
-      // Vertical column lines
-      for (let i = 0; i <= numCols; i++) {
-        const x = marginLeft + (i * colWidth);
-        // We don't draw vertical lines to keep it cleaner
-      }
       
       yPosition += 6;
     };
 
-    // Parse HTML content and convert to PDF
-    const allElements = element.querySelectorAll('h1, h2, h3, h4, p, li, ol, ul, table, pre, hr, div.footer, div.claim-box');
-    
-    // Process tables separately
+    // Parse tables first
     const tables = element.querySelectorAll('table');
     const tablePositions = new Map<Element, { headers: string[], rows: string[][] }>();
     
@@ -211,7 +264,7 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
       
       const headerCells = table.querySelectorAll('th');
       headerCells.forEach(th => {
-        headers.push(th.textContent?.trim() || '');
+        headers.push(cleanText(th.textContent || ''));
       });
       
       const bodyRows = table.querySelectorAll('tr');
@@ -220,7 +273,7 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
         if (cells.length > 0) {
           const rowData: string[] = [];
           cells.forEach(td => {
-            rowData.push(td.textContent?.trim() || '');
+            rowData.push(cleanText(td.textContent || ''));
           });
           rows.push(rowData);
         }
@@ -235,12 +288,12 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     // Process each element
     const processElement = (el: Element) => {
       const tagName = el.tagName.toLowerCase();
-      const text = el.textContent?.trim() || '';
+      const text = cleanText(el.textContent || '');
       
       if (!text && tagName !== 'hr') return;
       
-      // Skip if this is a cell inside a table (we handle tables separately)
-      if (el.closest('table') && (tagName === 'th' || tagName === 'td')) {
+      // Skip if this is inside a table
+      if (el.closest('table') && (tagName === 'th' || tagName === 'td' || tagName === 'tr')) {
         return;
       }
       
@@ -281,22 +334,26 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
           const index = siblings.indexOf(el) + 1;
           
           const bullet = isOrdered ? `${index}. ` : '• ';
-          const listText = bullet + text;
+          const bulletWidth = pdf.getTextWidth(bullet);
           const bulletIndent = 5;
-          const textIndent = isOrdered ? 8 : 5;
+          const textIndent = bulletWidth + 2;
           
-          const listLines = pdf.splitTextToSize(text, contentWidth - bulletIndent - textIndent);
+          // Calculate available width for list text
+          const listTextWidth = contentWidth - bulletIndent - textIndent - 2;
+          const listLines = safeWrapText(text, listTextWidth, 11);
           
-          // First line with bullet
-          pdf.text(bullet, marginLeft + bulletIndent, yPosition);
-          pdf.text(listLines[0], marginLeft + bulletIndent + textIndent, yPosition);
-          yPosition += lineHeight;
-          
-          // Subsequent lines indented
-          for (let i = 1; i < listLines.length; i++) {
-            checkPageBreak(lineHeight);
-            pdf.text(listLines[i], marginLeft + bulletIndent + textIndent, yPosition);
+          if (listLines.length > 0) {
+            // First line with bullet
+            pdf.text(bullet, marginLeft + bulletIndent, yPosition);
+            pdf.text(listLines[0], marginLeft + bulletIndent + textIndent, yPosition);
             yPosition += lineHeight;
+            
+            // Subsequent lines indented to match text start
+            for (let i = 1; i < listLines.length; i++) {
+              checkPageBreak(lineHeight);
+              pdf.text(listLines[i], marginLeft + bulletIndent + textIndent, yPosition);
+              yPosition += lineHeight;
+            }
           }
           break;
           
@@ -313,26 +370,34 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
           
         case 'pre':
           checkPageBreak(lineHeight * 2);
-          pdf.setFontSize(8);
+          pdf.setFontSize(7); // Smaller font for code
           pdf.setFont('courier', 'normal');
           
-          const codeWidth = contentWidth - 10;
-          const codeLines = pdf.splitTextToSize(text, codeWidth);
+          // Use narrower width for code blocks
+          const codeWidth = contentWidth - 15;
+          const codeLines = safeWrapText(text, codeWidth, 7);
           
           // Calculate code block height
-          const codeBlockHeight = codeLines.length * 3.5 + 8;
-          checkPageBreak(codeBlockHeight);
+          const codeLineHeight = 3;
+          const codeBlockHeight = Math.min(codeLines.length * codeLineHeight + 10, pageHeight - marginTop - marginBottom);
+          checkPageBreak(Math.min(codeBlockHeight, 50)); // At least first part fits
           
           // Draw code background
           pdf.setFillColor(248, 248, 248);
           pdf.setDrawColor(220, 220, 220);
-          pdf.rect(marginLeft + 2, yPosition - 2, contentWidth - 4, codeBlockHeight, 'FD');
+          
+          const bgHeight = Math.min(codeLines.length * codeLineHeight + 8, pageHeight - yPosition - marginBottom);
+          pdf.rect(marginLeft + 3, yPosition - 2, contentWidth - 6, bgHeight, 'FD');
           
           yPosition += 4;
           codeLines.forEach((line: string) => {
-            checkPageBreak(3.5);
-            pdf.text(line, marginLeft + 5, yPosition);
-            yPosition += 3.5;
+            if (checkPageBreak(codeLineHeight)) {
+              // Continue code block on new page
+              pdf.setFontSize(7);
+              pdf.setFont('courier', 'normal');
+            }
+            pdf.text(line, marginLeft + 6, yPosition);
+            yPosition += codeLineHeight;
           });
           yPosition += 6;
           
@@ -355,7 +420,6 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
 
     // Walk through all elements in order
     const walkDOM = (node: Element) => {
-      // Process this element
       const tagName = node.tagName?.toLowerCase();
       
       if (['h1', 'h2', 'h3', 'h4', 'p', 'li', 'pre', 'hr', 'table'].includes(tagName)) {
