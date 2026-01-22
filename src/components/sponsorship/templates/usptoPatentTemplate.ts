@@ -186,7 +186,7 @@ f) a persistent storage mechanism that stores daily snapshots of impact metrics 
         dependentClaims: [
           { id: "2.1", text: "The system of Claim 2, wherein the circulation multiplier constant of 2.3 is derived from peer-reviewed economic research specific to Black American communities, including National Bureau of Economic Research publications on minority business wealth retention patterns." },
           { id: "2.2", text: "The system of Claim 2, further comprising an animated visualization component that displays the multiplication effect in real-time, showing the flow from initial purchase amount through community circulation to final economic impact, using motion graphics to illustrate the wealth multiplication process." },
-          { id: "2.3", text: "The system of Claim 2, wherein the economic impact calculation is performed by an edge function executing in a serverless environment, with the formula: economic_impact = Σ(transaction_amount) × CIRCULATION_MULTIPLIER where CIRCULATION_MULTIPLIER = 2.3" },
+          { id: "2.3", text: "The system of Claim 2, wherein the economic impact calculation is performed by an edge function executing in a serverless environment, with the formula: economic_impact = SUM(transaction_amount) * CIRCULATION_MULTIPLIER, where CIRCULATION_MULTIPLIER equals 2.3." },
           { id: "2.4", text: "The system of Claim 2, further comprising a sponsor dashboard interface that displays: Businesses supported count with comparison to previous period, Total economic impact with percentage growth, Community reach estimation with visualization, Return on Investment (ROI) calculation comparing sponsor contribution to generated economic activity." }
         ]
       },
@@ -220,7 +220,7 @@ f) a coalition membership registry that tracks participating businesses with act
 
 a) a data collection component that captures transaction and activity records including geographic coordinates, timestamps, and user identifiers from QR code scans, transactions, and platform activities;
 
-b) a velocity calculation engine that computes implied travel speed between sequential user actions using the formula: V = D / Δt where: V = implied velocity (miles per hour), D = Haversine distance between geographic coordinates, Δt = time delta between actions (hours);
+b) a velocity calculation engine that computes implied travel speed between sequential user actions using the formula: V = D / delta_t, where V equals implied velocity in miles per hour, D equals Haversine distance between geographic coordinates, and delta_t equals the time delta between actions in hours;
 
 c) a configurable velocity threshold comparator, with a default threshold of 600 mph to account for commercial aviation, that flags any calculated velocity exceeding the threshold as a potential impossible travel scenario;
 

@@ -38,11 +38,25 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     pdf.setFont('times', 'normal');
     pdf.setFontSize(11);
 
-    // Helper: Clean text - remove excessive whitespace and special chars
+    // Helper: Clean text - remove excessive whitespace and convert special chars
+    // Helper: Clean text - remove excessive whitespace and convert special chars
     const cleanText = (text: string): string => {
       return text
         .replace(/\s+/g, ' ')
         .replace(/[\u200B-\u200D\uFEFF]/g, '') // Remove zero-width chars
+        .replace(/\u03A3/g, 'SUM') // Replace Greek Sigma
+        .replace(/\u0394/g, 'delta_') // Replace Greek Delta
+        .replace(/\u00D7/g, '*') // Replace multiplication sign
+        .replace(/\u00A3/g, 'GBP ') // Replace pound sign
+        .replace(/\u20AC/g, 'EUR ') // Replace euro sign
+        .replace(/\u2013/g, '-') // En dash
+        .replace(/\u2014/g, '-') // Em dash
+        .replace(/\u201C/g, '"') // Left double quote
+        .replace(/\u201D/g, '"') // Right double quote
+        .replace(/\u2018/g, "'") // Left single quote
+        .replace(/\u2019/g, "'") // Right single quote
+        .replace(/\u2026/g, '...') // Ellipsis
+        .replace(/[^\x00-\x7F]/g, '') // Remove remaining non-ASCII
         .trim();
     };
 
