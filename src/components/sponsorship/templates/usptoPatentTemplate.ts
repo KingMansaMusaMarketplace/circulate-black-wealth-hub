@@ -16,6 +16,7 @@ export interface USPTOPatentContent {
   applicantName: string;
   correspondenceAddress: string;
   contact: string;
+  commercialNames: string;
   abstract: string;
   fieldOfInvention: string;
   background: {
@@ -44,7 +45,8 @@ export const getUSPTOPatentContent = (): USPTOPatentContent => {
     filingDate: "January 22, 2026",
     applicantName: "Thomas D. Bowling",
     correspondenceAddress: "1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628",
-    contact: "312.709.6006 | contact@mansamusamarketplace.com",
+    contact: "312.709.6006 | contact@1325.ai",
+    commercialNames: "1325.AI (dba Mansa Musa Marketplace)",
     
     abstract: `A comprehensive multi-tenant marketplace operating system designed to support minority-owned businesses through an integrated ecosystem of novel technical systems. The invention includes:
 

@@ -230,6 +230,7 @@ function createCoverPage(content: ReturnType<typeof getUSPTOPatentContent>): Par
     createInfoLine("Filing Date:", content.filingDate),
     createInfoLine("Application Number:", "_______________"),
     createInfoLine("Applicant/Inventor:", content.applicantName),
+    createInfoLine("Commercial Name(s):", content.commercialNames),
     createInfoLine("Correspondence Address:", content.correspondenceAddress),
     createInfoLine("Contact:", content.contact),
     new Paragraph({
