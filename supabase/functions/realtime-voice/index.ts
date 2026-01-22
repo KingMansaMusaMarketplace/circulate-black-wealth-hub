@@ -1,3 +1,24 @@
+/**
+ * @fileoverview Real-Time Voice AI Bridge Architecture
+ * 
+ * PATENT PROTECTED - Provisional Application Filed
+ * ================================================
+ * Title: System and Method for a Multi-Tenant Vertical Marketplace Operating System
+ * 
+ * CLAIM 6 & 11: Voice AI WebSocket Bridge
+ * ---------------------------------------
+ * This module implements a novel WebSocket bridge architecture connecting
+ * client applications to OpenAI Realtime API through an intermediary edge function.
+ * 
+ * Protected Elements:
+ * - Bidirectional WebSocket bridge pattern
+ * - Platform-specific persona injection ("Kayla")
+ * - Session configuration with VAD parameters
+ * - PCM16 audio streaming relay
+ * 
+ * © 2024-2026 Thomas D. Bowling. All rights reserved.
+ */
+
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import WebSocket from 'npm:ws@8.18.0';
 

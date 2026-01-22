@@ -1,3 +1,21 @@
+/**
+ * @fileoverview QR Code Transaction Processing Engine
+ * 
+ * PATENT PROTECTED - Provisional Application Filed
+ * ================================================
+ * Title: System and Method for a Multi-Tenant Vertical Marketplace Operating System
+ * 
+ * CLAIM 9: QR Transaction Processing with Commission Splitting
+ * ------------------------------------------------------------
+ * This module implements QR-based payment processing with:
+ * - 7.5% platform commission (COMMISSION_RATE constant)
+ * - 10 coalition points per dollar (POINTS_PER_DOLLAR constant)
+ * - Stripe Connect integration for automatic splits
+ * - Geographic coordinate capture for fraud detection
+ * 
+ * © 2024-2026 Thomas D. Bowling. All rights reserved.
+ */
+
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import Stripe from "https://esm.sh/stripe@14.21.0";
