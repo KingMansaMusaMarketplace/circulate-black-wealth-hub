@@ -510,6 +510,80 @@ f) a velocity correlation component that compares biometric verification locatio
           { id: "16.2", text: "The system of Claim 16, wherein repeated biometric failures (default: 5 consecutive failures) trigger automatic account lock with notification to registered email and phone number." },
           { id: "16.3", text: "The system of Claim 16, wherein biometric templates are never stored on platform servers; verification occurs entirely on-device using the Secure Enclave (iOS) or Trusted Execution Environment (Android), with only success/failure status transmitted to the server." }
         ]
+      },
+      {
+        number: 17,
+        title: "QR CODE ATOMIC CHECK-IN AND LOYALTY ACCRUAL SYSTEM",
+        independentClaim: `A computer-implemented atomic QR code scanning system that validates, records, and rewards customer check-ins in a single indivisible transaction, comprising:
+
+a) a QR code generation component that creates unique, cryptographically-signed QR codes for each business, encoding: business_id (UUID), code_type (loyalty/discount/payment), points_value, scan_limit (optional), expiration_date (optional), and HMAC signature for tamper detection;
+
+b) a real-time scanning interface using html5-qrcode library with camera permission handling, video stream management, and scan result parsing with format validation;
+
+c) an atomic scan processing pipeline implemented as a PostgreSQL transaction with SERIALIZABLE isolation level, executing in sequence: QR code validation → active status check → scan limit enforcement → user authentication verification → scan record insertion → loyalty points accrual → scan count increment;
+
+d) a scan limit enforcement mechanism that atomically checks current_scan_count against max_scan_limit before processing, preventing race conditions where multiple simultaneous scans could exceed limits using SELECT ... FOR UPDATE row locking;
+
+e) a loyalty points integration that automatically calculates and credits points based on: base_points_value × tier_multiplier (from Claim 3) × founding_member_bonus (from Claim 1), all within the same database transaction;
+
+f) a scan history registry storing: scan_id, qr_code_id, user_id, business_id, scanned_at timestamp, points_awarded, device_fingerprint, and geolocation coordinates for fraud correlation;
+
+g) a business analytics feed providing real-time scan metrics including: total scans, unique customers, points distributed, peak scanning hours, and geographic heatmaps of customer activity.`,
+        dependentClaims: [
+          { id: "17.1", text: "The system of Claim 17, wherein the atomic transaction rollback occurs if any step fails, ensuring no partial state where points are awarded without scan record or vice versa." },
+          { id: "17.2", text: "The system of Claim 17, wherein duplicate scan prevention uses a composite unique constraint on (qr_code_id, user_id, DATE(scanned_at)) preventing multiple scans from the same user on the same day for daily-limited codes." },
+          { id: "17.3", text: "The system of Claim 17, wherein the geolocation captured during scan is correlated with the business location, flagging scans occurring more than 500 meters from the registered business address as potential fraud indicators feeding into Claim 4." },
+          { id: "17.4", text: "The system of Claim 17, wherein scan processing integrates with biometric verification (Claim 16) for high-value reward codes exceeding BIOMETRIC_THRESHOLD, requiring FaceID/TouchID confirmation before points accrual." }
+        ],
+        technicalImplementation: `-- Atomic scan processing with race condition prevention
+BEGIN;
+SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+
+-- Lock the QR code row to prevent concurrent modifications
+SELECT * FROM qr_codes WHERE id = $1 FOR UPDATE;
+
+-- Validate and check limits atomically
+IF current_scan_count >= max_scan_limit THEN
+  RAISE EXCEPTION 'Scan limit exceeded';
+END IF;
+
+-- Insert scan record
+INSERT INTO qr_scans (qr_code_id, user_id, business_id, scanned_at, points_awarded)
+VALUES ($1, $2, $3, NOW(), calculated_points);
+
+-- Update scan count
+UPDATE qr_codes SET current_scan_count = current_scan_count + 1 WHERE id = $1;
+
+-- Award loyalty points
+UPDATE coalition_points SET current_balance = current_balance + calculated_points WHERE customer_id = $2;
+
+COMMIT;`
+      },
+      {
+        number: 18,
+        title: "COMMUNITY IMPACT ANALYTICS ENGINE",
+        independentClaim: `A comprehensive business analytics system that calculates, visualizes, and reports community economic impact metrics for platform-participating businesses, comprising:
+
+a) a transaction aggregation service that continuously collects and indexes all monetary transactions, QR scans, loyalty redemptions, and B2B interactions associated with each business, stored in an optimized analytics_events table with composite indexes on (business_id, event_type, created_at);
+
+b) a community impact calculator applying the CIRCULATION_MULTIPLIER constant (2.3x from Claim 2) to compute: raw_revenue (sum of transactions), community_impact (raw_revenue × 2.3), estimated_jobs_supported (community_impact / average_local_wage), tax_revenue_generated (community_impact × local_tax_rate);
+
+c) a customer retention analytics module tracking: unique_customers_count, repeat_customer_percentage, average_visit_frequency, customer_lifetime_value (CLV), and churn_rate calculated using cohort analysis over 30/60/90 day windows;
+
+d) a comparative "What If" analysis engine that models business performance scenarios including: revenue projection without platform participation, customer acquisition cost comparison vs. traditional advertising, and loyalty program ROI calculation;
+
+e) a coalition network contribution tracker showing: cross-referral revenue (customers acquired from other coalition businesses), points distributed to customers, points redeemed from other businesses, and net coalition balance;
+
+f) a geographic impact heatmap using Mapbox GL integration visualizing customer density, transaction concentration, and economic circulation patterns across zip codes and neighborhoods;
+
+g) an exportable report generator producing PDF and CSV formats for: tax documentation, investor presentations, grant applications, and SBA loan support materials.`,
+        dependentClaims: [
+          { id: "18.1", text: "The system of Claim 18, wherein the analytics dashboard displays real-time metrics updated via Supabase real-time subscriptions, with automatic refresh on new transaction events." },
+          { id: "18.2", text: "The system of Claim 18, wherein the \"What If\" analysis uses the formula: missed_community_impact = (current_transactions × CIRCULATION_MULTIPLIER) - current_transactions, showing businesses the community wealth they are enabling by participating." },
+          { id: "18.3", text: "The system of Claim 18, wherein QR code analytics (Claim 17) feed directly into the impact calculations, with scan-to-transaction conversion rates tracked as a key performance indicator." },
+          { id: "18.4", text: "The system of Claim 18, wherein sponsor attribution (Claim 2) links business performance metrics to corporate sponsor dashboards, enabling sponsors to track the specific businesses their investments support." },
+          { id: "18.5", text: "The system of Claim 18, wherein historical trend analysis uses time-series aggregation to show month-over-month and year-over-year growth in: revenue, customer count, coalition points, and community impact score." }
+        ]
       }
     ],
 
@@ -523,7 +597,10 @@ f) a velocity correlation component that compares biometric verification locatio
       { constant: "RACE_CONDITION_WINDOW", value: "500ms", location: "detect-fraud transaction queue", claim: "Claim 4.5" },
       { constant: "KARMA_DECAY_RATE", value: "5% monthly", location: "economic-karma cron job", claim: "Claim 14" },
       { constant: "SUSU_PLATFORM_FEE", value: "1.5%", location: "susu-payout-calculation", claim: "Claim 15" },
-      { constant: "BIOMETRIC_THRESHOLD", value: "$100", location: "transaction verification middleware", claim: "Claim 16" }
+      { constant: "BIOMETRIC_THRESHOLD", value: "$100", location: "transaction verification middleware", claim: "Claim 16" },
+      { constant: "QR_SCAN_DAILY_LIMIT", value: "1 per user per code", location: "qr-scan-validation", claim: "Claim 17" },
+      { constant: "SCAN_PROXIMITY_THRESHOLD", value: "500 meters", location: "qr-fraud-detection", claim: "Claim 17.3" },
+      { constant: "AVERAGE_LOCAL_WAGE", value: "$45,000/year", location: "jobs-impact-calculation", claim: "Claim 18" }
     ],
 
     technologyMatrix: [
@@ -574,7 +651,7 @@ f) a velocity correlation component that compares biometric verification locatio
 
     filingChecklist: [
       { document: "Specification (this document)", status: "READY" },
-      { document: "Formal Claims (16 independent + 32 dependent)", status: "READY" },
+      { document: "Formal Claims (18 independent + 41 dependent)", status: "READY" },
       { document: "System Diagrams", status: "READY" },
       { document: "Abstract", status: "READY" },
       { document: "Inventor Declaration", status: "PENDING SIGNATURE" },
