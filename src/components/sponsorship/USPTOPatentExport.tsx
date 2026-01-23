@@ -52,15 +52,15 @@ export const USPTOPatentExport: React.FC = () => {
         {/* Document Summary */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg">
           <div className="text-center">
-            <p className="text-2xl font-bold text-primary">16</p>
+            <p className="text-2xl font-bold text-primary">18</p>
             <p className="text-xs text-muted-foreground">Independent Claims</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-primary">32+</p>
+            <p className="text-2xl font-bold text-primary">41+</p>
             <p className="text-xs text-muted-foreground">Dependent Claims</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-primary">10</p>
+            <p className="text-2xl font-bold text-primary">13</p>
             <p className="text-xs text-muted-foreground">Protected Constants</p>
           </div>
           <div className="text-center">
@@ -84,6 +84,8 @@ export const USPTOPatentExport: React.FC = () => {
             <Badge variant="outline">Sales Agent Network</Badge>
             <Badge variant="outline">Susu Digital Escrow</Badge>
             <Badge variant="outline">Biometric Verification</Badge>
+            <Badge variant="outline">QR Atomic Check-in</Badge>
+            <Badge variant="outline">Community Impact Analytics</Badge>
           </div>
         </div>
 
