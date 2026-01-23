@@ -15,20 +15,24 @@ import { toast } from 'sonner';
 
 // Patent claim data for the status tracker
 const independentClaims = [
-  { number: 1, title: 'Core Marketplace Architecture', edgeFunction: 'Multiple', status: 'ready' },
-  { number: 2, title: 'Temporal Founding Member System', edgeFunction: 'process-business-signup', status: 'ready' },
-  { number: 3, title: 'CMAL Engine (2.3x Multiplier)', edgeFunction: 'calculate-cmal-bonus', status: 'ready' },
+  { number: 1, title: 'Temporal Founding Member Status System', edgeFunction: 'process-business-signup', status: 'ready' },
+  { number: 2, title: 'CMAL Engine (2.3x Multiplier)', edgeFunction: 'calculate-cmal-bonus', status: 'ready' },
+  { number: 3, title: 'Cross-Business Coalition Loyalty Network', edgeFunction: 'aggregate-loyalty-points', status: 'ready' },
   { number: 4, title: 'Geospatial Velocity Fraud Detection', edgeFunction: 'detect-fraud', status: 'ready' },
-  { number: 5, title: 'Coalition Loyalty Program', edgeFunction: 'aggregate-loyalty-points', status: 'ready' },
-  { number: 6, title: 'Real-Time Voice AI Bridge', edgeFunction: 'Proposed', status: 'ready' },
-  { number: 7, title: 'Atomic Fraud Alert Batch Insertion', edgeFunction: 'batch-insert-fraud-alerts', status: 'ready' },
-  { number: 8, title: 'B2B Intelligence Engine', edgeFunction: 'b2b-perplexity-search', status: 'ready' },
-  { number: 9, title: 'Sales Agent Commission Network', edgeFunction: 'process-agent-commissions', status: 'ready' },
-  { number: 10, title: 'Multi-Modal Payment Orchestration', edgeFunction: 'payment-orchestrator', status: 'ready' },
-  { number: 11, title: 'Privacy-Preserving Analytics', edgeFunction: 'analytics', status: 'ready' },
-  { number: 12, title: 'Automated Compliance Engine', edgeFunction: 'Proposed', status: 'ready' },
-  { number: 13, title: 'Business Verification Pipeline', edgeFunction: 'verify-business', status: 'ready' },
-  { number: 14, title: 'Economic Karma System', edgeFunction: 'Proposed', status: 'ready' },
+  { number: 5, title: 'Intelligent B2B Matching Engine', edgeFunction: 'b2b-perplexity-search', status: 'ready' },
+  { number: 6, title: 'Corporate Sponsorship Attribution', edgeFunction: 'calculate-sponsor-impact', status: 'ready' },
+  { number: 7, title: 'Gamification Achievement Engine', edgeFunction: 'gamification-engine', status: 'ready' },
+  { number: 8, title: 'Hierarchical Sales Agent Commission Network', edgeFunction: 'process-agent-commissions', status: 'ready' },
+  { number: 9, title: 'QR-Code Transaction Processing', edgeFunction: 'process-qr-transaction', status: 'ready' },
+  { number: 10, title: 'AI-Powered Business Recommendations', edgeFunction: 'ai-recommendations', status: 'ready' },
+  { number: 11, title: 'Real-Time Voice AI Bridge Architecture', edgeFunction: 'voice-ai-bridge', status: 'ready' },
+  { number: 12, title: 'AI Tool Registry for Voice Concierge', edgeFunction: 'voice-ai-tools', status: 'ready' },
+  { number: 13, title: 'Atomic Fraud Alert Batch Insertion', edgeFunction: 'batch-insert-fraud-alerts', status: 'ready' },
+  { number: 14, title: 'Economic Karma Scoring System', edgeFunction: 'economic-karma', status: 'ready' },
+  { number: 15, title: 'Susu Digital Escrow System', edgeFunction: 'susu-escrow', status: 'ready' },
+  { number: 16, title: 'Biometric-Secured Transaction Verification', edgeFunction: 'biometric-verify', status: 'ready' },
+  { number: 17, title: 'QR Code Atomic Check-in System', edgeFunction: 'qr-scan-atomic', status: 'ready' },
+  { number: 18, title: 'Community Impact Analytics Engine', edgeFunction: 'community-analytics', status: 'ready' },
 ];
 
 const edgeFunctionsWithHeaders = [
@@ -60,8 +64,8 @@ const patentDocuments = [
   { 
     name: 'Formal Claims', 
     file: 'USPTO_FORMAL_CLAIMS.md', 
-    description: '14 independent + 25 dependent claims',
-    pages: '~15 pages',
+    description: '18 independent + 41 dependent claims',
+    pages: '~25 pages',
     type: 'claims'
   },
   { 
@@ -138,7 +142,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">14</p>
+              <p className="text-3xl font-bold text-mansagold">18</p>
               <p className="text-xs text-blue-200/60">Independent Claims</p>
             </div>
           </CardContent>
@@ -146,7 +150,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">25+</p>
+              <p className="text-3xl font-bold text-mansagold">41+</p>
               <p className="text-xs text-blue-200/60">Dependent Claims</p>
             </div>
           </CardContent>
@@ -154,8 +158,8 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">8</p>
-              <p className="text-xs text-blue-200/60">Protected Functions</p>
+              <p className="text-3xl font-bold text-mansagold">13</p>
+              <p className="text-xs text-blue-200/60">Protected Constants</p>
             </div>
           </CardContent>
         </Card>
@@ -321,7 +325,7 @@ const LegalIPDocuments: React.FC = () => {
           {/* Independent Claims Table */}
           <Card className="bg-white/5 border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">Independent Claims (14)</CardTitle>
+              <CardTitle className="text-white">Independent Claims (18)</CardTitle>
               <CardDescription className="text-blue-200/60">
                 Primary patent claims protecting core innovations
               </CardDescription>
