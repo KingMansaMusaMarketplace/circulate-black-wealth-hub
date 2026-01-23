@@ -456,8 +456,17 @@ export const generatePDF = async ({ filename, content }: PDFOptions): Promise<vo
     // Add footer to last page
     addPageFooter();
 
-    // Save the PDF
-    pdf.save(filename);
+    // Save the PDF with explicit blob creation for better browser compatibility
+    const pdfBlob = pdf.output('blob');
+    const url = URL.createObjectURL(pdfBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.type = 'application/pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
     
     // Trigger success haptic feedback on native platforms
     if (Capacitor.isNativePlatform()) {
