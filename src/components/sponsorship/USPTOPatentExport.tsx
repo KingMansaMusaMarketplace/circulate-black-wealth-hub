@@ -50,7 +50,7 @@ export const USPTOPatentExport: React.FC = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Document Summary */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-4 bg-muted/50 rounded-lg">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg">
           <div className="text-center">
             <p className="text-2xl font-bold text-primary">20</p>
             <p className="text-xs text-muted-foreground">Independent Claims</p>
@@ -58,10 +58,6 @@ export const USPTOPatentExport: React.FC = () => {
           <div className="text-center">
             <p className="text-2xl font-bold text-primary">43+</p>
             <p className="text-xs text-muted-foreground">Dependent Claims</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl font-bold text-amber-500">2</p>
-            <p className="text-xs text-muted-foreground">Pending Addition</p>
           </div>
           <div className="text-center">
             <p className="text-2xl font-bold text-primary">13</p>
