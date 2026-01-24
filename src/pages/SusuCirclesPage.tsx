@@ -11,7 +11,7 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Users, Plus, DollarSign, Calendar, TrendingUp, Shield, ArrowRight, Crown } from 'lucide-react';
+import { Users, Plus, DollarSign, Calendar, TrendingUp, Shield, ArrowRight, Crown, Lock, CheckCircle, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 
@@ -36,6 +36,19 @@ interface SusuMembership {
   has_received_payout: boolean;
   joined_at: string;
   susu_circles: SusuCircle;
+}
+
+interface EscrowTransaction {
+  id: string;
+  circle_id: string;
+  contributor_id: string;
+  recipient_id: string | null;
+  amount: number;
+  round_number: number;
+  status: string;
+  platform_fee: number | null;
+  created_at: string;
+  released_at: string | null;
 }
 
 const SusuCirclesPage: React.FC = () => {
@@ -68,6 +81,41 @@ const SusuCirclesPage: React.FC = () => {
     },
     enabled: !!user?.id
   });
+
+  // Fetch escrow transactions for user's circles
+  const { data: escrowTransactions, isLoading: loadingEscrow } = useQuery({
+    queryKey: ['susu-escrow', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return [];
+      const { data, error } = await supabase
+        .from('susu_escrow')
+        .select('*')
+        .or(`contributor_id.eq.${user.id},recipient_id.eq.${user.id}`)
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      return data as EscrowTransaction[];
+    },
+    enabled: !!user?.id
+  });
+
+  // Calculate escrow stats
+  const escrowStats = React.useMemo(() => {
+    if (!escrowTransactions) return { held: 0, released: 0, pending: 0, received: 0 };
+    
+    const held = escrowTransactions
+      .filter(t => t.status === 'held' && t.contributor_id === user?.id)
+      .reduce((sum, t) => sum + t.amount, 0);
+    
+    const released = escrowTransactions
+      .filter(t => t.status === 'released' && t.contributor_id === user?.id)
+      .reduce((sum, t) => sum + t.amount, 0);
+    
+    const received = escrowTransactions
+      .filter(t => t.status === 'released' && t.recipient_id === user?.id)
+      .reduce((sum, t) => sum + t.amount - (t.platform_fee || 0), 0);
+    
+    return { held, released, pending: held, received };
+  }, [escrowTransactions, user?.id]);
 
   // Fetch available circles to join
   const { data: availableCircles, isLoading: loadingAvailable } = useQuery({
@@ -197,7 +245,7 @@ const SusuCirclesPage: React.FC = () => {
         </motion.div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
             <CardContent className="p-6 flex items-center gap-4">
               <div className="p-3 rounded-xl bg-gradient-to-br from-mansagold to-amber-600 shadow-lg">
@@ -222,14 +270,25 @@ const SusuCirclesPage: React.FC = () => {
               </div>
             </CardContent>
           </Card>
+          <Card className="border border-mansagold/30 bg-gradient-to-br from-mansagold/10 to-amber-900/20 backdrop-blur-xl">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-mansagold to-amber-500 shadow-lg">
+                <Lock className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-mansagold">${escrowStats.held}</p>
+                <p className="text-slate-400 text-sm">In Secure Escrow</p>
+              </div>
+            </CardContent>
+          </Card>
           <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
             <CardContent className="p-6 flex items-center gap-4">
               <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg">
-                <Shield className="w-6 h-6 text-white" />
+                <CheckCircle className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white">1.5%</p>
-                <p className="text-slate-400 text-sm">Platform Fee</p>
+                <p className="text-2xl font-bold text-emerald-400">${escrowStats.received}</p>
+                <p className="text-slate-400 text-sm">Total Received</p>
               </div>
             </CardContent>
           </Card>
@@ -375,8 +434,12 @@ const SusuCirclesPage: React.FC = () => {
 
         {/* My Circles */}
         <Tabs defaultValue="my-circles" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 bg-slate-800/60">
+          <TabsList className="grid w-full max-w-lg mx-auto grid-cols-3 bg-slate-800/60">
             <TabsTrigger value="my-circles">My Circles</TabsTrigger>
+            <TabsTrigger value="escrow" className="flex items-center gap-1.5">
+              <Lock className="w-3.5 h-3.5" />
+              Escrow
+            </TabsTrigger>
             <TabsTrigger value="how-it-works">How It Works</TabsTrigger>
           </TabsList>
 
@@ -464,6 +527,127 @@ const SusuCirclesPage: React.FC = () => {
                 ))}
               </div>
             )}
+          </TabsContent>
+
+          {/* Escrow Tab */}
+          <TabsContent value="escrow" className="mt-6 space-y-6">
+            {/* Escrow Summary */}
+            <Card className="border border-mansagold/30 bg-gradient-to-br from-mansagold/5 to-amber-900/10 backdrop-blur-xl">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Lock className="w-5 h-5 text-mansagold" />
+                  Secure Digital Escrow
+                </CardTitle>
+                <CardDescription className="text-slate-400">
+                  All contributions are held securely until payout conditions are met
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="p-4 rounded-lg bg-slate-800/60 border border-white/10">
+                    <div className="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                      <Clock className="w-4 h-4" />
+                      Held in Escrow
+                    </div>
+                    <p className="text-2xl font-bold text-mansagold">${escrowStats.held}</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-slate-800/60 border border-white/10">
+                    <div className="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                      <CheckCircle className="w-4 h-4" />
+                      Released
+                    </div>
+                    <p className="text-2xl font-bold text-emerald-400">${escrowStats.released}</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-slate-800/60 border border-white/10">
+                    <div className="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                      <DollarSign className="w-4 h-4" />
+                      Total Received
+                    </div>
+                    <p className="text-2xl font-bold text-blue-400">${escrowStats.received}</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-slate-800/60 border border-white/10">
+                    <div className="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                      <Shield className="w-4 h-4" />
+                      Platform Fee
+                    </div>
+                    <p className="text-2xl font-bold text-white">1.5%</p>
+                  </div>
+                </div>
+
+                {/* Escrow Transaction History */}
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-4">Escrow Transaction History</h4>
+                  {loadingEscrow ? (
+                    <p className="text-center text-slate-400 py-8">Loading transactions...</p>
+                  ) : !escrowTransactions || escrowTransactions.length === 0 ? (
+                    <div className="text-center py-8 border border-white/10 rounded-lg bg-slate-800/40">
+                      <Lock className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+                      <p className="text-slate-400">No escrow transactions yet</p>
+                      <p className="text-slate-500 text-sm mt-1">Make your first contribution to see it here</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2 max-h-80 overflow-y-auto">
+                      {escrowTransactions.map((tx) => (
+                        <div 
+                          key={tx.id} 
+                          className="flex items-center justify-between p-4 rounded-lg bg-slate-800/60 border border-white/10"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`p-2 rounded-full ${
+                              tx.status === 'held' 
+                                ? 'bg-amber-500/20 text-amber-400' 
+                                : 'bg-emerald-500/20 text-emerald-400'
+                            }`}>
+                              {tx.status === 'held' ? (
+                                <Clock className="w-4 h-4" />
+                              ) : (
+                                <CheckCircle className="w-4 h-4" />
+                              )}
+                            </div>
+                            <div>
+                              <p className="text-white font-medium">
+                                {tx.contributor_id === user?.id ? 'Contribution' : 'Payout Received'}
+                              </p>
+                              <p className="text-slate-500 text-xs">
+                                Round {tx.round_number} • {new Date(tx.created_at).toLocaleDateString()}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className={`font-bold ${
+                              tx.recipient_id === user?.id ? 'text-emerald-400' : 'text-white'
+                            }`}>
+                              {tx.recipient_id === user?.id ? '+' : ''}${tx.amount}
+                            </p>
+                            <Badge className={`text-xs ${
+                              tx.status === 'held' 
+                                ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' 
+                                : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+                            }`}>
+                              {tx.status}
+                            </Badge>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Security Info */}
+                <div className="p-4 rounded-lg bg-mansagold/10 border border-mansagold/20">
+                  <div className="flex items-start gap-3">
+                    <Shield className="w-5 h-5 text-mansagold mt-0.5" />
+                    <div>
+                      <p className="text-mansagold font-semibold">Patent-Protected Escrow System</p>
+                      <p className="text-slate-400 text-sm mt-1">
+                        Your funds are held in a secure digital escrow until all round conditions are met. 
+                        Automatic distribution ensures fairness. A 1.5% platform fee supports platform operations.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="how-it-works" className="mt-6">
