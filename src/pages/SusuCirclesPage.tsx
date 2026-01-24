@@ -11,13 +11,14 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Users, Plus, DollarSign, Calendar, TrendingUp, Shield, ArrowRight, Crown, Lock, CheckCircle, Clock, Eye } from 'lucide-react';
+import { Users, Plus, DollarSign, Calendar, TrendingUp, Shield, ArrowRight, Crown, Lock, CheckCircle, Clock, Eye, HelpCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import ContributeButton from '@/components/susu/ContributeButton';
 import CircleInviteLink from '@/components/susu/CircleInviteLink';
 import CircleMemberList from '@/components/susu/CircleMemberList';
 import RoundStatusTracker from '@/components/susu/RoundStatusTracker';
+import SusuFAQ from '@/components/susu/SusuFAQ';
 
 interface SusuCircle {
   id: string;
@@ -438,13 +439,17 @@ const SusuCirclesPage: React.FC = () => {
 
         {/* My Circles */}
         <Tabs defaultValue="my-circles" className="w-full">
-          <TabsList className="grid w-full max-w-lg mx-auto grid-cols-3 bg-slate-800/60">
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 bg-slate-800/60">
             <TabsTrigger value="my-circles">My Circles</TabsTrigger>
             <TabsTrigger value="escrow" className="flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5" />
               Escrow
             </TabsTrigger>
             <TabsTrigger value="how-it-works">How It Works</TabsTrigger>
+            <TabsTrigger value="faq" className="flex items-center gap-1.5">
+              <HelpCircle className="w-3.5 h-3.5" />
+              FAQ
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="my-circles" className="mt-6">
@@ -749,6 +754,10 @@ const SusuCirclesPage: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="faq" className="mt-6">
+            <SusuFAQ />
           </TabsContent>
         </Tabs>
       </div>
