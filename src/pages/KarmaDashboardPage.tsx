@@ -13,6 +13,7 @@ import DecayCountdown from '@/components/karma/DecayCountdown';
 import KarmaHistoryChart from '@/components/karma/KarmaHistoryChart';
 import KarmaLeaderboard from '@/components/karma/KarmaLeaderboard';
 import EarnKarmaTips from '@/components/karma/EarnKarmaTips';
+import KarmaFAQ from '@/components/karma/KarmaFAQ';
 
 interface KarmaTransaction {
   id: string;
@@ -303,6 +304,9 @@ const KarmaDashboardPage: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+
+        {/* FAQ Section */}
+        <KarmaFAQ />
       </div>
     </div>
   );
