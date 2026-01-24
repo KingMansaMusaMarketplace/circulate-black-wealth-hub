@@ -10,6 +10,15 @@ export interface PatentClaim {
   technicalImplementation?: string;
 }
 
+export interface AttorneyInfo {
+  name: string;
+  firm: string;
+  address: string;
+  phone: string;
+  website: string;
+  registrationNumber?: string;
+}
+
 export interface USPTOPatentContent {
   title: string;
   filingDate: string;
@@ -17,6 +26,7 @@ export interface USPTOPatentContent {
   correspondenceAddress: string;
   contact: string;
   commercialNames: string;
+  attorney: AttorneyInfo;
   abstract: string;
   fieldOfInvention: string;
   background: {
@@ -42,11 +52,18 @@ export interface USPTOPatentContent {
 export const getUSPTOPatentContent = (): USPTOPatentContent => {
   return {
     title: "System and Method for a Multi-Tenant Vertical Marketplace Operating System Featuring Temporal Incentives, Circulatory Multiplier Attribution, Cross-Business Coalition Loyalty Networks, Voice-Enabled AI Concierge, Hierarchical Sales Agent Networks, and Geospatial Velocity Fraud Detection",
-    filingDate: "January 22, 2026",
+    filingDate: "January 30, 2026",
     applicantName: "Thomas D. Bowling",
     correspondenceAddress: "1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628",
     contact: "312.709.6006 | contact@1325.ai",
     commercialNames: "1325.AI (dba Mansa Musa Marketplace)",
+    attorney: {
+      name: "Fraline J. Allgaier, Esq.",
+      firm: "Allgaier Patent Solutions®",
+      address: "405 N. Wabash #2912, Chicago, IL 60611",
+      phone: "(847) 409-8670",
+      website: "www.allgaierpatentsolutions.com"
+    },
     
     abstract: `A comprehensive multi-tenant marketplace operating system designed to support minority-owned businesses through an integrated ecosystem of novel technical systems. The invention includes:
 

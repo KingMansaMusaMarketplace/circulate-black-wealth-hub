@@ -186,6 +186,15 @@ export const generateUSPTOPatentPDF = async (): Promise<void> => {
           <p class="center"><strong>Commercial Name(s):</strong> ${content.commercialNames}</p>
           <p class="center"><strong>Correspondence Address:</strong> ${content.correspondenceAddress}</p>
           <p class="center"><strong>Contact:</strong> ${content.contact}</p>
+          
+          <div style="margin-top: 16px; padding: 12px; border: 1px solid #333; background: #fafafa;">
+            <p class="center" style="margin-bottom: 8px;"><strong>PREPARED BY / ATTORNEY OF RECORD</strong></p>
+            <p class="center" style="margin: 4px 0;"><strong>${content.attorney.name}</strong></p>
+            <p class="center" style="margin: 4px 0;">${content.attorney.firm}</p>
+            <p class="center" style="margin: 4px 0;">${content.attorney.address}</p>
+            <p class="center" style="margin: 4px 0;">Phone: ${content.attorney.phone}</p>
+            <p class="center" style="margin: 4px 0;">${content.attorney.website}</p>
+          </div>
         </div>
 
         <h2>TABLE OF CONTENTS</h2>
