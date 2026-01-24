@@ -234,6 +234,88 @@ function createCoverPage(content: ReturnType<typeof getUSPTOPatentContent>): Par
     createInfoLine("Correspondence Address:", content.correspondenceAddress),
     createInfoLine("Contact:", content.contact),
     new Paragraph({
+      children: [],
+      spacing: { after: 400 }
+    }),
+    // Attorney Section
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: "PREPARED BY / ATTORNEY OF RECORD",
+          bold: true,
+          font: "Times New Roman",
+          size: 24,
+          color: "333333"
+        })
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { before: 400, after: 200 },
+      border: {
+        top: { style: BorderStyle.SINGLE, size: 1, color: "333333" },
+        bottom: { style: BorderStyle.SINGLE, size: 1, color: "333333" },
+        left: { style: BorderStyle.SINGLE, size: 1, color: "333333" },
+        right: { style: BorderStyle.SINGLE, size: 1, color: "333333" }
+      },
+      shading: { fill: "f5f5f5" }
+    }),
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: content.attorney.name,
+          bold: true,
+          font: "Times New Roman",
+          size: 24
+        })
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 50 }
+    }),
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: content.attorney.firm,
+          font: "Times New Roman",
+          size: 22
+        })
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 50 }
+    }),
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: content.attorney.address,
+          font: "Times New Roman",
+          size: 22
+        })
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 50 }
+    }),
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: `Phone: ${content.attorney.phone}`,
+          font: "Times New Roman",
+          size: 22
+        })
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 50 }
+    }),
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: content.attorney.website,
+          font: "Times New Roman",
+          size: 22,
+          color: "0066cc"
+        })
+      ],
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 400 }
+    }),
+    new Paragraph({
       children: [new PageBreak()]
     })
   ];
