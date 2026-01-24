@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -11,7 +12,7 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Users, Plus, DollarSign, Calendar, TrendingUp, Shield, ArrowRight, Crown, Lock, CheckCircle, Clock, Eye, HelpCircle } from 'lucide-react';
+import { Users, Plus, DollarSign, Calendar, TrendingUp, Shield, ArrowRight, Crown, Lock, CheckCircle, Clock, Eye, HelpCircle, Wallet } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import ContributeButton from '@/components/susu/ContributeButton';
@@ -286,17 +287,19 @@ const SusuCirclesPage: React.FC = () => {
               </div>
             </CardContent>
           </Card>
-          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
-            <CardContent className="p-6 flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg">
-                <CheckCircle className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-emerald-400">${escrowStats.received}</p>
-                <p className="text-slate-400 text-sm">Total Received</p>
-              </div>
-            </CardContent>
-          </Card>
+          <Link to="/wallet">
+            <Card className="border border-emerald-500/30 bg-gradient-to-br from-emerald-900/20 to-slate-800/60 backdrop-blur-xl hover:border-emerald-400/50 transition-all cursor-pointer group">
+              <CardContent className="p-6 flex items-center gap-4">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-lg group-hover:scale-110 transition-transform">
+                  <Wallet className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-emerald-400">${escrowStats.received}</p>
+                  <p className="text-slate-400 text-sm">Wallet Balance →</p>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
 
         {/* Action Buttons */}

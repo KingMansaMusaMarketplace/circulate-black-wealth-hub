@@ -182,7 +182,30 @@ serve(async (req) => {
 
         if (releaseError) throw releaseError;
 
-        console.log(`[SUSU ESCROW] Released payout: ${netPayout} to user ${recipient.user_id}`);
+        // Credit recipient's wallet with net payout
+        const { data: walletResult, error: walletError } = await supabase
+          .rpc('credit_wallet', {
+            p_user_id: recipient.user_id,
+            p_amount: netPayout,
+            p_source: 'susu_payout',
+            p_description: `Susu Circle payout - ${circle.name} Round ${circle.current_round}`,
+            p_reference_id: circle_id,
+            p_reference_type: 'susu_circle'
+          });
+
+        if (walletError) {
+          console.error('[SUSU ESCROW] Wallet credit error:', walletError);
+          throw walletError;
+        }
+
+        // Update membership to mark payout received
+        await supabase
+          .from('susu_memberships')
+          .update({ has_received_payout: true })
+          .eq('circle_id', circle_id)
+          .eq('user_id', recipient.user_id);
+
+        console.log(`[SUSU ESCROW] Released payout: ${netPayout} to user ${recipient.user_id}, wallet transaction: ${walletResult}`);
 
         return new Response(
           JSON.stringify({
@@ -192,7 +215,9 @@ serve(async (req) => {
             platform_fee: totalPlatformFee,
             net_payout: netPayout,
             round: circle.current_round,
-            message: `Payout of ${netPayout} released to round ${circle.current_round} recipient`,
+            wallet_credited: true,
+            wallet_transaction_id: walletResult,
+            message: `Payout of $${netPayout.toFixed(2)} credited to wallet`,
           }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 200 }
         );

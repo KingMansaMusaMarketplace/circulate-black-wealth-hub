@@ -159,9 +159,10 @@ const LazyMansaAmbassadorsPage = lazy(() => import('@/pages/MansaAmbassadorsPage
 const LazyPitchDeckPage = lazy(() => import('@/pages/PitchDeckPage'));
 const LazyPartnershipFrameworkPage = lazy(() => import('@/pages/PartnershipFrameworkPage'));
 
-// Susu & Karma pages
+// Susu, Karma & Wallet pages
 const LazySusuCirclesPage = lazy(() => import('@/pages/SusuCirclesPage'));
 const LazyKarmaDashboardPage = lazy(() => import('@/pages/KarmaDashboardPage'));
+const LazyWalletPage = lazy(() => import('@/pages/WalletPage'));
 
 // Founder's Wall
 const LazyFoundersWallPage = lazy(() => import('@/pages/FoundersWallPage'));
@@ -510,6 +511,7 @@ function App() {
                               <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
                               <Route path="/scanner" element={<LazyQRScannerPage />} />
                               <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
+                              <Route path="/wallet" element={<LazyWalletPage />} />
                               <Route path="/settings" element={<LazyUserSettingsPage />} />
                               <Route path="/share-impact" element={<LazyShareImpactPage />} />
                               <Route path="/signup" element={
@@ -770,6 +772,7 @@ function App() {
                         <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
                         <Route path="/scanner" element={<LazyQRScannerPage />} />
                         <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
+                        <Route path="/wallet" element={<LazyWalletPage />} />
                         <Route path="/settings" element={<LazyUserSettingsPage />} />
                         <Route path="/share-impact" element={<LazyShareImpactPage />} />
                         <Route path="/signup" element={<LazySignupPage />} />
