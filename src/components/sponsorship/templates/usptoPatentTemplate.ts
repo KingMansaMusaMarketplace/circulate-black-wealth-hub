@@ -584,6 +584,81 @@ g) an exportable report generator producing PDF and CSV formats for: tax documen
           { id: "18.4", text: "The system of Claim 18, wherein sponsor attribution (Claim 2) links business performance metrics to corporate sponsor dashboards, enabling sponsors to track the specific businesses their investments support." },
           { id: "18.5", text: "The system of Claim 18, wherein historical trend analysis uses time-series aggregation to show month-over-month and year-over-year growth in: revenue, customer count, coalition points, and community impact score." }
         ]
+      },
+      {
+        number: 19,
+        title: "CLOSED-LOOP PLATFORM WALLET ECOSYSTEM",
+        independentClaim: `A computer-implemented closed-loop digital wallet system that maximizes economic circulation within a minority business ecosystem, comprising:
+
+a) a platform wallet component maintaining a persistent digital balance for each user, stored in a wallet_balance field within the user's profile record, wherein said balance is denominated in the platform's base currency;
+
+b) an automatic payout crediting mechanism that, upon successful completion of a Susu rotational savings round (as described in Claim 15), automatically credits the payout amount (minus platform fees) directly to the recipient member's platform wallet balance rather than disbursing to external accounts;
+
+c) a wallet transaction ledger that records all wallet activity including: credits from Susu payouts, credits from refunds, debits from business purchases, debits from cash-out requests, with each transaction containing: transaction_id, user_id, amount, transaction_type, source_type, source_id, balance_after, and timestamp;
+
+d) a restricted redemption system wherein platform wallet balances are redeemable exclusively at verified Black-owned businesses registered on the platform, thereby ensuring funds circulate within the target economic ecosystem before potential exit;
+
+e) an atomic payment processing function that, when a user elects to pay with wallet balance at a participating business: validates sufficient balance, debits the wallet atomically using database transactions with SERIALIZABLE isolation, records the business transaction, and credits the business owner's receivables;
+
+f) an optional cash-out request system wherein users may request withdrawal of wallet funds to external bank accounts, subject to: minimum withdrawal thresholds, platform fee deduction, administrative review and approval, and processing delays that encourage in-ecosystem spending.`,
+        dependentClaims: [
+          { id: "19.1", text: "The system of Claim 19, wherein the platform wallet integration with Susu payouts creates a 'soft lock' that keeps community savings circulating within the Black business ecosystem, with analytics tracking the average number of circulation cycles before cash-out." },
+          { id: "19.2", text: "The system of Claim 19, wherein wallet payments at businesses award coalition loyalty points (as described in Claim 3) at the same rate as card payments, incentivizing wallet usage." },
+          { id: "19.3", text: "The system of Claim 19, wherein the cash-out request system applies a graduated fee structure: 2% for withdrawals under $500, 1.5% for $500-$2000, and 1% for amounts exceeding $2000, incentivizing larger balance accumulation and in-ecosystem spending." },
+          { id: "19.4", text: "The system of Claim 19, further comprising a wallet-to-wallet transfer capability allowing users to send funds to other platform users, facilitating peer-to-peer transactions within the ecosystem." }
+        ],
+        technicalImplementation: `-- Wallet payment atomic transaction
+BEGIN;
+  -- Validate and debit wallet
+  UPDATE profiles 
+  SET wallet_balance = wallet_balance - $amount
+  WHERE id = $user_id AND wallet_balance >= $amount;
+  
+  -- Record wallet transaction
+  INSERT INTO wallet_transactions (user_id, amount, transaction_type, source_type, source_id, balance_after)
+  VALUES ($user_id, -$amount, 'debit', 'business_purchase', $business_id, 
+    (SELECT wallet_balance FROM profiles WHERE id = $user_id));
+  
+  -- Create business transaction record
+  INSERT INTO transactions (business_id, customer_id, amount, payment_method)
+  VALUES ($business_id, $user_id, $amount, 'wallet');
+COMMIT;`
+      },
+      {
+        number: 20,
+        title: "ECONOMIC CIRCULATION VELOCITY ANALYTICS",
+        independentClaim: `A computer-implemented analytics system for measuring and optimizing the velocity of economic circulation within a closed-loop minority business ecosystem, comprising:
+
+a) a circulation event tracker that monitors all fund movements within the platform wallet ecosystem (Claim 19), categorizing each movement as: ecosystem_entry (Susu payout, external deposit), internal_circulation (business purchase, peer transfer), or ecosystem_exit (cash-out withdrawal);
+
+b) a velocity calculation engine that computes circulation velocity metrics including: average_cycles_before_exit (mean number of business transactions before cash-out), average_dwell_time (mean duration funds remain in ecosystem), circulation_multiplier_actual (empirically measured multiplier based on real transaction patterns);
+
+c) a comparative analytics module that compares the platform's measured circulation velocity against the theoretical maximum (funds never exit) and industry benchmarks (traditional 6-hour circulation for Black dollar vs. 20-day for majority communities);
+
+d) a business impact attribution system that tracks which businesses receive the most circulating funds, identifying high-velocity nodes that maximize economic retention within the ecosystem;
+
+e) a predictive modeling component using historical patterns to forecast: expected ecosystem retention rates, optimal incentive structures for increasing circulation velocity, and projected community wealth accumulation over time horizons of 1, 5, and 10 years;
+
+f) a real-time dashboard displaying circulation health metrics including: current_velocity_score (0-100), funds_in_circulation, projected_annual_impact, and comparison to ecosystem without platform intervention.`,
+        dependentClaims: [
+          { id: "20.1", text: "The system of Claim 20, wherein the circulation velocity metrics feed into the Community Impact Analytics Engine (Claim 18) to provide enhanced accuracy in economic impact calculations." },
+          { id: "20.2", text: "The system of Claim 20, wherein the velocity analytics identify 'leakage points' where funds exit the ecosystem, enabling targeted interventions such as special promotions at underutilized businesses." },
+          { id: "20.3", text: "The system of Claim 20, wherein the predictive modeling component uses machine learning trained on historical transaction data to optimize the timing and structure of Susu payout schedules for maximum ecosystem retention." },
+          { id: "20.4", text: "The system of Claim 20, further comprising a gamification layer that rewards users for maintaining high personal circulation velocity scores, with badges and bonus points for spending wallet funds at multiple different businesses before cashing out." }
+        ],
+        technicalImplementation: `-- Calculate circulation velocity for a user
+SELECT 
+  user_id,
+  COUNT(CASE WHEN transaction_type = 'debit' AND source_type = 'business_purchase' THEN 1 END) as business_transactions,
+  COUNT(CASE WHEN transaction_type = 'debit' AND source_type = 'cash_out' THEN 1 END) as cash_outs,
+  CASE WHEN COUNT(CASE WHEN transaction_type = 'debit' AND source_type = 'cash_out' THEN 1 END) > 0
+    THEN COUNT(CASE WHEN transaction_type = 'debit' AND source_type = 'business_purchase' THEN 1 END)::float / 
+         COUNT(CASE WHEN transaction_type = 'debit' AND source_type = 'cash_out' THEN 1 END)::float
+    ELSE NULL
+  END as avg_cycles_before_exit
+FROM wallet_transactions
+WHERE user_id = $1
+GROUP BY user_id;`
       }
     ],
 
@@ -600,7 +675,9 @@ g) an exportable report generator producing PDF and CSV formats for: tax documen
       { constant: "BIOMETRIC_THRESHOLD", value: "$100", location: "transaction verification middleware", claim: "Claim 16" },
       { constant: "QR_SCAN_DAILY_LIMIT", value: "1 per user per code", location: "qr-scan-validation", claim: "Claim 17" },
       { constant: "SCAN_PROXIMITY_THRESHOLD", value: "500 meters", location: "qr-fraud-detection", claim: "Claim 17.3" },
-      { constant: "AVERAGE_LOCAL_WAGE", value: "$45,000/year", location: "jobs-impact-calculation", claim: "Claim 18" }
+      { constant: "AVERAGE_LOCAL_WAGE", value: "$45,000/year", location: "jobs-impact-calculation", claim: "Claim 18" },
+      { constant: "WALLET_MIN_CASHOUT", value: "$10", location: "withdrawal-requests", claim: "Claim 19" },
+      { constant: "WALLET_CASHOUT_FEE", value: "2%", location: "withdrawal-requests", claim: "Claim 19.3" }
     ],
 
     technologyMatrix: [
@@ -614,7 +691,9 @@ g) an exportable report generator producing PDF and CSV formats for: tax documen
       { technology: "Zod schema validation", equivalents: "Any runtime type validation library including Yup, Joi, io-ts, Valibot, AJV, any JSON Schema validator" },
       { technology: "Coalition Loyalty Network (Claim 3)", equivalents: "Blockchain/Distributed Ledgers (Ethereum, Solana, Polygon, etc.), Smart Contracts, Decentralized Autonomous Organizations (DAOs), decentralized identity systems, any token-based loyalty system whether centralized or decentralized, NFT-based membership tokens" },
       { technology: "Susu/ROSCA System (Claim 15)", equivalents: "Any rotating savings mechanism including blockchain-based savings circles, smart contract escrow systems, DeFi lending pools with rotating distribution, mobile money chit funds, any digital implementation of traditional community savings" },
-      { technology: "Biometric Authentication (Claim 16)", equivalents: "Any biometric verification method including FaceID, TouchID, fingerprint sensors, iris scanning, voice recognition, behavioral biometrics, any hardware security module (HSM) based authentication" }
+      { technology: "Biometric Authentication (Claim 16)", equivalents: "Any biometric verification method including FaceID, TouchID, fingerprint sensors, iris scanning, voice recognition, behavioral biometrics, any hardware security module (HSM) based authentication" },
+      { technology: "Closed-Loop Wallet (Claim 19)", equivalents: "Any digital wallet system with restricted redemption including prepaid cards, store credit systems, loyalty currency wallets, stablecoin ecosystems, any closed-loop payment network" },
+      { technology: "Circulation Velocity Analytics (Claim 20)", equivalents: "Any economic flow tracking system including blockchain transaction analysis, money velocity metrics, working capital cycle analysis, any system measuring fund circulation frequency within a defined ecosystem" }
     ],
 
     pctLanguage: "This provisional application expressly preserves priority rights for international filing under the Patent Cooperation Treaty (PCT) within 12 months of the filing date. The inventor reserves the right to file corresponding applications in all PCT member states.",
@@ -651,7 +730,7 @@ g) an exportable report generator producing PDF and CSV formats for: tax documen
 
     filingChecklist: [
       { document: "Specification (this document)", status: "READY" },
-      { document: "Formal Claims (18 independent + 41 dependent)", status: "READY" },
+      { document: "Formal Claims (20 independent + 43 dependent)", status: "READY" },
       { document: "System Diagrams", status: "READY" },
       { document: "Abstract", status: "READY" },
       { document: "Inventor Declaration", status: "PENDING SIGNATURE" },
