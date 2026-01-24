@@ -11,9 +11,13 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Users, Plus, DollarSign, Calendar, TrendingUp, Shield, ArrowRight, Crown, Lock, CheckCircle, Clock } from 'lucide-react';
+import { Users, Plus, DollarSign, Calendar, TrendingUp, Shield, ArrowRight, Crown, Lock, CheckCircle, Clock, Eye } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import ContributeButton from '@/components/susu/ContributeButton';
+import CircleInviteLink from '@/components/susu/CircleInviteLink';
+import CircleMemberList from '@/components/susu/CircleMemberList';
+import RoundStatusTracker from '@/components/susu/RoundStatusTracker';
 
 interface SusuCircle {
   id: string;
@@ -521,6 +525,56 @@ const SusuCirclesPage: React.FC = () => {
                             ✓ Payout Received
                           </Badge>
                         )}
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-wrap gap-2 pt-2 border-t border-white/10">
+                          {membership.susu_circles?.status === 'active' && !membership.has_received_payout && (
+                            <ContributeButton
+                              circleId={membership.circle_id}
+                              circleName={membership.susu_circles?.name || 'Circle'}
+                              contributionAmount={membership.susu_circles?.contribution_amount || 0}
+                              currentRound={membership.susu_circles?.current_round || 1}
+                            />
+                          )}
+                          <CircleInviteLink
+                            circleId={membership.circle_id}
+                            circleName={membership.susu_circles?.name || 'Circle'}
+                            contributionAmount={membership.susu_circles?.contribution_amount || 0}
+                            frequency={getFrequencyLabel(membership.susu_circles?.frequency || 'monthly')}
+                          />
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button variant="outline" size="sm" className="gap-1.5">
+                                <Eye className="w-4 h-4" />
+                                Details
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="bg-card border-border max-w-2xl max-h-[85vh] overflow-y-auto">
+                              <DialogHeader>
+                                <DialogTitle className="flex items-center gap-2">
+                                  <Users className="w-5 h-5 text-mansagold" />
+                                  {membership.susu_circles?.name}
+                                </DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-4 py-4">
+                                <RoundStatusTracker
+                                  circleId={membership.circle_id}
+                                  currentRound={membership.susu_circles?.current_round || 1}
+                                  contributionAmount={membership.susu_circles?.contribution_amount || 0}
+                                  maxMembers={membership.susu_circles?.max_members || 10}
+                                />
+                                <CircleMemberList
+                                  circleId={membership.circle_id}
+                                  creatorId={membership.susu_circles?.creator_id || ''}
+                                  currentRound={membership.susu_circles?.current_round || 1}
+                                  frequency={membership.susu_circles?.frequency || 'monthly'}
+                                  createdAt={membership.susu_circles?.created_at || ''}
+                                  maxMembers={membership.susu_circles?.max_members || 10}
+                                />
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
                       </CardContent>
                     </Card>
                   </motion.div>

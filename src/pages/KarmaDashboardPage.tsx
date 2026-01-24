@@ -9,6 +9,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Sparkles, TrendingDown, TrendingUp, Calendar, Info, Star, Shield, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format, formatDistanceToNow } from 'date-fns';
+import DecayCountdown from '@/components/karma/DecayCountdown';
+import KarmaHistoryChart from '@/components/karma/KarmaHistoryChart';
+import KarmaLeaderboard from '@/components/karma/KarmaLeaderboard';
+import EarnKarmaTips from '@/components/karma/EarnKarmaTips';
 
 interface KarmaTransaction {
   id: string;
@@ -178,6 +182,21 @@ const KarmaDashboardPage: React.FC = () => {
             </CardContent>
           </Card>
         </motion.div>
+
+        {/* Decay Countdown & Chart Row */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <DecayCountdown 
+            lastDecayAt={profile?.karma_last_decay_at || null}
+            currentKarma={karmaScore}
+          />
+          <KarmaHistoryChart transactions={transactions || []} />
+        </div>
+
+        {/* Leaderboard & Tips Row */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <KarmaLeaderboard />
+          <EarnKarmaTips />
+        </div>
 
         {/* Info Cards */}
         <div className="grid md:grid-cols-3 gap-4">
