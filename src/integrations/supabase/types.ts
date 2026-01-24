@@ -5137,6 +5137,44 @@ export type Database = {
           },
         ]
       }
+      karma_transactions: {
+        Row: {
+          change_amount: number
+          change_reason: string
+          created_at: string | null
+          id: string
+          new_karma: number
+          previous_karma: number
+          user_id: string
+        }
+        Insert: {
+          change_amount: number
+          change_reason: string
+          created_at?: string | null
+          id?: string
+          new_karma: number
+          previous_karma: number
+          user_id: string
+        }
+        Update: {
+          change_amount?: number
+          change_reason?: string
+          created_at?: string | null
+          id?: string
+          new_karma?: number
+          previous_karma?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "karma_transactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leaderboard: {
         Row: {
           category: string
@@ -5999,6 +6037,7 @@ export type Database = {
           business_website: string | null
           city: string | null
           created_at: string | null
+          economic_karma: number | null
           email: string | null
           founding_member_since: string | null
           full_name: string | null
@@ -6008,6 +6047,7 @@ export type Database = {
           id: string
           is_founding_member: boolean | null
           is_hbcu_member: boolean | null
+          karma_last_decay_at: string | null
           onboarding_completed_at: string | null
           phone: string | null
           profile_completion_percentage: number | null
@@ -6038,6 +6078,7 @@ export type Database = {
           business_website?: string | null
           city?: string | null
           created_at?: string | null
+          economic_karma?: number | null
           email?: string | null
           founding_member_since?: string | null
           full_name?: string | null
@@ -6047,6 +6088,7 @@ export type Database = {
           id: string
           is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
+          karma_last_decay_at?: string | null
           onboarding_completed_at?: string | null
           phone?: string | null
           profile_completion_percentage?: number | null
@@ -6077,6 +6119,7 @@ export type Database = {
           business_website?: string | null
           city?: string | null
           created_at?: string | null
+          economic_karma?: number | null
           email?: string | null
           founding_member_since?: string | null
           full_name?: string | null
@@ -6086,6 +6129,7 @@ export type Database = {
           id?: string
           is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
+          karma_last_decay_at?: string | null
           onboarding_completed_at?: string | null
           phone?: string | null
           profile_completion_percentage?: number | null
@@ -8917,6 +8961,171 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      susu_circles: {
+        Row: {
+          contribution_amount: number
+          created_at: string | null
+          creator_id: string
+          current_round: number | null
+          description: string | null
+          frequency: string
+          id: string
+          max_members: number
+          name: string
+          start_date: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          contribution_amount: number
+          created_at?: string | null
+          creator_id: string
+          current_round?: number | null
+          description?: string | null
+          frequency?: string
+          id?: string
+          max_members?: number
+          name: string
+          start_date?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          contribution_amount?: number
+          created_at?: string | null
+          creator_id?: string
+          current_round?: number | null
+          description?: string | null
+          frequency?: string
+          id?: string
+          max_members?: number
+          name?: string
+          start_date?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "susu_circles_creator_id_fkey"
+            columns: ["creator_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      susu_escrow: {
+        Row: {
+          amount: number
+          circle_id: string
+          contributor_id: string
+          created_at: string | null
+          held_at: string | null
+          id: string
+          platform_fee: number
+          recipient_id: string | null
+          released_at: string | null
+          round_number: number
+          status: string | null
+          stripe_transfer_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          circle_id: string
+          contributor_id: string
+          created_at?: string | null
+          held_at?: string | null
+          id?: string
+          platform_fee?: number
+          recipient_id?: string | null
+          released_at?: string | null
+          round_number: number
+          status?: string | null
+          stripe_transfer_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          circle_id?: string
+          contributor_id?: string
+          created_at?: string | null
+          held_at?: string | null
+          id?: string
+          platform_fee?: number
+          recipient_id?: string | null
+          released_at?: string | null
+          round_number?: number
+          status?: string | null
+          stripe_transfer_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "susu_escrow_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "susu_circles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "susu_escrow_contributor_id_fkey"
+            columns: ["contributor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "susu_escrow_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      susu_memberships: {
+        Row: {
+          circle_id: string
+          id: string
+          joined_at: string | null
+          payout_position: number
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          circle_id: string
+          id?: string
+          joined_at?: string | null
+          payout_position: number
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          circle_id?: string
+          id?: string
+          joined_at?: string | null
+          payout_position?: number
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "susu_memberships_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "susu_circles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "susu_memberships_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       system_settings: {
         Row: {

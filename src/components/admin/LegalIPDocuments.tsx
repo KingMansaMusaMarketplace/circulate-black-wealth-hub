@@ -30,8 +30,8 @@ const independentClaims = [
   { number: 11, title: 'Real-Time Voice AI Bridge Architecture', edgeFunction: 'realtime-voice', status: 'ready' },
   { number: 12, title: 'AI Tool Registry for Voice Concierge', edgeFunction: 'voice-concierge-tools', status: 'ready' },
   { number: 13, title: 'Atomic Fraud Alert Batch Insertion', edgeFunction: 'detect-fraud', status: 'ready' },
-  { number: 14, title: 'Economic Karma Scoring System', edgeFunction: 'platform_constants (db)', status: 'pending' },
-  { number: 15, title: 'Susu Digital Escrow System', edgeFunction: 'susu-escrow', status: 'pending' },
+  { number: 14, title: 'Economic Karma Scoring System', edgeFunction: 'economic-karma', status: 'ready' },
+  { number: 15, title: 'Susu Digital Escrow System', edgeFunction: 'susu-escrow', status: 'ready' },
   { number: 16, title: 'Biometric-Secured Transaction Verification', edgeFunction: 'client-side Capacitor', status: 'ready' },
   { number: 17, title: 'QR Code Atomic Check-in System', edgeFunction: 'process-qr-transaction', status: 'ready' },
   { number: 18, title: 'Community Impact Analytics Engine', edgeFunction: 'generate-impact-report', status: 'ready' },
@@ -47,6 +47,8 @@ const edgeFunctionsWithHeaders = [
   { name: 'realtime-voice/index.ts', claim: 11, hasHeader: true },
   { name: 'voice-concierge-tools/index.ts', claim: 12, hasHeader: true },
   { name: 'generate-impact-report/index.ts', claim: 18, hasHeader: true },
+  { name: 'economic-karma/index.ts', claim: 14, hasHeader: true },
+  { name: 'susu-escrow/index.ts', claim: 15, hasHeader: true },
 ];
 
 const filingTimeline = [
