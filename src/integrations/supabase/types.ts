@@ -6066,6 +6066,7 @@ export type Database = {
             | null
           updated_at: string | null
           user_type: string
+          wallet_balance: number
           zip_code: string | null
         }
         Insert: {
@@ -6107,6 +6108,7 @@ export type Database = {
             | null
           updated_at?: string | null
           user_type: string
+          wallet_balance?: number
           zip_code?: string | null
         }
         Update: {
@@ -6148,6 +6150,7 @@ export type Database = {
             | null
           updated_at?: string | null
           user_type?: string
+          wallet_balance?: number
           zip_code?: string | null
         }
         Relationships: [
@@ -9751,6 +9754,48 @@ export type Database = {
           },
         ]
       }
+      wallet_transactions: {
+        Row: {
+          amount: number
+          balance_after: number
+          balance_before: number
+          created_at: string
+          description: string | null
+          id: string
+          reference_id: string | null
+          reference_type: string | null
+          source: string
+          transaction_type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          balance_after: number
+          balance_before: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          reference_id?: string | null
+          reference_type?: string | null
+          source: string
+          transaction_type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          balance_after?: number
+          balance_before?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          reference_id?: string | null
+          reference_type?: string | null
+          source?: string
+          transaction_type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       b2b_external_leads_public: {
@@ -10143,6 +10188,28 @@ export type Database = {
         Returns: string
       }
       create_user_referral: { Args: { p_user_id: string }; Returns: string }
+      credit_wallet: {
+        Args: {
+          p_amount: number
+          p_description?: string
+          p_reference_id?: string
+          p_reference_type?: string
+          p_source: string
+          p_user_id: string
+        }
+        Returns: string
+      }
+      debit_wallet: {
+        Args: {
+          p_amount: number
+          p_description?: string
+          p_reference_id?: string
+          p_reference_type?: string
+          p_source: string
+          p_user_id: string
+        }
+        Returns: string
+      }
       delete_user_account: { Args: { user_id: string }; Returns: undefined }
       delete_user_account_immediate: { Args: never; Returns: Json }
       expire_challenges: { Args: never; Returns: undefined }
