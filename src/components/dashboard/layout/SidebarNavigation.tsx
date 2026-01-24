@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
@@ -16,7 +15,9 @@ import {
   HelpCircle,
   BookOpen,
   DollarSign,
-  Calendar
+  Calendar,
+  Sparkles,
+  CircleDollarSign
 } from 'lucide-react';
 
 const SidebarNavigation = () => {
@@ -27,6 +28,8 @@ const SidebarNavigation = () => {
     { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'Directory', href: '/directory', icon: Search },
     { name: 'My Bookings', href: '/my-bookings', icon: Calendar },
+    { name: 'Karma', href: '/karma', icon: Sparkles },
+    { name: 'Susu Circles', href: '/susu-circles', icon: CircleDollarSign },
     { name: 'Education', href: '/education', icon: BookOpen },
     { name: 'Scanner', href: '/scanner', icon: QrCode },
     { name: 'Loyalty', href: '/loyalty', icon: Wallet },
@@ -43,6 +46,7 @@ const SidebarNavigation = () => {
     { name: 'Analytics', href: '/business-analytics', icon: BarChart3 },
     { name: 'QR Codes', href: '/business/qr-codes', icon: QrCode },
     { name: 'Customers', href: '/business/customers', icon: Users },
+    { name: 'Susu Circles', href: '/susu-circles', icon: CircleDollarSign },
     { name: 'Directory', href: '/directory', icon: Search },
     { name: 'Education', href: '/education', icon: BookOpen },
     { name: 'Community', href: '/community', icon: Heart },
