@@ -35,6 +35,9 @@ const independentClaims = [
   { number: 16, title: 'Biometric-Secured Transaction Verification', edgeFunction: 'client-side Capacitor', status: 'ready' },
   { number: 17, title: 'QR Code Atomic Check-in System', edgeFunction: 'process-qr-transaction', status: 'ready' },
   { number: 18, title: 'Community Impact Analytics Engine', edgeFunction: 'generate-impact-report', status: 'ready' },
+  // NEW PENDING CLAIMS - Platform Wallet + Susu Payout Loop
+  { number: 19, title: 'Closed-Loop Platform Wallet Ecosystem', edgeFunction: 'process-susu-payout', status: 'pending' },
+  { number: 20, title: 'Economic Circulation Velocity Analytics', edgeFunction: 'wallet_transactions (schema)', status: 'pending' },
 ];
 
 // Actual edge functions with patent protection headers
@@ -143,11 +146,11 @@ const LegalIPDocuments: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">18</p>
+              <p className="text-3xl font-bold text-mansagold">20</p>
               <p className="text-xs text-blue-200/60">Independent Claims</p>
             </div>
           </CardContent>
@@ -155,8 +158,16 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">41+</p>
+              <p className="text-3xl font-bold text-mansagold">43+</p>
               <p className="text-xs text-blue-200/60">Dependent Claims</p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="bg-white/5 border-white/10">
+          <CardContent className="pt-4">
+            <div className="text-center">
+              <p className="text-3xl font-bold text-amber-400">2</p>
+              <p className="text-xs text-blue-200/60">Pending Addition</p>
             </div>
           </CardContent>
         </Card>
@@ -315,6 +326,8 @@ const LegalIPDocuments: React.FC = () => {
                 <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">B2B Intelligence Engine</Badge>
                 <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">Sales Agent Network</Badge>
                 <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">Economic Karma System</Badge>
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Closed-Loop Wallet (NEW)</Badge>
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Circulation Velocity (NEW)</Badge>
               </div>
             </CardContent>
           </Card>
@@ -330,7 +343,7 @@ const LegalIPDocuments: React.FC = () => {
           {/* Independent Claims Table */}
           <Card className="bg-white/5 border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">Independent Claims (18)</CardTitle>
+              <CardTitle className="text-white">Independent Claims (20)</CardTitle>
               <CardDescription className="text-blue-200/60">
                 Primary patent claims protecting core innovations
               </CardDescription>
@@ -353,8 +366,12 @@ const LegalIPDocuments: React.FC = () => {
                         <td className="py-2 px-3 text-white">{claim.title}</td>
                         <td className="py-2 px-3 text-blue-200/80 font-mono text-xs">{claim.edgeFunction}</td>
                         <td className="py-2 px-3">
-                          <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs">
-                            Ready
+                          <Badge className={`text-xs ${
+                            claim.status === 'ready' 
+                              ? 'bg-green-500/20 text-green-400 border-green-500/30'
+                              : 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+                          }`}>
+                            {claim.status === 'ready' ? 'Ready' : 'Pending'}
                           </Badge>
                         </td>
                       </tr>
