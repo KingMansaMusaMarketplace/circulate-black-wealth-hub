@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -65,14 +65,14 @@ const KarmaDashboardPage: React.FC = () => {
 
   const karmaScore = profile?.economic_karma || 100;
   const karmaLevel = karmaScore >= 90 ? 'Excellent' : karmaScore >= 70 ? 'Good' : karmaScore >= 50 ? 'Fair' : 'Needs Improvement';
-  const karmaColor = karmaScore >= 90 ? 'text-green-400' : karmaScore >= 70 ? 'text-mansagold' : karmaScore >= 50 ? 'text-orange-400' : 'text-red-400';
-  const karmaBgColor = karmaScore >= 90 ? 'bg-green-500/20' : karmaScore >= 70 ? 'bg-mansagold/20' : karmaScore >= 50 ? 'bg-orange-500/20' : 'bg-red-500/20';
+  const karmaColor = karmaScore >= 90 ? 'text-emerald-400' : karmaScore >= 70 ? 'text-mansagold' : karmaScore >= 50 ? 'text-amber-400' : 'text-rose-400';
+  const karmaBgColor = karmaScore >= 90 ? 'bg-emerald-500/20' : karmaScore >= 70 ? 'bg-mansagold/20' : karmaScore >= 50 ? 'bg-amber-500/20' : 'bg-rose-500/20';
 
   const getTransactionIcon = (changeAmount: number) => {
     return changeAmount > 0 ? (
-      <TrendingUp className="w-4 h-4 text-green-400" />
+      <TrendingUp className="w-4 h-4 text-emerald-400" />
     ) : (
-      <TrendingDown className="w-4 h-4 text-red-400" />
+      <TrendingDown className="w-4 h-4 text-rose-400" />
     );
   };
 
@@ -94,21 +94,30 @@ const KarmaDashboardPage: React.FC = () => {
   const negativeTransactions = transactions?.filter(t => t.change_amount < 0) || [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-mansablue-dark to-background p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 py-8 space-y-8 relative z-10">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center space-y-4"
         >
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-mansagold/20 border-2 border-mansagold/40 mb-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-mansagold/30 to-amber-500/20 border-2 border-mansagold/40 mb-4">
             <Sparkles className="w-10 h-10 text-mansagold" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white">
-            Economic <span className="text-mansagold">Karma</span>
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
+            Economic Karma
           </h1>
-          <p className="text-white/70 max-w-xl mx-auto">
+          <p className="text-slate-300 max-w-xl mx-auto">
             Your karma score reflects your engagement and reliability in the community. 
             Maintain high karma to unlock premium benefits.
           </p>
@@ -120,18 +129,18 @@ const KarmaDashboardPage: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.1 }}
         >
-          <Card className="bg-white/5 border-white/10 backdrop-blur-xl overflow-hidden">
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl shadow-xl overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-mansagold/5 to-transparent pointer-events-none" />
             <CardContent className="p-8 relative">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 {/* Karma Score Circle */}
                 <div className="relative">
-                  <div className={`w-40 h-40 rounded-full ${karmaBgColor} flex items-center justify-center border-4 border-current ${karmaColor}`}>
+                  <div className={`w-40 h-40 rounded-full ${karmaBgColor} flex items-center justify-center border-4 ${karmaColor} border-current`}>
                     <div className="text-center">
                       <p className={`text-5xl font-bold ${karmaColor}`}>
                         {loadingProfile ? '...' : Math.round(karmaScore)}
                       </p>
-                      <p className="text-white/60 text-sm">/ 100</p>
+                      <p className="text-slate-400 text-sm">/ 100</p>
                     </div>
                   </div>
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2">
@@ -145,21 +154,21 @@ const KarmaDashboardPage: React.FC = () => {
                 <div className="flex-1 space-y-6 text-center md:text-left">
                   <div>
                     <h2 className="text-2xl font-bold text-white mb-2">Your Karma Score</h2>
-                    <p className="text-white/60">
+                    <p className="text-slate-400">
                       Based on your activity, purchases, reviews, and community engagement.
                     </p>
                   </div>
 
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-white/60">Score Progress</span>
+                      <span className="text-slate-400">Score Progress</span>
                       <span className={karmaColor}>{Math.round(karmaScore)}%</span>
                     </div>
                     <Progress value={karmaScore} className="h-3" />
                   </div>
 
                   {profile?.karma_last_decay_at && (
-                    <div className="flex items-center gap-2 text-sm text-white/50">
+                    <div className="flex items-center gap-2 text-sm text-slate-500">
                       <Clock className="w-4 h-4" />
                       Last decay: {formatDistanceToNow(new Date(profile.karma_last_decay_at), { addSuffix: true })}
                     </div>
@@ -172,32 +181,32 @@ const KarmaDashboardPage: React.FC = () => {
 
         {/* Info Cards */}
         <div className="grid md:grid-cols-3 gap-4">
-          <Card className="bg-white/5 border-white/10">
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
             <CardContent className="p-6 text-center">
-              <TrendingDown className="w-8 h-8 text-orange-400 mx-auto mb-3" />
+              <TrendingDown className="w-8 h-8 text-amber-400 mx-auto mb-3" />
               <h4 className="text-white font-semibold mb-1">Monthly Decay</h4>
-              <p className="text-white/60 text-sm">5% decay if inactive</p>
+              <p className="text-slate-400 text-sm">5% decay if inactive</p>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10">
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
             <CardContent className="p-6 text-center">
               <Star className="w-8 h-8 text-mansagold mx-auto mb-3" />
               <h4 className="text-white font-semibold mb-1">Earn Karma</h4>
-              <p className="text-white/60 text-sm">Shop, review, refer</p>
+              <p className="text-slate-400 text-sm">Shop, review, refer</p>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10">
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
             <CardContent className="p-6 text-center">
-              <Shield className="w-8 h-8 text-green-400 mx-auto mb-3" />
+              <Shield className="w-8 h-8 text-emerald-400 mx-auto mb-3" />
               <h4 className="text-white font-semibold mb-1">Min Floor</h4>
-              <p className="text-white/60 text-sm">Can't drop below 10</p>
+              <p className="text-slate-400 text-sm">Can't drop below 10</p>
             </CardContent>
           </Card>
         </div>
 
         {/* Transaction History */}
         <Tabs defaultValue="all" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 bg-white/5">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 bg-slate-800/60">
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="earned">Earned</TabsTrigger>
             <TabsTrigger value="lost">Lost</TabsTrigger>
@@ -234,7 +243,7 @@ const KarmaDashboardPage: React.FC = () => {
         </Tabs>
 
         {/* How It Works */}
-        <Card className="bg-white/5 border-white/10">
+        <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
               <Info className="w-5 h-5 text-mansagold" />
@@ -244,10 +253,10 @@ const KarmaDashboardPage: React.FC = () => {
           <CardContent className="space-y-4">
             <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <h4 className="text-green-400 font-semibold mb-2 flex items-center gap-2">
+                <h4 className="text-emerald-400 font-semibold mb-2 flex items-center gap-2">
                   <TrendingUp className="w-4 h-4" /> Ways to Earn
                 </h4>
-                <ul className="space-y-2 text-white/70 text-sm">
+                <ul className="space-y-2 text-slate-300 text-sm">
                   <li>• Make purchases at partner businesses</li>
                   <li>• Leave reviews for businesses</li>
                   <li>• Refer friends who sign up</li>
@@ -256,10 +265,10 @@ const KarmaDashboardPage: React.FC = () => {
                 </ul>
               </div>
               <div>
-                <h4 className="text-red-400 font-semibold mb-2 flex items-center gap-2">
+                <h4 className="text-rose-400 font-semibold mb-2 flex items-center gap-2">
                   <TrendingDown className="w-4 h-4" /> Ways to Lose
                 </h4>
-                <ul className="space-y-2 text-white/70 text-sm">
+                <ul className="space-y-2 text-slate-300 text-sm">
                   <li>• 5% monthly decay if inactive</li>
                   <li>• Cancelling bookings</li>
                   <li>• Filing disputes</li>
@@ -268,7 +277,7 @@ const KarmaDashboardPage: React.FC = () => {
               </div>
             </div>
             <div className="mt-6 p-4 rounded-lg bg-mansagold/10 border border-mansagold/20">
-              <p className="text-white/80 text-sm">
+              <p className="text-slate-300 text-sm">
                 <strong className="text-mansagold">Pro Tip:</strong> Stay active by making at least one purchase 
                 or interaction monthly to avoid the 5% decay. Your karma score never drops below 10.
               </p>
@@ -298,9 +307,9 @@ const TransactionList: React.FC<TransactionListProps> = ({
 }) => {
   if (loading) {
     return (
-      <Card className="bg-white/5 border-white/10">
+      <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
         <CardContent className="p-8 text-center">
-          <p className="text-white/60">Loading history...</p>
+          <p className="text-slate-400">Loading history...</p>
         </CardContent>
       </Card>
     );
@@ -308,17 +317,17 @@ const TransactionList: React.FC<TransactionListProps> = ({
 
   if (transactions.length === 0) {
     return (
-      <Card className="bg-white/5 border-white/10">
+      <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
         <CardContent className="p-8 text-center">
-          <Sparkles className="w-12 h-12 text-white/30 mx-auto mb-4" />
-          <p className="text-white/60">{emptyMessage}</p>
+          <Sparkles className="w-12 h-12 text-slate-600 mx-auto mb-4" />
+          <p className="text-slate-400">{emptyMessage}</p>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="bg-white/5 border-white/10">
+    <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
       <CardContent className="p-0">
         <div className="divide-y divide-white/10">
           {transactions.map((tx) => (
@@ -329,22 +338,22 @@ const TransactionList: React.FC<TransactionListProps> = ({
               className="p-4 flex items-center justify-between hover:bg-white/5 transition-colors"
             >
               <div className="flex items-center gap-4">
-                <div className={`p-2 rounded-lg ${tx.change_amount > 0 ? 'bg-green-500/20' : 'bg-red-500/20'}`}>
+                <div className={`p-2 rounded-lg ${tx.change_amount > 0 ? 'bg-emerald-500/20' : 'bg-rose-500/20'}`}>
                   {getTransactionIcon(tx.change_amount)}
                 </div>
                 <div>
                   <p className="text-white font-medium">{getReasonLabel(tx.reason)}</p>
-                  <p className="text-white/50 text-sm flex items-center gap-1">
+                  <p className="text-slate-500 text-sm flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
                     {format(new Date(tx.created_at), 'MMM d, yyyy h:mm a')}
                   </p>
                 </div>
               </div>
               <div className="text-right">
-                <p className={`font-bold ${tx.change_amount > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                <p className={`font-bold ${tx.change_amount > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                   {tx.change_amount > 0 ? '+' : ''}{tx.change_amount.toFixed(1)}
                 </p>
-                <p className="text-white/50 text-sm">Balance: {tx.balance_after.toFixed(1)}</p>
+                <p className="text-slate-500 text-sm">Balance: {tx.balance_after.toFixed(1)}</p>
               </div>
             </motion.div>
           ))}
