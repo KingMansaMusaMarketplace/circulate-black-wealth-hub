@@ -35,9 +35,9 @@ const independentClaims = [
   { number: 16, title: 'Biometric-Secured Transaction Verification', edgeFunction: 'client-side Capacitor', status: 'ready' },
   { number: 17, title: 'QR Code Atomic Check-in System', edgeFunction: 'process-qr-transaction', status: 'ready' },
   { number: 18, title: 'Community Impact Analytics Engine', edgeFunction: 'generate-impact-report', status: 'ready' },
-  // NEW PENDING CLAIMS - Platform Wallet + Susu Payout Loop
-  { number: 19, title: 'Closed-Loop Platform Wallet Ecosystem', edgeFunction: 'process-susu-payout', status: 'pending' },
-  { number: 20, title: 'Economic Circulation Velocity Analytics', edgeFunction: 'wallet_transactions (schema)', status: 'pending' },
+  // NEW CLAIMS - Platform Wallet + Susu Payout Loop (included in initial filing)
+  { number: 19, title: 'Closed-Loop Platform Wallet Ecosystem', edgeFunction: 'process-susu-payout', status: 'ready' },
+  { number: 20, title: 'Economic Circulation Velocity Analytics', edgeFunction: 'wallet_transactions (schema)', status: 'ready' },
 ];
 
 // Actual edge functions with patent protection headers
@@ -146,7 +146,7 @@ const LegalIPDocuments: React.FC = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
@@ -160,14 +160,6 @@ const LegalIPDocuments: React.FC = () => {
             <div className="text-center">
               <p className="text-3xl font-bold text-mansagold">43+</p>
               <p className="text-xs text-blue-200/60">Dependent Claims</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="bg-white/5 border-white/10">
-          <CardContent className="pt-4">
-            <div className="text-center">
-              <p className="text-3xl font-bold text-amber-400">2</p>
-              <p className="text-xs text-blue-200/60">Pending Addition</p>
             </div>
           </CardContent>
         </Card>
