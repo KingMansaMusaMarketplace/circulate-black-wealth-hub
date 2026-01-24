@@ -167,21 +167,30 @@ const SusuCirclesPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-mansablue-dark to-background p-4 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
+
+      <div className="container mx-auto px-4 py-8 space-y-8 relative z-10">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center space-y-4"
         >
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-mansagold/20 border-2 border-mansagold/40 mb-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-mansagold/30 to-amber-500/20 border-2 border-mansagold/40 mb-4">
             <Users className="w-10 h-10 text-mansagold" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white">
-            Susu <span className="text-mansagold">Circles</span>
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
+            Susu Circles
           </h1>
-          <p className="text-white/70 max-w-2xl mx-auto text-lg">
+          <p className="text-slate-300 max-w-2xl mx-auto text-lg">
             Join or create community savings circles. Pool resources with trusted members 
             and take turns receiving the full pot - a tradition of collective empowerment.
           </p>
@@ -189,38 +198,38 @@ const SusuCirclesPage: React.FC = () => {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
             <CardContent className="p-6 flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-mansagold/20">
-                <Users className="w-6 h-6 text-mansagold" />
+              <div className="p-3 rounded-xl bg-gradient-to-br from-mansagold to-amber-600 shadow-lg">
+                <Users className="w-6 h-6 text-white" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-white">{myMemberships?.length || 0}</p>
-                <p className="text-white/60 text-sm">My Circles</p>
+                <p className="text-slate-400 text-sm">My Circles</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
             <CardContent className="p-6 flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-green-500/20">
-                <DollarSign className="w-6 h-6 text-green-400" />
+              <div className="p-3 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-lg">
+                <DollarSign className="w-6 h-6 text-white" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-white">
                   ${myMemberships?.reduce((sum, m) => sum + (m.susu_circles?.contribution_amount || 0), 0) || 0}
                 </p>
-                <p className="text-white/60 text-sm">Total Committed</p>
+                <p className="text-slate-400 text-sm">Total Committed</p>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+          <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
             <CardContent className="p-6 flex items-center gap-4">
-              <div className="p-3 rounded-xl bg-blue-500/20">
-                <Shield className="w-6 h-6 text-blue-400" />
+              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 shadow-lg">
+                <Shield className="w-6 h-6 text-white" />
               </div>
               <div>
                 <p className="text-2xl font-bold text-white">1.5%</p>
-                <p className="text-white/60 text-sm">Platform Fee</p>
+                <p className="text-slate-400 text-sm">Platform Fee</p>
               </div>
             </CardContent>
           </Card>
@@ -366,7 +375,7 @@ const SusuCirclesPage: React.FC = () => {
 
         {/* My Circles */}
         <Tabs defaultValue="my-circles" className="w-full">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 bg-white/5">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 bg-slate-800/60">
             <TabsTrigger value="my-circles">My Circles</TabsTrigger>
             <TabsTrigger value="how-it-works">How It Works</TabsTrigger>
           </TabsList>
@@ -374,14 +383,14 @@ const SusuCirclesPage: React.FC = () => {
           <TabsContent value="my-circles" className="mt-6">
             {loadingMemberships ? (
               <div className="text-center py-12">
-                <p className="text-white/60">Loading your circles...</p>
+                <p className="text-slate-400">Loading your circles...</p>
               </div>
             ) : myMemberships?.length === 0 ? (
-              <Card className="bg-white/5 border-white/10">
+              <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
                 <CardContent className="p-12 text-center">
-                  <Users className="w-12 h-12 text-white/30 mx-auto mb-4" />
+                  <Users className="w-12 h-12 text-slate-600 mx-auto mb-4" />
                   <h3 className="text-xl font-semibold text-white mb-2">No Circles Yet</h3>
-                  <p className="text-white/60 mb-6">Create or join a circle to start saving together</p>
+                  <p className="text-slate-400 mb-6">Create or join a circle to start saving together</p>
                 </CardContent>
               </Card>
             ) : (
@@ -392,7 +401,7 @@ const SusuCirclesPage: React.FC = () => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                   >
-                    <Card className="bg-white/5 border-white/10 hover:border-mansagold/30 transition-all">
+                    <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl hover:border-mansagold/30 transition-all">
                       <CardHeader className="pb-2">
                         <div className="flex items-start justify-between">
                           <div>
@@ -402,7 +411,7 @@ const SusuCirclesPage: React.FC = () => {
                                 <Crown className="w-4 h-4 text-mansagold" />
                               )}
                             </CardTitle>
-                            <CardDescription className="text-white/60">
+                            <CardDescription className="text-slate-400">
                               {membership.susu_circles?.description || 'Community savings circle'}
                             </CardDescription>
                           </div>
@@ -414,28 +423,28 @@ const SusuCirclesPage: React.FC = () => {
                       <CardContent className="space-y-4">
                         <div className="grid grid-cols-2 gap-4 text-sm">
                           <div>
-                            <p className="text-white/50">Contribution</p>
+                            <p className="text-slate-500">Contribution</p>
                             <p className="text-white font-semibold">
                               ${membership.susu_circles?.contribution_amount} {getFrequencyLabel(membership.susu_circles?.frequency || '')}
                             </p>
                           </div>
                           <div>
-                            <p className="text-white/50">Your Position</p>
+                            <p className="text-slate-500">Your Position</p>
                             <p className="text-white font-semibold">#{membership.payout_position}</p>
                           </div>
                           <div>
-                            <p className="text-white/50">Current Round</p>
+                            <p className="text-slate-500">Current Round</p>
                             <p className="text-white font-semibold">{membership.susu_circles?.current_round || 1}</p>
                           </div>
                           <div>
-                            <p className="text-white/50">Total Payout</p>
+                            <p className="text-slate-500">Total Payout</p>
                             <p className="text-mansagold font-bold">
                               ${(membership.susu_circles?.contribution_amount || 0) * (membership.susu_circles?.max_members || 0)}
                             </p>
                           </div>
                         </div>
                         <div className="space-y-2">
-                          <div className="flex justify-between text-xs text-white/60">
+                          <div className="flex justify-between text-xs text-slate-500">
                             <span>Round Progress</span>
                             <span>{membership.susu_circles?.current_round || 1} of {membership.susu_circles?.max_members}</span>
                           </div>
@@ -445,7 +454,7 @@ const SusuCirclesPage: React.FC = () => {
                           />
                         </div>
                         {membership.has_received_payout && (
-                          <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
+                          <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
                             ✓ Payout Received
                           </Badge>
                         )}
@@ -458,7 +467,7 @@ const SusuCirclesPage: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="how-it-works" className="mt-6">
-            <Card className="bg-white/5 border-white/10">
+            <Card className="border border-white/10 bg-slate-800/60 backdrop-blur-xl">
               <CardContent className="p-8 space-y-6">
                 <h3 className="text-2xl font-bold text-white text-center mb-8">
                   How Susu Circles Work
@@ -485,18 +494,18 @@ const SusuCirclesPage: React.FC = () => {
                     }
                   ].map((item) => (
                     <div key={item.step} className="text-center space-y-3">
-                      <div className="w-12 h-12 rounded-full bg-mansagold/20 border-2 border-mansagold/40 flex items-center justify-center mx-auto">
-                        <item.icon className="w-6 h-6 text-mansagold" />
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-mansagold to-amber-600 shadow-lg flex items-center justify-center mx-auto">
+                        <item.icon className="w-6 h-6 text-white" />
                       </div>
                       <h4 className="text-lg font-semibold text-white">{item.title}</h4>
-                      <p className="text-white/60 text-sm">{item.description}</p>
+                      <p className="text-slate-400 text-sm">{item.description}</p>
                     </div>
                   ))}
                 </div>
                 <div className="mt-8 p-4 rounded-lg bg-mansagold/10 border border-mansagold/20">
-                  <p className="text-center text-white/80">
+                  <p className="text-center text-slate-300">
                     <Shield className="w-5 h-5 inline-block mr-2 text-mansagold" />
-                    <strong>Secure Escrow:</strong> All contributions are held safely until payout. 
+                    <strong className="text-mansagold">Secure Escrow:</strong> All contributions are held safely until payout. 
                     Only a 1.5% platform fee applies.
                   </p>
                 </div>
