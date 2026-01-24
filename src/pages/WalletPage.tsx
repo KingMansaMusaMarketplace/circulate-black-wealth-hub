@@ -1,13 +1,38 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
 import { Wallet, Shield, CreditCard, ArrowRightLeft } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import WalletBalance from '@/components/wallet/WalletBalance';
 import WalletTransactionHistory from '@/components/wallet/WalletTransactionHistory';
+import WithdrawalRequestForm from '@/components/wallet/WithdrawalRequestForm';
+import WithdrawalRequestsList from '@/components/wallet/WithdrawalRequestsList';
 import { Link } from 'react-router-dom';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const WalletPage: React.FC = () => {
+  const { user } = useAuth();
+
+  const { data: profile } = useQuery({
+    queryKey: ['wallet-balance-page', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return null;
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('wallet_balance')
+        .eq('id', user.id)
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user?.id,
+  });
+
+  const walletBalance = Number(profile?.wallet_balance || 0);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
       {/* Animated background elements */}
@@ -67,14 +92,7 @@ const WalletPage: React.FC = () => {
                   </Button>
                 </Link>
 
-                <Button 
-                  variant="outline" 
-                  className="w-full justify-start gap-3 border-white/10 hover:bg-white/5 opacity-50 cursor-not-allowed"
-                  disabled
-                >
-                  <Wallet className="w-4 h-4 text-slate-400" />
-                  <span>Cash Out (Coming Soon)</span>
-                </Button>
+                <WithdrawalRequestForm walletBalance={walletBalance} />
               </CardContent>
             </Card>
 
@@ -92,9 +110,22 @@ const WalletPage: React.FC = () => {
             </Card>
           </div>
 
-          {/* Right Column - Transaction History */}
+          {/* Right Column - Tabs for History and Withdrawals */}
           <div className="lg:col-span-2">
-            <WalletTransactionHistory />
+            <Tabs defaultValue="transactions" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 bg-slate-800/60 mb-4">
+                <TabsTrigger value="transactions">Transactions</TabsTrigger>
+                <TabsTrigger value="withdrawals">Cash-Out Requests</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="transactions">
+                <WalletTransactionHistory />
+              </TabsContent>
+              
+              <TabsContent value="withdrawals">
+                <WithdrawalRequestsList />
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </div>
