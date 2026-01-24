@@ -9796,6 +9796,72 @@ export type Database = {
         }
         Relationships: []
       }
+      withdrawal_requests: {
+        Row: {
+          admin_notes: string | null
+          amount: number
+          completed_at: string | null
+          created_at: string
+          id: string
+          net_amount: number | null
+          payment_details: Json
+          payment_method: string
+          platform_fee: number | null
+          processed_at: string | null
+          rejection_reason: string | null
+          requested_at: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          transaction_reference: string | null
+          updated_at: string
+          user_id: string
+          user_notes: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          amount: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          net_amount?: number | null
+          payment_details?: Json
+          payment_method: string
+          platform_fee?: number | null
+          processed_at?: string | null
+          rejection_reason?: string | null
+          requested_at?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          transaction_reference?: string | null
+          updated_at?: string
+          user_id: string
+          user_notes?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          amount?: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          net_amount?: number | null
+          payment_details?: Json
+          payment_method?: string
+          platform_fee?: number | null
+          processed_at?: string | null
+          rejection_reason?: string | null
+          requested_at?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          transaction_reference?: string | null
+          updated_at?: string
+          user_id?: string
+          user_notes?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       b2b_external_leads_public: {
@@ -10175,6 +10241,10 @@ export type Database = {
       cleanup_expired_search_cache: { Args: never; Returns: undefined }
       cleanup_old_audit_logs: { Args: never; Returns: undefined }
       cleanup_old_batch_queue: { Args: never; Returns: undefined }
+      complete_withdrawal: {
+        Args: { p_request_id: string; p_transaction_reference?: string }
+        Returns: boolean
+      }
       create_sales_agent_application_secure: {
         Args: {
           p_business_experience?: string
@@ -10895,6 +10965,7 @@ export type Database = {
       }
       process_pending_commissions: { Args: never; Returns: undefined }
       process_pending_referrals: { Args: never; Returns: Json }
+      process_withdrawal: { Args: { p_request_id: string }; Returns: boolean }
       record_business_metric:
         | {
             Args: {

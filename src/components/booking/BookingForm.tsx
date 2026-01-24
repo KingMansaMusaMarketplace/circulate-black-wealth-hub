@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, DollarSign, ArrowRight, ArrowLeft } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { Clock, DollarSign, ArrowRight, ArrowLeft, Wallet, CreditCard, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   Select,
   SelectContent,
@@ -18,6 +20,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useBusinessAvailability } from '@/hooks/useBusinessAvailability';
 import { BookingCalendar } from './BookingCalendar';
 import { TimeSlotPicker } from './TimeSlotPicker';
+import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
 
 interface BookingFormProps {
@@ -26,7 +29,7 @@ interface BookingFormProps {
   services: BookingService[];
 }
 
-type BookingStep = 'service' | 'datetime' | 'details';
+type BookingStep = 'service' | 'datetime' | 'details' | 'payment';
 
 export function BookingForm({ businessId, businessName, services }: BookingFormProps) {
   const { user } = useAuth();
@@ -36,6 +39,7 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<BookingStep>('service');
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<'wallet' | 'card' | null>(null);
   
   const [formData, setFormData] = useState({
     serviceId: '',
@@ -45,6 +49,24 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
     customerPhone: '',
     notes: '',
   });
+
+  // Fetch wallet balance
+  const { data: profile } = useQuery({
+    queryKey: ['wallet-balance-booking', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return null;
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('wallet_balance')
+        .eq('id', user.id)
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user?.id,
+  });
+
+  const walletBalance = Number(profile?.wallet_balance || 0);
 
   const selectedService = services.find((s) => s.id === formData.serviceId);
   
@@ -142,7 +164,8 @@ export function BookingForm({ businessId, businessName, services }: BookingFormP
   const steps = [
     { id: 'service', label: 'Service' },
     { id: 'datetime', label: 'Date & Time' },
-    { id: 'details', label: 'Your Details' },
+    { id: 'details', label: 'Details' },
+    { id: 'payment', label: 'Payment' },
   ];
 
   return (
