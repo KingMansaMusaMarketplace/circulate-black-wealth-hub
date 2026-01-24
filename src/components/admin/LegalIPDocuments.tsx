@@ -14,36 +14,39 @@ import USPTOPatentExport from '@/components/sponsorship/USPTOPatentExport';
 import { toast } from 'sonner';
 
 // Patent claim data for the status tracker
+// SYNCHRONIZED with USPTO filing dated 2026-01-24
+// Edge function names reflect ACTUAL deployed functions
 const independentClaims = [
-  { number: 1, title: 'Temporal Founding Member Status System', edgeFunction: 'process-business-signup', status: 'ready' },
-  { number: 2, title: 'CMAL Engine (2.3x Multiplier)', edgeFunction: 'calculate-cmal-bonus', status: 'ready' },
-  { number: 3, title: 'Cross-Business Coalition Loyalty Network', edgeFunction: 'aggregate-loyalty-points', status: 'ready' },
+  { number: 1, title: 'Temporal Founding Member Status System', edgeFunction: 'set_founding_member_status (trigger)', status: 'ready' },
+  { number: 2, title: 'CMAL Engine (2.3x Multiplier)', edgeFunction: 'calculate-sponsor-impact', status: 'ready' },
+  { number: 3, title: 'Cross-Business Coalition Loyalty Network', edgeFunction: 'coalition-earn-points', status: 'ready' },
   { number: 4, title: 'Geospatial Velocity Fraud Detection', edgeFunction: 'detect-fraud', status: 'ready' },
-  { number: 5, title: 'Intelligent B2B Matching Engine', edgeFunction: 'b2b-perplexity-search', status: 'ready' },
+  { number: 5, title: 'Intelligent B2B Matching Engine', edgeFunction: 'b2b-match', status: 'ready' },
   { number: 6, title: 'Corporate Sponsorship Attribution', edgeFunction: 'calculate-sponsor-impact', status: 'ready' },
-  { number: 7, title: 'Gamification Achievement Engine', edgeFunction: 'gamification-engine', status: 'ready' },
-  { number: 8, title: 'Hierarchical Sales Agent Commission Network', edgeFunction: 'process-agent-commissions', status: 'ready' },
+  { number: 7, title: 'Gamification Achievement Engine', edgeFunction: 'agent_badges (db schema)', status: 'ready' },
+  { number: 8, title: 'Hierarchical Sales Agent Commission Network', edgeFunction: 'process-referral', status: 'ready' },
   { number: 9, title: 'QR-Code Transaction Processing', edgeFunction: 'process-qr-transaction', status: 'ready' },
   { number: 10, title: 'AI-Powered Business Recommendations', edgeFunction: 'ai-recommendations', status: 'ready' },
-  { number: 11, title: 'Real-Time Voice AI Bridge Architecture', edgeFunction: 'voice-ai-bridge', status: 'ready' },
-  { number: 12, title: 'AI Tool Registry for Voice Concierge', edgeFunction: 'voice-ai-tools', status: 'ready' },
-  { number: 13, title: 'Atomic Fraud Alert Batch Insertion', edgeFunction: 'batch-insert-fraud-alerts', status: 'ready' },
-  { number: 14, title: 'Economic Karma Scoring System', edgeFunction: 'economic-karma', status: 'ready' },
-  { number: 15, title: 'Susu Digital Escrow System', edgeFunction: 'susu-escrow', status: 'ready' },
-  { number: 16, title: 'Biometric-Secured Transaction Verification', edgeFunction: 'biometric-verify', status: 'ready' },
-  { number: 17, title: 'QR Code Atomic Check-in System', edgeFunction: 'qr-scan-atomic', status: 'ready' },
-  { number: 18, title: 'Community Impact Analytics Engine', edgeFunction: 'community-analytics', status: 'ready' },
+  { number: 11, title: 'Real-Time Voice AI Bridge Architecture', edgeFunction: 'realtime-voice', status: 'ready' },
+  { number: 12, title: 'AI Tool Registry for Voice Concierge', edgeFunction: 'voice-concierge-tools', status: 'ready' },
+  { number: 13, title: 'Atomic Fraud Alert Batch Insertion', edgeFunction: 'detect-fraud', status: 'ready' },
+  { number: 14, title: 'Economic Karma Scoring System', edgeFunction: 'platform_constants (db)', status: 'pending' },
+  { number: 15, title: 'Susu Digital Escrow System', edgeFunction: 'susu-escrow', status: 'pending' },
+  { number: 16, title: 'Biometric-Secured Transaction Verification', edgeFunction: 'client-side Capacitor', status: 'ready' },
+  { number: 17, title: 'QR Code Atomic Check-in System', edgeFunction: 'process-qr-transaction', status: 'ready' },
+  { number: 18, title: 'Community Impact Analytics Engine', edgeFunction: 'generate-impact-report', status: 'ready' },
 ];
 
+// Actual edge functions with patent protection headers
 const edgeFunctionsWithHeaders = [
   { name: 'detect-fraud/index.ts', claim: 4, hasHeader: true },
-  { name: 'calculate-cmal-bonus/index.ts', claim: 3, hasHeader: true },
-  { name: 'aggregate-loyalty-points/index.ts', claim: 5, hasHeader: true },
-  { name: 'batch-insert-fraud-alerts/index.ts', claim: 7, hasHeader: true },
-  { name: 'process-business-signup/index.ts', claim: 2, hasHeader: true },
-  { name: 'b2b-perplexity-search/index.ts', claim: 8, hasHeader: true },
-  { name: 'process-agent-commissions/index.ts', claim: 9, hasHeader: true },
-  { name: 'payment-orchestrator/index.ts', claim: 10, hasHeader: true },
+  { name: 'calculate-sponsor-impact/index.ts', claim: 2, hasHeader: true },
+  { name: 'coalition-earn-points/index.ts', claim: 3, hasHeader: true },
+  { name: 'process-qr-transaction/index.ts', claim: 9, hasHeader: true },
+  { name: 'b2b-match/index.ts', claim: 5, hasHeader: true },
+  { name: 'realtime-voice/index.ts', claim: 11, hasHeader: true },
+  { name: 'voice-concierge-tools/index.ts', claim: 12, hasHeader: true },
+  { name: 'generate-impact-report/index.ts', claim: 18, hasHeader: true },
 ];
 
 const filingTimeline = [
