@@ -715,6 +715,9 @@ function App() {
                         <Route path="/investors" element={<LazyInvestorPage />} />
                         <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                         
+                        {/* K */}
+                        <Route path="/karma" element={<LazyKarmaDashboardPage />} />
+                        
                         {/* L */}
                         <Route path="/learning-hub" element={<LazyLearningHubPage />} />
                         <Route path="/login" element={<LazyLoginPage />} />
@@ -766,6 +769,7 @@ function App() {
                         <Route path="/sales-agent-leaderboard" element={<LazyLeaderboardPage />} />
                         <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
                         <Route path="/scanner" element={<LazyQRScannerPage />} />
+                        <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
                         <Route path="/settings" element={<LazyUserSettingsPage />} />
                         <Route path="/share-impact" element={<LazyShareImpactPage />} />
                         <Route path="/signup" element={<LazySignupPage />} />
