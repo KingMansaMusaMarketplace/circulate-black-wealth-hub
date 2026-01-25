@@ -24,6 +24,9 @@ export interface DirectoryPartner {
   embed_enabled: boolean;
   approved_at: string | null;
   approved_by: string | null;
+  payout_frequency: 'weekly' | 'biweekly' | 'monthly' | 'net30';
+  minimum_payout_threshold: number;
+  last_payout_date: string | null;
   created_at: string;
   updated_at: string;
 }

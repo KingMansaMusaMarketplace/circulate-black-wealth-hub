@@ -259,6 +259,7 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
         open={showPayoutDialog}
         onOpenChange={setShowPayoutDialog}
         pendingAmount={partner.pending_earnings}
+        minimumThreshold={partner.minimum_payout_threshold || 50}
         onSubmit={onRequestPayout}
       />
     </div>
