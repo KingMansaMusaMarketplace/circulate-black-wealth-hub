@@ -109,8 +109,8 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <p className="font-bold text-white mb-1">Email Us</p>
-                      <a href="mailto:contact@mansamusamarketplace.com" className="text-blue-300 hover:text-yellow-400 transition-colors">
-                        contact@mansamusamarketplace.com
+                      <a href="mailto:Thomas@1325.AI" className="text-blue-300 hover:text-yellow-400 transition-colors">
+                        Thomas@1325.AI
                       </a>
                     </div>
                   </div>

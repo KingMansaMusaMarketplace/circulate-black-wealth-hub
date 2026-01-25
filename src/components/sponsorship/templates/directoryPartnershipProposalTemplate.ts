@@ -556,7 +556,7 @@ export const getDirectoryPartnershipProposalContent = (): string => {
           
           <div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; margin-bottom: 30px;">
             <p style="font-size: 18px; margin: 0 0 10px; color: #93c5fd;">Email</p>
-            <p style="font-size: 22px; font-weight: bold; margin: 0; color: #fbbf24;">contact@mansamusamarketplace.com</p>
+            <p style="font-size: 22px; font-weight: bold; margin: 0; color: #fbbf24;">Thomas@1325.AI</p>
           </div>
           
           <div style="background: rgba(255,255,255,0.1); padding: 40px; border-radius: 12px; margin-bottom: 30px;">

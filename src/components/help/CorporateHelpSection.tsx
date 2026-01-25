@@ -173,7 +173,7 @@ export const CorporateHelpSection: React.FC = () => {
             <Button 
               variant="outline" 
               className="border-white text-white hover:bg-white hover:text-purple-600"
-              onClick={() => window.location.href = 'mailto:partnerships@mansamusamarketplace.com'}
+              onClick={() => window.location.href = 'mailto:Thomas@1325.AI'}
             >
               Contact Partnership Team
             </Button>

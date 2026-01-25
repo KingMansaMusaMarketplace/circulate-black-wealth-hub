@@ -347,7 +347,7 @@ const InvestorPage: React.FC = () => {
               className="bg-gradient-to-r from-mansagold-dark to-mansagold hover:from-mansagold hover:to-mansagold-light text-mansablue-dark font-bold text-lg px-10 py-6 shadow-xl"
               asChild
             >
-              <a href="mailto:investors@mansamusamarketplace.com?subject=Investor%20Inquiry">
+              <a href="mailto:Thomas@1325.AI?subject=Investor%20Inquiry">
                 Contact Our Team <ArrowRight className="ml-2" />
               </a>
             </Button>

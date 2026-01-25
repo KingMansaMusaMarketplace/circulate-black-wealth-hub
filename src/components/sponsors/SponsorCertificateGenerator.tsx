@@ -208,7 +208,7 @@ With gratitude,
 
 
 Mansa Musa Marketplace
-info@mansamusamarketplace.com`;
+Thomas@1325.AI`;
 
       const splitBody = doc.splitTextToSize(body, pageWidth - (margin * 2));
       doc.text(splitBody, margin, 100);

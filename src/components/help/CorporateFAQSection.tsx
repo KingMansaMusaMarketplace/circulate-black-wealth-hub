@@ -132,7 +132,7 @@ export const CorporateFAQSection: React.FC = () => {
           </p>
           <Button 
             className="bg-gradient-to-r from-mansablue to-mansagold hover:from-mansablue-dark hover:to-mansagold-dark text-white"
-            onClick={() => window.location.href = 'mailto:partnerships@mansamusamarketplace.com'}
+            onClick={() => window.location.href = 'mailto:Thomas@1325.AI'}
           >
             Schedule Partnership Consultation
           </Button>

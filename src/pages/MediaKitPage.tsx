@@ -374,14 +374,14 @@ const MediaKitPage = () => {
                 </h2>
                 <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                   <a 
-                    href="mailto:contact@mansamusamarketplace.com"
+                    href="mailto:Thomas@1325.AI"
                     className="flex flex-col items-center gap-4 p-6 bg-white/10 rounded-xl border border-mansagold/30 hover:border-mansagold hover:bg-mansagold/10 transition-all duration-300 group"
                   >
                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-mansagold to-amber-500 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
                       <Mail className="w-7 h-7 text-white" />
                     </div>
                     <p className="text-mansagold font-bold text-lg">Email</p>
-                    <p className="text-white text-sm text-center font-medium">contact@mansamusamarketplace.com</p>
+                    <p className="text-white text-sm text-center font-medium">Thomas@1325.AI</p>
                   </a>
                   <a 
                     href="tel:+1-312-709-6006"

@@ -312,7 +312,7 @@ const SalesAgentCodeOfConductPage: React.FC = () => {
         {/* Footer */}
         <div className="text-center mt-8 text-sm text-muted-foreground">
           <p>Questions about this Code of Conduct?</p>
-          <p>Contact <a href="mailto:agents@mansamusamarketplace.com" className="text-primary hover:underline">agents@mansamusamarketplace.com</a></p>
+          <p>Contact <a href="mailto:Thomas@1325.AI" className="text-primary hover:underline">Thomas@1325.AI</a></p>
         </div>
       </div>
     </Layout>

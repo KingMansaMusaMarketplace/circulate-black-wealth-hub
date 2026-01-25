@@ -27,7 +27,7 @@ export const getBrandAssetsContent = (): string => {
       <div style="text-align: center; margin-top: 40px; padding: 20px; background-color: #1a1a1a; color: white; border-radius: 8px;">
         <h3 style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">Need Brand Assets?</h3>
         <p style="margin-bottom: 15px; font-size: 16px;">Contact our partnership team for complete brand package</p>
-        <p style="font-size: 16px;"><strong>Email:</strong> contact@mansamusamarketplace.com</p>
+        <p style="font-size: 16px;"><strong>Email:</strong> Thomas@1325.AI</p>
         <p style="font-size: 16px;"><strong>Phone:</strong> 312.709.6006</p>
       </div>
     </div>
