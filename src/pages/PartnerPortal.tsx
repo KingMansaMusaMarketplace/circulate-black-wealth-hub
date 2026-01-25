@@ -24,11 +24,11 @@ const PartnerPortal: React.FC = () => {
 
   if (!isPartner) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
         <div className="container max-w-2xl mx-auto py-12 px-4">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-2">Become a Directory Partner</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-3xl font-bold mb-2 text-white">Become a Directory Partner</h1>
+            <p className="text-slate-400">
               Earn revenue by referring businesses from your directory to 1325.ai
             </p>
           </div>
@@ -39,7 +39,7 @@ const PartnerPortal: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
       <PartnerDashboard
         partner={partner!}
         stats={stats!}

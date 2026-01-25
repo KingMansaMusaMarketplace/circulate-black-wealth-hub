@@ -45,13 +45,13 @@ const PartnerApplicationForm: React.FC<PartnerApplicationFormProps> = ({ onSubmi
   };
 
   return (
-    <Card>
+    <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Building2 className="h-5 w-5" />
+        <CardTitle className="flex items-center gap-2 text-white">
+          <Building2 className="h-5 w-5 text-amber-400" />
           Partner Application
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-slate-400">
           Tell us about your directory to get started
         </CardDescription>
       </CardHeader>
@@ -149,18 +149,18 @@ const PartnerApplicationForm: React.FC<PartnerApplicationFormProps> = ({ onSubmi
               )}
             />
 
-            <div className="bg-muted/50 rounded-lg p-4 space-y-2">
-              <h4 className="font-medium">Partner Benefits</h4>
-              <ul className="text-sm text-muted-foreground space-y-1">
-                <li>• <strong>$5</strong> for every business that signs up</li>
-                <li>• <strong>10%</strong> revenue share on premium upgrades</li>
-                <li>• <strong>Founding Partner</strong> badge for early adopters</li>
+            <div className="bg-slate-700/40 rounded-lg p-4 space-y-2 border border-slate-600/30">
+              <h4 className="font-medium text-white">Partner Benefits</h4>
+              <ul className="text-sm text-slate-300 space-y-1">
+                <li>• <strong className="text-amber-400">$5</strong> for every business that signs up</li>
+                <li>• <strong className="text-amber-400">10%</strong> revenue share on premium upgrades</li>
+                <li>• <strong className="text-amber-400">Founding Partner</strong> badge for early adopters</li>
                 <li>• Full analytics dashboard with CSV exports</li>
                 <li>• Embeddable stats widget for your site</li>
               </ul>
             </div>
 
-            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+            <Button type="submit" className="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold" disabled={form.formState.isSubmitting}>
               {form.formState.isSubmitting ? 'Submitting...' : 'Apply to Become a Partner'}
             </Button>
           </form>
