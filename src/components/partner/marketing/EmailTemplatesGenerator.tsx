@@ -33,6 +33,8 @@ const EmailTemplatesGenerator: React.FC<EmailTemplatesGeneratorProps> = ({ partn
 
 I'm excited to share that ${partner.directory_name} has partnered with 1325.ai - the Economic Operating System designed specifically for Black-owned businesses.
 
+💰 THE VALUE: $700/month in business tools for just $100/month - that's a 7x return on your investment!
+
 This platform offers incredible tools to help your business thrive:
 
 ✅ Get discovered by conscious consumers actively seeking Black-owned businesses
@@ -55,10 +57,12 @@ ${partner.directory_name}`,
       id: 'reminder',
       name: 'Follow-Up Reminder',
       purpose: 'Re-engage members who haven\'t signed up yet',
-      subject: 'Don\'t Miss Out: Free Founding Member Status at 1325.ai',
+      subject: 'Don\'t Miss Out: $700/mo in Tools for $100/mo at 1325.ai',
       body: `Hi there,
 
 A quick reminder about 1325.ai - the platform helping Black-owned businesses grow and connect.
+
+💰 THE VALUE: Members get $700/month worth of business tools for just $100/month. That's a 7x ROI!
 
 If you haven't signed up yet, now is the perfect time. Founding Member status (free until September 1, 2026) includes:
 
@@ -81,10 +85,12 @@ ${partner.directory_name}`,
       id: 'success-story',
       name: 'Success Story Share',
       purpose: 'Share a win to encourage signups',
-      subject: 'How 1325.ai is Helping Black Businesses Grow',
+      subject: 'How 1325.ai is Helping Black Businesses Grow (7x ROI)',
       body: `Hello,
 
 I wanted to share some exciting news about our partnership with 1325.ai.
+
+💰 THE VALUE: $700/month in business benefits for just $100/month = 7x ROI
 
 Since joining, our community members have:
 • Connected with new B2B partners and suppliers
@@ -106,12 +112,14 @@ ${partner.directory_name}`,
       id: 'deadline',
       name: 'Deadline Urgency',
       purpose: 'Create urgency before the September 2026 cutoff',
-      subject: '⏰ Last Chance: Founding Member Status Ends Soon',
+      subject: '⏰ Last Chance: Lock In $700/mo Value Before Prices Rise',
       body: `IMPORTANT: Time-Sensitive Opportunity
 
 The deadline to become a Founding Member of 1325.ai is approaching: September 1, 2026.
 
 After this date, the platform moves to paid tiers only.
+
+💰 THE VALUE: $700/month in business tools for just $100/month = 7x ROI
 
 As a Founding Member, you get:
 ✓ FREE lifetime access to core features

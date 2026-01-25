@@ -23,6 +23,12 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
     'Track your economic impact with our proprietary CMAL multiplier system',
   ];
 
+  const valueProposition = {
+    monthlyValue: 700,
+    monthlyPrice: 100,
+    roi: '7x',
+  };
+
   const generateQRCode = async () => {
     try {
       const dataUrl = await QRCode.toDataURL(partner.referral_link, {
@@ -82,6 +88,13 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
       <h1>Join 1325.ai</h1>
       <p>The Economic Operating System for Black-Owned Businesses</p>
       <div class="partner-badge">Referred by ${partner.directory_name}</div>
+    </div>
+    
+    <div style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); padding: 24px; border-radius: 12px; text-align: center; margin-bottom: 24px; color: #1e293b;">
+      <div style="font-size: 2.5rem; font-weight: 800;">$${valueProposition.monthlyValue}/mo</div>
+      <div style="font-size: 1.1rem; margin: 8px 0;">in business tools & benefits</div>
+      <div style="font-size: 1.5rem; font-weight: 700;">for just $${valueProposition.monthlyPrice}/month</div>
+      <div style="margin-top: 8px; font-size: 0.9rem; opacity: 0.9;">That's a ${valueProposition.roi} return on your investment!</div>
     </div>
     
     <div class="content">
@@ -158,6 +171,12 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
                 <img src={qrCodeDataUrl} alt="QR Code" className="w-16 h-16" />
               </div>
             )}
+          </div>
+
+          {/* Value Proposition Banner */}
+          <div className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-lg p-3 mb-4 text-center text-slate-900">
+            <div className="text-lg font-bold">${valueProposition.monthlyValue}/mo value → ${valueProposition.monthlyPrice}/mo</div>
+            <div className="text-xs opacity-90">{valueProposition.roi} ROI on business tools & benefits</div>
           </div>
           
           <div className="space-y-2 mb-4">
