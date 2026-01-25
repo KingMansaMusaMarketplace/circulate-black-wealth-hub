@@ -258,7 +258,7 @@ export const HelpSection: React.FC = () => {
             </Button>
             <Button 
               className="bg-gradient-to-r from-mansablue to-blue-600 hover:from-blue-600 hover:to-mansablue text-white font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all"
-              onClick={() => window.location.href = 'mailto:contact@mansamusamarketplace.com'}
+              onClick={() => window.location.href = 'mailto:Thomas@1325.AI'}
             >
               Email Support
             </Button>

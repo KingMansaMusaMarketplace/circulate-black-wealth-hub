@@ -28,7 +28,7 @@ export const getImpactReportContent = (): string => {
         <h3 style="margin-bottom: 10px; font-size: 20px; font-weight: bold;">Partner With Us</h3>
         <p style="margin-bottom: 15px; font-size: 16px;">Powered by patent-pending economic circulation technology</p>
         <p style="margin-bottom: 15px; font-size: 16px;">Join us in creating lasting economic impact</p>
-        <p style="font-size: 16px;"><strong>Email:</strong> contact@mansamusamarketplace.com</p>
+        <p style="font-size: 16px;"><strong>Email:</strong> Thomas@1325.AI</p>
         <p style="font-size: 16px;"><strong>Phone:</strong> 312.709.6006</p>
       </div>
     </div>

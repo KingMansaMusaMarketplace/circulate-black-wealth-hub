@@ -69,7 +69,7 @@ const TermsOfServicePage = () => {
     {
       icon: <Mail className="h-6 w-6" />,
       title: "Contact Information",
-      content: "If you have any questions about these Terms of Service, please contact us at legal@mansamusamarketplace.com. For urgent matters, you may also reach our compliance team at compliance@mansamusamarketplace.com. We're here to help clarify any concerns you may have about our terms and your rights as a user.",
+      content: "If you have any questions about these Terms of Service, please contact us at Thomas@1325.AI. For urgent matters, you may also reach our compliance team at Thomas@1325.AI. We're here to help clarify any concerns you may have about our terms and your rights as a user.",
       iconBg: "from-indigo-500 to-purple-600"
     }
   ];

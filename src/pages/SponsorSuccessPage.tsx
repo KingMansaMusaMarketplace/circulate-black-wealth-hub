@@ -158,8 +158,8 @@ const SponsorSuccessPage: React.FC = () => {
             <div className="text-center text-sm pt-4 border-t border-white/10">
               <p className="text-blue-200/70">
                 Questions? Contact us at{' '}
-                <a href="mailto:sponsors@mansamusamarketplace.com" className="text-amber-400 hover:text-amber-300 hover:underline">
-                  sponsors@mansamusamarketplace.com
+                <a href="mailto:Thomas@1325.AI" className="text-amber-400 hover:text-amber-300 hover:underline">
+                  Thomas@1325.AI
                 </a>
               </p>
             </div>

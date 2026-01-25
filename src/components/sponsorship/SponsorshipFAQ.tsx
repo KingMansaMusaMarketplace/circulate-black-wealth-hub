@@ -86,8 +86,8 @@ const SponsorshipFAQ = () => {
           <div className="mt-8 text-center">
             <p className="text-gray-600">
               Have more questions? Contact our sponsorship team at{' '}
-              <a href="mailto:sponsorships@mansamusamarketplace.com" className="text-mansablue font-medium">
-                sponsorships@mansamusamarketplace.com
+              <a href="mailto:Thomas@1325.AI" className="text-mansablue font-medium">
+                Thomas@1325.AI
               </a>
             </p>
           </div>

@@ -29,7 +29,7 @@ Best regards,
 [Your Title]
 Mansa Musa Marketplace
 Phone: 312.709.6006
-Email: contact@mansamusamarketplace.com
+Email: Thomas@1325.AI
 Website: www.mansamusamarketplace.com
 
 P.S. I've attached our brief partnership overview that outlines specific collaboration opportunities and mutual benefits.`
@@ -71,7 +71,7 @@ Warm regards,
 [Your Title]
 Mansa Musa Marketplace
 Phone: 312.709.6006
-Email: contact@mansamusamarketplace.com
+Email: Thomas@1325.AI
 Website: www.mansamusamarketplace.com
 
 Best,
@@ -117,7 +117,7 @@ Best,
 [Your Title]
 Mansa Musa Marketplace
 Phone: 312.709.6006
-Email: contact@mansamusamarketplace.com
+Email: Thomas@1325.AI
 Website: www.mansamusamarketplace.com
 
 P.S. Happy to send over our media kit and partnership overview for your review.`
@@ -146,7 +146,7 @@ Best regards,
 [Your Name]
 Mansa Musa Marketplace
 Phone: 312.709.6006
-Email: contact@mansamusamarketplace.com`
+Email: Thomas@1325.AI`
   },
 
   customizable: {
@@ -184,7 +184,7 @@ Best regards,
 [Your Title]
 Mansa Musa Marketplace
 Phone: 312.709.6006
-Email: contact@mansamusamarketplace.com
+Email: Thomas@1325.AI
 Website: www.mansamusamarketplace.com`
   }
 };

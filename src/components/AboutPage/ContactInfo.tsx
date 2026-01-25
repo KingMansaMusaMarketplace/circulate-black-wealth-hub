@@ -22,8 +22,8 @@ const ContactInfo = () => {
       id: 'email',
       title: 'Email',
       icon: Mail,
-      value: 'contact@mansamusamarketplace.com',
-      link: 'mailto:contact@mansamusamarketplace.com',
+      value: 'Thomas@1325.AI',
+      link: 'mailto:Thomas@1325.AI',
       description: 'Email us anytime for general inquiries or partnership opportunities.'
     },
     {

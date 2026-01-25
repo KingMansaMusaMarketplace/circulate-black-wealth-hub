@@ -138,10 +138,10 @@ const CookiePolicyPage = () => {
                 <p className="text-blue-200 leading-relaxed">
                   If you have any questions about our Cookie Policy, please contact us at{' '}
                   <a 
-                    href="mailto:contact@mansamusamarketplace.com" 
+                    href="mailto:Thomas@1325.AI" 
                     className="font-bold text-yellow-400 hover:text-yellow-300 transition-colors"
                   >
-                    contact@mansamusamarketplace.com
+                    Thomas@1325.AI
                   </a>
                 </p>
               </div>
