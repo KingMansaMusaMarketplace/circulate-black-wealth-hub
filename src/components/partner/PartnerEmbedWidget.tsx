@@ -38,7 +38,7 @@ const PartnerEmbedWidget: React.FC<PartnerEmbedWidgetProps> = ({ embedCode, stat
               </div>
               <div>
                 <p className="text-xs text-amber-300/70">Powered by</p>
-                <p className="text-sm font-semibold text-amber-100">1325.ai</p>
+                <p className="text-sm font-mono font-semibold tracking-wider text-amber-100">1325.AI</p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -54,7 +54,7 @@ const PartnerEmbedWidget: React.FC<PartnerEmbedWidgetProps> = ({ embedCode, stat
               </div>
             </div>
             <p className="text-xs text-center text-amber-200/80 mt-3">
-              {partnerName} is a verified 1325.ai Partner
+              {partnerName} is a verified <span className="font-mono tracking-wider">1325.AI</span> Partner
             </p>
           </div>
         </div>

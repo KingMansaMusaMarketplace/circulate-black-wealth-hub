@@ -58,7 +58,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
       : `background-color: ${colors.bg};`;
 
     if (style === 'minimal') {
-      return `<!-- 1325.ai Partner Banner - Minimal -->
+      return `<!-- 1325.AI Partner Banner - Minimal -->
 <a href="${partner.referral_link}" target="_blank" rel="noopener" style="
   display: inline-flex;
   align-items: center;
@@ -68,17 +68,18 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
   color: ${colors.text};
   text-decoration: none;
   border-radius: 8px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
   font-size: 14px;
+  letter-spacing: 0.05em;
   border: 1px solid ${colors.border};
 ">
-  <span style="font-weight: 600;">Join 1325.ai</span>
+  <span style="font-weight: 600;">Join 1325.AI</span>
   <span style="color: ${colors.muted};">via ${partner.directory_name}</span>
 </a>`;
     }
 
     if (style === 'standard') {
-      return `<!-- 1325.ai Partner Banner - Standard -->
+      return `<!-- 1325.AI Partner Banner - Standard -->
 <div style="
   ${bgStyle}
   padding: 20px;
@@ -88,7 +89,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
   max-width: 400px;
 ">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-    <span style="font-weight: 700; font-size: 18px; color: ${colors.text};">Join 1325.ai</span>
+    <span style="font-weight: 700; font-size: 18px; color: ${colors.text}; font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">Join 1325.AI</span>
     <span style="font-size: 12px; color: ${colors.accent};">FREE until Sept 2026</span>
   </div>
   <div style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 12px; color: #1e293b;">
@@ -117,7 +118,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     }
 
     // Detailed style
-    return `<!-- 1325.ai Partner Banner - Detailed -->
+    return `<!-- 1325.AI Partner Banner - Detailed -->
 <div style="
   ${bgStyle}
   padding: 24px;
@@ -127,7 +128,7 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
   max-width: 450px;
 ">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-    <span style="font-weight: 700; font-size: 20px; color: ${colors.text};">Join 1325.ai</span>
+    <span style="font-weight: 700; font-size: 20px; color: ${colors.text}; font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">Join 1325.AI</span>
     <span style="
       padding: 4px 12px;
       background: ${theme === 'gold' ? 'rgba(255,255,255,0.2)' : 'rgba(245,158,11,0.15)'};

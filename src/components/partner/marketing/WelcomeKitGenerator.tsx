@@ -57,7 +57,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Join 1325.ai - Referred by ${partner.directory_name}</title>
+  <title>Join 1325.AI - Referred by ${partner.directory_name}</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8fafc; color: #1e293b; }
@@ -85,7 +85,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
 <body>
   <div class="container">
     <div class="header">
-      <h1>Join 1325.ai</h1>
+      <h1 style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">Join 1325.AI</h1>
       <p>The Economic Operating System for Black-Owned Businesses</p>
       <div class="partner-badge">Referred by ${partner.directory_name}</div>
     </div>
@@ -98,7 +98,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
     </div>
     
     <div class="content">
-      <h2 class="section-title">Why Join 1325.ai?</h2>
+      <h2 class="section-title">Why Join <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span>?</h2>
       <ul class="benefits-list">
         ${benefits.map(b => `<li><span class="check">✓</span><span>${b}</span></li>`).join('')}
       </ul>
@@ -119,7 +119,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
     
     <div class="footer">
       <p>Questions? Contact ${partner.contact_email}</p>
-      <p style="margin-top: 8px;">© 2026 1325.ai - Circulating Wealth, Building Legacy</p>
+      <p style="margin-top: 8px;">© 2026 <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span> - Circulating Wealth, Building Legacy</p>
     </div>
   </div>
 </body>

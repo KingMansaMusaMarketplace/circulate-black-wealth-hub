@@ -38,8 +38,8 @@ const RefreshPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Force Refresh | 1325.ai</title>
-        <meta name="description" content="Clear cache and refresh the 1325.ai app." />
+        <title>Force Refresh | 1325.AI</title>
+        <meta name="description" content="Clear cache and refresh the 1325.AI app." />
         <link rel="canonical" href="https://1325.ai/refresh" />
       </Helmet>
       <main className="min-h-screen flex items-center justify-center">

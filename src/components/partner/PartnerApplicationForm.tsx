@@ -138,7 +138,7 @@ const PartnerApplicationForm: React.FC<PartnerApplicationFormProps> = ({ onSubmi
                       <FileText className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Textarea 
                         {...field} 
-                        placeholder="Tell us about your directory, your member base, and why you want to partner with 1325.ai..." 
+                        placeholder="Tell us about your directory, your member base, and why you want to partner with 1325.AI..." 
                         className="pl-10 min-h-[100px]"
                       />
                     </div>

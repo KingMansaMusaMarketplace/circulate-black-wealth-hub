@@ -10,8 +10,8 @@ const ShareButton: React.FC = () => {
   const [copied, setCopied] = useState(false);
   
   const shareUrl = "https://1325.ai";
-  const shareTitle = "Join 1325.ai - The Black Wealth Protocol";
-  const shareText = "Check out 1325.ai - the AI-powered protocol for Black economic empowerment! Help us reach 1 million members. 💪";
+  const shareTitle = "Join 1325.AI - The Black Wealth Protocol";
+  const shareText = "Check out 1325.AI - the AI-powered protocol for Black economic empowerment! Help us reach 1 million members. 💪";
 
   const handleShare = async () => {
     console.log('Share button clicked');

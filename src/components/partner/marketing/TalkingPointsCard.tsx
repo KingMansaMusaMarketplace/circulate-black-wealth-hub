@@ -18,7 +18,7 @@ const TalkingPointsCard: React.FC<TalkingPointsCardProps> = ({ partner }) => {
       id: 'elevator',
       title: '30-Second Elevator Pitch',
       icon: '🎤',
-      content: `"Have you heard of 1325.ai? It's an economic operating system built specifically for Black-owned businesses. You get $700 worth of tools for just $100 a month - that's a 7x return. They have B2B matching, community financing circles, and help you get discovered by conscious consumers. Right now it's FREE to join as a Founding Member until September 2026. I can send you my referral link - what's your email?"`,
+      content: `"Have you heard of 1325.AI? It's an economic operating system built specifically for Black-owned businesses. You get $700 worth of tools for just $100 a month - that's a 7x return. They have B2B matching, community financing circles, and help you get discovered by conscious consumers. Right now it's FREE to join as a Founding Member until September 2026. I can send you my referral link - what's your email?"`,
     },
     {
       id: 'objections',

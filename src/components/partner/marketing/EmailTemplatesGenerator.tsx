@@ -27,11 +27,11 @@ const EmailTemplatesGenerator: React.FC<EmailTemplatesGeneratorProps> = ({ partn
     {
       id: 'announcement',
       name: 'New Partnership Announcement',
-      purpose: 'Introduce 1325.ai to your network',
-      subject: `Exciting News: ${partner.directory_name} Partners with 1325.ai`,
+      purpose: 'Introduce 1325.AI to your network',
+      subject: `Exciting News: ${partner.directory_name} Partners with 1325.AI`,
       body: `Hello,
 
-I'm excited to share that ${partner.directory_name} has partnered with 1325.ai - the Economic Operating System designed specifically for Black-owned businesses.
+I'm excited to share that ${partner.directory_name} has partnered with 1325.AI - the Economic Operating System designed specifically for Black-owned businesses.
 
 💰 THE VALUE: $700/month in business tools for just $100/month - that's a 7x return on your investment!
 
@@ -48,7 +48,7 @@ ${partner.referral_link}
 
 Sign up before September 1, 2026 to become a Founding Member and lock in special benefits!
 
-Questions? Reply to this email or visit 1325.ai to learn more.
+Questions? Reply to this email or visit 1325.AI to learn more.
 
 Best regards,
 ${partner.directory_name}`,
@@ -57,10 +57,10 @@ ${partner.directory_name}`,
       id: 'reminder',
       name: 'Follow-Up Reminder',
       purpose: 'Re-engage members who haven\'t signed up yet',
-      subject: 'Don\'t Miss Out: $700/mo in Tools for $100/mo at 1325.ai',
+      subject: 'Don\'t Miss Out: $700/mo in Tools for $100/mo at 1325.AI',
       body: `Hi there,
 
-A quick reminder about 1325.ai - the platform helping Black-owned businesses grow and connect.
+A quick reminder about 1325.AI - the platform helping Black-owned businesses grow and connect.
 
 💰 THE VALUE: Members get $700/month worth of business tools for just $100/month. That's a 7x ROI!
 
@@ -85,10 +85,10 @@ ${partner.directory_name}`,
       id: 'success-story',
       name: 'Success Story Share',
       purpose: 'Share a win to encourage signups',
-      subject: 'How 1325.ai is Helping Black Businesses Grow (7x ROI)',
+      subject: 'How 1325.AI is Helping Black Businesses Grow (7x ROI)',
       body: `Hello,
 
-I wanted to share some exciting news about our partnership with 1325.ai.
+I wanted to share some exciting news about our partnership with 1325.AI.
 
 💰 THE VALUE: $700/month in business benefits for just $100/month = 7x ROI
 
@@ -115,7 +115,7 @@ ${partner.directory_name}`,
       subject: '⏰ Last Chance: Lock In $700/mo Value Before Prices Rise',
       body: `IMPORTANT: Time-Sensitive Opportunity
 
-The deadline to become a Founding Member of 1325.ai is approaching: September 1, 2026.
+The deadline to become a Founding Member of 1325.AI is approaching: September 1, 2026.
 
 After this date, the platform moves to paid tiers only.
 

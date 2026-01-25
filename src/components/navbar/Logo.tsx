@@ -8,11 +8,11 @@ const Logo: React.FC = () => {
       <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-mansagold/30 shadow-md bg-white/10 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:border-mansagold/50 group-hover:shadow-lg">
         <img 
           src={mansaMusaLogo} 
-          alt="1325.ai" 
+          alt="1325.AI" 
           className="w-full h-full object-cover"
         />
       </div>
-      <span className="text-xl font-bold text-mansagold transition-colors duration-300">1325.ai</span>
+      <span className="text-xl font-mono font-bold tracking-wider text-mansagold transition-colors duration-300">1325.AI</span>
     </Link>
   );
 };

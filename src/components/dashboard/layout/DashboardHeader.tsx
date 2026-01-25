@@ -16,8 +16,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   return (
     <div className="lg:hidden fixed top-0 left-0 right-0 z-30 bg-background/80 backdrop-blur-lg border-b border-border px-4 py-3 safe-top">
       <div className="flex justify-between items-center">
-        <Link to="/" className="font-display font-bold text-xl text-primary">
-          1325.ai
+        <Link to="/" className="font-mono font-bold text-xl tracking-wider text-primary">
+          1325.AI
         </Link>
         <Button 
           variant="ghost" 

@@ -27,7 +27,7 @@ const SuccessStoryTemplate: React.FC<SuccessStoryTemplateProps> = ({ partner }) 
     
     return `🏆 SUCCESS STORY: ${businessName || '[Business Name]'}
 
-${ownerName || '[Owner Name]'} joined 1325.ai through ${partner.directory_name} and the results speak for themselves.
+${ownerName || '[Owner Name]'} joined 1325.AI through ${partner.directory_name} and the results speak for themselves.
 
 📈 THE WIN:
 ${achievement || '[Describe what they achieved - e.g., "Connected with 3 new B2B suppliers, reducing costs by 20%"]'}
@@ -42,13 +42,13 @@ ${metric || '[Add a specific metric - e.g., "$5,000 saved in first quarter" or "
 
 Ready to write your own success story?
 
-🔗 Join 1325.ai FREE: ${partner.referral_link}
+🔗 Join 1325.AI FREE: ${partner.referral_link}
 📱 Partner Code: ${partner.referral_code}
 
 $700/month in business tools for just $100/month = 7x ROI
 FREE until September 1, 2026
 
-#BlackOwnedBusiness #1325ai #SuccessStory #BuyBlack`;
+#BlackOwnedBusiness #1325AI #SuccessStory #BuyBlack`;
   };
 
   const copyStory = async () => {
@@ -122,7 +122,7 @@ FREE until September 1, 2026
           <div className="space-y-2">
             <Label className="text-amber-400 font-semibold">Quote from Owner (optional)</Label>
             <Textarea
-              placeholder="e.g., 1325.ai connected me with suppliers I never would have found on my own. This platform is a game-changer for our community."
+              placeholder="e.g., 1325.AI connected me with suppliers I never would have found on my own. This platform is a game-changer for our community."
               value={formData.quote}
               onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
               className="bg-slate-900/60 border-slate-700 text-slate-300 min-h-[80px]"
