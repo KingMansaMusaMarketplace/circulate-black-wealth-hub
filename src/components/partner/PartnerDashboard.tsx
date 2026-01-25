@@ -6,13 +6,14 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Users, DollarSign, TrendingUp, Copy, Code, Download, 
-  ArrowUpRight, Clock, CheckCircle2, XCircle, Award, HelpCircle
+  ArrowUpRight, Clock, CheckCircle2, XCircle, Award, HelpCircle, Megaphone
 } from 'lucide-react';
 import PartnerReferralsTable from './PartnerReferralsTable';
 import PartnerPayoutsTable from './PartnerPayoutsTable';
 import PartnerEmbedWidget from './PartnerEmbedWidget';
 import PayoutRequestDialog from './PayoutRequestDialog';
 import PartnerFAQ from './PartnerFAQ';
+import { PartnerMarketingHub } from './marketing';
 import { format } from 'date-fns';
 
 interface PartnerDashboardProps {
@@ -198,10 +199,14 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
           <div className="overflow-x-auto pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
             <TabsList className="bg-slate-800/60 border border-slate-700/50 inline-flex min-w-max">
               <TabsTrigger value="referrals" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Referrals</TabsTrigger>
+              <TabsTrigger value="marketing" className="data-[state=active]:bg-amber-600 data-[state=active]:text-white text-amber-400 font-medium">
+                <Megaphone className="w-4 h-4 mr-1" />
+                Marketing
+              </TabsTrigger>
               <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Analytics</TabsTrigger>
               <TabsTrigger value="payouts" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Payouts</TabsTrigger>
               <TabsTrigger value="embed" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Embed</TabsTrigger>
-              <TabsTrigger value="faq" className="data-[state=active]:bg-amber-600 data-[state=active]:text-white text-amber-400 font-medium">
+              <TabsTrigger value="faq" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">
                 <HelpCircle className="w-4 h-4 mr-1" />
                 FAQ
               </TabsTrigger>
@@ -225,6 +230,10 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
               <PartnerReferralsTable referrals={referrals} />
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="marketing">
+          <PartnerMarketingHub partner={partner} stats={stats} />
         </TabsContent>
 
         <TabsContent value="payouts">
