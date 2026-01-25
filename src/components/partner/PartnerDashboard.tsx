@@ -194,18 +194,20 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
 
       {/* Tabs */}
       <Tabs defaultValue="referrals" className="space-y-4">
-        <div className="flex items-center justify-between">
-          <TabsList className="bg-slate-800/60 border border-slate-700/50">
-            <TabsTrigger value="referrals" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Referrals</TabsTrigger>
-            <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Analytics</TabsTrigger>
-            <TabsTrigger value="payouts" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Payouts</TabsTrigger>
-            <TabsTrigger value="embed" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Embed Widget</TabsTrigger>
-            <TabsTrigger value="faq" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">
-              <HelpCircle className="w-4 h-4 mr-1" />
-              FAQ
-            </TabsTrigger>
-          </TabsList>
-          <Button variant="outline" size="sm" onClick={exportReferralsCSV} className="border-slate-600 text-slate-300 hover:bg-slate-800">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="overflow-x-auto pb-2 sm:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
+            <TabsList className="bg-slate-800/60 border border-slate-700/50 inline-flex min-w-max">
+              <TabsTrigger value="referrals" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Referrals</TabsTrigger>
+              <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Analytics</TabsTrigger>
+              <TabsTrigger value="payouts" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Payouts</TabsTrigger>
+              <TabsTrigger value="embed" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Embed</TabsTrigger>
+              <TabsTrigger value="faq" className="data-[state=active]:bg-amber-600 data-[state=active]:text-white text-amber-400 font-medium">
+                <HelpCircle className="w-4 h-4 mr-1" />
+                FAQ
+              </TabsTrigger>
+            </TabsList>
+          </div>
+          <Button variant="outline" size="sm" onClick={exportReferralsCSV} className="border-slate-600 text-slate-300 hover:bg-slate-800 shrink-0">
             <Download className="w-4 h-4 mr-2" />
             Export CSV
           </Button>
