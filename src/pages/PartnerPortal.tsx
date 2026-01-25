@@ -4,6 +4,7 @@ import PartnerDashboard from '@/components/partner/PartnerDashboard';
 import PartnerApplicationForm from '@/components/partner/PartnerApplicationForm';
 import PartnerPendingReview from '@/components/partner/PartnerPendingReview';
 import AdminPartnerPreview from '@/components/partner/AdminPartnerPreview';
+import PartnerFAQ from '@/components/partner/PartnerFAQ';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
@@ -65,14 +66,25 @@ const PartnerPortal: React.FC = () => {
   if (!isPartner) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
-        <div className="container max-w-2xl mx-auto py-12 px-4">
+        <div className="container max-w-4xl mx-auto py-12 px-4">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-2 text-white">Become a Directory Partner</h1>
             <p className="text-slate-400">
               Earn revenue by referring businesses from your directory to 1325.ai
             </p>
           </div>
-          <PartnerApplicationForm onSubmit={applyAsPartner} />
+          
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Application Form */}
+            <div>
+              <PartnerApplicationForm onSubmit={applyAsPartner} />
+            </div>
+            
+            {/* FAQ Section */}
+            <div className="bg-slate-900/50 backdrop-blur-sm rounded-2xl border border-white/10 p-6">
+              <PartnerFAQ variant="compact" />
+            </div>
+          </div>
         </div>
       </div>
     );
