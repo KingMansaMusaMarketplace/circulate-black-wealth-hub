@@ -135,9 +135,8 @@ export class RealtimeVoice {
       this.audioContext = new AudioContext({ sampleRate: 24000 });
       this.audioQueue = new AudioQueue(this.audioContext);
 
-      // Get project reference from URL
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const projectRef = supabaseUrl.split('//')[1].split('.')[0];
+      // Use hardcoded project reference (VITE_ env vars not supported in Lovable)
+      const projectRef = 'agoclnqfyinwjxdmjnns';
       const wsUrl = `wss://${projectRef}.supabase.co/functions/v1/realtime-voice`;
 
       console.log('Connecting to:', wsUrl);
