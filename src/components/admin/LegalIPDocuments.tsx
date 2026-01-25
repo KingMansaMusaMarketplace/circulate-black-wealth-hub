@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Scale, FileText, FileCheck, ClipboardList, Network, Calendar, 
   Download, ExternalLink, Shield, Globe, CheckCircle2, Clock, 
-  AlertCircle, BookOpen, Gavel
+  AlertCircle, BookOpen, Gavel, Users
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import USPTOPatentExport from '@/components/sponsorship/USPTOPatentExport';
+import PatentFeatureSummary from '@/components/legal/PatentFeatureSummary';
 import { toast } from 'sonner';
 
 // Patent claim data for the status tracker
@@ -203,6 +204,10 @@ const LegalIPDocuments: React.FC = () => {
           <TabsTrigger value="documents" className="data-[state=active]:bg-mansagold/20 data-[state=active]:text-mansagold">
             <FileText className="h-4 w-4 mr-2" />
             Documents
+          </TabsTrigger>
+          <TabsTrigger value="partner-system" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-400 text-amber-300">
+            <Users className="h-4 w-4 mr-2" />
+            Partner System (NEW)
           </TabsTrigger>
         </TabsList>
 
@@ -519,6 +524,11 @@ const LegalIPDocuments: React.FC = () => {
               </Card>
             ))}
           </div>
+        </TabsContent>
+
+        {/* Partner System Tab - NEW */}
+        <TabsContent value="partner-system">
+          <PatentFeatureSummary />
         </TabsContent>
       </Tabs>
     </div>
