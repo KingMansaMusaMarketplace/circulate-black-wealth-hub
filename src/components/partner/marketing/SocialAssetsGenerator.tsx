@@ -29,19 +29,23 @@ const SocialAssetsGenerator: React.FC<SocialAssetsGeneratorProps> = ({ partner }
       platform: 'X / Twitter',
       icon: <Twitter className="w-4 h-4" />,
       characterLimit: 280,
-      content: `Exciting news! We've partnered with @1325ai - the economic operating system for Black-owned businesses. 🚀
+      content: `🚀 We've partnered with @1325ai!
+
+💰 $700/mo in business tools for just $100/mo = 7x ROI
 
 Get discovered, connect B2B, and build wealth together.
 
-Sign up FREE (Founding Member status until Sept 2026):
+Sign up FREE (until Sept 2026):
 ${partner.referral_link}`,
-      hashtags: ['BlackOwned', 'BuyBlack', 'SupportBlackBusiness', 'EconomicEmpowerment'],
+      hashtags: ['BlackOwned', 'BuyBlack', 'SupportBlackBusiness'],
     },
     {
       id: 'linkedin',
       platform: 'LinkedIn',
       icon: <Linkedin className="w-4 h-4" />,
       content: `I'm thrilled to announce that ${partner.directory_name} has officially partnered with 1325.ai!
+
+💰 THE VALUE: $700/month in business tools for just $100/month - that's a 7x ROI!
 
 1325.ai is building the economic infrastructure for Black-owned businesses, offering:
 
@@ -67,6 +71,8 @@ Let's circulate wealth and build legacy together. 💪`,
 
 ${partner.directory_name} has partnered with 1325.ai to bring you an amazing opportunity!
 
+💰 GET $700/MONTH IN BUSINESS TOOLS FOR JUST $100/MONTH - THAT'S 7X YOUR INVESTMENT! 💰
+
 1325.ai is a FREE platform designed specifically for Black-owned businesses. Here's what you get:
 
 🔹 Get discovered by customers looking to support Black businesses
@@ -86,6 +92,8 @@ Tag a Black business owner who needs to see this! 👇`,
       platform: 'WhatsApp / SMS',
       icon: <MessageCircle className="w-4 h-4" />,
       content: `Hey! I wanted to share something with you. ${partner.directory_name} just partnered with 1325.ai - a FREE platform for Black-owned businesses.
+
+💰 The value: $700/month in tools for just $100/month (7x ROI!)
 
 You can get discovered by more customers, connect with other businesses, and even access community savings circles.
 

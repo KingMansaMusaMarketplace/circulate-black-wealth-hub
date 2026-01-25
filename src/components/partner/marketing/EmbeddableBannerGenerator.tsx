@@ -45,6 +45,12 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
     },
   };
 
+  const valueProposition = {
+    monthlyValue: 700,
+    monthlyPrice: 100,
+    roi: '7x',
+  };
+
   const generateBannerHTML = (): string => {
     const colors = themeStyles[theme];
     const bgStyle = theme === 'gold' 
@@ -84,6 +90,10 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
     <span style="font-weight: 700; font-size: 18px; color: ${colors.text};">Join 1325.ai</span>
     <span style="font-size: 12px; color: ${colors.accent};">FREE until Sept 2026</span>
+  </div>
+  <div style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 12px; color: #1e293b;">
+    <div style="font-weight: 800; font-size: 16px;">$${valueProposition.monthlyValue}/mo value → $${valueProposition.monthlyPrice}/mo</div>
+    <div style="font-size: 11px; opacity: 0.9;">${valueProposition.roi} ROI on business tools</div>
   </div>
   <p style="margin: 0 0 16px 0; font-size: 14px; color: ${colors.muted}; line-height: 1.5;">
     The economic operating system for Black-owned businesses. Get discovered, connect B2B, and build wealth together.
@@ -126,6 +136,12 @@ const EmbeddableBannerGenerator: React.FC<EmbeddableBannerGeneratorProps> = ({ p
       color: ${theme === 'gold' ? colors.text : colors.accent};
       font-weight: 600;
     ">Founding Member</span>
+  </div>
+  
+  <div style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 16px; border-radius: 10px; text-align: center; margin-bottom: 16px; color: #1e293b;">
+    <div style="font-weight: 800; font-size: 24px;">$${valueProposition.monthlyValue}/mo value</div>
+    <div style="font-size: 16px; font-weight: 600;">for just $${valueProposition.monthlyPrice}/month</div>
+    <div style="font-size: 12px; margin-top: 4px; opacity: 0.9;">${valueProposition.roi} ROI on business tools & benefits</div>
   </div>
   
   <p style="margin: 0 0 16px 0; font-size: 14px; color: ${colors.muted}; line-height: 1.6;">
