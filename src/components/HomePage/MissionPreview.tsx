@@ -16,7 +16,7 @@ const MissionPreview: React.FC = () => {
             Not Just a Directory. <span className="text-mansagold">Infrastructure.</span>
           </h2>
           <p className="text-gray-300 max-w-2xl mx-auto text-sm md:text-base">
-            1325.ai is the intelligence layer powering Black economic circulation—connecting consumers, 
+            <span className="text-mansagold font-mono tracking-wider">1325.AI</span> is the intelligence layer powering Black economic circulation—connecting consumers, 
             businesses, and capital in one unified ecosystem.
           </p>
         </div>
@@ -38,7 +38,7 @@ const MissionPreview: React.FC = () => {
               </div>
               <p className="text-gray-300 text-sm md:text-base max-w-lg">
                 The Black dollar leaves our community in 6 hours. Others retain wealth for 28+ days. 
-                <span className="text-mansagold font-medium"> 1325.ai closes this gap.</span>
+                <span className="text-mansagold font-mono font-medium tracking-wider"> 1325.AI</span> closes this gap.
               </p>
             </div>
           </div>

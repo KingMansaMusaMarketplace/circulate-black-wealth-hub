@@ -163,7 +163,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
         <div className="bg-gradient-to-br from-mansablue to-blue-700 rounded-xl p-6 text-white">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <h3 className="text-xl font-bold">Join 1325.ai</h3>
+              <h3 className="text-xl font-bold">Join <span className="font-mono tracking-wider">1325.AI</span></h3>
               <p className="text-blue-200 text-sm">Referred by {partner.directory_name}</p>
             </div>
             {qrCodeDataUrl && (
