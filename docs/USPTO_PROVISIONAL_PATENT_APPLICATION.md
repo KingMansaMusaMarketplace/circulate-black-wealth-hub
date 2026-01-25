@@ -125,8 +125,8 @@ LANGUAGE plpgsql
 SECURITY DEFINER SET search_path = public
 AS $$
 BEGIN
-  -- Temporal cutoff constant: March 31, 2026, 23:59:59 UTC
-  IF NEW.created_at < '2026-03-31T23:59:59Z' THEN
+  -- Temporal cutoff constant: September 1, 2026, 23:59:59 UTC
+  IF NEW.created_at < '2026-09-01T23:59:59Z' THEN
     NEW.is_founding_member := true;
     NEW.founding_member_since := NEW.created_at;
   END IF;

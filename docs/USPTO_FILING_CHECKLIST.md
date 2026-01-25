@@ -103,7 +103,7 @@ Each independent claim has 2-4 dependent claims narrowing scope:
 | REACH_MULTIPLIER | 10 | calculate-sponsor-impact | Claim 2 |
 | COMMISSION_RATE | 7.5% | process-qr-transaction | Claim 9 |
 | POINTS_PER_DOLLAR | 10 | process-qr-transaction | Claim 9 |
-| FOUNDING_CUTOFF | 2026-03-31T23:59:59Z | Database migration | Claim 1 |
+| FOUNDING_CUTOFF | 2026-09-01T23:59:59Z | Database migration | Claim 1 |
 | FRAUD_VELOCITY_THRESHOLD | 600 mph | detect-fraud | Claim 4 |
 
 ### B2B Matching Weights
