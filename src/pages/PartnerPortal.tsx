@@ -70,7 +70,7 @@ const PartnerPortal: React.FC = () => {
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-2 text-white">Become a Directory Partner</h1>
             <p className="text-slate-400">
-              Earn revenue by referring businesses from your directory to 1325.ai
+              Earn revenue by referring businesses from your directory to <span className="font-mono tracking-wider text-mansagold">1325.AI</span>
             </p>
           </div>
           

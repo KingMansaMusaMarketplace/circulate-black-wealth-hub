@@ -112,9 +112,9 @@ const SponsorshipContact = () => {
                     <Globe className="h-5 w-5 text-mansablue mr-3" />
                     <button 
                       onClick={handleWebsiteClick}
-                      className="text-mansablue hover:underline cursor-pointer font-medium"
+                      className="text-mansablue hover:underline cursor-pointer font-mono font-medium tracking-wider"
                     >
-                      1325.ai
+                      1325.AI
                     </button>
                   </div>
                   
@@ -132,7 +132,7 @@ const SponsorshipContact = () => {
                 {/* Footer */}
                 <div className="mt-6 pt-4 border-t border-gray-200">
                   <p className="text-xs text-gray-400 text-center">
-                    © 2025 1325.ai, Inc. All Rights Reserved.
+                    © 2025 <span className="font-mono tracking-wider">1325.AI</span>, Inc. All Rights Reserved.
                   </p>
                 </div>
               </CardContent>

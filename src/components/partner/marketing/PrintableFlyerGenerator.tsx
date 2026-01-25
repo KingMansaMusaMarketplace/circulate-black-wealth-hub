@@ -42,7 +42,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Join 1325.ai - Flyer</title>
+  <title>Join 1325.AI - Flyer</title>
   <style>
     @page { size: letter; margin: 0.5in; }
     @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
@@ -76,7 +76,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
 <body>
   <div class="flyer">
     <div class="header">
-      <h1>Join 1325.ai</h1>
+      <h1 style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">Join 1325.AI</h1>
       <p>The Economic Operating System for Black-Owned Businesses</p>
       <div class="partner-badge">Referred by ${partner.directory_name}</div>
     </div>
@@ -110,7 +110,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
     </div>
     
     <div class="footer">
-      <p>Questions? Contact ${partner.contact_email} | © 2026 1325.ai - Circulating Wealth, Building Legacy</p>
+      <p>Questions? Contact ${partner.contact_email} | © 2026 <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span> - Circulating Wealth, Building Legacy</p>
     </div>
   </div>
   <script>window.onload = function() { window.print(); }</script>
@@ -145,7 +145,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
         {/* Preview */}
         <div className="bg-white rounded-xl p-4 text-slate-900">
           <div className="bg-gradient-to-r from-mansablue to-blue-600 text-white p-4 rounded-lg text-center mb-3">
-            <h3 className="font-bold text-lg">Join 1325.ai</h3>
+            <h3 className="font-mono font-bold text-lg tracking-wider">Join 1325.AI</h3>
             <p className="text-sm text-blue-200">Referred by {partner.directory_name}</p>
           </div>
           

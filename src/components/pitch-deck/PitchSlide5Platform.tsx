@@ -105,7 +105,7 @@ const PitchSlide5Platform: React.FC = () => {
         >
           <Card className="p-4 bg-mansablue border-mansagold/20 flex items-center gap-3">
             <Globe className="w-6 h-6 text-mansagold" />
-            <span className="text-white font-semibold">1325.ai</span>
+            <span className="text-white font-mono font-semibold tracking-wider">1325.AI</span>
           </Card>
           <Card className="p-4 bg-mansablue border-mansagold/20 flex items-center gap-3">
             <Smartphone className="w-6 h-6 text-mansagold" />

@@ -19,7 +19,7 @@ const DirectoryHero: React.FC<DirectoryHeroProps> = ({ searchTerm, onSearchChang
       
       <div className="container mx-auto text-center relative z-10 px-4 animate-fade-in">
         <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg flex items-center justify-center gap-4 flex-wrap">
-          <span className="bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent">1325.AI</span> Business Directory
+          <span className="font-mono tracking-wider bg-gradient-to-r from-mansagold via-amber-400 to-orange-400 bg-clip-text text-transparent">1325.AI</span> Business Directory
           <img 
             src={earthImage} 
             alt="Global Network" 
