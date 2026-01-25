@@ -5906,8 +5906,10 @@ export type Database = {
           is_converted: boolean
           partner_id: string
           referral_code: string
+          referred_business_first_payment_at: string | null
           referred_business_id: string | null
           referred_business_name: string | null
+          referred_business_subscription_id: string | null
           referred_email: string
           referred_user_id: string | null
           revenue_share_earned: number
@@ -5927,8 +5929,10 @@ export type Database = {
           is_converted?: boolean
           partner_id: string
           referral_code: string
+          referred_business_first_payment_at?: string | null
           referred_business_id?: string | null
           referred_business_name?: string | null
+          referred_business_subscription_id?: string | null
           referred_email: string
           referred_user_id?: string | null
           revenue_share_earned?: number
@@ -5948,8 +5952,10 @@ export type Database = {
           is_converted?: boolean
           partner_id?: string
           referral_code?: string
+          referred_business_first_payment_at?: string | null
           referred_business_id?: string | null
           referred_business_name?: string | null
+          referred_business_subscription_id?: string | null
           referred_email?: string
           referred_user_id?: string | null
           revenue_share_earned?: number
@@ -10558,6 +10564,10 @@ export type Database = {
         Returns: string
       }
       create_user_referral: { Args: { p_user_id: string }; Returns: string }
+      credit_partner_referral_on_payment: {
+        Args: { p_payment_amount?: number; p_referral_id: string }
+        Returns: undefined
+      }
       credit_wallet: {
         Args: {
           p_amount: number
@@ -11301,6 +11311,16 @@ export type Database = {
           p_business_id: string
           p_transaction_id: string
           p_transaction_type?: string
+        }
+        Returns: string
+      }
+      record_partner_referral_signup: {
+        Args: {
+          p_business_id?: string
+          p_business_name?: string
+          p_email: string
+          p_partner_id: string
+          p_user_id?: string
         }
         Returns: string
       }
