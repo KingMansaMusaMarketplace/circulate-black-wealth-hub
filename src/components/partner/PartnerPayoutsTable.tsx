@@ -48,38 +48,38 @@ const PartnerPayoutsTable: React.FC<PartnerPayoutsTableProps> = ({ payouts }) =>
     <div className="overflow-x-auto">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Requested</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Processed</TableHead>
-            <TableHead>Reference</TableHead>
+          <TableRow className="border-amber-500/30">
+            <TableHead className="text-amber-400 font-semibold">Requested</TableHead>
+            <TableHead className="text-amber-400 font-semibold">Amount</TableHead>
+            <TableHead className="text-amber-400 font-semibold">Method</TableHead>
+            <TableHead className="text-amber-400 font-semibold">Status</TableHead>
+            <TableHead className="text-amber-400 font-semibold">Processed</TableHead>
+            <TableHead className="text-amber-400 font-semibold">Reference</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {payouts.map((payout) => (
-            <TableRow key={payout.id}>
-              <TableCell className="whitespace-nowrap">
+            <TableRow key={payout.id} className="border-amber-500/20 hover:bg-amber-500/5">
+              <TableCell className="whitespace-nowrap text-amber-100">
                 {format(new Date(payout.requested_at), 'MMM d, yyyy')}
               </TableCell>
-              <TableCell className="font-medium">
+              <TableCell className="font-semibold text-amber-300">
                 ${payout.amount.toFixed(2)}
               </TableCell>
-              <TableCell>
+              <TableCell className="text-amber-200">
                 {getMethodLabel(payout.payout_method)}
               </TableCell>
               <TableCell>
                 {getStatusBadge(payout.status)}
               </TableCell>
-              <TableCell className="whitespace-nowrap">
+              <TableCell className="whitespace-nowrap text-amber-100">
                 {payout.processed_at 
                   ? format(new Date(payout.processed_at), 'MMM d, yyyy') 
-                  : <span className="text-muted-foreground">—</span>
+                  : <span className="text-amber-500/50">—</span>
                 }
               </TableCell>
-              <TableCell className="max-w-[150px] truncate">
-                {payout.payment_reference || <span className="text-muted-foreground">—</span>}
+              <TableCell className="max-w-[150px] truncate text-amber-200">
+                {payout.payment_reference || <span className="text-amber-500/50">—</span>}
               </TableCell>
             </TableRow>
           ))}
