@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { 
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
-  Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail
+  Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
+  Handshake
 } from 'lucide-react';
 import {
   Sidebar,
@@ -71,6 +72,7 @@ const menuGroups = [
     items: [
       { id: 'verifications', label: 'Verifications', icon: ShieldCheck },
       { id: 'agents', label: 'Sales Agents', icon: Users },
+      { id: 'partners', label: 'Partners', icon: Handshake },
       { id: 'financial', label: 'Financial', icon: DollarSign },
       { id: 'loyalty', label: 'Loyalty Program', icon: Award },
     ]

@@ -28,6 +28,7 @@ import UserImpersonation from '@/components/admin/UserImpersonation';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHub from '@/components/admin/AdminHub';
 import LegalIPDocuments from '@/components/admin/LegalIPDocuments';
+import PartnerApplicationsManager from '@/components/admin/PartnerApplicationsManager';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -75,6 +76,8 @@ const AdminDashboardPage: React.FC = () => {
         return <VerificationQueue />;
       case 'agents':
         return <SalesAgentAnalytics />;
+      case 'partners':
+        return <PartnerApplicationsManager />;
       case 'loyalty':
         return <LoyaltyManagement />;
       case 'financial':

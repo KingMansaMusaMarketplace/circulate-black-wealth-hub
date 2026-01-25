@@ -2,6 +2,7 @@ import React from 'react';
 import { usePartnerPortal } from '@/hooks/use-partner-portal';
 import PartnerDashboard from '@/components/partner/PartnerDashboard';
 import PartnerApplicationForm from '@/components/partner/PartnerApplicationForm';
+import PartnerPendingReview from '@/components/partner/PartnerPendingReview';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate } from 'react-router-dom';
@@ -22,6 +23,7 @@ const PartnerPortal: React.FC = () => {
     return <Navigate to="/auth" replace />;
   }
 
+  // Not a partner yet - show application form
   if (!isPartner) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
@@ -38,6 +40,16 @@ const PartnerPortal: React.FC = () => {
     );
   }
 
+  // Partner exists but is pending approval
+  if (partner && partner.status === 'pending') {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
+        <PartnerPendingReview partner={partner} />
+      </div>
+    );
+  }
+
+  // Partner is active - show dashboard
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-blue-950/50 to-slate-900">
       <PartnerDashboard

@@ -119,18 +119,34 @@ export function usePartnerPortal() {
           contact_email: data.contact_email,
           contact_phone: data.contact_phone || null,
           description: data.description || null,
+          status: 'pending', // Explicitly set to pending
         })
         .select()
         .single();
 
       if (error) throw error;
 
+      // Send confirmation email to partner and notification to admin
+      try {
+        await supabase.functions.invoke('send-partner-notification', {
+          body: {
+            type: 'application',
+            partnerId: newPartner.id,
+            partnerEmail: data.contact_email,
+            partnerName: data.directory_name,
+          },
+        });
+      } catch (emailError) {
+        console.error('Failed to send notification email:', emailError);
+        // Don't fail the application if email fails
+      }
+
       setPartner(newPartner as DirectoryPartner);
       setIsPartner(true);
 
       toast({
-        title: 'Application Submitted',
-        description: 'Your partner application is pending review. We\'ll notify you once approved.',
+        title: 'Application Submitted!',
+        description: 'Check your email for confirmation. We\'ll notify you once approved.',
       });
 
       return newPartner;
