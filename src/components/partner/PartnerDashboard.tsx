@@ -196,6 +196,7 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
         <div className="flex items-center justify-between">
           <TabsList className="bg-slate-800/60 border border-slate-700/50">
             <TabsTrigger value="referrals" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Referrals</TabsTrigger>
+            <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Analytics</TabsTrigger>
             <TabsTrigger value="payouts" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Payouts</TabsTrigger>
             <TabsTrigger value="embed" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Embed Widget</TabsTrigger>
           </TabsList>

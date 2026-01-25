@@ -1,5 +1,6 @@
 export type PartnerTier = 'founding' | 'premium' | 'standard';
 export type PartnerStatus = 'pending' | 'active' | 'suspended' | 'inactive';
+export type CommissionTier = 'bronze' | 'silver' | 'gold' | 'platinum';
 
 export interface DirectoryPartner {
   id: string;
@@ -29,6 +30,14 @@ export interface DirectoryPartner {
   last_payout_date: string | null;
   created_at: string;
   updated_at: string;
+  // New enhanced fields
+  commission_tier: CommissionTier;
+  tier_updated_at: string | null;
+  lifetime_referrals: number;
+  monthly_bonus_earned: number;
+  cookie_duration_days: number;
+  email_notifications_enabled: boolean;
+  leaderboard_opt_in: boolean;
 }
 
 export interface PartnerReferral {
@@ -47,10 +56,18 @@ export interface PartnerReferral {
   flat_fee_earned: number;
   revenue_share_earned: number;
   total_earned: number;
-  status: 'pending' | 'credited' | 'paid';
+  status: 'pending' | 'credited' | 'paid' | 'blocked';
   credited_at: string | null;
   created_at: string;
   updated_at: string;
+  // UTM tracking
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_content: string | null;
+  utm_term: string | null;
+  landing_page: string | null;
+  cookie_expires_at: string | null;
 }
 
 export interface PartnerPayout {
@@ -76,4 +93,84 @@ export interface PartnerStats {
   paidEarnings: number;
   thisMonthReferrals: number;
   thisMonthEarnings: number;
+}
+
+export interface PartnerLinkClick {
+  id: string;
+  partner_id: string;
+  referral_code: string;
+  ip_address: string | null;
+  user_agent: string | null;
+  referer_url: string | null;
+  landing_page: string | null;
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_content: string | null;
+  country_code: string | null;
+  device_type: string | null;
+  converted_to_signup: boolean;
+  referral_id: string | null;
+  created_at: string;
+}
+
+export interface PartnerInvoice {
+  id: string;
+  partner_id: string;
+  payout_id: string | null;
+  invoice_number: string;
+  invoice_date: string;
+  amount: number;
+  tax_amount: number;
+  total_amount: number;
+  line_items: Array<{
+    description: string;
+    quantity: number;
+    unit_price: number;
+    total: number;
+  }>;
+  partner_details: Record<string, unknown>;
+  status: 'issued' | 'paid' | 'void';
+  pdf_url: string | null;
+  created_at: string;
+}
+
+export interface PartnerBonusMilestone {
+  id: string;
+  milestone_name: string;
+  referrals_required: number;
+  bonus_amount: number;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface LeaderboardEntry {
+  id: string;
+  directory_name: string;
+  logo_url: string | null;
+  commission_tier: CommissionTier;
+  total_referrals: number;
+  total_conversions: number;
+  total_earnings: number;
+  lifetime_referrals: number;
+  conversion_rate: number;
+  earnings_rank: number;
+  referrals_rank: number;
+  created_at: string;
+}
+
+export interface FunnelData {
+  clicks: number;
+  signups: number;
+  conversions: number;
+}
+
+export interface UTMPerformance {
+  source: string;
+  medium: string;
+  campaign: string;
+  clicks: number;
+  signups: number;
+  conversions: number;
+  earnings: number;
 }
