@@ -3,3 +3,7 @@ export { default as WelcomeKitGenerator } from './WelcomeKitGenerator';
 export { default as EmailTemplatesGenerator } from './EmailTemplatesGenerator';
 export { default as SocialAssetsGenerator } from './SocialAssetsGenerator';
 export { default as EmbeddableBannerGenerator } from './EmbeddableBannerGenerator';
+export { default as PrintableFlyerGenerator } from './PrintableFlyerGenerator';
+export { default as TalkingPointsCard } from './TalkingPointsCard';
+export { default as VideoScriptGenerator } from './VideoScriptGenerator';
+export { default as SuccessStoryTemplate } from './SuccessStoryTemplate';
