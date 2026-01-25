@@ -55,7 +55,7 @@ export const getUSPTOPatentContent = (): USPTOPatentContent => {
     filingDate: "January 30, 2026",
     applicantName: "Thomas D. Bowling",
     correspondenceAddress: "1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628",
-    contact: "312.709.6006 | contact@1325.ai",
+    contact: "312.709.6006 | contact@1325.AI",
     commercialNames: "1325.AI (dba Mansa Musa Marketplace)",
     attorney: {
       name: "Fraline J. Allgaier, Esq.",

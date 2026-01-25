@@ -162,7 +162,7 @@ export const generateUSPTOPatentWord = async (options: USPTOWordGeneratorOptions
         new Paragraph({
           children: [
             new TextRun({
-              text: "Platform: 1325.ai / Mansa Musa Marketplace",
+              text: "Platform: 1325.AI / Mansa Musa Marketplace",
               font: "Times New Roman",
               size: 20,
               color: "666666"
@@ -474,7 +474,7 @@ function createSummarySection(summary: { architectureTiers: { name: string; desc
     new Paragraph({
       children: [
         new TextRun({
-          text: 'The present invention provides a comprehensive marketplace operating system ("1325.ai / Mansa Musa Marketplace") that addresses these deficiencies through multiple novel and non-obvious technical innovations.',
+          text: 'The present invention provides a comprehensive marketplace operating system ("1325.AI / Mansa Musa Marketplace") that addresses these deficiencies through multiple novel and non-obvious technical innovations.',
           font: "Times New Roman",
           size: 24
         })
