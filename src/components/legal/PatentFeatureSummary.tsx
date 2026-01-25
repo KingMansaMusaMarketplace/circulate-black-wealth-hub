@@ -21,10 +21,12 @@ interface FeatureSection {
   id: string;
   title: string;
   icon: React.ElementType;
-  claimType: 'independent' | 'dependent' | 'proposed';
+  claimNumber: number;
+  claimType: 'independent' | 'dependent';
   description: string;
   technicalDetails: string[];
   noveltyPoints: string[];
+  edgeFunction: string;
 }
 
 const partnerSystemFeatures: FeatureSection[] = [
@@ -32,7 +34,9 @@ const partnerSystemFeatures: FeatureSection[] = [
     id: 'referral-attribution',
     title: 'Partner Referral Attribution System',
     icon: Link2,
-    claimType: 'proposed',
+    claimNumber: 21,
+    claimType: 'independent',
+    edgeFunction: 'stripe-partner-webhook',
     description: 'A method for tracking and attributing business signups across a distributed network of directory partners using unique cryptographic referral identifiers.',
     technicalDetails: [
       'Unique referral code generation using UUID v4 with partner-specific prefix encoding',
@@ -51,7 +55,9 @@ const partnerSystemFeatures: FeatureSection[] = [
     id: 'revenue-share-engine',
     title: 'Tiered Revenue Share Calculation Engine',
     icon: DollarSign,
-    claimType: 'proposed',
+    claimNumber: 22,
+    claimType: 'independent',
+    edgeFunction: 'credit_partner_referral_on_payment (db func)',
     description: 'An automated system for calculating and distributing revenue shares to referral partners based on a hybrid flat-fee plus percentage model.',
     technicalDetails: [
       'Dual-component commission structure: $5 flat fee per conversion + 10% revenue share',
@@ -70,7 +76,9 @@ const partnerSystemFeatures: FeatureSection[] = [
     id: 'founding-partner-status',
     title: 'Founding Partner Status & Tier System',
     icon: Shield,
-    claimType: 'proposed',
+    claimNumber: 23,
+    claimType: 'independent',
+    edgeFunction: 'directory_partners (schema)',
     description: 'A time-locked partner classification system that grants enhanced benefits to early adopters who join before a platform milestone.',
     technicalDetails: [
       'Automatic "Founding Partner" badge assignment for partners joining before 10,000 business threshold',
@@ -89,7 +97,9 @@ const partnerSystemFeatures: FeatureSection[] = [
     id: 'embed-widget-attribution',
     title: 'Embeddable Widget with Auto-Attribution',
     icon: Code,
-    claimType: 'proposed',
+    claimNumber: 24,
+    claimType: 'independent',
+    edgeFunction: 'getEmbedCode (client)',
     description: 'A JavaScript embed widget that displays platform businesses on partner websites while automatically attributing any resulting signups.',
     technicalDetails: [
       'Iframe-based embed with responsive design and theme customization',
@@ -108,7 +118,9 @@ const partnerSystemFeatures: FeatureSection[] = [
     id: 'partner-analytics-dashboard',
     title: 'Real-Time Partner Analytics Dashboard',
     icon: BarChart3,
-    claimType: 'proposed',
+    claimNumber: 25,
+    claimType: 'independent',
+    edgeFunction: 'usePartnerPortal (hook)',
     description: 'A comprehensive analytics interface providing partners with real-time visibility into referral performance, conversion rates, and earnings.',
     technicalDetails: [
       'Real-time metrics: clicks, signups, conversions, earnings (pending/confirmed/paid)',
@@ -127,7 +139,9 @@ const partnerSystemFeatures: FeatureSection[] = [
     id: 'partner-vetting-workflow',
     title: 'Partner Application & Vetting Workflow',
     icon: Users,
-    claimType: 'proposed',
+    claimNumber: 26,
+    claimType: 'independent',
+    edgeFunction: 'send-partner-notification',
     description: 'An administrative workflow system for reviewing, approving, and managing partner applications with automated notifications.',
     technicalDetails: [
       'Multi-stage application status: pending → approved/rejected',
@@ -144,7 +158,7 @@ const partnerSystemFeatures: FeatureSection[] = [
   }
 ];
 
-const existingPatentClaims = [
+const relatedClaims = [
   { number: 19, title: 'Closed-Loop Platform Wallet Ecosystem', status: 'ready' },
   { number: 20, title: 'Economic Circulation Velocity Analytics', status: 'ready' }
 ];
@@ -163,9 +177,10 @@ const PatentFeatureSummary: React.FC = () => {
     markdown += `The system enables directory owners to earn commissions by referring businesses to the 1325.AI platform through a privacy-preserving attribution mechanism, automated revenue share calculations, and an embeddable widget system.\n\n`;
     markdown += `---\n\n`;
     
-    partnerSystemFeatures.forEach((feature, index) => {
-      markdown += `## ${index + 1}. ${feature.title}\n\n`;
-      markdown += `**Claim Type Recommendation:** ${feature.claimType === 'proposed' ? 'Proposed New Claim' : feature.claimType}\n\n`;
+    partnerSystemFeatures.forEach((feature) => {
+      markdown += `## Claim ${feature.claimNumber}. ${feature.title}\n\n`;
+      markdown += `**Claim Type:** Independent Claim\n`;
+      markdown += `**Edge Function:** ${feature.edgeFunction}\n\n`;
       markdown += `### Description\n${feature.description}\n\n`;
       markdown += `### Technical Implementation Details\n`;
       feature.technicalDetails.forEach(detail => {
@@ -180,7 +195,7 @@ const PatentFeatureSummary: React.FC = () => {
 
     markdown += `## Relationship to Existing Claims\n\n`;
     markdown += `The Partner Referral System integrates with and extends the following existing patent claims:\n\n`;
-    existingPatentClaims.forEach(claim => {
+    relatedClaims.forEach(claim => {
       markdown += `- **Claim ${claim.number}:** ${claim.title}\n`;
     });
     markdown += `\n`;
@@ -221,8 +236,8 @@ const PatentFeatureSummary: React.FC = () => {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
-                6 Proposed Claims
+              <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
+                Claims 21-26 Ready
               </Badge>
               <Button onClick={handleExportMarkdown} className="bg-amber-600 hover:bg-amber-700 text-white">
                 <Download className="w-4 h-4 mr-2" />
@@ -263,9 +278,12 @@ const PatentFeatureSummary: React.FC = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <CardTitle className="text-lg text-white">{index + 1}. {feature.title}</CardTitle>
-                    <Badge variant="outline" className="border-amber-500/50 text-amber-300 text-xs">
-                      Proposed Claim
+                    <CardTitle className="text-lg text-white">Claim {feature.claimNumber}. {feature.title}</CardTitle>
+                    <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30 text-xs">
+                      Independent Claim
+                    </Badge>
+                    <Badge variant="outline" className="border-slate-500/50 text-slate-400 text-xs font-mono">
+                      {feature.edgeFunction}
                     </Badge>
                   </div>
                   <p className="text-slate-300 mt-2 text-sm leading-relaxed">{feature.description}</p>
@@ -322,7 +340,7 @@ const PatentFeatureSummary: React.FC = () => {
               The Partner Referral System integrates with and extends the following claims from the current provisional filing:
             </p>
             <div className="grid md:grid-cols-2 gap-4">
-              {existingPatentClaims.map((claim) => (
+              {relatedClaims.map((claim) => (
                 <div key={claim.number} className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/50">
                   <div className="flex items-center justify-between mb-2">
                     <Badge className="bg-emerald-500/20 text-emerald-300 border-emerald-500/30">

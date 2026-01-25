@@ -15,7 +15,7 @@ import PatentFeatureSummary from '@/components/legal/PatentFeatureSummary';
 import { toast } from 'sonner';
 
 // Patent claim data for the status tracker
-// SYNCHRONIZED with USPTO filing dated 2026-01-24
+// SYNCHRONIZED with USPTO filing dated 2026-01-30 (updated)
 // Edge function names reflect ACTUAL deployed functions
 const independentClaims = [
   { number: 1, title: 'Temporal Founding Member Status System', edgeFunction: 'set_founding_member_status (trigger)', status: 'ready' },
@@ -36,9 +36,16 @@ const independentClaims = [
   { number: 16, title: 'Biometric-Secured Transaction Verification', edgeFunction: 'client-side Capacitor', status: 'ready' },
   { number: 17, title: 'QR Code Atomic Check-in System', edgeFunction: 'process-qr-transaction', status: 'ready' },
   { number: 18, title: 'Community Impact Analytics Engine', edgeFunction: 'generate-impact-report', status: 'ready' },
-  // NEW CLAIMS - Platform Wallet + Susu Payout Loop (included in initial filing)
+  // Claims 19-20 - Platform Wallet + Susu Payout Loop
   { number: 19, title: 'Closed-Loop Platform Wallet Ecosystem', edgeFunction: 'process-susu-payout', status: 'ready' },
   { number: 20, title: 'Economic Circulation Velocity Analytics', edgeFunction: 'wallet_transactions (schema)', status: 'ready' },
+  // NEW Claims 21-26 - Partner Referral Attribution System (added 2026-01-25)
+  { number: 21, title: 'Partner Referral Attribution System', edgeFunction: 'stripe-partner-webhook', status: 'ready' },
+  { number: 22, title: 'Tiered Revenue Share Calculation Engine', edgeFunction: 'credit_partner_referral_on_payment (db func)', status: 'ready' },
+  { number: 23, title: 'Founding Partner Status & Tier System', edgeFunction: 'directory_partners (schema)', status: 'ready' },
+  { number: 24, title: 'Embeddable Widget with Auto-Attribution', edgeFunction: 'getEmbedCode (client)', status: 'ready' },
+  { number: 25, title: 'Real-Time Partner Analytics Dashboard', edgeFunction: 'usePartnerPortal (hook)', status: 'ready' },
+  { number: 26, title: 'Partner Application & Vetting Workflow', edgeFunction: 'send-partner-notification', status: 'ready' },
 ];
 
 // Actual edge functions with patent protection headers
@@ -53,10 +60,14 @@ const edgeFunctionsWithHeaders = [
   { name: 'generate-impact-report/index.ts', claim: 18, hasHeader: true },
   { name: 'economic-karma/index.ts', claim: 14, hasHeader: true },
   { name: 'susu-escrow/index.ts', claim: 15, hasHeader: true },
+  // Partner System edge functions
+  { name: 'stripe-partner-webhook/index.ts', claim: 21, hasHeader: true },
+  { name: 'send-partner-notification/index.ts', claim: 26, hasHeader: true },
 ];
 
 const filingTimeline = [
-  { date: 'January 22, 2026', action: 'Provisional Application Filed', status: 'pending' },
+  { date: 'January 22, 2026', action: 'Provisional Application Filed (Claims 1-20)', status: 'completed' },
+  { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-26 Partner System)', status: 'pending' },
   { date: 'January 22, 2027', action: 'Non-Provisional OR PCT Filing Due', status: 'upcoming' },
   { date: 'July 22, 2027', action: 'Publication (if PCT)', status: 'upcoming' },
   { date: 'July 22, 2028', action: 'National Phase Entry', status: 'upcoming' },
@@ -67,28 +78,28 @@ const patentDocuments = [
     name: 'Complete Filing Package', 
     file: 'USPTO_COMPLETE_FILING_PACKAGE.md', 
     description: 'Master document with all sections combined',
-    pages: '~50 pages',
+    pages: '~60 pages',
     type: 'primary'
   },
   { 
     name: 'Formal Claims', 
     file: 'USPTO_FORMAL_CLAIMS.md', 
-    description: '18 independent + 41 dependent claims',
-    pages: '~25 pages',
+    description: '26 independent + 50+ dependent claims',
+    pages: '~35 pages',
     type: 'claims'
   },
   { 
     name: 'System Diagrams', 
     file: 'USPTO_SYSTEM_DIAGRAMS.md', 
-    description: '9 Mermaid architecture diagrams',
-    pages: '~10 pages',
+    description: '11 Mermaid architecture diagrams',
+    pages: '~12 pages',
     type: 'diagrams'
   },
   { 
     name: 'Comprehensive Specification', 
     file: 'USPTO_PROVISIONAL_PATENT_APPLICATION_COMPREHENSIVE.md', 
     description: 'Detailed technical specification',
-    pages: '~30 pages',
+    pages: '~40 pages',
     type: 'specification'
   },
   { 
@@ -104,6 +115,13 @@ const patentDocuments = [
     description: 'Detailed analysis of Claim 2',
     pages: '~3 pages',
     type: 'analysis'
+  },
+  { 
+    name: 'Partner Referral System (NEW)', 
+    file: 'PATENT_CLAIMS_21-26_PARTNER_SYSTEM.md', 
+    description: 'Claims 21-26: Attribution, Revenue Share, Vetting',
+    pages: '~8 pages',
+    type: 'amendment'
   },
 ];
 
@@ -151,7 +169,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">20</p>
+              <p className="text-3xl font-bold text-mansagold">26</p>
               <p className="text-xs text-blue-200/60">Independent Claims</p>
             </div>
           </CardContent>
@@ -159,7 +177,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">43+</p>
+              <p className="text-3xl font-bold text-mansagold">50+</p>
               <p className="text-xs text-blue-200/60">Dependent Claims</p>
             </div>
           </CardContent>
@@ -167,7 +185,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">13</p>
+              <p className="text-3xl font-bold text-mansagold">15</p>
               <p className="text-xs text-blue-200/60">Protected Constants</p>
             </div>
           </CardContent>
@@ -323,8 +341,15 @@ const LegalIPDocuments: React.FC = () => {
                 <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">B2B Intelligence Engine</Badge>
                 <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">Sales Agent Network</Badge>
                 <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">Economic Karma System</Badge>
-                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Closed-Loop Wallet (NEW)</Badge>
-                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Circulation Velocity (NEW)</Badge>
+                <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">Closed-Loop Wallet</Badge>
+                <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30">Circulation Velocity</Badge>
+                {/* NEW Partner System Claims */}
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Partner Referral Attribution (NEW)</Badge>
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Revenue Share Engine (NEW)</Badge>
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Founding Partner Status (NEW)</Badge>
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Auto-Attribution Widget (NEW)</Badge>
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Partner Analytics (NEW)</Badge>
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">Partner Vetting Workflow (NEW)</Badge>
               </div>
             </CardContent>
           </Card>
@@ -340,9 +365,9 @@ const LegalIPDocuments: React.FC = () => {
           {/* Independent Claims Table */}
           <Card className="bg-white/5 border-white/10">
             <CardHeader>
-              <CardTitle className="text-white">Independent Claims (20)</CardTitle>
+              <CardTitle className="text-white">Independent Claims (26)</CardTitle>
               <CardDescription className="text-blue-200/60">
-                Primary patent claims protecting core innovations
+                Primary patent claims protecting core innovations (updated Jan 30, 2026)
               </CardDescription>
             </CardHeader>
             <CardContent>
