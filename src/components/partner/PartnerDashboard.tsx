@@ -86,20 +86,21 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-2xl font-bold">{partner.directory_name}</h1>
+            <h1 className="text-2xl font-bold text-white">{partner.directory_name}</h1>
             {getTierBadge(partner.tier)}
             {getStatusBadge(partner.status)}
           </div>
-          <p className="text-muted-foreground">Partner since {format(new Date(partner.created_at), 'MMMM yyyy')}</p>
+          <p className="text-slate-400">Partner since {format(new Date(partner.created_at), 'MMMM yyyy')}</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={onCopyReferralLink}>
+          <Button variant="outline" onClick={onCopyReferralLink} className="border-slate-600 text-slate-300 hover:bg-slate-800">
             <Copy className="w-4 h-4 mr-2" />
             Copy Referral Link
           </Button>
           <Button 
             onClick={() => setShowPayoutDialog(true)}
             disabled={partner.pending_earnings <= 0 || partner.status !== 'active'}
+            className="bg-amber-500 hover:bg-amber-600 text-slate-900"
           >
             <DollarSign className="w-4 h-4 mr-2" />
             Request Payout
@@ -108,18 +109,18 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
       </div>
 
       {/* Referral Link Card */}
-      <Card className="mb-8 border-primary/20 bg-primary/5">
+      <Card className="mb-8 border-amber-500/30 bg-amber-500/10 backdrop-blur-xl">
         <CardContent className="py-4">
           <div className="flex flex-col md:flex-row md:items-center gap-4">
             <div className="flex-1">
-              <p className="text-sm font-medium mb-1">Your Referral Link</p>
-              <code className="text-sm bg-background px-3 py-2 rounded border block overflow-x-auto">
+              <p className="text-sm font-medium mb-1 text-slate-300">Your Referral Link</p>
+              <code className="text-sm bg-slate-900/60 px-3 py-2 rounded border border-slate-700 block overflow-x-auto text-amber-400">
                 {partner.referral_link}
               </code>
             </div>
             <div className="text-right">
-              <p className="text-sm text-muted-foreground">Code: <strong>{partner.referral_code}</strong></p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-sm text-slate-300">Code: <strong className="text-amber-400">{partner.referral_code}</strong></p>
+              <p className="text-xs text-slate-400">
                 ${partner.flat_fee_per_signup} per signup + {partner.revenue_share_percent}% rev share
               </p>
             </div>
@@ -129,61 +130,61 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <Card>
+        <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Referrals</p>
-                <p className="text-2xl font-bold">{stats.totalReferrals}</p>
+                <p className="text-sm text-slate-400">Total Referrals</p>
+                <p className="text-2xl font-bold text-white">{stats.totalReferrals}</p>
               </div>
-              <Users className="h-8 w-8 text-primary/60" />
+              <Users className="h-8 w-8 text-blue-400/60" />
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
+            <p className="text-xs text-slate-500 mt-2">
               +{stats.thisMonthReferrals} this month
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Conversions</p>
-                <p className="text-2xl font-bold">{stats.totalConversions}</p>
+                <p className="text-sm text-slate-400">Conversions</p>
+                <p className="text-2xl font-bold text-white">{stats.totalConversions}</p>
               </div>
-              <ArrowUpRight className="h-8 w-8 text-green-500/60" />
+              <ArrowUpRight className="h-8 w-8 text-emerald-400/60" />
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
+            <p className="text-xs text-slate-500 mt-2">
               {stats.conversionRate.toFixed(1)}% rate
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Total Earnings</p>
-                <p className="text-2xl font-bold">${stats.totalEarnings.toFixed(2)}</p>
+                <p className="text-sm text-slate-400">Total Earnings</p>
+                <p className="text-2xl font-bold text-white">${stats.totalEarnings.toFixed(2)}</p>
               </div>
-              <DollarSign className="h-8 w-8 text-amber-500/60" />
+              <DollarSign className="h-8 w-8 text-amber-400/60" />
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
+            <p className="text-xs text-slate-500 mt-2">
               ${stats.paidEarnings.toFixed(2)} paid
             </p>
           </CardContent>
         </Card>
 
-        <Card className="border-green-500/30 bg-green-500/5">
+        <Card className="border-emerald-500/30 bg-emerald-500/10 backdrop-blur-xl">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Pending Payout</p>
-                <p className="text-2xl font-bold text-green-600">${stats.pendingEarnings.toFixed(2)}</p>
+                <p className="text-sm text-slate-400">Pending Payout</p>
+                <p className="text-2xl font-bold text-emerald-400">${stats.pendingEarnings.toFixed(2)}</p>
               </div>
-              <TrendingUp className="h-8 w-8 text-green-500/60" />
+              <TrendingUp className="h-8 w-8 text-emerald-400/60" />
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
+            <p className="text-xs text-slate-500 mt-2">
               +${stats.thisMonthEarnings.toFixed(2)} this month
             </p>
           </CardContent>
@@ -193,22 +194,22 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
       {/* Tabs */}
       <Tabs defaultValue="referrals" className="space-y-4">
         <div className="flex items-center justify-between">
-          <TabsList>
-            <TabsTrigger value="referrals">Referrals</TabsTrigger>
-            <TabsTrigger value="payouts">Payouts</TabsTrigger>
-            <TabsTrigger value="embed">Embed Widget</TabsTrigger>
+          <TabsList className="bg-slate-800/60 border border-slate-700/50">
+            <TabsTrigger value="referrals" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Referrals</TabsTrigger>
+            <TabsTrigger value="payouts" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Payouts</TabsTrigger>
+            <TabsTrigger value="embed" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Embed Widget</TabsTrigger>
           </TabsList>
-          <Button variant="outline" size="sm" onClick={exportReferralsCSV}>
+          <Button variant="outline" size="sm" onClick={exportReferralsCSV} className="border-slate-600 text-slate-300 hover:bg-slate-800">
             <Download className="w-4 h-4 mr-2" />
             Export CSV
           </Button>
         </div>
 
         <TabsContent value="referrals">
-          <Card>
+          <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
             <CardHeader>
-              <CardTitle>Recent Referrals</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-white">Recent Referrals</CardTitle>
+              <CardDescription className="text-slate-400">
                 Businesses that signed up using your referral link
               </CardDescription>
             </CardHeader>
@@ -219,10 +220,10 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
         </TabsContent>
 
         <TabsContent value="payouts">
-          <Card>
+          <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
             <CardHeader>
-              <CardTitle>Payout History</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-white">Payout History</CardTitle>
+              <CardDescription className="text-slate-400">
                 Your earnings withdrawals
               </CardDescription>
             </CardHeader>
@@ -233,13 +234,13 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
         </TabsContent>
 
         <TabsContent value="embed">
-          <Card>
+          <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Code className="w-5 h-5" />
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Code className="w-5 h-5 text-amber-400" />
                 Embed Stats Widget
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-slate-400">
                 Add this widget to your directory site to show your partnership stats
               </CardDescription>
             </CardHeader>
