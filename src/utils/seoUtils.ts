@@ -1,5 +1,5 @@
 // Utility functions for SEO management
-export const BASE_URL = 'https://mansamusamarketplace.com';
+export const BASE_URL = 'https://1325.ai';
 
 // Detect Lovable preview/staging host to avoid indexing
 const isStagingHost = () => {
@@ -99,49 +99,49 @@ export const updateMetaTags = (data: {
   updateMetaTag('og:url', fullUrl);
   updateMetaTag('og:image', fullImageUrl);
   updateMetaTag('og:type', type);
-  updateMetaTag('og:site_name', 'Mansa Musa Marketplace');
+  updateMetaTag('og:site_name', '1325.AI');
   updateNameTag('twitter:url', fullUrl);
   updateNameTag('twitter:image', fullImageUrl);
   updateNameTag('twitter:card', 'summary_large_image');
-  updateNameTag('twitter:site', '@mansamusamktplc');
+  updateNameTag('twitter:site', '@1325ai');
 };
 
 // Pre-defined SEO configurations for common pages
 export const pageSEO = {
   home: {
-    title: 'Mansa Musa Marketplace | Discover Black-Owned Businesses',
-    description: 'Support Black-owned businesses in your community. Find restaurants, services, shops & more. Earn rewards for shopping local.',
-    keywords: ['Black-owned businesses', 'Black business directory', 'support Black businesses', 'local Black entrepreneurs', 'Black-owned restaurants', 'Black-owned shops'],
+    title: '1325.AI | The Economic Operating System for Black-Owned Businesses',
+    description: 'Discover and support verified Black-owned businesses. The AI-powered infrastructure for economic circulation, community wealth, and generational impact.',
+    keywords: ['Black-owned businesses', 'Black business directory', 'economic operating system', 'Black wealth', 'support Black businesses', '1325 AI'],
   },
   directory: {
-    title: 'Black-Owned Business Directory | Mansa Musa Marketplace',
-    description: 'Browse our comprehensive directory of verified Black-owned businesses. Filter by category, location, and ratings to find exactly what you need.',
-    keywords: ['Black business directory', 'Black-owned business list', 'find Black businesses', 'Black entrepreneurs', 'Black-owned companies'],
+    title: '1325.AI Business Directory | Verified Black-Owned Businesses',
+    description: 'The flagship showcase of verified Black-owned businesses. Curated for excellence, powered by community. Find restaurants, services, shops & more.',
+    keywords: ['1325.AI directory', 'Black business directory', 'verified Black businesses', 'Black entrepreneurs', 'Black-owned companies'],
   },
   about: {
-    title: 'About Us | Mansa Musa Marketplace',
-    description: 'Learn how Mansa Musa Marketplace empowers Black-owned businesses through community support, corporate sponsorship, and innovative technology.',
-    keywords: ['about Mansa Musa', 'Black business support', 'economic empowerment', 'Black community', 'Black business mission'],
+    title: 'About 1325.AI | Economic Operating System',
+    description: 'Learn how 1325.AI empowers Black-owned businesses through AI-driven infrastructure, community circulation, and strategic partnerships.',
+    keywords: ['about 1325.AI', 'Black business support', 'economic empowerment', 'Black community', 'economic operating system'],
   },
   howItWorks: {
-    title: 'How It Works | Mansa Musa Marketplace',
-    description: 'Discover how to find, support, and earn rewards from Black-owned businesses. Learn about our loyalty program and verification process.',
-    keywords: ['how it works', 'loyalty rewards', 'Black business rewards', 'earn points', 'support local business'],
+    title: 'How It Works | 1325.AI',
+    description: 'Discover how 1325.AI connects you with verified Black-owned businesses. Learn about our verification process and economic circulation model.',
+    keywords: ['how it works', 'business verification', 'economic circulation', 'community wealth', 'support local business'],
   },
   sponsor: {
-    title: 'Become a Sponsor | Mansa Musa Marketplace',
-    description: 'Partner with Mansa Musa Marketplace to support Black-owned businesses. Corporate sponsorship opportunities for meaningful community impact.',
-    keywords: ['corporate sponsorship', 'sponsor Black businesses', 'DEI initiatives', 'Black business support', 'community investment'],
+    title: 'Become a Sponsor | 1325.AI',
+    description: 'Partner with 1325.AI to fuel Black economic infrastructure. Corporate sponsorship opportunities for meaningful community impact.',
+    keywords: ['corporate sponsorship', 'sponsor Black businesses', 'DEI initiatives', 'Black business infrastructure', 'community investment'],
   },
   ambassador: {
-    title: 'Ambassador Program | Mansa Musa Marketplace',
-    description: 'Join our Ambassador Program and earn commissions by helping Black-owned businesses grow. Get training, support, and exclusive rewards.',
-    keywords: ['ambassador program', 'affiliate marketing', 'earn commissions', 'business referrals', 'community ambassador'],
+    title: '1325 Ambassador Program | 1325.AI',
+    description: 'Join the 1325 Ambassador Program and become the human layer of our Economic Operating System. Earn commissions by growing the network.',
+    keywords: ['1325 ambassador', 'affiliate marketing', 'earn commissions', 'business referrals', 'economic network'],
   },
   register: {
-    title: 'Register Your Business | Mansa Musa Marketplace',
-    description: 'List your Black-owned business on Mansa Musa Marketplace. Get discovered by new customers, manage reviews, and grow your presence.',
-    keywords: ['register business', 'list Black business', 'Black business registration', 'business listing', 'grow Black business'],
+    title: 'Register Your Business | 1325.AI',
+    description: 'Join the 1325.AI Business Directory. Get verified, connect with customers, and become part of the Black economic circulation network.',
+    keywords: ['register business', 'list Black business', 'business verification', 'business listing', 'economic network'],
   },
 };
 
@@ -159,10 +159,10 @@ export const generateBusinessSEO = (business: {
   const location = [business.city, business.state].filter(Boolean).join(', ');
   
   return {
-    title: `${businessName}${location ? ` - ${location}` : ''} | Mansa Musa Marketplace`,
+    title: `${businessName}${location ? ` - ${location}` : ''} | 1325.AI`,
     description: business.description 
       ? business.description.substring(0, 155) + (business.description.length > 155 ? '...' : '')
-      : `Discover ${businessName}, a Black-owned ${business.category || 'business'}${location ? ` in ${location}` : ''}. Read reviews, get directions, and support local Black entrepreneurs.`,
+      : `Discover ${businessName}, a verified Black-owned ${business.category || 'business'}${location ? ` in ${location}` : ''}. Part of the 1325.AI Economic Operating System.`,
     keywords: [
       businessName,
       'Black-owned business',
