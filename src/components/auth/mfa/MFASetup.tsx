@@ -21,7 +21,7 @@ export const MFASetup = () => {
   } = useMFASetup();
 
   return (
-    <Card>
+    <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
       {isEnrolled ? (
         <MFASetupStatus 
           isEnrolled={isEnrolled}
@@ -32,8 +32,8 @@ export const MFASetup = () => {
       ) : (
         <>
           <CardHeader>
-            <CardTitle>Set Up Two-Factor Authentication</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white">Set Up Two-Factor Authentication</CardTitle>
+            <CardDescription className="text-slate-400">
               Add an extra layer of security to your account
             </CardDescription>
           </CardHeader>
