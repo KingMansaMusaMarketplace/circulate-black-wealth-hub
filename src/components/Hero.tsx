@@ -193,45 +193,34 @@ const Hero = () => {
             )}
           </motion.div>
 
-          {/* Compact Wealth Ticker - Inline */}
-          {metrics && (
-            <motion.div
-              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-4 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.35 }}
-            >
-              <div className="flex items-center justify-center gap-6 md:gap-10 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-emerald-500/20">
-                    <DollarSign className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-xs text-blue-200/70">Impact</p>
-                    <p className="text-lg font-bold text-white">${metrics.economic_impact.toLocaleString()}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-blue-500/20">
-                    <Building2 className="w-4 h-4 text-blue-400" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-xs text-blue-200/70">Businesses</p>
-                    <p className="text-lg font-bold text-white">{metrics.businesses_supported}</p>
-                  </div>
-                </div>
-                <div className="hidden sm:flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-mansagold/20">
-                    <TrendingUp className="w-4 h-4 text-mansagold" />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-xs text-blue-200/70">Multiplier</p>
-                    <p className="text-lg font-bold text-mansagold">{metrics.multiplier}x</p>
-                  </div>
-                </div>
+          {/* Beta Phase - Founding Member CTA */}
+          <motion.div
+            className="bg-gradient-to-r from-mansagold/20 via-amber-500/15 to-mansagold/20 backdrop-blur-xl border border-mansagold/40 rounded-2xl p-5 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+          >
+            <div className="flex flex-col items-center gap-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mansagold/30 border border-mansagold/50">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mansagold opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-mansagold"></span>
+                </span>
+                <span className="text-xs font-bold text-mansagold uppercase tracking-wider">Beta Phase</span>
               </div>
-            </motion.div>
-          )}
+              <h3 className="text-lg md:text-xl font-bold text-white text-center">
+                Building the Most Powerful Black Economic Platform
+              </h3>
+              <p className="text-sm md:text-base text-blue-100/80 text-center max-w-lg">
+                Join now as a <span className="text-mansagold font-semibold">Founding Member</span> and lock in exclusive lifetime benefits before the deadline.
+              </p>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="px-3 py-1.5 bg-mansagold/20 border border-mansagold/40 rounded-lg text-sm font-semibold text-mansagold">
+                  ⏰ Deadline: September 1, 2026
+                </span>
+              </div>
+            </div>
+          </motion.div>
 
           {/* Early adopter CTA - Simplified */}
           <motion.div
