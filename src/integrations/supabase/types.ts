@@ -7875,6 +7875,36 @@ export type Database = {
         }
         Relationships: []
       }
+      search_history: {
+        Row: {
+          category: string | null
+          id: string
+          location: string | null
+          results_count: number | null
+          search_term: string
+          searched_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          id?: string
+          location?: string | null
+          results_count?: number | null
+          search_term: string
+          searched_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          id?: string
+          location?: string | null
+          results_count?: number | null
+          search_term?: string
+          searched_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       security_audit_log: {
         Row: {
           action: string
