@@ -4114,7 +4114,10 @@ export type Database = {
           embed_token: string | null
           flat_fee_per_signup: number
           id: string
+          last_payout_date: string | null
           logo_url: string | null
+          minimum_payout_threshold: number
+          payout_frequency: string
           pending_earnings: number
           referral_code: string
           referral_link: string | null
@@ -4140,7 +4143,10 @@ export type Database = {
           embed_token?: string | null
           flat_fee_per_signup?: number
           id?: string
+          last_payout_date?: string | null
           logo_url?: string | null
+          minimum_payout_threshold?: number
+          payout_frequency?: string
           pending_earnings?: number
           referral_code: string
           referral_link?: string | null
@@ -4166,7 +4172,10 @@ export type Database = {
           embed_token?: string | null
           flat_fee_per_signup?: number
           id?: string
+          last_payout_date?: string | null
           logo_url?: string | null
+          minimum_payout_threshold?: number
+          payout_frequency?: string
           pending_earnings?: number
           referral_code?: string
           referral_link?: string | null

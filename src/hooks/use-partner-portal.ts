@@ -164,6 +164,11 @@ export function usePartnerPortal() {
   const requestPayout = async (amount: number, method: string = 'bank_transfer') => {
     try {
       if (!partner) throw new Error('Not a partner');
+      
+      const minimumThreshold = partner.minimum_payout_threshold || 50;
+      if (amount < minimumThreshold) {
+        throw new Error(`Minimum payout amount is $${minimumThreshold.toFixed(2)}`);
+      }
       if (amount > partner.pending_earnings) {
         throw new Error('Insufficient pending earnings');
       }

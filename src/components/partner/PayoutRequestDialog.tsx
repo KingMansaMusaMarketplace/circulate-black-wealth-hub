@@ -17,6 +17,7 @@ interface PayoutRequestDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   pendingAmount: number;
+  minimumThreshold?: number;
   onSubmit: (amount: number, method: string) => Promise<void>;
 }
 
@@ -24,6 +25,7 @@ const PayoutRequestDialog: React.FC<PayoutRequestDialogProps> = ({
   open,
   onOpenChange,
   pendingAmount,
+  minimumThreshold = 50,
   onSubmit,
 }) => {
   const [amount, setAmount] = useState(pendingAmount.toString());
@@ -32,7 +34,7 @@ const PayoutRequestDialog: React.FC<PayoutRequestDialogProps> = ({
 
   const handleSubmit = async () => {
     const numAmount = parseFloat(amount);
-    if (isNaN(numAmount) || numAmount <= 0 || numAmount > pendingAmount) {
+    if (isNaN(numAmount) || numAmount < minimumThreshold || numAmount > pendingAmount) {
       return;
     }
 
@@ -47,8 +49,10 @@ const PayoutRequestDialog: React.FC<PayoutRequestDialogProps> = ({
 
   const isValid = () => {
     const numAmount = parseFloat(amount);
-    return !isNaN(numAmount) && numAmount > 0 && numAmount <= pendingAmount;
+    return !isNaN(numAmount) && numAmount >= minimumThreshold && numAmount <= pendingAmount;
   };
+
+  const isBelowThreshold = pendingAmount < minimumThreshold;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -67,49 +71,70 @@ const PayoutRequestDialog: React.FC<PayoutRequestDialogProps> = ({
           <div className="bg-muted/50 rounded-lg p-4 text-center">
             <p className="text-sm text-muted-foreground">Available Balance</p>
             <p className="text-2xl font-bold text-green-600">${pendingAmount.toFixed(2)}</p>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="amount">Amount to Withdraw</Label>
-            <div className="relative">
-              <span className="absolute left-3 top-2.5 text-muted-foreground">$</span>
-              <Input
-                id="amount"
-                type="number"
-                step="0.01"
-                min="0"
-                max={pendingAmount}
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                className="pl-7"
-              />
-            </div>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-xs"
-              onClick={() => setAmount(pendingAmount.toString())}
-            >
-              Withdraw full balance
-            </Button>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="method">Payout Method</Label>
-            <Select value={method} onValueChange={setMethod}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="bank_transfer">Bank Transfer (ACH)</SelectItem>
-                <SelectItem value="paypal">PayPal</SelectItem>
-                <SelectItem value="check">Check</SelectItem>
-              </SelectContent>
-            </Select>
-            <p className="text-xs text-muted-foreground">
-              Payouts are processed within 5-7 business days.
+            <p className="text-xs text-muted-foreground mt-1">
+              Minimum payout: ${minimumThreshold.toFixed(2)}
             </p>
           </div>
+
+          {isBelowThreshold ? (
+            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 text-center">
+              <p className="text-sm text-amber-600 dark:text-amber-400">
+                Your balance is below the ${minimumThreshold.toFixed(2)} minimum threshold.
+                Keep referring businesses to reach the payout minimum!
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="amount">Amount to Withdraw</Label>
+                <div className="relative">
+                  <span className="absolute left-3 top-2.5 text-muted-foreground">$</span>
+                  <Input
+                    id="amount"
+                    type="number"
+                    step="0.01"
+                    min={minimumThreshold}
+                    max={pendingAmount}
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="pl-7"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="text-xs"
+                    onClick={() => setAmount(pendingAmount.toString())}
+                  >
+                    Withdraw full balance
+                  </Button>
+                  {parseFloat(amount) < minimumThreshold && (
+                    <span className="text-xs text-destructive">
+                      Minimum: ${minimumThreshold.toFixed(2)}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="method">Payout Method</Label>
+                <Select value={method} onValueChange={setMethod}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="bank_transfer">Bank Transfer (ACH)</SelectItem>
+                    <SelectItem value="paypal">PayPal</SelectItem>
+                    <SelectItem value="check">Check</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground">
+                  Payouts are processed monthly within 5-7 business days.
+                </p>
+              </div>
+            </>
+          )}
         </div>
 
         <DialogFooter>
