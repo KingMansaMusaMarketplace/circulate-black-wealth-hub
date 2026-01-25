@@ -209,7 +209,7 @@ const Hero = () => {
                 <span className="text-xs font-bold text-mansagold uppercase tracking-wider">Beta Phase</span>
               </div>
               <h3 className="text-lg md:text-xl font-bold text-white text-center">
-                Building the Most Powerful Black Economic Platform
+                Building the Most Powerful Black Economic Platform — <span className="text-mansagold">1325.AI</span>
               </h3>
               <p className="text-sm md:text-base text-blue-100/80 text-center max-w-lg">
                 Join now as a <span className="text-mansagold font-semibold">Founding Member</span> and lock in exclusive lifetime benefits before the deadline.
