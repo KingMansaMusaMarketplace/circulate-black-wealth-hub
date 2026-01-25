@@ -479,7 +479,7 @@ flowchart TD
     subgraph Trigger["Database Trigger"]
         TRIG[set_founding_member_on_signup<br/>BEFORE INSERT]
         FUNC[set_founding_member_status()]
-        CHECK{created_at <<br/>2026-03-31<br/>23:59:59 UTC?}
+        CHECK{created_at <<br/>2026-09-01<br/>23:59:59 UTC?}
     end
 
     subgraph SetStatus["Status Assignment"]
@@ -527,7 +527,7 @@ flowchart TD
 ```sql
 -- Immutable temporal boundary
 DECLARE
-  v_cutoff_timestamp CONSTANT TIMESTAMP WITH TIME ZONE := '2026-03-31T23:59:59Z';
+  v_cutoff_timestamp CONSTANT TIMESTAMP WITH TIME ZONE := '2026-09-01T23:59:59Z';
 BEGIN
   IF NEW.created_at < v_cutoff_timestamp THEN
     NEW.is_founding_member := true;
