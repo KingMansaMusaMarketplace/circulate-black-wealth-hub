@@ -17,7 +17,7 @@ This document describes the proprietary temporal incentive system that permanent
 
 #### 1. Temporal Cutoff Constant
 ```sql
-'2026-03-31T23:59:59Z'
+'2026-09-01T23:59:59Z'
 ```
 The system monitors the `created_at` timestamp for all entities. Registration before this UTC cutoff qualifies for founding member status.
 
@@ -29,7 +29,7 @@ LANGUAGE plpgsql
 SECURITY DEFINER SET search_path = public
 AS $$
 BEGIN
-  IF NEW.created_at < '2026-03-31T23:59:59Z' THEN
+  IF NEW.created_at < '2026-09-01T23:59:59Z' THEN
     NEW.is_founding_member := true;
     NEW.founding_member_since := NEW.created_at;
   END IF;
