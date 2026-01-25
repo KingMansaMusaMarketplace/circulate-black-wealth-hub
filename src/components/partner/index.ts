@@ -14,3 +14,6 @@ export { default as PartnerInvoicesList } from './invoices/PartnerInvoicesList';
 
 // Settings
 export { default as PartnerSettingsPanel } from './settings/PartnerSettingsPanel';
+
+// FAQ
+export { default as PartnerFAQ } from './PartnerFAQ';

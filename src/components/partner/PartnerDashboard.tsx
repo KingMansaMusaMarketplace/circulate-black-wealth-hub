@@ -6,12 +6,13 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Users, DollarSign, TrendingUp, Copy, Code, Download, 
-  ArrowUpRight, Clock, CheckCircle2, XCircle, Award
+  ArrowUpRight, Clock, CheckCircle2, XCircle, Award, HelpCircle
 } from 'lucide-react';
 import PartnerReferralsTable from './PartnerReferralsTable';
 import PartnerPayoutsTable from './PartnerPayoutsTable';
 import PartnerEmbedWidget from './PartnerEmbedWidget';
 import PayoutRequestDialog from './PayoutRequestDialog';
+import PartnerFAQ from './PartnerFAQ';
 import { format } from 'date-fns';
 
 interface PartnerDashboardProps {
@@ -199,6 +200,10 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
             <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Analytics</TabsTrigger>
             <TabsTrigger value="payouts" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Payouts</TabsTrigger>
             <TabsTrigger value="embed" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Embed Widget</TabsTrigger>
+            <TabsTrigger value="faq" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">
+              <HelpCircle className="w-4 h-4 mr-1" />
+              FAQ
+            </TabsTrigger>
           </TabsList>
           <Button variant="outline" size="sm" onClick={exportReferralsCSV} className="border-slate-600 text-slate-300 hover:bg-slate-800">
             <Download className="w-4 h-4 mr-2" />
@@ -251,6 +256,14 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
                 stats={stats}
                 partnerName={partner.directory_name}
               />
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="faq">
+          <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
+            <CardContent className="pt-6">
+              <PartnerFAQ variant="full" />
             </CardContent>
           </Card>
         </TabsContent>
