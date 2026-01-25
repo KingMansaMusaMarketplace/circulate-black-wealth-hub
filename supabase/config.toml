@@ -212,3 +212,6 @@ verify_jwt = true
 
 [functions.enrich-lead-emails]
 verify_jwt = true
+
+[functions.stripe-partner-webhook]
+verify_jwt = false
