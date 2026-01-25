@@ -4104,19 +4104,25 @@ export type Database = {
         Row: {
           approved_at: string | null
           approved_by: string | null
+          commission_tier: string
           contact_email: string
           contact_phone: string | null
+          cookie_duration_days: number
           created_at: string
           description: string | null
           directory_name: string
           directory_url: string | null
+          email_notifications_enabled: boolean
           embed_enabled: boolean
           embed_token: string | null
           flat_fee_per_signup: number
           id: string
           last_payout_date: string | null
+          leaderboard_opt_in: boolean
+          lifetime_referrals: number
           logo_url: string | null
           minimum_payout_threshold: number
+          monthly_bonus_earned: number
           payout_frequency: string
           pending_earnings: number
           referral_code: string
@@ -4124,6 +4130,7 @@ export type Database = {
           revenue_share_percent: number
           status: Database["public"]["Enums"]["partner_status"]
           tier: Database["public"]["Enums"]["partner_tier"]
+          tier_updated_at: string | null
           total_conversions: number
           total_earnings: number
           total_referrals: number
@@ -4133,19 +4140,25 @@ export type Database = {
         Insert: {
           approved_at?: string | null
           approved_by?: string | null
+          commission_tier?: string
           contact_email: string
           contact_phone?: string | null
+          cookie_duration_days?: number
           created_at?: string
           description?: string | null
           directory_name: string
           directory_url?: string | null
+          email_notifications_enabled?: boolean
           embed_enabled?: boolean
           embed_token?: string | null
           flat_fee_per_signup?: number
           id?: string
           last_payout_date?: string | null
+          leaderboard_opt_in?: boolean
+          lifetime_referrals?: number
           logo_url?: string | null
           minimum_payout_threshold?: number
+          monthly_bonus_earned?: number
           payout_frequency?: string
           pending_earnings?: number
           referral_code: string
@@ -4153,6 +4166,7 @@ export type Database = {
           revenue_share_percent?: number
           status?: Database["public"]["Enums"]["partner_status"]
           tier?: Database["public"]["Enums"]["partner_tier"]
+          tier_updated_at?: string | null
           total_conversions?: number
           total_earnings?: number
           total_referrals?: number
@@ -4162,19 +4176,25 @@ export type Database = {
         Update: {
           approved_at?: string | null
           approved_by?: string | null
+          commission_tier?: string
           contact_email?: string
           contact_phone?: string | null
+          cookie_duration_days?: number
           created_at?: string
           description?: string | null
           directory_name?: string
           directory_url?: string | null
+          email_notifications_enabled?: boolean
           embed_enabled?: boolean
           embed_token?: string | null
           flat_fee_per_signup?: number
           id?: string
           last_payout_date?: string | null
+          leaderboard_opt_in?: boolean
+          lifetime_referrals?: number
           logo_url?: string | null
           minimum_payout_threshold?: number
+          monthly_bonus_earned?: number
           payout_frequency?: string
           pending_earnings?: number
           referral_code?: string
@@ -4182,6 +4202,7 @@ export type Database = {
           revenue_share_percent?: number
           status?: Database["public"]["Enums"]["partner_status"]
           tier?: Database["public"]["Enums"]["partner_tier"]
+          tier_updated_at?: string | null
           total_conversions?: number
           total_earnings?: number
           total_referrals?: number
@@ -5809,6 +5830,33 @@ export type Database = {
         }
         Relationships: []
       }
+      partner_bonus_milestones: {
+        Row: {
+          bonus_amount: number
+          created_at: string
+          id: string
+          is_active: boolean | null
+          milestone_name: string
+          referrals_required: number
+        }
+        Insert: {
+          bonus_amount: number
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          milestone_name: string
+          referrals_required: number
+        }
+        Update: {
+          bonus_amount?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          milestone_name?: string
+          referrals_required?: number
+        }
+        Relationships: []
+      }
       partner_embed_views: {
         Row: {
           embed_token: string
@@ -5840,6 +5888,226 @@ export type Database = {
             columns: ["partner_id"]
             isOneToOne: false
             referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_embed_views_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_leaderboard"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_fraud_log: {
+        Row: {
+          created_at: string
+          details: Json
+          detection_type: string
+          id: string
+          ip_address: unknown
+          is_blocked: boolean | null
+          partner_id: string | null
+          referral_id: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          severity: string
+        }
+        Insert: {
+          created_at?: string
+          details?: Json
+          detection_type: string
+          id?: string
+          ip_address?: unknown
+          is_blocked?: boolean | null
+          partner_id?: string | null
+          referral_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string
+        }
+        Update: {
+          created_at?: string
+          details?: Json
+          detection_type?: string
+          id?: string
+          ip_address?: unknown
+          is_blocked?: boolean | null
+          partner_id?: string | null
+          referral_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          severity?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_fraud_log_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_fraud_log_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_fraud_log_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referrals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_invoices: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          invoice_date: string
+          invoice_number: string
+          line_items: Json
+          partner_details: Json
+          partner_id: string
+          payout_id: string | null
+          pdf_url: string | null
+          status: string
+          tax_amount: number | null
+          total_amount: number
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          invoice_date?: string
+          invoice_number: string
+          line_items?: Json
+          partner_details?: Json
+          partner_id: string
+          payout_id?: string | null
+          pdf_url?: string | null
+          status?: string
+          tax_amount?: number | null
+          total_amount: number
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          invoice_date?: string
+          invoice_number?: string
+          line_items?: Json
+          partner_details?: Json
+          partner_id?: string
+          payout_id?: string | null
+          pdf_url?: string | null
+          status?: string
+          tax_amount?: number | null
+          total_amount?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_invoices_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_invoices_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_invoices_payout_id_fkey"
+            columns: ["payout_id"]
+            isOneToOne: false
+            referencedRelation: "partner_payouts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_link_clicks: {
+        Row: {
+          converted_to_signup: boolean | null
+          country_code: string | null
+          created_at: string
+          device_type: string | null
+          id: string
+          ip_address: unknown
+          landing_page: string | null
+          partner_id: string
+          referer_url: string | null
+          referral_code: string
+          referral_id: string | null
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          converted_to_signup?: boolean | null
+          country_code?: string | null
+          created_at?: string
+          device_type?: string | null
+          id?: string
+          ip_address?: unknown
+          landing_page?: string | null
+          partner_id: string
+          referer_url?: string | null
+          referral_code: string
+          referral_id?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          converted_to_signup?: boolean | null
+          country_code?: string | null
+          created_at?: string
+          device_type?: string | null
+          id?: string
+          ip_address?: unknown
+          landing_page?: string | null
+          partner_id?: string
+          referer_url?: string | null
+          referral_code?: string
+          referral_id?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_link_clicks_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_link_clicks_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_leaderboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_link_clicks_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referrals"
             referencedColumns: ["id"]
           },
         ]
@@ -5892,18 +6160,27 @@ export type Database = {
             referencedRelation: "directory_partners"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "partner_payouts_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_leaderboard"
+            referencedColumns: ["id"]
+          },
         ]
       }
       partner_referrals: {
         Row: {
           conversion_type: string | null
           converted_at: string | null
+          cookie_expires_at: string | null
           created_at: string
           credited_at: string | null
           flat_fee_earned: number
           id: string
           ip_address: unknown
           is_converted: boolean
+          landing_page: string | null
           partner_id: string
           referral_code: string
           referred_business_first_payment_at: string | null
@@ -5917,16 +6194,23 @@ export type Database = {
           total_earned: number
           updated_at: string
           user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
         }
         Insert: {
           conversion_type?: string | null
           converted_at?: string | null
+          cookie_expires_at?: string | null
           created_at?: string
           credited_at?: string | null
           flat_fee_earned?: number
           id?: string
           ip_address?: unknown
           is_converted?: boolean
+          landing_page?: string | null
           partner_id: string
           referral_code: string
           referred_business_first_payment_at?: string | null
@@ -5940,16 +6224,23 @@ export type Database = {
           total_earned?: number
           updated_at?: string
           user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Update: {
           conversion_type?: string | null
           converted_at?: string | null
+          cookie_expires_at?: string | null
           created_at?: string
           credited_at?: string | null
           flat_fee_earned?: number
           id?: string
           ip_address?: unknown
           is_converted?: boolean
+          landing_page?: string | null
           partner_id?: string
           referral_code?: string
           referred_business_first_payment_at?: string | null
@@ -5963,6 +6254,11 @@ export type Database = {
           total_earned?: number
           updated_at?: string
           user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Relationships: [
           {
@@ -5970,6 +6266,13 @@ export type Database = {
             columns: ["partner_id"]
             isOneToOne: false
             referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_referrals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_leaderboard"
             referencedColumns: ["id"]
           },
           {
@@ -10413,6 +10716,23 @@ export type Database = {
           },
         ]
       }
+      partner_leaderboard: {
+        Row: {
+          commission_tier: string | null
+          conversion_rate: number | null
+          created_at: string | null
+          directory_name: string | null
+          earnings_rank: number | null
+          id: string | null
+          lifetime_referrals: number | null
+          logo_url: string | null
+          referrals_rank: number | null
+          total_conversions: number | null
+          total_earnings: number | null
+          total_referrals: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       access_personal_data_secure: {
@@ -10597,6 +10917,7 @@ export type Database = {
       generate_certificate_number: { Args: never; Returns: string }
       generate_claim_token: { Args: { lead_id: string }; Returns: string }
       generate_invoice_number: { Args: never; Returns: string }
+      generate_partner_invoice_number: { Args: never; Returns: string }
       generate_partner_referral_code: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_ticket_number: { Args: never; Returns: string }
@@ -11450,6 +11771,10 @@ export type Database = {
         Returns: string
       }
       update_agent_tier: { Args: { p_agent_id: string }; Returns: undefined }
+      update_partner_commission_tier: {
+        Args: { p_partner_id: string }
+        Returns: undefined
+      }
       update_sentiment_trends: {
         Args: { p_business_id: string; p_period_days?: number }
         Returns: Json
