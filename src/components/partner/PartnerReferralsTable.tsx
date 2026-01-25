@@ -35,30 +35,30 @@ const PartnerReferralsTable: React.FC<PartnerReferralsTableProps> = ({ referrals
     <div className="overflow-x-auto">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Date</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Business Name</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Earned</TableHead>
+          <TableRow className="border-amber-500/30">
+            <TableHead className="text-amber-400 font-semibold">Date</TableHead>
+            <TableHead className="text-amber-400 font-semibold">Email</TableHead>
+            <TableHead className="text-amber-400 font-semibold">Business Name</TableHead>
+            <TableHead className="text-amber-400 font-semibold">Status</TableHead>
+            <TableHead className="text-right text-amber-400 font-semibold">Earned</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {referrals.map((referral) => (
-            <TableRow key={referral.id}>
-              <TableCell className="whitespace-nowrap">
+            <TableRow key={referral.id} className="border-amber-500/20 hover:bg-amber-500/5">
+              <TableCell className="whitespace-nowrap text-amber-100">
                 {format(new Date(referral.created_at), 'MMM d, yyyy')}
               </TableCell>
-              <TableCell className="max-w-[200px] truncate">
+              <TableCell className="max-w-[200px] truncate text-amber-200">
                 {referral.referred_email}
               </TableCell>
-              <TableCell>
-                {referral.referred_business_name || <span className="text-muted-foreground">—</span>}
+              <TableCell className="text-amber-100">
+                {referral.referred_business_name || <span className="text-amber-500/50">—</span>}
               </TableCell>
               <TableCell>
                 {getStatusBadge(referral.status, referral.is_converted)}
               </TableCell>
-              <TableCell className="text-right font-medium">
+              <TableCell className="text-right font-semibold text-amber-300">
                 ${referral.total_earned.toFixed(2)}
               </TableCell>
             </TableRow>
