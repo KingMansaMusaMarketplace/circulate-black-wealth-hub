@@ -80,7 +80,10 @@ export const getUSPTOPatentContent = (): USPTOPatentContent => {
 11. Real-Time Voice AI Bridge Architecture with persona injection and VAD configuration
 12. AI Tool Registry for Voice Concierge with typed Zod validation
 13. Atomic Fraud Alert Batch Insertion using PostgreSQL JSONB array processing
-14. Economic Karma Scoring System for Cerebro-compatible data feeds`,
+14. Economic Karma Scoring System for Cerebro-compatible data feeds
+15-20. Community Finance, Biometric Verification, QR Atomic Check-in, Impact Analytics, Closed-Loop Wallet, Velocity Analytics
+21-26. Partner Referral Attribution System with revenue sharing, Founding Partner tiers, embeddable widgets, analytics, vetting workflows, and multi-tier affiliate network
+27. Automated Partner Marketing Toolkit with dynamic attribution injection, ROI messaging, multi-format collateral generation, and content analytics`,
 
     fieldOfInvention: `The present invention relates generally to electronic commerce platforms and more specifically to a comprehensive multi-tenant vertical marketplace operating system designed to support minority-owned businesses through an integrated ecosystem of:
 
@@ -676,6 +679,271 @@ SELECT
 FROM wallet_transactions
 WHERE user_id = $1
 GROUP BY user_id;`
+      },
+      {
+        number: 21,
+        title: "PARTNER REFERRAL ATTRIBUTION AND REVENUE SHARING SYSTEM",
+        independentClaim: `A computer-implemented partner referral system that tracks attribution, calculates revenue shares, and manages multi-tier partner relationships, comprising:
+
+a) a partner registration mechanism that creates unique partner profiles with: partner_id (UUID), referral_code (unique alphanumeric string), referral_link (platform URL with embedded code), revenue_share_percentage (configurable per partner tier), and directory_name (human-readable slug);
+
+b) an attribution tracking component that captures referral source from: URL query parameters (?ref=CODE), cookie persistence (30-day attribution window), and manual code entry during registration, storing the referring_partner_id on the new user or business profile;
+
+c) a revenue share calculation engine that, upon each subscription payment from a referred user, computes: partner_commission = subscription_amount × partner_revenue_share_percentage, applying tier-based rates (Standard: 10%, Premium: 15%, Elite: 20%);
+
+d) a commission ledger maintaining all earned commissions with: commission_id, partner_id, referred_entity_id, referred_entity_type (user/business), subscription_id, commission_amount, commission_status (pending/approved/paid), and created_at timestamp;
+
+e) a payout request and processing system enabling partners to request withdrawal of accumulated commissions, with minimum payout thresholds, payment method selection (ACH, PayPal, Stripe), and administrative approval workflow;
+
+f) a partner analytics dashboard displaying: total referrals (users and businesses), active subscriptions from referrals, lifetime earnings, pending commissions, and conversion funnel metrics (clicks → signups → paid conversions).`,
+        dependentClaims: [
+          { id: "21.1", text: "The system of Claim 21, wherein the referral code generation uses a combination of partner initials and cryptographically random suffix, creating memorable yet unique codes (e.g., 'TB-7X9K')." },
+          { id: "21.2", text: "The system of Claim 21, wherein the attribution window of 30 days persists across sessions using browser localStorage and first-party cookies, with the original referrer maintained even if the user encounters multiple referral links." },
+          { id: "21.3", text: "The system of Claim 21, wherein recurring subscription payments continue to generate partner commissions for the lifetime of the subscription, creating passive income streams for successful partners." },
+          { id: "21.4", text: "The system of Claim 21, further comprising a partner notification system that sends real-time alerts via email and in-app notifications when: new referral signs up, referral converts to paid, commission is approved, and payout is processed." }
+        ],
+        technicalImplementation: `-- Partner commission calculation trigger
+CREATE OR REPLACE FUNCTION calculate_partner_commission()
+RETURNS TRIGGER AS $$
+DECLARE
+  v_partner_id UUID;
+  v_revenue_share DECIMAL;
+  v_commission DECIMAL;
+BEGIN
+  -- Get referring partner from the subscriber's profile
+  SELECT referring_partner_id INTO v_partner_id
+  FROM profiles WHERE id = NEW.user_id;
+  
+  IF v_partner_id IS NOT NULL THEN
+    -- Get partner's revenue share percentage
+    SELECT revenue_share_percentage INTO v_revenue_share
+    FROM partners WHERE id = v_partner_id;
+    
+    -- Calculate commission
+    v_commission := NEW.amount * (v_revenue_share / 100);
+    
+    -- Insert commission record
+    INSERT INTO partner_commissions (partner_id, subscription_id, amount, status)
+    VALUES (v_partner_id, NEW.id, v_commission, 'pending');
+  END IF;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;`
+      },
+      {
+        number: 22,
+        title: "FOUNDING PARTNER TIER SYSTEM WITH IMMUTABLE BENEFITS",
+        independentClaim: `A temporal partner incentive system that permanently designates early-enrolled partners as "Founding Partners" with enhanced lifetime benefits, comprising:
+
+a) a Founding Partner eligibility determination mechanism implemented as a database trigger that compares partner enrollment timestamp against a predetermined cutoff constant (September 1, 2026, 23:59:59 UTC);
+
+b) automatic assignment of is_founding_partner boolean flag to TRUE for partners enrolling before the cutoff, with founding_partner_since timestamp preserving the exact enrollment moment;
+
+c) enhanced revenue share rates for Founding Partners: 15% base rate (vs. 10% standard), 20% Premium tier (vs. 15%), 25% Elite tier (vs. 20%), representing a permanent 5% uplift across all tiers;
+
+d) immutability enforcement through database-level constraint triggers that prevent any modification, revocation, or downgrade of Founding Partner status through application interfaces, administrative actions, or direct database manipulation;
+
+e) exclusive Founding Partner benefits including: priority support queue, early access to new features, invitation to annual partner summit, distinguished badge display on partner profiles and directories;
+
+f) legacy protection ensuring Founding Partner status persists across: account migrations, platform version upgrades, tier changes, and any future partner program restructuring.`,
+        dependentClaims: [
+          { id: "22.1", text: "The system of Claim 22, wherein the Founding Partner designation integrates with the Temporal Founding Member Status System (Claim 1), providing both partner-level and user-level founding benefits for individuals who qualify for both." },
+          { id: "22.2", text: "The system of Claim 22, wherein Founding Partner status is prominently displayed in the public partner directory, providing social proof and prestige that incentivizes early enrollment." },
+          { id: "22.3", text: "The system of Claim 22, further comprising a Founding Partner certificate generation system that produces downloadable PDF certificates commemorating founding status for marketing and promotional use." }
+        ],
+        technicalImplementation: `-- Founding Partner status trigger
+CREATE OR REPLACE FUNCTION set_founding_partner_status()
+RETURNS TRIGGER AS $$
+DECLARE
+  v_founding_cutoff CONSTANT TIMESTAMP WITH TIME ZONE := '2026-09-01T23:59:59Z';
+BEGIN
+  IF NEW.created_at < v_founding_cutoff THEN
+    NEW.is_founding_partner := true;
+    NEW.founding_partner_since := NEW.created_at;
+    NEW.revenue_share_percentage := NEW.revenue_share_percentage + 5; -- 5% founding bonus
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;`
+      },
+      {
+        number: 23,
+        title: "EMBEDDABLE PARTNER WIDGET AND REFERRAL TRACKING SYSTEM",
+        independentClaim: `A system for generating and tracking embeddable referral widgets that partners can deploy on external websites, comprising:
+
+a) a widget generation component that produces embeddable HTML/JavaScript code snippets customized with: partner referral code, partner directory name, configurable widget styles (colors, sizes, layouts), and tracking parameters;
+
+b) multiple widget format options including: banner advertisements (various IAB standard sizes), call-to-action buttons, floating badges, inline text links, and QR codes that encode the partner's referral URL;
+
+c) a widget rendering engine that fetches real-time platform data including: current promotional offers, partner-specific messaging, and dynamic call-to-action text based on visitor context;
+
+d) cross-domain tracking integration using postMessage API and first-party proxy endpoints to maintain referral attribution when visitors navigate from partner websites to the platform;
+
+e) widget analytics tracking: impressions (widget views), clicks (interaction count), click-through rate, conversions (signups from widget), and attribution accuracy metrics;
+
+f) a widget management dashboard where partners can: generate new widgets, preview widget appearance, copy embed codes, view widget-specific analytics, and A/B test different widget configurations.`,
+        dependentClaims: [
+          { id: "23.1", text: "The system of Claim 23, wherein widgets are served from a CDN-cached edge function ensuring minimal load time impact on partner websites." },
+          { id: "23.2", text: "The system of Claim 23, wherein widget styles automatically adapt to light/dark mode based on the host page's color scheme using CSS media queries." },
+          { id: "23.3", text: "The system of Claim 23, wherein QR code widgets integrate with the QR Code Atomic Check-in System (Claim 17) to enable physical-world referral tracking at partner business locations." }
+        ]
+      },
+      {
+        number: 24,
+        title: "PARTNER PERFORMANCE ANALYTICS AND LEADERBOARD SYSTEM",
+        independentClaim: `A comprehensive analytics and gamification system for tracking, comparing, and incentivizing partner performance, comprising:
+
+a) a real-time analytics engine that calculates partner performance metrics including: total referrals (lifetime and periodic), conversion rate (signups to paid), average revenue per referral, total earnings, and growth trajectory;
+
+b) a partner leaderboard system that ranks partners by configurable metrics (total referrals, conversion rate, earnings) with: global rankings, regional rankings, tier-specific rankings, and time-period rankings (weekly, monthly, all-time);
+
+c) a gamification layer that awards achievement badges for partner milestones: First Referral, 10 Referrals, 100 Referrals, $1,000 Earned, Top 10 Monthly, Conversion Champion (highest conversion rate), and Streak Master (consecutive months with referrals);
+
+d) a performance trend analysis component showing: month-over-month growth, seasonal patterns, funnel stage performance, and comparison to cohort averages;
+
+e) an earnings projection calculator that estimates future earnings based on: current referral rate, historical conversion rates, average subscription value, and partner tier benefits;
+
+f) an export and reporting system generating downloadable reports (PDF, CSV, Excel) for: tax documentation, business planning, and performance reviews.`,
+        dependentClaims: [
+          { id: "24.1", text: "The system of Claim 24, wherein leaderboard rankings are updated in real-time using Supabase real-time subscriptions, enabling partners to see their position change immediately upon new referral activity." },
+          { id: "24.2", text: "The system of Claim 24, wherein achievement badges integrate with the Agent Badges System (Claim 7) for partners who are also sales agents, creating unified gamification across partner roles." },
+          { id: "24.3", text: "The system of Claim 24, further comprising a partner comparison tool allowing partners to anonymously benchmark their performance against aggregate statistics of similar partners (same tier, same tenure, same region)." }
+        ]
+      },
+      {
+        number: 25,
+        title: "PARTNER VETTING AND QUALITY ASSURANCE WORKFLOW",
+        independentClaim: `A systematic partner application and vetting process ensuring partner quality and platform alignment, comprising:
+
+a) a partner application form collecting: business/individual information, website/social media presence, audience demographics, marketing approach description, referral volume estimates, and acknowledgment of partner terms;
+
+b) an automated pre-screening component that validates: email domain authenticity, website existence and content quality, social media account verification, and absence from platform blacklists;
+
+c) an administrative review queue presenting pending applications with: applicant summary, automated screening results, risk indicators, and approve/reject/request-more-info action buttons;
+
+d) a conditional approval system supporting: immediate approval (meets all criteria), probationary approval (limited referral volume until proven), and tiered activation (unlocking features as trust is established);
+
+e) an ongoing quality monitoring system that tracks: referral quality (conversion rates, churn rates of referred users), compliance with partner guidelines, customer complaint correlation, and fraud indicators;
+
+f) an escalation and remediation workflow that: flags underperforming or problematic partners, initiates warning notifications, implements temporary restrictions, and processes termination for policy violations.`,
+        dependentClaims: [
+          { id: "25.1", text: "The system of Claim 25, wherein the automated pre-screening integrates with external verification services to validate business registration status and tax identification numbers." },
+          { id: "25.2", text: "The system of Claim 25, wherein the quality monitoring system correlates partner referral patterns with the Geospatial Velocity Fraud Detection System (Claim 4) to identify partners potentially involved in fraudulent referral schemes." },
+          { id: "25.3", text: "The system of Claim 25, further comprising a partner feedback loop where referred users can rate their referral experience, providing quality signals for partner evaluation." }
+        ]
+      },
+      {
+        number: 26,
+        title: "MULTI-TIER PARTNER AFFILIATE NETWORK",
+        independentClaim: `A hierarchical partner network enabling multi-level referral relationships and override commissions, comprising:
+
+a) a partner recruitment tracking system that records when one partner refers another partner to join the program, establishing a recruited_by_partner_id relationship;
+
+b) a recruitment bonus mechanism that awards a one-time bonus to recruiting partners when their recruited partners achieve activation milestones (e.g., first paid referral);
+
+c) an override commission structure wherein recruiting partners receive a percentage of their recruited partners' earnings: 5% of direct recruit earnings, 2% of second-level recruit earnings, capped at two levels to prevent pyramid dynamics;
+
+d) a downline visualization component displaying: recruited partner tree, downline performance metrics, override earnings by level, and inactive recruit indicators;
+
+e) anti-pyramid safeguards including: requirement that override earnings never exceed direct referral earnings, caps on total override percentage, and prohibition on purchase requirements for partner enrollment;
+
+f) a compliance monitoring system that ensures the partner network adheres to FTC guidelines for multi-level marketing programs, with automatic flagging of structures that approach regulatory boundaries.`,
+        dependentClaims: [
+          { id: "26.1", text: "The system of Claim 26, wherein the override commission calculation occurs automatically upon each commission payment to recruited partners, crediting recruiting partners in the same payment batch." },
+          { id: "26.2", text: "The system of Claim 26, wherein the partner tree visualization integrates with Partner Performance Analytics (Claim 24) to show aggregate downline performance metrics alongside individual partner data." },
+          { id: "26.3", text: "The system of Claim 26, further comprising a 'promote to partner' feature allowing existing users or sales agents to upgrade to partner status while maintaining their referral relationships from the Agent Network (Claim 7)." }
+        ],
+        technicalImplementation: `-- Calculate override commissions for partner hierarchy
+CREATE OR REPLACE FUNCTION calculate_override_commissions()
+RETURNS TRIGGER AS $$
+DECLARE
+  v_level1_partner_id UUID;
+  v_level2_partner_id UUID;
+BEGIN
+  -- Get direct recruiter (level 1)
+  SELECT recruited_by_partner_id INTO v_level1_partner_id
+  FROM partners WHERE id = NEW.partner_id;
+  
+  IF v_level1_partner_id IS NOT NULL THEN
+    -- Award 5% override to level 1
+    INSERT INTO partner_overrides (recruiter_id, earner_id, commission_id, override_rate, override_amount)
+    VALUES (v_level1_partner_id, NEW.partner_id, NEW.id, 0.05, NEW.amount * 0.05);
+    
+    -- Get level 2 recruiter
+    SELECT recruited_by_partner_id INTO v_level2_partner_id
+    FROM partners WHERE id = v_level1_partner_id;
+    
+    IF v_level2_partner_id IS NOT NULL THEN
+      -- Award 2% override to level 2
+      INSERT INTO partner_overrides (recruiter_id, earner_id, commission_id, override_rate, override_amount)
+      VALUES (v_level2_partner_id, NEW.partner_id, NEW.id, 0.02, NEW.amount * 0.02);
+    END IF;
+  END IF;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;`
+      },
+      {
+        number: 27,
+        title: "AUTOMATED PARTNER MARKETING TOOLKIT WITH DYNAMIC ATTRIBUTION INJECTION",
+        independentClaim: `A computer-implemented system for generating, personalizing, and distributing marketing materials that automatically embed partner attribution data across multiple channels and formats, comprising:
+
+a) a marketing content generation engine that produces pre-formatted, brand-compliant promotional materials including: email templates with subject lines and body copy, social media posts optimized for each platform (LinkedIn, Twitter/X, Facebook, Instagram), and website embed code snippets;
+
+b) a dynamic attribution injection mechanism that automatically personalizes all generated content with partner-specific data including: referral code, referral URL, partner directory name, custom partner messaging, and partner contact information, using template variable substitution;
+
+c) an ROI messaging calculator that computes and inserts personalized value propositions based on platform economics: monthly cost savings ($700 value → $100 cost = $600 savings), annual savings projection, and comparison to traditional alternatives;
+
+d) a multi-format collateral generator producing: printable PDF flyers with embedded QR codes linking to partner referral URLs, professional one-pagers for in-person distribution, and digital banner advertisements in standard IAB sizes;
+
+e) a talking points and script generator that creates: phone/conversation talking points with objection handling, video script templates for partner-created promotional content, and success story templates with fill-in-the-blank formatting for testimonial collection;
+
+f) a digital welcome kit bundler that packages: partner onboarding guide, platform overview materials, target audience profiles, and promotional best practices into a downloadable resource package;
+
+g) a content analytics layer tracking: material downloads, share events, click-through rates from generated materials, and conversion attribution to specific content pieces.`,
+        dependentClaims: [
+          { id: "27.1", text: "The system of Claim 27, wherein the email template generator produces platform-specific formatted content for major email service providers (Gmail, Outlook, Apple Mail) with responsive design for mobile viewing." },
+          { id: "27.2", text: "The system of Claim 27, wherein social media posts include platform-optimized hashtags, character counts within platform limits, and image size recommendations for maximum engagement." },
+          { id: "27.3", text: "The system of Claim 27, wherein printable flyers integrate with the QR Code System (Claim 17) to enable scan-based attribution tracking from physical marketing materials." },
+          { id: "27.4", text: "The system of Claim 27, wherein the talking points generator uses AI (similar to Claim 5) to customize messaging based on target industry, audience demographics, and partner's previous successful conversion patterns." },
+          { id: "27.5", text: "The system of Claim 27, wherein the success story template integrates with the Community Impact Analytics Engine (Claim 18) to auto-populate quantified impact metrics for referred businesses." },
+          { id: "27.6", text: "The system of Claim 27, further comprising a content versioning system that tracks material updates, notifies partners of new content availability, and maintains archive of previously generated materials for compliance purposes." }
+        ],
+        technicalImplementation: `// Partner Marketing Content Generation
+interface PartnerMarketingContent {
+  emailTemplates: EmailTemplate[];
+  socialPosts: SocialPost[];
+  printableMaterials: PrintableMaterial[];
+  talkingPoints: TalkingPoint[];
+  videoScripts: VideoScript[];
+}
+
+function generatePartnerContent(partner: Partner): PartnerMarketingContent {
+  const attribution = {
+    referralCode: partner.referral_code,
+    referralUrl: \`https://platform.com/?ref=\${partner.referral_code}\`,
+    directoryName: partner.directory_name,
+    partnerName: partner.display_name
+  };
+  
+  const roiCalculation = {
+    monthlyValue: 700,
+    monthlyCost: 100,
+    monthlySavings: 600,
+    annualSavings: 7200,
+    roiMultiplier: 7 // $700/$100 = 7x value
+  };
+  
+  return {
+    emailTemplates: generateEmailTemplates(attribution, roiCalculation),
+    socialPosts: generateSocialPosts(attribution, roiCalculation),
+    printableMaterials: generatePrintables(attribution, roiCalculation),
+    talkingPoints: generateTalkingPoints(roiCalculation),
+    videoScripts: generateVideoScripts(attribution, roiCalculation)
+  };
+}`
       }
     ],
 
@@ -684,7 +952,7 @@ GROUP BY user_id;`
       { constant: "REACH_MULTIPLIER", value: "10", location: "calculate-sponsor-impact", claim: "Claim 2" },
       { constant: "COMMISSION_RATE", value: "7.5%", location: "process-qr-transaction", claim: "Claim 9" },
       { constant: "POINTS_PER_DOLLAR", value: "10", location: "process-qr-transaction", claim: "Claim 9" },
-      { constant: "FOUNDING_CUTOFF", value: "2026-09-01T23:59:59Z", location: "Database migration", claim: "Claim 1" },
+      { constant: "FOUNDING_CUTOFF", value: "2026-09-01T23:59:59Z", location: "Database migration", claim: "Claim 1, 22" },
       { constant: "FRAUD_VELOCITY_THRESHOLD", value: "600 mph", location: "detect-fraud", claim: "Claim 4" },
       { constant: "RACE_CONDITION_WINDOW", value: "500ms", location: "detect-fraud transaction queue", claim: "Claim 4.5" },
       { constant: "KARMA_DECAY_RATE", value: "5% monthly", location: "economic-karma cron job", claim: "Claim 14" },
@@ -694,7 +962,14 @@ GROUP BY user_id;`
       { constant: "SCAN_PROXIMITY_THRESHOLD", value: "500 meters", location: "qr-fraud-detection", claim: "Claim 17.3" },
       { constant: "AVERAGE_LOCAL_WAGE", value: "$45,000/year", location: "jobs-impact-calculation", claim: "Claim 18" },
       { constant: "WALLET_MIN_CASHOUT", value: "$10", location: "withdrawal-requests", claim: "Claim 19" },
-      { constant: "WALLET_CASHOUT_FEE", value: "2%", location: "withdrawal-requests", claim: "Claim 19.3" }
+      { constant: "WALLET_CASHOUT_FEE", value: "2%", location: "withdrawal-requests", claim: "Claim 19.3" },
+      { constant: "PARTNER_ATTRIBUTION_WINDOW", value: "30 days", location: "partner-referral-tracking", claim: "Claim 21" },
+      { constant: "PARTNER_STANDARD_RATE", value: "10%", location: "partner-commission-calculation", claim: "Claim 21" },
+      { constant: "PARTNER_FOUNDING_BONUS", value: "5%", location: "founding-partner-trigger", claim: "Claim 22" },
+      { constant: "PARTNER_OVERRIDE_L1", value: "5%", location: "partner-override-calculation", claim: "Claim 26" },
+      { constant: "PARTNER_OVERRIDE_L2", value: "2%", location: "partner-override-calculation", claim: "Claim 26" },
+      { constant: "PARTNER_ROI_VALUE", value: "$700/mo", location: "marketing-toolkit-generator", claim: "Claim 27" },
+      { constant: "PARTNER_ROI_COST", value: "$100/mo", location: "marketing-toolkit-generator", claim: "Claim 27" }
     ],
 
     technologyMatrix: [
@@ -710,7 +985,9 @@ GROUP BY user_id;`
       { technology: "Susu/ROSCA System (Claim 15)", equivalents: "Any rotating savings mechanism including blockchain-based savings circles, smart contract escrow systems, DeFi lending pools with rotating distribution, mobile money chit funds, any digital implementation of traditional community savings" },
       { technology: "Biometric Authentication (Claim 16)", equivalents: "Any biometric verification method including FaceID, TouchID, fingerprint sensors, iris scanning, voice recognition, behavioral biometrics, any hardware security module (HSM) based authentication" },
       { technology: "Closed-Loop Wallet (Claim 19)", equivalents: "Any digital wallet system with restricted redemption including prepaid cards, store credit systems, loyalty currency wallets, stablecoin ecosystems, any closed-loop payment network" },
-      { technology: "Circulation Velocity Analytics (Claim 20)", equivalents: "Any economic flow tracking system including blockchain transaction analysis, money velocity metrics, working capital cycle analysis, any system measuring fund circulation frequency within a defined ecosystem" }
+      { technology: "Circulation Velocity Analytics (Claim 20)", equivalents: "Any economic flow tracking system including blockchain transaction analysis, money velocity metrics, working capital cycle analysis, any system measuring fund circulation frequency within a defined ecosystem" },
+      { technology: "Partner Referral Attribution (Claims 21-26)", equivalents: "Any affiliate tracking system including cookie-based attribution, UTM parameter tracking, referral code systems, influencer marketing platforms, affiliate networks, multi-level marketing software" },
+      { technology: "Partner Marketing Toolkit (Claim 27)", equivalents: "Any marketing automation system including HubSpot, Marketo, Mailchimp, brand asset management platforms, content generation engines, AI-powered marketing copy generators" }
     ],
 
     pctLanguage: "This provisional application expressly preserves priority rights for international filing under the Patent Cooperation Treaty (PCT) within 12 months of the filing date. The inventor reserves the right to file corresponding applications in all PCT member states.",
@@ -747,7 +1024,7 @@ GROUP BY user_id;`
 
     filingChecklist: [
       { document: "Specification (this document)", status: "READY" },
-      { document: "Formal Claims (20 independent + 43 dependent)", status: "READY" },
+      { document: "Formal Claims (27 independent + 56 dependent)", status: "READY" },
       { document: "System Diagrams", status: "READY" },
       { document: "Abstract", status: "READY" },
       { document: "Inventor Declaration", status: "PENDING SIGNATURE" },
