@@ -12,7 +12,7 @@ const Logo: React.FC = () => {
           className="w-full h-full object-cover"
         />
       </div>
-      <span className="text-xl font-mono font-bold tracking-wider text-mansagold transition-colors duration-300">1325.AI</span>
+      <span className="text-xl font-mono font-bold tracking-wider text-mansagold transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">1325.AI</span>
     </Link>
   );
 };
