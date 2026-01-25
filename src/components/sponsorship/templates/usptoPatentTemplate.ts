@@ -175,7 +175,7 @@ f) persisting said founding member status across all account modifications inclu
           { id: "1.4", text: "The method of Claim 1, wherein the founding_member_since timestamp is used to establish tiered founding member classifications based on registration order, including \"First 100,\" \"First 1,000,\" and \"First 10,000\" designations, each with progressively differentiated benefit packages." }
         ],
         technicalImplementation: `DECLARE
-  v_cutoff_timestamp CONSTANT TIMESTAMP WITH TIME ZONE := '2026-03-31T23:59:59Z';
+  v_cutoff_timestamp CONSTANT TIMESTAMP WITH TIME ZONE := '2026-09-01T23:59:59Z';
 BEGIN
   IF NEW.created_at < v_cutoff_timestamp THEN
     NEW.is_founding_member := true;
@@ -684,7 +684,7 @@ GROUP BY user_id;`
       { constant: "REACH_MULTIPLIER", value: "10", location: "calculate-sponsor-impact", claim: "Claim 2" },
       { constant: "COMMISSION_RATE", value: "7.5%", location: "process-qr-transaction", claim: "Claim 9" },
       { constant: "POINTS_PER_DOLLAR", value: "10", location: "process-qr-transaction", claim: "Claim 9" },
-      { constant: "FOUNDING_CUTOFF", value: "2026-03-31T23:59:59Z", location: "Database migration", claim: "Claim 1" },
+      { constant: "FOUNDING_CUTOFF", value: "2026-09-01T23:59:59Z", location: "Database migration", claim: "Claim 1" },
       { constant: "FRAUD_VELOCITY_THRESHOLD", value: "600 mph", location: "detect-fraud", claim: "Claim 4" },
       { constant: "RACE_CONDITION_WINDOW", value: "500ms", location: "detect-fraud transaction queue", claim: "Claim 4.5" },
       { constant: "KARMA_DECAY_RATE", value: "5% monthly", location: "economic-karma cron job", claim: "Claim 14" },
