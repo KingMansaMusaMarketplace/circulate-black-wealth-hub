@@ -4100,6 +4100,87 @@ export type Database = {
         }
         Relationships: []
       }
+      directory_partners: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          contact_email: string
+          contact_phone: string | null
+          created_at: string
+          description: string | null
+          directory_name: string
+          directory_url: string | null
+          embed_enabled: boolean
+          embed_token: string | null
+          flat_fee_per_signup: number
+          id: string
+          logo_url: string | null
+          pending_earnings: number
+          referral_code: string
+          referral_link: string | null
+          revenue_share_percent: number
+          status: Database["public"]["Enums"]["partner_status"]
+          tier: Database["public"]["Enums"]["partner_tier"]
+          total_conversions: number
+          total_earnings: number
+          total_referrals: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          contact_email: string
+          contact_phone?: string | null
+          created_at?: string
+          description?: string | null
+          directory_name: string
+          directory_url?: string | null
+          embed_enabled?: boolean
+          embed_token?: string | null
+          flat_fee_per_signup?: number
+          id?: string
+          logo_url?: string | null
+          pending_earnings?: number
+          referral_code: string
+          referral_link?: string | null
+          revenue_share_percent?: number
+          status?: Database["public"]["Enums"]["partner_status"]
+          tier?: Database["public"]["Enums"]["partner_tier"]
+          total_conversions?: number
+          total_earnings?: number
+          total_referrals?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          contact_email?: string
+          contact_phone?: string | null
+          created_at?: string
+          description?: string | null
+          directory_name?: string
+          directory_url?: string | null
+          embed_enabled?: boolean
+          embed_token?: string | null
+          flat_fee_per_signup?: number
+          id?: string
+          logo_url?: string | null
+          pending_earnings?: number
+          referral_code?: string
+          referral_link?: string | null
+          revenue_share_percent?: number
+          status?: Database["public"]["Enums"]["partner_status"]
+          tier?: Database["public"]["Enums"]["partner_tier"]
+          total_conversions?: number
+          total_earnings?: number
+          total_referrals?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       email_events: {
         Row: {
           created_at: string
@@ -5718,6 +5799,186 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      partner_embed_views: {
+        Row: {
+          embed_token: string
+          id: string
+          ip_address: unknown
+          partner_id: string
+          referrer_url: string | null
+          viewed_at: string
+        }
+        Insert: {
+          embed_token: string
+          id?: string
+          ip_address?: unknown
+          partner_id: string
+          referrer_url?: string | null
+          viewed_at?: string
+        }
+        Update: {
+          embed_token?: string
+          id?: string
+          ip_address?: unknown
+          partner_id?: string
+          referrer_url?: string | null
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_embed_views_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_payouts: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          notes: string | null
+          partner_id: string
+          payment_reference: string | null
+          payout_method: string
+          processed_at: string | null
+          processed_by: string | null
+          requested_at: string
+          status: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          partner_id: string
+          payment_reference?: string | null
+          payout_method?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string
+          status?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          notes?: string | null
+          partner_id?: string
+          payment_reference?: string | null
+          payout_method?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_payouts_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      partner_referrals: {
+        Row: {
+          conversion_type: string | null
+          converted_at: string | null
+          created_at: string
+          credited_at: string | null
+          flat_fee_earned: number
+          id: string
+          ip_address: unknown
+          is_converted: boolean
+          partner_id: string
+          referral_code: string
+          referred_business_id: string | null
+          referred_business_name: string | null
+          referred_email: string
+          referred_user_id: string | null
+          revenue_share_earned: number
+          status: string
+          total_earned: number
+          updated_at: string
+          user_agent: string | null
+        }
+        Insert: {
+          conversion_type?: string | null
+          converted_at?: string | null
+          created_at?: string
+          credited_at?: string | null
+          flat_fee_earned?: number
+          id?: string
+          ip_address?: unknown
+          is_converted?: boolean
+          partner_id: string
+          referral_code: string
+          referred_business_id?: string | null
+          referred_business_name?: string | null
+          referred_email: string
+          referred_user_id?: string | null
+          revenue_share_earned?: number
+          status?: string
+          total_earned?: number
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Update: {
+          conversion_type?: string | null
+          converted_at?: string | null
+          created_at?: string
+          credited_at?: string | null
+          flat_fee_earned?: number
+          id?: string
+          ip_address?: unknown
+          is_converted?: boolean
+          partner_id?: string
+          referral_code?: string
+          referred_business_id?: string | null
+          referred_business_name?: string | null
+          referred_email?: string
+          referred_user_id?: string | null
+          revenue_share_earned?: number
+          status?: string
+          total_earned?: number
+          updated_at?: string
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_referrals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_referrals_referred_business_id_fkey"
+            columns: ["referred_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_referrals_referred_business_id_fkey"
+            columns: ["referred_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_referrals_referred_business_id_fkey"
+            columns: ["referred_business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       payment_batches: {
         Row: {
@@ -10317,6 +10578,7 @@ export type Database = {
       generate_certificate_number: { Args: never; Returns: string }
       generate_claim_token: { Args: { lead_id: string }; Returns: string }
       generate_invoice_number: { Args: never; Returns: string }
+      generate_partner_referral_code: { Args: never; Returns: string }
       generate_referral_code: { Args: never; Returns: string }
       generate_ticket_number: { Args: never; Returns: string }
       generate_white_label_api_key: {
@@ -11195,6 +11457,8 @@ export type Database = {
         | "qr_codes"
         | "videos"
         | "documents"
+      partner_status: "pending" | "active" | "suspended" | "inactive"
+      partner_tier: "founding" | "premium" | "standard"
       subscription_tier: "free" | "paid" | "business_starter"
       user_role: "customer" | "business" | "admin" | "sales_agent"
     }
@@ -11337,6 +11601,8 @@ export const Constants = {
         "videos",
         "documents",
       ],
+      partner_status: ["pending", "active", "suspended", "inactive"],
+      partner_tier: ["founding", "premium", "standard"],
       subscription_tier: ["free", "paid", "business_starter"],
       user_role: ["customer", "business", "admin", "sales_agent"],
     },

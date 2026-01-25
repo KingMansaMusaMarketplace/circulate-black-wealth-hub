@@ -1,0 +1,56 @@
+import React from 'react';
+import { usePartnerPortal } from '@/hooks/use-partner-portal';
+import PartnerDashboard from '@/components/partner/PartnerDashboard';
+import PartnerApplicationForm from '@/components/partner/PartnerApplicationForm';
+import { Loader2 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Navigate } from 'react-router-dom';
+
+const PartnerPortal: React.FC = () => {
+  const { user, loading: authLoading } = useAuth();
+  const { partner, stats, referrals, payouts, loading, isPartner, applyAsPartner, requestPayout, copyReferralLink, getEmbedCode } = usePartnerPortal();
+
+  if (authLoading || loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  if (!isPartner) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="container max-w-2xl mx-auto py-12 px-4">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-2">Become a Directory Partner</h1>
+            <p className="text-muted-foreground">
+              Earn revenue by referring businesses from your directory to 1325.ai
+            </p>
+          </div>
+          <PartnerApplicationForm onSubmit={applyAsPartner} />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <PartnerDashboard
+        partner={partner!}
+        stats={stats!}
+        referrals={referrals}
+        payouts={payouts}
+        onCopyReferralLink={copyReferralLink}
+        onRequestPayout={requestPayout}
+        getEmbedCode={getEmbedCode}
+      />
+    </div>
+  );
+};
+
+export default PartnerPortal;
