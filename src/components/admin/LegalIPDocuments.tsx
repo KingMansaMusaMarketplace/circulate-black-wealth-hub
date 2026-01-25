@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Scale, FileText, FileCheck, ClipboardList, Network, Calendar, 
   Download, ExternalLink, Shield, Globe, CheckCircle2, Clock, 
-  AlertCircle, BookOpen, Gavel, Users
+  AlertCircle, BookOpen, Gavel, Users, LayoutGrid
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,7 @@ import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import USPTOPatentExport from '@/components/sponsorship/USPTOPatentExport';
 import PatentFeatureSummary from '@/components/legal/PatentFeatureSummary';
+import PatentPortfolioVisualization from '@/components/admin/PatentPortfolioVisualization';
 import { toast } from 'sonner';
 
 // Patent claim data for the status tracker
@@ -169,7 +170,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">26</p>
+              <p className="text-3xl font-bold text-mansagold">27</p>
               <p className="text-xs text-blue-200/60">Independent Claims</p>
             </div>
           </CardContent>
@@ -177,7 +178,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">50+</p>
+              <p className="text-3xl font-bold text-mansagold">56+</p>
               <p className="text-xs text-blue-200/60">Dependent Claims</p>
             </div>
           </CardContent>
@@ -185,7 +186,7 @@ const LegalIPDocuments: React.FC = () => {
         <Card className="bg-white/5 border-white/10">
           <CardContent className="pt-4">
             <div className="text-center">
-              <p className="text-3xl font-bold text-mansagold">15</p>
+              <p className="text-3xl font-bold text-mansagold">22</p>
               <p className="text-xs text-blue-200/60">Protected Constants</p>
             </div>
           </CardContent>
@@ -226,6 +227,10 @@ const LegalIPDocuments: React.FC = () => {
           <TabsTrigger value="partner-system" className="data-[state=active]:bg-amber-500/20 data-[state=active]:text-amber-400 text-amber-300">
             <Users className="h-4 w-4 mr-2" />
             Partner System (NEW)
+          </TabsTrigger>
+          <TabsTrigger value="portfolio" className="data-[state=active]:bg-indigo-500/20 data-[state=active]:text-indigo-400">
+            <LayoutGrid className="h-4 w-4 mr-2" />
+            Portfolio View
           </TabsTrigger>
         </TabsList>
 
@@ -554,6 +559,11 @@ const LegalIPDocuments: React.FC = () => {
         {/* Partner System Tab - NEW */}
         <TabsContent value="partner-system">
           <PatentFeatureSummary />
+        </TabsContent>
+
+        {/* Portfolio Visualization Tab */}
+        <TabsContent value="portfolio">
+          <PatentPortfolioVisualization />
         </TabsContent>
       </Tabs>
     </div>
