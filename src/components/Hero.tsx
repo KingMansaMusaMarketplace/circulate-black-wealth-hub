@@ -83,8 +83,8 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.05 }}
           >
-            <span className="text-mansagold font-display text-lg md:text-xl font-bold tracking-tight">
-              1325.ai
+            <span className="text-mansagold font-mono text-lg md:text-xl font-bold tracking-wider">
+              1325.AI
             </span>
             <span className="text-white/60 mx-2">—</span>
             <span className="text-white/80 text-sm md:text-base">
