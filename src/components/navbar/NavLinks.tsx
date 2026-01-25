@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Sparkles, FolderOpen, Heart, Award, Zap, Bot, FileText, Store, Globe, CircleDollarSign } from 'lucide-react';
+import { GraduationCap, Users, TrendingUp, Scan, Gift, Building2, BookOpen, HelpCircle, Sparkles, FolderOpen, Heart, Award, Zap, Bot, FileText, Store, Globe, CircleDollarSign, Handshake } from 'lucide-react';
 
 const NavLinks: React.FC = () => {
   const linkClassName = "text-foreground hover:text-mansagold transition-all duration-300 font-semibold px-3 py-2 rounded-md hover:bg-accent/50 relative after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:bg-mansagold after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100";
@@ -35,6 +35,13 @@ const NavLinks: React.FC = () => {
           <Link to="/impact" className={`${goldLinkClassName} flex items-center gap-1.5`}>
             <Heart className="h-4 w-4 text-red-500 fill-red-500" />
             Impact
+          </Link>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
+          <Link to="/partner-portal" className={`${goldLinkClassName} flex items-center gap-1.5 bg-mansagold/10 border border-mansagold/20 rounded-md`}>
+            <Handshake className="h-4 w-4 text-mansagold" />
+            Partner Program
           </Link>
         </NavigationMenuItem>
 
