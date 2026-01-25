@@ -63,7 +63,7 @@ const PartnerApplicationForm: React.FC<PartnerApplicationFormProps> = ({ onSubmi
               name="directory_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-amber-400">Directory Name *</FormLabel>
+                  <FormLabel className="text-amber-400 font-semibold">Directory Name *</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Building2 className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -80,7 +80,7 @@ const PartnerApplicationForm: React.FC<PartnerApplicationFormProps> = ({ onSubmi
               name="directory_url"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-amber-400">Directory Website</FormLabel>
+                  <FormLabel className="text-amber-400 font-semibold">Directory Website</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -98,7 +98,7 @@ const PartnerApplicationForm: React.FC<PartnerApplicationFormProps> = ({ onSubmi
               name="contact_email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-amber-400">Contact Email *</FormLabel>
+                  <FormLabel className="text-amber-400 font-semibold">Contact Email *</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -115,7 +115,7 @@ const PartnerApplicationForm: React.FC<PartnerApplicationFormProps> = ({ onSubmi
               name="contact_phone"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-amber-400">Contact Phone</FormLabel>
+                  <FormLabel className="text-amber-400 font-semibold">Contact Phone</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -132,7 +132,7 @@ const PartnerApplicationForm: React.FC<PartnerApplicationFormProps> = ({ onSubmi
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-amber-400">About Your Directory</FormLabel>
+                  <FormLabel className="text-amber-400 font-semibold">About Your Directory</FormLabel>
                   <FormControl>
                     <div className="relative">
                       <FileText className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
