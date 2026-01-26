@@ -34,7 +34,7 @@ const Logo: React.FC = () => {
               className="w-full max-w-md object-contain animate-scale-in"
             />
             <p className="text-mansagold font-mono text-lg tracking-wider text-center">
-              The Future of Black Digital Commerce | AI
+              The Future of Digital Commerce | AI
             </p>
           </div>
         </DialogContent>
