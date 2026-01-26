@@ -218,7 +218,7 @@ const AccessibilityPage: React.FC = () => {
               <div className="space-y-3">
                 <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-3">
                   <p className="text-sm text-white/80">
-                    <strong className="text-mansagold">📧 Email:</strong> contact@mansamusamarketplace.com
+                    <strong className="text-mansagold">📧 Email:</strong> Thomas@1325.AI
                   </p>
                 </div>
                 <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-lg p-3">
@@ -240,7 +240,7 @@ const AccessibilityPage: React.FC = () => {
                 We continuously improve our accessibility. Your feedback helps us build a more inclusive platform.
               </p>
               <a 
-                href="mailto:contact@mansamusamarketplace.com?subject=Accessibility Feedback"
+                href="mailto:Thomas@1325.AI?subject=Accessibility Feedback"
                 className="w-full"
               >
                 <Button 

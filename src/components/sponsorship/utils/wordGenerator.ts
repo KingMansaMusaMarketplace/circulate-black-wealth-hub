@@ -298,7 +298,7 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
         }),
         new Paragraph({
           children: [
-            new TextRun({ text: "Email: contact@mansamusamarketplace.com", size: 24 }),
+            new TextRun({ text: "Email: Thomas@1325.AI", size: 24 }),
           ],
           alignment: AlignmentType.CENTER,
           spacing: { after: 100 },
