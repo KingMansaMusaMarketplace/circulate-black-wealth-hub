@@ -25,7 +25,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
+import logo1325 from '@/assets/1325-ai-logo.png';
 import {
   generateBrandAssets,
   generateMediaKit,
@@ -150,8 +150,8 @@ const MediaKitPage = () => {
             className="text-center mb-16"
           >
             <div className="flex justify-center mb-6">
-              <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-mansagold shadow-2xl shadow-mansagold/30 bg-white/10 backdrop-blur-sm">
-                <img src={mansaMusaLogo} alt="Mansa Musa Marketplace" className="w-full h-full object-cover" />
+              <div className="w-24 h-24">
+                <img src={logo1325} alt="1325.AI" className="w-full h-full object-contain" />
               </div>
             </div>
             <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30 mb-4 text-sm px-4 py-1">
