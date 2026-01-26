@@ -8,7 +8,7 @@ const Logo: React.FC = () => {
       <img 
         src={logo1325} 
         alt="1325.AI" 
-        className="h-10 w-auto object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)]"
+        className="h-14 w-auto object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)]"
       />
     </Link>
   );
