@@ -19,7 +19,25 @@ import { useBusinessOnboarding } from '@/hooks/useBusinessOnboarding';
 
 export const BusinessHelpSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState('getting-started');
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
   const { resetOnboarding } = useBusinessOnboarding();
+
+  const toggleExpanded = (sectionIndex: number, itemIndex: number) => {
+    const key = `${sectionIndex}-${itemIndex}`;
+    setExpandedItems(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(key)) {
+        newSet.delete(key);
+      } else {
+        newSet.add(key);
+      }
+      return newSet;
+    });
+  };
+
+  const isExpanded = (sectionIndex: number, itemIndex: number) => {
+    return expandedItems.has(`${sectionIndex}-${itemIndex}`);
+  };
 
   const handleStartTutorial = () => {
     resetOnboarding();
@@ -105,8 +123,8 @@ export const BusinessHelpSection: React.FC = () => {
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="getting-started">Getting Started</TabsTrigger>
-          <TabsTrigger value="qr-codes-loyalty">QR & Loyalty</TabsTrigger>
-          <TabsTrigger value="analytics-growth">Analytics & Growth</TabsTrigger>
+          <TabsTrigger value="qr-codes---loyalty">QR & Loyalty</TabsTrigger>
+          <TabsTrigger value="analytics---growth">Analytics & Growth</TabsTrigger>
           <TabsTrigger value="faq">FAQ</TabsTrigger>
         </TabsList>
 
@@ -124,23 +142,35 @@ export const BusinessHelpSection: React.FC = () => {
                 </div>
                 
                 <div className="grid gap-4">
-                  {section.items.map((item, itemIndex) => (
-                    <Card key={itemIndex} className="hover:shadow-md transition-shadow">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="flex items-center justify-between">
-                          <span className="text-lg">{item.title}</span>
-                          <Badge variant="secondary">Business Guide</Badge>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="pt-0">
-                        <p className="text-gray-600 mb-4">{item.description}</p>
-                        <Button variant="outline" size="sm">
-                          Read More
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {section.items.map((item, itemIndex) => {
+                    const expanded = isExpanded(sectionIndex, itemIndex);
+                    return (
+                      <Card key={itemIndex} className="hover:shadow-md transition-shadow">
+                        <CardHeader className="pb-3">
+                          <CardTitle className="flex items-center justify-between">
+                            <span className="text-lg">{item.title}</span>
+                            <Badge variant="secondary">Business Guide</Badge>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <p className="text-gray-600 mb-4">{item.description}</p>
+                          {expanded && (
+                            <div className="p-4 bg-gray-50 rounded-lg mb-4 text-gray-600">
+                              <p>Detailed guide coming soon. Contact our business support team for personalized assistance.</p>
+                            </div>
+                          )}
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => toggleExpanded(sectionIndex, itemIndex)}
+                          >
+                            {expanded ? 'Show Less' : 'Read More'}
+                            <ArrowRight className={`w-4 h-4 ml-2 transition-transform ${expanded ? 'rotate-90' : ''}`} />
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               </div>
             </TabsContent>
