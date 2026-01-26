@@ -133,17 +133,24 @@ REVIEWS & RATINGS:
 - Average ratings displayed on business listings
 
 SUSU SAVINGS CIRCLES:
-- Traditional African rotating savings practice digitized
-- Groups of members contribute monthly
-- Each member takes turns receiving the full pot
-- Built-in accountability and community support
-- Financial literacy education integrated
+- Traditional African rotating savings practice - fully digitized and modernized
+- Groups of members contribute weekly or monthly, take turns receiving the full pot
+- 1.5% platform fee for secure escrow and transaction processing
+- Funds held in patent-protected secure escrow until payout day
+- Create circles, invite friends and family, set contribution amounts
+- Real-time round tracking with progress visualization
+- Built-in accountability with transparent member contributions
+- Community-based saving with trust and support
 
-COMMUNITY FEATURES:
-- Group challenges for collective savings goals
-- Community events calendar
-- Impact tracking - see your contribution to economic circulation
-- Leaderboards for top supporters
+ECONOMIC KARMA SYSTEM:
+- Score measuring user's positive impact on Black economic ecosystem
+- Earn Karma by: shopping at Black businesses, referring friends, joining Susu circles
+- 5% monthly decay keeps engagement active - encourages continued participation  
+- Minimum floor of 10 points - users never hit zero
+- Leaderboards showing top community contributors
+- Higher Karma unlocks better AI recommendations and exclusive perks
+- Personalized tips for boosting your Karma score
+- Gamified economic empowerment - making community impact fun!
 
 ===== VIRAL REFERRAL SYSTEM (NEW!) =====
 
@@ -186,10 +193,33 @@ BUSINESS CLAIMING:
 - Secure claim token verification
 - Easy onboarding flow for claimed businesses
 
-===== SPONSOR CRM SYSTEM (NEW!) =====
+===== PARTNER PROGRAM (Directory Partners) =====
+
+PARTNER REFERRAL SYSTEM:
+- Directory owners and community leaders can become partners
+- Earn $5 flat fee for each business that signs up through partner's referral link
+- 10% recurring revenue share on all paid subscription upgrades - for life!
+- "Founding Partner" status for those who join before September 1, 2026
+- Founding Partners get locked-in premium benefits and recognition
+
+PARTNER EARNINGS & PAYOUTS:
+- $50 minimum threshold for monthly payouts
+- Track clicks, conversions, and earnings in real-time dashboard
+- Commission tiers based on performance: Bronze → Silver → Gold → Platinum
+- Full payout history and analytics
+
+PARTNER MARKETING HUB:
+- Auto-branded marketing materials with partner's referral link injected
+- Digital Welcome Kit, Email Templates, Social Media Assets
+- Embeddable Banners and Widgets for partner websites
+- Printable Flyers and Talking Points Cards
+- Video Script Templates and Success Story Templates
+- All materials automatically personalized with partner attribution
+
+===== SPONSOR CRM SYSTEM =====
 
 SPONSOR PROSPECT MANAGEMENT:
-- Track potential corporate sponsors
+- Track potential corporate sponsors through sales pipeline
 - Lead stages: prospect, contacted, meeting_scheduled, proposal_sent, negotiating, won, lost
 - Engagement scoring based on interactions
 - Notes and activity history for each prospect
@@ -200,7 +230,7 @@ SPONSORSHIP OUTREACH:
 - Sponsorship tier recommendations (Bronze, Silver, Gold, Platinum)
 - Follow-up reminders and scheduling
 
-===== B2B MARKETPLACE (NEW!) =====
+===== B2B MARKETPLACE =====
 
 BUSINESS-TO-BUSINESS CONNECTIONS:
 - Connect Black-owned businesses with each other

@@ -150,11 +150,45 @@ The marketplace is designed to build, protect, and expand the Black economic eco
 2. **Business Directory** - Find verified Black-owned businesses by category and location
 3. **Rewards System** - Earn points, unlock achievements, track streaks, climb leaderboards
 4. **Booking System** - Full appointment scheduling with secure payment processing (2.5% platform fee)
-5. **Savings Circles (Susu)** - Traditional African rotating savings practice digitized
-6. **AI Recommendations** - Personalized business suggestions
-7. **Reviews & Ratings** - 5-star system with AI-powered sentiment analysis
+5. **AI Recommendations** - Personalized business suggestions
+6. **Reviews & Ratings** - 5-star system with AI-powered sentiment analysis
 
-**NEW FEATURES:**
+**PARTNER PROGRAM (Directory Partners):**
+- Directory owners become partners and earn revenue by referring businesses
+- $5 flat fee per successful business signup through partner's referral link
+- 10% recurring revenue share on paid subscription upgrades
+- "Founding Partner" status for partners joining before September 1, 2026
+- $50 minimum threshold for monthly payouts
+- Partner Marketing Hub with auto-branded materials (flyers, banners, email templates, social assets)
+- Tiered commission system: Bronze → Silver → Gold → Platinum based on performance
+- Full dashboard with analytics: clicks, conversions, earnings, payout history
+- Embeddable widgets and banners for partner websites
+
+**SUSU SAVINGS CIRCLES:**
+- Traditional African rotating savings practice - digitized and modernized
+- Group members contribute monthly, take turns receiving the full pot
+- 1.5% platform fee for secure escrow and transaction processing
+- Funds held in secure patent-protected escrow system
+- Create circles, invite friends, set contribution amounts and frequency
+- Real-time round tracking with progress visualization
+- Payout scheduling based on circle frequency (weekly, monthly, etc.)
+- Built-in accountability with transparent member contributions
+
+**ECONOMIC KARMA:**
+- Score measuring user's impact on Black economic ecosystem
+- Earn Karma by: shopping at Black businesses, referring friends, joining Susu circles, community activity
+- 5% monthly decay keeps engagement active - encourages continued participation
+- Minimum floor of 10 points - users never hit zero
+- Leaderboards showing top community contributors
+- Higher Karma unlocks better recommendations and exclusive perks
+- Karma history visualization with trend charts
+- Personalized tips for boosting Karma score
+
+**CLOSED-LOOP WALLET:**
+- Internal wallet system for Susu payouts and business spending
+- Spend balance at participating businesses or request cash-out
+- 2% withdrawal fee, $10 minimum for cash-outs
+- All transactions logged in audit trail
 
 **Viral Referral System:**
 - Time-limited referral campaigns with milestone rewards
@@ -162,28 +196,11 @@ The marketplace is designed to build, protect, and expand the Black economic eco
 - Leaderboards showing top referrers
 - Automatic reward distribution
 
-**Automated Business Discovery:**
-- AI-powered discovery of Black-owned businesses via web search
-- Lead validation: website reachability, phone format checking, data quality scoring
-- Bulk email invitation campaigns to discovered businesses
-- Business claiming with secure token verification
-
-**Sponsor CRM:**
-- Track potential corporate sponsors through sales pipeline
-- Lead stages: prospect → contacted → meeting → proposal → negotiating → won/lost
-- Professional proposal generation
-- Engagement scoring and activity tracking
-
 **B2B Marketplace:**
 - Business-to-business connections between Black-owned businesses
 - Supplier/buyer matching based on capabilities and needs
 - B2B messaging and reviews
 - Transaction tracking
-
-**Onboarding Tours:**
-- Guided walkthroughs for customers, business owners, and sales agents
-- Interactive feature introductions
-- Role-based help centers
 
 **USER TYPES:**
 - **Customers** - Browse businesses, scan QR codes, earn rewards
