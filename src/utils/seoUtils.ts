@@ -110,38 +110,38 @@ export const updateMetaTags = (data: {
 export const pageSEO = {
   home: {
     title: '1325.AI | The Economic Operating System for Black-Owned Businesses',
-    description: 'Discover and support verified Black-owned businesses. The AI-powered infrastructure for economic circulation, community wealth, and generational impact.',
-    keywords: ['Black-owned businesses', 'Black business directory', 'economic operating system', 'Black wealth', 'support Black businesses', '1325 AI'],
+    description: 'AI-powered Economic Operating System extending Black dollar circulation beyond 6 hours. Discover businesses, earn rewards, build wealth.',
+    keywords: ['economic operating system', 'Black-owned businesses', 'economic infrastructure', 'IaaS', 'economic rails', 'Black wealth circulation', '1325 AI'],
   },
   directory: {
-    title: '1325.AI Business Directory | Verified Black-Owned Businesses',
-    description: 'The flagship showcase of verified Black-owned businesses. Curated for excellence, powered by community. Find restaurants, services, shops & more.',
-    keywords: ['1325.AI directory', 'Black business directory', 'verified Black businesses', 'Black entrepreneurs', 'Black-owned companies'],
+    title: '1325.AI Business Directory | The Flagship Data Layer',
+    description: 'The flagship data layer of verified Black-owned businesses. Curated for excellence, powered by AI infrastructure. Restaurants, services, shops & more.',
+    keywords: ['1325.AI directory', 'economic data layer', 'verified Black businesses', 'business infrastructure', 'Black-owned companies'],
   },
   about: {
-    title: 'About 1325.AI | Economic Operating System',
-    description: 'Learn how 1325.AI empowers Black-owned businesses through AI-driven infrastructure, community circulation, and strategic partnerships.',
-    keywords: ['about 1325.AI', 'Black business support', 'economic empowerment', 'Black community', 'economic operating system'],
+    title: 'About 1325.AI | Economic Infrastructure Protocol',
+    description: '1325.AI is the Economic Operating System — infrastructure protocol for circulating Black dollars intentionally, systemically, and sustainably.',
+    keywords: ['about 1325.AI', 'economic infrastructure', 'IaaS', 'economic protocol', 'economic operating system'],
   },
   howItWorks: {
-    title: 'How It Works | 1325.AI',
-    description: 'Discover how 1325.AI connects you with verified Black-owned businesses. Learn about our verification process and economic circulation model.',
-    keywords: ['how it works', 'business verification', 'economic circulation', 'community wealth', 'support local business'],
+    title: 'How It Works | 1325.AI Economic Infrastructure',
+    description: 'Discover how 1325.AI infrastructure connects you with verified Black-owned businesses. Learn about our economic rails and circulation protocol.',
+    keywords: ['how it works', 'economic infrastructure', 'circulation protocol', 'economic rails', 'support local business'],
   },
   sponsor: {
-    title: 'Become a Sponsor | 1325.AI',
-    description: 'Partner with 1325.AI to fuel Black economic infrastructure. Corporate sponsorship opportunities for meaningful community impact.',
-    keywords: ['corporate sponsorship', 'sponsor Black businesses', 'DEI initiatives', 'Black business infrastructure', 'community investment'],
+    title: 'Infrastructure Investment | 1325.AI Sponsorship',
+    description: 'Invest in the economic infrastructure of Black business. Corporate sponsorship opportunities for patent-protected, AI-powered economic rails.',
+    keywords: ['infrastructure investment', 'sponsor economic rails', 'DEI infrastructure', 'Black business infrastructure', 'economic sponsorship'],
   },
   ambassador: {
-    title: '1325 Ambassador Program | 1325.AI',
-    description: 'Join the 1325 Ambassador Program and become the human layer of our Economic Operating System. Earn commissions by growing the network.',
-    keywords: ['1325 ambassador', 'affiliate marketing', 'earn commissions', 'business referrals', 'economic network'],
+    title: '1325 Ambassador Program | Human Layer of Infrastructure',
+    description: 'Join the 1325 Ambassador Program and become the human layer of our Economic Operating System. Earn commissions by growing the infrastructure network.',
+    keywords: ['1325 ambassador', 'infrastructure network', 'earn commissions', 'economic network', 'human infrastructure layer'],
   },
   register: {
-    title: 'Register Your Business | 1325.AI',
-    description: 'Join the 1325.AI Business Directory. Get verified, connect with customers, and become part of the Black economic circulation network.',
-    keywords: ['register business', 'list Black business', 'business verification', 'business listing', 'economic network'],
+    title: 'Register Your Business | 1325.AI Infrastructure',
+    description: 'Join the 1325.AI Economic Infrastructure. Get verified, connect with customers, and become part of the patent-protected economic circulation network.',
+    keywords: ['register business', 'join infrastructure', 'business verification', 'economic network', 'infrastructure listing'],
   },
 };
 

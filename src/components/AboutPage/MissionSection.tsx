@@ -48,9 +48,9 @@ const MissionSection = () => {
                     1
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Circulation Infrastructure</h4>
+                    <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Economic Rails</h4>
                     <p className="text-gray-700 font-medium">
-                      Build the digital bridges necessary to support intentional economic behavior.
+                      Build the patent-protected infrastructure necessary to support intentional economic behavior.
                     </p>
                   </div>
                 </li>
@@ -84,22 +84,22 @@ const MissionSection = () => {
                     4
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Data Ownership</h4>
+                    <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">Data Ownership Moat</h4>
                     <p className="text-gray-600">
-                      Ensure that the community owns its own economic behavioral data — not outside platforms.
+                      Ensure that the community owns its own economic behavioral data — the competitive moat that outside platforms cannot replicate.
                     </p>
                   </div>
                 </li>
                 
-                <li className="flex">
-                  <div className="bg-mansagold/20 text-mansagold rounded-full w-8 h-8 flex items-center justify-center mr-4 flex-shrink-0">
+                <li className="flex group">
+                  <div className="bg-gradient-to-br from-mansagold to-amber-500 text-mansablue-dark rounded-full w-10 h-10 flex items-center justify-center mr-4 flex-shrink-0 font-bold shadow-md group-hover:scale-110 transition-transform duration-300">
                     5
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg mb-1">Legacy Engineering</h4>
+                    <h4 className="font-bold text-lg mb-1 bg-gradient-to-r from-mansagold-dark to-amber-600 bg-clip-text text-transparent">Legacy Engineering</h4>
                     <p className="text-gray-600">
-                      Position Mansa Musa Marketplace as an educational, economic, and cultural pillar
-                      that teaches future generations how intentional systems are built and sustained.
+                      Position 1325.AI as an educational, economic, and cultural pillar
+                      that teaches future generations how intentional infrastructure is built and sustained.
                     </p>
                   </div>
                 </li>

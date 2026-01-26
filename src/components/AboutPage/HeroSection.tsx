@@ -51,10 +51,10 @@ const HeroSection = () => {
           <div className="w-24 h-1 bg-gradient-to-r from-mansagold via-amber-500 to-yellow-500 mx-auto mb-8 rounded-full shadow-lg"></div>
           
           <h1 className="heading-lg text-white mb-6 bg-gradient-to-r from-white via-amber-100 to-white bg-clip-text text-transparent animate-fade-in">
-            Building the Future of Black Wealth Circulation
+            The Economic Operating System
           </h1>
           <p className="text-white/90 text-lg mb-10 relative leading-relaxed font-medium">
-            Mansa Musa Marketplace was never designed as just an app. It's the infrastructure blueprint for circulating 
+            1325.AI is the Economic Operating System — the infrastructure protocol for circulating 
             Black dollars intentionally, systemically, and sustainably across generations.
             
             {/* Small decorative element */}

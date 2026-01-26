@@ -100,8 +100,8 @@ const InvestorPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-mansablue-dark via-[hsl(210,100%,12%)] to-[hsl(210,100%,8%)]">
       <Helmet>
-        <title>Investor Overview - Mansa Musa Marketplace | Economic Infrastructure for Black Business</title>
-        <meta name="description" content="Mansa Musa Marketplace: Full-stack economic infrastructure for the Black business economy. We own the ledger, the supply chain, and the consumer intelligence." />
+        <title>Investor Overview | 1325.AI Economic Infrastructure (IaaS)</title>
+        <meta name="description" content="1325.AI: Full-stack economic infrastructure (IaaS) for the Black business economy. Patent-protected data rails including transaction ledger, supply chain graph, and AI intelligence layer." />
       </Helmet>
 
       {/* Hero Section */}
@@ -113,10 +113,16 @@ const InvestorPage: React.FC = () => {
 
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <Badge className="mb-6 bg-mansagold/20 text-mansagold border-mansagold/30 text-sm px-4 py-2">
-              <Database className="w-4 h-4 mr-2" />
-              Full-Stack Economic Infrastructure
-            </Badge>
+            <div className="flex flex-wrap gap-3 justify-center mb-6">
+              <Badge className="bg-mansagold/20 text-mansagold border-mansagold/30 text-sm px-4 py-2">
+                <Database className="w-4 h-4 mr-2" />
+                IaaS Economic Infrastructure
+              </Badge>
+              <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-sm px-4 py-2">
+                <Shield className="w-4 h-4 mr-2" />
+                27 Patent Claims Filed
+              </Badge>
+            </div>
             <h1 className="text-5xl md:text-7xl font-black mb-8 leading-tight">
               <span className="text-white">We Don't Just Know Where</span>
               <br />
