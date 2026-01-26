@@ -9,7 +9,7 @@ export const siteConfig = {
   
   // Brand identity
   name: '1325.ai',
-  tagline: 'The Intelligence Layer for Black Economic Power',
+  tagline: 'The Future of Black Digital Commerce | AI',
   description: 'AI-powered protocol connecting consumers with Black-owned businesses, enabling wealth circulation and economic empowerment through intelligent discovery and rewards.',
   
   // Legacy brand (for transition period)

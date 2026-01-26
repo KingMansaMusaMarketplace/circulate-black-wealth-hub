@@ -30,11 +30,11 @@ const Logo: React.FC = () => {
           <div className="flex flex-col items-center gap-6">
             <img 
               src={logo1325} 
-              alt="1325.AI - The Intelligence Layer for Black Economic Power" 
+              alt="1325.AI - The Future of Black Digital Commerce | AI" 
               className="w-full max-w-md object-contain animate-scale-in"
             />
             <p className="text-mansagold font-mono text-lg tracking-wider text-center">
-              The Intelligence Layer for Black Economic Power
+              The Future of Black Digital Commerce | AI
             </p>
           </div>
         </DialogContent>
