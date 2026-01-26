@@ -1,15 +1,17 @@
 
 import React, { useState } from 'react';
-import { FileText, FileDown, Scale, Shield } from 'lucide-react';
+import { FileText, FileDown, Scale, Shield, ClipboardList } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { generateUSPTOPatentWordDoc, generateUSPTOPatentPDF } from './services/pdfGenerationService';
+import { generateClaimRevisionDocument } from './utils/claimRevisionExport';
 
 export const USPTOPatentExport: React.FC = () => {
   const [isGeneratingWord, setIsGeneratingWord] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [isGeneratingRevision, setIsGeneratingRevision] = useState(false);
 
   const handleDownloadWord = async () => {
     setIsGeneratingWord(true);
@@ -30,6 +32,17 @@ export const USPTOPatentExport: React.FC = () => {
       console.error('Error generating USPTO PDF:', error);
     } finally {
       setIsGeneratingPDF(false);
+    }
+  };
+
+  const handleDownloadRevisionStrategy = async () => {
+    setIsGeneratingRevision(true);
+    try {
+      await generateClaimRevisionDocument();
+    } catch (error) {
+      console.error('Error generating claim revision document:', error);
+    } finally {
+      setIsGeneratingRevision(false);
     }
   };
 
@@ -114,6 +127,17 @@ export const USPTOPatentExport: React.FC = () => {
             {isGeneratingPDF ? 'Generating...' : 'Download PDF'}
           </Button>
         </div>
+
+        {/* Claim Revision Strategy Button */}
+        <Button 
+          onClick={handleDownloadRevisionStrategy}
+          disabled={isGeneratingRevision}
+          variant="secondary"
+          className="w-full"
+        >
+          <ClipboardList className="mr-2 h-4 w-4" />
+          {isGeneratingRevision ? 'Generating...' : 'Download Claim Revision Strategy (Non-Provisional)'}
+        </Button>
 
         {/* Filing Note */}
         <p className="text-xs text-muted-foreground text-center">
