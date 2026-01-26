@@ -9,7 +9,7 @@ export const siteConfig = {
   
   // Brand identity
   name: '1325.ai',
-  tagline: 'The Future of Digital Commerce | AI',
+  tagline: 'Building the Future of Digital Commerce | AI',
   description: 'AI-powered protocol connecting consumers with Black-owned businesses, enabling wealth circulation and economic empowerment through intelligent discovery and rewards.',
   
   // Legacy brand (for transition period)
