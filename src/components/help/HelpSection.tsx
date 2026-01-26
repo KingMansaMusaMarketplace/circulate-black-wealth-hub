@@ -138,8 +138,8 @@ export const HelpSection: React.FC = () => {
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-4 bg-slate-800/60 backdrop-blur-xl border border-white/10 p-1">
           <TabsTrigger value="getting-started" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansablue data-[state=active]:to-blue-600 data-[state=active]:text-white font-semibold text-blue-200">Getting Started</TabsTrigger>
-          <TabsTrigger value="earning--rewards" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-500 data-[state=active]:text-slate-900 font-semibold text-blue-200">Earning & Rewards</TabsTrigger>
-          <TabsTrigger value="account--privacy" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-blue-700 data-[state=active]:text-white font-semibold text-blue-200">Account & Privacy</TabsTrigger>
+          <TabsTrigger value="earning---rewards" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-500 data-[state=active]:text-slate-900 font-semibold text-blue-200">Earning & Rewards</TabsTrigger>
+          <TabsTrigger value="account---privacy" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-blue-700 data-[state=active]:text-white font-semibold text-blue-200">Account & Privacy</TabsTrigger>
           <TabsTrigger value="faq" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-mansagold data-[state=active]:to-amber-600 data-[state=active]:text-slate-900 font-semibold text-blue-200">FAQ</TabsTrigger>
         </TabsList>
 
