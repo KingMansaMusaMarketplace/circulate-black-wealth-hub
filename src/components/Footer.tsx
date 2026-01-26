@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
-import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
+import logo1325 from '@/assets/1325-ai-logo.png';
 import { useCapacitor } from '@/hooks/use-capacitor';
 import { SponsorLogoGrid } from '@/components/sponsors/SponsorLogoGrid';
 
@@ -54,11 +54,11 @@ const Footer = () => {
           {/* Company Info */}
           <motion.div variants={itemVariants} className="col-span-1 md:col-span-2 bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10 shadow-xl">
             <div className="flex items-center mb-4 group">
-              <div className="w-14 h-14 rounded-full overflow-hidden border-3 border-mansagold mr-3 shadow-2xl bg-white/20 backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:shadow-mansagold/50">
+              <div className="w-16 h-16 mr-3 transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)]">
                 <img 
-                  src={mansaMusaLogo} 
-                  alt="Mansa Musa Marketplace" 
-                  className="w-full h-full object-cover"
+                  src={logo1325} 
+                  alt="1325.AI" 
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
