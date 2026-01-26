@@ -293,7 +293,7 @@ export const getInvestorAnalysisContent = (): string => {
         <h2 style="font-size: 20px; color: #ffffff; margin-bottom: 20px; font-weight: bold;">CONTACT INFORMATION</h2>
         <p style="font-size: 18px; margin-bottom: 10px; font-weight: bold; color: #ffffff;">Thomas D. Bowling</p>
         <p style="font-size: 14px; margin-bottom: 5px; color: #ffffff;">Founder & CEO</p>
-        <p style="font-size: 14px; margin-bottom: 5px; color: #ffffff;"><strong>Email:</strong> contact@mansamusamarketplace.com</p>
+        <p style="font-size: 14px; margin-bottom: 5px; color: #ffffff;"><strong>Email:</strong> Thomas@1325.AI</p>
         <p style="font-size: 14px; margin-bottom: 0; color: #ffffff;"><strong>Phone:</strong> 312.709.6006</p>
       </div>
 
