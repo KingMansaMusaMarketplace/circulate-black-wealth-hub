@@ -1,18 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import mansaMusaLogo from '@/assets/mansa-musa-logo.png';
+import logo1325 from '@/assets/1325-ai-logo.png';
 
 const Logo: React.FC = () => {
   return (
     <Link to="/" className="flex items-center gap-3 group">
-      <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-mansagold/30 shadow-md bg-white/10 backdrop-blur-sm transition-all duration-300 group-hover:scale-105 group-hover:border-mansagold/50 group-hover:shadow-lg">
-        <img 
-          src={mansaMusaLogo} 
-          alt="1325.AI" 
-          className="w-full h-full object-cover"
-        />
-      </div>
-      <span className="text-xl font-mono font-bold tracking-wider text-mansagold transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]">1325.AI</span>
+      <img 
+        src={logo1325} 
+        alt="1325.AI" 
+        className="h-10 w-auto object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)]"
+      />
     </Link>
   );
 };
