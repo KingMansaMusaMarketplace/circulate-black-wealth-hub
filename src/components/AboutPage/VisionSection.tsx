@@ -19,7 +19,7 @@ const VisionSection = () => {
             <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-28 h-1 bg-gradient-to-r from-mansagold to-amber-500 rounded-full shadow-md"></span>
           </h2>
           <p className="text-blue-100/90 max-w-2xl mx-auto text-lg mt-8 font-semibold">
-            By 2030, Mansa Musa Marketplace will have created measurable impact in Black communities through 
+            By 2030, 1325.AI will have created measurable impact in Black communities through 
             intentional economic infrastructure.
           </p>
         </div>
@@ -64,8 +64,8 @@ const VisionSection = () => {
         
         <div className="mt-16 text-center bg-slate-800/60 backdrop-blur-xl rounded-2xl p-10 shadow-xl border-2 border-white/10">
           <p className="text-xl text-white font-extrabold mb-8">
-            This is not a marketplace.<br />
-            This is a platform for economic sovereignty.
+            This is not an app.<br />
+            This is economic infrastructure. This is the protocol for sovereignty.
           </p>
           <Link to="/signup">
             <Button className="bg-gradient-to-r from-mansagold to-amber-500 hover:from-mansagold/90 hover:to-amber-500/90 text-mansablue px-10 py-3 text-lg font-bold group shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105">

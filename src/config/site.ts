@@ -8,9 +8,27 @@ export const siteConfig = {
   domain: '1325.ai',
   
   // Brand identity
-  name: '1325.ai',
+  name: '1325.AI',
   tagline: 'Building the Future of Digital Commerce | AI',
   description: 'AI-powered protocol connecting consumers with Black-owned businesses, enabling wealth circulation and economic empowerment through intelligent discovery and rewards.',
+  
+  // Infrastructure positioning (IaaS)
+  infrastructureTagline: 'The Economic Rails for Black Wealth Circulation',
+  investorDescription: '1325.AI is not a directory app — it\'s the economic infrastructure layer for an underserved $1.6T market. We own the data rails: the transaction ledger, the supply chain graph, and the AI intelligence layer.',
+  
+  // IaaS Architecture Pillars
+  iaasPillars: {
+    infrastructure: ['Economic Rails', 'Circulation Protocol', 'Patent-Protected Systems'],
+    dataPlatform: ['Transaction Ledger', 'Supply Chain Graph', 'Behavioral Intelligence'],
+    applications: ['Business Dashboards', 'Consumer App', 'Agent Portal'],
+  },
+  
+  // Patent portfolio
+  patentPortfolio: {
+    claimsCount: 27,
+    status: 'Provisional Patent Filed',
+    keyProtections: ['Geospatial Fraud Detection', 'B2B Matching Algorithms', 'Voice AI Integration'],
+  },
   
   // Legacy brand (for transition period)
   legacyName: 'Mansa Musa Marketplace',
@@ -32,9 +50,9 @@ export const siteConfig = {
   
   // SEO
   seo: {
-    title: '1325.ai | The Intelligence Layer for Black Economic Power',
-    defaultTitle: '1325.ai',
-    titleTemplate: '%s | 1325.ai',
+    title: '1325.AI | The Intelligence Layer for Black Economic Power',
+    defaultTitle: '1325.AI',
+    titleTemplate: '%s | 1325.AI',
   },
   
   // Founding info
