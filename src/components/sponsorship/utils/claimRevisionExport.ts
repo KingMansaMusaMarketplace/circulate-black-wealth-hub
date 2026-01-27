@@ -1,5 +1,5 @@
 import { Document, Paragraph, TextRun, Table, TableRow, TableCell, HeadingLevel, AlignmentType, BorderStyle, WidthType } from 'docx';
-import { saveAs } from 'file-saver';
+import FileSaver from 'file-saver';
 import { toast } from 'sonner';
 
 interface ClaimRevision {
@@ -425,7 +425,7 @@ export const generateClaimRevisionDocument = async (): Promise<void> => {
     });
     
     // Use FileSaver for reliable cross-browser downloads (Safari/macOS compatible)
-    saveAs(blob, 'Patent-Claim-Revision-Strategy.docx');
+    FileSaver.saveAs(blob, 'Patent-Claim-Revision-Strategy.docx');
 
     toast.success('Claim Revision Strategy document downloaded!');
   } catch (error) {
