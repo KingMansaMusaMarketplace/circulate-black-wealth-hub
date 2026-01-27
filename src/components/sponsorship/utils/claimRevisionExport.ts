@@ -416,7 +416,12 @@ export const generateClaimRevisionDocument = async (): Promise<void> => {
     });
 
     const { Packer } = await import('docx');
-    const blob = await Packer.toBlob(doc);
+    const packerBlob = await Packer.toBlob(doc);
+    
+    // Re-wrap with explicit MIME type for cross-browser compatibility (especially Safari/macOS)
+    const blob = new Blob([packerBlob], { 
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' 
+    });
     
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -425,7 +430,9 @@ export const generateClaimRevisionDocument = async (): Promise<void> => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    
+    // Delay revocation to ensure download completes on all browsers
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
 
     toast.success('Claim Revision Strategy document downloaded!');
   } catch (error) {
