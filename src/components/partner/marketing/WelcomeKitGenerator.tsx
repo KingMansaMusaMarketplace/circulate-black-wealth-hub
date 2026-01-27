@@ -119,7 +119,7 @@ const WelcomeKitGenerator: React.FC<WelcomeKitGeneratorProps> = ({ partner, stat
     
     <div class="footer">
       <p>Questions? Contact ${partner.contact_email}</p>
-      <p style="margin-top: 8px;">© 2026 <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span> - Circulating Wealth, Building Legacy</p>
+      <p style="margin-top: 8px;">© 2026 <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span> - U.S. Patent Pending 63/969,202</p>
     </div>
   </div>
 </body>

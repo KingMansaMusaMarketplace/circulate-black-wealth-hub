@@ -84,7 +84,7 @@ export const getBriefPartnershipOverviewContent = (): string => {
 
       <!-- Footer -->
       <div style="text-align: center; margin-top: 20px; font-size: 13px; color: #000000;">
-        <p>© 2025 Mansa Musa Marketplace • Patent Pending • www.mansamusamarketplace.com</p>
+        <p>© 2026 Mansa Musa Marketplace • U.S. Patent Pending 63/969,202 • www.mansamusamarketplace.com</p>
       </div>
     </div>
   `;

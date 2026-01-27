@@ -67,8 +67,8 @@ const edgeFunctionsWithHeaders = [
 ];
 
 const filingTimeline = [
-  { date: 'January 22, 2026', action: 'Provisional Application Filed (Claims 1-20)', status: 'completed' },
-  { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-26 Partner System)', status: 'pending' },
+  { date: 'January 22, 2026', action: 'Provisional Application Filed (63/969,202)', status: 'completed' },
+  { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-26 Partner System)', status: 'completed' },
   { date: 'January 22, 2027', action: 'Non-Provisional OR PCT Filing Due', status: 'upcoming' },
   { date: 'July 22, 2027', action: 'Publication (if PCT)', status: 'upcoming' },
   { date: 'July 22, 2028', action: 'National Phase Entry', status: 'upcoming' },
@@ -156,7 +156,7 @@ const LegalIPDocuments: React.FC = () => {
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="border-green-500/50 text-green-400 bg-green-500/10">
             <Shield className="h-3 w-3 mr-1" />
-            Patent Pending
+            U.S. Patent Pending 63/969,202
           </Badge>
           <Badge variant="outline" className="border-mansagold/50 text-mansagold bg-mansagold/10">
             <Globe className="h-3 w-3 mr-1" />

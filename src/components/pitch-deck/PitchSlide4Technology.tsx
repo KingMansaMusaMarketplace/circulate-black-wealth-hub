@@ -63,7 +63,7 @@ const PitchSlide4Technology: React.FC = () => {
         >
           <Badge className="mb-6 bg-mansagold/20 text-mansagold border-mansagold/30 text-lg px-6 py-2">
             <Lock className="w-4 h-4 mr-2" />
-            Patent Pending
+            U.S. Patent Pending 63/969,202
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Proprietary <span className="text-mansagold">Technology</span>
