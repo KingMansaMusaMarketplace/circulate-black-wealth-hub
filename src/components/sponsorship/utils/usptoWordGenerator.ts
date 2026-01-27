@@ -17,7 +17,7 @@ import {
   PageNumber,
   NumberFormat
 } from 'docx';
-import { saveAs } from 'file-saver';
+import FileSaver from 'file-saver';
 import { getUSPTOPatentContent, PatentClaim } from '../templates/usptoPatentTemplate';
 
 interface USPTOWordGeneratorOptions {
@@ -189,7 +189,7 @@ export const generateUSPTOPatentWord = async (options: USPTOWordGeneratorOptions
       : `${options.filename}.docx`;
     
     // Use FileSaver for reliable cross-browser downloads (Safari/macOS compatible)
-    saveAs(blob, filename);
+    FileSaver.saveAs(blob, filename);
   } catch (error) {
     console.error('Error generating USPTO Word document:', error);
     throw new Error('Failed to generate Word document. Please try again.');
