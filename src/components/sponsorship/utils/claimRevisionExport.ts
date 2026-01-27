@@ -1,5 +1,5 @@
 import { Document, Paragraph, TextRun, Table, TableRow, TableCell, HeadingLevel, AlignmentType, BorderStyle, WidthType } from 'docx';
-import FileSaver from 'file-saver';
+import * as FileSaver from 'file-saver';
 import { toast } from 'sonner';
 
 interface ClaimRevision {

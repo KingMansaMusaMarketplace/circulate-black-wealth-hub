@@ -17,7 +17,7 @@ import {
   PageNumber,
   NumberFormat
 } from 'docx';
-import FileSaver from 'file-saver';
+import * as FileSaver from 'file-saver';
 import { getUSPTOPatentContent, PatentClaim } from '../templates/usptoPatentTemplate';
 
 interface USPTOWordGeneratorOptions {
