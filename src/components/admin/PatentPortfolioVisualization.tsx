@@ -187,7 +187,7 @@ const PatentPortfolioVisualization: React.FC = () => {
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="border-green-500/50 text-green-400 bg-green-500/10">
             <Shield className="h-3 w-3 mr-1" />
-            Patent Pending
+            U.S. Patent Pending 63/969,202
           </Badge>
           <Badge variant="outline" className="border-amber-500/50 text-amber-400 bg-amber-500/10">
             <Clock className="h-3 w-3 mr-1" />

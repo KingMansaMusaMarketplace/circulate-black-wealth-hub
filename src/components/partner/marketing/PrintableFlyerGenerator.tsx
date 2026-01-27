@@ -110,7 +110,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
     </div>
     
     <div class="footer">
-      <p>Questions? Contact ${partner.contact_email} | © 2026 <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span> - Circulating Wealth, Building Legacy</p>
+      <p>Questions? Contact ${partner.contact_email} | © 2026 <span style="font-family: ui-monospace, SFMono-Regular, monospace; letter-spacing: 0.05em;">1325.AI</span> - U.S. Patent Pending 63/969,202</p>
     </div>
   </div>
   <script>window.onload = function() { window.print(); }</script>

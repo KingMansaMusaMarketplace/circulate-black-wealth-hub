@@ -62,8 +62,8 @@ const CorporateSponsorshipPage: React.FC = () => {
                     </svg>
                   </div>
                   <div className="text-left">
-                    <p className="text-white font-semibold text-sm">Patent Pending Technology</p>
-                    <p className="text-white/70 text-xs">Powered by patent-pending economic circulation technology</p>
+                    <p className="text-white font-semibold text-sm">U.S. Patent Pending 63/969,202</p>
+                    <p className="text-white/70 text-xs">Patent-pending economic circulation technology</p>
                   </div>
                 </div>
               </div>
