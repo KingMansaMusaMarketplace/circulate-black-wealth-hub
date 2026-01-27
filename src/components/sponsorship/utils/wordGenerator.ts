@@ -1,6 +1,6 @@
 
 import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, HeadingLevel } from 'docx';
-import * as FileSaver from 'file-saver';
+
 
 interface WordGeneratorOptions {
   filename: string;
@@ -334,8 +334,20 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
       ? options.filename 
       : `${options.filename}.docx`;
     
-    // Use FileSaver for reliable cross-browser downloads (Safari/macOS compatible)
-    FileSaver.saveAs(blob, filename);
+    // Native browser download with proper cleanup
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    
+    // Clean up after a delay to ensure download starts
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 1500);
   } catch (error) {
     console.error('Error generating Word document:', error);
     throw new Error('Failed to generate Word document. Please try again.');
