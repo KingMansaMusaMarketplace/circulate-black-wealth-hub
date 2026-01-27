@@ -320,17 +320,33 @@ export const generateInvestorAnalysisWord = async (options: WordGeneratorOptions
     }],
   });
 
-  const blob = await Packer.toBlob(doc);
-  
-  // Native browser download
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = options.filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
+  try {
+    const packerBlob = await Packer.toBlob(doc);
+    
+    // Re-wrap with explicit MIME type for cross-browser compatibility (especially Safari/macOS)
+    const blob = new Blob([packerBlob], { 
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' 
+    });
+    
+    // Ensure filename has .docx extension
+    const filename = options.filename.endsWith('.docx') 
+      ? options.filename 
+      : `${options.filename}.docx`;
+    
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Delay revocation to ensure download completes on all browsers
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch (error) {
+    console.error('Error generating Word document:', error);
+    throw new Error('Failed to generate Word document. Please try again.');
+  }
 };
 
 function createMarketTable(): Table {
