@@ -1,4 +1,4 @@
-
+// Native browser download implementation (no external dependencies)
 import { 
   Document, 
   Packer, 

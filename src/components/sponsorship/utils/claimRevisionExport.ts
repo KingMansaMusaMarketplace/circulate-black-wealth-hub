@@ -1,3 +1,4 @@
+// Native browser download implementation (no external dependencies)
 import { Document, Paragraph, TextRun, Table, TableRow, TableCell, HeadingLevel, AlignmentType, BorderStyle, WidthType } from 'docx';
 
 import { toast } from 'sonner';

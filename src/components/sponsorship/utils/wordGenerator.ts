@@ -1,4 +1,4 @@
-
+// Native browser download implementation (no external dependencies)
 import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, HeadingLevel } from 'docx';
 
 
