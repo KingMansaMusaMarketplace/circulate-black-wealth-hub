@@ -1,6 +1,6 @@
 
 import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, AlignmentType, BorderStyle, HeadingLevel } from 'docx';
-import FileSaver from 'file-saver';
+import * as FileSaver from 'file-saver';
 
 interface WordGeneratorOptions {
   filename: string;
