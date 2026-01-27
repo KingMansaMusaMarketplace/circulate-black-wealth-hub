@@ -1,5 +1,5 @@
 import { Document, Paragraph, TextRun, Table, TableRow, TableCell, HeadingLevel, AlignmentType, BorderStyle, WidthType } from 'docx';
-import * as FileSaver from 'file-saver';
+
 import { toast } from 'sonner';
 
 interface ClaimRevision {
@@ -424,8 +424,20 @@ export const generateClaimRevisionDocument = async (): Promise<void> => {
       type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' 
     });
     
-    // Use FileSaver for reliable cross-browser downloads (Safari/macOS compatible)
-    FileSaver.saveAs(blob, 'Patent-Claim-Revision-Strategy.docx');
+    // Native browser download with proper cleanup
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'Patent-Claim-Revision-Strategy.docx';
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    
+    // Clean up after a delay to ensure download starts
+    setTimeout(() => {
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, 1500);
 
     toast.success('Claim Revision Strategy document downloaded!');
   } catch (error) {
