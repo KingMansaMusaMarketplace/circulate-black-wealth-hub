@@ -115,11 +115,16 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       return;
     }
     
+    // iOS detection
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    
     // Pre-flight checks
     console.log('[Kayla] Running pre-flight checks...');
     console.log('[Kayla] isSecureContext:', window.isSecureContext);
     console.log('[Kayla] navigator.mediaDevices available:', !!navigator.mediaDevices);
     console.log('[Kayla] RTCPeerConnection available:', !!window.RTCPeerConnection);
+    console.log('[Kayla] isIOS:', isIOS);
     
     if (!navigator.mediaDevices) {
       console.error('[Kayla] navigator.mediaDevices not available');
@@ -181,10 +186,21 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
       
       // Provide user-friendly error messages
       let errorMessage = 'Failed to start conversation';
+      let errorTitle = 'Connection Failed';
+      
       if (error.name === 'NotAllowedError' || error.message?.includes('Permission denied')) {
-        errorMessage = 'Microphone access denied. Please allow microphone access and try again.';
+        errorTitle = 'Microphone Access Required';
+        errorMessage = isIOS 
+          ? 'Please allow microphone access in Settings > Safari > Microphone'
+          : 'Microphone access denied. Please allow microphone access and try again.';
       } else if (error.name === 'NotFoundError' || error.message?.includes('Requested device not found')) {
         errorMessage = 'No microphone found. Please connect a microphone and try again.';
+      } else if (error.name === 'AbortError') {
+        // iOS Safari sometimes throws AbortError when the page is interrupted
+        errorTitle = 'Connection Interrupted';
+        errorMessage = 'Please try again. Make sure no other apps are using the microphone.';
+      } else if (error.name === 'NotSupportedError') {
+        errorMessage = 'Voice features are not supported on this device.';
       } else if (error.message?.includes('Microphone')) {
         errorMessage = error.message;
       } else if (error.message?.includes('WebRTC')) {
@@ -195,7 +211,7 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         errorMessage = error.message;
       }
       
-      toast.error('Connection Failed', {
+      toast.error(errorTitle, {
         description: errorMessage
       });
     } finally {

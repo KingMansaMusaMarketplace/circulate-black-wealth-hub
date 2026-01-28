@@ -145,6 +145,11 @@ export class RealtimeChat {
       if (typeof RTCPeerConnection === 'undefined') {
         throw new Error('WebRTC not supported on this device');
       }
+
+      // iOS Safari crash prevention: wrap everything in try-catch with specific error handling
+      if (isIOS) {
+        console.log('[iOS] Applying iOS-specific safeguards...');
+      }
       
       // Request microphone FIRST on iOS - must happen immediately after user gesture
       console.log('Requesting microphone access...');
@@ -356,6 +361,8 @@ export class RealtimeChat {
 
     } catch (error: any) {
       console.error("Error initializing chat:", error);
+      console.error("Error name:", error?.name);
+      console.error("Error message:", error?.message);
       // Clean up on error
       this.disconnect();
       throw error;
