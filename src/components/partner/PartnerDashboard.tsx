@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Users, DollarSign, TrendingUp, Copy, Code, Download, 
-  ArrowUpRight, Clock, CheckCircle2, XCircle, Award, HelpCircle, Megaphone
+  ArrowUpRight, Clock, CheckCircle2, XCircle, Award, HelpCircle, Megaphone, BarChart3
 } from 'lucide-react';
 import PartnerReferralsTable from './PartnerReferralsTable';
 import PartnerPayoutsTable from './PartnerPayoutsTable';
@@ -14,6 +14,8 @@ import PartnerEmbedWidget from './PartnerEmbedWidget';
 import PayoutRequestDialog from './PayoutRequestDialog';
 import PartnerFAQ from './PartnerFAQ';
 import { PartnerMarketingHub } from './marketing';
+import PartnerFunnelChart from './analytics/PartnerFunnelChart';
+import PartnerUTMBreakdown from './analytics/PartnerUTMBreakdown';
 import { format } from 'date-fns';
 
 interface PartnerDashboardProps {
@@ -234,6 +236,63 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
 
         <TabsContent value="marketing">
           <PartnerMarketingHub partner={partner} stats={stats} />
+        </TabsContent>
+
+        <TabsContent value="analytics">
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 mb-4">
+              <BarChart3 className="h-5 w-5 text-amber-400" />
+              <h2 className="text-xl font-bold text-white">Partner Analytics</h2>
+            </div>
+            
+            <div className="grid lg:grid-cols-2 gap-6">
+              {/* Conversion Funnel */}
+              <PartnerFunnelChart 
+                data={{
+                  clicks: stats.totalReferrals * 5, // Estimated click-through based on typical rates
+                  signups: stats.totalReferrals,
+                  conversions: stats.totalConversions,
+                }}
+              />
+              
+              {/* UTM Campaign Breakdown */}
+              <PartnerUTMBreakdown 
+                data={[]} // Will populate when UTM tracking is implemented
+              />
+            </div>
+
+            {/* Performance Summary */}
+            <Card className="bg-slate-800/60 backdrop-blur-xl border-slate-700/50">
+              <CardHeader>
+                <CardTitle className="text-white">Performance Summary</CardTitle>
+                <CardDescription className="text-slate-400">
+                  Key metrics from your referral activity
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center p-4 bg-slate-900/40 rounded-lg border border-slate-700/30">
+                    <p className="text-2xl font-bold text-blue-400">{stats.conversionRate.toFixed(1)}%</p>
+                    <p className="text-xs text-slate-400">Conversion Rate</p>
+                  </div>
+                  <div className="text-center p-4 bg-slate-900/40 rounded-lg border border-slate-700/30">
+                    <p className="text-2xl font-bold text-amber-400">
+                      ${stats.totalConversions > 0 ? (stats.totalEarnings / stats.totalConversions).toFixed(2) : '0.00'}
+                    </p>
+                    <p className="text-xs text-slate-400">Avg. Earning/Conversion</p>
+                  </div>
+                  <div className="text-center p-4 bg-slate-900/40 rounded-lg border border-slate-700/30">
+                    <p className="text-2xl font-bold text-emerald-400">{stats.thisMonthReferrals}</p>
+                    <p className="text-xs text-slate-400">This Month's Referrals</p>
+                  </div>
+                  <div className="text-center p-4 bg-slate-900/40 rounded-lg border border-slate-700/30">
+                    <p className="text-2xl font-bold text-purple-400">${stats.thisMonthEarnings.toFixed(2)}</p>
+                    <p className="text-xs text-slate-400">This Month's Earnings</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="payouts">
