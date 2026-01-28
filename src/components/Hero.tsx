@@ -66,9 +66,9 @@ const Hero = () => {
               The Economic Operating System
             </span>
           </div>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mansagold/20 border border-mansagold/40 backdrop-blur-sm">
-            <Sparkles className="w-4 h-4 text-mansagold" />
-            <span className="text-sm md:text-base font-semibold text-mansagold">
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-mansagold/30 border-2 border-mansagold shadow-lg">
+            <Sparkles className="w-5 h-5 text-white" />
+            <span className="text-sm md:text-base font-black text-white tracking-wide uppercase">
               100% FREE — Founding Member Status Closing Soon
             </span>
           </div>
