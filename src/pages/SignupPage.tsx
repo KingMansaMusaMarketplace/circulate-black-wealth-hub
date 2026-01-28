@@ -33,6 +33,11 @@ const SignupPage = () => {
               <p className="text-white text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-md">
                 Create an account to start circulating wealth in the Black community 🚀
               </p>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-mansagold/20 border border-mansagold/40 rounded-full mt-4">
+                <span className="text-mansagold font-semibold text-sm md:text-base">
+                  ⏰ Founding Member Deadline: Sept 1, 2026 or 100K members — whichever comes first
+                </span>
+              </div>
             </div>
           </div>
 

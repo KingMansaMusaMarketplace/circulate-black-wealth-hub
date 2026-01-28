@@ -69,7 +69,7 @@ const Hero = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mansagold/20 border border-mansagold/40 backdrop-blur-sm">
             <Sparkles className="w-4 h-4 text-mansagold" />
             <span className="text-sm md:text-base font-semibold text-mansagold">
-              100% FREE Until September 1, 2026
+              100% FREE — Founding Member Status Closing Soon
             </span>
           </div>
         </motion.div>
@@ -214,10 +214,11 @@ const Hero = () => {
               <p className="text-sm md:text-base text-blue-100/80 text-center max-w-lg">
                 Join now as a <span className="text-mansagold font-semibold">Founding Member</span> and lock in exclusive lifetime benefits before the deadline.
               </p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="px-3 py-1.5 bg-mansagold/20 border border-mansagold/40 rounded-lg text-sm font-semibold text-mansagold">
-                  ⏰ Deadline: September 1, 2026
+              <div className="flex flex-col sm:flex-row items-center gap-2 mt-2">
+                <span className="px-3 py-1.5 bg-mansagold/20 border border-mansagold/40 rounded-lg text-xs sm:text-sm font-semibold text-mansagold text-center">
+                  ⏰ Deadline: September 1, 2026 — or 100,000 Founding Members
                 </span>
+                <span className="text-xs text-blue-200/60 font-medium">whichever comes first</span>
               </div>
             </div>
           </motion.div>

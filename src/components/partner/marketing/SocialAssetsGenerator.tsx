@@ -57,7 +57,7 @@ ${partner.referral_link}`,
 
 If you're a Black business owner, this is your opportunity to join a movement focused on building generational wealth.
 
-Sign up for FREE Founding Member status (expires Sept 1, 2026):
+Sign up for FREE Founding Member status (closes Sept 1, 2026 or 100K members — whichever first!):
 ${partner.referral_link}
 
 Let's circulate wealth and build legacy together. 💪`,
@@ -81,7 +81,7 @@ ${partner.directory_name} has partnered with 1325.ai to bring you an amazing opp
 🔹 Build customer loyalty programs
 🔹 Track your impact on the community
 
-Sign up now and become a Founding Member (FREE until September 2026!):
+Sign up now and become a Founding Member (FREE — closes Sept 2026 or at 100K members!):
 ${partner.referral_link}
 
 Tag a Black business owner who needs to see this! 👇`,

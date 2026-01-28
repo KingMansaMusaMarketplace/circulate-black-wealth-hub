@@ -46,7 +46,7 @@ Ready to write your own success story?
 📱 Partner Code: ${partner.referral_code}
 
 $700/month in business tools for just $100/month = 7x ROI
-FREE until September 1, 2026
+Founding Member status closes Sept 1, 2026 or at 100K members — whichever comes first!
 
 #BlackOwnedBusiness #1325AI #SuccessStory #BuyBlack`;
   };
