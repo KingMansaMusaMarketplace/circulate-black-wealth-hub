@@ -215,10 +215,10 @@ const Hero = () => {
                 Join now as a <span className="text-mansagold font-semibold">Founding Member</span> and lock in exclusive lifetime benefits before the deadline.
               </p>
               <div className="flex flex-col items-center gap-2 mt-3">
-                <span className="px-5 py-2.5 bg-red-900/40 border-2 border-red-700/70 rounded-xl text-base sm:text-lg md:text-xl font-bold text-red-600 text-center animate-pulse">
+                <span className="px-5 py-2.5 bg-red-800 border-2 border-red-600 rounded-xl text-base sm:text-lg md:text-xl font-bold text-white text-center shadow-lg shadow-red-900/50">
                   ⏰ Deadline: September 1, 2026 — or 100,000 Founding Members
                 </span>
-                <span className="text-sm md:text-base text-red-500/90 font-semibold">whichever comes first</span>
+                <span className="text-sm md:text-base text-red-200 font-semibold">whichever comes first</span>
               </div>
             </div>
           </motion.div>
