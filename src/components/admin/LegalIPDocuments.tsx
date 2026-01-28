@@ -126,6 +126,18 @@ const patentDocuments = [
   },
 ];
 
+// Official USPTO Filing Documents
+const usptoOfficialDocuments = [
+  {
+    name: 'USPTO Payment Receipt',
+    file: '/documents/patents/USPTO-Payment-Receipt-63969202.pdf',
+    description: 'Official payment confirmation for Application 63/969,202',
+    date: 'January 22, 2026',
+    type: 'receipt',
+    isExternal: true
+  },
+];
+
 const LegalIPDocuments: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -512,12 +524,72 @@ const LegalIPDocuments: React.FC = () => {
         </TabsContent>
 
         {/* Documents Tab */}
-        <TabsContent value="documents" className="space-y-4">
-          <div className="grid md:grid-cols-2 gap-4">
-            {patentDocuments.map((doc) => (
-              <Card key={doc.file} className="bg-white/5 border-white/10 hover:border-mansagold/30 transition-colors">
-                <CardContent className="pt-4">
-                  <div className="flex items-start gap-4">
+        <TabsContent value="documents" className="space-y-6">
+          {/* Official USPTO Documents Section */}
+          <Card className="bg-green-500/10 border-green-500/30">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <Shield className="h-5 w-5 text-green-400" />
+                Official USPTO Filing Documents
+              </CardTitle>
+              <CardDescription className="text-green-300/70">
+                Application 63/969,202 - Filed January 22, 2026
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-4">
+                {usptoOfficialDocuments.map((doc) => (
+                  <div 
+                    key={doc.file}
+                    className="flex items-center gap-4 p-4 rounded-lg bg-white/5 border border-green-500/20 hover:border-green-400/40 transition-colors"
+                  >
+                    <div className={`p-3 rounded-lg ${
+                      doc.type === 'receipt' ? 'bg-green-500/20' : 'bg-blue-500/20'
+                    }`}>
+                      {doc.type === 'receipt' ? (
+                        <FileCheck className="h-6 w-6 text-green-400" />
+                      ) : (
+                        <ClipboardList className="h-6 w-6 text-blue-400" />
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-white font-medium">{doc.name}</h4>
+                      <p className="text-sm text-blue-200/60 mt-0.5">{doc.description}</p>
+                      <p className="text-xs text-green-400/70 mt-1">{doc.date}</p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="border-green-500/30 text-green-400 hover:bg-green-500/10"
+                      onClick={() => window.open(doc.file, '_blank')}
+                    >
+                      <ExternalLink className="h-3 w-3 mr-1" />
+                      View
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Generated Patent Documents */}
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <FileText className="h-5 w-5 text-mansagold" />
+                Generated Patent Documents
+              </CardTitle>
+              <CardDescription className="text-blue-200/60">
+                System-generated claim documentation and specifications
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-4">
+                {patentDocuments.map((doc) => (
+                  <div 
+                    key={doc.file}
+                    className="flex items-start gap-4 p-4 rounded-lg bg-white/5 border border-white/10 hover:border-mansagold/30 transition-colors"
+                  >
                     <div className={`p-2 rounded-lg ${
                       doc.type === 'primary' ? 'bg-mansagold/20' :
                       doc.type === 'claims' ? 'bg-purple-500/20' :
@@ -550,10 +622,10 @@ const LegalIPDocuments: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         {/* Partner System Tab - NEW */}
