@@ -99,7 +99,7 @@ const PrintableFlyerGenerator: React.FC<PrintableFlyerGeneratorProps> = ({ partn
     <div class="cta-section">
       <div class="cta-left">
         <h2>Sign Up FREE</h2>
-        <p>Become a Founding Member before September 1, 2026</p>
+        <p>Founding Member status closes Sept 1, 2026 or at 100K members — whichever comes first!</p>
         <div class="link">${partner.referral_link}</div>
         <p style="margin-top: 12px; font-size: 0.875rem;">Partner Code: <strong>${partner.referral_code}</strong></p>
       </div>
