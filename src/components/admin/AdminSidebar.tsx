@@ -4,7 +4,7 @@ import {
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
   Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
-  Handshake
+  Handshake, Rocket, Trophy, FileText
 } from 'lucide-react';
 import {
   Sidebar,
@@ -42,6 +42,7 @@ const menuGroups = [
     label: 'Dashboard',
     items: [
       { id: 'overview', label: 'Overview', icon: BarChart3 },
+      { id: 'growth', label: 'Growth Dashboard', icon: Rocket },
     ]
   },
   {
@@ -49,6 +50,7 @@ const menuGroups = [
     items: [
       { id: 'retention', label: 'Retention', icon: TrendingUp },
       { id: 'geographic', label: 'Geographic', icon: MapPin },
+      { id: 'partner-success', label: 'Partner Stories', icon: Trophy },
     ]
   },
   {
