@@ -182,8 +182,7 @@ const Hero = () => {
               <Button 
                 asChild
                 size="lg"
-                variant="ghost"
-                className="text-mansagold hover:text-mansagold hover:bg-mansagold/10 font-semibold h-12 px-6 rounded-xl"
+                className="bg-transparent hover:bg-mansagold/20 text-mansagold border-2 border-mansagold hover:border-mansagold-dark font-bold h-12 px-6 rounded-xl transition-all duration-300"
               >
                 <Link to="/signup">
                   Join FREE Today
