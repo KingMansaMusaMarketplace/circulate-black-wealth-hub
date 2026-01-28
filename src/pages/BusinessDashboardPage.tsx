@@ -13,6 +13,7 @@ import { AICoachingTab } from '@/components/business/coaching/AICoachingTab';
 import { ReviewRequestsAnalytics } from '@/components/business/reviews/ReviewRequestsAnalytics';
 import { BusinessSubscriptionBenefits } from '@/components/business/subscription/BusinessSubscriptionBenefits';
 import { BusinessVerificationStatus } from '@/components/business/BusinessVerificationStatus';
+import ValueTracker from '@/components/business/ValueTracker';
 
 const BusinessDashboardPage = () => {
   const { user, userType, loading, authInitialized } = useAuth();
@@ -80,8 +81,9 @@ const BusinessDashboardPage = () => {
               />
 
               <Tabs defaultValue="overview" className="w-full">
-                <TabsList className="grid w-full grid-cols-5 bg-slate-800/40 backdrop-blur-sm border border-white/10">
+                <TabsList className="grid w-full grid-cols-6 bg-slate-800/40 backdrop-blur-sm border border-white/10">
                   <TabsTrigger value="overview" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Overview</TabsTrigger>
+                  <TabsTrigger value="value" className="data-[state=active]:bg-emerald-900/60 data-[state=active]:text-emerald-300 text-emerald-400/70 font-medium">💰 ROI</TabsTrigger>
                   <TabsTrigger value="financials" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Financials</TabsTrigger>
                   <TabsTrigger value="reviews" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">Reviews</TabsTrigger>
                   <TabsTrigger value="coaching" className="data-[state=active]:bg-slate-900/60 data-[state=active]:text-white text-white/70">AI Coach</TabsTrigger>
@@ -90,6 +92,10 @@ const BusinessDashboardPage = () => {
                 
                 <TabsContent value="overview">
                   <BusinessDashboard businessId={profile.id} />
+                </TabsContent>
+
+                <TabsContent value="value">
+                  <ValueTracker />
                 </TabsContent>
               
               <TabsContent value="financials">
