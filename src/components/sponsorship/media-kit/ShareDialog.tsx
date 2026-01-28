@@ -12,16 +12,28 @@ interface ShareDialogProps {
 
 const ShareDialog: React.FC<ShareDialogProps> = ({ open, onOpenChange }) => {
   // Function to copy link to clipboard
-  const copyLinkToClipboard = () => {
-    // Using a branded URL instead of the default Lovable URL
+  const copyLinkToClipboard = async () => {
     const brandedLink = "https://mansamusa.com/sponsorship/agreement";
-    navigator.clipboard.writeText(brandedLink)
-      .then(() => {
+    try {
+      await navigator.clipboard.writeText(brandedLink);
+      toast.success("Link copied to clipboard!");
+    } catch (err) {
+      console.error('Clipboard copy failed:', err);
+      // Fallback for mobile/iOS
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = brandedLink;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-9999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
         toast.success("Link copied to clipboard!");
-      })
-      .catch(() => {
+      } catch (fallbackErr) {
         toast.error("Failed to copy link. Please try again.");
-      });
+      }
+    }
   };
 
   return (
