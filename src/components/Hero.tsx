@@ -126,14 +126,14 @@ const Hero = () => {
           >
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <div className="relative flex-1">
-                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60" />
+                <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-mansagold" />
                 <Input
                   type="text"
                   placeholder="Enter ZIP code"
                   value={zipCode}
                   onChange={(e) => setZipCode(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleZipSearch()}
-                  className="pl-12 bg-white/10 border-2 border-white/30 hover:border-white/50 focus:border-white/60 text-white placeholder:text-white/50 h-14 text-lg rounded-xl backdrop-blur-sm transition-all duration-300"
+                  className="pl-12 bg-white/15 border-2 border-mansagold/50 hover:border-mansagold/70 focus:border-mansagold text-white placeholder:text-white/60 h-14 text-lg font-semibold rounded-xl backdrop-blur-md transition-all duration-300 shadow-lg"
                   maxLength={5}
                 />
               </div>
@@ -141,13 +141,13 @@ const Hero = () => {
                 onClick={handleZipSearch}
                 disabled={!zipCode.trim()}
                 size="lg"
-                className="bg-white/10 hover:bg-white/20 text-white border-2 border-white/30 hover:border-white/50 font-semibold h-14 px-6 rounded-xl backdrop-blur-sm transition-all duration-300 disabled:opacity-40"
+                className="bg-mansagold/20 hover:bg-mansagold/30 text-mansagold border-2 border-mansagold/60 hover:border-mansagold font-bold h-14 px-6 rounded-xl backdrop-blur-md transition-all duration-300 shadow-lg disabled:opacity-40"
               >
                 <Search className="w-5 h-5 mr-2" />
                 Find Businesses
               </Button>
             </div>
-            <p className="text-xs md:text-sm text-blue-200/60 mt-2">
+            <p className="text-xs md:text-sm text-blue-200/70 mt-2 font-medium">
               No account needed to browse
             </p>
           </motion.div>
