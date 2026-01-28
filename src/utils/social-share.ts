@@ -46,8 +46,24 @@ export const copyToClipboard = async (text: string): Promise<boolean> => {
     await navigator.clipboard.writeText(text);
     return true;
   } catch (err) {
-    console.error('Failed to copy:', err);
-    return false;
+    console.error('Clipboard API failed, trying fallback:', err);
+    // Fallback for mobile/iOS where clipboard API may not work
+    try {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      textArea.style.top = '0';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const success = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      return success;
+    } catch (fallbackErr) {
+      console.error('Fallback copy also failed:', fallbackErr);
+      return false;
+    }
   }
 };
 

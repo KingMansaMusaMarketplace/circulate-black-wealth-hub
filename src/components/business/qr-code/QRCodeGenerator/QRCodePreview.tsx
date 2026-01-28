@@ -21,10 +21,28 @@ const QRCodePreview: React.FC<QRCodePreviewProps> = ({
   onRegenerate,
   isLoading = false
 }) => {
-  const handleCopy = () => {
+  const handleCopy = async () => {
     if (qrCode?.qr_image_url) {
-      navigator.clipboard.writeText(qrCode.qr_image_url);
-      toast.success('QR Code URL copied to clipboard!');
+      try {
+        await navigator.clipboard.writeText(qrCode.qr_image_url);
+        toast.success('QR Code URL copied to clipboard!');
+      } catch (err) {
+        console.error('Clipboard copy failed:', err);
+        // Fallback for mobile/iOS
+        try {
+          const textArea = document.createElement('textarea');
+          textArea.value = qrCode.qr_image_url;
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-9999px';
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          toast.success('QR Code URL copied to clipboard!');
+        } catch (fallbackErr) {
+          toast.error('Failed to copy. Please copy manually.');
+        }
+      }
     }
     onCopy?.();
   };
