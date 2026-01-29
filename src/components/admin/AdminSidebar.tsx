@@ -4,7 +4,7 @@ import {
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
   Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
-  Handshake, Rocket, Trophy, FileText, Code2
+  Handshake, Rocket, Trophy, FileText, Code2, BookOpen
 } from 'lucide-react';
 import {
   Sidebar,
@@ -101,6 +101,12 @@ const menuGroups = [
     items: [
       { id: 'system', label: 'Settings', icon: Sliders },
       { id: 'ai', label: 'AI Tools', icon: Bot },
+    ]
+  },
+  {
+    label: 'Documentation',
+    items: [
+      { id: 'user-guide', label: 'User Guide', icon: BookOpen, route: '/user-guide' },
     ]
   },
 ];
