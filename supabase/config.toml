@@ -221,3 +221,12 @@ verify_jwt = false
 
 [functions.cmal-api]
 verify_jwt = false
+
+[functions.voice-api]
+verify_jwt = false
+
+[functions.susu-api]
+verify_jwt = false
+
+[functions.fraud-api]
+verify_jwt = false
