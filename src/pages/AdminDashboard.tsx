@@ -12,7 +12,8 @@ import {
   Shield, 
   AlertTriangle,
   Activity,
-  PlayCircle
+  PlayCircle,
+  Code2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AdminOverview from '@/components/admin/AdminOverview';
@@ -23,6 +24,7 @@ import AdminFinancials from '@/components/admin/AdminFinancials';
 import AdminSecurity from '@/components/admin/AdminSecurity';
 import AdminFraudAlerts from '@/components/admin/AdminFraudAlerts';
 import AdminActivityLog from '@/components/admin/AdminActivityLog';
+import AdminDevelopers from '@/components/admin/AdminDevelopers';
 import CommandPalette from '@/components/admin/CommandPalette';
 import NotificationCenter from '@/components/admin/NotificationCenter';
 import ExportReportsDialog from '@/components/admin/ExportReportsDialog';
@@ -149,6 +151,7 @@ const AdminDashboard: React.FC = () => {
     { id: 'users', label: 'Users', icon: Users },
     { id: 'businesses', label: 'Businesses', icon: Building2 },
     { id: 'agents', label: 'Sales Agents', icon: UserCheck },
+    { id: 'developers', label: 'Developers', icon: Code2 },
     { id: 'financials', label: 'Financials', icon: DollarSign },
     { id: 'security', label: 'Security', icon: Shield },
     { id: 'fraud', label: 'Fraud Alerts', icon: AlertTriangle },
@@ -327,6 +330,10 @@ const AdminDashboard: React.FC = () => {
 
             <TabsContent value="agents" className="mt-6">
               <AdminSalesAgents />
+            </TabsContent>
+
+            <TabsContent value="developers" className="mt-6">
+              <AdminDevelopers />
             </TabsContent>
 
             <TabsContent value="financials" className="mt-6">
