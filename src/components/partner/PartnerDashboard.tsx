@@ -16,6 +16,7 @@ import PartnerFAQ from './PartnerFAQ';
 import { PartnerMarketingHub } from './marketing';
 import PartnerFunnelChart from './analytics/PartnerFunnelChart';
 import PartnerUTMBreakdown from './analytics/PartnerUTMBreakdown';
+import DeveloperEcosystemTab from './DeveloperEcosystemTab';
 import { format } from 'date-fns';
 
 interface PartnerDashboardProps {
@@ -205,6 +206,10 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
                 <Megaphone className="w-4 h-4 mr-1" />
                 Marketing
               </TabsTrigger>
+              <TabsTrigger value="ecosystem" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-mansablue font-medium">
+                <Code className="w-4 h-4 mr-1" />
+                Developer
+              </TabsTrigger>
               <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Analytics</TabsTrigger>
               <TabsTrigger value="payouts" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Payouts</TabsTrigger>
               <TabsTrigger value="embed" className="data-[state=active]:bg-slate-700 data-[state=active]:text-white">Embed</TabsTrigger>
@@ -236,6 +241,10 @@ const PartnerDashboard: React.FC<PartnerDashboardProps> = ({
 
         <TabsContent value="marketing">
           <PartnerMarketingHub partner={partner} stats={stats} />
+        </TabsContent>
+
+        <TabsContent value="ecosystem">
+          <DeveloperEcosystemTab partner={partner} />
         </TabsContent>
 
         <TabsContent value="analytics">

@@ -31,6 +31,8 @@ import LegalIPDocuments from '@/components/admin/LegalIPDocuments';
 import PartnerApplicationsManager from '@/components/admin/PartnerApplicationsManager';
 import GrowthDashboard from '@/components/admin/GrowthDashboard';
 import PartnerSuccessStories from '@/components/partner/PartnerSuccessStories';
+import AdminEcosystemDashboard from '@/components/admin/AdminEcosystemDashboard';
+import AdminDevelopers from '@/components/admin/AdminDevelopers';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -109,6 +111,10 @@ const AdminDashboardPage: React.FC = () => {
         return <GrowthDashboard />;
       case 'partner-success':
         return <PartnerSuccessStories />;
+      case 'ecosystem':
+        return <AdminEcosystemDashboard />;
+      case 'developers':
+        return <AdminDevelopers />;
       default:
         return <AdminAnalyticsDashboard />;
     }

@@ -2,9 +2,12 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ExternalLink, Star, Users, TrendingUp, Globe, Mic, Shield, Coins } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Star, Users, TrendingUp, Globe, Mic, Shield, Coins, Handshake } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import PartnerPoweredShowcase from '@/components/developers/PartnerPoweredShowcase';
+import LiveBusinessDataFeed from '@/components/developers/LiveBusinessDataFeed';
+import EcosystemImpactCard from '@/components/shared/EcosystemImpactCard';
 
 const ShowcaseGalleryPage = () => {
   const showcaseApps = [
@@ -173,6 +176,21 @@ const ShowcaseGalleryPage = () => {
               <p className="text-white/60 text-sm">Avg. Rating</p>
             </div>
           </div>
+        </div>
+
+        {/* Ecosystem Impact Banner */}
+        <div className="mb-12">
+          <EcosystemImpactCard variant="full" />
+        </div>
+
+        {/* Partner-Powered Apps Section */}
+        <div className="mb-12">
+          <PartnerPoweredShowcase />
+        </div>
+
+        {/* Live Business Data Feed */}
+        <div className="mb-12">
+          <LiveBusinessDataFeed />
         </div>
 
         {/* Featured Apps */}
