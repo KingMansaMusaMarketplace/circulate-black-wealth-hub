@@ -51,7 +51,10 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
     try {
       // Fetch the markdown content
       const response = await fetch('/documents/1325AI_BLUE_BOOK_TECHNICAL_MANUAL.md');
-      const markdownContent = await response.text();
+      let markdownContent = await response.text();
+      
+      // Sanitize for Word compatibility (same as PDF)
+      markdownContent = sanitizeForPdf(markdownContent);
 
       // Parse markdown into sections
       const sections = markdownContent.split(/^# /gm).filter(Boolean);
