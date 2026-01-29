@@ -833,12 +833,16 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       // Helper to add page number with legal footer (no watermark - for special pages)
       const addPageNumberOnly = () => {
         const pageNum = pdf.getNumberOfPages();
-        pdf.setFontSize(8);
-        pdf.setTextColor(128);
-        pdf.text(`Page ${pageNum}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
+        
+        // Legal footer line - positioned higher
         pdf.setFontSize(7);
-        pdf.setTextColor(100);
-        pdf.text('1325.AI Blue Book - CONFIDENTIAL & PROPRIETARY - Patent Pending 63/969,202', margin, pageHeight - 8);
+        pdf.setTextColor(100, 100, 100);
+        pdf.text('1325.AI Blue Book - CONFIDENTIAL & PROPRIETARY - Patent Pending 63/969,202', pageWidth / 2, pageHeight - 15, { align: 'center' });
+        
+        // Page number - positioned below footer
+        pdf.setFontSize(8);
+        pdf.setTextColor(128, 128, 128);
+        pdf.text(`Page ${pageNum}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
       };
       
       // Helper to add page number with watermark (default for content pages)
