@@ -4,9 +4,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ArrowLeft, Copy, Check, Code2, Zap, Shield, Users, Calculator } from 'lucide-react';
+import { ArrowLeft, Copy, Check, Code2, Zap, Shield, Users, Calculator, FlaskConical } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
+import ApiPlayground from '@/components/developers/ApiPlayground';
 
 const ApiDocumentationPage = () => {
   const [copiedEndpoint, setCopiedEndpoint] = useState<string | null>(null);
@@ -394,6 +395,15 @@ const ApiDocumentationPage = () => {
   -d '${JSON.stringify(endpoint.request)}'`}
                         </code>
                       </div>
+                    </div>
+
+                    {/* Interactive Playground */}
+                    <div className="pt-4 border-t border-white/10">
+                      <ApiPlayground
+                        apiName={api.name}
+                        baseUrl={api.baseUrl}
+                        endpoint={endpoint}
+                      />
                     </div>
                   </CardContent>
                 </Card>
