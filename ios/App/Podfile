@@ -6,18 +6,19 @@ platform :ios, '14.0'
 use_frameworks! :linkage => :dynamic
 
 # Disable CocoaPods input/output file lists (fixes xcfilelist errors on Xcode 15/16)
-install! 'cocoapods'
+install! 'cocoapods', :generate_multiple_pod_projects => false
 
 def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorGeolocation', :path => '../../node_modules/@capacitor/geolocation'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
+  # IONGeolocationLib is a dependency of CapacitorGeolocation - must be in same scope
+  pod 'IONGeolocationLib', '~> 1.0'
 end
 
 target 'App' do
   capacitor_pods
-  pod 'IONGeolocationLib', '~> 1.0'
   # Add your Pods here
 end
 
