@@ -85,6 +85,7 @@ const LazyPrivacyPolicyPage = lazy(() => import('@/pages/PrivacyPolicyPage'));
 const LazyCookiePolicyPage = lazy(() => import('@/pages/CookiePolicyPage'));
 const LazyBlogPage = lazy(() => import('@/pages/BlogPage'));
 const LazyHelpPage = lazy(() => import('@/pages/HelpPage'));
+const LazyUserGuidePage = lazy(() => import('@/pages/UserGuidePage'));
 const LazyAllPagesDirectory = lazy(() => import('@/pages/AllPagesDirectory'));
 
 // Auth page (new) - import directly since it's not in LazyComponents yet
@@ -464,6 +465,9 @@ function App() {
                               <Route path="/help" element={<LazyHelpPage />} />
                               <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
                               
+                              {/* U */}
+                              <Route path="/user-guide" element={<LazyUserGuidePage />} />
+                              
                               {/* I */}
                               <Route path="/impact" element={<LazyImpactPage />} />
                               <Route path="/investors" element={<LazyInvestorPage />} />
@@ -736,6 +740,9 @@ function App() {
                         {/* H */}
                         <Route path="/help" element={<LazyHelpPage />} />
                         <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
+                        
+                        {/* U */}
+                        <Route path="/user-guide" element={<LazyUserGuidePage />} />
                         
                         {/* I */}
                         <Route path="/impact" element={<LazyImpactPage />} />
