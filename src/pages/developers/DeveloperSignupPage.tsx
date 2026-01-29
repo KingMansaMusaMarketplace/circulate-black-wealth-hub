@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { Loader2, ArrowLeft, Building2, Globe, FileText } from 'lucide-react';
+import { Loader2, ArrowLeft, Building2, Globe, FileText, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const DeveloperSignupPage: React.FC = () => {
@@ -76,16 +76,16 @@ const DeveloperSignupPage: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-mansablue-dark to-slate-900 p-4">
+        <Card className="w-full max-w-md glass-card border-white/10">
           <CardHeader className="text-center">
-            <CardTitle>Sign In Required</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white">Sign In Required</CardTitle>
+            <CardDescription className="text-white/60">
               Please sign in to create a developer account
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button className="w-full" asChild>
+            <Button className="w-full bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold" asChild>
               <Link to="/auth">Sign In</Link>
             </Button>
           </CardContent>
@@ -95,11 +95,15 @@ const DeveloperSignupPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-mansablue-dark to-slate-900 py-12 px-4">
+      {/* Decorative elements */}
+      <div className="fixed top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansagold/10 to-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed bottom-20 left-20 w-80 h-80 bg-gradient-to-br from-mansablue/10 to-blue-400/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-2xl mx-auto relative z-10">
         <Button 
           variant="ghost" 
-          className="mb-6"
+          className="mb-6 text-white/70 hover:text-white hover:bg-white/10"
           onClick={() => navigate('/developers')}
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -111,10 +115,10 @@ const DeveloperSignupPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <Card>
+          <Card className="glass-card border-white/10">
             <CardHeader>
-              <CardTitle className="text-2xl">Create Developer Account</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-2xl text-white">Create Developer Account</CardTitle>
+              <CardDescription className="text-white/60">
                 Register your company to get API access to our patented engines.
                 Start with the Free tier and upgrade anytime.
               </CardDescription>
@@ -122,8 +126,8 @@ const DeveloperSignupPage: React.FC = () => {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="company_name" className="flex items-center gap-2">
-                    <Building2 className="h-4 w-4" />
+                  <Label htmlFor="company_name" className="flex items-center gap-2 text-white/80">
+                    <Building2 className="h-4 w-4 text-mansagold" />
                     Company Name *
                   </Label>
                   <Input
@@ -132,12 +136,13 @@ const DeveloperSignupPage: React.FC = () => {
                     value={formData.company_name}
                     onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
                     required
+                    className="bg-slate-900/60 border-white/20 text-white placeholder:text-white/40 focus:border-mansablue"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="company_website" className="flex items-center gap-2">
-                    <Globe className="h-4 w-4" />
+                  <Label htmlFor="company_website" className="flex items-center gap-2 text-white/80">
+                    <Globe className="h-4 w-4 text-mansablue" />
                     Website
                   </Label>
                   <Input
@@ -146,12 +151,13 @@ const DeveloperSignupPage: React.FC = () => {
                     placeholder="https://yourcompany.com"
                     value={formData.company_website}
                     onChange={(e) => setFormData({ ...formData, company_website: e.target.value })}
+                    className="bg-slate-900/60 border-white/20 text-white placeholder:text-white/40 focus:border-mansablue"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="company_description" className="flex items-center gap-2">
-                    <FileText className="h-4 w-4" />
+                  <Label htmlFor="company_description" className="flex items-center gap-2 text-white/80">
+                    <FileText className="h-4 w-4 text-mansablue" />
                     Project Description
                   </Label>
                   <Textarea
@@ -160,26 +166,38 @@ const DeveloperSignupPage: React.FC = () => {
                     value={formData.company_description}
                     onChange={(e) => setFormData({ ...formData, company_description: e.target.value })}
                     rows={4}
+                    className="bg-slate-900/60 border-white/20 text-white placeholder:text-white/40 focus:border-mansablue resize-none"
                   />
                 </div>
 
-                <div className="bg-muted/50 rounded-lg p-4">
-                  <h4 className="font-medium mb-2">Free Tier Includes:</h4>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• 1,000 CMAL API calls/month</li>
-                    <li>• 100 Voice AI minutes/month</li>
-                    <li>• 50 Susu transactions/month</li>
-                    <li>• 100 Fraud analyses/month</li>
-                    <li>• Community support</li>
+                <div className="bg-slate-900/60 rounded-lg p-4 border border-white/10">
+                  <h4 className="font-medium mb-3 text-mansagold">Free Tier Includes:</h4>
+                  <ul className="space-y-2">
+                    {[
+                      '1,000 CMAL API calls/month',
+                      '100 Voice AI minutes/month',
+                      '50 Susu transactions/month',
+                      '100 Fraud analyses/month',
+                      'Community support',
+                    ].map((feature) => (
+                      <li key={feature} className="flex items-center gap-2 text-sm text-white/70">
+                        <CheckCircle className="h-4 w-4 text-mansagold" />
+                        {feature}
+                      </li>
+                    ))}
                   </ul>
                 </div>
 
-                <div className="text-xs text-muted-foreground">
+                <div className="text-xs text-white/40">
                   By creating an account, you agree to our Terms of Service and acknowledge 
                   that our APIs are protected under USPTO Provisional Application 63/969,202.
                 </div>
 
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold" 
+                  disabled={loading}
+                >
                   {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                   Create Developer Account
                 </Button>

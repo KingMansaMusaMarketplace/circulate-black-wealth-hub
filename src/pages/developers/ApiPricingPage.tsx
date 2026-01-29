@@ -14,8 +14,7 @@ const ApiPricingPage = () => {
       description: 'Perfect for testing and small projects',
       icon: Zap,
       color: 'text-white',
-      borderColor: 'border-slate-600',
-      bgColor: 'bg-slate-800/60',
+      borderColor: 'border-white/20',
       features: [
         { name: 'CMAL API calls', value: '1,000/mo' },
         { name: 'Voice AI minutes', value: '100/mo' },
@@ -35,7 +34,6 @@ const ApiPricingPage = () => {
       icon: Shield,
       color: 'text-mansablue',
       borderColor: 'border-mansablue',
-      bgColor: 'bg-slate-800/60',
       popular: true,
       features: [
         { name: 'CMAL API calls', value: '50,000/mo' },
@@ -56,9 +54,8 @@ const ApiPricingPage = () => {
       period: '',
       description: 'For large-scale deployments and custom needs',
       icon: Building2,
-      color: 'text-amber-400',
-      borderColor: 'border-amber-500/50',
-      bgColor: 'bg-slate-800/60',
+      color: 'text-mansagold',
+      borderColor: 'border-mansagold/50',
       features: [
         { name: 'CMAL API calls', value: 'Unlimited' },
         { name: 'Voice AI minutes', value: 'Unlimited' },
@@ -83,12 +80,16 @@ const ApiPricingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-mansablue-dark to-slate-900">
+      {/* Decorative elements */}
+      <div className="fixed top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansagold/5 to-amber-400/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed bottom-20 left-20 w-80 h-80 bg-gradient-to-br from-mansablue/5 to-blue-400/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Link to="/developers">
-            <Button variant="ghost" size="icon" className="text-white/70 hover:text-white">
+            <Button variant="ghost" size="icon" className="text-white/70 hover:text-white hover:bg-white/10">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
@@ -103,8 +104,8 @@ const ApiPricingPage = () => {
           {tiers.map((tier) => (
             <Card
               key={tier.name}
-              className={`${tier.bgColor} ${tier.borderColor} backdrop-blur-xl relative ${
-                tier.popular ? 'ring-2 ring-mansablue' : ''
+              className={`glass-card ${tier.borderColor} relative ${
+                tier.popular ? 'ring-2 ring-mansablue scale-105' : ''
               }`}
             >
               {tier.popular && (
@@ -113,12 +114,12 @@ const ApiPricingPage = () => {
                 </div>
               )}
               <CardHeader className="text-center pb-2">
-                <div className="mx-auto p-3 bg-slate-900 rounded-full w-fit mb-4">
+                <div className="mx-auto p-3 bg-slate-900/80 rounded-full w-fit mb-4 border border-white/10">
                   <tier.icon className={`h-8 w-8 ${tier.color}`} />
                 </div>
                 <CardTitle className={`text-2xl ${tier.color}`}>{tier.name}</CardTitle>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold text-white">{tier.price}</span>
+                  <span className="text-4xl font-bold text-mansagold">{tier.price}</span>
                   <span className="text-white/60">{tier.period}</span>
                 </div>
                 <CardDescription className="text-white/60 mt-2">{tier.description}</CardDescription>
@@ -128,7 +129,7 @@ const ApiPricingPage = () => {
                   {tier.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Check className={`h-4 w-4 ${tier.color}`} />
+                        <Check className={`h-4 w-4 ${tier.popular ? 'text-mansablue' : 'text-mansagold'}`} />
                         <span className="text-white/80 text-sm">{feature.name}</span>
                       </div>
                       <span className="text-white font-medium text-sm">{feature.value}</span>
@@ -140,8 +141,8 @@ const ApiPricingPage = () => {
                     variant={tier.ctaVariant}
                     className={`w-full ${
                       tier.popular
-                        ? 'bg-mansablue hover:bg-mansablue/90 text-white'
-                        : 'border-slate-600 text-white hover:bg-slate-700'
+                        ? 'bg-mansablue hover:bg-mansablue-dark text-white'
+                        : 'border-white/20 text-white hover:bg-white/10'
                     }`}
                   >
                     {tier.cta}
@@ -153,7 +154,7 @@ const ApiPricingPage = () => {
         </div>
 
         {/* Overage Pricing */}
-        <Card className="bg-slate-800/60 border-slate-700 backdrop-blur-xl mb-12">
+        <Card className="glass-card border-white/10 mb-12">
           <CardHeader>
             <CardTitle className="text-white">Overage Pricing</CardTitle>
             <CardDescription className="text-white/60">
@@ -163,9 +164,9 @@ const ApiPricingPage = () => {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               {overagePricing.map((item) => (
-                <div key={item.api} className="bg-slate-900 rounded-lg p-4 text-center">
+                <div key={item.api} className="bg-slate-900/80 rounded-lg p-4 text-center border border-white/10">
                   <p className="text-white font-medium mb-1">{item.api}</p>
-                  <p className="text-2xl font-bold text-mansablue">{item.price}</p>
+                  <p className="text-2xl font-bold text-mansagold">{item.price}</p>
                   <p className="text-white/40 text-xs">{item.unit}</p>
                 </div>
               ))}
@@ -174,7 +175,7 @@ const ApiPricingPage = () => {
         </Card>
 
         {/* FAQ */}
-        <Card className="bg-slate-800/60 border-slate-700 backdrop-blur-xl mb-12">
+        <Card className="glass-card border-white/10 mb-12">
           <CardHeader>
             <CardTitle className="text-white">Frequently Asked Questions</CardTitle>
           </CardHeader>
@@ -219,26 +220,28 @@ const ApiPricingPage = () => {
 
         {/* CTA */}
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Ready to Build?</h2>
-          <p className="text-white/60 mb-6">
-            Start with our free tier and scale as you grow. No credit card required.
-          </p>
-          <div className="flex items-center justify-center gap-4">
-            <Link to="/developers/signup">
-              <Button className="bg-mansablue hover:bg-mansablue/90">Get API Keys</Button>
-            </Link>
-            <Link to="/developers/docs">
-              <Button variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
-                Read Documentation
-              </Button>
-            </Link>
+          <div className="glass-card inline-block p-8 rounded-2xl border border-white/10">
+            <h2 className="text-2xl font-bold text-white mb-4">Ready to Build?</h2>
+            <p className="text-white/60 mb-6">
+              Start with our free tier and scale as you grow. No credit card required.
+            </p>
+            <div className="flex items-center justify-center gap-4">
+              <Link to="/developers/signup">
+                <Button className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold">Get API Keys</Button>
+              </Link>
+              <Link to="/developers/docs">
+                <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+                  Read Documentation
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
 
         {/* Patent Notice */}
         <div className="mt-12 text-center text-white/40 text-sm">
           All APIs protected under USPTO Provisional Patent 63/969,202
-          <br />© 2024-2025 1325.ai - All Rights Reserved
+          <br />© 2024-2025 1325.AI - All Rights Reserved
         </div>
       </div>
     </div>
