@@ -215,3 +215,9 @@ verify_jwt = true
 
 [functions.stripe-partner-webhook]
 verify_jwt = false
+
+[functions.api-gateway]
+verify_jwt = false
+
+[functions.cmal-api]
+verify_jwt = false

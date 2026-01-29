@@ -762,6 +762,145 @@ export type Database = {
           },
         ]
       }
+      api_keys: {
+        Row: {
+          created_at: string
+          developer_id: string
+          environment: Database["public"]["Enums"]["api_key_environment"]
+          id: string
+          key_hash: string
+          key_prefix: string
+          last_used_at: string | null
+          name: string
+          rate_limit_per_minute: number
+          revoked_at: string | null
+          scopes: string[] | null
+        }
+        Insert: {
+          created_at?: string
+          developer_id: string
+          environment?: Database["public"]["Enums"]["api_key_environment"]
+          id?: string
+          key_hash: string
+          key_prefix: string
+          last_used_at?: string | null
+          name?: string
+          rate_limit_per_minute?: number
+          revoked_at?: string | null
+          scopes?: string[] | null
+        }
+        Update: {
+          created_at?: string
+          developer_id?: string
+          environment?: Database["public"]["Enums"]["api_key_environment"]
+          id?: string
+          key_hash?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          name?: string
+          rate_limit_per_minute?: number
+          revoked_at?: string | null
+          scopes?: string[] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_developer_id_fkey"
+            columns: ["developer_id"]
+            isOneToOne: false
+            referencedRelation: "developer_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_rate_limits: {
+        Row: {
+          api_key_id: string
+          id: string
+          request_count: number
+          window_start: string
+        }
+        Insert: {
+          api_key_id: string
+          id?: string
+          request_count?: number
+          window_start: string
+        }
+        Update: {
+          api_key_id?: string
+          id?: string
+          request_count?: number
+          window_start?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_rate_limits_api_key_id_fkey"
+            columns: ["api_key_id"]
+            isOneToOne: false
+            referencedRelation: "api_keys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_usage_logs: {
+        Row: {
+          api_key_id: string
+          billed_units: number
+          developer_id: string
+          endpoint: string
+          id: string
+          ip_address: unknown
+          latency_ms: number | null
+          method: string
+          request_metadata: Json | null
+          request_timestamp: string
+          response_status: number
+          user_agent: string | null
+        }
+        Insert: {
+          api_key_id: string
+          billed_units?: number
+          developer_id: string
+          endpoint: string
+          id?: string
+          ip_address?: unknown
+          latency_ms?: number | null
+          method?: string
+          request_metadata?: Json | null
+          request_timestamp?: string
+          response_status: number
+          user_agent?: string | null
+        }
+        Update: {
+          api_key_id?: string
+          billed_units?: number
+          developer_id?: string
+          endpoint?: string
+          id?: string
+          ip_address?: unknown
+          latency_ms?: number | null
+          method?: string
+          request_metadata?: Json | null
+          request_timestamp?: string
+          response_status?: number
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_usage_logs_api_key_id_fkey"
+            columns: ["api_key_id"]
+            isOneToOne: false
+            referencedRelation: "api_keys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "api_usage_logs_developer_id_fkey"
+            columns: ["developer_id"]
+            isOneToOne: false
+            referencedRelation: "developer_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       apple_subscriptions: {
         Row: {
           auto_renew_status: boolean | null
@@ -4097,6 +4236,60 @@ export type Database = {
           updated_at?: string
           user_id?: string
           website_url?: string | null
+        }
+        Relationships: []
+      }
+      developer_accounts: {
+        Row: {
+          company_description: string | null
+          company_name: string
+          company_website: string | null
+          created_at: string
+          id: string
+          monthly_cmal_limit: number
+          monthly_fraud_limit: number
+          monthly_susu_limit: number
+          monthly_voice_limit: number
+          status: Database["public"]["Enums"]["developer_status"]
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          tier: Database["public"]["Enums"]["developer_tier"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_description?: string | null
+          company_name: string
+          company_website?: string | null
+          created_at?: string
+          id?: string
+          monthly_cmal_limit?: number
+          monthly_fraud_limit?: number
+          monthly_susu_limit?: number
+          monthly_voice_limit?: number
+          status?: Database["public"]["Enums"]["developer_status"]
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tier?: Database["public"]["Enums"]["developer_tier"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_description?: string | null
+          company_name?: string
+          company_website?: string | null
+          created_at?: string
+          id?: string
+          monthly_cmal_limit?: number
+          monthly_fraud_limit?: number
+          monthly_susu_limit?: number
+          monthly_voice_limit?: number
+          status?: Database["public"]["Enums"]["developer_status"]
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          tier?: Database["public"]["Enums"]["developer_tier"]
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -10787,6 +10980,10 @@ export type Database = {
         Args: { agent_id_param: string }
         Returns: undefined
       }
+      check_api_rate_limit: {
+        Args: { p_api_key_id: string; p_limit_per_minute: number }
+        Returns: boolean
+      }
       check_auth_rate_limit_secure: {
         Args: { p_email: string; p_ip?: unknown }
         Returns: Json
@@ -10818,6 +11015,7 @@ export type Database = {
       cleanup_expired_search_cache: { Args: never; Returns: undefined }
       cleanup_old_audit_logs: { Args: never; Returns: undefined }
       cleanup_old_batch_queue: { Args: never; Returns: undefined }
+      cleanup_old_rate_limits: { Args: never; Returns: undefined }
       complete_withdrawal: {
         Args: { p_request_id: string; p_transaction_reference?: string }
         Returns: boolean
@@ -10864,6 +11062,12 @@ export type Database = {
       delete_user_account: { Args: { user_id: string }; Returns: undefined }
       delete_user_account_immediate: { Args: never; Returns: Json }
       expire_challenges: { Args: never; Returns: undefined }
+      generate_api_key_prefix: {
+        Args: {
+          p_environment: Database["public"]["Enums"]["api_key_environment"]
+        }
+        Returns: string
+      }
       generate_batch_number: { Args: never; Returns: string }
       generate_certificate_number: { Args: never; Returns: string }
       generate_claim_token: { Args: { lead_id: string }; Returns: string }
@@ -11134,6 +11338,14 @@ export type Database = {
       get_coalition_stats: { Args: never; Returns: Json }
       get_community_impact_summary: { Args: never; Returns: Json }
       get_community_wealth_metrics: { Args: never; Returns: Json }
+      get_developer_monthly_usage: {
+        Args: { p_developer_id: string }
+        Returns: {
+          endpoint: string
+          total_billed_units: number
+          total_calls: number
+        }[]
+      }
       get_directory_businesses: {
         Args: { p_limit?: number; p_offset?: number }
         Returns: {
@@ -11506,6 +11718,21 @@ export type Database = {
         }
         Returns: undefined
       }
+      log_api_usage: {
+        Args: {
+          p_api_key_id: string
+          p_billed_units?: number
+          p_developer_id: string
+          p_endpoint: string
+          p_ip_address?: unknown
+          p_latency_ms: number
+          p_method: string
+          p_request_metadata?: Json
+          p_response_status: number
+          p_user_agent?: string
+        }
+        Returns: string
+      }
       log_failed_auth_attempt: {
         Args: {
           email_param: string
@@ -11734,6 +11961,21 @@ export type Database = {
         Args: { p_streak_type: string; p_user_id: string }
         Returns: undefined
       }
+      validate_api_key: {
+        Args: { p_key_hash: string }
+        Returns: {
+          api_key_id: string
+          developer_id: string
+          monthly_cmal_limit: number
+          monthly_fraud_limit: number
+          monthly_susu_limit: number
+          monthly_voice_limit: number
+          rate_limit_per_minute: number
+          scopes: string[]
+          status: Database["public"]["Enums"]["developer_status"]
+          tier: Database["public"]["Enums"]["developer_tier"]
+        }[]
+      }
       validate_input: {
         Args: { input_data: Json; schema_name: string }
         Returns: Json
@@ -11750,9 +11992,12 @@ export type Database = {
       validate_uuid_input: { Args: { input_uuid: string }; Returns: boolean }
     }
     Enums: {
+      api_key_environment: "test" | "live"
       app_role: "admin" | "customer" | "business" | "sales_agent"
       badge_category: "referrals" | "earnings" | "recruitment" | "special"
       badge_tier: "bronze" | "silver" | "gold" | "platinum" | "diamond"
+      developer_status: "pending" | "active" | "suspended"
+      developer_tier: "free" | "pro" | "enterprise"
       hbcu_verification_status: "pending" | "approved" | "rejected"
       marketing_material_category:
         | "social_media"
@@ -11893,9 +12138,12 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      api_key_environment: ["test", "live"],
       app_role: ["admin", "customer", "business", "sales_agent"],
       badge_category: ["referrals", "earnings", "recruitment", "special"],
       badge_tier: ["bronze", "silver", "gold", "platinum", "diamond"],
+      developer_status: ["pending", "active", "suspended"],
+      developer_tier: ["free", "pro", "enterprise"],
       hbcu_verification_status: ["pending", "approved", "rejected"],
       marketing_material_category: [
         "social_media",

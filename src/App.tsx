@@ -192,6 +192,11 @@ const LazyBusinessOnboardingPage = lazy(() => import('@/pages/business/BusinessO
 // Patent Document Export
 const LazyPatentDocumentExport = lazy(() => import('@/pages/PatentDocumentExport'));
 
+// Developer Platform pages
+const LazyDeveloperLandingPage = lazy(() => import('@/pages/developers/DeveloperLandingPage'));
+const LazyDeveloperDashboard = lazy(() => import('@/pages/developers/DeveloperDashboard'));
+const LazyDeveloperSignupPage = lazy(() => import('@/pages/developers/DeveloperSignupPage'));
+
 // Loading fallback component
 const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => {
   console.log('[LOADING FALLBACK] Showing loading screen:', message);
@@ -428,6 +433,9 @@ function App() {
                               
                               {/* D */}
                               <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
+                              <Route path="/developers" element={<LazyDeveloperLandingPage />} />
+                              <Route path="/developers/dashboard" element={<LazyDeveloperDashboard />} />
+                              <Route path="/developers/signup" element={<LazyDeveloperSignupPage />} />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
                               
                               {/* E */}
@@ -694,6 +702,9 @@ function App() {
                         
                         {/* D */}
                         <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
+                        <Route path="/developers" element={<LazyDeveloperLandingPage />} />
+                        <Route path="/developers/dashboard" element={<LazyDeveloperDashboard />} />
+                        <Route path="/developers/signup" element={<LazyDeveloperSignupPage />} />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         
                         {/* E */}
