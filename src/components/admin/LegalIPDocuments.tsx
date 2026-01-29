@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Scale, FileText, FileCheck, ClipboardList, Network, Calendar, 
   Download, ExternalLink, Shield, Globe, CheckCircle2, Clock, 
-  AlertCircle, BookOpen, Gavel, Users, LayoutGrid
+  AlertCircle, BookOpen, Gavel, Users, LayoutGrid, Book
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import { Separator } from '@/components/ui/separator';
 import USPTOPatentExport from '@/components/sponsorship/USPTOPatentExport';
 import PatentFeatureSummary from '@/components/legal/PatentFeatureSummary';
 import PatentPortfolioVisualization from '@/components/admin/PatentPortfolioVisualization';
+import BlueBookExport from '@/components/admin/BlueBookExport';
 import { toast } from 'sonner';
 
 // Patent claim data for the status tracker
@@ -373,7 +374,27 @@ const LegalIPDocuments: React.FC = () => {
         </TabsContent>
 
         {/* Export Tab */}
-        <TabsContent value="export">
+        <TabsContent value="export" className="space-y-6">
+          {/* Blue Book Section */}
+          <Card className="bg-gradient-to-r from-mansagold/10 to-transparent border-mansagold/30">
+            <CardHeader>
+              <CardTitle className="text-mansagold flex items-center gap-2">
+                <Book className="h-6 w-6" />
+                1325.AI Blue Book - Complete Technical Manual
+              </CardTitle>
+              <CardDescription className="text-blue-200/70">
+                The comprehensive 180+ page technical reference manual documenting the entire platform architecture, 
+                all 27 patent claims, database schemas, RLS policies, and system implementations.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <BlueBookExport />
+            </CardContent>
+          </Card>
+
+          <Separator className="bg-white/10" />
+          
+          {/* USPTO Export */}
           <USPTOPatentExport />
         </TabsContent>
 
