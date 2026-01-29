@@ -104,7 +104,7 @@ export const HelpSection: React.FC = () => {
             </Button>
             
             <Button
-              onClick={() => setActiveTab('faq')}
+              onClick={() => window.location.href = '/user-guide'}
               variant="outline"
               className="flex items-center gap-3 h-auto p-5 justify-start bg-slate-900/60 border-white/10 hover:border-mansagold hover:shadow-lg hover:shadow-mansagold/20 hover:scale-105 transition-all text-white"
             >
@@ -112,8 +112,8 @@ export const HelpSection: React.FC = () => {
                 <MessageCircle className="w-5 h-5 text-slate-900" />
               </div>
               <div className="text-left">
-                <div className="font-bold text-white">Browse FAQ</div>
-                <div className="text-sm text-blue-300/70">Common questions</div>
+                <div className="font-bold text-white">User Guide</div>
+                <div className="text-sm text-blue-300/70">Full documentation</div>
               </div>
             </Button>
             
