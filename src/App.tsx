@@ -198,6 +198,8 @@ const LazyDeveloperDashboard = lazy(() => import('@/pages/developers/DeveloperDa
 const LazyDeveloperSignupPage = lazy(() => import('@/pages/developers/DeveloperSignupPage'));
 const LazyApiDocumentationPage = lazy(() => import('@/pages/developers/ApiDocumentationPage'));
 const LazyApiPricingPage = lazy(() => import('@/pages/developers/ApiPricingPage'));
+const LazySdkDocumentationPage = lazy(() => import('@/pages/developers/SdkDocumentationPage'));
+const LazyShowcaseGalleryPage = lazy(() => import('@/pages/developers/ShowcaseGalleryPage'));
 
 // Loading fallback component
 const LoadingFallback: React.FC<{ message?: string }> = ({ message = "Loading..." }) => {
@@ -440,6 +442,8 @@ function App() {
                               <Route path="/developers/signup" element={<LazyDeveloperSignupPage />} />
                               <Route path="/developers/docs" element={<LazyApiDocumentationPage />} />
                               <Route path="/developers/pricing" element={<LazyApiPricingPage />} />
+                              <Route path="/developers/sdks" element={<LazySdkDocumentationPage />} />
+                              <Route path="/developers/showcase" element={<LazyShowcaseGalleryPage />} />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
                               
                               {/* E */}
@@ -711,6 +715,8 @@ function App() {
                         <Route path="/developers/signup" element={<LazyDeveloperSignupPage />} />
                         <Route path="/developers/docs" element={<LazyApiDocumentationPage />} />
                         <Route path="/developers/pricing" element={<LazyApiPricingPage />} />
+                        <Route path="/developers/sdks" element={<LazySdkDocumentationPage />} />
+                        <Route path="/developers/showcase" element={<LazyShowcaseGalleryPage />} />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         
                         {/* E */}
