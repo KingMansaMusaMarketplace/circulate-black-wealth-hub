@@ -125,6 +125,31 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
           alignment: AlignmentType.CENTER,
         }),
         new Paragraph({
+          children: [new TextRun({ text: '\n', break: 1 })],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Thomas D. Bowling',
+              size: 28,
+              bold: true,
+              color: '1a365d',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Inventor & Chief Architect',
+              size: 22,
+              bold: true,
+              color: '4a5568',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+        }),
+        new Paragraph({
           children: [new TextRun({ text: '\n\n', break: 2 })],
         }),
         new Paragraph({
@@ -139,7 +164,7 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
           alignment: AlignmentType.CENTER,
         }),
         new Paragraph({
-          children: [new TextRun({ text: '\n\n\n\n\n\n\n\n\n\n', break: 10 })],
+          children: [new TextRun({ text: '\n\n\n\n\n\n\n', break: 7 })],
         }),
         new Paragraph({
           children: [
@@ -488,9 +513,20 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       pdf.setTextColor(80);
       pdf.text('Version 1.0.0 | January 29, 2026', pageWidth / 2, 160, { align: 'center' });
       
+      // Author - Thomas D. Bowling
+      pdf.setFontSize(14);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(26, 54, 93);
+      pdf.text('Thomas D. Bowling', pageWidth / 2, 180, { align: 'center' });
+      
+      pdf.setFontSize(12);
+      pdf.setTextColor(74, 85, 104);
+      pdf.text('Inventor & Chief Architect', pageWidth / 2, 190, { align: 'center' });
+      pdf.setFont('helvetica', 'normal');
+      
       pdf.setFontSize(11);
       pdf.setTextColor(214, 158, 46);
-      pdf.text('USPTO Provisional Application 63/969,202', pageWidth / 2, 175, { align: 'center' });
+      pdf.text('USPTO Provisional Application 63/969,202', pageWidth / 2, 210, { align: 'center' });
       
       // Footer on title
       pdf.setFontSize(10);
