@@ -6,14 +6,45 @@ import { FileText, Download, Book, Loader2, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import jsPDF from 'jspdf';
 import { ALL_USER_GUIDE_SECTIONS } from '@/lib/user-guide-content';
+import neuralBrainLogo from '@/assets/1325-neural-brain-logo.jpeg';
 
 interface UserGuideExportProps {
   onBack?: () => void;
 }
 
+// Helper to load image as base64
+const loadImageAsBase64 = (src: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/jpeg'));
+      } else {
+        reject(new Error('Could not get canvas context'));
+      }
+    };
+    img.onerror = reject;
+    img.src = src;
+  });
+};
+
 // Standalone export function for use outside the component
 export const exportUserGuideToPDF = async () => {
   try {
+    // Load logo first
+    let logoData: string | null = null;
+    try {
+      logoData = await loadImageAsBase64(neuralBrainLogo);
+    } catch (e) {
+      console.warn('Could not load logo for PDF:', e);
+    }
+
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
@@ -49,22 +80,29 @@ export const exportUserGuideToPDF = async () => {
     // COVER PAGE
     pdf.setFillColor(26, 54, 93);
     pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+
+    // Add logo at top center
+    if (logoData) {
+      const logoSize = 50;
+      pdf.addImage(logoData, 'JPEG', (pageWidth - logoSize) / 2, 25, logoSize, logoSize);
+    }
+
     pdf.setFillColor(214, 158, 46);
-    pdf.rect(0, pageHeight * 0.4, pageWidth, 8, 'F');
+    pdf.rect(0, pageHeight * 0.45, pageWidth, 8, 'F');
     pdf.setTextColor(255, 255, 255);
-    pdf.setFontSize(48);
+    pdf.setFontSize(42);
     pdf.setFont('helvetica', 'bold');
-    pdf.text('1325.AI PLATFORM', pageWidth / 2, pageHeight * 0.3, { align: 'center' });
-    pdf.setFontSize(56);
+    pdf.text('1325.AI PLATFORM', pageWidth / 2, pageHeight * 0.35, { align: 'center' });
+    pdf.setFontSize(48);
     pdf.setTextColor(214, 158, 46);
-    pdf.text('USER GUIDE', pageWidth / 2, pageHeight * 0.38, { align: 'center' });
+    pdf.text('USER GUIDE', pageWidth / 2, pageHeight * 0.43, { align: 'center' });
     pdf.setFontSize(18);
     pdf.setTextColor(200, 200, 200);
     pdf.setFont('helvetica', 'italic');
-    pdf.text('Comprehensive Platform Documentation', pageWidth / 2, pageHeight * 0.52, { align: 'center' });
+    pdf.text('Comprehensive Platform Documentation', pageWidth / 2, pageHeight * 0.55, { align: 'center' });
     pdf.setFontSize(12);
     pdf.setFont('helvetica', 'normal');
-    pdf.text(`Version 1.0 | ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`, pageWidth / 2, pageHeight * 0.6, { align: 'center' });
+    pdf.text(`Version 1.0 | ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`, pageWidth / 2, pageHeight * 0.62, { align: 'center' });
     pdf.setFontSize(10);
     pdf.setTextColor(150, 150, 150);
     pdf.text('Building the Future of Digital Commerce | AI', pageWidth / 2, pageHeight - 30, { align: 'center' });
