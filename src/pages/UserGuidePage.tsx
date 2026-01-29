@@ -369,6 +369,19 @@ const UserGuidePage: React.FC = () => {
           </CardContent>
         </Card>
 
+        {/* Legal Footer */}
+        <div className="mt-16 pt-8 border-t border-white/10 text-center space-y-2">
+          <p className="text-xs text-white/60">
+            © 2026 1325.AI. All Rights Reserved.
+          </p>
+          <p className="text-xs text-white/50">
+            CONFIDENTIAL & PROPRIETARY - Unauthorized reproduction or distribution prohibited.
+          </p>
+          <p className="text-xs text-white/40">
+            1325.AI™ and the Neural Brain logo are trademarks of 1325.AI.
+          </p>
+        </div>
+
         {/* Back to Top Button */}
         {showBackToTop && (
           <Button
