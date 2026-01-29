@@ -4,7 +4,7 @@ import {
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
   Eye, Sliders, Bot, UserCog, ChevronDown, PanelLeft, Home, Award, Mail,
-  Handshake, Rocket, Trophy, FileText
+  Handshake, Rocket, Trophy, FileText, Code2
 } from 'lucide-react';
 import {
   Sidebar,
@@ -75,6 +75,7 @@ const menuGroups = [
       { id: 'verifications', label: 'Verifications', icon: ShieldCheck },
       { id: 'agents', label: 'Sales Agents', icon: Users },
       { id: 'partners', label: 'Partners', icon: Handshake },
+      { id: 'developers', label: 'Developers', icon: Code2 },
       { id: 'financial', label: 'Financial', icon: DollarSign },
       { id: 'loyalty', label: 'Loyalty Program', icon: Award },
     ]
