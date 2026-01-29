@@ -6,15 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
 import { 
   Key, 
   Copy, 
-  Eye, 
-  EyeOff, 
   Trash2, 
   Plus, 
   BarChart3, 
@@ -85,7 +82,6 @@ const DeveloperDashboard: React.FC = () => {
   const [newKeyEnv, setNewKeyEnv] = useState<'test' | 'live'>('test');
   const [creatingKey, setCreatingKey] = useState(false);
   const [newlyCreatedKey, setNewlyCreatedKey] = useState<string | null>(null);
-  const [visibleKeys, setVisibleKeys] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     if (!user) {
@@ -182,6 +178,7 @@ const DeveloperDashboard: React.FC = () => {
 
       setNewlyCreatedKey(fullKey);
       setNewKeyName('');
+      setShowNewKeyDialog(false);
       await loadDeveloperData();
       toast.success('API key created successfully');
     } catch (error) {
@@ -220,20 +217,10 @@ const DeveloperDashboard: React.FC = () => {
       .reduce((sum, u) => sum + (u.total_billed_units || 0), 0);
   };
 
-  const toggleKeyVisibility = (keyId: string) => {
-    const newVisible = new Set(visibleKeys);
-    if (newVisible.has(keyId)) {
-      newVisible.delete(keyId);
-    } else {
-      newVisible.add(keyId);
-    }
-    setVisibleKeys(newVisible);
-  };
-
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-950 via-mansablue-dark to-slate-900">
+        <Loader2 className="h-8 w-8 animate-spin text-mansagold" />
       </div>
     );
   }
@@ -247,7 +234,7 @@ const DeveloperDashboard: React.FC = () => {
       name: 'CMAL', 
       used: getUsageForEndpoint('/cmal'), 
       limit: account.monthly_cmal_limit,
-      color: 'bg-emerald-500' 
+      color: 'bg-mansablue' 
     },
     { 
       name: 'Voice', 
@@ -259,7 +246,7 @@ const DeveloperDashboard: React.FC = () => {
       name: 'Susu', 
       used: getUsageForEndpoint('/susu'), 
       limit: account.monthly_susu_limit,
-      color: 'bg-amber-500' 
+      color: 'bg-mansagold' 
     },
     { 
       name: 'Fraud', 
@@ -270,39 +257,43 @@ const DeveloperDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-mansablue-dark to-slate-900 p-6">
+      {/* Decorative elements */}
+      <div className="fixed top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansagold/5 to-amber-400/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed bottom-20 left-20 w-80 h-80 bg-gradient-to-br from-mansablue/5 to-blue-400/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold">{account.company_name}</h1>
+            <h1 className="text-3xl font-bold text-white">{account.company_name}</h1>
             <div className="flex items-center gap-2 mt-2">
-              <Badge variant={account.status === 'active' ? 'default' : 'secondary'}>
+              <Badge className={account.status === 'active' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50' : 'bg-slate-500/20 text-slate-400'}>
                 {account.status}
               </Badge>
-              <Badge variant="outline" className="capitalize">
+              <Badge variant="outline" className="capitalize border-mansagold/50 text-mansagold">
                 {account.tier} Plan
               </Badge>
             </div>
           </div>
-          <Button variant="outline" onClick={loadDeveloperData}>
+          <Button variant="outline" onClick={loadDeveloperData} className="border-white/20 text-white hover:bg-white/10">
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
         </div>
 
         <Tabs defaultValue="keys" className="space-y-6">
-          <TabsList>
-            <TabsTrigger value="keys" className="flex items-center gap-2">
-              <Key className="h-4 w-4" />
+          <TabsList className="bg-slate-800/60 border border-white/10 p-1">
+            <TabsTrigger value="keys" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/60">
+              <Key className="h-4 w-4 mr-2" />
               API Keys
             </TabsTrigger>
-            <TabsTrigger value="usage" className="flex items-center gap-2">
-              <BarChart3 className="h-4 w-4" />
+            <TabsTrigger value="usage" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/60">
+              <BarChart3 className="h-4 w-4 mr-2" />
               Usage
             </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
+            <TabsTrigger value="settings" className="data-[state=active]:bg-mansablue data-[state=active]:text-white text-white/60">
+              <Settings className="h-4 w-4 mr-2" />
               Settings
             </TabsTrigger>
           </TabsList>
@@ -315,24 +306,25 @@ const DeveloperDashboard: React.FC = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <Card className="border-primary bg-primary/5">
+                <Card className="border-mansagold/50 bg-mansagold/10 backdrop-blur-xl">
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2 text-primary">
+                    <CardTitle className="flex items-center gap-2 text-mansagold">
                       <AlertCircle className="h-5 w-5" />
                       Save Your API Key
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-white/60">
                       This is the only time you'll see this key. Copy it now and store it securely.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center gap-2">
-                      <code className="flex-1 bg-muted p-3 rounded font-mono text-sm break-all">
+                      <code className="flex-1 bg-slate-900/80 p-3 rounded font-mono text-sm break-all text-mansagold border border-white/10">
                         {newlyCreatedKey}
                       </code>
                       <Button 
                         size="icon" 
                         onClick={() => copyToClipboard(newlyCreatedKey)}
+                        className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark"
                       >
                         <Copy className="h-4 w-4" />
                       </Button>
@@ -340,7 +332,7 @@ const DeveloperDashboard: React.FC = () => {
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="mt-4"
+                      className="mt-4 border-white/20 text-white hover:bg-white/10"
                       onClick={() => setNewlyCreatedKey(null)}
                     >
                       I've saved this key
@@ -354,46 +346,47 @@ const DeveloperDashboard: React.FC = () => {
             <div className="flex justify-end">
               <Dialog open={showNewKeyDialog} onOpenChange={setShowNewKeyDialog}>
                 <DialogTrigger asChild>
-                  <Button>
+                  <Button className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold">
                     <Plus className="h-4 w-4 mr-2" />
                     Generate New Key
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="bg-slate-900 border-white/20">
                   <DialogHeader>
-                    <DialogTitle>Generate API Key</DialogTitle>
-                    <DialogDescription>
+                    <DialogTitle className="text-white">Generate API Key</DialogTitle>
+                    <DialogDescription className="text-white/60">
                       Create a new API key for your application.
                     </DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 py-4">
                     <div className="space-y-2">
-                      <Label htmlFor="keyName">Key Name</Label>
+                      <Label htmlFor="keyName" className="text-white/80">Key Name</Label>
                       <Input
                         id="keyName"
                         placeholder="e.g., Production Key"
                         value={newKeyName}
                         onChange={(e) => setNewKeyName(e.target.value)}
+                        className="bg-slate-800 border-white/20 text-white placeholder:text-white/40"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="keyEnv">Environment</Label>
+                      <Label htmlFor="keyEnv" className="text-white/80">Environment</Label>
                       <Select value={newKeyEnv} onValueChange={(v: 'test' | 'live') => setNewKeyEnv(v)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="bg-slate-800 border-white/20 text-white">
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="test">Test</SelectItem>
-                          <SelectItem value="live">Live</SelectItem>
+                        <SelectContent className="bg-slate-800 border-white/20">
+                          <SelectItem value="test" className="text-white">Test</SelectItem>
+                          <SelectItem value="live" className="text-white">Live</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button variant="outline" onClick={() => setShowNewKeyDialog(false)}>
+                    <Button variant="outline" onClick={() => setShowNewKeyDialog(false)} className="border-white/20 text-white hover:bg-white/10">
                       Cancel
                     </Button>
-                    <Button onClick={createApiKey} disabled={creatingKey}>
+                    <Button onClick={createApiKey} disabled={creatingKey} className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark">
                       {creatingKey && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
                       Generate Key
                     </Button>
@@ -405,25 +398,25 @@ const DeveloperDashboard: React.FC = () => {
             {/* API Keys List */}
             <div className="space-y-4">
               {apiKeys.length === 0 ? (
-                <Card>
-                  <CardContent className="py-8 text-center text-muted-foreground">
+                <Card className="glass-card border-white/10">
+                  <CardContent className="py-8 text-center text-white/60">
                     No API keys yet. Generate your first key to get started.
                   </CardContent>
                 </Card>
               ) : (
                 apiKeys.map((key) => (
-                  <Card key={key.id}>
+                  <Card key={key.id} className="glass-card border-white/10">
                     <CardContent className="py-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <Key className="h-5 w-5 text-muted-foreground" />
+                          <Key className="h-5 w-5 text-mansagold" />
                           <div>
-                            <div className="font-medium">{key.name}</div>
+                            <div className="font-medium text-white">{key.name}</div>
                             <div className="flex items-center gap-2 mt-1">
-                              <code className="text-sm text-muted-foreground font-mono">
+                              <code className="text-sm text-white/60 font-mono">
                                 {key.key_prefix}
                               </code>
-                              <Badge variant={key.environment === 'live' ? 'default' : 'secondary'}>
+                              <Badge className={key.environment === 'live' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50' : 'bg-slate-500/20 text-slate-400 border-slate-500/50'}>
                                 {key.environment}
                               </Badge>
                             </div>
@@ -431,7 +424,7 @@ const DeveloperDashboard: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-2">
                           {key.last_used_at && (
-                            <span className="text-xs text-muted-foreground">
+                            <span className="text-xs text-white/40">
                               Last used: {new Date(key.last_used_at).toLocaleDateString()}
                             </span>
                           )}
@@ -439,8 +432,9 @@ const DeveloperDashboard: React.FC = () => {
                             variant="ghost"
                             size="icon"
                             onClick={() => revokeApiKey(key.id)}
+                            className="text-red-400 hover:text-red-300 hover:bg-red-500/10"
                           >
-                            <Trash2 className="h-4 w-4 text-destructive" />
+                            <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
                       </div>
@@ -455,20 +449,20 @@ const DeveloperDashboard: React.FC = () => {
           <TabsContent value="usage" className="space-y-6">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {usageStats.map((stat) => (
-                <Card key={stat.name}>
+                <Card key={stat.name} className="glass-card border-white/10">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                    <CardTitle className="text-sm font-medium text-white/60">
                       {stat.name} API
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">
+                    <div className="text-2xl font-bold text-white">
                       {stat.used.toLocaleString()}
                     </div>
-                    <div className="text-xs text-muted-foreground mb-2">
+                    <div className="text-xs text-white/40 mb-2">
                       of {stat.limit.toLocaleString()} calls
                     </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
                       <div 
                         className={`h-full ${stat.color}`}
                         style={{ width: `${Math.min(100, (stat.used / stat.limit) * 100)}%` }}
@@ -479,16 +473,16 @@ const DeveloperDashboard: React.FC = () => {
               ))}
             </div>
 
-            <Card>
+            <Card className="glass-card border-white/10">
               <CardHeader>
-                <CardTitle>Usage by Endpoint</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-white">Usage by Endpoint</CardTitle>
+                <CardDescription className="text-white/60">
                   Detailed breakdown of API calls this month
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {usage.length === 0 ? (
-                  <div className="text-center text-muted-foreground py-8">
+                  <div className="text-center text-white/60 py-8">
                     No API calls recorded yet
                   </div>
                 ) : (
@@ -496,14 +490,12 @@ const DeveloperDashboard: React.FC = () => {
                     {usage.map((u) => (
                       <div 
                         key={u.endpoint}
-                        className="flex items-center justify-between py-2 border-b last:border-0"
+                        className="flex items-center justify-between py-2 border-b border-white/10 last:border-0"
                       >
-                        <code className="text-sm font-mono">{u.endpoint}</code>
-                        <div className="text-right">
-                          <div className="font-medium">{u.total_calls.toLocaleString()} calls</div>
-                          <div className="text-xs text-muted-foreground">
-                            {u.total_billed_units.toLocaleString()} billed units
-                          </div>
+                        <code className="text-sm font-mono text-mansablue-light">{u.endpoint}</code>
+                        <div className="flex items-center gap-4">
+                          <span className="text-white/60 text-sm">{u.total_calls} calls</span>
+                          <span className="text-mansagold font-medium">{u.total_billed_units} units</span>
                         </div>
                       </div>
                     ))}
@@ -515,49 +507,38 @@ const DeveloperDashboard: React.FC = () => {
 
           {/* Settings Tab */}
           <TabsContent value="settings" className="space-y-6">
-            <Card>
+            <Card className="glass-card border-white/10">
               <CardHeader>
-                <CardTitle>Account Settings</CardTitle>
-                <CardDescription>
-                  Manage your developer account
+                <CardTitle className="text-white">Account Settings</CardTitle>
+                <CardDescription className="text-white/60">
+                  Manage your developer account settings
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label>Company Name</Label>
-                  <Input value={account.company_name} disabled />
+                <div>
+                  <Label className="text-white/80">Company Name</Label>
+                  <p className="text-white mt-1">{account.company_name}</p>
                 </div>
-                <div className="space-y-2">
-                  <Label>Website</Label>
-                  <Input value={account.company_website || ''} disabled />
-                </div>
-                <div className="space-y-2">
-                  <Label>Description</Label>
-                  <Textarea value={account.company_description || ''} disabled />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Current Plan</CardTitle>
-                <CardDescription>
-                  Your current subscription tier
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
+                {account.company_website && (
                   <div>
-                    <div className="text-2xl font-bold capitalize">{account.tier}</div>
-                    <div className="text-muted-foreground">
-                      {account.tier === 'free' && '$0/month'}
-                      {account.tier === 'pro' && '$299/month'}
-                      {account.tier === 'enterprise' && 'Custom pricing'}
-                    </div>
+                    <Label className="text-white/80">Website</Label>
+                    <p className="text-mansablue mt-1">{account.company_website}</p>
                   </div>
-                  {account.tier !== 'enterprise' && (
-                    <Button>Upgrade Plan</Button>
-                  )}
+                )}
+                <div>
+                  <Label className="text-white/80">Current Plan</Label>
+                  <div className="flex items-center gap-2 mt-1">
+                    <Badge className="capitalize bg-mansagold/20 text-mansagold border-mansagold/50">
+                      {account.tier}
+                    </Badge>
+                    <Button variant="link" className="text-mansablue p-0 h-auto">
+                      Upgrade Plan
+                    </Button>
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-white/80">Member Since</Label>
+                  <p className="text-white/60 mt-1">{new Date(account.created_at).toLocaleDateString()}</p>
                 </div>
               </CardContent>
             </Card>

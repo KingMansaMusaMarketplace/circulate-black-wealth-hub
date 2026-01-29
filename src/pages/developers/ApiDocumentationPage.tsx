@@ -214,12 +214,16 @@ const ApiDocumentationPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-mansablue-dark to-slate-900">
+      {/* Decorative elements */}
+      <div className="fixed top-20 right-20 w-96 h-96 bg-gradient-to-br from-mansagold/5 to-amber-400/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed bottom-20 left-20 w-80 h-80 bg-gradient-to-br from-mansablue/5 to-blue-400/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Link to="/developers">
-            <Button variant="ghost" size="icon" className="text-white/70 hover:text-white">
+            <Button variant="ghost" size="icon" className="text-white/70 hover:text-white hover:bg-white/10">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
@@ -230,7 +234,7 @@ const ApiDocumentationPage = () => {
         </div>
 
         {/* Authentication Section */}
-        <Card className="bg-slate-800/60 border-slate-700 backdrop-blur-xl mb-8">
+        <Card className="glass-card border-white/10 mb-8">
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
               <Code2 className="h-5 w-5 text-mansablue" />
@@ -241,16 +245,16 @@ const ApiDocumentationPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="bg-slate-900 rounded-lg p-4 font-mono text-sm">
+            <div className="bg-slate-900/80 rounded-lg p-4 font-mono text-sm border border-white/10">
               <div className="flex items-center justify-between">
-                <code className="text-green-400">
+                <code className="text-mansagold">
                   Authorization: Bearer 1325_live_xxxxxxxxxxxxx
                 </code>
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => copyToClipboard('Authorization: Bearer 1325_live_xxxxxxxxxxxxx', 'auth')}
-                  className="text-white/60 hover:text-white"
+                  className="text-white/60 hover:text-white hover:bg-white/10"
                 >
                   {copiedEndpoint === 'auth' ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 </Button>
@@ -267,7 +271,7 @@ const ApiDocumentationPage = () => {
 
         {/* API Tabs */}
         <Tabs defaultValue="cmal" className="space-y-6">
-          <TabsList className="bg-slate-800/60 border border-slate-700 p-1">
+          <TabsList className="bg-slate-800/60 border border-white/10 p-1">
             {apis.map((api) => (
               <TabsTrigger
                 key={api.id}
@@ -283,11 +287,11 @@ const ApiDocumentationPage = () => {
           {apis.map((api) => (
             <TabsContent key={api.id} value={api.id} className="space-y-6">
               {/* API Header */}
-              <Card className="bg-slate-800/60 border-slate-700 backdrop-blur-xl">
+              <Card className="glass-card border-white/10">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-mansablue/20 rounded-lg">
+                      <div className="p-2 bg-mansablue/20 rounded-lg border border-mansablue/30">
                         <api.icon className="h-6 w-6 text-mansablue" />
                       </div>
                       <div>
@@ -295,13 +299,13 @@ const ApiDocumentationPage = () => {
                         <CardDescription className="text-white/60">{api.description}</CardDescription>
                       </div>
                     </div>
-                    <Badge variant="outline" className="border-amber-500/50 text-amber-400">
+                    <Badge variant="outline" className="border-mansagold/50 text-mansagold">
                       Patent Claims {api.patentClaims}
                     </Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="bg-slate-900 rounded-lg p-3 font-mono text-sm">
+                  <div className="bg-slate-900/80 rounded-lg p-3 font-mono text-sm border border-white/10">
                     <span className="text-white/60">Base URL: </span>
                     <span className="text-mansablue">{api.baseUrl}</span>
                   </div>
@@ -310,14 +314,14 @@ const ApiDocumentationPage = () => {
 
               {/* Endpoints */}
               {api.endpoints.map((endpoint, idx) => (
-                <Card key={idx} className="bg-slate-800/60 border-slate-700 backdrop-blur-xl">
+                <Card key={idx} className="glass-card border-white/10">
                   <CardHeader>
                     <div className="flex items-center gap-3">
                       <Badge
                         className={
                           endpoint.method === 'POST'
-                            ? 'bg-green-500/20 text-green-400 border-green-500/50'
-                            : 'bg-blue-500/20 text-blue-400 border-blue-500/50'
+                            ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50'
+                            : 'bg-mansablue/20 text-mansablue border-mansablue/50'
                         }
                       >
                         {endpoint.method}
@@ -337,7 +341,7 @@ const ApiDocumentationPage = () => {
                           onClick={() =>
                             copyToClipboard(JSON.stringify(endpoint.request, null, 2), `${api.id}-${idx}-req`)
                           }
-                          className="text-white/60 hover:text-white"
+                          className="text-white/60 hover:text-white hover:bg-white/10"
                         >
                           {copiedEndpoint === `${api.id}-${idx}-req` ? (
                             <Check className="h-4 w-4" />
@@ -347,8 +351,8 @@ const ApiDocumentationPage = () => {
                         </Button>
                       </div>
                       <ScrollArea className="h-auto max-h-48">
-                        <pre className="bg-slate-900 rounded-lg p-4 text-sm overflow-x-auto">
-                          <code className="text-green-400">{JSON.stringify(endpoint.request, null, 2)}</code>
+                        <pre className="bg-slate-900/80 rounded-lg p-4 text-sm overflow-x-auto border border-white/10">
+                          <code className="text-emerald-400">{JSON.stringify(endpoint.request, null, 2)}</code>
                         </pre>
                       </ScrollArea>
                     </div>
@@ -363,7 +367,7 @@ const ApiDocumentationPage = () => {
                           onClick={() =>
                             copyToClipboard(JSON.stringify(endpoint.response, null, 2), `${api.id}-${idx}-res`)
                           }
-                          className="text-white/60 hover:text-white"
+                          className="text-white/60 hover:text-white hover:bg-white/10"
                         >
                           {copiedEndpoint === `${api.id}-${idx}-res` ? (
                             <Check className="h-4 w-4" />
@@ -373,8 +377,8 @@ const ApiDocumentationPage = () => {
                         </Button>
                       </div>
                       <ScrollArea className="h-auto max-h-64">
-                        <pre className="bg-slate-900 rounded-lg p-4 text-sm overflow-x-auto">
-                          <code className="text-blue-400">{JSON.stringify(endpoint.response, null, 2)}</code>
+                        <pre className="bg-slate-900/80 rounded-lg p-4 text-sm overflow-x-auto border border-white/10">
+                          <code className="text-mansablue-light">{JSON.stringify(endpoint.response, null, 2)}</code>
                         </pre>
                       </ScrollArea>
                     </div>
@@ -382,8 +386,8 @@ const ApiDocumentationPage = () => {
                     {/* cURL Example */}
                     <div>
                       <span className="text-white/80 text-sm font-medium mb-2 block">cURL Example</span>
-                      <div className="bg-slate-900 rounded-lg p-4 font-mono text-xs overflow-x-auto">
-                        <code className="text-amber-400">
+                      <div className="bg-slate-900/80 rounded-lg p-4 font-mono text-xs overflow-x-auto border border-white/10">
+                        <code className="text-mansagold">
                           {`curl -X ${endpoint.method} "${api.baseUrl}${endpoint.path}" \\
   -H "Authorization: Bearer 1325_live_xxx" \\
   -H "Content-Type: application/json" \\
@@ -399,24 +403,24 @@ const ApiDocumentationPage = () => {
         </Tabs>
 
         {/* Rate Limits */}
-        <Card className="bg-slate-800/60 border-slate-700 backdrop-blur-xl mt-8">
+        <Card className="glass-card border-white/10 mt-8">
           <CardHeader>
             <CardTitle className="text-white">Rate Limits</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-slate-900 rounded-lg p-4 text-center">
+              <div className="bg-slate-900/80 rounded-lg p-4 text-center border border-white/10">
                 <p className="text-white/60 text-sm">Free Tier</p>
                 <p className="text-2xl font-bold text-white">60</p>
                 <p className="text-white/40 text-xs">requests/min</p>
               </div>
-              <div className="bg-slate-900 rounded-lg p-4 text-center border border-mansablue/50">
+              <div className="bg-slate-900/80 rounded-lg p-4 text-center border border-mansablue/50">
                 <p className="text-mansablue text-sm">Pro Tier</p>
                 <p className="text-2xl font-bold text-white">300</p>
                 <p className="text-white/40 text-xs">requests/min</p>
               </div>
-              <div className="bg-slate-900 rounded-lg p-4 text-center border border-amber-500/50">
-                <p className="text-amber-400 text-sm">Enterprise</p>
+              <div className="bg-slate-900/80 rounded-lg p-4 text-center border border-mansagold/50">
+                <p className="text-mansagold text-sm">Enterprise</p>
                 <p className="text-2xl font-bold text-white">Unlimited</p>
                 <p className="text-white/40 text-xs">custom limits</p>
               </div>
@@ -427,7 +431,7 @@ const ApiDocumentationPage = () => {
         {/* Patent Notice */}
         <div className="mt-8 text-center text-white/40 text-sm">
           All APIs protected under USPTO Provisional Patent 63/969,202
-          <br />© 2024-2025 1325.ai - All Rights Reserved
+          <br />© 2024-2025 1325.AI - All Rights Reserved
         </div>
       </div>
     </div>
