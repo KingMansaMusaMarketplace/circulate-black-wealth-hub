@@ -10,7 +10,7 @@
 
 ---
 
-**Filing Date:** January 22, 2026  
+**Filing Date:** January 27, 2026  
 **Applicant/Inventor:** Thomas D. Bowling
 
 ---

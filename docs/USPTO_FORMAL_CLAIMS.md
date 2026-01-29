@@ -8,7 +8,7 @@
 
 ---
 
-**Filing Date:** January 22, 2026  
+**Filing Date:** January 27, 2026  
 **Applicant/Inventor:** Thomas D. Bowling  
 **Correspondence Address:** 1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628
 
