@@ -37,6 +37,7 @@ import {
   GuideSection, 
   GuideContent 
 } from '@/lib/user-guide-content';
+import { exportUserGuideToPDF } from '@/components/admin/UserGuideExport';
 
 // Icon mapping
 const iconMap: Record<string, React.ReactNode> = {
@@ -151,15 +152,14 @@ const UserGuidePage: React.FC = () => {
               <Printer className="h-4 w-4 mr-2" />
               Print Guide
             </Button>
-            <Link to="/admin-dashboard">
-              <Button 
-                variant="outline" 
-                className="bg-slate-800/60 border-white/10 text-white hover:bg-slate-700/60"
-              >
-                <FileDown className="h-4 w-4 mr-2" />
-                Export as PDF
-              </Button>
-            </Link>
+            <Button 
+              onClick={exportUserGuideToPDF}
+              variant="outline" 
+              className="bg-slate-800/60 border-white/10 text-white hover:bg-slate-700/60"
+            >
+              <FileDown className="h-4 w-4 mr-2" />
+              Export as PDF
+            </Button>
           </div>
         </div>
 
