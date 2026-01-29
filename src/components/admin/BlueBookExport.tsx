@@ -180,8 +180,65 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
         new Paragraph({
           children: [
             new TextRun({
+              text: 'PATENT PENDING - USPTO Application 63/969,202',
+              bold: true,
+              size: 16,
+              color: 'd69e2e',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: '\n', break: 1 })],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'This document contains trade secrets and proprietary information.',
+              size: 14,
+              color: '4a5568',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Unauthorized reproduction, distribution, or disclosure is strictly prohibited',
+              size: 14,
+              color: '4a5568',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'and may result in civil and criminal penalties under applicable law.',
+              size: 14,
+              color: '4a5568',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+        }),
+        new Paragraph({
+          children: [new TextRun({ text: '\n', break: 1 })],
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
               text: '© 2024-2026 1325.AI - All Rights Reserved',
-              size: 18,
+              size: 16,
+              color: '718096',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Contact: Thomas@1325.AI',
+              size: 14,
               color: '718096',
             }),
           ],
@@ -467,13 +524,15 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       const contentWidth = pageWidth - 2 * margin;
       let y = margin;
 
-      // Helper to add page number
+      // Helper to add page number with legal footer
       const addPageNumber = () => {
         const pageNum = pdf.getNumberOfPages();
-        pdf.setFontSize(10);
+        pdf.setFontSize(8);
         pdf.setTextColor(128);
-        pdf.text(`Page ${pageNum}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
-        pdf.text('1325.AI Blue Book - Confidential', margin, pageHeight - 10);
+        pdf.text(`Page ${pageNum}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
+        pdf.setFontSize(7);
+        pdf.setTextColor(100);
+        pdf.text('1325.AI Blue Book - CONFIDENTIAL & PROPRIETARY - Patent Pending 63/969,202', margin, pageHeight - 8);
       };
 
       // Title page with logo
@@ -528,12 +587,26 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       pdf.setTextColor(214, 158, 46);
       pdf.text('USPTO Provisional Application 63/969,202', pageWidth / 2, 210, { align: 'center' });
       
-      // Footer on title
-      pdf.setFontSize(10);
+      // Footer on title - Enhanced Legal Protection
+      pdf.setFontSize(9);
       pdf.setTextColor(197, 48, 48);
-      pdf.text('CONFIDENTIAL AND PROPRIETARY', pageWidth / 2, pageHeight - 30, { align: 'center' });
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('CONFIDENTIAL AND PROPRIETARY - TRADE SECRET', pageWidth / 2, pageHeight - 55, { align: 'center' });
+      
+      pdf.setFontSize(8);
+      pdf.setTextColor(214, 158, 46);
+      pdf.text('PATENT PENDING - USPTO Application 63/969,202', pageWidth / 2, pageHeight - 47, { align: 'center' });
+      
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(7);
       pdf.setTextColor(100);
-      pdf.text('(c) 2024-2026 1325.AI - All Rights Reserved', pageWidth / 2, pageHeight - 20, { align: 'center' });
+      pdf.text('This document contains trade secrets and proprietary information of 1325.AI.', pageWidth / 2, pageHeight - 38, { align: 'center' });
+      pdf.text('Unauthorized reproduction, distribution, or disclosure is strictly prohibited', pageWidth / 2, pageHeight - 32, { align: 'center' });
+      pdf.text('and may result in civil and criminal penalties under 18 U.S.C. 1832 and applicable state laws.', pageWidth / 2, pageHeight - 26, { align: 'center' });
+      
+      pdf.setFontSize(8);
+      pdf.setTextColor(80);
+      pdf.text('(c) 2024-2026 1325.AI - All Rights Reserved | Contact: Thomas@1325.AI', pageWidth / 2, pageHeight - 16, { align: 'center' });
 
       // Table of contents page
       pdf.addPage();
