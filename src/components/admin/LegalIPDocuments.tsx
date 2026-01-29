@@ -68,11 +68,11 @@ const edgeFunctionsWithHeaders = [
 ];
 
 const filingTimeline = [
-  { date: 'January 22, 2026', action: 'Provisional Application Filed (63/969,202)', status: 'completed' },
-  { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-26 Partner System)', status: 'completed' },
-  { date: 'January 22, 2027', action: 'Non-Provisional OR PCT Filing Due', status: 'upcoming' },
-  { date: 'July 22, 2027', action: 'Publication (if PCT)', status: 'upcoming' },
-  { date: 'July 22, 2028', action: 'National Phase Entry', status: 'upcoming' },
+  { date: 'January 27, 2026', action: 'Provisional Application Filed (63/969,202)', status: 'completed' },
+  { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-27 Partner System)', status: 'completed' },
+  { date: 'January 27, 2027', action: 'Non-Provisional OR PCT Filing Due', status: 'upcoming' },
+  { date: 'July 27, 2027', action: 'Publication (if PCT)', status: 'upcoming' },
+  { date: 'July 27, 2028', action: 'National Phase Entry', status: 'upcoming' },
 ];
 
 const patentDocuments = [
@@ -86,7 +86,7 @@ const patentDocuments = [
   { 
     name: 'Formal Claims', 
     file: 'USPTO_FORMAL_CLAIMS.md', 
-    description: '26 independent + 50+ dependent claims',
+    description: '27 independent + 56+ dependent claims',
     pages: '~35 pages',
     type: 'claims'
   },
@@ -120,8 +120,8 @@ const patentDocuments = [
   },
   { 
     name: 'Partner Referral System (NEW)', 
-    file: 'PATENT_CLAIMS_21-26_PARTNER_SYSTEM.md', 
-    description: 'Claims 21-26: Attribution, Revenue Share, Vetting',
+    file: 'PATENT_CLAIMS_21-27_PARTNER_SYSTEM.md', 
+    description: 'Claims 21-27: Attribution, Revenue Share, Vetting',
     pages: '~8 pages',
     type: 'amendment'
   },
@@ -133,7 +133,7 @@ const usptoOfficialDocuments = [
     name: 'USPTO Payment Receipt',
     file: '/documents/patents/USPTO-Payment-Receipt-63969202.pdf',
     description: 'Official payment confirmation for Application 63/969,202',
-    date: 'January 22, 2026',
+    date: 'January 27, 2026',
     type: 'receipt',
     isExternal: true
   },
@@ -277,7 +277,7 @@ const LegalIPDocuments: React.FC = () => {
                   <Separator className="bg-white/10" />
                   <div className="flex justify-between text-sm">
                     <span className="text-blue-200/70">Filing Date</span>
-                    <span className="text-white">January 22, 2026</span>
+                    <span className="text-white">January 27, 2026</span>
                   </div>
                   <Separator className="bg-white/10" />
                   <div className="flex justify-between text-sm">
@@ -554,7 +554,7 @@ const LegalIPDocuments: React.FC = () => {
                 Official USPTO Filing Documents
               </CardTitle>
               <CardDescription className="text-green-300/70">
-                Application 63/969,202 - Filed January 22, 2026
+                Application 63/969,202 - Filed January 27, 2026
               </CardDescription>
             </CardHeader>
             <CardContent>

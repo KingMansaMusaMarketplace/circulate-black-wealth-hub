@@ -395,11 +395,11 @@ const PatentPortfolioVisualization: React.FC = () => {
             
             <div className="space-y-6">
               {[
-                { date: 'January 22, 2026', action: 'Provisional Application Filed (Claims 1-18)', status: 'completed', color: 'green' },
-                { date: 'January 25, 2026', action: 'Amendment Filed (Claims 19-20 Platform Wallet)', status: 'completed', color: 'green' },
+                { date: 'January 27, 2026', action: 'Provisional Application Filed (Claims 1-18)', status: 'completed', color: 'green' },
+                { date: 'January 28, 2026', action: 'Amendment Filed (Claims 19-20 Platform Wallet)', status: 'completed', color: 'green' },
                 { date: 'January 30, 2026', action: 'Amendment Filed (Claims 21-27 Partner System)', status: 'pending', color: 'amber' },
                 { date: 'September 1, 2026', action: 'Founding Member/Partner Cutoff Date', status: 'upcoming', color: 'rose' },
-                { date: 'January 22, 2027', action: 'Non-Provisional OR PCT Filing Due', status: 'upcoming', color: 'blue' },
+                { date: 'January 27, 2027', action: 'Non-Provisional OR PCT Filing Due', status: 'upcoming', color: 'blue' },
               ].map((item, index) => (
                 <motion.div
                   key={index}

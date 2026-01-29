@@ -4,7 +4,7 @@
 
 ---
 
-**Filing Date:** January 22, 2026  
+**Filing Date:** January 27, 2026  
 **Applicant/Inventor:** Thomas D. Bowling  
 **Title:** System and Method for a Multi-Tenant Vertical Marketplace Operating System
 
@@ -175,10 +175,10 @@ Each independent claim has 2-4 dependent claims narrowing scope:
 
 | Deadline | Action | Notes |
 |----------|--------|-------|
-| Filing Date | Provisional Filed | January 22, 2026 |
-| +12 months | Non-Provisional OR PCT Filing | January 22, 2027 |
-| +18 months | Publication (if PCT) | July 22, 2027 |
-| +30 months | National Phase Entry | July 22, 2028 |
+| Filing Date | Provisional Filed | January 27, 2026 |
+| +12 months | Non-Provisional OR PCT Filing | January 27, 2027 |
+| +18 months | Publication (if PCT) | July 27, 2027 |
+| +30 months | National Phase Entry | July 27, 2028 |
 
 ### Priority Countries to Consider
 
@@ -217,7 +217,7 @@ Each independent claim has 2-4 dependent claims narrowing scope:
  *        Multiplier Attribution, and Geospatial Velocity Fraud Detection
  * 
  * Application Number: [TO BE ADDED AFTER FILING]
- * Filing Date: January 22, 2026
+ * Filing Date: January 27, 2026
  * 
  * © 2024-2026 Thomas D. Bowling. All rights reserved.
  * Unauthorized replication, implementation, or distribution is prohibited.

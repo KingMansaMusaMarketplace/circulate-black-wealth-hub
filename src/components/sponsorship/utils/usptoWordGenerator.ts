@@ -912,7 +912,7 @@ function createFilingChecklistSection(checklist: { document: string; status: str
     "Upload all documents",
     "Pay filing fee ($80 Micro Entity)",
     "Save confirmation with Application Number",
-    "Calendar 12-month deadline: January 22, 2027 for non-provisional/PCT filing"
+    "Calendar 12-month deadline: January 27, 2027 for non-provisional/PCT filing"
   ];
   
   return [

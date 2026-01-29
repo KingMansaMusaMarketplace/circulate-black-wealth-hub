@@ -8,7 +8,7 @@
 
 ---
 
-**Filing Date:** January 22, 2026  
+**Filing Date:** January 27, 2026  
 **Application Number:** _______________  
 **Applicant/Inventor:** Thomas D. Bowling  
 **Correspondence Address:** 1000 E. 111th Street, Suite 1100, Chicago, Illinois 60628  
@@ -1109,7 +1109,7 @@ I hereby declare that I am the original inventor of the subject matter claimed i
 
 **Signature:** _________________________  
 **Printed Name:** Thomas D. Bowling  
-**Date:** January 22, 2026  
+**Date:** January 27, 2026  
 
 ---
 
@@ -1146,7 +1146,7 @@ I hereby declare that I am the original inventor of the subject matter claimed i
 7. ☐ Upload all documents
 8. ☐ Pay filing fee ($80 Micro Entity)
 9. ☐ Save confirmation with Application Number
-10. ☐ Calendar 12-month deadline: **January 22, 2027** for non-provisional/PCT filing
+10. ☐ Calendar 12-month deadline: **January 27, 2027** for non-provisional/PCT filing
 
 ---
 
@@ -1154,10 +1154,10 @@ I hereby declare that I am the original inventor of the subject matter claimed i
 
 | Deadline | Action |
 |----------|--------|
-| January 22, 2026 | Provisional Filed |
-| January 22, 2027 | Non-Provisional OR PCT Filing |
-| July 22, 2027 | Publication (if PCT) |
-| July 22, 2028 | National Phase Entry |
+| January 27, 2026 | Provisional Filed |
+| January 27, 2027 | Non-Provisional OR PCT Filing |
+| July 27, 2027 | Publication (if PCT) |
+| July 27, 2028 | National Phase Entry |
 
 ---
 
