@@ -130,6 +130,14 @@ const patentDocuments = [
 // Official USPTO Filing Documents
 const usptoOfficialDocuments = [
   {
+    name: 'USPTO Provisional Patent Application',
+    file: '/documents/patents/USPTO-Provisional-Patent-Application-63969202.pdf',
+    description: 'Complete provisional patent application with all 27 claims',
+    date: 'January 27, 2026',
+    type: 'application',
+    isExternal: true
+  },
+  {
     name: 'USPTO Payment Receipt',
     file: '/documents/patents/USPTO-Payment-Receipt-63969202.pdf',
     description: 'Official payment confirmation for Application 63/969,202',
