@@ -4,8 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { FileText, Download, Book, FileType2, Loader2, CheckCircle, Clock, Shield } from 'lucide-react';
 import { toast } from 'sonner';
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType, ShadingType } from 'docx';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle, Table, TableRow, TableCell, WidthType, ShadingType, ImageRun } from 'docx';
 import jsPDF from 'jspdf';
+import neuralBrainLogo from '@/assets/1325-neural-brain-logo.jpeg';
 
 interface BlueBookExportProps {
   onBack?: () => void;
@@ -393,9 +394,26 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
         pdf.text('1325.AI Blue Book - Confidential', margin, pageHeight - 10);
       };
 
-      // Title page
+      // Title page with logo
       pdf.setFillColor(26, 54, 93);
       pdf.rect(0, 0, pageWidth, 60, 'F');
+      
+      // Add logo to PDF title page
+      try {
+        const logoImg = new Image();
+        logoImg.crossOrigin = 'Anonymous';
+        await new Promise<void>((resolve, reject) => {
+          logoImg.onload = () => resolve();
+          logoImg.onerror = reject;
+          logoImg.src = neuralBrainLogo;
+        });
+        
+        // Draw logo centered at top
+        const logoSize = 40;
+        pdf.addImage(logoImg, 'JPEG', (pageWidth - logoSize) / 2, 65, logoSize, logoSize);
+      } catch (logoError) {
+        console.warn('Could not add logo to PDF:', logoError);
+      }
       
       pdf.setFontSize(32);
       pdf.setTextColor(255);
@@ -403,19 +421,19 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       
       pdf.setFontSize(48);
       pdf.setTextColor(214, 158, 46);
-      pdf.text('BLUE BOOK', pageWidth / 2, 90, { align: 'center' });
+      pdf.text('BLUE BOOK', pageWidth / 2, 120, { align: 'center' });
       
       pdf.setFontSize(18);
       pdf.setTextColor(100);
-      pdf.text('Technical Reference Manual', pageWidth / 2, 110, { align: 'center' });
+      pdf.text('Technical Reference Manual', pageWidth / 2, 140, { align: 'center' });
       
       pdf.setFontSize(12);
       pdf.setTextColor(80);
-      pdf.text('Version 1.0.0 | January 29, 2026', pageWidth / 2, 130, { align: 'center' });
+      pdf.text('Version 1.0.0 | January 29, 2026', pageWidth / 2, 160, { align: 'center' });
       
       pdf.setFontSize(11);
       pdf.setTextColor(214, 158, 46);
-      pdf.text('USPTO Provisional Application 63/969,202', pageWidth / 2, 145, { align: 'center' });
+      pdf.text('USPTO Provisional Application 63/969,202', pageWidth / 2, 175, { align: 'center' });
       
       // Footer on title
       pdf.setFontSize(10);
@@ -602,8 +620,8 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
         <CardHeader>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-20 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-lg flex items-center justify-center border-2 border-mansagold/50 shadow-lg">
-                <Book className="h-8 w-8 text-white" />
+              <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-mansagold/50 shadow-lg bg-mansablue">
+                <img src={neuralBrainLogo} alt="1325.AI Neural Brain Logo" className="w-full h-full object-cover" />
               </div>
               <div>
                 <CardTitle className="text-xl text-white">Platform Blue Book</CardTitle>
