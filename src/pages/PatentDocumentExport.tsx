@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, FileText, Loader2, CheckCircle, ExternalLink } from 'lucide-react';
+import { Download, FileText, Loader2, CheckCircle, ExternalLink, Book } from 'lucide-react';
 import { toast } from 'sonner';
 import { jsPDF } from 'jspdf';
 import HighlightToSpeakButton from '@/components/HighlightToSpeakButton';
+import BlueBookExport from '@/components/admin/BlueBookExport';
 
 const PatentDocumentExport = () => {
+  const [showBlueBook, setShowBlueBook] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGenerated, setIsGenerated] = useState(false);
   const [showMarkdown, setShowMarkdown] = useState(false);
@@ -195,6 +197,38 @@ const PatentDocumentExport = () => {
   return (
     <>
       <div className="container mx-auto py-8 px-4">
+      {/* Blue Book Section */}
+      <Card className="mb-6 border-mansagold/30 bg-gradient-to-r from-mansagold/5 to-transparent">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-mansagold">
+            <Book className="h-6 w-6" />
+            1325.AI Blue Book - Complete Technical Manual
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground mb-4">
+            The comprehensive 180+ page technical reference manual documenting the entire platform architecture, 
+            all 27 patent claims, database schemas, RLS policies, and system implementations.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Button 
+              onClick={() => setShowBlueBook(!showBlueBook)}
+              size="lg"
+              className="gap-2 bg-mansagold hover:bg-mansagold/90 text-mansadark"
+            >
+              <Book className="h-5 w-5" />
+              {showBlueBook ? 'Hide' : 'Open'} Blue Book Export
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {showBlueBook && (
+        <div className="mb-6">
+          <BlueBookExport onBack={() => setShowBlueBook(false)} />
+        </div>
+      )}
+
       <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
