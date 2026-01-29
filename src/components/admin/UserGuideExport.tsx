@@ -59,12 +59,15 @@ export const exportUserGuideToPDF = async () => {
 
     const addPageFooter = () => {
       const pageNum = pdf.getNumberOfPages();
-      pdf.setFontSize(7);
-      pdf.setTextColor(100, 100, 100);
-      pdf.text('1325.AI Platform User Guide - Comprehensive Documentation', pageWidth / 2, pageHeight - 15, { align: 'center' });
+      // Legal notice
+      pdf.setFontSize(6);
+      pdf.setTextColor(120, 120, 120);
+      pdf.text('© 2026 1325.AI. All Rights Reserved. CONFIDENTIAL & PROPRIETARY - Unauthorized reproduction prohibited.', pageWidth / 2, pageHeight - 18, { align: 'center' });
+      pdf.text('1325.AI™ and the Neural Brain logo are trademarks of 1325.AI.', pageWidth / 2, pageHeight - 14, { align: 'center' });
+      // Page number
       pdf.setFontSize(8);
       pdf.setTextColor(128, 128, 128);
-      pdf.text(`Page ${pageNum}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+      pdf.text(`Page ${pageNum}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
     };
 
     const checkNewPage = (requiredSpace: number = 30) => {
