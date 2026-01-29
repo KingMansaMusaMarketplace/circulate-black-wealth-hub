@@ -367,11 +367,65 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
     }
   };
 
+  // Helper function to sanitize Unicode box-drawing characters for PDF compatibility
+  const sanitizeForPdf = (text: string): string => {
+    return text
+      // Box-drawing corners and edges
+      .replace(/┌/g, '+')
+      .replace(/┐/g, '+')
+      .replace(/└/g, '+')
+      .replace(/┘/g, '+')
+      .replace(/├/g, '+')
+      .replace(/┤/g, '+')
+      .replace(/┬/g, '+')
+      .replace(/┴/g, '+')
+      .replace(/┼/g, '+')
+      // Horizontal and vertical lines
+      .replace(/─/g, '-')
+      .replace(/│/g, '|')
+      .replace(/═/g, '=')
+      .replace(/║/g, '|')
+      // Double-line corners
+      .replace(/╔/g, '+')
+      .replace(/╗/g, '+')
+      .replace(/╚/g, '+')
+      .replace(/╝/g, '+')
+      // Arrows
+      .replace(/▼/g, 'v')
+      .replace(/▲/g, '^')
+      .replace(/►/g, '>')
+      .replace(/◄/g, '<')
+      // Other special characters
+      .replace(/•/g, '*')
+      .replace(/…/g, '...')
+      .replace(/–/g, '-')
+      .replace(/—/g, '--')
+      .replace(/'/g, "'")
+      .replace(/'/g, "'")
+      .replace(/"/g, '"')
+      .replace(/"/g, '"')
+      .replace(/©/g, '(c)')
+      .replace(/®/g, '(R)')
+      .replace(/™/g, '(TM)')
+      // Remove any remaining non-ASCII characters that might cause issues
+      .replace(/[^\x00-\x7F]/g, (char) => {
+        // Try to keep common accented characters, replace others with space
+        const charCode = char.charCodeAt(0);
+        if (charCode >= 0x00C0 && charCode <= 0x024F) {
+          return char; // Keep Latin Extended characters
+        }
+        return ' ';
+      });
+  };
+
   const generatePDF = async () => {
     setGeneratingPdf(true);
     try {
       const response = await fetch('/documents/1325AI_BLUE_BOOK_TECHNICAL_MANUAL.md');
-      const markdownContent = await response.text();
+      let markdownContent = await response.text();
+      
+      // Sanitize the markdown content for PDF compatibility
+      markdownContent = sanitizeForPdf(markdownContent);
 
       const pdf = new jsPDF({
         orientation: 'portrait',
