@@ -38,6 +38,7 @@ import {
   GuideContent 
 } from '@/lib/user-guide-content';
 import { exportUserGuideToPDF } from '@/components/admin/UserGuideExport';
+import neuralBrainLogo from '@/assets/1325-neural-brain-logo.jpeg';
 
 // Icon mapping
 const iconMap: Record<string, React.ReactNode> = {
@@ -131,9 +132,11 @@ const UserGuidePage: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-block mb-6">
-            <div className="p-4 bg-gradient-to-br from-mansagold/20 to-amber-500/20 rounded-full backdrop-blur-xl border border-mansagold/30">
-              <Book className="h-16 w-16 text-mansagold" />
-            </div>
+            <img 
+              src={neuralBrainLogo} 
+              alt="1325.AI Neural Brain Logo" 
+              className="w-32 h-32 object-contain drop-shadow-[0_0_20px_rgba(214,158,46,0.4)]"
+            />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
             1325.AI Platform User Guide
