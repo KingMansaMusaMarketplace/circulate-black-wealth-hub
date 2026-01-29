@@ -48,6 +48,7 @@ const sections = [
       { id: 'agents', label: 'Sales Agents', icon: Users, description: 'Manage sales agent network' },
       { id: 'financial', label: 'Financial', icon: DollarSign, description: 'Financial reports and payouts' },
       { id: 'loyalty', label: 'Loyalty Program', icon: Award, description: 'Manage loyalty points, tiers, and rewards' },
+      { id: 'developers', label: 'Developers', icon: Database, description: 'Manage API developers and usage' },
     ]
   },
   {
