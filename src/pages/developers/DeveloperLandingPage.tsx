@@ -13,9 +13,12 @@ import {
   AlertTriangle,
   ArrowRight,
   CheckCircle,
-  Globe
+  Globe,
+  Handshake,
+  Building2
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useEcosystemStats } from '@/hooks/use-technical-partner';
 
 const DeveloperLandingPage: React.FC = () => {
   const apis = [
@@ -95,6 +98,8 @@ const DeveloperLandingPage: React.FC = () => {
       popular: false,
     },
   ];
+
+  const { stats } = useEcosystemStats();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-mansablue-dark to-slate-900">
@@ -191,6 +196,85 @@ const DeveloperLandingPage: React.FC = () => {
                 </Card>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partner-Powered Data Section */}
+      <section className="py-20 border-t border-white/5">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <Badge variant="outline" className="mb-4 border-mansagold/50 text-mansagold bg-mansagold/10">
+              <Handshake className="h-3 w-3 mr-1" />
+              Ecosystem Powered
+            </Badge>
+            <h2 className="text-3xl font-bold text-white mb-4">Built on Real Business Data</h2>
+            <p className="text-white/60 max-w-2xl mx-auto">
+              Access {stats?.partner_referred_businesses || 800}+ verified businesses from our partner network 
+              of {stats?.active_partners || 15} directories across the country.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <Card className="glass-card border-white/10 text-center h-full">
+                <CardContent className="pt-6">
+                  <div className="w-12 h-12 rounded-full bg-mansagold/20 flex items-center justify-center mx-auto mb-4 border border-mansagold/30">
+                    <Building2 className="h-6 w-6 text-mansagold" />
+                  </div>
+                  <p className="text-3xl font-bold text-white mb-1">{stats?.partner_referred_businesses || 800}+</p>
+                  <p className="text-white/60 text-sm">Verified Businesses</p>
+                  <p className="text-xs text-white/40 mt-2">Available via API</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Card className="glass-card border-white/10 text-center h-full">
+                <CardContent className="pt-6">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mx-auto mb-4 border border-blue-500/30">
+                    <Users className="h-6 w-6 text-blue-400" />
+                  </div>
+                  <p className="text-3xl font-bold text-white mb-1">{stats?.active_partners || 15}</p>
+                  <p className="text-white/60 text-sm">Partner Directories</p>
+                  <p className="text-xs text-white/40 mt-2">Growing network</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <Card className="glass-card border-white/10 text-center h-full">
+                <CardContent className="pt-6">
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-4 border border-emerald-500/30">
+                    <TrendingUp className="h-6 w-6 text-emerald-400" />
+                  </div>
+                  <p className="text-3xl font-bold text-white mb-1">{stats?.active_developers || 12}</p>
+                  <p className="text-white/60 text-sm">Active Developers</p>
+                  <p className="text-xs text-white/40 mt-2">Building on our APIs</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+
+          <div className="text-center">
+            <Button variant="outline" className="border-white/30 text-white hover:bg-white/10" asChild>
+              <Link to="/developers/showcase">
+                View Partner-Powered Apps
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

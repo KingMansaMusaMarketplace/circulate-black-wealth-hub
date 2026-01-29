@@ -115,6 +115,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "account_suspensions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       activity_log: {
@@ -171,6 +178,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "activity_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -607,6 +621,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "ai_recommendations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       ambassador_marketing_materials: {
@@ -901,6 +922,78 @@ export type Database = {
           },
         ]
       }
+      app_business_attributions: {
+        Row: {
+          api_calls_generated: number | null
+          app_name: string
+          attribution_source: string | null
+          business_id: string
+          created_at: string | null
+          developer_id: string
+          earnings_attributed: number | null
+          first_api_call_at: string | null
+          id: string
+        }
+        Insert: {
+          api_calls_generated?: number | null
+          app_name: string
+          attribution_source?: string | null
+          business_id: string
+          created_at?: string | null
+          developer_id: string
+          earnings_attributed?: number | null
+          first_api_call_at?: string | null
+          id?: string
+        }
+        Update: {
+          api_calls_generated?: number | null
+          app_name?: string
+          attribution_source?: string | null
+          business_id?: string
+          created_at?: string | null
+          developer_id?: string
+          earnings_attributed?: number | null
+          first_api_call_at?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_business_attributions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_business_attributions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_business_attributions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_business_attributions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_business_attributions_developer_id_fkey"
+            columns: ["developer_id"]
+            isOneToOne: false
+            referencedRelation: "developer_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       apple_subscriptions: {
         Row: {
           auto_renew_status: boolean | null
@@ -1060,6 +1153,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "b2b_connections_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "b2b_connections_capability_id_fkey"
             columns: ["capability_id"]
             isOneToOne: false
@@ -1092,6 +1192,13 @@ export type Database = {
             columns: ["supplier_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_connections_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -1276,6 +1383,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "b2b_external_leads_converted_business_id_fkey"
+            columns: ["converted_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "b2b_external_leads_discovered_by_business_id_fkey"
             columns: ["discovered_by_business_id"]
             isOneToOne: false
@@ -1294,6 +1408,13 @@ export type Database = {
             columns: ["discovered_by_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_external_leads_discovered_by_business_id_fkey"
+            columns: ["discovered_by_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
           {
@@ -1379,6 +1500,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "b2b_messages_sender_business_id_fkey"
+            columns: ["sender_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       b2b_reviews: {
@@ -1457,6 +1585,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "b2b_reviews_reviewed_business_id_fkey"
+            columns: ["reviewed_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "b2b_reviews_reviewer_business_id_fkey"
             columns: ["reviewer_business_id"]
             isOneToOne: false
@@ -1475,6 +1610,13 @@ export type Database = {
             columns: ["reviewer_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_reviews_reviewer_business_id_fkey"
+            columns: ["reviewer_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -1536,6 +1678,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "b2b_transactions_buyer_business_id_fkey"
+            columns: ["buyer_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "b2b_transactions_connection_id_fkey"
             columns: ["connection_id"]
             isOneToOne: false
@@ -1561,6 +1710,13 @@ export type Database = {
             columns: ["supplier_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "b2b_transactions_supplier_business_id_fkey"
+            columns: ["supplier_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -1669,6 +1825,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "bank_accounts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       bank_transactions: {
@@ -1753,6 +1916,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bank_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
           {
@@ -1858,6 +2028,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
           {
@@ -1981,6 +2158,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "budgets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -2124,6 +2308,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "business_access_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       business_analytics: {
@@ -2171,6 +2362,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_analytics_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -2223,6 +2421,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_availability_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -2310,6 +2515,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "business_capabilities_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       business_contact_requests: {
@@ -2372,6 +2584,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_contact_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -2548,6 +2767,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "business_insights_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       business_interactions: {
@@ -2595,6 +2821,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_interactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -2671,6 +2904,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "business_invitations_converted_business_id_fkey"
+            columns: ["converted_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "business_invitations_inviter_business_id_fkey"
             columns: ["inviter_business_id"]
             isOneToOne: false
@@ -2689,6 +2929,13 @@ export type Database = {
             columns: ["inviter_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_invitations_inviter_business_id_fkey"
+            columns: ["inviter_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -2770,6 +3017,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "business_needs_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       business_payment_accounts: {
@@ -2826,6 +3080,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: true
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_payment_accounts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -2904,6 +3165,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "business_sentiment_trends_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       business_services: {
@@ -2965,6 +3233,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "business_services_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       business_tax_rates: {
@@ -3015,6 +3290,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_tax_rates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -3136,6 +3418,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "business_verifications_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -3286,6 +3575,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "businesses_parent_business_id_fkey"
+            columns: ["parent_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       businesses_private: {
@@ -3336,6 +3632,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: true
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "businesses_private_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -3466,6 +3769,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "coalition_members_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       coalition_points: {
@@ -3558,6 +3868,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
           {
@@ -3683,6 +4000,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "coalition_transactions_redeem_business_id_fkey"
+            columns: ["redeem_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "coalition_transactions_source_business_id_fkey"
             columns: ["source_business_id"]
             isOneToOne: false
@@ -3701,6 +4025,13 @@ export type Database = {
             columns: ["source_business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "coalition_transactions_source_business_id_fkey"
+            columns: ["source_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -3854,6 +4185,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "commission_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "commission_transactions_transaction_id_fkey"
             columns: ["transaction_id"]
             isOneToOne: false
@@ -3963,6 +4301,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "community_events_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       community_impact_metrics: {
@@ -4067,6 +4412,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "community_investments_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -4618,6 +4970,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "expenses_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       failed_auth_attempts: {
@@ -4742,6 +5101,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "financial_audit_log_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       fixed_assets: {
@@ -4822,6 +5188,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fixed_assets_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -5055,6 +5428,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fraud_alerts_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -5439,6 +5819,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "invoices_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       karma_transactions: {
@@ -5557,6 +5944,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "loyalty_points_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -6489,6 +6883,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "partner_referrals_referred_business_id_fkey"
+            columns: ["referred_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       payment_batches: {
@@ -6625,6 +7026,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "phone_verification_otps_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       platform_transactions: {
@@ -6705,6 +7113,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "platform_transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
           {
@@ -6794,6 +7209,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "product_images_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -6984,6 +7406,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "promo_code_redemptions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
           {
@@ -7230,6 +7659,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "qr_codes_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       qr_scans: {
@@ -7289,6 +7725,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "qr_scans_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
           {
@@ -7407,6 +7850,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "recurring_invoices_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       redeemed_rewards: {
@@ -7463,6 +7913,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "redeemed_rewards_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
           {
@@ -7987,6 +8444,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "review_requests_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       review_sentiment_analysis: {
@@ -8058,6 +8522,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "review_sentiment_analysis_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "review_sentiment_analysis_review_id_fkey"
             columns: ["review_id"]
             isOneToOne: false
@@ -8125,6 +8596,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "reviews_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       rewards: {
@@ -8184,6 +8662,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "rewards_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -8797,6 +9282,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "shopping_list_items_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "shopping_list_items_list_id_fkey"
             columns: ["list_id"]
             isOneToOne: false
@@ -8887,6 +9379,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "social_activity_feed_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       social_shares: {
@@ -8937,6 +9436,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "social_shares_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -9682,6 +10188,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "success_stories_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       support_ticket_messages: {
@@ -9971,6 +10484,76 @@ export type Database = {
         }
         Relationships: []
       }
+      technical_partners: {
+        Row: {
+          app_name: string | null
+          app_url: string | null
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string | null
+          developer_id: string
+          id: string
+          partner_id: string | null
+          revenue_share_percent: number | null
+          status: string
+          total_app_earnings: number | null
+          total_app_referrals: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          app_name?: string | null
+          app_url?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string | null
+          developer_id: string
+          id?: string
+          partner_id?: string | null
+          revenue_share_percent?: number | null
+          status?: string
+          total_app_earnings?: number | null
+          total_app_referrals?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          app_name?: string | null
+          app_url?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string | null
+          developer_id?: string
+          id?: string
+          partner_id?: string | null
+          revenue_share_percent?: number | null
+          status?: string
+          total_app_earnings?: number | null
+          total_app_referrals?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "technical_partners_developer_id_fkey"
+            columns: ["developer_id"]
+            isOneToOne: false
+            referencedRelation: "developer_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "technical_partners_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "technical_partners_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_leaderboard"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenant_configurations: {
         Row: {
           accent_color: string | null
@@ -10045,6 +10628,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "tenant_configurations_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: true
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       testimonials: {
@@ -10101,6 +10691,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "testimonials_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -10171,6 +10768,13 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -10548,6 +11152,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "verification_certificates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "verification_certificates_verification_id_fkey"
             columns: ["verification_id"]
             isOneToOne: false
@@ -10783,6 +11394,13 @@ export type Database = {
             referencedRelation: "businesses_public_safe"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "businesses_parent_business_id_fkey"
+            columns: ["parent_business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
         ]
       }
       businesses_public_safe: {
@@ -10860,6 +11478,18 @@ export type Database = {
         }
         Relationships: []
       }
+      ecosystem_cross_stats: {
+        Row: {
+          active_developers: number | null
+          active_partners: number | null
+          app_attributed_businesses: number | null
+          partner_referred_businesses: number | null
+          technical_partners: number | null
+          total_partner_earnings: number | null
+          total_technical_partner_earnings: number | null
+        }
+        Relationships: []
+      }
       partner_leaderboard: {
         Row: {
           commission_tier: string | null
@@ -10876,6 +11506,37 @@ export type Database = {
           total_referrals: number | null
         }
         Relationships: []
+      }
+      partner_referred_businesses_api: {
+        Row: {
+          average_rating: number | null
+          business_name: string | null
+          category: string | null
+          city: string | null
+          id: string | null
+          joined_at: string | null
+          partner_id: string | null
+          partner_tier: Database["public"]["Enums"]["partner_tier"] | null
+          referring_directory: string | null
+          review_count: number | null
+          state: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_referrals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "directory_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_referrals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_leaderboard"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {
