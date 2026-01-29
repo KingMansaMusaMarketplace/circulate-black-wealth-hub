@@ -709,6 +709,8 @@ function App() {
                         <Route path="/developers" element={<LazyDeveloperLandingPage />} />
                         <Route path="/developers/dashboard" element={<LazyDeveloperDashboard />} />
                         <Route path="/developers/signup" element={<LazyDeveloperSignupPage />} />
+                        <Route path="/developers/docs" element={<LazyApiDocumentationPage />} />
+                        <Route path="/developers/pricing" element={<LazyApiPricingPage />} />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         
                         {/* E */}
