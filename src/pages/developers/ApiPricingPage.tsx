@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Check, Zap, Shield, Building2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import EnterpriseContactForm from '@/components/developers/EnterpriseContactForm';
 
 const ApiPricingPage = () => {
+  const [showEnterpriseForm, setShowEnterpriseForm] = useState(false);
   const tiers = [
     {
       name: 'Free',
@@ -136,18 +138,28 @@ const ApiPricingPage = () => {
                     </li>
                   ))}
                 </ul>
-                <Link to={tier.name === 'Enterprise' ? '#' : '/developers/signup'}>
+                {tier.name === 'Enterprise' ? (
                   <Button
                     variant={tier.ctaVariant}
-                    className={`w-full ${
-                      tier.popular
-                        ? 'bg-mansablue hover:bg-mansablue-dark text-white'
-                        : 'border-white/20 text-white hover:bg-white/10'
-                    }`}
+                    onClick={() => setShowEnterpriseForm(true)}
+                    className="w-full border-mansagold/50 text-mansagold hover:bg-mansagold/10"
                   >
                     {tier.cta}
                   </Button>
-                </Link>
+                ) : (
+                  <Link to="/developers/signup">
+                    <Button
+                      variant={tier.ctaVariant}
+                      className={`w-full ${
+                        tier.popular
+                          ? 'bg-mansablue hover:bg-mansablue-dark text-white'
+                          : 'border-white/20 text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {tier.cta}
+                    </Button>
+                  </Link>
+                )}
               </CardContent>
             </Card>
           ))}
@@ -218,6 +230,25 @@ const ApiPricingPage = () => {
           </CardContent>
         </Card>
 
+        {/* Enterprise Contact Form Modal */}
+        {showEnterpriseForm && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="relative">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowEnterpriseForm(false)}
+                  className="absolute -top-2 -right-2 text-white/60 hover:text-white hover:bg-white/10 z-10"
+                >
+                  ✕
+                </Button>
+                <EnterpriseContactForm />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* CTA */}
         <div className="text-center">
           <div className="glass-card inline-block p-8 rounded-2xl border border-white/10">
@@ -225,7 +256,7 @@ const ApiPricingPage = () => {
             <p className="text-white/60 mb-6">
               Start with our free tier and scale as you grow. No credit card required.
             </p>
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center justify-center gap-4 flex-wrap">
               <Link to="/developers/signup">
                 <Button className="bg-mansagold hover:bg-mansagold-dark text-mansablue-dark font-bold">Get API Keys</Button>
               </Link>
@@ -234,6 +265,14 @@ const ApiPricingPage = () => {
                   Read Documentation
                 </Button>
               </Link>
+              <Button
+                variant="outline"
+                onClick={() => setShowEnterpriseForm(true)}
+                className="border-mansagold/50 text-mansagold hover:bg-mansagold/10"
+              >
+                <Building2 className="h-4 w-4 mr-2" />
+                Contact Enterprise
+              </Button>
             </div>
           </div>
         </div>
