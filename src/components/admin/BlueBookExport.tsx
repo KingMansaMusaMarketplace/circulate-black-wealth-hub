@@ -246,7 +246,295 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
         }),
       );
 
-      // Page break
+      // Page break before Document Control Page
+      children.push(
+        new Paragraph({
+          children: [],
+          pageBreakBefore: true,
+        })
+      );
+
+      // Document Control Page
+      children.push(
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'DOCUMENT CONTROL',
+              bold: true,
+              size: 36,
+              color: '1a365d',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+          spacing: { after: 400 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Document Control Number: ',
+              bold: true,
+              size: 22,
+            }),
+            new TextRun({
+              text: `1325-BB-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`,
+              size: 22,
+              color: '2b6cb0',
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Distribution Date: ',
+              bold: true,
+              size: 22,
+            }),
+            new TextRun({
+              text: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+              size: 22,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Recipient Name: _________________________________________',
+              size: 22,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Recipient Organization: _________________________________________',
+              size: 22,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Copy Number: _______ of _______ copies distributed',
+              size: 22,
+            }),
+          ],
+          spacing: { after: 400 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'RETURN/DESTRUCTION REQUIREMENTS',
+              bold: true,
+              size: 24,
+              color: 'c53030',
+            }),
+          ],
+          spacing: { before: 300, after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'This document must be returned to 1325.AI or securely destroyed upon request, termination of business relationship, or when no longer needed for its intended purpose. Destruction must be by shredding or secure digital deletion with written confirmation provided to Thomas@1325.AI.',
+              size: 20,
+            }),
+          ],
+          spacing: { after: 400 },
+        }),
+      );
+
+      // Page break before NDA Page
+      children.push(
+        new Paragraph({
+          children: [],
+          pageBreakBefore: true,
+        })
+      );
+
+      // NDA / Confidentiality Agreement Page
+      children.push(
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'CONFIDENTIALITY ACKNOWLEDGMENT',
+              bold: true,
+              size: 36,
+              color: '1a365d',
+            }),
+          ],
+          alignment: AlignmentType.CENTER,
+          spacing: { after: 400 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'By receiving, accessing, or reviewing this document, the undersigned acknowledges and agrees to the following:',
+              size: 20,
+            }),
+          ],
+          spacing: { after: 300 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: '1. CONFIDENTIAL INFORMATION: ',
+              bold: true,
+              size: 20,
+            }),
+            new TextRun({
+              text: 'This document contains confidential and proprietary information, trade secrets, and intellectual property of 1325.AI, including but not limited to technical specifications, algorithms, business methods, and patent-pending innovations.',
+              size: 20,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: '2. NON-DISCLOSURE: ',
+              bold: true,
+              size: 20,
+            }),
+            new TextRun({
+              text: 'The recipient agrees not to disclose, publish, or disseminate any information contained herein to any third party without the prior written consent of 1325.AI.',
+              size: 20,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: '3. NON-USE: ',
+              bold: true,
+              size: 20,
+            }),
+            new TextRun({
+              text: 'The recipient agrees not to use the information for any purpose other than the evaluation or business purpose for which it was provided.',
+              size: 20,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: '4. NO REPRODUCTION: ',
+              bold: true,
+              size: 20,
+            }),
+            new TextRun({
+              text: 'The recipient shall not copy, reproduce, or duplicate this document or any portion thereof without written permission.',
+              size: 20,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: '5. PATENT RIGHTS: ',
+              bold: true,
+              size: 20,
+            }),
+            new TextRun({
+              text: 'This document describes inventions protected under USPTO Provisional Application 63/969,202. No license, express or implied, is granted to any patent rights.',
+              size: 20,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: '6. GOVERNING LAW: ',
+              bold: true,
+              size: 20,
+            }),
+            new TextRun({
+              text: 'This agreement shall be governed by the laws of the State of Illinois. Any disputes shall be resolved in the state or federal courts located in Cook County, Illinois.',
+              size: 20,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: '7. DURATION: ',
+              bold: true,
+              size: 20,
+            }),
+            new TextRun({
+              text: 'These confidentiality obligations shall survive for a period of five (5) years from the date of disclosure or until the information becomes publicly available through no fault of the recipient.',
+              size: 20,
+            }),
+          ],
+          spacing: { after: 400 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'ACKNOWLEDGMENT AND SIGNATURE',
+              bold: true,
+              size: 24,
+              color: '1a365d',
+            }),
+          ],
+          spacing: { before: 300, after: 300 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'I have read, understand, and agree to be bound by the terms above.',
+              size: 20,
+              italics: true,
+            }),
+          ],
+          spacing: { after: 400 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Signature: _________________________________________',
+              size: 22,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Printed Name: _________________________________________',
+              size: 22,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Title: _________________________________________',
+              size: 22,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: 'Date: _________________________________________',
+              size: 22,
+            }),
+          ],
+          spacing: { after: 200 },
+        }),
+      );
+
+      // Page break before Table of Contents
       children.push(
         new Paragraph({
           children: [],
@@ -524,8 +812,26 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       const contentWidth = pageWidth - 2 * margin;
       let y = margin;
 
-      // Helper to add page number with legal footer
-      const addPageNumber = () => {
+      // Generate unique document control number
+      const docControlNumber = `1325-BB-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
+      
+      // Helper to add watermark (using light gray for visual effect)
+      const addWatermark = () => {
+        pdf.setFontSize(55);
+        pdf.setTextColor(230, 230, 230); // Very light gray for watermark effect
+        
+        // Draw watermark diagonally across page
+        const centerX = pageWidth / 2;
+        const centerY = pageHeight / 2;
+        
+        pdf.text('CONFIDENTIAL', centerX, centerY, { 
+          align: 'center',
+          angle: 45 
+        });
+      };
+      
+      // Helper to add page number with legal footer (no watermark - for special pages)
+      const addPageNumberOnly = () => {
         const pageNum = pdf.getNumberOfPages();
         pdf.setFontSize(8);
         pdf.setTextColor(128);
@@ -534,6 +840,15 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
         pdf.setTextColor(100);
         pdf.text('1325.AI Blue Book - CONFIDENTIAL & PROPRIETARY - Patent Pending 63/969,202', margin, pageHeight - 8);
       };
+      
+      // Helper to add page number with watermark (default for content pages)
+      const addPageNumber = () => {
+        addWatermark();
+        addPageNumberOnly();
+      };
+      
+      // Alias for clarity when we specifically want watermark
+      const addPageNumberWithWatermark = addPageNumber;
 
       // Title page with logo
       pdf.setFillColor(26, 54, 93);
@@ -607,6 +922,117 @@ const BlueBookExport: React.FC<BlueBookExportProps> = ({ onBack }) => {
       pdf.setFontSize(8);
       pdf.setTextColor(80);
       pdf.text('(c) 2024-2026 1325.AI - All Rights Reserved | Contact: Thomas@1325.AI', pageWidth / 2, pageHeight - 16, { align: 'center' });
+
+      // Document Control Page
+      pdf.addPage();
+      y = margin + 10;
+      
+      pdf.setFontSize(22);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(26, 54, 93);
+      pdf.text('DOCUMENT CONTROL', pageWidth / 2, y, { align: 'center' });
+      y += 20;
+      
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(50);
+      pdf.text('Document Control Number: ', margin, y);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(43, 108, 176);
+      pdf.text(docControlNumber, margin + 55, y);
+      y += 12;
+      
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(50);
+      pdf.text('Distribution Date: ', margin, y);
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), margin + 40, y);
+      y += 12;
+      
+      pdf.setFont('helvetica', 'normal');
+      pdf.text('Recipient Name: _________________________________________', margin, y);
+      y += 12;
+      pdf.text('Recipient Organization: _________________________________________', margin, y);
+      y += 12;
+      pdf.text('Copy Number: _______ of _______ copies distributed', margin, y);
+      y += 25;
+      
+      pdf.setFontSize(14);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(197, 48, 48);
+      pdf.text('RETURN/DESTRUCTION REQUIREMENTS', margin, y);
+      y += 10;
+      
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(50);
+      const returnText = pdf.splitTextToSize(
+        'This document must be returned to 1325.AI or securely destroyed upon request, termination of business relationship, or when no longer needed for its intended purpose. Destruction must be by shredding or secure digital deletion with written confirmation provided to Thomas@1325.AI.',
+        contentWidth
+      );
+      pdf.text(returnText, margin, y);
+      
+      addPageNumberWithWatermark();
+      
+      // NDA / Confidentiality Agreement Page
+      pdf.addPage();
+      y = margin + 10;
+      
+      pdf.setFontSize(20);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(26, 54, 93);
+      pdf.text('CONFIDENTIALITY ACKNOWLEDGMENT', pageWidth / 2, y, { align: 'center' });
+      y += 15;
+      
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(50);
+      pdf.text('By receiving, accessing, or reviewing this document, the undersigned acknowledges and agrees to the following:', margin, y);
+      y += 12;
+      
+      const ndaTerms = [
+        { title: '1. CONFIDENTIAL INFORMATION:', text: 'This document contains confidential and proprietary information, trade secrets, and intellectual property of 1325.AI, including but not limited to technical specifications, algorithms, business methods, and patent-pending innovations.' },
+        { title: '2. NON-DISCLOSURE:', text: 'The recipient agrees not to disclose, publish, or disseminate any information contained herein to any third party without the prior written consent of 1325.AI.' },
+        { title: '3. NON-USE:', text: 'The recipient agrees not to use the information for any purpose other than the evaluation or business purpose for which it was provided.' },
+        { title: '4. NO REPRODUCTION:', text: 'The recipient shall not copy, reproduce, or duplicate this document or any portion thereof without written permission.' },
+        { title: '5. PATENT RIGHTS:', text: 'This document describes inventions protected under USPTO Provisional Application 63/969,202. No license, express or implied, is granted to any patent rights.' },
+        { title: '6. GOVERNING LAW:', text: 'This agreement shall be governed by the laws of the State of Illinois. Any disputes shall be resolved in the state or federal courts located in Cook County, Illinois.' },
+        { title: '7. DURATION:', text: 'These confidentiality obligations shall survive for a period of five (5) years from the date of disclosure or until the information becomes publicly available through no fault of the recipient.' },
+      ];
+      
+      for (const term of ndaTerms) {
+        pdf.setFont('helvetica', 'bold');
+        pdf.text(term.title, margin, y);
+        y += 5;
+        pdf.setFont('helvetica', 'normal');
+        const termLines = pdf.splitTextToSize(term.text, contentWidth);
+        pdf.text(termLines, margin, y);
+        y += termLines.length * 4 + 6;
+      }
+      
+      y += 5;
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(26, 54, 93);
+      pdf.text('ACKNOWLEDGMENT AND SIGNATURE', margin, y);
+      y += 10;
+      
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'italic');
+      pdf.setTextColor(50);
+      pdf.text('I have read, understand, and agree to be bound by the terms above.', margin, y);
+      y += 15;
+      
+      pdf.setFont('helvetica', 'normal');
+      pdf.text('Signature: _________________________________________', margin, y);
+      y += 10;
+      pdf.text('Printed Name: _________________________________________', margin, y);
+      y += 10;
+      pdf.text('Title: _________________________________________', margin, y);
+      y += 10;
+      pdf.text('Date: _________________________________________', margin, y);
+      
+      addPageNumberWithWatermark();
 
       // Table of contents page
       pdf.addPage();
