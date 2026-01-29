@@ -2,8 +2,9 @@ import React from 'react';
 import { 
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
-  Eye, Sliders, Bot, UserCog, Home, Award, Scale, Handshake
+  Eye, Sliders, Bot, UserCog, Home, Award, Scale, Handshake, BookOpen
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
@@ -80,9 +81,25 @@ const sections = [
       { id: 'ai', label: 'AI Tools', icon: Bot, description: 'AI-powered admin features' },
     ]
   },
+  {
+    group: 'Documentation',
+    items: [
+      { id: 'user-guide', label: 'User Guide', icon: BookOpen, description: 'Complete platform documentation and tutorials', route: '/user-guide' },
+    ]
+  },
 ];
 
 const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
+  const navigate = useNavigate();
+
+  const handleItemClick = (item: { id: string; route?: string }) => {
+    if (item.route) {
+      navigate(item.route);
+    } else {
+      onNavigate(item.id);
+    }
+  };
+
   return (
     <div className="space-y-8">
       {/* Welcome Header */}
@@ -106,7 +123,7 @@ const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
             {section.items.map((item) => (
               <Card
                 key={item.id}
-                onClick={() => onNavigate(item.id)}
+                onClick={() => handleItemClick(item)}
                 className={cn(
                   "group cursor-pointer transition-all duration-200",
                   "bg-white/5 hover:bg-white/10 border-white/10 hover:border-mansagold/40",
