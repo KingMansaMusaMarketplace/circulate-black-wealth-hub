@@ -38,7 +38,7 @@ const PitchSlide1Cover: React.FC = () => {
 
           <Badge className="mb-6 bg-mansagold/20 text-mansagold border-mansagold/30 text-lg px-6 py-2">
             <Database className="w-4 h-4 mr-2" />
-            Investor Presentation 2025
+            Investor Presentation 2026
           </Badge>
 
           <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
