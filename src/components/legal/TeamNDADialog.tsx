@@ -7,6 +7,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { Download, FileText, Printer, Shield } from 'lucide-react';
 import TeamNDADocument from './TeamNDADocument';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface TeamNDADialogProps {
   open: boolean;
@@ -38,21 +40,46 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
         throw new Error("Document element not found");
       }
 
-      // Dynamic import for html2pdf.js (ESM compatibility)
-      const html2pdfModule = await import('html2pdf.js');
-      const html2pdfLib = html2pdfModule.default || html2pdfModule;
+      // Use html2canvas + jsPDF directly for better ESM compatibility
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+      });
 
-      const opt = {
-        margin: [0.5, 0.5, 0.5, 0.5],
-        filename: `1325AI_Team_NDA_${recipientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-      };
+      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'in',
+        format: 'letter'
+      });
 
-      // html2pdf.js returns a builder when called
-      await html2pdfLib().set(opt).from(element).save();
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const margin = 0.5;
+      const contentWidth = pageWidth - (margin * 2);
+      
+      const imgWidth = contentWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      
+      let heightLeft = imgHeight;
+      let position = margin;
+      
+      // First page
+      pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
+      heightLeft -= (pageHeight - margin * 2);
+      
+      // Additional pages if needed
+      while (heightLeft > 0) {
+        position = -(pageHeight - margin * 2) + margin;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', margin, position + (imgHeight - heightLeft - (pageHeight - margin * 2)), imgWidth, imgHeight);
+        heightLeft -= (pageHeight - margin * 2);
+      }
+
+      const filename = `1325AI_Team_NDA_${recipientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+      pdf.save(filename);
       toast.success("NDA document downloaded successfully.");
     } catch (error) {
       console.error('PDF generation error:', error);
