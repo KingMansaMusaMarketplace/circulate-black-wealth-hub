@@ -7,7 +7,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { Download, FileText, Printer, Shield } from 'lucide-react';
 import TeamNDADocument from './TeamNDADocument';
-import html2pdf from 'html2pdf.js';
 
 interface TeamNDADialogProps {
   open: boolean;
@@ -38,6 +37,10 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
       if (!element) {
         throw new Error("Document element not found");
       }
+
+      // Dynamic import for html2pdf.js (ESM compatibility)
+      const html2pdfModule = await import('html2pdf.js');
+      const html2pdf = html2pdfModule.default || html2pdfModule;
 
       const opt = {
         margin: [0.5, 0.5, 0.5, 0.5],
