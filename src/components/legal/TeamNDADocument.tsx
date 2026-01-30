@@ -8,9 +8,9 @@ interface TeamNDADocumentProps {
 }
 
 const TeamNDADocument: React.FC<TeamNDADocumentProps> = ({
-  companyName = "1325.AI, LLC",
+  companyName = "1325.AI d/b/a Mansa Musa Marketplace, Inc.",
   recipientName = "[RECIPIENT NAME]",
-  effectiveDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+  effectiveDate = "________________________",
   inventorName = "Thomas D. Bowling"
 }) => {
   return (
