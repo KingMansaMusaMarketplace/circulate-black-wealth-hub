@@ -19,7 +19,7 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
   const [recipientName, setRecipientName] = useState('');
   const [isDownloading, setIsDownloading] = useState(false);
   const [acknowledged, setAcknowledged] = useState(false);
-  const documentRef = useRef<HTMLDivElement>(null);
+  const pdfContainerRef = useRef<HTMLDivElement>(null);
 
   const handleDownloadPDF = async () => {
     if (!recipientName.trim()) {
@@ -35,18 +35,37 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
     setIsDownloading(true);
 
     try {
-      const element = documentRef.current;
-      if (!element) {
+      // Create a temporary container for PDF generation
+      const tempContainer = document.createElement('div');
+      tempContainer.style.position = 'absolute';
+      tempContainer.style.left = '-9999px';
+      tempContainer.style.top = '0';
+      tempContainer.style.width = '8.5in';
+      tempContainer.style.backgroundColor = '#ffffff';
+      tempContainer.style.padding = '0.5in';
+      document.body.appendChild(tempContainer);
+
+      // Clone the document content
+      const docElement = pdfContainerRef.current;
+      if (!docElement) {
         throw new Error("Document element not found");
       }
+      
+      const clonedContent = docElement.cloneNode(true) as HTMLElement;
+      tempContainer.appendChild(clonedContent);
 
-      // Use html2canvas + jsPDF directly for better ESM compatibility
-      const canvas = await html2canvas(element, {
+      // Use html2canvas + jsPDF
+      const canvas = await html2canvas(tempContainer, {
         scale: 2,
         useCORS: true,
         logging: false,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        width: tempContainer.scrollWidth,
+        height: tempContainer.scrollHeight
       });
+
+      // Clean up temp container
+      document.body.removeChild(tempContainer);
 
       const imgData = canvas.toDataURL('image/jpeg', 0.98);
       const pdf = new jsPDF({
@@ -63,19 +82,49 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
       const imgWidth = contentWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
-      let heightLeft = imgHeight;
-      let position = margin;
+      // Handle multi-page PDF
+      let yPosition = margin;
+      const availableHeight = pageHeight - (margin * 2);
       
-      // First page
-      pdf.addImage(imgData, 'JPEG', margin, position, imgWidth, imgHeight);
-      heightLeft -= (pageHeight - margin * 2);
-      
-      // Additional pages if needed
-      while (heightLeft > 0) {
-        position = -(pageHeight - margin * 2) + margin;
-        pdf.addPage();
-        pdf.addImage(imgData, 'JPEG', margin, position + (imgHeight - heightLeft - (pageHeight - margin * 2)), imgWidth, imgHeight);
-        heightLeft -= (pageHeight - margin * 2);
+      if (imgHeight <= availableHeight) {
+        // Single page
+        pdf.addImage(imgData, 'JPEG', margin, margin, imgWidth, imgHeight);
+      } else {
+        // Multi-page - split the image
+        let remainingHeight = imgHeight;
+        let sourceY = 0;
+        
+        while (remainingHeight > 0) {
+          const sliceHeight = Math.min(availableHeight, remainingHeight);
+          const sourceSliceHeight = (sliceHeight / imgHeight) * canvas.height;
+          
+          // Create a canvas for this page slice
+          const pageCanvas = document.createElement('canvas');
+          pageCanvas.width = canvas.width;
+          pageCanvas.height = sourceSliceHeight;
+          const ctx = pageCanvas.getContext('2d');
+          
+          if (ctx) {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+            ctx.drawImage(
+              canvas,
+              0, sourceY, canvas.width, sourceSliceHeight,
+              0, 0, canvas.width, sourceSliceHeight
+            );
+            
+            const pageImgData = pageCanvas.toDataURL('image/jpeg', 0.98);
+            
+            if (sourceY > 0) {
+              pdf.addPage();
+            }
+            
+            pdf.addImage(pageImgData, 'JPEG', margin, margin, imgWidth, sliceHeight);
+          }
+          
+          sourceY += sourceSliceHeight;
+          remainingHeight -= sliceHeight;
+        }
       }
 
       const filename = `1325AI_Team_NDA_${recipientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
@@ -153,10 +202,12 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto py-4" ref={documentRef}>
-          <TeamNDADocument 
-            recipientName={recipientName || "[RECIPIENT NAME]"}
-          />
+        <div className="flex-1 overflow-y-auto py-4">
+          <div ref={pdfContainerRef}>
+            <TeamNDADocument 
+              recipientName={recipientName || "[RECIPIENT NAME]"}
+            />
+          </div>
         </div>
 
         <div className="flex-shrink-0 border-t pt-4 text-xs text-muted-foreground text-center">
