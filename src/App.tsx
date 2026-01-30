@@ -776,6 +776,7 @@ function App() {
                         
                         {/* P */}
                         <Route path="/partner-portal" element={<LazyPartnerPortal />} />
+                        <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/password-reset" element={<LazyResetPasswordPage />} />
                         <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
                         <Route path="/payment-test" element={
@@ -783,6 +784,7 @@ function App() {
                             <LazyPaymentTestPage />
                           </IOSProtectedRoute>
                         } />
+                        <Route path="/pitch-deck" element={<LazyPitchDeckPage />} />
                         <Route path="/pre-submission-checklist" element={<LazyPreSubmissionChecklistPage />} />
                         <Route path="/privacy" element={<LazyPrivacyPolicyPage />} />
                         <Route path="/profile" element={<LazyProfilePage />} />
