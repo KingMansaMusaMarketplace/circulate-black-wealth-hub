@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import { Database, Sparkles } from 'lucide-react';
+import neuralBrainLogo from '@/assets/1325-neural-brain-logo.jpeg';
 
 const PitchSlide1Cover: React.FC = () => {
   return (
@@ -27,13 +28,19 @@ const PitchSlide1Cover: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="relative z-10"
         >
-          {/* Logo placeholder */}
+          {/* 1325.AI Neural Brain Logo */}
           <motion.div 
-            className="w-24 h-24 mx-auto mb-8 bg-gradient-to-br from-mansagold to-mansagold-light rounded-2xl flex items-center justify-center shadow-2xl"
-            animate={{ rotateY: [0, 360] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="w-32 h-32 mx-auto mb-8 rounded-2xl overflow-hidden shadow-2xl"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            whileHover={{ scale: 1.05, filter: "drop-shadow(0 0 20px rgba(245, 166, 35, 0.5))" }}
           >
-            <span className="text-4xl font-black text-mansablue-dark">M³</span>
+            <img 
+              src={neuralBrainLogo} 
+              alt="1325.AI Neural Brain Logo" 
+              className="w-full h-full object-contain"
+            />
           </motion.div>
 
           <Badge className="mb-6 bg-mansagold/20 text-mansagold border-mansagold/30 text-lg px-6 py-2">
