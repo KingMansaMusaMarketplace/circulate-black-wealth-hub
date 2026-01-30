@@ -6258,6 +6258,57 @@ export type Database = {
         }
         Relationships: []
       }
+      nda_signatures: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          nda_type: string
+          notes: string | null
+          role: string | null
+          sent_at: string | null
+          signature_method: string | null
+          signed_at: string | null
+          status: string
+          team_member_email: string | null
+          team_member_name: string
+          updated_at: string
+          viewed_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          nda_type?: string
+          notes?: string | null
+          role?: string | null
+          sent_at?: string | null
+          signature_method?: string | null
+          signed_at?: string | null
+          status?: string
+          team_member_email?: string | null
+          team_member_name: string
+          updated_at?: string
+          viewed_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          nda_type?: string
+          notes?: string | null
+          role?: string | null
+          sent_at?: string | null
+          signature_method?: string | null
+          signed_at?: string | null
+          status?: string
+          team_member_email?: string | null
+          team_member_name?: string
+          updated_at?: string
+          viewed_at?: string | null
+        }
+        Relationships: []
+      }
       notification_batch_queue: {
         Row: {
           batch_id: string | null

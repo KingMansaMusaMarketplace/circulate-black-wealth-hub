@@ -15,6 +15,7 @@ import PatentFeatureSummary from '@/components/legal/PatentFeatureSummary';
 import PatentPortfolioVisualization from '@/components/admin/PatentPortfolioVisualization';
 import BlueBookExport from '@/components/admin/BlueBookExport';
 import TeamNDADialog from '@/components/legal/TeamNDADialog';
+import { NDASignatureTracker } from '@/components/legal/NDASignatureTracker';
 import { toast } from 'sonner';
 
 // Patent claim data for the status tracker
@@ -675,6 +676,9 @@ const LegalIPDocuments: React.FC = () => {
 
         {/* Team NDA Tab */}
         <TabsContent value="nda" className="space-y-6">
+          {/* NDA Signature Tracker */}
+          <NDASignatureTracker />
+          
           <Card className="bg-white/5 border-white/10">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-2">
