@@ -45,14 +45,14 @@ const PitchSlide13Ask: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="p-8 bg-gradient-to-br from-mansagold/20 to-white/5 backdrop-blur-sm border-mansagold/30 h-full">
+            <Card className="p-8 bg-black/80 border-2 border-mansagold h-full">
               <div className="text-center mb-8">
-                <Badge className="mb-4 bg-mansagold/20 text-mansagold border-mansagold/30 text-lg px-6 py-2">
+                <Badge className="mb-4 bg-mansagold/30 text-mansagold border-mansagold font-bold text-lg px-6 py-2">
                   <DollarSign className="w-4 h-4 mr-2" />
                   Seed Round
                 </Badge>
-                <div className="text-6xl font-black text-white mb-2">$500K</div>
-                <p className="text-white/70">Pre-seed / Seed Investment</p>
+                <div className="text-6xl font-black text-mansagold mb-2">$500K</div>
+                <p className="text-white font-semibold">Pre-seed / Seed Investment</p>
               </div>
 
               <div className="space-y-4">
@@ -63,10 +63,10 @@ const PitchSlide13Ask: React.FC = () => {
                 {useOfFunds.map((item, i) => (
                   <div key={i} className="space-y-1">
                     <div className="flex justify-between text-sm">
-                      <span className="text-white">{item.category}</span>
+                      <span className="text-white font-semibold">{item.category}</span>
                       <span className="text-mansagold font-bold">{item.percentage}%</span>
                     </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                       <motion.div 
                         className="h-full bg-gradient-to-r from-mansagold to-mansagold-light rounded-full"
                         initial={{ width: 0 }}
@@ -74,7 +74,7 @@ const PitchSlide13Ask: React.FC = () => {
                         transition={{ delay: 0.4 + i * 0.1, duration: 0.5 }}
                       />
                     </div>
-                    <p className="text-white/50 text-xs">{item.description}</p>
+                    <p className="text-white/80 text-xs">{item.description}</p>
                   </div>
                 ))}
               </div>
@@ -88,7 +88,7 @@ const PitchSlide13Ask: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="space-y-6"
           >
-            <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+            <Card className="p-6 bg-black/80 border-2 border-mansagold/50">
               <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
                 <Rocket className="w-5 h-5 text-mansagold" />
                 Investment Milestones
@@ -117,7 +117,7 @@ const PitchSlide13Ask: React.FC = () => {
               </div>
             </Card>
 
-            <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+            <Card className="p-6 bg-black/80 border-2 border-mansagold/50">
               <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                 <Users className="w-5 h-5 text-mansagold" />
                 What We're Looking For
@@ -129,7 +129,7 @@ const PitchSlide13Ask: React.FC = () => {
                   'Guidance on fintech regulatory navigation',
                   'Support for Series A positioning'
                 ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-2 text-white/80">
+                  <li key={i} className="flex items-start gap-2 text-white font-medium">
                     <ArrowRight className="w-4 h-4 text-mansagold mt-1 flex-shrink-0" />
                     <span>{item}</span>
                   </li>

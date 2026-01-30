@@ -48,12 +48,12 @@ const PitchSlide3Solution: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10 hover:border-mansagold/30 transition-all h-full text-center group">
-                <div className="w-14 h-14 bg-mansagold/20 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-mansagold/30 transition-colors">
+              <Card className="p-6 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all h-full text-center group">
+                <div className="w-14 h-14 bg-mansagold/30 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-mansagold/40 transition-colors">
                   <solution.icon className="w-7 h-7 text-mansagold" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">{solution.title}</h3>
-                <p className="text-white/60 text-sm">{solution.description}</p>
+                <p className="text-white/80 text-sm">{solution.description}</p>
               </Card>
             </motion.div>
           ))}
@@ -65,11 +65,11 @@ const PitchSlide3Solution: React.FC = () => {
           transition={{ delay: 0.6 }}
           className="mt-12"
         >
-          <Card className="p-8 bg-gradient-to-r from-mansablue to-mansablue-dark border-mansagold/20">
+          <Card className="p-8 bg-black/80 border-2 border-mansagold">
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex-1">
                 <h3 className="text-2xl font-bold text-white mb-2">The Key Insight</h3>
-                <p className="text-white/80 text-lg">
+                <p className="text-white font-medium text-lg">
                   By owning their accounting data, we know every dollar that flows through Black businesses — 
                   creating an unmatched data moat and AI training set.
                 </p>

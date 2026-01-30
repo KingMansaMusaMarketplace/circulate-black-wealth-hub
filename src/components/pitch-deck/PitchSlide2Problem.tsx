@@ -53,13 +53,13 @@ const PitchSlide2Problem: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15 }}
             >
-              <Card className="p-8 bg-white/5 backdrop-blur-sm border-white/10 hover:border-red-400/30 transition-all h-full">
-                <div className="w-16 h-16 bg-red-500/20 rounded-2xl flex items-center justify-center mb-6">
+              <Card className="p-8 bg-black/80 border-2 border-red-500/50 hover:border-red-400 transition-all h-full">
+                <div className="w-16 h-16 bg-red-500/30 rounded-2xl flex items-center justify-center mb-6">
                   <problem.icon className="w-8 h-8 text-red-400" />
                 </div>
-                <div className="text-4xl font-black text-white mb-2">{problem.stat}</div>
+                <div className="text-4xl font-black text-red-400 mb-2">{problem.stat}</div>
                 <h3 className="text-xl font-bold text-white mb-3">{problem.title}</h3>
-                <p className="text-white/60">{problem.description}</p>
+                <p className="text-white/80 font-medium">{problem.description}</p>
               </Card>
             </motion.div>
           ))}
@@ -71,8 +71,8 @@ const PitchSlide2Problem: React.FC = () => {
           transition={{ delay: 0.6 }}
           className="mt-12 text-center"
         >
-          <Card className="inline-block p-6 bg-red-500/10 border-red-500/30">
-            <p className="text-xl text-white">
+          <Card className="inline-block p-6 bg-black/80 border-2 border-red-500">
+            <p className="text-xl text-white font-semibold">
               <span className="text-red-400 font-bold">Current solutions</span> are just directories — 
               they don't capture transactions, don't build business credit, and don't create data moats.
             </p>
