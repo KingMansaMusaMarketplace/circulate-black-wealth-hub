@@ -1,4 +1,5 @@
 import React from 'react';
+import logo1325 from '@/assets/1325-logo.jpeg';
 
 interface TeamNDADocumentProps {
   companyName?: string;
@@ -16,6 +17,11 @@ const TeamNDADocument: React.FC<TeamNDADocumentProps> = ({
   return (
     <div className="prose prose-sm max-w-none dark:prose-invert">
       <div className="text-center mb-8">
+        <img 
+          src={logo1325} 
+          alt="1325.AI Logo" 
+          className="w-32 h-32 mx-auto mb-4 object-contain"
+        />
         <h1 className="text-2xl font-bold mb-2">CONFIDENTIAL INFORMATION AND</h1>
         <h1 className="text-2xl font-bold mb-2">NON-DISCLOSURE AGREEMENT</h1>
         <p className="text-sm text-muted-foreground">(Team Member / Insider Access)</p>
