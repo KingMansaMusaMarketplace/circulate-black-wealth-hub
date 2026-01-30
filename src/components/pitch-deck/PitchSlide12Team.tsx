@@ -56,38 +56,38 @@ const PitchSlide12Team: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="p-8 bg-gradient-to-br from-mansagold/20 to-white/5 backdrop-blur-sm border-mansagold/30 h-full">
+            <Card className="p-8 bg-black/80 border-2 border-mansagold h-full">
               <div className="flex items-start gap-6">
                 <div className="w-24 h-24 bg-gradient-to-br from-mansablue to-mansablue-dark rounded-2xl flex items-center justify-center flex-shrink-0">
                   <User className="w-12 h-12 text-white" />
                 </div>
                 <div className="flex-1">
-                  <Badge className="mb-2 bg-mansagold/20 text-mansagold border-mansagold/30">
+                  <Badge className="mb-2 bg-mansagold/30 text-mansagold border-mansagold font-bold">
                     Founder
                   </Badge>
                   <h3 className="text-2xl font-bold text-white">{founder.name}</h3>
-                  <p className="text-mansagold font-semibold mb-4">{founder.title}</p>
+                  <p className="text-mansagold font-bold mb-4">{founder.title}</p>
                 </div>
               </div>
 
               <div className="mt-6 space-y-2">
                 {founder.background.map((item, i) => (
-                  <div key={i} className="flex items-start gap-2 text-white/80">
+                  <div key={i} className="flex items-start gap-2 text-white font-medium">
                     <div className="w-1.5 h-1.5 rounded-full bg-mansagold mt-2 flex-shrink-0" />
                     <span>{item}</span>
                   </div>
                 ))}
               </div>
 
-              <blockquote className="mt-6 p-4 bg-white/5 rounded-xl border-l-4 border-mansagold">
-                <p className="text-white/90 italic">"{founder.quote}"</p>
+              <blockquote className="mt-6 p-4 bg-mansagold/20 rounded-xl border-l-4 border-mansagold">
+                <p className="text-white font-semibold italic">"{founder.quote}"</p>
               </blockquote>
 
               <div className="mt-6 flex gap-3">
-                <Badge variant="outline" className="border-white/30 text-white/70">
+                <Badge variant="outline" className="border-mansagold text-mansagold font-bold">
                   <Linkedin className="w-3 h-3 mr-1" /> LinkedIn
                 </Badge>
-                <Badge variant="outline" className="border-white/30 text-white/70">
+                <Badge variant="outline" className="border-mansagold text-mansagold font-bold">
                   <Mail className="w-3 h-3 mr-1" /> Contact
                 </Badge>
               </div>
