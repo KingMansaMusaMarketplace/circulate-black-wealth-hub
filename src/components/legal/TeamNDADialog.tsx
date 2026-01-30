@@ -5,8 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
-import { Download, FileText, Printer, Shield } from 'lucide-react';
+import { Download, FileText, Printer, Shield, Mail } from 'lucide-react';
 import TeamNDADocument from './TeamNDADocument';
+import NDACoverLetter from './NDACoverLetter';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -18,21 +19,17 @@ interface TeamNDADialogProps {
 const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => {
   const [recipientName, setRecipientName] = useState('');
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloadingCoverLetter, setIsDownloadingCoverLetter] = useState(false);
   const [acknowledged, setAcknowledged] = useState(false);
   const pdfContainerRef = useRef<HTMLDivElement>(null);
+  const coverLetterRef = useRef<HTMLDivElement>(null);
 
-  const handleDownloadPDF = async () => {
-    if (!recipientName.trim()) {
-      toast.error("Please enter the recipient's name before downloading.");
-      return;
-    }
-
-    if (!acknowledged) {
-      toast.error("Please acknowledge the terms before downloading.");
-      return;
-    }
-
-    setIsDownloading(true);
+  const generatePDFFromElement = async (
+    element: HTMLElement, 
+    filename: string,
+    setLoading: (loading: boolean) => void
+  ) => {
+    setLoading(true);
 
     try {
       // Create a temporary container for PDF generation
@@ -46,12 +43,7 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
       document.body.appendChild(tempContainer);
 
       // Clone the document content
-      const docElement = pdfContainerRef.current;
-      if (!docElement) {
-        throw new Error("Document element not found");
-      }
-      
-      const clonedContent = docElement.cloneNode(true) as HTMLElement;
+      const clonedContent = element.cloneNode(true) as HTMLElement;
       tempContainer.appendChild(clonedContent);
 
       // Use html2canvas + jsPDF
@@ -83,7 +75,6 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
       
       // Handle multi-page PDF
-      let yPosition = margin;
       const availableHeight = pageHeight - (margin * 2);
       
       if (imgHeight <= availableHeight) {
@@ -127,14 +118,60 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
         }
       }
 
-      const filename = `1325AI_Team_NDA_${recipientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
       pdf.save(filename);
-      toast.success("NDA document downloaded successfully.");
+      return true;
     } catch (error) {
       console.error('PDF generation error:', error);
-      toast.error("Failed to generate PDF. Please try again.");
+      throw error;
     } finally {
-      setIsDownloading(false);
+      setLoading(false);
+    }
+  };
+
+  const handleDownloadPDF = async () => {
+    if (!recipientName.trim()) {
+      toast.error("Please enter the recipient's name before downloading.");
+      return;
+    }
+
+    if (!acknowledged) {
+      toast.error("Please acknowledge the terms before downloading.");
+      return;
+    }
+
+    const docElement = pdfContainerRef.current;
+    if (!docElement) {
+      toast.error("Document element not found");
+      return;
+    }
+
+    try {
+      const filename = `1325AI_Team_NDA_${recipientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+      await generatePDFFromElement(docElement, filename, setIsDownloading);
+      toast.success("NDA document downloaded successfully.");
+    } catch (error) {
+      toast.error("Failed to generate PDF. Please try again.");
+    }
+  };
+
+  const handleDownloadCoverLetter = async () => {
+    if (!recipientName.trim()) {
+      toast.error("Please enter the recipient's name before downloading.");
+      return;
+    }
+
+    const coverElement = coverLetterRef.current;
+    if (!coverElement) {
+      toast.error("Cover letter element not found");
+      return;
+    }
+
+    try {
+      const filename = `1325AI_NDA_Cover_Letter_${recipientName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+      await generatePDFFromElement(coverElement, filename, setIsDownloadingCoverLetter);
+      toast.success("Cover letter downloaded successfully.");
+    } catch (error) {
+      toast.error("Failed to generate cover letter. Please try again.");
     }
   };
 
@@ -185,14 +222,23 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
                 className="mt-1"
               />
             </div>
-            <div className="flex items-end gap-2">
+            <div className="flex items-end gap-2 flex-wrap">
+              <Button 
+                onClick={handleDownloadCoverLetter} 
+                disabled={isDownloadingCoverLetter || !recipientName.trim()}
+                variant="outline"
+                className="border-primary/50 text-primary hover:bg-primary/10"
+              >
+                <Mail className="h-4 w-4 mr-2" />
+                {isDownloadingCoverLetter ? "Generating..." : "Cover Letter"}
+              </Button>
               <Button 
                 onClick={handleDownloadPDF} 
                 disabled={isDownloading || !recipientName.trim() || !acknowledged}
                 className="bg-mansablue hover:bg-mansablue-dark"
               >
                 <Download className="h-4 w-4 mr-2" />
-                {isDownloading ? "Generating PDF..." : "Download PDF"}
+                {isDownloading ? "Generating..." : "Download NDA"}
               </Button>
               <Button variant="outline" onClick={handlePrint} disabled={!recipientName.trim() || !acknowledged}>
                 <Printer className="h-4 w-4 mr-2" />
@@ -203,6 +249,13 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
         </div>
 
         <div className="flex-1 overflow-y-auto py-4">
+          {/* Hidden cover letter for PDF generation */}
+          <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+            <div ref={coverLetterRef}>
+              <NDACoverLetter recipientName={recipientName || "Team"} />
+            </div>
+          </div>
+          
           <div ref={pdfContainerRef}>
             <TeamNDADocument 
               recipientName={recipientName || "[RECIPIENT NAME]"}
