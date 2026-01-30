@@ -28,6 +28,7 @@ import PitchSlide11Vision from '@/components/pitch-deck/PitchSlide11Vision';
 import PitchSlide12Team from '@/components/pitch-deck/PitchSlide12Team';
 import PitchSlide13Ask from '@/components/pitch-deck/PitchSlide13Ask';
 import PitchSlide14Why776 from '@/components/pitch-deck/PitchSlide14Why776';
+import PitchSlide15SequoiaAlignment from '@/components/pitch-deck/PitchSlide15SequoiaAlignment';
 import { useNavigate } from 'react-router-dom';
 
 const SLIDES = [
@@ -45,6 +46,7 @@ const SLIDES = [
   { id: 12, title: 'The Team', component: PitchSlide12Team },
   { id: 13, title: 'The Ask', component: PitchSlide13Ask },
   { id: 14, title: 'Why 776?', component: PitchSlide14Why776 },
+  { id: 15, title: 'Sequoia Alignment', component: PitchSlide15SequoiaAlignment },
 ];
 
 const PitchDeckPage: React.FC = () => {
