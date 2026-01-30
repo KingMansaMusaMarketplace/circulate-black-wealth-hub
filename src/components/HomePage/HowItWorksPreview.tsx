@@ -41,7 +41,7 @@ const HowItWorksPreview = () => {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             How It <span className="text-mansablue">Works</span>
           </h2>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-foreground max-w-3xl mx-auto leading-relaxed">
             Three simple steps to start saving money
             <span className="block mt-1">and supporting Black-owned businesses</span>
           </p>
