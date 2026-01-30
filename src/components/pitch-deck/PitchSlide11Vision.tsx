@@ -124,9 +124,9 @@ const PitchSlide11Vision: React.FC = () => {
           transition={{ delay: 0.9 }}
           className="mt-6 text-center"
         >
-          <Card className="inline-block p-4 bg-gradient-to-r from-mansagold/20 to-purple-500/20 border-mansagold/30">
-            <p className="text-lg text-white">
-              Vision: Become the <span className="text-mansagold font-bold">Stripe + Square + Shopify</span> of the Black economy
+          <Card className="inline-block p-4 bg-black/80 border-2 border-mansagold">
+            <p className="text-lg font-bold text-white">
+              Vision: Become the <span className="text-mansagold font-black">Stripe + Square + Shopify</span> of the Black economy
             </p>
           </Card>
         </motion.div>
