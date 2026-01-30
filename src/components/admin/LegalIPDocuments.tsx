@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Scale, FileText, FileCheck, ClipboardList, Network, Calendar, 
   Download, ExternalLink, Shield, Globe, CheckCircle2, Clock, 
-  AlertCircle, BookOpen, Gavel, Users, LayoutGrid, Book
+  AlertCircle, BookOpen, Gavel, Users, LayoutGrid, Book, UserX
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import USPTOPatentExport from '@/components/sponsorship/USPTOPatentExport';
 import PatentFeatureSummary from '@/components/legal/PatentFeatureSummary';
 import PatentPortfolioVisualization from '@/components/admin/PatentPortfolioVisualization';
 import BlueBookExport from '@/components/admin/BlueBookExport';
+import TeamNDADialog from '@/components/legal/TeamNDADialog';
 import { toast } from 'sonner';
 
 // Patent claim data for the status tracker
@@ -149,6 +150,7 @@ const usptoOfficialDocuments = [
 
 const LegalIPDocuments: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const [showNDADialog, setShowNDADialog] = useState(false);
 
   const claimsReady = independentClaims.filter(c => c.status === 'ready').length;
   const totalClaims = independentClaims.length;
@@ -252,6 +254,10 @@ const LegalIPDocuments: React.FC = () => {
           <TabsTrigger value="portfolio" className="data-[state=active]:bg-indigo-500/20 data-[state=active]:text-indigo-400">
             <LayoutGrid className="h-4 w-4 mr-2" />
             Portfolio View
+          </TabsTrigger>
+          <TabsTrigger value="nda" className="data-[state=active]:bg-red-500/20 data-[state=active]:text-red-400 text-red-300">
+            <UserX className="h-4 w-4 mr-2" />
+            Team NDA
           </TabsTrigger>
         </TabsList>
 
@@ -666,7 +672,88 @@ const LegalIPDocuments: React.FC = () => {
         <TabsContent value="portfolio">
           <PatentPortfolioVisualization />
         </TabsContent>
+
+        {/* Team NDA Tab */}
+        <TabsContent value="nda" className="space-y-6">
+          <Card className="bg-white/5 border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center gap-2">
+                <UserX className="h-5 w-5 text-red-400" />
+                Team Member Non-Disclosure Agreement
+              </CardTitle>
+              <CardDescription className="text-blue-200/60">
+                Comprehensive NDA for friends, family, and team members with full trade secret protection
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+                  <h4 className="font-semibold text-red-400 mb-2">Protection Coverage</h4>
+                  <ul className="text-sm text-blue-200/70 space-y-1">
+                    <li>• Trade secrets & confidential information</li>
+                    <li>• Full IP assignment with moral rights waiver</li>
+                    <li>• 24-month non-compete (worldwide)</li>
+                    <li>• Non-solicitation of employees & customers</li>
+                    <li>• Injunctive relief provisions</li>
+                    <li>• 10-year confidentiality survival</li>
+                  </ul>
+                </div>
+                <div className="p-4 rounded-lg bg-mansagold/10 border border-mansagold/20">
+                  <h4 className="font-semibold text-mansagold mb-2">Legal Framework</h4>
+                  <ul className="text-sm text-blue-200/70 space-y-1">
+                    <li>• Illinois Trade Secrets Act (765 ILCS 1065)</li>
+                    <li>• Defend Trade Secrets Act (18 U.S.C. § 1836)</li>
+                    <li>• Cook County, IL jurisdiction</li>
+                    <li>• Jury trial waiver</li>
+                    <li>• Attorney's fees for prevailing party</li>
+                    <li>• Third-party beneficiary rights for founder</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="h-5 w-5 text-amber-400 mt-0.5" />
+                  <div>
+                    <h4 className="font-semibold text-amber-400 mb-1">Special Provisions for Friends & Family</h4>
+                    <p className="text-sm text-blue-200/70">
+                      This NDA explicitly states that personal relationships do not diminish or modify 
+                      legal obligations. Team members must acknowledge that friendship or family connection 
+                      does not excuse non-compliance, and that informal access to information doesn't 
+                      reduce its confidential nature.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <Button 
+                  onClick={() => setShowNDADialog(true)}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  View & Download Team NDA
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="border-mansagold/50 text-mansagold hover:bg-mansagold/10"
+                  onClick={() => {
+                    toast.info("NDA covers all 27 patent claims", {
+                      description: "USPTO Application 63/969,202 - CMAL, Voice AI, Susu, Economic Karma, and more"
+                    });
+                  }}
+                >
+                  <Shield className="h-4 w-4 mr-2" />
+                  View Protected Claims
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
+
+      {/* Team NDA Dialog */}
+      <TeamNDADialog open={showNDADialog} onOpenChange={setShowNDADialog} />
     </div>
   );
 };
