@@ -12,131 +12,146 @@ const NDACoverLetter = forwardRef<HTMLDivElement, NDACoverLetterProps>(
     return (
       <div 
         ref={ref}
-        className="bg-white text-black p-8 max-w-[8.5in] mx-auto font-serif"
-        style={{ fontFamily: "Georgia, Times New Roman, serif" }}
+        className="bg-white text-black"
+        style={{ 
+          fontFamily: "Georgia, 'Times New Roman', serif",
+          width: "8.5in",
+          minHeight: "11in",
+          padding: "1in",
+          boxSizing: "border-box"
+        }}
       >
-        {/* Letterhead */}
-        <div className="text-center mb-8 border-b-2 border-gray-300 pb-6">
+        {/* Letterhead with Logo */}
+        <div style={{ textAlign: "center", marginBottom: "40px", borderBottom: "2px solid #1a365d", paddingBottom: "24px" }}>
           <img 
             src="/lovable-uploads/0a69e6cc-e735-4222-abff-7a9bb0178b2b.png" 
-            alt="1325.AI Logo" 
-            className="h-16 mx-auto mb-3"
+            alt="1325.AI Neural Brain Logo" 
+            style={{ height: "80px", marginBottom: "12px" }}
           />
-          <h1 className="text-xl font-bold tracking-wide">1325.AI</h1>
-          <p className="text-sm text-gray-600">d/b/a Mansa Musa Marketplace, Inc.</p>
-          <p className="text-xs text-gray-500 mt-1">Chicago, Illinois</p>
+          <h1 style={{ fontSize: "24px", fontWeight: "bold", letterSpacing: "2px", margin: "0", color: "#1a365d" }}>
+            1325.AI
+          </h1>
+          <p style={{ fontSize: "12px", color: "#4a5568", margin: "4px 0 0 0" }}>
+            d/b/a Mansa Musa Marketplace, Inc.
+          </p>
+          <p style={{ fontSize: "11px", color: "#718096", margin: "2px 0 0 0" }}>
+            Chicago, Illinois
+          </p>
         </div>
 
-        {/* Date */}
-        <div className="text-right mb-6">
-          <p>{currentDate}</p>
+        {/* Date - Right Aligned */}
+        <div style={{ textAlign: "right", marginBottom: "32px" }}>
+          <p style={{ margin: 0 }}>{currentDate}</p>
         </div>
 
         {/* Subject Line */}
-        <div className="mb-6">
-          <p className="font-bold">Subject: Securing Our Future: 1325.AI Team Documentation</p>
+        <div style={{ marginBottom: "24px" }}>
+          <p style={{ fontWeight: "bold", margin: 0 }}>
+            RE: Securing Our Future — 1325.AI Team Documentation
+          </p>
         </div>
 
         {/* Salutation */}
-        <div className="mb-6">
-          <p>Dear {recipientName},</p>
+        <div style={{ marginBottom: "20px" }}>
+          <p style={{ margin: 0 }}>Dear {recipientName},</p>
         </div>
 
-        {/* Body */}
-        <div className="space-y-4 leading-relaxed text-justify">
-          <p>
-            As we continue to build and scale 1325.AI (d/b/a Mansa Musa Marketplace, Inc.), I am more 
-            inspired than ever by the talent and dedication within this group. We aren't just building 
-            an app; we are building a legacy designed for long-term impact and, ultimately, a goal of 
-            taking this company to an <strong>Initial Public Offering (IPO)</strong>.
+        {/* Body - Professional Tone */}
+        <div style={{ lineHeight: "1.7", textAlign: "justify" }}>
+          <p style={{ marginBottom: "16px" }}>
+            As we continue to build and scale 1325.AI, I remain deeply inspired by the talent and 
+            dedication within our team. We are not simply building an application—we are constructing 
+            a legacy designed for long-term impact and, ultimately, positioned for an Initial Public 
+            Offering.
           </p>
 
-          <p>
-            To reach that milestone, we must ensure our foundation is institutional-grade. The attached 
-            <em> Confidential Information and Non-Disclosure Agreement</em> is a vital part of that process.
+          <p style={{ marginBottom: "16px" }}>
+            To achieve that milestone, we must ensure our foundation meets institutional standards. 
+            The enclosed Confidential Information and Non-Disclosure Agreement is a critical component 
+            of that process.
           </p>
 
           {/* Why This Matters Section */}
-          <div className="my-6 pl-4 border-l-4 border-gray-300">
-            <h3 className="font-bold mb-3">Why this matters for all of us:</h3>
+          <div style={{ margin: "28px 0", paddingLeft: "20px", borderLeft: "3px solid #1a365d" }}>
+            <p style={{ fontWeight: "bold", marginBottom: "16px", color: "#1a365d" }}>
+              Why This Matters for All of Us:
+            </p>
             
-            <div className="space-y-3">
-              <div>
-                <p className="font-semibold">🛡️ Protecting Our Hard Work:</p>
-                <p className="text-sm ml-6">
-                  This agreement legally anchors the proprietary systems we are building—such as the 
-                  CMAL, Susu Circle Infrastructure, and Economic Karma algorithms—to the company. This 
-                  ensures that the value we create together cannot be diluted or diverted by outside interests.
-                </p>
-              </div>
+            <p style={{ marginBottom: "12px" }}>
+              <strong>Protecting Our Work.</strong> This agreement legally anchors the proprietary 
+              systems we are building—including the CMAL Engine, Susu Circle Infrastructure, and 
+              Economic Karma algorithms—to the company. This ensures the value we create together 
+              cannot be diluted or diverted by outside interests.
+            </p>
 
-              <div>
-                <p className="font-semibold">📈 Preparing for IPO and Investment:</p>
-                <p className="text-sm ml-6">
-                  Institutional investors and public markets require "clean" intellectual property records. 
-                  This document provides the proof that our IP is fully secured, which is a prerequisite 
-                  for the high-level valuation we are targeting.
-                </p>
-              </div>
+            <p style={{ marginBottom: "12px" }}>
+              <strong>Preparing for Investment.</strong> Institutional investors and public markets 
+              require clear intellectual property records. This document provides proof that our IP 
+              is fully secured—a prerequisite for the valuation we are targeting.
+            </p>
 
-              <div>
-                <p className="font-semibold">🤝 Professionalism Over Personal Ties:</p>
-                <p className="text-sm ml-6">
-                  While many of us share deep bonds of friendship and family, this document ensures those 
-                  personal relationships are protected from the complexities of business. It allows us to 
-                  maintain our trust personally while remaining rigorous professionally.
-                </p>
-              </div>
-            </div>
+            <p style={{ marginBottom: "0" }}>
+              <strong>Professionalism Over Personal Ties.</strong> While many of us share bonds of 
+              friendship and family, this document ensures those personal relationships remain 
+              protected from the complexities of business. It allows us to maintain trust personally 
+              while remaining rigorous professionally.
+            </p>
           </div>
 
-          <p>
-            Even though we operate on a foundation of mutual trust, this legal framework is what transforms 
-            our hard work into a protected, tradable asset. It protects the "Economic Karma" we are all 
-            investing into this project.
+          <p style={{ marginBottom: "16px" }}>
+            Even though we operate on a foundation of mutual trust, this legal framework transforms 
+            our collective effort into a protected, tradable asset.
           </p>
 
-          <p>
-            Please review the document, including <strong>Exhibit A</strong> (where you can list any prior 
-            inventions you wish to exclude), and let me know if you have any questions.
+          <p style={{ marginBottom: "16px" }}>
+            Please review the enclosed agreement, including Exhibit A where you may list any prior 
+            inventions you wish to exclude. If you have no prior inventions to disclose, simply 
+            write "NONE" before signing.
           </p>
 
-          {/* Action Items Box */}
-          <div className="my-6 p-4 bg-gray-50 border border-gray-200 rounded">
-            <h4 className="font-bold mb-2">📋 Action Items:</h4>
-            <ul className="list-disc list-inside text-sm space-y-1">
-              <li>
-                <strong>Review Exhibit A:</strong> If you have unrelated projects you owned before joining us, 
-                list them on Page 11. If none, write <strong>"NONE"</strong>.
-              </li>
-              <li>
-                <strong>Sign & Date:</strong> You can execute this document electronically via DocuSign or HelloSign.
-              </li>
-              <li>
-                <strong>Questions:</strong> If you need further clarity on any clause, feel free to reach out.
-              </li>
-            </ul>
+          {/* Action Items */}
+          <div style={{ margin: "24px 0", padding: "16px", backgroundColor: "#f7fafc", border: "1px solid #e2e8f0" }}>
+            <p style={{ fontWeight: "bold", marginBottom: "12px" }}>Action Items:</p>
+            <ol style={{ margin: 0, paddingLeft: "20px" }}>
+              <li style={{ marginBottom: "6px" }}>Review the full agreement carefully</li>
+              <li style={{ marginBottom: "6px" }}>Complete Exhibit A (Prior Inventions) or write "NONE"</li>
+              <li style={{ marginBottom: "6px" }}>Sign and date the final page</li>
+              <li>Return the executed copy via DocuSign or physical delivery</li>
+            </ol>
           </div>
 
-          <p>
-            I am honored to have you on this journey toward the IPO. Let's build something historic.
+          <p style={{ marginBottom: "0" }}>
+            I am honored to have you on this journey. Let us build something historic together.
           </p>
         </div>
 
         {/* Signature Block */}
-        <div className="mt-10">
-          <p>Best regards,</p>
-          <div className="mt-8">
-            <p className="font-bold">Thomas D. Bowling</p>
-            <p className="text-sm">Founder & Chief Architect</p>
-            <p className="text-sm text-gray-600">1325.AI | Mansa Musa Marketplace, Inc.</p>
+        <div style={{ marginTop: "48px" }}>
+          <p style={{ margin: "0 0 32px 0" }}>Respectfully,</p>
+          <div>
+            <p style={{ fontWeight: "bold", margin: 0 }}>Thomas D. Bowling</p>
+            <p style={{ fontSize: "14px", margin: "4px 0 0 0" }}>Founder & Chief Architect</p>
+            <p style={{ fontSize: "13px", color: "#4a5568", margin: "2px 0 0 0" }}>
+              1325.AI | Mansa Musa Marketplace, Inc.
+            </p>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="mt-12 pt-4 border-t border-gray-300 text-xs text-gray-500 text-center">
-          <p>USPTO Provisional Patent Application No. 63/969,202 • Filed January 27, 2026</p>
-          <p className="mt-1">CONFIDENTIAL — For Internal Distribution Only</p>
+        <div style={{ 
+          marginTop: "48px", 
+          paddingTop: "16px", 
+          borderTop: "1px solid #cbd5e0", 
+          fontSize: "10px", 
+          color: "#718096", 
+          textAlign: "center" 
+        }}>
+          <p style={{ margin: 0 }}>
+            USPTO Provisional Patent Application No. 63/969,202 — Filed January 27, 2026
+          </p>
+          <p style={{ margin: "4px 0 0 0" }}>
+            CONFIDENTIAL — For Internal Distribution Only
+          </p>
         </div>
       </div>
     );
