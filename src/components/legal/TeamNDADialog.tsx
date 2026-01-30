@@ -40,7 +40,7 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
 
       // Dynamic import for html2pdf.js (ESM compatibility)
       const html2pdfModule = await import('html2pdf.js');
-      const html2pdf = html2pdfModule.default || html2pdfModule;
+      const html2pdfLib = html2pdfModule.default || html2pdfModule;
 
       const opt = {
         margin: [0.5, 0.5, 0.5, 0.5],
@@ -51,7 +51,8 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
 
-      await html2pdf().set(opt).from(element).save();
+      // html2pdf.js returns a builder when called
+      await html2pdfLib().set(opt).from(element).save();
       toast.success("NDA document downloaded successfully.");
     } catch (error) {
       console.error('PDF generation error:', error);
