@@ -71,10 +71,10 @@ const PitchSlide11Vision: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="p-6 bg-gradient-to-br from-mansagold/20 to-purple-500/20 backdrop-blur-sm border-mansagold/30 text-center">
+              <Card className="p-6 bg-black/80 border-2 border-mansagold text-center">
                 <goal.icon className="w-8 h-8 text-mansagold mx-auto mb-3" />
-                <div className="text-2xl md:text-3xl font-black text-mansagold drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mb-1">{goal.value}</div>
-                <div className="text-sm font-semibold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">{goal.label}</div>
+                <div className="text-2xl md:text-3xl font-black text-mansagold mb-1">{goal.value}</div>
+                <div className="text-sm font-bold text-white">{goal.label}</div>
               </Card>
             </motion.div>
           ))}
