@@ -60,17 +60,17 @@ const PitchSlide10Market: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15 }}
             >
-              <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10 hover:border-mansagold/30 transition-all text-center h-full">
+              <Card className="p-6 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all text-center h-full">
                 <div className={`inline-block px-3 py-1 rounded-full text-sm font-bold mb-4 ${
-                  item.color === 'mansagold' ? 'bg-mansagold/20 text-mansagold' :
-                  item.color === 'blue' ? 'bg-blue-500/20 text-blue-400' :
-                  'bg-green-500/20 text-green-400'
+                  item.color === 'mansagold' ? 'bg-mansagold/30 text-mansagold' :
+                  item.color === 'blue' ? 'bg-blue-500/30 text-blue-400' :
+                  'bg-green-500/30 text-green-400'
                 }`}>
                   {item.label}
                 </div>
-                <div className="text-4xl font-black text-white mb-2">{item.value}</div>
-                <h3 className="text-lg font-semibold text-white/80 mb-2">{item.title}</h3>
-                <p className="text-white/60 text-sm">{item.description}</p>
+                <div className="text-4xl font-black text-mansagold mb-2">{item.value}</div>
+                <h3 className="text-lg font-bold text-white mb-2">{item.title}</h3>
+                <p className="text-white/80 font-medium text-sm">{item.description}</p>
               </Card>
             </motion.div>
           ))}
@@ -82,7 +82,7 @@ const PitchSlide10Market: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+          <Card className="p-6 bg-black/80 border-2 border-mansagold/50">
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <Globe className="w-5 h-5 text-mansagold" />
               Geographic Expansion Strategy
@@ -94,16 +94,16 @@ const PitchSlide10Market: React.FC = () => {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.6 + index * 0.1 }}
-                  className="p-4 rounded-xl bg-white/5 border border-white/10"
+                  className="p-4 rounded-xl bg-black/50 border-2 border-mansagold/30"
                 >
                   <div className="text-mansagold font-bold mb-2">{phase.phase}</div>
-                  <div className="text-white font-semibold">{phase.market}</div>
-                  <div className="text-white/60 text-sm mt-2">
-                    <div className="flex items-center gap-1">
+                  <div className="text-white font-bold">{phase.market}</div>
+                  <div className="text-white/80 text-sm mt-2">
+                    <div className="flex items-center gap-1 font-medium">
                       <Building2 className="w-3 h-3" />
                       {phase.businesses} businesses
                     </div>
-                    <div className="text-mansagold/80">{phase.timeline}</div>
+                    <div className="text-mansagold font-semibold">{phase.timeline}</div>
                   </div>
                 </motion.div>
               ))}
@@ -117,8 +117,8 @@ const PitchSlide10Market: React.FC = () => {
           transition={{ delay: 1 }}
           className="mt-6 text-center"
         >
-          <Card className="inline-block p-4 bg-mansagold/10 border-mansagold/30">
-            <p className="text-lg text-white flex items-center gap-2">
+          <Card className="inline-block p-4 bg-black/80 border-2 border-mansagold">
+            <p className="text-lg text-white font-semibold flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-mansagold" />
               Network effects accelerate growth — each new business makes the platform more valuable
             </p>

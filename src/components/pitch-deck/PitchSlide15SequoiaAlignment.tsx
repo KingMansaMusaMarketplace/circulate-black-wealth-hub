@@ -80,14 +80,14 @@ const PitchSlide15SequoiaAlignment: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="p-4 bg-white/5 backdrop-blur-sm border-white/10 hover:border-mansagold/30 transition-all">
+              <Card className="p-4 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all">
                 <div className="flex items-start gap-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-${point.color}/20`}>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-${point.color}/30`}>
                     <point.icon className={`w-6 h-6 text-${point.color}`} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start gap-2 mb-2">
-                      <p className="text-white/60 text-sm italic flex-1">
+                      <p className="text-white/80 text-sm italic font-medium flex-1">
                         {point.sequoiaInsight}
                       </p>
                     </div>
@@ -95,7 +95,7 @@ const PitchSlide15SequoiaAlignment: React.FC = () => {
                       <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
                       <h4 className="text-white font-bold">{point.ourAlignment}</h4>
                     </div>
-                    <p className="text-white/50 text-sm">{point.description}</p>
+                    <p className="text-white/70 text-sm font-medium">{point.description}</p>
                   </div>
                 </div>
               </Card>
@@ -109,18 +109,18 @@ const PitchSlide15SequoiaAlignment: React.FC = () => {
           transition={{ delay: 0.6 }}
           className="mt-8 text-center"
         >
-          <Card className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-mansagold/20 to-mansablue/20 border-mansagold/30">
-            <span className="text-white font-semibold">Source:</span>
+          <Card className="inline-flex items-center gap-3 px-6 py-3 bg-black/80 border-2 border-mansagold">
+            <span className="text-white font-bold">Source:</span>
             <a 
               href="https://youtu.be/v9JBMnxuPX8" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-mansagold hover:text-mansagold-light flex items-center gap-1"
+              className="text-mansagold hover:text-mansagold-light flex items-center gap-1 font-semibold"
             >
               Sequoia AI Ascent 2025 Keynote
               <ExternalLink className="w-4 h-4" />
             </a>
-            <span className="text-white/50 text-sm">| May 2025 | 450K+ views</span>
+            <span className="text-white font-medium text-sm">| May 2025 | 450K+ views</span>
           </Card>
         </motion.div>
       </div>

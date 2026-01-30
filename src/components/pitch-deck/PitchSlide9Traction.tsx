@@ -53,10 +53,10 @@ const PitchSlide9Traction: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10 text-center hover:border-mansagold/30 transition-all">
+              <Card className="p-6 bg-black/80 border-2 border-mansagold/50 text-center hover:border-mansagold transition-all">
                 <goal.icon className="w-8 h-8 text-mansagold mx-auto mb-3" />
-                <div className="text-3xl font-black text-white mb-1">{goal.value}</div>
-                <div className="text-sm text-white/60">{goal.label}</div>
+                <div className="text-3xl font-black text-mansagold mb-1">{goal.value}</div>
+                <div className="text-sm text-white font-semibold">{goal.label}</div>
               </Card>
             </motion.div>
           ))}
@@ -68,7 +68,7 @@ const PitchSlide9Traction: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10">
+          <Card className="p-6 bg-black/80 border-2 border-mansagold/50">
             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <Rocket className="w-5 h-5 text-mansagold" />
               Milestone Roadmap
@@ -109,13 +109,13 @@ const PitchSlide9Traction: React.FC = () => {
           transition={{ delay: 0.8 }}
           className="mt-6 grid md:grid-cols-2 gap-4"
         >
-          <Card className="p-4 bg-green-500/10 border-green-500/30">
-            <p className="text-green-400 font-semibold">Current: Platform Live</p>
-            <p className="text-white/70 text-sm">130+ pages, 110+ tables, native apps ready</p>
+          <Card className="p-4 bg-black/80 border-2 border-green-500">
+            <p className="text-green-400 font-bold">Current: Platform Live</p>
+            <p className="text-white font-medium text-sm">130+ pages, 110+ tables, native apps ready</p>
           </Card>
-          <Card className="p-4 bg-mansagold/10 border-mansagold/30">
-            <p className="text-mansagold font-semibold">Next: Business Acquisition</p>
-            <p className="text-white/70 text-sm">Sales agent network activation underway</p>
+          <Card className="p-4 bg-black/80 border-2 border-mansagold">
+            <p className="text-mansagold font-bold">Next: Business Acquisition</p>
+            <p className="text-white font-medium text-sm">Sales agent network activation underway</p>
           </Card>
         </motion.div>
       </div>

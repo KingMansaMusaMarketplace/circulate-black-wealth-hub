@@ -60,15 +60,15 @@ const PitchSlide7DataMoat: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15 }}
             >
-              <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10 hover:border-mansagold/30 transition-all h-full">
-                <div className="w-14 h-14 bg-mansagold/20 rounded-xl flex items-center justify-center mb-4">
+              <Card className="p-6 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all h-full">
+                <div className="w-14 h-14 bg-mansagold/30 rounded-xl flex items-center justify-center mb-4">
                   <layer.icon className="w-7 h-7 text-mansagold" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2">{layer.title}</h3>
-                <p className="text-white/60 mb-4">{layer.description}</p>
+                <p className="text-white/80 font-medium mb-4">{layer.description}</p>
                 <div className="space-y-2">
                   {layer.examples.map((example, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm text-mansagold">
+                    <div key={i} className="flex items-center gap-2 text-sm text-mansagold font-semibold">
                       <div className="w-1.5 h-1.5 rounded-full bg-mansagold" />
                       {example}
                     </div>

@@ -83,7 +83,7 @@ const PitchSlide4Technology: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.15 }}
               >
-                <Card className={`p-6 bg-white/5 backdrop-blur-sm border-white/10 hover:${colors.border} transition-all h-full`}>
+                <Card className={`p-6 bg-black/80 border-2 ${colors.border} hover:border-mansagold transition-all h-full`}>
                   <div className="flex items-start gap-4">
                     <div className={`w-14 h-14 ${colors.bg} rounded-xl flex items-center justify-center flex-shrink-0`}>
                       <tech.icon className={`w-7 h-7 ${colors.text}`} />
@@ -93,8 +93,8 @@ const PitchSlide4Technology: React.FC = () => {
                         <h3 className={`text-xl font-bold ${colors.text}`}>{tech.name}</h3>
                         <Sparkles className={`w-4 h-4 ${colors.text}`} />
                       </div>
-                      <p className="text-white/60 text-sm mb-2">{tech.fullName}</p>
-                      <p className="text-white/80">{tech.description}</p>
+                      <p className="text-white/80 text-sm font-medium mb-2">{tech.fullName}</p>
+                      <p className="text-white font-medium">{tech.description}</p>
                     </div>
                   </div>
                 </Card>
@@ -109,8 +109,8 @@ const PitchSlide4Technology: React.FC = () => {
           transition={{ delay: 0.7 }}
           className="mt-8 text-center"
         >
-          <Card className="inline-block p-4 bg-mansagold/10 border-mansagold/30">
-            <p className="text-lg text-white flex items-center gap-2">
+          <Card className="inline-block p-4 bg-black/80 border-2 border-mansagold">
+            <p className="text-lg text-white font-semibold flex items-center gap-2">
               <Lock className="w-5 h-5 text-mansagold" />
               <span className="text-mansagold font-bold">USPTO Patent Application</span> filed — creating 18-month first-mover protection
             </p>

@@ -50,7 +50,7 @@ const PitchSlide8Competitive: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <Card className="overflow-hidden bg-white/5 backdrop-blur-sm border-white/10">
+          <Card className="overflow-hidden bg-black/80 border-2 border-mansagold/50">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
@@ -80,7 +80,7 @@ const PitchSlide8Competitive: React.FC = () => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.3 + i * 0.05 }}
                     >
-                      <td className="p-4 text-white font-medium">{feature.name}</td>
+                      <td className="p-4 text-white font-semibold">{feature.name}</td>
                       <td className="p-4">{renderCell(feature.yelp)}</td>
                       <td className="p-4">{renderCell(feature.obws)}</td>
                       <td className="p-4">{renderCell(feature.wbb)}</td>
@@ -99,9 +99,9 @@ const PitchSlide8Competitive: React.FC = () => {
           transition={{ delay: 0.8 }}
           className="mt-6 text-center"
         >
-          <Card className="inline-block p-4 bg-mansagold/10 border-mansagold/30">
-            <p className="text-lg text-white">
-              We're not their <span className="text-white/60">Yelp</span> — 
+          <Card className="inline-block p-4 bg-black/80 border-2 border-mansagold">
+            <p className="text-lg text-white font-semibold">
+              We're not their <span className="text-white/70">Yelp</span> — 
               we're their <span className="text-mansagold font-bold">QuickBooks + Yelp + Alibaba + Starbucks Rewards</span>
             </p>
           </Card>

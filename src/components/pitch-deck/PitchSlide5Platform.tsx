@@ -60,10 +60,10 @@ const PitchSlide5Platform: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10 text-center hover:border-mansagold/30 transition-all">
+              <Card className="p-6 bg-black/80 border-2 border-mansagold/50 text-center hover:border-mansagold transition-all">
                 <stat.icon className="w-8 h-8 text-mansagold mx-auto mb-3" />
-                <div className="text-3xl font-black text-white mb-1">{stat.value}</div>
-                <div className="text-sm text-white/60">{stat.label}</div>
+                <div className="text-3xl font-black text-mansagold mb-1">{stat.value}</div>
+                <div className="text-sm text-white font-semibold">{stat.label}</div>
               </Card>
             </motion.div>
           ))}
@@ -75,7 +75,7 @@ const PitchSlide5Platform: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Card className="p-8 bg-white/5 backdrop-blur-sm border-white/10">
+          <Card className="p-8 bg-black/80 border-2 border-mansagold/50">
             <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
               <BarChart3 className="w-6 h-6 text-mansagold" />
               Platform Capabilities
@@ -90,7 +90,7 @@ const PitchSlide5Platform: React.FC = () => {
                   className="flex items-center gap-3"
                 >
                   <div className="w-2 h-2 rounded-full bg-mansagold flex-shrink-0" />
-                  <span className="text-white/80">{feature}</span>
+                  <span className="text-white font-medium">{feature}</span>
                 </motion.div>
               ))}
             </div>

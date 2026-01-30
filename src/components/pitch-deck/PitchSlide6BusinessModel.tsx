@@ -94,13 +94,13 @@ const PitchSlide6BusinessModel: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="p-5 bg-white/5 backdrop-blur-sm border-white/10 hover:border-mansagold/30 transition-all h-full">
+                <Card className="p-5 bg-black/80 border-2 border-mansagold/50 hover:border-mansagold transition-all h-full">
                   <div className={`w-12 h-12 ${colorClasses.split(' ')[0]} rounded-xl flex items-center justify-center mb-4`}>
                     <stream.icon className={`w-6 h-6 ${colorClasses.split(' ')[1]}`} />
                   </div>
                   <h3 className="text-lg font-bold text-white mb-2">{stream.name}</h3>
-                  <p className="text-white/60 text-sm mb-3">{stream.description}</p>
-                  <div className={`text-sm font-semibold ${colorClasses.split(' ')[1]}`}>
+                  <p className="text-white/80 text-sm font-medium mb-3">{stream.description}</p>
+                  <div className={`text-sm font-bold ${colorClasses.split(' ')[1]}`}>
                     {stream.revenue}
                   </div>
                 </Card>
@@ -115,15 +115,15 @@ const PitchSlide6BusinessModel: React.FC = () => {
           transition={{ delay: 0.7 }}
           className="mt-8"
         >
-          <Card className="p-6 bg-gradient-to-r from-mansagold/20 to-mansagold/5 border-mansagold/30">
+          <Card className="p-6 bg-black/80 border-2 border-mansagold">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div>
                 <h3 className="text-xl font-bold text-white mb-1">Revenue Diversification = Resilience</h3>
-                <p className="text-white/70">No single revenue stream accounts for more than 40% of projected revenue</p>
+                <p className="text-white font-medium">No single revenue stream accounts for more than 40% of projected revenue</p>
               </div>
               <div className="text-center">
                 <div className="text-4xl font-black text-mansagold">$2.4M</div>
-                <div className="text-sm text-white/60">2026 Target ARR</div>
+                <div className="text-sm text-white font-semibold">2026 Target ARR</div>
               </div>
             </div>
           </Card>

@@ -66,14 +66,14 @@ const PitchSlide14Why776: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.15 }}
             >
-              <Card className="p-6 bg-white/5 backdrop-blur-sm border-white/10 hover:border-purple-400/30 transition-all h-full">
+              <Card className="p-6 bg-black/80 border-2 border-purple-500/50 hover:border-purple-400 transition-all h-full">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-purple-500/30 rounded-xl flex items-center justify-center flex-shrink-0">
                     <point.icon className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white mb-2">{point.title}</h3>
-                    <p className="text-white/70">{point.description}</p>
+                    <p className="text-white/80 font-medium">{point.description}</p>
                   </div>
                 </div>
               </Card>
@@ -87,10 +87,10 @@ const PitchSlide14Why776: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          <Card className="p-8 bg-gradient-to-r from-mansagold/20 via-purple-500/20 to-mansablue/20 border-mansagold/30">
+          <Card className="p-8 bg-black/80 border-2 border-mansagold">
             <div className="text-center">
               <h3 className="text-2xl font-bold text-white mb-4">Let's Build Together</h3>
-              <p className="text-white/80 mb-6 max-w-2xl mx-auto">
+              <p className="text-white font-medium mb-6 max-w-2xl mx-auto">
                 Mansa Musa Marketplace is more than a platform — it's a movement to create lasting economic 
                 infrastructure for Black communities. With 776's support, we can accelerate from prototype to 
                 market leader.
