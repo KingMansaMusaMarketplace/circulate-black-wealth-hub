@@ -128,11 +128,6 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
         <div className="flex-1 overflow-y-auto py-4" ref={documentRef}>
           <TeamNDADocument 
             recipientName={recipientName || "[RECIPIENT NAME]"}
-            effectiveDate={new Date().toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
-            })}
           />
         </div>
 
