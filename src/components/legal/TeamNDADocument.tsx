@@ -43,7 +43,7 @@ const TeamNDADocument: React.FC<TeamNDADocumentProps> = ({
       <p><strong>BETWEEN:</strong></p>
       
       <p className="ml-4">
-        <strong>{companyName}</strong>, an Illinois limited liability company, with its principal place of business 
+        <strong>{companyName}</strong>, an Illinois corporation, with its principal place of business 
         in Chicago, Illinois, including its subsidiaries, affiliates, successors, and assigns (collectively, 
         the "Company" or "Disclosing Party")
       </p>
