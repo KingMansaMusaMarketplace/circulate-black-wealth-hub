@@ -82,6 +82,22 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
         </DialogHeader>
         
         <div className="flex-shrink-0 border-b pb-4 space-y-4">
+          <div className="flex items-start space-x-3 p-3 border rounded-lg bg-muted/30">
+            <Checkbox
+              id="acknowledge"
+              checked={acknowledged}
+              onCheckedChange={(checked) => setAcknowledged(checked === true)}
+              className="mt-0.5"
+            />
+            <div>
+              <Label htmlFor="acknowledge" className="text-sm cursor-pointer">
+                I understand this is a legally binding document that should be reviewed by an attorney 
+                before execution. This NDA provides comprehensive protection for 1325.AI trade secrets 
+                and intellectual property.
+              </Label>
+            </div>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="recipientName">Recipient's Full Legal Name *</Label>
@@ -102,26 +118,10 @@ const TeamNDADialog: React.FC<TeamNDADialogProps> = ({ open, onOpenChange }) => 
                 <Download className="h-4 w-4 mr-2" />
                 {isDownloading ? "Generating PDF..." : "Download PDF"}
               </Button>
-              <Button variant="outline" onClick={handlePrint} disabled={!recipientName.trim()}>
+              <Button variant="outline" onClick={handlePrint} disabled={!recipientName.trim() || !acknowledged}>
                 <Printer className="h-4 w-4 mr-2" />
                 Print
               </Button>
-            </div>
-          </div>
-          
-          <div className="flex items-start space-x-3 p-3 border rounded-lg bg-muted/30">
-            <Checkbox
-              id="acknowledge"
-              checked={acknowledged}
-              onCheckedChange={(checked) => setAcknowledged(checked === true)}
-              className="mt-0.5"
-            />
-            <div>
-              <Label htmlFor="acknowledge" className="text-sm cursor-pointer">
-                I understand this is a legally binding document that should be reviewed by an attorney 
-                before execution. This NDA provides comprehensive protection for 1325.AI trade secrets 
-                and intellectual property.
-              </Label>
             </div>
           </div>
         </div>
