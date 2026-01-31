@@ -532,6 +532,272 @@ export type Database = {
           },
         ]
       }
+      ai_agent_actions: {
+        Row: {
+          action_data: Json | null
+          action_type: string
+          ai_confidence: number | null
+          ai_reasoning: string | null
+          approved_at: string | null
+          approved_by: string | null
+          business_id: string
+          created_at: string | null
+          error_message: string | null
+          executed_at: string | null
+          id: string
+          outcome_data: Json | null
+          requires_approval: boolean | null
+          rule_id: string | null
+          status: string
+          target_id: string
+          target_type: string
+          trigger_data: Json | null
+        }
+        Insert: {
+          action_data?: Json | null
+          action_type: string
+          ai_confidence?: number | null
+          ai_reasoning?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          business_id: string
+          created_at?: string | null
+          error_message?: string | null
+          executed_at?: string | null
+          id?: string
+          outcome_data?: Json | null
+          requires_approval?: boolean | null
+          rule_id?: string | null
+          status?: string
+          target_id: string
+          target_type: string
+          trigger_data?: Json | null
+        }
+        Update: {
+          action_data?: Json | null
+          action_type?: string
+          ai_confidence?: number | null
+          ai_reasoning?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          business_id?: string
+          created_at?: string | null
+          error_message?: string | null
+          executed_at?: string | null
+          id?: string
+          outcome_data?: Json | null
+          requires_approval?: boolean | null
+          rule_id?: string | null
+          status?: string
+          target_id?: string
+          target_type?: string
+          trigger_data?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_agent_actions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_actions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_actions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_actions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_actions_rule_id_fkey"
+            columns: ["rule_id"]
+            isOneToOne: false
+            referencedRelation: "ai_agent_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_agent_queue: {
+        Row: {
+          action_id: string
+          attempts: number | null
+          business_id: string
+          created_at: string | null
+          id: string
+          last_attempt_at: string | null
+          max_attempts: number | null
+          next_attempt_at: string | null
+          priority: number | null
+          scheduled_for: string | null
+          status: string
+        }
+        Insert: {
+          action_id: string
+          attempts?: number | null
+          business_id: string
+          created_at?: string | null
+          id?: string
+          last_attempt_at?: string | null
+          max_attempts?: number | null
+          next_attempt_at?: string | null
+          priority?: number | null
+          scheduled_for?: string | null
+          status?: string
+        }
+        Update: {
+          action_id?: string
+          attempts?: number | null
+          business_id?: string
+          created_at?: string | null
+          id?: string
+          last_attempt_at?: string | null
+          max_attempts?: number | null
+          next_attempt_at?: string | null
+          priority?: number | null
+          scheduled_for?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_agent_queue_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: false
+            referencedRelation: "ai_agent_actions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_queue_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_queue_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_queue_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_queue_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_agent_rules: {
+        Row: {
+          action_config: Json
+          action_type: string
+          business_id: string
+          confidence_threshold: number | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          execution_count: number | null
+          id: string
+          is_active: boolean | null
+          last_executed_at: string | null
+          name: string
+          priority: number | null
+          requires_approval: boolean | null
+          rule_type: string
+          trigger_conditions: Json
+          updated_at: string | null
+        }
+        Insert: {
+          action_config?: Json
+          action_type: string
+          business_id: string
+          confidence_threshold?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          execution_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_executed_at?: string | null
+          name: string
+          priority?: number | null
+          requires_approval?: boolean | null
+          rule_type: string
+          trigger_conditions?: Json
+          updated_at?: string | null
+        }
+        Update: {
+          action_config?: Json
+          action_type?: string
+          business_id?: string
+          confidence_threshold?: number | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          execution_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_executed_at?: string | null
+          name?: string
+          priority?: number | null
+          requires_approval?: boolean | null
+          rule_type?: string
+          trigger_conditions?: Json
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_agent_rules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_rules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_rules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_agent_rules_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ai_assistant_rate_limits: {
         Row: {
           created_at: string
@@ -3781,6 +4047,93 @@ export type Database = {
           },
         ]
       }
+      churn_predictions: {
+        Row: {
+          action_taken: boolean | null
+          action_taken_at: string | null
+          ai_reasoning: string | null
+          business_id: string
+          churn_probability: number
+          created_at: string | null
+          customer_id: string
+          days_since_last_activity: number | null
+          id: string
+          lifetime_value: number | null
+          predicted_at: string | null
+          recommended_actions: Json | null
+          risk_factors: Json | null
+          risk_level: string
+        }
+        Insert: {
+          action_taken?: boolean | null
+          action_taken_at?: string | null
+          ai_reasoning?: string | null
+          business_id: string
+          churn_probability: number
+          created_at?: string | null
+          customer_id: string
+          days_since_last_activity?: number | null
+          id?: string
+          lifetime_value?: number | null
+          predicted_at?: string | null
+          recommended_actions?: Json | null
+          risk_factors?: Json | null
+          risk_level: string
+        }
+        Update: {
+          action_taken?: boolean | null
+          action_taken_at?: string | null
+          ai_reasoning?: string | null
+          business_id?: string
+          churn_probability?: number
+          created_at?: string | null
+          customer_id?: string
+          days_since_last_activity?: number | null
+          id?: string
+          lifetime_value?: number | null
+          predicted_at?: string | null
+          recommended_actions?: Json | null
+          risk_factors?: Json | null
+          risk_level?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "churn_predictions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "churn_predictions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "churn_predictions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "churn_predictions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "churn_predictions_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       coalition_members: {
         Row: {
           business_id: string
@@ -4893,6 +5246,106 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deal_scores: {
+        Row: {
+          ai_reasoning: string | null
+          business_id: string
+          close_probability: number
+          competitor_risk: string | null
+          connection_id: string | null
+          created_at: string | null
+          customer_id: string | null
+          deal_name: string | null
+          deal_value: number | null
+          engagement_signals: Json | null
+          expected_close_date: string | null
+          id: string
+          recommended_next_steps: Json | null
+          score_factors: Json | null
+          scored_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_reasoning?: string | null
+          business_id: string
+          close_probability: number
+          competitor_risk?: string | null
+          connection_id?: string | null
+          created_at?: string | null
+          customer_id?: string | null
+          deal_name?: string | null
+          deal_value?: number | null
+          engagement_signals?: Json | null
+          expected_close_date?: string | null
+          id?: string
+          recommended_next_steps?: Json | null
+          score_factors?: Json | null
+          scored_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_reasoning?: string | null
+          business_id?: string
+          close_probability?: number
+          competitor_risk?: string | null
+          connection_id?: string | null
+          created_at?: string | null
+          customer_id?: string | null
+          deal_name?: string | null
+          deal_value?: number | null
+          engagement_signals?: Json | null
+          expected_close_date?: string | null
+          id?: string
+          recommended_next_steps?: Json | null
+          score_factors?: Json | null
+          scored_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deal_scores_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_scores_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_scores_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_scores_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_scores_connection_id_fkey"
+            columns: ["connection_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_connections"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_scores_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
             referencedColumns: ["id"]
           },
         ]
@@ -6242,6 +6695,110 @@ export type Database = {
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lead_scores: {
+        Row: {
+          ai_reasoning: string | null
+          business_id: string
+          created_at: string | null
+          customer_id: string | null
+          engagement_score: number | null
+          expires_at: string | null
+          fit_score: number | null
+          id: string
+          intent_score: number | null
+          lead_id: string | null
+          recommended_action: string | null
+          score: number
+          score_factors: Json | null
+          scored_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_reasoning?: string | null
+          business_id: string
+          created_at?: string | null
+          customer_id?: string | null
+          engagement_score?: number | null
+          expires_at?: string | null
+          fit_score?: number | null
+          id?: string
+          intent_score?: number | null
+          lead_id?: string | null
+          recommended_action?: string | null
+          score: number
+          score_factors?: Json | null
+          scored_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_reasoning?: string | null
+          business_id?: string
+          created_at?: string | null
+          customer_id?: string | null
+          engagement_score?: number | null
+          expires_at?: string | null
+          fit_score?: number | null
+          id?: string
+          intent_score?: number | null
+          lead_id?: string | null
+          recommended_action?: string | null
+          score?: number
+          score_factors?: Json | null
+          scored_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_scores_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_scores_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_scores_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_scores_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_scores_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_scores_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_external_leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lead_scores_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "b2b_external_leads_public"
             referencedColumns: ["id"]
           },
         ]
@@ -11191,6 +11748,80 @@ export type Database = {
           },
           {
             foreignKeyName: "testimonials_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_resolution_templates: {
+        Row: {
+          business_id: string | null
+          category: string
+          confidence_threshold: number | null
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          issue_pattern: string
+          requires_human_review: boolean | null
+          resolution_template: string
+          success_rate: number | null
+          updated_at: string | null
+          usage_count: number | null
+        }
+        Insert: {
+          business_id?: string | null
+          category: string
+          confidence_threshold?: number | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          issue_pattern: string
+          requires_human_review?: boolean | null
+          resolution_template: string
+          success_rate?: number | null
+          updated_at?: string | null
+          usage_count?: number | null
+        }
+        Update: {
+          business_id?: string | null
+          category?: string
+          confidence_threshold?: number | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          issue_pattern?: string
+          requires_human_review?: boolean | null
+          resolution_template?: string
+          success_rate?: number | null
+          updated_at?: string | null
+          usage_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_resolution_templates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_resolution_templates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_resolution_templates_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_resolution_templates_business_id_fkey"
             columns: ["business_id"]
             isOneToOne: false
             referencedRelation: "partner_referred_businesses_api"
