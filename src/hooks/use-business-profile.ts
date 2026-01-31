@@ -50,17 +50,20 @@ export const useBusinessProfile = () => {
     setError(null);
     
     try {
+      // Use order + limit instead of single/maybeSingle to handle multiple businesses per owner
       const { data, error: fetchError } = await supabase
         .from('businesses')
         .select('*')
         .eq('owner_id', user.id)
-        .maybeSingle(); // Use maybeSingle instead of single to avoid errors when no row exists
+        .order('created_at', { ascending: false })
+        .limit(1);
 
       if (fetchError) {
         throw fetchError;
       }
 
-      setProfile(data);
+      // Get the first (most recent) business
+      setProfile(data && data.length > 0 ? data[0] : null);
     } catch (err: any) {
       console.error('Error loading business profile:', err);
       const message = err.message || 'Failed to load business profile';
@@ -82,13 +85,12 @@ export const useBusinessProfile = () => {
       const { data, error: updateError } = await supabase
         .from('businesses')
         .update(updates)
-        .eq('owner_id', user.id)
-        .select()
-        .single();
+        .eq('id', profile.id)  // Use specific ID instead of owner_id
+        .select();
 
       if (updateError) throw updateError;
 
-      setProfile(data);
+      setProfile(data && data.length > 0 ? data[0] : profile);
       toast.success('Business profile updated successfully');
     } catch (err: any) {
       console.error('Error updating business profile:', err);
