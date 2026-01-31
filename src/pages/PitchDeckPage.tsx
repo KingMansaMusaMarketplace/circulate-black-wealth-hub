@@ -12,7 +12,8 @@ import {
   Home,
   Download,
   Presentation,
-  Keyboard
+  Keyboard,
+  Loader2
 } from 'lucide-react';
 import PitchSlide1Cover from '@/components/pitch-deck/PitchSlide1Cover';
 import PitchSlide2Problem from '@/components/pitch-deck/PitchSlide2Problem';
@@ -30,6 +31,8 @@ import PitchSlide13Ask from '@/components/pitch-deck/PitchSlide13Ask';
 import PitchSlide14Why776 from '@/components/pitch-deck/PitchSlide14Why776';
 import PitchSlide15SequoiaAlignment from '@/components/pitch-deck/PitchSlide15SequoiaAlignment';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
+import { exportPitchDeckToPDF } from '@/lib/utils/pitch-deck-export';
 
 const SLIDES = [
   { id: 1, title: 'Cover', component: PitchSlide1Cover },
@@ -53,7 +56,10 @@ const PitchDeckPage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showKeyboardHint, setShowKeyboardHint] = useState(true);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState({ current: 0, total: 15 });
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const goToNextSlide = useCallback(() => {
     if (currentSlide < SLIDES.length - 1) {
@@ -151,6 +157,46 @@ const PitchDeckPage: React.FC = () => {
           <span className="text-white/60 text-sm">
             Slide {currentSlide + 1} of {SLIDES.length}
           </span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={async () => {
+              setIsExporting(true);
+              try {
+                await exportPitchDeckToPDF((progress) => {
+                  setExportProgress(progress);
+                });
+                toast({
+                  title: "PDF Export Complete",
+                  description: "Your pitch deck has been downloaded successfully.",
+                });
+              } catch (error) {
+                console.error('Export failed:', error);
+                toast({
+                  title: "Export Failed",
+                  description: "There was an error exporting the pitch deck. Please try again.",
+                  variant: "destructive",
+                });
+              } finally {
+                setIsExporting(false);
+                setExportProgress({ current: 0, total: 15 });
+              }
+            }}
+            disabled={isExporting}
+            className="text-white/70 hover:text-white"
+          >
+            {isExporting ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                {exportProgress.current}/{exportProgress.total}
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4 mr-1" />
+                PDF
+              </>
+            )}
+          </Button>
           <Button
             variant="ghost"
             size="sm"
