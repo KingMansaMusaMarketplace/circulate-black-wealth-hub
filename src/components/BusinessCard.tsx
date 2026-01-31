@@ -168,10 +168,8 @@ const BusinessCard = ({
                 loading="lazy"
                 style={{ minHeight: '200px' }}
               />
-              {/* Gradient overlay on hover */}
-              <div className={`absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-60'}`} />
-              {/* Shine effect */}
-              <div className={`absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent transition-transform duration-700 ${isHovered ? 'translate-x-full' : '-translate-x-full'}`} />
+              {/* Subtle gradient at bottom for text readability */}
+              <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-slate-900/60 to-transparent pointer-events-none" />
             </>
           )}
           
