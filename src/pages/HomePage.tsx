@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import HomePageSections from '@/components/HomePage/HomePageSections';
-import AmbassadorCTA from '@/components/HomePage/AmbassadorCTA';
+
 import { SponsorBanner } from '@/components/sponsors';
 import { PublicSponsorDisplay } from '@/components/sponsors/PublicSponsorDisplay';
 import { trackBundleMetrics, addResourceHints } from '@/utils/dynamicImports';
@@ -73,10 +73,7 @@ const HomePage = () => {
           <HomePageSections />
         </SectionErrorBoundary>
 
-        {/* Ambassador Program CTA */}
-        <SectionErrorBoundary sectionName="Ambassador CTA">
-          <AmbassadorCTA />
-        </SectionErrorBoundary>
+        {/* Ambassador CTA moved to /mansa-ambassadors page */}
         
         {/* Public Sponsor Display */}
         <SectionErrorBoundary sectionName="Sponsor Showcase">

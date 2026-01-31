@@ -54,22 +54,17 @@ const Hero = () => {
       </div>
 
       <div className="relative container mx-auto px-4 pt-6 pb-8 md:pt-12 md:pb-20">
-        {/* Economic Operating System Badge */}
+        {/* Single Unified Urgency Badge */}
         <motion.div 
           className="text-center mb-6 md:mb-10"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-3">
-            <span className="text-xs md:text-sm font-medium text-blue-200/80 tracking-wide uppercase">
-              The Economic Operating System
-            </span>
-          </div>
           <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-mansagold/30 border-2 border-mansagold shadow-lg">
             <Sparkles className="w-5 h-5 text-white" />
             <span className="text-sm md:text-base font-black text-white tracking-wide uppercase">
-              100% FREE — Founding Member Status Closing Soon
+              🚀 Founding Member Access — Join Free Before Sept 2026
             </span>
           </div>
         </motion.div>
@@ -192,70 +187,39 @@ const Hero = () => {
             )}
           </motion.div>
 
-          {/* Beta Phase - Founding Member CTA */}
+          {/* Social Proof */}
           <motion.div
-            className="bg-gradient-to-r from-mansagold/20 via-amber-500/15 to-mansagold/20 backdrop-blur-xl border border-mansagold/40 rounded-2xl p-5 mb-8"
-            initial={{ opacity: 0, y: 20 }}
+            className="p-4 md:p-5 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm"
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.35 }}
           >
-            <div className="flex flex-col items-center gap-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-mansagold/30 border border-mansagold/50">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mansagold opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-mansagold"></span>
-                </span>
-                <span className="text-xs font-bold text-mansagold uppercase tracking-wider">Beta Phase</span>
-              </div>
-              <h3 className="text-lg md:text-xl font-bold text-white text-center">
-                Building the Most Powerful Black Economic Platform — <span className="text-mansagold font-mono tracking-wider">1325.AI</span>
-              </h3>
-              <p className="text-sm md:text-base text-blue-100/80 text-center max-w-lg">
-                Join now as a <span className="text-mansagold font-semibold">Founding Member</span> and lock in exclusive lifetime benefits before the deadline.
-              </p>
-              <div className="flex flex-col items-center gap-2 mt-3">
-                <span className="px-5 py-2.5 bg-red-800 border-2 border-red-600 rounded-xl text-base sm:text-lg md:text-xl font-bold text-white text-center shadow-lg shadow-red-900/50">
-                  ⏰ Deadline: September 1, 2026 — or 100,000 Founding Members
-                </span>
-                <span className="text-sm md:text-base text-red-200 font-semibold">whichever comes first</span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Early adopter CTA - Simplified */}
-          <motion.div
-            className="p-4 md:p-6 rounded-xl bg-mansagold/15 border border-mansagold/30 backdrop-blur-sm"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <p className="text-base md:text-lg font-bold text-white">
-              🚀 We just launched! Share with family & friends to help us grow.
+            <p className="text-sm md:text-base text-blue-100/80">
+              <span className="text-mansagold font-bold">1325.AI</span> — The intelligence layer for Black economic power. 
+              Share with family & friends to help us grow.
             </p>
           </motion.div>
         </div>
 
-        {/* Feature cards - Desktop Only */}
+        {/* Feature cards - Desktop Only - Simplified to 2 paths */}
         <motion.div 
-          className="hidden lg:grid grid-cols-4 gap-4 mt-16 max-w-5xl mx-auto"
+          className="hidden lg:grid grid-cols-2 gap-6 mt-16 max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
           {[
-            { title: 'Customers', desc: 'Browse, get discounts', link: '/signup' },
-            { title: 'Businesses', desc: 'List free, grow sales', link: '/signup?type=business' },
-            { title: 'Sales Agents', desc: 'Earn 15% commission', link: '/become-a-sales-agent' },
-            { title: 'Directory', desc: 'Explore businesses', link: '/directory' },
+            { title: 'For Customers', desc: 'Find businesses, earn discounts, track your community impact', link: '/directory' },
+            { title: 'For Business Owners', desc: 'List free, attract loyal customers, grow your sales', link: '/signup?type=business' },
           ].map((card) => (
             <Link 
               key={card.title} 
               to={card.link}
-              className="group bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-xl p-4 hover:border-white/20 hover:bg-slate-800/40 transition-all duration-300"
+              className="group bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:border-mansagold/30 hover:bg-slate-800/40 transition-all duration-300"
             >
-              <h3 className="text-base font-bold text-white mb-1">{card.title}</h3>
-              <p className="text-sm text-blue-200/70">{card.desc}</p>
-              <ArrowRight className="w-4 h-4 text-white/30 group-hover:text-white/60 mt-2 group-hover:translate-x-1 transition-all" />
+              <h3 className="text-lg font-bold text-white mb-2">{card.title}</h3>
+              <p className="text-sm text-blue-200/70 mb-3">{card.desc}</p>
+              <ArrowRight className="w-5 h-5 text-mansagold/50 group-hover:text-mansagold mt-2 group-hover:translate-x-1 transition-all" />
             </Link>
           ))}
         </motion.div>
