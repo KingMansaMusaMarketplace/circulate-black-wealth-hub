@@ -151,6 +151,9 @@ const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePa
 
 // Unified Test Dashboard (consolidates all test pages)
 const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard'));
+
+// Coming Soon page (for archived features)
+const LazyComingSoonPage = lazy(() => import('@/pages/ComingSoonPage'));
 const LazyClaimBusinessPage = lazy(() => import('@/pages/ClaimBusinessPage'));
 
 // Growth System pages
@@ -479,8 +482,8 @@ function App() {
                               <Route path="/business/:businessId" element={<LazyBusinessDetailPage />} />
                               <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                               <Route path="/button-test" element={<LazyButtonTestPage />} />
-                              <Route path="/b2b-marketplace" element={<LazyB2BMarketplacePage />} />
-                              <Route path="/leads-dashboard" element={<LazyLeadsDashboardPage />} />
+                              <Route path="/b2b-marketplace" element={<LazyComingSoonPage />} />
+                              <Route path="/leads-dashboard" element={<LazyComingSoonPage />} />
                               
                               {/* C */}
                               <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
@@ -504,13 +507,13 @@ function App() {
                               
                               {/* D */}
                               <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
-                              <Route path="/developers" element={<LazyDeveloperLandingPage />} />
-                              <Route path="/developers/dashboard" element={<LazyDeveloperDashboard />} />
-                              <Route path="/developers/signup" element={<LazyDeveloperSignupPage />} />
-                              <Route path="/developers/docs" element={<LazyApiDocumentationPage />} />
-                              <Route path="/developers/pricing" element={<LazyApiPricingPage />} />
-                              <Route path="/developers/sdks" element={<LazySdkDocumentationPage />} />
-                              <Route path="/developers/showcase" element={<LazyShowcaseGalleryPage />} />
+                              <Route path="/developers" element={<LazyComingSoonPage />} />
+                              <Route path="/developers/dashboard" element={<LazyComingSoonPage />} />
+                              <Route path="/developers/signup" element={<LazyComingSoonPage />} />
+                              <Route path="/developers/docs" element={<LazyComingSoonPage />} />
+                              <Route path="/developers/pricing" element={<LazyComingSoonPage />} />
+                              <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
+                              <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                               <Route path="/directory" element={<LazyDirectoryPage />} />
                               
                               {/* E */}
@@ -757,8 +760,8 @@ function App() {
                         <Route path="/business/:businessId/commissions" element={<LazyCommissionReportsPage />} />
                         
                         <Route path="/button-test" element={<LazyButtonTestPage />} />
-                        <Route path="/b2b-marketplace" element={<LazyB2BMarketplacePage />} />
-                        <Route path="/leads-dashboard" element={<LazyLeadsDashboardPage />} />
+                        <Route path="/b2b-marketplace" element={<LazyComingSoonPage />} />
+                        <Route path="/leads-dashboard" element={<LazyComingSoonPage />} />
                         
                         {/* C */}
                         <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
@@ -768,8 +771,8 @@ function App() {
                         <Route path="/community" element={<LazyCommunityPage />} />
                         <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                         <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
-                        <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
-                        <Route path="/comprehensive-test" element={<LazyComprehensiveTestPage />} />
+                        <Route path="/community-impact-test" element={<LazyUnifiedTestDashboard />} />
+                        <Route path="/comprehensive-test" element={<LazyUnifiedTestDashboard />} />
                         <Route path="/contact" element={<LazyContactPage />} />
                         <Route path="/cookies" element={<LazyCookiePolicyPage />} />
                         <Route path="/corporate-dashboard" element={
@@ -785,13 +788,13 @@ function App() {
                         
                         {/* D */}
                         <Route path="/dashboard" element={<LazyUnifiedDashboard />} />
-                        <Route path="/developers" element={<LazyDeveloperLandingPage />} />
-                        <Route path="/developers/dashboard" element={<LazyDeveloperDashboard />} />
-                        <Route path="/developers/signup" element={<LazyDeveloperSignupPage />} />
-                        <Route path="/developers/docs" element={<LazyApiDocumentationPage />} />
-                        <Route path="/developers/pricing" element={<LazyApiPricingPage />} />
-                        <Route path="/developers/sdks" element={<LazySdkDocumentationPage />} />
-                        <Route path="/developers/showcase" element={<LazyShowcaseGalleryPage />} />
+                        <Route path="/developers" element={<LazyComingSoonPage />} />
+                        <Route path="/developers/dashboard" element={<LazyComingSoonPage />} />
+                        <Route path="/developers/signup" element={<LazyComingSoonPage />} />
+                        <Route path="/developers/docs" element={<LazyComingSoonPage />} />
+                        <Route path="/developers/pricing" element={<LazyComingSoonPage />} />
+                        <Route path="/developers/sdks" element={<LazyComingSoonPage />} />
+                        <Route path="/developers/showcase" element={<LazyComingSoonPage />} />
                         <Route path="/directory" element={<LazyDirectoryPage />} />
                         
                         {/* E */}
