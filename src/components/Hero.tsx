@@ -44,13 +44,13 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-[85vh] md:min-h-screen overflow-hidden">
-      {/* Premium gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-mansablue-dark via-mansablue to-mansablue-dark" />
+      {/* Premium gradient background - darker for better contrast */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#050d1a] via-[#0a1628] to-[#050d1a]" />
       
-      {/* Vibrant ambient effects - boosted for iPhone visibility */}
+      {/* Subtle ambient effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-mansagold/20 rounded-full blur-[100px] md:blur-[150px]" />
-        <div className="absolute bottom-0 right-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-purple-500/15 rounded-full blur-[80px] md:blur-[120px]" />
+        <div className="absolute top-0 left-1/4 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-mansagold/12 rounded-full blur-[100px] md:blur-[150px]" />
+        <div className="absolute bottom-0 right-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-purple-500/8 rounded-full blur-[80px] md:blur-[120px]" />
       </div>
 
       <div className="relative container mx-auto px-4 pt-6 pb-8 md:pt-12 md:pb-20">
