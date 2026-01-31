@@ -2,7 +2,8 @@ import React from 'react';
 import { 
   BarChart3, Users, History, Ticket, Shield, Tag, Flag, TrendingUp, 
   MapPin, ShieldCheck, DollarSign, Download, Calendar, Lock, Database, 
-  Eye, Sliders, Bot, UserCog, Home, Award, Scale, Handshake, BookOpen
+  Eye, Sliders, Bot, UserCog, Home, Award, Scale, Handshake, BookOpen,
+  Archive
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
@@ -79,6 +80,7 @@ const sections = [
     items: [
       { id: 'system', label: 'Settings', icon: Sliders, description: 'Platform configuration' },
       { id: 'ai', label: 'AI Tools', icon: Bot, description: 'AI-powered admin features' },
+      { id: 'archive', label: 'Feature Archive', icon: Archive, description: 'Restore archived features instantly', highlight: true },
     ]
   },
   {
@@ -126,20 +128,30 @@ const AdminHub: React.FC<AdminHubProps> = ({ onNavigate }) => {
                 onClick={() => handleItemClick(item)}
                 className={cn(
                   "group cursor-pointer transition-all duration-200",
-                  "bg-white/5 hover:bg-white/10 border-white/10 hover:border-mansagold/40",
+                  item.highlight 
+                    ? "bg-gradient-to-br from-amber-500/20 to-orange-600/10 border-mansagold/40 hover:border-mansagold"
+                    : "bg-white/5 hover:bg-white/10 border-white/10 hover:border-mansagold/40",
                   "hover:shadow-lg hover:shadow-mansagold/5 hover:-translate-y-0.5"
                 )}
               >
                 <CardContent className="p-4 flex items-start gap-4">
                   <div className={cn(
                     "shrink-0 w-10 h-10 rounded-lg flex items-center justify-center",
-                    "bg-white/5 group-hover:bg-mansagold/20 transition-colors",
-                    "border border-white/10 group-hover:border-mansagold/30"
+                    item.highlight 
+                      ? "bg-mansagold/30 border-mansagold/50"
+                      : "bg-white/5 group-hover:bg-mansagold/20 border-white/10 group-hover:border-mansagold/30",
+                    "transition-colors border"
                   )}>
-                    <item.icon className="w-5 h-5 text-white/70 group-hover:text-mansagold transition-colors" />
+                    <item.icon className={cn(
+                      "w-5 h-5 transition-colors",
+                      item.highlight ? "text-mansagold" : "text-white/70 group-hover:text-mansagold"
+                    )} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-white group-hover:text-mansagold transition-colors truncate">
+                    <h4 className={cn(
+                      "font-semibold transition-colors truncate",
+                      item.highlight ? "text-mansagold" : "text-white group-hover:text-mansagold"
+                    )}>
                       {item.label}
                     </h4>
                     <p className="text-sm text-white/50 line-clamp-2 mt-0.5">
