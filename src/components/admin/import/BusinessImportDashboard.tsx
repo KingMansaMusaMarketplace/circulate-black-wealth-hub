@@ -24,6 +24,7 @@ const ManualLeadEntry = lazy(() => import('./ManualLeadEntry').then(m => ({ defa
 const PriorityLeadsTab = lazy(() => import('./PriorityLeadsTab').then(m => ({ default: m.PriorityLeadsTab })));
 const ScheduledSearchesTab = lazy(() => import('./ScheduledSearchesTab').then(m => ({ default: m.ScheduledSearchesTab })));
 const URLBusinessImport = lazy(() => import('./URLBusinessImport').then(m => ({ default: m.URLBusinessImport })));
+const DraftBusinessesTab = lazy(() => import('./DraftBusinessesTab').then(m => ({ default: m.DraftBusinessesTab })));
 
 // Loading skeleton for stats cards
 const StatsLoadingSkeleton = () => (
@@ -343,8 +344,12 @@ export const BusinessImportDashboard: React.FC = () => {
         </Card>
       )}
 
-      <Tabs defaultValue="priority" className="space-y-4">
+      <Tabs defaultValue="drafts" className="space-y-4">
         <TabsList className="bg-white/5">
+          <TabsTrigger value="drafts" className="data-[state=active]:bg-green-500/20">
+            <Building2 className="w-4 h-4 mr-1" />
+            Drafts
+          </TabsTrigger>
           <TabsTrigger value="priority" className="data-[state=active]:bg-yellow-500/20">
             <Star className="w-4 h-4 mr-1" />
             Priority Leads
@@ -356,6 +361,12 @@ export const BusinessImportDashboard: React.FC = () => {
           <TabsTrigger value="jobs">Import Jobs</TabsTrigger>
           <TabsTrigger value="campaigns">Outreach Campaigns</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="drafts">
+          <Suspense fallback={<Skeleton className="h-64 w-full" />}>
+            <DraftBusinessesTab />
+          </Suspense>
+        </TabsContent>
 
         <TabsContent value="priority">
           <Suspense fallback={<Skeleton className="h-64 w-full" />}>
