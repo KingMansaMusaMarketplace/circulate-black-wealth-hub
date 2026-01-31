@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { Business } from '@/types/business';
 import { BusinessFilters } from '@/lib/api/directory/types';
+import { getBusinessBanner } from '@/utils/businessBanners';
 
 interface SupabaseBusiness {
   id: string;
@@ -32,6 +33,10 @@ interface SupabaseBusiness {
 const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
   const businessName = business.name || business.business_name || 'Unnamed Business';
   const logoUrl = business.logo_url || '';
+  // Use banner fallback for businesses without banners
+  const bannerUrl = getBusinessBanner(business.id, business.banner_url) || '';
+  // Prefer banner for card image, fall back to logo
+  const cardImage = bannerUrl || logoUrl;
   
   return {
     id: business.id,
@@ -46,7 +51,7 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     email: business.email || '',
     website: business.website || '',
     logoUrl: logoUrl,
-    bannerUrl: business.banner_url || '',
+    bannerUrl: bannerUrl,
     averageRating: Number(business.average_rating) || 0,
     reviewCount: business.review_count || 0,
     rating: Number(business.average_rating) || 0,
@@ -56,7 +61,7 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     distanceValue: 0,
     lat: business.latitude || 33.749,
     lng: business.longitude || -84.388,
-    imageUrl: logoUrl,
+    imageUrl: cardImage,
     imageAlt: businessName,
     isFeatured: business.is_verified || false,
     isVerified: business.is_verified || false,
