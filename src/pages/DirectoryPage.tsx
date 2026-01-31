@@ -128,31 +128,52 @@ const DirectoryPage: React.FC = () => {
       
       <BreadcrumbStructuredData items={generateBreadcrumbs.directory()} />
       
-      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-mansablue-dark to-slate-900">
+      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+        {/* Subtle gold accent line at top */}
+        <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60" />
+        
         <div className="container mx-auto px-4 py-16">
-          {/* Header - matching FeaturedBusinesses layout with dark theme */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-4">
+          {/* Premium Header */}
+          <div className="text-center mb-16">
+            <div className="inline-block mb-4">
+              <span className="text-mansagold text-sm font-mono tracking-widest uppercase">
+                Discover • Support • Thrive
+              </span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 font-display">
               Black-Owned Business Directory
-            </h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
+            </h1>
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
               Discover amazing businesses in your community and start earning loyalty points today
             </p>
           </div>
           
-          {/* Search Bar */}
-          <div className="relative max-w-xl mx-auto mb-12" data-tour="search-businesses">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <Input
-              type="text" 
-              placeholder="Search businesses..."
-              className="pl-12 h-12 rounded-lg w-full text-base bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-gray-400"
-              value={searchTerm || ''}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          {/* Premium Search Bar */}
+          <div className="relative max-w-2xl mx-auto mb-16" data-tour="search-businesses">
+            <div className="absolute inset-0 bg-gradient-to-r from-mansagold/20 via-transparent to-mansagold/20 rounded-xl blur-xl opacity-50" />
+            <div className="relative glass-card rounded-xl p-1">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-mansagold" />
+                <Input
+                  type="text" 
+                  placeholder="Search businesses by name, category, or location..."
+                  className="pl-12 h-14 rounded-lg w-full text-base bg-slate-900/50 border-white/10 text-white placeholder:text-gray-500 focus:border-mansagold/50 focus:ring-mansagold/20"
+                  value={searchTerm || ''}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+          
+          {/* Results count */}
+          <div className="flex items-center justify-between mb-8">
+            <p className="text-gray-400">
+              <span className="text-mansagold font-semibold">{filteredBusinesses?.length || 0}</span> businesses found
+            </p>
+            <div className="h-px flex-1 mx-6 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </div>
         
-          {/* Business Grid - matching FeaturedBusinesses layout */}
+          {/* Business Grid */}
           <div data-tour="business-card">
             <BusinessGridView 
               businesses={filteredBusinesses || []} 
@@ -160,8 +181,8 @@ const DirectoryPage: React.FC = () => {
             />
           </div>
           
-          {/* View All / Load More section */}
-          <div className="text-center mt-10">
+          {/* Stats section */}
+          <div className="text-center mt-16 pt-12 border-t border-white/10">
             <MultiCityStats selectedCity={selectedCity} />
           </div>
         </div>
