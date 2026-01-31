@@ -148,6 +148,9 @@ const LazyAdminEmailListPage = lazy(() => import('@/pages/AdminEmailListPage'));
 const LazyAdminEmailAnalyticsPage = lazy(() => import('@/pages/admin/EmailAnalyticsPage'));
 const LazyQRTestPage = lazy(() => import('@/pages/QRTestPage'));
 const LazyVerifyCertificatePage = lazy(() => import('@/pages/VerifyCertificatePage'));
+
+// Unified Test Dashboard (consolidates all test pages)
+const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard'));
 const LazyClaimBusinessPage = lazy(() => import('@/pages/ClaimBusinessPage'));
 
 // Growth System pages
@@ -489,7 +492,7 @@ function App() {
                               <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
                               <Route path="/community-impact" element={<LazyCommunityImpactPage />} />
                               <Route path="/community-impact-test" element={<LazyCommunityImpactTestPage />} />
-                              <Route path="/comprehensive-test" element={<LazyComprehensiveTestPage />} />
+                              <Route path="/comprehensive-test" element={<LazyUnifiedTestDashboard />} />
                               <Route path="/contact" element={<LazyContactPage />} />
                               <Route path="/cookies" element={<LazyCookiePolicyPage />} />
                               <Route path="/corporate-dashboard" element={<LazyCorporateDashboardPage />} />
@@ -520,9 +523,8 @@ function App() {
                               <Route path="/faq" element={<LazyFAQPage />} />
                               <Route path="/features" element={<LazyFeaturesPage />} />
                               <Route path="/founders-wall" element={<LazyFoundersWallPage />} />
-                              <Route path="/full-app-test" element={<LazyFullAppTest />} />
-                              <Route path="/full-app-test" element={<LazyFullAppTestPage />} />
-                              <Route path="/full-system-test" element={<LazyFullSystemTestPage />} />
+                              <Route path="/full-app-test" element={<LazyUnifiedTestDashboard />} />
+                              <Route path="/full-system-test" element={<LazyUnifiedTestDashboard />} />
                               
                               {/* H */}
                               <Route path="/help" element={<LazyHelpPage />} />
@@ -557,7 +559,7 @@ function App() {
                               <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                               <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                               <Route path="/media-kit" element={<LazyMediaKitPage />} />
-                              <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                              <Route path="/mobile-readiness-test" element={<LazyUnifiedTestDashboard />} />
                               <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                               <Route path="/my-profile" element={<LazyUserProfilePage />} />
                               
@@ -607,7 +609,7 @@ function App() {
                                   <LazySignupPage />
                                 </IOSProtectedRoute>
                               } />
-                              <Route path="/signup-test" element={<LazySignupTestPage />} />
+                              <Route path="/signup-test" element={<LazyUnifiedTestDashboard />} />
                               <Route path="/signup/business" element={
                                 <IOSProtectedRoute>
                                   <LazyBusinessSignupPage />
@@ -624,12 +626,13 @@ function App() {
                                 </IOSProtectedRoute>
                               } />
                               <Route path="/support" element={<LazySupportPage />} />
-                              <Route path="/system-test" element={<LazySystemTestPage />} />
+                              <Route path="/system-test" element={<LazyUnifiedTestDashboard />} />
                               
                               {/* T */}
                               <Route path="/terms" element={<LazyTermsOfServicePage />} />
-                              <Route path="/testing-hub" element={<LazyTestingHub />} />
-                              <Route path="/testing/signup" element={<LazySignupTestPage />} />
+                              <Route path="/testing-hub" element={<LazyUnifiedTestDashboard />} />
+                              <Route path="/testing/signup" element={<LazyUnifiedTestDashboard />} />
+                              <Route path="/test-dashboard" element={<LazyUnifiedTestDashboard />} />
                               
                               {/* V */}
                               <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
@@ -802,8 +805,8 @@ function App() {
                         <Route path="/features" element={<LazyFeaturesPage />} />
                         <Route path="/feature-guide" element={<LazyFeatureGuidePage />} />
                         <Route path="/founders-wall" element={<LazyFoundersWallPage />} />
-                        <Route path="/full-app-test" element={<LazyFullAppTest />} />
-                        <Route path="/full-system-test" element={<LazyFullSystemTestPage />} />
+                        <Route path="/full-app-test" element={<LazyUnifiedTestDashboard />} />
+                        <Route path="/full-system-test" element={<LazyUnifiedTestDashboard />} />
                         
                         {/* H */}
                         <Route path="/help" element={<LazyHelpPage />} />
@@ -830,7 +833,7 @@ function App() {
                         <Route path="/marketing-materials" element={<LazyMarketingMaterialsPage />} />
                         <Route path="/master-apple-review-test" element={<LazyMasterAppleReviewTestPage />} />
                         <Route path="/media-kit" element={<LazyMediaKitPage />} />
-                        <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
+                        <Route path="/mobile-readiness-test" element={<LazyUnifiedTestDashboard />} />
                         <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                         <Route path="/my-profile" element={<LazyUserProfilePage />} />
                         <Route path="/my-tickets" element={<LazyMyTicketsPage />} />
@@ -877,7 +880,7 @@ function App() {
                         <Route path="/settings" element={<LazyUserSettingsPage />} />
                         <Route path="/share-impact" element={<LazyShareImpactPage />} />
                         <Route path="/signup" element={<LazySignupPage />} />
-                        <Route path="/signup-test" element={<LazySignupTestPage />} />
+                        <Route path="/signup-test" element={<LazyUnifiedTestDashboard />} />
                         <Route path="/signup/business" element={
                           <IOSProtectedRoute>
                             <LazyBusinessSignupPage />
@@ -903,12 +906,13 @@ function App() {
                           </IOSProtectedRoute>
                         } />
                         <Route path="/support" element={<LazySupportPage />} />
-                        <Route path="/system-test" element={<LazySystemTestPage />} />
+                        <Route path="/system-test" element={<LazyUnifiedTestDashboard />} />
                         
                         {/* T */}
                         <Route path="/terms" element={<LazyTermsOfServicePage />} />
-                        <Route path="/testing-hub" element={<LazyTestingHub />} />
-                        <Route path="/testing/signup" element={<LazySignupTestPage />} />
+                        <Route path="/testing-hub" element={<LazyUnifiedTestDashboard />} />
+                        <Route path="/testing/signup" element={<LazyUnifiedTestDashboard />} />
+                        <Route path="/test-dashboard" element={<LazyUnifiedTestDashboard />} />
                         
                         {/* U */}
                         <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
