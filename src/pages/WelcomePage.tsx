@@ -124,7 +124,7 @@ const WelcomePage: React.FC = () => {
             className="grid grid-cols-2 gap-4 mb-8"
           >
             {[
-              { icon: Building2, label: 'Browse Directory', action: () => navigate('/directory') },
+              { icon: Building2, label: 'Explore Businesses', action: () => navigate('/directory') },
               { icon: QrCode, label: 'Scan QR Code', action: () => navigate('/scanner') },
               { icon: Star, label: 'View Rewards', action: () => navigate('/loyalty') },
               { icon: TrendingUp, label: 'See Your Impact', action: () => navigate('/impact') },

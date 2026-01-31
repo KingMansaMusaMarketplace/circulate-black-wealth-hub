@@ -29,7 +29,7 @@ const NotFoundState: React.FC = () => {
               <Link to="/directory">
                 <Button className="gap-2 w-full sm:w-auto">
                   <Search className="w-4 h-4" />
-                  Browse Directory
+                  Explore Businesses
                 </Button>
               </Link>
               

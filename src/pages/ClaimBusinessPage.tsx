@@ -261,7 +261,7 @@ const ClaimBusinessPage: React.FC = () => {
                   onClick={() => navigate('/directory')}
                   className="w-full border-slate-600 text-slate-300 hover:bg-slate-800"
                 >
-                  Browse Directory
+                  Explore Businesses
                 </Button>
               </div>
             )}
