@@ -29,7 +29,7 @@ const tips: KarmaTip[] = [
     title: 'Shop at Partner Businesses',
     description: 'Make purchases at Black-owned businesses in our directory',
     points: '+5-10 karma',
-    action: 'Browse Directory',
+    action: 'Explore Businesses',
     link: '/directory',
     color: 'text-emerald-400'
   },

@@ -331,7 +331,7 @@ const QRScannerPage = () => {
                 Try Again
               </Button>
               <Button variant="outline" onClick={() => navigate('/directory')} className="w-full">
-                Browse Directory Instead
+                Explore Businesses Instead
               </Button>
             </div>
           </CardContent>

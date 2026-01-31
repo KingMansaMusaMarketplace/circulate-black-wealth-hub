@@ -71,7 +71,7 @@ export default function BookBusinessPage() {
             onClick={() => navigate('/directory')}
             className="bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-semibold"
           >
-            Browse Directory
+            Explore Businesses
           </Button>
         </div>
       </div>
