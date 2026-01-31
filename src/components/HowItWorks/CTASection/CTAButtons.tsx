@@ -14,9 +14,8 @@ interface CTAButtonsProps {
 export const CTAButtons: React.FC<CTAButtonsProps> = ({ isVisible }) => {
   const navigate = useNavigate();
 
-  const handleEarlyAccess = () => {
+  const handleGetStarted = () => {
     navigate('/signup');
-    toast.success("Welcome! Sign up to get early access to all features.");
   };
 
   return (
@@ -34,11 +33,11 @@ export const CTAButtons: React.FC<CTAButtonsProps> = ({ isVisible }) => {
         <div className="absolute inset-0 bg-mansagold/20 rounded-md filter blur-md -z-10 pointer-events-none"></div>
         
         <Button 
-          onClick={handleEarlyAccess} 
+          onClick={handleGetStarted} 
           className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg group cursor-pointer transition-transform hover:scale-105 active:scale-95"
           style={{ touchAction: 'manipulation' }}
         >
-          <span className="pointer-events-none">Get Early Access</span>
+          <span className="pointer-events-none">Get Started Free</span>
           <ArrowUp className="ml-2 rotate-45 group-hover:translate-x-1 transition-transform pointer-events-none" />
         </Button>
       </div>
@@ -49,7 +48,7 @@ export const CTAButtons: React.FC<CTAButtonsProps> = ({ isVisible }) => {
           className="px-8 py-6 text-lg cursor-pointer transition-transform hover:scale-105 active:scale-95"
           style={{ touchAction: 'manipulation' }}
         >
-          <span className="pointer-events-none">Browse Directory</span>
+          <span className="pointer-events-none">Explore Businesses</span>
         </Button>
       </Link>
     </motion.div>
