@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Upload, FileText, Mail, Users, TrendingUp, CheckCircle, 
   XCircle, Clock, Send, Eye, MousePointer, Building2, 
-  RefreshCw, Plus, Settings, Download, Play, Sparkles, Shield, Star, Calendar, Zap
+  RefreshCw, Plus, Settings, Download, Play, Sparkles, Shield, Star, Calendar, Zap, Globe
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -23,6 +23,7 @@ const LeadValidation = lazy(() => import('./LeadValidation').then(m => ({ defaul
 const ManualLeadEntry = lazy(() => import('./ManualLeadEntry').then(m => ({ default: m.ManualLeadEntry })));
 const PriorityLeadsTab = lazy(() => import('./PriorityLeadsTab').then(m => ({ default: m.PriorityLeadsTab })));
 const ScheduledSearchesTab = lazy(() => import('./ScheduledSearchesTab').then(m => ({ default: m.ScheduledSearchesTab })));
+const URLBusinessImport = lazy(() => import('./URLBusinessImport').then(m => ({ default: m.URLBusinessImport })));
 
 // Loading skeleton for stats cards
 const StatsLoadingSkeleton = () => (
@@ -58,6 +59,7 @@ export const BusinessImportDashboard: React.FC = () => {
   const [showAIDiscovery, setShowAIDiscovery] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
   const [showManualEntry, setShowManualEntry] = useState(false);
+  const [showURLImport, setShowURLImport] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isEnriching, setIsEnriching] = useState(false);
   const [isFindingEmails, setIsFindingEmails] = useState(false);
@@ -219,6 +221,13 @@ export const BusinessImportDashboard: React.FC = () => {
             Import CSV
           </Button>
           <Button 
+            className="bg-gradient-to-r from-teal-500 to-cyan-500"
+            onClick={() => setShowURLImport(true)}
+          >
+            <Globe className="w-4 h-4 mr-2" />
+            Import from URL
+          </Button>
+          <Button
             variant="outline" 
             className="border-green-500/50 text-green-300 hover:bg-green-500/10"
             onClick={() => setShowManualEntry(true)}
@@ -529,6 +538,7 @@ export const BusinessImportDashboard: React.FC = () => {
         {showCampaignCreator && <BulkInvitationCampaign onClose={() => setShowCampaignCreator(false)} />}
         {showValidation && <LeadValidation onClose={() => setShowValidation(false)} />}
         {showManualEntry && <ManualLeadEntry onClose={() => setShowManualEntry(false)} />}
+        {showURLImport && <URLBusinessImport isOpen={showURLImport} onClose={() => setShowURLImport(false)} />}
       </Suspense>
     </div>
   );
