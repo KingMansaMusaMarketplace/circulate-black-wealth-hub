@@ -3643,6 +3643,74 @@ export type Database = {
           },
         ]
       }
+      canned_responses: {
+        Row: {
+          business_id: string | null
+          category: string
+          content: string
+          created_at: string
+          created_by: string | null
+          id: string
+          shortcut: string | null
+          title: string
+          updated_at: string
+          usage_count: number
+        }
+        Insert: {
+          business_id?: string | null
+          category?: string
+          content: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          shortcut?: string | null
+          title: string
+          updated_at?: string
+          usage_count?: number
+        }
+        Update: {
+          business_id?: string | null
+          category?: string
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          shortcut?: string | null
+          title?: string
+          updated_at?: string
+          usage_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "canned_responses_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "canned_responses_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "canned_responses_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "canned_responses_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       challenge_activities: {
         Row: {
           activity_type: string
@@ -4590,6 +4658,244 @@ export type Database = {
           website_url?: string | null
         }
         Relationships: []
+      }
+      customer_interactions: {
+        Row: {
+          business_id: string
+          created_at: string
+          created_by: string | null
+          customer_id: string
+          description: string | null
+          duration_minutes: number | null
+          followup_date: string | null
+          followup_required: boolean
+          id: string
+          interaction_date: string
+          interaction_type: string
+          outcome: string | null
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          created_by?: string | null
+          customer_id: string
+          description?: string | null
+          duration_minutes?: number | null
+          followup_date?: string | null
+          followup_required?: boolean
+          id?: string
+          interaction_date?: string
+          interaction_type: string
+          outcome?: string | null
+          subject: string
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string
+          description?: string | null
+          duration_minutes?: number | null
+          followup_date?: string | null
+          followup_required?: boolean
+          id?: string
+          interaction_date?: string
+          interaction_type?: string
+          outcome?: string | null
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_interactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_interactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_interactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_interactions_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customer_interactions_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customer_tags: {
+        Row: {
+          created_at: string
+          customer_id: string
+          id: string
+          tag: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          id?: string
+          tag: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          id?: string
+          tag?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_tags_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      customers: {
+        Row: {
+          address: string | null
+          anniversary: string | null
+          birthday: string | null
+          business_id: string
+          city: string | null
+          company: string | null
+          country: string | null
+          created_at: string
+          created_by: string | null
+          custom_fields: Json | null
+          customer_status: string
+          email: string | null
+          first_name: string
+          id: string
+          job_title: string | null
+          last_contact_date: string | null
+          last_name: string
+          last_purchase_date: string | null
+          lifecycle_stage: string
+          lifetime_value: number
+          next_followup_date: string | null
+          notes: string | null
+          phone: string | null
+          source: string | null
+          state: string | null
+          total_purchases: number
+          updated_at: string
+          zip_code: string | null
+        }
+        Insert: {
+          address?: string | null
+          anniversary?: string | null
+          birthday?: string | null
+          business_id: string
+          city?: string | null
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_fields?: Json | null
+          customer_status?: string
+          email?: string | null
+          first_name: string
+          id?: string
+          job_title?: string | null
+          last_contact_date?: string | null
+          last_name: string
+          last_purchase_date?: string | null
+          lifecycle_stage?: string
+          lifetime_value?: number
+          next_followup_date?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          state?: string | null
+          total_purchases?: number
+          updated_at?: string
+          zip_code?: string | null
+        }
+        Update: {
+          address?: string | null
+          anniversary?: string | null
+          birthday?: string | null
+          business_id?: string
+          city?: string | null
+          company?: string | null
+          country?: string | null
+          created_at?: string
+          created_by?: string | null
+          custom_fields?: Json | null
+          customer_status?: string
+          email?: string | null
+          first_name?: string
+          id?: string
+          job_title?: string | null
+          last_contact_date?: string | null
+          last_name?: string
+          last_purchase_date?: string | null
+          lifecycle_stage?: string
+          lifetime_value?: number
+          next_followup_date?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          state?: string | null
+          total_purchases?: number
+          updated_at?: string
+          zip_code?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customers_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customers_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customers_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "customers_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       developer_accounts: {
         Row: {
@@ -5862,6 +6168,80 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_base_articles: {
+        Row: {
+          business_id: string | null
+          category: string
+          content: string
+          created_at: string
+          created_by: string | null
+          helpful_count: number
+          id: string
+          is_published: boolean
+          not_helpful_count: number
+          title: string
+          updated_at: string
+          view_count: number
+        }
+        Insert: {
+          business_id?: string | null
+          category?: string
+          content: string
+          created_at?: string
+          created_by?: string | null
+          helpful_count?: number
+          id?: string
+          is_published?: boolean
+          not_helpful_count?: number
+          title: string
+          updated_at?: string
+          view_count?: number
+        }
+        Update: {
+          business_id?: string | null
+          category?: string
+          content?: string
+          created_at?: string
+          created_by?: string | null
+          helpful_count?: number
+          id?: string
+          is_published?: boolean
+          not_helpful_count?: number
+          title?: string
+          updated_at?: string
+          view_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_base_articles_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_base_articles_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_base_articles_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_base_articles_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
             referencedColumns: ["id"]
           },
         ]
@@ -9380,6 +9760,71 @@ export type Database = {
           },
         ]
       }
+      sla_policies: {
+        Row: {
+          business_id: string | null
+          created_at: string
+          first_response_hours: number
+          id: string
+          is_active: boolean
+          name: string
+          priority: string
+          resolution_hours: number
+          updated_at: string
+        }
+        Insert: {
+          business_id?: string | null
+          created_at?: string
+          first_response_hours?: number
+          id?: string
+          is_active?: boolean
+          name: string
+          priority: string
+          resolution_hours?: number
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string | null
+          created_at?: string
+          first_response_hours?: number
+          id?: string
+          is_active?: boolean
+          name?: string
+          priority?: string
+          resolution_hours?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sla_policies_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sla_policies_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sla_policies_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sla_policies_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       social_activity_feed: {
         Row: {
           activity_type: string
@@ -11326,6 +11771,157 @@ export type Database = {
         }
         Relationships: []
       }
+      workflow_actions: {
+        Row: {
+          action_config: Json
+          action_type: Database["public"]["Enums"]["workflow_action_type"]
+          created_at: string
+          execution_order: number
+          id: string
+          workflow_id: string
+        }
+        Insert: {
+          action_config?: Json
+          action_type: Database["public"]["Enums"]["workflow_action_type"]
+          created_at?: string
+          execution_order?: number
+          id?: string
+          workflow_id: string
+        }
+        Update: {
+          action_config?: Json
+          action_type?: Database["public"]["Enums"]["workflow_action_type"]
+          created_at?: string
+          execution_order?: number
+          id?: string
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_actions_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflow_executions: {
+        Row: {
+          completed_at: string | null
+          customer_id: string | null
+          error_message: string | null
+          executed_at: string
+          id: string
+          status: Database["public"]["Enums"]["workflow_execution_status"]
+          trigger_data: Json | null
+          workflow_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          customer_id?: string | null
+          error_message?: string | null
+          executed_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["workflow_execution_status"]
+          trigger_data?: Json | null
+          workflow_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          customer_id?: string | null
+          error_message?: string | null
+          executed_at?: string
+          id?: string
+          status?: Database["public"]["Enums"]["workflow_execution_status"]
+          trigger_data?: Json | null
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflow_executions_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflow_executions_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workflows: {
+        Row: {
+          business_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          trigger_config: Json
+          trigger_type: Database["public"]["Enums"]["workflow_trigger_type"]
+          updated_at: string
+        }
+        Insert: {
+          business_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          trigger_config?: Json
+          trigger_type: Database["public"]["Enums"]["workflow_trigger_type"]
+          updated_at?: string
+        }
+        Update: {
+          business_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          trigger_config?: Json
+          trigger_type?: Database["public"]["Enums"]["workflow_trigger_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflows_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflows_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_full_details"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflows_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "businesses_public_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workflows_business_id_fkey"
+            columns: ["business_id"]
+            isOneToOne: false
+            referencedRelation: "partner_referred_businesses_api"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       b2b_external_leads_public: {
@@ -12723,6 +13319,30 @@ export type Database = {
       partner_tier: "founding" | "premium" | "standard"
       subscription_tier: "free" | "paid" | "business_starter"
       user_role: "customer" | "business" | "admin" | "sales_agent"
+      workflow_action_type:
+        | "send_email"
+        | "add_tag"
+        | "remove_tag"
+        | "update_status"
+        | "notify_user"
+        | "create_task"
+        | "update_customer_field"
+        | "webhook"
+      workflow_execution_status:
+        | "pending"
+        | "running"
+        | "completed"
+        | "failed"
+        | "skipped"
+      workflow_trigger_type:
+        | "purchase"
+        | "customer_created"
+        | "customer_updated"
+        | "tag_added"
+        | "tag_removed"
+        | "inactivity"
+        | "threshold_reached"
+        | "custom"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -12870,6 +13490,33 @@ export const Constants = {
       partner_tier: ["founding", "premium", "standard"],
       subscription_tier: ["free", "paid", "business_starter"],
       user_role: ["customer", "business", "admin", "sales_agent"],
+      workflow_action_type: [
+        "send_email",
+        "add_tag",
+        "remove_tag",
+        "update_status",
+        "notify_user",
+        "create_task",
+        "update_customer_field",
+        "webhook",
+      ],
+      workflow_execution_status: [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "skipped",
+      ],
+      workflow_trigger_type: [
+        "purchase",
+        "customer_created",
+        "customer_updated",
+        "tag_added",
+        "tag_removed",
+        "inactivity",
+        "threshold_reached",
+        "custom",
+      ],
     },
   },
 } as const

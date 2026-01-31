@@ -193,6 +193,12 @@ const LazyBusinessOnboardingPage = lazy(() => import('@/pages/business/BusinessO
 // Patent Document Export
 const LazyPatentDocumentExport = lazy(() => import('@/pages/PatentDocumentExport'));
 
+// Workflow & Helpdesk pages
+const LazyWorkflowBuilderPage = lazy(() => import('@/pages/WorkflowBuilderPage'));
+const LazyKnowledgeBasePage = lazy(() => import('@/pages/KnowledgeBasePage'));
+const LazySubmitTicketPage = lazy(() => import('@/pages/SubmitTicketPage'));
+const LazyMyTicketsPage = lazy(() => import('@/pages/MyTicketsPage'));
+
 // Developer Platform pages
 const LazyDeveloperLandingPage = lazy(() => import('@/pages/developers/DeveloperLandingPage'));
 const LazyDeveloperDashboard = lazy(() => import('@/pages/developers/DeveloperDashboard'));
@@ -466,7 +472,7 @@ function App() {
                               <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
                               
                               {/* U */}
-                              <Route path="/user-guide" element={<LazyUserGuidePage />} />
+                              <Route path="/my-tickets" element={<LazyMyTicketsPage />} />
                               
                               {/* I */}
                               <Route path="/impact" element={<LazyImpactPage />} />
@@ -478,6 +484,7 @@ function App() {
                               <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                               
                               {/* K */}
+                              <Route path="/knowledge-base" element={<LazyKnowledgeBasePage />} />
                               <Route path="/karma" element={<LazyKarmaDashboardPage />} />
                               
                               {/* L */}
@@ -535,6 +542,7 @@ function App() {
                               <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
                               <Route path="/wallet" element={<LazyWalletPage />} />
                               <Route path="/settings" element={<LazyUserSettingsPage />} />
+                              <Route path="/workflow-builder" element={<LazyWorkflowBuilderPage />} />
                               <Route path="/share-impact" element={<LazyShareImpactPage />} />
                               <Route path="/signup" element={
                                 <IOSProtectedRoute>
@@ -548,6 +556,7 @@ function App() {
                                 </IOSProtectedRoute>
                               } />
                               <Route path="/social-proof" element={<LazySocialProofPage />} />
+                              <Route path="/submit-ticket" element={<LazySubmitTicketPage />} />
                               <Route path="/sponsor-dashboard" element={<LazySponsorDashboardPage />} />
                               <Route path="/sponsor-pricing" element={<LazyCorporateSponsorshipPricingPage />} />
                               <Route path="/sponsor-success" element={<LazySponsorSuccessPage />} />
