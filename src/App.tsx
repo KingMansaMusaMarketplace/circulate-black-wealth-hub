@@ -199,6 +199,9 @@ const LazyKnowledgeBasePage = lazy(() => import('@/pages/KnowledgeBasePage'));
 const LazySubmitTicketPage = lazy(() => import('@/pages/SubmitTicketPage'));
 const LazyMyTicketsPage = lazy(() => import('@/pages/MyTicketsPage'));
 
+// AI Agent Dashboard
+const LazyAIAgentDashboard = lazy(() => import('@/pages/AIAgentDashboard'));
+
 // Developer Platform pages
 const LazyDeveloperLandingPage = lazy(() => import('@/pages/developers/DeveloperLandingPage'));
 const LazyDeveloperDashboard = lazy(() => import('@/pages/developers/DeveloperDashboard'));
@@ -543,6 +546,7 @@ function App() {
                               <Route path="/wallet" element={<LazyWalletPage />} />
                               <Route path="/settings" element={<LazyUserSettingsPage />} />
                               <Route path="/workflow-builder" element={<LazyWorkflowBuilderPage />} />
+                              <Route path="/ai-agent" element={<LazyAIAgentDashboard />} />
                               <Route path="/share-impact" element={<LazyShareImpactPage />} />
                               <Route path="/signup" element={
                                 <IOSProtectedRoute>
@@ -864,6 +868,9 @@ function App() {
                         {/* W */}
                         <Route path="/welcome" element={<LazyWelcomePage />} />
                         <Route path="/workflow-builder" element={<LazyWorkflowBuilderPage />} />
+                        
+                        {/* AI Agent */}
+                        <Route path="/ai-agent" element={<LazyAIAgentDashboard />} />
                         
                         {/* Patent Document Export */}
                         <Route path="/patent-export" element={<LazyPatentDocumentExport />} />
