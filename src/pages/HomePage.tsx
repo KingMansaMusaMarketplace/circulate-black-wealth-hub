@@ -51,12 +51,11 @@ const HomePage = () => {
     <>
       <OrganizationStructuredData />
       <WebsiteStructuredData />
-      <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-[#050d1a] via-[#0a1628] to-[#050d1a]">
-        {/* Vibrant ambient background - boosted for iPhone visibility */}
-        <div className="fixed inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-mansagold/15 rounded-full blur-[100px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-purple-500/10 rounded-full blur-[80px]" />
-        </div>
+      <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+        {/* Premium background effects - matching directory page */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.05),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.08),transparent_50%)]" />
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-mansablue via-blue-500 to-mansagold" />
         
         {/* Sponsor Banner */}
         <SectionErrorBoundary sectionName="Sponsor Banner">
