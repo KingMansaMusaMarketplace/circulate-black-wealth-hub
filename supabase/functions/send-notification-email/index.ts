@@ -27,8 +27,46 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
+
+// Helper function to send email with retry logic for rate limits
+async function sendEmailWithRetry(
+  emailConfig: Parameters<typeof resend.emails.send>[0],
+  maxRetries = 3
+) {
+  let lastError: any;
+  
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const response = await resend.emails.send(emailConfig);
+      
+      if (response.error) {
+        // Check if it's a rate limit error
+        if (response.error.statusCode === 429) {
+          console.log(`Rate limited on attempt ${attempt + 1}, retrying...`);
+          // Exponential backoff: 500ms, 1000ms, 2000ms
+          await new Promise(resolve => setTimeout(resolve, 500 * Math.pow(2, attempt)));
+          lastError = response.error;
+          continue;
+        }
+        throw response.error;
+      }
+      
+      return response;
+    } catch (error: any) {
+      if (error?.statusCode === 429) {
+        console.log(`Rate limited on attempt ${attempt + 1}, retrying...`);
+        await new Promise(resolve => setTimeout(resolve, 500 * Math.pow(2, attempt)));
+        lastError = error;
+        continue;
+      }
+      throw error;
+    }
+  }
+  
+  throw lastError || new Error('Failed to send email after retries');
+}
 
 const handler = async (req: Request): Promise<Response> => {
   console.log('Notification email function called');
@@ -62,18 +100,13 @@ const handler = async (req: Request): Promise<Response> => {
       dashboardUrl: Deno.env.get('APP_URL') || 'https://mansamusamarketplace.com'
     });
 
-    // Send notification email
-    const emailResponse = await resend.emails.send({
+    // Send notification email with retry logic for rate limits
+    const emailResponse = await sendEmailWithRetry({
       from: 'Mansa Musa Marketplace <notifications@mansamusamarketplace.com>',
       to: [notificationRequest.email],
       subject: notificationRequest.subject,
       html,
     });
-
-    if (emailResponse.error) {
-      console.error('Email sending error:', emailResponse.error);
-      throw emailResponse.error;
-    }
 
     console.log("Notification email sent successfully:", emailResponse);
 
