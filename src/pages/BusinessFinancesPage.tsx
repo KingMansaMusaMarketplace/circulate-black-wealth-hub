@@ -46,13 +46,15 @@ const BusinessFinancesPage: React.FC = () => {
       setLoading(true);
 
       // Get user's business
-      const { data: businesses, error: bizError } = await supabase
+      const { data: businessList, error: bizError } = await supabase
         .from('businesses')
         .select('id')
         .eq('owner_id', user?.id)
-        .single();
+        .order('created_at', { ascending: false })
+        .limit(1);
 
       if (bizError) throw bizError;
+      const businesses = businessList && businessList.length > 0 ? businessList[0] : null;
       if (!businesses) {
         toast.error('No business found for your account');
         return;
