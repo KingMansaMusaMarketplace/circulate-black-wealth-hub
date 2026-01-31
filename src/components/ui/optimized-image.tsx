@@ -30,7 +30,8 @@ const OptimizedImage: React.FC<OptimizedImageProps> = ({
 
   // Generate WebP and fallback sources
   const generateSources = (originalSrc: string) => {
-    if (originalSrc.includes('placehold.co') || originalSrc.startsWith('data:')) {
+    // Skip conversion for placeholders, data URLs, and local files
+    if (originalSrc.includes('placehold.co') || originalSrc.startsWith('data:') || originalSrc.startsWith('/')) {
       return { webp: originalSrc, fallback: originalSrc };
     }
 
