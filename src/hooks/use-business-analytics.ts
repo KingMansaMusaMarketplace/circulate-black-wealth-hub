@@ -69,7 +69,7 @@ export const useBusinessAnalytics = (businessId: string) => {
         .from('businesses')
         .select('average_rating, review_count')
         .eq('id', businessId)
-        .single();
+        .maybeSingle();
 
       if (businessError) console.warn('Error fetching business:', businessError);
 

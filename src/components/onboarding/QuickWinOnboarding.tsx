@@ -78,7 +78,7 @@ const QuickWinOnboarding = ({ businessId, onComplete, onDismiss }: QuickWinOnboa
         .from('businesses')
         .select('logo_url, hours, description')
         .eq('id', businessId)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
 

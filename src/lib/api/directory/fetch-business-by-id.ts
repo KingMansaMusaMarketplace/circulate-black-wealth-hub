@@ -17,7 +17,7 @@ export async function fetchBusinessById(id: string): Promise<Business | null> {
       .from('businesses')
       .select('*')
       .eq('id', id)
-      .single();
+      .maybeSingle();
     
     if (error) {
       console.error('Error fetching business:', error);

@@ -93,9 +93,13 @@ const BusinessDetailPage = () => {
           .from('businesses')
           .select('*')
           .eq('id', businessId)
-          .single();
+          .maybeSingle();
 
         if (error) throw error;
+        if (!data) {
+          setError('Business not found');
+          return;
+        }
         setBusiness(data);
       } else {
         // Non-UUID ID - look in sample/demo data
