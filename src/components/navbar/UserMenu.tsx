@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { User, Settings, LogOut, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import NotificationCenter from '@/components/notifications/NotificationCenter';
+
 
 interface UserMenuProps {
   user: any;
@@ -55,7 +55,6 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
 
   return (
     <div className="flex items-center space-x-2">
-      <NotificationCenter />
       <div data-tour="user-menu">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
