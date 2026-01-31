@@ -31,6 +31,7 @@ import { ReviewForm } from '@/components/reviews/ReviewForm';
 import { ReviewsList } from '@/components/reviews/ReviewsList';
 import { useNavigate } from 'react-router-dom';
 import { businesses as sampleBusinesses } from '@/data/businessesData';
+import { getBusinessBanner } from '@/utils/businessBanners';
 
 // Helper to check if ID is a valid UUID
 const isValidUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
@@ -310,17 +311,20 @@ const BusinessDetailPage = () => {
         {/* Hero Section */}
         <div className="relative z-10">
           {/* Banner Image */}
-          {business.banner_url ? (
-            <div className="h-64 md:h-80 overflow-hidden">
-              <img 
-                src={business.banner_url} 
-                alt={business.business_name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ) : (
-            <div className="h-64 md:h-80 bg-gradient-to-br from-blue-600/30 to-yellow-500/20" />
-          )}
+          {(() => {
+            const bannerUrl = getBusinessBanner(business.id, business.banner_url);
+            return bannerUrl ? (
+              <div className="h-64 md:h-80 overflow-hidden">
+                <img 
+                  src={bannerUrl} 
+                  alt={business.business_name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ) : (
+              <div className="h-64 md:h-80 bg-gradient-to-br from-blue-600/30 to-yellow-500/20" />
+            );
+          })()}
           
           {/* Business Info Overlay */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900 via-slate-900/90 to-transparent text-white">
