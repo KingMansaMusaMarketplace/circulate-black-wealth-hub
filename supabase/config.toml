@@ -233,3 +233,6 @@ verify_jwt = false
 
 [functions.ai-agent]
 verify_jwt = true
+
+[functions.scrape-business-website]
+verify_jwt = false
