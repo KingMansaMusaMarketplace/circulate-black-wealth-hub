@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Eye, CheckCircle, Trash2, Edit, Building2, 
@@ -39,6 +40,7 @@ interface DraftBusiness {
 }
 
 export const DraftBusinessesTab: React.FC = () => {
+  const navigate = useNavigate();
   const [drafts, setDrafts] = useState<DraftBusiness[]>([]);
   const [loading, setLoading] = useState(true);
   const [publishing, setPublishing] = useState<string | null>(null);
@@ -114,7 +116,8 @@ export const DraftBusinessesTab: React.FC = () => {
   };
 
   const openPreview = (businessId: string) => {
-    window.open(`/business/${businessId}`, '_blank');
+    // Navigate within the app to maintain auth session
+    navigate(`/business/${businessId}`);
   };
 
   if (loading) {
