@@ -11,6 +11,8 @@ const businessBannerFallbacks: Record<string, string> = {
   '58a964e8-1e5e-4fa6-a075-76525eb6e617': '/images/businesses/timeless-tunez-banner.jpg',
   // VECRA INC - Consulting services, veteran-owned small business
   '97f59bb4-dba9-48f0-87d8-d8ea35748e46': '/images/businesses/vecra-inc-banner.png',
+  // Durham Memorial Outreach Center, Inc. - Community outreach services
+  'f3776cb0-6f2c-45bf-95cb-b5b11a095875': '/images/businesses/durham-memorial-banner.png',
 };
 
 /**
