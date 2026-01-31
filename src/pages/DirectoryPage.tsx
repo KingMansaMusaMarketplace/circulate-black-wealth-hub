@@ -128,14 +128,14 @@ const DirectoryPage: React.FC = () => {
       
       <BreadcrumbStructuredData items={generateBreadcrumbs.directory()} />
       
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-b from-slate-950 via-mansablue-dark to-slate-900">
         <div className="container mx-auto px-4 py-16">
-          {/* Header - matching FeaturedBusinesses exactly */}
+          {/* Header - matching FeaturedBusinesses layout with dark theme */}
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-white mb-4">
               Black-Owned Business Directory
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <p className="text-gray-300 max-w-2xl mx-auto">
               Discover amazing businesses in your community and start earning loyalty points today
             </p>
           </div>
@@ -146,7 +146,7 @@ const DirectoryPage: React.FC = () => {
             <Input
               type="text" 
               placeholder="Search businesses..."
-              className="pl-12 h-12 rounded-lg w-full text-base shadow-sm border-gray-200"
+              className="pl-12 h-12 rounded-lg w-full text-base bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-gray-400"
               value={searchTerm || ''}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
