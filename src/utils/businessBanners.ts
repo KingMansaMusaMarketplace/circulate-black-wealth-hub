@@ -9,6 +9,8 @@
 const businessBannerFallbacks: Record<string, string> = {
   // Timeless Tunez - DJ and event services in Buffalo
   '58a964e8-1e5e-4fa6-a075-76525eb6e617': '/images/businesses/timeless-tunez-banner.jpg',
+  // VECRA INC - Consulting services, veteran-owned small business
+  '97f59bb4-dba9-48f0-87d8-d8ea35748e46': '/images/businesses/vecra-inc-banner.png',
 };
 
 /**
