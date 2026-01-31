@@ -99,14 +99,15 @@ const BusinessAnalyticsDashboard: React.FC = () => {
 
   const fetchBusinessId = async () => {
     try {
-      const { data: business } = await supabase
+      const { data: businessList } = await supabase
         .from('businesses')
         .select('id')
         .eq('owner_id', user?.id)
-        .single();
+        .order('created_at', { ascending: false })
+        .limit(1);
       
-      if (business) {
-        setBusinessId(business.id);
+      if (businessList && businessList.length > 0) {
+        setBusinessId(businessList[0].id);
       }
     } catch (error) {
       console.error('Error fetching business ID:', error);

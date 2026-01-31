@@ -33,14 +33,15 @@ const BusinessOnboardingPage: React.FC = () => {
           .from('businesses')
           .select('*')
           .eq('owner_id', user.id)
-          .single();
+          .order('created_at', { ascending: false })
+          .limit(1);
 
         if (error && error.code !== 'PGRST116') {
           console.error('Error fetching business:', error);
         }
         
-        if (data) {
-          setBusiness(data);
+        if (data && data.length > 0) {
+          setBusiness(data[0]);
         }
       } catch (err) {
         console.error('Error:', err);

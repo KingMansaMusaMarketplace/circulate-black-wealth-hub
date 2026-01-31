@@ -38,10 +38,11 @@ export const fetchBusinessProfile = async (ownerId: string): Promise<BusinessPro
       .from('businesses')
       .select('*')
       .eq('owner_id', ownerId)
-      .single();
+      .order('created_at', { ascending: false })
+      .limit(1);
     
     if (error) throw error;
-    return data;
+    return data && data.length > 0 ? data[0] : null;
   } catch (error: any) {
     const loggedError = await handleApiError(error, 'fetchBusinessProfile', { ownerId });
     errorTracker.logError(error, {
@@ -73,9 +74,11 @@ export const saveBusinessProfile = async (profile: BusinessProfile): Promise<{ s
     }
     
     // Check if profile exists
-    const existingProfile = profile.id ? 
-      await supabase.from('businesses').select('id').eq('id', profile.id).single() : 
-      await supabase.from('businesses').select('id').eq('owner_id', profile.owner_id).single();
+    const existingProfileResult = profile.id ? 
+      await supabase.from('businesses').select('id').eq('id', profile.id).maybeSingle() : 
+      await supabase.from('businesses').select('id').eq('owner_id', profile.owner_id).order('created_at', { ascending: false }).limit(1);
+    
+    const existingProfile = { data: profile.id ? existingProfileResult.data : (existingProfileResult.data?.[0] ?? null) };
     
     let result;
     
