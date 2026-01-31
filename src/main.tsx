@@ -3,10 +3,19 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 
 console.log('[MAIN] Script loaded at', new Date().toISOString());
+console.log('[MAIN] User Agent:', navigator.userAgent);
+
+// Detect iPad specifically (including iPadOS 13+ which reports as Mac)
+const isIPad = /iPad/.test(navigator.userAgent) || 
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || isIPad;
+
+console.log('[MAIN] Platform detection - iOS:', isIOS, 'iPad:', isIPad);
 
 // Global chunk error recovery: force-refresh with cache-buster or send to /refresh
 if (typeof window !== 'undefined') {
   console.log('[MAIN] Setting up error handlers');
+  
   const forceReload = () => {
     try {
       const url = new URL(window.location.href);
@@ -17,17 +26,38 @@ if (typeof window !== 'undefined') {
     }
   };
 
-  window.addEventListener('error', (e) => {
-    const msg = (e?.message || '').toString();
-    if (msg.includes('ChunkLoadError') || msg.includes('Loading chunk') || msg.includes('Failed to fetch dynamically imported module')) {
+  // CRITICAL: Prevent unhandled promise rejections from crashing the app on iOS/iPad
+  window.addEventListener('unhandledrejection', (e) => {
+    const reason = (e && (e as any).reason) as any;
+    const text = reason?.message || (typeof reason === 'string' ? reason : reason?.toString?.()) || '';
+    
+    console.error('[MAIN] Unhandled rejection:', text);
+    
+    // Prevent the default behavior which can cause white screen on iOS
+    e.preventDefault();
+    
+    // Only reload for chunk/module loading errors
+    if (text.includes('ChunkLoadError') || 
+        text.includes('Failed to fetch dynamically imported module') || 
+        text.includes('Importing a module script failed')) {
+      console.log('[MAIN] Chunk error detected, will reload');
       forceReload();
     }
   });
 
-  window.addEventListener('unhandledrejection', (e) => {
-    const reason = (e && (e as any).reason) as any;
-    const text = reason?.message || (typeof reason === 'string' ? reason : reason?.toString?.()) || '';
-    if (text.includes('ChunkLoadError') || text.includes('Failed to fetch dynamically imported module') || text.includes('Importing a module script failed')) {
+  // CRITICAL: Prevent errors from crashing the app on iOS/iPad
+  window.addEventListener('error', (e) => {
+    const msg = (e?.message || '').toString();
+    
+    console.error('[MAIN] Global error:', msg);
+    
+    // Prevent the default behavior
+    e.preventDefault();
+    
+    if (msg.includes('ChunkLoadError') || 
+        msg.includes('Loading chunk') || 
+        msg.includes('Failed to fetch dynamically imported module')) {
+      console.log('[MAIN] Chunk error detected, will reload');
       forceReload();
     }
   });
@@ -37,6 +67,18 @@ console.log('[MAIN] Getting root element');
 const rootEl = document.getElementById("root");
 if (!rootEl) {
   console.error('[MAIN] FATAL: root element not found!');
+  // On iOS/iPad, show a visible error instead of just throwing
+  document.body.innerHTML = `
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#1B365D;color:white;text-align:center;padding:20px;">
+      <div>
+        <h1 style="font-size:24px;margin-bottom:16px;">App Loading Error</h1>
+        <p style="margin-bottom:16px;">Unable to start the application.</p>
+        <button onclick="location.reload()" style="padding:12px 24px;background:#D4AF37;color:#1B365D;border:none;border-radius:8px;font-weight:600;cursor:pointer;">
+          Reload App
+        </button>
+      </div>
+    </div>
+  `;
   throw new Error('Root element not found');
 }
 
@@ -62,6 +104,18 @@ try {
   console.log('[MAIN] App render initiated successfully');
 } catch (err) {
   console.error('[MAIN] FATAL: Failed to render App:', err);
+  // On iOS/iPad, show a visible error instead of white screen
+  rootEl.innerHTML = `
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#1B365D;color:white;text-align:center;padding:20px;">
+      <div>
+        <h1 style="font-size:24px;margin-bottom:16px;">App Error</h1>
+        <p style="margin-bottom:16px;">Something went wrong during startup.</p>
+        <button onclick="location.reload()" style="padding:12px 24px;background:#D4AF37;color:#1B365D;border:none;border-radius:8px;font-weight:600;cursor:pointer;">
+          Reload App
+        </button>
+      </div>
+    </div>
+  `;
   throw err;
 }
 

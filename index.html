@@ -319,13 +319,29 @@
     </script>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script>
+      // CRITICAL: Global error handlers that PREVENT crashes (especially on iOS/iPad)
+      // These must use event.preventDefault() to stop the error from crashing the WebView
       window.addEventListener('error', function(e) {
         console.error('Global error captured:', e.error, e.message, e.filename, e.lineno);
-      });
+        // CRITICAL: Prevent the error from crashing the app on iOS/iPad
+        e.preventDefault();
+        return true; // Suppress error reporting to console in production
+      }, true); // Use capture phase to catch errors early
       
       window.addEventListener('unhandledrejection', function(e) {
         console.error('Unhandled promise rejection:', e.reason);
-      });
+        // CRITICAL: Prevent the rejection from crashing the app on iOS/iPad
+        e.preventDefault();
+      }, true); // Use capture phase to catch rejections early
+      
+      // iPad-specific detection and logging
+      (function() {
+        var isIPad = /iPad/.test(navigator.userAgent) || 
+                     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        if (isIPad) {
+          console.log('[BOOT] iPad detected - extra crash prevention active');
+        }
+      })();
       
       // Robust native detection to decide whether to load external helper script
       (function() {
