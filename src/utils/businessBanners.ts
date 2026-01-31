@@ -13,6 +13,8 @@ const businessBannerFallbacks: Record<string, string> = {
   '97f59bb4-dba9-48f0-87d8-d8ea35748e46': '/images/businesses/vecra-inc-banner.png',
   // Durham Memorial Outreach Center, Inc. - Community outreach services
   'f3776cb0-6f2c-45bf-95cb-b5b11a095875': '/images/businesses/durham-memorial-banner.png',
+  // Infinite Seeds Academy - Edible landscaping and green education
+  '8abf4585-5d75-450e-b54c-6417c3b5b259': '/images/businesses/infinite-seeds-banner.png',
 };
 
 /**
