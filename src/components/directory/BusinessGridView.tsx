@@ -12,9 +12,12 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
   
   if (businesses.length === 0) {
     return (
-      <div className="text-center py-12 border border-dashed border-gray-200 rounded-lg">
-        <h3 className="text-lg font-bold text-gray-700 mb-2">No businesses found</h3>
-        <p className="text-gray-500">Try adjusting your search or filters</p>
+      <div className="text-center py-16 border border-dashed border-white/20 rounded-2xl bg-slate-800/40 backdrop-blur-sm">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-mansablue/20 to-blue-600/20 flex items-center justify-center">
+          <span className="text-3xl">🔍</span>
+        </div>
+        <h3 className="text-xl font-bold text-white mb-2">No businesses found</h3>
+        <p className="text-slate-400 max-w-md mx-auto">Try adjusting your search or filters to discover more Black-owned businesses in your area</p>
       </div>
     );
   }
