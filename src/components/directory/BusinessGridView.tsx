@@ -39,6 +39,7 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
               discount={business.discount}
               distance={business.distance}
               address={business.address}
+              phone={business.phone}
               imageUrl={business.imageUrl}
               imageAlt={business.imageAlt}
               isFeatured={business.isFeatured}

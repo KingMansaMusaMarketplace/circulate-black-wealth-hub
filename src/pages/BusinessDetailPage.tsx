@@ -10,7 +10,8 @@ import {
   Heart,
   Clock,
   Camera,
-  Info
+  Info,
+  Phone
 } from 'lucide-react';
 import { FoundingSponsorBadge } from '@/components/badges/FoundingSponsorBadge';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
@@ -471,6 +472,21 @@ const BusinessDetailPage = () => {
                           {business.address}
                           {business.city && <><br />{business.city}{business.state && `, ${business.state}`} {business.zip_code}</>}
                         </p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {business.phone && (
+                    <div className="flex items-center gap-3">
+                      <Phone className="h-5 w-5 text-yellow-400" />
+                      <div>
+                        <p className="font-medium text-white">Phone</p>
+                        <a 
+                          href={`tel:${business.phone}`} 
+                          className="text-sm text-yellow-400 hover:text-yellow-300 hover:underline"
+                        >
+                          {business.phone}
+                        </a>
                       </div>
                     </div>
                   )}
