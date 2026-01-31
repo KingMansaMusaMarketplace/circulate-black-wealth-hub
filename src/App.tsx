@@ -702,6 +702,7 @@ function App() {
                         {/* C */}
                         <Route path="/capacitor-test" element={<LazyCapacitorTestPage />} />
                         <Route path="/challenges" element={<LazyGroupChallengesPage />} />
+                        <Route path="/claim-business" element={<LazyClaimBusinessPage />} />
                         <Route path="/coalition" element={<LazyCoalitionPage />} />
                         <Route path="/community" element={<LazyCommunityPage />} />
                         <Route path="/community-finance" element={<LazyCommunityFinancePage />} />
@@ -736,22 +737,19 @@ function App() {
                         <Route path="/education" element={<LazyEducationPage />} />
                         <Route path="/email-copy" element={<LazyEmailCopyPage />} />
                         <Route path="/email-verified" element={<LazyEmailVerified />} />
+                        <Route path="/error" element={<LazyErrorPage />} />
                         
                         {/* F */}
                         <Route path="/faq" element={<LazyFAQPage />} />
-                        <Route path="/features" element={<LazyFeatureGuidePage />} />
+                        <Route path="/features" element={<LazyFeaturesPage />} />
                         <Route path="/feature-guide" element={<LazyFeatureGuidePage />} />
                         <Route path="/founders-wall" element={<LazyFoundersWallPage />} />
                         <Route path="/full-app-test" element={<LazyFullAppTest />} />
-                        <Route path="/full-app-test" element={<LazyFullAppTestPage />} />
                         <Route path="/full-system-test" element={<LazyFullSystemTestPage />} />
                         
                         {/* H */}
                         <Route path="/help" element={<LazyHelpPage />} />
                         <Route path="/how-it-works" element={<LazyHowItWorksPage />} />
-                        
-                        {/* U */}
-                        <Route path="/user-guide" element={<LazyUserGuidePage />} />
                         
                         {/* I */}
                         <Route path="/impact" element={<LazyImpactPage />} />
@@ -760,12 +758,12 @@ function App() {
                         
                         {/* K */}
                         <Route path="/karma" element={<LazyKarmaDashboardPage />} />
+                        <Route path="/knowledge-base" element={<LazyKnowledgeBasePage />} />
                         
                         {/* L */}
                         <Route path="/learning-hub" element={<LazyLearningHubPage />} />
                         <Route path="/login" element={<LazyLoginPage />} />
                         <Route path="/loyalty" element={<LazyRewardsPage />} />
-                        <Route path="/loyalty" element={<LazyLoyaltyPage />} />
                         <Route path="/loyalty-program-guide" element={<LazyLoyaltyProgramGuidePage />} />
                         
                         {/* M */}
@@ -777,6 +775,7 @@ function App() {
                         <Route path="/mobile-readiness-test" element={<LazyMobileReadinessTestPage />} />
                         <Route path="/my-bookings" element={<LazyCustomerBookingsPage />} />
                         <Route path="/my-profile" element={<LazyUserProfilePage />} />
+                        <Route path="/my-tickets" element={<LazyMyTicketsPage />} />
                         
                         {/* N */}
                         <Route path="/native-features-demo" element={<LazyNativeFeaturesDemo />} />
@@ -828,6 +827,7 @@ function App() {
                         } />
                         <Route path="/signup/customer" element={<LazyCustomerSignupPage />} />
                         <Route path="/social-proof" element={<LazySocialProofPage />} />
+                        <Route path="/submit-ticket" element={<LazySubmitTicketPage />} />
                         <Route path="/sponsor-dashboard" element={
                           <IOSProtectedRoute>
                             <LazySponsorDashboardPage />
@@ -849,26 +849,45 @@ function App() {
                         
                         {/* T */}
                         <Route path="/terms" element={<LazyTermsOfServicePage />} />
-                        
-                        {/* V */}
-                        <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
-                        
                         <Route path="/testing-hub" element={<LazyTestingHub />} />
                         <Route path="/testing/signup" element={<LazySignupTestPage />} />
                         
                         {/* U */}
                         <Route path="/user-dashboard" element={<LazyUserDashboardPage />} />
+                        <Route path="/user-guide" element={<LazyUserGuidePage />} />
                         <Route path="/user-profile" element={<LazyUserProfilePage />} />
                         <Route path="/user-settings" element={<LazyUserSettingsPage />} />
                         
+                        {/* V */}
+                        <Route path="/verify/:certificateNumber" element={<LazyVerifyCertificatePage />} />
+                        
                         {/* W */}
-<Route path="/welcome" element={<LazyWelcomePage />} />
+                        <Route path="/welcome" element={<LazyWelcomePage />} />
+                        <Route path="/workflow-builder" element={<LazyWorkflowBuilderPage />} />
                         
                         {/* Patent Document Export */}
                         <Route path="/patent-export" element={<LazyPatentDocumentExport />} />
                         
                         {/* Business Onboarding */}
                         <Route path="/business/onboarding" element={<LazyBusinessOnboardingPage />} />
+                        
+                        {/* Admin routes */}
+                        <Route path="/admin" element={<LazyAdminPage />} />
+                        <Route path="/admin-dashboard" element={<LazyAdminDashboardPage />} />
+                        <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
+                        <Route path="/admin/email-list" element={<LazyAdminEmailListPage />} />
+                        <Route path="/admin/emails" element={<LazyAdminEmailAnalyticsPage />} />
+                        <Route path="/admin/fraud-detection" element={<LazyAdminFraudDetectionPage />} />
+                        <Route path="/admin/marketing-analytics" element={<LazyMarketingAnalyticsPage />} />
+                        <Route path="/admin/marketing-materials" element={<LazyAdminMarketingMaterialsPage />} />
+                        <Route path="/admin/sentiment-analysis" element={<LazyAdminSentimentAnalysisPage />} />
+                        <Route path="/admin/sponsors" element={<LazyAdminSponsorsPage />} />
+                        <Route path="/admin/sponsors/:id" element={<LazyAdminSponsorDetailPage />} />
+                        <Route path="/admin/verification" element={<LazyAdminVerificationPage />} />
+                        <Route path="/admin/business-import" element={<LazyAdminBusinessImport />} />
+                        <Route path="/admin/sponsor-crm" element={<LazyAdminSponsorCRM />} />
+                        <Route path="/ai-assistant" element={<LazyAIAssistantPage />} />
+                        <Route path="/all-pages" element={<LazyAllPagesDirectory />} />
                         
                         {/* 404 */}
                         <Route path="*" element={<NotFound />} />
