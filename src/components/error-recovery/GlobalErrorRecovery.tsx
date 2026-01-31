@@ -6,24 +6,39 @@ import { Button } from '@/components/ui/button';
  * Global Error Recovery Component
  * Provides a floating escape button that appears when the app detects an error state
  * This ensures users are NEVER stuck on a dead-end screen
+ * 
+ * CRITICAL for iOS/iPad: This component prevents crashes by intercepting errors
+ * and showing a recovery UI instead of a blank white screen
  */
 export const GlobalErrorRecovery: React.FC = () => {
   const [showRecovery, setShowRecovery] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorCount, setErrorCount] = useState(0);
 
   useEffect(() => {
     // Listen for unhandled errors
     const handleError = (event: ErrorEvent) => {
       console.error('[GlobalErrorRecovery] Caught error:', event.message);
+      
+      // CRITICAL: Prevent the error from crashing the app
+      event.preventDefault();
+      
       setErrorMessage(event.message);
       setShowRecovery(true);
+      setErrorCount(prev => prev + 1);
     };
 
     // Listen for unhandled promise rejections
     const handleRejection = (event: PromiseRejectionEvent) => {
       console.error('[GlobalErrorRecovery] Caught rejection:', event.reason);
-      setErrorMessage(String(event.reason));
+      
+      // CRITICAL: Prevent the rejection from crashing the app
+      event.preventDefault();
+      
+      const errorMsg = event.reason?.message || String(event.reason) || 'Unknown error';
+      setErrorMessage(errorMsg);
       setShowRecovery(true);
+      setErrorCount(prev => prev + 1);
     };
 
     // Listen for custom error events from the app
@@ -56,12 +71,14 @@ export const GlobalErrorRecovery: React.FC = () => {
 
   const handleGoHome = () => {
     setShowRecovery(false);
+    setErrorCount(0);
     // Force full page reload to clear any error state
     window.location.href = '/';
   };
 
   const handleReload = () => {
     setShowRecovery(false);
+    setErrorCount(0);
     window.location.reload();
   };
 
@@ -69,6 +86,9 @@ export const GlobalErrorRecovery: React.FC = () => {
     setShowRecovery(false);
     setErrorMessage(null);
   };
+
+  // If too many errors, suggest a full reload
+  const isCritical = errorCount >= 3;
 
   if (!showRecovery) return null;
 
@@ -82,10 +102,17 @@ export const GlobalErrorRecovery: React.FC = () => {
         <div className="flex items-start gap-3">
           <AlertCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
           <div className="flex-1 min-w-0">
-            <p className="font-medium text-sm">Something went wrong</p>
+            <p className="font-medium text-sm">
+              {isCritical ? 'Multiple errors detected' : 'Something went wrong'}
+            </p>
             {errorMessage && (
               <p className="text-xs mt-1 opacity-90 truncate">
                 {errorMessage.slice(0, 100)}
+              </p>
+            )}
+            {isCritical && (
+              <p className="text-xs mt-1 opacity-75">
+                We recommend reloading the app
               </p>
             )}
           </div>

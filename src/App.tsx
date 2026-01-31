@@ -243,19 +243,68 @@ function App() {
   // This ensures iOS app launches immediately without any spinner
   const [appReady, setAppReady] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasRecoverableError, setHasRecoverableError] = useState(false);
+
+  // CRITICAL: Global unhandled rejection handler to prevent white screen crashes
+  // This catches async errors that ErrorBoundary cannot catch
+  useEffect(() => {
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      console.error('[APP] Unhandled promise rejection:', event.reason);
+      
+      // Prevent the default behavior (which can crash the app on iOS)
+      event.preventDefault();
+      
+      // Set recoverable error state instead of crashing
+      setHasRecoverableError(true);
+      
+      // Log for debugging
+      const errorMsg = event.reason?.message || String(event.reason);
+      console.error('[APP] Prevented crash from:', errorMsg);
+    };
+
+    const handleGlobalError = (event: ErrorEvent) => {
+      console.error('[APP] Global error caught:', event.message);
+      
+      // For chunk loading errors, try to reload
+      if (event.message?.includes('ChunkLoadError') || 
+          event.message?.includes('Loading chunk') ||
+          event.message?.includes('Failed to fetch dynamically imported module')) {
+        console.log('[APP] Chunk error detected, attempting recovery...');
+        event.preventDefault();
+        // Don't reload immediately - let the error recovery UI show
+        setHasRecoverableError(true);
+        return;
+      }
+      
+      // Prevent crash for other errors
+      event.preventDefault();
+      setHasRecoverableError(true);
+    };
+
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+    window.addEventListener('error', handleGlobalError);
+
+    return () => {
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+      window.removeEventListener('error', handleGlobalError);
+    };
+  }, []);
 
   // Initialize Capacitor plugins on app start (non-blocking)
   useEffect(() => {
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isIPad = /iPad/.test(navigator.userAgent) || 
+                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     const isNative = window?.Capacitor?.isNativePlatform?.();
     
-    console.log('[APP MOUNT] Started - iOS:', isIOS, 'Native:', isNative);
+    console.log('[APP MOUNT] Started - iOS:', isIOS, 'iPad:', isIPad, 'Native:', isNative);
+    console.log('[APP MOUNT] UA:', navigator.userAgent.substring(0, 100));
     console.log('[APP MOUNT] Timestamp:', new Date().toISOString());
     
     // Dispatch app:ready immediately to hide any boot fallback
     window.dispatchEvent(new Event('app:ready'));
     
-    // For native apps: hide splash screen immediately
+    // For native apps: hide splash screen immediately with extra safety
     if (isNative) {
       const hideSplash = async () => {
         try {
@@ -263,18 +312,23 @@ function App() {
           await hideSplashScreen();
           console.log('[APP] Splash hidden');
         } catch (err) {
-          console.error('[APP] Splash hide error:', err);
+          // Don't let splash hide failure crash the app
+          console.error('[APP] Splash hide error (non-fatal):', err);
         }
       };
       
       // Hide splash immediately and again after 500ms as failsafe
-      hideSplash();
-      setTimeout(hideSplash, 500);
+      hideSplash().catch(() => {});
+      setTimeout(() => hideSplash().catch(() => {}), 500);
+      setTimeout(() => hideSplash().catch(() => {}), 1000); // Extra failsafe for iPad
       
-      // Initialize plugins in background (non-blocking)
+      // Initialize plugins in background (non-blocking, with error swallowing)
       initializeCapacitorPlugins()
         .then(() => console.log('[APP] Plugins ready'))
-        .catch(err => console.error('[APP] Plugin error:', err));
+        .catch(err => {
+          // Don't let plugin errors crash the app
+          console.error('[APP] Plugin error (non-fatal):', err);
+        });
     }
   }, []);
 
