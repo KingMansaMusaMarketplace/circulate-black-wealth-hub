@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Star, ArrowRight } from 'lucide-react';
+import { MapPin, Star, ArrowRight, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +18,7 @@ interface BusinessCardProps {
   discount: string;
   distance?: string;
   address?: string;
+  phone?: string;
   imageUrl?: string;
   imageAlt?: string;
   isFeatured?: boolean;
@@ -34,6 +35,7 @@ const BusinessCard = ({
   discount, 
   distance, 
   address,
+  phone,
   imageUrl,
   imageAlt,
   isFeatured = false,
@@ -91,9 +93,16 @@ const BusinessCard = ({
         </CardDescription>
         
         {address && (
-          <div className="flex items-center text-sm text-gray-400 mb-3">
+          <div className="flex items-center text-sm text-gray-400 mb-2">
             <MapPin className="h-4 w-4 mr-1.5 flex-shrink-0 text-mansagold/70" />
             <span className="truncate">{address}</span>
+          </div>
+        )}
+        
+        {phone && (
+          <div className="flex items-center text-sm text-gray-400 mb-3">
+            <Phone className="h-4 w-4 mr-1.5 flex-shrink-0 text-mansagold/70" />
+            <a href={`tel:${phone}`} className="hover:text-mansagold transition-colors">{phone}</a>
           </div>
         )}
         

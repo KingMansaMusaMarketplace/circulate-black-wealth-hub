@@ -128,6 +128,7 @@ const BusinessesPage: React.FC = () => {
                 reviewCount={business.reviewCount}
                 discount={business.discount}
                 address={business.address}
+                phone={business.phone}
                 imageUrl={business.imageUrl}
                 imageAlt={business.imageAlt || `${business.name} image`}
                 isFeatured={business.isFeatured}
