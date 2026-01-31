@@ -102,7 +102,7 @@ export const submitVerificationRequest = async (
       .from('businesses')
       .select('business_name, email, owner_id')
       .eq('id', businessId)
-      .single();
+      .maybeSingle();
 
     if (!businessError && business) {
       // Get owner profile for notification

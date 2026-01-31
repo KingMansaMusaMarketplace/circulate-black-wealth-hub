@@ -139,10 +139,10 @@ const ActivityMonitor: React.FC = () => {
             // Fetch profile and business separately
             const [profileResult, businessResult] = await Promise.all([
               data.user_id 
-                ? supabase.from('profiles').select('id, full_name, email').eq('id', data.user_id).single()
+                ? supabase.from('profiles').select('id, full_name, email').eq('id', data.user_id).maybeSingle()
                 : Promise.resolve({ data: null }),
               data.business_id
-                ? supabase.from('businesses').select('id, business_name').eq('id', data.business_id).single()
+                ? supabase.from('businesses').select('id, business_name').eq('id', data.business_id).maybeSingle()
                 : Promise.resolve({ data: null })
             ]);
             

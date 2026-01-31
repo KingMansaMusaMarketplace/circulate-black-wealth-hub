@@ -70,11 +70,13 @@ export function useExternalLeads() {
         .single();
 
       // Get inviter business if they have one
-      const { data: business } = await supabase
+      const { data: businessList } = await supabase
         .from('businesses')
         .select('business_name')
         .eq('owner_id', user.id)
-        .single();
+        .order('created_at', { ascending: false })
+        .limit(1);
+      const business = businessList?.[0] || null;
 
       // Generate invitation token if not present
       let invitationToken = lead.invitation_token;
@@ -152,11 +154,13 @@ export function useExternalLeads() {
         .eq('id', user.id)
         .single();
 
-      const { data: business } = await supabase
+      const { data: businessList } = await supabase
         .from('businesses')
         .select('business_name')
         .eq('owner_id', user.id)
-        .single();
+        .order('created_at', { ascending: false })
+        .limit(1);
+      const business = businessList?.[0] || null;
 
       // Send invitations in batches of 5 to avoid rate limiting
       const batchSize = 5;
