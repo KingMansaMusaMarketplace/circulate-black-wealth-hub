@@ -63,7 +63,6 @@ const BusinessCard = ({
   const [imgError, setImgError] = useState(false);
   const [imgLoading, setImgLoading] = useState(true);
   const [isInView, setIsInView] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const imgRef = useRef<HTMLDivElement>(null);
 
   const categoryStyle = getCategoryStyle(category);
@@ -114,15 +113,8 @@ const BusinessCard = ({
   };
 
   return (
-    <div 
-      className="group relative h-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Gradient border glow effect */}
-      <div className={`absolute -inset-0.5 bg-gradient-to-r from-mansagold via-orange-500 to-pink-500 rounded-2xl opacity-0 blur-sm transition-all duration-500 ${isHovered ? 'opacity-60' : ''} ${isFeatured ? 'opacity-40' : ''}`} />
-      
-      <div className={`relative glass-card border rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 ${isFeatured ? 'border-mansagold/50 shadow-2xl shadow-mansagold/20 bg-gradient-to-br from-slate-800/80 via-blue-900/50 to-slate-800/80' : 'border-white/10 hover:border-white/20 bg-slate-800/70'} backdrop-blur-xl`}>
+    <div className="group relative h-full">
+      <div className={`relative border rounded-2xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-xl hover:shadow-mansagold/10 ${isFeatured ? 'border-mansagold/50 shadow-lg shadow-mansagold/20 bg-gradient-to-br from-slate-800/90 via-blue-900/60 to-slate-800/90' : 'border-white/10 hover:border-mansagold/40 bg-slate-800/80'} backdrop-blur-xl`}>
         {isFeatured && (
           <div className="bg-gradient-to-r from-mansagold via-orange-400 to-pink-500 text-slate-900 text-xs font-bold px-3 py-2 text-center shadow-lg flex items-center justify-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" />
