@@ -19,6 +19,8 @@ const businessBannerFallbacks: Record<string, string> = {
   '06d8b3b5-7c6d-4e5e-af02-881ee991a98d': '/businesses/great-chicken-hoagies.png',
   // Big Daddy Garden Company - Garden products and equipment
   'efbabe0f-6b46-450e-b363-e017937134af': '/businesses/big-daddy-garden-banner.png',
+  // Ivory Dental Specialists - Family dental care
+  '34274f7f-4530-4981-a5c2-6bdca5cb715b': '/businesses/ivory-dental-banner.png',
 };
 
 /**
