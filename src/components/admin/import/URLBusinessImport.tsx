@@ -87,16 +87,6 @@ export const URLBusinessImport: React.FC<URLBusinessImportProps> = ({ isOpen, on
 
     setIsSaving(true);
     try {
-      const { data, error: invokeError } = await supabase.functions.invoke('scrape-business-website', {
-        body: { 
-          url: editableData.website, 
-          saveAsDraft: true,
-          // Pass the edited data
-          overrideData: editableData
-        }
-      });
-
-      // If we need to save directly, let's do it here instead
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         throw new Error('You must be logged in to save');
@@ -118,7 +108,7 @@ export const URLBusinessImport: React.FC<URLBusinessImportProps> = ({ isOpen, on
           category: editableData.category || 'Other',
           website: editableData.website,
           logo_url: editableData.logoUrl,
-          banner_url: editableData.logoUrl, // Also save as banner so it displays on cards
+          banner_url: editableData.logoUrl,
           listing_status: 'draft',
           is_verified: false,
         })
