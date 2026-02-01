@@ -145,19 +145,31 @@ const BusinessDetailPage = () => {
     try {
       const { data, error } = await supabase
         .from('reviews')
-        .select(`
-          *,
-          profiles:customer_id (full_name)
-        `)
+        .select('*')
         .eq('business_id', businessId)
         .order('created_at', { ascending: false })
         .limit(10);
 
       if (error) throw error;
       
+      // Fetch profile names separately since there's no FK relationship
+      const customerIds = [...new Set(data?.map(r => r.customer_id).filter(Boolean) || [])];
+      let profilesMap: Record<string, string> = {};
+      
+      if (customerIds.length > 0) {
+        const { data: profiles } = await supabase
+          .from('profiles')
+          .select('id, full_name')
+          .in('id', customerIds);
+        
+        profiles?.forEach(p => {
+          profilesMap[p.id] = p.full_name || 'Anonymous User';
+        });
+      }
+      
       const formattedReviews = data?.map(review => ({
         ...review,
-        customer_name: review.profiles?.full_name || 'Anonymous User'
+        customer_name: profilesMap[review.customer_id] || 'Anonymous User'
       })) || [];
       
       setReviews(formattedReviews);
