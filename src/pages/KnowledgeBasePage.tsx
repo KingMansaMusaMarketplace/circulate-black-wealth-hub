@@ -15,6 +15,7 @@ import {
   markArticleHelpful, KnowledgeBaseArticle, KB_CATEGORIES
 } from '@/lib/api/helpdesk-api';
 import { format } from 'date-fns';
+import { sanitizeHtml } from '@/lib/security/content-sanitizer';
 
 export default function KnowledgeBasePage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -83,9 +84,10 @@ export default function KnowledgeBasePage() {
               </div>
             </CardHeader>
             <CardContent className="p-6">
+              {/* SECURITY: Sanitize HTML content to prevent XSS attacks */}
               <div 
                 className="prose prose-invert max-w-none text-blue-100"
-                dangerouslySetInnerHTML={{ __html: selectedArticle.content }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(selectedArticle.content) }}
               />
 
               <div className="mt-8 pt-6 border-t border-white/10">
