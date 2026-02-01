@@ -21,6 +21,8 @@ const businessBannerFallbacks: Record<string, string> = {
   'efbabe0f-6b46-450e-b363-e017937134af': '/businesses/big-daddy-garden-banner.png',
   // Ivory Dental Specialists - Family dental care
   '34274f7f-4530-4981-a5c2-6bdca5cb715b': '/businesses/ivory-dental-banner.png',
+  // CookWilliams Enterprises LLLP - Professional services enterprise
+  '80c221f5-b104-4ad1-a50c-94627e88344d': '/businesses/cookwilliams-enterprises-banner.png',
 };
 
 /**
