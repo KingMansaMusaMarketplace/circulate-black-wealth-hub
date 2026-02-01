@@ -2,14 +2,16 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { User, Bell, Shield, Trash2, Settings } from 'lucide-react';
+import { User, Bell, Shield, Trash2, Settings, Building2, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import AccountDeletion from '@/components/auth/AccountDeletion';
 import Loading from '@/components/ui/loading';
+import { Button } from '@/components/ui/button';
+import ProfileForm from '@/components/profile/ProfileForm';
 
 const UserSettingsPage: React.FC = () => {
-  const { user, loading } = useAuth();
+  const { user, userType, loading } = useAuth();
 
   if (loading) {
     return <Loading fullScreen text="Loading settings..." />;
@@ -123,20 +125,46 @@ const UserSettingsPage: React.FC = () => {
               </TabsList>
 
               <TabsContent value="profile" className="space-y-6 animate-fade-in">
+                {/* Business Profile Link for Business Users */}
+                {userType === 'business' && (
+                  <Card className="bg-gradient-to-r from-yellow-500/10 to-amber-500/10 backdrop-blur-xl border-yellow-500/20 shadow-2xl">
+                    <CardContent className="py-6">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="p-3 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-xl">
+                            <Building2 className="h-6 w-6 text-slate-900" />
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-semibold text-white">Business Profile</h3>
+                            <p className="text-blue-200/70 text-sm">
+                              Edit your business details, images, services, and more
+                            </p>
+                          </div>
+                        </div>
+                        <Button asChild className="bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold">
+                          <Link to="/business/profile">
+                            Edit Business Profile
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Personal Profile Form */}
                 <Card className="bg-white/5 backdrop-blur-xl border-white/10 shadow-2xl">
                   <CardHeader>
                     <CardTitle className="text-white flex items-center gap-2">
                       <User className="h-5 w-5 text-yellow-400" />
-                      Profile Information
+                      Personal Information
                     </CardTitle>
                     <CardDescription className="text-blue-200/70">
                       Update your personal information and profile details.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-center py-8 text-blue-200/60">
-                      Profile editing functionality coming soon.
-                    </div>
+                    <ProfileForm />
                   </CardContent>
                 </Card>
               </TabsContent>
