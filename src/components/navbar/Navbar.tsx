@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Menu, X, Search } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Search, LayoutGrid } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useServerAdminVerification } from '@/hooks/useServerAdminVerification';
 import Logo from './Logo';
 import NavLinks from './NavLinks';
 import UserMenu from './UserMenu';
@@ -19,8 +20,10 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const isMobile = useIsMobile();
+  const { isAdmin } = useServerAdminVerification();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -119,6 +122,20 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.2 }}
             >
+              {/* Admin-only All Pages Button */}
+              {isAdmin && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => navigate('/all-pages')}
+                  className="relative hover:bg-white/10 text-white/80 hover:text-mansagold transition-all duration-300 hover:scale-105 rounded-lg h-9 w-9 min-w-[36px] flex-shrink-0"
+                  aria-label="All Pages"
+                  title="All Pages Directory"
+                >
+                  <LayoutGrid className="h-5 w-5" />
+                </Button>
+              )}
+
               {/* Search Button */}
               <Button
                 variant="ghost"
