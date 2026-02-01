@@ -2,6 +2,7 @@ import React, { useRef, useCallback, useMemo } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { Business } from '@/types/business';
 import BusinessCard from '@/components/BusinessCard';
+import { getBusinessCardImage } from '@/utils/businessBanners';
 
 interface VirtualizedBusinessGridProps {
   businesses: Business[];
@@ -50,30 +51,33 @@ const VirtualizedBusinessGrid: React.FC<VirtualizedBusinessGridProps> = ({
   if (businesses.length <= 20) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {businesses.map((business) => (
-          <div 
-            key={business.id} 
-            id={`business-${business.id}`} 
-            className="transition-all duration-300 h-full"
-          >
-            <BusinessCard 
-              id={business.id}
-              name={business.name}
-              category={business.category}
-              rating={business.rating}
-              reviewCount={business.reviewCount}
-              discount={business.discount}
-              distance={business.distance}
-              address={business.address}
-              phone={business.phone}
-              imageUrl={business.imageUrl}
-              imageAlt={business.imageAlt}
-              isFeatured={business.isFeatured}
-              isSample={business.isSample}
-              isVerified={business.isVerified}
-            />
-          </div>
-        ))}
+        {businesses.map((business) => {
+          const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl;
+          return (
+            <div 
+              key={business.id} 
+              id={`business-${business.id}`} 
+              className="transition-all duration-300 h-full"
+            >
+              <BusinessCard 
+                id={business.id}
+                name={business.name}
+                category={business.category}
+                rating={business.rating}
+                reviewCount={business.reviewCount}
+                discount={business.discount}
+                distance={business.distance}
+                address={business.address}
+                phone={business.phone}
+                imageUrl={cardImageUrl}
+                imageAlt={business.imageAlt}
+                isFeatured={business.isFeatured}
+                isSample={business.isSample}
+                isVerified={business.isVerified}
+              />
+            </div>
+          );
+        })}
       </div>
     );
   }
@@ -108,31 +112,34 @@ const VirtualizedBusinessGrid: React.FC<VirtualizedBusinessGridProps> = ({
               }}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-1">
-                {rowBusinesses.map((business) => (
-                  <div 
-                    key={business.id} 
-                    id={`business-${business.id}`} 
-                    className="transition-all duration-300 h-full"
-                    onClick={() => onSelectBusiness(business.id)}
-                  >
-                    <BusinessCard 
-                      id={business.id}
-                      name={business.name}
-                      category={business.category}
-                      rating={business.rating}
-                      reviewCount={business.reviewCount}
-                      discount={business.discount}
-                      distance={business.distance}
-                      address={business.address}
-                      phone={business.phone}
-                      imageUrl={business.imageUrl}
-                      imageAlt={business.imageAlt}
-                      isFeatured={business.isFeatured}
-                      isSample={business.isSample}
-                      isVerified={business.isVerified}
-                    />
-                  </div>
-                ))}
+                {rowBusinesses.map((business) => {
+                  const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl;
+                  return (
+                    <div 
+                      key={business.id} 
+                      id={`business-${business.id}`} 
+                      className="transition-all duration-300 h-full"
+                      onClick={() => onSelectBusiness(business.id)}
+                    >
+                      <BusinessCard 
+                        id={business.id}
+                        name={business.name}
+                        category={business.category}
+                        rating={business.rating}
+                        reviewCount={business.reviewCount}
+                        discount={business.discount}
+                        distance={business.distance}
+                        address={business.address}
+                        phone={business.phone}
+                        imageUrl={cardImageUrl}
+                        imageAlt={business.imageAlt}
+                        isFeatured={business.isFeatured}
+                        isSample={business.isSample}
+                        isVerified={business.isVerified}
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </div>
           );

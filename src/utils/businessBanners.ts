@@ -29,6 +29,12 @@ const businessBannerFallbacks: Record<string, string> = {
   'd5afdc83-55b3-41bc-8b26-3aa1027b5d91': '/businesses/arthur-wylie-banner.png',
 };
 
+// Map of business IDs to card-specific images (used in directory cards only, not detail pages)
+const businessCardImages: Record<string, string> = {
+  // WOGBE Leadership Empowerment - Group photo for card display
+  '8282e123-584a-4dfb-961c-ea79bce730b5': '/businesses/wogbe-card-image.png',
+};
+
 /**
  * Get banner URL for a business, with fallback support
  * @param businessId - The business UUID
@@ -43,4 +49,20 @@ export function getBusinessBanner(businessId: string, bannerUrl: string | null |
   
   // Check for a fallback banner
   return businessBannerFallbacks[businessId];
+}
+
+/**
+ * Get card-specific image for a business (for directory cards only)
+ * @param businessId - The business UUID
+ * @param bannerUrl - The stored banner URL (may be null)
+ * @returns The card image URL to use, falling back to banner logic
+ */
+export function getBusinessCardImage(businessId: string, bannerUrl: string | null | undefined): string | undefined {
+  // Check for a card-specific image first
+  if (businessCardImages[businessId]) {
+    return businessCardImages[businessId];
+  }
+  
+  // Fall back to banner logic
+  return getBusinessBanner(businessId, bannerUrl);
 }

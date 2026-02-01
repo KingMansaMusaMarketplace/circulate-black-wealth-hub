@@ -3,6 +3,7 @@ import React from 'react';
 import SmartBusinessRecommendations from '@/components/discovery/SmartBusinessRecommendations';
 import MobileBusinessCard from './MobileBusinessCard';
 import { Business } from '@/types/business';
+import { getBusinessCardImage } from '@/utils/businessBanners';
 
 // Lazy load MapView for better code splitting
 const MapView = React.lazy(() => import('@/components/MapView'));
@@ -26,13 +27,17 @@ const MobileContentRenderer: React.FC<MobileContentRendererProps> = ({
 }) => {
   const MobileBusinessList = () => (
     <div className="space-y-3 px-4">
-      {businesses.map((business) => (
-        <MobileBusinessCard
-          key={business.id}
-          {...business}
-          onSelect={() => onSelectBusiness(business.id)}
-        />
-      ))}
+      {businesses.map((business) => {
+        const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl;
+        return (
+          <MobileBusinessCard
+            key={business.id}
+            {...business}
+            imageUrl={cardImageUrl}
+            onSelect={() => onSelectBusiness(business.id)}
+          />
+        );
+      })}
     </div>
   );
 
