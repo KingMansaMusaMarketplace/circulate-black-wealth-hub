@@ -128,46 +128,48 @@ const UserGuidePage: React.FC = () => {
       </div>
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
 
-      <div className="relative z-10 container mx-auto px-4 py-8">
+      <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-block mb-6">
+        <div className="text-center mb-8 lg:mb-12">
+          <div className="inline-block mb-4">
             <img 
               src={neuralBrainLogo} 
               alt="1325.AI Neural Brain Logo" 
-              className="w-32 h-32 object-contain drop-shadow-[0_0_20px_rgba(214,158,46,0.4)]"
+              className="w-24 h-24 lg:w-32 lg:h-32 object-contain drop-shadow-[0_0_20px_rgba(214,158,46,0.4)]"
             />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 bg-gradient-to-r from-blue-400 via-mansagold to-amber-400 bg-clip-text text-transparent">
             1325.AI Platform User Guide
           </h1>
-          <p className="text-xl text-blue-200/80 max-w-2xl mx-auto">
-            Comprehensive documentation for everything you need to know about using the 1325.AI platform
+          <p className="text-base sm:text-lg lg:text-xl text-blue-200/80 max-w-3xl mx-auto">
+            Complete documentation for all platform features
           </p>
 
           {/* Quick Actions */}
-          <div className="flex flex-wrap justify-center gap-4 mt-8">
+          <div className="flex flex-wrap justify-center gap-3 mt-6">
             <Button 
               onClick={handlePrint}
               variant="outline" 
+              size="sm"
               className="bg-slate-800/60 border-white/10 text-white hover:bg-slate-700/60"
             >
               <Printer className="h-4 w-4 mr-2" />
-              Print Guide
+              Print
             </Button>
             <Button 
               onClick={exportUserGuideToPDF}
               variant="outline" 
+              size="sm"
               className="bg-slate-800/60 border-white/10 text-white hover:bg-slate-700/60"
             >
               <FileDown className="h-4 w-4 mr-2" />
-              Export as PDF
+              Export PDF
             </Button>
           </div>
         </div>
 
         {/* Search Bar */}
-        <div className="max-w-2xl mx-auto mb-12">
+        <div className="max-w-xl mx-auto mb-8">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/40" />
             <Input
@@ -175,7 +177,7 @@ const UserGuidePage: React.FC = () => {
               placeholder="Search the user guide..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-slate-800/60 backdrop-blur-xl border-white/10 text-white placeholder:text-white/40 rounded-xl focus:border-mansagold/50 focus:ring-mansagold/20"
+              className="w-full pl-12 pr-4 py-3 bg-slate-800/60 backdrop-blur-xl border-white/10 text-white placeholder:text-white/40 rounded-xl focus:border-mansagold/50 focus:ring-mansagold/20"
             />
             {searchTerm && (
               <Button
@@ -195,151 +197,184 @@ const UserGuidePage: React.FC = () => {
           )}
         </div>
 
-        {/* Table of Contents (Quick Nav) */}
-        <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 mb-12">
-          <CardHeader>
-            <CardTitle className="text-xl text-white flex items-center gap-2">
-              <Book className="h-5 w-5 text-mansagold" />
-              Table of Contents
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {ALL_USER_GUIDE_SECTIONS.map((category) => (
-                <div key={category.category} className="space-y-2">
-                  <h3 className="font-semibold text-mansagold">{category.category}</h3>
-                  <ul className="space-y-1">
-                    {category.sections.map((section) => (
-                      <li key={section.id}>
-                        <a
-                          href={`#${section.id}`}
-                          className="text-blue-200/70 hover:text-mansagold text-sm flex items-center gap-1 transition-colors"
-                        >
-                          {iconMap[section.icon]}
-                          <span>{section.title}</span>
-                        </a>
-                      </li>
+        {/* Two-Column Layout: Sidebar + Content */}
+        <div className="flex gap-8">
+          {/* Sticky Sidebar Navigation - Hidden on mobile */}
+          <aside className="hidden lg:block w-64 xl:w-72 flex-shrink-0">
+            <div className="sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-auto">
+              <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg text-white flex items-center gap-2">
+                    <Book className="h-5 w-5 text-mansagold" />
+                    Quick Navigation
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <nav className="space-y-4">
+                    {ALL_USER_GUIDE_SECTIONS.map((category) => (
+                      <div key={category.category}>
+                        <h3 className="font-semibold text-mansagold text-sm mb-2">{category.category}</h3>
+                        <ul className="space-y-1.5">
+                          {category.sections.map((section) => (
+                            <li key={section.id}>
+                              <a
+                                href={`#${section.id}`}
+                                className="text-blue-200/70 hover:text-mansagold text-sm flex items-center gap-2 py-1 px-2 rounded-md hover:bg-white/5 transition-colors"
+                              >
+                                <span className="flex-shrink-0">{iconMap[section.icon]}</span>
+                                <span className="truncate">{section.title}</span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     ))}
-                  </ul>
+                  </nav>
+                </CardContent>
+              </Card>
+            </div>
+          </aside>
+
+          {/* Main Content Area */}
+          <div className="flex-1 min-w-0">
+            {/* Mobile Table of Contents */}
+            <Card className="lg:hidden bg-slate-800/60 backdrop-blur-xl border-white/10 mb-8">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg text-white flex items-center gap-2">
+                  <Book className="h-5 w-5 text-mansagold" />
+                  Jump to Section
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-2">
+                  {ALL_USER_GUIDE_SECTIONS.flatMap(cat => cat.sections).map((section) => (
+                    <a
+                      key={section.id}
+                      href={`#${section.id}`}
+                      className="text-blue-200/70 hover:text-mansagold text-sm flex items-center gap-2 p-2 rounded-lg bg-slate-900/40 hover:bg-slate-900/60 transition-colors"
+                    >
+                      <span className="flex-shrink-0">{iconMap[section.icon]}</span>
+                      <span className="truncate">{section.title}</span>
+                    </a>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Main Content */}
+            <div className="space-y-10">
+              {filteredSections.map((category) => (
+                <div key={category.category} className="space-y-6">
+                  {/* Category Header */}
+                  <div className="border-b border-white/10 pb-3">
+                    <h2 className="text-2xl lg:text-3xl font-bold text-white">{category.category}</h2>
+                  </div>
+
+                  {/* Sections as a Grid */}
+                  <div className="grid gap-6">
+                    {category.sections.map((section) => (
+                      <section key={section.id} id={section.id} className="scroll-mt-24">
+                        <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 overflow-hidden">
+                          <CardHeader className="bg-gradient-to-r from-mansablue/20 to-blue-900/20 border-b border-white/10 py-4">
+                            <div className="flex items-center gap-4">
+                              <div className="p-2.5 bg-gradient-to-br from-mansagold to-amber-500 rounded-xl shadow-lg flex-shrink-0">
+                                {iconMap[section.icon]}
+                              </div>
+                              <div className="min-w-0">
+                                <CardTitle className="text-xl lg:text-2xl text-white">{section.title}</CardTitle>
+                                <CardDescription className="text-blue-200/70 text-sm lg:text-base">{section.description}</CardDescription>
+                              </div>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-0">
+                            {/* Content Grid for larger screens */}
+                            <div className="divide-y divide-white/5">
+                              {section.content.map((content, idx) => (
+                                <div key={content.id} className="p-4 lg:p-6 hover:bg-slate-700/20 transition-colors">
+                                  <div className="flex gap-4">
+                                    <Badge variant="outline" className="bg-mansablue/20 text-blue-200 border-mansablue/30 h-7 w-7 flex items-center justify-center flex-shrink-0 text-sm">
+                                      {idx + 1}
+                                    </Badge>
+                                    <div className="flex-1 min-w-0 space-y-3">
+                                      <div>
+                                        <h4 className="font-semibold text-white text-base lg:text-lg">{content.title}</h4>
+                                        <p className="text-blue-200/60 text-sm">{content.summary}</p>
+                                      </div>
+                                      
+                                      {/* Details - Always visible for better readability */}
+                                      <p className="text-blue-200/80 leading-relaxed text-sm lg:text-base">
+                                        {content.details}
+                                      </p>
+
+                                      {/* Steps in horizontal layout when possible */}
+                                      {content.steps && content.steps.length > 0 && (
+                                        <div className="bg-slate-900/40 rounded-lg p-4">
+                                          <h5 className="font-semibold text-white text-sm flex items-center gap-2 mb-3">
+                                            <ChevronRight className="h-4 w-4 text-mansagold" />
+                                            Steps
+                                          </h5>
+                                          <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                                            {content.steps.map((step, stepIdx) => (
+                                              <li key={stepIdx} className="text-blue-200/70 text-sm flex items-start gap-2">
+                                                <span className="bg-mansablue/30 text-blue-200 text-xs font-medium px-2 py-0.5 rounded flex-shrink-0">
+                                                  {stepIdx + 1}
+                                                </span>
+                                                <span>{step}</span>
+                                              </li>
+                                            ))}
+                                          </ol>
+                                        </div>
+                                      )}
+
+                                      {/* Tips */}
+                                      {content.tips && content.tips.length > 0 && (
+                                        <div className="bg-mansagold/10 border border-mansagold/20 rounded-lg p-4">
+                                          <h5 className="font-semibold text-mansagold text-sm flex items-center gap-2 mb-2">
+                                            <Sparkles className="h-4 w-4" />
+                                            Pro Tips
+                                          </h5>
+                                          <ul className="grid gap-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                                            {content.tips.map((tip, tipIdx) => (
+                                              <li key={tipIdx} className="text-amber-200/80 text-sm flex items-start gap-2">
+                                                <span className="text-mansagold">•</span>
+                                                <span>{tip}</span>
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        </div>
+                                      )}
+
+                                      {/* Related Links */}
+                                      {content.relatedLinks && content.relatedLinks.length > 0 && (
+                                        <div className="flex flex-wrap gap-2 pt-2">
+                                          {content.relatedLinks.map((link, linkIdx) => (
+                                            <Link key={linkIdx} to={link.path}>
+                                              <Button 
+                                                variant="outline" 
+                                                size="sm"
+                                                className="bg-slate-900/60 border-white/10 text-blue-200 hover:bg-mansablue/20 hover:border-mansablue/30 text-xs"
+                                              >
+                                                {link.label}
+                                                <ExternalLink className="h-3 w-3 ml-1.5" />
+                                              </Button>
+                                            </Link>
+                                          ))}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </section>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Main Content */}
-        <div className="space-y-16">
-          {filteredSections.map((category) => (
-            <div key={category.category} className="space-y-8">
-              {/* Category Header */}
-              <div className="border-b border-white/10 pb-4">
-                <h2 className="text-3xl font-bold text-white">{category.category}</h2>
-              </div>
-
-              {/* Sections */}
-              {category.sections.map((section) => (
-                <section key={section.id} id={section.id} className="scroll-mt-24">
-                  <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10 overflow-hidden">
-                    <CardHeader className="bg-gradient-to-r from-mansablue/20 to-blue-900/20 border-b border-white/10">
-                      <div className="flex items-center gap-4">
-                        <div className="p-3 bg-gradient-to-br from-mansagold to-amber-500 rounded-xl shadow-lg">
-                          {iconMap[section.icon]}
-                        </div>
-                        <div>
-                          <CardTitle className="text-2xl text-white">{section.title}</CardTitle>
-                          <CardDescription className="text-blue-200/70">{section.description}</CardDescription>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="p-0">
-                      <Accordion type="multiple" className="w-full">
-                        {section.content.map((content, idx) => (
-                          <AccordionItem 
-                            key={content.id} 
-                            value={content.id}
-                            className="border-b border-white/5 last:border-0"
-                          >
-                            <AccordionTrigger className="px-6 py-4 hover:bg-slate-700/30 text-white hover:no-underline">
-                              <div className="flex items-center gap-3 text-left">
-                                <Badge variant="outline" className="bg-mansablue/20 text-blue-200 border-mansablue/30">
-                                  {idx + 1}
-                                </Badge>
-                                <div>
-                                  <div className="font-semibold">{content.title}</div>
-                                  <div className="text-sm text-blue-200/60">{content.summary}</div>
-                                </div>
-                              </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="px-6 pb-6">
-                              <div className="space-y-6 pl-10">
-                                {/* Main Description */}
-                                <p className="text-blue-200/80 leading-relaxed">
-                                  {content.details}
-                                </p>
-
-                                {/* Steps */}
-                                {content.steps && content.steps.length > 0 && (
-                                  <div className="space-y-3">
-                                    <h4 className="font-semibold text-white flex items-center gap-2">
-                                      <ChevronRight className="h-4 w-4 text-mansagold" />
-                                      Steps
-                                    </h4>
-                                    <ol className="space-y-2 list-decimal list-inside">
-                                      {content.steps.map((step, stepIdx) => (
-                                        <li key={stepIdx} className="text-blue-200/70 pl-2">
-                                          {step}
-                                        </li>
-                                      ))}
-                                    </ol>
-                                  </div>
-                                )}
-
-                                {/* Tips */}
-                                {content.tips && content.tips.length > 0 && (
-                                  <div className="bg-mansagold/10 border border-mansagold/20 rounded-lg p-4 space-y-2">
-                                    <h4 className="font-semibold text-mansagold flex items-center gap-2">
-                                      <Sparkles className="h-4 w-4" />
-                                      Pro Tips
-                                    </h4>
-                                    <ul className="space-y-1">
-                                      {content.tips.map((tip, tipIdx) => (
-                                        <li key={tipIdx} className="text-amber-200/80 text-sm flex items-start gap-2">
-                                          <span className="text-mansagold">•</span>
-                                          {tip}
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )}
-
-                                {/* Related Links */}
-                                {content.relatedLinks && content.relatedLinks.length > 0 && (
-                                  <div className="flex flex-wrap gap-2">
-                                    {content.relatedLinks.map((link, linkIdx) => (
-                                      <Link key={linkIdx} to={link.path}>
-                                        <Button 
-                                          variant="outline" 
-                                          size="sm"
-                                          className="bg-slate-900/60 border-white/10 text-blue-200 hover:bg-mansablue/20 hover:border-mansablue/30"
-                                        >
-                                          {link.label}
-                                          <ExternalLink className="h-3 w-3 ml-2" />
-                                        </Button>
-                                      </Link>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            </AccordionContent>
-                          </AccordionItem>
-                        ))}
-                      </Accordion>
-                    </CardContent>
-                  </Card>
-                </section>
-              ))}
-            </div>
-          ))}
+          </div>
         </div>
 
         {/* Need More Help */}
