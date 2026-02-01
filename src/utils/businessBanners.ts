@@ -17,6 +17,8 @@ const businessBannerFallbacks: Record<string, string> = {
   '8abf4585-5d75-450e-b54c-6417c3b5b259': '/images/businesses/infinite-seeds-banner.png',
   // Great Chicken & Hoagies - Chicago fried chicken & hoagies restaurant
   '06d8b3b5-7c6d-4e5e-af02-881ee991a98d': '/businesses/great-chicken-hoagies.png',
+  // Big Daddy Garden Company - Garden products and equipment
+  'efbabe0f-6b46-450e-b363-e017937134af': '/businesses/big-daddy-garden-banner.png',
 };
 
 /**
