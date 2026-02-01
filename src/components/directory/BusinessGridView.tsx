@@ -2,6 +2,7 @@
 import React from 'react';
 import { Business } from '@/types/business';
 import BusinessCard from '@/components/BusinessCard';
+import { getBusinessCardImage } from '@/utils/businessBanners';
 
 interface BusinessGridViewProps {
   businesses: Business[];
@@ -24,7 +25,11 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {businesses.map((business) => (
+      {businesses.map((business) => {
+        // Use card-specific image if available, otherwise fall back to business imageUrl
+        const cardImageUrl = getBusinessCardImage(business.id, business.bannerUrl) || business.imageUrl;
+        
+        return (
           <div 
             key={business.id} 
             id={`business-${business.id}`} 
@@ -40,15 +45,15 @@ const BusinessGridView: React.FC<BusinessGridViewProps> = ({ businesses, onSelec
               distance={business.distance}
               address={business.address}
               phone={business.phone}
-              imageUrl={business.imageUrl}
+              imageUrl={cardImageUrl}
               imageAlt={business.imageAlt}
               isFeatured={business.isFeatured}
               isSample={business.isSample}
               isVerified={business.isVerified}
             />
           </div>
-        )
-      )}
+        );
+      })}
     </div>
   );
 };
