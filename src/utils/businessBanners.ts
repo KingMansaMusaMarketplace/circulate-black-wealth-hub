@@ -33,6 +33,8 @@ const businessBannerFallbacks: Record<string, string> = {
 const businessCardImages: Record<string, string> = {
   // WOGBE Leadership Empowerment - Group photo for card display
   '8282e123-584a-4dfb-961c-ea79bce730b5': '/businesses/wogbe-card-image.png',
+  // Next Level Coaching - Credit building workbook image for card display
+  'deaa774b-88e7-4855-a858-167a646c8ace': '/businesses/next-level-coaching-card.png',
 };
 
 /**
