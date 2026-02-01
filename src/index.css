@@ -401,6 +401,12 @@
     font-family: 'DM Sans', 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden; /* Prevent horizontal scroll / white strip on right */
+  }
+  
+  /* Prevent horizontal overflow from animated elements */
+  html {
+    overflow-x: hidden;
   }
   
   /* Premium Typography - Headings use Playfair Display */
