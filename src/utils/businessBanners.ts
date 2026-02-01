@@ -23,6 +23,8 @@ const businessBannerFallbacks: Record<string, string> = {
   '34274f7f-4530-4981-a5c2-6bdca5cb715b': '/businesses/ivory-dental-banner.png',
   // CookWilliams Enterprises LLLP - Professional services enterprise
   '80c221f5-b104-4ad1-a50c-94627e88344d': '/businesses/cookwilliams-enterprises-banner.png',
+  // 1325.AI (Mansa Musa Marketplace, Inc.) - AI platform and marketplace
+  '01aee255-5b15-4a2d-be76-0a8b3a3b102f': '/businesses/1325-ai-banner.jpeg',
 };
 
 /**
