@@ -118,6 +118,7 @@ export const URLBusinessImport: React.FC<URLBusinessImportProps> = ({ isOpen, on
           category: editableData.category || 'Other',
           website: editableData.website,
           logo_url: editableData.logoUrl,
+          banner_url: editableData.logoUrl, // Also save as banner so it displays on cards
           listing_status: 'draft',
           is_verified: false,
         })
