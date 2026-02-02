@@ -131,7 +131,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
         <div className="text-center">
           <Link to="/directory">
             <Button size="lg" variant="outline" className="border-mansagold/50 text-mansagold hover:bg-mansagold hover:text-slate-900 transition-all duration-300 font-semibold px-8">
-              View All Businesses
+              View All Real Businesses
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
