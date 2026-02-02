@@ -36,7 +36,7 @@ const MissionPreview: React.FC = () => {
         </div>
 
         {/* The Problem - Key Stat */}
-        <div className="bg-black border-2 border-mansagold/40 rounded-2xl p-6 md:p-8">
+        <div className="bg-slate-950 border-2 border-mansagold rounded-2xl p-6 md:p-8 shadow-lg shadow-mansagold/10">
           <div className="flex flex-col items-center text-center">
             <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-mansagold/20 to-orange-500/20 flex items-center justify-center mb-4">
               <Clock className="w-8 h-8 md:w-10 md:h-10 text-mansagold" />
