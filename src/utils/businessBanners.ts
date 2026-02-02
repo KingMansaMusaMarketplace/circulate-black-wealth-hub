@@ -43,6 +43,8 @@ const businessCardImages: Record<string, string> = {
   '2cff0945-95dc-4cb3-8dfe-c2b95d67b8f8': '/businesses/aamu-card.jpg',
   // Alabama State University - "Where History Is Made" campus landmark
   '9da5f112-fd8d-4f28-9222-d2b71dd7b260': '/businesses/alabama-state-card.png',
+  // Bishop State Community College - Students in learning environment
+  '6f0622b3-b228-4281-832e-dfa65ae5a3f0': '/businesses/bishop-state-card.webp',
 };
 
 /**
