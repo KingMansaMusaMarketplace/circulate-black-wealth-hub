@@ -52,7 +52,7 @@ const QuickAddBusiness = () => {
 
   return (
     <motion.div
-      className="mt-8 p-5 rounded-2xl bg-gradient-to-r from-mansagold/20 via-amber-500/15 to-mansagold/20 border-2 border-mansagold/40 backdrop-blur-sm"
+      className="mt-8 p-5 rounded-2xl bg-black border-2 border-[#ff3333]/50 shadow-[0_0_30px_rgba(255,51,51,0.2)]"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.4 }}
