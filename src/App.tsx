@@ -98,6 +98,7 @@ const LazyAppTestPage = lazy(() => import('@/pages/AppTestPage'));
 const LazyErrorPage = lazy(() => import('@/pages/ErrorPage'));
 const LazyCorporateDashboardPage = lazy(() => import('@/pages/CorporateDashboardPage'));
 const LazyPaymentSuccessPage = lazy(() => import('@/pages/PaymentSuccessPage'));
+const LazyListingSuccessPage = lazy(() => import('@/pages/ListingSuccessPage'));
 const LazyCorporateSponsorshipPricingPage = lazy(() => import('@/pages/CorporateSponsorshipPricingPage'));
 const LazySponsorDashboardPage = lazy(() => import('@/pages/SponsorDashboardPage'));
 
@@ -575,6 +576,7 @@ function App() {
                               <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                               <Route path="/password-reset" element={<LazyResetPasswordPage />} />
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
+                              <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                               <Route path="/payment-test" element={
                                 <IOSProtectedRoute>
                                   <LazyPaymentTestPage />
@@ -851,6 +853,7 @@ function App() {
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/password-reset" element={<LazyResetPasswordPage />} />
                         <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
+                        <Route path="/listing-success" element={<LazyListingSuccessPage />} />
                         <Route path="/payment-test" element={
                           <IOSProtectedRoute>
                             <LazyPaymentTestPage />

@@ -3,11 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { motion } from 'framer-motion';
-import { MapPin, Loader2, ArrowRight, Sparkles, Search, Building2, TrendingUp, DollarSign } from 'lucide-react';
+import { MapPin, Loader2, ArrowRight, Sparkles, Search } from 'lucide-react';
 import { useLocation } from '@/hooks/location/useLocation';
 import { toast } from 'sonner';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
 import { useWealthMetrics } from '@/components/wealth-ticker/useWealthMetrics';
+import QuickAddBusiness from '@/components/hero/QuickAddBusiness';
 
 const Hero = () => {
   const isIOS = shouldHideStripePayments();
@@ -103,7 +104,7 @@ const Hero = () => {
           
           {/* Subhead */}
           <motion.p 
-            className="text-base md:text-lg lg:text-xl text-blue-100/80 mb-6 md:mb-8 max-w-xl mx-auto leading-relaxed px-2"
+            className="text-base md:text-lg lg:text-xl text-blue-100/80 mb-4 max-w-xl mx-auto leading-relaxed px-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -111,6 +112,9 @@ const Hero = () => {
             Discover Black-owned businesses. Earn <span className="text-mansagold font-semibold">5% - 30% discounts</span>. 
             Track your community impact in real-time.
           </motion.p>
+          
+          {/* BHM Quick Add Business Widget */}
+          {!isIOS && <QuickAddBusiness />}
 
           {/* Primary CTA - ZIP Code Search */}
           <motion.div
