@@ -5,10 +5,10 @@ import { Button } from '@/components/ui/button';
 
 const MissionPreview: React.FC = () => {
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
+    <section className="py-8 md:py-10 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header - EOS Positioning */}
-        <div className="text-center mb-8 md:mb-10">
+        <div className="text-center mb-5 md:mb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-mansagold/10 border border-mansagold/30 mb-4">
             <span className="text-xs font-semibold text-mansagold uppercase tracking-wider">Economic Operating System</span>
           </div>
@@ -22,7 +22,7 @@ const MissionPreview: React.FC = () => {
         </div>
 
         {/* The Problem - Key Stat */}
-        <div className="bg-gradient-to-br from-red-500/10 via-orange-500/10 to-amber-500/10 border border-mansagold/20 rounded-2xl p-6 md:p-8 mb-8 backdrop-blur-sm">
+        <div className="bg-gradient-to-br from-red-500/10 via-orange-500/10 to-amber-500/10 border border-mansagold/20 rounded-2xl p-5 md:p-6 mb-5 backdrop-blur-sm">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
             <div className="flex-shrink-0">
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-mansagold/20 to-orange-500/20 flex items-center justify-center">
@@ -45,7 +45,7 @@ const MissionPreview: React.FC = () => {
         </div>
 
         {/* Three Pillars - EOS Components */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 mb-5">
           <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all duration-300 group">
             <div className="w-10 h-10 rounded-lg bg-mansagold/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <TrendingUp className="w-5 h-5 text-mansagold" />
