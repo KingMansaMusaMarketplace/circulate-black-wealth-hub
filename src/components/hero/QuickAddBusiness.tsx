@@ -69,7 +69,7 @@ const QuickAddBusiness = () => {
       {/* Title & Pricing */}
       <div className="text-center mb-4">
         <h3 className="text-lg md:text-xl font-bold text-white mb-1">
-          Get Your Business Listed Today
+          Get Listed in Our Directory
         </h3>
         <div className="flex items-center justify-center gap-3">
           <span className="text-white/50 line-through text-lg">$250/year</span>
@@ -79,7 +79,7 @@ const QuickAddBusiness = () => {
           </span>
         </div>
         <p className="text-sm text-white/70 mt-1">
-          Limited time offer • Verified in 24-48 hours
+          Directory listing only • Additional features available separately
         </p>
       </div>
 
@@ -128,7 +128,7 @@ const QuickAddBusiness = () => {
       </form>
 
       <p className="text-xs text-center text-white/50 mt-3">
-        We'll scrape your site, verify your business, and list you within 24-48 hours
+        We'll publish your business from your URL within 24-48 hours
       </p>
     </motion.div>
   );
