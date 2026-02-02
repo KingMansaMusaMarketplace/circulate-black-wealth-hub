@@ -26,10 +26,11 @@ const MissionPreview: React.FC = () => {
           <Link to="/about">
             <Button 
               variant="outline" 
-              className="border-mansagold/50 text-mansagold hover:bg-mansagold/10 hover:border-mansagold group"
+              size="lg"
+              className="border-mansagold/50 text-mansagold hover:bg-mansagold/10 hover:border-mansagold group px-8 py-6 text-lg"
             >
               Learn Our Full Story
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
         </div>
