@@ -47,6 +47,8 @@ const businessCardImages: Record<string, string> = {
   '6f0622b3-b228-4281-832e-dfa65ae5a3f0': '/businesses/bishop-state-card.webp',
   // Gadsden State Community College - Health sciences student
   '4d4f373a-7bbc-4c5c-b452-19a5d209cc3a': '/businesses/gadsden-state-card.jpg',
+  // Trenholm State Community College - Technical training student
+  '7df9fc56-2b29-4df9-a993-49a58bf01a38': '/businesses/trenholm-state-card.jpg',
 };
 
 /**
