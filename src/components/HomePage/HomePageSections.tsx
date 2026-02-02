@@ -10,14 +10,14 @@ import MissionPreview from './MissionPreview';
 const HomePageSections: React.FC = () => {
   return (
     <>
+      {/* Mission Preview - The Circulation Gap - Moved up for impact */}
+      <SectionErrorBoundary sectionName="Mission Preview">
+        <MissionPreview />
+      </SectionErrorBoundary>
+
       {/* How It Works Preview - 3 Simple Steps */}
       <SectionErrorBoundary sectionName="How It Works Preview">
         <HowItWorksPreview />
-      </SectionErrorBoundary>
-
-      {/* Mission Preview - Why This Matters */}
-      <SectionErrorBoundary sectionName="Mission Preview">
-        <MissionPreview />
       </SectionErrorBoundary>
 
       {/* Featured Businesses - Limited to 4 on mobile, 6 on desktop */}
