@@ -12,7 +12,7 @@ import { useOnboardingTour } from '@/hooks/useOnboardingTour';
 import { OnboardingTour } from '@/components/onboarding/OnboardingTour';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import VoiceInterface from '@/components/VoiceInterface';
-import ShareButton from '@/components/ShareButton';
+
 import { OrganizationStructuredData } from '@/components/SEO/OrganizationStructuredData';
 import { WebsiteStructuredData } from '@/components/SEO/WebsiteStructuredData';
 
@@ -108,10 +108,6 @@ const HomePage = () => {
         </SectionErrorBoundary>
       )}
       
-      {/* Floating Share Button */}
-      <SectionErrorBoundary sectionName="Share Button">
-        <ShareButton />
-      </SectionErrorBoundary>
     </>
   );
 };
