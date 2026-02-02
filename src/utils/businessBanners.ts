@@ -45,6 +45,8 @@ const businessCardImages: Record<string, string> = {
   '9da5f112-fd8d-4f28-9222-d2b71dd7b260': '/businesses/alabama-state-card.png',
   // Bishop State Community College - Students in learning environment
   '6f0622b3-b228-4281-832e-dfa65ae5a3f0': '/businesses/bishop-state-card.webp',
+  // Gadsden State Community College - Health sciences student
+  '4d4f373a-7bbc-4c5c-b452-19a5d209cc3a': '/businesses/gadsden-state-card.jpg',
 };
 
 /**
