@@ -126,6 +126,52 @@ serve(async (req) => {
         
         console.log(`Checkout completed: ${session.id}`, metadata);
 
+        // Handle BHM Quick Add payments
+        if (metadata?.type === 'bhm_quick_add') {
+          const businessUrl = metadata.business_url;
+          const email = metadata.email;
+          
+          console.log(`BHM Quick Add payment completed for: ${businessUrl}`);
+
+          // Update the lead status to 'paid'
+          const { data: updatedLead, error: updateError } = await supabaseClient
+            .from('b2b_external_leads')
+            .update({ 
+              validation_status: 'paid',
+              validation_notes: `Payment confirmed. Checkout session: ${session.id}. Amount: $${(session.amount_total || 0) / 100}`
+            })
+            .eq('source_query', 'bhm_quick_add')
+            .eq('website_url', businessUrl)
+            .eq('validation_status', 'pending_payment')
+            .select()
+            .maybeSingle();
+
+          if (updateError) {
+            console.error('Error updating BHM lead status:', updateError);
+          } else if (updatedLead) {
+            console.log(`BHM lead marked as paid: ${updatedLead.id}`);
+          } else {
+            // If no matching pending lead found, try to find by email
+            const { error: emailUpdateError } = await supabaseClient
+              .from('b2b_external_leads')
+              .update({ 
+                validation_status: 'paid',
+                validation_notes: `Payment confirmed. Checkout session: ${session.id}. Amount: $${(session.amount_total || 0) / 100}`
+              })
+              .eq('source_query', 'bhm_quick_add')
+              .eq('owner_email', email)
+              .eq('validation_status', 'pending_payment');
+
+            if (emailUpdateError) {
+              console.error('Error updating BHM lead by email:', emailUpdateError);
+            } else {
+              console.log(`BHM lead marked as paid via email match: ${email}`);
+            }
+          }
+          
+          break;
+        }
+
         // Handle corporate subscriptions
         if (metadata?.userType === 'corporate' && session.subscription) {
           const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
