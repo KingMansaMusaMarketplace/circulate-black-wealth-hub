@@ -65,7 +65,7 @@ const Hero = () => {
           <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-mansagold/30 border-2 border-mansagold shadow-lg">
             <Sparkles className="w-5 h-5 text-white" />
             <span className="text-sm md:text-base font-black text-white tracking-wide uppercase">
-              🚀 Founding Member Access — Join Free Before Sept 2026
+              🚀 Founding Member Access — Free Until Sept 2026
             </span>
           </div>
         </motion.div>

@@ -92,16 +92,6 @@ const FloatingNav = () => {
                 })}
               </div>
 
-              {/* CTA Button */}
-              <div className="hidden md:block">
-                <Button
-                  asChild
-                  size="sm"
-                  className="bg-gradient-gold text-mansablue-dark hover:opacity-90 font-semibold shadow-lg"
-                >
-                  <Link to="/signup">Join Free</Link>
-                </Button>
-              </div>
 
               {/* Mobile Menu Button */}
               <button
@@ -143,15 +133,6 @@ const FloatingNav = () => {
                         </Link>
                       );
                     })}
-                    <Button
-                      asChild
-                      size="sm"
-                      className="w-full bg-gradient-gold text-mansablue-dark hover:opacity-90 font-semibold"
-                    >
-                      <Link to="/signup" onClick={() => setIsMobileMenuOpen(false)}>
-                        Join Free
-                      </Link>
-                    </Button>
                   </div>
                 </motion.div>
               )}

@@ -243,16 +243,10 @@ const FreeGrowthBanner = () => {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/signup">
+          <div className="flex justify-center">
+            <Link to="/directory">
               <Button className="bg-yellow-400 text-slate-900 hover:bg-yellow-500 font-bold py-3 px-8 text-lg rounded-xl">
-                Join FREE as Customer
-              </Button>
-            </Link>
-            
-            <Link to="/signup?type=business">
-              <Button variant="outline" className="border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-slate-900 font-bold py-3 px-8 text-lg rounded-xl">
-                Join FREE as Business
+                Explore Businesses
               </Button>
             </Link>
           </div>
