@@ -35,6 +35,8 @@ const businessCardImages: Record<string, string> = {
   '8282e123-584a-4dfb-961c-ea79bce730b5': '/businesses/wogbe-card-image.png',
   // Next Level Coaching - Credit building workbook image for card display
   'deaa774b-88e7-4855-a858-167a646c8ace': '/businesses/next-level-coaching-card.png',
+  // Taste of Tara - Upscale Southern brunch restaurant
+  '0138c15f-c41a-4b93-a382-f527ca67a6f6': '/businesses/taste-of-tara-card.jpg',
 };
 
 /**
