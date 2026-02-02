@@ -57,6 +57,8 @@ const businessCardImages: Record<string, string> = {
   'b3d42f27-e0d0-4975-b253-bce409e1e67f': '/businesses/miles-college-card.jpg',
   // Lawson State Community College - Bessemer campus aerial view
   'e2407df6-9f1e-44f6-9458-e23cfe2c39f4': '/businesses/lawson-state-card.jpg',
+  // Drake State Community & Technical College - Campus entrance sign
+  '5886e373-31ec-4df8-afc7-254df8b36d98': '/businesses/drake-state-card.png',
 };
 
 /**
