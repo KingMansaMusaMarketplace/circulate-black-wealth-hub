@@ -33,6 +33,8 @@ const businessBannerFallbacks: Record<string, string> = {
 const businessCardImages: Record<string, string> = {
   // WOGBE Leadership Empowerment - Group photo for card display
   '8282e123-584a-4dfb-961c-ea79bce730b5': '/businesses/wogbe-card-image.png',
+  // Petal Jolie Salon - Beauty salon card image
+  'bfe46fbb-87e5-4449-a9ec-99f1c30ea9fb': '/businesses/petal-jolie-card.png',
   // Next Level Coaching - Credit building workbook image for card display
   'deaa774b-88e7-4855-a858-167a646c8ace': '/businesses/next-level-coaching-card.png',
   // Taste of Tara - Upscale Southern brunch restaurant
