@@ -61,6 +61,8 @@ const businessCardImages: Record<string, string> = {
   '5886e373-31ec-4df8-afc7-254df8b36d98': '/businesses/drake-state-card.png',
   // Shelton State Community College - Aerial campus view
   '3935430a-30b6-4372-a07a-9f42f358e9d1': '/businesses/shelton-state-card.png',
+  // Liberty Bank & Trust - Black-owned community bank professionals
+  'b6a0e5ee-38ff-4991-8e14-1113d97d8201': '/businesses/liberty-bank-card.jpg',
 };
 
 /**
