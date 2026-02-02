@@ -43,7 +43,7 @@ const MissionPreview: React.FC = () => {
             </div>
             <p className="text-xs uppercase tracking-wider text-mansagold/80 mb-3 font-medium">The Circulation Gap</p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 mb-4">
-              <span className="text-4xl md:text-5xl font-bold text-red-600">6 hours</span>
+              <span className="text-4xl md:text-5xl font-bold text-red-500">6 hours</span>
               <span className="text-gray-400 text-xl md:text-2xl font-medium">vs</span>
               <span className="text-4xl md:text-5xl font-bold text-green-400">28+ days</span>
             </div>
