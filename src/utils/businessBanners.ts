@@ -51,6 +51,8 @@ const businessCardImages: Record<string, string> = {
   '7df9fc56-2b29-4df9-a993-49a58bf01a38': '/businesses/trenholm-state-card.jpg',
   // Selma University - Basketball team in action
   'c2b81768-e95e-4113-978e-a21e14ffdc20': '/businesses/selma-university-card.jpg',
+  // Oakwood University - Iconic silos with golden domes
+  '0b6a8b92-4864-4786-9789-48453f0cb0da': '/businesses/oakwood-university-card.jpg',
 };
 
 /**
