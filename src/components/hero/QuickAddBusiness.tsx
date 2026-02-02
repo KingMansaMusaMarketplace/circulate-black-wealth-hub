@@ -58,12 +58,12 @@ const QuickAddBusiness = () => {
       transition={{ duration: 0.5, delay: 0.4 }}
     >
       {/* Header */}
-      <div className="flex items-center justify-center gap-2 mb-3">
-        <Sparkles className="w-5 h-5 text-mansagold" />
-        <span className="text-sm font-bold text-mansagold uppercase tracking-wide">
+      <div className="flex items-center justify-center gap-3 mb-4">
+        <Sparkles className="w-6 h-6 text-red-500" />
+        <span className="text-xl md:text-2xl font-black text-red-500 uppercase tracking-wide">
           Black History Month Special
         </span>
-        <Sparkles className="w-5 h-5 text-mansagold" />
+        <Sparkles className="w-6 h-6 text-red-500" />
       </div>
 
       {/* Title & Pricing */}
