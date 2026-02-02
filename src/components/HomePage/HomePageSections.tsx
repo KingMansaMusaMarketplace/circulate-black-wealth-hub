@@ -46,7 +46,7 @@ const HomePageSections: React.FC = () => {
               </div>
             </div>
           }>
-            <FeaturedBusinesses limit={6} />
+            <FeaturedBusinesses limit={3} />
           </Suspense>
         </LazySection>
       </SectionErrorBoundary>
