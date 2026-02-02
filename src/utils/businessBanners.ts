@@ -55,6 +55,8 @@ const businessCardImages: Record<string, string> = {
   '0b6a8b92-4864-4786-9789-48453f0cb0da': '/businesses/oakwood-university-card.jpg',
   // Miles College - Student on campus
   'b3d42f27-e0d0-4975-b253-bce409e1e67f': '/businesses/miles-college-card.jpg',
+  // Lawson State Community College - Bessemer campus aerial view
+  'e2407df6-9f1e-44f6-9458-e23cfe2c39f4': '/businesses/lawson-state-card.jpg',
 };
 
 /**
