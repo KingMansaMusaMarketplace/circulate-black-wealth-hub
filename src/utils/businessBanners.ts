@@ -49,6 +49,8 @@ const businessCardImages: Record<string, string> = {
   '4d4f373a-7bbc-4c5c-b452-19a5d209cc3a': '/businesses/gadsden-state-card.jpg',
   // Trenholm State Community College - Technical training student
   '7df9fc56-2b29-4df9-a993-49a58bf01a38': '/businesses/trenholm-state-card.jpg',
+  // Selma University - Basketball team in action
+  'c2b81768-e95e-4113-978e-a21e14ffdc20': '/businesses/selma-university-card.jpg',
 };
 
 /**
