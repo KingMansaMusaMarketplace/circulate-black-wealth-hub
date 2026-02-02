@@ -257,8 +257,8 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         <Button 
           onClick={startConversation}
           disabled={isConnecting}
-          size="lg"
-          className="kayla-button-idle hover:opacity-90 text-white font-semibold shadow-2xl min-w-[240px] min-h-[64px] text-lg"
+          size="default"
+          className="kayla-button-idle hover:opacity-90 text-white font-semibold shadow-lg min-w-[180px] min-h-[48px] text-sm"
           style={{ 
             touchAction: 'manipulation', 
             WebkitTapHighlightColor: 'transparent',
@@ -268,13 +268,13 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         >
           {isConnecting ? (
             <>
-              <Loader2 className="mr-3 h-6 w-6 animate-spin" />
-              <span className="font-medium">Connecting...</span>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <span className="font-medium text-sm">Connecting...</span>
             </>
           ) : (
             <>
-              <Mic className="mr-3 h-6 w-6" />
-              <span className="font-medium">Please ask Kayla</span>
+              <Mic className="mr-2 h-4 w-4" />
+              <span className="font-medium text-sm">Ask Kayla</span>
             </>
           )}
         </Button>
