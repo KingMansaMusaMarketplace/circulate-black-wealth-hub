@@ -47,7 +47,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
       ];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
+    <section className="py-10 md:py-12 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 relative overflow-hidden">
       {/* Subtle background accent */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl" />
@@ -55,7 +55,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
       </div>
       
       <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-10">
           <span className="text-mansagold text-sm font-mono tracking-widest uppercase mb-4 block">
             Featured Partners
           </span>
