@@ -59,11 +59,11 @@ const QuickAddBusiness = () => {
     >
       {/* Header */}
       <div className="flex items-center justify-center gap-3 mb-4">
-        <Sparkles className="w-6 h-6 text-red-500" />
-        <span className="text-xl md:text-2xl font-black text-red-500 uppercase tracking-wide">
+        <Sparkles className="w-6 h-6 text-[#ff3333]" />
+        <span className="text-xl md:text-2xl font-black text-[#ff3333] uppercase tracking-wide drop-shadow-[0_0_10px_rgba(255,51,51,0.5)]">
           Black History Month Special
         </span>
-        <Sparkles className="w-6 h-6 text-red-500" />
+        <Sparkles className="w-6 h-6 text-[#ff3333]" />
       </div>
 
       {/* Title & Pricing */}
