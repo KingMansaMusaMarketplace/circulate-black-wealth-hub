@@ -29,13 +29,13 @@ const HowItWorksPreview = () => {
   ];
 
   return (
-    <section className="py-10 md:py-12 px-4 bg-gradient-to-br from-background via-blue-50/30 to-background">
+    <section className="py-8 md:py-10 px-4 bg-gradient-to-b from-mansablue-dark to-mansablue-dark/80">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            How It <span className="text-mansablue">Works</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+            How It <span className="text-mansagold">Works</span>
           </h2>
-          <p className="text-xl md:text-2xl text-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Three simple steps to start saving money
             <span className="block mt-1">and supporting Black-owned businesses</span>
           </p>
