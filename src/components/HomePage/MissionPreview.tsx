@@ -21,6 +21,19 @@ const MissionPreview: React.FC = () => {
           </p>
         </div>
 
+        {/* CTA - Moved above The Circulation Gap */}
+        <div className="text-center mb-5">
+          <Link to="/about">
+            <Button 
+              variant="outline" 
+              className="border-mansagold/50 text-mansagold hover:bg-mansagold/10 hover:border-mansagold group"
+            >
+              Learn Our Full Story
+              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+        </div>
+
         {/* The Problem - Key Stat */}
         <div className="bg-gradient-to-br from-red-500/10 via-orange-500/10 to-amber-500/10 border border-mansagold/20 rounded-2xl p-5 md:p-6 mb-5 backdrop-blur-sm">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
@@ -69,19 +82,6 @@ const MissionPreview: React.FC = () => {
             <h3 className="font-semibold text-white mb-2">B2B Marketplace</h3>
             <p className="text-gray-400 text-sm">Black businesses buying from Black businesses—supply chain sovereignty.</p>
           </div>
-        </div>
-
-        {/* CTA */}
-        <div className="text-center">
-          <Link to="/about">
-            <Button 
-              variant="outline" 
-              className="border-mansagold/50 text-mansagold hover:bg-mansagold/10 hover:border-mansagold group"
-            >
-              Learn Our Full Story
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
         </div>
       </div>
     </section>
