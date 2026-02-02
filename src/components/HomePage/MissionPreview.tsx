@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp, Clock, Target } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const MissionPreview: React.FC = () => {
@@ -35,7 +35,7 @@ const MissionPreview: React.FC = () => {
         </div>
 
         {/* The Problem - Key Stat */}
-        <div className="bg-gradient-to-br from-red-500/10 via-orange-500/10 to-amber-500/10 border border-mansagold/20 rounded-2xl p-5 md:p-6 mb-3 backdrop-blur-sm">
+        <div className="bg-gradient-to-br from-red-500/10 via-orange-500/10 to-amber-500/10 border border-mansagold/20 rounded-2xl p-5 md:p-6 backdrop-blur-sm">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
             <div className="flex-shrink-0">
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-mansagold/20 to-orange-500/20 flex items-center justify-center">
@@ -54,33 +54,6 @@ const MissionPreview: React.FC = () => {
                 <span className="text-mansagold font-mono font-medium tracking-wider"> 1325.AI</span> closes this gap.
               </p>
             </div>
-          </div>
-        </div>
-
-        {/* Three Pillars - EOS Components */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
-          <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all duration-300 group">
-            <div className="w-10 h-10 rounded-lg bg-mansagold/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-              <TrendingUp className="w-5 h-5 text-mansagold" />
-            </div>
-            <h3 className="font-semibold text-white mb-2">CMAL Engine</h3>
-            <p className="text-gray-400 text-sm">Circulatory Multiplier Attribution Logic tracks every dollar's community journey.</p>
-          </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all duration-300 group">
-            <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-              <Target className="w-5 h-5 text-blue-400" />
-            </div>
-            <h3 className="font-semibold text-white mb-2">Economic Karma</h3>
-            <p className="text-gray-400 text-sm">Earn rewards for every purchase—turn spending into community investment.</p>
-          </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all duration-300 group">
-            <div className="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-              <ArrowRight className="w-5 h-5 text-green-400" />
-            </div>
-            <h3 className="font-semibold text-white mb-2">B2B Marketplace</h3>
-            <p className="text-gray-400 text-sm">Black businesses buying from Black businesses—supply chain sovereignty.</p>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-
 import React, { Suspense } from 'react';
 import FeaturedBusinesses from '@/components/FeaturedBusinesses';
 import CTASection from '@/components/CTASection';
@@ -6,18 +5,24 @@ import LazySection from '@/components/common/LazySection';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
 import HowItWorksPreview from './HowItWorksPreview';
 import MissionPreview from './MissionPreview';
+import ThreePillars from './ThreePillars';
 
 const HomePageSections: React.FC = () => {
   return (
     <>
-      {/* Mission Preview - The Circulation Gap - Moved up for impact */}
+      {/* Mission Preview - The Circulation Gap */}
       <SectionErrorBoundary sectionName="Mission Preview">
         <MissionPreview />
       </SectionErrorBoundary>
 
-      {/* How It Works Preview - 3 Simple Steps */}
+      {/* How It Works Preview - 3 Simple Steps - Now directly after Circulation Gap */}
       <SectionErrorBoundary sectionName="How It Works Preview">
         <HowItWorksPreview />
+      </SectionErrorBoundary>
+
+      {/* Three Pillars - CMAL Engine, Economic Karma, B2B Marketplace */}
+      <SectionErrorBoundary sectionName="Three Pillars">
+        <ThreePillars />
       </SectionErrorBoundary>
 
       {/* Featured Businesses - Limited to 4 on mobile, 6 on desktop */}
