@@ -28,19 +28,15 @@ export const CTAButtons: React.FC<CTAButtonsProps> = ({ isVisible }) => {
       {/* Decorative elements behind buttons */}
       <div className="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-16 bg-white/5 rounded-full blur-xl hidden md:block pointer-events-none"></div>
       
-      <div className="relative">
-        {/* Decorative glow effect */}
-        <div className="absolute inset-0 bg-mansagold/20 rounded-md filter blur-md -z-10 pointer-events-none"></div>
-        
+      <Link to="/directory" style={{ touchAction: 'manipulation' }}>
         <Button 
-          onClick={handleGetStarted} 
-          className="bg-mansagold hover:bg-mansagold-dark text-white px-8 py-6 text-lg group cursor-pointer transition-transform hover:scale-105 active:scale-95"
+          variant="white" 
+          className="px-8 py-6 text-lg cursor-pointer transition-transform hover:scale-105 active:scale-95"
           style={{ touchAction: 'manipulation' }}
         >
-          <span className="pointer-events-none">Get Started Free</span>
-          <ArrowUp className="ml-2 rotate-45 group-hover:translate-x-1 transition-transform pointer-events-none" />
+          <span className="pointer-events-none">Explore Businesses</span>
         </Button>
-      </div>
+      </Link>
       
       <Link to="/directory" style={{ touchAction: 'manipulation' }}>
         <Button 
