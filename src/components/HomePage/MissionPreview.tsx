@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const MissionPreview: React.FC = () => {
   return (
-    <section className="py-8 md:py-10 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
+    <section className="py-6 md:py-8 bg-gradient-to-b from-mansablue-dark/50 to-mansablue-dark">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header - EOS Positioning */}
         <div className="text-center mb-5 md:mb-6">
@@ -58,7 +58,7 @@ const MissionPreview: React.FC = () => {
         </div>
 
         {/* Three Pillars - EOS Components */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 mb-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
           <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all duration-300 group">
             <div className="w-10 h-10 rounded-lg bg-mansagold/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <TrendingUp className="w-5 h-5 text-mansagold" />
