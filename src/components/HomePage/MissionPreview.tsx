@@ -35,7 +35,7 @@ const MissionPreview: React.FC = () => {
         </div>
 
         {/* The Problem - Key Stat */}
-        <div className="bg-gradient-to-br from-red-500/10 via-orange-500/10 to-amber-500/10 border border-mansagold/20 rounded-2xl p-5 md:p-6 mb-5 backdrop-blur-sm">
+        <div className="bg-gradient-to-br from-red-500/10 via-orange-500/10 to-amber-500/10 border border-mansagold/20 rounded-2xl p-5 md:p-6 mb-3 backdrop-blur-sm">
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10">
             <div className="flex-shrink-0">
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-mansagold/20 to-orange-500/20 flex items-center justify-center">
