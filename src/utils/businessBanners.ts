@@ -41,6 +41,8 @@ const businessCardImages: Record<string, string> = {
   '0138c15f-c41a-4b93-a382-f527ca67a6f6': '/businesses/taste-of-tara-card.jpg',
   // Alabama A&M University - HBCU campus view
   '2cff0945-95dc-4cb3-8dfe-c2b95d67b8f8': '/businesses/aamu-card.jpg',
+  // Alabama State University - "Where History Is Made" campus landmark
+  '9da5f112-fd8d-4f28-9222-d2b71dd7b260': '/businesses/alabama-state-card.png',
 };
 
 /**
