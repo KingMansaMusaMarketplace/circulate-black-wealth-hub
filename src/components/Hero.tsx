@@ -177,18 +177,6 @@ const Hero = () => {
               )}
             </Button>
             
-            {!isIOS && (
-              <Button 
-                asChild
-                size="lg"
-                className="bg-transparent hover:bg-mansagold/20 text-mansagold border-2 border-mansagold hover:border-mansagold-dark font-bold h-12 px-6 rounded-xl transition-all duration-300"
-              >
-                <Link to="/signup">
-                  Join FREE Today
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
-              </Button>
-            )}
           </motion.div>
 
           {/* Social Proof */}

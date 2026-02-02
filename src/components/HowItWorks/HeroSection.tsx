@@ -57,17 +57,6 @@ const HeroSection = () => {
                 </Button>
               </div>
               
-              {!isIOS && (
-                <Link to="/signup" style={{ touchAction: 'manipulation' }}>
-                  <Button 
-                    size="lg" 
-                    className="w-full sm:w-auto bg-gradient-gold text-mansablue-dark hover:opacity-90 font-semibold shadow-2xl hover:shadow-mansagold/50 border-2 border-mansagold-light/30"
-                    style={{ touchAction: 'manipulation' }}
-                  >
-                    <span className="pointer-events-none">Join Free Today</span>
-                  </Button>
-                </Link>
-              )}
             </div>
           </ScrollReveal>
           
