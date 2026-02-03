@@ -69,6 +69,8 @@ const businessCardImages: Record<string, string> = {
   '0610eda7-50be-47e8-a5ad-a1ace8606fae': '/businesses/dscej-card.png',
   // Unique Creations by Dee LLC - Handmade custom jewelry
   '7361a585-d567-499b-9559-aa184faa5e1f': '/businesses/unique-creations-dee-card.jpg',
+  // STEM NOLA - Youth STEM education and engagement
+  'edc51d8e-e009-494e-9e13-303b9c942ae6': '/businesses/stem-nola-card.png',
 };
 
 /**
