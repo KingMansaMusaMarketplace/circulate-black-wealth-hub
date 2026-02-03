@@ -33,6 +33,7 @@ import { ReviewsList } from '@/components/reviews/ReviewsList';
 import { useNavigate } from 'react-router-dom';
 import { businesses as sampleBusinesses } from '@/data/businessesData';
 import { getBusinessBanner } from '@/utils/businessBanners';
+import BusinessLocationMap from '@/components/business-detail/BusinessLocationMap';
 
 // Helper to check if ID is a valid UUID
 const isValidUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
@@ -56,6 +57,8 @@ interface Business {
   average_rating: number;
   review_count: number;
   created_at: string;
+  latitude?: number;
+  longitude?: number;
 }
 
 interface Review {
@@ -425,7 +428,7 @@ const BusinessDetailPage = () => {
                   <TabsTrigger value="reviews" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-300 text-blue-200">Reviews ({reviews.length})</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="about">
+                <TabsContent value="about" className="space-y-6">
                   <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
                     <CardHeader>
                       <CardTitle className="text-white">About {business.business_name}</CardTitle>
@@ -436,6 +439,42 @@ const BusinessDetailPage = () => {
                       </p>
                     </CardContent>
                   </Card>
+
+                  {/* Business Location Map */}
+                  {business.address && business.city && business.state && (
+                    <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
+                      <CardHeader>
+                        <CardTitle className="text-white flex items-center gap-2">
+                          <MapPin className="h-5 w-5" />
+                          Business Location
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <BusinessLocationMap
+                          lat={business.latitude || 0}
+                          lng={business.longitude || 0}
+                          businessName={business.business_name}
+                          address={business.address}
+                          city={business.city}
+                          state={business.state}
+                        />
+                        <div className="text-center mt-4">
+                          <p className="text-blue-200 mb-2">
+                            {business.address}, {business.city}, {business.state} {business.zip_code}
+                          </p>
+                          <a 
+                            href={`https://maps.google.com/?q=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center text-yellow-400 hover:text-yellow-300 hover:underline"
+                          >
+                            <MapPin size={16} className="mr-1" />
+                            Get Directions
+                          </a>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
                 </TabsContent>
 
                 <TabsContent value="book">
