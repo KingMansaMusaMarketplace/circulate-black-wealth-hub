@@ -463,7 +463,7 @@ const BusinessDetailPage = () => {
                             {business.address}, {business.city}, {business.state} {business.zip_code}
                           </p>
                           <a 
-                            href={`https://maps.google.com/?q=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center text-yellow-400 hover:text-yellow-300 hover:underline"
