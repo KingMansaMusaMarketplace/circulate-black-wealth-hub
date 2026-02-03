@@ -63,6 +63,8 @@ const businessCardImages: Record<string, string> = {
   '3935430a-30b6-4372-a07a-9f42f358e9d1': '/businesses/shelton-state-card.png',
   // Liberty Bank & Trust - Black-owned community bank professionals
   'b6a0e5ee-38ff-4991-8e14-1113d97d8201': '/businesses/liberty-bank-card.jpg',
+  // To the Nines Partners - Organizational transformation consultants
+  '04b9d571-1b90-4e58-96d2-c45218b7ba36': '/businesses/to-the-nines-card.png',
 };
 
 /**
