@@ -67,6 +67,8 @@ const businessCardImages: Record<string, string> = {
   '04b9d571-1b90-4e58-96d2-c45218b7ba36': '/businesses/to-the-nines-card.png',
   // Deep South Center for Environmental Justice - HBCU Climate Change Consortium
   '0610eda7-50be-47e8-a5ad-a1ace8606fae': '/businesses/dscej-card.png',
+  // Unique Creations by Dee LLC - Handmade custom jewelry
+  '7361a585-d567-499b-9559-aa184faa5e1f': '/businesses/unique-creations-dee-card.jpg',
 };
 
 /**
