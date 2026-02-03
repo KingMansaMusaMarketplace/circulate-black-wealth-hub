@@ -77,6 +77,8 @@ const businessCardImages: Record<string, string> = {
   'a94b9ad3-8813-456a-a453-4fae508541b6': '/businesses/lmi-east-africa-card.jpg',
   // Fruitee Water - Fruit-infused water beverages
   'a7f8ccd0-fd8d-476b-b596-f79a87d1cfd7': '/businesses/fruitee-water-card.jpg',
+  // The Green Fund (HBCU Green Fund) - Sustainability and climate resilience
+  '9f3bd430-d01f-41ce-988d-c2b7255811d5': '/businesses/hbcu-green-fund-card.jpg',
 };
 
 /**
