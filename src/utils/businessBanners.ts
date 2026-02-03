@@ -71,6 +71,8 @@ const businessCardImages: Record<string, string> = {
   '7361a585-d567-499b-9559-aa184faa5e1f': '/businesses/unique-creations-dee-card.jpg',
   // STEM NOLA - Youth STEM education and engagement
   'edc51d8e-e009-494e-9e13-303b9c942ae6': '/businesses/stem-nola-card.png',
+  // Rural Beacon Initiative - Climate and community resilience
+  'e9eeb050-895f-4b9d-af90-66f84a8b0a45': '/businesses/rural-beacon-card.png',
 };
 
 /**
