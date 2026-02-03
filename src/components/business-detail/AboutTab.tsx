@@ -1,12 +1,15 @@
 import React from 'react';
 import { Calendar, Users, MapPin, Clock, Phone, Globe } from 'lucide-react';
 import { Business } from '@/types/business';
+import BusinessLocationMap from './BusinessLocationMap';
 
 interface AboutTabProps {
   business: Business;
 }
 
 const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
+  const hasValidCoordinates = business.lat !== 0 && business.lng !== 0;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div className="md:col-span-2">
@@ -35,13 +38,24 @@ const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
         
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
           <h2 className="text-xl font-bold mb-4">Business Location</h2>
-          <div className="h-80 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center mb-4">
-            <div className="text-center">
-              <MapPin size={48} className="text-gray-400 mx-auto mb-2" />
-              <p className="text-gray-500">Interactive map coming soon</p>
+          {hasValidCoordinates ? (
+            <BusinessLocationMap
+              lat={business.lat}
+              lng={business.lng}
+              businessName={business.name}
+              address={business.address}
+              city={business.city}
+              state={business.state}
+            />
+          ) : (
+            <div className="h-80 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <MapPin size={48} className="text-gray-400 mx-auto mb-2" />
+                <p className="text-gray-500">Location not available</p>
+              </div>
             </div>
-          </div>
-          <div className="text-center">
+          )}
+          <div className="text-center mt-4">
             <p className="text-gray-600 mb-4">{business.address}, {business.city}, {business.state} {business.zipCode}</p>
             <a 
               href={`https://maps.google.com/?q=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
