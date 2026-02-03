@@ -58,7 +58,7 @@ const AboutTab: React.FC<AboutTabProps> = ({ business }) => {
           <div className="text-center mt-4">
             <p className="text-muted-foreground mb-4">{business.address}, {business.city}, {business.state} {business.zipCode}</p>
             <a 
-              href={`https://maps.google.com/?q=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center text-primary hover:underline"

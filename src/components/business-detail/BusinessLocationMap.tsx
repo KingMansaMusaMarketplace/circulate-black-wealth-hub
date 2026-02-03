@@ -144,7 +144,7 @@ const BusinessLocationMap: React.FC<BusinessLocationMapProps> = ({
   const handleGetDirections = () => {
     const fullAddress = `${address}, ${city}, ${state}`;
     window.open(
-      `https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`,
+      `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`,
       '_blank',
       'noopener,noreferrer'
     );
