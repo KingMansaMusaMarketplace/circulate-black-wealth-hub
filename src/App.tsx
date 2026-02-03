@@ -26,6 +26,7 @@ import IOSProtectedRoute from "@/components/routing/IOSProtectedRoute";
 import FloatingNav from "@/components/navigation/FloatingNav";
 import BusinessProfilePrompt from "@/components/business/BusinessProfilePrompt";
 import { GlobalErrorRecovery } from "@/components/error-recovery/GlobalErrorRecovery";
+import ScrollToTop from "@/components/ScrollToTop";
 import "./index.css";
 
 // Critical components (loaded immediately)
@@ -396,6 +397,7 @@ function App() {
                 {/* Use HashRouter for Capacitor/native compatibility, BrowserRouter for web */}
                 {isCapacitorPlatform() ? (
                   <HashRouter>
+                    <ScrollToTop />
                     <AnalyticsTracker />
                     <TooltipProvider>
                     <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
@@ -675,6 +677,7 @@ function App() {
                   </HashRouter>
                 ) : (
                   <BrowserRouter>
+                    <ScrollToTop />
                     <AnalyticsTracker />
                   <TooltipProvider>
                   <div className="min-h-screen bg-background" role="application" aria-label="Mansa Musa Marketplace">
