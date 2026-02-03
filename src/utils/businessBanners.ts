@@ -73,6 +73,8 @@ const businessCardImages: Record<string, string> = {
   'edc51d8e-e009-494e-9e13-303b9c942ae6': '/businesses/stem-nola-card.png',
   // Rural Beacon Initiative - Climate and community resilience
   'e9eeb050-895f-4b9d-af90-66f84a8b0a45': '/businesses/rural-beacon-card.png',
+  // LMI East Africa - Leadership development and coaching
+  'a94b9ad3-8813-456a-a453-4fae508541b6': '/businesses/lmi-east-africa-card.jpg',
 };
 
 /**
