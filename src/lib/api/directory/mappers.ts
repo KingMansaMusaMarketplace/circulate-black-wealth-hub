@@ -31,8 +31,8 @@ export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
     discountValue: 10,
     distance: '',
     distanceValue: 0,
-    lat: 40.7128, // Default to NYC coordinates if not provided
-    lng: -74.0060,
+    lat: supabaseRecord.latitude ? Number(supabaseRecord.latitude) : 0,
+    lng: supabaseRecord.longitude ? Number(supabaseRecord.longitude) : 0,
     imageUrl: logoUrl, // Use logo as main image for backward compatibility
     imageAlt: businessName,
     isFeatured: supabaseRecord.is_verified || false,

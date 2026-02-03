@@ -3713,11 +3713,13 @@ export type Database = {
           is_founding_member: boolean | null
           is_founding_sponsor: boolean | null
           is_verified: boolean | null
+          latitude: number | null
           listing_status: string | null
           location_manager_id: string | null
           location_name: string | null
           location_type: string | null
           logo_url: string | null
+          longitude: number | null
           name: string
           onboarding_completed_at: string | null
           owner_id: string
@@ -3754,11 +3756,13 @@ export type Database = {
           is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
+          latitude?: number | null
           listing_status?: string | null
           location_manager_id?: string | null
           location_name?: string | null
           location_type?: string | null
           logo_url?: string | null
+          longitude?: number | null
           name: string
           onboarding_completed_at?: string | null
           owner_id: string
@@ -3795,11 +3799,13 @@ export type Database = {
           is_founding_member?: boolean | null
           is_founding_sponsor?: boolean | null
           is_verified?: boolean | null
+          latitude?: number | null
           listing_status?: string | null
           location_manager_id?: string | null
           location_name?: string | null
           location_type?: string | null
           logo_url?: string | null
+          longitude?: number | null
           name?: string
           onboarding_completed_at?: string | null
           owner_id?: string
