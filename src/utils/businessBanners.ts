@@ -65,6 +65,8 @@ const businessCardImages: Record<string, string> = {
   'b6a0e5ee-38ff-4991-8e14-1113d97d8201': '/businesses/liberty-bank-card.jpg',
   // To the Nines Partners - Organizational transformation consultants
   '04b9d571-1b90-4e58-96d2-c45218b7ba36': '/businesses/to-the-nines-card.png',
+  // Deep South Center for Environmental Justice - HBCU Climate Change Consortium
+  '0610eda7-50be-47e8-a5ad-a1ace8606fae': '/businesses/dscej-card.png',
 };
 
 /**
