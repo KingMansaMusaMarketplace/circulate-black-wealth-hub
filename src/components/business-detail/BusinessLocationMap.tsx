@@ -35,14 +35,6 @@ const BusinessLocationMap: React.FC<BusinessLocationMapProps> = ({
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const { data: sessionData } = await supabase.auth.getSession();
-        
-        if (!sessionData.session) {
-          setError('Sign in to view map');
-          setLoading(false);
-          return;
-        }
-
         const { data, error: fetchError } = await supabase.functions.invoke('get-mapbox-token');
         
         if (fetchError || !data?.token) {

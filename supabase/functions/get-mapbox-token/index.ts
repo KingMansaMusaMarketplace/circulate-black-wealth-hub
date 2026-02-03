@@ -12,38 +12,8 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Require authentication to prevent token harvesting
-    const authHeader = req.headers.get('authorization');
-    if (!authHeader) {
-      console.warn('Mapbox token request without authorization');
-      return new Response(
-        JSON.stringify({ error: 'Authorization required' }),
-        { 
-          status: 401, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      );
-    }
-
-    // Verify the user is authenticated
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-      { global: { headers: { Authorization: authHeader } } }
-    );
-
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      console.warn('Mapbox token request with invalid token');
-      return new Response(
-        JSON.stringify({ error: 'Invalid authorization token' }),
-        { 
-          status: 401, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      );
-    }
-
+    // Public endpoint - Mapbox public tokens are designed for client-side use
+    // and are protected by domain restrictions configured in the Mapbox dashboard
     const mapboxToken = Deno.env.get('MAPBOX_PUBLIC_TOKEN');
     
     if (!mapboxToken) {
@@ -57,7 +27,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    console.log(`Mapbox token requested by user: ${user.id}`);
+    console.log('Mapbox token requested');
 
     return new Response(
       JSON.stringify({ token: mapboxToken }),
