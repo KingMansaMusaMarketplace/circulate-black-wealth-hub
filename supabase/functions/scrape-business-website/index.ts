@@ -18,6 +18,7 @@ interface ScrapedBusinessData {
   category: string;
   website: string;
   logoUrl: string;
+  bannerUrl: string;
   hours: string;
   socialLinks: {
     facebook?: string;
@@ -68,7 +69,7 @@ serve(async (req) => {
 
     console.log('Scraping website:', formattedUrl);
 
-    // Step 1: Scrape the website using Firecrawl
+    // Step 1: Scrape the website using Firecrawl with branding to get images
     const scrapeResponse = await fetch('https://api.firecrawl.dev/v1/scrape', {
       method: 'POST',
       headers: {
@@ -77,7 +78,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         url: formattedUrl,
-        formats: ['markdown', 'links'],
+        formats: ['markdown', 'links', 'branding'],
         onlyMainContent: false,
       }),
     });
@@ -95,6 +96,9 @@ serve(async (req) => {
     const markdown = scrapeData.data?.markdown || '';
     const metadata = scrapeData.data?.metadata || {};
     const links = scrapeData.data?.links || [];
+    const branding = scrapeData.data?.branding || {};
+    
+    console.log('Branding data:', JSON.stringify(branding));
 
     console.log('Scraped content length:', markdown.length);
     console.log('Metadata:', JSON.stringify(metadata));
@@ -196,8 +200,50 @@ Return ONLY valid JSON with this exact structure:
       
       extractedData = JSON.parse(cleanContent);
       extractedData.website = formattedUrl;
+      
+      // Helper to validate URL (filter out template variables and invalid URLs)
+      const isValidImageUrl = (url: string): boolean => {
+        if (!url) return false;
+        if (url.includes('${') || url.includes('{{')) return false;
+        return url.startsWith('http://') || url.startsWith('https://');
+      };
+      
+      // Use branding data for images if available (prioritize over AI-extracted)
+      const brandingImages = branding?.images || {};
+      const logoFromBranding = brandingImages.logo || branding?.logo || '';
+      const ogImageFromBranding = brandingImages.ogImage || metadata?.ogImage || '';
+      const faviconFromBranding = brandingImages.favicon || '';
+      
+      // Set logoUrl from branding if not already set or empty
+      if (!extractedData.logoUrl || !isValidImageUrl(extractedData.logoUrl)) {
+        if (isValidImageUrl(logoFromBranding)) {
+          extractedData.logoUrl = logoFromBranding;
+        }
+      }
+      
+      // Set bannerUrl from OG image (validate it's a real URL, not a template)
+      if (isValidImageUrl(ogImageFromBranding)) {
+        extractedData.bannerUrl = ogImageFromBranding;
+      } else {
+        // Fallback: try to find any usable image from branding
+        extractedData.bannerUrl = '';
+      }
+      
     } catch (parseError) {
       console.error('JSON parse error:', parseError, 'Content:', aiContent);
+      
+      // Helper to validate URL
+      const isValidImageUrl = (url: string): boolean => {
+        if (!url) return false;
+        if (url.includes('${') || url.includes('{{')) return false;
+        return url.startsWith('http://') || url.startsWith('https://');
+      };
+      
+      // Get images from branding data
+      const brandingImages = branding?.images || {};
+      const logoFromBranding = brandingImages.logo || branding?.logo || '';
+      const ogImageFromBranding = brandingImages.ogImage || metadata?.ogImage || '';
+      
       // Return partial data with what we have from metadata
       extractedData = {
         name: metadata.title || '',
@@ -210,7 +256,8 @@ Return ONLY valid JSON with this exact structure:
         zipCode: '',
         category: '',
         website: formattedUrl,
-        logoUrl: metadata.ogImage || '',
+        logoUrl: isValidImageUrl(logoFromBranding) ? logoFromBranding : '',
+        bannerUrl: isValidImageUrl(ogImageFromBranding) ? ogImageFromBranding : '',
         hours: '',
         socialLinks: {}
       };
@@ -258,6 +305,7 @@ Return ONLY valid JSON with this exact structure:
           category: extractedData.category || 'Other',
           website: extractedData.website,
           logo_url: extractedData.logoUrl,
+          banner_url: extractedData.bannerUrl,
           listing_status: 'draft',
           is_verified: false,
         })
