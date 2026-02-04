@@ -1,61 +1,98 @@
-import React, { Suspense } from 'react';
-import FeaturedBusinesses from '@/components/FeaturedBusinesses';
-import CTASection from '@/components/CTASection';
+import React, { Suspense, lazy } from 'react';
 import LazySection from '@/components/common/LazySection';
 import { SectionErrorBoundary } from '@/components/error-boundary/SectionErrorBoundary';
-import HowItWorksPreview from './HowItWorksPreview';
-import MissionPreview from './MissionPreview';
-import ThreePillars from './ThreePillars';
+
+// Lazy load all non-critical sections
+const FeaturedBusinesses = lazy(() => import('@/components/FeaturedBusinesses'));
+const CTASection = lazy(() => import('@/components/CTASection'));
+const HowItWorksPreview = lazy(() => import('./HowItWorksPreview'));
+const MissionPreview = lazy(() => import('./MissionPreview'));
+const ThreePillars = lazy(() => import('./ThreePillars'));
+
+// Skeleton fallback for sections
+const SectionSkeleton = ({ height = "h-64" }: { height?: string }) => (
+  <div className={`py-12 md:py-16 ${height}`}>
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="animate-pulse space-y-6">
+        <div className="h-8 bg-white/10 rounded w-1/3 mx-auto"></div>
+        <div className="h-4 bg-white/5 rounded w-2/3 mx-auto"></div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[1,2,3].map(i => (
+            <div key={i} className="h-32 bg-white/5 rounded-xl"></div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const BusinessSkeleton = () => (
+  <div className="py-12 md:py-16">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="animate-pulse space-y-6">
+        <div className="h-8 bg-white/10 rounded w-1/3 mx-auto"></div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+          {[1,2,3,4].map(i => (
+            <div key={i} className="space-y-3">
+              <div className="aspect-square bg-white/5 rounded-xl"></div>
+              <div className="h-4 bg-white/10 rounded"></div>
+              <div className="h-3 bg-white/5 rounded w-3/4"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const HomePageSections: React.FC = () => {
   return (
     <>
-      {/* Mission Preview - The Circulation Gap */}
+      {/* Mission Preview - Lazy loaded with viewport trigger */}
       <SectionErrorBoundary sectionName="Mission Preview">
-        <MissionPreview />
+        <LazySection threshold={0.1} rootMargin="200px">
+          <Suspense fallback={<SectionSkeleton height="h-48" />}>
+            <MissionPreview />
+          </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
 
-      {/* How It Works Preview - 3 Simple Steps - Now directly after Circulation Gap */}
+      {/* How It Works Preview - Deferred until scrolled */}
       <SectionErrorBoundary sectionName="How It Works Preview">
-        <HowItWorksPreview />
+        <LazySection threshold={0.1} rootMargin="150px">
+          <Suspense fallback={<SectionSkeleton />}>
+            <HowItWorksPreview />
+          </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
 
-      {/* Three Pillars - CMAL Engine, Economic Karma, B2B Marketplace */}
+      {/* Three Pillars - Deferred */}
       <SectionErrorBoundary sectionName="Three Pillars">
-        <ThreePillars />
+        <LazySection threshold={0.15} rootMargin="150px">
+          <Suspense fallback={<SectionSkeleton />}>
+            <ThreePillars />
+          </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
 
-      {/* Featured Businesses - Limited to 4 on mobile, 6 on desktop */}
+      {/* Featured Businesses - Heavy component, load last */}
       <SectionErrorBoundary sectionName="Featured Businesses">
         <LazySection threshold={0.2} rootMargin="100px">
-          <Suspense fallback={
-            <div className="py-12 md:py-16">
-              <div className="max-w-7xl mx-auto px-4">
-                <div className="animate-pulse space-y-6">
-                  <div className="h-8 bg-white/10 rounded w-1/3 mx-auto"></div>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-                    {[1,2,3,4].map(i => (
-                      <div key={i} className="space-y-3">
-                        <div className="aspect-square bg-white/5 rounded-xl"></div>
-                        <div className="h-4 bg-white/10 rounded"></div>
-                        <div className="h-3 bg-white/5 rounded w-3/4"></div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          }>
+          <Suspense fallback={<BusinessSkeleton />}>
             <FeaturedBusinesses limit={3} />
           </Suspense>
         </LazySection>
       </SectionErrorBoundary>
 
-      {/* Simple CTA Section */}
+      {/* CTA Section - Load when close to viewport */}
       <SectionErrorBoundary sectionName="Call to Action">
-        <section id="cta-section">
-          <CTASection />
-        </section>
+        <LazySection threshold={0.3} rootMargin="100px">
+          <Suspense fallback={<SectionSkeleton height="h-32" />}>
+            <section id="cta-section">
+              <CTASection />
+            </section>
+          </Suspense>
+        </LazySection>
       </SectionErrorBoundary>
     </>
   );
