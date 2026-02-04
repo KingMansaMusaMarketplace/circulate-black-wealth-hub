@@ -51,9 +51,9 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         // Lighten road and place labels for better readability
         layers?.forEach((layer) => {
           if (layer.type === 'symbol' && layer.id.includes('label')) {
-            mapInstance.setPaintProperty(layer.id, 'text-color', '#e2e8f0');
+            mapInstance.setPaintProperty(layer.id, 'text-color', '#f8fafc');
             mapInstance.setPaintProperty(layer.id, 'text-halo-color', '#0f172a');
-            mapInstance.setPaintProperty(layer.id, 'text-halo-width', 1.5);
+            mapInstance.setPaintProperty(layer.id, 'text-halo-width', 2);
           }
         });
 
