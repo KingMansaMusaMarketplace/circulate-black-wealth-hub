@@ -781,10 +781,7 @@
   }
 }
 
-/* Global spinner override: stop all Tailwind animate-spin */
-.animate-spin {
-  animation: none !important;
-}
+/* Spinner animations are now handled by Tailwind's default animate-spin */
 
 /* Safe area padding for iOS notch/home indicator */
 .safe-area-pb {
