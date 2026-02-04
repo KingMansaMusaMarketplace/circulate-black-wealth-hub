@@ -26,6 +26,7 @@ import IOSProtectedRoute from "@/components/routing/IOSProtectedRoute";
 import FloatingNav from "@/components/navigation/FloatingNav";
 import BusinessProfilePrompt from "@/components/business/BusinessProfilePrompt";
 import { GlobalErrorRecovery } from "@/components/error-recovery/GlobalErrorRecovery";
+import { OfflineBanner } from "@/components/network/OfflineBanner";
 import ScrollToTop from "@/components/ScrollToTop";
 import "./index.css";
 
@@ -409,6 +410,7 @@ function App() {
                       <div id="main-content" role="main">
                         <FloatingNav />
                         <BusinessProfilePrompt />
+                        <OfflineBanner />
                         <GlobalErrorRecovery />
                         <Suspense fallback={<LoadingFallback />}>
                           <Layout>
@@ -689,6 +691,7 @@ function App() {
                       <div id="main-content" role="main">
                         <FloatingNav />
                         <BusinessProfilePrompt />
+                        <OfflineBanner />
                         <GlobalErrorRecovery />
                         <Suspense fallback={<LoadingFallback />}>
                         <Layout>
