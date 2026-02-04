@@ -88,29 +88,29 @@ const BusinessCard = ({
         </div>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col">
-        <CardDescription className="mb-3 line-clamp-2 text-gray-400">
+        <CardDescription className="mb-3 line-clamp-2 text-base text-gray-200">
           {description}
         </CardDescription>
         
         {address && (
-          <div className="flex items-center text-sm text-gray-400 mb-2">
+          <div className="flex items-center text-base text-gray-200 mb-2">
             <MapPin className="h-4 w-4 mr-1.5 flex-shrink-0 text-mansagold/70" />
             <span className="truncate">{address}</span>
           </div>
         )}
         
         {phone && (
-          <div className="flex items-center text-sm text-gray-400 mb-3">
+          <div className="flex items-center text-base text-gray-200 mb-3">
             <Phone className="h-4 w-4 mr-1.5 flex-shrink-0 text-mansagold/70" />
             <a href={`tel:${phone}`} className="hover:text-mansagold transition-colors">{phone}</a>
           </div>
         )}
         
-        <div className="flex items-center justify-between text-sm text-gray-400 mb-4">
+        <div className="flex items-center justify-between text-base text-gray-200 mb-4">
           <div className="flex items-center">
             <Star className="h-4 w-4 text-mansagold mr-1 fill-mansagold" />
-            <span className="text-white">{rating}</span>
-            <span className="ml-1 text-gray-500">({reviewCount} reviews)</span>
+            <span className="text-white font-medium">{rating}</span>
+            <span className="ml-1 text-gray-300">({reviewCount} reviews)</span>
           </div>
           {distance && (
             <div className="flex items-center text-gray-500">
