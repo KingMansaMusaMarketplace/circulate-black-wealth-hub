@@ -55,7 +55,7 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
       {/* Content */}
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-white text-sm truncate group-hover:text-mansagold transition-colors">
+          <h3 className="font-semibold text-white text-base sm:text-lg truncate group-hover:text-mansagold transition-colors">
             {business.name}
           </h3>
           <ExternalLink className="w-3.5 h-3.5 text-gray-500 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
