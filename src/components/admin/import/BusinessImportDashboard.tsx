@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { 
   Upload, FileText, Mail, Users, TrendingUp, CheckCircle, 
   XCircle, Clock, Send, Eye, MousePointer, Building2, 
-  RefreshCw, Plus, Settings, Download, Play, Sparkles, Shield, Star, Calendar, Zap, Globe
+  RefreshCw, Plus, Settings, Download, Play, Sparkles, Shield, Star, Calendar, Zap, Globe, Phone
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -26,6 +26,7 @@ const ScheduledSearchesTab = lazy(() => import('./ScheduledSearchesTab').then(m 
 const URLBusinessImport = lazy(() => import('./URLBusinessImport').then(m => ({ default: m.URLBusinessImport })));
 const DraftBusinessesTab = lazy(() => import('./DraftBusinessesTab').then(m => ({ default: m.DraftBusinessesTab })));
 const BHMSubmissionsTab = lazy(() => import('./BHMSubmissionsTab').then(m => ({ default: m.BHMSubmissionsTab })));
+const FreeOutreachTab = lazy(() => import('./FreeOutreachTab').then(m => ({ default: m.FreeOutreachTab })));
 
 // Loading skeleton for stats cards
 const StatsLoadingSkeleton = () => (
@@ -346,10 +347,14 @@ export const BusinessImportDashboard: React.FC = () => {
       )}
 
       <Tabs defaultValue="bhm" className="space-y-4">
-        <TabsList className="bg-white/5">
+        <TabsList className="bg-white/5 flex-wrap">
           <TabsTrigger value="bhm" className="data-[state=active]:bg-[#ff3333]/20">
             <Sparkles className="w-4 h-4 mr-1 text-[#ff3333]" />
             BHM Submissions
+          </TabsTrigger>
+          <TabsTrigger value="free-outreach" className="data-[state=active]:bg-emerald-500/20">
+            <Phone className="w-4 h-4 mr-1 text-emerald-400" />
+            Free Outreach
           </TabsTrigger>
           <TabsTrigger value="drafts" className="data-[state=active]:bg-green-500/20">
             <Building2 className="w-4 h-4 mr-1" />
@@ -370,6 +375,12 @@ export const BusinessImportDashboard: React.FC = () => {
         <TabsContent value="bhm">
           <Suspense fallback={<Skeleton className="h-64 w-full" />}>
             <BHMSubmissionsTab />
+          </Suspense>
+        </TabsContent>
+
+        <TabsContent value="free-outreach">
+          <Suspense fallback={<Skeleton className="h-64 w-full" />}>
+            <FreeOutreachTab />
           </Suspense>
         </TabsContent>
 

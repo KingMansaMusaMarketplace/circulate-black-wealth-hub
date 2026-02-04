@@ -1473,6 +1473,9 @@ export type Database = {
         Row: {
           business_description: string | null
           business_name: string
+          call_notes: string | null
+          call_status: string | null
+          called_at: string | null
           category: string | null
           city: string | null
           claim_status: string | null
@@ -1529,6 +1532,9 @@ export type Database = {
         Insert: {
           business_description?: string | null
           business_name: string
+          call_notes?: string | null
+          call_status?: string | null
+          called_at?: string | null
           category?: string | null
           city?: string | null
           claim_status?: string | null
@@ -1585,6 +1591,9 @@ export type Database = {
         Update: {
           business_description?: string | null
           business_name?: string
+          call_notes?: string | null
+          call_status?: string | null
+          called_at?: string | null
           category?: string | null
           city?: string | null
           claim_status?: string | null
