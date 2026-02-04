@@ -32,10 +32,38 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/light-v11',
+        style: 'mapbox://styles/mapbox/dark-v11',
         center: userLocation ? [userLocation.lng, userLocation.lat] : [-74.0060, 40.7128], // Default to NYC
-        zoom: userLocation ? 13 : 10,
-        pitch: 0,
+        zoom: userLocation ? 14 : 11,
+        pitch: 45,
+        bearing: -17.6,
+        antialias: true,
+      });
+
+      // Add 3D buildings on load
+      map.current.on('style.load', () => {
+        const layers = map.current!.getStyle().layers;
+        const labelLayerId = layers?.find(
+          (layer) => layer.type === 'symbol' && layer.layout?.['text-field']
+        )?.id;
+
+        map.current!.addLayer(
+          {
+            id: '3d-buildings',
+            source: 'composite',
+            'source-layer': 'building',
+            filter: ['==', 'extrude', 'true'],
+            type: 'fill-extrusion',
+            minzoom: 14,
+            paint: {
+              'fill-extrusion-color': '#1e293b',
+              'fill-extrusion-height': ['get', 'height'],
+              'fill-extrusion-base': ['get', 'min_height'],
+              'fill-extrusion-opacity': 0.8,
+            },
+          },
+          labelLayerId
+        );
       });
 
       // Add navigation controls
