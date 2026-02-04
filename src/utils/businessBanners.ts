@@ -83,6 +83,8 @@ const businessCardImages: Record<string, string> = {
   '94cb662d-ff2f-4893-9e34-047b2aa3ecb8': '/businesses/city-first-bank-card.jpg',
   // Slutty Vegan - Plant-based vegan restaurant in Atlanta
   'd877b403-b582-48ec-95ff-e05c6da9123b': '/businesses/slutty-vegan-card.jpg',
+  // Citizens Trust Bank - Historic Black-owned community bank
+  'b3454666-ff6a-41e1-97e7-92a06b69ec9f': '/businesses/citizens-trust-bank-card.jpg',
 };
 
 /**
