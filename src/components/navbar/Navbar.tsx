@@ -117,7 +117,7 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
             </motion.div>
             
             <motion.div 
-              className="flex items-center gap-2 sm:gap-3 flex-shrink-0 overflow-visible"
+              className="flex items-center gap-2 sm:gap-3 flex-shrink-0 overflow-visible pr-1"
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.2 }}
@@ -154,6 +154,12 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                 </div>
               )}
               
+              {/* User Menu - placed BEFORE hamburger for better visibility */}
+              <div className="flex-shrink-0">
+                <UserMenu user={user} />
+              </div>
+
+              {/* Mobile hamburger menu - now AFTER UserMenu */}
               {isMobile && (
                 <Button 
                   variant="ghost" 
@@ -182,10 +188,6 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
                   )}
                 </Button>
               )}
-
-              <div className="flex-shrink-0">
-                <UserMenu user={user} />
-              </div>
             </motion.div>
           </div>
         </div>
