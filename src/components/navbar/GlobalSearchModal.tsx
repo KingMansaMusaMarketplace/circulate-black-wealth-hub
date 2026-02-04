@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { 
   Search, Sparkles, Clock, TrendingUp, Star, MapPin,
   Home, LayoutDashboard, Store, Heart, Gift, QrCode, Users,
-  Settings, HelpCircle, BookOpen, MessageCircle, Trophy
+  Settings, HelpCircle, BookOpen, MessageCircle, Trophy, LogIn, LogOut
 } from 'lucide-react';
 import {
   CommandDialog,
@@ -18,6 +18,7 @@ import { searchBusinesses } from '@/lib/api/directory/search-businesses';
 import { useSearchHistory } from '@/hooks/use-search-history';
 import { useDebounce } from '@/hooks/use-debounce';
 import { Business } from '@/types/business';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface GlobalSearchModalProps {
   open: boolean;
@@ -41,8 +42,15 @@ const navigationPages = [
   { path: '/settings', label: 'Settings', icon: Settings, keywords: ['settings', 'preferences', 'account'] },
 ];
 
+// Auth actions
+const authActions = {
+  login: { path: '/login', label: 'Log In', icon: LogIn, keywords: ['login', 'log in', 'sign in', 'signin', 'authenticate'] },
+  logout: { label: 'Log Out', icon: LogOut, keywords: ['logout', 'log out', 'sign out', 'signout', 'exit'] },
+};
+
 const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ open, onOpenChange }) => {
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Business[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -63,6 +71,36 @@ const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ open, onOpenChang
       page.keywords.some(kw => kw.includes(lowerQuery))
     ).slice(0, 5);
   }, [query]);
+
+  // Filter auth actions based on query
+  const filteredAuthActions = useMemo(() => {
+    if (!query.trim()) return [];
+    const lowerQuery = query.toLowerCase().trim();
+    const actions: Array<{ key: string; label: string; icon: typeof LogIn; path?: string }> = [];
+    
+    // Show login if user is NOT logged in and query matches
+    if (!user && authActions.login.keywords.some(kw => kw.includes(lowerQuery))) {
+      actions.push({ key: 'login', ...authActions.login });
+    }
+    
+    // Show logout if user IS logged in and query matches
+    if (user && authActions.logout.keywords.some(kw => kw.includes(lowerQuery))) {
+      actions.push({ key: 'logout', ...authActions.logout });
+    }
+    
+    return actions;
+  }, [query, user]);
+
+  // Handle logout
+  const handleLogout = useCallback(async () => {
+    onOpenChange(false);
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  }, [signOut, navigate, onOpenChange]);
 
   // Search when debounced query changes
   useEffect(() => {
@@ -131,7 +169,7 @@ const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ open, onOpenChang
     setQuery(term);
   }, []);
 
-  const hasResults = results.length > 0 || filteredPages.length > 0;
+  const hasResults = results.length > 0 || filteredPages.length > 0 || filteredAuthActions.length > 0;
 
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange}>
@@ -182,6 +220,37 @@ const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ open, onOpenChang
               );
             })}
           </CommandGroup>
+        )}
+
+        {/* Auth Actions (Login/Logout) */}
+        {filteredAuthActions.length > 0 && (
+          <>
+            {filteredPages.length > 0 && <CommandSeparator />}
+            <CommandGroup heading="Account">
+              {filteredAuthActions.map((action) => {
+                const IconComponent = action.icon;
+                return (
+                  <CommandItem
+                    key={action.key}
+                    value={action.label}
+                    onSelect={() => {
+                      if (action.key === 'logout') {
+                        handleLogout();
+                      } else if (action.path) {
+                        handleSelectPage(action.path);
+                      }
+                    }}
+                    className="flex items-center gap-3 cursor-pointer"
+                  >
+                    <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted">
+                      <IconComponent className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <span className="font-medium">{action.label}</span>
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+          </>
         )}
 
         {/* Business Results */}
