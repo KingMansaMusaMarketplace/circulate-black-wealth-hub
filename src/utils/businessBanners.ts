@@ -87,6 +87,8 @@ const businessCardImages: Record<string, string> = {
   'b3454666-ff6a-41e1-97e7-92a06b69ec9f': '/businesses/citizens-trust-bank-card.jpg',
   // Black Digital - DC-based marketing agency
   'a560a8a8-7a14-44ee-b0dc-a1b13417c191': '/businesses/black-digital-card.jpg',
+  // Carver Federal Savings Bank - Historic Harlem community bank
+  'f090f21c-0228-4111-b026-f1d3f5dfc73e': '/businesses/carver-bank-card.jpg',
 };
 
 /**
