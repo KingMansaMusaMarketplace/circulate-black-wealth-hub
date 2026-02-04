@@ -13,13 +13,14 @@ import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/
 import { motion } from 'framer-motion';
 
 // Import the directory components
-import DirectoryLoadingState from '@/components/directory/DirectoryLoadingState';
 import DirectoryErrorState from '@/components/directory/DirectoryErrorState';
 import BusinessGridView from '@/components/directory/BusinessGridView';
 import BusinessListView from '@/components/directory/BusinessListView';
 import ScrollToTopButton from '@/components/directory/ScrollToTopButton';
 import PremiumSearchBar from '@/components/directory/PremiumSearchBar';
 import FeaturedSpotlight from '@/components/directory/FeaturedSpotlight';
+import CategoryPills from '@/components/directory/CategoryPills';
+import { SkeletonGrid } from '@/components/directory/SkeletonCard';
 import DirectoryFilter from '@/components/DirectoryFilter';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
@@ -86,10 +87,19 @@ const DirectoryPage: React.FC = () => {
     setShowFilters(prev => !prev);
   }, []);
 
-  // Show loading state
-  if (isLoading) {
-    return <DirectoryLoadingState />;
-  }
+  // Handle category selection
+  const handleCategorySelect = useCallback((category: string | undefined) => {
+    handleFilterChange({ category });
+  }, [handleFilterChange]);
+
+  // Calculate business counts per category
+  const businessCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    filteredBusinesses?.forEach(b => {
+      counts[b.category] = (counts[b.category] || 0) + 1;
+    });
+    return counts;
+  }, [filteredBusinesses]);
 
   // Show error state
   if (error) {
@@ -160,6 +170,14 @@ const DirectoryPage: React.FC = () => {
             />
           </div>
           
+          {/* Category Pills */}
+          <CategoryPills
+            categories={categories}
+            selectedCategory={filterOptions.category}
+            onSelectCategory={handleCategorySelect}
+            businessCounts={businessCounts}
+          />
+          
           {/* Filters Panel */}
           {showFilters && (
             <motion.div
@@ -177,7 +195,7 @@ const DirectoryPage: React.FC = () => {
           )}
           
           {/* Featured Spotlight */}
-          {featuredBusiness && !searchTerm && (
+          {featuredBusiness && !searchTerm && !isLoading && (
             <FeaturedSpotlight business={featuredBusiness} />
           )}
           
@@ -191,16 +209,24 @@ const DirectoryPage: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="h-2 w-2 rounded-full bg-mansagold animate-pulse" />
               <p className="text-gray-400">
-                <span className="text-mansagold font-bold text-xl">{filteredBusinesses?.length || 0}</span>
-                <span className="ml-2">businesses found</span>
+                {isLoading ? (
+                  <span className="text-gray-500">Loading businesses...</span>
+                ) : (
+                  <>
+                    <span className="text-mansagold font-bold text-xl">{filteredBusinesses?.length || 0}</span>
+                    <span className="ml-2">businesses found</span>
+                  </>
+                )}
               </p>
             </div>
             <div className="h-px flex-1 mx-6 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </motion.div>
         
-          {/* Business Grid/List */}
+          {/* Business Grid/List with Skeleton Loading */}
           <div data-tour="business-card">
-            {viewMode === 'grid' ? (
+            {isLoading ? (
+              <SkeletonGrid count={6} />
+            ) : viewMode === 'grid' ? (
               <BusinessGridView 
                 businesses={regularBusinesses} 
                 onSelectBusiness={handleSelectBusiness} 
