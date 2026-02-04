@@ -31,7 +31,7 @@ const SubscriptionPage: React.FC = () => {
   const userType = user?.user_metadata?.user_type || 
     (suggestedTier === 'business_starter' || suggestedTier === 'business' ? 'business' : 'customer');
 
-  // On iOS, completely hide subscription features and return early
+  // On iOS, show simplified subscription page with required legal links
   if (isIOS) {
     return (
       <div className="min-h-screen relative overflow-hidden">
@@ -41,18 +41,71 @@ const SubscriptionPage: React.FC = () => {
 
         <div className="relative z-10">
           <Helmet>
-            <title>Welcome | Mansa Musa Marketplace</title>
+            <title>Subscription | Mansa Musa Marketplace</title>
           </Helmet>
 
           <div className="container mx-auto px-4 py-16">
             <div className="max-w-2xl mx-auto space-y-8 text-center">
-              <h1 className="text-4xl font-bold text-white">Welcome!</h1>
+              <h1 className="text-4xl font-bold text-white">Subscription</h1>
               
-              <div className="bg-slate-800/60 backdrop-blur-xl border border-white/10 rounded-lg p-8 space-y-4">
+              <div className="bg-slate-800/60 backdrop-blur-xl border border-white/10 rounded-lg p-8 space-y-6">
                 <div className="text-5xl">✨</div>
-                <h2 className="text-2xl font-bold text-white">100% Free Access</h2>
+                <h2 className="text-2xl font-bold text-white">Community Member</h2>
                 <p className="text-slate-300">
-                  All features are completely free to use. No subscriptions required!
+                  Consumer features are 100% free to use!
+                </p>
+                
+                <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 text-left">
+                  <h3 className="font-semibold text-white mb-2">Business Subscriptions</h3>
+                  <p className="text-slate-300 text-sm mb-3">
+                    Business subscription plans are available. To subscribe or manage your plan:
+                  </p>
+                  <ul className="text-slate-300 text-sm space-y-2">
+                    <li>• Visit Settings → Apple ID → Subscriptions on your device</li>
+                    <li>• Or visit our website at mansamusamarketplace.com</li>
+                  </ul>
+                </div>
+
+                {/* Subscription Details - Required for Apple 3.1.2 compliance */}
+                <div className="bg-slate-900/60 rounded-lg p-4 text-left">
+                  <h3 className="font-semibold text-white mb-3">Available Plans</h3>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between text-slate-300">
+                      <span>Starter Business</span>
+                      <span className="text-mansagold">$39/month</span>
+                    </div>
+                    <div className="flex justify-between text-slate-300">
+                      <span>Professional Business</span>
+                      <span className="text-mansagold">$79/month</span>
+                    </div>
+                    <p className="text-xs text-slate-400 mt-2">
+                      All business plans include a 30-day free trial. Subscriptions auto-renew monthly unless cancelled at least 24 hours before the renewal date.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Legal Links - REQUIRED for Apple Guideline 3.1.2 */}
+              <div className="bg-slate-800/60 backdrop-blur-xl border border-white/10 rounded-lg p-6 space-y-4">
+                <h3 className="font-semibold text-white">Important Information</h3>
+                <div className="flex flex-col sm:flex-row justify-center gap-4 text-sm">
+                  <a 
+                    href="/terms" 
+                    className="text-mansagold hover:underline flex items-center justify-center gap-1"
+                  >
+                    Terms of Service (EULA)
+                  </a>
+                  <span className="hidden sm:inline text-slate-500">•</span>
+                  <a 
+                    href="/privacy" 
+                    className="text-mansagold hover:underline flex items-center justify-center gap-1"
+                  >
+                    Privacy Policy
+                  </a>
+                </div>
+                <p className="text-xs text-slate-400">
+                  Payment will be charged to your Apple ID account at confirmation of purchase. 
+                  Subscription automatically renews unless cancelled at least 24 hours before the end of the current period.
                 </p>
               </div>
             </div>
@@ -152,6 +205,22 @@ const SubscriptionPage: React.FC = () => {
               <SubscriptionPlansWithToggle currentTier={currentTier} userType={userType} />
             </div>
           )}
+
+          {/* Legal Links - Required for subscription pages */}
+          <div className="text-center py-6 border-t border-white/10">
+            <p className="text-xs text-slate-400 mb-3">
+              By subscribing, you agree to our terms and policies:
+            </p>
+            <div className="flex justify-center gap-4 text-sm">
+              <a href="/terms" className="text-mansagold hover:underline">
+                Terms of Service
+              </a>
+              <span className="text-slate-500">•</span>
+              <a href="/privacy" className="text-mansagold hover:underline">
+                Privacy Policy
+              </a>
+            </div>
+          </div>
 
           {/* FAQ Section */}
           <SubscriptionFAQ userType={userType} />

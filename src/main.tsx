@@ -43,6 +43,10 @@ if (typeof window !== 'undefined') {
       console.log('[MAIN] Chunk error detected, will reload');
       forceReload();
     }
+    
+    // For other unhandled rejections, log but don't crash
+    // This prevents the app from crashing when async operations fail
+    console.warn('[MAIN] Prevented app crash from unhandled rejection');
   });
 
   // CRITICAL: Prevent errors from crashing the app on iOS/iPad

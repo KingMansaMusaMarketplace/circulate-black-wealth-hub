@@ -1,12 +1,13 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, Star, Crown, Building, Users, Rocket } from 'lucide-react';
+import { Check, Star, Crown, Building, Users, Rocket, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useSubscriptionActions } from './hooks/useSubscriptionActions';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface PlanData {
   id: SubscriptionTier;
@@ -35,9 +36,59 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
   const isIOS = shouldHideStripePayments();
 
-  // On iOS, don't show subscription plans
+  // On iOS, show informative message instead of hiding completely
   if (isIOS) {
-    return null;
+    return (
+      <div className="max-w-2xl mx-auto">
+        <Card className="bg-slate-800/60 backdrop-blur-xl border-white/10">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl text-white">Subscription Management</CardTitle>
+            <CardDescription className="text-slate-300">
+              Manage your subscription through your device settings
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <Alert className="bg-blue-500/10 border-blue-500/30">
+              <ExternalLink className="h-4 w-4 text-blue-400" />
+              <AlertTitle className="text-white">iOS Subscription Info</AlertTitle>
+              <AlertDescription className="text-slate-300">
+                To manage subscriptions on iOS, please go to Settings → Apple ID → Subscriptions on your device.
+              </AlertDescription>
+            </Alert>
+            
+            <div className="text-center space-y-4">
+              <p className="text-slate-300 text-sm">
+                For new subscriptions or plan changes, please visit our website at{' '}
+                <a 
+                  href="https://circulate-black-wealth-hub.lovable.app/subscription" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-mansagold hover:underline"
+                >
+                  mansamusamarketplace.com
+                </a>
+              </p>
+            </div>
+
+            {/* Legal Links - Required for Apple compliance */}
+            <div className="border-t border-white/10 pt-4 mt-4">
+              <p className="text-xs text-slate-400 text-center mb-2">
+                By using our services, you agree to our:
+              </p>
+              <div className="flex justify-center gap-4 text-sm">
+                <Link to="/terms" className="text-mansagold hover:underline">
+                  Terms of Service
+                </Link>
+                <span className="text-slate-500">•</span>
+                <Link to="/privacy" className="text-mansagold hover:underline">
+                  Privacy Policy
+                </Link>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   const customerPlans: { monthly: PlanData[]; annual: PlanData[] } = {

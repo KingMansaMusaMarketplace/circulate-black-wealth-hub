@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -11,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, Settings, LogOut, CreditCard } from 'lucide-react';
+import { User, Settings, LogOut, CreditCard, Shield } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const ProfileMenu = () => {
@@ -24,7 +23,11 @@ const ProfileMenu = () => {
   };
 
   const handleSignOut = async () => {
-    await signOut();
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
   };
 
   return (
@@ -65,6 +68,12 @@ const ProfileMenu = () => {
           <Link to="/dashboard" className="flex items-center">
             <Settings className="mr-2 h-4 w-4" />
             <span>Dashboard</span>
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link to="/user-settings" className="flex items-center">
+            <Shield className="mr-2 h-4 w-4" />
+            <span>Account & Security</span>
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
