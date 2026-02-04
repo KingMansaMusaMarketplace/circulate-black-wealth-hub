@@ -3,6 +3,7 @@ import { Search, Sparkles, X, Loader2, Grid3X3, List, SlidersHorizontal, Map } f
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Business } from '@/types/business';
 import { useNavigate } from 'react-router-dom';
@@ -145,45 +146,74 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
           <div className="h-8 w-px bg-white/10" />
           
           {/* View Mode Toggles */}
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode('split')}
-              className={`h-10 px-3 ${viewMode === 'split' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
-              title="Map View"
-            >
-              <Map className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode('grid')}
-              className={`h-10 px-3 ${viewMode === 'grid' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
-              title="Grid View"
-            >
-              <Grid3X3 className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setViewMode('list')}
-              className={`h-10 px-3 ${viewMode === 'list' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
-              title="List View"
-            >
-              <List className="h-4 w-4" />
-            </Button>
-          </div>
-          
-          {/* Filters Button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleFilters}
-            className={`h-10 px-3 ${showFilters ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
-          >
-            <SlidersHorizontal className="h-4 w-4" />
-          </Button>
+          <TooltipProvider delayDuration={200}>
+            <div className="flex items-center gap-1">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setViewMode('split')}
+                    className={`h-10 px-3 ${viewMode === 'split' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+                  >
+                    <Map className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/10">
+                  <p>Split View</p>
+                </TooltipContent>
+              </Tooltip>
+              
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setViewMode('grid')}
+                    className={`h-10 px-3 ${viewMode === 'grid' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+                  >
+                    <Grid3X3 className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/10">
+                  <p>Grid View</p>
+                </TooltipContent>
+              </Tooltip>
+              
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setViewMode('list')}
+                    className={`h-10 px-3 ${viewMode === 'list' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+                  >
+                    <List className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/10">
+                  <p>List View</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
+            
+            {/* Filters Button */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={toggleFilters}
+                  className={`h-10 px-3 ${showFilters ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+                >
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/10">
+                <p>Filters</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
         
         {/* Search Results Dropdown */}
