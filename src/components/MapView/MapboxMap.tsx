@@ -48,12 +48,16 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
           (layer) => layer.type === 'symbol' && layer.layout?.['text-field']
         )?.id;
 
-        // Lighten road and place labels for better readability
+        // Brighten labels for maximum readability on dark background
         layers?.forEach((layer) => {
           if (layer.type === 'symbol' && layer.id.includes('label')) {
-            mapInstance.setPaintProperty(layer.id, 'text-color', '#f8fafc');
-            mapInstance.setPaintProperty(layer.id, 'text-halo-color', '#0f172a');
-            mapInstance.setPaintProperty(layer.id, 'text-halo-width', 2);
+            // Pure white text for maximum brightness
+            mapInstance.setPaintProperty(layer.id, 'text-color', '#ffffff');
+            // Strong dark halo for contrast
+            mapInstance.setPaintProperty(layer.id, 'text-halo-color', '#000000');
+            mapInstance.setPaintProperty(layer.id, 'text-halo-width', 2.5);
+            // Increase text opacity
+            mapInstance.setPaintProperty(layer.id, 'text-opacity', 1);
           }
         });
 
