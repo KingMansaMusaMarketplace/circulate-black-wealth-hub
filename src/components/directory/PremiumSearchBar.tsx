@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Sparkles, X, Loader2, Grid3X3, List, SlidersHorizontal } from 'lucide-react';
+import { Search, Sparkles, X, Loader2, Grid3X3, List, SlidersHorizontal, Map } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,8 +12,8 @@ import { useDebounce } from '@/hooks/use-debounce';
 interface PremiumSearchBarProps {
   searchTerm: string;
   onSearchChange: (value: string) => void;
-  viewMode: 'grid' | 'list';
-  setViewMode: (mode: 'grid' | 'list') => void;
+  viewMode: 'grid' | 'list' | 'split';
+  setViewMode: (mode: 'grid' | 'list' | 'split') => void;
   showFilters: boolean;
   toggleFilters: () => void;
 }
@@ -149,8 +149,18 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
             <Button
               variant="ghost"
               size="sm"
+              onClick={() => setViewMode('split')}
+              className={`h-10 px-3 ${viewMode === 'split' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+              title="Map View"
+            >
+              <Map className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => setViewMode('grid')}
               className={`h-10 px-3 ${viewMode === 'grid' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+              title="Grid View"
             >
               <Grid3X3 className="h-4 w-4" />
             </Button>
@@ -159,6 +169,7 @@ const PremiumSearchBar: React.FC<PremiumSearchBarProps> = ({
               size="sm"
               onClick={() => setViewMode('list')}
               className={`h-10 px-3 ${viewMode === 'list' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+              title="List View"
             >
               <List className="h-4 w-4" />
             </Button>
