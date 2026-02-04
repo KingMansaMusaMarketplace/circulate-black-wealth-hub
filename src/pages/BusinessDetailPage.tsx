@@ -34,6 +34,7 @@ import { useNavigate } from 'react-router-dom';
 import { businesses as sampleBusinesses } from '@/data/businessesData';
 import { getBusinessBanner } from '@/utils/businessBanners';
 import BusinessLocationMap from '@/components/business-detail/BusinessLocationMap';
+import RelatedBusinesses from '@/components/business-detail/RelatedBusinesses';
 
 // Helper to check if ID is a valid UUID
 const isValidUUID = (id: string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
@@ -502,6 +503,15 @@ const BusinessDetailPage = () => {
                   </div>
                 </TabsContent>
               </Tabs>
+
+              {/* Related Businesses Section */}
+              {business.category && (
+                <RelatedBusinesses 
+                  currentBusinessId={business.id}
+                  category={business.category}
+                  limit={4}
+                />
+              )}
             </div>
 
             {/* Right Column - Contact & Info */}
