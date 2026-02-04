@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
   Eye, CheckCircle, Trash2, Edit, Building2, 
-  MapPin, Phone, Mail, Globe, RefreshCw 
+  MapPin, Phone, Mail, Globe, RefreshCw, ImageIcon 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -35,6 +35,7 @@ interface DraftBusiness {
   email: string | null;
   website: string | null;
   logo_url: string | null;
+  banner_url: string | null;
   listing_status: string;
   created_at: string;
 }
@@ -45,6 +46,7 @@ export const DraftBusinessesTab: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [publishing, setPublishing] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [fetchingImages, setFetchingImages] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedBusiness, setSelectedBusiness] = useState<DraftBusiness | null>(null);
 
@@ -53,7 +55,7 @@ export const DraftBusinessesTab: React.FC = () => {
     try {
       const { data, error } = await supabase
         .from('businesses')
-        .select('id, business_name, description, category, address, city, state, phone, email, website, logo_url, listing_status, created_at')
+        .select('id, business_name, description, category, address, city, state, phone, email, website, logo_url, banner_url, listing_status, created_at')
         .eq('listing_status', 'draft')
         .order('created_at', { ascending: false });
 
@@ -70,6 +72,66 @@ export const DraftBusinessesTab: React.FC = () => {
   useEffect(() => {
     loadDrafts();
   }, []);
+
+  // Fetch images from business website
+  const handleFetchImages = async (business: DraftBusiness) => {
+    if (!business.website) {
+      toast.error('No website URL available for this business');
+      return;
+    }
+
+    setFetchingImages(business.id);
+    try {
+      const { data, error } = await supabase.functions.invoke('scrape-business-website', {
+        body: { url: business.website }
+      });
+
+      if (error) throw error;
+
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to fetch images');
+      }
+
+      const { logoUrl, bannerUrl } = data.data;
+
+      // Only update if we got new images
+      const updates: Record<string, string> = {};
+      if (logoUrl && !business.logo_url) {
+        updates.logo_url = logoUrl;
+      }
+      if (bannerUrl && !business.banner_url) {
+        updates.banner_url = bannerUrl;
+      }
+
+      if (Object.keys(updates).length === 0) {
+        toast.info('No new images found on the website');
+        return;
+      }
+
+      // Update the business record
+      const { error: updateError } = await supabase
+        .from('businesses')
+        .update(updates)
+        .eq('id', business.id);
+
+      if (updateError) throw updateError;
+
+      // Update local state
+      setDrafts(prev => prev.map(d => 
+        d.id === business.id 
+          ? { ...d, ...updates }
+          : d
+      ));
+
+      const imageCount = Object.keys(updates).length;
+      toast.success(`Found and saved ${imageCount} image${imageCount > 1 ? 's' : ''} from website`);
+    } catch (error) {
+      console.error('Error fetching images:', error);
+      toast.error('Failed to fetch images from website');
+    } finally {
+      setFetchingImages(null);
+    }
+  };
 
   const handlePublish = async (business: DraftBusiness) => {
     setPublishing(business.id);
@@ -247,6 +309,23 @@ export const DraftBusinessesTab: React.FC = () => {
                   </div>
 
                   <div className="flex flex-col gap-2">
+                    {/* Fetch Images button - only show if website exists and images are missing */}
+                    {business.website && (!business.logo_url || !business.banner_url) && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="border-purple-500/50 text-purple-300 hover:bg-purple-500/10"
+                        onClick={() => handleFetchImages(business)}
+                        disabled={fetchingImages === business.id}
+                      >
+                        {fetchingImages === business.id ? (
+                          <RefreshCw className="w-4 h-4 mr-1 animate-spin" />
+                        ) : (
+                          <ImageIcon className="w-4 h-4 mr-1" />
+                        )}
+                        Fetch Images
+                      </Button>
+                    )}
                     <Button
                       size="sm"
                       variant="outline"
