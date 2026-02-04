@@ -133,12 +133,21 @@ serve(async (req) => {
           
           console.log(`BHM Quick Add payment completed for: ${businessUrl}`);
 
-          // Update the lead status to 'paid'
+          // Calculate expiration date (1 year from now)
+          const expiresAt = new Date();
+          expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+          const paymentAmount = (session.amount_total || 0) / 100;
+
+          // Update the lead status to 'paid' with expiration tracking
           const { data: updatedLead, error: updateError } = await supabaseClient
             .from('b2b_external_leads')
             .update({ 
               validation_status: 'paid',
-              validation_notes: `Payment confirmed. Checkout session: ${session.id}. Amount: $${(session.amount_total || 0) / 100}`
+              validation_notes: `Payment confirmed. Checkout session: ${session.id}. Amount: $${paymentAmount}`,
+              listing_type: 'bhm_promo',
+              listing_expires_at: expiresAt.toISOString(),
+              payment_amount: paymentAmount,
+              paid_at: new Date().toISOString()
             })
             .eq('source_query', 'bhm_quick_add')
             .eq('website_url', businessUrl)
@@ -149,14 +158,18 @@ serve(async (req) => {
           if (updateError) {
             console.error('Error updating BHM lead status:', updateError);
           } else if (updatedLead) {
-            console.log(`BHM lead marked as paid: ${updatedLead.id}`);
+            console.log(`BHM lead marked as paid, expires: ${expiresAt.toISOString()}`);
           } else {
             // If no matching pending lead found, try to find by email
             const { error: emailUpdateError } = await supabaseClient
               .from('b2b_external_leads')
               .update({ 
                 validation_status: 'paid',
-                validation_notes: `Payment confirmed. Checkout session: ${session.id}. Amount: $${(session.amount_total || 0) / 100}`
+                validation_notes: `Payment confirmed. Checkout session: ${session.id}. Amount: $${paymentAmount}`,
+                listing_type: 'bhm_promo',
+                listing_expires_at: expiresAt.toISOString(),
+                payment_amount: paymentAmount,
+                paid_at: new Date().toISOString()
               })
               .eq('source_query', 'bhm_quick_add')
               .eq('owner_email', email)
@@ -165,7 +178,7 @@ serve(async (req) => {
             if (emailUpdateError) {
               console.error('Error updating BHM lead by email:', emailUpdateError);
             } else {
-              console.log(`BHM lead marked as paid via email match: ${email}`);
+              console.log(`BHM lead marked as paid via email, expires: ${expiresAt.toISOString()}`);
             }
           }
           

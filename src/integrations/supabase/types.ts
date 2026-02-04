@@ -1503,9 +1503,13 @@ export type Database = {
           last_invited_at: string | null
           last_validated_at: string | null
           lead_score: number | null
+          listing_expires_at: string | null
+          listing_type: string | null
           location: string | null
           owner_email: string | null
           owner_name: string | null
+          paid_at: string | null
+          payment_amount: number | null
           phone_number: string | null
           phone_valid: boolean | null
           priority_rank: string | null
@@ -1555,9 +1559,13 @@ export type Database = {
           last_invited_at?: string | null
           last_validated_at?: string | null
           lead_score?: number | null
+          listing_expires_at?: string | null
+          listing_type?: string | null
           location?: string | null
           owner_email?: string | null
           owner_name?: string | null
+          paid_at?: string | null
+          payment_amount?: number | null
           phone_number?: string | null
           phone_valid?: boolean | null
           priority_rank?: string | null
@@ -1607,9 +1615,13 @@ export type Database = {
           last_invited_at?: string | null
           last_validated_at?: string | null
           lead_score?: number | null
+          listing_expires_at?: string | null
+          listing_type?: string | null
           location?: string | null
           owner_email?: string | null
           owner_name?: string | null
+          paid_at?: string | null
+          payment_amount?: number | null
           phone_number?: string | null
           phone_valid?: boolean | null
           priority_rank?: string | null
