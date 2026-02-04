@@ -100,8 +100,8 @@ const Navbar: React.FC<NavbarProps> = ({ className = "" }) => {
         transition={{ duration: 0.4, ease: "easeOut" }}
         className={`bg-gradient-to-r from-slate-950/95 via-blue-950/95 to-slate-950/95 backdrop-blur-xl shadow-2xl z-50 w-full sticky top-0 border-b border-white/10 transition-all duration-300 ${className}`}
       >
-        <div className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-visible">
-          <div className="flex h-16 items-center justify-between w-full gap-2 sm:gap-4 overflow-visible">
+        <div className="w-full px-4 sm:px-6 lg:px-8 pr-6 sm:pr-8 lg:pr-10 max-w-7xl mx-auto overflow-visible">
+          <div className="flex h-16 items-center justify-between w-full gap-2 sm:gap-3 overflow-visible">
             <motion.div 
               className="flex items-center min-w-0 flex-shrink-0"
               initial={{ x: -20, opacity: 0 }}
