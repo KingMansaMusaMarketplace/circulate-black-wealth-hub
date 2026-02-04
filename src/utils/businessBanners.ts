@@ -89,6 +89,8 @@ const businessCardImages: Record<string, string> = {
   'a560a8a8-7a14-44ee-b0dc-a1b13417c191': '/businesses/black-digital-card.jpg',
   // Carver Federal Savings Bank - Historic Harlem community bank
   'f090f21c-0228-4111-b026-f1d3f5dfc73e': '/businesses/carver-bank-card.jpg',
+  // The Harbor Bank of Maryland - Baltimore community bank
+  '951e24f5-4a7a-4b32-87a3-5c02f9c0c9f9': '/businesses/harbor-bank-card.jpg',
 };
 
 /**
