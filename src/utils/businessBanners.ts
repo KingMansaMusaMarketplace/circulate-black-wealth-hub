@@ -93,6 +93,8 @@ const businessCardImages: Record<string, string> = {
   '951e24f5-4a7a-4b32-87a3-5c02f9c0c9f9': '/businesses/harbor-bank-card.jpg',
   // Liberty Bank & Trust - New Orleans community bank
   '2102731b-e5cb-4504-8ed2-4d2b5b2a9da1': '/businesses/liberty-bank-trust-card.jpg',
+  // CZL P.C. - Black woman-owned law firm
+  '634fdcc3-3e20-4b1a-b1e5-c4a2d8001a53': '/businesses/czl-pc-card.jpg',
 };
 
 /**
