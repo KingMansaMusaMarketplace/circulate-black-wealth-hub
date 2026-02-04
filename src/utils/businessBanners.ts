@@ -91,6 +91,8 @@ const businessCardImages: Record<string, string> = {
   'f090f21c-0228-4111-b026-f1d3f5dfc73e': '/businesses/carver-bank-card.jpg',
   // The Harbor Bank of Maryland - Baltimore community bank
   '951e24f5-4a7a-4b32-87a3-5c02f9c0c9f9': '/businesses/harbor-bank-card.jpg',
+  // Liberty Bank & Trust - New Orleans community bank
+  '2102731b-e5cb-4504-8ed2-4d2b5b2a9da1': '/businesses/liberty-bank-trust-card.jpg',
 };
 
 /**
