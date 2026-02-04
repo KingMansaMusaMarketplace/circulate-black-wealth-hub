@@ -81,6 +81,8 @@ const businessCardImages: Record<string, string> = {
   '9f3bd430-d01f-41ce-988d-c2b7255811d5': '/businesses/hbcu-green-fund-card.jpg',
   // City First Bank - Black-owned community development financial institution
   '94cb662d-ff2f-4893-9e34-047b2aa3ecb8': '/businesses/city-first-bank-card.jpg',
+  // Slutty Vegan - Plant-based vegan restaurant in Atlanta
+  'd877b403-b582-48ec-95ff-e05c6da9123b': '/businesses/slutty-vegan-card.jpg',
 };
 
 /**
