@@ -95,6 +95,18 @@ const businessCardImages: Record<string, string> = {
   '2102731b-e5cb-4504-8ed2-4d2b5b2a9da1': '/businesses/liberty-bank-trust-card.jpg',
   // CZL P.C. - Black woman-owned law firm
   '634fdcc3-3e20-4b1a-b1e5-c4a2d8001a53': '/businesses/czl-pc-card.jpg',
+  // CEO Capital Funding - Small business lending
+  '6fbad717-7b98-40e6-a32a-e390e7afd510': '/businesses/ceo-capital-funding-card.jpg',
+  // Creative Theory Agency - Marketing and creative agency
+  'f7aa7052-e49b-491e-a4cf-8a071c697baa': '/businesses/creative-theory-agency-card.jpg',
+  // Ebony Twilley-Martin - Executive coaching
+  '802365c8-928e-41d2-a5a7-3e29e5685e8a': '/businesses/ebony-twilley-martin-card.jpg',
+  // Marjenk Consulting - Business consulting
+  'ad839f6d-e2a7-40d3-991b-1c5b82d88534': '/businesses/marjenk-consulting-card.jpg',
+  // Market Me Consulting - Marketing agency
+  '3df33c62-f355-4472-afef-cde085affc1b': '/businesses/market-me-card.jpg',
+  // OneUnited Bank - Largest Black-owned bank
+  '1ab54e23-df01-45bf-8f52-0165b142b755': '/businesses/oneunited-bank-card.jpg',
 };
 
 /**
