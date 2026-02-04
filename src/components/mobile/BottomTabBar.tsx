@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Home, Search, User, Menu } from 'lucide-react';
+import { Home, Search, User, Settings } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/use-haptic-feedback';
 
 const BottomTabBar: React.FC = () => {
@@ -12,7 +12,7 @@ const BottomTabBar: React.FC = () => {
     { icon: Home, label: 'Home', path: '/' },
     { icon: Search, label: 'Directory', path: '/directory' },
     { icon: User, label: 'Profile', path: '/user-profile' },
-    { icon: Menu, label: 'More', path: '/how-it-works' },
+    { icon: Settings, label: 'Settings', path: '/user-settings' },
   ];
 
   return (

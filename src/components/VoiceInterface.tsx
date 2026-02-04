@@ -106,116 +106,125 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   };
 
   const startConversation = async () => {
-    console.log('[Kayla] Button clicked, starting conversation...');
-    console.log('[Kayla] Current state - isConnecting:', isConnecting, 'isConnected:', isConnected);
-    
-    // Prevent double-tap issues on iOS
-    if (isConnecting) {
-      console.log('[Kayla] Already connecting, ignoring click');
-      return;
-    }
-    
-    // iOS detection
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    
-    // Pre-flight checks
-    console.log('[Kayla] Running pre-flight checks...');
-    console.log('[Kayla] isSecureContext:', window.isSecureContext);
-    console.log('[Kayla] navigator.mediaDevices available:', !!navigator.mediaDevices);
-    console.log('[Kayla] RTCPeerConnection available:', !!window.RTCPeerConnection);
-    console.log('[Kayla] isIOS:', isIOS);
-    
-    if (!navigator.mediaDevices) {
-      console.error('[Kayla] navigator.mediaDevices not available');
-      toast.error('Voice Not Supported', {
-        description: 'Your browser does not support voice features. Please use Chrome, Safari, or Edge.'
-      });
-      return;
-    }
-    
-    if (!window.RTCPeerConnection) {
-      console.error('[Kayla] RTCPeerConnection not available');
-      toast.error('Voice Not Supported', {
-        description: 'WebRTC is not available in your browser. Please use a modern browser.'
-      });
-      return;
-    }
-    
-    await triggerHaptics('medium');
-
-    setIsConnecting(true);
-    
-    // Failsafe timeout - reset connecting state after 20 seconds if stuck
-    const timeoutId = setTimeout(() => {
-      console.error('[Kayla] Connection timeout after 20 seconds');
-      setIsConnecting(false);
-      toast.error('Connection Timeout', {
-        description: 'Taking too long to connect. Please try again.'
-      });
-    }, 20000);
-    
     try {
-      // iOS: Check if we're in a secure context (required for getUserMedia)
-      if (!window.isSecureContext) {
-        throw new Error('Voice features require a secure connection (HTTPS)');
+      console.log('[Kayla] Button clicked, starting conversation...');
+      console.log('[Kayla] Current state - isConnecting:', isConnecting, 'isConnected:', isConnected);
+      
+      // Prevent double-tap issues on iOS
+      if (isConnecting) {
+        console.log('[Kayla] Already connecting, ignoring click');
+        return;
       }
       
-      console.log('[Kayla] Creating RealtimeChat instance...');
-      const voice = new RealtimeChat(handleMessage);
+      // iOS detection
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       
-      console.log('[Kayla] Calling voice.init()...');
-      await voice.init();
+      // Pre-flight checks
+      console.log('[Kayla] Running pre-flight checks...');
+      console.log('[Kayla] isSecureContext:', window.isSecureContext);
+      console.log('[Kayla] navigator.mediaDevices available:', !!navigator.mediaDevices);
+      console.log('[Kayla] RTCPeerConnection available:', !!window.RTCPeerConnection);
+      console.log('[Kayla] isIOS:', isIOS);
       
-      console.log('[Kayla] voice.init() completed successfully');
-      clearTimeout(timeoutId);
-      
-      voiceRef.current = voice;
-      setIsConnected(true);
-      
-      toast.success('Connected to Kayla', {
-        description: 'Start speaking naturally - I can hear you!'
-      });
-      console.log('[Kayla] Connection successful!');
-    } catch (error: any) {
-      clearTimeout(timeoutId);
-      console.error('[Kayla] Error starting conversation:', error);
-      console.error('[Kayla] Error name:', error?.name);
-      console.error('[Kayla] Error message:', error?.message);
-      console.error('[Kayla] Error stack:', error?.stack);
-      
-      // Provide user-friendly error messages
-      let errorMessage = 'Failed to start conversation';
-      let errorTitle = 'Connection Failed';
-      
-      if (error.name === 'NotAllowedError' || error.message?.includes('Permission denied')) {
-        errorTitle = 'Microphone Access Required';
-        errorMessage = isIOS 
-          ? 'Please allow microphone access in Settings > Safari > Microphone'
-          : 'Microphone access denied. Please allow microphone access and try again.';
-      } else if (error.name === 'NotFoundError' || error.message?.includes('Requested device not found')) {
-        errorMessage = 'No microphone found. Please connect a microphone and try again.';
-      } else if (error.name === 'AbortError') {
-        // iOS Safari sometimes throws AbortError when the page is interrupted
-        errorTitle = 'Connection Interrupted';
-        errorMessage = 'Please try again. Make sure no other apps are using the microphone.';
-      } else if (error.name === 'NotSupportedError') {
-        errorMessage = 'Voice features are not supported on this device.';
-      } else if (error.message?.includes('Microphone')) {
-        errorMessage = error.message;
-      } else if (error.message?.includes('WebRTC')) {
-        errorMessage = 'Voice chat not supported on this device';
-      } else if (error.message?.includes('token')) {
-        errorMessage = 'Connection failed - please try again';
-      } else if (error.message) {
-        errorMessage = error.message;
+      if (!navigator.mediaDevices) {
+        console.error('[Kayla] navigator.mediaDevices not available');
+        toast.error('Voice Not Supported', {
+          description: 'Your browser does not support voice features. Please use Chrome, Safari, or Edge.'
+        });
+        return;
       }
       
-      toast.error(errorTitle, {
-        description: errorMessage
-      });
-    } finally {
+      if (!window.RTCPeerConnection) {
+        console.error('[Kayla] RTCPeerConnection not available');
+        toast.error('Voice Not Supported', {
+          description: 'WebRTC is not available in your browser. Please use a modern browser.'
+        });
+        return;
+      }
+      
+      await triggerHaptics('medium');
+
+      setIsConnecting(true);
+      
+      // Failsafe timeout - reset connecting state after 20 seconds if stuck
+      const timeoutId = setTimeout(() => {
+        console.error('[Kayla] Connection timeout after 20 seconds');
+        setIsConnecting(false);
+        toast.error('Connection Timeout', {
+          description: 'Taking too long to connect. Please try again.'
+        });
+      }, 20000);
+      
+      try {
+        // iOS: Check if we're in a secure context (required for getUserMedia)
+        if (!window.isSecureContext) {
+          throw new Error('Voice features require a secure connection (HTTPS)');
+        }
+        
+        console.log('[Kayla] Creating RealtimeChat instance...');
+        const voice = new RealtimeChat(handleMessage);
+        
+        console.log('[Kayla] Calling voice.init()...');
+        await voice.init();
+        
+        console.log('[Kayla] voice.init() completed successfully');
+        clearTimeout(timeoutId);
+        
+        voiceRef.current = voice;
+        setIsConnected(true);
+        
+        toast.success('Connected to Kayla', {
+          description: 'Start speaking naturally - I can hear you!'
+        });
+        console.log('[Kayla] Connection successful!');
+      } catch (error: any) {
+        clearTimeout(timeoutId);
+        console.error('[Kayla] Error starting conversation:', error);
+        console.error('[Kayla] Error name:', error?.name);
+        console.error('[Kayla] Error message:', error?.message);
+        console.error('[Kayla] Error stack:', error?.stack);
+        
+        // Provide user-friendly error messages
+        let errorMessage = 'Failed to start conversation';
+        let errorTitle = 'Connection Failed';
+        
+        if (error.name === 'NotAllowedError' || error.message?.includes('Permission denied')) {
+          errorTitle = 'Microphone Access Required';
+          errorMessage = isIOS 
+            ? 'Please allow microphone access in Settings > Safari > Microphone'
+            : 'Microphone access denied. Please allow microphone access and try again.';
+        } else if (error.name === 'NotFoundError' || error.message?.includes('Requested device not found')) {
+          errorMessage = 'No microphone found. Please connect a microphone and try again.';
+        } else if (error.name === 'AbortError') {
+          // iOS Safari sometimes throws AbortError when the page is interrupted
+          errorTitle = 'Connection Interrupted';
+          errorMessage = 'Please try again. Make sure no other apps are using the microphone.';
+        } else if (error.name === 'NotSupportedError') {
+          errorMessage = 'Voice features are not supported on this device.';
+        } else if (error.message?.includes('Microphone')) {
+          errorMessage = error.message;
+        } else if (error.message?.includes('WebRTC')) {
+          errorMessage = 'Voice chat not supported on this device';
+        } else if (error.message?.includes('token')) {
+          errorMessage = 'Connection failed - please try again';
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        
+        toast.error(errorTitle, {
+          description: errorMessage
+        });
+      } finally {
+        setIsConnecting(false);
+      }
+    } catch (outerError: any) {
+      // Catch any unexpected errors at the outermost level
+      console.error('[Kayla] Unexpected outer error:', outerError);
       setIsConnecting(false);
+      toast.error('Unexpected Error', {
+        description: 'Something went wrong. Please try again.'
+      });
     }
   };
 
