@@ -85,6 +85,8 @@ const businessCardImages: Record<string, string> = {
   'd877b403-b582-48ec-95ff-e05c6da9123b': '/businesses/slutty-vegan-card.jpg',
   // Citizens Trust Bank - Historic Black-owned community bank
   'b3454666-ff6a-41e1-97e7-92a06b69ec9f': '/businesses/citizens-trust-bank-card.jpg',
+  // Black Digital - DC-based marketing agency
+  'a560a8a8-7a14-44ee-b0dc-a1b13417c191': '/businesses/black-digital-card.jpg',
 };
 
 /**
