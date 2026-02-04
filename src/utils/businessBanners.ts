@@ -79,6 +79,8 @@ const businessCardImages: Record<string, string> = {
   'a7f8ccd0-fd8d-476b-b596-f79a87d1cfd7': '/businesses/fruitee-water-card.jpg',
   // The Green Fund (HBCU Green Fund) - Sustainability and climate resilience
   '9f3bd430-d01f-41ce-988d-c2b7255811d5': '/businesses/hbcu-green-fund-card.jpg',
+  // City First Bank - Black-owned community development financial institution
+  '94cb662d-ff2f-4893-9e34-047b2aa3ecb8': '/businesses/city-first-bank-card.jpg',
 };
 
 /**
