@@ -40,14 +40,24 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         antialias: true,
       });
 
-      // Add 3D buildings on load
+      // Add 3D buildings and enhance labels on load
       map.current.on('style.load', () => {
-        const layers = map.current!.getStyle().layers;
+        const mapInstance = map.current!;
+        const layers = mapInstance.getStyle().layers;
         const labelLayerId = layers?.find(
           (layer) => layer.type === 'symbol' && layer.layout?.['text-field']
         )?.id;
 
-        map.current!.addLayer(
+        // Lighten road and place labels for better readability
+        layers?.forEach((layer) => {
+          if (layer.type === 'symbol' && layer.id.includes('label')) {
+            mapInstance.setPaintProperty(layer.id, 'text-color', '#e2e8f0');
+            mapInstance.setPaintProperty(layer.id, 'text-halo-color', '#0f172a');
+            mapInstance.setPaintProperty(layer.id, 'text-halo-width', 1.5);
+          }
+        });
+
+        mapInstance.addLayer(
           {
             id: '3d-buildings',
             source: 'composite',
