@@ -88,6 +88,7 @@ export const saveBusinessProfile = async (profile: BusinessProfile): Promise<{ s
         .from('businesses')
         .update({
           ...profile,
+          name: profile.business_name, // Database requires both 'name' and 'business_name'
           updated_at: new Date().toISOString()
         })
         .eq('id', existingProfile.data.id)
@@ -106,11 +107,12 @@ export const saveBusinessProfile = async (profile: BusinessProfile): Promise<{ s
       result = { success: true, data: data[0] };
       toast.success('Business profile updated successfully!');
     } else {
-      // Create new profile
+      // Create new profile - database requires both 'name' and 'business_name' columns
       const { data, error } = await supabase
         .from('businesses')
         .insert({
           ...profile,
+          name: profile.business_name, // Database requires both 'name' and 'business_name'
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
         })
