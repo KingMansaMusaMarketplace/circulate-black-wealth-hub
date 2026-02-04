@@ -1203,3 +1203,17 @@
   }
 }
 
+/* Mapbox Marker Animations */
+@keyframes marker-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 15px rgba(217, 119, 6, 0);
+  }
+}
+
+.mapbox-marker-pulse {
+  animation: marker-pulse 1.5s infinite;
+}
+

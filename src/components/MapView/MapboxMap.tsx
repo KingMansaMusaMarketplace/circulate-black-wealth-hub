@@ -9,13 +9,17 @@ interface MapboxMapProps {
   userLocation: { lat: number; lng: number } | null;
   businesses: BusinessLocation[];
   onBusinessClick?: (businessId: string) => void;
+  highlightedBusinessId?: string | null;
+  onMarkerHover?: (businessId: string | null) => void;
 }
 
 const MapboxMap: React.FC<MapboxMapProps> = ({ 
   apiKey, 
   userLocation, 
   businesses, 
-  onBusinessClick 
+  onBusinessClick,
+  highlightedBusinessId,
+  onMarkerHover,
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -141,6 +145,8 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
 
     // Add business markers
     businesses.forEach(business => {
+      const isHighlighted = highlightedBusinessId === business.id;
+      
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
         <div class="p-2">
           <h3 class="font-medium text-sm mb-1">${business.name}</h3>
@@ -149,17 +155,39 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         </div>
       `);
 
-      const marker = new mapboxgl.Marker({
-        color: '#D97706', // Gold color for businesses (mansagold)
-        scale: 0.9
-      })
+      // Create custom marker element for highlighting
+      const el = document.createElement('div');
+      el.className = 'mapbox-marker';
+      el.style.cssText = `
+        width: ${isHighlighted ? '24px' : '20px'};
+        height: ${isHighlighted ? '24px' : '20px'};
+        background: ${isHighlighted ? '#D97706' : '#D97706'};
+        border: 3px solid ${isHighlighted ? '#FCD34D' : '#1e293b'};
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: ${isHighlighted ? '0 0 20px rgba(217, 119, 6, 0.6)' : '0 2px 4px rgba(0,0,0,0.3)'};
+        ${isHighlighted ? 'animation: pulse 1.5s infinite;' : ''}
+      `;
+
+      const marker = new mapboxgl.Marker({ element: el })
         .setLngLat([business.lng, business.lat])
         .setPopup(popup)
         .addTo(map.current!);
 
+      // Add hover listener
+      el.addEventListener('mouseenter', () => {
+        onMarkerHover?.(business.id);
+      });
+      
+      el.addEventListener('mouseleave', () => {
+        onMarkerHover?.(null);
+      });
+
       // Add click listener for business selection
       if (onBusinessClick) {
-        marker.getElement().addEventListener('click', () => {
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
           onBusinessClick(business.id);
         });
       }
@@ -186,7 +214,7 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         maxZoom: 15
       });
     }
-  }, [businesses, userLocation, onBusinessClick]);
+  }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover]);
 
   if (mapError) {
     return (

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from '@/hooks/location/useLocation';
 import { useSupabaseDirectory } from '@/hooks/use-supabase-directory';
@@ -11,6 +11,7 @@ import SignupPromptModal from '@/components/auth/SignupPromptModal';
 import { pageSEO } from '@/utils/seoUtils';
 import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
 import { motion } from 'framer-motion';
+import { supabase } from '@/integrations/supabase/client';
 
 // Import the directory components
 import DirectoryErrorState from '@/components/directory/DirectoryErrorState';
@@ -22,18 +23,37 @@ import FeaturedSpotlight from '@/components/directory/FeaturedSpotlight';
 import CategoryPills from '@/components/directory/CategoryPills';
 import { SkeletonGrid } from '@/components/directory/SkeletonCard';
 import DirectoryFilter from '@/components/DirectoryFilter';
+import DirectorySplitView from '@/components/directory/DirectorySplitView';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const DirectoryPage: React.FC = () => {
   const { shouldShowTour, tourSteps, tourKey, completeTour, skipTour } = useOnboardingTour();
   const { user } = useAuth();
   const { recordBusinessView, recordAttemptedAction, showSignupPrompt, setShowSignupPrompt, lastAttemptedAction } = useGuest();
+  const isMobile = useIsMobile();
   
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'split'>('split');
   const [showFilters, setShowFilters] = useState(false);
+  const [mapApiKey, setMapApiKey] = useState<string>('');
   
   // Fetch user location
   const { location, getCurrentPosition, loading: locationLoading } = useLocation();
+  
+  // Fetch Mapbox API key
+  useEffect(() => {
+    const fetchMapboxToken = async () => {
+      try {
+        const { data, error } = await supabase.functions.invoke('get-mapbox-token');
+        if (data?.token) {
+          setMapApiKey(data.token);
+        }
+      } catch (err) {
+        console.error('Failed to fetch Mapbox token:', err);
+      }
+    };
+    fetchMapboxToken();
+  }, []);
   
   // Use the Supabase directory hook to fetch real businesses
   const {
@@ -222,10 +242,19 @@ const DirectoryPage: React.FC = () => {
             <div className="h-px flex-1 mx-6 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </motion.div>
         
-          {/* Business Grid/List with Skeleton Loading */}
+          {/* Business Grid/List/Split with Skeleton Loading */}
           <div data-tour="business-card">
             {isLoading ? (
               <SkeletonGrid count={6} />
+            ) : viewMode === 'split' ? (
+              <DirectorySplitView
+                businesses={regularBusinesses}
+                mapData={mapData}
+                onSelectBusiness={handleSelectBusiness}
+                isLoading={isLoading}
+                userLocation={location}
+                mapApiKey={mapApiKey}
+              />
             ) : viewMode === 'grid' ? (
               <BusinessGridView 
                 businesses={regularBusinesses} 
