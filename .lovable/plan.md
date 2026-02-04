@@ -1,226 +1,123 @@
 
-# Plan: Implement Customer 360 View, Workflow Automation Builder, and Helpdesk System
+# Split-View Map Directory Enhancement
 
 ## Overview
-This plan implements three enterprise-grade features to match Salesforce capabilities using existing infrastructure at **zero additional cost**. All three features will leverage the existing Supabase database, React components, and UI patterns already established in the project.
+Transform the directory from a simple scrollable list into a powerful split-view experience with an interactive map on the right side and a scrollable business list on the left. This is the pattern used by Yelp, Airbnb, and Google Maps — and it will make your directory feel world-class.
 
 ---
 
-## Feature 1: Customer 360 View
+## What You'll Get
 
-### What You'll Get
-A unified dashboard showing **everything about a customer in one place**:
-- Contact information and profile details
-- Complete interaction history (calls, emails, meetings)
-- Purchase and transaction timeline
-- QR scan activity and loyalty points
-- Active support tickets
-- Tags and custom fields
-- Upcoming follow-ups and reminders
+**Desktop Experience:**
+- Left panel (40% width): Scrollable business cards
+- Right panel (60% width): Interactive Mapbox map with business pins
+- Clicking a pin highlights the corresponding card in the list
+- Hovering over a card highlights the pin on the map
+- Map stays fixed while you scroll the list
 
-### Implementation
-
-**New Components:**
-- `src/components/crm/Customer360View.tsx` - Main unified view component
-- `src/components/crm/Customer360Timeline.tsx` - Chronological activity feed
-- `src/components/crm/Customer360Sidebar.tsx` - Quick stats and actions
-
-**Updates:**
-- Modify `CustomerDetailPage.tsx` to integrate the new 360 view
-- Create API function `getCustomer360Data()` in `customer-api.ts` that aggregates:
-  - Customer profile from `customers` table
-  - Interactions from `customer_interactions` table
-  - Transactions from `transactions` table
-  - QR scans from `qr_scans` table
-  - Invoices from `invoices` table
-  - Loyalty points from `loyalty_points` table
-  - Support tickets from `support_tickets` table
-
-**No Database Changes Required** - Uses existing tables
+**Mobile Experience:**
+- Floating "Show Map" button at the bottom
+- Tapping it opens a full-screen map overlay
+- Tap a pin to see a mini business card, then tap to view details
 
 ---
 
-## Feature 2: Workflow Automation Builder
+## Technical Implementation
 
-### What You'll Get
-A no-code visual builder where businesses can create **if-then automation rules**:
-- Trigger: "When a customer makes a purchase over $100"
-- Action: "Send a thank you email" OR "Add VIP tag" OR "Notify sales rep"
+### 1. Create Split-View Container Component
+**New file:** `src/components/directory/DirectorySplitView.tsx`
 
-Example workflows:
-- Auto-upgrade customer to VIP when lifetime value exceeds $1,000
-- Send follow-up reminder 7 days after last contact
-- Alert when a customer hasn't purchased in 30 days
-- Auto-assign new leads to sales agents
+A responsive layout component that:
+- Uses CSS Grid for the split layout on desktop
+- Shows list-only on mobile with a floating map toggle
+- Maintains the premium dark/gold aesthetic
+- Syncs scroll position with map markers
 
-### Implementation
+### 2. Create Compact Business Card for Map Panel
+**New file:** `src/components/directory/CompactBusinessCard.tsx`
 
-**New Database Tables:**
+A smaller, more condensed card optimized for the split-view:
+- Horizontal layout (image left, details right)
+- Hover state that triggers map marker highlight
+- Click to navigate to business detail
+- Shows: image, name, category, rating, distance
+
+### 3. Enhanced Map Component for Split-View
+**Modify:** `src/components/MapView/MapboxMap.tsx`
+
+Add new capabilities:
+- `highlightedBusinessId` prop for syncing with list hover
+- Animated marker highlighting (pulse effect on hover)
+- `onMarkerHover` callback for two-way sync
+- Improved marker clustering for dense areas
+
+### 4. Mobile Map Sheet
+**New file:** `src/components/directory/MobileMapSheet.tsx`
+
+A drawer-style overlay for mobile:
+- Uses Vaul sheet component
+- Full-screen map with business pins
+- Bottom card preview when pin is tapped
+- Swipe down to dismiss
+
+### 5. Update Directory Page
+**Modify:** `src/pages/DirectoryPage.tsx`
+
+Integrate the split-view:
+- Add toggle button for map view (already partially exists)
+- Wrap business list in split-view container
+- Pass map sync handlers to both list and map
+- Preserve all existing filters and search functionality
+
+---
+
+## Layout Structure
 
 ```text
-workflows
-├── id (uuid)
-├── business_id (uuid)
-├── name (text)
-├── description (text)
-├── is_active (boolean)
-├── trigger_type (enum: purchase, customer_created, tag_added, inactivity, etc.)
-├── trigger_config (jsonb) - conditions like "amount > 100"
-├── created_at / updated_at
-
-workflow_actions
-├── id (uuid)
-├── workflow_id (uuid)
-├── action_type (enum: send_email, add_tag, update_status, notify_user, create_task)
-├── action_config (jsonb) - email template, tag name, etc.
-├── execution_order (integer)
-
-workflow_executions
-├── id (uuid)
-├── workflow_id (uuid)
-├── customer_id (uuid)
-├── trigger_data (jsonb)
-├── status (pending, completed, failed)
-├── executed_at
+┌─────────────────────────────────────────────────────────┐
+│  Header / Search / Category Pills                       │
+├─────────────────────────────────────────────────────────┤
+│                    │                                    │
+│  Business List     │     Interactive Map                │
+│  (scrollable)      │     (sticky position)              │
+│                    │                                    │
+│  ┌──────────────┐  │     ┌─────────────────────────┐    │
+│  │ Card 1       │  │     │    📍  📍               │    │
+│  └──────────────┘  │     │         📍   📍        │    │
+│  ┌──────────────┐  │     │    📍        📍        │    │
+│  │ Card 2       │  │     │                        │    │
+│  └──────────────┘  │     │  📍     📍             │    │
+│  ┌──────────────┐  │     │              📍        │    │
+│  │ Card 3       │  │     │    📍                  │    │
+│  └──────────────┘  │     └─────────────────────────┘    │
+│       ...          │                                    │
+│                    │                                    │
+└─────────────────────────────────────────────────────────┘
 ```
 
-**New Components:**
-- `src/pages/WorkflowBuilderPage.tsx` - Main page for managing workflows
-- `src/components/workflows/WorkflowList.tsx` - List of existing workflows
-- `src/components/workflows/WorkflowEditor.tsx` - Visual workflow editor
-- `src/components/workflows/TriggerSelector.tsx` - Choose trigger conditions
-- `src/components/workflows/ActionBuilder.tsx` - Define actions
-- `src/lib/api/workflow-api.ts` - CRUD operations for workflows
+---
 
-**New Edge Function:**
-- `supabase/functions/execute-workflow/index.ts` - Processes workflow triggers
+## Files to Create/Modify
 
-**Database Triggers (execute workflows):**
-- Trigger on `transactions` insert to check purchase workflows
-- Trigger on `customers` insert/update to check customer workflows
+| Action | File | Purpose |
+|--------|------|---------|
+| Create | `src/components/directory/DirectorySplitView.tsx` | Main split-view layout container |
+| Create | `src/components/directory/CompactBusinessCard.tsx` | Condensed card for list panel |
+| Create | `src/components/directory/MobileMapSheet.tsx` | Mobile-friendly map drawer |
+| Modify | `src/components/MapView/MapboxMap.tsx` | Add highlight sync capabilities |
+| Modify | `src/pages/DirectoryPage.tsx` | Integrate split-view mode |
 
 ---
 
-## Feature 3: Helpdesk Ticketing System (Enhancement)
+## Interaction Flow
 
-### What You'll Get
-Building on the existing `SupportTicketManager.tsx`, we'll add:
-- **Customer-facing ticket submission** (currently admin-only)
-- **Knowledge Base** with searchable articles
-- **SLA Tracking** with response time goals
-- **Canned Responses** for common questions
-- **Ticket Assignment** to specific team members
-- **Customer Portal** to view their own tickets
-
-### Implementation
-
-**New Database Tables:**
-
-```text
-knowledge_base_articles
-├── id (uuid)
-├── business_id (uuid, nullable for global articles)
-├── title (text)
-├── content (text)
-├── category (text)
-├── is_published (boolean)
-├── view_count (integer)
-├── helpful_count (integer)
-├── created_at / updated_at
-
-sla_policies
-├── id (uuid)
-├── business_id (uuid)
-├── priority (text)
-├── first_response_hours (integer)
-├── resolution_hours (integer)
-├── is_active (boolean)
-
-canned_responses
-├── id (uuid)
-├── business_id (uuid)
-├── title (text)
-├── content (text)
-├── category (text)
-├── usage_count (integer)
-```
-
-**New Pages:**
-- `src/pages/SubmitTicketPage.tsx` - Customer ticket submission
-- `src/pages/MyTicketsPage.tsx` - Customer portal to view their tickets
-- `src/pages/KnowledgeBasePage.tsx` - Public searchable knowledge base
-
-**New Components:**
-- `src/components/helpdesk/TicketSubmissionForm.tsx`
-- `src/components/helpdesk/KnowledgeBaseSearch.tsx`
-- `src/components/helpdesk/ArticleCard.tsx`
-- `src/components/helpdesk/SLAIndicator.tsx` - Shows if ticket is within SLA
-- `src/components/helpdesk/CannedResponsePicker.tsx`
-
-**Updates:**
-- Enhance `SupportTicketManager.tsx` with SLA tracking and canned responses
-- Add routes to `App.tsx` for new customer-facing pages
+1. **User hovers card in list** → Map marker pulses gold
+2. **User clicks map marker** → List scrolls to that business card, card highlights
+3. **User clicks card** → Navigates to business detail page
+4. **On mobile** → Floating "Map" button opens fullscreen map sheet
 
 ---
 
-## Files to Create
+## Estimated Effort
+This is a medium-complexity feature that will significantly upgrade the user experience. The existing MapboxMap and business list components provide a solid foundation.
 
-| File | Purpose |
-|------|---------|
-| `src/components/crm/Customer360View.tsx` | Unified customer view |
-| `src/components/crm/Customer360Timeline.tsx` | Activity timeline |
-| `src/components/crm/Customer360Sidebar.tsx` | Quick stats panel |
-| `src/pages/WorkflowBuilderPage.tsx` | Workflow management |
-| `src/components/workflows/WorkflowList.tsx` | Workflow listing |
-| `src/components/workflows/WorkflowEditor.tsx` | Visual editor |
-| `src/components/workflows/TriggerSelector.tsx` | Trigger configuration |
-| `src/components/workflows/ActionBuilder.tsx` | Action configuration |
-| `src/lib/api/workflow-api.ts` | Workflow API functions |
-| `supabase/functions/execute-workflow/index.ts` | Workflow execution |
-| `src/pages/SubmitTicketPage.tsx` | Customer ticket submission |
-| `src/pages/MyTicketsPage.tsx` | Customer ticket portal |
-| `src/pages/KnowledgeBasePage.tsx` | Knowledge base |
-| `src/components/helpdesk/TicketSubmissionForm.tsx` | Ticket form |
-| `src/components/helpdesk/KnowledgeBaseSearch.tsx` | KB search |
-| `src/components/helpdesk/ArticleCard.tsx` | Article display |
-| `src/components/helpdesk/SLAIndicator.tsx` | SLA status |
-| `src/components/helpdesk/CannedResponsePicker.tsx` | Quick responses |
-| `src/lib/api/helpdesk-api.ts` | Helpdesk API functions |
-
-## Files to Modify
-
-| File | Changes |
-|------|---------|
-| `src/pages/CustomerDetailPage.tsx` | Integrate Customer 360 View |
-| `src/lib/api/customer-api.ts` | Add `getCustomer360Data()` function |
-| `src/components/admin/SupportTicketManager.tsx` | Add SLA tracking & canned responses |
-| `src/App.tsx` | Add new routes |
-
----
-
-## Database Migrations Required
-
-1. **Workflow tables** (workflows, workflow_actions, workflow_executions)
-2. **Helpdesk tables** (knowledge_base_articles, sla_policies, canned_responses)
-3. **RLS policies** for all new tables (business-scoped access)
-
----
-
-## Implementation Order
-
-1. **Customer 360 View** (no DB changes, fastest to deliver)
-2. **Helpdesk Enhancement** (builds on existing system)
-3. **Workflow Automation** (most complex, requires edge function)
-
----
-
-## Cost Summary
-
-| Feature | Database | Edge Functions | External APIs |
-|---------|----------|----------------|---------------|
-| Customer 360 | Included | None | None |
-| Workflow Builder | Included | Included (Supabase) | None |
-| Helpdesk | Included | None | None |
-| **Total Additional Cost** | **$0** | **$0** | **$0** |
-
-All features use your existing Supabase plan with no external API dependencies.
