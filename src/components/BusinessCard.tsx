@@ -75,7 +75,7 @@ const BusinessCard = ({
         </div>
         <div className="flex justify-between items-start gap-2">
           <div className="flex-1 min-w-0">
-            <CardTitle className="text-lg leading-tight truncate text-white group-hover:text-mansagold transition-colors">
+            <CardTitle className="text-xl leading-tight truncate text-white group-hover:text-mansagold transition-colors">
               {name}
             </CardTitle>
             <Badge variant="secondary" className="mt-1 bg-white/10 text-gray-300 border-white/20">
