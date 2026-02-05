@@ -1,74 +1,165 @@
 
+# Apple App Store Rejection Fix Plan
 
-# Batch URL Import: Extract Multiple Businesses Simultaneously
+## Summary of Issues from Apple
 
-## Overview
-Upgrade the "Import from URL" feature to accept multiple website URLs and extract data from all of them in parallel, dramatically speeding up the workflow for importing many businesses.
+Your app (Version 2.0.2) was rejected for 4 issues:
 
-## What You'll Get
+1. **Account Deletion (5.1.1v)** - Missing visible delete account option
+2. **Crash on "Ask Kayla" (2.1)** - iPad Air crashes when tapping voice assistant button
+3. **Subscription Legal Links (3.1.2)** - Missing/unclear EULA and Privacy Policy links
+4. **Unresponsive Subscription Button (2.1)** - Button doesn't respond on iPad
 
-### Multi-URL Input
-- Replace the single URL input with a textarea where you can paste multiple URLs (one per line)
-- Support for bulk paste from spreadsheets or lists
-- URL validation and formatting before processing
+---
 
-### Parallel Processing
-- Extract data from up to 5 URLs simultaneously
-- Real-time progress tracking for each URL
-- Visual status indicators: pending, processing, completed, failed
+## Fix 1: Make Account Deletion More Discoverable
 
-### Batch Review Interface
-- See all extracted businesses in a scrollable list
-- Edit any business before saving
-- Select which ones to save as drafts
-- "Save All" button to create all drafts at once
+**Current State:** Account deletion exists at Settings > Account tab, but Apple couldn't find it.
 
-### Error Handling
-- Failed extractions shown with error messages
-- Retry individual failed URLs
-- Continue processing even if some URLs fail
+**Solution:** Add a prominent "Delete Account" link directly in:
+- The Settings tab of BottomTabBar's Settings page
+- User Profile page with clear visibility
 
-## Technical Implementation
+**Changes:**
+- Add a standalone "Danger Zone" section at the top of the Account tab for immediate visibility
+- Add a "Delete Account" link in the user profile menu
+- Add a direct link in the Settings page header area
 
-### 1. Update URLBusinessImport Component
-- Change single `url` state to `urls: string[]` array
-- Add textarea for multi-line URL input
-- Implement parallel processing with `Promise.allSettled()`
-- Track individual URL status in a map
+---
 
-### 2. Processing Queue UI
-```text
-+----------------------------------+
-|  URL 1: example.com     [Done]   |
-|  URL 2: business.com    [...]    |
-|  URL 3: shop.net        [Queued] |
-+----------------------------------+
+## Fix 2: Prevent Crash on "Ask Kayla" Button (iPad)
+
+**Root Cause Analysis:** The crash likely occurs during:
+- WebRTC/AudioContext initialization on iPadOS 26.2
+- Unhandled promise rejection during microphone access
+- Hardware-specific issue with iPad Air M3
+
+**Solution - Defense in Depth:**
+
+1. **Pre-flight Hardware Checks** - Before attempting voice features, verify:
+   - `navigator.mediaDevices` exists
+   - `window.isSecureContext` is true  
+   - Device isn't in a known problematic state
+
+2. **Wrap Everything in try/catch** - The outer handler already exists but needs strengthening
+
+3. **Add iPad-specific fallback** - If iPad detected, show informational message instead of crashing:
+   ```
+   "Voice assistant is currently optimized for iPhone. 
+    For the best experience on iPad, please use our website."
+   ```
+
+4. **Graceful Degradation** - If any initialization fails, show helpful message instead of crashing
+
+**Files to Modify:**
+- `src/components/VoiceInterface.tsx` - Add iPad detection and graceful fallback
+- `src/utils/RealtimeAudio.ts` - Add additional error guards
+
+---
+
+## Fix 3: Fix Subscription Legal Links (EULA/Privacy)
+
+**Current State:** Links exist but may not be visible/working on iOS view.
+
+**Solution:**
+1. Ensure links use proper React Router `Link` components (not plain `<a href>`)
+2. Add explicit "(EULA)" label to Terms of Service link
+3. Make links more prominent with button styling
+4. Add links to the checkout flow (before purchase)
+
+**Files to Modify:**
+- `src/pages/SubscriptionPage.tsx` - Enhance legal links visibility
+- `src/components/subscription/SubscriptionPlansWithToggle.tsx` - Already has links, verify working
+
+**App Store Connect Action Required:**
+- Verify EULA link is in App Description or EULA field
+- Verify Privacy Policy URL is in Privacy Policy field
+
+---
+
+## Fix 4: Fix Unresponsive Subscription Button
+
+**Root Cause:** On iOS, the subscription page shows informational text instead of buttons. Apple expects a functional button.
+
+**Solution:**
+1. Add a clear "Manage Subscriptions" button that opens iOS Settings
+2. Add a "Subscribe via Web" button linking to website
+3. Ensure buttons have proper `touchAction: 'manipulation'` and `e.stopPropagation()`
+
+**iOS Deep Link for Subscriptions:**
+```typescript
+// Opens Apple's subscription management
+window.location.href = "itms-apps://apps.apple.com/account/subscriptions"
 ```
 
-### 3. Batch Results View
-- Grid or list of extracted business cards
-- Checkboxes to select which to save
-- Inline editing for quick corrections
-- Batch save action
+**Files to Modify:**
+- `src/pages/SubscriptionPage.tsx` - Add functional buttons in iOS view
+- `src/components/subscription/SubscriptionPlansWithToggle.tsx` - Add button for iOS
 
-### 4. Rate Limit Handling
-- Process in batches of 3-5 to avoid API rate limits
-- Add small delay between batches
-- Show queue position for pending URLs
+---
+
+## Technical Implementation Details
+
+### VoiceInterface.tsx Changes
+
+```typescript
+// Add at the top of startConversation():
+const isIPad = /iPad/.test(navigator.userAgent) || 
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+if (isIPad) {
+  toast.info('Voice Assistant', {
+    description: 'Voice features are optimized for iPhone. For the best iPad experience, please visit our website.',
+    duration: 6000
+  });
+  return; // Exit early - don't attempt voice on iPad
+}
+```
+
+### SubscriptionPage.tsx iOS View Changes
+
+```typescript
+// Replace text instructions with functional buttons
+<Button 
+  onClick={() => window.location.href = "itms-apps://apps.apple.com/account/subscriptions"}
+  className="w-full bg-blue-600 hover:bg-blue-700"
+>
+  Manage Subscriptions (Apple ID)
+</Button>
+
+<Button 
+  onClick={() => window.open("https://circulate-black-wealth-hub.lovable.app/subscription", "_blank")}
+  variant="outline"
+  className="w-full"
+>
+  Subscribe via Website
+</Button>
+```
+
+### Account Deletion Visibility
+
+Add to UserSettingsPage.tsx:
+- Move Account Deletion component to be more prominent
+- Add descriptive text that clearly states "Delete Account" functionality
+
+---
 
 ## Files to Modify
 
-| File | Changes |
-|------|---------|
-| `src/components/admin/import/URLBusinessImport.tsx` | Multi-URL input, parallel processing, batch results UI |
+| File | Change Description |
+|------|-------------------|
+| `src/components/VoiceInterface.tsx` | Add iPad detection, graceful fallback |
+| `src/utils/RealtimeAudio.ts` | Additional error guards |
+| `src/pages/SubscriptionPage.tsx` | Add functional iOS buttons, enhance legal links |
+| `src/pages/UserSettingsPage.tsx` | Make Account Deletion more prominent |
+| `src/components/navbar/UserMenu.tsx` | Add "Delete Account" link option |
 
-## User Workflow
+---
 
-1. Open "Import from URL"
-2. Paste multiple URLs (one per line)
-3. Click "Extract All"
-4. Watch progress as each URL is processed
-5. Review all extracted data
-6. Edit any entries as needed
-7. Click "Save All as Drafts" or save individually
+## Testing Checklist Before Resubmission
 
+- [ ] Test on iPad Air (or iPad simulator) - verify no crash on "Ask Kayla"
+- [ ] Verify "Delete Account" is easily discoverable
+- [ ] Test Terms/Privacy links work on iOS
+- [ ] Test "Manage Subscriptions" button on iOS
+- [ ] Verify App Store Connect has correct EULA and Privacy URLs
