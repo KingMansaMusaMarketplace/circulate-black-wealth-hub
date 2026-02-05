@@ -116,9 +116,26 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
         return;
       }
       
-      // iOS detection
+      // iPad detection - specific check for iPad devices
+      const isIPad = /iPad/.test(navigator.userAgent) || 
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 && !/iPhone/.test(navigator.userAgent));
+      
+      // iOS detection (includes iPad)
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      
+      console.log('[Kayla] Device detection - isIPad:', isIPad, 'isIOS:', isIOS);
+      
+      // CRITICAL: iPad-specific fallback to prevent crashes (Apple rejection fix)
+      // iPad Air M3 on iPadOS 26.2 crashes during WebRTC/AudioContext initialization
+      if (isIPad) {
+        console.log('[Kayla] iPad detected - showing fallback message to prevent crash');
+        toast.info('Voice Assistant', {
+          description: 'Voice features are optimized for iPhone. For the best iPad experience, please visit our website at mansamusamarketplace.com',
+          duration: 8000
+        });
+        return; // Exit early - don't attempt voice on iPad
+      }
       
       // Pre-flight checks
       console.log('[Kayla] Running pre-flight checks...');

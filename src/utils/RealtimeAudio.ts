@@ -132,10 +132,22 @@ export class RealtimeChat {
     try {
       console.log('Initializing RealtimeChat...');
       
+      // iPad detection - specific check for iPad devices
+      const isIPad = /iPad/.test(navigator.userAgent) || 
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1 && !/iPhone/.test(navigator.userAgent));
+      
       // iOS detection for special handling
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      console.log('Device is iOS:', isIOS);
+      
+      console.log('Device is iOS:', isIOS, 'Device is iPad:', isIPad);
+      
+      // CRITICAL: iPad early exit to prevent crashes (Apple rejection fix)
+      // iPad Air M3 on iPadOS 26.2 crashes during WebRTC/AudioContext initialization
+      if (isIPad) {
+        console.log('[iPad] Blocking voice initialization to prevent crash');
+        throw new Error('Voice features are optimized for iPhone. Please visit our website for the best iPad experience.');
+      }
       
       // Check for required APIs before proceeding
       if (!navigator.mediaDevices?.getUserMedia) {

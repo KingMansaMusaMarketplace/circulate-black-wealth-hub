@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { User, Settings, LogOut, LayoutDashboard } from 'lucide-react';
+import { User, Settings, LogOut, LayoutDashboard, Trash2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
 
@@ -114,6 +114,14 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               <Link to="/settings" className="flex items-center">
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
+              </Link>
+            </DropdownMenuItem>
+            
+            {/* Delete Account - Required for Apple 5.1.1(v) compliance */}
+            <DropdownMenuItem asChild className="text-red-400 hover:text-red-300 focus:text-red-300 hover:bg-red-500/10 focus:bg-red-500/10">
+              <Link to="/settings?tab=account" className="flex items-center">
+                <Trash2 className="mr-2 h-4 w-4" />
+                <span>Delete Account</span>
               </Link>
             </DropdownMenuItem>
             
