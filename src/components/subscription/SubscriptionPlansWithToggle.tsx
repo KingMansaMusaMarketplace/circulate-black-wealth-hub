@@ -36,7 +36,16 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
   const isIOS = shouldHideStripePayments();
 
-  // On iOS, show informative message instead of hiding completely
+  // Handle iOS subscription management deep link
+  const handleManageSubscriptions = () => {
+    window.location.href = "itms-apps://apps.apple.com/account/subscriptions";
+  };
+
+  const handleSubscribeViaWebsite = () => {
+    window.open("https://circulate-black-wealth-hub.lovable.app/subscription", "_blank");
+  };
+
+  // On iOS, show informative message with FUNCTIONAL BUTTONS
   if (isIOS) {
     return (
       <div className="max-w-2xl mx-auto">
@@ -48,40 +57,54 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {/* FUNCTIONAL BUTTONS - Required for Apple 2.1 compliance */}
+            <div className="space-y-4">
+              <Button
+                onClick={handleManageSubscriptions}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-6"
+                style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
+              >
+                <ExternalLink className="mr-2 h-5 w-5" />
+                Manage Subscriptions (Apple ID)
+              </Button>
+              
+              <Button
+                onClick={handleSubscribeViaWebsite}
+                variant="outline"
+                className="w-full border-white/20 text-white hover:bg-white/10 py-6"
+                style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
+              >
+                Subscribe via Website
+              </Button>
+            </div>
+
             <Alert className="bg-blue-500/10 border-blue-500/30">
               <ExternalLink className="h-4 w-4 text-blue-400" />
               <AlertTitle className="text-white">iOS Subscription Info</AlertTitle>
               <AlertDescription className="text-slate-300">
-                To manage subscriptions on iOS, please go to Settings → Apple ID → Subscriptions on your device.
+                To view or cancel subscriptions on iOS, tap "Manage Subscriptions" above or go to Settings → Apple ID → Subscriptions on your device.
               </AlertDescription>
             </Alert>
-            
-            <div className="text-center space-y-4">
-              <p className="text-slate-300 text-sm">
-                For new subscriptions or plan changes, please visit our website at{' '}
-                <a 
-                  href="https://circulate-black-wealth-hub.lovable.app/subscription" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-mansagold hover:underline"
-                >
-                  mansamusamarketplace.com
-                </a>
-              </p>
-            </div>
 
-            {/* Legal Links - Required for Apple compliance */}
+            {/* Legal Links - Required for Apple 3.1.2 compliance */}
             <div className="border-t border-white/10 pt-4 mt-4">
-              <p className="text-xs text-slate-400 text-center mb-2">
+              <p className="text-xs text-slate-400 text-center mb-3">
                 By using our services, you agree to our:
               </p>
-              <div className="flex justify-center gap-4 text-sm">
-                <Link to="/terms" className="text-mansagold hover:underline">
-                  Terms of Service
+              <div className="flex flex-col gap-2">
+                <Link 
+                  to="/terms" 
+                  className="bg-slate-700/50 hover:bg-slate-700 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  📜 Terms of Service (EULA)
                 </Link>
-                <span className="text-slate-500">•</span>
-                <Link to="/privacy" className="text-mansagold hover:underline">
-                  Privacy Policy
+                <Link 
+                  to="/privacy" 
+                  className="bg-slate-700/50 hover:bg-slate-700 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  🔒 Privacy Policy
                 </Link>
               </div>
             </div>

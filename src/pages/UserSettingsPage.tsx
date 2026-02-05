@@ -2,13 +2,14 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { User, Bell, Shield, Trash2, Settings, Building2, ArrowRight } from 'lucide-react';
+import { User, Bell, Shield, Trash2, Settings, Building2, ArrowRight, AlertTriangle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navigate, Link } from 'react-router-dom';
 import AccountDeletion from '@/components/auth/AccountDeletion';
 import Loading from '@/components/ui/loading';
 import { Button } from '@/components/ui/button';
 import ProfileForm from '@/components/profile/ProfileForm';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const UserSettingsPage: React.FC = () => {
   const { user, userType, loading } = useAuth();
@@ -91,6 +92,25 @@ const UserSettingsPage: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* PROMINENT Account Deletion Notice - Required for Apple 5.1.1(v) compliance */}
+            <Alert className="mb-6 bg-red-500/10 border-red-500/30 animate-fade-in">
+              <AlertTriangle className="h-5 w-5 text-red-400" />
+              <AlertTitle className="text-red-400 font-semibold">Account Management</AlertTitle>
+              <AlertDescription className="text-slate-300">
+                Need to delete your account? Go to the{' '}
+                <button 
+                  onClick={() => {
+                    const accountTab = document.querySelector('[value="account"]') as HTMLElement;
+                    if (accountTab) accountTab.click();
+                  }}
+                  className="text-red-400 hover:text-red-300 underline font-semibold"
+                >
+                  Account tab
+                </button>
+                {' '}or scroll down to find the "Delete Account" option.
+              </AlertDescription>
+            </Alert>
 
             <Tabs defaultValue="profile" className="space-y-6">
               <TabsList className="grid w-full grid-cols-4 bg-white/5 backdrop-blur-xl border border-white/10 p-1 rounded-xl">
