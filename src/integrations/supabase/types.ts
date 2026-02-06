@@ -14073,6 +14073,19 @@ export type Database = {
           updated_at: string
         }[]
       }
+      get_nearby_businesses: {
+        Args: { radius_miles?: number; user_lat: number; user_lng: number }
+        Returns: {
+          business_name: string
+          category: string
+          discount: string
+          distance_miles: number
+          id: string
+          latitude: number
+          logo_url: string
+          longitude: number
+        }[]
+      }
       get_parent_business_analytics: {
         Args: { p_parent_business_id: string }
         Returns: Json

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 // Safe native platform check without importing Capacitor at top level
 const isNativePlatform = () => {
@@ -17,6 +18,8 @@ interface NearbyBusiness {
   id: string;
   name: string;
   distance: number;
+  category?: string;
+  logoUrl?: string;
 }
 
 interface Position {
@@ -124,20 +127,29 @@ export const useBackgroundLocation = () => {
   };
 
   const checkNearbyBusinesses = async (lat: number, lng: number): Promise<NearbyBusiness[]> => {
-    // This would normally query your backend for nearby businesses
-    // For now, we'll return empty array as placeholder
-    // In production, this would use Supabase with PostGIS or similar
+    // Get user's preferred notification radius (default 0.5 miles)
+    const radiusMiles = parseFloat(localStorage.getItem('proximity_radius_miles') || '0.5');
     
     try {
-      // Example implementation:
-      // const { data } = await supabase.rpc('get_nearby_businesses', {
-      //   user_lat: lat,
-      //   user_lng: lng,
-      //   radius_km: 5
-      // });
-      // return data || [];
-      
-      return [];
+      const { data, error } = await supabase.rpc('get_nearby_businesses', {
+        user_lat: lat,
+        user_lng: lng,
+        radius_miles: radiusMiles
+      });
+
+      if (error) {
+        console.error('Error fetching nearby businesses:', error);
+        return [];
+      }
+
+      // Map to NearbyBusiness format
+      return (data || []).map((b: any) => ({
+        id: b.id,
+        name: b.business_name,
+        distance: b.distance_miles,
+        category: b.category,
+        logoUrl: b.logo_url
+      }));
     } catch (error) {
       console.error('Error checking nearby businesses:', error);
       return [];
@@ -169,10 +181,14 @@ export const useBackgroundLocation = () => {
       if (permStatus.display === 'granted') {
         // Send notification for first nearby business
         const business = newBusinesses[0];
+        const distanceText = business.distance < 0.1 
+          ? 'just steps away' 
+          : `${(business.distance).toFixed(1)} miles away`;
+        
         await LocalNotifications.schedule({
           notifications: [{
             title: '🎯 Black-Owned Business Nearby!',
-            body: `${business.name} is just ${business.distance.toFixed(1)} km away. Visit and earn rewards!`,
+            body: `${business.name}${business.category ? ` (${business.category})` : ''} is ${distanceText}. Visit and earn rewards!`,
             id: Date.now(),
             schedule: { at: new Date(Date.now() + 1000) },
             sound: 'beep.wav',
