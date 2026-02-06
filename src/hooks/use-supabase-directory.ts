@@ -92,8 +92,7 @@ export const useSupabaseDirectory = () => {
         .from('business_directory')
         .select('*')
         .order('average_rating', { ascending: false, nullsFirst: false })
-        .order('review_count', { ascending: false })
-        .limit(100);
+        .order('review_count', { ascending: false });
 
       if (error) throw error;
       return (data || []) as SupabaseBusiness[];
