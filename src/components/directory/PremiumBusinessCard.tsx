@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
+import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 import { motion } from 'framer-motion';
 
 interface PremiumBusinessCardProps {
@@ -142,6 +143,8 @@ const PremiumBusinessCard = ({
               />
               {/* Image overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* HBCU Badge */}
+              {isHBCUCategory(category) && <HBCUBadge variant="overlay" />}
             </div>
             <div className="flex justify-between items-start gap-2">
               <div className="flex-1 min-w-0">

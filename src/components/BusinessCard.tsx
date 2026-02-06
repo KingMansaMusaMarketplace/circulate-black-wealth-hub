@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Star, ArrowRight, Phone } from 'lucide-react';
@@ -8,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { generatePlaceholder } from '@/utils/imageOptimizer';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
+import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 
 interface BusinessCardProps {
   id: string;
@@ -63,7 +63,7 @@ const BusinessCard = ({
         </div>
       )}
       <CardHeader className="pb-3">
-        <div className="aspect-video bg-slate-800 rounded-lg mb-4 overflow-hidden ring-1 ring-white/10">
+        <div className="aspect-video bg-slate-800 rounded-lg mb-4 overflow-hidden ring-1 ring-white/10 relative">
           <OptimizedImage 
             src={imageUrl || generatePlaceholder(400, 250, name)} 
             alt={imageAlt || name}
@@ -72,6 +72,8 @@ const BusinessCard = ({
             quality="medium"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
+          {/* HBCU Badge */}
+          {isHBCUCategory(category) && <HBCUBadge variant="overlay" />}
         </div>
         <div className="flex justify-between items-start gap-2">
           <div className="flex-1 min-w-0">

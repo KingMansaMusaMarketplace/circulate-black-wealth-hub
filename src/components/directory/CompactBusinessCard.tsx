@@ -3,6 +3,7 @@ import { Star, MapPin, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Business } from '@/types/business';
 import { useNavigate } from 'react-router-dom';
+import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 
 interface CompactBusinessCardProps {
   business: Business;
@@ -61,9 +62,12 @@ const CompactBusinessCard: React.FC<CompactBusinessCardProps> = ({
           <ExternalLink className="w-3.5 h-3.5 text-gray-500 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
 
-        <p className="text-xs text-mansagold/80 font-medium mt-0.5">
-          {business.category}
-        </p>
+        <div className="flex items-center gap-2 mt-0.5">
+          <p className="text-xs text-mansagold/80 font-medium">
+            {business.category}
+          </p>
+          {isHBCUCategory(business.category) && <HBCUBadge variant="compact" />}
+        </div>
 
         <div className="flex items-center gap-3 mt-2">
           {/* Rating */}
