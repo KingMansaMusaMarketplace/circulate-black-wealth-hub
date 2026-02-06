@@ -34,13 +34,15 @@ const HBCUBadge: React.FC<HBCUBadgeProps> = ({ variant = 'default', className })
     return (
       <div
         className={cn(
-          'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded',
-          'bg-mansagold/20 text-mansagold',
-          'text-[10px] font-bold',
+          'inline-flex items-center gap-1 px-2 py-1 rounded-full',
+          'bg-gradient-to-r from-mansagold/25 to-amber-500/20',
+          'text-mansagold border border-mansagold/40',
+          'text-xs font-bold tracking-wide',
+          'shadow-[0_0_8px_rgba(251,191,36,0.25)]',
           className
         )}
       >
-        <GraduationCap className="h-2.5 w-2.5" />
+        <GraduationCap className="h-3.5 w-3.5" />
         <span>HBCU</span>
       </div>
     );
