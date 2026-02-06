@@ -257,7 +257,7 @@ const BusinessDetailPage = () => {
 
   const getShareUrl = () => {
     // Use the published domain for sharing, not the preview URL
-    const publishedDomain = 'https://circulate-black-wealth-hub.lovable.app';
+    const publishedDomain = 'https://1325.ai';
     const path = window.location.pathname + window.location.search + window.location.hash;
     return `${publishedDomain}${path}`;
   };
