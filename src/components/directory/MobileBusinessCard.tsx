@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +6,7 @@ import { Star, MapPin, Phone, ExternalLink } from 'lucide-react';
 import { Business } from '@/types/business';
 import FavoriteButton from './FavoriteButton';
 import VerifiedBlackOwnedBadge from '@/components/ui/VerifiedBlackOwnedBadge';
+import HBCUBadge, { isHBCUCategory } from '@/components/ui/HBCUBadge';
 
 interface MobileBusinessCardProps extends Business {
   onSelect?: () => void;
@@ -45,6 +45,7 @@ const MobileBusinessCard: React.FC<MobileBusinessCardProps> = ({
               Featured
             </Badge>
           )}
+          {isHBCUCategory(category) && !isFeatured && <HBCUBadge variant="overlay" className="top-1 right-1 text-[10px] px-1.5 py-0.5" />}
           {discount && (
             <Badge className="absolute bottom-2 left-2 bg-green-600 text-white text-xs">
               {discount}
