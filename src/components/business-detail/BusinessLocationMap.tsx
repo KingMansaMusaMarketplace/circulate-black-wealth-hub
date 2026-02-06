@@ -46,9 +46,10 @@ const BusinessLocationMap: React.FC<BusinessLocationMapProps> = ({
 
         setMapToken(data.token);
 
-        // If no coordinates, try geocoding
-        if (!coordinates && address && city && state) {
-          const fullAddress = `${address}, ${city}, ${state}`;
+        // If no coordinates, try geocoding with available address info
+        if (!coordinates && city && state) {
+          const addressParts = [address, city, state].filter(Boolean);
+          const fullAddress = addressParts.join(', ');
           const geocodeUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(fullAddress)}.json?access_token=${data.token}&limit=1`;
           
           try {
