@@ -12,8 +12,9 @@ import { pageSEO } from '@/utils/seoUtils';
 import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
-import { List, Map as MapIcon } from 'lucide-react';
+import { List, Map as MapIcon, Grid3X3, SlidersHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 // Import the directory components
 import DirectoryErrorState from '@/components/directory/DirectoryErrorState';
@@ -221,14 +222,15 @@ const DirectoryPage: React.FC = () => {
             <FeaturedSpotlight business={featuredBusiness} />
           )}
           
-          {/* Results count with CTA button */}
+          {/* Results count with view mode toggles - consolidated for easy access */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="flex items-center justify-between mb-8"
+            className="flex flex-wrap items-center justify-between gap-4 mb-8"
           >
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
+              {/* Business count */}
               <div className="flex items-center gap-3">
                 <div className="h-2 w-2 rounded-full bg-mansagold animate-pulse" />
                 <p className="text-gray-400">
@@ -243,29 +245,87 @@ const DirectoryPage: React.FC = () => {
                 </p>
               </div>
               
-              {/* Prominent View List CTA - immediately discoverable */}
+              {/* View mode toggles - now right next to count */}
               {!isLoading && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setViewMode(viewMode === 'list' ? 'split' : 'list')}
-                  className="bg-mansagold/10 border-mansagold/30 hover:bg-mansagold/20 hover:border-mansagold text-mansagold font-medium transition-all"
-                >
-                  {viewMode === 'list' ? (
-                    <>
-                      <MapIcon className="w-4 h-4 mr-2" />
-                      Show Map
-                    </>
-                  ) : (
-                    <>
-                      <List className="w-4 h-4 mr-2" />
-                      View List
-                    </>
-                  )}
-                </Button>
+                <TooltipProvider delayDuration={200}>
+                  <div className="flex items-center gap-1 bg-slate-800/50 backdrop-blur-sm rounded-lg p-1 border border-white/10">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setViewMode('split')}
+                          className={`h-8 px-3 ${viewMode === 'split' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+                        >
+                          <MapIcon className="h-4 w-4" />
+                          <span className="ml-2 hidden sm:inline">Map</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/10">
+                        <p>Split View with Map</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setViewMode('grid')}
+                          className={`h-8 px-3 ${viewMode === 'grid' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+                        >
+                          <Grid3X3 className="h-4 w-4" />
+                          <span className="ml-2 hidden sm:inline">Grid</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/10">
+                        <p>Grid View</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setViewMode('list')}
+                          className={`h-8 px-3 ${viewMode === 'list' ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+                        >
+                          <List className="h-4 w-4" />
+                          <span className="ml-2 hidden sm:inline">List</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/10">
+                        <p>List View</p>
+                      </TooltipContent>
+                    </Tooltip>
+                    
+                    {/* Divider */}
+                    <div className="h-6 w-px bg-white/10 mx-1" />
+                    
+                    {/* Filters toggle */}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowFilters(!showFilters)}
+                          className={`h-8 px-3 ${showFilters ? 'bg-mansagold/20 text-mansagold' : 'text-gray-400 hover:text-white'}`}
+                        >
+                          <SlidersHorizontal className="h-4 w-4" />
+                          <span className="ml-2 hidden sm:inline">Filters</span>
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom" className="bg-slate-800 text-white border-white/10">
+                        <p>Toggle Filters</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                </TooltipProvider>
               )}
             </div>
-            <div className="h-px flex-1 mx-6 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            
+            <div className="h-px flex-1 mx-6 bg-gradient-to-r from-transparent via-white/10 to-transparent hidden md:block" />
           </motion.div>
         
           {/* Business Grid/List/Split with Skeleton Loading */}
