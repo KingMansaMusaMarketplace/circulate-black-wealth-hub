@@ -72,8 +72,6 @@ const BusinessCard = ({
             quality="medium"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          {/* HBCU Badge */}
-          {isHBCUCategory(category) && <HBCUBadge variant="overlay" />}
         </div>
         <div className="flex justify-between items-start gap-2">
           <div className="flex-1 min-w-0">
@@ -109,10 +107,13 @@ const BusinessCard = ({
         )}
         
         <div className="flex items-center justify-between text-base text-gray-200 mb-4">
-          <div className="flex items-center">
-            <Star className="h-4 w-4 text-mansagold mr-1 fill-mansagold" />
-            <span className="text-white font-medium">{rating}</span>
-            <span className="ml-1 text-gray-300">({reviewCount} reviews)</span>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center">
+              <Star className="h-4 w-4 text-mansagold mr-1 fill-mansagold" />
+              <span className="text-white font-medium">{rating}</span>
+              <span className="ml-1 text-gray-300">({reviewCount} reviews)</span>
+            </div>
+            {isHBCUCategory(category) && <HBCUBadge variant="compact" />}
           </div>
           {distance && (
             <div className="flex items-center text-gray-500">
