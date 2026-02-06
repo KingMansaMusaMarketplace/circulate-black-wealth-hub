@@ -57,7 +57,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         "flex-1 lg:ml-64 relative z-10",
         mobileNavOpen ? "lg:mr-0" : "mr-0",
       )}>
-        <main className="px-4 sm:px-6 lg:px-8 pt-14 lg:pt-2">
+        <main className="px-4 sm:px-6 lg:px-8 pt-16 lg:pt-4">
           {/* Page header */}
           <PageHeader title={title} icon={icon} location={location} />
           
