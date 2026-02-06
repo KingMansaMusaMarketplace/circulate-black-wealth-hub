@@ -255,21 +255,29 @@ const BusinessDetailPage = () => {
     ));
   };
 
+  const getShareUrl = () => {
+    // Use the published domain for sharing, not the preview URL
+    const publishedDomain = 'https://circulate-black-wealth-hub.lovable.app';
+    const path = window.location.pathname + window.location.search + window.location.hash;
+    return `${publishedDomain}${path}`;
+  };
+
   const handleShare = async () => {
+    const shareUrl = getShareUrl();
     if (navigator.share && business) {
       try {
         await navigator.share({
           title: business.business_name,
           text: business.description,
-          url: window.location.href,
+          url: shareUrl,
         });
       } catch (error) {
         // Fallback to clipboard
-        navigator.clipboard.writeText(window.location.href);
+        navigator.clipboard.writeText(shareUrl);
         toast.success('Link copied to clipboard');
       }
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(shareUrl);
       toast.success('Link copied to clipboard');
     }
   };
