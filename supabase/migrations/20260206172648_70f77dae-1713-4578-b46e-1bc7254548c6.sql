@@ -1,0 +1,1 @@
+UPDATE businesses SET address = NULL WHERE id = '04b9d571-1b90-4e58-96d2-c45218b7ba36';
