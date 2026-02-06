@@ -12,6 +12,8 @@ import { pageSEO } from '@/utils/seoUtils';
 import { BreadcrumbStructuredData, generateBreadcrumbs } from '@/components/SEO/BreadcrumbStructuredData';
 import { motion } from 'framer-motion';
 import { supabase } from '@/integrations/supabase/client';
+import { List, Map as MapIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // Import the directory components
 import DirectoryErrorState from '@/components/directory/DirectoryErrorState';
@@ -219,25 +221,49 @@ const DirectoryPage: React.FC = () => {
             <FeaturedSpotlight business={featuredBusiness} />
           )}
           
-          {/* Results count with premium styling */}
+          {/* Results count with CTA button */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
             className="flex items-center justify-between mb-8"
           >
-            <div className="flex items-center gap-3">
-              <div className="h-2 w-2 rounded-full bg-mansagold animate-pulse" />
-              <p className="text-gray-400">
-                {isLoading ? (
-                  <span className="text-gray-500">Loading businesses...</span>
-                ) : (
-                  <>
-                    <span className="text-mansagold font-bold text-xl">{filteredBusinesses?.length || 0}</span>
-                    <span className="ml-2">businesses found</span>
-                  </>
-                )}
-              </p>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                <div className="h-2 w-2 rounded-full bg-mansagold animate-pulse" />
+                <p className="text-gray-400">
+                  {isLoading ? (
+                    <span className="text-gray-500">Loading businesses...</span>
+                  ) : (
+                    <>
+                      <span className="text-mansagold font-bold text-xl">{filteredBusinesses?.length || 0}</span>
+                      <span className="ml-2">businesses found</span>
+                    </>
+                  )}
+                </p>
+              </div>
+              
+              {/* Prominent View List CTA - immediately discoverable */}
+              {!isLoading && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setViewMode(viewMode === 'list' ? 'split' : 'list')}
+                  className="bg-mansagold/10 border-mansagold/30 hover:bg-mansagold/20 hover:border-mansagold text-mansagold font-medium transition-all"
+                >
+                  {viewMode === 'list' ? (
+                    <>
+                      <MapIcon className="w-4 h-4 mr-2" />
+                      Show Map
+                    </>
+                  ) : (
+                    <>
+                      <List className="w-4 h-4 mr-2" />
+                      View List
+                    </>
+                  )}
+                </Button>
+              )}
             </div>
             <div className="h-px flex-1 mx-6 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </motion.div>
