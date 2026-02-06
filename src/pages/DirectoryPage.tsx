@@ -354,15 +354,17 @@ const DirectoryPage: React.FC = () => {
             )}
           </div>
           
-          {/* Stats section */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="text-center mt-16 pt-12 border-t border-white/10"
-          >
-            <MultiCityStats selectedCity={selectedCity} />
-          </motion.div>
+          {/* Stats section - only show in grid/list view, not split */}
+          {viewMode !== 'split' && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="text-center mt-16 pt-12 border-t border-white/10"
+            >
+              <MultiCityStats selectedCity={selectedCity} />
+            </motion.div>
+          )}
         </div>
         
         <ScrollToTopButton />
