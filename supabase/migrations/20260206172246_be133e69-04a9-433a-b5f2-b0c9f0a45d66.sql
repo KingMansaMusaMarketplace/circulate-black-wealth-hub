@@ -1,0 +1,1 @@
+UPDATE businesses SET city = 'Bowie', state = 'MD', zip_code = '20721' WHERE id = '04b9d571-1b90-4e58-96d2-c45218b7ba36';
