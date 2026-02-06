@@ -477,7 +477,7 @@ const BusinessDetailPage = () => {
                   </Card>
 
                   {/* Business Location Map */}
-                  {business.address && business.city && business.state && (
+                  {business.city && business.state && (
                     <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
                       <CardHeader>
                         <CardTitle className="text-white flex items-center gap-2">
@@ -490,16 +490,16 @@ const BusinessDetailPage = () => {
                           lat={business.latitude || 0}
                           lng={business.longitude || 0}
                           businessName={business.business_name}
-                          address={business.address}
+                          address={business.address || ''}
                           city={business.city}
                           state={business.state}
                         />
                         <div className="text-center mt-4">
                           <p className="text-blue-200 mb-2">
-                            {business.address}, {business.city}, {business.state} {business.zip_code}
+                            {business.address ? `${business.address}, ` : ''}{business.city}, {business.state} {business.zip_code}
                           </p>
                           <a 
-                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.address}, ${business.city}, ${business.state}`)}`}
+                            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.address ? business.address + ', ' : ''}${business.city}, ${business.state}`)}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center text-yellow-400 hover:text-yellow-300 hover:underline"
