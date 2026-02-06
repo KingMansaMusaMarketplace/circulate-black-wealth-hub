@@ -139,7 +139,7 @@ const DirectoryPage: React.FC = () => {
       
       <BreadcrumbStructuredData items={generateBreadcrumbs.directory()} />
       
-      <div className="min-h-screen relative overflow-hidden">
+      <div className="min-h-screen relative overflow-x-hidden">
         {/* Modern dark gradient mesh background */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900" />
         
