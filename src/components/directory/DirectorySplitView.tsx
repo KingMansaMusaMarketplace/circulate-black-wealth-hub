@@ -131,7 +131,7 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
       </div>
 
       {showSplitView ? (
-        <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-6 h-[calc(100vh-280px)] min-h-[500px]">
+        <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-6" style={{ height: 'calc(100vh - 320px)', minHeight: '550px', maxHeight: '800px' }}>
           {/* Left Panel - Scrollable Business List */}
           <div className="relative">
             <ScrollArea className="h-full rounded-xl border border-white/5 bg-slate-900/30 backdrop-blur-sm">
