@@ -122,6 +122,9 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
     }
   }, [userLocation]);
 
+  // Track if we've done initial bounds fit
+  const hasInitialFit = useRef(false);
+
   // Add/update markers when businesses change
   useEffect(() => {
     if (!map.current) return;
@@ -195,8 +198,8 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
       markersRef.current.push(marker);
     });
 
-    // Fit map to show all markers
-    if (markersRef.current.length > 0) {
+    // Fit map to show all markers ONLY on initial load
+    if (!hasInitialFit.current && markersRef.current.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
       
       // Add user location to bounds
@@ -213,6 +216,8 @@ const MapboxMap: React.FC<MapboxMapProps> = ({
         padding: 50,
         maxZoom: 15
       });
+      
+      hasInitialFit.current = true;
     }
   }, [businesses, userLocation, onBusinessClick, highlightedBusinessId, onMarkerHover]);
 
