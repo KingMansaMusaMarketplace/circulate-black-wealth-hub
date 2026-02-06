@@ -5,6 +5,7 @@ import { Business } from '@/types/business';
 import { BusinessFilters } from '@/lib/api/directory/types';
 import { getBusinessBanner } from '@/utils/businessBanners';
 
+// Interface matches business_directory view columns (no PII exposed)
 interface SupabaseBusiness {
   id: string;
   business_name: string;
@@ -15,8 +16,6 @@ interface SupabaseBusiness {
   city: string | null;
   state: string | null;
   zip_code: string | null;
-  phone: string | null;
-  email: string | null;
   website: string | null;
   logo_url: string | null;
   banner_url: string | null;
@@ -25,9 +24,11 @@ interface SupabaseBusiness {
   review_count: number;
   latitude: number | null;
   longitude: number | null;
-  owner_id: string | null;
   created_at: string;
   updated_at: string;
+  listing_status: string | null;
+  is_founding_member: boolean | null;
+  is_founding_sponsor: boolean | null;
 }
 
 const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
@@ -47,8 +48,8 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     city: business.city || '',
     state: business.state || '',
     zipCode: business.zip_code || '',
-    phone: business.phone || '',
-    email: business.email || '',
+    phone: '', // Not exposed in public view for privacy
+    email: '', // Not exposed in public view for privacy
     website: business.website || '',
     logoUrl: logoUrl,
     bannerUrl: bannerUrl,
@@ -65,7 +66,7 @@ const mapSupabaseToFrontend = (business: SupabaseBusiness): Business => {
     imageAlt: businessName,
     isFeatured: business.is_verified || false,
     isVerified: business.is_verified || false,
-    ownerId: business.owner_id || '',
+    ownerId: '', // Not exposed in public view for privacy
     createdAt: business.created_at,
     updatedAt: business.updated_at
   };
@@ -86,8 +87,9 @@ export const useSupabaseDirectory = () => {
   const { data: rawBusinesses = [], isLoading, error } = useQuery({
     queryKey: ['directory-businesses'],
     queryFn: async () => {
+      // Use business_directory view for anonymous access (Safari/incognito users)
       const { data, error } = await supabase
-        .from('businesses')
+        .from('business_directory')
         .select('*')
         .order('average_rating', { ascending: false, nullsFirst: false })
         .order('review_count', { ascending: false })
