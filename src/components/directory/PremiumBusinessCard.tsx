@@ -143,8 +143,6 @@ const PremiumBusinessCard = ({
               />
               {/* Image overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              {/* HBCU Badge */}
-              {isHBCUCategory(category) && <HBCUBadge variant="overlay" />}
             </div>
             <div className="flex justify-between items-start gap-2">
               <div className="flex-1 min-w-0">
@@ -181,10 +179,13 @@ const PremiumBusinessCard = ({
             )}
             
             <div className="flex items-center justify-between text-base text-gray-300 mb-4">
-              <div className="flex items-center">
-                <Star className="h-4 w-4 text-mansagold mr-1 fill-mansagold drop-shadow-[0_0_4px_rgba(251,191,36,0.5)]" />
-                <span className="text-white font-medium">{rating}</span>
-                <span className="ml-1 text-gray-400">({reviewCount} reviews)</span>
+              <div className="flex items-center gap-2">
+                <div className="flex items-center">
+                  <Star className="h-4 w-4 text-mansagold mr-1 fill-mansagold drop-shadow-[0_0_4px_rgba(251,191,36,0.5)]" />
+                  <span className="text-white font-medium">{rating}</span>
+                  <span className="ml-1 text-gray-400">({reviewCount} reviews)</span>
+                </div>
+                {isHBCUCategory(category) && <HBCUBadge variant="compact" />}
               </div>
               {distance && (
                 <div className="flex items-center text-gray-500">
