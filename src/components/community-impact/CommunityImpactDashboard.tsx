@@ -12,32 +12,15 @@ import CommunityWideImpact from './CommunityWideImpact';
 import ImpactGoals from './ImpactGoals';
 import CallToActionSection from './CallToActionSection';
 import { Card, CardContent } from '@/components/ui/card';
+import { AlertCircle, TrendingUp } from 'lucide-react';
 
 const CommunityImpactDashboard: React.FC = () => {
   const { user } = useAuth();
-  const { userMetrics, communityMetrics, loading } = useCommunityImpact(user?.id);
+  const { userMetrics, communityMetrics, loading, hasRealData, userHasImpact } = useCommunityImpact(user?.id);
 
-  console.log('Community Impact Debug:', { user: !!user, userMetrics, communityMetrics, loading });
+  console.log('Community Impact Debug:', { user: !!user, userMetrics, communityMetrics, loading, hasRealData });
 
   const handleShareImpact = () => shareImpact(userMetrics);
-
-  // Show fallback data for demonstration purposes when no real data is available
-  const fallbackUserMetrics = {
-    total_spending: 1250,
-    businesses_supported: 8,
-    wealth_circulated: 2100,
-    circulation_multiplier: 1.67,
-    estimated_jobs_created: 0.12
-  };
-
-  const fallbackCommunityMetrics = {
-    total_users: 2450,
-    total_businesses: 187,
-    total_circulation: 485000,
-    total_transactions: 12500,
-    active_this_month: 890,
-    estimated_jobs_created: 48.5
-  };
 
   if (loading) {
     return (
@@ -59,33 +42,89 @@ const CommunityImpactDashboard: React.FC = () => {
     );
   }
 
-  // Use actual data if available, otherwise use fallback data
-  const displayUserMetrics = userMetrics || fallbackUserMetrics;
-  const displayCommunityMetrics = communityMetrics || fallbackCommunityMetrics;
+  // Default metrics when no data available
+  const defaultMetrics = {
+    total_spending: 0,
+    businesses_supported: 0,
+    wealth_circulated: 0,
+    circulation_multiplier: 0,
+    estimated_jobs_created: 0
+  };
+
+  const defaultCommunityMetrics = {
+    total_users: 0,
+    total_businesses: 0,
+    total_circulation: 0,
+    total_transactions: 0,
+    active_this_month: 0,
+    estimated_jobs_created: 0
+  };
+
+  const displayUserMetrics = userMetrics || defaultMetrics;
+  const displayCommunityMetrics = communityMetrics || defaultCommunityMetrics;
 
   return (
     <div className="space-y-4">
       {/* Hero Section */}
       <HeroSection user={user} />
 
+      {/* Show empty state message when no real data */}
+      {!hasRealData && (
+        <Card className="bg-gradient-to-r from-blue-900/40 to-purple-900/40 border-blue-500/30">
+          <CardContent className="p-4 flex items-center gap-3">
+            <div className="p-2 bg-blue-500/20 rounded-full">
+              <TrendingUp className="h-5 w-5 text-blue-400" />
+            </div>
+            <div>
+              <p className="text-white font-medium">Building Community Impact</p>
+              <p className="text-sm text-white/70">
+                As our community grows, you'll see real-time impact metrics here. 
+                Start supporting businesses to contribute to the collective wealth circulation!
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {user && (
         <>
-          {/* Quick Stats Overview - Only show for authenticated users */}
-          <QuickStatsOverview displayUserMetrics={displayUserMetrics} />
+          {/* Show getting started message for users with no impact yet */}
+          {!userHasImpact && (
+            <Card className="bg-gradient-to-r from-amber-900/40 to-orange-900/40 border-amber-500/30">
+              <CardContent className="p-4 flex items-center gap-3">
+                <div className="p-2 bg-amber-500/20 rounded-full">
+                  <AlertCircle className="h-5 w-5 text-amber-400" />
+                </div>
+                <div>
+                  <p className="text-white font-medium">Start Your Impact Journey</p>
+                  <p className="text-sm text-white/70">
+                    Visit and support Black-owned businesses to see your personal impact metrics grow!
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
-          {/* Personal Impact Cards - Only for authenticated users */}
-          <PersonalImpactCards 
-            userMetrics={displayUserMetrics}
-            formatCurrency={formatCurrency}
-            formatNumber={formatNumber}
-          />
+          {/* Quick Stats Overview - Only show for authenticated users with impact */}
+          {userHasImpact && <QuickStatsOverview displayUserMetrics={displayUserMetrics} />}
 
-          {/* Wealth Circulation Explanation - Only for authenticated users */}
-          <MultiplierEffectCard 
-            userMetrics={displayUserMetrics}
-            formatCurrency={formatCurrency}
-            onShareImpact={handleShareImpact}
-          />
+          {/* Personal Impact Cards - Only for authenticated users with impact */}
+          {userHasImpact && (
+            <PersonalImpactCards 
+              userMetrics={displayUserMetrics}
+              formatCurrency={formatCurrency}
+              formatNumber={formatNumber}
+            />
+          )}
+
+          {/* Wealth Circulation Explanation - Only for authenticated users with impact */}
+          {userHasImpact && (
+            <MultiplierEffectCard 
+              userMetrics={displayUserMetrics}
+              formatCurrency={formatCurrency}
+              onShareImpact={handleShareImpact}
+            />
+          )}
 
           {/* Impact Goals - Only for authenticated users */}
           <ImpactGoals 
@@ -95,12 +134,14 @@ const CommunityImpactDashboard: React.FC = () => {
         </>
       )}
 
-      {/* Community-Wide Impact - Show for everyone */}
-      <CommunityWideImpact 
-        communityMetrics={displayCommunityMetrics}
-        formatCurrency={formatCurrency}
-        formatNumber={formatNumber}
-      />
+      {/* Community-Wide Impact - Show for everyone when there's real data */}
+      {hasRealData && (
+        <CommunityWideImpact 
+          communityMetrics={displayCommunityMetrics}
+          formatCurrency={formatCurrency}
+          formatNumber={formatNumber}
+        />
+      )}
 
       {/* Call to Action */}
       <CallToActionSection user={user} />
@@ -109,3 +150,4 @@ const CommunityImpactDashboard: React.FC = () => {
 };
 
 export default CommunityImpactDashboard;
+

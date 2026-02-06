@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface UserImpactMetrics {
@@ -20,10 +20,21 @@ interface CommunityMetrics {
   estimated_jobs_created: number;
 }
 
+// Fallback values only used when database returns null/empty
+const FALLBACK_COMMUNITY_METRICS: CommunityMetrics = {
+  total_users: 0,
+  total_businesses: 0,
+  total_circulation: 0,
+  total_transactions: 0,
+  active_this_month: 0,
+  estimated_jobs_created: 0,
+};
+
 export const useCommunityImpact = (userId?: string) => {
   const [userMetrics, setUserMetrics] = useState<UserImpactMetrics | null>(null);
   const [communityMetrics, setCommunityMetrics] = useState<CommunityMetrics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [hasRealData, setHasRealData] = useState(false);
 
   const fetchImpactMetrics = async () => {
     try {
@@ -35,8 +46,19 @@ export const useCommunityImpact = (userId?: string) => {
 
       if (communityError) {
         console.error('Error fetching community metrics:', communityError);
-      } else {
+        setCommunityMetrics(FALLBACK_COMMUNITY_METRICS);
+        setHasRealData(false);
+      } else if (communityData) {
+        // Check if we have meaningful data
+        const hasData = communityData.total_users > 0 || 
+                       communityData.total_businesses > 0 ||
+                       communityData.total_transactions > 0;
+        
         setCommunityMetrics(communityData);
+        setHasRealData(hasData);
+      } else {
+        setCommunityMetrics(FALLBACK_COMMUNITY_METRICS);
+        setHasRealData(false);
       }
 
       // Only fetch user metrics if user is authenticated
@@ -46,6 +68,7 @@ export const useCommunityImpact = (userId?: string) => {
 
         if (userError) {
           console.error('Error fetching user metrics:', userError);
+          setUserMetrics(null);
         } else {
           setUserMetrics(userImpactData);
         }
@@ -53,6 +76,8 @@ export const useCommunityImpact = (userId?: string) => {
 
     } catch (error) {
       console.error('Error fetching impact metrics:', error);
+      setCommunityMetrics(FALLBACK_COMMUNITY_METRICS);
+      setHasRealData(false);
     } finally {
       setLoading(false);
     }
@@ -63,10 +88,19 @@ export const useCommunityImpact = (userId?: string) => {
     fetchImpactMetrics();
   }, [userId]);
 
+  // Determine if user has made any impact
+  const userHasImpact = useMemo(() => {
+    if (!userMetrics) return false;
+    return userMetrics.total_spending > 0 || userMetrics.businesses_supported > 0;
+  }, [userMetrics]);
+
   return {
     userMetrics,
     communityMetrics,
     loading,
+    hasRealData,
+    userHasImpact,
     refetch: fetchImpactMetrics
   };
 };
+
