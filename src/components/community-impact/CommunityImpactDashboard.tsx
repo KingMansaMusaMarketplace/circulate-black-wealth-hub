@@ -64,65 +64,46 @@ const CommunityImpactDashboard: React.FC = () => {
   const displayCommunityMetrics = communityMetrics || fallbackCommunityMetrics;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
-      {/* Animated gradient orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/30 rounded-full blur-3xl animate-float"></div>
-      <div className="absolute top-40 right-20 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-      <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Hero Section */}
-        <div className="mb-4">
-          <HeroSection user={user} />
-        </div>
+    <div className="space-y-4">
+      {/* Hero Section */}
+      <HeroSection user={user} />
 
-        {user && (
-          <>
-            {/* Quick Stats Overview - Only show for authenticated users */}
-            <div className="mb-4">
-              <QuickStatsOverview displayUserMetrics={displayUserMetrics} />
-            </div>
+      {user && (
+        <>
+          {/* Quick Stats Overview - Only show for authenticated users */}
+          <QuickStatsOverview displayUserMetrics={displayUserMetrics} />
 
-            {/* Personal Impact Cards - Only for authenticated users */}
-            <div className="mb-4">
-              <PersonalImpactCards 
-                userMetrics={displayUserMetrics}
-                formatCurrency={formatCurrency}
-                formatNumber={formatNumber}
-              />
-            </div>
-
-            {/* Wealth Circulation Explanation - Only for authenticated users */}
-            <div className="mb-4">
-              <MultiplierEffectCard 
-                userMetrics={displayUserMetrics}
-                formatCurrency={formatCurrency}
-                onShareImpact={handleShareImpact}
-              />
-            </div>
-
-            {/* Impact Goals - Only for authenticated users */}
-            <div className="mb-4">
-              <ImpactGoals 
-                userMetrics={displayUserMetrics}
-                formatCurrency={formatCurrency}
-              />
-            </div>
-          </>
-        )}
-
-        {/* Community-Wide Impact - Show for everyone */}
-        <div className="mb-4">
-          <CommunityWideImpact 
-            communityMetrics={displayCommunityMetrics}
+          {/* Personal Impact Cards - Only for authenticated users */}
+          <PersonalImpactCards 
+            userMetrics={displayUserMetrics}
             formatCurrency={formatCurrency}
             formatNumber={formatNumber}
           />
-        </div>
 
-        {/* Call to Action */}
-        <CallToActionSection user={user} />
-      </div>
+          {/* Wealth Circulation Explanation - Only for authenticated users */}
+          <MultiplierEffectCard 
+            userMetrics={displayUserMetrics}
+            formatCurrency={formatCurrency}
+            onShareImpact={handleShareImpact}
+          />
+
+          {/* Impact Goals - Only for authenticated users */}
+          <ImpactGoals 
+            userMetrics={displayUserMetrics}
+            formatCurrency={formatCurrency}
+          />
+        </>
+      )}
+
+      {/* Community-Wide Impact - Show for everyone */}
+      <CommunityWideImpact 
+        communityMetrics={displayCommunityMetrics}
+        formatCurrency={formatCurrency}
+        formatNumber={formatNumber}
+      />
+
+      {/* Call to Action */}
+      <CallToActionSection user={user} />
     </div>
   );
 };
