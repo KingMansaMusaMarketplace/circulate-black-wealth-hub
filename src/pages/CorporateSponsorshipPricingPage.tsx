@@ -340,10 +340,8 @@ const CorporateSponsorshipPricingPage: React.FC = () => {
                       : 'border-white/10 hover:border-white/20'
                   }`}
                 >
-                  {/* Popular badge */}
-                  {tier.popular && (
-                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400" />
-                  )}
+                  {/* Tier-specific top color band for visual consistency */}
+                  <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${tier.gradient}`} />
                   
                   <div className="p-8">
                     {/* Header */}
