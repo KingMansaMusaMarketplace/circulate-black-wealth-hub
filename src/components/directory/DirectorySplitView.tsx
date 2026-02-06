@@ -131,9 +131,9 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
       </div>
 
       {showSplitView ? (
-        <div className="grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-6" style={{ height: 'calc(100vh - 320px)', minHeight: '550px', maxHeight: '800px' }}>
+        <div className="flex gap-6 h-[600px]">
           {/* Left Panel - Scrollable Business List */}
-          <div className="relative">
+          <div className="w-[400px] flex-shrink-0">
             <ScrollArea className="h-full rounded-xl border border-white/5 bg-slate-900/30 backdrop-blur-sm">
               <div ref={listRef} className="p-4 space-y-3">
                 <div className="flex items-center justify-between mb-4 sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10 py-2 -mt-2 -mx-4 px-4">
@@ -155,21 +155,19 @@ const DirectorySplitView: React.FC<DirectorySplitViewProps> = ({
             </ScrollArea>
           </div>
 
-          {/* Right Panel - Sticky Map */}
-          <div className="relative rounded-xl overflow-hidden border border-white/5">
-            <div className="absolute inset-0">
-              <MapboxMap
-                apiKey={mapApiKey}
-                userLocation={userLocation}
-                businesses={mapData}
-                onBusinessClick={handleMarkerClick}
-                highlightedBusinessId={highlightedBusinessId}
-                onMarkerHover={handleCardHover}
-              />
-            </div>
+          {/* Right Panel - Map */}
+          <div className="flex-1 rounded-xl overflow-hidden border border-white/5 relative">
+            <MapboxMap
+              apiKey={mapApiKey}
+              userLocation={userLocation}
+              businesses={mapData}
+              onBusinessClick={handleMarkerClick}
+              highlightedBusinessId={highlightedBusinessId}
+              onMarkerHover={handleCardHover}
+            />
             
             {/* Map overlay gradient at top */}
-            <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-slate-900/50 to-transparent pointer-events-none z-10" />
+            <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-slate-900/40 to-transparent pointer-events-none z-10" />
           </div>
         </div>
       ) : (
