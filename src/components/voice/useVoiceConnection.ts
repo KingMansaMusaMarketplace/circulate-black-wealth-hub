@@ -90,27 +90,33 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
     }
   }, [onSpeakingChange]);
 
-  const startConversation = async () => {
+  const startConversation = async (): Promise<{ blocked: boolean; reason?: string } | void> => {
+    // CRITICAL: iPad detection MUST happen FIRST before any async operations
+    // to prevent crashes on iPad devices (Apple Guideline 2.1 compliance)
     try {
-      if (isConnecting) return;
-
-      // iPad detection
+      // Synchronous iPad detection - no async operations before this check
       const isIPad =
         /iPad/.test(navigator.userAgent) ||
         (navigator.platform === 'MacIntel' &&
           navigator.maxTouchPoints > 1 &&
           !/iPhone/.test(navigator.userAgent));
 
+      // Return immediately for iPad - no audio context or WebRTC initialization
+      if (isIPad) {
+        console.log('[Kayla] iPad detected - blocking voice initialization to prevent crash');
+        return { blocked: true, reason: 'ipad' };
+      }
+
+      // Check if already connecting
+      if (isConnecting) {
+        return { blocked: true, reason: 'already_connecting' };
+      }
+
       const isIOS =
         /iPad|iPhone|iPod/.test(navigator.userAgent) ||
         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-      // iPad-specific graceful handling
-      if (isIPad) {
-        return { blocked: true, reason: 'ipad' };
-      }
-
-      // Pre-flight checks
+      // Pre-flight checks - these are safe even if they fail
       if (!navigator.mediaDevices) {
         toast.error('Voice Not Supported', {
           description: 'Your browser does not support voice features.',
@@ -125,6 +131,7 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         return { blocked: true, reason: 'no_webrtc' };
       }
 
+      // Safe to proceed with async operations now
       await triggerHaptics('medium');
       setIsConnecting(true);
 
@@ -180,10 +187,11 @@ export const useVoiceConnection = ({ onSpeakingChange }: UseVoiceConnectionOptio
         setIsConnecting(false);
       }
     } catch (outerError) {
+      // Catch any unexpected synchronous errors to prevent crash
       console.error('[Kayla] Unexpected outer error:', outerError);
       setIsConnecting(false);
-      toast.error('Unexpected Error', {
-        description: 'Something went wrong. Please try again.',
+      toast.error('Voice Unavailable', {
+        description: 'Voice features are not available on this device.',
       });
       return { blocked: true, reason: 'unexpected' };
     }

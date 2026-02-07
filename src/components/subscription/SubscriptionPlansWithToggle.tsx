@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Check, Star, Crown, Building, Users, Rocket, ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { useSubscriptionActions } from './hooks/useSubscriptionActions';
 import { type SubscriptionTier } from '@/lib/services/subscription-tiers';
 import { shouldHideStripePayments } from '@/utils/platform-utils';
@@ -32,17 +32,42 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
   currentTier = 'free', 
   userType = 'customer' 
 }) => {
+  const navigate = useNavigate();
   const { loading, handleSubscribe, isAuthenticated } = useSubscriptionActions();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
   const isIOS = shouldHideStripePayments();
 
-  // Handle iOS subscription management deep link
-  const handleManageSubscriptions = () => {
+  // Handle iOS subscription management deep link with explicit touch handling
+  const handleManageSubscriptions = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     window.location.href = "itms-apps://apps.apple.com/account/subscriptions";
   };
 
-  const handleSubscribeViaWebsite = () => {
+  const handleSubscribeViaWebsite = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     window.open("https://circulate-black-wealth-hub.lovable.app/subscription", "_blank");
+  };
+
+  const handleNavigateToTerms = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    navigate('/terms');
+  };
+
+  const handleNavigateToPrivacy = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    navigate('/privacy');
   };
 
   // On iOS, show informative message with FUNCTIONAL BUTTONS
@@ -92,20 +117,36 @@ const SubscriptionPlansWithToggle: React.FC<SubscriptionPlansWithToggleProps> = 
                 By using our services, you agree to our:
               </p>
               <div className="flex flex-col gap-2">
-                <Link 
-                  to="/terms" 
-                  className="bg-slate-700/50 hover:bg-slate-700 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
-                  style={{ touchAction: 'manipulation' }}
+                <button
+                  type="button"
+                  onClick={handleNavigateToTerms}
+                  onTouchEnd={(e) => { e.preventDefault(); navigate('/terms'); }}
+                  className="bg-slate-700/50 hover:bg-slate-700 active:bg-slate-600 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer select-none"
+                  style={{ 
+                    touchAction: 'manipulation',
+                    WebkitTapHighlightColor: 'transparent',
+                    WebkitTouchCallout: 'none',
+                    WebkitUserSelect: 'none',
+                    userSelect: 'none'
+                  }}
                 >
                   📜 Terms of Service (EULA)
-                </Link>
-                <Link 
-                  to="/privacy" 
-                  className="bg-slate-700/50 hover:bg-slate-700 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
-                  style={{ touchAction: 'manipulation' }}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNavigateToPrivacy}
+                  onTouchEnd={(e) => { e.preventDefault(); navigate('/privacy'); }}
+                  className="bg-slate-700/50 hover:bg-slate-700 active:bg-slate-600 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer select-none"
+                  style={{ 
+                    touchAction: 'manipulation',
+                    WebkitTapHighlightColor: 'transparent',
+                    WebkitTouchCallout: 'none',
+                    WebkitUserSelect: 'none',
+                    userSelect: 'none'
+                  }}
                 >
                   🔒 Privacy Policy
-                </Link>
+                </button>
               </div>
             </div>
           </CardContent>
