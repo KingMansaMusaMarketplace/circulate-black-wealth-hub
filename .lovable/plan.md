@@ -1,115 +1,161 @@
 
+# EatOkra Partnership Pitch Page Implementation Plan
 
-# Fix: Safari Marketplace Not Showing (0 Businesses)
+## Overview
+Create a dedicated partnership landing page specifically designed to pitch **EatOkra** on migrating their 22,500+ restaurant listings to the 1325.AI platform. This page will be publicly accessible at `/partner/eatokra` and serve as a comprehensive pitch document that can be shared directly with EatOkra's leadership.
 
-## Problem Summary
+---
 
-Maurice reports the Marketplace shows "0 businesses found" on Safari but works on Chrome. The screenshot confirms the UI loads correctly but no business data appears.
+## Strategic Approach
 
-## Root Cause Analysis
+### Why EatOkra First?
+- **Perfect Vertical Fit**: Restaurant bookings and reservations are the #1 use case for our native Stripe Connect booking system
+- **Clear Value Add**: EatOkra currently links to external sites; 1325.AI enables in-platform reservations with 92.5% revenue retention
+- **Manageable Scale**: 22,500 listings is substantial but not overwhelming for initial migration
+- **Revenue Model Alignment**: Per-transaction booking fees create recurring revenue for both parties
 
-A recent security hardening update broke anonymous user access:
+### Core Pitch Themes
+1. **From Directory to Transaction Platform**: Transform discovery into direct bookings
+2. **Revenue Share Model**: 10% recurring commission on all transactions from migrated businesses
+3. **Founding Partner Status**: Locked-in benefits before September 2026 deadline
+4. **Technical Migration Support**: Automated import tools and white-glove onboarding
 
-1. **RLS Policy Change**: Migration `20260204200120` dropped all public SELECT policies on `businesses` table and replaced them with policies that ONLY allow `authenticated` users
+---
 
-2. **Security Invoker View**: The `business_directory` view was created with `security_invoker = true`, meaning it inherits the caller's permissions. Anonymous users have no RLS policy to read from `businesses`, so the view returns 0 rows.
+## Page Structure
 
-3. **Safari vs Chrome Difference**: Chrome users are likely logged in (authenticated) so policies work. Safari users are often not logged in or have stricter cookie policies (ITP), so they hit the anonymous path which currently fails.
+### Section 1: Hero Banner
+- Bold headline: "EatOkra + 1325.AI: From Discovery to Direct Revenue"
+- Subheadline emphasizing the partnership opportunity
+- EatOkra logo placeholder alongside 1325.AI branding
+- CTA button: "Schedule a Partnership Call"
 
-4. **Frontend Issue**: The `useSupabaseDirectory` hook queries the `businesses` table directly (line 89-91), not the secure view or RPC function.
+### Section 2: The Opportunity (Problem/Solution)
+- **Current State**: EatOkra lists 22,500+ restaurants but loses users to external booking platforms (OpenTable, Yelp, Google)
+- **Opportunity Cost**: Each external redirect = lost transaction data and potential revenue
+- **1325.AI Solution**: Native booking engine keeps users in-platform, captures transaction fees
 
-## Database State Verified
+### Section 3: Feature Comparison Matrix
+Styled like existing `PitchSlide8Competitive.tsx` with high-contrast design:
 
-| Check | Result |
-|-------|--------|
-| Businesses with `listing_status='live'` or `is_verified=true` | **57 rows** |
-| RLS enabled on `businesses` table | **Yes** |
-| RLS policies for `anon` role | **None** |
-| `get_public_businesses` RPC exists with SECURITY DEFINER | **Yes** |
-| `anon` can EXECUTE the RPC | **Yes** |
+| Feature | EatOkra Today | EatOkra + 1325.AI |
+|---------|---------------|-------------------|
+| Restaurant Discovery | Yes | Yes |
+| Native Booking | No (external links) | Yes (Stripe Connect) |
+| Revenue Per Booking | $0 | 7.5% platform fee |
+| Partner Revenue Share | N/A | 10% of platform fees |
+| Customer Loyalty Tools | No | Yes |
+| Real-time Analytics | Limited | Full dashboard |
+| Mobile Apps (iOS/Android) | No | Yes |
+| Community Finance (Susu) | No | Yes |
 
-## Solution
+### Section 4: Revenue Calculator
+Interactive component showing potential earnings:
+- Input: Average bookings per restaurant per month
+- Input: Average booking value
+- Output: Monthly/Annual revenue for EatOkra as partner
+- Example: 22,500 restaurants × 10 bookings × $50 avg × 7.5% × 10% = **$84,375/month partner revenue**
 
-### Option A: Fix the View (Recommended)
-Recreate `business_directory` view without `security_invoker = true` so it runs with owner privileges:
+### Section 5: Migration Path
+Visual timeline showing:
+1. **Partnership Agreement** (Week 1)
+2. **API Integration** - Firecrawl-powered import of existing listings (Week 2-3)
+3. **Business Outreach** - Co-branded emails to restaurant owners (Week 4-6)
+4. **Launch** - Full integration with tracking dashboard (Week 7-8)
 
-```sql
-DROP VIEW IF EXISTS public.business_directory CASCADE;
+### Section 6: Partner Benefits Summary
+Cards highlighting:
+- **$5 per signup bonus** for every restaurant that joins
+- **10% recurring revenue share** on all booking fees
+- **Founding Partner badge** - permanent recognition
+- **Co-branded marketing materials** - generated automatically
+- **Dedicated partner dashboard** - real-time analytics
 
-CREATE VIEW public.business_directory AS 
-SELECT 
-  id, business_name, name, description, category, address,
-  city, state, zip_code, website, logo_url, banner_url,
-  is_verified, average_rating, review_count, created_at, updated_at,
-  latitude, longitude, listing_status, is_founding_member, is_founding_sponsor
-FROM businesses b
-WHERE (is_verified = true OR listing_status = 'live');
+### Section 7: Social Proof / Why Now
+- Founding Member deadline urgency (September 2026)
+- Current traction metrics from database
+- Testimonial placeholder for early partners
 
-GRANT SELECT ON public.business_directory TO anon;
-GRANT SELECT ON public.business_directory TO authenticated;
+### Section 8: Call to Action
+- Primary: "Schedule Partnership Discussion" (Calendly or contact form)
+- Secondary: "Download Partnership Overview PDF"
+- Contact info for partnership inquiries
+
+---
+
+## Technical Implementation
+
+### New Files to Create
+
+```text
+src/pages/partners/
+├── EatOkraPartnershipPage.tsx    # Main landing page
+└── index.ts                       # Exports
+
+src/components/partnerships/
+├── PartnershipHero.tsx           # Reusable hero for partner pitches
+├── PartnerRevenueCalculator.tsx  # Interactive earnings calculator
+├── MigrationTimeline.tsx         # Visual migration steps
+├── PartnerComparisonTable.tsx    # Before/after feature matrix
+└── index.ts
 ```
 
-### Option B: Add RLS Policy for Anonymous Users
-Add a restricted SELECT policy for the `anon` role:
-
-```sql
-CREATE POLICY "Anonymous can view public businesses"
-ON public.businesses
-FOR SELECT
-TO anon
-USING (listing_status = 'live' OR is_verified = true);
+### Route Configuration
+Add route in `App.tsx`:
+```tsx
+<Route path="/partner/eatokra" element={<EatOkraPartnershipPage />} />
 ```
 
-### Frontend Fix (Both Options)
-Update `useSupabaseDirectory` to use the RPC function instead of direct table access:
+### Design System
+Following existing pitch deck style from `PitchSlide8Competitive.tsx`:
+- Background: `bg-black/80` with gradient overlays
+- Borders: `border-2 border-mansagold` for emphasis
+- Text: High-contrast white and gold typography
+- Cards: Glassmorphism effect with backdrop blur
+- Animations: Framer Motion entrance animations
 
-**File: `src/hooks/use-supabase-directory.ts`**
-
-Change lines 88-97 from:
+### Revenue Calculator Logic
 ```typescript
-const { data, error } = await supabase
-  .from('businesses')
-  .select('*')
-  .order('average_rating', { ascending: false, nullsFirst: false })
-  .order('review_count', { ascending: false })
-  .limit(100);
+interface CalculatorInputs {
+  restaurantCount: number;      // Default: 22500
+  bookingsPerMonth: number;     // Default: 10
+  avgBookingValue: number;      // Default: 50
+}
+
+const calculateRevenue = (inputs: CalculatorInputs) => {
+  const platformFeeRate = 0.075;  // 7.5%
+  const partnerShareRate = 0.10;  // 10% of platform fees
+  
+  const totalBookingValue = inputs.restaurantCount * inputs.bookingsPerMonth * inputs.avgBookingValue;
+  const platformFees = totalBookingValue * platformFeeRate;
+  const partnerRevenue = platformFees * partnerShareRate;
+  
+  return {
+    monthly: partnerRevenue,
+    annual: partnerRevenue * 12,
+    perRestaurant: partnerRevenue / inputs.restaurantCount
+  };
+};
 ```
 
-To:
-```typescript
-const { data, error } = await supabase
-  .rpc('get_public_businesses', { p_limit: 100 })
-```
+---
 
-Or use the secure view:
-```typescript
-const { data, error } = await supabase
-  .from('business_directory')
-  .select('*')
-  .order('average_rating', { ascending: false, nullsFirst: false })
-  .order('review_count', { ascending: false })
-  .limit(100);
-```
+## Reusability
+This page structure is designed to be templated for other directories:
+- `BuyBlackPartnershipPage.tsx`
+- `BlackDirectoryPartnershipPage.tsx`
+- `OBWSPartnershipPage.tsx`
 
-## Recommended Approach
+Each can reuse the same components with customized:
+- Logo and branding
+- Listing count and vertical focus
+- Specific value propositions
 
-1. **Database Migration**: Recreate the view WITHOUT `security_invoker` (Option A)
-2. **Frontend Update**: Change `useSupabaseDirectory` to use `business_directory` view
-3. **Verify**: Test on Safari in incognito mode to confirm anonymous access works
+---
 
-## Files to Modify
-
-| File | Change |
-|------|--------|
-| New migration SQL | Recreate `business_directory` without security_invoker |
-| `src/hooks/use-supabase-directory.ts` | Query from `business_directory` view instead of `businesses` table |
-
-## Testing Checklist
-
-- [ ] Open Safari incognito mode (not logged in)
-- [ ] Navigate to /directory
-- [ ] Verify businesses appear (should show 57)
-- [ ] Test search functionality
-- [ ] Test category filtering
-- [ ] Verify Chrome still works for logged-in users
-
+## Success Metrics
+After launch, track:
+- Page views and time on page
+- CTA button clicks (partnership call scheduling)
+- PDF downloads
+- Conversion to partnership discussions
