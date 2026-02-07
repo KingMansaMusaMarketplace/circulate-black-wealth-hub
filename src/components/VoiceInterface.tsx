@@ -20,9 +20,14 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
   } = useVoiceConnection({ onSpeakingChange });
 
   const handleStart = async () => {
-    const result = await startConversation();
-    if (result?.blocked && result.reason === 'ipad') {
-      setShowIPadFallback(true);
+    try {
+      const result = await startConversation();
+      if (result && typeof result === 'object' && 'blocked' in result && result.blocked && result.reason === 'ipad') {
+        setShowIPadFallback(true);
+      }
+    } catch (error) {
+      console.error('[VoiceInterface] Error starting conversation:', error);
+      // If there's any error, treat it as if blocked to prevent crash
     }
   };
 

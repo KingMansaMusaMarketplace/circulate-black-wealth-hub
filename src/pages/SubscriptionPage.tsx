@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import SubscriptionPlansWithToggle from '@/components/subscription/SubscriptionPlansWithToggle';
@@ -17,6 +17,7 @@ import { shouldHideStripePayments } from '@/utils/platform-utils';
 const SubscriptionPage: React.FC = () => {
   console.log('[SUBSCRIPTION PAGE] Loading dark theme version - 2025-11-19');
   
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { subscriptionInfo, openCustomerPortal } = useSubscription();
   const [searchParams] = useSearchParams();
@@ -31,15 +32,40 @@ const SubscriptionPage: React.FC = () => {
   const userType = user?.user_metadata?.user_type || 
     (suggestedTier === 'business_starter' || suggestedTier === 'business' ? 'business' : 'customer');
 
-  // Handle iOS subscription management deep link
-  const handleManageSubscriptions = () => {
+  // Handle iOS subscription management deep link with explicit touch handling
+  const handleManageSubscriptions = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     // iOS deep link to subscription management
     window.location.href = "itms-apps://apps.apple.com/account/subscriptions";
   };
 
   // Handle opening website for subscription
-  const handleSubscribeViaWebsite = () => {
+  const handleSubscribeViaWebsite = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     window.open("https://circulate-black-wealth-hub.lovable.app/subscription", "_blank");
+  };
+
+  // Handle navigation for legal pages with touch support
+  const handleNavigateToTerms = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    navigate('/terms');
+  };
+
+  const handleNavigateToPrivacy = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    navigate('/privacy');
   };
 
   // On iOS, show simplified subscription page with FUNCTIONAL BUTTONS and required legal links
@@ -85,19 +111,50 @@ const SubscriptionPage: React.FC = () => {
                 </div>
 
                 {/* FUNCTIONAL BUTTONS - Required for Apple 2.1 compliance */}
+                {/* Using native HTML button elements with explicit touch handling for iPad */}
                 <div className="space-y-4 pt-4">
                   <button
-                    onClick={handleManageSubscriptions}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
-                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleManageSubscriptions();
+                    }}
+                    onTouchEnd={(e) => {
+                      e.preventDefault();
+                      handleManageSubscriptions();
+                    }}
+                    className="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-4 px-6 rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer select-none"
+                    style={{ 
+                      touchAction: 'manipulation', 
+                      WebkitTapHighlightColor: 'transparent',
+                      WebkitTouchCallout: 'none',
+                      WebkitUserSelect: 'none',
+                      userSelect: 'none'
+                    }}
                   >
                     <span>Manage Subscriptions (Apple ID)</span>
                   </button>
                   
                   <button
-                    onClick={handleSubscribeViaWebsite}
-                    className="w-full bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-lg border border-white/20 transition-colors flex items-center justify-center gap-2"
-                    style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleSubscribeViaWebsite();
+                    }}
+                    onTouchEnd={(e) => {
+                      e.preventDefault();
+                      handleSubscribeViaWebsite();
+                    }}
+                    className="w-full bg-slate-700 hover:bg-slate-600 active:bg-slate-500 text-white font-semibold py-4 px-6 rounded-lg border border-white/20 transition-colors flex items-center justify-center gap-2 cursor-pointer select-none"
+                    style={{ 
+                      touchAction: 'manipulation', 
+                      WebkitTapHighlightColor: 'transparent',
+                      WebkitTouchCallout: 'none',
+                      WebkitUserSelect: 'none',
+                      userSelect: 'none'
+                    }}
                   >
                     <span>Subscribe via Website</span>
                   </button>
@@ -108,20 +165,36 @@ const SubscriptionPage: React.FC = () => {
               <div className="bg-slate-800/60 backdrop-blur-xl border border-white/10 rounded-lg p-6 space-y-4">
                 <h3 className="font-semibold text-white">Legal Information</h3>
                 <div className="flex flex-col gap-3">
-                  <Link 
-                    to="/terms" 
-                    className="bg-slate-700/50 hover:bg-slate-700 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
-                    style={{ touchAction: 'manipulation' }}
+                  <button
+                    type="button"
+                    onClick={handleNavigateToTerms}
+                    onTouchEnd={(e) => { e.preventDefault(); navigate('/terms'); }}
+                    className="bg-slate-700/50 hover:bg-slate-700 active:bg-slate-600 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer select-none"
+                    style={{ 
+                      touchAction: 'manipulation',
+                      WebkitTapHighlightColor: 'transparent',
+                      WebkitTouchCallout: 'none',
+                      WebkitUserSelect: 'none',
+                      userSelect: 'none'
+                    }}
                   >
                     📜 Terms of Service (EULA)
-                  </Link>
-                  <Link 
-                    to="/privacy" 
-                    className="bg-slate-700/50 hover:bg-slate-700 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
-                    style={{ touchAction: 'manipulation' }}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNavigateToPrivacy}
+                    onTouchEnd={(e) => { e.preventDefault(); navigate('/privacy'); }}
+                    className="bg-slate-700/50 hover:bg-slate-700 active:bg-slate-600 text-mansagold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors cursor-pointer select-none"
+                    style={{ 
+                      touchAction: 'manipulation',
+                      WebkitTapHighlightColor: 'transparent',
+                      WebkitTouchCallout: 'none',
+                      WebkitUserSelect: 'none',
+                      userSelect: 'none'
+                    }}
                   >
                     🔒 Privacy Policy
-                  </Link>
+                  </button>
                 </div>
                 <p className="text-xs text-slate-400 mt-4">
                   Payment will be charged to your Apple ID account at confirmation of purchase. 
