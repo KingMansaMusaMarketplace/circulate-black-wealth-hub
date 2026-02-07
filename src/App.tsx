@@ -170,6 +170,9 @@ const LazyPitchDeckPage = lazy(() => import('@/pages/PitchDeckPage'));
 const LazyPartnershipFrameworkPage = lazy(() => import('@/pages/PartnershipFrameworkPage'));
 const LazyPartnerPortal = lazy(() => import('@/pages/PartnerPortal'));
 
+// Partner Pitch Pages
+const LazyEatOkraPartnershipPage = lazy(() => import('@/pages/partners/EatOkraPartnershipPage'));
+
 // Susu, Karma & Wallet pages
 const LazySusuCirclesPage = lazy(() => import('@/pages/SusuCirclesPage'));
 const LazyKarmaDashboardPage = lazy(() => import('@/pages/KarmaDashboardPage'));
@@ -577,6 +580,7 @@ function App() {
                               <Route path="/network" element={<LazyNetworkPage />} />
                               
                               {/* P */}
+                              <Route path="/partner/eatokra" element={<LazyEatOkraPartnershipPage />} />
                               <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                               <Route path="/password-reset" element={<LazyResetPasswordPage />} />
                               <Route path="/payment-success" element={<LazyPaymentSuccessPage />} />
@@ -855,6 +859,7 @@ function App() {
                         <Route path="/network" element={<LazyNetworkPage />} />
                         
                         {/* P */}
+                        <Route path="/partner/eatokra" element={<LazyEatOkraPartnershipPage />} />
                         <Route path="/partner-portal" element={<LazyPartnerPortal />} />
                         <Route path="/partnership-framework" element={<LazyPartnershipFrameworkPage />} />
                         <Route path="/password-reset" element={<LazyResetPasswordPage />} />
