@@ -34,6 +34,7 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
   const [mapboxToken, setMapboxToken] = useState<string | null>(null);
   const [tokenLoading, setTokenLoading] = useState(true);
   const [tokenError, setTokenError] = useState<string | null>(null);
+  const [mapReady, setMapReady] = useState(false);
 
   // Fetch Mapbox token from edge function
   useEffect(() => {
@@ -81,14 +82,22 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
     map.current.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 
+    // Wait for map to fully load before allowing markers
+    map.current.on('load', () => {
+      console.log('Mapbox map loaded, ready for markers');
+      setMapReady(true);
+    });
+
     return () => {
       map.current?.remove();
       map.current = null;
+      setMapReady(false);
     };
   }, [mapboxToken, center, zoom]);
 
+  // Add markers when map is ready and properties change
   useEffect(() => {
-    if (!map.current) return;
+    if (!map.current || !mapReady) return;
 
     // Clear existing markers
     markersRef.current.forEach(marker => marker.remove());
@@ -98,6 +107,8 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
     const validProperties = properties.filter(
       p => p.latitude && p.longitude && !isNaN(p.latitude) && !isNaN(p.longitude)
     );
+
+    console.log(`Adding ${validProperties.length} markers to map`);
 
     // Add markers for each property
     validProperties.forEach(property => {
@@ -147,7 +158,7 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
         zoom: 14,
       });
     }
-  }, [properties, selectedPropertyId]);
+  }, [properties, selectedPropertyId, mapReady]);
 
   const showPropertyPopup = (property: VacationProperty) => {
     if (!map.current) return;
