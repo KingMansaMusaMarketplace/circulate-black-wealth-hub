@@ -101,12 +101,12 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
       <div className="flex flex-col md:flex-row gap-3">
         {/* Location */}
         <div className="flex-1 relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
           <Input
             placeholder="Where are you going?"
             value={filters.city || ''}
             onChange={(e) => onFilterChange({ city: e.target.value || undefined })}
-            className="pl-10"
+            className="pl-10 bg-slate-900/80 border-white/20 text-white placeholder:text-white/50 focus:border-mansagold"
           />
         </div>
 
@@ -116,11 +116,11 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             <Button
               variant="outline"
               className={cn(
-                'w-full md:w-[280px] justify-start text-left font-normal',
-                !dateRange && 'text-muted-foreground'
+                'w-full md:w-[280px] justify-start text-left font-normal bg-slate-900/80 border-white/20 hover:bg-slate-800 hover:border-mansagold/50',
+                !dateRange ? 'text-white/50' : 'text-white'
               )}
             >
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className="mr-2 h-4 w-4 text-white/50" />
               {dateRange?.from ? (
                 dateRange.to ? (
                   <>
@@ -134,31 +134,31 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
               )}
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
+          <PopoverContent className="w-auto p-0 bg-slate-900 border-white/20" align="start">
             <Calendar
               mode="range"
               selected={dateRange}
               onSelect={handleDateChange}
               numberOfMonths={2}
               disabled={(date) => date < new Date()}
-              className="pointer-events-auto"
+              className="pointer-events-auto bg-slate-900 text-white"
             />
           </PopoverContent>
         </Popover>
 
         {/* Guests */}
         <div className="relative w-full md:w-[140px]">
-          <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50 z-10" />
           <Select
             value={filters.guests?.toString() || ''}
             onValueChange={(val) => onFilterChange({ guests: val ? parseInt(val) : undefined })}
           >
-            <SelectTrigger className="pl-10">
-              <SelectValue placeholder="Guests" />
+            <SelectTrigger className="pl-10 bg-slate-900/80 border-white/20 text-white hover:border-mansagold/50">
+              <SelectValue placeholder="Guests" className="text-white/50" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-slate-900 border-white/20">
               {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 16].map((num) => (
-                <SelectItem key={num} value={num.toString()}>
+                <SelectItem key={num} value={num.toString()} className="text-white hover:bg-slate-800">
                   {num}+ guest{num !== 1 ? 's' : ''}
                 </SelectItem>
               ))}
@@ -169,20 +169,20 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
         {/* Filters button */}
         <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" className="relative">
+            <Button variant="outline" className="relative bg-slate-900/80 border-white/20 text-white hover:bg-slate-800 hover:border-mansagold/50">
               <SlidersHorizontal className="w-4 h-4 mr-2" />
               Filters
               {activeFilterCount > 0 && (
-                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-mansagold text-black text-xs flex items-center justify-center">
                   {activeFilterCount}
                 </span>
               )}
             </Button>
           </SheetTrigger>
-          <SheetContent className="w-full sm:max-w-md overflow-y-auto">
+          <SheetContent className="w-full sm:max-w-md overflow-y-auto bg-slate-900 border-white/10">
             <SheetHeader>
-              <SheetTitle>Filters</SheetTitle>
-              <SheetDescription>
+              <SheetTitle className="text-white">Filters</SheetTitle>
+              <SheetDescription className="text-white/60">
                 Refine your search to find the perfect stay
               </SheetDescription>
             </SheetHeader>
@@ -190,18 +190,18 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             <div className="space-y-6 py-6">
               {/* Property Type */}
               <div className="space-y-3">
-                <Label>Property Type</Label>
+                <Label className="text-white">Property Type</Label>
                 <Select
                   value={filters.propertyType || ''}
                   onValueChange={(val) => onFilterChange({ propertyType: val as any || undefined })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-slate-800 border-white/20 text-white">
                     <SelectValue placeholder="Any type" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">Any type</SelectItem>
+                  <SelectContent className="bg-slate-900 border-white/20">
+                    <SelectItem value="" className="text-white hover:bg-slate-800">Any type</SelectItem>
                     {PROPERTY_TYPES.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
+                      <SelectItem key={type.value} value={type.value} className="text-white hover:bg-slate-800">
                         {type.label}
                       </SelectItem>
                     ))}
@@ -211,29 +211,29 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
               {/* Price Range */}
               <div className="space-y-3">
-                <Label>Price Range (per night)</Label>
+                <Label className="text-white">Price Range (per night)</Label>
                 <div className="flex items-center gap-4">
                   <Input
                     type="number"
                     placeholder="Min"
                     value={filters.minPrice || ''}
                     onChange={(e) => onFilterChange({ minPrice: e.target.value ? parseInt(e.target.value) : undefined })}
-                    className="w-24"
+                    className="w-24 bg-slate-800 border-white/20 text-white placeholder:text-white/50"
                   />
-                  <span className="text-muted-foreground">to</span>
+                  <span className="text-white/60">to</span>
                   <Input
                     type="number"
                     placeholder="Max"
                     value={filters.maxPrice || ''}
                     onChange={(e) => onFilterChange({ maxPrice: e.target.value ? parseInt(e.target.value) : undefined })}
-                    className="w-24"
+                    className="w-24 bg-slate-800 border-white/20 text-white placeholder:text-white/50"
                   />
                 </div>
               </div>
 
               {/* Bedrooms */}
               <div className="space-y-3">
-                <Label>Bedrooms</Label>
+                <Label className="text-white">Bedrooms</Label>
                 <div className="flex gap-2 flex-wrap">
                   {[0, 1, 2, 3, 4, 5].map((num) => (
                     <Button
@@ -241,6 +241,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
                       variant={filters.bedrooms === num ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => onFilterChange({ bedrooms: filters.bedrooms === num ? undefined : num })}
+                      className={filters.bedrooms === num ? 'bg-mansagold text-black' : 'border-white/20 text-white hover:bg-slate-800'}
                     >
                       {num === 0 ? 'Any' : `${num}+`}
                     </Button>
@@ -250,7 +251,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
               {/* Bathrooms */}
               <div className="space-y-3">
-                <Label>Bathrooms</Label>
+                <Label className="text-white">Bathrooms</Label>
                 <div className="flex gap-2 flex-wrap">
                   {[0, 1, 2, 3, 4].map((num) => (
                     <Button
@@ -258,6 +259,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
                       variant={filters.bathrooms === num ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => onFilterChange({ bathrooms: filters.bathrooms === num ? undefined : num })}
+                      className={filters.bathrooms === num ? 'bg-mansagold text-black' : 'border-white/20 text-white hover:bg-slate-800'}
                     >
                       {num === 0 ? 'Any' : `${num}+`}
                     </Button>
@@ -267,7 +269,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
               {/* Booking Options */}
               <div className="space-y-3">
-                <Label>Booking Options</Label>
+                <Label className="text-white">Booking Options</Label>
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
                     <Checkbox
@@ -276,8 +278,9 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
                       onCheckedChange={(checked) => 
                         onFilterChange({ instantBook: checked ? true : undefined })
                       }
+                      className="border-white/30"
                     />
-                    <label htmlFor="instant-book" className="text-sm cursor-pointer">
+                    <label htmlFor="instant-book" className="text-sm cursor-pointer text-white">
                       Instant Book
                     </label>
                   </div>
@@ -288,8 +291,9 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
                       onCheckedChange={(checked) => 
                         onFilterChange({ petsAllowed: checked ? true : undefined })
                       }
+                      className="border-white/30"
                     />
-                    <label htmlFor="pets-allowed" className="text-sm cursor-pointer">
+                    <label htmlFor="pets-allowed" className="text-sm cursor-pointer text-white">
                       Pets Allowed
                     </label>
                   </div>
@@ -298,7 +302,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
               {/* Amenities */}
               <div className="space-y-3">
-                <Label>Amenities</Label>
+                <Label className="text-white">Amenities</Label>
                 <div className="grid grid-cols-2 gap-2">
                   {AMENITIES_LIST.slice(0, 10).map((amenity) => (
                     <div key={amenity.id} className="flex items-center space-x-2">
@@ -314,8 +318,9 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
                             amenities: updated.length > 0 ? updated : undefined 
                           });
                         }}
+                        className="border-white/30"
                       />
-                      <label htmlFor={amenity.id} className="text-sm cursor-pointer">
+                      <label htmlFor={amenity.id} className="text-sm cursor-pointer text-white">
                         {amenity.label}
                       </label>
                     </div>
@@ -325,11 +330,11 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             </div>
 
             {/* Actions */}
-            <div className="flex gap-3 pt-4 border-t">
-              <Button variant="outline" onClick={clearFilters} className="flex-1">
+            <div className="flex gap-3 pt-4 border-t border-white/10">
+              <Button variant="outline" onClick={clearFilters} className="flex-1 border-white/20 text-white hover:bg-slate-800">
                 Clear All
               </Button>
-              <Button onClick={() => { onSearch(); setIsFiltersOpen(false); }} className="flex-1">
+              <Button onClick={() => { onSearch(); setIsFiltersOpen(false); }} className="flex-1 bg-mansagold text-black hover:bg-mansagold/90">
                 Show Results
               </Button>
             </div>
@@ -337,7 +342,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
         </Sheet>
 
         {/* Search button */}
-        <Button onClick={onSearch} className="bg-primary hover:bg-primary/90">
+        <Button onClick={onSearch} className="bg-mansagold text-black hover:bg-mansagold/90">
           <Search className="w-4 h-4 mr-2" />
           Search
         </Button>
@@ -389,7 +394,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             variant="ghost"
             size="sm"
             onClick={clearFilters}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-white/60 hover:text-white"
           >
             Clear all
           </Button>
@@ -400,11 +405,11 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 };
 
 const FilterPill: React.FC<{ label: string; onRemove: () => void }> = ({ label, onRemove }) => (
-  <div className="flex items-center gap-1 px-3 py-1 bg-secondary rounded-full text-sm">
+  <div className="flex items-center gap-1 px-3 py-1 bg-slate-800 border border-white/20 rounded-full text-sm text-white">
     <span>{label}</span>
     <button
       onClick={onRemove}
-      className="ml-1 hover:text-destructive transition-colors"
+      className="ml-1 hover:text-mansagold transition-colors"
     >
       <X className="w-3 h-3" />
     </button>
