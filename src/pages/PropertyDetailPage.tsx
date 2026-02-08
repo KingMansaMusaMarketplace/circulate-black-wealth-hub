@@ -1,7 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Layout from '@/components/Layout';
 import { vacationRentalService, calculatePricing } from '@/lib/services/vacation-rental-service';
 import { VacationProperty, PropertyReview, PricingBreakdown as PricingBreakdownType } from '@/types/vacation-rental';
 import PropertyGallery from '@/components/vacation-rentals/PropertyGallery';
@@ -171,39 +170,35 @@ const PropertyDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <Layout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
-          <div className="max-w-7xl mx-auto px-4 py-8">
-            <Skeleton className="h-[400px] w-full rounded-xl mb-6 bg-slate-800" />
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="md:col-span-2 space-y-4">
-                <Skeleton className="h-10 w-2/3 bg-slate-800" />
-                <Skeleton className="h-6 w-1/3 bg-slate-800" />
-                <Skeleton className="h-32 w-full bg-slate-800" />
-              </div>
-              <Skeleton className="h-[400px] w-full rounded-xl bg-slate-800" />
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <Skeleton className="h-[400px] w-full rounded-xl mb-6 bg-slate-800" />
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="md:col-span-2 space-y-4">
+              <Skeleton className="h-10 w-2/3 bg-slate-800" />
+              <Skeleton className="h-6 w-1/3 bg-slate-800" />
+              <Skeleton className="h-32 w-full bg-slate-800" />
             </div>
+            <Skeleton className="h-[400px] w-full rounded-xl bg-slate-800" />
           </div>
         </div>
-      </Layout>
+      </div>
     );
   }
 
   if (!property) {
     return (
-      <Layout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
-          <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-            <h1 className="text-2xl font-bold mb-4 text-white">Property not found</h1>
-            <p className="text-white/60 mb-6">
-              This property may have been removed or is no longer available.
-            </p>
-            <Button onClick={() => navigate('/stays')} className="bg-mansagold text-black hover:bg-mansagold/90">
-              Browse other properties
-            </Button>
-          </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900">
+        <div className="max-w-7xl mx-auto px-4 py-16 text-center">
+          <h1 className="text-2xl font-bold mb-4 text-white">Property not found</h1>
+          <p className="text-white/60 mb-6">
+            This property may have been removed or is no longer available.
+          </p>
+          <Button onClick={() => navigate('/stays')} className="bg-mansagold text-black hover:bg-mansagold/90">
+            Browse other properties
+          </Button>
         </div>
-      </Layout>
+      </div>
     );
   }
 
@@ -212,8 +207,7 @@ const PropertyDetailPage: React.FC = () => {
     : 0;
 
   return (
-    <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
         {/* Animated gradient orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
@@ -585,8 +579,7 @@ const PropertyDetailPage: React.FC = () => {
           </DialogContent>
         </Dialog>
       </div>
-      </div>
-    </Layout>
+    </div>
   );
 };
 
