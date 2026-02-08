@@ -9003,6 +9003,68 @@ export type Database = {
           },
         ]
       }
+      property_pricing_rules: {
+        Row: {
+          adjustment_type: string
+          adjustment_value: number
+          created_at: string | null
+          days_of_week: number[] | null
+          end_date: string | null
+          id: string
+          is_active: boolean | null
+          min_days_before: number | null
+          min_nights: number | null
+          name: string
+          priority: number | null
+          property_id: string
+          rule_type: string
+          start_date: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          adjustment_type?: string
+          adjustment_value: number
+          created_at?: string | null
+          days_of_week?: number[] | null
+          end_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          min_days_before?: number | null
+          min_nights?: number | null
+          name: string
+          priority?: number | null
+          property_id: string
+          rule_type: string
+          start_date?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          adjustment_type?: string
+          adjustment_value?: number
+          created_at?: string | null
+          days_of_week?: number[] | null
+          end_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          min_days_before?: number | null
+          min_nights?: number | null
+          name?: string
+          priority?: number | null
+          property_id?: string
+          rule_type?: string
+          start_date?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_pricing_rules_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       property_reviews: {
         Row: {
           accuracy: number | null
@@ -11872,6 +11934,518 @@ export type Database = {
         }
         Relationships: []
       }
+      stays_conversations: {
+        Row: {
+          booking_id: string | null
+          created_at: string | null
+          guest_id: string
+          guest_unread_count: number | null
+          host_id: string
+          host_unread_count: number | null
+          id: string
+          is_archived_by_guest: boolean | null
+          is_archived_by_host: boolean | null
+          last_message_at: string | null
+          property_id: string
+          subject: string | null
+        }
+        Insert: {
+          booking_id?: string | null
+          created_at?: string | null
+          guest_id: string
+          guest_unread_count?: number | null
+          host_id: string
+          host_unread_count?: number | null
+          id?: string
+          is_archived_by_guest?: boolean | null
+          is_archived_by_host?: boolean | null
+          last_message_at?: string | null
+          property_id: string
+          subject?: string | null
+        }
+        Update: {
+          booking_id?: string | null
+          created_at?: string | null
+          guest_id?: string
+          guest_unread_count?: number | null
+          host_id?: string
+          host_unread_count?: number | null
+          id?: string
+          is_archived_by_guest?: boolean | null
+          is_archived_by_host?: boolean | null
+          last_message_at?: string | null
+          property_id?: string
+          subject?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_conversations_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_conversations_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stays_host_payouts: {
+        Row: {
+          booking_id: string | null
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          gross_amount: number
+          host_id: string
+          id: string
+          net_amount: number
+          paid_at: string | null
+          platform_fee: number
+          scheduled_date: string | null
+          status: string | null
+          stripe_payout_id: string | null
+          stripe_transfer_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          booking_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          gross_amount: number
+          host_id: string
+          id?: string
+          net_amount: number
+          paid_at?: string | null
+          platform_fee: number
+          scheduled_date?: string | null
+          status?: string | null
+          stripe_payout_id?: string | null
+          stripe_transfer_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          booking_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          gross_amount?: number
+          host_id?: string
+          id?: string
+          net_amount?: number
+          paid_at?: string | null
+          platform_fee?: number
+          scheduled_date?: string | null
+          status?: string | null
+          stripe_payout_id?: string | null
+          stripe_transfer_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_host_payouts_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stays_house_rules_acceptance: {
+        Row: {
+          accepted_at: string | null
+          booking_id: string
+          guest_id: string
+          id: string
+          ip_address: unknown
+          property_id: string
+          rules_text: string
+          rules_version: string | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          booking_id: string
+          guest_id: string
+          id?: string
+          ip_address?: unknown
+          property_id: string
+          rules_text: string
+          rules_version?: string | null
+        }
+        Update: {
+          accepted_at?: string | null
+          booking_id?: string
+          guest_id?: string
+          id?: string
+          ip_address?: unknown
+          property_id?: string
+          rules_text?: string
+          rules_version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_house_rules_acceptance_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_house_rules_acceptance_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stays_id_verification: {
+        Row: {
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          rejection_reason: string | null
+          updated_at: string | null
+          user_id: string
+          verification_data: Json | null
+          verification_status: string | null
+          verification_type: string
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          rejection_reason?: string | null
+          updated_at?: string | null
+          user_id: string
+          verification_data?: Json | null
+          verification_status?: string | null
+          verification_type: string
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          rejection_reason?: string | null
+          updated_at?: string | null
+          user_id?: string
+          verification_data?: Json | null
+          verification_status?: string | null
+          verification_type?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
+      stays_message_templates: {
+        Row: {
+          created_at: string | null
+          host_id: string
+          id: string
+          is_active: boolean | null
+          message_body: string
+          property_id: string | null
+          subject: string
+          trigger_hours_before: number | null
+          trigger_type: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          host_id: string
+          id?: string
+          is_active?: boolean | null
+          message_body: string
+          property_id?: string | null
+          subject: string
+          trigger_hours_before?: number | null
+          trigger_type: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          host_id?: string
+          id?: string
+          is_active?: boolean | null
+          message_body?: string
+          property_id?: string | null
+          subject?: string
+          trigger_hours_before?: number | null
+          trigger_type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_message_templates_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stays_messages: {
+        Row: {
+          attachments: Json | null
+          conversation_id: string
+          created_at: string | null
+          id: string
+          is_read: boolean | null
+          message: string
+          message_type: string | null
+          read_at: string | null
+          sender_id: string
+        }
+        Insert: {
+          attachments?: Json | null
+          conversation_id: string
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message: string
+          message_type?: string | null
+          read_at?: string | null
+          sender_id: string
+        }
+        Update: {
+          attachments?: Json | null
+          conversation_id?: string
+          created_at?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          message_type?: string | null
+          read_at?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "stays_conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stays_property_views: {
+        Row: {
+          created_at: string | null
+          id: string
+          property_id: string
+          referrer: string | null
+          session_id: string | null
+          user_agent: string | null
+          view_type: string | null
+          viewer_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          property_id: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          view_type?: string | null
+          viewer_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          property_id?: string
+          referrer?: string | null
+          session_id?: string | null
+          user_agent?: string | null
+          view_type?: string | null
+          viewer_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_property_views_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stays_reviews: {
+        Row: {
+          accuracy_rating: number | null
+          booking_id: string
+          checkin_rating: number | null
+          cleanliness_rating: number | null
+          communication_rating: number | null
+          created_at: string | null
+          flag_reason: string | null
+          host_response: string | null
+          host_response_at: string | null
+          id: string
+          is_flagged: boolean | null
+          is_public: boolean | null
+          location_rating: number | null
+          overall_rating: number
+          property_id: string
+          review_text: string | null
+          reviewee_id: string
+          reviewer_id: string
+          reviewer_type: string
+          updated_at: string | null
+          value_rating: number | null
+        }
+        Insert: {
+          accuracy_rating?: number | null
+          booking_id: string
+          checkin_rating?: number | null
+          cleanliness_rating?: number | null
+          communication_rating?: number | null
+          created_at?: string | null
+          flag_reason?: string | null
+          host_response?: string | null
+          host_response_at?: string | null
+          id?: string
+          is_flagged?: boolean | null
+          is_public?: boolean | null
+          location_rating?: number | null
+          overall_rating: number
+          property_id: string
+          review_text?: string | null
+          reviewee_id: string
+          reviewer_id: string
+          reviewer_type: string
+          updated_at?: string | null
+          value_rating?: number | null
+        }
+        Update: {
+          accuracy_rating?: number | null
+          booking_id?: string
+          checkin_rating?: number | null
+          cleanliness_rating?: number | null
+          communication_rating?: number | null
+          created_at?: string | null
+          flag_reason?: string | null
+          host_response?: string | null
+          host_response_at?: string | null
+          id?: string
+          is_flagged?: boolean | null
+          is_public?: boolean | null
+          location_rating?: number | null
+          overall_rating?: number
+          property_id?: string
+          review_text?: string | null
+          reviewee_id?: string
+          reviewer_id?: string
+          reviewer_type?: string
+          updated_at?: string | null
+          value_rating?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_reviews_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_reviews_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stays_security_deposits: {
+        Row: {
+          amount: number
+          booking_id: string
+          claim_evidence: Json | null
+          claim_reason: string | null
+          claimed_amount: number | null
+          claimed_at: string | null
+          created_at: string | null
+          currency: string | null
+          guest_id: string
+          held_at: string | null
+          host_id: string
+          id: string
+          property_id: string
+          released_at: string | null
+          resolution_notes: string | null
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string | null
+          stripe_payment_intent_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          booking_id: string
+          claim_evidence?: Json | null
+          claim_reason?: string | null
+          claimed_amount?: number | null
+          claimed_at?: string | null
+          created_at?: string | null
+          currency?: string | null
+          guest_id: string
+          held_at?: string | null
+          host_id: string
+          id?: string
+          property_id: string
+          released_at?: string | null
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+          stripe_payment_intent_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          booking_id?: string
+          claim_evidence?: Json | null
+          claim_reason?: string | null
+          claimed_amount?: number | null
+          claimed_at?: string | null
+          created_at?: string | null
+          currency?: string | null
+          guest_id?: string
+          held_at?: string | null
+          host_id?: string
+          id?: string
+          property_id?: string
+          released_at?: string | null
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string | null
+          stripe_payment_intent_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stays_security_deposits_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "stays_security_deposits_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       success_stories: {
         Row: {
           business_id: string | null
@@ -12943,8 +13517,10 @@ export type Database = {
       }
       vacation_bookings: {
         Row: {
+          cancellation_policy: string | null
           cancellation_reason: string | null
           cancelled_at: string | null
+          cancelled_by: string | null
           check_in_date: string
           check_out_date: string
           cleaning_fee: number | null
@@ -12966,6 +13542,8 @@ export type Database = {
           pet_fee: number | null
           platform_fee: number
           property_id: string
+          refund_amount: number | null
+          refund_status: string | null
           special_requests: string | null
           status: Database["public"]["Enums"]["vacation_booking_status"] | null
           stripe_charge_id: string | null
@@ -12974,8 +13552,10 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          cancellation_policy?: string | null
           cancellation_reason?: string | null
           cancelled_at?: string | null
+          cancelled_by?: string | null
           check_in_date: string
           check_out_date: string
           cleaning_fee?: number | null
@@ -12997,6 +13577,8 @@ export type Database = {
           pet_fee?: number | null
           platform_fee: number
           property_id: string
+          refund_amount?: number | null
+          refund_status?: string | null
           special_requests?: string | null
           status?: Database["public"]["Enums"]["vacation_booking_status"] | null
           stripe_charge_id?: string | null
@@ -13005,8 +13587,10 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          cancellation_policy?: string | null
           cancellation_reason?: string | null
           cancelled_at?: string | null
+          cancelled_by?: string | null
           check_in_date?: string
           check_out_date?: string
           cleaning_fee?: number | null
@@ -13028,6 +13612,8 @@ export type Database = {
           pet_fee?: number | null
           platform_fee?: number
           property_id?: string
+          refund_amount?: number | null
+          refund_status?: string | null
           special_requests?: string | null
           status?: Database["public"]["Enums"]["vacation_booking_status"] | null
           stripe_charge_id?: string | null
@@ -13053,6 +13639,7 @@ export type Database = {
           base_nightly_rate: number
           bathrooms: number | null
           bedrooms: number | null
+          cancellation_policy: string | null
           check_in_time: string | null
           check_out_time: string | null
           city: string
@@ -13076,6 +13663,7 @@ export type Database = {
           photos: Json | null
           property_type: Database["public"]["Enums"]["property_type"] | null
           review_count: number | null
+          security_deposit: number | null
           service_fee_percent: number | null
           state: string
           title: string
@@ -13089,6 +13677,7 @@ export type Database = {
           base_nightly_rate: number
           bathrooms?: number | null
           bedrooms?: number | null
+          cancellation_policy?: string | null
           check_in_time?: string | null
           check_out_time?: string | null
           city: string
@@ -13112,6 +13701,7 @@ export type Database = {
           photos?: Json | null
           property_type?: Database["public"]["Enums"]["property_type"] | null
           review_count?: number | null
+          security_deposit?: number | null
           service_fee_percent?: number | null
           state: string
           title: string
@@ -13125,6 +13715,7 @@ export type Database = {
           base_nightly_rate?: number
           bathrooms?: number | null
           bedrooms?: number | null
+          cancellation_policy?: string | null
           check_in_time?: string | null
           check_out_time?: string | null
           city?: string
@@ -13148,6 +13739,7 @@ export type Database = {
           photos?: Json | null
           property_type?: Database["public"]["Enums"]["property_type"] | null
           review_count?: number | null
+          security_deposit?: number | null
           service_fee_percent?: number | null
           state?: string
           title?: string
@@ -14990,6 +15582,7 @@ export type Database = {
       app_role: "admin" | "customer" | "business" | "sales_agent"
       badge_category: "referrals" | "earnings" | "recruitment" | "special"
       badge_tier: "bronze" | "silver" | "gold" | "platinum" | "diamond"
+      cancellation_policy_type: "flexible" | "moderate" | "strict"
       developer_status: "pending" | "active" | "suspended"
       developer_tier: "free" | "pro" | "enterprise"
       hbcu_verification_status: "pending" | "approved" | "rejected"
@@ -15003,6 +15596,12 @@ export type Database = {
         | "documents"
       partner_status: "pending" | "active" | "suspended" | "inactive"
       partner_tier: "founding" | "premium" | "standard"
+      pricing_rule_type:
+        | "weekend"
+        | "seasonal"
+        | "last_minute"
+        | "length_of_stay"
+        | "custom"
       property_type:
         | "house"
         | "apartment"
@@ -15177,6 +15776,7 @@ export const Constants = {
       app_role: ["admin", "customer", "business", "sales_agent"],
       badge_category: ["referrals", "earnings", "recruitment", "special"],
       badge_tier: ["bronze", "silver", "gold", "platinum", "diamond"],
+      cancellation_policy_type: ["flexible", "moderate", "strict"],
       developer_status: ["pending", "active", "suspended"],
       developer_tier: ["free", "pro", "enterprise"],
       hbcu_verification_status: ["pending", "approved", "rejected"],
@@ -15191,6 +15791,13 @@ export const Constants = {
       ],
       partner_status: ["pending", "active", "suspended", "inactive"],
       partner_tier: ["founding", "premium", "standard"],
+      pricing_rule_type: [
+        "weekend",
+        "seasonal",
+        "last_minute",
+        "length_of_stay",
+        "custom",
+      ],
       property_type: [
         "house",
         "apartment",
