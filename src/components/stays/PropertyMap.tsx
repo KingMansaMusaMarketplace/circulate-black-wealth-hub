@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Card, CardContent } from '@/components/ui/card';
@@ -7,6 +7,10 @@ import { Star, Users, MapPin, Loader2 } from 'lucide-react';
 import { VacationProperty } from '@/types/vacation-rental';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
+
+// Default center for US - defined outside component to prevent re-renders
+const DEFAULT_CENTER: [number, number] = [-98.5795, 39.8283];
+const DEFAULT_ZOOM = 4;
 
 interface PropertyMapProps {
   properties: VacationProperty[];
@@ -21,14 +25,15 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
   properties,
   selectedPropertyId,
   onSelectProperty,
-  center = [-98.5795, 39.8283], // US center
-  zoom = 4,
+  center,
+  zoom,
   height = '500px',
 }) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const markersRef = useRef<mapboxgl.Marker[]>([]);
   const popupRef = useRef<mapboxgl.Popup | null>(null);
+  const mapInitializedRef = useRef(false);
   const navigate = useNavigate();
   const [hoveredProperty, setHoveredProperty] = useState<VacationProperty | null>(null);
   const [mapboxToken, setMapboxToken] = useState<string | null>(null);
@@ -36,8 +41,15 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
   const [tokenError, setTokenError] = useState<string | null>(null);
   const [mapReady, setMapReady] = useState(false);
 
-  // Fetch Mapbox token from edge function
+  // Memoize center and zoom to prevent unnecessary re-renders
+  const stableCenter = useMemo(() => center || DEFAULT_CENTER, [center?.[0], center?.[1]]);
+  const stableZoom = zoom ?? DEFAULT_ZOOM;
+
+  // Fetch Mapbox token from edge function - only once
   useEffect(() => {
+    // Skip if already fetched
+    if (mapboxToken) return;
+    
     const fetchToken = async () => {
       try {
         setTokenLoading(true);
@@ -63,19 +75,20 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
     };
 
     fetchToken();
-  }, []);
+  }, [mapboxToken]);
 
-  // Initialize map once token is available
+  // Initialize map once token is available - only runs once
   useEffect(() => {
-    if (!mapContainer.current || map.current || !mapboxToken) return;
+    // Prevent re-initialization
+    if (!mapContainer.current || !mapboxToken || mapInitializedRef.current) return;
 
     mapboxgl.accessToken = mapboxToken;
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
-      center,
-      zoom,
+      center: stableCenter,
+      zoom: stableZoom,
       pitch: 45,
       bearing: -17.6,
     });
@@ -88,12 +101,17 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
       setMapReady(true);
     });
 
+    mapInitializedRef.current = true;
+
     return () => {
-      map.current?.remove();
-      map.current = null;
+      if (map.current) {
+        map.current.remove();
+        map.current = null;
+      }
+      mapInitializedRef.current = false;
       setMapReady(false);
     };
-  }, [mapboxToken, center, zoom]);
+  }, [mapboxToken, stableCenter, stableZoom]);
 
   // Add markers when map is ready and properties change
   useEffect(() => {
