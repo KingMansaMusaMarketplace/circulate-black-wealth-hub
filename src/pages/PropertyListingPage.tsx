@@ -142,15 +142,20 @@ const PropertyListingPage: React.FC = () => {
   if (!user) {
     return (
       <Layout>
-        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-          <Home className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-          <h1 className="text-2xl font-bold mb-4">List Your Property</h1>
-          <p className="text-muted-foreground mb-6">
-            Please log in to list your vacation rental property on Mansa Stays.
-          </p>
-          <Button onClick={() => navigate('/login', { state: { from: '/stays/list-property' } })}>
-            Log In to Continue
-          </Button>
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center">
+          <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+            <Home className="w-16 h-16 mx-auto text-white/40 mb-4" />
+            <h1 className="text-2xl font-bold mb-4 text-white">List Your Property</h1>
+            <p className="text-white/60 mb-6">
+              Please log in to list your vacation rental property on Mansa Stays.
+            </p>
+            <Button 
+              onClick={() => navigate('/login', { state: { from: '/stays/list-property' } })}
+              className="bg-mansagold text-black hover:bg-mansagold/90"
+            >
+              Log In to Continue
+            </Button>
+          </div>
         </div>
       </Layout>
     );
@@ -158,170 +163,184 @@ const PropertyListingPage: React.FC = () => {
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <Button variant="ghost" onClick={() => navigate('/stays')} className="mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Mansa Stays
-          </Button>
-          <h1 className="text-3xl font-bold">List Your Property</h1>
-          <p className="text-muted-foreground mt-2">
-            Share your space with the community and earn income
-          </p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+        {/* Animated gradient orbs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
         </div>
 
-        {/* Progress Steps */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between">
-            {STEPS.map((step, index) => (
-              <div
-                key={step.id}
-                className="flex flex-col items-center"
-                onClick={() => setCurrentStep(step.id)}
-              >
+        <div className="relative z-10 max-w-4xl mx-auto px-4 py-8">
+          {/* Header */}
+          <div className="mb-8">
+            <Button variant="ghost" onClick={() => navigate('/stays')} className="mb-4 text-white hover:bg-white/10">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Mansa Stays
+            </Button>
+            <h1 className="text-3xl font-bold text-white">List Your Property</h1>
+            <p className="text-white/60 mt-2">
+              Share your space with the community and earn income
+            </p>
+          </div>
+
+          {/* Progress Steps */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between">
+              {STEPS.map((step, index) => (
                 <div
-                  className={`
-                    w-10 h-10 rounded-full flex items-center justify-center cursor-pointer
-                    transition-colors
-                    ${currentStep === step.id
-                      ? 'bg-primary text-primary-foreground'
-                      : index < getCurrentStepIndex()
-                        ? 'bg-primary/20 text-primary'
-                        : 'bg-muted text-muted-foreground'
-                    }
-                  `}
+                  key={step.id}
+                  className="flex flex-col items-center"
+                  onClick={() => setCurrentStep(step.id)}
                 >
-                  {step.icon}
-                </div>
-                <span className="text-xs mt-1 hidden sm:block">{step.title}</span>
-              </div>
-            ))}
-          </div>
-          <div className="relative mt-2">
-            <div className="absolute top-0 left-0 h-1 bg-muted rounded-full w-full" />
-            <div
-              className="absolute top-0 left-0 h-1 bg-primary rounded-full transition-all"
-              style={{ width: `${(getCurrentStepIndex() / (STEPS.length - 1)) * 100}%` }}
-            />
-          </div>
-        </div>
-
-        {/* Step Content */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{STEPS.find(s => s.id === currentStep)?.title}</CardTitle>
-            <CardDescription>
-              {currentStep === 'basics' && 'Tell us about your property'}
-              {currentStep === 'location' && 'Where is your property located?'}
-              {currentStep === 'details' && 'Property details and capacity'}
-              {currentStep === 'amenities' && 'What amenities do you offer?'}
-              {currentStep === 'pricing' && 'Set your pricing'}
-              {currentStep === 'photos' && 'Add photos of your property'}
-              {currentStep === 'review' && 'Review your listing'}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Basics Step */}
-            {currentStep === 'basics' && (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="title">Property Title *</Label>
-                  <Input
-                    id="title"
-                    placeholder="Cozy Beach House with Ocean Views"
-                    value={formData.title}
-                    onChange={(e) => updateFormData({ title: e.target.value })}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="property_type">Property Type *</Label>
-                  <Select
-                    value={formData.property_type}
-                    onValueChange={(val) => updateFormData({ property_type: val as any })}
+                  <div
+                    className={`
+                      w-10 h-10 rounded-full flex items-center justify-center cursor-pointer
+                      transition-colors
+                      ${currentStep === step.id
+                        ? 'bg-mansagold text-black'
+                        : index < getCurrentStepIndex()
+                          ? 'bg-mansagold/20 text-mansagold'
+                          : 'bg-slate-800 text-white/50'
+                      }
+                    `}
                   >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {PROPERTY_TYPES.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
-                          {type.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    {step.icon}
+                  </div>
+                  <span className="text-xs mt-1 hidden sm:block text-white/70">{step.title}</span>
                 </div>
+              ))}
+            </div>
+            <div className="relative mt-2">
+              <div className="absolute top-0 left-0 h-1 bg-slate-800 rounded-full w-full" />
+              <div
+                className="absolute top-0 left-0 h-1 bg-mansagold rounded-full transition-all"
+                style={{ width: `${(getCurrentStepIndex() / (STEPS.length - 1)) * 100}%` }}
+              />
+            </div>
+          </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    placeholder="Describe your property, what makes it special, and the experience guests can expect..."
-                    rows={5}
-                    value={formData.description}
-                    onChange={(e) => updateFormData({ description: e.target.value })}
-                  />
-                </div>
-              </>
-            )}
-
-            {/* Location Step */}
-            {currentStep === 'location' && (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="address">Street Address *</Label>
-                  <Input
-                    id="address"
-                    placeholder="123 Ocean Drive"
-                    value={formData.address}
-                    onChange={(e) => updateFormData({ address: e.target.value })}
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
+          {/* Step Content */}
+          <Card className="bg-slate-900/80 backdrop-blur-xl border-white/10">
+            <CardHeader>
+              <CardTitle className="text-white">{STEPS.find(s => s.id === currentStep)?.title}</CardTitle>
+              <CardDescription className="text-white/60">
+                {currentStep === 'basics' && 'Tell us about your property'}
+                {currentStep === 'location' && 'Where is your property located?'}
+                {currentStep === 'details' && 'Property details and capacity'}
+                {currentStep === 'amenities' && 'What amenities do you offer?'}
+                {currentStep === 'pricing' && 'Set your pricing'}
+                {currentStep === 'photos' && 'Add photos of your property'}
+                {currentStep === 'review' && 'Review your listing'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Basics Step */}
+              {currentStep === 'basics' && (
+                <>
                   <div className="space-y-2">
-                    <Label htmlFor="city">City *</Label>
+                    <Label htmlFor="title" className="text-white">Property Title *</Label>
                     <Input
-                      id="city"
-                      placeholder="Atlanta"
-                      value={formData.city}
-                      onChange={(e) => updateFormData({ city: e.target.value })}
+                      id="title"
+                      placeholder="Cozy Beach House with Ocean Views"
+                      value={formData.title}
+                      onChange={(e) => updateFormData({ title: e.target.value })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="state">State *</Label>
-                    <Input
-                      id="state"
-                      placeholder="GA"
-                      value={formData.state}
-                      onChange={(e) => updateFormData({ state: e.target.value })}
-                    />
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="zip_code">ZIP Code</Label>
-                    <Input
-                      id="zip_code"
-                      placeholder="30301"
-                      value={formData.zip_code}
-                      onChange={(e) => updateFormData({ zip_code: e.target.value })}
+                    <Label htmlFor="property_type" className="text-white">Property Type *</Label>
+                    <Select
+                      value={formData.property_type}
+                      onValueChange={(val) => updateFormData({ property_type: val as any })}
+                    >
+                      <SelectTrigger className="bg-slate-800 border-white/20 text-white">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-slate-800 border-white/10">
+                        {PROPERTY_TYPES.map((type) => (
+                          <SelectItem key={type.value} value={type.value} className="text-white">
+                            {type.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="description" className="text-white">Description</Label>
+                    <Textarea
+                      id="description"
+                      placeholder="Describe your property, what makes it special, and the experience guests can expect..."
+                      rows={5}
+                      value={formData.description}
+                      onChange={(e) => updateFormData({ description: e.target.value })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
+                </>
+              )}
+
+              {/* Location Step */}
+              {currentStep === 'location' && (
+                <>
                   <div className="space-y-2">
-                    <Label htmlFor="country">Country</Label>
+                    <Label htmlFor="address" className="text-white">Street Address *</Label>
                     <Input
-                      id="country"
-                      value={formData.country}
-                      onChange={(e) => updateFormData({ country: e.target.value })}
+                      id="address"
+                      placeholder="123 Ocean Drive"
+                      value={formData.address}
+                      onChange={(e) => updateFormData({ address: e.target.value })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
-                </div>
-              </>
-            )}
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="city" className="text-white">City *</Label>
+                      <Input
+                        id="city"
+                        placeholder="Atlanta"
+                        value={formData.city}
+                        onChange={(e) => updateFormData({ city: e.target.value })}
+                        className="bg-slate-800 border-white/20 text-white"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="state" className="text-white">State *</Label>
+                      <Input
+                        id="state"
+                        placeholder="GA"
+                        value={formData.state}
+                        onChange={(e) => updateFormData({ state: e.target.value })}
+                        className="bg-slate-800 border-white/20 text-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="zip_code" className="text-white">ZIP Code</Label>
+                      <Input
+                        id="zip_code"
+                        placeholder="30301"
+                        value={formData.zip_code}
+                        onChange={(e) => updateFormData({ zip_code: e.target.value })}
+                        className="bg-slate-800 border-white/20 text-white"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="country" className="text-white">Country</Label>
+                      <Input
+                        id="country"
+                        value={formData.country}
+                        onChange={(e) => updateFormData({ country: e.target.value })}
+                        className="bg-slate-800 border-white/20 text-white"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
 
             {/* Details Step */}
             {currentStep === 'details' && (
@@ -457,8 +476,8 @@ const PropertyListingPage: React.FC = () => {
                     className={`
                       p-4 rounded-lg border cursor-pointer transition-all
                       ${formData.amenities.includes(amenity.id)
-                        ? 'border-primary bg-primary/5'
-                        : 'border-border hover:border-primary/50'
+                        ? 'border-mansagold bg-mansagold/10'
+                        : 'border-white/20 hover:border-mansagold/50 bg-slate-800/50'
                       }
                     `}
                     onClick={() => toggleAmenity(amenity.id)}
@@ -468,7 +487,7 @@ const PropertyListingPage: React.FC = () => {
                         checked={formData.amenities.includes(amenity.id)}
                         onCheckedChange={() => toggleAmenity(amenity.id)}
                       />
-                      <span className="font-medium">{amenity.label}</span>
+                      <span className="font-medium text-white">{amenity.label}</span>
                     </div>
                   </div>
                 ))}
@@ -633,7 +652,7 @@ const PropertyListingPage: React.FC = () => {
             <Button
               onClick={handleSubmit}
               disabled={loading || !formData.title || !formData.address || !formData.city || !formData.state}
-              className="bg-primary"
+              className="bg-mansagold text-black hover:bg-mansagold/90"
             >
               {loading ? (
                 <>
@@ -648,11 +667,12 @@ const PropertyListingPage: React.FC = () => {
               )}
             </Button>
           ) : (
-            <Button onClick={goToNextStep}>
+            <Button onClick={goToNextStep} className="bg-mansagold text-black hover:bg-mansagold/90">
               Next
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           )}
+        </div>
         </div>
       </div>
     </Layout>
