@@ -9,6 +9,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import AvailabilityCalendar from '@/components/stays/AvailabilityCalendar';
+import PropertyReviews from '@/components/stays/PropertyReviews';
 import { toast } from 'sonner';
 import { format, isAfter, isBefore, isToday } from 'date-fns';
 import {
@@ -197,7 +200,9 @@ const HostDashboardPage: React.FC = () => {
         <Tabs defaultValue="properties" className="w-full">
           <TabsList className="bg-slate-800">
             <TabsTrigger value="properties">My Properties</TabsTrigger>
+            <TabsTrigger value="calendar">Calendar</TabsTrigger>
             <TabsTrigger value="bookings">Reservations</TabsTrigger>
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="earnings">Earnings</TabsTrigger>
           </TabsList>
 
@@ -298,6 +303,60 @@ const HostDashboardPage: React.FC = () => {
             )}
           </TabsContent>
 
+          {/* Calendar Tab */}
+          <TabsContent value="calendar" className="mt-6">
+            {properties.length === 0 ? (
+              <Card className="bg-slate-800/50 border-slate-700">
+                <CardContent className="flex flex-col items-center justify-center py-12">
+                  <Calendar className="w-12 h-12 text-slate-500 mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">No properties yet</h3>
+                  <p className="text-slate-400 text-center">
+                    Add a property to manage its availability
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <span className="text-white font-medium">Select Property:</span>
+                  <Select
+                    value={properties[0]?.id}
+                    onValueChange={(value) => {
+                      const el = document.getElementById(`calendar-${value}`);
+                      el?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    <SelectTrigger className="w-64 bg-slate-900 border-slate-700 text-white">
+                      <SelectValue placeholder="Select a property" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-slate-800 border-slate-700">
+                      {properties.map((property) => (
+                        <SelectItem 
+                          key={property.id} 
+                          value={property.id}
+                          className="text-white"
+                        >
+                          {property.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                {properties.map((property) => (
+                  <div key={property.id} id={`calendar-${property.id}`}>
+                    <h3 className="text-lg font-semibold text-white mb-3">{property.title}</h3>
+                    <AvailabilityCalendar
+                      propertyId={property.id}
+                      baseNightlyRate={property.base_nightly_rate}
+                      onUpdate={loadHostData}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
           {/* Bookings Tab */}
           <TabsContent value="bookings" className="mt-6">
             {bookings.length === 0 ? (
@@ -355,6 +414,30 @@ const HostDashboardPage: React.FC = () => {
                       </div>
                     </CardContent>
                   </Card>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          {/* Reviews Tab */}
+          <TabsContent value="reviews" className="mt-6">
+            {properties.length === 0 ? (
+              <Card className="bg-slate-800/50 border-slate-700">
+                <CardContent className="flex flex-col items-center justify-center py-12">
+                  <Star className="w-12 h-12 text-slate-500 mb-4" />
+                  <h3 className="text-lg font-semibold text-white mb-2">No properties yet</h3>
+                  <p className="text-slate-400 text-center">
+                    Add a property to see guest reviews
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="space-y-6">
+                {properties.map((property) => (
+                  <div key={property.id}>
+                    <h3 className="text-lg font-semibold text-white mb-3">{property.title}</h3>
+                    <PropertyReviews propertyId={property.id} isHost />
+                  </div>
                 ))}
               </div>
             )}

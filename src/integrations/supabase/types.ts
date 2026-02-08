@@ -8968,6 +8968,41 @@ export type Database = {
           },
         ]
       }
+      property_price_overrides: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          price_per_night: number
+          property_id: string
+          reason: string | null
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          price_per_night: number
+          property_id: string
+          reason?: string | null
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          price_per_night?: number
+          property_id?: string
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_price_overrides_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       property_reviews: {
         Row: {
           accuracy: number | null
