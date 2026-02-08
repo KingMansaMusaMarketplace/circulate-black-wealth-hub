@@ -148,23 +148,23 @@ serve(async (req) => {
       .insert({
         property_id: propertyId,
         guest_id: user.id,
-        host_id: property.host_id,
         check_in_date: checkInDate,
         check_out_date: checkOutDate,
+        num_nights: nights,
         num_guests: numGuests,
         num_pets: numPets,
         nightly_rate: nightlyRate,
         cleaning_fee: cleaningFee,
         pet_fee: petFee,
-        service_fee: platformFee,
-        total_price: total,
+        subtotal: subtotal,
+        platform_fee: platformFee,
         host_payout: hostPayout,
+        total_amount: total,
         guest_name: guestName || user.user_metadata?.full_name,
         guest_email: guestEmail || user.email,
         guest_phone: guestPhone,
         special_requests: specialRequests,
         status: "pending",
-        payment_status: "pending",
       })
       .select()
       .single();
@@ -265,11 +265,11 @@ serve(async (req) => {
     const session = await stripe.checkout.sessions.create(sessionParams);
     logStep("Checkout session created", { sessionId: session.id });
 
-    // Update booking with session ID
+    // Update booking with payment intent ID
     await supabase
       .from("vacation_bookings")
       .update({ 
-        stripe_payment_intent_id: session.payment_intent as string,
+        payment_intent_id: session.payment_intent as string,
       })
       .eq("id", booking.id);
 
