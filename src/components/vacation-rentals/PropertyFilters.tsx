@@ -101,12 +101,12 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
       <div className="flex flex-col md:flex-row gap-3">
         {/* Location */}
         <div className="flex-1 relative">
-          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-mansagold" />
           <Input
             placeholder="Where are you going?"
             value={filters.city || ''}
             onChange={(e) => onFilterChange({ city: e.target.value || undefined })}
-            className="pl-10 bg-slate-900/80 border-white/20 text-white placeholder:text-white/50 focus:border-mansagold"
+            className="pl-10 bg-black/80 border-2 border-mansagold/50 text-white font-medium placeholder:text-white/70 focus:border-mansagold"
           />
         </div>
 
@@ -116,11 +116,11 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
             <Button
               variant="outline"
               className={cn(
-                'w-full md:w-[280px] justify-start text-left font-normal bg-slate-900/80 border-white/20 hover:bg-slate-800 hover:border-mansagold/50',
-                !dateRange ? 'text-white/50' : 'text-white'
+                'w-full md:w-[280px] justify-start text-left font-medium bg-black/80 border-2 border-mansagold/50 hover:bg-slate-800 hover:border-mansagold',
+                !dateRange ? 'text-white/70' : 'text-white'
               )}
             >
-              <CalendarIcon className="mr-2 h-4 w-4 text-white/50" />
+              <CalendarIcon className="mr-2 h-4 w-4 text-mansagold" />
               {dateRange?.from ? (
                 dateRange.to ? (
                   <>
@@ -148,17 +148,17 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
 
         {/* Guests */}
         <div className="relative w-full md:w-[140px]">
-          <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50 z-10" />
+          <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-mansagold z-10" />
           <Select
             value={filters.guests?.toString() || ''}
             onValueChange={(val) => onFilterChange({ guests: val ? parseInt(val) : undefined })}
           >
-            <SelectTrigger className="pl-10 bg-slate-900/80 border-white/20 text-white hover:border-mansagold/50">
-              <SelectValue placeholder="Guests" className="text-white/50" />
+            <SelectTrigger className="pl-10 bg-black/80 border-2 border-mansagold/50 text-white font-medium hover:border-mansagold">
+              <SelectValue placeholder="Guests" className="text-white/70" />
             </SelectTrigger>
-            <SelectContent className="bg-slate-900 border-white/20">
+            <SelectContent className="bg-black border-2 border-mansagold">
               {[1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 16].map((num) => (
-                <SelectItem key={num} value={num.toString()} className="text-white hover:bg-slate-800">
+                <SelectItem key={num} value={num.toString()} className="text-white font-medium hover:bg-mansagold/20">
                   {num}+ guest{num !== 1 ? 's' : ''}
                 </SelectItem>
               ))}
@@ -169,11 +169,11 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
         {/* Filters button */}
         <Sheet open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" className="relative bg-slate-900/80 border-white/20 text-white hover:bg-slate-800 hover:border-mansagold/50">
-              <SlidersHorizontal className="w-4 h-4 mr-2" />
+            <Button variant="outline" className="relative bg-black/80 border-2 border-mansagold/50 text-white font-medium hover:bg-slate-800 hover:border-mansagold">
+              <SlidersHorizontal className="w-4 h-4 mr-2 text-mansagold" />
               Filters
               {activeFilterCount > 0 && (
-                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-mansagold text-black text-xs flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-mansagold text-black text-xs font-bold flex items-center justify-center">
                   {activeFilterCount}
                 </span>
               )}
