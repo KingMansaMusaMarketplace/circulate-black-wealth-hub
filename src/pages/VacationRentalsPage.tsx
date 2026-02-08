@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layout from '@/components/Layout';
+
 import PropertyCard from '@/components/vacation-rentals/PropertyCard';
 import PropertyFilters from '@/components/vacation-rentals/PropertyFilters';
 import PropertyMap from '@/components/stays/PropertyMap';
@@ -45,8 +45,7 @@ const VacationRentalsPage: React.FC = () => {
   };
 
   return (
-    <Layout>
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
         {/* Hero Section */}
         <div className="relative bg-gradient-to-br from-mansablue to-mansablue-dark py-16 px-4">
           <div className="max-w-7xl mx-auto text-center">
@@ -217,7 +216,7 @@ const VacationRentalsPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 
