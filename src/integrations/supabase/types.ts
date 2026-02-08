@@ -8927,6 +8927,122 @@ export type Database = {
         }
         Relationships: []
       }
+      property_availability: {
+        Row: {
+          booking_id: string | null
+          created_at: string | null
+          custom_price: number | null
+          date: string
+          id: string
+          is_available: boolean | null
+          notes: string | null
+          property_id: string
+        }
+        Insert: {
+          booking_id?: string | null
+          created_at?: string | null
+          custom_price?: number | null
+          date: string
+          id?: string
+          is_available?: boolean | null
+          notes?: string | null
+          property_id: string
+        }
+        Update: {
+          booking_id?: string | null
+          created_at?: string | null
+          custom_price?: number | null
+          date?: string
+          id?: string
+          is_available?: boolean | null
+          notes?: string | null
+          property_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_availability_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      property_reviews: {
+        Row: {
+          accuracy: number | null
+          booking_id: string
+          check_in: number | null
+          cleanliness: number | null
+          communication: number | null
+          created_at: string | null
+          guest_id: string
+          host_response: string | null
+          host_response_at: string | null
+          id: string
+          is_public: boolean | null
+          location: number | null
+          property_id: string
+          rating: number
+          review_text: string | null
+          updated_at: string | null
+          value: number | null
+        }
+        Insert: {
+          accuracy?: number | null
+          booking_id: string
+          check_in?: number | null
+          cleanliness?: number | null
+          communication?: number | null
+          created_at?: string | null
+          guest_id: string
+          host_response?: string | null
+          host_response_at?: string | null
+          id?: string
+          is_public?: boolean | null
+          location?: number | null
+          property_id: string
+          rating: number
+          review_text?: string | null
+          updated_at?: string | null
+          value?: number | null
+        }
+        Update: {
+          accuracy?: number | null
+          booking_id?: string
+          check_in?: number | null
+          cleanliness?: number | null
+          communication?: number | null
+          created_at?: string | null
+          guest_id?: string
+          host_response?: string | null
+          host_response_at?: string | null
+          id?: string
+          is_public?: boolean | null
+          location?: number | null
+          property_id?: string
+          rating?: number
+          review_text?: string | null
+          updated_at?: string | null
+          value?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "property_reviews_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "vacation_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "property_reviews_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       prospect_sequence_enrollments: {
         Row: {
           completed_at: string | null
@@ -12790,6 +12906,221 @@ export type Database = {
         }
         Relationships: []
       }
+      vacation_bookings: {
+        Row: {
+          cancellation_reason: string | null
+          cancelled_at: string | null
+          check_in_date: string
+          check_out_date: string
+          cleaning_fee: number | null
+          confirmed_at: string | null
+          created_at: string | null
+          guest_email: string | null
+          guest_id: string
+          guest_name: string | null
+          guest_phone: string | null
+          host_payout: number
+          id: string
+          nightly_rate: number
+          num_guests: number | null
+          num_nights: number
+          num_pets: number | null
+          payment_intent_id: string | null
+          payout_date: string | null
+          payout_status: string | null
+          pet_fee: number | null
+          platform_fee: number
+          property_id: string
+          special_requests: string | null
+          status: Database["public"]["Enums"]["vacation_booking_status"] | null
+          stripe_charge_id: string | null
+          subtotal: number
+          total_amount: number
+          updated_at: string | null
+        }
+        Insert: {
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          check_in_date: string
+          check_out_date: string
+          cleaning_fee?: number | null
+          confirmed_at?: string | null
+          created_at?: string | null
+          guest_email?: string | null
+          guest_id: string
+          guest_name?: string | null
+          guest_phone?: string | null
+          host_payout: number
+          id?: string
+          nightly_rate: number
+          num_guests?: number | null
+          num_nights: number
+          num_pets?: number | null
+          payment_intent_id?: string | null
+          payout_date?: string | null
+          payout_status?: string | null
+          pet_fee?: number | null
+          platform_fee: number
+          property_id: string
+          special_requests?: string | null
+          status?: Database["public"]["Enums"]["vacation_booking_status"] | null
+          stripe_charge_id?: string | null
+          subtotal: number
+          total_amount: number
+          updated_at?: string | null
+        }
+        Update: {
+          cancellation_reason?: string | null
+          cancelled_at?: string | null
+          check_in_date?: string
+          check_out_date?: string
+          cleaning_fee?: number | null
+          confirmed_at?: string | null
+          created_at?: string | null
+          guest_email?: string | null
+          guest_id?: string
+          guest_name?: string | null
+          guest_phone?: string | null
+          host_payout?: number
+          id?: string
+          nightly_rate?: number
+          num_guests?: number | null
+          num_nights?: number
+          num_pets?: number | null
+          payment_intent_id?: string | null
+          payout_date?: string | null
+          payout_status?: string | null
+          pet_fee?: number | null
+          platform_fee?: number
+          property_id?: string
+          special_requests?: string | null
+          status?: Database["public"]["Enums"]["vacation_booking_status"] | null
+          stripe_charge_id?: string | null
+          subtotal?: number
+          total_amount?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vacation_bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vacation_properties: {
+        Row: {
+          address: string
+          amenities: Json | null
+          average_rating: number | null
+          base_nightly_rate: number
+          bathrooms: number | null
+          bedrooms: number | null
+          check_in_time: string | null
+          check_out_time: string | null
+          city: string
+          cleaning_fee: number | null
+          country: string | null
+          created_at: string | null
+          description: string | null
+          host_id: string
+          house_rules: string | null
+          id: string
+          is_active: boolean | null
+          is_instant_book: boolean | null
+          is_verified: boolean | null
+          latitude: number | null
+          longitude: number | null
+          max_guests: number | null
+          max_nights: number | null
+          min_nights: number | null
+          pet_fee: number | null
+          pets_allowed: boolean | null
+          photos: Json | null
+          property_type: Database["public"]["Enums"]["property_type"] | null
+          review_count: number | null
+          service_fee_percent: number | null
+          state: string
+          title: string
+          updated_at: string | null
+          zip_code: string | null
+        }
+        Insert: {
+          address: string
+          amenities?: Json | null
+          average_rating?: number | null
+          base_nightly_rate: number
+          bathrooms?: number | null
+          bedrooms?: number | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          city: string
+          cleaning_fee?: number | null
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          host_id: string
+          house_rules?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_instant_book?: boolean | null
+          is_verified?: boolean | null
+          latitude?: number | null
+          longitude?: number | null
+          max_guests?: number | null
+          max_nights?: number | null
+          min_nights?: number | null
+          pet_fee?: number | null
+          pets_allowed?: boolean | null
+          photos?: Json | null
+          property_type?: Database["public"]["Enums"]["property_type"] | null
+          review_count?: number | null
+          service_fee_percent?: number | null
+          state: string
+          title: string
+          updated_at?: string | null
+          zip_code?: string | null
+        }
+        Update: {
+          address?: string
+          amenities?: Json | null
+          average_rating?: number | null
+          base_nightly_rate?: number
+          bathrooms?: number | null
+          bedrooms?: number | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          city?: string
+          cleaning_fee?: number | null
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          host_id?: string
+          house_rules?: string | null
+          id?: string
+          is_active?: boolean | null
+          is_instant_book?: boolean | null
+          is_verified?: boolean | null
+          latitude?: number | null
+          longitude?: number | null
+          max_guests?: number | null
+          max_nights?: number | null
+          min_nights?: number | null
+          pet_fee?: number | null
+          pets_allowed?: boolean | null
+          photos?: Json | null
+          property_type?: Database["public"]["Enums"]["property_type"] | null
+          review_count?: number | null
+          service_fee_percent?: number | null
+          state?: string
+          title?: string
+          updated_at?: string | null
+          zip_code?: string | null
+        }
+        Relationships: []
+      }
       verification_certificates: {
         Row: {
           business_id: string
@@ -14637,8 +14968,25 @@ export type Database = {
         | "documents"
       partner_status: "pending" | "active" | "suspended" | "inactive"
       partner_tier: "founding" | "premium" | "standard"
+      property_type:
+        | "house"
+        | "apartment"
+        | "cabin"
+        | "villa"
+        | "cottage"
+        | "condo"
+        | "townhouse"
+        | "loft"
+        | "studio"
+        | "other"
       subscription_tier: "free" | "paid" | "business_starter"
       user_role: "customer" | "business" | "admin" | "sales_agent"
+      vacation_booking_status:
+        | "pending"
+        | "confirmed"
+        | "completed"
+        | "cancelled"
+        | "refunded"
       workflow_action_type:
         | "send_email"
         | "add_tag"
@@ -14808,8 +15156,27 @@ export const Constants = {
       ],
       partner_status: ["pending", "active", "suspended", "inactive"],
       partner_tier: ["founding", "premium", "standard"],
+      property_type: [
+        "house",
+        "apartment",
+        "cabin",
+        "villa",
+        "cottage",
+        "condo",
+        "townhouse",
+        "loft",
+        "studio",
+        "other",
+      ],
       subscription_tier: ["free", "paid", "business_starter"],
       user_role: ["customer", "business", "admin", "sales_agent"],
+      vacation_booking_status: [
+        "pending",
+        "confirmed",
+        "completed",
+        "cancelled",
+        "refunded",
+      ],
       workflow_action_type: [
         "send_email",
         "add_tag",

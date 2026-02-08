@@ -13,9 +13,11 @@ import { educationCategories } from './education';
 import { fitnessCategories } from './fitness';
 import { entertainmentCategories } from './entertainment';
 import { otherCategories } from './other';
+import { vacationRentalCategories } from './vacation-rentals';
 
 // Combine all categories into a single array
 export const businessCategories: BusinessCategory[] = [
+  ...vacationRentalCategories,
   ...legalCategories,
   ...medicalCategories,
   ...technologyCategories,
@@ -37,6 +39,7 @@ export { getCategoryById, getCategoryOptions } from './types';
 
 // Export individual category arrays for specific use cases
 export {
+  vacationRentalCategories,
   legalCategories,
   medicalCategories,
   technologyCategories,
