@@ -43,9 +43,18 @@ const VacationRentalsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+      </div>
+      
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
+      
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-mansablue to-mansablue-dark py-16 px-4">
+      <div className="relative z-10 bg-gradient-to-br from-mansablue/30 to-mansablue-dark/30 py-16 px-4 backdrop-blur-sm border-b border-white/10">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Mansa Stays
@@ -85,7 +94,7 @@ const VacationRentalsPage: React.FC = () => {
       </div>
 
       {/* Filters Section */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-6">
         <PropertyFilters
           filters={filters}
           onFilterChange={handleFilterChange}
@@ -94,9 +103,9 @@ const VacationRentalsPage: React.FC = () => {
       </div>
 
       {/* View Toggle */}
-      <div className="max-w-7xl mx-auto px-4 mb-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 mb-6">
         <div className="flex items-center justify-between">
-          <p className="text-muted-foreground">
+          <p className="text-white/70">
             {loading ? 'Loading...' : `${properties.length} properties found`}
           </p>
           <div className="flex gap-2">
@@ -121,20 +130,20 @@ const VacationRentalsPage: React.FC = () => {
       </div>
 
       {/* Properties Grid or Map */}
-      <div className="max-w-7xl mx-auto px-4 pb-16">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 pb-16">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <Loader2 className="w-8 h-8 animate-spin text-mansagold" />
           </div>
         ) : properties.length === 0 ? (
           <div className="text-center py-20">
-            <Home className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-xl font-semibold mb-2">No properties found</h3>
-            <p className="text-muted-foreground mb-6">
+            <Home className="w-16 h-16 mx-auto text-white/40 mb-4" />
+            <h3 className="text-xl font-semibold mb-2 text-white">No properties found</h3>
+            <p className="text-white/60 mb-6">
               Try adjusting your filters or check back soon for new listings.
             </p>
             {user && (
-              <Button onClick={() => navigate('/stays/list-property')}>
+              <Button onClick={() => navigate('/stays/list-property')} className="bg-mansagold text-black hover:bg-mansagold/90">
                 Be the first to list a property
               </Button>
             )}
@@ -177,36 +186,36 @@ const VacationRentalsPage: React.FC = () => {
       </div>
 
       {/* Why Mansa Stays Section */}
-      <div className="bg-secondary/50 py-16 px-4">
+      <div className="relative z-10 bg-slate-900/50 backdrop-blur-sm py-16 px-4 border-t border-white/10">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">
+          <h2 className="text-3xl font-bold text-center mb-12 text-white">
             Why Book with Mansa Stays?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-mansagold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-mansagold/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-mansagold/30">
                 <span className="text-3xl">🏠</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Support Black Hosts</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-xl font-semibold mb-2 text-white">Support Black Hosts</h3>
+              <p className="text-white/60">
                 Every booking directly supports Black property owners and entrepreneurs.
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-mansagold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-mansagold/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-mansagold/30">
                 <span className="text-3xl">💰</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Lower Fees</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-xl font-semibold mb-2 text-white">Lower Fees</h3>
+              <p className="text-white/60">
                 Only 7.5% platform fee vs 14-20% on other platforms. More money stays with hosts.
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-mansagold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-mansagold/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-mansagold/30">
                 <span className="text-3xl">🌍</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Community Impact</h3>
-              <p className="text-muted-foreground">
+              <h3 className="text-xl font-semibold mb-2 text-white">Community Impact</h3>
+              <p className="text-white/60">
                 Part of every fee goes back to community initiatives and Susu Circles.
               </p>
             </div>
