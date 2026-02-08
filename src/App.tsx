@@ -182,6 +182,7 @@ const LazyWalletPage = lazy(() => import('@/pages/WalletPage'));
 const LazyVacationRentalsPage = lazy(() => import('@/pages/VacationRentalsPage'));
 const LazyPropertyDetailPage = lazy(() => import('@/pages/PropertyDetailPage'));
 const LazyPropertyListingPage = lazy(() => import('@/pages/PropertyListingPage'));
+const LazyHostDashboardPage = lazy(() => import('@/pages/HostDashboardPage'));
 
 // Founder's Wall
 const LazyFoundersWallPage = lazy(() => import('@/pages/FoundersWallPage'));
@@ -619,6 +620,7 @@ function App() {
                               <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
                               <Route path="/stays" element={<LazyVacationRentalsPage />} />
                               <Route path="/stays/list-property" element={<LazyPropertyListingPage />} />
+                              <Route path="/stays/host" element={<LazyHostDashboardPage />} />
                               <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                               <Route path="/wallet" element={<LazyWalletPage />} />
                               <Route path="/settings" element={<LazyUserSettingsPage />} />
@@ -903,6 +905,7 @@ function App() {
                         <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
                         <Route path="/stays" element={<LazyVacationRentalsPage />} />
                         <Route path="/stays/list-property" element={<LazyPropertyListingPage />} />
+                        <Route path="/stays/host" element={<LazyHostDashboardPage />} />
                         <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                         <Route path="/wallet" element={<LazyWalletPage />} />
                         <Route path="/settings" element={<LazyUserSettingsPage />} />

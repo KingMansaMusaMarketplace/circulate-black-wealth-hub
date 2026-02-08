@@ -42,6 +42,7 @@ const SidebarNavigation = () => {
     { name: 'Dashboard', href: '/business-dashboard', icon: Home },
     { name: 'Profile', href: '/business/profile', icon: Building2 },
     { name: 'Bookings', href: '/business/bookings', icon: Calendar },
+    { name: 'Vacation Rentals', href: '/stays/host', icon: Home },
     { name: 'Finances', href: '/business-finances', icon: DollarSign },
     { name: 'Analytics', href: '/business-analytics', icon: BarChart3 },
     { name: 'QR Codes', href: '/business/qr-codes', icon: QrCode },

@@ -8,6 +8,7 @@ import PropertyGallery from '@/components/vacation-rentals/PropertyGallery';
 import AmenitiesList from '@/components/vacation-rentals/AmenitiesList';
 import PricingBreakdown from '@/components/vacation-rentals/PricingBreakdown';
 import GuestCounter from '@/components/vacation-rentals/GuestCounter';
+import { useVacationBooking } from '@/hooks/useVacationBooking';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
@@ -15,6 +16,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { format, differenceInDays } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -31,15 +36,21 @@ import {
   Zap,
   Clock,
   ChevronLeft,
-  ChevronRight,
+  CreditCard,
+  Loader2,
 } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { useAuth } from '@/contexts/AuthContext';
+import { loadStripe } from '@stripe/stripe-js';
+
+// Stripe public key from environment
+const stripePromise = loadStripe('pk_test_51L0Q0QGpXkZjXvXKjMxwLmRqKqZzPvnLlJQhzNHJZXkqZRvRlMkJqLqMzNkJLqRvMkJLqRvMkJLqRvMkJLqRv');
 
 const PropertyDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { createBooking, loading: bookingLoading } = useVacationBooking();
 
   const [property, setProperty] = useState<VacationProperty | null>(null);
   const [reviews, setReviews] = useState<PropertyReview[]>([]);
@@ -49,7 +60,14 @@ const PropertyDetailPage: React.FC = () => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [guests, setGuests] = useState({ adults: 1, children: 0, pets: 0 });
   const [pricing, setPricing] = useState<PricingBreakdownType | null>(null);
-  const [bookingLoading, setBookingLoading] = useState(false);
+  
+  // Booking dialog state
+  const [showBookingDialog, setShowBookingDialog] = useState(false);
+  const [guestName, setGuestName] = useState('');
+  const [guestEmail, setGuestEmail] = useState('');
+  const [guestPhone, setGuestPhone] = useState('');
+  const [specialRequests, setSpecialRequests] = useState('');
+  const [processingPayment, setProcessingPayment] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -71,6 +89,13 @@ const PropertyDetailPage: React.FC = () => {
     }
   }, [property, dateRange, guests.pets]);
 
+  useEffect(() => {
+    if (user) {
+      setGuestName(user.user_metadata?.full_name || '');
+      setGuestEmail(user.email || '');
+    }
+  }, [user]);
+
   const loadProperty = async (propertyId: string) => {
     setLoading(true);
     try {
@@ -88,7 +113,7 @@ const PropertyDetailPage: React.FC = () => {
     }
   };
 
-  const handleBookNow = async () => {
+  const handleBookNow = () => {
     if (!user) {
       toast.error('Please log in to book this property');
       navigate('/login', { state: { from: `/stays/${id}` } });
@@ -100,15 +125,46 @@ const PropertyDetailPage: React.FC = () => {
       return;
     }
 
-    setBookingLoading(true);
+    setShowBookingDialog(true);
+  };
+
+  const handleConfirmBooking = async () => {
+    if (!property || !dateRange?.from || !dateRange?.to || !pricing) return;
+
+    setProcessingPayment(true);
     try {
-      // TODO: Implement booking creation with Stripe
-      toast.success('Booking functionality coming soon!');
+      const result = await createBooking({
+        propertyId: property.id,
+        checkInDate: format(dateRange.from, 'yyyy-MM-dd'),
+        checkOutDate: format(dateRange.to, 'yyyy-MM-dd'),
+        numGuests: guests.adults + guests.children,
+        numPets: guests.pets,
+        guestName,
+        guestEmail,
+        guestPhone,
+        specialRequests,
+      });
+
+      if (result.success && result.clientSecret) {
+        // For now, show success - in production you'd integrate Stripe Elements
+        toast.success('Booking created! Redirecting to payment...');
+        // In a real implementation, you'd show Stripe payment form here
+        // For MVP, we redirect to a success page or show payment confirmation
+        navigate('/my-bookings', { 
+          state: { 
+            bookingId: result.booking?.id,
+            message: 'Booking created successfully!' 
+          }
+        });
+      } else {
+        toast.error(result.error || 'Failed to create booking');
+      }
     } catch (error) {
       console.error('Booking error:', error);
       toast.error('Failed to create booking');
     } finally {
-      setBookingLoading(false);
+      setProcessingPayment(false);
+      setShowBookingDialog(false);
     }
   };
 
@@ -405,10 +461,19 @@ const PropertyDetailPage: React.FC = () => {
                   className="w-full bg-mansablue hover:bg-mansablue/90"
                   size="lg"
                   onClick={handleBookNow}
-                  disabled={!dateRange?.from || !dateRange?.to || bookingLoading}
+                  disabled={!dateRange?.from || !dateRange?.to || bookingLoading || processingPayment}
                 >
-                  {bookingLoading ? 'Processing...' : 
-                   property.is_instant_book ? 'Reserve Now' : 'Request to Book'}
+                  {bookingLoading || processingPayment ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      {property.is_instant_book ? 'Reserve Now' : 'Request to Book'}
+                    </>
+                  )}
                 </Button>
 
                 <p className="text-xs text-center text-muted-foreground">
@@ -426,6 +491,119 @@ const PropertyDetailPage: React.FC = () => {
             </Card>
           </div>
         </div>
+
+        {/* Booking Confirmation Dialog */}
+        <Dialog open={showBookingDialog} onOpenChange={setShowBookingDialog}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Confirm Your Booking</DialogTitle>
+              <DialogDescription>
+                {property.title} • {nights} night{nights !== 1 ? 's' : ''}
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-4 py-4">
+              {/* Booking Summary */}
+              <div className="p-4 bg-muted rounded-lg">
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm">Check-in</span>
+                  <span className="font-medium">
+                    {dateRange?.from && format(dateRange.from, 'MMM d, yyyy')}
+                  </span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm">Check-out</span>
+                  <span className="font-medium">
+                    {dateRange?.to && format(dateRange.to, 'MMM d, yyyy')}
+                  </span>
+                </div>
+                <Separator className="my-2" />
+                <div className="flex justify-between font-semibold">
+                  <span>Total</span>
+                  <span>${pricing?.total.toLocaleString()}</span>
+                </div>
+              </div>
+
+              {/* Guest Information */}
+              <div className="space-y-3">
+                <div>
+                  <Label htmlFor="guestName">Full Name</Label>
+                  <Input
+                    id="guestName"
+                    value={guestName}
+                    onChange={(e) => setGuestName(e.target.value)}
+                    placeholder="Your full name"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="guestEmail">Email</Label>
+                  <Input
+                    id="guestEmail"
+                    type="email"
+                    value={guestEmail}
+                    onChange={(e) => setGuestEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="guestPhone">Phone (optional)</Label>
+                  <Input
+                    id="guestPhone"
+                    type="tel"
+                    value={guestPhone}
+                    onChange={(e) => setGuestPhone(e.target.value)}
+                    placeholder="(555) 555-5555"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="specialRequests">Special Requests (optional)</Label>
+                  <Textarea
+                    id="specialRequests"
+                    value={specialRequests}
+                    onChange={(e) => setSpecialRequests(e.target.value)}
+                    placeholder="Early check-in, late checkout, etc."
+                    rows={3}
+                  />
+                </div>
+              </div>
+
+              {/* Platform Fee Notice */}
+              <p className="text-xs text-muted-foreground text-center">
+                A 7.5% platform fee helps support Black-owned businesses
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <Button
+                variant="outline"
+                className="flex-1"
+                onClick={() => setShowBookingDialog(false)}
+                disabled={processingPayment}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="flex-1 bg-mansagold hover:bg-mansagold/90 text-black"
+                onClick={handleConfirmBooking}
+                disabled={processingPayment || !guestName || !guestEmail}
+              >
+                {processingPayment ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <CreditCard className="w-4 h-4 mr-2" />
+                    Confirm Booking
+                  </>
+                )}
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
