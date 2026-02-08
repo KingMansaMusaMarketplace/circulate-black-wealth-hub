@@ -376,8 +376,8 @@ const PropertyDetailPage: React.FC = () => {
                       <Button
                         variant="outline"
                         className={cn(
-                          'w-full justify-start text-left font-normal border-white/20 bg-slate-800/50',
-                          !dateRange && 'text-white/60'
+                          'w-full justify-start text-left font-normal border-white/20 bg-slate-800/50 text-mansagold',
+                          !dateRange && 'text-mansagold/70'
                         )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
