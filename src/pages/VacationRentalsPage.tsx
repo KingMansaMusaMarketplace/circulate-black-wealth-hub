@@ -15,8 +15,8 @@ const VacationRentalsPage: React.FC = () => {
   const [properties, setProperties] = useState<VacationProperty[]>([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<PropertySearchFilters>({});
-  const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | undefined>();
+  const listRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     loadProperties();
@@ -102,37 +102,27 @@ const VacationRentalsPage: React.FC = () => {
         />
       </div>
 
-      {/* View Toggle */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 mb-6">
+      {/* Properties Count */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 mb-4">
         <div className="flex items-center justify-between">
-          <p className="text-white/70">
+          <p className="text-white font-medium">
             {loading ? 'Loading...' : `${properties.length} properties found`}
           </p>
-          <div className="flex gap-2">
+          {user && (
             <Button
-              variant={viewMode === 'grid' ? 'default' : 'outline'}
+              onClick={() => navigate('/stays/list-property')}
               size="sm"
-              onClick={() => setViewMode('grid')}
-              className={viewMode === 'grid' ? 'bg-mansagold text-black font-medium' : 'bg-black/80 border-2 border-mansagold/50 text-white font-medium hover:border-mansagold'}
+              className="bg-mansagold text-black hover:bg-mansagold/90 lg:hidden"
             >
-              <Home className="w-4 h-4 mr-2" />
-              Grid
+              <Plus className="w-4 h-4 mr-2" />
+              List Property
             </Button>
-            <Button
-              variant={viewMode === 'map' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setViewMode('map')}
-              className={viewMode === 'map' ? 'bg-mansagold text-black font-medium' : 'bg-black/80 border-2 border-mansagold/50 text-white font-medium hover:border-mansagold'}
-            >
-              <Map className="w-4 h-4 mr-2" />
-              Map
-            </Button>
-          </div>
+          )}
         </div>
       </div>
 
-      {/* Properties Grid or Map */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 pb-16">
+      {/* Split-View Layout (Desktop) / Stacked Layout (Mobile) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 pb-8">
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-mansagold" />
@@ -150,39 +140,89 @@ const VacationRentalsPage: React.FC = () => {
               </Button>
             )}
           </div>
-        ) : viewMode === 'map' ? (
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-            {/* Property List (scrollable) */}
-            <div className="lg:col-span-2 space-y-4 max-h-[700px] overflow-y-auto pr-2">
+        ) : (
+          <div className="flex flex-col lg:flex-row gap-6" style={{ minHeight: '600px' }}>
+            {/* Property List (scrollable on desktop) */}
+            <div 
+              ref={listRef}
+              className="w-full lg:w-[40%] space-y-4 lg:max-h-[600px] lg:overflow-y-auto lg:pr-3 scrollbar-thin scrollbar-thumb-mansagold/30 scrollbar-track-transparent"
+            >
               {properties.map((property) => (
                 <div 
                   key={property.id}
+                  id={`property-${property.id}`}
                   onClick={() => setSelectedPropertyId(property.id)}
-                  className={`cursor-pointer transition-all ${selectedPropertyId === property.id ? 'ring-2 ring-mansagold rounded-lg' : ''}`}
+                  className={`cursor-pointer transition-all ${selectedPropertyId === property.id ? 'ring-2 ring-mansagold rounded-xl' : ''}`}
                 >
-                  <PropertyCard property={property} />
+                  <PropertyCard 
+                    property={property} 
+                    isHighlighted={selectedPropertyId === property.id}
+                    onHover={(id) => setSelectedPropertyId(id || undefined)}
+                  />
                 </div>
               ))}
             </div>
             
-            {/* Map */}
-            <div className="lg:col-span-3 sticky top-4">
+            {/* Map (sticky on desktop, hidden on mobile by default) */}
+            <div className="hidden lg:block lg:w-[60%] lg:sticky lg:top-4 lg:self-start rounded-xl overflow-hidden border-2 border-mansagold/30">
               <PropertyMap 
                 properties={properties}
                 selectedPropertyId={selectedPropertyId}
                 onSelectProperty={(id) => {
                   setSelectedPropertyId(id);
-                  navigate(`/stays/${id}`);
+                  // Scroll to the property in the list
+                  const element = document.getElementById(`property-${id}`);
+                  if (element && listRef.current) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
                 }}
-                height="700px"
+                height="600px"
               />
             </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {properties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
+
+            {/* Mobile Map Button */}
+            <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+              <Button
+                onClick={() => {
+                  // Could open a full-screen map sheet here
+                  const mapSection = document.getElementById('mobile-map');
+                  if (mapSection) {
+                    mapSection.classList.toggle('hidden');
+                  }
+                }}
+                className="bg-mansagold text-black font-bold shadow-lg hover:bg-mansagold/90"
+              >
+                <Map className="w-4 h-4 mr-2" />
+                View Map
+              </Button>
+            </div>
+
+            {/* Mobile Map (hidden by default) */}
+            <div id="mobile-map" className="hidden lg:hidden fixed inset-0 z-40 bg-slate-950">
+              <div className="relative h-full">
+                <Button
+                  onClick={() => {
+                    const mapSection = document.getElementById('mobile-map');
+                    if (mapSection) {
+                      mapSection.classList.add('hidden');
+                    }
+                  }}
+                  className="absolute top-4 right-4 z-50 bg-black/80 border-2 border-mansagold"
+                  size="sm"
+                >
+                  Close Map
+                </Button>
+                <PropertyMap 
+                  properties={properties}
+                  selectedPropertyId={selectedPropertyId}
+                  onSelectProperty={(id) => {
+                    setSelectedPropertyId(id);
+                    navigate(`/stays/${id}`);
+                  }}
+                  height="100vh"
+                />
+              </div>
+            </div>
           </div>
         )}
       </div>
