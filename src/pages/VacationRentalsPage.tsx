@@ -142,10 +142,27 @@ const VacationRentalsPage: React.FC = () => {
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row gap-6" style={{ minHeight: '600px' }}>
+            {/* Map (shown on top for mobile, sticky on desktop) */}
+            <div className="w-full lg:w-[60%] lg:order-2 lg:sticky lg:top-4 lg:self-start rounded-xl overflow-hidden border-2 border-mansagold/30">
+              <PropertyMap 
+                properties={properties}
+                selectedPropertyId={selectedPropertyId}
+                onSelectProperty={(id) => {
+                  setSelectedPropertyId(id);
+                  // Scroll to the property in the list
+                  const element = document.getElementById(`property-${id}`);
+                  if (element && listRef.current) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }
+                }}
+                height="400px"
+              />
+            </div>
+
             {/* Property List (scrollable on desktop) */}
             <div 
               ref={listRef}
-              className="w-full lg:w-[40%] space-y-4 lg:max-h-[600px] lg:overflow-y-auto lg:pr-3 scrollbar-thin scrollbar-thumb-mansagold/30 scrollbar-track-transparent"
+              className="w-full lg:w-[40%] lg:order-1 space-y-4 lg:max-h-[600px] lg:overflow-y-auto lg:pr-3 scrollbar-thin scrollbar-thumb-mansagold/30 scrollbar-track-transparent"
             >
               {properties.map((property) => (
                 <div 
@@ -161,67 +178,6 @@ const VacationRentalsPage: React.FC = () => {
                   />
                 </div>
               ))}
-            </div>
-            
-            {/* Map (sticky on desktop, hidden on mobile by default) */}
-            <div className="hidden lg:block lg:w-[60%] lg:sticky lg:top-4 lg:self-start rounded-xl overflow-hidden border-2 border-mansagold/30">
-              <PropertyMap 
-                properties={properties}
-                selectedPropertyId={selectedPropertyId}
-                onSelectProperty={(id) => {
-                  setSelectedPropertyId(id);
-                  // Scroll to the property in the list
-                  const element = document.getElementById(`property-${id}`);
-                  if (element && listRef.current) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  }
-                }}
-                height="600px"
-              />
-            </div>
-
-            {/* Mobile Map Button */}
-            <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-              <Button
-                onClick={() => {
-                  // Could open a full-screen map sheet here
-                  const mapSection = document.getElementById('mobile-map');
-                  if (mapSection) {
-                    mapSection.classList.toggle('hidden');
-                  }
-                }}
-                className="bg-mansagold text-black font-bold shadow-lg hover:bg-mansagold/90"
-              >
-                <Map className="w-4 h-4 mr-2" />
-                View Map
-              </Button>
-            </div>
-
-            {/* Mobile Map (hidden by default) */}
-            <div id="mobile-map" className="hidden lg:hidden fixed inset-0 z-40 bg-slate-950">
-              <div className="relative h-full">
-                <Button
-                  onClick={() => {
-                    const mapSection = document.getElementById('mobile-map');
-                    if (mapSection) {
-                      mapSection.classList.add('hidden');
-                    }
-                  }}
-                  className="absolute top-4 right-4 z-50 bg-black/80 border-2 border-mansagold"
-                  size="sm"
-                >
-                  Close Map
-                </Button>
-                <PropertyMap 
-                  properties={properties}
-                  selectedPropertyId={selectedPropertyId}
-                  onSelectProperty={(id) => {
-                    setSelectedPropertyId(id);
-                    navigate(`/stays/${id}`);
-                  }}
-                  height="100vh"
-                />
-              </div>
             </div>
           </div>
         )}
