@@ -23,25 +23,25 @@ const PricingBreakdown: React.FC<PricingBreakdownProps> = ({
     <div className="space-y-3">
       {/* Nightly rate */}
       <div className="flex justify-between text-sm">
-        <span className="text-muted-foreground">
+        <span className="text-white/70">
           ${pricing.nightlyRate.toLocaleString()} × {pricing.nights} night{pricing.nights !== 1 ? 's' : ''}
         </span>
-        <span className="font-medium">${pricing.subtotal.toLocaleString()}</span>
+        <span className="font-medium text-white">${pricing.subtotal.toLocaleString()}</span>
       </div>
 
       {/* Cleaning fee */}
       {pricing.cleaningFee > 0 && (
         <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">Cleaning fee</span>
-          <span className="font-medium">${pricing.cleaningFee.toLocaleString()}</span>
+          <span className="text-white/70">Cleaning fee</span>
+          <span className="font-medium text-white">${pricing.cleaningFee.toLocaleString()}</span>
         </div>
       )}
 
       {/* Pet fee */}
       {pricing.petFee > 0 && (
         <div className="flex justify-between text-sm">
-          <span className="text-muted-foreground">Pet fee</span>
-          <span className="font-medium">${pricing.petFee.toLocaleString()}</span>
+          <span className="text-white/70">Pet fee</span>
+          <span className="font-medium text-white">${pricing.petFee.toLocaleString()}</span>
         </div>
       )}
 
@@ -50,35 +50,35 @@ const PricingBreakdown: React.FC<PricingBreakdownProps> = ({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className="text-muted-foreground flex items-center gap-1 cursor-help">
+              <span className="text-white/70 flex items-center gap-1 cursor-help">
                 Service fee
                 <Info className="w-3 h-3" />
               </span>
             </TooltipTrigger>
-            <TooltipContent>
-              <p className="max-w-xs text-xs">
+            <TooltipContent className="bg-slate-800 border-white/20">
+              <p className="max-w-xs text-xs text-white">
                 This helps us run Mansa Stays and provides 24/7 support for your trip.
                 A portion of this fee supports Black-owned community initiatives.
               </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <span className="font-medium">${pricing.platformFee.toFixed(2)}</span>
+        <span className="font-medium text-white">${pricing.platformFee.toFixed(2)}</span>
       </div>
 
-      <Separator />
+      <Separator className="bg-white/10" />
 
       {/* Total */}
       <div className="flex justify-between text-lg font-bold">
-        <span>Total</span>
-        <span>${pricing.total.toFixed(2)}</span>
+        <span className="text-white">Total</span>
+        <span className="text-mansagold">${pricing.total.toFixed(2)}</span>
       </div>
 
       {/* Host payout (for hosts) */}
       {showHostPayout && (
         <>
-          <Separator />
-          <div className="flex justify-between text-sm text-primary">
+          <Separator className="bg-white/10" />
+          <div className="flex justify-between text-sm text-mansagold">
             <span>You'll receive</span>
             <span className="font-semibold">${pricing.hostPayout.toFixed(2)}</span>
           </div>

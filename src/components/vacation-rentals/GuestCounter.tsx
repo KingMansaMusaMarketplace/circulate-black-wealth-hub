@@ -67,15 +67,15 @@ const GuestCounter: React.FC<GuestCounterProps> = ({
         <Button
           variant="outline"
           className={cn(
-            'w-full justify-between text-left font-normal',
+            'w-full justify-between text-left font-normal border-white/20 bg-slate-800/50 text-white hover:bg-slate-700',
             className
           )}
         >
           <span>{formatGuestLabel()}</span>
-          <User className="w-4 h-4 text-muted-foreground" />
+          <User className="w-4 h-4 text-white/60" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80" align="start">
+      <PopoverContent className="w-80 bg-slate-900 border-white/20" align="start">
         <div className="space-y-4">
           {/* Adults */}
           <CounterRow
@@ -116,7 +116,7 @@ const GuestCounter: React.FC<GuestCounterProps> = ({
           )}
 
           {!petsAllowed && (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-white/60">
               This property doesn't allow pets. Service animals are always welcome.
             </p>
           )}
@@ -150,27 +150,27 @@ const CounterRow: React.FC<CounterRowProps> = ({
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <div className="text-muted-foreground">{icon}</div>
+        <div className="text-mansagold">{icon}</div>
         <div>
-          <p className="font-medium text-sm">{label}</p>
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <p className="font-medium text-sm text-white">{label}</p>
+          <p className="text-xs text-white/60">{description}</p>
         </div>
       </div>
       <div className="flex items-center gap-3">
         <Button
           variant="outline"
           size="icon"
-          className="h-8 w-8 rounded-full"
+          className="h-8 w-8 rounded-full border-white/20 text-white hover:bg-slate-700"
           disabled={value <= min}
           onClick={onDecrement}
         >
           <Minus className="w-4 h-4" />
         </Button>
-        <span className="w-6 text-center font-medium">{value}</span>
+        <span className="w-6 text-center font-medium text-white">{value}</span>
         <Button
           variant="outline"
           size="icon"
-          className="h-8 w-8 rounded-full"
+          className="h-8 w-8 rounded-full border-white/20 text-white hover:bg-slate-700"
           disabled={value >= max}
           onClick={onIncrement}
         >

@@ -97,15 +97,15 @@ const AmenitiesList: React.FC<AmenitiesListProps> = ({
           return (
             <div
               key={amenity}
-              className="flex items-center gap-1.5 text-sm text-muted-foreground"
+              className="flex items-center gap-1.5 text-sm text-white/70"
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-4 h-4 text-mansagold" />
               <span>{AMENITY_LABELS[amenity] || amenity}</span>
             </div>
           );
         })}
         {remainingCount > 0 && (
-          <span className="text-sm text-muted-foreground">
+          <span className="text-sm text-white/60">
             +{remainingCount} more
           </span>
         )}
@@ -122,17 +122,17 @@ const AmenitiesList: React.FC<AmenitiesListProps> = ({
           return (
             <div
               key={amenity}
-              className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50"
+              className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-white/10"
             >
-              <Icon className="w-5 h-5 text-primary" />
-              <span className="text-sm font-medium">
+              <Icon className="w-5 h-5 text-mansagold" />
+              <span className="text-sm font-medium text-white">
                 {AMENITY_LABELS[amenity] || amenity}
               </span>
             </div>
           );
         })}
         {remainingCount > 0 && (
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 text-muted-foreground">
+          <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50 border border-white/10 text-white/60">
             <span className="text-sm">+{remainingCount} more amenities</span>
           </div>
         )}
@@ -151,15 +151,15 @@ const AmenitiesList: React.FC<AmenitiesListProps> = ({
             key={amenity}
             className="flex items-center gap-4"
           >
-            <Icon className="w-6 h-6 text-foreground" />
-            <span className="text-foreground">
+            <Icon className="w-6 h-6 text-mansagold" />
+            <span className="text-white">
               {AMENITY_LABELS[amenity] || amenity}
             </span>
           </div>
         );
       })}
       {remainingCount > 0 && (
-        <span className="text-sm text-muted-foreground">
+        <span className="text-sm text-white/60">
           +{remainingCount} more amenities
         </span>
       )}
