@@ -2,14 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Star, Users, MapPin, X } from 'lucide-react';
+import { Star, Users, MapPin, Loader2 } from 'lucide-react';
 import { VacationProperty } from '@/types/vacation-rental';
 import { useNavigate } from 'react-router-dom';
-
-// Use Mapbox public token
-mapboxgl.accessToken = 'pk.eyJ1IjoiYnJld2RpbyIsImEiOiJjbHZteWJybjMwcjF4MmtwNWUzaTRzenF3In0.5DWoqaP3G42uQxckBEtB7g';
+import { supabase } from '@/integrations/supabase/client';
 
 interface PropertyMapProps {
   properties: VacationProperty[];
@@ -34,9 +31,44 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
   const popupRef = useRef<mapboxgl.Popup | null>(null);
   const navigate = useNavigate();
   const [hoveredProperty, setHoveredProperty] = useState<VacationProperty | null>(null);
+  const [mapboxToken, setMapboxToken] = useState<string | null>(null);
+  const [tokenLoading, setTokenLoading] = useState(true);
+  const [tokenError, setTokenError] = useState<string | null>(null);
 
+  // Fetch Mapbox token from edge function
   useEffect(() => {
-    if (!mapContainer.current || map.current) return;
+    const fetchToken = async () => {
+      try {
+        setTokenLoading(true);
+        const { data, error } = await supabase.functions.invoke('get-mapbox-token');
+        
+        if (error) {
+          console.error('Error fetching Mapbox token:', error);
+          setTokenError('Failed to load map configuration');
+          return;
+        }
+
+        if (data?.token) {
+          setMapboxToken(data.token);
+        } else {
+          setTokenError('Mapbox token not available');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        setTokenError('Failed to load map configuration');
+      } finally {
+        setTokenLoading(false);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
+  // Initialize map once token is available
+  useEffect(() => {
+    if (!mapContainer.current || map.current || !mapboxToken) return;
+
+    mapboxgl.accessToken = mapboxToken;
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -53,7 +85,7 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
       map.current?.remove();
       map.current = null;
     };
-  }, []);
+  }, [mapboxToken, center, zoom]);
 
   useEffect(() => {
     if (!map.current) return;
@@ -168,6 +200,30 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
 
     popupRef.current = popup;
   };
+
+  // Show loading state
+  if (tokenLoading) {
+    return (
+      <div className="relative flex items-center justify-center bg-slate-900/50 rounded-lg" style={{ height }}>
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-mansagold mx-auto mb-2" />
+          <p className="text-sm text-white/60">Loading map...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (tokenError) {
+    return (
+      <div className="relative flex items-center justify-center bg-slate-900/50 rounded-lg" style={{ height }}>
+        <div className="text-center">
+          <MapPin className="w-8 h-8 text-red-400 mx-auto mb-2" />
+          <p className="text-sm text-red-400">{tokenError}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative" style={{ height }}>
