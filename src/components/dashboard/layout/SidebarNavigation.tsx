@@ -28,6 +28,7 @@ const SidebarNavigation = () => {
     { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'Directory', href: '/directory', icon: Search },
     { name: 'My Bookings', href: '/my-bookings', icon: Calendar },
+    { name: 'My Stays', href: '/stays/my-bookings', icon: Home },
     { name: 'Karma', href: '/karma', icon: Sparkles },
     { name: 'Susu Circles', href: '/susu-circles', icon: CircleDollarSign },
     { name: 'Education', href: '/education', icon: BookOpen },

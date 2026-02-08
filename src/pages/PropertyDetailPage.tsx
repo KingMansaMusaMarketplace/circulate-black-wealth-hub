@@ -8,6 +8,7 @@ import PropertyGallery from '@/components/vacation-rentals/PropertyGallery';
 import AmenitiesList from '@/components/vacation-rentals/AmenitiesList';
 import PricingBreakdown from '@/components/vacation-rentals/PricingBreakdown';
 import GuestCounter from '@/components/vacation-rentals/GuestCounter';
+import PropertyReviewsComponent from '@/components/stays/PropertyReviews';
 import { useVacationBooking } from '@/hooks/useVacationBooking';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -334,45 +335,9 @@ const PropertyDetailPage: React.FC = () => {
 
             <Separator />
 
-            {/* Reviews */}
-            <div>
-              <h2 className="text-xl font-semibold mb-4">
-                Reviews ({reviews.length})
-              </h2>
-              {reviews.length === 0 ? (
-                <p className="text-muted-foreground">
-                  No reviews yet. Be the first to stay here!
-                </p>
-              ) : (
-                <div className="space-y-6">
-                  {reviews.slice(0, 5).map((review) => (
-                    <div key={review.id} className="border-b border-border pb-6 last:border-0">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-                          <span className="text-lg">👤</span>
-                        </div>
-                        <div>
-                          <p className="font-medium">{review.guest_name || 'Guest'}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {format(new Date(review.created_at), 'MMM yyyy')}
-                          </p>
-                        </div>
-                        <div className="ml-auto flex items-center gap-1">
-                          <Star className="w-4 h-4 fill-mansagold text-mansagold" />
-                          <span className="font-medium">{review.rating}</span>
-                        </div>
-                      </div>
-                      <p className="text-muted-foreground">{review.review_text}</p>
-                      {review.host_response && (
-                        <div className="mt-3 pl-4 border-l-2 border-muted">
-                          <p className="text-sm font-medium">Host response:</p>
-                          <p className="text-sm text-muted-foreground">{review.host_response}</p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
+            {/* Reviews Section */}
+            <div className="pt-4">
+              <PropertyReviewsComponent propertyId={id!} />
             </div>
           </div>
 

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import PropertyCard from '@/components/vacation-rentals/PropertyCard';
 import PropertyFilters from '@/components/vacation-rentals/PropertyFilters';
+import PropertyMap from '@/components/stays/PropertyMap';
 import { vacationRentalService } from '@/lib/services/vacation-rental-service';
 import { VacationProperty, PropertySearchFilters } from '@/types/vacation-rental';
 import { Loader2, Home, Map, Plus } from 'lucide-react';
@@ -17,6 +18,7 @@ const VacationRentalsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<PropertySearchFilters>({});
   const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid');
+  const [selectedPropertyId, setSelectedPropertyId] = useState<string | undefined>();
 
   useEffect(() => {
     loadProperties();
@@ -121,7 +123,7 @@ const VacationRentalsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Properties Grid */}
+        {/* Properties Grid or Map */}
         <div className="max-w-7xl mx-auto px-4 pb-16">
           {loading ? (
             <div className="flex items-center justify-center py-20">
@@ -139,6 +141,34 @@ const VacationRentalsPage: React.FC = () => {
                   Be the first to list a property
                 </Button>
               )}
+            </div>
+          ) : viewMode === 'map' ? (
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+              {/* Property List (scrollable) */}
+              <div className="lg:col-span-2 space-y-4 max-h-[700px] overflow-y-auto pr-2">
+                {properties.map((property) => (
+                  <div 
+                    key={property.id}
+                    onClick={() => setSelectedPropertyId(property.id)}
+                    className={`cursor-pointer transition-all ${selectedPropertyId === property.id ? 'ring-2 ring-mansagold rounded-lg' : ''}`}
+                  >
+                    <PropertyCard property={property} />
+                  </div>
+                ))}
+              </div>
+              
+              {/* Map */}
+              <div className="lg:col-span-3 sticky top-4">
+                <PropertyMap 
+                  properties={properties}
+                  selectedPropertyId={selectedPropertyId}
+                  onSelectProperty={(id) => {
+                    setSelectedPropertyId(id);
+                    navigate(`/stays/${id}`);
+                  }}
+                  height="700px"
+                />
+              </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
