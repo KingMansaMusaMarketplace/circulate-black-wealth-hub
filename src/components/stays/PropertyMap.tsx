@@ -237,8 +237,18 @@ const PropertyMap: React.FC<PropertyMapProps> = ({
   }
 
   return (
-    <div className="relative" style={{ height }}>
-      <div ref={mapContainer} className="absolute inset-0 rounded-lg overflow-hidden" />
+    <div className="relative" style={{ height, minHeight: height }}>
+      <div 
+        ref={mapContainer} 
+        className="absolute inset-0 rounded-lg overflow-hidden"
+        style={{ 
+          width: '100%', 
+          height: '100%',
+          // Force GPU rendering for iOS WebView compatibility
+          transform: 'translateZ(0)',
+          WebkitTransform: 'translateZ(0)',
+        }} 
+      />
       
       {/* Hover Card */}
       {hoveredProperty && (
