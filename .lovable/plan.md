@@ -1,161 +1,216 @@
 
-# EatOkra Partnership Pitch Page Implementation Plan
+# Mansa Stays: Black-Owned Vacation Rental Marketplace
 
-## Overview
-Create a dedicated partnership landing page specifically designed to pitch **EatOkra** on migrating their 22,500+ restaurant listings to the 1325.AI platform. This page will be publicly accessible at `/partner/eatokra` and serve as a comprehensive pitch document that can be shared directly with EatOkra's leadership.
-
----
-
-## Strategic Approach
-
-### Why EatOkra First?
-- **Perfect Vertical Fit**: Restaurant bookings and reservations are the #1 use case for our native Stripe Connect booking system
-- **Clear Value Add**: EatOkra currently links to external sites; 1325.AI enables in-platform reservations with 92.5% revenue retention
-- **Manageable Scale**: 22,500 listings is substantial but not overwhelming for initial migration
-- **Revenue Model Alignment**: Per-transaction booking fees create recurring revenue for both parties
-
-### Core Pitch Themes
-1. **From Directory to Transaction Platform**: Transform discovery into direct bookings
-2. **Revenue Share Model**: 10% recurring commission on all transactions from migrated businesses
-3. **Founding Partner Status**: Locked-in benefits before September 2026 deadline
-4. **Technical Migration Support**: Automated import tools and white-glove onboarding
+## Vision
+Create the **first Black-owned vacation rental platform** - a direct competitor to Airbnb, VRBO, and Evolve. Hosts can list properties, guests can book stays with date ranges, and the platform captures **7.5% commission** on every transaction - all integrated into the existing 1325.AI ecosystem.
 
 ---
 
-## Page Structure
+## What We're Building
 
-### Section 1: Hero Banner
-- Bold headline: "EatOkra + 1325.AI: From Discovery to Direct Revenue"
-- Subheadline emphasizing the partnership opportunity
-- EatOkra logo placeholder alongside 1325.AI branding
-- CTA button: "Schedule a Partnership Call"
+**For Guests:**
+- Browse vacation rentals by location, dates, price, amenities
+- Date-range booking (check-in / check-out)
+- Guest count and pet-friendly filters
+- Secure payment through existing Stripe Connect
+- Booking history and upcoming stays
 
-### Section 2: The Opportunity (Problem/Solution)
-- **Current State**: EatOkra lists 22,500+ restaurants but loses users to external booking platforms (OpenTable, Yelp, Google)
-- **Opportunity Cost**: Each external redirect = lost transaction data and potential revenue
-- **1325.AI Solution**: Native booking engine keeps users in-platform, captures transaction fees
-
-### Section 3: Feature Comparison Matrix
-Styled like existing `PitchSlide8Competitive.tsx` with high-contrast design:
-
-| Feature | EatOkra Today | EatOkra + 1325.AI |
-|---------|---------------|-------------------|
-| Restaurant Discovery | Yes | Yes |
-| Native Booking | No (external links) | Yes (Stripe Connect) |
-| Revenue Per Booking | $0 | 7.5% platform fee |
-| Partner Revenue Share | N/A | 10% of platform fees |
-| Customer Loyalty Tools | No | Yes |
-| Real-time Analytics | Limited | Full dashboard |
-| Mobile Apps (iOS/Android) | No | Yes |
-| Community Finance (Susu) | No | Yes |
-
-### Section 4: Revenue Calculator
-Interactive component showing potential earnings:
-- Input: Average bookings per restaurant per month
-- Input: Average booking value
-- Output: Monthly/Annual revenue for EatOkra as partner
-- Example: 22,500 restaurants × 10 bookings × $50 avg × 7.5% × 10% = **$84,375/month partner revenue**
-
-### Section 5: Migration Path
-Visual timeline showing:
-1. **Partnership Agreement** (Week 1)
-2. **API Integration** - Firecrawl-powered import of existing listings (Week 2-3)
-3. **Business Outreach** - Co-branded emails to restaurant owners (Week 4-6)
-4. **Launch** - Full integration with tracking dashboard (Week 7-8)
-
-### Section 6: Partner Benefits Summary
-Cards highlighting:
-- **$5 per signup bonus** for every restaurant that joins
-- **10% recurring revenue share** on all booking fees
-- **Founding Partner badge** - permanent recognition
-- **Co-branded marketing materials** - generated automatically
-- **Dedicated partner dashboard** - real-time analytics
-
-### Section 7: Social Proof / Why Now
-- Founding Member deadline urgency (September 2026)
-- Current traction metrics from database
-- Testimonial placeholder for early partners
-
-### Section 8: Call to Action
-- Primary: "Schedule Partnership Discussion" (Calendly or contact form)
-- Secondary: "Download Partnership Overview PDF"
-- Contact info for partnership inquiries
+**For Hosts (Property Owners):**
+- Property listing with photos, descriptions, house rules
+- Availability calendar management
+- Nightly pricing with seasonal adjustments
+- Guest communication and booking management
+- Earnings dashboard with commission tracking
 
 ---
 
-## Technical Implementation
+## Existing Infrastructure We'll Leverage
 
-### New Files to Create
+| Component | Status | Reuse Strategy |
+|-----------|--------|----------------|
+| Stripe Connect (7.5% fee) | Ready | Direct integration for host payouts |
+| Mapbox Discovery | Ready | Property location display |
+| User Authentication | Ready | Guest/Host login |
+| Business Availability Hook | Adapt | Convert from hourly to nightly slots |
+| Booking Form Components | Adapt | Extend for date-range selection |
+| Business Directory | Extend | Add "Vacation Rentals" category view |
+
+---
+
+## Database Schema
+
+### New Tables
+
+**1. `vacation_properties`** - Core property listings
+```text
+- id, host_id (references auth.users)
+- title, description, property_type (house, apartment, cabin, villa)
+- address, city, state, zip_code, country
+- latitude, longitude (for Mapbox)
+- bedrooms, bathrooms, max_guests
+- base_nightly_rate, cleaning_fee, service_fee
+- amenities (JSONB array: wifi, pool, kitchen, etc.)
+- house_rules (text)
+- photos (JSONB array of URLs)
+- is_active, is_instant_book
+- min_nights, max_nights
+- check_in_time, check_out_time
+- created_at, updated_at
+```
+
+**2. `property_availability`** - Blocked dates & pricing overrides
+```text
+- id, property_id
+- date (single date)
+- is_available (boolean)
+- custom_price (optional nightly rate override)
+- booking_id (if blocked by a booking)
+```
+
+**3. `vacation_bookings`** - Guest reservations
+```text
+- id, property_id, guest_id
+- check_in_date, check_out_date
+- num_guests, num_nights
+- nightly_rate, cleaning_fee
+- subtotal, platform_fee (7.5%), host_payout
+- status (pending, confirmed, completed, cancelled)
+- payment_intent_id, stripe_charge_id
+- guest_name, guest_email, guest_phone
+- special_requests
+- created_at, updated_at
+```
+
+**4. `property_reviews`** - Guest reviews
+```text
+- id, property_id, booking_id, guest_id
+- rating (1-5), cleanliness, accuracy, communication, location, value
+- review_text
+- host_response
+- created_at
+```
+
+---
+
+## Implementation Phases
+
+### Phase 1: Foundation (Week 1)
+1. Database tables + RLS policies
+2. Add "Vacation Rentals" as primary category
+3. Create property listing form for hosts
+4. Basic property detail page
+
+### Phase 2: Booking System (Week 2)
+1. Date-range picker component (check-in/out)
+2. Availability calendar for properties
+3. Pricing calculator (nights × rate + fees)
+4. Booking creation edge function with Stripe Connect
+
+### Phase 3: Discovery (Week 3)
+1. Vacation rentals directory page with filters
+2. Map view of properties
+3. Search by location, dates, guests, amenities
+4. Featured properties section
+
+### Phase 4: Host Dashboard (Week 4)
+1. Property management dashboard
+2. Booking calendar and reservations
+3. Earnings and payout tracking
+4. Guest communication tools
+
+---
+
+## New Components to Create
 
 ```text
-src/pages/partners/
-├── EatOkraPartnershipPage.tsx    # Main landing page
-└── index.ts                       # Exports
+src/
+├── pages/
+│   ├── VacationRentalsPage.tsx        # Directory of rentals
+│   ├── PropertyDetailPage.tsx         # Single property view
+│   ├── PropertyListingPage.tsx        # Host: Add/edit property
+│   ├── HostDashboardPage.tsx          # Host management
+│   └── GuestTripsPage.tsx             # Guest: My bookings
+│
+├── components/
+│   └── vacation-rentals/
+│       ├── PropertyCard.tsx           # Grid display card
+│       ├── PropertyGallery.tsx        # Photo gallery
+│       ├── DateRangePicker.tsx        # Check-in/out selector
+│       ├── GuestCounter.tsx           # Adults/children/pets
+│       ├── AmenitiesList.tsx          # Amenity icons
+│       ├── PricingBreakdown.tsx       # Nightly rate + fees
+│       ├── AvailabilityCalendar.tsx   # Host calendar management
+│       ├── PropertyBookingWidget.tsx  # Booking sidebar
+│       └── PropertyFilters.tsx        # Search filters
+│
+├── hooks/
+│   ├── usePropertyAvailability.ts     # Date-range availability
+│   └── useVacationBooking.ts          # Booking logic
+│
+└── lib/services/
+    └── vacation-rental-service.ts     # API layer
 
-src/components/partnerships/
-├── PartnershipHero.tsx           # Reusable hero for partner pitches
-├── PartnerRevenueCalculator.tsx  # Interactive earnings calculator
-├── MigrationTimeline.tsx         # Visual migration steps
-├── PartnerComparisonTable.tsx    # Before/after feature matrix
-└── index.ts
-```
-
-### Route Configuration
-Add route in `App.tsx`:
-```tsx
-<Route path="/partner/eatokra" element={<EatOkraPartnershipPage />} />
-```
-
-### Design System
-Following existing pitch deck style from `PitchSlide8Competitive.tsx`:
-- Background: `bg-black/80` with gradient overlays
-- Borders: `border-2 border-mansagold` for emphasis
-- Text: High-contrast white and gold typography
-- Cards: Glassmorphism effect with backdrop blur
-- Animations: Framer Motion entrance animations
-
-### Revenue Calculator Logic
-```typescript
-interface CalculatorInputs {
-  restaurantCount: number;      // Default: 22500
-  bookingsPerMonth: number;     // Default: 10
-  avgBookingValue: number;      // Default: 50
-}
-
-const calculateRevenue = (inputs: CalculatorInputs) => {
-  const platformFeeRate = 0.075;  // 7.5%
-  const partnerShareRate = 0.10;  // 10% of platform fees
-  
-  const totalBookingValue = inputs.restaurantCount * inputs.bookingsPerMonth * inputs.avgBookingValue;
-  const platformFees = totalBookingValue * platformFeeRate;
-  const partnerRevenue = platformFees * partnerShareRate;
-  
-  return {
-    monthly: partnerRevenue,
-    annual: partnerRevenue * 12,
-    perRestaurant: partnerRevenue / inputs.restaurantCount
-  };
-};
+supabase/functions/
+├── create-vacation-booking/           # Payment + booking
+└── manage-property-availability/      # Host calendar
 ```
 
 ---
 
-## Reusability
-This page structure is designed to be templated for other directories:
-- `BuyBlackPartnershipPage.tsx`
-- `BlackDirectoryPartnershipPage.tsx`
-- `OBWSPartnershipPage.tsx`
+## Payment Flow (7.5% Commission)
 
-Each can reuse the same components with customized:
-- Logo and branding
-- Listing count and vertical focus
-- Specific value propositions
+```text
+Guest pays $500 total
+     │
+     ▼
+┌─────────────────────────────────────┐
+│  $37.50 → Platform Commission       │
+│  $462.50 → Host Stripe Account      │
+└─────────────────────────────────────┘
+     │
+     ▼
+Stripe Connect Express transfers to host
+```
 
 ---
 
-## Success Metrics
-After launch, track:
-- Page views and time on page
-- CTA button clicks (partnership call scheduling)
-- PDF downloads
-- Conversion to partnership discussions
+## Competitive Positioning
+
+| Feature | Airbnb | VRBO | Evolve | Mansa Stays |
+|---------|--------|------|--------|-------------|
+| Black-Owned Focus | No | No | No | **Yes** |
+| Platform Fee | 14-20% | 8-15% | 10% | **7.5%** |
+| Community Investment | No | No | No | **Susu Circles** |
+| Loyalty Rewards | No | No | No | **Economic Karma** |
+| Business Directory | No | No | No | **Integrated** |
+
+---
+
+## Technical Notes
+
+- **Date-range booking**: Replaces the current time-slot system with check-in/check-out dates
+- **Availability calendar**: Uses a date-based blocking system instead of hourly slots
+- **Pricing**: Nightly base rate + cleaning fee + service fee (calculated dynamically)
+- **Photos**: Stored in Supabase Storage with CDN delivery
+- **Host verification**: Integrates with existing business verification system
+- **RLS Policies**: Hosts can only manage their properties; guests can only view active listings
+
+---
+
+## Revenue Projection
+
+With the existing user base and 155 businesses, if even 10% of users list properties:
+
+- 15 properties × avg $150/night × 50% occupancy
+- = $34,125/month in bookings
+- = **$2,559/month platform revenue** (7.5%)
+
+As the platform scales, this becomes a significant recurring revenue stream.
+
+---
+
+## Summary
+
+This feature positions 1325.AI as the **first Black-owned alternative** to Airbnb/VRBO/Evolve - a powerful differentiator that fills a genuine market gap. The technical foundation is 80% complete; we're extending existing patterns rather than building from scratch.
+
+Dr. Atwater's insight is spot-on: there's no Black-owned vacation rental platform at scale. This could be a flagship feature that drives significant community wealth circulation.
