@@ -343,17 +343,18 @@ const PropertyListingPage: React.FC = () => {
               <>
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="bedrooms">Bedrooms</Label>
+                    <Label htmlFor="bedrooms" className="text-white">Bedrooms</Label>
                     <Input
                       id="bedrooms"
                       type="number"
                       min="0"
                       value={formData.bedrooms}
                       onChange={(e) => updateFormData({ bedrooms: parseInt(e.target.value) || 0 })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="bathrooms">Bathrooms</Label>
+                    <Label htmlFor="bathrooms" className="text-white">Bathrooms</Label>
                     <Input
                       id="bathrooms"
                       type="number"
@@ -361,67 +362,73 @@ const PropertyListingPage: React.FC = () => {
                       step="0.5"
                       value={formData.bathrooms}
                       onChange={(e) => updateFormData({ bathrooms: parseFloat(e.target.value) || 0 })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="max_guests">Max Guests</Label>
+                    <Label htmlFor="max_guests" className="text-white">Max Guests</Label>
                     <Input
                       id="max_guests"
                       type="number"
                       min="1"
                       value={formData.max_guests}
                       onChange={(e) => updateFormData({ max_guests: parseInt(e.target.value) || 1 })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="bg-white/10" />
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="check_in_time">Check-in Time</Label>
+                    <Label htmlFor="check_in_time" className="text-white">Check-in Time</Label>
                     <Input
                       id="check_in_time"
                       type="time"
                       value={formData.check_in_time}
                       onChange={(e) => updateFormData({ check_in_time: e.target.value })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="check_out_time">Check-out Time</Label>
+                    <Label htmlFor="check_out_time" className="text-white">Check-out Time</Label>
                     <Input
                       id="check_out_time"
                       type="time"
                       value={formData.check_out_time}
                       onChange={(e) => updateFormData({ check_out_time: e.target.value })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="min_nights">Minimum Nights</Label>
+                    <Label htmlFor="min_nights" className="text-white">Minimum Nights</Label>
                     <Input
                       id="min_nights"
                       type="number"
                       min="1"
                       value={formData.min_nights}
                       onChange={(e) => updateFormData({ min_nights: parseInt(e.target.value) || 1 })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="max_nights">Maximum Nights</Label>
+                    <Label htmlFor="max_nights" className="text-white">Maximum Nights</Label>
                     <Input
                       id="max_nights"
                       type="number"
                       min="1"
                       value={formData.max_nights}
                       onChange={(e) => updateFormData({ max_nights: parseInt(e.target.value) || 30 })}
+                      className="bg-slate-800 border-white/20 text-white"
                     />
                   </div>
                 </div>
 
-                <Separator />
+                <Separator className="bg-white/10" />
 
                 <div className="space-y-4">
                   <div className="flex items-center space-x-2">
@@ -429,35 +436,38 @@ const PropertyListingPage: React.FC = () => {
                       id="pets_allowed"
                       checked={formData.pets_allowed}
                       onCheckedChange={(checked) => updateFormData({ pets_allowed: !!checked })}
+                      className="border-white/30"
                     />
-                    <Label htmlFor="pets_allowed" className="cursor-pointer">
-                      <Dog className="w-4 h-4 inline mr-2" />
+                    <Label htmlFor="pets_allowed" className="cursor-pointer text-white">
+                      <Dog className="w-4 h-4 inline mr-2 text-mansagold" />
                       Pets Allowed
                     </Label>
                   </div>
 
                   {formData.pets_allowed && (
                     <div className="space-y-2 ml-6">
-                      <Label htmlFor="pet_fee">Pet Fee (per pet)</Label>
+                      <Label htmlFor="pet_fee" className="text-white">Pet Fee (per pet)</Label>
                       <Input
                         id="pet_fee"
                         type="number"
                         min="0"
                         value={formData.pet_fee}
                         onChange={(e) => updateFormData({ pet_fee: parseFloat(e.target.value) || 0 })}
+                        className="bg-slate-800 border-white/20 text-white"
                       />
                     </div>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="house_rules">House Rules</Label>
+                  <Label htmlFor="house_rules" className="text-white">House Rules</Label>
                   <Textarea
                     id="house_rules"
                     placeholder="No smoking, quiet hours after 10pm, etc."
                     rows={4}
                     value={formData.house_rules}
                     onChange={(e) => updateFormData({ house_rules: e.target.value })}
+                    className="bg-slate-800 border-white/20 text-white placeholder:text-white/50"
                   />
                 </div>
               </>
@@ -494,63 +504,66 @@ const PropertyListingPage: React.FC = () => {
             {currentStep === 'pricing' && (
               <>
                 <div className="space-y-2">
-                  <Label htmlFor="base_nightly_rate">Nightly Rate ($) *</Label>
+                  <Label htmlFor="base_nightly_rate" className="text-white">Nightly Rate ($) *</Label>
                   <Input
                     id="base_nightly_rate"
                     type="number"
                     min="1"
                     value={formData.base_nightly_rate}
                     onChange={(e) => updateFormData({ base_nightly_rate: parseFloat(e.target.value) || 0 })}
+                    className="bg-slate-800 border-white/20 text-white"
                   />
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-white/60">
                     The base price per night before fees
                   </p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="cleaning_fee">Cleaning Fee ($)</Label>
+                  <Label htmlFor="cleaning_fee" className="text-white">Cleaning Fee ($)</Label>
                   <Input
                     id="cleaning_fee"
                     type="number"
                     min="0"
                     value={formData.cleaning_fee}
                     onChange={(e) => updateFormData({ cleaning_fee: parseFloat(e.target.value) || 0 })}
+                    className="bg-slate-800 border-white/20 text-white"
                   />
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-white/60">
                     One-time fee charged per stay
                   </p>
                 </div>
 
-                <Separator />
+                <Separator className="bg-white/10" />
 
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="is_instant_book"
                     checked={formData.is_instant_book}
                     onCheckedChange={(checked) => updateFormData({ is_instant_book: !!checked })}
+                    className="border-white/30"
                   />
                   <div>
-                    <Label htmlFor="is_instant_book" className="cursor-pointer">
+                    <Label htmlFor="is_instant_book" className="cursor-pointer text-white">
                       Enable Instant Book
                     </Label>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-white/60">
                       Guests can book instantly without approval
                     </p>
                   </div>
                 </div>
 
-                <div className="bg-secondary/50 rounded-lg p-4">
-                  <h4 className="font-semibold mb-2">Pricing Summary</h4>
+                <div className="bg-slate-800/50 border border-white/10 rounded-lg p-4">
+                  <h4 className="font-semibold mb-2 text-white">Pricing Summary</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span>Nightly rate</span>
-                      <span>${formData.base_nightly_rate}</span>
+                      <span className="text-white/70">Nightly rate</span>
+                      <span className="text-white">${formData.base_nightly_rate}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Cleaning fee</span>
-                      <span>${formData.cleaning_fee}</span>
+                      <span className="text-white/70">Cleaning fee</span>
+                      <span className="text-white">${formData.cleaning_fee}</span>
                     </div>
-                    <div className="flex justify-between text-muted-foreground">
+                    <div className="flex justify-between text-white/60">
                       <span>Platform fee (7.5%)</span>
                       <span>Calculated at checkout</span>
                     </div>
@@ -562,18 +575,18 @@ const PropertyListingPage: React.FC = () => {
             {/* Photos Step */}
             {currentStep === 'photos' && (
               <div className="space-y-4">
-                <div className="border-2 border-dashed border-muted rounded-lg p-8 text-center">
-                  <Upload className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="font-semibold mb-2">Upload Photos</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
+                <div className="border-2 border-dashed border-white/20 rounded-lg p-8 text-center">
+                  <Upload className="w-12 h-12 mx-auto text-mansagold mb-4" />
+                  <h3 className="font-semibold mb-2 text-white">Upload Photos</h3>
+                  <p className="text-sm text-white/60 mb-4">
                     Photo upload functionality coming soon.
                     For now, you can add your property and update photos later.
                   </p>
-                  <Button variant="outline" disabled>
+                  <Button variant="outline" disabled className="border-white/20 text-white/50">
                     Upload Photos
                   </Button>
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-white/60">
                   Tip: Properties with high-quality photos get 40% more bookings.
                   Include photos of every room, outdoor spaces, and unique features.
                 </p>
@@ -583,45 +596,45 @@ const PropertyListingPage: React.FC = () => {
             {/* Review Step */}
             {currentStep === 'review' && (
               <div className="space-y-6">
-                <div className="bg-secondary/50 rounded-lg p-4 space-y-4">
+                <div className="bg-slate-800/50 border border-white/10 rounded-lg p-4 space-y-4">
                   <div>
-                    <h4 className="font-semibold">Property</h4>
-                    <p>{formData.title || 'No title'}</p>
-                    <p className="text-sm text-muted-foreground capitalize">{formData.property_type}</p>
+                    <h4 className="font-semibold text-white">Property</h4>
+                    <p className="text-white">{formData.title || 'No title'}</p>
+                    <p className="text-sm text-white/60 capitalize">{formData.property_type}</p>
                   </div>
-                  <Separator />
+                  <Separator className="bg-white/10" />
                   <div>
-                    <h4 className="font-semibold">Location</h4>
-                    <p>{formData.address}</p>
-                    <p>{formData.city}, {formData.state} {formData.zip_code}</p>
+                    <h4 className="font-semibold text-white">Location</h4>
+                    <p className="text-white">{formData.address}</p>
+                    <p className="text-white/80">{formData.city}, {formData.state} {formData.zip_code}</p>
                   </div>
-                  <Separator />
+                  <Separator className="bg-white/10" />
                   <div>
-                    <h4 className="font-semibold">Details</h4>
-                    <p>{formData.bedrooms} bedroom(s) · {formData.bathrooms} bathroom(s) · {formData.max_guests} guest(s)</p>
-                    <p>Check-in: {formData.check_in_time} · Check-out: {formData.check_out_time}</p>
+                    <h4 className="font-semibold text-white">Details</h4>
+                    <p className="text-white/80">{formData.bedrooms} bedroom(s) · {formData.bathrooms} bathroom(s) · {formData.max_guests} guest(s)</p>
+                    <p className="text-white/80">Check-in: {formData.check_in_time} · Check-out: {formData.check_out_time}</p>
                   </div>
-                  <Separator />
+                  <Separator className="bg-white/10" />
                   <div>
-                    <h4 className="font-semibold">Amenities</h4>
-                    <p>{formData.amenities.length > 0 
+                    <h4 className="font-semibold text-white">Amenities</h4>
+                    <p className="text-white/80">{formData.amenities.length > 0 
                       ? formData.amenities.map(a => AMENITIES_LIST.find(am => am.id === a)?.label).join(', ')
                       : 'None selected'
                     }</p>
                   </div>
-                  <Separator />
+                  <Separator className="bg-white/10" />
                   <div>
-                    <h4 className="font-semibold">Pricing</h4>
-                    <p>${formData.base_nightly_rate}/night + ${formData.cleaning_fee} cleaning fee</p>
+                    <h4 className="font-semibold text-white">Pricing</h4>
+                    <p className="text-white/80">${formData.base_nightly_rate}/night + ${formData.cleaning_fee} cleaning fee</p>
                     {formData.is_instant_book && (
-                      <p className="text-sm text-primary">✓ Instant Book enabled</p>
+                      <p className="text-sm text-mansagold">✓ Instant Book enabled</p>
                     )}
                   </div>
                 </div>
 
                 <div className="bg-mansagold/10 border border-mansagold/30 rounded-lg p-4">
-                  <h4 className="font-semibold text-mansagold-dark">What happens next?</h4>
-                  <ul className="text-sm text-muted-foreground mt-2 space-y-1">
+                  <h4 className="font-semibold text-mansagold">What happens next?</h4>
+                  <ul className="text-sm text-white/70 mt-2 space-y-1">
                     <li>• Your listing will be reviewed by our team</li>
                     <li>• Once approved, it will be visible to guests</li>
                     <li>• You'll receive an email notification</li>
@@ -639,6 +652,7 @@ const PropertyListingPage: React.FC = () => {
             variant="outline"
             onClick={goToPreviousStep}
             disabled={getCurrentStepIndex() === 0}
+            className="border-white/20 text-white hover:bg-slate-800"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Previous
