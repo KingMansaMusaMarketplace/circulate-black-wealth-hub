@@ -26,6 +26,7 @@ interface BookingResult {
     total: number;
     status: string;
   };
+  url?: string;
   clientSecret?: string;
   paymentIntentId?: string;
   pricing?: {
@@ -63,6 +64,12 @@ export function useVacationBooking() {
 
       if (!result.success) {
         throw new Error(result.error || 'Booking failed');
+      }
+
+      // Redirect to Stripe Checkout if URL is provided
+      if (result.url) {
+        window.open(result.url, '_blank');
+        toast.success('Redirecting to payment...');
       }
 
       return result;

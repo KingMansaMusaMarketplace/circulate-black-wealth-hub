@@ -236,3 +236,15 @@ verify_jwt = true
 
 [functions.scrape-business-website]
 verify_jwt = false
+
+[functions.create-vacation-booking]
+verify_jwt = false
+
+[functions.create-host-connect-account]
+verify_jwt = false
+
+[functions.check-host-connect-status]
+verify_jwt = false
+
+[functions.vacation-booking-webhook]
+verify_jwt = false
