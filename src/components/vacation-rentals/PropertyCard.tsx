@@ -37,8 +37,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
     <div
       className={cn(
         'group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300',
-        'bg-card border border-border hover:border-primary/30 hover:shadow-lg',
-        isHighlighted && 'ring-2 ring-primary border-primary/30'
+        'bg-slate-900/80 backdrop-blur-xl border border-white/10 hover:border-mansagold/30 hover:shadow-lg hover:shadow-mansagold/10',
+        isHighlighted && 'ring-2 ring-mansagold border-mansagold/30'
       )}
       onMouseEnter={() => onHover?.(property.id)}
       onMouseLeave={() => onHover?.(null)}
@@ -92,7 +92,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             </Badge>
           )}
           {property.is_instant_book && (
-            <Badge variant="secondary" className="bg-white/90 text-foreground">
+            <Badge variant="secondary" className="bg-white/90 text-slate-900">
               <Zap className="w-3 h-3 mr-1" />
               Instant Book
             </Badge>
@@ -103,23 +103,23 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
       {/* Content */}
       <div className="p-4">
         {/* Location */}
-        <div className="flex items-center gap-1 text-muted-foreground text-sm mb-1">
+        <div className="flex items-center gap-1 text-white/60 text-sm mb-1">
           <MapPin className="w-3.5 h-3.5" />
           <span>{property.city}, {property.state}</span>
         </div>
 
         {/* Title */}
-        <h3 className="font-semibold text-foreground text-lg line-clamp-1 group-hover:text-primary transition-colors">
+        <h3 className="font-semibold text-white text-lg line-clamp-1 group-hover:text-mansagold transition-colors">
           {property.title}
         </h3>
 
         {/* Property type */}
-        <p className="text-sm text-muted-foreground capitalize mb-3">
+        <p className="text-sm text-white/50 capitalize mb-3">
           {property.property_type}
         </p>
 
         {/* Details row */}
-        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+        <div className="flex items-center gap-4 text-sm text-white/60 mb-3">
           <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
             <span>{property.max_guests} guests</span>
@@ -135,15 +135,15 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         </div>
 
         {/* Rating and Price */}
-        <div className="flex items-center justify-between pt-3 border-t border-border">
+        <div className="flex items-center justify-between pt-3 border-t border-white/10">
           {/* Rating */}
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 fill-mansagold text-mansagold" />
-            <span className="font-medium text-foreground">
+            <span className="font-medium text-white">
               {property.average_rating > 0 ? property.average_rating.toFixed(1) : 'New'}
             </span>
             {property.review_count > 0 && (
-              <span className="text-muted-foreground text-sm">
+              <span className="text-white/50 text-sm">
                 ({property.review_count} review{property.review_count !== 1 ? 's' : ''})
               </span>
             )}
@@ -151,17 +151,17 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
           {/* Price */}
           <div className="text-right">
-            <span className="font-bold text-lg text-foreground">
+            <span className="font-bold text-lg text-mansagold">
               ${property.base_nightly_rate.toLocaleString()}
             </span>
-            <span className="text-muted-foreground text-sm"> / night</span>
+            <span className="text-white/50 text-sm"> / night</span>
           </div>
         </div>
 
         {/* Pets badge */}
         {property.pets_allowed && (
           <div className="mt-3">
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs text-white/70 border-white/20">
               🐾 Pet friendly
             </Badge>
           </div>
