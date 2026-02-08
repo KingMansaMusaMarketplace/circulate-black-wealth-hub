@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -141,29 +140,26 @@ const PropertyListingPage: React.FC = () => {
 
   if (!user) {
     return (
-      <Layout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center">
-          <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-            <Home className="w-16 h-16 mx-auto text-white/40 mb-4" />
-            <h1 className="text-2xl font-bold mb-4 text-white">List Your Property</h1>
-            <p className="text-white/60 mb-6">
-              Please log in to list your vacation rental property on Mansa Stays.
-            </p>
-            <Button 
-              onClick={() => navigate('/login', { state: { from: '/stays/list-property' } })}
-              className="bg-mansagold text-black hover:bg-mansagold/90"
-            >
-              Log In to Continue
-            </Button>
-          </div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 flex items-center justify-center">
+        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+          <Home className="w-16 h-16 mx-auto text-white/40 mb-4" />
+          <h1 className="text-2xl font-bold mb-4 text-white">List Your Property</h1>
+          <p className="text-white/60 mb-6">
+            Please log in to list your vacation rental property on Mansa Stays.
+          </p>
+          <Button 
+            onClick={() => navigate('/login', { state: { from: '/stays/list-property' } })}
+            className="bg-mansagold text-black hover:bg-mansagold/90"
+          >
+            Log In to Continue
+          </Button>
         </div>
-      </Layout>
+      </div>
     );
   }
 
   return (
-    <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
         {/* Animated gradient orbs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
@@ -673,9 +669,8 @@ const PropertyListingPage: React.FC = () => {
             </Button>
           )}
         </div>
-        </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 
