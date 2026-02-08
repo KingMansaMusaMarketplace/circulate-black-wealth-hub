@@ -178,6 +178,11 @@ const LazySusuCirclesPage = lazy(() => import('@/pages/SusuCirclesPage'));
 const LazyKarmaDashboardPage = lazy(() => import('@/pages/KarmaDashboardPage'));
 const LazyWalletPage = lazy(() => import('@/pages/WalletPage'));
 
+// Vacation Rentals (Mansa Stays)
+const LazyVacationRentalsPage = lazy(() => import('@/pages/VacationRentalsPage'));
+const LazyPropertyDetailPage = lazy(() => import('@/pages/PropertyDetailPage'));
+const LazyPropertyListingPage = lazy(() => import('@/pages/PropertyListingPage'));
+
 // Founder's Wall
 const LazyFoundersWallPage = lazy(() => import('@/pages/FoundersWallPage'));
 const LazyAmbassadorResourcesPage = lazy(() => import('@/pages/AmbassadorResourcesPage'));
@@ -612,6 +617,9 @@ function App() {
                               <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
                               <Route path="/scanner" element={<LazyQRScannerPage />} />
                               <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
+                              <Route path="/stays" element={<LazyVacationRentalsPage />} />
+                              <Route path="/stays/list-property" element={<LazyPropertyListingPage />} />
+                              <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                               <Route path="/wallet" element={<LazyWalletPage />} />
                               <Route path="/settings" element={<LazyUserSettingsPage />} />
                               <Route path="/workflow-builder" element={<LazyWorkflowBuilderPage />} />
@@ -893,6 +901,9 @@ function App() {
                         <Route path="/sales-agent-signup" element={<LazySalesAgentSignupPage />} />
                         <Route path="/scanner" element={<LazyQRScannerPage />} />
                         <Route path="/susu-circles" element={<LazySusuCirclesPage />} />
+                        <Route path="/stays" element={<LazyVacationRentalsPage />} />
+                        <Route path="/stays/list-property" element={<LazyPropertyListingPage />} />
+                        <Route path="/stays/:id" element={<LazyPropertyDetailPage />} />
                         <Route path="/wallet" element={<LazyWalletPage />} />
                         <Route path="/settings" element={<LazyUserSettingsPage />} />
                         <Route path="/share-impact" element={<LazyShareImpactPage />} />
