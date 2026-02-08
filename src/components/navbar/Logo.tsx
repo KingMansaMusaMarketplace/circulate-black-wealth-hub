@@ -35,18 +35,18 @@ const Logo: React.FC = () => {
     : 'Building the Future of Digital Commerce | AI';
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1 sm:gap-2">
       {/* Clickable logo that opens modal */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <button 
-            className="group focus:outline-none"
+            className="group focus:outline-none flex-shrink-0"
             aria-label="View full logo"
           >
             <img 
               src={logoSrc} 
               alt={brandName} 
-              className="h-14 w-auto object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] cursor-pointer"
+              className="h-10 sm:h-14 w-auto object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(212,175,55,0.6)] cursor-pointer"
             />
           </button>
         </DialogTrigger>
@@ -64,10 +64,10 @@ const Logo: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Home link */}
+      {/* Home link - hidden on very small screens */}
       <Link 
         to="/" 
-        className="text-xl font-mono font-bold tracking-wider text-mansagold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]"
+        className="hidden xs:block text-base sm:text-xl font-mono font-bold tracking-wider text-mansagold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] truncate max-w-[100px] sm:max-w-none"
       >
         {brandName}
       </Link>
