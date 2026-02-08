@@ -113,6 +113,7 @@ const VacationRentalsPage: React.FC = () => {
               variant={viewMode === 'grid' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setViewMode('grid')}
+              className={viewMode === 'grid' ? 'bg-mansagold text-black font-medium' : 'bg-black/80 border-2 border-mansagold/50 text-white font-medium hover:border-mansagold'}
             >
               <Home className="w-4 h-4 mr-2" />
               Grid
@@ -121,6 +122,7 @@ const VacationRentalsPage: React.FC = () => {
               variant={viewMode === 'map' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setViewMode('map')}
+              className={viewMode === 'map' ? 'bg-mansagold text-black font-medium' : 'bg-black/80 border-2 border-mansagold/50 text-white font-medium hover:border-mansagold'}
             >
               <Map className="w-4 h-4 mr-2" />
               Map
