@@ -22,12 +22,14 @@ interface PremiumPropertySearchBarProps {
   filters: PropertySearchFilters;
   onFilterChange: (filters: Partial<PropertySearchFilters>) => void;
   onSearch: () => void;
+  onOpenFilters?: () => void;
 }
 
 const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
   filters,
   onFilterChange,
   onSearch,
+  onOpenFilters,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
@@ -305,7 +307,8 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
             <Button
               variant="outline"
               size="icon"
-              className="h-11 w-11 border-white/10 hover:bg-white/10"
+              onClick={onOpenFilters}
+              className="h-11 w-11 border-white/10 hover:bg-white/10 hover:border-mansagold/50"
             >
               <SlidersHorizontal className="h-4 w-4 text-white" />
             </Button>

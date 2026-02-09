@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import PropertyCard from '@/components/vacation-rentals/PropertyCard';
-import PropertyFilters from '@/components/vacation-rentals/PropertyFilters';
 import PropertyMap from '@/components/stays/PropertyMap';
 import PremiumPropertySearchBar from '@/components/stays/PremiumPropertySearchBar';
+import PropertyFiltersPanel from '@/components/stays/PropertyFiltersPanel';
+import ActiveFiltersBar from '@/components/stays/ActiveFiltersBar';
 import FeaturedPropertySpotlight from '@/components/stays/FeaturedPropertySpotlight';
 import { vacationRentalService } from '@/lib/services/vacation-rental-service';
 import { VacationProperty, PropertySearchFilters } from '@/types/vacation-rental';
@@ -19,6 +20,7 @@ const VacationRentalsPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<PropertySearchFilters>({});
   const [selectedPropertyId, setSelectedPropertyId] = useState<string | undefined>();
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const listRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,6 +45,14 @@ const VacationRentalsPage: React.FC = () => {
 
   const handleSearch = () => {
     loadProperties();
+  };
+
+  const handleResetFilters = () => {
+    setFilters({});
+  };
+
+  const handleOpenFilters = () => {
+    setFiltersOpen(true);
   };
 
   // Get featured property (highest rated or first verified)
@@ -165,13 +175,34 @@ const VacationRentalsPage: React.FC = () => {
       </div>
 
       {/* Premium Search Bar */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 -mt-4 mb-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 -mt-4 mb-4">
         <PremiumPropertySearchBar
           filters={filters}
           onFilterChange={handleFilterChange}
           onSearch={handleSearch}
+          onOpenFilters={handleOpenFilters}
         />
       </div>
+
+      {/* Active Filters Bar */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 mb-6">
+        <ActiveFiltersBar
+          filters={filters}
+          onFilterChange={handleFilterChange}
+          onClearAll={handleResetFilters}
+        />
+      </div>
+
+      {/* Filters Panel */}
+      <PropertyFiltersPanel
+        isOpen={filtersOpen}
+        onClose={() => setFiltersOpen(false)}
+        filters={filters}
+        onFilterChange={handleFilterChange}
+        onApply={handleSearch}
+        onReset={handleResetFilters}
+        propertyCount={properties.length}
+      />
 
       {/* Featured Property Spotlight */}
       {!loading && featuredProperty && (
