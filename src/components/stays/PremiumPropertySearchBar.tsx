@@ -77,7 +77,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
         <div className="flex flex-col md:flex-row gap-4 pt-2">
           {/* Location */}
           <div className="flex-1 min-w-[200px]">
-            <label className="text-xs text-white/60 font-medium mb-1 block">Location</label>
+            <label className="text-xs text-white font-medium mb-1 block">Location</label>
             <div className="relative">
               <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-mansagold" />
               <Input
@@ -93,7 +93,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
 
           {/* Dates */}
           <div className="flex-1 min-w-[200px]">
-            <label className="text-xs text-white/60 font-medium mb-1 block">Dates</label>
+            <label className="text-xs text-white font-medium mb-1 block">Dates</label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -132,7 +132,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
 
           {/* Guests */}
           <div className="w-full md:w-32">
-            <label className="text-xs text-white/60 font-medium mb-1 block">Guests</label>
+            <label className="text-xs text-white font-medium mb-1 block">Guests</label>
             <div className="relative">
               <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-mansagold" />
               <Input
