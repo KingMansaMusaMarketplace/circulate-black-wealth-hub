@@ -8,6 +8,7 @@ const CTASection = lazy(() => import('@/components/CTASection'));
 const HowItWorksPreview = lazy(() => import('./HowItWorksPreview'));
 const MissionPreview = lazy(() => import('./MissionPreview'));
 const ThreePillars = lazy(() => import('./ThreePillars'));
+const VacationRentalsCTA = lazy(() => import('./VacationRentalsCTA'));
 
 // Skeleton fallback for sections
 const SectionSkeleton = ({ height = "h-64" }: { height?: string }) => (
@@ -71,6 +72,15 @@ const HomePageSections: React.FC = () => {
         <LazySection threshold={0.15} rootMargin="150px">
           <Suspense fallback={<SectionSkeleton />}>
             <ThreePillars />
+          </Suspense>
+        </LazySection>
+      </SectionErrorBoundary>
+
+      {/* Vacation Rentals CTA - Mansa Stays promotion */}
+      <SectionErrorBoundary sectionName="Vacation Rentals CTA">
+        <LazySection threshold={0.15} rootMargin="150px">
+          <Suspense fallback={<SectionSkeleton height="h-80" />}>
+            <VacationRentalsCTA />
           </Suspense>
         </LazySection>
       </SectionErrorBoundary>
