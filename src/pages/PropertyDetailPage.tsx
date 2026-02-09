@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { vacationRentalService, calculatePricing } from '@/lib/services/vacation-rental-service';
 import { VacationProperty, PropertyReview, PricingBreakdown as PricingBreakdownType } from '@/types/vacation-rental';
 import PropertyGallery from '@/components/vacation-rentals/PropertyGallery';
@@ -38,6 +38,7 @@ import {
   ChevronLeft,
   CreditCard,
   Loader2,
+  Sparkles,
 } from 'lucide-react';
 import { DateRange } from 'react-day-picker';
 import { useAuth } from '@/contexts/AuthContext';
@@ -208,22 +209,44 @@ const PropertyDetailPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">
-        {/* Animated gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-mansablue/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-mansagold/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-        </div>
+      {/* Gold accent line at top */}
+      <div className="h-1 bg-gradient-to-r from-transparent via-mansagold to-transparent opacity-60" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 py-8">
-          {/* Back button */}
+      {/* Enhanced animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-gradient-to-br from-mansablue/30 to-blue-600/30 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/4 -right-32 w-[32rem] h-[32rem] bg-gradient-to-tl from-mansagold/25 to-amber-500/25 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-20 left-1/3 w-80 h-80 bg-gradient-to-tr from-blue-500/20 to-mansablue/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
+
+      {/* Grid overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:72px_72px] pointer-events-none" />
+
+      {/* Sticky glassmorphic header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-xl border-b border-white/10"
+      >
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <Button
             variant="ghost"
-            className="mb-4 text-white hover:text-white hover:bg-white/10"
+            className="text-white hover:text-white hover:bg-white/10"
             onClick={() => navigate('/stays')}
           >
             <ChevronLeft className="w-4 h-4 mr-2" />
             Back to search
           </Button>
+          <div className="flex items-center gap-2">
+            <span className="text-mansagold text-sm font-mono tracking-widest uppercase hidden sm:inline-flex items-center gap-2">
+              <Sparkles className="w-3 h-3" />
+              Mansa Stays
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-8">
 
         {/* Photo Gallery */}
         <PropertyGallery photos={property.photos} title={property.title} />
