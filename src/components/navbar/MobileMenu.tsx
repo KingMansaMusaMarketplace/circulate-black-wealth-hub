@@ -45,7 +45,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ onNavigate, onSearchOpen }) => 
   const mainItems = [
     { to: '/', label: 'Home', alwaysGold: true },
     { to: '/dashboard', label: 'Dashboard' },
-    { to: '/directory', label: 'Marketplace', alwaysGold: true },
+    { to: '/directory', label: 'Business Directory', alwaysGold: true },
     { to: '/partner-portal', label: '🤝 Partner Program', alwaysGold: true },
     { to: '/karma', label: '✨ Karma Dashboard', alwaysGold: true },
     { to: '/susu-circles', label: '💰 Susu Circles', alwaysGold: true },

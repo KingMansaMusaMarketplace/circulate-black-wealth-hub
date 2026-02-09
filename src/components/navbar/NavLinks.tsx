@@ -27,7 +27,7 @@ const NavLinks: React.FC = () => {
 
         <NavigationMenuItem>
           <Link to="/directory" className={goldLinkClassName}>
-            Marketplace
+            Business Directory
           </Link>
         </NavigationMenuItem>
 
