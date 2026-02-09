@@ -182,6 +182,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/stays" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
+                  Mansa Stays
+                </Link>
+              </li>
+              <li>
                 <Link to="/sponsor-pricing" className="text-white/80 hover:text-mansagold transition-all duration-300 inline-block relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-mansagold after:transition-all after:duration-300 hover:after:w-full hover:translate-x-1 font-medium">
                   Become a Sponsor
                 </Link>
