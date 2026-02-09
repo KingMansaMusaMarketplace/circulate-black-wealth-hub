@@ -434,7 +434,8 @@ function App() {
                               {/* A */}
                               <Route path="/about" element={<LazyAboutPage />} />
                               <Route path="/accessibility" element={<LazyAccessibilityPage />} />
-                              <Route path="/admin" element={<LazyAdminPage />} />
+                              {/* Admin - consolidated to single dashboard */}
+                              <Route path="/admin" element={<LazyAdminDashboardPage />} />
                               <Route path="/admin-dashboard" element={<LazyAdminDashboardPage />} />
                               <Route path="/admin/commissions" element={<LazyCommissionsPage />} />
                               <Route path="/admin/email-list" element={<LazyAdminEmailListPage />} />

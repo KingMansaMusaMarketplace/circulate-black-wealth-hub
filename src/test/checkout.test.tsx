@@ -67,7 +67,7 @@ describe('Checkout Flow', () => {
       };
       
       expect(calculatePrice(9.99, 20)).toBe(7.99);
-      expect(calculatePrice(29.99, 50)).toBe(15);
+      expect(calculatePrice(29.99, 50)).toBe(14.99); // 29.99 * 0.5 = 14.995 → 14.99
       expect(calculatePrice(9.99, 0)).toBe(9.99);
     });
   });

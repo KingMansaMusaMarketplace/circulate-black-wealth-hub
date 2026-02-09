@@ -15,7 +15,12 @@ import {
   Camera,
   MapPin,
   Users,
-  Settings
+  Settings,
+  CreditCard,
+  UserPlus,
+  FileCheck,
+  ExternalLink,
+  Apple
 } from 'lucide-react';
 import { useDeviceDetection } from '@/hooks/use-device-detection';
 import { Link } from 'react-router-dom';
@@ -48,6 +53,20 @@ const UnifiedTestDashboard: React.FC = () => {
     );
   };
 
+  // Consolidated test page links
+  const testPageLinks = [
+    { name: 'Apple Compliance Test', path: '/apple-compliance-test', icon: Apple, category: 'Compliance' },
+    { name: 'Master Apple Review', path: '/master-apple-review-test', icon: FileCheck, category: 'Compliance' },
+    { name: 'Pre-Submission Checklist', path: '/pre-submission-checklist', icon: CheckCircle, category: 'Compliance' },
+    { name: 'Capacitor Test', path: '/capacitor-test', icon: Smartphone, category: 'Mobile' },
+    { name: 'Native Features Demo', path: '/native-features-demo', icon: Settings, category: 'Mobile' },
+    { name: 'Payment Test', path: '/payment-test', icon: CreditCard, category: 'Features' },
+    { name: 'QR Test', path: '/qr-test', icon: QrCode, category: 'Features' },
+    { name: 'Signup Test', path: '/signup-test', icon: UserPlus, category: 'Auth' },
+    { name: 'Button Test', path: '/button-test', icon: Play, category: 'UI' },
+    { name: 'Stripe Test', path: '/stripe-test', icon: CreditCard, category: 'Features' },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
       {/* Animated gradient orbs */}
@@ -66,7 +85,7 @@ const UnifiedTestDashboard: React.FC = () => {
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-400 via-yellow-400 to-purple-400 bg-clip-text text-transparent">
             Unified Test Dashboard
           </h1>
-          <p className="text-blue-200">All testing tools in one place</p>
+          <p className="text-blue-200">All testing tools consolidated in one place</p>
         </div>
 
         {/* Quick Status Bar */}
@@ -95,7 +114,7 @@ const UnifiedTestDashboard: React.FC = () => {
 
         {/* Main Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-slate-800/50 border border-white/10">
+          <TabsList className="grid w-full grid-cols-5 bg-slate-800/50 border border-white/10">
             <TabsTrigger value="system" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400">
               <Database className="h-4 w-4 mr-2" />
               System
@@ -104,9 +123,17 @@ const UnifiedTestDashboard: React.FC = () => {
               <Smartphone className="h-4 w-4 mr-2" />
               Mobile
             </TabsTrigger>
-            <TabsTrigger value="features" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400">
+            <TabsTrigger value="auth" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400">
               <Shield className="h-4 w-4 mr-2" />
+              Auth
+            </TabsTrigger>
+            <TabsTrigger value="features" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400">
+              <Settings className="h-4 w-4 mr-2" />
               Features
+            </TabsTrigger>
+            <TabsTrigger value="all" className="data-[state=active]:bg-yellow-500/20 data-[state=active]:text-yellow-400">
+              <ExternalLink className="h-4 w-4 mr-2" />
+              All Tests
             </TabsTrigger>
           </TabsList>
 
@@ -213,26 +240,6 @@ const UnifiedTestDashboard: React.FC = () => {
                     <MapPin className="h-4 w-4 mr-2 text-yellow-400" />
                     <span className="text-white">Test Location Services</span>
                   </Button>
-                  
-                  <Link to="/signup" className="w-full">
-                    <Button 
-                      className="w-full justify-start bg-slate-800/50 border border-white/10 hover:bg-slate-700/50"
-                      variant="outline"
-                    >
-                      <Users className="h-4 w-4 mr-2 text-yellow-400" />
-                      <span className="text-white">Test Signup Flow</span>
-                    </Button>
-                  </Link>
-                  
-                  <Link to="/login" className="w-full">
-                    <Button 
-                      className="w-full justify-start bg-slate-800/50 border border-white/10 hover:bg-slate-700/50"
-                      variant="outline"
-                    >
-                      <Shield className="h-4 w-4 mr-2 text-yellow-400" />
-                      <span className="text-white">Test Login Flow</span>
-                    </Button>
-                  </Link>
 
                   <Link to="/directory" className="w-full">
                     <Button 
@@ -292,6 +299,96 @@ const UnifiedTestDashboard: React.FC = () => {
                     </Badge>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Auth Tests Tab */}
+          <TabsContent value="auth" className="space-y-6">
+            <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
+              <CardHeader>
+                <CardTitle className="text-white">Authentication Tests</CardTitle>
+                <CardDescription className="text-blue-200">
+                  Test user authentication flows
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Link to="/signup" className="w-full">
+                    <Button 
+                      className="w-full justify-start bg-slate-800/50 border border-white/10 hover:bg-slate-700/50"
+                      variant="outline"
+                    >
+                      <UserPlus className="h-4 w-4 mr-2 text-yellow-400" />
+                      <span className="text-white">Test Signup Flow</span>
+                    </Button>
+                  </Link>
+                  
+                  <Link to="/login" className="w-full">
+                    <Button 
+                      className="w-full justify-start bg-slate-800/50 border border-white/10 hover:bg-slate-700/50"
+                      variant="outline"
+                    >
+                      <Shield className="h-4 w-4 mr-2 text-yellow-400" />
+                      <span className="text-white">Test Login Flow</span>
+                    </Button>
+                  </Link>
+
+                  <Link to="/business-signup" className="w-full">
+                    <Button 
+                      className="w-full justify-start bg-slate-800/50 border border-white/10 hover:bg-slate-700/50"
+                      variant="outline"
+                    >
+                      <Users className="h-4 w-4 mr-2 text-yellow-400" />
+                      <span className="text-white">Test Business Signup</span>
+                    </Button>
+                  </Link>
+
+                  <Link to="/password-reset" className="w-full">
+                    <Button 
+                      className="w-full justify-start bg-slate-800/50 border border-white/10 hover:bg-slate-700/50"
+                      variant="outline"
+                    >
+                      <Shield className="h-4 w-4 mr-2 text-yellow-400" />
+                      <span className="text-white">Test Password Reset</span>
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* All Test Pages Tab */}
+          <TabsContent value="all" className="space-y-6">
+            <Card className="bg-slate-900/40 backdrop-blur-xl border-white/10">
+              <CardHeader>
+                <CardTitle className="text-white">All Test Pages Directory</CardTitle>
+                <CardDescription className="text-blue-200">
+                  Quick access to all available test pages
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {['Compliance', 'Mobile', 'Features', 'Auth', 'UI'].map((category) => (
+                  <div key={category} className="mb-6">
+                    <h3 className="text-sm font-semibold text-yellow-400 mb-3">{category}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {testPageLinks
+                        .filter(link => link.category === category)
+                        .map((link) => (
+                          <Link key={link.path} to={link.path} className="w-full">
+                            <Button 
+                              className="w-full justify-start bg-slate-800/50 border border-white/10 hover:bg-slate-700/50"
+                              variant="outline"
+                              size="sm"
+                            >
+                              <link.icon className="h-4 w-4 mr-2 text-yellow-400" />
+                              <span className="text-white text-sm">{link.name}</span>
+                            </Button>
+                          </Link>
+                        ))}
+                    </div>
+                  </div>
+                ))}
               </CardContent>
             </Card>
           </TabsContent>
