@@ -48,6 +48,9 @@ export async function fetchVacationProperties(
   if (filters?.bathrooms) {
     query = query.gte('bathrooms', filters.bathrooms);
   }
+  if (filters?.verifiedOnly) {
+    query = query.eq('is_verified', true);
+  }
 
   const { data, error } = await query.order('created_at', { ascending: false });
 

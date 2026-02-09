@@ -246,6 +246,7 @@ export interface PropertySearchFilters {
   instantBook?: boolean;
   bedrooms?: number;
   bathrooms?: number;
+  verifiedOnly?: boolean;
 }
 
 export interface PricingBreakdown {
