@@ -5,7 +5,7 @@ import PropertyFilters from '@/components/vacation-rentals/PropertyFilters';
 import PropertyMap from '@/components/stays/PropertyMap';
 import { vacationRentalService } from '@/lib/services/vacation-rental-service';
 import { VacationProperty, PropertySearchFilters } from '@/types/vacation-rental';
-import { Loader2, Home, Map, Plus } from 'lucide-react';
+import { Loader2, Home, Map, Plus, Luggage } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -80,15 +80,25 @@ const VacationRentalsPage: React.FC = () => {
             </div>
           </div>
 
-          {/* CTA for hosts */}
+          {/* CTA buttons */}
           {user && (
-            <Button
-              onClick={() => navigate('/stays/list-property')}
-              className="bg-mansagold text-black hover:bg-mansagold/90"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              List Your Property
-            </Button>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Button
+                onClick={() => navigate('/stays/my-bookings')}
+                variant="outline"
+                className="border-white/30 text-white hover:bg-white/10"
+              >
+                <Luggage className="w-4 h-4 mr-2" />
+                My Stays
+              </Button>
+              <Button
+                onClick={() => navigate('/stays/list-property')}
+                className="bg-mansagold text-black hover:bg-mansagold/90"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                List Your Property
+              </Button>
+            </div>
           )}
         </div>
       </div>
