@@ -43,10 +43,10 @@ export const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   if (!user) {
     return (
       <div className="flex items-center gap-1 sm:gap-2">
-        <Link to="/login" className="text-white/80 hover:text-mansagold transition-colors font-bold text-sm sm:text-base px-2 sm:px-3 py-2 whitespace-nowrap">
+        <Link to="/login" className="text-white hover:text-mansagold transition-colors font-bold text-sm sm:text-base px-2 sm:px-3 py-2 whitespace-nowrap border border-white/20 rounded-lg">
           Login
         </Link>
-        <Button asChild className="font-bold text-sm sm:text-base px-2 sm:px-4 h-8 sm:h-10">
+        <Button asChild className="font-bold text-sm sm:text-base px-2 sm:px-4 h-8 sm:h-10 bg-mansagold hover:bg-mansagold/90 text-slate-950">
           <Link to="/signup">Sign Up</Link>
         </Button>
       </div>
