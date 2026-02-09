@@ -1,0 +1,64 @@
+{
+  "app": {
+    "name": "Mansa Musa Marketplace",
+    "tagline": "Circula la Riqueza Negra",
+    "description": "El Sistema Operativo Económico para la circulación de riqueza negra"
+  },
+  "nav": {
+    "home": "Inicio",
+    "directory": "Directorio",
+    "loyalty": "Lealtad",
+    "dashboard": "Panel",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "help": "Ayuda",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "logout": "Cerrar Sesión"
+  },
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "loading": "Cargando...",
+    "retry": "Reintentar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "confirm": "Confirmar",
+    "close": "Cerrar"
+  },
+  "status": {
+    "success": "Éxito",
+    "error": "Error",
+    "warning": "Advertencia",
+    "info": "Información",
+    "pending": "Pendiente",
+    "approved": "Aprobado",
+    "rejected": "Rechazado",
+    "active": "Activo",
+    "inactive": "Inactivo"
+  },
+  "errors": {
+    "generic": "Algo salió mal. Por favor intente de nuevo.",
+    "network": "Error de red. Por favor verifique su conexión.",
+    "notFound": "Página no encontrada",
+    "unauthorized": "No está autorizado para ver esta página",
+    "sessionExpired": "Su sesión ha expirado. Por favor inicie sesión de nuevo."
+  },
+  "footer": {
+    "copyright": "© {{year}} Mansa Musa Marketplace. Todos los derechos reservados.",
+    "privacyPolicy": "Política de Privacidad",
+    "termsOfService": "Términos de Servicio",
+    "cookiePolicy": "Política de Cookies"
+  },
+  "offline": {
+    "title": "Sin Conexión",
+    "message": "Algunas funciones pueden estar limitadas. Tu tarjeta de lealtad sigue disponible.",
+    "reconnecting": "Reconectando..."
+  }
+}

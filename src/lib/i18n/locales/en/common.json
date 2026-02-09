@@ -1,0 +1,64 @@
+{
+  "app": {
+    "name": "Mansa Musa Marketplace",
+    "tagline": "Circulate Black Wealth",
+    "description": "The Economic Operating System for Black wealth circulation"
+  },
+  "nav": {
+    "home": "Home",
+    "directory": "Directory",
+    "loyalty": "Loyalty",
+    "dashboard": "Dashboard",
+    "about": "About",
+    "contact": "Contact",
+    "help": "Help",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log Out"
+  },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "retry": "Retry",
+    "back": "Back",
+    "next": "Next",
+    "confirm": "Confirm",
+    "close": "Close"
+  },
+  "status": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "network": "Network error. Please check your connection.",
+    "notFound": "Page not found",
+    "unauthorized": "You are not authorized to view this page",
+    "sessionExpired": "Your session has expired. Please log in again."
+  },
+  "footer": {
+    "copyright": "© {{year}} Mansa Musa Marketplace. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "cookiePolicy": "Cookie Policy"
+  },
+  "offline": {
+    "title": "You're Offline",
+    "message": "Some features may be limited. Your loyalty card is still available.",
+    "reconnecting": "Reconnecting..."
+  }
+}

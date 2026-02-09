@@ -1,0 +1,61 @@
+{
+  "directory": {
+    "title": "Business Directory",
+    "subtitle": "Discover and support Black-owned businesses",
+    "search": "Search businesses...",
+    "filters": "Filters",
+    "categories": "Categories",
+    "location": "Location",
+    "rating": "Rating",
+    "noResults": "No businesses found",
+    "loadMore": "Load More"
+  },
+  "detail": {
+    "about": "About",
+    "hours": "Hours",
+    "contact": "Contact",
+    "reviews": "Reviews",
+    "photos": "Photos",
+    "website": "Visit Website",
+    "directions": "Get Directions",
+    "call": "Call",
+    "share": "Share",
+    "writeReview": "Write a Review",
+    "verified": "Verified Black-Owned"
+  },
+  "register": {
+    "title": "Register Your Business",
+    "subtitle": "Join the Mansa Musa Marketplace community",
+    "step1": "Business Info",
+    "step2": "Contact Details",
+    "step3": "Verification",
+    "step4": "Review & Submit",
+    "submit": "Submit for Verification",
+    "success": "Business submitted for verification!",
+    "pending": "Your application is being reviewed"
+  },
+  "dashboard": {
+    "title": "Business Dashboard",
+    "overview": "Overview",
+    "analytics": "Analytics",
+    "customers": "Customers",
+    "transactions": "Transactions",
+    "settings": "Settings",
+    "totalCustomers": "Total Customers",
+    "totalRevenue": "Total Revenue",
+    "pointsIssued": "Points Issued",
+    "scansToday": "Scans Today"
+  },
+  "categories": {
+    "restaurant": "Restaurant",
+    "retail": "Retail",
+    "services": "Services",
+    "beauty": "Beauty & Wellness",
+    "professional": "Professional Services",
+    "entertainment": "Entertainment",
+    "automotive": "Automotive",
+    "health": "Health & Fitness",
+    "education": "Education",
+    "other": "Other"
+  }
+}

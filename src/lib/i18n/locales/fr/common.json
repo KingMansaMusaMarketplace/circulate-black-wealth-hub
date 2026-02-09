@@ -1,0 +1,64 @@
+{
+  "app": {
+    "name": "Mansa Musa Marketplace",
+    "tagline": "Faites Circuler la Richesse Noire",
+    "description": "Le Système d'Exploitation Économique pour la circulation de la richesse noire"
+  },
+  "nav": {
+    "home": "Accueil",
+    "directory": "Répertoire",
+    "loyalty": "Fidélité",
+    "dashboard": "Tableau de Bord",
+    "about": "À Propos",
+    "contact": "Contact",
+    "help": "Aide",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
+  },
+  "actions": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "submit": "Soumettre",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "loading": "Chargement...",
+    "retry": "Réessayer",
+    "back": "Retour",
+    "next": "Suivant",
+    "confirm": "Confirmer",
+    "close": "Fermer"
+  },
+  "status": {
+    "success": "Succès",
+    "error": "Erreur",
+    "warning": "Avertissement",
+    "info": "Information",
+    "pending": "En Attente",
+    "approved": "Approuvé",
+    "rejected": "Rejeté",
+    "active": "Actif",
+    "inactive": "Inactif"
+  },
+  "errors": {
+    "generic": "Une erreur s'est produite. Veuillez réessayer.",
+    "network": "Erreur réseau. Veuillez vérifier votre connexion.",
+    "notFound": "Page non trouvée",
+    "unauthorized": "Vous n'êtes pas autorisé à voir cette page",
+    "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
+  },
+  "footer": {
+    "copyright": "© {{year}} Mansa Musa Marketplace. Tous droits réservés.",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfService": "Conditions d'Utilisation",
+    "cookiePolicy": "Politique des Cookies"
+  },
+  "offline": {
+    "title": "Hors Ligne",
+    "message": "Certaines fonctionnalités peuvent être limitées. Votre carte de fidélité reste disponible.",
+    "reconnecting": "Reconnexion..."
+  }
+}

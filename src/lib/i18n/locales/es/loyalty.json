@@ -1,0 +1,48 @@
+{
+  "title": "Recompensas de Lealtad",
+  "points": {
+    "title": "Tus Puntos",
+    "total": "Puntos Totales",
+    "earned": "Puntos Ganados",
+    "redeemed": "Puntos Canjeados",
+    "available": "Puntos Disponibles",
+    "pending": "Puntos Pendientes"
+  },
+  "tier": {
+    "title": "Tu Nivel",
+    "bronze": "Bronce",
+    "silver": "Plata",
+    "gold": "Oro",
+    "platinum": "Platino",
+    "nextTier": "Siguiente Nivel",
+    "pointsToNext": "{{points}} puntos para {{tier}}"
+  },
+  "history": {
+    "title": "Historial de Puntos",
+    "earned": "Ganados",
+    "redeemed": "Canjeados",
+    "date": "Fecha",
+    "business": "Negocio",
+    "amount": "Cantidad",
+    "noHistory": "No hay transacciones aún"
+  },
+  "rewards": {
+    "title": "Recompensas Disponibles",
+    "redeem": "Canjear",
+    "pointsCost": "{{points}} puntos",
+    "noRewards": "No hay recompensas disponibles"
+  },
+  "scan": {
+    "title": "Escanear Código QR",
+    "instructions": "Apunta tu cámara al código QR del negocio para ganar puntos",
+    "success": "¡Escaneo exitoso! Ganaste {{points}} puntos en {{business}}",
+    "error": "No se pudo escanear el código QR. Por favor intenta de nuevo.",
+    "offline": "Escaneo guardado. Los puntos se sincronizarán cuando haya conexión."
+  },
+  "card": {
+    "title": "Tu Tarjeta de Lealtad",
+    "memberSince": "Miembro desde {{date}}",
+    "showCode": "Mostrar Código QR",
+    "offlineAvailable": "Disponible sin conexión"
+  }
+}
