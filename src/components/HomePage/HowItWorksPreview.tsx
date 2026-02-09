@@ -29,19 +29,19 @@ const HowItWorksPreview = () => {
   ];
 
   return (
-    <section className="py-8 md:py-10 px-4 bg-gradient-to-b from-mansablue-dark to-mansablue-dark/80">
+    <section className="py-6 md:py-8 px-4 bg-gradient-to-b from-mansablue-dark to-mansablue-dark/80">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+        <div className="text-center mb-6">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-3">
             How It <span className="text-mansagold">Works</span>
           </h2>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Three simple steps to start saving money
             <span className="block mt-1">and supporting Black-owned businesses</span>
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
@@ -53,24 +53,24 @@ const HowItWorksPreview = () => {
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 className="relative"
               >
-                <div className="bg-card border border-border rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
+                <div className="bg-card border border-border rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300 h-full">
                   {/* Step Number Badge */}
-                  <div className="absolute -top-4 -left-4 w-12 h-12 bg-mansablue text-white rounded-full flex items-center justify-center font-bold text-xl shadow-lg">
+                  <div className="absolute -top-3 -left-3 w-10 h-10 bg-mansablue text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
                     {step.number}
                   </div>
 
                   {/* Icon */}
-                  <div className="mb-6 mt-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-mansablue to-blue-600 rounded-2xl flex items-center justify-center mx-auto">
-                      <Icon className="w-8 h-8 text-white" />
+                  <div className="mb-4 mt-2">
+                    <div className="w-12 h-12 bg-gradient-to-br from-mansablue to-blue-600 rounded-xl flex items-center justify-center mx-auto">
+                      <Icon className="w-6 h-6 text-white" />
                     </div>
                   </div>
 
                   {/* Content */}
-                  <h3 className="text-2xl font-bold text-foreground mb-3 text-center">
+                  <h3 className="text-xl font-bold text-foreground mb-2 text-center">
                     {step.title}
                   </h3>
-                  <p className="text-muted-foreground text-center leading-relaxed">
+                  <p className="text-muted-foreground text-sm text-center leading-relaxed">
                     {step.description}
                   </p>
                 </div>
@@ -96,8 +96,7 @@ const HowItWorksPreview = () => {
         >
           <Button
             onClick={() => navigate('/features')}
-            size="lg"
-            className="bg-mansablue hover:bg-blue-700 text-white font-semibold px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
+            className="bg-mansablue hover:bg-blue-700 text-white font-semibold px-6 py-5 text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
           >
             Learn More About All Features
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
