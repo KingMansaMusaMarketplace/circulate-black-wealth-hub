@@ -34,7 +34,7 @@ const CTASection = () => {
               >
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mansagold/10 border border-mansagold/30 mb-6">
                   <Sparkles className="w-4 h-4 text-mansagold" />
-                  <span className="text-sm font-medium text-mansagold">Join 150,000+ Members</span>
+                  <span className="text-sm font-medium text-mansagold">Join Our Community</span>
                 </div>
               </motion.div>
               
