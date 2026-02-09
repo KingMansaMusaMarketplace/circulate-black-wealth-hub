@@ -5,9 +5,9 @@ import PartnerApplicationForm from '@/components/partner/PartnerApplicationForm'
 import PartnerPendingReview from '@/components/partner/PartnerPendingReview';
 import AdminPartnerPreview from '@/components/partner/AdminPartnerPreview';
 import PartnerFAQ from '@/components/partner/PartnerFAQ';
+import PartnerLanding from '@/components/partner/PartnerLanding';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
-import { Navigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 
 const PartnerPortal: React.FC = () => {
@@ -45,7 +45,8 @@ const PartnerPortal: React.FC = () => {
     checkAdminStatus();
   }, [user]);
 
-  if (authLoading || loading || checkingAdmin) {
+  // Show loading state only when user is logged in
+  if (user && (authLoading || loading || checkingAdmin)) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -53,8 +54,9 @@ const PartnerPortal: React.FC = () => {
     );
   }
 
+  // Show public landing page for unauthenticated users
   if (!user) {
-    return <Navigate to="/auth" replace />;
+    return <PartnerLanding />;
   }
 
   // Admin users see the preview mode where they can select any partner
