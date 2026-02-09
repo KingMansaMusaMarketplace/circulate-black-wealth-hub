@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Search, MapPin, Calendar, Users, Sparkles, SlidersHorizontal } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, MapPin, Calendar, Users, Sparkles, SlidersHorizontal, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +10,13 @@ import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
 import { cn } from '@/lib/utils';
 import { PropertySearchFilters } from '@/types/vacation-rental';
+import { supabase } from '@/integrations/supabase/client';
+
+interface LocationSuggestion {
+  city: string;
+  state: string;
+  count: number;
+}
 
 interface PremiumPropertySearchBarProps {
   filters: PropertySearchFilters;
@@ -25,6 +32,82 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
   const [isFocused, setIsFocused] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [locationInput, setLocationInput] = useState('');
+  const [suggestions, setSuggestions] = useState<LocationSuggestion[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+  const [allLocations, setAllLocations] = useState<LocationSuggestion[]>([]);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Fetch all available locations on mount
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('vacation_properties')
+          .select('city, state')
+          .eq('status', 'active');
+
+        if (error) throw error;
+
+        // Group by city/state and count
+        const locationMap = new Map<string, LocationSuggestion>();
+        data?.forEach((property) => {
+          if (property.city && property.state) {
+            const key = `${property.city}-${property.state}`;
+            const existing = locationMap.get(key);
+            if (existing) {
+              existing.count++;
+            } else {
+              locationMap.set(key, {
+                city: property.city,
+                state: property.state,
+                count: 1,
+              });
+            }
+          }
+        });
+
+        const locations = Array.from(locationMap.values()).sort((a, b) => 
+          a.city.localeCompare(b.city)
+        );
+        setAllLocations(locations);
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      }
+    };
+
+    fetchLocations();
+  }, []);
+
+  // Filter suggestions based on input
+  useEffect(() => {
+    if (locationInput.trim().length > 0) {
+      setLoadingSuggestions(true);
+      const searchTerm = locationInput.toLowerCase();
+      const filtered = allLocations.filter(
+        (loc) =>
+          loc.city.toLowerCase().includes(searchTerm) ||
+          loc.state.toLowerCase().includes(searchTerm)
+      );
+      setSuggestions(filtered);
+      setLoadingSuggestions(false);
+    } else {
+      setSuggestions(allLocations);
+    }
+  }, [locationInput, allLocations]);
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleDateChange = (range: DateRange | undefined) => {
     setDateRange(range);
@@ -36,8 +119,9 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
     }
   };
 
-  const handleLocationChange = (value: string) => {
+  const handleLocationInputChange = (value: string) => {
     setLocationInput(value);
+    setShowSuggestions(true);
     // Parse city/state from input
     const parts = value.split(',').map(p => p.trim());
     if (parts.length >= 1) {
@@ -46,6 +130,18 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
     if (parts.length >= 2) {
       onFilterChange({ state: parts[1] });
     }
+  };
+
+  const handleSelectLocation = (location: LocationSuggestion) => {
+    const displayValue = `${location.city}, ${location.state}`;
+    setLocationInput(displayValue);
+    onFilterChange({ city: location.city, state: location.state });
+    setShowSuggestions(false);
+  };
+
+  const handleLocationFocus = () => {
+    setIsFocused(true);
+    setShowSuggestions(true);
   };
 
   return (
@@ -75,20 +171,69 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 pt-2">
-          {/* Location */}
-          <div className="flex-1 min-w-[200px]">
+          {/* Location with Autocomplete */}
+          <div className="flex-1 min-w-[200px] relative" ref={dropdownRef}>
             <label className="text-xs text-white font-medium mb-1 block">Location</label>
             <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-mansagold" />
+              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-mansagold z-10" />
               <Input
-                placeholder="City, State..."
+                ref={inputRef}
+                placeholder="Search city or state..."
                 value={locationInput}
-                onChange={(e) => handleLocationChange(e.target.value)}
-                onFocus={() => setIsFocused(true)}
+                onChange={(e) => handleLocationInputChange(e.target.value)}
+                onFocus={handleLocationFocus}
                 onBlur={() => setIsFocused(false)}
                 className="pl-10 bg-slate-800/50 border-white/10 text-white placeholder:text-white/40 focus-visible:ring-mansagold/50 h-11"
               />
             </div>
+
+            {/* Location Suggestions Dropdown */}
+            <AnimatePresence>
+              {showSuggestions && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute top-full left-0 right-0 mt-2 z-50 bg-slate-800 border border-white/20 rounded-xl shadow-2xl overflow-hidden max-h-64 overflow-y-auto"
+                >
+                  {loadingSuggestions ? (
+                    <div className="flex items-center justify-center py-4">
+                      <Loader2 className="w-5 h-5 text-mansagold animate-spin" />
+                    </div>
+                  ) : suggestions.length > 0 ? (
+                    <ul className="py-2">
+                      {suggestions.map((location, index) => (
+                        <li key={`${location.city}-${location.state}-${index}`}>
+                          <button
+                            type="button"
+                            onClick={() => handleSelectLocation(location)}
+                            className="w-full px-4 py-3 text-left hover:bg-slate-700/80 transition-colors flex items-center justify-between group"
+                          >
+                            <div className="flex items-center gap-3">
+                              <MapPin className="w-4 h-4 text-mansagold/70 group-hover:text-mansagold" />
+                              <div>
+                                <span className="text-white font-medium">{location.city}</span>
+                                <span className="text-white/60">, {location.state}</span>
+                              </div>
+                            </div>
+                            <span className="text-xs text-white/40 bg-white/10 px-2 py-1 rounded-full">
+                              {location.count} {location.count === 1 ? 'property' : 'properties'}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className="py-4 px-4 text-center text-white/60">
+                      <MapPin className="w-6 h-6 mx-auto mb-2 text-white/40" />
+                      <p className="text-sm">No locations found</p>
+                      <p className="text-xs text-white/40 mt-1">Try a different search term</p>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Dates */}
@@ -117,7 +262,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
                   )}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 bg-slate-800 border-white/20" align="start">
+              <PopoverContent className="w-auto p-0 bg-slate-800 border-white/20 z-50" align="start">
                 <CalendarComponent
                   mode="range"
                   selected={dateRange}
