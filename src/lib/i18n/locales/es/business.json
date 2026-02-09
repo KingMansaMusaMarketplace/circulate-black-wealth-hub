@@ -1,0 +1,61 @@
+{
+  "directory": {
+    "title": "Directorio de Negocios",
+    "subtitle": "Descubre y apoya negocios propiedad de personas negras",
+    "search": "Buscar negocios...",
+    "filters": "Filtros",
+    "categories": "Categorías",
+    "location": "Ubicación",
+    "rating": "Calificación",
+    "noResults": "No se encontraron negocios",
+    "loadMore": "Cargar Más"
+  },
+  "detail": {
+    "about": "Acerca de",
+    "hours": "Horario",
+    "contact": "Contacto",
+    "reviews": "Reseñas",
+    "photos": "Fotos",
+    "website": "Visitar Sitio Web",
+    "directions": "Cómo Llegar",
+    "call": "Llamar",
+    "share": "Compartir",
+    "writeReview": "Escribir una Reseña",
+    "verified": "Verificado como Propiedad Negra"
+  },
+  "register": {
+    "title": "Registra Tu Negocio",
+    "subtitle": "Únete a la comunidad de Mansa Musa Marketplace",
+    "step1": "Información del Negocio",
+    "step2": "Datos de Contacto",
+    "step3": "Verificación",
+    "step4": "Revisar y Enviar",
+    "submit": "Enviar para Verificación",
+    "success": "¡Negocio enviado para verificación!",
+    "pending": "Tu solicitud está siendo revisada"
+  },
+  "dashboard": {
+    "title": "Panel del Negocio",
+    "overview": "Resumen",
+    "analytics": "Analíticas",
+    "customers": "Clientes",
+    "transactions": "Transacciones",
+    "settings": "Configuración",
+    "totalCustomers": "Total de Clientes",
+    "totalRevenue": "Ingresos Totales",
+    "pointsIssued": "Puntos Emitidos",
+    "scansToday": "Escaneos Hoy"
+  },
+  "categories": {
+    "restaurant": "Restaurante",
+    "retail": "Comercio",
+    "services": "Servicios",
+    "beauty": "Belleza y Bienestar",
+    "professional": "Servicios Profesionales",
+    "entertainment": "Entretenimiento",
+    "automotive": "Automotriz",
+    "health": "Salud y Fitness",
+    "education": "Educación",
+    "other": "Otro"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "title": "Récompenses Fidélité",
+  "points": {
+    "title": "Vos Points",
+    "total": "Points Totaux",
+    "earned": "Points Gagnés",
+    "redeemed": "Points Échangés",
+    "available": "Points Disponibles",
+    "pending": "Points en Attente"
+  },
+  "tier": {
+    "title": "Votre Niveau",
+    "bronze": "Bronze",
+    "silver": "Argent",
+    "gold": "Or",
+    "platinum": "Platine",
+    "nextTier": "Niveau Suivant",
+    "pointsToNext": "{{points}} points pour {{tier}}"
+  },
+  "history": {
+    "title": "Historique des Points",
+    "earned": "Gagnés",
+    "redeemed": "Échangés",
+    "date": "Date",
+    "business": "Commerce",
+    "amount": "Montant",
+    "noHistory": "Aucune transaction pour le moment"
+  },
+  "rewards": {
+    "title": "Récompenses Disponibles",
+    "redeem": "Échanger",
+    "pointsCost": "{{points}} points",
+    "noRewards": "Aucune récompense disponible"
+  },
+  "scan": {
+    "title": "Scanner le Code QR",
+    "instructions": "Pointez votre caméra vers un code QR d'un commerce pour gagner des points",
+    "success": "Scan réussi ! Vous avez gagné {{points}} points chez {{business}}",
+    "error": "Impossible de scanner le code QR. Veuillez réessayer.",
+    "offline": "Scan enregistré. Les points seront synchronisés en ligne."
+  },
+  "card": {
+    "title": "Votre Carte de Fidélité",
+    "memberSince": "Membre depuis {{date}}",
+    "showCode": "Afficher le Code QR",
+    "offlineAvailable": "Disponible hors ligne"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "title": "Loyalty Rewards",
+  "points": {
+    "title": "Your Points",
+    "total": "Total Points",
+    "earned": "Points Earned",
+    "redeemed": "Points Redeemed",
+    "available": "Available Points",
+    "pending": "Pending Points"
+  },
+  "tier": {
+    "title": "Your Tier",
+    "bronze": "Bronze",
+    "silver": "Silver",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "nextTier": "Next Tier",
+    "pointsToNext": "{{points}} points to {{tier}}"
+  },
+  "history": {
+    "title": "Points History",
+    "earned": "Earned",
+    "redeemed": "Redeemed",
+    "date": "Date",
+    "business": "Business",
+    "amount": "Amount",
+    "noHistory": "No transactions yet"
+  },
+  "rewards": {
+    "title": "Available Rewards",
+    "redeem": "Redeem",
+    "pointsCost": "{{points}} points",
+    "noRewards": "No rewards available"
+  },
+  "scan": {
+    "title": "Scan QR Code",
+    "instructions": "Point your camera at a business QR code to earn points",
+    "success": "Scanned successfully! Earned {{points}} points at {{business}}",
+    "error": "Unable to scan QR code. Please try again.",
+    "offline": "Scan saved. Points will sync when online."
+  },
+  "card": {
+    "title": "Your Loyalty Card",
+    "memberSince": "Member since {{date}}",
+    "showCode": "Show QR Code",
+    "offlineAvailable": "Available offline"
+  }
+}

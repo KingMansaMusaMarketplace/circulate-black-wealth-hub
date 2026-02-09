@@ -1,0 +1,61 @@
+{
+  "directory": {
+    "title": "Répertoire des Commerces",
+    "subtitle": "Découvrez et soutenez les commerces appartenant à des Noirs",
+    "search": "Rechercher des commerces...",
+    "filters": "Filtres",
+    "categories": "Catégories",
+    "location": "Emplacement",
+    "rating": "Note",
+    "noResults": "Aucun commerce trouvé",
+    "loadMore": "Charger Plus"
+  },
+  "detail": {
+    "about": "À Propos",
+    "hours": "Horaires",
+    "contact": "Contact",
+    "reviews": "Avis",
+    "photos": "Photos",
+    "website": "Visiter le Site Web",
+    "directions": "Itinéraire",
+    "call": "Appeler",
+    "share": "Partager",
+    "writeReview": "Écrire un Avis",
+    "verified": "Vérifié Appartenant à des Noirs"
+  },
+  "register": {
+    "title": "Inscrivez Votre Commerce",
+    "subtitle": "Rejoignez la communauté Mansa Musa Marketplace",
+    "step1": "Infos Commerce",
+    "step2": "Coordonnées",
+    "step3": "Vérification",
+    "step4": "Réviser et Soumettre",
+    "submit": "Soumettre pour Vérification",
+    "success": "Commerce soumis pour vérification !",
+    "pending": "Votre demande est en cours d'examen"
+  },
+  "dashboard": {
+    "title": "Tableau de Bord Commerce",
+    "overview": "Aperçu",
+    "analytics": "Analytiques",
+    "customers": "Clients",
+    "transactions": "Transactions",
+    "settings": "Paramètres",
+    "totalCustomers": "Total Clients",
+    "totalRevenue": "Revenu Total",
+    "pointsIssued": "Points Émis",
+    "scansToday": "Scans Aujourd'hui"
+  },
+  "categories": {
+    "restaurant": "Restaurant",
+    "retail": "Commerce de Détail",
+    "services": "Services",
+    "beauty": "Beauté et Bien-être",
+    "professional": "Services Professionnels",
+    "entertainment": "Divertissement",
+    "automotive": "Automobile",
+    "health": "Santé et Fitness",
+    "education": "Éducation",
+    "other": "Autre"
+  }
+}

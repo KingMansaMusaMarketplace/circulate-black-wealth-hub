@@ -159,6 +159,9 @@ const LazyUnifiedTestDashboard = lazy(() => import('@/pages/UnifiedTestDashboard
 const LazyComingSoonPage = lazy(() => import('@/pages/ComingSoonPage'));
 const LazyClaimBusinessPage = lazy(() => import('@/pages/ClaimBusinessPage'));
 
+// PWA Install page
+const LazyInstallPage = lazy(() => import('@/pages/InstallPage'));
+
 // Growth System pages
 const LazyAdminBusinessImport = lazy(() => import('@/pages/AdminBusinessImport'));
 const LazyAdminSponsorCRM = lazy(() => import('@/pages/AdminSponsorCRM'));
@@ -555,6 +558,7 @@ function App() {
                               
                               {/* I */}
                               <Route path="/impact" element={<LazyImpactPage />} />
+                              <Route path="/install" element={<LazyInstallPage />} />
                               <Route path="/investors" element={<LazyInvestorPage />} />
                               <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                               
@@ -844,6 +848,7 @@ function App() {
                         
                         {/* I */}
                         <Route path="/impact" element={<LazyImpactPage />} />
+                        <Route path="/install" element={<LazyInstallPage />} />
                         <Route path="/investors" element={<LazyInvestorPage />} />
                         <Route path="/ios-blocked" element={<LazyIOSBlockedPage />} />
                         
