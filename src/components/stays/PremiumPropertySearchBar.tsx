@@ -100,7 +100,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
                   variant="outline"
                   className={cn(
                     "w-full justify-start text-left h-11 bg-slate-800/50 border-white/10 hover:bg-slate-700/50",
-                    !dateRange && "text-white/40"
+                    !dateRange ? "text-white/70" : "text-white"
                   )}
                 >
                   <Calendar className="mr-2 h-4 w-4 text-mansagold" />
@@ -113,18 +113,18 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
                       <span className="text-white">{format(dateRange.from, 'MMM d, yyyy')}</span>
                     )
                   ) : (
-                    <span>Check in - Check out</span>
+                    <span className="text-white/70">Check in - Check out</span>
                   )}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0 bg-slate-900 border-white/10" align="start">
+              <PopoverContent className="w-auto p-0 bg-slate-800 border-white/20" align="start">
                 <CalendarComponent
                   mode="range"
                   selected={dateRange}
                   onSelect={handleDateChange}
                   numberOfMonths={2}
                   disabled={(date) => date < new Date()}
-                  className="pointer-events-auto"
+                  className="pointer-events-auto bg-slate-800 text-white [&_.rdp-day]:text-white [&_.rdp-day_button]:text-white [&_.rdp-head_cell]:text-white/80 [&_.rdp-caption]:text-white [&_.rdp-nav_button]:text-white [&_.rdp-day_disabled]:text-white/30"
                 />
               </PopoverContent>
             </Popover>
