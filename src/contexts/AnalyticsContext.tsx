@@ -6,6 +6,7 @@ interface AnalyticsContextType {
   identifyUser: (userId: string, properties?: Record<string, any>) => void;
   trackPageView: (pageName: string, properties?: Record<string, any>) => void;
   trackConversion: (conversionType: string, value?: number, properties?: Record<string, any>) => void;
+  trackWebVital: (name: string, value: number, rating: string, additionalProps?: Record<string, any>) => void;
   resetUser: () => void;
 }
 
@@ -93,6 +94,24 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
 
+  const trackWebVital = (name: string, value: number, rating: string, additionalProps?: Record<string, any>) => {
+    try {
+      posthog.capture('web_vital', {
+        metric_name: name,
+        metric_value: value,
+        rating,
+        page_path: window.location.pathname,
+        device_type: window.innerWidth < 768 ? 'mobile' : 'desktop',
+        ...additionalProps
+      });
+      if (import.meta.env.DEV) {
+        console.log('[Analytics] Web Vital:', name, value, rating);
+      }
+    } catch (error) {
+      console.error('[Analytics] Error tracking web vital:', error);
+    }
+  };
+
   return (
     <AnalyticsContext.Provider
       value={{
@@ -100,6 +119,7 @@ export const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         identifyUser,
         trackPageView,
         trackConversion,
+        trackWebVital,
         resetUser,
       }}
     >

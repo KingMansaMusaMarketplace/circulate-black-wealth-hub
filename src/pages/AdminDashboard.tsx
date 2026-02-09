@@ -1,3 +1,12 @@
+/**
+ * @deprecated This page is deprecated. Use AdminDashboardPage instead.
+ * The admin dashboard functionality has been consolidated into AdminDashboardPage.tsx
+ * which includes all features from this page plus additional Setup functionality.
+ * 
+ * This file is kept for backward compatibility only.
+ * @see src/pages/AdminDashboardPage.tsx
+ */
+
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
