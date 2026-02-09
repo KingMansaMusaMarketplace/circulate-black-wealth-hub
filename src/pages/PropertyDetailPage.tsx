@@ -9,6 +9,7 @@ import PricingBreakdown from '@/components/vacation-rentals/PricingBreakdown';
 import GuestCounter from '@/components/vacation-rentals/GuestCounter';
 import PropertyReviewsComponent from '@/components/stays/PropertyReviews';
 import ContactHostButton from '@/components/stays/ContactHostButton';
+import { SecurityDepositInfo } from '@/components/stays/trust';
 import { useVacationBooking } from '@/hooks/useVacationBooking';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -365,6 +366,14 @@ const PropertyDetailPage: React.FC = () => {
                     {property.house_rules}
                   </p>
                 </div>
+              </>
+            )}
+
+            {/* Security Deposit */}
+            {property.security_deposit && property.security_deposit > 0 && (
+              <>
+                <Separator className="bg-white/10" />
+                <SecurityDepositInfo amount={property.security_deposit} variant="card" />
               </>
             )}
 

@@ -12,8 +12,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AvailabilityCalendar from '@/components/stays/AvailabilityCalendar';
 import PropertyReviews from '@/components/stays/PropertyReviews';
+import { HostVerificationCard } from '@/components/stays/trust';
 import { toast } from 'sonner';
-import { format, isAfter, isBefore, isToday } from 'date-fns';
+import { format, isAfter, isBefore } from 'date-fns';
 import {
   Home,
   Plus,
@@ -198,12 +199,13 @@ const HostDashboardPage: React.FC = () => {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="properties" className="w-full">
-          <TabsList className="bg-slate-800">
+          <TabsList className="bg-slate-800 flex-wrap">
             <TabsTrigger value="properties">My Properties</TabsTrigger>
             <TabsTrigger value="calendar">Calendar</TabsTrigger>
             <TabsTrigger value="bookings">Reservations</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="earnings">Earnings</TabsTrigger>
+            <TabsTrigger value="verification">Verification</TabsTrigger>
           </TabsList>
 
           {/* Properties Tab */}
@@ -504,6 +506,13 @@ const HostDashboardPage: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+          </TabsContent>
+
+          {/* Verification Tab */}
+          <TabsContent value="verification" className="mt-6">
+            <div className="max-w-2xl">
+              <HostVerificationCard />
             </div>
           </TabsContent>
         </Tabs>
