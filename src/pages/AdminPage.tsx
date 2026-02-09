@@ -1,3 +1,11 @@
+/**
+ * @deprecated This page is deprecated. Use AdminDashboardPage instead.
+ * The /admin route now redirects to /admin-dashboard which includes all admin functionality
+ * including the Setup tab for database and Supabase configuration.
+ * 
+ * This file is kept for backward compatibility only.
+ * @see src/pages/AdminDashboardPage.tsx
+ */
 
 import React, { useState } from 'react';
 import DatabaseSetup from '../components/admin/DatabaseSetup';
