@@ -4,12 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
-import { Star, MessageSquare, ThumbsUp, User } from 'lucide-react';
+import { Star, MessageSquare, User, PenLine } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
+import WriteReviewForm from './reviews/WriteReviewForm';
+import { usePropertyReviews } from '@/hooks/usePropertyReviews';
 
 interface PropertyReviewsProps {
   propertyId: string;
@@ -19,13 +21,13 @@ interface PropertyReviewsProps {
 interface Review {
   id: string;
   rating: number;
-  cleanliness_rating?: number;
-  communication_rating?: number;
-  location_rating?: number;
-  value_rating?: number;
+  cleanliness?: number;
+  communication?: number;
+  location?: number;
+  value?: number;
   review_text?: string;
   host_response?: string;
-  host_responded_at?: string;
+  host_response_at?: string;
   created_at: string;
   guest_id: string;
   guest_name?: string;
@@ -51,6 +53,9 @@ const PropertyReviews: React.FC<PropertyReviewsProps> = ({ propertyId, isHost = 
   const [loading, setLoading] = useState(true);
   const [respondingTo, setRespondingTo] = useState<string | null>(null);
   const [responseText, setResponseText] = useState('');
+  const [showReviewForm, setShowReviewForm] = useState(false);
+
+  const { canReview, pendingBookingId, refreshEligibility } = usePropertyReviews({ propertyId });
 
   useEffect(() => {
     fetchReviews();
@@ -112,28 +117,34 @@ const PropertyReviews: React.FC<PropertyReviewsProps> = ({ propertyId, isHost = 
       ratingDistribution[r.rating] = (ratingDistribution[r.rating] || 0) + 1;
     });
 
-    // Category averages
-    const cleanlinessReviews = reviewsData.filter(r => r.cleanliness_rating);
-    const communicationReviews = reviewsData.filter(r => r.communication_rating);
-    const locationReviews = reviewsData.filter(r => r.location_rating);
-    const valueReviews = reviewsData.filter(r => r.value_rating);
+    // Category averages (using correct column names)
+    const cleanlinessReviews = reviewsData.filter(r => r.cleanliness);
+    const communicationReviews = reviewsData.filter(r => r.communication);
+    const locationReviews = reviewsData.filter(r => r.location);
+    const valueReviews = reviewsData.filter(r => r.value);
 
     const categoryAverages = {
       cleanliness: cleanlinessReviews.length > 0
-        ? cleanlinessReviews.reduce((sum, r) => sum + (r.cleanliness_rating || 0), 0) / cleanlinessReviews.length
+        ? cleanlinessReviews.reduce((sum, r) => sum + (r.cleanliness || 0), 0) / cleanlinessReviews.length
         : 0,
       communication: communicationReviews.length > 0
-        ? communicationReviews.reduce((sum, r) => sum + (r.communication_rating || 0), 0) / communicationReviews.length
+        ? communicationReviews.reduce((sum, r) => sum + (r.communication || 0), 0) / communicationReviews.length
         : 0,
       location: locationReviews.length > 0
-        ? locationReviews.reduce((sum, r) => sum + (r.location_rating || 0), 0) / locationReviews.length
+        ? locationReviews.reduce((sum, r) => sum + (r.location || 0), 0) / locationReviews.length
         : 0,
       value: valueReviews.length > 0
-        ? valueReviews.reduce((sum, r) => sum + (r.value_rating || 0), 0) / valueReviews.length
+        ? valueReviews.reduce((sum, r) => sum + (r.value || 0), 0) / valueReviews.length
         : 0,
     };
 
     setStats({ averageRating, totalReviews, ratingDistribution, categoryAverages });
+  };
+
+  const handleReviewSuccess = () => {
+    setShowReviewForm(false);
+    fetchReviews();
+    refreshEligibility();
   };
 
   const submitHostResponse = async (reviewId: string) => {
@@ -194,20 +205,55 @@ const PropertyReviews: React.FC<PropertyReviewsProps> = ({ propertyId, isHost = 
   }
 
   return (
-    <Card className="bg-slate-800/50 border-slate-700">
-      <CardHeader>
-        <CardTitle className="text-white flex items-center gap-2">
-          <Star className="w-5 h-5 text-mansagold" />
-          Guest Reviews
-        </CardTitle>
-        {stats && (
-          <CardDescription className="text-slate-400">
-            {stats.averageRating.toFixed(1)} average from {stats.totalReviews} reviews
-          </CardDescription>
-        )}
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {stats && reviews.length > 0 && (
+    <div className="space-y-6">
+      {/* Write Review Form - Show if user has completed a booking but hasn't reviewed yet */}
+      {canReview && pendingBookingId && !isHost && (
+        showReviewForm ? (
+          <WriteReviewForm
+            propertyId={propertyId}
+            bookingId={pendingBookingId}
+            onSuccess={handleReviewSuccess}
+            onCancel={() => setShowReviewForm(false)}
+          />
+        ) : (
+          <Card className="bg-gradient-to-r from-mansagold/10 to-amber-500/10 border-mansagold/30">
+            <CardContent className="py-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-mansagold/20 flex items-center justify-center">
+                    <PenLine className="w-5 h-5 text-mansagold" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white">Share your experience</p>
+                    <p className="text-sm text-slate-400">You stayed here! Leave a review to help future guests.</p>
+                  </div>
+                </div>
+                <Button
+                  onClick={() => setShowReviewForm(true)}
+                  className="bg-mansagold text-black hover:bg-mansagold/90"
+                >
+                  Write Review
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )
+      )}
+
+      <Card className="bg-slate-800/50 border-slate-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center gap-2">
+            <Star className="w-5 h-5 text-mansagold" />
+            Guest Reviews
+          </CardTitle>
+          {stats && (
+            <CardDescription className="text-slate-400">
+              {stats.averageRating.toFixed(1)} average from {stats.totalReviews} reviews
+            </CardDescription>
+          )}
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {stats && reviews.length > 0 && (
           <>
             {/* Overall Rating Summary */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -353,17 +399,18 @@ const PropertyReviews: React.FC<PropertyReviewsProps> = ({ propertyId, isHost = 
           </>
         )}
 
-        {reviews.length === 0 && (
-          <div className="text-center py-8">
-            <Star className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-            <p className="text-slate-400">No reviews yet</p>
-            <p className="text-sm text-slate-500">
-              Reviews will appear here after guests complete their stays
-            </p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+          {reviews.length === 0 && (
+            <div className="text-center py-8">
+              <Star className="w-12 h-12 text-slate-600 mx-auto mb-3" />
+              <p className="text-slate-400">No reviews yet</p>
+              <p className="text-sm text-slate-500">
+                Reviews will appear here after guests complete their stays
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
