@@ -30,6 +30,7 @@ const navigationPages = [
   { path: '/', label: 'Home', icon: Home, keywords: ['home', 'main', 'start'] },
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, keywords: ['dashboard', 'overview', 'stats'] },
   { path: '/directory', label: 'Business Directory', icon: Store, keywords: ['marketplace', 'directory', 'businesses', 'shops', 'stores'] },
+  { path: '/stays', label: 'Vacation Rentals', icon: Home, keywords: ['vacation', 'rentals', 'stays', 'airbnb', 'lodging', 'accommodation', 'travel'] },
   { path: '/impact', label: 'My Impact', icon: Heart, keywords: ['impact', 'contribution', 'community'] },
   { path: '/referrals', label: 'Earn Rewards', icon: Gift, keywords: ['rewards', 'referrals', 'earn', 'bonus'] },
   { path: '/scanner', label: 'QR Scanner', icon: QrCode, keywords: ['qr', 'scanner', 'scan', 'code'] },
