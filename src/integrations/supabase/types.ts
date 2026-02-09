@@ -6808,6 +6808,63 @@ export type Database = {
         }
         Relationships: []
       }
+      host_verification_requests: {
+        Row: {
+          address_document_url: string | null
+          created_at: string
+          expires_at: string | null
+          host_id: string
+          id: string
+          id_document_type: string | null
+          id_document_url: string | null
+          id_selfie_url: string | null
+          notes: string | null
+          rejection_reason: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string
+          submitted_at: string
+          updated_at: string
+          verification_type: string
+        }
+        Insert: {
+          address_document_url?: string | null
+          created_at?: string
+          expires_at?: string | null
+          host_id: string
+          id?: string
+          id_document_type?: string | null
+          id_document_url?: string | null
+          id_selfie_url?: string | null
+          notes?: string | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          verification_type?: string
+        }
+        Update: {
+          address_document_url?: string | null
+          created_at?: string
+          expires_at?: string | null
+          host_id?: string
+          id?: string
+          id_document_type?: string | null
+          id_document_url?: string | null
+          id_selfie_url?: string | null
+          notes?: string | null
+          rejection_reason?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          verification_type?: string
+        }
+        Relationships: []
+      }
       impersonation_sessions: {
         Row: {
           admin_id: string
@@ -8680,9 +8737,11 @@ export type Database = {
           hbcu_verification_status:
             | Database["public"]["Enums"]["hbcu_verification_status"]
             | null
+          host_verified_at: string | null
           id: string
           is_founding_member: boolean | null
           is_hbcu_member: boolean | null
+          is_verified_host: boolean | null
           karma_last_decay_at: string | null
           onboarding_completed_at: string | null
           phone: string | null
@@ -8702,6 +8761,7 @@ export type Database = {
             | null
           updated_at: string | null
           user_type: string
+          verification_badges: string[] | null
           wallet_balance: number
           zip_code: string | null
         }
@@ -8722,9 +8782,11 @@ export type Database = {
           hbcu_verification_status?:
             | Database["public"]["Enums"]["hbcu_verification_status"]
             | null
+          host_verified_at?: string | null
           id: string
           is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
+          is_verified_host?: boolean | null
           karma_last_decay_at?: string | null
           onboarding_completed_at?: string | null
           phone?: string | null
@@ -8744,6 +8806,7 @@ export type Database = {
             | null
           updated_at?: string | null
           user_type: string
+          verification_badges?: string[] | null
           wallet_balance?: number
           zip_code?: string | null
         }
@@ -8764,9 +8827,11 @@ export type Database = {
           hbcu_verification_status?:
             | Database["public"]["Enums"]["hbcu_verification_status"]
             | null
+          host_verified_at?: string | null
           id?: string
           is_founding_member?: boolean | null
           is_hbcu_member?: boolean | null
+          is_verified_host?: boolean | null
           karma_last_decay_at?: string | null
           onboarding_completed_at?: string | null
           phone?: string | null
@@ -8786,6 +8851,7 @@ export type Database = {
             | null
           updated_at?: string | null
           user_type?: string
+          verification_badges?: string[] | null
           wallet_balance?: number
           zip_code?: string | null
         }
@@ -10912,6 +10978,102 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      security_deposit_holds: {
+        Row: {
+          amount_deducted: number
+          amount_held: number
+          amount_refunded: number
+          booking_id: string
+          claim_evidence_urls: string[] | null
+          claim_reason: string | null
+          claim_reviewed_at: string | null
+          claim_reviewed_by: string | null
+          claim_submitted_at: string | null
+          created_at: string
+          deposit_amount: number
+          dispute_reason: string | null
+          dispute_resolved_at: string | null
+          dispute_submitted_at: string | null
+          guest_id: string
+          held_at: string | null
+          host_id: string
+          id: string
+          property_id: string
+          released_at: string | null
+          status: string
+          stripe_charge_id: string | null
+          stripe_payment_intent_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount_deducted?: number
+          amount_held?: number
+          amount_refunded?: number
+          booking_id: string
+          claim_evidence_urls?: string[] | null
+          claim_reason?: string | null
+          claim_reviewed_at?: string | null
+          claim_reviewed_by?: string | null
+          claim_submitted_at?: string | null
+          created_at?: string
+          deposit_amount: number
+          dispute_reason?: string | null
+          dispute_resolved_at?: string | null
+          dispute_submitted_at?: string | null
+          guest_id: string
+          held_at?: string | null
+          host_id: string
+          id?: string
+          property_id: string
+          released_at?: string | null
+          status?: string
+          stripe_charge_id?: string | null
+          stripe_payment_intent_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount_deducted?: number
+          amount_held?: number
+          amount_refunded?: number
+          booking_id?: string
+          claim_evidence_urls?: string[] | null
+          claim_reason?: string | null
+          claim_reviewed_at?: string | null
+          claim_reviewed_by?: string | null
+          claim_submitted_at?: string | null
+          created_at?: string
+          deposit_amount?: number
+          dispute_reason?: string | null
+          dispute_resolved_at?: string | null
+          dispute_submitted_at?: string | null
+          guest_id?: string
+          held_at?: string | null
+          host_id?: string
+          id?: string
+          property_id?: string
+          released_at?: string | null
+          status?: string
+          stripe_charge_id?: string | null
+          stripe_payment_intent_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "security_deposit_holds_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "security_deposit_holds_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "vacation_properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       shared_shopping_lists: {
         Row: {
