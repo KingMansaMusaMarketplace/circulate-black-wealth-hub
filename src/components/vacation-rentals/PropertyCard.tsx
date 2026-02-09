@@ -37,8 +37,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
     <div
       className={cn(
         'group relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300',
-        'bg-slate-900/80 backdrop-blur-xl border border-white/10 hover:border-mansagold/30 hover:shadow-lg hover:shadow-mansagold/10',
-        isHighlighted && 'ring-2 ring-mansagold border-mansagold/30'
+        'bg-slate-900/80 backdrop-blur-xl border border-white/10',
+        'hover:border-mansagold/40 hover:shadow-xl hover:shadow-mansagold/20 hover:-translate-y-1',
+        isHighlighted && 'ring-2 ring-mansagold border-mansagold/30 shadow-lg shadow-mansagold/20'
       )}
       onMouseEnter={() => onHover?.(property.id)}
       onMouseLeave={() => onHover?.(null)}
