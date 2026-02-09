@@ -31,7 +31,7 @@ const resources = {
   en: {
     common: enCommon,
     loyalty: enLoyalty,
-    business: esBusiness,
+    business: enBusiness,
     auth: enAuth,
   },
   es: {
