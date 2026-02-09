@@ -67,7 +67,7 @@ const VacationRentalsCTA: React.FC = () => {
                   variant="outline"
                   className="border-white/20 text-white hover:bg-white/10 rounded-xl"
                 >
-                  <Link to="/host-property">
+                  <Link to="/stays/list-property">
                     List Your Property
                   </Link>
                 </Button>
