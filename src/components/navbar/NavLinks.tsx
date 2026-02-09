@@ -27,27 +27,20 @@ const NavLinks: React.FC = () => {
 
         <NavigationMenuItem>
           <Link to="/directory" className={goldLinkClassName}>
-            Business Directory
+            Directory
           </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
           <Link to="/stays" className={goldLinkClassName}>
-            Vacation Rentals
+            Stays
           </Link>
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link to="/impact" className={`${goldLinkClassName} flex items-center gap-1.5`}>
-            <Heart className="h-4 w-4 text-red-500 fill-red-500" />
-            Impact
-          </Link>
-        </NavigationMenuItem>
-
-        <NavigationMenuItem>
-          <Link to="/partner-portal" className={`${goldLinkClassName} flex items-center gap-1.5 bg-mansagold/10 border border-mansagold/20 rounded-md`}>
+          <Link to="/partner-portal" className={`${goldLinkClassName} flex items-center gap-1.5`}>
             <Handshake className="h-4 w-4 text-mansagold" />
-            Partner Program
+            Partner
           </Link>
         </NavigationMenuItem>
 
@@ -228,6 +221,17 @@ const NavLinks: React.FC = () => {
           <NavigationMenuTrigger className={triggerClassName}>Community & Support</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-[400px] gap-3 p-4 bg-background/95 backdrop-blur-lg border border-border shadow-xl rounded-lg z-50">
+              <li>
+                <Link to="/impact" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02] bg-mansagold/10 border border-mansagold/20">
+                  <div className="flex items-center gap-2">
+                    <Heart className="h-4 w-4 text-red-500 fill-red-500" />
+                    <div className="text-sm font-medium leading-none text-mansagold">My Impact ❤️</div>
+                  </div>
+                  <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    Track your personal economic impact journey
+                  </p>
+                </Link>
+              </li>
               <li>
                 <Link to="/founders-wall" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-all duration-300 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground hover:scale-[1.02] bg-mansagold/10 border border-mansagold/20">
                   <div className="flex items-center gap-2">
