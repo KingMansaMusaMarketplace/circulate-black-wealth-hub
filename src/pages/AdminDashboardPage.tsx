@@ -34,6 +34,8 @@ import PartnerSuccessStories from '@/components/partner/PartnerSuccessStories';
 import AdminEcosystemDashboard from '@/components/admin/AdminEcosystemDashboard';
 import AdminDevelopers from '@/components/admin/AdminDevelopers';
 import ArchiveRecovery from '@/components/admin/ArchiveRecovery';
+import DatabaseSetup from '@/components/admin/DatabaseSetup';
+import SupabaseSetup from '@/components/admin/SupabaseSetup';
 import { Button } from '@/components/ui/button';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { PlayCircle, Home } from 'lucide-react';
@@ -118,6 +120,13 @@ const AdminDashboardPage: React.FC = () => {
         return <AdminDevelopers />;
       case 'archive':
         return <ArchiveRecovery />;
+      case 'setup':
+        return (
+          <div className="space-y-6">
+            <SupabaseSetup />
+            <DatabaseSetup />
+          </div>
+        );
       default:
         return <AdminAnalyticsDashboard />;
     }
