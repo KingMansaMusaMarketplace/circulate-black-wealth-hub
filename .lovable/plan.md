@@ -1,216 +1,285 @@
 
-# Codebase Improvements Plan
+# Comprehensive Implementation Plan
 
-This plan addresses three key areas for improvement: **Feature Flags System**, **Test Coverage**, and **Code Consolidation**.
+This plan addresses the four key recommendations: **Security Fixes**, **E2E Testing**, **Core Web Vitals Monitoring**, and **Admin Page Deprecation**.
 
 ---
 
 ## Overview
 
-The improvements will be implemented in three phases:
+The implementation will be structured into four phases:
 
-1. **Feature Flags Enhancement** - Add a React hook and context for runtime feature flag checks
-2. **Test Coverage Expansion** - Add unit tests for critical paths (auth, payments, loyalty)
-3. **Code Consolidation** - Merge redundant admin pages and test pages
+1. **Security Hardening** - Address the 3 Supabase linter findings
+2. **Integration/E2E Testing** - Add full user flow tests for auth and QR scanning
+3. **Core Web Vitals Monitoring** - Enhance performance tracking with PostHog integration
+4. **Code Cleanup** - Complete deprecation of redundant admin pages
 
 ---
 
-## Phase 1: Feature Flags System Enhancement
+## Phase 1: Security Fixes
 
-### Current State
-- FeatureFlagsManager component exists for admin UI management
-- Database table `feature_flags` stores flags
-- Basic `app-config.ts` has hardcoded feature flags
+### 1.1 Security Definer View Issue (ERROR)
 
-### Improvements
+**Root Cause:** The `vault.decrypted_secrets` warning is a Supabase system view that cannot be modified. Based on `docs/SECURITY_DEFINER_VIEW_ANALYSIS.md`, this is a known false positive for system views.
 
-**1.1 Create a Feature Flags Hook (`useFeatureFlags`)**
-- New file: `src/hooks/use-feature-flags.ts`
-- Provides `isEnabled(flagKey)` function
-- Handles rollout percentage logic
-- Checks user type targeting
-- Caches results using TanStack Query
+**Action:** Create a security acknowledgment file and add ignore rules for system-level Security Definer views. No database changes required since these are Supabase-managed system views.
 
-**1.2 Create Feature Flags Context**
-- New file: `src/contexts/FeatureFlagsContext.tsx`
-- Pre-loads all flags on app startup
-- Provides sync access to flag states
-- Handles real-time flag updates
+**Documentation Update:**
+- Create `docs/SECURITY_ACKNOWLEDGMENTS.md` documenting why these warnings are acceptable
+- Add guidance for future security reviews
 
-**1.3 Create Feature Gate Component**
-- New file: `src/components/feature-flags/FeatureGate.tsx`
-- Conditional rendering wrapper
-- Shows children only if flag is enabled
-- Optional fallback component support
+### 1.2 RLS Policy "Always True" Issue (WARN)
 
-### Usage Example
-```tsx
-// Using the hook
-const { isEnabled } = useFeatureFlags();
-if (isEnabled('new_checkout_flow')) {
-  // Show new checkout
-}
+**Problem:** Some RLS policies use overly permissive `USING (true)` or `WITH CHECK (true)` for UPDATE, DELETE, or INSERT operations.
 
-// Using the gate component
-<FeatureGate flag="beta_dashboard" fallback={<OldDashboard />}>
-  <NewDashboard />
-</FeatureGate>
+**Action:** Create a database migration to audit and fix permissive RLS policies:
+- Query all tables with `USING (true)` policies on non-SELECT operations
+- Replace with proper user ownership checks (e.g., `auth.uid() = user_id`)
+- For public insert tables (like contact forms), add rate limiting
+
+**Migration Strategy:**
+```sql
+-- Example fix for permissive INSERT policy
+DROP POLICY IF EXISTS "Allow public inserts" ON public.contact_messages;
+CREATE POLICY "Authenticated users can insert" ON public.contact_messages
+  FOR INSERT TO authenticated
+  WITH CHECK (true);
+
+-- Add rate limiting function for public tables
+CREATE OR REPLACE FUNCTION check_insert_rate_limit()
+RETURNS boolean...
+```
+
+### 1.3 Insufficient MFA Options (WARN)
+
+**Problem:** The project has limited MFA options enabled.
+
+**Current State:** The codebase has MFA infrastructure (`useMFASetup.ts`, `MFAVerification.tsx`, `mfaUtils.ts`) but only TOTP is enabled.
+
+**Action:** 
+- Document current MFA implementation
+- Enable additional MFA options in Supabase Auth settings (Phone/SMS if needed)
+- Add MFA enrollment prompts for admin users
+
+**UI Enhancement:**
+- Update `src/components/auth/mfa/MFASetup.tsx` to show available MFA methods
+- Add admin policy to require MFA for sensitive operations
+
+---
+
+## Phase 2: Integration/E2E Tests
+
+### 2.1 User Flow Test: Signup to Dashboard
+
+**New File:** `src/test/integration/user-signup-flow.test.tsx`
+
+Tests the complete user journey:
+1. Navigate to signup page
+2. Fill form with valid data
+3. Verify email confirmation handling
+4. Redirect to dashboard
+5. Profile creation verification
+
+```typescript
+describe('User Signup Flow', () => {
+  it('completes full signup journey', async () => {
+    // Mock Supabase auth
+    // Render signup page
+    // Fill form
+    // Submit and verify
+    // Check redirect
+    // Verify profile created
+  });
+});
+```
+
+### 2.2 User Flow Test: QR Scan to Points
+
+**New File:** `src/test/integration/qr-scan-flow.test.tsx`
+
+Tests the QR scanning loyalty flow:
+1. Authenticated user accesses scanner
+2. Valid QR code scanned
+3. Points awarded correctly (with 7.5% commission)
+4. Transaction logged
+5. Points balance updated
+6. Notification shown
+
+### 2.3 User Flow Test: Business Signup
+
+**New File:** `src/test/integration/business-signup-flow.test.tsx`
+
+Tests business owner registration:
+1. Navigate to business signup
+2. Complete multi-step form
+3. Business profile created
+4. Verification pending state
+5. Dashboard access granted
+
+### 2.4 Test Infrastructure Updates
+
+**Update:** `src/test/setup.ts`
+- Add more comprehensive mocks for Supabase
+- Add render utilities with all providers wrapped
+- Add common test data fixtures
+
+**New File:** `src/test/utils/test-providers.tsx`
+- Create a TestWrapper component with all context providers
+- AuthContext mock with configurable user states
+- AnalyticsContext mock
+
+---
+
+## Phase 3: Core Web Vitals Monitoring
+
+### 3.1 Enhanced Performance Hook
+
+**Update:** `src/hooks/usePerformanceMonitoring.ts`
+
+Current implementation observes LCP, FID, and CLS but doesn't report to PostHog.
+
+**Enhancements:**
+- Add INP (Interaction to Next Paint) tracking (new Core Web Vital)
+- Integrate with PostHog for automatic reporting
+- Add performance grade thresholds based on Google's standards
+
+```typescript
+const reportToAnalytics = (metric: WebVitalMetric) => {
+  posthog.capture('web_vital', {
+    metric_name: metric.name,
+    metric_value: metric.value,
+    rating: metric.rating, // 'good' | 'needs-improvement' | 'poor'
+    page_path: window.location.pathname,
+  });
+};
+```
+
+### 3.2 Web Vitals Context
+
+**New File:** `src/contexts/WebVitalsContext.tsx`
+
+- Centralized tracking for all Core Web Vitals
+- Real-time metrics dashboard for admin
+- Automatic thresholds based on device type (mobile vs desktop)
+
+### 3.3 Performance Dashboard Component
+
+**New File:** `src/components/admin/WebVitalsMonitor.tsx`
+
+Admin dashboard widget showing:
+- Current LCP, FID, CLS, INP metrics
+- Historical trends (from PostHog)
+- Page-level performance breakdown
+- Recommendations for improvements
+
+### 3.4 Update Analytics Context
+
+**Update:** `src/contexts/AnalyticsContext.tsx`
+
+Add `trackWebVital` method:
+```typescript
+const trackWebVital = (name: string, value: number, rating: string) => {
+  posthog.capture('web_vital', { name, value, rating });
+};
 ```
 
 ---
 
-## Phase 2: Comprehensive Test Coverage
+## Phase 4: Admin Page Deprecation
 
-### Current State
-- 4 test files exist: `auth.test.tsx`, `checkout.test.tsx`, `directory-performance.test.tsx`, `setup.ts`
-- Tests are mostly validation logic, not component rendering
-- Missing tests for loyalty system and QR scanning
+### 4.1 Files to Deprecate
 
-### New Test Files to Create
+| File | Status | Action |
+|------|--------|--------|
+| `src/pages/AdminPage.tsx` | Active but redundant | Mark deprecated, add redirect |
+| `src/pages/AdminDashboard.tsx` | Duplicate functionality | Mark deprecated, remove import |
 
-**2.1 Loyalty System Tests**
-- File: `src/test/loyalty.test.tsx`
-- Tests for:
-  - Points calculation and tier determination
-  - Points history aggregation
-  - Reward redemption logic
-  - Edge cases (zero points, tier boundaries)
+### 4.2 Route Consolidation
 
-**2.2 QR Code Tests**
-- File: `src/test/qr-code.test.tsx`
-- Tests for:
-  - UUID validation for QR codes
-  - Scan limit enforcement logic
-  - Points awarding calculations
-  - Inactive QR code handling
+**Update:** `src/App.tsx`
 
-**2.3 Feature Flags Tests**
-- File: `src/test/feature-flags.test.tsx`
-- Tests for:
-  - Rollout percentage calculations
-  - User type targeting
-  - Flag enable/disable states
+Current routes:
+- `/admin` -> `AdminPage.tsx` (database setup wizard)
+- `/admin-dashboard` -> `AdminDashboardPage.tsx` (full dashboard)
+- Multiple admin sub-routes
 
-**2.4 Payment/Commission Tests**
-- File: `src/test/payment-commission.test.tsx`
-- Tests for:
-  - Commission rate calculations (7.5%)
-  - Business payout calculations
-  - Proration logic
+**New Configuration:**
+- `/admin` -> Redirect to `/admin-dashboard`
+- `/admin-dashboard` -> `AdminDashboardPage.tsx` (with Setup tab already added)
+- Remove `LazyAdminPage` import entirely
 
-### Test File Structure
-```text
-src/test/
-├── setup.ts              (exists)
-├── auth.test.tsx         (exists)
-├── checkout.test.tsx     (exists)
-├── directory-performance.test.tsx (exists)
-├── loyalty.test.tsx      (NEW)
-├── qr-code.test.tsx      (NEW)
-├── feature-flags.test.tsx (NEW)
-└── payment-commission.test.tsx (NEW)
+```typescript
+// Before
+<Route path="/admin" element={<LazyAdminPage />} />
+
+// After
+<Route path="/admin" element={<Navigate to="/admin-dashboard" replace />} />
 ```
+
+### 4.3 Cleanup Tasks
+
+1. **Remove AdminPage import** from App.tsx lazy imports
+2. **Add deprecation headers** to AdminPage.tsx and AdminDashboard.tsx:
+   ```typescript
+   /**
+    * @deprecated Use AdminDashboardPage instead
+    * This file is kept for backward compatibility only
+    * Route /admin now redirects to /admin-dashboard
+    */
+   ```
+3. **Update AdminDashboardPage** - Already has Setup tab (verified in exploration)
+4. **Remove duplicate AdminDashboard import** if still referenced
 
 ---
 
-## Phase 3: Code Consolidation
-
-### 3.1 Admin Pages Consolidation
-
-**Current State** - Three similar admin pages:
-| Page | Route | Purpose |
-|------|-------|---------|
-| AdminPage.tsx | /admin | Database setup wizard |
-| AdminDashboard.tsx | /admin-dashboard (accessible from AdminDashboardPage) | Tabbed dashboard with overview |
-| AdminDashboardPage.tsx | /admin-dashboard | Full sidebar dashboard |
-
-**Consolidation Strategy:**
-- Keep `AdminDashboardPage.tsx` as the primary admin interface (most feature-complete)
-- Integrate database setup from `AdminPage.tsx` into AdminDashboardPage as a "Setup" tab
-- Deprecate `AdminDashboard.tsx` (redirect to AdminDashboardPage)
-- Update routes to point `/admin` to the consolidated page
-
-**Implementation:**
-1. Add "Setup" section to AdminSidebar navigation
-2. Move DatabaseSetup and SupabaseSetup components into AdminDashboardPage
-3. Update App.tsx routes:
-   - `/admin` redirects to `/admin-dashboard`
-   - Remove AdminDashboard.tsx import
-4. Mark deprecated files with comments
-
-### 3.2 Test Pages Consolidation
-
-**Current Test Pages** (12+ pages):
-- SystemTestPage, MobileTestPage, ComprehensiveTestPage
-- SignupTestPage, QRTestPage, PaymentTestPage
-- CapacitorTestPage, AppleComplianceTestPage
-- HBCUTestPage, RegistrationTestPage
-- UnifiedTestDashboard, TestingHub, TestPage
-
-**Consolidation Strategy:**
-- Enhance `UnifiedTestDashboard.tsx` to be the single entry point
-- Add tabs/sections for all test categories
-- Keep specialized test components but integrate them into the unified view
-- Update TestingHub to link directly to UnifiedTestDashboard sections
-
-**New UnifiedTestDashboard Structure:**
-```text
-Tabs:
-├── System Tests (from SystemTestPage, FullSystemTest)
-├── Mobile Tests (from MobileTestPage, CapacitorTestPage)
-├── Auth Tests (from SignupTestPage, RegistrationTestPage)
-├── Feature Tests (from QRTestPage, PaymentTestPage)
-├── Compliance (from AppleComplianceTestPage)
-└── All Test Links (directory of all test pages)
-```
-
----
-
-## Technical Details
+## Technical Implementation Details
 
 ### New Files to Create
 
 | File | Purpose |
 |------|---------|
-| `src/hooks/use-feature-flags.ts` | Hook for checking feature flags |
-| `src/contexts/FeatureFlagsContext.tsx` | Context provider for flags |
-| `src/components/feature-flags/FeatureGate.tsx` | Conditional render wrapper |
-| `src/test/loyalty.test.tsx` | Loyalty system unit tests |
-| `src/test/qr-code.test.tsx` | QR code logic tests |
-| `src/test/feature-flags.test.tsx` | Feature flags tests |
-| `src/test/payment-commission.test.tsx` | Payment calculation tests |
+| `docs/SECURITY_ACKNOWLEDGMENTS.md` | Document security scan false positives |
+| `src/test/integration/user-signup-flow.test.tsx` | E2E signup test |
+| `src/test/integration/qr-scan-flow.test.tsx` | E2E QR scan test |
+| `src/test/integration/business-signup-flow.test.tsx` | E2E business signup test |
+| `src/test/utils/test-providers.tsx` | Shared test wrapper with providers |
+| `src/contexts/WebVitalsContext.tsx` | Core Web Vitals tracking context |
+| `src/components/admin/WebVitalsMonitor.tsx` | Admin performance dashboard |
 
 ### Files to Modify
 
 | File | Changes |
 |------|---------|
-| `src/App.tsx` | Update admin routes, clean up test page routes |
-| `src/pages/AdminDashboardPage.tsx` | Add Setup tab |
-| `src/components/admin/AdminSidebar.tsx` | Add Setup navigation |
-| `src/pages/UnifiedTestDashboard.tsx` | Add more test categories |
+| `src/App.tsx` | Replace `/admin` route with redirect, remove AdminPage import |
+| `src/hooks/usePerformanceMonitoring.ts` | Add PostHog integration, INP tracking |
+| `src/contexts/AnalyticsContext.tsx` | Add `trackWebVital` method |
+| `src/test/setup.ts` | Add comprehensive mocks and utilities |
+| `src/pages/AdminPage.tsx` | Add deprecation notice |
+| `src/pages/AdminDashboard.tsx` | Add deprecation notice |
 
-### Files to Deprecate (soft delete)
+### Database Migration (if needed)
 
-| File | Reason |
-|------|--------|
-| `src/pages/AdminPage.tsx` | Merged into AdminDashboardPage |
-| `src/pages/AdminDashboard.tsx` | Duplicate of AdminDashboardPage |
+A migration may be created to:
+- Audit and fix permissive RLS policies
+- Add `mfa_required` flag to admin roles
+- Create rate limiting functions for public tables
 
 ---
 
 ## Implementation Priority
 
-1. **Feature Flags Hook & Context** - Enables safer rollouts immediately
-2. **New Test Files** - Increases code reliability
-3. **Admin Consolidation** - Simplifies navigation
-4. **Test Page Consolidation** - Developer experience improvement
+1. **Route Cleanup (Quick Win)** - Immediate: redirect `/admin`, add deprecation notices
+2. **Security Fixes** - High priority: document false positives, audit RLS policies
+3. **Core Web Vitals** - Medium: enhance monitoring and PostHog integration
+4. **E2E Tests** - Medium: add comprehensive user flow tests
 
 ---
 
 ## Expected Outcomes
 
-- Single source of truth for feature flags with runtime checking
-- Test coverage for 4 critical paths (auth, loyalty, QR, payments)
-- Simplified admin experience with one dashboard
-- Unified testing interface for developers
-- Reduced code duplication and maintenance burden
+- All 3 Supabase linter issues addressed (1 documented, 2 fixed/enhanced)
+- 3 new E2E test suites covering critical user flows
+- Core Web Vitals automatically tracked and reported to PostHog
+- Single admin entry point at `/admin-dashboard`
+- Cleaner codebase with deprecated files marked for future removal
+- Test count increased from 117 to ~140+ tests
