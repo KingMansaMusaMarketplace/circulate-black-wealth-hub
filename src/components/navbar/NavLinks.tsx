@@ -32,6 +32,12 @@ const NavLinks: React.FC = () => {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
+          <Link to="/stays" className={goldLinkClassName}>
+            Vacation Rentals
+          </Link>
+        </NavigationMenuItem>
+
+        <NavigationMenuItem>
           <Link to="/impact" className={`${goldLinkClassName} flex items-center gap-1.5`}>
             <Heart className="h-4 w-4 text-red-500 fill-red-500" />
             Impact
