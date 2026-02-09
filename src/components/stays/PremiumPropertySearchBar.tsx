@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
@@ -304,14 +305,23 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
               <Search className="h-5 w-5 mr-2" />
               Search
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={onOpenFilters}
-              className="h-11 w-11 border-white/10 hover:bg-white/10 hover:border-mansagold/50"
-            >
-              <SlidersHorizontal className="h-4 w-4 text-white" />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={onOpenFilters}
+                    className="h-11 w-11 border-white/10 hover:bg-white/10 hover:border-mansagold/50"
+                  >
+                    <SlidersHorizontal className="h-4 w-4 text-white" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="bg-slate-800 border-white/20 text-white">
+                  <p>Filters</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </div>
