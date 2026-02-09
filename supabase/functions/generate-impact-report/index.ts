@@ -131,7 +131,7 @@ Generate a compelling impact report that:
 5. References Mansa Musa's legacy of wealth and prosperity
 6. Makes them feel like heroes in the economic empowerment movement
 
-Be warm, uplifting, and motivational. Use emojis occasionally but not excessively. Focus on transformation and collective power.`;
+IMPORTANT: Do NOT use any markdown formatting like ** or __ for bold/emphasis. Write in plain text only. Use emojis occasionally but not excessively. Be warm, uplifting, and motivational. Focus on transformation and collective power.`;
 
     const userContext = `
 Period: ${period === 'month' ? 'This Month' : period === 'year' ? 'This Year' : 'This Week'}
