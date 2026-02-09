@@ -29,7 +29,7 @@ interface GlobalSearchModalProps {
 const navigationPages = [
   { path: '/', label: 'Home', icon: Home, keywords: ['home', 'main', 'start'] },
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, keywords: ['dashboard', 'overview', 'stats'] },
-  { path: '/directory', label: 'Marketplace', icon: Store, keywords: ['marketplace', 'directory', 'businesses', 'shops', 'stores'] },
+  { path: '/directory', label: 'Business Directory', icon: Store, keywords: ['marketplace', 'directory', 'businesses', 'shops', 'stores'] },
   { path: '/impact', label: 'My Impact', icon: Heart, keywords: ['impact', 'contribution', 'community'] },
   { path: '/referrals', label: 'Earn Rewards', icon: Gift, keywords: ['rewards', 'referrals', 'earn', 'bonus'] },
   { path: '/scanner', label: 'QR Scanner', icon: QrCode, keywords: ['qr', 'scanner', 'scan', 'code'] },
