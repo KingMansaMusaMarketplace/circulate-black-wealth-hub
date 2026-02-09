@@ -8,6 +8,7 @@ import AmenitiesList from '@/components/vacation-rentals/AmenitiesList';
 import PricingBreakdown from '@/components/vacation-rentals/PricingBreakdown';
 import GuestCounter from '@/components/vacation-rentals/GuestCounter';
 import PropertyReviewsComponent from '@/components/stays/PropertyReviews';
+import ContactHostButton from '@/components/stays/ContactHostButton';
 import { useVacationBooking } from '@/hooks/useVacationBooking';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -279,6 +280,12 @@ const PropertyDetailPage: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex gap-2">
+                  <ContactHostButton
+                    propertyId={property.id}
+                    hostId={property.host_id}
+                    propertyTitle={property.title}
+                    className="border-white/20 text-white hover:bg-white/10"
+                  />
                   <Button variant="outline" size="icon" className="border-white/20 text-white hover:bg-white/10">
                     <Share2 className="w-4 h-4" />
                   </Button>

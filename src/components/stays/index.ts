@@ -5,6 +5,7 @@ export { default as CancellationPolicyCard } from './CancellationPolicyCard';
 export { default as HouseRulesAcceptance } from './HouseRulesAcceptance';
 export { default as BookingConfirmation } from './BookingConfirmation';
 export { default as StaysMessaging } from './messaging/StaysMessaging';
+export { default as ContactHostButton } from './ContactHostButton';
 export { default as StripeConnectOnboarding } from './host/StripeConnectOnboarding';
 export { default as HostAnalyticsDashboard } from './host/HostAnalyticsDashboard';
 export { default as PayoutHistory } from './host/PayoutHistory';
