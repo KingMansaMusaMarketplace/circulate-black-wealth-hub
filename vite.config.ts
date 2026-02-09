@@ -189,7 +189,6 @@ export default defineConfig(({ mode }) => ({
       'html5-qrcode',
       'html2pdf.js',
       'file-saver',
-      'mapbox-gl', // Heavy map library
       'recharts', // Heavy charting library
     ],
     esbuildOptions: {
