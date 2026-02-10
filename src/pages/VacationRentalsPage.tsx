@@ -107,7 +107,7 @@ const VacationRentalsPage: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-xl sm:text-2xl text-white/80 mb-4 max-w-3xl mx-auto font-medium"
           >
-            Book unique vacation rentals from 'Non-Bias' property owners
+            Book unique vacation & monthly rentals from 'Non-Bias' property owners
           </motion.p>
           
           <motion.p
