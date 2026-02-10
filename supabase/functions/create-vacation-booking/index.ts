@@ -107,20 +107,40 @@ serve(async (req) => {
     }
     logStep("Availability confirmed");
 
-    // Calculate pricing
+    // Calculate pricing with monthly/weekly support
     const nightlyRate = parseFloat(property.base_nightly_rate);
+    const monthlyRate = property.base_monthly_rate ? parseFloat(property.base_monthly_rate) : null;
+    const weeklyRate = property.weekly_rate ? parseFloat(property.weekly_rate) : null;
+    const listingMode = property.listing_mode || 'nightly';
     const cleaningFee = parseFloat(property.cleaning_fee || 0);
     const petFee = property.pets_allowed && numPets > 0 
       ? parseFloat(property.pet_fee || 0) * numPets 
       : 0;
 
-    const subtotal = nights * nightlyRate;
+    let subtotal: number;
+    let pricingMode: 'nightly' | 'weekly' | 'monthly' = 'nightly';
+    let pricingUnits: number = nights;
+
+    if (nights >= 28 && monthlyRate && listingMode !== 'nightly') {
+      const months = Math.ceil(nights / 30);
+      subtotal = months * monthlyRate;
+      pricingMode = 'monthly';
+      pricingUnits = months;
+    } else if (nights >= 7 && weeklyRate && listingMode !== 'nightly') {
+      const weeks = Math.ceil(nights / 7);
+      subtotal = weeks * weeklyRate;
+      pricingMode = 'weekly';
+      pricingUnits = weeks;
+    } else {
+      subtotal = nights * nightlyRate;
+    }
+
     const totalBeforeFee = subtotal + cleaningFee + petFee;
     const platformFee = totalBeforeFee * (PLATFORM_FEE_PERCENT / 100);
     const total = totalBeforeFee + platformFee;
     const hostPayout = totalBeforeFee; // Host gets full amount minus platform fee
 
-    logStep("Pricing calculated", { nights, subtotal, cleaningFee, petFee, platformFee, total, hostPayout });
+    logStep("Pricing calculated", { nights, pricingMode, pricingUnits, subtotal, cleaningFee, petFee, platformFee, total, hostPayout });
 
     // Initialize Stripe
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
@@ -184,7 +204,7 @@ serve(async (req) => {
           currency: "usd",
           unit_amount: Math.round(subtotal * 100),
           product_data: {
-            name: `${property.title} - ${nights} night${nights > 1 ? 's' : ''}`,
+            name: `${property.title} - ${pricingMode === 'monthly' ? `${pricingUnits} month${pricingUnits > 1 ? 's' : ''}` : pricingMode === 'weekly' ? `${pricingUnits} week${pricingUnits > 1 ? 's' : ''}` : `${nights} night${nights > 1 ? 's' : ''}`}`,
             description: `${checkInDate} to ${checkOutDate}`,
             images: property.photos?.length > 0 ? [property.photos[0]] : [],
           },

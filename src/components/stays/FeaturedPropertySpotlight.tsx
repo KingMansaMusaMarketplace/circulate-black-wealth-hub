@@ -115,7 +115,9 @@ const FeaturedPropertySpotlight: React.FC<FeaturedPropertySpotlightProps> = ({ p
                 </Link>
                 
                 <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-base px-4 py-2 hidden md:flex">
-                  ${property.base_nightly_rate}/night
+                  {property.listing_mode === 'monthly' && property.base_monthly_rate
+                    ? `$${Number(property.base_monthly_rate).toLocaleString()}/mo`
+                    : `$${property.base_nightly_rate}/night`}
                 </Badge>
               </div>
             </div>

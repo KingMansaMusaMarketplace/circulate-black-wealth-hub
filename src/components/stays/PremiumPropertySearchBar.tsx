@@ -49,7 +49,7 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
         const { data, error } = await supabase
           .from('vacation_properties')
           .select('city, state')
-          .eq('status', 'active');
+          .eq('is_active', true);
 
         if (error) throw error;
 

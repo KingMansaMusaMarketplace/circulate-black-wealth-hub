@@ -47,7 +47,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { loadStripe } from '@stripe/stripe-js';
 
 // Stripe public key from environment
-const stripePromise = loadStripe('pk_test_51L0Q0QGpXkZjXvXKjMxwLmRqKqZzPvnLlJQhzNHJZXkqZRvRlMkJqLqMzNkJLqRvMkJLqRvMkJLqRvMkJLqRv');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '');
 
 const PropertyDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -391,12 +391,31 @@ const PropertyDetailPage: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-baseline justify-between text-white">
                   <div>
-                    <span className="text-2xl font-bold text-mansagold">
-                      ${property.base_nightly_rate.toLocaleString()}
-                    </span>
-                    <span className="text-white/60 text-base font-normal">
-                      {' '}/ night
-                    </span>
+                    {property.listing_mode === 'monthly' && property.base_monthly_rate ? (
+                      <>
+                        <span className="text-2xl font-bold text-mansagold">
+                          ${Number(property.base_monthly_rate).toLocaleString()}
+                        </span>
+                        <span className="text-white/60 text-base font-normal"> / month</span>
+                      </>
+                    ) : property.listing_mode === 'both' && property.base_monthly_rate ? (
+                      <>
+                        <span className="text-2xl font-bold text-mansagold">
+                          ${property.base_nightly_rate.toLocaleString()}
+                        </span>
+                        <span className="text-white/60 text-base font-normal"> / night</span>
+                        <span className="text-white/40 text-sm font-normal block">
+                          or ${Number(property.base_monthly_rate).toLocaleString()}/mo
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-2xl font-bold text-mansagold">
+                          ${property.base_nightly_rate.toLocaleString()}
+                        </span>
+                        <span className="text-white/60 text-base font-normal"> / night</span>
+                      </>
+                    )}
                   </div>
                   <div className="flex items-center gap-1 text-sm">
                     <Star className="w-4 h-4 fill-mansagold text-mansagold" />
