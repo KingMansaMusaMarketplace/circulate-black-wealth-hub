@@ -1,112 +1,85 @@
 
-# Mansa Stays: Vacation + Monthly Rentals in One
+# Fix Critical Production Gaps in Mansa Stays
 
-## The Vision
-
-Mansa Stays currently only supports nightly vacation rentals. By adding monthly rental support, you create a dual-market platform that covers both short-term travelers and long-term renters (relocating professionals, travel nurses, HBCU visitors on extended stays, etc.) -- all under one roof. This is a significant competitive advantage over both Airbnb (short-term focused) and FurnishedFinder (long-term only).
-
-## What Changes
-
-### 1. Database: New Columns on `vacation_properties`
-
-Add three new columns to support monthly pricing:
-
-- **`listing_mode`** (text, default `'nightly'`): Values are `'nightly'`, `'monthly'`, or `'both'`. Determines how the property is listed and searchable.
-- **`base_monthly_rate`** (numeric, nullable): The monthly rental price (e.g., $2,500/month).
-- **`weekly_rate`** (numeric, nullable): Optional weekly rate for mid-length stays.
-
-This approach keeps everything in one table -- no data duplication, no new tables. A host simply toggles their listing mode and sets a monthly rate.
-
-### 2. TypeScript Types Update
-
-Update `VacationProperty`, `PropertySearchFilters`, and `PricingBreakdown` in `src/types/vacation-rental.ts`:
-
-- Add `listing_mode`, `base_monthly_rate`, and `weekly_rate` to `VacationProperty`
-- Add a `listingMode` filter to `PropertySearchFilters` (so guests can filter for "Monthly Rentals" vs "Nightly Stays" vs "All")
-- Extend `PricingBreakdown` to handle monthly calculations
-
-### 3. Pricing Logic Update
-
-Update `calculatePricing()` in `src/lib/services/vacation-rental-service.ts`:
-
-- If stay is 28+ nights and property has a monthly rate, automatically apply the monthly rate instead of nightly
-- If stay is 7-27 nights and property has a weekly rate, apply the weekly rate
-- Show the savings compared to nightly pricing in the breakdown
-
-### 4. Search and Filter UI Updates
-
-**Search bar** (`PremiumPropertySearchBar.tsx`): Add a stay type toggle (e.g., "Nightly" | "Monthly" | "All") so guests can find monthly rentals quickly.
-
-**Filters panel** (`PropertyFiltersPanel.tsx`): Add a "Listing Type" filter section with the same options.
-
-**Active filters bar** (`ActiveFiltersBar.tsx`): Show the active listing mode filter as a removable badge.
-
-### 5. Property Card Updates
-
-Update `PropertyCard.tsx` to show:
-- Monthly rate when `listing_mode` is `'monthly'` or `'both'` (e.g., "$2,500/mo")
-- Nightly rate for nightly listings (existing behavior)
-- Both rates when mode is `'both'`
-
-### 6. Host Property Form
-
-Update the host listing form to include:
-- A "Listing Mode" selector (Nightly, Monthly, or Both)
-- Monthly rate input field (shown when mode is `'monthly'` or `'both'`)
-- Optional weekly rate input
-- Min/max nights auto-adjusts (monthly mode sets min_nights to 28)
-
-### 7. Booking Flow
-
-Update `useVacationBooking.ts` and the booking edge function:
-- When booking a monthly rental, calculate using the monthly rate
-- Adjust the PricingBreakdown display to show "1 month" or "X months" instead of nights
-- Monthly bookings could optionally skip the cleaning fee (host configurable)
-
-### 8. DB Mapper Update
-
-Update `mapPropertyFromDB()` in the service file to include the new fields.
+Six targeted fixes to make Mansa Stays production-ready. Ordered by severity.
 
 ---
 
-## Technical Details
+## Fix 1: Edge Function Pricing (Critical)
 
-### Migration SQL
+The `create-vacation-booking` edge function (line 117) calculates `nights * nightlyRate` only. A guest booking a monthly property at $2,500/mo for 30 nights would be charged 30 x $150 = $4,500 instead of $2,500.
 
-```text
-ALTER TABLE vacation_properties
-  ADD COLUMN listing_mode text NOT NULL DEFAULT 'nightly'
-    CHECK (listing_mode IN ('nightly', 'monthly', 'both')),
-  ADD COLUMN base_monthly_rate numeric DEFAULT NULL,
-  ADD COLUMN weekly_rate numeric DEFAULT NULL;
-```
+**Change:** Mirror the frontend `calculatePricing()` logic in the edge function. The property already has `listing_mode`, `base_monthly_rate`, and `weekly_rate` columns from the recent migration.
 
-### Files to Modify
+**File:** `supabase/functions/create-vacation-booking/index.ts` (lines 110-123)
 
-| File | Change |
-|------|--------|
-| New migration SQL | Add 3 columns to `vacation_properties` |
-| `src/types/vacation-rental.ts` | Add new fields to types |
-| `src/lib/services/vacation-rental-service.ts` | Update pricing logic, mapper, filters |
-| `src/components/vacation-rentals/PropertyCard.tsx` | Show monthly/nightly rates |
-| `src/components/vacation-rentals/PropertyFilters.tsx` | Add listing mode filter |
-| `src/components/stays/PropertyFiltersPanel.tsx` | Add listing mode filter |
-| `src/components/stays/PremiumPropertySearchBar.tsx` | Add stay type toggle |
-| `src/components/stays/ActiveFiltersBar.tsx` | Handle new filter badge |
-| `src/components/vacation-rentals/PricingBreakdown.tsx` | Show monthly pricing |
-| `src/hooks/useVacationBooking.ts` | Handle monthly booking calculations |
-| `src/integrations/supabase/types.ts` | Update generated types |
-| Host listing form (if exists) | Add listing mode + monthly rate inputs |
+Replace the simple `nights * nightlyRate` calculation with:
+- If nights >= 28 and property has `base_monthly_rate` and `listing_mode` is not `'nightly'`: use `ceil(nights/30) * monthly_rate`
+- Else if nights >= 7 and property has `weekly_rate` and `listing_mode` is not `'nightly'`: use `ceil(nights/7) * weekly_rate`
+- Else: use `nights * nightlyRate` (existing behavior)
 
-### Pricing Logic
+Also update the Stripe line item description (line 187) to say "X months" or "X weeks" instead of always "X nights."
 
-```text
-if (nights >= 28 AND monthly_rate exists):
-    total = ceil(nights / 30) * monthly_rate + fees
-elif (nights >= 7 AND weekly_rate exists):
-    total = ceil(nights / 7) * weekly_rate + fees
-else:
-    total = nights * nightly_rate + fees (existing)
-```
+---
 
-This keeps the implementation lean -- one table, one booking flow, smart pricing that automatically gives guests the best rate.
+## Fix 2: Search Bar Query Bug (Critical)
+
+**File:** `src/components/stays/PremiumPropertySearchBar.tsx` (line 52)
+
+The location autocomplete queries `.eq('status', 'active')` but the column is `is_active` (boolean). This returns zero results.
+
+**Change:** Replace `.eq('status', 'active')` with `.eq('is_active', true)`.
+
+---
+
+## Fix 3: Hardcoded Stripe Key
+
+**File:** `src/pages/PropertyDetailPage.tsx` (line 50)
+
+A test Stripe publishable key is hardcoded in the source code.
+
+**Change:** Replace the hardcoded key with `import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY` and add a fallback or warning if the env var is missing.
+
+---
+
+## Fix 4: Booking Widget Rate Display
+
+**File:** `src/pages/PropertyDetailPage.tsx` (lines 394-399)
+
+The booking card always shows `$X / night` regardless of listing mode.
+
+**Change:** Dynamically show the appropriate rate based on `property.listing_mode`:
+- `'monthly'` or `'both'` with monthly rate: show `$X / month`
+- `'nightly'` or no monthly rate: show `$X / night` (existing)
+- If mode is `'both'`, show both rates
+
+---
+
+## Fix 5: Featured Property Spotlight Rate Display
+
+**File:** `src/components/stays/FeaturedPropertySpotlight.tsx` (line 118)
+
+The badge hardcodes `${property.base_nightly_rate}/night`.
+
+**Change:** Same dynamic logic as Fix 4 -- show monthly rate for monthly/both properties, nightly for nightly properties.
+
+---
+
+## Fix 6: Edge Function Line Item Labels
+
+When a monthly booking is created, the Stripe Checkout line item still says "X nights". Update the product name in the checkout session to reflect the pricing mode (e.g., "Property Name - 1 month" or "Property Name - 2 weeks").
+
+---
+
+## Technical Summary
+
+| # | File | Change | Severity |
+|---|------|--------|----------|
+| 1 | `supabase/functions/create-vacation-booking/index.ts` | Add monthly/weekly pricing logic | Critical |
+| 2 | `src/components/stays/PremiumPropertySearchBar.tsx` | Fix `.eq('status','active')` to `.eq('is_active', true)` | Critical |
+| 3 | `src/pages/PropertyDetailPage.tsx` | Use env var for Stripe key | Medium |
+| 4 | `src/pages/PropertyDetailPage.tsx` | Dynamic rate display in booking widget | Medium |
+| 5 | `src/components/stays/FeaturedPropertySpotlight.tsx` | Dynamic rate display in spotlight badge | Low |
+| 6 | `supabase/functions/create-vacation-booking/index.ts` | Fix Stripe line item labels for monthly/weekly | Low |
+
+All fixes are contained within these 4 files. The edge function will need redeployment after changes.
