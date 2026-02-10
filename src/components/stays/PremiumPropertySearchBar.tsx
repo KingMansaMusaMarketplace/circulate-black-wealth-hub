@@ -10,7 +10,7 @@ import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 import { DateRange } from 'react-day-picker';
 import { cn } from '@/lib/utils';
-import { PropertySearchFilters } from '@/types/vacation-rental';
+import { PropertySearchFilters, LISTING_MODES, ListingMode } from '@/types/vacation-rental';
 import { supabase } from '@/integrations/supabase/client';
 
 interface LocationSuggestion {
@@ -171,6 +171,26 @@ const PremiumPropertySearchBar: React.FC<PremiumPropertySearchBarProps> = ({
             <Sparkles className="h-3 w-3" />
             Smart Search
           </Badge>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-4 pt-2">
+          {/* Stay Type Toggle */}
+          <div className="flex items-center gap-1 bg-slate-800/50 rounded-lg p-1 self-start md:self-end mb-2 md:mb-0">
+            {LISTING_MODES.map((mode) => (
+              <button
+                key={mode.value}
+                onClick={() => onFilterChange({ listingMode: filters.listingMode === mode.value ? undefined : mode.value as ListingMode })}
+                className={cn(
+                  'px-3 py-1.5 rounded-md text-xs font-medium transition-all',
+                  filters.listingMode === mode.value
+                    ? 'bg-mansagold text-slate-900'
+                    : 'text-white/60 hover:text-white hover:bg-white/10'
+                )}
+              >
+                {mode.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 pt-2">

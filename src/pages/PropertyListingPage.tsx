@@ -24,7 +24,7 @@ import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { vacationRentalService } from '@/lib/services/vacation-rental-service';
-import { VacationProperty, PROPERTY_TYPES, AMENITIES_LIST } from '@/types/vacation-rental';
+import { VacationProperty, PROPERTY_TYPES, AMENITIES_LIST, LISTING_MODES } from '@/types/vacation-rental';
 import {
   Home,
   MapPin,
@@ -74,6 +74,9 @@ const PropertyListingPage: React.FC = () => {
     max_guests: 2,
     base_nightly_rate: 100,
     cleaning_fee: 50,
+    listing_mode: 'nightly' as VacationProperty['listing_mode'],
+    base_monthly_rate: null as number | null,
+    weekly_rate: null as number | null,
     amenities: [] as string[],
     house_rules: '',
     photos: [] as string[],
@@ -503,6 +506,38 @@ const PropertyListingPage: React.FC = () => {
             {/* Pricing Step */}
             {currentStep === 'pricing' && (
               <>
+                {/* Listing Mode */}
+                <div className="space-y-2">
+                  <Label htmlFor="listing_mode" className="text-white">Listing Mode *</Label>
+                  <Select
+                    value={formData.listing_mode}
+                    onValueChange={(val) => {
+                      const mode = val as VacationProperty['listing_mode'];
+                      const updates: Partial<typeof formData> = { listing_mode: mode };
+                      if (mode === 'monthly') {
+                        updates.min_nights = 28;
+                      }
+                      updateFormData(updates);
+                    }}
+                  >
+                    <SelectTrigger className="bg-slate-800 border-white/20 text-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-slate-800 border-white/10">
+                      {LISTING_MODES.map((mode) => (
+                        <SelectItem key={mode.value} value={mode.value} className="text-white">
+                          {mode.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-sm text-white/60">
+                    Choose whether this property is for nightly stays, monthly rentals, or both
+                  </p>
+                </div>
+
+                <Separator className="bg-white/10" />
+
                 <div className="space-y-2">
                   <Label htmlFor="base_nightly_rate" className="text-white">Nightly Rate ($) *</Label>
                   <Input
@@ -517,6 +552,42 @@ const PropertyListingPage: React.FC = () => {
                     The base price per night before fees
                   </p>
                 </div>
+
+                {/* Monthly Rate - shown when mode is monthly or both */}
+                {(formData.listing_mode === 'monthly' || formData.listing_mode === 'both') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="base_monthly_rate" className="text-white">Monthly Rate ($) *</Label>
+                    <Input
+                      id="base_monthly_rate"
+                      type="number"
+                      min="1"
+                      value={formData.base_monthly_rate ?? ''}
+                      onChange={(e) => updateFormData({ base_monthly_rate: e.target.value ? parseFloat(e.target.value) : null })}
+                      className="bg-slate-800 border-white/20 text-white"
+                    />
+                    <p className="text-sm text-white/60">
+                      Price per month for stays of 28+ nights
+                    </p>
+                  </div>
+                )}
+
+                {/* Weekly Rate - optional */}
+                {(formData.listing_mode === 'monthly' || formData.listing_mode === 'both') && (
+                  <div className="space-y-2">
+                    <Label htmlFor="weekly_rate" className="text-white">Weekly Rate ($) <span className="text-white/40">Optional</span></Label>
+                    <Input
+                      id="weekly_rate"
+                      type="number"
+                      min="1"
+                      value={formData.weekly_rate ?? ''}
+                      onChange={(e) => updateFormData({ weekly_rate: e.target.value ? parseFloat(e.target.value) : null })}
+                      className="bg-slate-800 border-white/20 text-white"
+                    />
+                    <p className="text-sm text-white/60">
+                      Discounted rate for stays of 7+ nights
+                    </p>
+                  </div>
+                )}
 
                 <div className="space-y-2">
                   <Label htmlFor="cleaning_fee" className="text-white">Cleaning Fee ($)</Label>
@@ -625,7 +696,13 @@ const PropertyListingPage: React.FC = () => {
                   <Separator className="bg-white/10" />
                   <div>
                     <h4 className="font-semibold text-white">Pricing</h4>
-                    <p className="text-white/80">${formData.base_nightly_rate}/night + ${formData.cleaning_fee} cleaning fee</p>
+                    <p className="text-white/80">
+                      ${formData.base_nightly_rate}/night
+                      {formData.base_monthly_rate ? ` · $${formData.base_monthly_rate}/month` : ''}
+                      {formData.weekly_rate ? ` · $${formData.weekly_rate}/week` : ''}
+                      {` + $${formData.cleaning_fee} cleaning fee`}
+                    </p>
+                    <p className="text-sm text-white/60 capitalize">Listing mode: {formData.listing_mode}</p>
                     {formData.is_instant_book && (
                       <p className="text-sm text-mansagold">✓ Instant Book enabled</p>
                     )}

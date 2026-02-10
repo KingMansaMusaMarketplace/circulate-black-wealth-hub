@@ -51,6 +51,10 @@ export async function fetchVacationProperties(
   if (filters?.verifiedOnly) {
     query = query.eq('is_verified', true);
   }
+  if (filters?.listingMode && filters.listingMode !== 'both') {
+    // 'nightly' should match 'nightly' or 'both', 'monthly' should match 'monthly' or 'both'
+    query = query.or(`listing_mode.eq.${filters.listingMode},listing_mode.eq.both`);
+  }
 
   const { data, error } = await query.order('created_at', { ascending: false });
 
@@ -120,10 +124,13 @@ export async function createProperty(
       max_guests: property.max_guests || 2,
       base_nightly_rate: property.base_nightly_rate,
       cleaning_fee: property.cleaning_fee || 0,
+      listing_mode: property.listing_mode || 'nightly',
+      base_monthly_rate: property.base_monthly_rate,
+      weekly_rate: property.weekly_rate,
       amenities: property.amenities || [],
       house_rules: property.house_rules,
       photos: property.photos || [],
-      is_active: false, // Start inactive until reviewed
+      is_active: false,
       is_instant_book: property.is_instant_book || false,
       min_nights: property.min_nights || 1,
       max_nights: property.max_nights || 30,
@@ -151,7 +158,7 @@ export async function updateProperty(
   const { data, error } = await supabase
     .from('vacation_properties')
     .update({
-      title: updates.title,
+    title: updates.title,
       description: updates.description,
       property_type: updates.property_type,
       address: updates.address,
@@ -165,6 +172,9 @@ export async function updateProperty(
       max_guests: updates.max_guests,
       base_nightly_rate: updates.base_nightly_rate,
       cleaning_fee: updates.cleaning_fee,
+      listing_mode: updates.listing_mode,
+      base_monthly_rate: updates.base_monthly_rate,
+      weekly_rate: updates.weekly_rate,
       amenities: updates.amenities,
       house_rules: updates.house_rules,
       photos: updates.photos,
@@ -242,14 +252,40 @@ export function calculatePricing(
 ): PricingBreakdown {
   const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
   const nightlyRate = property.base_nightly_rate;
-  const subtotal = nights * nightlyRate;
+  const nightlySubtotal = nights * nightlyRate;
+  
+  let subtotal: number;
+  let pricingMode: 'nightly' | 'weekly' | 'monthly' = 'nightly';
+  let months: number | undefined;
+  let weeks: number | undefined;
+  let nightlySavings: number | undefined;
+
+  // Monthly pricing: 28+ nights and property has monthly rate
+  if (nights >= 28 && property.base_monthly_rate && property.listing_mode !== 'nightly') {
+    months = Math.ceil(nights / 30);
+    subtotal = months * property.base_monthly_rate;
+    pricingMode = 'monthly';
+    nightlySavings = nightlySubtotal - subtotal;
+  }
+  // Weekly pricing: 7-27 nights and property has weekly rate  
+  else if (nights >= 7 && property.weekly_rate && property.listing_mode !== 'nightly') {
+    weeks = Math.ceil(nights / 7);
+    subtotal = weeks * property.weekly_rate;
+    pricingMode = 'weekly';
+    nightlySavings = nightlySubtotal - subtotal;
+  }
+  // Default nightly pricing
+  else {
+    subtotal = nightlySubtotal;
+  }
+
   const cleaningFee = property.cleaning_fee;
   const petFee = property.pets_allowed && numPets > 0 ? property.pet_fee * numPets : 0;
-  const serviceFee = 0; // We absorb this into platform fee
-  const platformFeePercent = property.service_fee_percent / 100; // 7.5%
+  const serviceFee = 0;
+  const platformFeePercent = property.service_fee_percent / 100;
   const platformFee = (subtotal + cleaningFee + petFee) * platformFeePercent;
   const total = subtotal + cleaningFee + petFee + platformFee;
-  const hostPayout = subtotal + cleaningFee + petFee; // Host gets full amount minus platform fee
+  const hostPayout = subtotal + cleaningFee + petFee;
 
   return {
     nights,
@@ -261,6 +297,12 @@ export function calculatePricing(
     platformFee,
     total,
     hostPayout,
+    pricingMode,
+    monthlyRate: property.base_monthly_rate ?? undefined,
+    weeklyRate: property.weekly_rate ?? undefined,
+    months,
+    weeks,
+    nightlySavings: nightlySavings && nightlySavings > 0 ? nightlySavings : undefined,
   };
 }
 
@@ -349,6 +391,9 @@ function mapPropertyFromDB(data: any): VacationProperty {
     base_nightly_rate: parseFloat(data.base_nightly_rate),
     cleaning_fee: parseFloat(data.cleaning_fee || 0),
     service_fee_percent: parseFloat(data.service_fee_percent || 7.5),
+    listing_mode: data.listing_mode || 'nightly',
+    base_monthly_rate: data.base_monthly_rate ? parseFloat(data.base_monthly_rate) : null,
+    weekly_rate: data.weekly_rate ? parseFloat(data.weekly_rate) : null,
     amenities: Array.isArray(data.amenities) ? data.amenities : [],
     house_rules: data.house_rules,
     photos: Array.isArray(data.photos) ? data.photos : [],

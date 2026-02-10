@@ -28,7 +28,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
-import { PropertySearchFilters, PROPERTY_TYPES, AMENITIES_LIST } from '@/types/vacation-rental';
+import { PropertySearchFilters, PROPERTY_TYPES, AMENITIES_LIST, LISTING_MODES } from '@/types/vacation-rental';
 import { DateRange } from 'react-day-picker';
 
 interface PropertyFiltersProps {
@@ -78,6 +78,7 @@ const PropertyFilters: React.FC<PropertyFiltersProps> = ({
       instantBook: undefined,
       bedrooms: undefined,
       bathrooms: undefined,
+      listingMode: undefined,
     });
     setDateRange(undefined);
   };

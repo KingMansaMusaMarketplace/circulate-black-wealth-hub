@@ -13798,6 +13798,7 @@ export type Database = {
           address: string
           amenities: Json | null
           average_rating: number | null
+          base_monthly_rate: number | null
           base_nightly_rate: number
           bathrooms: number | null
           bedrooms: number | null
@@ -13816,6 +13817,7 @@ export type Database = {
           is_instant_book: boolean | null
           is_verified: boolean | null
           latitude: number | null
+          listing_mode: string
           longitude: number | null
           max_guests: number | null
           max_nights: number | null
@@ -13830,12 +13832,14 @@ export type Database = {
           state: string
           title: string
           updated_at: string | null
+          weekly_rate: number | null
           zip_code: string | null
         }
         Insert: {
           address: string
           amenities?: Json | null
           average_rating?: number | null
+          base_monthly_rate?: number | null
           base_nightly_rate: number
           bathrooms?: number | null
           bedrooms?: number | null
@@ -13854,6 +13858,7 @@ export type Database = {
           is_instant_book?: boolean | null
           is_verified?: boolean | null
           latitude?: number | null
+          listing_mode?: string
           longitude?: number | null
           max_guests?: number | null
           max_nights?: number | null
@@ -13868,12 +13873,14 @@ export type Database = {
           state: string
           title: string
           updated_at?: string | null
+          weekly_rate?: number | null
           zip_code?: string | null
         }
         Update: {
           address?: string
           amenities?: Json | null
           average_rating?: number | null
+          base_monthly_rate?: number | null
           base_nightly_rate?: number
           bathrooms?: number | null
           bedrooms?: number | null
@@ -13892,6 +13899,7 @@ export type Database = {
           is_instant_book?: boolean | null
           is_verified?: boolean | null
           latitude?: number | null
+          listing_mode?: string
           longitude?: number | null
           max_guests?: number | null
           max_nights?: number | null
@@ -13906,6 +13914,7 @@ export type Database = {
           state?: string
           title?: string
           updated_at?: string | null
+          weekly_rate?: number | null
           zip_code?: string | null
         }
         Relationships: []

@@ -30,7 +30,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { PropertySearchFilters, PropertyType, PROPERTY_TYPES, AMENITIES_LIST } from '@/types/vacation-rental';
+import { PropertySearchFilters, PropertyType, PROPERTY_TYPES, AMENITIES_LIST, LISTING_MODES, ListingMode } from '@/types/vacation-rental';
 
 interface PropertyFiltersPanelProps {
   isOpen: boolean;
@@ -88,6 +88,7 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
   };
 
   const activeFilterCount = [
+    filters.listingMode,
     filters.propertyType,
     filters.bedrooms,
     filters.bathrooms,
@@ -142,6 +143,38 @@ const PropertyFiltersPanel: React.FC<PropertyFiltersPanelProps> = ({
             {/* Scrollable Content */}
             <ScrollArea className="flex-1 px-4">
               <div className="py-6 space-y-8">
+                {/* Listing Type */}
+                <div className="space-y-4">
+                  <Label className="text-white font-medium flex items-center gap-2">
+                    <Home className="w-4 h-4 text-mansagold" />
+                    Listing Type
+                  </Label>
+                  <div className="flex flex-wrap gap-2">
+                    {LISTING_MODES.map((mode) => (
+                      <Button
+                        key={mode.value}
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                          onFilterChange({
+                            listingMode: filters.listingMode === mode.value ? undefined : mode.value as ListingMode,
+                          })
+                        }
+                        className={cn(
+                          'border-white/20 transition-all',
+                          filters.listingMode === mode.value
+                            ? 'bg-mansagold text-slate-900 border-mansagold hover:bg-mansagold/90'
+                            : 'bg-transparent text-white/80 hover:bg-white/10 hover:text-white'
+                        )}
+                      >
+                        {mode.label}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                <Separator className="bg-white/10" />
+
                 {/* Property Type */}
                 <div className="space-y-4">
                   <Label className="text-white font-medium flex items-center gap-2">

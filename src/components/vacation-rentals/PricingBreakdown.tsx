@@ -21,13 +21,30 @@ const PricingBreakdown: React.FC<PricingBreakdownProps> = ({
 }) => {
   return (
     <div className="space-y-3">
-      {/* Nightly rate */}
+      {/* Rate line */}
       <div className="flex justify-between text-sm">
         <span className="text-white/70">
-          ${pricing.nightlyRate.toLocaleString()} × {pricing.nights} night{pricing.nights !== 1 ? 's' : ''}
+          {pricing.pricingMode === 'monthly' && pricing.months
+            ? `$${(pricing.monthlyRate ?? 0).toLocaleString()} × ${pricing.months} month${pricing.months !== 1 ? 's' : ''}`
+            : pricing.pricingMode === 'weekly' && pricing.weeks
+            ? `$${(pricing.weeklyRate ?? 0).toLocaleString()} × ${pricing.weeks} week${pricing.weeks !== 1 ? 's' : ''}`
+            : `$${pricing.nightlyRate.toLocaleString()} × ${pricing.nights} night${pricing.nights !== 1 ? 's' : ''}`
+          }
         </span>
         <span className="font-medium text-white">${pricing.subtotal.toLocaleString()}</span>
       </div>
+
+      {/* Savings badge */}
+      {pricing.nightlySavings && pricing.nightlySavings > 0 && (
+        <div className="flex justify-between text-sm">
+          <span className="text-green-400 font-medium">
+            💰 You save vs nightly rate
+          </span>
+          <span className="text-green-400 font-medium">
+            -${pricing.nightlySavings.toLocaleString()}
+          </span>
+        </div>
+      )}
 
       {/* Cleaning fee */}
       {pricing.cleaningFee > 0 && (

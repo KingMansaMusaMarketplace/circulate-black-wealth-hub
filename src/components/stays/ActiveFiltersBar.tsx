@@ -2,7 +2,7 @@ import React from 'react';
 import { X } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { PropertySearchFilters, PROPERTY_TYPES, AMENITIES_LIST } from '@/types/vacation-rental';
+import { PropertySearchFilters, PROPERTY_TYPES, AMENITIES_LIST, LISTING_MODES } from '@/types/vacation-rental';
 import { cn } from '@/lib/utils';
 
 interface ActiveFiltersBarProps {
@@ -19,6 +19,16 @@ const ActiveFiltersBar: React.FC<ActiveFiltersBarProps> = ({
   className,
 }) => {
   const activeFilters: { key: string; label: string; onRemove: () => void }[] = [];
+
+  // Listing Mode
+  if (filters.listingMode) {
+    const modeLabel = LISTING_MODES.find(m => m.value === filters.listingMode)?.label || filters.listingMode;
+    activeFilters.push({
+      key: 'listingMode',
+      label: `${modeLabel} Stays`,
+      onRemove: () => onFilterChange({ listingMode: undefined }),
+    });
+  }
 
   // Property Type
   if (filters.propertyType) {
