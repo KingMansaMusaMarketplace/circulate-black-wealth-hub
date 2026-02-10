@@ -152,10 +152,28 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
           {/* Price */}
           <div className="text-right">
-            <span className="font-bold text-lg text-mansagold">
-              ${property.base_nightly_rate.toLocaleString()}
-            </span>
-            <span className="text-white/50 text-sm"> / night</span>
+            {(property.listing_mode === 'monthly' || property.listing_mode === 'both') && property.base_monthly_rate ? (
+              <div>
+                <span className="font-bold text-lg text-mansagold">
+                  ${property.base_monthly_rate.toLocaleString()}
+                </span>
+                <span className="text-white/50 text-sm"> / mo</span>
+                {property.listing_mode === 'both' && (
+                  <div>
+                    <span className="text-white/50 text-xs">
+                      ${property.base_nightly_rate.toLocaleString()}/night
+                    </span>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div>
+                <span className="font-bold text-lg text-mansagold">
+                  ${property.base_nightly_rate.toLocaleString()}
+                </span>
+                <span className="text-white/50 text-sm"> / night</span>
+              </div>
+            )}
           </div>
         </div>
 

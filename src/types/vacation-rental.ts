@@ -1,6 +1,8 @@
 
 export type PropertyType = 'house' | 'apartment' | 'cabin' | 'villa' | 'cottage' | 'condo' | 'townhouse' | 'loft' | 'studio' | 'other';
 
+export type ListingMode = 'nightly' | 'monthly' | 'both';
+
 export type VacationBookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'refunded';
 
 export type CancellationPolicyType = 'flexible' | 'moderate' | 'strict';
@@ -31,6 +33,11 @@ export interface VacationProperty {
   cleaning_fee: number;
   service_fee_percent: number;
   security_deposit?: number;
+  
+  // Listing mode & extended pricing
+  listing_mode: ListingMode;
+  base_monthly_rate: number | null;
+  weekly_rate: number | null;
   
   // Amenities and rules
   amenities: string[];
@@ -247,6 +254,7 @@ export interface PropertySearchFilters {
   bedrooms?: number;
   bathrooms?: number;
   verifiedOnly?: boolean;
+  listingMode?: ListingMode;
 }
 
 export interface PricingBreakdown {
@@ -260,7 +268,20 @@ export interface PricingBreakdown {
   securityDeposit?: number;
   total: number;
   hostPayout: number;
+  // Monthly/weekly pricing info
+  pricingMode?: 'nightly' | 'weekly' | 'monthly';
+  monthlyRate?: number;
+  weeklyRate?: number;
+  months?: number;
+  weeks?: number;
+  nightlySavings?: number; // How much saved vs nightly rate
 }
+
+export const LISTING_MODES: { value: ListingMode; label: string }[] = [
+  { value: 'nightly', label: 'Nightly' },
+  { value: 'monthly', label: 'Monthly' },
+  { value: 'both', label: 'Both' },
+];
 
 export const CANCELLATION_POLICIES = {
   flexible: {
