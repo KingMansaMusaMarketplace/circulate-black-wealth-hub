@@ -34,19 +34,46 @@ const ResetPasswordForm: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user has a valid password reset session
+    // Listen for PASSWORD_RECOVERY event from Supabase (handles URL hash tokens)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('[ResetPasswordForm] Auth event:', event);
+      if (event === 'PASSWORD_RECOVERY' || (event === 'SIGNED_IN' && session)) {
+        setIsValidSession(true);
+      }
+    });
+
+    // Also check if there's already a valid session (e.g., page refresh)
     const checkSession = async () => {
+      // Give Supabase time to process URL hash tokens
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         setIsValidSession(true);
       } else {
-        // If no session, redirect to login with error message
-        toast.error('Invalid or expired reset link. Please request a new one.');
-        navigate('/login');
+        // Check if URL has recovery tokens (hash fragment)
+        const hash = window.location.hash;
+        if (hash && (hash.includes('type=recovery') || hash.includes('access_token'))) {
+          // Tokens present but not yet processed — wait for onAuthStateChange
+          console.log('[ResetPasswordForm] Recovery tokens detected in URL, waiting for auth event...');
+          return;
+        }
+        // No session and no tokens — redirect after a short delay
+        setTimeout(() => {
+          // Re-check in case auth event fired during timeout
+          supabase.auth.getSession().then(({ data: { session: s } }) => {
+            if (!s && !isValidSession) {
+              toast.error('Invalid or expired reset link. Please request a new one.');
+              navigate('/login');
+            }
+          });
+        }, 3000);
       }
     };
 
     checkSession();
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
