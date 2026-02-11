@@ -5,15 +5,15 @@ import HeroSection from '@/components/HowItWorks/HeroSection';
 import HowItWorksSteps from '@/components/HowItWorks/HowItWorksSteps';
 import CTASection from '@/components/HowItWorks/CTASection';
 import PageNavigation from '@/components/HowItWorks/PageNavigation';
-import CirculationVisualization from '@/components/HowItWorks/CirculationVisualization/CirculationVisualization';
 import TestimonialsSection from '@/components/HowItWorks/TestimonialsSection';
 import MansaMusaHistory from '@/components/HowItWorks/MansaMusaHistory';
 import FAQSection from '@/components/HowItWorks/FAQSection';
 import VisualDivider from '@/components/HowItWorks/VisualDivider';
-import SponsorshipVideoSection from '@/components/HowItWorks/SponsorshipVideoSection';
 import LazySection from '@/components/common/LazySection';
 import { 
-  LazyInteractiveDemo
+  LazyInteractiveDemo,
+  LazyCirculationVisualization,
+  LazySponsorshipVideoSection
 } from '@/components/lazy';
 
 const HowItWorksPage = () => {
@@ -118,11 +118,15 @@ const HowItWorksPage = () => {
       <HowItWorksSteps />
       
       <section id="videos">
-        <SponsorshipVideoSection />
+        <Suspense fallback={<div className="py-12" />}>
+          <LazySponsorshipVideoSection />
+        </Suspense>
       </section>
       
         <VisualDivider />
-        <CirculationVisualization />
+        <Suspense fallback={<div className="py-12" />}>
+          <LazyCirculationVisualization />
+        </Suspense>
         <TestimonialsSection />
         <MansaMusaHistory />
         <FAQSection />
