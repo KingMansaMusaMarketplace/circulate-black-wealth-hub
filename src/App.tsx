@@ -15,7 +15,7 @@ import { NativeFeatures } from "@/components/native/NativeFeatures";
 import { NativeFeaturesOnboarding } from "@/components/native/NativeFeaturesOnboarding";
 import { AIChatWidget } from "@/components/ai-chat/AIChatWidget";
 import { HelmetProvider } from 'react-helmet-async';
-import { initializeCapacitorPlugins } from "@/utils/capacitor-plugins";
+// initializeCapacitorPlugins is dynamically imported below to avoid dual static+dynamic import
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { BusinessOnboardingFlow } from "@/components/onboarding/BusinessOnboardingFlow";
 import { CorporateOnboardingFlow } from "@/components/onboarding/CorporateOnboardingFlow";
@@ -346,12 +346,13 @@ function App() {
       setTimeout(() => hideSplash().catch(() => {}), 1000); // Extra failsafe for iPad
       
       // Initialize plugins in background (non-blocking, with error swallowing)
-      initializeCapacitorPlugins()
-        .then(() => console.log('[APP] Plugins ready'))
-        .catch(err => {
-          // Don't let plugin errors crash the app
-          console.error('[APP] Plugin error (non-fatal):', err);
-        });
+      import('@/utils/capacitor-plugins').then(({ initializeCapacitorPlugins }) => {
+        initializeCapacitorPlugins()
+          .then(() => console.log('[APP] Plugins ready'))
+          .catch(err => {
+            console.error('[APP] Plugin error (non-fatal):', err);
+          });
+      }).catch(() => {});
     }
   }, []);
 
