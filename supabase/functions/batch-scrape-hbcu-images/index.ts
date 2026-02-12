@@ -35,7 +35,7 @@ serve(async (req) => {
     let query = supabaseAdmin
       .from('businesses')
       .select('id, name, website, logo_url, banner_url')
-      .or('category.ilike.%HBCU%,category.ilike.%university%,category.ilike.%college%')
+      .or('category.ilike.%HBCU%,category.ilike.%university%,category.ilike.%college%,category.ilike.%education%,category.ilike.%Educational%')
       .not('website', 'is', null)
       .neq('website', '')
       .order('name');
