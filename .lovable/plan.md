@@ -1,85 +1,73 @@
 
-# Fix Critical Production Gaps in Mansa Stays
 
-Six targeted fixes to make Mansa Stays production-ready. Ordered by severity.
+## Crawl Protection: robots.txt + noindex Meta Tags
 
----
+### 1. Update `robots.txt`
 
-## Fix 1: Edge Function Pricing (Critical)
+Block sensitive paths from all crawlers while keeping the public directory crawlable:
 
-The `create-vacation-booking` edge function (line 117) calculates `nights * nightlyRate` only. A guest booking a monthly property at $2,500/mo for 30 nights would be charged 30 x $150 = $4,500 instead of $2,500.
+- `/admin/*` - All admin routes
+- `/dashboard/*` and `/business-dashboard/*` - User dashboards
+- `/app-functionality-test` - Test pages
+- `/api/*` - API endpoints
+- Supabase edge function paths
 
-**Change:** Mirror the frontend `calculatePricing()` logic in the edge function. The property already has `listing_mode`, `base_monthly_rate`, and `weekly_rate` columns from the recent migration.
+### 2. Add `noindex` Meta Tags to Private Pages
 
-**File:** `supabase/functions/create-vacation-booking/index.ts` (lines 110-123)
+Add `<meta name="robots" content="noindex, nofollow">` via `react-helmet-async` to the following admin/private pages:
 
-Replace the simple `nights * nightlyRate` calculation with:
-- If nights >= 28 and property has `base_monthly_rate` and `listing_mode` is not `'nightly'`: use `ceil(nights/30) * monthly_rate`
-- Else if nights >= 7 and property has `weekly_rate` and `listing_mode` is not `'nightly'`: use `ceil(nights/7) * weekly_rate`
-- Else: use `nights * nightlyRate` (existing behavior)
+- `AdminFraudDetectionPage`
+- `AdminSentimentAnalysisPage`
+- `AdminVerificationPage`
+- `AdminBusinessImport`
+- Any other admin/dashboard pages found in the codebase
 
-Also update the Stripe line item description (line 187) to say "X months" or "X weeks" instead of always "X nights."
-
----
-
-## Fix 2: Search Bar Query Bug (Critical)
-
-**File:** `src/components/stays/PremiumPropertySearchBar.tsx` (line 52)
-
-The location autocomplete queries `.eq('status', 'active')` but the column is `is_active` (boolean). This returns zero results.
-
-**Change:** Replace `.eq('status', 'active')` with `.eq('is_active', true)`.
+This ensures even if a crawler ignores `robots.txt`, search engines won't index these pages.
 
 ---
 
-## Fix 3: Hardcoded Stripe Key
+### Technical Details
 
-**File:** `src/pages/PropertyDetailPage.tsx` (line 50)
+**robots.txt changes:**
+```
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /business-dashboard
+Disallow: /app-functionality-test
+Disallow: /api/
 
-A test Stripe publishable key is hardcoded in the source code.
+# Block aggressive scrapers
+User-agent: AhrefsBot
+Disallow: /
 
-**Change:** Replace the hardcoded key with `import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY` and add a fallback or warning if the env var is missing.
+User-agent: SemrushBot
+Disallow: /
 
----
+User-agent: MJ12bot
+Disallow: /
 
-## Fix 4: Booking Widget Rate Display
+# Allow legitimate crawlers
+User-agent: Googlebot
+Allow: /
 
-**File:** `src/pages/PropertyDetailPage.tsx` (lines 394-399)
+User-agent: Bingbot
+Allow: /
 
-The booking card always shows `$X / night` regardless of listing mode.
+Sitemap: https://1325.ai/sitemap.xml
+```
 
-**Change:** Dynamically show the appropriate rate based on `property.listing_mode`:
-- `'monthly'` or `'both'` with monthly rate: show `$X / month`
-- `'nightly'` or no monthly rate: show `$X / night` (existing)
-- If mode is `'both'`, show both rates
+**Meta tag pattern** (added to each admin page's existing `<Helmet>` block):
+```jsx
+<meta name="robots" content="noindex, nofollow" />
+```
 
----
+**Files to modify:**
+- `public/robots.txt`
+- `src/pages/AdminFraudDetectionPage.tsx`
+- `src/pages/AdminSentimentAnalysisPage.tsx`
+- `src/pages/AdminVerificationPage.tsx`
+- `src/pages/AdminBusinessImport.tsx` (add Helmet with noindex)
+- Other admin/dashboard pages found during implementation
 
-## Fix 5: Featured Property Spotlight Rate Display
-
-**File:** `src/components/stays/FeaturedPropertySpotlight.tsx` (line 118)
-
-The badge hardcodes `${property.base_nightly_rate}/night`.
-
-**Change:** Same dynamic logic as Fix 4 -- show monthly rate for monthly/both properties, nightly for nightly properties.
-
----
-
-## Fix 6: Edge Function Line Item Labels
-
-When a monthly booking is created, the Stripe Checkout line item still says "X nights". Update the product name in the checkout session to reflect the pricing mode (e.g., "Property Name - 1 month" or "Property Name - 2 weeks").
-
----
-
-## Technical Summary
-
-| # | File | Change | Severity |
-|---|------|--------|----------|
-| 1 | `supabase/functions/create-vacation-booking/index.ts` | Add monthly/weekly pricing logic | Critical |
-| 2 | `src/components/stays/PremiumPropertySearchBar.tsx` | Fix `.eq('status','active')` to `.eq('is_active', true)` | Critical |
-| 3 | `src/pages/PropertyDetailPage.tsx` | Use env var for Stripe key | Medium |
-| 4 | `src/pages/PropertyDetailPage.tsx` | Dynamic rate display in booking widget | Medium |
-| 5 | `src/components/stays/FeaturedPropertySpotlight.tsx` | Dynamic rate display in spotlight badge | Low |
-| 6 | `supabase/functions/create-vacation-booking/index.ts` | Fix Stripe line item labels for monthly/weekly | Low |
-
-All fixes are contained within these 4 files. The edge function will need redeployment after changes.
