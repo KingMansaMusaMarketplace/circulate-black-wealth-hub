@@ -1,0 +1,2 @@
+UPDATE public.businesses SET banner_url = '/images/hbcu/gadsden-state-community-college-campus.jpg', updated_at = now() WHERE id = '4d4f373a-7bbc-4c5c-b452-19a5d209cc3a';
+UPDATE public.businesses SET banner_url = '/images/hbcu/lawson-state-community-college-campus.jpg', updated_at = now() WHERE id = 'e2407df6-9f1e-44f6-9458-e23cfe2c39f4';
