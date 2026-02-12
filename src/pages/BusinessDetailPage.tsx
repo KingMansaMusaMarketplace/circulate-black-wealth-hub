@@ -502,10 +502,21 @@ const BusinessDetailPage = () => {
                           city={business.city}
                           state={business.state}
                         />
-                        <div className="text-center mt-4">
-                          <p className="text-blue-200 mb-2">
+                        <div className="text-center mt-4 space-y-2">
+                          <p className="text-blue-200">
                             {business.address ? `${business.address}, ` : ''}{business.city}, {business.state} {business.zip_code}
                           </p>
+                          {business.phone && (
+                            <p className="text-blue-200">
+                              <a 
+                                href={`tel:${business.phone}`}
+                                className="inline-flex items-center hover:text-yellow-300 transition-colors"
+                              >
+                                <Phone size={16} className="mr-1" />
+                                {business.phone}
+                              </a>
+                            </p>
+                          )}
                           <a 
                             href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${business.address ? business.address + ', ' : ''}${business.city}, ${business.state}`)}`}
                             target="_blank"
@@ -625,6 +636,15 @@ const BusinessDetailPage = () => {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   
+                  {business.phone && (
+                    <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 hover:text-yellow-300" asChild>
+                      <a href={`tel:${business.phone}`}>
+                        <Phone className="h-4 w-4 mr-2" />
+                        Call {business.phone}
+                      </a>
+                    </Button>
+                  )}
+
                   {business.website && (
                     <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10 hover:text-yellow-300" asChild>
                       <a href={business.website} target="_blank" rel="noopener noreferrer">
