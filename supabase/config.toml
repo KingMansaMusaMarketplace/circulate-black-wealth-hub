@@ -237,6 +237,9 @@ verify_jwt = true
 [functions.scrape-business-website]
 verify_jwt = false
 
+[functions.batch-scrape-hbcu-images]
+verify_jwt = false
+
 [functions.create-vacation-booking]
 verify_jwt = false
 
