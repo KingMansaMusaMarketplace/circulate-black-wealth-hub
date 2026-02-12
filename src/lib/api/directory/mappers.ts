@@ -33,7 +33,7 @@ export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
     distanceValue: 0,
     lat: supabaseRecord.latitude ? Number(supabaseRecord.latitude) : 0,
     lng: supabaseRecord.longitude ? Number(supabaseRecord.longitude) : 0,
-    imageUrl: logoUrl, // Use logo as main image for backward compatibility
+    imageUrl: supabaseRecord.banner_url || logoUrl, // Prefer banner for card hero image, fall back to logo
     imageAlt: businessName,
     isFeatured: supabaseRecord.is_verified || false,
     isVerified: supabaseRecord.is_verified || false,
