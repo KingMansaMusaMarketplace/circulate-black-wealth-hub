@@ -1,0 +1,5 @@
+UPDATE public.businesses SET banner_url = '/images/hbcu/voorhees-university-campus.jpg', updated_at = now() WHERE id = 'fd9c1da0-1ad8-4049-b283-95a07be0f396';
+UPDATE public.businesses SET banner_url = '/images/hbcu/winston-salem-state-university-campus.jpg', updated_at = now() WHERE id = '3b6843aa-3272-416b-911b-a75495b7b63d';
+UPDATE public.businesses SET banner_url = '/images/hbcu/xavier-university-louisiana-campus.jpg', updated_at = now() WHERE id = 'fd8e4d2d-80f0-4d03-aac3-8c8d327cc826';
+UPDATE public.businesses SET banner_url = '/images/hbcu/virginia-state-university-campus.jpg', updated_at = now() WHERE id = 'cff5fffb-6651-4117-a630-55feae990852';
+UPDATE public.businesses SET banner_url = '/images/hbcu/west-virginia-state-university-campus.jpg', updated_at = now() WHERE id = '247fec18-32fb-4611-8864-0a7d1f2846b2';
