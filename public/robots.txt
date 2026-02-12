@@ -1,12 +1,37 @@
-
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /business-dashboard
+Disallow: /app-functionality-test
+Disallow: /api/
 
+# Block aggressive scrapers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Allow legitimate crawlers
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /business-dashboard
+Disallow: /app-functionality-test
+Disallow: /api/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /business-dashboard
+Disallow: /app-functionality-test
+Disallow: /api/
 
 User-agent: Twitterbot
 Allow: /

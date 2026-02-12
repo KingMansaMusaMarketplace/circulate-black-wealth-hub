@@ -12,6 +12,7 @@ const AdminVerificationPage: React.FC = () => {
       <Helmet>
         <title>Business Verification - Admin Dashboard</title>
         <meta name="description" content="Review and manage business verification requests" />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       {/* Animated Gradient Orbs */}

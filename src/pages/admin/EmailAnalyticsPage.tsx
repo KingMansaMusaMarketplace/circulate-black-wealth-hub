@@ -51,6 +51,7 @@ const EmailAnalyticsPage: React.FC = () => {
     <RequireAdmin>
       <Helmet>
         <title>Email Analytics | Admin</title>
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 relative overflow-hidden">

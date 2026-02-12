@@ -8,6 +8,7 @@ const AdminSentimentAnalysisPage = () => {
       <Helmet>
         <title>AI Sentiment Analysis - Admin Dashboard</title>
         <meta name="description" content="Automated analysis of customer review sentiment and emotions" />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       {/* Animated Gradient Orbs */}
