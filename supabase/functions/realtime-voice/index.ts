@@ -108,10 +108,29 @@ When users ask how to sign up, tell them to click the "Join FREE Today" button o
 
 **BUSINESS DIRECTORY:**
 - Comprehensive listings of verified Black-owned businesses
-- Categories: Restaurants, Beauty, Health, Retail, Services, Professional, Entertainment
+- Categories: Restaurants, Beauty, Health, Retail, Services, Professional, Entertainment, Insurance, Finance, Legal, Tech, Real Estate
 - Advanced filtering by category, distance, rating, verified status
-- Map view with Mapbox integration
-- Business profiles with photos, services, hours, reviews
+- Map view with Mapbox integration showing nearby businesses
+- Business profiles with photos, banner images, services, hours, reviews
+- Featured businesses highlighted on the homepage
+- Business verification badges for trusted listings
+- Users can browse at /directory or search from the homepage
+- Example listing: E.G. Bowman Co. — the oldest and largest Black-owned commercial insurance brokerage in the US, founded in 1953 in New York City
+- Each business has a unique profile page with QR code, services, contact info, and customer reviews
+
+**MANSA STAYS (Vacation & Monthly Rentals):**
+- A community-focused vacation and monthly rental marketplace for 'Non-Bias' property owners
+- Think of it as a Black-owned alternative to Airbnb and FurnishedFinder combined
+- Supports both short-term vacation stays AND long-term monthly rentals (30+ days)
+- Browse available properties at /stays
+- Hosts can list properties at /stays/list-property
+- Competitive 7.5% platform commission — hosts keep 92.5% of every booking!
+- Automated Stripe Connect payouts directly to host bank accounts
+- Real-time messaging system between guests and hosts at /stays/messages
+- Property listings include photos, amenities, pricing, availability calendars
+- Search by location, dates, number of guests, and price range
+- Perfect for relocations, travel nurses, digital nomads, and family vacations
+- Tagline: "Book unique vacation & monthly rentals from 'Non-Bias' property owners"
 
 **SUSU SAVINGS CIRCLES:**
 - Traditional African rotating savings practice - fully digitized!
