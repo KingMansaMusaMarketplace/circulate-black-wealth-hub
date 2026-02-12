@@ -1,0 +1,1 @@
+DELETE FROM public.businesses WHERE id = 'bb542967-c758-47bf-9856-202e5d88c557';
