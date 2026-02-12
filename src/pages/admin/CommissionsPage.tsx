@@ -9,6 +9,7 @@ const CommissionsPage = () => {
       <Helmet>
         <title>Platform Commissions - Admin Dashboard</title>
         <meta name="description" content="Track platform commission earnings and transaction revenue" />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       {/* Animated Gradient Orbs */}

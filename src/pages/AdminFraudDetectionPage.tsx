@@ -8,6 +8,7 @@ const AdminFraudDetectionPage = () => {
       <Helmet>
         <title>AI Fraud Detection - Admin Dashboard</title>
         <meta name="description" content="Real-time fraud pattern analysis and prevention" />
+        <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 
       {/* Animated Gradient Orbs */}
