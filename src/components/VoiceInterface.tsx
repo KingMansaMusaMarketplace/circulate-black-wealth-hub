@@ -21,13 +21,15 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ onSpeakingChange }) => 
 
   const handleStart = async () => {
     try {
+      console.log('[VoiceInterface] Ask Kayla pressed - starting conversation...');
       const result = await startConversation();
+      console.log('[VoiceInterface] startConversation result:', result);
       if (result && typeof result === 'object' && 'blocked' in result && result.blocked && result.reason === 'ipad') {
         setShowIPadFallback(true);
       }
     } catch (error) {
       console.error('[VoiceInterface] Error starting conversation:', error);
-      // If there's any error, treat it as if blocked to prevent crash
+      // Explicitly prevent any re-throw that could crash WKWebView
     }
   };
 

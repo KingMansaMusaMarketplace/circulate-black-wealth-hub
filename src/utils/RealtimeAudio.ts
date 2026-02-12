@@ -106,25 +106,35 @@ export class RealtimeChat {
   private async initAudioContext() {
     try {
       // Create AudioContext to unlock audio on iOS/Safari
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) {
+        console.warn('[Audio] No AudioContext available');
+        return;
+      }
+      
+      this.audioContext = new AudioCtx();
       
       if (this.audioContext.state === 'suspended') {
         console.log('[Audio] AudioContext suspended, resuming...');
-        await this.audioContext.resume();
+        await this.audioContext.resume().catch(() => {});
       }
       
       console.log('[Audio] AudioContext state:', this.audioContext.state);
       
       // Play a silent buffer to fully unlock audio
-      const buffer = this.audioContext.createBuffer(1, 1, 22050);
-      const source = this.audioContext.createBufferSource();
-      source.buffer = buffer;
-      source.connect(this.audioContext.destination);
-      source.start(0);
-      
-      console.log('[Audio] Silent buffer played to unlock audio');
+      try {
+        const buffer = this.audioContext.createBuffer(1, 1, 22050);
+        const source = this.audioContext.createBufferSource();
+        source.buffer = buffer;
+        source.connect(this.audioContext.destination);
+        source.start(0);
+        console.log('[Audio] Silent buffer played to unlock audio');
+      } catch (bufferError) {
+        console.warn('[Audio] Silent buffer play failed:', bufferError);
+      }
     } catch (e) {
       console.warn('[Audio] AudioContext init failed:', e);
+      // Don't throw - audio context is not critical for the connection
     }
   }
 
@@ -140,10 +150,12 @@ export class RealtimeChat {
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
         (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
       
-      console.log('Device is iOS:', isIOS, 'Device is iPad:', isIPad);
+      // Capacitor/WKWebView detection
+      const isCapacitor = !!(window as any).Capacitor?.isNativePlatform?.();
+      
+      console.log('Device is iOS:', isIOS, 'Device is iPad:', isIPad, 'Capacitor:', isCapacitor);
       
       // CRITICAL: iPad early exit to prevent crashes (Apple rejection fix)
-      // iPad Air M3 on iPadOS 26.2 crashes during WebRTC/AudioContext initialization
       if (isIPad) {
         console.log('[iPad] Blocking voice initialization to prevent crash');
         throw new Error('Voice features are optimized for iPhone. Please visit our website for the best iPad experience.');
@@ -158,7 +170,7 @@ export class RealtimeChat {
         throw new Error('WebRTC not supported on this device');
       }
 
-      // iOS Safari crash prevention: wrap everything in try-catch with specific error handling
+      // iOS Safari/WKWebView crash prevention
       if (isIOS) {
         console.log('[iOS] Applying iOS-specific safeguards...');
       }
@@ -171,7 +183,7 @@ export class RealtimeChat {
             echoCancellation: true,
             noiseSuppression: true,
             autoGainControl: true,
-            // iOS-specific: don't request specific sample rate
+            // iOS-specific: don't request specific sample rate to prevent WKWebView crash
             ...(isIOS ? {} : { sampleRate: 24000 })
           } 
         });
@@ -182,16 +194,28 @@ export class RealtimeChat {
           throw new Error('Microphone permission denied. Please allow microphone access in your device settings and try again.');
         } else if (micError.name === 'NotFoundError') {
           throw new Error('No microphone found on this device.');
+        } else if (micError.name === 'AbortError' || micError.name === 'NotReadableError') {
+          // These errors can crash WKWebView if not caught
+          throw new Error('Microphone is in use by another app. Please close other apps and try again.');
         } else {
           throw new Error(`Microphone error: ${micError.message || 'Unknown error'}`);
         }
       }
       
       // Create audio element AFTER microphone permission granted
-      this.createAudioElement();
+      try {
+        this.createAudioElement();
+      } catch (audioElError) {
+        console.warn('[Audio] Audio element creation failed, continuing without:', audioElError);
+      }
       
       // Initialize AudioContext to unlock audio playback on iOS/Safari
-      await this.initAudioContext();
+      // Wrapped in try-catch to prevent WKWebView crash
+      try {
+        await this.initAudioContext();
+      } catch (acError) {
+        console.warn('[Audio] AudioContext init failed, continuing:', acError);
+      }
       
       console.log('Getting ephemeral token...');
       

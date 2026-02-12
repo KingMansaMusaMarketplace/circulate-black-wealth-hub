@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { BrowserRouter, HashRouter, Routes, Route } from 'react-router-dom';
-import { isCapacitorPlatform } from '@/utils/capacitor-plugins';
+import { isCapacitorPlatform } from '@/utils/capacitor-platform-check';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
