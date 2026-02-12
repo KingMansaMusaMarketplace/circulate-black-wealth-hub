@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { QrCode, MapPin, Star, Share2, Calendar } from 'lucide-react';
+import { QrCode, MapPin, Star, Share2, Calendar, ArrowLeft } from 'lucide-react';
 import { Business } from '@/types/business';
 import SocialShareButtons from '@/components/common/SocialShareButtons';
 import CheckInButton from './CheckInButton';
@@ -21,7 +21,16 @@ const BusinessDetailHeader: React.FC<BusinessDetailHeaderProps> = ({ business })
 
   return (
     <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm mb-8">
-      <div className="h-48 bg-gradient-to-r from-mansablue to-mansagold flex items-center justify-center">
+      <div className="relative h-48 bg-gradient-to-r from-mansablue to-mansagold flex items-center justify-center">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate('/directory')}
+          className="absolute top-3 left-3 bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm rounded-full px-3"
+        >
+          <ArrowLeft size={16} className="mr-1" />
+          Back to Directory
+        </Button>
         <span className="text-white text-6xl font-bold">{business.name.charAt(0)}</span>
       </div>
       
