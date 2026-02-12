@@ -1,0 +1,5 @@
+UPDATE public.businesses SET banner_url = '/images/hbcu/southern-university-new-orleans-campus.jpg', updated_at = now() WHERE id = '9ad8151a-0ced-410a-bece-57e96938565e';
+UPDATE public.businesses SET banner_url = '/images/hbcu/southern-university-law-center-campus.jpg', updated_at = now() WHERE id = '2d1a6221-a331-485a-83ad-e2425e1ffa36';
+UPDATE public.businesses SET banner_url = '/images/hbcu/university-arkansas-pine-bluff-campus.jpg', updated_at = now() WHERE id = 'c48e9df0-6ff3-48ef-880c-e667619951e8';
+UPDATE public.businesses SET banner_url = '/images/hbcu/virginia-union-university-campus.jpg', updated_at = now() WHERE id = '1ecef835-b35c-471c-a5e6-3a673a2f89bc';
+UPDATE public.businesses SET banner_url = '/images/hbcu/virginia-university-lynchburg-campus.jpg', updated_at = now() WHERE id = '61c28afc-012d-4c17-bbd7-bd91fcfdfab1';
