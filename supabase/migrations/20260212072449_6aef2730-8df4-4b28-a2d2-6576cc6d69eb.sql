@@ -1,0 +1,1 @@
+UPDATE public.businesses SET banner_url = '/images/hbcu/alabama-am-university-campus.jpg', updated_at = now() WHERE id = '2cff0945-95dc-4cb3-8dfe-c2b95d67b8f8';
