@@ -95,8 +95,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <span className="text-white">Circulate. </span>
-            <span className="text-gradient-gold">Accumulate.</span>
+            <span className="text-gradient-gold">Mansa Musa Marketplace</span>
             <br />
             <span className="text-white">Build </span>
             <span className="text-gradient-gold">Generational Wealth.</span>
