@@ -27,7 +27,7 @@ export function mapSupabaseBusinessToBusiness(supabaseRecord: any): Business {
     reviewCount: supabaseRecord.review_count || 0,
     // Backward compatibility properties
     rating: Number(supabaseRecord.average_rating) || 4.5,
-    discount: supabaseRecord.discount || '',
+    discount: '',
     discountValue: 10,
     distance: '',
     distanceValue: 0,

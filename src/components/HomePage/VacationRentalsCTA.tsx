@@ -22,8 +22,8 @@ const VacationRentalsCTA: React.FC = () => {
             {/* Content Side */}
             <div className="p-6 md:p-8 flex flex-col justify-center">
               <div className="flex items-center gap-2 mb-3">
-                <Home className="h-4 w-4 text-mansagold" />
-                <span className="text-mansagold font-medium text-xs uppercase tracking-wider">
+                <Home className="h-6 w-6 text-mansagold" />
+                <span className="text-mansagold font-bold text-lg md:text-xl uppercase tracking-wider">
                   Mansa Stays
                 </span>
               </div>
