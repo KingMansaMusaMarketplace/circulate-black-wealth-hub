@@ -65,11 +65,11 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
       </div>
       
       <div className="container mx-auto px-4 relative">
-        <div className="text-center mb-8 md:mb-10">
-          <span className="text-mansagold text-sm font-mono tracking-widest uppercase mb-4 block">
+        <div className="text-center mb-4 md:mb-10">
+          <span className="text-mansagold text-sm font-mono tracking-widest uppercase mb-2 md:mb-4 block">
             Featured Partners
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 md:mb-6 font-display">
             Featured Black-Owned Businesses
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
@@ -77,7 +77,7 @@ const FeaturedBusinesses = ({ limit = 3 }: { limit?: number }) => {
           </p>
         </div>
 
-        <div className={`grid gap-8 mb-12 ${displayBusinesses.length <= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+        <div className={`grid gap-4 md:gap-8 mb-6 md:mb-12 ${displayBusinesses.length <= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
           {displayBusinesses.map((business) => (
             <Card key={business.id} className="group h-full flex flex-col overflow-hidden bg-slate-900/80 backdrop-blur-xl border-white/10 hover:border-mansagold/50 hover:shadow-[0_0_30px_rgba(251,191,36,0.15)] transition-all duration-300 hover:-translate-y-1">
               <CardHeader>
