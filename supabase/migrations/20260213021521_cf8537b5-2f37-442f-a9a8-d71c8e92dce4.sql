@@ -1,0 +1,1 @@
+UPDATE businesses SET is_verified = true, average_rating = 4.50 WHERE id = '0138c15f-c41a-4b93-a382-f527ca67a6f6';
